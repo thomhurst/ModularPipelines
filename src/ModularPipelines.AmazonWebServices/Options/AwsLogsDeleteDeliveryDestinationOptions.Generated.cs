@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsLogsDeleteDeliveryDestinationOptions : AwsOptions, IValidatable
     /// <summary>
     /// Deletes a delivery destination . A delivery is a connection between a logical delivery source and a logical delivery destination . You can't delete a delivery destination if any current deliveries are associated with it. To find whether any deliveries are associated with this delivery destination, use the DescribeDeliveries operation and check the deliveryDestinationArn field in the results. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">The name of the delivery destination that you want to delete. You can find a list of delivery destination names by using the DescribeDeliveryDestinations operation. Constraints: o min: 1 o max: 60 o pattern: [\w-]*</param>
+    /// <param name="Name">The name of the delivery destination that you want to delete. You can find a list of delivery destination names by using the DescribeDeliveryDestinations operation. Constraints: • min: 1 • max: 60 • pattern: [\w-]*</param>
     public AwsLogsDeleteDeliveryDestinationOptions(
         string Name
     )
@@ -56,7 +57,7 @@ public record AwsLogsDeleteDeliveryDestinationOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the delivery destination that you want to delete. You can find a list of delivery destination names by using the DescribeDeliveryDestinations operation. Constraints: o min: 1 o max: 60 o pattern: [\w-]*
+    /// The name of the delivery destination that you want to delete. You can find a list of delivery destination names by using the DescribeDeliveryDestinations operation. Constraints: • min: 1 • max: 60 • pattern: [\w-]*
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
@@ -82,6 +83,15 @@ public record AwsLogsDeleteDeliveryDestinationOptions : AwsOptions, IValidatable
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

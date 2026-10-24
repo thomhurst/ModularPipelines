@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Provides a list of groups that are mapped to users before a given or- dering or timestamp identifier. ListGroupsOlderThanOrderingId is currently not supported in the Ama- zon Web Services GovCloud (US-West) region. See also: AWS API Documentation
+/// Provides a list of groups that are mapped to users before a given ordering or timestamp identifier. ListGroupsOlderThanOrderingId is currently not supported in the Amazon Web Services GovCloud (US-West) region. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,13 +27,13 @@ public record AwsKendraListGroupsOlderThanOrderingIdOptions : AwsOptions, IValid
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Provides a list of groups that are mapped to users before a given or- dering or timestamp identifier. ListGroupsOlderThanOrderingId is currently not supported in the Ama- zon Web Services GovCloud (US-West) region. See also: AWS API Documentation
+    /// Provides a list of groups that are mapped to users before a given ordering or timestamp identifier. ListGroupsOlderThanOrderingId is currently not supported in the Amazon Web Services GovCloud (US-West) region. See also: AWS API Documentation
     /// </summary>
-    /// <param name="IndexId">The identifier of the index for getting a list of groups mapped to users before a given ordering or timestamp identifier. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]*</param>
-    /// <param name="OrderingId">The timestamp identifier used for the latest PUT or DELETE action for mapping users to their groups. Constraints: o min: 0 o max: 32535158400000</param>
+    /// <param name="IndexId">The identifier of the index for getting a list of groups mapped to users before a given ordering or timestamp identifier. Constraints: • min: 36 • max: 36 • pattern: [a-zA-Z0-9][a-zA-Z0-9-]*</param>
+    /// <param name="OrderingId">The timestamp identifier used for the latest PUT or DELETE action for mapping users to their groups. Constraints: • min: 0 • max: 32535158400000</param>
     public AwsKendraListGroupsOlderThanOrderingIdOptions(
         string IndexId,
-        int OrderingId
+        long OrderingId
     )
     {
         global::System.ArgumentNullException.ThrowIfNull(IndexId);
@@ -60,32 +61,32 @@ public record AwsKendraListGroupsOlderThanOrderingIdOptions : AwsOptions, IValid
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the index for getting a list of groups mapped to users before a given ordering or timestamp identifier. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]*
+    /// The identifier of the index for getting a list of groups mapped to users before a given ordering or timestamp identifier. Constraints: • min: 36 • max: 36 • pattern: [a-zA-Z0-9][a-zA-Z0-9-]*
     /// </summary>
     [CliOption("--index-id")]
     public string? IndexId { get; private init; }
 
     /// <summary>
-    /// The timestamp identifier used for the latest PUT or DELETE action for mapping users to their groups. Constraints: o min: 0 o max: 32535158400000
+    /// The timestamp identifier used for the latest PUT or DELETE action for mapping users to their groups. Constraints: • min: 0 • max: 32535158400000
     /// </summary>
     [CliOption("--ordering-id")]
-    public int? OrderingId { get; private init; }
+    public long? OrderingId { get; private init; }
 
     /// <summary>
-    /// The identifier of the data source for getting a list of groups mapped to users before a given ordering timestamp identifier. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z0-9][a-zA-Z0-9_-]*
+    /// The identifier of the data source for getting a list of groups mapped to users before a given ordering timestamp identifier. Constraints: • min: 1 • max: 100 • pattern: [a-zA-Z0-9][a-zA-Z0-9_-]*
     /// </summary>
     [CliOption("--data-source-id")]
     public string? DataSourceId { get; set; }
 
     /// <summary>
-    /// If the previous response was incomplete (because there is more data to retrieve), Amazon Kendra returns a pagination token in the re- sponse. You can use this pagination token to retrieve the next set of groups that are mapped to users before a given ordering or time- stamp identifier. Constraints: o min: 1 o max: 800
+    /// If the previous response was incomplete (because there is more data to retrieve), Amazon Kendra returns a pagination token in the response. You can use this pagination token to retrieve the next set of groups that are mapped to users before a given ordering or timestamp identifier. Constraints: • min: 1 • max: 800
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// The maximum number of returned groups that are mapped to users be- fore a given ordering or timestamp identifier. Constraints: o min: 1 o max: 10
+    /// The maximum number of returned groups that are mapped to users before a given ordering or timestamp identifier. Constraints: • min: 1 • max: 10
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
@@ -111,6 +112,15 @@ public record AwsKendraListGroupsOlderThanOrderingIdOptions : AwsOptions, IValid
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

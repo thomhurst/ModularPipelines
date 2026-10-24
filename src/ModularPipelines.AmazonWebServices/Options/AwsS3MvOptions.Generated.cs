@@ -10,12 +10,12 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Moves a local file or S3 object to another location locally or in S3. The mv command copies the source object or file to the specified desti- nation and then deletes the source object or file. WARNING: If you are using any type of access point ARNs or access point aliases in your S3 URIs, you must take extra care to make sure that your source and destination S3 URIs resolve to different underlying buckets. If the source and destination buckets are the same, the source file or object can be moved...
+/// Moves a local file or S3 object to another location locally or in S3. The mv command copies the source object or file to the specified destination and then deletes the source object or file. WARNING: If you are using any type of access point ARNs or access point aliases in your S3 URIs, you must take extra care to make sure that your source and destination S3 URIs resolve to different underlying buckets. If the source and destination buckets are the same, the source file or object can be moved o...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -23,7 +23,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsS3MvOptions : AwsOptions
 {
     /// <summary>
-    /// Moves a local file or S3 object to another location locally or in S3. The mv command copies the source object or file to the specified desti- nation and then deletes the source object or file. WARNING: If you are using any type of access point ARNs or access point aliases in your S3 URIs, you must take extra care to make sure that your source and destination S3 URIs resolve to different underlying buckets. If the source and destination buckets are the same, the source file or object can be moved...
+    /// Moves a local file or S3 object to another location locally or in S3. The mv command copies the source object or file to the specified destination and then deletes the source object or file. WARNING: If you are using any type of access point ARNs or access point aliases in your S3 URIs, you must take extra care to make sure that your source and destination S3 URIs resolve to different underlying buckets. If the source and destination buckets are the same, the source file or object can be moved o...
     /// </summary>
     /// <param name="Source">Source local path or S3 URI.</param>
     /// <param name="Destination">Destination local path or S3 URI.</param>
@@ -87,7 +87,7 @@ public record AwsS3MvOptions : AwsOptions
     public string? StorageClass { get; set; }
 
     /// <summary>
-    /// Grant specific permissions to individual users or groups. You can supply a list of grants of the form --grants Permission=Grantee_Type=Grantee_ID [Permission=Grantee_Type=Grantee_ID ...] To specify the same permission type for multiple grantees, specify the permission as such as --grants Permission=Grantee_Type=Grantee_ID,Grantee_Type=Grantee_ID,... Each value contains the following elements: o Permission - Specifies the granted permissions, and can be set to read, readacl, writeacl, or full. o Grantee_Type - Specifies how the grantee is to be identified, and can be set to uri or id. o Grantee_ID - Specifies the grantee based on Grantee_Type. The Grantee_ID value can be one of: o uri - The group's URI. For more information, see Who Is a Grantee? o id - The account's canonical ID For more information on Amazon S3 access control, see Access Control
+    /// Grant specific permissions to individual users or groups. You can supply a list of grants of the form --grants Permission=Grantee_Type=Grantee_ID [Permission=Grantee_Type=Grantee_ID ...] To specify the same permission type for multiple grantees, specify the permission as such as --grants Permission=Grantee_Type=Grantee_ID,Grantee_Type=Grantee_ID,... Each value contains the following elements: • Permission - Specifies the granted permissions, and can be set to read, readacl, writeacl, or full. • Grantee_Type - Specifies how the grantee is to be identified, and can be set to uri or id. • Grantee_ID - Specifies the grantee based on Grantee_Type. The Grantee_ID value can be one of: • uri - The group's URI. For more information, see Who Is a Grantee? • id - The account's canonical ID For more information on Amazon S3 access control, see Access Control
     /// </summary>
     [CliOption("--grants", GroupValues = true)]
     public IEnumerable<string>? Grants { get; set; }
@@ -178,5 +178,14 @@ public record AwsS3MvOptions : AwsOptions
     /// </summary>
     [CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)]
     public string Destination { get; private init; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

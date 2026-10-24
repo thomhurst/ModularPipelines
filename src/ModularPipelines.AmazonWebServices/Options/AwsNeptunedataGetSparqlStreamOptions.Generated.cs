@@ -15,7 +15,7 @@ using ModularPipelines.AmazonWebServices.Enums;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Gets a stream for an RDF graph. With the Neptune Streams feature, you can generate a complete sequence of change-log entries that record every change made to your graph data as it happens. GetSparqlStream lets you collect these change-log en- tries for an RDF graph. The Neptune streams feature needs to be enabled on your Neptune DBclus- ter. To enable streams, set the neptune_streams DB cluster parameter to 1 . See Capturing graph changes in real time using Neptune streams . When invoking this o...
+/// Gets a stream for an RDF graph. With the Neptune Streams feature, you can generate a complete sequence of change-log entries that record every change made to your graph data as it happens. GetSparqlStream lets you collect these change-log entries for an RDF graph. The Neptune streams feature needs to be enabled on your Neptune DBcluster. To enable streams, set the neptune_streams DB cluster parameter to 1 . See Capturing graph changes in real time using Neptune streams . When invoking this opera...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -23,31 +23,31 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsNeptunedataGetSparqlStreamOptions : AwsOptions
 {
     /// <summary>
-    /// Specifies the maximum number of records to return. There is also a size limit of 10 MB on the response that can't be modified and that takes precedence over the number of records specified in the limit parameter. The response does include a threshold-breaching record if the 10 MB limit was reached. The range for limit is 1 to 100,000, with a default of 10. Constraints: o min: 1 o max: 100000
+    /// Specifies the maximum number of records to return. There is also a size limit of 10 MB on the response that can't be modified and that takes precedence over the number of records specified in the limit parameter. The response does include a threshold-breaching record if the 10 MB limit was reached. The range for limit is 1 to 100,000, with a default of 10. Constraints: • min: 1 • max: 100000
     /// </summary>
     [CliOption("--limit")]
-    public int? Limit { get; set; }
+    public long? Limit { get; set; }
 
     /// <summary>
-    /// Can be one of: o AT_SEQUENCE_NUMBER - Indicates that reading should start from the event sequence number specified jointly by the commitNum and opNum parameters. o AFTER_SEQUENCE_NUMBER - Indicates that reading should start right after the event sequence number specified jointly by the commitNum and opNum parameters. o TRIM_HORIZON - Indicates that reading should start at the last untrimmed record in the system, which is the oldest unexpired (not yet deleted) record in the change-log stream. o LATEST - Indicates that reading should start at the most recent record in the system, which is the latest unexpired (not yet deleted) record in the change-log stream. Possible values: o AT_SEQUENCE_NUMBER o AFTER_SEQUENCE_NUMBER o TRIM_HORIZON o LATEST
+    /// Can be one of: • AT_SEQUENCE_NUMBER - Indicates that reading should start from the event sequence number specified jointly by the commitNum and opNum parameters. • AFTER_SEQUENCE_NUMBER - Indicates that reading should start right after the event sequence number specified jointly by the commitNum and opNum parameters. • TRIM_HORIZON - Indicates that reading should start at the last untrimmed record in the system, which is the oldest unexpired (not yet deleted) record in the change-log stream. • LATEST - Indicates that reading should start at the most recent record in the system, which is the latest unexpired (not yet deleted) record in the change-log stream. Possible values: • AT_SEQUENCE_NUMBER • AFTER_SEQUENCE_NUMBER • TRIM_HORIZON • LATEST
     /// </summary>
     [CliOption("--iterator-type")]
     public AwsNeptunedataGetSparqlStreamIteratorType? IteratorType { get; set; }
 
     /// <summary>
-    /// The commit number of the starting record to read from the change-log stream. This parameter is required when iteratorType is``AT_SE- QUENCE_NUMBER`` or AFTER_SEQUENCE_NUMBER , and ignored when itera- torType is TRIM_HORIZON or LATEST .
+    /// The commit number of the starting record to read from the change-log stream. This parameter is required when iteratorType is``AT_SEQUENCE_NUMBER`` or AFTER_SEQUENCE_NUMBER , and ignored when iteratorType is TRIM_HORIZON or LATEST .
     /// </summary>
     [CliOption("--commit-num")]
-    public int? CommitNum { get; set; }
+    public long? CommitNum { get; set; }
 
     /// <summary>
     /// The operation sequence number within the specified commit to start reading from in the change-log stream data. The default is 1 .
     /// </summary>
     [CliOption("--op-num")]
-    public int? OpNum { get; set; }
+    public long? OpNum { get; set; }
 
     /// <summary>
-    /// If set to TRUE, Neptune compresses the response using gzip encoding. Possible values: o gzip
+    /// If set to TRUE, Neptune compresses the response using gzip encoding. Possible values: • gzip
     /// </summary>
     [CliOption("--encoding")]
     public string? Encoding { get; set; }
@@ -57,5 +57,14 @@ public record AwsNeptunedataGetSparqlStreamOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

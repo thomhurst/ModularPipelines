@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsFmsGetProtocolsListOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Returns information about the specified Firewall Manager protocols list. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ListId">The ID of the Firewall Manager protocols list that you want the de- tails for. Constraints: o min: 36 o max: 36 o pattern: ^[a-z0-9A-Z-]{36}$</param>
+    /// <param name="ListId">The ID of the Firewall Manager protocols list that you want the details for. Constraints: • min: 36 • max: 36 • pattern: ^[a-z0-9A-Z-]{36}$</param>
     public AwsFmsGetProtocolsListOptions(
         string ListId
     )
@@ -56,7 +57,7 @@ public record AwsFmsGetProtocolsListOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the Firewall Manager protocols list that you want the de- tails for. Constraints: o min: 36 o max: 36 o pattern: ^[a-z0-9A-Z-]{36}$
+    /// The ID of the Firewall Manager protocols list that you want the details for. Constraints: • min: 36 • max: 36 • pattern: ^[a-z0-9A-Z-]{36}$
     /// </summary>
     [CliOption("--list-id")]
     public string? ListId { get; private init; }
@@ -88,6 +89,15 @@ public record AwsFmsGetProtocolsListOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

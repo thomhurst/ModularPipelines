@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Removes the specified user-defined tags from an Amazon S3 Vectors re- source. You can pass one or more tag keys. NOTE: For a list of S3 resources that support tagging, see Managing tags for Amazon S3 resources . Permissions For vector buckets and vector indexes, you must have the s3vectors:Un- tagResource permission to use this operation. See also: AWS API Documentation
+/// Removes the specified user-defined tags from an Amazon S3 Vectors resource. You can pass one or more tag keys. NOTE: For a list of S3 resources that support tagging, see Managing tags for Amazon S3 resources . Permissions For vector buckets and vector indexes, you must have the s3vectors:UntagResource permission to use this operation. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsS3vectorsUntagResourceOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Removes the specified user-defined tags from an Amazon S3 Vectors re- source. You can pass one or more tag keys. NOTE: For a list of S3 resources that support tagging, see Managing tags for Amazon S3 resources . Permissions For vector buckets and vector indexes, you must have the s3vectors:Un- tagResource permission to use this operation. See also: AWS API Documentation
+    /// Removes the specified user-defined tags from an Amazon S3 Vectors resource. You can pass one or more tag keys. NOTE: For a list of S3 resources that support tagging, see Managing tags for Amazon S3 resources . Permissions For vector buckets and vector indexes, you must have the s3vectors:UntagResource permission to use this operation. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the Amazon S3 Vectors resource that you're removing tags from. The tagged resource can be a vector bucket or a vector index. Constraints: o min: 0 o max: 1011</param>
-    /// <param name="TagKeys">The array of tag keys that you're removing from the S3 Vectors re- source. For more information, see Tagging for cost allocation or at- tribute-based access control (ABAC) . (string) Constraints: o min: 1 o max: 128 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Syntax: "string" "string" ...</param>
+    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the Amazon S3 Vectors resource that you're removing tags from. The tagged resource can be a vector bucket or a vector index. Constraints: • min: 0 • max: 1011</param>
+    /// <param name="TagKeys">The array of tag keys that you're removing from the S3 Vectors resource. For more information, see Tagging for cost allocation or attribute-based access control (ABAC) . (string) Constraints: • min: 1 • max: 128 • pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Syntax: "string" "string" ...</param>
     public AwsS3vectorsUntagResourceOptions(
         string ResourceArn,
         IEnumerable<string> TagKeys
@@ -71,13 +72,13 @@ public record AwsS3vectorsUntagResourceOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the Amazon S3 Vectors resource that you're removing tags from. The tagged resource can be a vector bucket or a vector index. Constraints: o min: 0 o max: 1011
+    /// The Amazon Resource Name (ARN) of the Amazon S3 Vectors resource that you're removing tags from. The tagged resource can be a vector bucket or a vector index. Constraints: • min: 0 • max: 1011
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
 
     /// <summary>
-    /// The array of tag keys that you're removing from the S3 Vectors re- source. For more information, see Tagging for cost allocation or at- tribute-based access control (ABAC) . (string) Constraints: o min: 1 o max: 128 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Syntax: "string" "string" ...
+    /// The array of tag keys that you're removing from the S3 Vectors resource. For more information, see Tagging for cost allocation or attribute-based access control (ABAC) . (string) Constraints: • min: 1 • max: 128 • pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--tag-keys", GroupValues = true)]
     public IEnumerable<string>? TagKeys { get; private init; }
@@ -103,6 +104,15 @@ public record AwsS3vectorsUntagResourceOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

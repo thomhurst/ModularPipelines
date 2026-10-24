@@ -11,7 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -29,7 +29,7 @@ public record AwsMgnStartImportOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Start import. See also: AWS API Documentation
     /// </summary>
-    /// <param name="S3BucketSource">Start import request s3 bucket source. s3Bucket -&gt; (string) [required] S3 bucket source s3 bucket. Constraints: o pattern: [a-zA-Z0-9.\-_]{1,255} s3Key -&gt; (string) [required] S3 bucket source s3 key. Constraints: o pattern: [^\x00]{1,1020}\.csv s3BucketOwner -&gt; (string) S3 bucket source s3 bucket owner. Constraints: o min: 12 o max: 12 o pattern: .*[0-9]{12,}.* Shorthand Syntax: s3Bucket=string,s3Key=string,s3BucketOwner=string JSON Syntax: { "s3Bucket": "string", "s3Key": "string", "s3BucketOwner": "string" }</param>
+    /// <param name="S3BucketSource">Start import request s3 bucket source. s3Bucket -&gt; (string) [required] S3 bucket source s3 bucket. Constraints: • pattern: [a-zA-Z0-9.\-_]{1,255} s3Key -&gt; (string) [required] S3 bucket source s3 key. Constraints: • pattern: [^\x00]{1,1020}\.csv s3BucketOwner -&gt; (string) S3 bucket source s3 bucket owner. Constraints: • min: 12 • max: 12 • pattern: .*[0-9]{12,}.* Shorthand Syntax: s3Bucket=string,s3Key=string,s3BucketOwner=string JSON Syntax: { "s3Bucket": "string", "s3Key": "string", "s3BucketOwner": "string" }</param>
     public AwsMgnStartImportOptions(
         string S3BucketSource
     )
@@ -58,20 +58,20 @@ public record AwsMgnStartImportOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Start import request s3 bucket source. s3Bucket -&gt; (string) [required] S3 bucket source s3 bucket. Constraints: o pattern: [a-zA-Z0-9.\-_]{1,255} s3Key -&gt; (string) [required] S3 bucket source s3 key. Constraints: o pattern: [^\x00]{1,1020}\.csv s3BucketOwner -&gt; (string) S3 bucket source s3 bucket owner. Constraints: o min: 12 o max: 12 o pattern: .*[0-9]{12,}.* Shorthand Syntax: s3Bucket=string,s3Key=string,s3BucketOwner=string JSON Syntax: { "s3Bucket": "string", "s3Key": "string", "s3BucketOwner": "string" }
+    /// Start import request s3 bucket source. s3Bucket -&gt; (string) [required] S3 bucket source s3 bucket. Constraints: • pattern: [a-zA-Z0-9.\-_]{1,255} s3Key -&gt; (string) [required] S3 bucket source s3 key. Constraints: • pattern: [^\x00]{1,1020}\.csv s3BucketOwner -&gt; (string) S3 bucket source s3 bucket owner. Constraints: • min: 12 • max: 12 • pattern: .*[0-9]{12,}.* Shorthand Syntax: s3Bucket=string,s3Key=string,s3BucketOwner=string JSON Syntax: { "s3Bucket": "string", "s3Key": "string", "s3BucketOwner": "string" }
     /// </summary>
     [CliOption("--s3-bucket-source")]
     public string? S3BucketSource { get; private init; }
 
     /// <summary>
-    /// Start import request client token. Constraints: o min: 0 o max: 64
+    /// Start import request client token. Constraints: • min: 0 • max: 64
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// Start import request tags. Constraints: o min: 0 o max: 50 key -&gt; (string) Constraints: o min: 0 o max: 256 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// Start import request tags. Constraints: • min: 0 • max: 50 key -&gt; (string) Constraints: • min: 0 • max: 256 value -&gt; (string) Constraints: • min: 0 • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
@@ -97,6 +97,15 @@ public record AwsMgnStartImportOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

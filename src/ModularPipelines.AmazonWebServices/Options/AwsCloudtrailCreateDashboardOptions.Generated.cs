@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// WARNING: CloudTrail Lake will no longer be open to new customers starting May 31, 2026. If you would like to use CloudTrail Lake, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see CloudTrail Lake availability change . Creates a custom dashboard or the Highlights dashboard. o Custom dashboards - Custom dashboards allow you to query events in any event data store type. You can add up to 10 widgets to a custom dashboard. You can manu...
+/// WARNING: CloudTrail Lake will no longer be open to new customers starting May 31, 2026. If you would like to use CloudTrail Lake, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see CloudTrail Lake availability change . Creates a custom dashboard or the Highlights dashboard. • Custom dashboards - Custom dashboards allow you to query events in any event data store type. You can add up to 10 widgets to a custom dashboard. You can manu...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsCloudtrailCreateDashboardOptions : AwsOptions, IValidatableObje
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// WARNING: CloudTrail Lake will no longer be open to new customers starting May 31, 2026. If you would like to use CloudTrail Lake, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see CloudTrail Lake availability change . Creates a custom dashboard or the Highlights dashboard. o Custom dashboards - Custom dashboards allow you to query events in any event data store type. You can add up to 10 widgets to a custom dashboard. You can manu...
+    /// WARNING: CloudTrail Lake will no longer be open to new customers starting May 31, 2026. If you would like to use CloudTrail Lake, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see CloudTrail Lake availability change . Creates a custom dashboard or the Highlights dashboard. • Custom dashboards - Custom dashboards allow you to query events in any event data store type. You can add up to 10 widgets to a custom dashboard. You can manu...
     /// </summary>
-    /// <param name="Name">The name of the dashboard. The name must be unique to your account. To create the Highlights dashboard, the name must be AWSCloud- Trail-Highlights . Constraints: o min: 3 o max: 128 o pattern: ^[a-zA-Z0-9_\-]+$</param>
+    /// <param name="Name">The name of the dashboard. The name must be unique to your account. To create the Highlights dashboard, the name must be AWSCloudTrail-Highlights . Constraints: • min: 3 • max: 128 • pattern: ^[a-zA-Z0-9_\-]+$</param>
     public AwsCloudtrailCreateDashboardOptions(
         string Name
     )
@@ -56,31 +57,31 @@ public record AwsCloudtrailCreateDashboardOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the dashboard. The name must be unique to your account. To create the Highlights dashboard, the name must be AWSCloud- Trail-Highlights . Constraints: o min: 3 o max: 128 o pattern: ^[a-zA-Z0-9_\-]+$
+    /// The name of the dashboard. The name must be unique to your account. To create the Highlights dashboard, the name must be AWSCloudTrail-Highlights . Constraints: • min: 3 • max: 128 • pattern: ^[a-zA-Z0-9_\-]+$
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The refresh schedule configuration for the dashboard. To create the Highlights dashboard, you must set a refresh schedule and set the Status to ENABLED . The Unit for the refresh schedule must be HOURS and the Value must be 6 . Frequency -&gt; (structure) The frequency at which you want the dashboard refreshed. Unit -&gt; (string) The unit to use for the refresh. For custom dashboards, the unit can be HOURS or DAYS . For the Highlights dashboard, the Unit must be HOURS . Possible values: o HOURS o DAYS Value -&gt; (integer) The value for the refresh schedule. For custom dashboards, the following values are valid when the unit is HOURS : 1 , 6 , 12 , 24 For custom dashboards, the only valid value when the unit is DAYS is 1 . For the Highlights dashboard, the Value must be 6 . Status -&gt; (string) Specifies whether the refresh schedule is enabled. Set the value to ENABLED to enable the refresh schedule, or to DISABLED to turn off the refresh schedule. Possible values: o ENABLED o DISABLED TimeOfDay -&gt; (string) The time of day in UTC to run the schedule; for hourly only re- fer to minutes; default is 00:00. Constraints: o pattern: ^[0-9]{2}:[0-9]{2} Shorthand Syntax: Frequency={Unit=string,Value=integer},Status=string,TimeOfDay=string JSON Syntax: { "Frequency": { "Unit": "HOURS"|"DAYS", "Value": integer }, "Status": "ENABLED"|"DISABLED", "TimeOfDay": "string" }
+    /// The refresh schedule configuration for the dashboard. To create the Highlights dashboard, you must set a refresh schedule and set the Status to ENABLED . The Unit for the refresh schedule must be HOURS and the Value must be 6 . Frequency -&gt; (structure) The frequency at which you want the dashboard refreshed. Unit -&gt; (string) The unit to use for the refresh. For custom dashboards, the unit can be HOURS or DAYS . For the Highlights dashboard, the Unit must be HOURS . Possible values: • HOURS • DAYS Value -&gt; (integer) The value for the refresh schedule. For custom dashboards, the following values are valid when the unit is HOURS : 1 , 6 , 12 , 24 For custom dashboards, the only valid value when the unit is DAYS is 1 . For the Highlights dashboard, the Value must be 6 . Status -&gt; (string) Specifies whether the refresh schedule is enabled. Set the value to ENABLED to enable the refresh schedule, or to DISABLED to turn off the refresh schedule. Possible values: • ENABLED • DISABLED TimeOfDay -&gt; (string) The time of day in UTC to run the schedule; for hourly only refer to minutes; default is 00:00. Constraints: • pattern: ^[0-9]{2}:[0-9]{2} Shorthand Syntax: Frequency={Unit=string,Value=integer},Status=string,TimeOfDay=string JSON Syntax: { "Frequency": { "Unit": "HOURS"|"DAYS", "Value": integer }, "Status": "ENABLED"|"DISABLED", "TimeOfDay": "string" }
     /// </summary>
     [CliOption("--refresh-schedule")]
     public string? RefreshSchedule { get; set; }
 
     /// <summary>
-    /// A list of tags. Constraints: o max: 200 (structure) A custom key-value pair associated with a resource such as a CloudTrail trail, event data store, dashboard, or channel. Key -&gt; (string) [required] The key in a key-value pair. The key must be must be no longer than 128 Unicode characters. The key must be unique for the resource to which it applies. Constraints: o min: 1 o max: 128 Value -&gt; (string) The value in a key-value pair of a tag. The value must be no longer than 256 Unicode characters. Constraints: o min: 1 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// A list of tags. Constraints: • max: 200 (structure) A custom key-value pair associated with a resource such as a CloudTrail trail, event data store, dashboard, or channel. Key -&gt; (string) [required] The key in a key-value pair. The key must be must be no longer than 128 Unicode characters. The key must be unique for the resource to which it applies. Constraints: • min: 1 • max: 128 Value -&gt; (string) The value in a key-value pair of a tag. The value must be no longer than 256 Unicode characters. Constraints: • min: 1 • max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags-list", GroupValues = true)]
     public IEnumerable<string>? TagsList { get; set; }
 
     /// <summary>
-    /// Specifies whether termination protection is enabled for the dash- board. If termination protection is enabled, you cannot delete the dashboard until termination protection is disabled.
+    /// Specifies whether termination protection is enabled for the dashboard. If termination protection is enabled, you cannot delete the dashboard until termination protection is disabled.
     /// </summary>
     [CliFlag("--termination-protection-enabled", NegatedName = "--no-termination-protection-enabled")]
     public bool? TerminationProtectionEnabled { get; set; }
 
     /// <summary>
-    /// An array of widgets for a custom dashboard. A custom dashboard can have a maximum of ten widgets. You do not need to specify widgets for the Highlights dashboard. (structure) Contains information about a widget on a CloudTrail Lake dash- board. QueryStatement -&gt; (string) [required] The query statement for the widget. For custom dashboard wid- gets, you can query across multiple event data stores as long as all event data stores exist in your account. NOTE: When a query uses ? with eventTime , ? must be surrounded by single quotes as follows: '?' . Constraints: o min: 1 o max: 10000 o pattern: (?s).* QueryParameters -&gt; (list) The optional query parameters. The following query parameters are valid: $StartTime$ , $EndTime$ , and $Period$ . Constraints: o min: 1 o max: 10 (string) Constraints: o min: 1 o max: 1024 o pattern: .* ViewProperties -&gt; (map) [required] The view properties for the widget. For more information about view properties, see View properties for widgets in the CloudTrail User Guide . key -&gt; (string) Constraints: o min: 3 o max: 128 o pattern: ^[a-zA-Z0-9._\-]+$ value -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^[a-zA-Z0-9._\- ]+$ Shorthand Syntax: QueryStatement=string,QueryParameters=string,string,ViewProperties={KeyName1=string,KeyName2=string} ... JSON Syntax: [ { "QueryStatement": "string", "QueryParameters": ["string", ...], "ViewProperties": {"string": "string" ...} } ... ]
+    /// An array of widgets for a custom dashboard. A custom dashboard can have a maximum of ten widgets. You do not need to specify widgets for the Highlights dashboard. (structure) Contains information about a widget on a CloudTrail Lake dashboard. QueryStatement -&gt; (string) [required] The query statement for the widget. For custom dashboard widgets, you can query across multiple event data stores as long as all event data stores exist in your account. NOTE: When a query uses ? with eventTime , ? must be surrounded by single quotes as follows: '?' . Constraints: • min: 1 • max: 10000 • pattern: (?s).* QueryParameters -&gt; (list) The optional query parameters. The following query parameters are valid: $StartTime$ , $EndTime$ , and $Period$ . Constraints: • min: 1 • max: 10 (string) Constraints: • min: 1 • max: 1024 • pattern: .* ViewProperties -&gt; (map) [required] The view properties for the widget. For more information about view properties, see View properties for widgets in the CloudTrail User Guide . key -&gt; (string) Constraints: • min: 3 • max: 128 • pattern: ^[a-zA-Z0-9._\-]+$ value -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: ^[a-zA-Z0-9._\- ]+$ Shorthand Syntax: QueryStatement=string,QueryParameters=string,string,ViewProperties={KeyName1=string,KeyName2=string} ... JSON Syntax: [ { "QueryStatement": "string", "QueryParameters": ["string", ...], "ViewProperties": {"string": "string" ...} } ... ]
     /// </summary>
     [CliOption("--widgets", GroupValues = true)]
     public IEnumerable<string>? Widgets { get; set; }
@@ -106,6 +107,15 @@ public record AwsCloudtrailCreateDashboardOptions : AwsOptions, IValidatableObje
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

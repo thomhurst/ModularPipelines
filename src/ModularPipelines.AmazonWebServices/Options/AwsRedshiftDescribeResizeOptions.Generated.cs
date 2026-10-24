@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns information about the last resize operation for the specified cluster. If no resize operation has ever been initiated for the speci- fied cluster, a HTTP 404 error is returned. If a resize operation was initiated and completed, the status of the resize remains as SUCCEEDED until the next resize. A resize operation can be requested using ModifyCluster and specifying a different number or type of nodes for the cluster. See also: AWS API Documentation
+/// Returns information about the last resize operation for the specified cluster. If no resize operation has ever been initiated for the specified cluster, a HTTP 404 error is returned. If a resize operation was initiated and completed, the status of the resize remains as SUCCEEDED until the next resize. A resize operation can be requested using ModifyCluster and specifying a different number or type of nodes for the cluster. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsRedshiftDescribeResizeOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns information about the last resize operation for the specified cluster. If no resize operation has ever been initiated for the speci- fied cluster, a HTTP 404 error is returned. If a resize operation was initiated and completed, the status of the resize remains as SUCCEEDED until the next resize. A resize operation can be requested using ModifyCluster and specifying a different number or type of nodes for the cluster. See also: AWS API Documentation
+    /// Returns information about the last resize operation for the specified cluster. If no resize operation has ever been initiated for the specified cluster, a HTTP 404 error is returned. If a resize operation was initiated and completed, the status of the resize remains as SUCCEEDED until the next resize. A resize operation can be requested using ModifyCluster and specifying a different number or type of nodes for the cluster. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ClusterIdentifier">The unique identifier of a cluster whose resize progress you are re- questing. This parameter is case-sensitive. By default, resize operations for all clusters defined for an Amazon Web Services account are returned. Constraints: o max: 2147483647</param>
+    /// <param name="ClusterIdentifier">The unique identifier of a cluster whose resize progress you are requesting. This parameter is case-sensitive. By default, resize operations for all clusters defined for an Amazon Web Services account are returned. Constraints: • max: 2147483647</param>
     public AwsRedshiftDescribeResizeOptions(
         string ClusterIdentifier
     )
@@ -56,7 +57,7 @@ public record AwsRedshiftDescribeResizeOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of a cluster whose resize progress you are re- questing. This parameter is case-sensitive. By default, resize operations for all clusters defined for an Amazon Web Services account are returned. Constraints: o max: 2147483647
+    /// The unique identifier of a cluster whose resize progress you are requesting. This parameter is case-sensitive. By default, resize operations for all clusters defined for an Amazon Web Services account are returned. Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--cluster-identifier")]
     public string? ClusterIdentifier { get; private init; }
@@ -82,6 +83,15 @@ public record AwsRedshiftDescribeResizeOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

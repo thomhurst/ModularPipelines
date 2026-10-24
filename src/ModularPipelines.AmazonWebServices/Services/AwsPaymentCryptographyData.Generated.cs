@@ -6,15 +6,15 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
+using ModularPipelines;
 using ModularPipelines.Context;
-using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
 namespace ModularPipelines.AmazonWebServices.Services;
 
 /// <summary>
-/// aws paymentcryptographydata commands.
+/// aws payment-cryptography-data commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AwsPaymentCryptographyData : IAwsPaymentCryptographyData
@@ -32,7 +32,7 @@ public class AwsPaymentCryptographyData : IAwsPaymentCryptographyData
     #region Commands
 
     /// <summary>
-    /// Decrypts ciphertext data to plaintext using a symmetric (TDES, AES), asymmetric (RSA), or derived (DUKPT or EMV) encryption key scheme. For more information, see Decrypt data in the Amazon Web Services Payment Cryptography User Guide . You can use an decryption key generated within Amazon Web Services Pay- ment Cryptography, or you can import your own decryption key by calling ImportKey . For this operation, the key must have KeyModesOfUse set to Decrypt . In asymmetric decryption, Amazon Web Se...
+    /// Decrypts ciphertext data to plaintext using a symmetric (TDES, AES), asymmetric (RSA), or derived (DUKPT or EMV) encryption key scheme. For more information, see Decrypt data in the Amazon Web Services Payment Cryptography User Guide . You can use an decryption key generated within Amazon Web Services Payment Cryptography, or you can import your own decryption key by calling ImportKey . For this operation, the key must have KeyModesOfUse set to Decrypt . In asymmetric decryption, Amazon Web Serv...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -62,7 +62,7 @@ public class AwsPaymentCryptographyData : IAwsPaymentCryptographyData
     }
 
     /// <summary>
-    /// Generates a KekValidationRequest or a KekValidationResponse for node-to-node initialization between payment processing nodes using Australian Standard 2805 (AS2805) . During node-to-node initialization, both communicating nodes must vali- date that they possess the correct Key Encrypting Keys (KEKs) before proceeding with session key exchange. In AS2805, the sending KEK (KEKs) of one node corresponds to the receiving KEK (KEKr) of its partner node. Each node uses its KEK to encrypt and decrypt s...
+    /// Generates a KekValidationRequest or a KekValidationResponse for node-to-node initialization between payment processing nodes using Australian Standard 2805 (AS2805) . During node-to-node initialization, both communicating nodes must validate that they possess the correct Key Encrypting Keys (KEKs) before proceeding with session key exchange. In AS2805, the sending KEK (KEKs) of one node corresponds to the receiving KEK (KEKr) of its partner node. Each node uses its KEK to encrypt and decrypt ses...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -77,7 +77,7 @@ public class AwsPaymentCryptographyData : IAwsPaymentCryptographyData
     }
 
     /// <summary>
-    /// Generates an Authorization Request Cryptogram (ARQC) for an EMV chip payment card authorization. For more information, see Generate auth re- quest cryptogram in the Amazon Web Services Payment Cryptography User Guide . ARQC generation uses an Issuer Master Key (IMK) for application cryp- tograms (TR31_E0_EMV_MKEY_APP_CRYPTOGRAMS) to derive a session key, which is then used to generate the cryptogram from the provided trans- action data (when applicable). To use this operation, you must first cre...
+    /// Generates an Authorization Request Cryptogram (ARQC) for an EMV chip payment card authorization. For more information, see Generate auth request cryptogram in the Amazon Web Services Payment Cryptography User Guide . ARQC generation uses an Issuer Master Key (IMK) for application cryptograms (TR31_E0_EMV_MKEY_APP_CRYPTOGRAMS) to derive a session key, which is then used to generate the cryptogram from the provided transaction data (when applicable). To use this operation, you must first create or...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -92,7 +92,7 @@ public class AwsPaymentCryptographyData : IAwsPaymentCryptographyData
     }
 
     /// <summary>
-    /// Generates card-related validation data using algorithms such as Card Verification Values (CVV/CVV2), Dynamic Card Verification Values (dCVV/dCVV2), or Card Security Codes (CSC). For more information, see Generate card data in the Amazon Web Services Payment Cryptography User Guide . This operation generates a CVV or CSC value that is printed on a pay- ment credit or debit card during card production. The CVV or CSC, PAN (Primary Account Number) and expiration date of the card are required to che...
+    /// Generates card-related validation data using algorithms such as Card Verification Values (CVV/CVV2), Dynamic Card Verification Values (dCVV/dCVV2), or Card Security Codes (CSC). For more information, see Generate card data in the Amazon Web Services Payment Cryptography User Guide . This operation generates a CVV or CSC value that is printed on a payment credit or debit card during card production. The CVV or CSC, PAN (Primary Account Number) and expiration date of the card are required to check...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -107,7 +107,7 @@ public class AwsPaymentCryptographyData : IAwsPaymentCryptographyData
     }
 
     /// <summary>
-    /// Generates an issuer script mac for EMV payment cards that use offline PINs as the cardholder verification method (CVM). This operation generates an authenticated issuer script response by ap- pending the incoming message data (APDU command) with the target en- crypted PIN block in ISO2 format. The command structure and method to send the issuer script update to the card is not defined by this opera- tion and is typically determined by the applicable payment card scheme. The primary inputs to thi...
+    /// Generates an issuer script mac for EMV payment cards that use offline PINs as the cardholder verification method (CVM). This operation generates an authenticated issuer script response by appending the incoming message data (APDU command) with the target encrypted PIN block in ISO2 format. The command structure and method to send the issuer script update to the card is not defined by this operation and is typically determined by the applicable payment card scheme. The primary inputs to this oper...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -122,7 +122,7 @@ public class AwsPaymentCryptographyData : IAwsPaymentCryptographyData
     }
 
     /// <summary>
-    /// Generates a Message Authentication Code (MAC) cryptogram within Amazon Web Services Payment Cryptography. You can use this operation to authenticate card-related data by using known data values to generate MAC for data validation between the send- ing and receiving parties. This operation uses message data, a secret encryption key and MAC algorithm to generate a unique MAC value for transmission. The receiving party of the MAC must use the same message data, secret encryption key and MAC algorit...
+    /// Generates a Message Authentication Code (MAC) cryptogram within Amazon Web Services Payment Cryptography. You can use this operation to authenticate card-related data by using known data values to generate MAC for data validation between the sending and receiving parties. This operation uses message data, a secret encryption key and MAC algorithm to generate a unique MAC value for transmission. The receiving party of the MAC must use the same message data, secret encryption key and MAC algorithm...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -137,7 +137,7 @@ public class AwsPaymentCryptographyData : IAwsPaymentCryptographyData
     }
 
     /// <summary>
-    /// Generates pin-related data such as PIN, PIN Verification Value (PVV), PIN Block, and PIN Offset during new card issuance or reissuance. For more information, see Generate PIN data in the Amazon Web Services Pay- ment Cryptography User Guide . PIN data is never transmitted in clear to or from Amazon Web Services Payment Cryptography. This operation generates PIN, PVV, or PIN Offset and then encrypts it using Pin Encryption Key (PEK) to create an En- cryptedPinBlock for transmission from Amazon We...
+    /// Generates pin-related data such as PIN, PIN Verification Value (PVV), PIN Block, and PIN Offset during new card issuance or reissuance. For more information, see Generate PIN data in the Amazon Web Services Payment Cryptography User Guide . PIN data is never transmitted in clear to or from Amazon Web Services Payment Cryptography. This operation generates PIN, PVV, or PIN Offset and then encrypts it using Pin Encryption Key (PEK) to create an EncryptedPinBlock for transmission from Amazon Web Se...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -152,7 +152,7 @@ public class AwsPaymentCryptographyData : IAwsPaymentCryptographyData
     }
 
     /// <summary>
-    /// Re-encrypts ciphertext using DUKPT, symmetric, or asymmetric data en- cryption keys. You can either generate an encryption key within Amazon Web Services Payment Cryptography by calling CreateKey or import your own encryption key by calling ImportKey . The KeyArn for use with this operation must be in a compatible key state with KeyModesOfUse set to Encrypt . This operation also supports dynamic keys, allowing you to pass a dy- namic encryption key as a TR-31 WrappedKeyBlock. This can be used wh...
+    /// Re-encrypts ciphertext using DUKPT, symmetric, or asymmetric data encryption keys. You can either generate an encryption key within Amazon Web Services Payment Cryptography by calling CreateKey or import your own encryption key by calling ImportKey . The KeyArn for use with this operation must be in a compatible key state with KeyModesOfUse set to Encrypt . This operation also supports dynamic keys, allowing you to pass a dynamic encryption key as a TR-31 WrappedKeyBlock. This can be used when k...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -167,7 +167,7 @@ public class AwsPaymentCryptographyData : IAwsPaymentCryptographyData
     }
 
     /// <summary>
-    /// Translates an cryptographic key between different wrapping keys without importing the key into Amazon Web Services Payment Cryptography. This operation can be used when key material is frequently rotated, such as during every card transaction, and there is a need to avoid im- porting short-lived keys into Amazon Web Services Payment Cryptography. It translates short-lived transaction keys such as PEK generated for each transaction and wrapped with an ECDH derived wrapping key to an- other KEK wr...
+    /// Translates an cryptographic key between different wrapping keys without importing the key into Amazon Web Services Payment Cryptography. This operation can be used when key material is frequently rotated, such as during every card transaction, and there is a need to avoid importing short-lived keys into Amazon Web Services Payment Cryptography. It translates short-lived transaction keys such as PEK generated for each transaction and wrapped with an ECDH derived wrapping key to another KEK wrappi...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -182,7 +182,7 @@ public class AwsPaymentCryptographyData : IAwsPaymentCryptographyData
     }
 
     /// <summary>
-    /// Translates encrypted PIN block from and to ISO 9564 formats 0,1,3,4. For more information, see Translate PIN data in the Amazon Web Services Payment Cryptography User Guide . PIN block translation involves changing a PIN block from one encryption key to another and optionally change its format. PIN block translation occurs entirely within the HSM boundary and PIN data never enters or leaves Amazon Web Services Payment Cryptography in clear text. The en- cryption key transformation can be from PE...
+    /// Translates encrypted PIN block from and to ISO 9564 formats 0,1,3,4. For more information, see Translate PIN data in the Amazon Web Services Payment Cryptography User Guide . PIN block translation involves changing a PIN block from one encryption key to another and optionally change its format. PIN block translation occurs entirely within the HSM boundary and PIN data never enters or leaves Amazon Web Services Payment Cryptography in clear text. The encryption key transformation can be from PEK ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -197,7 +197,7 @@ public class AwsPaymentCryptographyData : IAwsPaymentCryptographyData
     }
 
     /// <summary>
-    /// Verifies Authorization Request Cryptogram (ARQC) for a EMV chip payment card authorization. For more information, see Verify auth request cryp- togram in the Amazon Web Services Payment Cryptography User Guide . ARQC generation is done outside of Amazon Web Services Payment Cryptog- raphy and is typically generated on a point of sale terminal for an EMV chip card to obtain payment authorization during transaction time. For ARQC verification, you must first import the ARQC generated outside of Am...
+    /// Verifies Authorization Request Cryptogram (ARQC) for a EMV chip payment card authorization. For more information, see Verify auth request cryptogram in the Amazon Web Services Payment Cryptography User Guide . ARQC generation is done outside of Amazon Web Services Payment Cryptography and is typically generated on a point of sale terminal for an EMV chip card to obtain payment authorization during transaction time. For ARQC verification, you must first import the ARQC generated outside of Amazon...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -212,7 +212,7 @@ public class AwsPaymentCryptographyData : IAwsPaymentCryptographyData
     }
 
     /// <summary>
-    /// Verifies card-related validation data using algorithms such as Card Verification Values (CVV/CVV2), Dynamic Card Verification Values (dCVV/dCVV2) and Card Security Codes (CSC). For more information, see Verify card data in the Amazon Web Services Payment Cryptography User Guide . This operation validates the CVV or CSC codes that is printed on a pay- ment credit or debit card during card payment transaction. The input values are typically provided as part of an inbound transaction to an issuer o...
+    /// Verifies card-related validation data using algorithms such as Card Verification Values (CVV/CVV2), Dynamic Card Verification Values (dCVV/dCVV2) and Card Security Codes (CSC). For more information, see Verify card data in the Amazon Web Services Payment Cryptography User Guide . This operation validates the CVV or CSC codes that is printed on a payment credit or debit card during card payment transaction. The input values are typically provided as part of an inbound transaction to an issuer or ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -227,7 +227,7 @@ public class AwsPaymentCryptographyData : IAwsPaymentCryptographyData
     }
 
     /// <summary>
-    /// Verifies a Message Authentication Code (MAC). You can use this operation to verify MAC for message data authentica- tion such as . In this operation, you must use the same message data, secret encryption key and MAC algorithm that was used to generate MAC. You can use this operation to verify a DUPKT, CMAC, HMAC or EMV MAC by setting generation attributes and algorithm to the associated values. For information about valid keys for this operation, see Understanding key attributes and Key types fo...
+    /// Verifies a Message Authentication Code (MAC). You can use this operation to verify MAC for message data authentication such as . In this operation, you must use the same message data, secret encryption key and MAC algorithm that was used to generate MAC. You can use this operation to verify a DUPKT, CMAC, HMAC or EMV MAC by setting generation attributes and algorithm to the associated values. For information about valid keys for this operation, see Understanding key attributes and Key types for ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -242,7 +242,7 @@ public class AwsPaymentCryptographyData : IAwsPaymentCryptographyData
     }
 
     /// <summary>
-    /// Verifies pin-related data such as PIN and PIN Offset using algorithms including VISA PVV and IBM3624. For more information, see Verify PIN data in the Amazon Web Services Payment Cryptography User Guide . This operation verifies PIN data for user payment card. A card holder PIN data is never transmitted in clear to or from Amazon Web Services Payment Cryptography. This operation uses PIN Verification Key (PVK) for PIN or PIN Offset generation and then encrypts it using PIN Encryp- tion Key (PEK)...
+    /// Verifies pin-related data such as PIN and PIN Offset using algorithms including VISA PVV and IBM3624. For more information, see Verify PIN data in the Amazon Web Services Payment Cryptography User Guide . This operation verifies PIN data for user payment card. A card holder PIN data is never transmitted in clear to or from Amazon Web Services Payment Cryptography. This operation uses PIN Verification Key (PVK) for PIN or PIN Offset generation and then encrypts it using PIN Encryption Key (PEK) t...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

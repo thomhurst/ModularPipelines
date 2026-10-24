@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,7 +29,7 @@ public record AwsWafv2ListLoggingConfigurationsOptions : AwsOptions, IValidatabl
     /// <summary>
     /// Retrieves an array of your LoggingConfiguration objects. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Scope">Specifies whether this is for a global resource type, such as a Ama- zon CloudFront distribution. For an Amplify application, use CLOUD- FRONT . To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows: o CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1 . o API and SDKs - For all calls, use the Region endpoint us-east-1. Possible values: o CLOUDFRONT o REGIONAL</param>
+    /// <param name="Scope">Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. For an Amplify application, use CLOUDFRONT . To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows: • CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1 . • API and SDKs - For all calls, use the Region endpoint us-east-1. Possible values: • CLOUDFRONT • REGIONAL</param>
     public AwsWafv2ListLoggingConfigurationsOptions(
         AwsWafv2ListLoggingConfigurationsScope Scope
     )
@@ -56,25 +57,25 @@ public record AwsWafv2ListLoggingConfigurationsOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Specifies whether this is for a global resource type, such as a Ama- zon CloudFront distribution. For an Amplify application, use CLOUD- FRONT . To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows: o CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1 . o API and SDKs - For all calls, use the Region endpoint us-east-1. Possible values: o CLOUDFRONT o REGIONAL
+    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. For an Amplify application, use CLOUDFRONT . To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows: • CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1 . • API and SDKs - For all calls, use the Region endpoint us-east-1. Possible values: • CLOUDFRONT • REGIONAL
     /// </summary>
     [CliOption("--scope")]
     public AwsWafv2ListLoggingConfigurationsScope? Scope { get; private init; }
 
     /// <summary>
-    /// When you request a list of objects with a Limit setting, if the num- ber of objects that are still available for retrieval exceeds the limit, WAF returns a NextMarker value in the response. To retrieve the next batch of objects, provide the marker from the prior call in your next request. Constraints: o min: 1 o max: 256 o pattern: .*\S.*
+    /// When you request a list of objects with a Limit setting, if the number of objects that are still available for retrieval exceeds the limit, WAF returns a NextMarker value in the response. To retrieve the next batch of objects, provide the marker from the prior call in your next request. Constraints: • min: 1 • max: 256 • pattern: .*\S.*
     /// </summary>
     [CliOption("--next-marker")]
     public string? NextMarker { get; set; }
 
     /// <summary>
-    /// The maximum number of objects that you want WAF to return for this request. If more objects are available, in the response, WAF pro- vides a NextMarker value that you can use in a subsequent call to get the next batch of objects. Constraints: o min: 1 o max: 100
+    /// The maximum number of objects that you want WAF to return for this request. If more objects are available, in the response, WAF provides a NextMarker value that you can use in a subsequent call to get the next batch of objects. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--limit")]
     public int? Limit { get; set; }
 
     /// <summary>
-    /// The owner of the logging configuration, which must be set to CUS- TOMER for the configurations that you manage. The log scope SECURITY_LAKE indicates a configuration that is man- aged through Amazon Security Lake. You can use Security Lake to col- lect log and event data from various sources for normalization, analysis, and management. For information, see Collecting data from Amazon Web Services services in the Amazon Security Lake user guide . The log scope CLOUDWATCH_TELEMETRY_RULE_MANAGED indicates a configu- ration that is managed through Amazon CloudWatch Logs for telemetry data collection and analysis. For information, see What is Amazon CloudWatch Logs ? in the Amazon CloudWatch Logs user guide . Default: CUSTOMER Possible values: o CUSTOMER o SECURITY_LAKE o CLOUDWATCH_TELEMETRY_RULE_MANAGED
+    /// The owner of the logging configuration, which must be set to CUSTOMER for the configurations that you manage. The log scope SECURITY_LAKE indicates a configuration that is managed through Amazon Security Lake. You can use Security Lake to collect log and event data from various sources for normalization, analysis, and management. For information, see Collecting data from Amazon Web Services services in the Amazon Security Lake user guide . The log scope CLOUDWATCH_TELEMETRY_RULE_MANAGED indicates a configuration that is managed through Amazon CloudWatch Logs for telemetry data collection and analysis. For information, see What is Amazon CloudWatch Logs ? in the Amazon CloudWatch Logs user guide . Default: CUSTOMER Possible values: • CUSTOMER • SECURITY_LAKE • CLOUDWATCH_TELEMETRY_RULE_MANAGED
     /// </summary>
     [CliOption("--log-scope")]
     public AwsWafv2ListLoggingConfigurationsLogScope? LogScope { get; set; }
@@ -100,6 +101,15 @@ public record AwsWafv2ListLoggingConfigurationsOptions : AwsOptions, IValidatabl
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

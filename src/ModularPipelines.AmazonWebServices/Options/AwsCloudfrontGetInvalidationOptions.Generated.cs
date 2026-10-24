@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +29,7 @@ public record AwsCloudfrontGetInvalidationOptions : AwsOptions, IValidatableObje
     /// Get the information about an invalidation. See also: AWS API Documentation
     /// </summary>
     /// <param name="DistributionId">The distribution's ID.</param>
-    /// <param name="Id">The identifier for the invalidation request, for example, IDFD- VBD632BHDS5 .</param>
+    /// <param name="Id">The identifier for the invalidation request, for example, IDFDVBD632BHDS5 .</param>
     public AwsCloudfrontGetInvalidationOptions(
         string DistributionId,
         string Id
@@ -66,7 +67,7 @@ public record AwsCloudfrontGetInvalidationOptions : AwsOptions, IValidatableObje
     public string? DistributionId { get; private init; }
 
     /// <summary>
-    /// The identifier for the invalidation request, for example, IDFD- VBD632BHDS5 .
+    /// The identifier for the invalidation request, for example, IDFDVBD632BHDS5 .
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; private init; }
@@ -92,6 +93,15 @@ public record AwsCloudfrontGetInvalidationOptions : AwsOptions, IValidatableObje
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

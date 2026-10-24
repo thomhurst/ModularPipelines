@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Begins a file transfer between local Amazon Web Services storage and a remote AS2 or SFTP server. o For an AS2 connector, you specify the ConnectorId and one or more SendFilePaths to identify the files you want to transfer. o For an SFTP connector, the file transfer can be either outbound or inbound. In both cases, you specify the ConnectorId . Depending on the direction of the transfer, you also specify the following items: o If you are transferring file from a partner's SFTP server to Amazon W...
+/// Begins a file transfer between local Amazon Web Services storage and a remote AS2 or SFTP server. • For an AS2 connector, you specify the ConnectorId and one or more SendFilePaths to identify the files you want to transfer. • For an SFTP connector, the file transfer can be either outbound or inbound. In both cases, you specify the ConnectorId . Depending on the direction of the transfer, you also specify the following items: • If you are transferring file from a partner's SFTP server to Amazon W...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsTransferStartFileTransferOptions : AwsOptions, IValidatableObje
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Begins a file transfer between local Amazon Web Services storage and a remote AS2 or SFTP server. o For an AS2 connector, you specify the ConnectorId and one or more SendFilePaths to identify the files you want to transfer. o For an SFTP connector, the file transfer can be either outbound or inbound. In both cases, you specify the ConnectorId . Depending on the direction of the transfer, you also specify the following items: o If you are transferring file from a partner's SFTP server to Amazon W...
+    /// Begins a file transfer between local Amazon Web Services storage and a remote AS2 or SFTP server. • For an AS2 connector, you specify the ConnectorId and one or more SendFilePaths to identify the files you want to transfer. • For an SFTP connector, the file transfer can be either outbound or inbound. In both cases, you specify the ConnectorId . Depending on the direction of the transfer, you also specify the following items: • If you are transferring file from a partner's SFTP server to Amazon W...
     /// </summary>
-    /// <param name="ConnectorId">The unique identifier for the connector. Constraints: o min: 19 o max: 19 o pattern: c-([0-9a-f]{17})</param>
+    /// <param name="ConnectorId">The unique identifier for the connector. Constraints: • min: 19 • max: 19 • pattern: c-([0-9a-f]{17})</param>
     public AwsTransferStartFileTransferOptions(
         string ConnectorId
     )
@@ -56,37 +57,37 @@ public record AwsTransferStartFileTransferOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier for the connector. Constraints: o min: 19 o max: 19 o pattern: c-([0-9a-f]{17})
+    /// The unique identifier for the connector. Constraints: • min: 19 • max: 19 • pattern: c-([0-9a-f]{17})
     /// </summary>
     [CliOption("--connector-id")]
     public string? ConnectorId { get; private init; }
 
     /// <summary>
-    /// One or more source paths for the Amazon S3 storage. Each string rep- resents a source file path for one outbound file transfer. For exam- ple, `` amzn-s3-demo-bucket /myfile.txt `` . NOTE: Replace `` amzn-s3-demo-bucket `` with one of your actual buck- ets. Constraints: o min: 1 o max: 10 (string) Constraints: o min: 1 o max: 1024 o pattern: (.)+ Syntax: "string" "string" ...
+    /// One or more source paths for the Amazon S3 storage. Each string represents a source file path for one outbound file transfer. For example, `` amzn-s3-demo-bucket /myfile.txt `` . NOTE: Replace `` amzn-s3-demo-bucket `` with one of your actual buckets. Constraints: • min: 1 • max: 10 (string) Constraints: • min: 1 • max: 1024 • pattern: (.)+ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--send-file-paths", GroupValues = true)]
     public IEnumerable<string>? SendFilePaths { get; set; }
 
     /// <summary>
-    /// One or more source paths for the partner's SFTP server. Each string represents a source file path for one inbound file transfer. Constraints: o min: 1 o max: 10 (string) Constraints: o min: 1 o max: 1024 o pattern: (.)+ Syntax: "string" "string" ...
+    /// One or more source paths for the partner's SFTP server. Each string represents a source file path for one inbound file transfer. Constraints: • min: 1 • max: 10 (string) Constraints: • min: 1 • max: 1024 • pattern: (.)+ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--retrieve-file-paths", GroupValues = true)]
     public IEnumerable<string>? RetrieveFilePaths { get; set; }
 
     /// <summary>
-    /// For an inbound transfer, the LocaDirectoryPath specifies the desti- nation for one or more files that are transferred from the partner's SFTP server. Constraints: o min: 1 o max: 1024 o pattern: (.)+
+    /// For an inbound transfer, the LocaDirectoryPath specifies the destination for one or more files that are transferred from the partner's SFTP server. Constraints: • min: 1 • max: 1024 • pattern: (.)+
     /// </summary>
     [CliOption("--local-directory-path")]
     public string? LocalDirectoryPath { get; set; }
 
     /// <summary>
-    /// For an outbound transfer, the RemoteDirectoryPath specifies the des- tination for one or more files that are transferred to the partner's SFTP server. If you don't specify a RemoteDirectoryPath , the desti- nation for transferred files is the SFTP user's home directory. Constraints: o min: 1 o max: 1024 o pattern: (.)+
+    /// For an outbound transfer, the RemoteDirectoryPath specifies the destination for one or more files that are transferred to the partner's SFTP server. If you don't specify a RemoteDirectoryPath , the destination for transferred files is the SFTP user's home directory. Constraints: • min: 1 • max: 1024 • pattern: (.)+
     /// </summary>
     [CliOption("--remote-directory-path")]
     public string? RemoteDirectoryPath { get; set; }
 
     /// <summary>
-    /// An array of key-value pairs that represent custom HTTP headers to include in AS2 messages. These headers are added to the AS2 message when sending files to your trading partner. (structure) Represents a custom HTTP header that can be included in AS2 mes- sages. Each header consists of a key-value pair. Key -&gt; (string) The name of the custom HTTP header. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9-]+ Value -&gt; (string) The value of the custom HTTP header. Constraints: o min: 0 o max: 256 o pattern: [a-zA-Z0-9 +\-./:=@_]* Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// An array of key-value pairs that represent custom HTTP headers to include in AS2 messages. These headers are added to the AS2 message when sending files to your trading partner. (structure) Represents a custom HTTP header that can be included in AS2 messages. Each header consists of a key-value pair. Key -&gt; (string) The name of the custom HTTP header. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9-]+ Value -&gt; (string) The value of the custom HTTP header. Constraints: • min: 0 • max: 256 • pattern: [a-zA-Z0-9 +\-./:=@_]* Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--custom-http-headers", GroupValues = true)]
     public IEnumerable<string>? CustomHttpHeaders { get; set; }
@@ -112,6 +113,15 @@ public record AwsTransferStartFileTransferOptions : AwsOptions, IValidatableObje
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsCodeartifactCreatePackageGroupOptions : AwsOptions, IValidatabl
     /// <summary>
     /// Creates a package group. For more information about creating package groups, including example CLI commands, see Create a package group in the CodeArtifact User Guide . See also: AWS API Documentation
     /// </summary>
-    /// <param name="Domain">The name of the domain in which you want to create a package group. Constraints: o min: 2 o max: 50 o pattern: [a-z][a-z0-9\-]{0,48}[a-z0-9]</param>
-    /// <param name="PackageGroup">The pattern of the package group to create. The pattern is also the identifier of the package group. Constraints: o min: 2 o max: 520 o pattern: [^\p{C}\p{IsWhitespace}]+</param>
+    /// <param name="Domain">The name of the domain in which you want to create a package group. Constraints: • min: 2 • max: 50 • pattern: [a-z][a-z0-9\-]{0,48}[a-z0-9]</param>
+    /// <param name="PackageGroup">The pattern of the package group to create. The pattern is also the identifier of the package group. Constraints: • min: 2 • max: 520 • pattern: [^\p{C}\p{IsWhitespace}]+</param>
     public AwsCodeartifactCreatePackageGroupOptions(
         string Domain,
         string PackageGroup
@@ -60,37 +61,37 @@ public record AwsCodeartifactCreatePackageGroupOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the domain in which you want to create a package group. Constraints: o min: 2 o max: 50 o pattern: [a-z][a-z0-9\-]{0,48}[a-z0-9]
+    /// The name of the domain in which you want to create a package group. Constraints: • min: 2 • max: 50 • pattern: [a-z][a-z0-9\-]{0,48}[a-z0-9]
     /// </summary>
     [CliOption("--domain")]
     public string? Domain { get; private init; }
 
     /// <summary>
-    /// The pattern of the package group to create. The pattern is also the identifier of the package group. Constraints: o min: 2 o max: 520 o pattern: [^\p{C}\p{IsWhitespace}]+
+    /// The pattern of the package group to create. The pattern is also the identifier of the package group. Constraints: • min: 2 • max: 520 • pattern: [^\p{C}\p{IsWhitespace}]+
     /// </summary>
     [CliOption("--package-group")]
     public string? PackageGroup { get; private init; }
 
     /// <summary>
-    /// The 12-digit account number of the Amazon Web Services account that owns the domain. It does not include dashes or spaces. Constraints: o min: 12 o max: 12 o pattern: [0-9]{12}
+    /// The 12-digit account number of the Amazon Web Services account that owns the domain. It does not include dashes or spaces. Constraints: • min: 12 • max: 12 • pattern: [0-9]{12}
     /// </summary>
     [CliOption("--domain-owner")]
     public string? DomainOwner { get; set; }
 
     /// <summary>
-    /// The contact information for the created package group. Constraints: o min: 0 o max: 1000 o pattern: \P{C}*
+    /// The contact information for the created package group. Constraints: • min: 0 • max: 1000 • pattern: \P{C}*
     /// </summary>
     [CliOption("--contact-info")]
     public string? ContactInfo { get; set; }
 
     /// <summary>
-    /// A description of the package group. Constraints: o max: 1000 o pattern: \P{C}*
+    /// A description of the package group. Constraints: • max: 1000 • pattern: \P{C}*
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// One or more tag key-value pairs for the package group. Constraints: o min: 0 o max: 200 (structure) A tag is a key-value pair that can be used to manage, search for, or filter resources in CodeArtifact. key -&gt; (string) [required] The tag key. Constraints: o min: 1 o max: 128 o pattern: \P{C}+ value -&gt; (string) [required] The tag value. Constraints: o min: 0 o max: 256 o pattern: \P{C}* Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
+    /// One or more tag key-value pairs for the package group. Constraints: • min: 0 • max: 200 (structure) A tag is a key-value pair that can be used to manage, search for, or filter resources in CodeArtifact. key -&gt; (string) [required] The tag key. Constraints: • min: 1 • max: 128 • pattern: \P{C}+ value -&gt; (string) [required] The tag value. Constraints: • min: 0 • max: 256 • pattern: \P{C}* Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
@@ -116,6 +117,15 @@ public record AwsCodeartifactCreatePackageGroupOptions : AwsOptions, IValidatabl
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

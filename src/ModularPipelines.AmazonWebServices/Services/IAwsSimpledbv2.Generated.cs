@@ -6,7 +6,7 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using ModularPipelines.Models;
+using ModularPipelines;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
@@ -22,9 +22,9 @@ namespace ModularPipelines.AmazonWebServices.Services;
 public interface IAwsSimpledbv2
 {
     /// <summary>
-    /// aws wait sub-commands.
+    /// aws simpledbv2 wait sub-commands.
     /// </summary>
-    AwsSimpledbv2Wait Wait => throw new System.NotSupportedException();
+    AwsSimpledbv2Wait Wait { get; }
 
     /// <summary>
     /// Returns information for an existing domain export. See also: AWS API Documentation
@@ -33,18 +33,16 @@ public interface IAwsSimpledbv2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetExportAsync(AwsSimpledbv2GetExportOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetExportAsync(AwsSimpledbv2GetExportOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Lists all exports that were created. The results are paginated and can be filtered by domain name. See also: AWS API Documentation list-exports is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex- pressions: expor...
+    /// Lists all exports that were created. The results are paginated and can be filtered by domain name. See also: AWS API Documentation list-exports is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: exportSum...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListExportsAsync(AwsSimpledbv2ListExportsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListExportsAsync(AwsSimpledbv2ListExportsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Initiates the export of a SimpleDB domain to an S3 bucket. See also: AWS API Documentation
@@ -53,7 +51,6 @@ public interface IAwsSimpledbv2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartDomainExportAsync(AwsSimpledbv2StartDomainExportOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartDomainExportAsync(AwsSimpledbv2StartDomainExportOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

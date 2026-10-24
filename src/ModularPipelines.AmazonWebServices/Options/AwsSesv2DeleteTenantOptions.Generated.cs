@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsSesv2DeleteTenantOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Delete an existing tenant. When you delete a tenant, its associations with resources are removed, but the resources themselves are not deleted. See also: AWS API Documentation
     /// </summary>
-    /// <param name="TenantName">The name of the tenant to delete. Constraints: o min: 1</param>
+    /// <param name="TenantName">The name of the tenant to delete. Constraints: • min: 1</param>
     public AwsSesv2DeleteTenantOptions(
         string TenantName
     )
@@ -56,7 +57,7 @@ public record AwsSesv2DeleteTenantOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the tenant to delete. Constraints: o min: 1
+    /// The name of the tenant to delete. Constraints: • min: 1
     /// </summary>
     [CliOption("--tenant-name")]
     public string? TenantName { get; private init; }
@@ -82,6 +83,15 @@ public record AwsSesv2DeleteTenantOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

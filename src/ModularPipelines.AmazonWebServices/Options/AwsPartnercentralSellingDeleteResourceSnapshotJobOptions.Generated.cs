@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsPartnercentralSellingDeleteResourceSnapshotJobOptions : AwsOpti
     /// <summary>
     /// Use this action to deletes a previously created resource snapshot job. The job must be in a stopped state before it can be deleted. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Catalog">Specifies the catalog from which to delete the snapshot job. Valid values are AWS and Sandbox . Constraints: o pattern: [a-zA-Z]+</param>
-    /// <param name="ResourceSnapshotJobIdentifier">The unique identifier of the resource snapshot job to be deleted. Constraints: o pattern: job-[0-9a-z]{13}</param>
+    /// <param name="Catalog">Specifies the catalog from which to delete the snapshot job. Valid values are AWS and Sandbox . Constraints: • pattern: [a-zA-Z]+</param>
+    /// <param name="ResourceSnapshotJobIdentifier">The unique identifier of the resource snapshot job to be deleted. Constraints: • pattern: job-[0-9a-z]{13}</param>
     public AwsPartnercentralSellingDeleteResourceSnapshotJobOptions(
         string Catalog,
         string ResourceSnapshotJobIdentifier
@@ -60,13 +61,13 @@ public record AwsPartnercentralSellingDeleteResourceSnapshotJobOptions : AwsOpti
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Specifies the catalog from which to delete the snapshot job. Valid values are AWS and Sandbox . Constraints: o pattern: [a-zA-Z]+
+    /// Specifies the catalog from which to delete the snapshot job. Valid values are AWS and Sandbox . Constraints: • pattern: [a-zA-Z]+
     /// </summary>
     [CliOption("--catalog")]
     public string? Catalog { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the resource snapshot job to be deleted. Constraints: o pattern: job-[0-9a-z]{13}
+    /// The unique identifier of the resource snapshot job to be deleted. Constraints: • pattern: job-[0-9a-z]{13}
     /// </summary>
     [CliOption("--resource-snapshot-job-identifier")]
     public string? ResourceSnapshotJobIdentifier { get; private init; }
@@ -92,6 +93,15 @@ public record AwsPartnercentralSellingDeleteResourceSnapshotJobOptions : AwsOpti
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

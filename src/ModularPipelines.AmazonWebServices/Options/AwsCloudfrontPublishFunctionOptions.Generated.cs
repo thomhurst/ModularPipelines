@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Publishes a CloudFront function by copying the function code from the DEVELOPMENT stage to LIVE . This automatically updates all cache behav- iors that are using this function to use the newly published copy in the LIVE stage. When a function is published to the LIVE stage, you can attach the function to a distribution's cache behavior, using the function's Ama- zon Resource Name (ARN). To publish a function, you must provide the function's name and version (ETag value). To get these values, you...
+/// Publishes a CloudFront function by copying the function code from the DEVELOPMENT stage to LIVE . This automatically updates all cache behaviors that are using this function to use the newly published copy in the LIVE stage. When a function is published to the LIVE stage, you can attach the function to a distribution's cache behavior, using the function's Amazon Resource Name (ARN). To publish a function, you must provide the function's name and version (ETag value). To get these values, you can...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsCloudfrontPublishFunctionOptions : AwsOptions, IValidatableObje
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Publishes a CloudFront function by copying the function code from the DEVELOPMENT stage to LIVE . This automatically updates all cache behav- iors that are using this function to use the newly published copy in the LIVE stage. When a function is published to the LIVE stage, you can attach the function to a distribution's cache behavior, using the function's Ama- zon Resource Name (ARN). To publish a function, you must provide the function's name and version (ETag value). To get these values, you...
+    /// Publishes a CloudFront function by copying the function code from the DEVELOPMENT stage to LIVE . This automatically updates all cache behaviors that are using this function to use the newly published copy in the LIVE stage. When a function is published to the LIVE stage, you can attach the function to a distribution's cache behavior, using the function's Amazon Resource Name (ARN). To publish a function, you must provide the function's name and version (ETag value). To get these values, you can...
     /// </summary>
-    /// <param name="Name">The name of the function that you are publishing. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9-_]{1,64}</param>
-    /// <param name="IfMatch">The current version (ETag value) of the function that you are pub- lishing, which you can get using DescribeFunction .</param>
+    /// <param name="Name">The name of the function that you are publishing. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9-_]{1,64}</param>
+    /// <param name="IfMatch">The current version (ETag value) of the function that you are publishing, which you can get using DescribeFunction .</param>
     public AwsCloudfrontPublishFunctionOptions(
         string Name,
         string IfMatch
@@ -60,13 +61,13 @@ public record AwsCloudfrontPublishFunctionOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the function that you are publishing. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9-_]{1,64}
+    /// The name of the function that you are publishing. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9-_]{1,64}
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The current version (ETag value) of the function that you are pub- lishing, which you can get using DescribeFunction .
+    /// The current version (ETag value) of the function that you are publishing, which you can get using DescribeFunction .
     /// </summary>
     [CliOption("--if-match")]
     public string? IfMatch { get; private init; }
@@ -92,6 +93,15 @@ public record AwsCloudfrontPublishFunctionOptions : AwsOptions, IValidatableObje
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

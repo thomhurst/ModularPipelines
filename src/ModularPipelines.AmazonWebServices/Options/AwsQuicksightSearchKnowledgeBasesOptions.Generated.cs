@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +29,7 @@ public record AwsQuicksightSearchKnowledgeBasesOptions : AwsOptions, IValidatabl
     /// <summary>
     /// Searches for a subset of knowledge bases based on specified filters. See also: AWS API Documentation search-knowledge-bases is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: KnowledgeBaseSummaries
     /// </summary>
-    /// <param name="AwsAccountId">The ID of the Amazon Web Services account that contains the knowl- edge base. Constraints: o min: 12 o max: 12 o pattern: [0-9]*</param>
+    /// <param name="AwsAccountId">The ID of the Amazon Web Services account that contains the knowledge base. Constraints: • min: 12 • max: 12 • pattern: [0-9]*</param>
     public AwsQuicksightSearchKnowledgeBasesOptions(
         string AwsAccountId
     )
@@ -57,28 +58,25 @@ public record AwsQuicksightSearchKnowledgeBasesOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the Amazon Web Services account that contains the knowl- edge base. Constraints: o min: 12 o max: 12 o pattern: [0-9]*
+    /// The ID of the Amazon Web Services account that contains the knowledge base. Constraints: • min: 12 • max: 12 • pattern: [0-9]*
     /// </summary>
     [CliOption("--aws-account-id")]
     public string? AwsAccountId { get; private init; }
 
     /// <summary>
-    /// The filters to apply when searching knowledge bases. Constraints: o min: 1 o max: 6 (structure) A filter to apply when searching knowledge bases. name -&gt; (string) [required] The name of the field to filter on. Possible values: o KNOWLEDGE_BASE_ID o KNOWLEDGE_BASE_NAME o DIRECT_QUICKSIGHT_OWNER o DIRECT_QUICKSIGHT_VIEWER_OR_OWNER o DIRECT_QUICKSIGHT_SOLE_OWNER o KNOWLEDGE_BASE_SIZE_BYTES o PRIMARY_OWNER o DATASOURCE_ARN operator -&gt; (string) [required] The comparison operator to use for the filter. Possible values: o STRING_EQUALS o STRING_LIKE o GREATER_THAN_OR_EQUALS o LESS_THAN_OR_EQUALS value -&gt; (string) [required] The value to filter on. Shorthand Syntax: name=string,operator=string,value=string ... JSON Syntax: [ { "name": "KNOWLEDGE_BASE_ID"|"KNOWLEDGE_BASE_NAME"|"DIRECT_QUICKSIGHT_OWNER"|"DIRECT_QUICKSIGHT_VIEWER_OR_OWNER"|"DIRECT_QUICKSIGHT_SOLE_OWNER"|"KNOWLEDGE_BASE_SIZE_BYTES"|"PRIMARY_OWNER"|"DATASOURCE_ARN", "operator": "STRING_EQUALS"|"STRING_LIKE"|"GREATER_THAN_OR_EQUALS"|"LESS_THAN_OR_EQUALS", "value": "string" } ... ]
+    /// The filters to apply when searching knowledge bases. Constraints: • min: 1 • max: 6 (structure) A filter to apply when searching knowledge bases. name -&gt; (string) [required] The name of the field to filter on. Possible values: • KNOWLEDGE_BASE_ID • KNOWLEDGE_BASE_NAME • DIRECT_QUICKSIGHT_OWNER • DIRECT_QUICKSIGHT_VIEWER_OR_OWNER • DIRECT_QUICKSIGHT_SOLE_OWNER • KNOWLEDGE_BASE_SIZE_BYTES • PRIMARY_OWNER • DATASOURCE_ARN operator -&gt; (string) [required] The comparison operator to use for the filter. Possible values: • STRING_EQUALS • STRING_LIKE • GREATER_THAN_OR_EQUALS • LESS_THAN_OR_EQUALS value -&gt; (string) [required] The value to filter on. Shorthand Syntax: name=string,operator=string,value=string ... JSON Syntax: [ { "name": "KNOWLEDGE_BASE_ID"|"KNOWLEDGE_BASE_NAME"|"DIRECT_QUICKSIGHT_OWNER"|"DIRECT_QUICKSIGHT_VIEWER_OR_OWNER"|"DIRECT_QUICKSIGHT_SOLE_OWNER"|"KNOWLEDGE_BASE_SIZE_BYTES"|"PRIMARY_OWNER"|"DATASOURCE_ARN", "operator": "STRING_EQUALS"|"STRING_LIKE"|"GREATER_THAN_OR_EQUALS"|"LESS_THAN_OR_EQUALS", "value": "string" } ... ]
     /// </summary>
     [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     /// <summary>
-    /// The sort configuration for the search results. sortByField -&gt; (string) [required] The field to sort by. Possible values: o KNOWLEDGE_BASE_SIZE_BYTES o CREATED_AT sortOrder -&gt; (string) [required] The sort order (ascending or descending). Possible values: o ASC o DESC Shorthand Syntax: sortByField=string,sortOrder=string JSON Syntax: { "sortByField": "KNOWLEDGE_BASE_SIZE_BYTES"|"CREATED_AT", "sortOrder": "ASC"|"DESC" }
+    /// The sort configuration for the search results. sortByField -&gt; (string) [required] The field to sort by. Possible values: • KNOWLEDGE_BASE_SIZE_BYTES • CREATED_AT sortOrder -&gt; (string) [required] The sort order (ascending or descending). Possible values: • ASC • DESC Shorthand Syntax: sortByField=string,sortOrder=string JSON Syntax: { "sortByField": "KNOWLEDGE_BASE_SIZE_BYTES"|"CREATED_AT", "sortOrder": "ASC"|"DESC" }
     /// </summary>
     [CliOption("--sort-by")]
     public string? SortBy { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -88,16 +86,19 @@ public record AwsQuicksightSearchKnowledgeBasesOptions : AwsOptions, IValidatabl
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 100
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
@@ -114,6 +115,15 @@ public record AwsQuicksightSearchKnowledgeBasesOptions : AwsOptions, IValidatabl
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

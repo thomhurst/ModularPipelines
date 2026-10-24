@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Searches for content in a specified knowledge base. Can be used to get a specific content resource by its name. See also: AWS API Documentation search-content is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query exp...
+/// Searches for content in a specified knowledge base. Can be used to get a specific content resource by its name. See also: AWS API Documentation search-content is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query express...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +27,10 @@ public record AwsQconnectSearchContentOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Searches for content in a specified knowledge base. Can be used to get a specific content resource by its name. See also: AWS API Documentation search-content is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query exp...
+    /// Searches for content in a specified knowledge base. Can be used to get a specific content resource by its name. See also: AWS API Documentation search-content is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query express...
     /// </summary>
-    /// <param name="KnowledgeBaseId">The identifier of the knowledge base. This should not be a QUICK_RE- SPONSES type knowledge base. Can be either the ID or the ARN. URLs cannot contain the ARN. Constraints: o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$|^arn:[a-z-]*?:wis- dom:[a-z0-9-]*?:[0-9]{12}:[a-z-]*?/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(?:/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}){0,2}</param>
-    /// <param name="SearchExpression">The search expression to filter results. filters -&gt; (list) [required] The search expression filters. (structure) A search filter. field -&gt; (string) [required] The field on which to filter. Possible values: o NAME operator -&gt; (string) [required] The operator to use for comparing the fields value with the provided value. Possible values: o EQUALS value -&gt; (string) [required] The desired field value on which to filter. Constraints: o min: 1 o max: 4096 Shorthand Syntax: filters=[{field=string,operator=string,value=string},{field=string,operator=string,value=string}] JSON Syntax: { "filters": [ { "field": "NAME", "operator": "EQUALS", "value": "string" } ... ] }</param>
+    /// <param name="KnowledgeBaseId">The identifier of the knowledge base. This should not be a QUICK_RESPONSES type knowledge base. Can be either the ID or the ARN. URLs cannot contain the ARN. Constraints: • pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$|^arn:[a-z-]*?:wisdom:[a-z0-9-]*?:[0-9]{12}:[a-z-]*?/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(?:/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}){0,2}</param>
+    /// <param name="SearchExpression">The search expression to filter results. filters -&gt; (list) [required] The search expression filters. (structure) A search filter. field -&gt; (string) [required] The field on which to filter. Possible values: • NAME operator -&gt; (string) [required] The operator to use for comparing the fields value with the provided value. Possible values: • EQUALS value -&gt; (string) [required] The desired field value on which to filter. Constraints: • min: 1 • max: 4096 Shorthand Syntax: filters=[{field=string,operator=string,value=string},{field=string,operator=string,value=string}] JSON Syntax: { "filters": [ { "field": "NAME", "operator": "EQUALS", "value": "string" } ... ] }</param>
     public AwsQconnectSearchContentOptions(
         string KnowledgeBaseId,
         string SearchExpression
@@ -61,22 +62,19 @@ public record AwsQconnectSearchContentOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the knowledge base. This should not be a QUICK_RE- SPONSES type knowledge base. Can be either the ID or the ARN. URLs cannot contain the ARN. Constraints: o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$|^arn:[a-z-]*?:wis- dom:[a-z0-9-]*?:[0-9]{12}:[a-z-]*?/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(?:/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}){0,2}
+    /// The identifier of the knowledge base. This should not be a QUICK_RESPONSES type knowledge base. Can be either the ID or the ARN. URLs cannot contain the ARN. Constraints: • pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$|^arn:[a-z-]*?:wisdom:[a-z0-9-]*?:[0-9]{12}:[a-z-]*?/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(?:/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}){0,2}
     /// </summary>
     [CliOption("--knowledge-base-id")]
     public string? KnowledgeBaseId { get; private init; }
 
     /// <summary>
-    /// The search expression to filter results. filters -&gt; (list) [required] The search expression filters. (structure) A search filter. field -&gt; (string) [required] The field on which to filter. Possible values: o NAME operator -&gt; (string) [required] The operator to use for comparing the fields value with the provided value. Possible values: o EQUALS value -&gt; (string) [required] The desired field value on which to filter. Constraints: o min: 1 o max: 4096 Shorthand Syntax: filters=[{field=string,operator=string,value=string},{field=string,operator=string,value=string}] JSON Syntax: { "filters": [ { "field": "NAME", "operator": "EQUALS", "value": "string" } ... ] }
+    /// The search expression to filter results. filters -&gt; (list) [required] The search expression filters. (structure) A search filter. field -&gt; (string) [required] The field on which to filter. Possible values: • NAME operator -&gt; (string) [required] The operator to use for comparing the fields value with the provided value. Possible values: • EQUALS value -&gt; (string) [required] The desired field value on which to filter. Constraints: • min: 1 • max: 4096 Shorthand Syntax: filters=[{field=string,operator=string,value=string},{field=string,operator=string,value=string}] JSON Syntax: { "filters": [ { "field": "NAME", "operator": "EQUALS", "value": "string" } ... ] }
     /// </summary>
     [CliOption("--search-expression")]
     public string? SearchExpression { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -86,16 +84,19 @@ public record AwsQconnectSearchContentOptions : AwsOptions, IValidatableObject
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 100
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
@@ -112,6 +113,15 @@ public record AwsQconnectSearchContentOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

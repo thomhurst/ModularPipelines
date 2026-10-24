@@ -6,8 +6,8 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
+using ModularPipelines;
 using ModularPipelines.Context;
-using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
@@ -32,7 +32,7 @@ public class AwsFms : IAwsFms
     #region Commands
 
     /// <summary>
-    /// Sets a Firewall Manager default administrator account. The Firewall Manager default administrator account can manage third-party firewalls and has full administrative scope that allows administration of all policy types, accounts, organizational units, and Regions. This account must be a member account of the organization in Organizations whose re- sources you want to protect. For information about working with Firewall Manager administrator ac- counts, see Managing Firewall Manager administrato...
+    /// Sets a Firewall Manager default administrator account. The Firewall Manager default administrator account can manage third-party firewalls and has full administrative scope that allows administration of all policy types, accounts, organizational units, and Regions. This account must be a member account of the organization in Organizations whose resources you want to protect. For information about working with Firewall Manager administrator accounts, see Managing Firewall Manager administrators i...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -47,7 +47,7 @@ public class AwsFms : IAwsFms
     }
 
     /// <summary>
-    /// Sets the Firewall Manager policy administrator as a tenant administra- tor of a third-party firewall service. A tenant is an instance of the third-party firewall service that's associated with your Amazon Web Services customer account. See also: AWS API Documentation
+    /// Sets the Firewall Manager policy administrator as a tenant administrator of a third-party firewall service. A tenant is an instance of the third-party firewall service that's associated with your Amazon Web Services customer account. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -107,7 +107,7 @@ public class AwsFms : IAwsFms
     }
 
     /// <summary>
-    /// Deletes an Firewall Manager association with the IAM role and the Ama- zon Simple Notification Service (SNS) topic that is used to record Firewall Manager SNS logs. See also: AWS API Documentation
+    /// Deletes an Firewall Manager association with the IAM role and the Amazon Simple Notification Service (SNS) topic that is used to record Firewall Manager SNS logs. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -167,7 +167,7 @@ public class AwsFms : IAwsFms
     }
 
     /// <summary>
-    /// Disassociates an Firewall Manager administrator account. To set a dif- ferent account as an Firewall Manager administrator, submit a PutAdmi- nAccount request. To set an account as a default administrator account, you must submit an AssociateAdminAccount request. Disassociation of the default administrator account follows the first in, last out principle. If you are the default administrator, all Fire- wall Manager administrators within the organization must first disasso- ciate their accounts b...
+    /// Disassociates an Firewall Manager administrator account. To set a different account as an Firewall Manager administrator, submit a PutAdminAccount request. To set an account as a default administrator account, you must submit an AssociateAdminAccount request. Disassociation of the default administrator account follows the first in, last out principle. If you are the default administrator, all Firewall Manager administrators within the organization must first disassociate their accounts before yo...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -182,7 +182,7 @@ public class AwsFms : IAwsFms
     }
 
     /// <summary>
-    /// Disassociates a Firewall Manager policy administrator from a third-party firewall tenant. When you call DisassociateThirdPartyFire- wall , the third-party firewall vendor deletes all of the firewalls that are associated with the account. See also: AWS API Documentation
+    /// Disassociates a Firewall Manager policy administrator from a third-party firewall tenant. When you call DisassociateThirdPartyFirewall , the third-party firewall vendor deletes all of the firewalls that are associated with the account. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -197,7 +197,7 @@ public class AwsFms : IAwsFms
     }
 
     /// <summary>
-    /// Returns the Organizations account that is associated with Firewall Man- ager as the Firewall Manager default administrator. See also: AWS API Documentation
+    /// Returns the Organizations account that is associated with Firewall Manager as the Firewall Manager default administrator. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -242,7 +242,7 @@ public class AwsFms : IAwsFms
     }
 
     /// <summary>
-    /// Returns detailed compliance information about the specified member ac- count. Details include resources that are in and out of compliance with the specified policy. The reasons for resources being considered compliant depend on the Firewall Manager policy type. See also: AWS API Documentation
+    /// Returns detailed compliance information about the specified member account. Details include resources that are in and out of compliance with the specified policy. The reasons for resources being considered compliant depend on the Firewall Manager policy type. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -287,7 +287,7 @@ public class AwsFms : IAwsFms
     }
 
     /// <summary>
-    /// If you created a Shield Advanced policy, returns policy-level attack summary information in the event of a potential DDoS attack. Other pol- icy types are currently unsupported. See also: AWS API Documentation
+    /// If you created a Shield Advanced policy, returns policy-level attack summary information in the event of a potential DDoS attack. Other policy types are currently unsupported. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -362,7 +362,7 @@ public class AwsFms : IAwsFms
     }
 
     /// <summary>
-    /// Returns a AdminAccounts object that lists the Firewall Manager adminis- trators within the organization that are onboarded to Firewall Manager by AssociateAdminAccount . This operation can be called only from the organization's management account. See also: AWS API Documentation list-admin-accounts-for-organization is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment....
+    /// Returns a AdminAccounts object that lists the Firewall Manager administrators within the organization that are onboarded to Firewall Manager by AssociateAdminAccount . This operation can be called only from the organization's management account. See also: AWS API Documentation list-admin-accounts-for-organization is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -377,7 +377,7 @@ public class AwsFms : IAwsFms
     }
 
     /// <summary>
-    /// Lists the accounts that are managing the specified Organizations member account. This is useful for any member account so that they can view the accounts who are managing their account. This operation only re- turns the managing administrators that have the requested account within their AdminScope . See also: AWS API Documentation list-admins-managing-account is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable paginat...
+    /// Lists the accounts that are managing the specified Organizations member account. This is useful for any member account so that they can view the accounts who are managing their account. This operation only returns the managing administrators that have the requested account within their AdminScope . See also: AWS API Documentation list-admins-managing-account is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -392,7 +392,7 @@ public class AwsFms : IAwsFms
     }
 
     /// <summary>
-    /// Returns an array of AppsListDataSummary objects. See also: AWS API Documentation list-apps-lists is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: AppsLists
+    /// Returns an array of AppsListDataSummary objects. See also: AWS API Documentation list-apps-lists is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: AppsLists
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -407,7 +407,7 @@ public class AwsFms : IAwsFms
     }
 
     /// <summary>
-    /// Returns an array of PolicyComplianceStatus objects. Use PolicyCompli- anceStatus to get a summary of which member accounts are protected by the specified policy. See also: AWS API Documentation list-compliance-status is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must ex...
+    /// Returns an array of PolicyComplianceStatus objects. Use PolicyComplianceStatus to get a summary of which member accounts are protected by the specified policy. See also: AWS API Documentation list-compliance-status is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extr...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -437,7 +437,7 @@ public class AwsFms : IAwsFms
     }
 
     /// <summary>
-    /// Returns a MemberAccounts object that lists the member accounts in the administrator's Amazon Web Services organization. Either an Firewall Manager administrator or the organization's manage- ment account can make this request. See also: AWS API Documentation list-member-accounts is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query...
+    /// Returns a MemberAccounts object that lists the member accounts in the administrator's Amazon Web Services organization. Either an Firewall Manager administrator or the organization's management account can make this request. See also: AWS API Documentation list-member-accounts is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query a...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -452,7 +452,7 @@ public class AwsFms : IAwsFms
     }
 
     /// <summary>
-    /// Returns an array of PolicySummary objects. See also: AWS API Documentation list-policies is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: PolicyList
+    /// Returns an array of PolicySummary objects. See also: AWS API Documentation list-policies is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: PolicyList
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -482,7 +482,7 @@ public class AwsFms : IAwsFms
     }
 
     /// <summary>
-    /// Returns an array of resources that are currently associated to a re- source set. See also: AWS API Documentation
+    /// Returns an array of resources that are currently associated to a resource set. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -512,7 +512,7 @@ public class AwsFms : IAwsFms
     }
 
     /// <summary>
-    /// Retrieves the list of tags for the specified Amazon Web Services re- source. See also: AWS API Documentation
+    /// Retrieves the list of tags for the specified Amazon Web Services resource. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -527,7 +527,7 @@ public class AwsFms : IAwsFms
     }
 
     /// <summary>
-    /// Retrieves a list of all of the third-party firewall policies that are associated with the third-party firewall administrator's account. See also: AWS API Documentation list-third-party-firewall-firewall-policies is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-pagi- nate argument. When using --output text and the --query argument on a paginated response, the --query argument must extra...
+    /// Retrieves a list of all of the third-party firewall policies that are associated with the third-party firewall administrator's account. See also: AWS API Documentation list-third-party-firewall-firewall-policies is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -542,7 +542,7 @@ public class AwsFms : IAwsFms
     }
 
     /// <summary>
-    /// Creates or updates an Firewall Manager administrator account. The ac- count must be a member of the organization that was onboarded to Fire- wall Manager by AssociateAdminAccount . Only the organization's man- agement account can create an Firewall Manager administrator account. When you create an Firewall Manager administrator account, the service checks to see if the account is already a delegated administrator within Organizations. If the account isn't a delegated administrator, Firewall Mana...
+    /// Creates or updates an Firewall Manager administrator account. The account must be a member of the organization that was onboarded to Firewall Manager by AssociateAdminAccount . Only the organization's management account can create an Firewall Manager administrator account. When you create an Firewall Manager administrator account, the service checks to see if the account is already a delegated administrator within Organizations. If the account isn't a delegated administrator, Firewall Manager ca...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -572,7 +572,7 @@ public class AwsFms : IAwsFms
     }
 
     /// <summary>
-    /// Designates the IAM role and Amazon Simple Notification Service (SNS) topic that Firewall Manager uses to record SNS logs. To perform this action outside of the console, you must first configure the SNS topic's access policy to allow the SnsRoleName to publish SNS logs. If the SnsRoleName provided is a role other than the AWSSer- viceRoleForFMS service-linked role, this role must have a trust rela- tionship configured to allow the Firewall Manager service principal fms.amazonaws.com to assume thi...
+    /// Designates the IAM role and Amazon Simple Notification Service (SNS) topic that Firewall Manager uses to record SNS logs. To perform this action outside of the console, you must first configure the SNS topic's access policy to allow the SnsRoleName to publish SNS logs. If the SnsRoleName provided is a role other than the AWSServiceRoleForFMS service-linked role, this role must have a trust relationship configured to allow the Firewall Manager service principal fms.amazonaws.com to assume this ro...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -587,7 +587,7 @@ public class AwsFms : IAwsFms
     }
 
     /// <summary>
-    /// Creates an Firewall Manager policy. A Firewall Manager policy is specific to the individual policy type. If you want to enforce multiple policy types across accounts, you can cre- ate multiple policies. You can create more than one policy for each type. If you add a new account to an organization that you created with Orga- nizations, Firewall Manager automatically applies the policy to the re- sources in that account that are within scope of the policy. Firewall Manager provides the following t...
+    /// Creates an Firewall Manager policy. A Firewall Manager policy is specific to the individual policy type. If you want to enforce multiple policy types across accounts, you can create multiple policies. You can create more than one policy for each type. If you add a new account to an organization that you created with Organizations, Firewall Manager automatically applies the policy to the resources in that account that are within scope of the policy. Firewall Manager provides the following types o...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

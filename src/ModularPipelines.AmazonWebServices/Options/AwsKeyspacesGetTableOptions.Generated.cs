@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns information about the table, including the table's name and current status, the keyspace name, configuration settings, and meta- data. To read table metadata using GetTable , the IAM principal needs Select action permissions for the table and the system keyspace. See also: AWS API Documentation
+/// Returns information about the table, including the table's name and current status, the keyspace name, configuration settings, and metadata. To read table metadata using GetTable , the IAM principal needs Select action permissions for the table and the system keyspace. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsKeyspacesGetTableOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns information about the table, including the table's name and current status, the keyspace name, configuration settings, and meta- data. To read table metadata using GetTable , the IAM principal needs Select action permissions for the table and the system keyspace. See also: AWS API Documentation
+    /// Returns information about the table, including the table's name and current status, the keyspace name, configuration settings, and metadata. To read table metadata using GetTable , the IAM principal needs Select action permissions for the table and the system keyspace. See also: AWS API Documentation
     /// </summary>
-    /// <param name="KeyspaceName">The name of the keyspace that the table is stored in. Constraints: o min: 1 o max: 48 o pattern: [a-zA-Z0-9][a-zA-Z0-9_]{0,47}</param>
-    /// <param name="TableName">The name of the table. Constraints: o min: 1 o max: 48 o pattern: [a-zA-Z0-9][a-zA-Z0-9_]{0,47}</param>
+    /// <param name="KeyspaceName">The name of the keyspace that the table is stored in. Constraints: • min: 1 • max: 48 • pattern: [a-zA-Z0-9][a-zA-Z0-9_]{0,47}</param>
+    /// <param name="TableName">The name of the table. Constraints: • min: 1 • max: 48 • pattern: [a-zA-Z0-9][a-zA-Z0-9_]{0,47}</param>
     public AwsKeyspacesGetTableOptions(
         string KeyspaceName,
         string TableName
@@ -60,13 +61,13 @@ public record AwsKeyspacesGetTableOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the keyspace that the table is stored in. Constraints: o min: 1 o max: 48 o pattern: [a-zA-Z0-9][a-zA-Z0-9_]{0,47}
+    /// The name of the keyspace that the table is stored in. Constraints: • min: 1 • max: 48 • pattern: [a-zA-Z0-9][a-zA-Z0-9_]{0,47}
     /// </summary>
     [CliOption("--keyspace-name")]
     public string? KeyspaceName { get; private init; }
 
     /// <summary>
-    /// The name of the table. Constraints: o min: 1 o max: 48 o pattern: [a-zA-Z0-9][a-zA-Z0-9_]{0,47}
+    /// The name of the table. Constraints: • min: 1 • max: 48 • pattern: [a-zA-Z0-9][a-zA-Z0-9_]{0,47}
     /// </summary>
     [CliOption("--table-name")]
     public string? TableName { get; private init; }
@@ -92,6 +93,15 @@ public record AwsKeyspacesGetTableOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

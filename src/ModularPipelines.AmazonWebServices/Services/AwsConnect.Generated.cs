@@ -6,8 +6,8 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
+using ModularPipelines;
 using ModularPipelines.Context;
-using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
@@ -32,7 +32,7 @@ public class AwsConnect : IAwsConnect
     #region Commands
 
     /// <summary>
-    /// Activates an evaluation form in the specified Connect Customer in- stance. After the evaluation form is activated, it is available to start new evaluations based on the form. See also: AWS API Documentation
+    /// Activates an evaluation form in the specified Connect Customer instance. After the evaluation form is activated, it is available to start new evaluations based on the form. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -92,7 +92,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// Associates a queued contact with an agent. Use cases Following are common uses cases for this API: o Programmatically assign queued contacts to available users. o Leverage the IAM context key connect:PreferredUserArn to restrict contact association to specific preferred user. Important things to know o Use this API with chat, email, task, and voice contacts. For voice callbacks, this API does not support customer-first mode. o This API can be used to offer a contact to an agent even if the agent...
+    /// Associates a queued contact with an agent. Use cases Following are common uses cases for this API: • Programmatically assign queued contacts to available users. • Leverage the IAM context key connect:PreferredUserArn to restrict contact association to specific preferred user. Important things to know • Use this API with chat, email, task, and voice contacts. For voice callbacks, this API does not support customer-first mode. • This API can be used to offer a contact to an agent even if the agent...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -107,7 +107,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// Associates an existing vocabulary as the default. Contact Lens for Con- nect Customer uses the vocabulary in post-call and real-time analysis sessions for the given language. See also: AWS API Documentation
+    /// Associates an existing vocabulary as the default. Contact Lens for Connect Customer uses the vocabulary in post-call and real-time analysis sessions for the given language. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -122,7 +122,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// Associates an email address alias with an existing email address in an Connect Customer instance. This creates a forwarding relationship where emails sent to the alias email address are automatically forwarded to the primary email address. Use cases Following are common uses cases for this API: o Unified customer support : Create multiple entry points (for example, support@example.com, help@example.com, customercare@example.com) that all forward to a single agent queue for streamlined management...
+    /// Associates an email address alias with an existing email address in an Connect Customer instance. This creates a forwarding relationship where emails sent to the alias email address are automatically forwarded to the primary email address. Use cases Following are common uses cases for this API: • Unified customer support : Create multiple entry points (for example, support@example.com, help@example.com, customercare@example.com) that all forward to a single agent queue for streamlined management...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -152,7 +152,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// Associates a set of hours of operations with another hours of opera- tion. For more information about inheriting overrides from parent hours of operation, see Hours of operation overrides in the Administrator Guide. See also: AWS API Documentation
+    /// Associates a set of hours of operations with another hours of operation. For more information about inheriting overrides from parent hours of operation, see Hours of operation overrides in the Administrator Guide. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -167,7 +167,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// This API is in preview release for Connect Customer and is subject to change. Associates a storage resource type for the first time. You can only as- sociate one type of storage configuration in a single call. This means, for example, that you can't define an instance with multiple S3 buckets for storing chat transcripts. This API does not create a resource that doesn't exist. It only asso- ciates it to the instance. Ensure that the resource being specified in the storage configuration, like an ...
+    /// This API is in preview release for Connect Customer and is subject to change. Associates a storage resource type for the first time. You can only associate one type of storage configuration in a single call. This means, for example, that you can't define an instance with multiple S3 buckets for storing chat transcripts. This API does not create a resource that doesn't exist. It only associates it to the instance. Ensure that the resource being specified in the storage configuration, like an S3 b...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -212,7 +212,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// Associates a flow with a phone number claimed to your Connect Customer instance. WARNING: If the number is claimed to a traffic distribution group, and you are calling this API using an instance in the Amazon Web Services Region where the traffic distribution group was created, you can use either a full phone number ARN or UUID value for the PhoneNumberId URI request parameter. However, if the number is claimed to a traf- fic distribution group and you are calling this API using an in- stance in...
+    /// Associates a flow with a phone number claimed to your Connect Customer instance. WARNING: If the number is claimed to a traffic distribution group, and you are calling this API using an instance in the Amazon Web Services Region where the traffic distribution group was created, you can use either a full phone number ARN or UUID value for the PhoneNumberId URI request parameter. However, if the number is claimed to a traffic distribution group and you are calling this API using an instance in the...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -227,7 +227,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// Associates a set of email addresses with a queue to enable agents to select different "From" (system) email addresses when replying to in- bound email contacts or initiating outbound email contacts. This allows agents to handle email contacts across different brands and business units within the same queue. Important things to know o You can associate up to 49 additional email addresses with a single queue, plus 1 default outbound email address, for a total of 50. o The email addresses must alre...
+    /// Associates a set of email addresses with a queue to enable agents to select different "From" (system) email addresses when replying to inbound email contacts or initiating outbound email contacts. This allows agents to handle email contacts across different brands and business units within the same queue. Important things to know • You can associate up to 49 additional email addresses with a single queue, plus 1 default outbound email address, for a total of 50. • The email addresses must alread...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -287,7 +287,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// Associate security profiles with an Entity in an Amazon Connect in- stance. See also: AWS API Documentation
+    /// Associate security profiles with an Entity in an Amazon Connect instance. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -302,7 +302,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// Associates an agent with a traffic distribution group. This API can be called only in the Region where the traffic distribution group is cre- ated. See also: AWS API Documentation
+    /// Associates an agent with a traffic distribution group. This API can be called only in the Region where the traffic distribution group is created. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -332,7 +332,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// Associates a workspace with one or more users or routing profiles, al- lowing them to access the workspace's configured views and pages. See also: AWS API Documentation
+    /// Associates a workspace with one or more users or routing profiles, allowing them to access the workspace's configured views and pages. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -362,7 +362,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// Creates values for attributes in a data table. The value may be a de- fault or it may be associated with a primary value. The value must pass all customer defined validation as well as the default validation for the value type. The operation must conform to Batch Operation API Stan- dards. Although the standard specifies that successful and failed enti- ties are listed separately in the response, authorization fails if any primary values or attributes are unauthorized. The combination of pri- ma...
+    /// Creates values for attributes in a data table. The value may be a default or it may be associated with a primary value. The value must pass all customer defined validation as well as the default validation for the value type. The operation must conform to Batch Operation API Standards. Although the standard specifies that successful and failed entities are listed separately in the response, authorization fails if any primary values or attributes are unauthorized. The combination of primary value...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -377,7 +377,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// Deletes multiple values from a data table. API users may delete values at any time. When deletion is requested from the admin website, a warn- ing is shown alerting the user of the most recent time the attribute and its values were accessed. System managed values are not deletable by customers. See also: AWS API Documentation
+    /// Deletes multiple values from a data table. API users may delete values at any time. When deletion is requested from the admin website, a warning is shown alerting the user of the most recent time the attribute and its values were accessed. System managed values are not deletable by customers. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -392,7 +392,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// Retrieves multiple values from a data table without evaluating expres- sions. Returns the raw stored values along with metadata such as lock versions and modification timestamps. "Describe" is a deprecated term but is allowed to maintain consistency with existing operations. See also: AWS API Documentation
+    /// Retrieves multiple values from a data table without evaluating expressions. Returns the raw stored values along with metadata such as lock versions and modification timestamps. "Describe" is a deprecated term but is allowed to maintain consistency with existing operations. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -422,7 +422,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// Allows you to retrieve metadata about multiple attached files on an as- sociated resource. Each attached file provided in the input list must be associated with the input AssociatedResourceArn. See also: AWS API Documentation
+    /// Allows you to retrieve metadata about multiple attached files on an associated resource. Each attached file provided in the input list must be associated with the input AssociatedResourceArn. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -452,7 +452,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// NOTE: Only the Connect Customer outbound campaigns service principal is allowed to assume a role in your account and call this API. Allows you to create a batch of contacts in Connect Customer. The out- bound campaigns capability ingests dial requests via the PutDialRequestBatch API. It then uses BatchPutContact to create con- tacts corresponding to those dial requests. If agents are available, the dial requests are dialed out, which results in a voice call. The resulting voice call uses the sam...
+    /// NOTE: Only the Connect Customer outbound campaigns service principal is allowed to assume a role in your account and call this API. Allows you to create a batch of contacts in Connect Customer. The outbound campaigns capability ingests dial requests via the PutDialRequestBatch API. It then uses BatchPutContact to create contacts corresponding to those dial requests. If agents are available, the dial requests are dialed out, which results in a voice call. The resulting voice call uses the same co...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -467,7 +467,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// Updates multiple data table values using all properties from BatchCre- ateDataTableValue. System managed values are not modifiable by cus- tomers. The operation requires proper lock versions to prevent concur- rent modification conflicts. See also: AWS API Documentation
+    /// Updates multiple data table values using all properties from BatchCreateDataTableValue. System managed values are not modifiable by customers. The operation requires proper lock versions to prevent concurrent modification conflicts. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -482,7 +482,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// Claims an available phone number to your Connect Customer instance or traffic distribution group. You can call this API only in the same Ama- zon Web Services Region where the Connect Customer instance or traffic distribution group was created. For more information about how to use this operation, see Claim a phone number in your country and Claim phone numbers to traffic distribution groups in the Connect Customer Administrator Guide . WARNING: You can call the SearchAvailablePhoneNumbers API f...
+    /// Claims an available phone number to your Connect Customer instance or traffic distribution group. You can call this API only in the same Amazon Web Services Region where the Connect Customer instance or traffic distribution group was created. For more information about how to use this operation, see Claim a phone number in your country and Claim phone numbers to traffic distribution groups in the Connect Customer Administrator Guide . WARNING: You can call the SearchAvailablePhoneNumbers API for...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -527,7 +527,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// Creates an attached file for a completed voice contact by copying a recording from a source S3 URI into Connect Customer managed storage. Use this API to attach voice recordings to contacts for downstream pro- cessing such as conversational analytics. WARNING: The AssociatedResourceArn must be the ARN of a completed voice con- tact, FileUseCaseType must be set to VOICE_RECORDING , and File- SourceUri must be a valid S3 URI. NOTE: For example, you can call CreateContact , then CreateAttachedFile ...
+    /// Creates an attached file for a completed voice contact by copying a recording from a source S3 URI into Connect Customer managed storage. Use this API to attach voice recordings to contacts for downstream processing such as conversational analytics. WARNING: The AssociatedResourceArn must be the ARN of a completed voice contact, FileUseCaseType must be set to VOICE_RECORDING , and FileSourceUri must be a valid S3 URI. NOTE: For example, you can call CreateContact , then CreateAttachedFile , then...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -542,7 +542,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// Creates an authorization code for the specified Connect Customer in- stance. The authorization code can be used to establish a session with scoped permissions defined by the specified scope parameters. See also: AWS API Documentation
+    /// Creates an authorization code for the specified Connect Customer instance. The authorization code can be used to establish a session with scoped permissions defined by the specified scope parameters. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -550,6 +550,21 @@ public class AwsConnect : IAwsConnect
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateAuthCodeAsync(
         AwsConnectCreateAuthCodeOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Creates a named alias that points to a specific version of a flow. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> CreateContactFlowAliasAsync(
+        AwsConnectCreateContactFlowAliasOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
@@ -617,7 +632,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// Publishes a new version of the flow provided. Versions are immutable and monotonically increasing. If the FlowContentSha256 provided is dif- ferent from the FlowContentSha256 of the $LATEST published flow con- tent, then an error is returned. This API only supports creating ver- sions for flows of type Campaign . See also: AWS API Documentation
+    /// Publishes a new version of the flow provided. Versions are immutable and monotonically increasing. If the FlowContentSha256 provided is different from the FlowContentSha256 of the $LATEST published flow content, then an error is returned. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -632,7 +647,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// WARNING: Only the VOICE, EMAIL, and TASK channels are supported. o For VOICE: The supported initiation method is TRANSFER . The con- tacts created with this initiation method have a subtype con- nect:ExternalAudio . o For EMAIL: The supported initiation methods are OUTBOUND , AGENT_REPLY , and FLOW . o For TASK: The supported initiation method is API . Contacts cre- ated with this API have a sub-type of connect:ExternalTask . Creates a new VOICE, EMAIL, or TASK contact. After a contact is create...
+    /// WARNING: Only the VOICE, EMAIL, and TASK channels are supported. • For VOICE: The supported initiation method is TRANSFER . The contacts created with this initiation method have a subtype connect:ExternalAudio . • For EMAIL: The supported initiation methods are OUTBOUND , AGENT_REPLY , and FLOW . • For TASK: The supported initiation method is API . Contacts created with this API have a sub-type of connect:ExternalTask . Creates a new VOICE, EMAIL, or TASK contact. After a contact is created, you...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -647,7 +662,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// Adds an attribute to an existing data table. Creating a new primary at- tribute uses the empty value for the specified value type for all ex- isting records. This should not affect uniqueness of published data ta- bles since the existing primary values will already be unique. Creating attributes does not create any values. System managed tables may not allow customers to create new attributes. See also: AWS API Documentation
+    /// Adds an attribute to an existing data table. Creating a new primary attribute uses the empty value for the specified value type for all existing records. This should not affect uniqueness of published data tables since the existing primary values will already be unique. Creating attributes does not create any values. System managed tables may not allow customers to create new attributes. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -707,7 +722,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// Creates an extraction definition in the specified Connect Customer in- stance. An extraction definition specifies how structured data is ex- tracted from customer interactions using generative AI, including the prompt hint that guides extraction and the behavior when a value cannot be found. See also: AWS API Documentation
+    /// Creates an extraction definition in the specified Connect Customer instance. An extraction definition specifies how structured data is extracted from customer interactions using generative AI, including the prompt hint that guides extraction and the behavior when a value cannot be found. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -782,7 +797,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// Creates a new metric definition for the specified Connect Customer in- stance. You can create custom metrics that use formulas referencing ex- isting Amazon Web Services-managed metrics, optionally with filters ap- plied. See also: AWS API Documentation
+    /// Creates a new metric definition for the specified Connect Customer instance. You can create custom metrics that use formulas referencing existing Amazon Web Services-managed metrics, optionally with filters applied. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -797,7 +812,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// Creates a new notification to be delivered to specified recipients. No- tifications can include localized content with links, and an optional expiration time. Recipients can be specified as individual user ARNs or instance ARNs to target all users in an instance. See also: AWS API Documentation
+    /// Creates a new notification to be delivered to specified recipients. Notifications can include localized content with links, and an optional expiration time. Recipients can be specified as individual user ARNs or instance ARNs to target all users in an instance. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -812,7 +827,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// Adds a new participant into an on-going chat contact or webRTC call. For more information, see Customize chat flow experiences by integrat- ing custom participants or Enable multi-user web, in-app, and video calling . See also: AWS API Documentation
+    /// Adds a new participant into an on-going chat contact or webRTC call. For more information, see Customize chat flow experiences by integrating custom participants or Enable multi-user web, in-app, and video calling . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -842,7 +857,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// Creates a new predefined attribute for the specified Connect Customer instance. A predefined attribute is made up of a name and a value. For the predefined attributes per instance quota, see Connect Customer quotas . Use cases Following are common uses cases for this API: o Create an attribute for routing proficiency (for example, agent cer- tification) that has predefined values (for example, a list of possi- ble certifications). For more information, see Create predefined at- tributes for rout...
+    /// Creates a new predefined attribute for the specified Connect Customer instance. A predefined attribute is made up of a name and a value. For the predefined attributes per instance quota, see Connect Customer quotas . Use cases Following are common uses cases for this API: • Create an attribute for routing proficiency (for example, agent certification) that has predefined values (for example, a list of possible certifications). For more information, see Create predefined attributes for routing co...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -857,7 +872,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// Creates a prompt. For more information about prompts, such as supported file types and maximum length, see Create prompts in the Connect Cus- tomer Administrator Guide . See also: AWS API Documentation
+    /// Creates a prompt. For more information about prompts, such as supported file types and maximum length, see Create prompts in the Connect Customer Administrator Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -872,7 +887,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// Creates registration for a device token and a chat contact to receive real-time push notifications. For more information about push notifica- tions, see Set up push notifications in Connect Customer for mobile chat in the Connect Customer Administrator Guide . See also: AWS API Documentation
+    /// Creates registration for a device token and a chat contact to receive real-time push notifications. For more information about push notifications, see Set up push notifications in Connect Customer for mobile chat in the Connect Customer Administrator Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -887,7 +902,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// Creates a new queue for the specified Connect Customer instance. WARNING: o If the phone number is claimed to a traffic distribution group that was created in the same Region as the Connect Customer in- stance where you are calling this API, then you can use a full phone number ARN or a UUID for OutboundCallerIdNumberId . However, if the phone number is claimed to a traffic distribution group that is in one Region, and you are calling this API from an in- stance in another Amazon Web Services Re...
+    /// Creates a new queue for the specified Connect Customer instance. WARNING: • If the phone number is claimed to a traffic distribution group that was created in the same Region as the Connect Customer instance where you are calling this API, then you can use a full phone number ARN or a UUID for OutboundCallerIdNumberId . However, if the phone number is claimed to a traffic distribution group that is in one Region, and you are calling this API from an instance in another Amazon Web Services Region...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -992,7 +1007,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// Creates a traffic distribution group given an Connect Customer instance that has been replicated. NOTE: The SignInConfig distribution is available only on a default Traf- ficDistributionGroup (see the IsDefault parameter in the TrafficDistributionGroup data type). If you call UpdateTrafficDis- tribution with a modified SignInConfig and a non-default TrafficDis- tributionGroup , an InvalidRequestException is returned. For more information about creating traffic distribution groups, see Set up tra...
+    /// Creates a traffic distribution group given an Connect Customer instance that has been replicated. NOTE: The SignInConfig distribution is available only on a default TrafficDistributionGroup (see the IsDefault parameter in the TrafficDistributionGroup data type). If you call UpdateTrafficDistribution with a modified SignInConfig and a non-default TrafficDistributionGroup , an InvalidRequestException is returned. For more information about creating traffic distribution groups, see Set up traffic d...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1037,7 +1052,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// Creates a user account for the specified Connect Customer instance. WARNING: Certain UserIdentityInfo parameters are required in some situations. For example, Email , FirstName and LastName are required if you are using Connect Customer or SAML for identity management. NOTE: Fields in PhoneConfig cannot be set simultaneously with their corre- sponding channel-specific configuration parameters. Specifically: o PhoneConfig.AutoAccept conflicts with AutoAcceptConfigs o PhoneConfig.AfterContactWorkT...
+    /// Creates a user account for the specified Connect Customer instance. WARNING: Certain UserIdentityInfo parameters are required in some situations. For example, Email , FirstName and LastName are required if you are using Connect Customer or SAML for identity management. NOTE: Fields in PhoneConfig cannot be set simultaneously with their corresponding channel-specific configuration parameters. Specifically: • PhoneConfig.AutoAccept conflicts with AutoAcceptConfigs • PhoneConfig.AfterContactWorkTim...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1052,7 +1067,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// Creates a new view with the possible status of SAVED or PUBLISHED . The views will have a unique name for each connect instance. It performs basic content validation if the status is SAVED or full content validation if the status is set to PUBLISHED . An error is re- turned if validation fails. It associates either the $SAVED qualifier or both of the $SAVED and $LATEST qualifiers with the provided view content based on the status. The view is idempotent if ClientToken is provided. See also: AWS ...
+    /// Creates a new view with the possible status of SAVED or PUBLISHED . The views will have a unique name for each connect instance. It performs basic content validation if the status is SAVED or full content validation if the status is set to PUBLISHED . An error is returned if validation fails. It associates either the $SAVED qualifier or both of the $SAVED and $LATEST qualifiers with the provided view content based on the status. The view is idempotent if ClientToken is provided. See also: AWS AP...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1067,7 +1082,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// Publishes a new version of the view identifier. Versions are immutable and monotonically increasing. It returns the highest version if there is no change in content com- pared to that version. An error is displayed if the supplied ViewCon- tentSha256 is different from the ViewContentSha256 of the $LATEST alias. See also: AWS API Documentation
+    /// Publishes a new version of the view identifier. Versions are immutable and monotonically increasing. It returns the highest version if there is no change in content compared to that version. An error is displayed if the supplied ViewContentSha256 is different from the ViewContentSha256 of the $LATEST alias. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1082,7 +1097,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// Creates a custom vocabulary associated with your Connect Customer in- stance. You can set a custom vocabulary to be your default vocabulary for a given language. Contact Lens for Connect Customer uses the de- fault vocabulary in post-call and real-time contact analysis sessions for that language. See also: AWS API Documentation
+    /// Creates a custom vocabulary associated with your Connect Customer instance. You can set a custom vocabulary to be your default vocabulary for a given language. Contact Lens for Connect Customer uses the default vocabulary in post-call and real-time contact analysis sessions for that language. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1127,7 +1142,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// Deactivates an evaluation form in the specified Connect Customer in- stance. After a form is deactivated, it is no longer available for users to start new evaluations based on the form. See also: AWS API Documentation
+    /// Deactivates an evaluation form in the specified Connect Customer instance. After a form is deactivated, it is no longer available for users to start new evaluations based on the form. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1157,7 +1172,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// Deletes the specified fields containing personally identifiable infor- mation (PII) from a contact in the specified Connect Customer instance. We redact PII (such as customer endpoints, additional email recipients, and the email subject) from the contact and its associated contact trace record (CTR). The contact must be in a terminated state. WARNING: This deletion is permanent and cannot be undone. Performing this op- eration permanently deletes the specified PII. There is no retention period; ...
+    /// Deletes the specified fields containing personally identifiable information (PII) from a contact in the specified Connect Customer instance. We redact PII (such as customer endpoints, additional email recipients, and the email subject) from the contact and its associated contact trace record (CTR). The contact must be in a terminated state. WARNING: This deletion is permanent and cannot be undone. Performing this operation permanently deletes the specified PII. There is no retention period; you ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1172,7 +1187,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// Deletes a contact evaluation in the specified Connect Customer in- stance. See also: AWS API Documentation
+    /// Deletes a contact evaluation in the specified Connect Customer instance. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1187,7 +1202,22 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// Removes an alias reference, breaking the named connection to the under- lying module version without affecting the version itself. See also: AWS API Documentation
+    /// Deletes an alias from a flow without deleting the version that the alias points to. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> DeleteContactFlowAliasAsync(
+        AwsConnectDeleteContactFlowAliasOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Removes an alias reference, breaking the named connection to the underlying module version without affecting the version itself. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1277,7 +1307,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// Deletes a data table and all associated attributes, versions, audits, and values. Does not update any references to the data table, even from other data tables. This includes dynamic values and conditional valida- tions. System managed data tables are not deletable by customers. API users may delete the table at any time. When deletion is requested from the admin website, a warning is shown alerting the user of the most re- cent time the table and its values were accessed. See also: AWS API Docu...
+    /// Deletes a data table and all associated attributes, versions, audits, and values. Does not update any references to the data table, even from other data tables. This includes dynamic values and conditional validations. System managed data tables are not deletable by customers. API users may delete the table at any time. When deletion is requested from the admin website, a warning is shown alerting the user of the most recent time the table and its values were accessed. See also: AWS API Document...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1307,7 +1337,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// Deletes an evaluation form in the specified Connect Customer instance. o If the version property is provided, only the specified version of the evaluation form is deleted. o If no version is provided, then the full form (all versions) is deleted. See also: AWS API Documentation
+    /// Deletes an evaluation form in the specified Connect Customer instance. • If the version property is provided, only the specified version of the evaluation form is deleted. • If no version is provided, then the full form (all versions) is deleted. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1382,7 +1412,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// Deletes an Amazon Web Services resource association from an Connect Customer instance. The association must not have any use cases associ- ated with it. See also: AWS API Documentation
+    /// Deletes an Amazon Web Services resource association from an Connect Customer instance. The association must not have any use cases associated with it. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1397,7 +1427,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// Deletes an existing metric from the specified Connect Customer in- stance. This operation fails with ResourceConflictException if the met- ric is currently in use in a dashboard. See also: AWS API Documentation
+    /// Deletes an existing metric from the specified Connect Customer instance. This operation fails with ResourceConflictException if the metric is currently in use in a dashboard. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1427,7 +1457,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// Deletes a predefined attribute from the specified Connect Customer in- stance. See also: AWS API Documentation
+    /// Deletes a predefined attribute from the specified Connect Customer instance. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1487,7 +1517,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// Deletes a quick connect. WARNING: After calling DeleteUser , it's important to call DeleteQuickConnect to delete any records related to the deleted users. This will help you: o Avoid dangling resources that impact your service quotas. o Remove deleted users so they don't appear to agents as transfer options. o Avoid the disruption of other Connect Customer processes, such as instance replication and syncing if you're using Connect Customer Global Resiliency . See also: AWS API Documentation
+    /// Deletes a quick connect. WARNING: After calling DeleteUser , it's important to call DeleteQuickConnect to delete any records related to the deleted users. This will help you: • Avoid dangling resources that impact your service quotas. • Remove deleted users so they don't appear to agents as transfer options. • Avoid the disruption of other Connect Customer processes, such as instance replication and syncing if you're using Connect Customer Global Resiliency . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1592,7 +1622,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// Deletes a traffic distribution group. This API can be called only in the Region where the traffic distribution group is created. For more information about deleting traffic distribution groups, see Delete traffic distribution groups in the Connect Customer Administra- tor Guide . See also: AWS API Documentation
+    /// Deletes a traffic distribution group. This API can be called only in the Region where the traffic distribution group is created. For more information about deleting traffic distribution groups, see Delete traffic distribution groups in the Connect Customer Administrator Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1637,7 +1667,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// Deletes a user account from the specified Connect Customer instance. For information about what happens to a user's data when their account is deleted, see Delete Users from Your Connect Customer Instance in the Connect Customer Administrator Guide . WARNING: After calling DeleteUser, call DeleteQuickConnect to delete any records related to the deleted users. This will help you: o Avoid dangling resources that impact your service quotas. o Remove deleted users so they don't appear to agents as t...
+    /// Deletes a user account from the specified Connect Customer instance. For information about what happens to a user's data when their account is deleted, see Delete Users from Your Connect Customer Instance in the Connect Customer Administrator Guide . WARNING: After calling DeleteUser, call DeleteQuickConnect to delete any records related to the deleted users. This will help you: • Avoid dangling resources that impact your service quotas. • Remove deleted users so they don't appear to agents as t...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1652,7 +1682,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// Deletes the view entirely. It deletes the view and all associated qual- ifiers (versions and aliases). See also: AWS API Documentation
+    /// Deletes the view entirely. It deletes the view and all associated qualifiers (versions and aliases). See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1712,7 +1742,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// Deletes a workspace and removes all associated view and resource as- signments. See also: AWS API Documentation
+    /// Deletes a workspace and removes all associated view and resource assignments. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1757,7 +1787,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// Describes the attached files configuration for the specified Connect Customer instance and attachment scope. If a custom configuration exists for the specified attachment scope, the custom configuration is returned. If no custom configuration ex- ists, the default configuration values for that attachment scope are returned. See also: AWS API Documentation
+    /// Describes the attached files configuration for the specified Connect Customer instance and attachment scope. If a custom configuration exists for the specified attachment scope, the custom configuration is returned. If no custom configuration exists, the default configuration values for that attachment scope are returned. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1772,7 +1802,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// This API is in preview release for Connect Customer and is subject to change. To request access to this API, contact Amazon Web Services Sup- port. Describes the target authentication profile. See also: AWS API Documentation
+    /// This API is in preview release for Connect Customer and is subject to change. To request access to this API, contact Amazon Web Services Support. Describes the target authentication profile. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1787,7 +1817,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// Describes a contact evaluation in the specified Connect Customer in- stance. See also: AWS API Documentation
+    /// Describes a contact evaluation in the specified Connect Customer instance. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1795,6 +1825,21 @@ public class AwsConnect : IAwsConnect
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DescribeContactEvaluationAsync(
         AwsConnectDescribeContactEvaluationOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Returns information about a specific flow alias, including the version that it points to. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> DescribeContactFlowAliasAsync(
+        AwsConnectDescribeContactFlowAliasOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
@@ -1847,7 +1892,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// This API is in preview release for Connect Customer and is subject to change. Describes the specified contact. Use cases Following are common uses cases for this API: o Retrieve contact information such as the caller's phone number and the specific number the caller dialed to integrate into custom moni- toring or custom agent experience solutions. o Detect when a customer chat session disconnects due to a network is- sue on the agent's end. Use the DisconnectReason field in the ContactTraceRecor...
+    /// This API is in preview release for Connect Customer and is subject to change. Describes the specified contact. Use cases Following are common uses cases for this API: • Retrieve contact information such as the caller's phone number and the specific number the caller dialed to integrate into custom monitoring or custom agent experience solutions. • Detect when a customer chat session disconnects due to a network issue on the agent's end. Use the DisconnectReason field in the ContactTraceRecord to...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1862,7 +1907,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// Returns detailed information for a specific data table attribute in- cluding its configuration, validation rules, and metadata. "Describe" is a deprecated term but is allowed to maintain consistency with exist- ing operations. See also: AWS API Documentation
+    /// Returns detailed information for a specific data table attribute including its configuration, validation rules, and metadata. "Describe" is a deprecated term but is allowed to maintain consistency with existing operations. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1877,7 +1922,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// Returns all properties for a data table except for attributes and val- ues. All properties from CreateDataTable are returned as well as prop- erties for region replication, versioning, and system tables. "De- scribe" is a deprecated term but is allowed to maintain consistency with existing operations. See also: AWS API Documentation
+    /// Returns all properties for a data table except for attributes and values. All properties from CreateDataTable are returned as well as properties for region replication, versioning, and system tables. "Describe" is a deprecated term but is allowed to maintain consistency with existing operations. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1907,7 +1952,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// Describes an evaluation form in the specified Connect Customer in- stance. If the version property is not provided, the latest version of the evaluation form is described. See also: AWS API Documentation
+    /// Describes an evaluation form in the specified Connect Customer instance. If the version property is not provided, the latest version of the evaluation form is described. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1982,7 +2027,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// This API is in preview release for Connect Customer and is subject to change. Returns the current state of the specified instance identifier. It tracks the instance while it is being created and returns an error sta- tus, if applicable. If an instance is not created successfully, the instance status reason field returns details relevant to the reason. The instance in a failed state is returned only for 24 hours after the CreateInstance API was invoked. See also: AWS API Documentation
+    /// This API is in preview release for Connect Customer and is subject to change. Returns the current state of the specified instance identifier. It tracks the instance while it is being created and returns an error status, if applicable. If an instance is not created successfully, the instance status reason field returns details relevant to the reason. The instance in a failed state is returned only for 24 hours after the CreateInstance API was invoked. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2042,7 +2087,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// Gets details and status of a phone number thats claimed to your Connect Customer instance or traffic distribution group. WARNING: If the number is claimed to a traffic distribution group, and you are calling in the Amazon Web Services Region where the traffic dis- tribution group was created, you can use either a phone number ARN or UUID value for the PhoneNumberId URI request parameter. However, if the number is claimed to a traffic distribution group and you are calling this API in the alterna...
+    /// Gets details and status of a phone number thats claimed to your Connect Customer instance or traffic distribution group. WARNING: If the number is claimed to a traffic distribution group, and you are calling in the Amazon Web Services Region where the traffic distribution group was created, you can use either a phone number ARN or UUID value for the PhoneNumberId URI request parameter. However, if the number is claimed to a traffic distribution group and you are calling this API in the alternate...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2057,7 +2102,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// Describes a predefined attribute for the specified Connect Customer in- stance. A predefined attribute is made up of a name and a value. You can use predefined attributes for: o Routing proficiency (for example, agent certification) that has pre- defined values (for example, a list of possible certifications). For more information, see Create predefined attributes for routing con- tacts to agents . o Contact information that varies between transfers or conferences, such as the name of the busine...
+    /// Describes a predefined attribute for the specified Connect Customer instance. A predefined attribute is made up of a name and a value. You can use predefined attributes for: • Routing proficiency (for example, agent certification) that has predefined values (for example, a list of possible certifications). For more information, see Create predefined attributes for routing contacts to agents . • Contact information that varies between transfers or conferences, such as the name of the business uni...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2117,7 +2162,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// Describes the specified routing profile. NOTE: DescribeRoutingProfile does not populate AssociatedQueueIds in its response. The example Response Syntax shown on this page is incor- rect; we are working to update it. SearchRoutingProfiles does in- clude AssociatedQueueIds. See also: AWS API Documentation
+    /// Describes the specified routing profile. NOTE: DescribeRoutingProfile does not populate AssociatedQueueIds in its response. The example Response Syntax shown on this page is incorrect; we are working to update it. SearchRoutingProfiles does include AssociatedQueueIds. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2207,7 +2252,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// Describes the hierarchy structure of the specified Connect Customer in- stance. See also: AWS API Documentation
+    /// Describes the hierarchy structure of the specified Connect Customer instance. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2222,7 +2267,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// Describes the specified user. You can find the instance ID in the Con- nect Customer console (its the final part of the ARN). The console does not display the user IDs. Instead, list the users and note the IDs pro- vided in the output. See also: AWS API Documentation
+    /// Describes the specified user. You can find the instance ID in the Connect Customer console (its the final part of the ARN). The console does not display the user IDs. Instead, list the users and note the IDs provided in the output. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2237,7 +2282,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// Retrieves the view for the specified Connect Customer instance and view identifier. The view identifier can be supplied as a ViewId or ARN. $SAVED needs to be supplied if a view is unpublished. The view identifier can contain an optional qualifier, for example, &lt;view-id&gt;:$SAVED , which is either an actual version number or an Con- nect Customer managed qualifier $SAVED | $LATEST . If it is not sup- plied, then $LATEST is assumed for customer managed views and an error is returned if there is no ...
+    /// Retrieves the view for the specified Connect Customer instance and view identifier. The view identifier can be supplied as a ViewId or ARN. $SAVED needs to be supplied if a view is unpublished. The view identifier can contain an optional qualifier, for example, &lt;view-id&gt;:$SAVED , which is either an actual version number or an Connect Customer managed qualifier $SAVED | $LATEST . If it is not supplied, then $LATEST is assumed for customer managed views and an error is returned if there is no publ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2282,7 +2327,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// Removes the dataset ID associated with a given Connect Customer in- stance. See also: AWS API Documentation
+    /// Removes the dataset ID associated with a given Connect Customer instance. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2312,7 +2357,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// This API is in preview release for Connect Customer and is subject to change. Revokes authorization from the specified instance to access the speci- fied Amazon Lex or Amazon Lex V2 bot. See also: AWS API Documentation
+    /// This API is in preview release for Connect Customer and is subject to change. Revokes authorization from the specified instance to access the specified Amazon Lex or Amazon Lex V2 bot. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2327,7 +2372,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// Removes the alias association between two email addresses in an Connect Customer instance. After disassociation, emails sent to the former alias email address are no longer forwarded to the primary email ad- dress. Both email addresses continue to exist independently and can re- ceive emails directly. Use cases Following are common uses cases for this API: o Department separation : Remove alias relationships when splitting a consolidated support queue back into separate department-specific queue...
+    /// Removes the alias association between two email addresses in an Connect Customer instance. After disassociation, emails sent to the former alias email address are no longer forwarded to the primary email address. Both email addresses continue to exist independently and can receive emails directly. Use cases Following are common uses cases for this API: • Department separation : Remove alias relationships when splitting a consolidated support queue back into separate department-specific queues. •...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2357,7 +2402,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// Disassociates a set of hours of operations with another hours of opera- tion. For more information about inheriting overrides from parent hours of operation, see Hours of operation overrides in the Administrator Guide. See also: AWS API Documentation
+    /// Disassociates a set of hours of operations with another hours of operation. For more information about inheriting overrides from parent hours of operation, see Hours of operation overrides in the Administrator Guide. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2402,7 +2447,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// This API is in preview release for Connect Customer and is subject to change. Revokes authorization from the specified instance to access the speci- fied Amazon Lex bot. See also: AWS API Documentation
+    /// This API is in preview release for Connect Customer and is subject to change. Revokes authorization from the specified instance to access the specified Amazon Lex bot. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2417,7 +2462,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// Removes the flow association from a phone number claimed to your Con- nect Customer instance. WARNING: If the number is claimed to a traffic distribution group, and you are calling this API using an instance in the Amazon Web Services Region where the traffic distribution group was created, you can use either a full phone number ARN or UUID value for the PhoneNumberId URI request parameter. However, if the number is claimed to a traf- fic distribution group and you are calling this API using an ...
+    /// Removes the flow association from a phone number claimed to your Connect Customer instance. WARNING: If the number is claimed to a traffic distribution group, and you are calling this API using an instance in the Amazon Web Services Region where the traffic distribution group was created, you can use either a full phone number ARN or UUID value for the PhoneNumberId URI request parameter. However, if the number is claimed to a traffic distribution group and you are calling this API using an inst...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2432,7 +2477,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// Removes the association between a set of email addresses and a queue. After disassociation, agents will no longer be able to select these email addresses as "From" addresses when replying to inbound email con- tacts or initiating outbound email contacts in this queue. Important things to know o Agents will no longer see these email addresses in their "From" ad- dress selection options for this queue. o The email addresses themselves are not deleted from the instance, only their availability for ...
+    /// Removes the association between a set of email addresses and a queue. After disassociation, agents will no longer be able to select these email addresses as "From" addresses when replying to inbound email contacts or initiating outbound email contacts in this queue. Important things to know • Agents will no longer see these email addresses in their "From" address selection options for this queue. • The email addresses themselves are not deleted from the instance, only their availability for agen...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2552,7 +2597,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// Dismisses contacts from an agents CCP and returns the agent to an available state, which allows the agent to receive a new routed con- tact. Contacts can only be dismissed if they are in a MISSED , ERROR , ENDED , or REJECTED state in the Agent Event Stream . See also: AWS API Documentation
+    /// Dismisses contacts from an agents CCP and returns the agent to an available state, which allows the agent to receive a new routed contact. Contacts can only be dismissed if they are in a MISSED , ERROR , ENDED , or REJECTED state in the Agent Event Stream . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2567,7 +2612,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// Evaluates values at the time of the request and returns them. It con- siders the request's timezone or the table's timezone, in that order, when accessing time based tables. When a value is accessed, the acces- sor's identity and the time of access are saved alongside the value to help identify values that are actively in use. The term "Batch" is not included in the operation name since it does not meet all the criteria for a batch operation as specified in Batch Operations: Amazon Web Ser- vice...
+    /// Evaluates values at the time of the request and returns them. It considers the request's timezone or the table's timezone, in that order, when accessing time based tables. When a value is accessed, the accessor's identity and the time of access are saved alongside the value to help identify values that are actively in use. The term "Batch" is not included in the operation name since it does not meet all the criteria for a batch operation as specified in Batch Operations: Amazon Web Services API ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2612,7 +2657,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// Retrieves contact metric data for a specified contact. Use cases Following are common use cases for position in queue and estimated wait time: o Customer-Facing Wait Time Announcements - Display or announce the es- timated wait time and position in queue to customers before or during their queue experience. o Callback Offerings - Offer customers a callback option when the esti- mated wait time or position in queue exceeds a defined threshold. o Queue Routing Decisions - Route incoming contacts t...
+    /// Retrieves contact metric data for a specified contact. Use cases Following are common use cases for position in queue and estimated wait time: • Customer-Facing Wait Time Announcements - Display or announce the estimated wait time and position in queue to customers before or during their queue experience. • Callback Offerings - Offer customers a callback option when the estimated wait time or position in queue exceeds a defined threshold. • Queue Routing Decisions - Route incoming contacts to le...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2627,7 +2672,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// Retrieves the current cross-region routing configuration for an Amazon Connect Global Resiliency instance enabled for global routing. This op- eration returns whether cross-region routing is currently enabled or disabled (isolated) for the instance. NOTE: This operation is available only for Amazon Connect Global Re- siliency instances enabled for global routing. See also: AWS API Documentation
+    /// Retrieves the current cross-region routing configuration for an Amazon Connect Global Resiliency instance enabled for global routing. This operation returns whether cross-region routing is currently enabled or disabled (isolated) for the instance. NOTE: This operation is available only for Amazon Connect Global Resiliency instances enabled for global routing. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2642,7 +2687,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// Gets the real-time metric data from the specified Connect Customer in- stance. For a description of each metric, see Metrics definitions in the Con- nect Customer Administrator Guide . NOTE: When you make a successful API request, you can expect the following metric values in the response: o Metric value is null : The calculation cannot be performed due to divide by zero or insufficient data o Metric value is a number (including 0) of defined type : The num- ber provided is the calculation resul...
+    /// Gets the real-time metric data from the specified Connect Customer instance. For a description of each metric, see Metrics definitions in the Connect Customer Administrator Guide . NOTE: When you make a successful API request, you can expect the following metric values in the response: • Metric value is null : The calculation cannot be performed due to divide by zero or insufficient data • Metric value is a number (including 0) of defined type : The number provided is the calculation result • Me...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2702,7 +2747,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// Supports SAML sign-in for Connect Customer. Retrieves a token for fed- eration. The token is for the Connect Customer user which corresponds to the IAM credentials that were used to invoke this action. For more information about how SAML sign-in works in Connect Customer, see `Configure SAML with IAM for Connect Customer in the *Connect Customer Administrator Guide* . &lt;https://docs.aws.amazon.com/connect/latest/adminguide/configure-saml.html &gt;`__ NOTE: This API doesn't support root users. If you...
+    /// Supports SAML sign-in for Connect Customer. Retrieves a token for federation. The token is for the Connect Customer user which corresponds to the IAM credentials that were used to invoke this action. For more information about how SAML sign-in works in Connect Customer, see `Configure SAML with IAM for Connect Customer in the *Connect Customer Administrator Guide* . &lt;https://docs.aws.amazon.com/connect/latest/adminguide/configure-saml.html &gt;`__ NOTE: This API doesn't support root users. If you t...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2732,7 +2777,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// Gets historical metric data from the specified Connect Customer in- stance. For a description of each historical metric, see Metrics definitions in the Connect Customer Administrator Guide . NOTE: We recommend using the GetMetricDataV2 API. It provides more flexi- bility, features, and the ability to query longer time ranges than GetMetricData . Use it to retrieve historical agent and contact met- rics for the last 3 months, at varying intervals. You can also use it to build custom dashboards to...
+    /// Gets historical metric data from the specified Connect Customer instance. For a description of each historical metric, see Metrics definitions in the Connect Customer Administrator Guide . NOTE: We recommend using the GetMetricDataV2 API. It provides more flexibility, features, and the ability to query longer time ranges than GetMetricData . Use it to retrieve historical agent and contact metrics for the last 3 months, at varying intervals. You can also use it to build custom dashboards to measu...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2747,7 +2792,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// Gets metric data from the specified Connect Customer instance. GetMetricDataV2 offers more features than GetMetricData , the previ- ous version of this API. It has new metrics, offers filtering at a metric level, and offers the ability to filter and group data by channels, queues, routing profiles, agents, and agent hierarchy lev- els. It can retrieve historical data for the last 3 months, at vary- ing intervals. It does not support agent queues. For a description of the historical metrics that ...
+    /// Gets metric data from the specified Connect Customer instance. GetMetricDataV2 offers more features than GetMetricData , the previous version of this API. It has new metrics, offers filtering at a metric level, and offers the ability to filter and group data by channels, queues, routing profiles, agents, and agent hierarchy levels. It can retrieve historical data for the last 3 months, at varying intervals. It does not support agent queues. For a description of the historical metrics that are su...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2807,7 +2852,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// Retrieves the current traffic distribution for a given traffic distrib- ution group. See also: AWS API Documentation
+    /// Retrieves the current traffic distribution for a given traffic distribution group. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2822,7 +2867,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// Imports a claimed phone number from an external service, such as Amazon Web Services End User Messaging, into an Connect Customer instance. You can call this API only in the same Amazon Web Services Region where the Connect Customer instance was created. WARNING: Call the DescribePhoneNumber API to verify the status of a previous ImportPhoneNumber operation. If you plan to claim or import numbers and then release numbers fre- quently, contact us for a service quota exception. Otherwise, it is po...
+    /// Imports a claimed phone number from an external service, such as Amazon Web Services End User Messaging, into an Connect Customer instance. You can call this API only in the same Amazon Web Services Region where the Connect Customer instance was created. WARNING: Call the DescribePhoneNumber API to verify the status of a previous ImportPhoneNumber operation. If you plan to claim or import numbers and then release numbers frequently, contact us for a service quota exception. Otherwise, it is poss...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2867,7 +2912,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// Lists the association status of requested dataset ID for a given Con- nect Customer instance. See also: AWS API Documentation
+    /// Lists the association status of requested dataset ID for a given Connect Customer instance. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2927,7 +2972,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// Provides summary information about the attached files configurations for the specified Connect Customer instance. This API returns effective configurations (custom overrides or de- faults) for each attachment scope. If no custom configuration exists for a scope, the default configuration values are returned. See also: AWS API Documentation list-attached-files-configurations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can d...
+    /// Provides summary information about the attached files configurations for the specified Connect Customer instance. This API returns effective configurations (custom overrides or defaults) for each attachment scope. If no custom configuration exists for a scope, the default configuration values are returned. See also: AWS API Documentation list-attached-files-configurations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disab...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2942,7 +2987,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// This API is in preview release for Connect Customer and is subject to change. To request access to this API, contact Amazon Web Services Sup- port. Provides summary information about the authentication profiles in a specified Connect Customer instance. See also: AWS API Documentation list-authentication-profiles is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. Wh...
+    /// This API is in preview release for Connect Customer and is subject to change. To request access to this API, contact Amazon Web Services Support. Provides summary information about the authentication profiles in a specified Connect Customer instance. See also: AWS API Documentation list-authentication-profiles is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When usi...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2957,7 +3002,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// This API is in preview release for Connect Customer and is subject to change. For the specified version of Amazon Lex, returns a paginated list of all the Amazon Lex bots currently associated with the instance. Use this API to return both Amazon Lex V1 and V2 bots. See also: AWS API Documentation list-bots is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagi- nation by providing the --no-paginate argument. When using...
+    /// This API is in preview release for Connect Customer and is subject to change. For the specified version of Amazon Lex, returns a paginated list of all the Amazon Lex bots currently associated with the instance. Use this API to return both Amazon Lex V1 and V2 bots. See also: AWS API Documentation list-bots is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using -...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2972,7 +3017,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// Provides information about the child hours of operations for the speci- fied parent hours of operation. For more information about child hours of operations, see Link over- rides from different hours of operation in the Administrator Guide . See also: AWS API Documentation list-child-hours-of-operations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using ...
+    /// Provides information about the child hours of operations for the specified parent hours of operation. For more information about child hours of operations, see Link overrides from different hours of operation in the Administrator Guide . See also: AWS API Documentation list-child-hours-of-operations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2987,7 +3032,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// Lists contact evaluations in the specified Connect Customer instance. See also: AWS API Documentation list-contact-evaluations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: EvaluationSummaryList
+    /// Lists contact evaluations in the specified Connect Customer instance. See also: AWS API Documentation list-contact-evaluations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: EvaluationSummaryList
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -3002,7 +3047,22 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// Lists all aliases associated with a contact flow module, showing their current version mappings and metadata. See also: AWS API Documentation list-contact-flow-module-aliases is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the fol...
+    /// Lists the aliases associated with a flow, including the version that each alias points to. See also: AWS API Documentation list-contact-flow-aliases is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Cont...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListContactFlowAliasesAsync(
+        AwsConnectListContactFlowAliasesOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Lists all aliases associated with a contact flow module, showing their current version mappings and metadata. See also: AWS API Documentation list-contact-flow-module-aliases is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the followi...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -3017,22 +3077,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// Provides information about the flow modules for the specified Connect Customer instance. See also: AWS API Documentation list-contact-flow-modules is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: Cont...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListContactFlowModulesAsync(
-        AwsConnectListContactFlowModulesOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
-    /// Retrieves a paginated list of all versions for a specific contact flow module. See also: AWS API Documentation list-contact-flow-module-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Cont...
+    /// Retrieves a paginated list of all versions for a specific contact flow module. See also: AWS API Documentation list-contact-flow-module-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: ContactF...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -3047,14 +3092,14 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// Provides information about the flows for the specified Connect Customer instance. You can also create and update flows using the Connect Customer Flow language . For more information about flows, see Flows in the Connect Customer Ad- ministrator Guide . See also: AWS API Documentation list-contact-flows is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --ou...
+    /// Provides information about the flow modules for the specified Connect Customer instance. See also: AWS API Documentation list-contact-flow-modules is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Contac...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListContactFlowsAsync(
-        AwsConnectListContactFlowsOptions options,
+    public virtual async Task<CommandResult> ListContactFlowModulesAsync(
+        AwsConnectListContactFlowModulesOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
@@ -3062,7 +3107,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// Returns all the available versions for the specified Connect Customer instance and flow identifier. See also: AWS API Documentation list-contact-flow-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expre...
+    /// Returns all the available versions for the specified Connect Customer instance and flow identifier. See also: AWS API Documentation list-contact-flow-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query express...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -3077,7 +3122,22 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// This API is in preview release for Connect Customer and is subject to change. For the specified referenceTypes , returns a list of references associ- ated with the contact. References are links to documents that are re- lated to a contact, such as emails, attachments, or URLs. See also: AWS API Documentation list-contact-references is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-pagin...
+    /// Provides information about the flows for the specified Connect Customer instance. You can also create and update flows using the Connect Customer Flow language . For more information about flows, see Flows in the Connect Customer Administrator Guide . See also: AWS API Documentation list-contact-flows is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --outp...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListContactFlowsAsync(
+        AwsConnectListContactFlowsOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// This API is in preview release for Connect Customer and is subject to change. For the specified referenceTypes , returns a list of references associated with the contact. References are links to documents that are related to a contact, such as emails, attachments, or URLs. See also: AWS API Documentation list-contact-references is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -3092,7 +3152,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// Returns all attributes for a specified data table. A maximum of 100 at- tributes per data table is allowed. Customers can request an increase by using Amazon Web Services Service Quotas. The response can be fil- tered by specific attribute IDs for CloudFormation integration. See also: AWS API Documentation list-data-table-attributes is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-pagi...
+    /// Returns all attributes for a specified data table. A maximum of 100 attributes per data table is allowed. Customers can request an increase by using Amazon Web Services Service Quotas. The response can be filtered by specific attribute IDs for CloudFormation integration. See also: AWS API Documentation list-data-table-attributes is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -3107,7 +3167,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// Lists all primary value combinations for a given data table. Returns the unique combinations of primary attribute values that identify records in the table. Up to 100 records are returned per request. See also: AWS API Documentation list-data-table-primary-values is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on...
+    /// Lists all primary value combinations for a given data table. Returns the unique combinations of primary attribute values that identify records in the table. Up to 100 records are returned per request. See also: AWS API Documentation list-data-table-primary-values is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a p...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -3115,21 +3175,6 @@ public class AwsConnect : IAwsConnect
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListDataTablePrimaryValuesAsync(
         AwsConnectListDataTablePrimaryValuesOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
-    /// Lists all data tables for the specified Amazon Connect instance. Re- turns summary information for each table including basic metadata and modification details. See also: AWS API Documentation list-data-tables is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract d...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListDataTablesAsync(
-        AwsConnectListDataTablesOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
@@ -3152,7 +3197,22 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// Lists the default vocabularies for the specified Connect Customer in- stance. See also: AWS API Documentation list-default-vocabularies is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: DefaultVocabula...
+    /// Lists all data tables for the specified Amazon Connect instance. Returns summary information for each table including basic metadata and modification details. See also: AWS API Documentation list-data-tables is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract dat...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListDataTablesAsync(
+        AwsConnectListDataTablesOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Lists the default vocabularies for the specified Connect Customer instance. See also: AWS API Documentation list-default-vocabularies is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: DefaultVocabularyLi...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -3167,7 +3227,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// Lists all security profiles attached to a Q in Connect AIAgent Entity in an Amazon Connect instance. See also: AWS API Documentation list-entity-security-profiles is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query...
+    /// Lists all security profiles attached to a Q in Connect AIAgent Entity in an Amazon Connect instance. See also: AWS API Documentation list-entity-security-profiles is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query exp...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -3182,7 +3242,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// Lists the available AI versions for evaluation forms in the specified Connect Customer instance. See also: AWS API Documentation list-evaluation-form-ai-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ...
+    /// Lists the available AI versions for evaluation forms in the specified Connect Customer instance. See also: AWS API Documentation list-evaluation-form-ai-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expr...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -3190,6 +3250,21 @@ public class AwsConnect : IAwsConnect
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListEvaluationFormAiVersionsAsync(
         AwsConnectListEvaluationFormAiVersionsOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Lists versions of an evaluation form in the specified Connect Customer instance. See also: AWS API Documentation list-evaluation-form-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Evaluation...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListEvaluationFormVersionsAsync(
+        AwsConnectListEvaluationFormVersionsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
@@ -3212,22 +3287,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// Lists versions of an evaluation form in the specified Connect Customer instance. See also: AWS API Documentation list-evaluation-form-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Evalua...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListEvaluationFormVersionsAsync(
-        AwsConnectListEvaluationFormVersionsOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
-    /// Lists extraction definitions in the specified Connect Customer in- stance. See also: AWS API Documentation list-extraction-definitions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: ExtractionDefi...
+    /// Lists extraction definitions in the specified Connect Customer instance. See also: AWS API Documentation list-extraction-definitions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: ExtractionDefinition...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -3257,7 +3317,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// List the hours of operation overrides. See also: AWS API Documentation list-hours-of-operation-overrides is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: HoursOfOperationOverrideList
+    /// List the hours of operation overrides. See also: AWS API Documentation list-hours-of-operation-overrides is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: HoursOfOperationOverrideList
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -3272,7 +3332,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// Provides information about the hours of operation for the specified Connect Customer instance. For more information about hours of operation, see Set the Hours of Op- eration for a Queue in the Connect Customer Administrator Guide . See also: AWS API Documentation list-hours-of-operations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and t...
+    /// Provides information about the hours of operation for the specified Connect Customer instance. For more information about hours of operation, see Set the Hours of Operation for a Queue in the Connect Customer Administrator Guide . See also: AWS API Documentation list-hours-of-operations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -3302,22 +3362,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// This API is in preview release for Connect Customer and is subject to change. Return a list of instances which are in active state, cre- ation-in-progress state, and failed state. Instances that aren't suc- cessfully created (they are in a failed state) are returned only for 24 hours after the CreateInstance API was invoked. See also: AWS API Documentation list-instances is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis-...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListInstancesAsync(
-        AwsConnectListInstancesOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsConnectListInstancesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
-    /// This API is in preview release for Connect Customer and is subject to change. Returns a paginated list of storage configs for the identified instance and resource type. See also: AWS API Documentation list-instance-storage-configs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --quer...
+    /// This API is in preview release for Connect Customer and is subject to change. Returns a paginated list of storage configs for the identified instance and resource type. See also: AWS API Documentation list-instance-storage-configs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query ar...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -3332,7 +3377,22 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// Provides summary information about the Amazon Web Services resource as- sociations for the specified Connect Customer instance. See also: AWS API Documentation list-integration-associations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the res...
+    /// This API is in preview release for Connect Customer and is subject to change. Return a list of instances which are in active state, creation-in-progress state, and failed state. Instances that aren't successfully created (they are in a failed state) are returned only for 24 hours after the CreateInstance API was invoked. See also: AWS API Documentation list-instances is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pa...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListInstancesAsync(
+        AwsConnectListInstancesOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsConnectListInstancesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Provides summary information about the Amazon Web Services resource associations for the specified Connect Customer instance. See also: AWS API Documentation list-integration-associations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results o...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -3362,7 +3422,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// This API is in preview release for Connect Customer and is subject to change. Returns a paginated list of all the Amazon Lex V1 bots currently asso- ciated with the instance. To return both Amazon Lex V1 and V2 bots, use the ListBots API. See also: AWS API Documentation list-lex-bots is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and th...
+    /// This API is in preview release for Connect Customer and is subject to change. Returns a paginated list of all the Amazon Lex V1 bots currently associated with the instance. To return both Amazon Lex V1 and V2 bots, use the ListBots API. See also: AWS API Documentation list-lex-bots is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --qu...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -3377,7 +3437,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// Retrieves a paginated list of metric summaries for the specified Con- nect Customer instance. Use pagination to ensure that the operation re- turns quickly and successfully. See also: AWS API Documentation list-metrics is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument mus...
+    /// Retrieves a paginated list of metric summaries for the specified Connect Customer instance. Use pagination to ensure that the operation returns quickly and successfully. See also: AWS API Documentation list-metrics is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extr...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -3407,7 +3467,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// Provides information about the phone numbers for the specified Connect Customer instance. For more information about phone numbers, see Set Up Phone Numbers for Your Contact Center in the Connect Customer Administrator Guide . WARNING: o We recommend using ListPhoneNumbersV2 to return phone number types. ListPhoneNumbers doesn't support number types UIFN , SHARED , THIRD_PARTY_TF , and THIRD_PARTY_DID . While it returns numbers of those types, it incorrectly lists them as TOLL_FREE or DID . o Th...
+    /// Provides information about the phone numbers for the specified Connect Customer instance. For more information about phone numbers, see Set Up Phone Numbers for Your Contact Center in the Connect Customer Administrator Guide . WARNING: • We recommend using ListPhoneNumbersV2 to return phone number types. ListPhoneNumbers doesn't support number types UIFN , SHARED , THIRD_PARTY_TF , and THIRD_PARTY_DID . While it returns numbers of those types, it incorrectly lists them as TOLL_FREE or DID . • Th...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -3422,7 +3482,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// Lists phone numbers claimed to your Connect Customer instance or traf- fic distribution group. If the provided TargetArn is a traffic distrib- ution group, you can call this API in both Amazon Web Services Regions associated with traffic distribution group. For more information about phone numbers, see Set Up Phone Numbers for Your Contact Center in the Connect Customer Administrator Guide . NOTE: o When given an instance ARN, ListPhoneNumbersV2 returns only the phone numbers claimed to the inst...
+    /// Lists phone numbers claimed to your Connect Customer instance or traffic distribution group. If the provided TargetArn is a traffic distribution group, you can call this API in both Amazon Web Services Regions associated with traffic distribution group. For more information about phone numbers, see Set Up Phone Numbers for Your Contact Center in the Connect Customer Administrator Guide . NOTE: • When given an instance ARN, ListPhoneNumbersV2 returns only the phone numbers claimed to the instance...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -3437,7 +3497,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// Lists predefined attributes for the specified Connect Customer in- stance. A predefined attribute is made up of a name and a value. You can use predefined attributes for: o Routing proficiency (for example, agent certification) that has pre- defined values (for example, a list of possible certifications). For more information, see Create predefined attributes for routing con- tacts to agents . o Contact information that varies between transfers or conferences, such as the name of the business un...
+    /// Lists predefined attributes for the specified Connect Customer instance. A predefined attribute is made up of a name and a value. You can use predefined attributes for: • Routing proficiency (for example, agent certification) that has predefined values (for example, a list of possible certifications). For more information, see Create predefined attributes for routing contacts to agents . • Contact information that varies between transfers or conferences, such as the name of the business unit han...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -3452,7 +3512,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// Provides information about the prompts for the specified Connect Cus- tomer instance. See also: AWS API Documentation list-prompts is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex- pressions: PromptSummaryList
+    /// Provides information about the prompts for the specified Connect Customer instance. See also: AWS API Documentation list-prompts is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: PromptSummaryList
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -3467,7 +3527,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// Lists all email addresses that are currently associated with a specific queue, providing details about which "From" email addresses agents can select when handling email contacts. This helps administrators manage agent email address options and understand the available choices for different brands and business units. Important things to know o The response includes metadata about each email address available for agent selection, including whether it's configured as the default outbound email. o ...
+    /// Lists all email addresses that are currently associated with a specific queue, providing details about which "From" email addresses agents can select when handling email contacts. This helps administrators manage agent email address options and understand the available choices for different brands and business units. Important things to know • The response includes metadata about each email address available for agent selection, including whether it's configured as the default outbound email. • ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -3482,7 +3542,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// Lists the quick connects associated with a queue. See also: AWS API Documentation list-queue-quick-connects is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: QuickConnectSummaryList
+    /// Lists the quick connects associated with a queue. See also: AWS API Documentation list-queue-quick-connects is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: QuickConnectSummaryList
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -3497,7 +3557,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// Provides information about the queues for the specified Connect Cus- tomer instance. If you do not specify a QueueTypes parameter, both standard and agent queues are returned. This might cause an unexpected truncation of re- sults if you have more than 1000 agents and you limit the number of re- sults of the API call in code. For more information about queues, see Queues: Standard and Agent in the Connect Customer Administrator Guide . See also: AWS API Documentation list-queues is a paginated o...
+    /// Provides information about the queues for the specified Connect Customer instance. If you do not specify a QueueTypes parameter, both standard and agent queues are returned. This might cause an unexpected truncation of results if you have more than 1000 agents and you limit the number of results of the API call in code. For more information about queues, see Queues: Standard and Agent in the Connect Customer Administrator Guide . See also: AWS API Documentation list-queues is a paginated operati...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -3527,7 +3587,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// Provides a list of analysis segments for a real-time chat analysis ses- sion. This API supports CHAT channels only. WARNING: This API does not support VOICE. If you attempt to use it for VOICE, an InvalidRequestException occurs. See also: AWS API Documentation
+    /// Provides a list of analysis segments for a real-time chat analysis session. This API supports CHAT channels only. WARNING: This API does not support VOICE. If you attempt to use it for VOICE, an InvalidRequestException occurs. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -3542,7 +3602,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// Lists the manual assignment queues associated with a routing profile. Use cases Following are common uses cases for this API: o This API returns list of queues where contacts can be manually as- signed or picked by an agent who has access to the Worklist app. The user can additionally filter on queues, if they have access to those queues (otherwise a invalid request exception will be thrown). For information about how manual contact assignment works in the agent workspace, see the Access the Wor...
+    /// Lists the manual assignment queues associated with a routing profile. Use cases Following are common uses cases for this API: • This API returns list of queues where contacts can be manually assigned or picked by an agent who has access to the Worklist app. The user can additionally filter on queues, if they have access to those queues (otherwise a invalid request exception will be thrown). For information about how manual contact assignment works in the agent workspace, see the Access the Workl...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -3557,7 +3617,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// Lists the queues associated with a routing profile. See also: AWS API Documentation list-routing-profile-queues is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: RoutingProfileQueueConfigSummaryList
+    /// Lists the queues associated with a routing profile. See also: AWS API Documentation list-routing-profile-queues is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: RoutingProfileQueueConfigSummaryList
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -3572,7 +3632,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// Provides summary information about the routing profiles for the speci- fied Connect Customer instance. For more information about routing profiles, see Routing Profiles and Create a Routing Profile in the Connect Customer Administrator Guide . See also: AWS API Documentation list-routing-profiles is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output te...
+    /// Provides summary information about the routing profiles for the specified Connect Customer instance. For more information about routing profiles, see Routing Profiles and Create a Routing Profile in the Connect Customer Administrator Guide . See also: AWS API Documentation list-routing-profiles is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -3587,7 +3647,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// List all rules for the specified Connect Customer instance. See also: AWS API Documentation list-rules is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex- pressions: RuleSummaryList
+    /// List all rules for the specified Connect Customer instance. See also: AWS API Documentation list-rules is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: RuleSummaryList
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -3602,7 +3662,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// This API is in preview release for Connect Customer and is subject to change. Returns a paginated list of all security keys associated with the in- stance. See also: AWS API Documentation list-security-keys is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data...
+    /// This API is in preview release for Connect Customer and is subject to change. Returns a paginated list of all security keys associated with the instance. See also: AWS API Documentation list-security-keys is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data f...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -3617,7 +3677,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// Returns a list of the allowed AI agents in a specific security profile. See also: AWS API Documentation list-security-profile-ai-agents is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: AllowedAIAgen...
+    /// Returns a list of the allowed AI agents in a specific security profile. See also: AWS API Documentation list-security-profile-ai-agents is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: AllowedAIAgents
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -3632,7 +3692,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// Returns a list of third-party applications or MCP Servers in a specific security profile. See also: AWS API Documentation list-security-profile-applications is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expre...
+    /// Returns a list of third-party applications or MCP Servers in a specific security profile. See also: AWS API Documentation list-security-profile-applications is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressio...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -3647,7 +3707,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// A list of Flow Modules an AI Agent can invoke as a tool See also: AWS API Documentation list-security-profile-flow-modules is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: AllowedFlowModules
+    /// A list of Flow Modules an AI Agent can invoke as a tool See also: AWS API Documentation list-security-profile-flow-modules is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: AllowedFlowModules
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -3662,7 +3722,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// Lists the permissions granted to a security profile. For information about security profiles, see Security Profiles in the Connect Customer Administrator Guide . For a mapping of the API name and user interface name of the security profile permissions, see List of security profile permissions . See also: AWS API Documentation list-security-profile-permissions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable paginati...
+    /// Lists the permissions granted to a security profile. For information about security profiles, see Security Profiles in the Connect Customer Administrator Guide . For a mapping of the API name and user interface name of the security profile permissions, see List of security profile permissions . See also: AWS API Documentation list-security-profile-permissions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -3677,7 +3737,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// Provides summary information about the security profiles for the speci- fied Connect Customer instance. For more information about security profiles, see Security Profiles in the Connect Customer Administrator Guide . For a mapping of the API name and user interface name of the security profile permissions, see List of security profile permissions . See also: AWS API Documentation list-security-profiles is a paginated operation. Multiple API calls may be issued in order to retrieve the entire da...
+    /// Provides summary information about the security profiles for the specified Connect Customer instance. For more information about security profiles, see Security Profiles in the Connect Customer Administrator Guide . For a mapping of the API name and user interface name of the security profile permissions, see List of security profile permissions . See also: AWS API Documentation list-security-profiles is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -3722,7 +3782,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// Lists detailed steps of test case execution that includes all observa- tions along with actions taken and data associated in the specified Amazon Connect instance. See also: AWS API Documentation
+    /// Lists detailed steps of test case execution that includes all observations along with actions taken and data associated in the specified Amazon Connect instance. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -3752,7 +3812,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// Lists the test cases present in the specific Amazon Connect instance. See also: AWS API Documentation list-test-cases is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: TestCaseSummaryList
+    /// Lists the test cases present in the specific Amazon Connect instance. See also: AWS API Documentation list-test-cases is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: TestCaseSummaryList
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -3767,22 +3827,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// Lists traffic distribution groups. See also: AWS API Documentation list-traffic-distribution-groups is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: TrafficDistributionGroupSummaryList
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListTrafficDistributionGroupsAsync(
-        AwsConnectListTrafficDistributionGroupsOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsConnectListTrafficDistributionGroupsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
-    /// Lists traffic distribution group users. See also: AWS API Documentation list-traffic-distribution-group-users is a paginated operation. Multi- ple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate ar- gument. When using --output text and the --query argument on a pagi- nated response, the --query argument must extract data from the results of the following query expressions: TrafficDistributionGroupUserSumma- ry...
+    /// Lists traffic distribution group users. See also: AWS API Documentation list-traffic-distribution-group-users is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: TrafficDistributionGroupUserSummaryList
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -3797,7 +3842,22 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// Lists the use cases for the integration association. See also: AWS API Documentation list-use-cases is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: UseCaseSummaryList
+    /// Lists traffic distribution groups. See also: AWS API Documentation list-traffic-distribution-groups is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: TrafficDistributionGroupSummaryList
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListTrafficDistributionGroupsAsync(
+        AwsConnectListTrafficDistributionGroupsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsConnectListTrafficDistributionGroupsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Lists the use cases for the integration association. See also: AWS API Documentation list-use-cases is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: UseCaseSummaryList
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -3812,7 +3872,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// Provides summary information about the hierarchy groups for the speci- fied Connect Customer instance. For more information about agent hierarchies, see Set Up Agent Hierar- chies in the Connect Customer Administrator Guide . See also: AWS API Documentation list-user-hierarchy-groups is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --...
+    /// Provides summary information about the hierarchy groups for the specified Connect Customer instance. For more information about agent hierarchies, see Set Up Agent Hierarchies in the Connect Customer Administrator Guide . See also: AWS API Documentation list-user-hierarchy-groups is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --quer...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -3827,7 +3887,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// Retrieves a paginated list of notifications for a specific user, in- cluding the notification status for that user. See also: AWS API Documentation
+    /// Retrieves a paginated list of notifications for a specific user, including the notification status for that user. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -3842,7 +3902,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// Lists proficiencies associated with a user. See also: AWS API Documentation list-user-proficiencies is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: UserProficiencyList
+    /// Lists proficiencies associated with a user. See also: AWS API Documentation list-user-proficiencies is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: UserProficiencyList
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -3857,7 +3917,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// Provides summary information about the users for the specified Connect Customer instance. See also: AWS API Documentation list-users is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex- pressions: UserSummaryList
+    /// Provides summary information about the users for the specified Connect Customer instance. See also: AWS API Documentation list-users is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: UserSummaryList
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -3865,21 +3925,6 @@ public class AwsConnect : IAwsConnect
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListUsersAsync(
         AwsConnectListUsersOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
-    /// Returns views in the given instance. Results are sorted primarily by type, and secondarily by name. See also: AWS API Documentation list-views is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex- pressions: ViewsS...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListViewsAsync(
-        AwsConnectListViewsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
@@ -3902,6 +3947,21 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
+    /// Returns views in the given instance. Results are sorted primarily by type, and secondarily by name. See also: AWS API Documentation list-views is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: ViewsSumma...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListViewsAsync(
+        AwsConnectListViewsOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
     /// Lists media assets (such as logos) associated with a workspace. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -3917,7 +3977,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// Lists the page configurations in a workspace, including the views as- signed to each page. See also: AWS API Documentation list-workspace-pages is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Workspace...
+    /// Lists the page configurations in a workspace, including the views assigned to each page. See also: AWS API Documentation list-workspace-pages is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: WorkspacePa...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -3932,7 +3992,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// Lists the workspaces in an Amazon Connect instance. See also: AWS API Documentation list-workspaces is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: WorkspaceSummaryList
+    /// Lists the workspaces in an Amazon Connect instance. See also: AWS API Documentation list-workspaces is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: WorkspaceSummaryList
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -3992,7 +4052,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// Releases a phone number previously claimed to an Connect Customer in- stance or traffic distribution group. You can call this API only in the Amazon Web Services Region where the number was claimed. WARNING: To release phone numbers from a traffic distribution group, use the ReleasePhoneNumber API, not the Connect Customer admin website. After releasing a phone number, the phone number enters into a cooldown period for up to 180 days. It cannot be searched for or claimed again until the period h...
+    /// Releases a phone number previously claimed to an Connect Customer instance or traffic distribution group. You can call this API only in the Amazon Web Services Region where the number was claimed. WARNING: To release phone numbers from a traffic distribution group, use the ReleasePhoneNumber API, not the Connect Customer admin website. After releasing a phone number, the phone number enters into a cooldown period for up to 180 days. It cannot be searched for or claimed again until the period has...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -4007,7 +4067,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// Replicates an Connect Customer instance in the specified Amazon Web Services Region and copies configuration information for Connect Cus- tomer resources across Amazon Web Services Regions. For more information about replicating an Connect Customer instance, see Create a replica of your existing Connect Customer instance in the Connect Customer Administrator Guide . See also: AWS API Documentation
+    /// Replicates an Connect Customer instance in the specified Amazon Web Services Region and copies configuration information for Connect Customer resources across Amazon Web Services Regions. For more information about replicating an Connect Customer instance, see Create a replica of your existing Connect Customer instance in the Connect Customer Administrator Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -4067,7 +4127,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// Searches for available phone numbers that you can claim to your Connect Customer instance or traffic distribution group. If the provided Targe- tArn is a traffic distribution group, you can call this API in both Amazon Web Services Regions associated with the traffic distribution group. See also: AWS API Documentation search-available-phone-numbers is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by provi...
+    /// Searches for available phone numbers that you can claim to your Connect Customer instance or traffic distribution group. If the provided TargetArn is a traffic distribution group, you can call this API in both Amazon Web Services Regions associated with the traffic distribution group. See also: AWS API Documentation search-available-phone-numbers is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -4082,7 +4142,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// Searches contact evaluations in an Connect Customer instance, with op- tional filtering. Use cases Following are common uses cases for this API: o Find contact evaluations by using specific search criteria. o Find contact evaluations that are tagged with a specific set of tags. Important things to know o A Search operation, unlike a List operation, takes time to index changes to resource (create, update or delete). If you don't see up- dated information for recently changed contact evaluations, ...
+    /// Searches contact evaluations in an Connect Customer instance, with optional filtering. Use cases Following are common uses cases for this API: • Find contact evaluations by using specific search criteria. • Find contact evaluations that are tagged with a specific set of tags. Important things to know • A Search operation, unlike a List operation, takes time to index changes to resource (create, update or delete). If you don't see updated information for recently changed contact evaluations, try ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -4097,7 +4157,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// Searches the flow modules in an Connect Customer instance, with op- tional filtering. See also: AWS API Documentation search-contact-flow-modules is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Con...
+    /// Searches the flow modules in an Connect Customer instance, with optional filtering. See also: AWS API Documentation search-contact-flow-modules is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: ContactFl...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -4112,7 +4172,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// Searches the flows in an Connect Customer instance, with optional fil- tering. See also: AWS API Documentation search-contact-flows is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: ContactFlows
+    /// Searches the flows in an Connect Customer instance, with optional filtering. See also: AWS API Documentation search-contact-flows is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: ContactFlows
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -4127,7 +4187,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// Searches contacts in an Connect Customer instance. See also: AWS API Documentation search-contacts is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Contacts
+    /// Searches contacts in an Connect Customer instance. See also: AWS API Documentation search-contacts is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Contacts
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -4142,7 +4202,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// Searches for data tables based on the table's ID, name, and descrip- tion. In the future, this operation can support searching on attribute names and possibly primary values. Follows other search operations closely and supports both search criteria and filters. See also: AWS API Documentation search-data-tables is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When us...
+    /// Searches for data tables based on the table's ID, name, and description. In the future, this operation can support searching on attribute names and possibly primary values. Follows other search operations closely and supports both search criteria and filters. See also: AWS API Documentation search-data-tables is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When usin...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -4172,7 +4232,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// Searches evaluation forms in an Connect Customer instance, with op- tional filtering. Use cases Following are common uses cases for this API: o List all evaluation forms in an instance. o Find all evaluation forms that meet specific criteria, such as Title, Description, Status, and more. o Find all evaluation forms that are tagged with a specific set of tags. Important things to know o A Search operation, unlike a List operation, takes time to index changes to resource (create, update or delete)...
+    /// Searches evaluation forms in an Connect Customer instance, with optional filtering. Use cases Following are common uses cases for this API: • List all evaluation forms in an instance. • Find all evaluation forms that meet specific criteria, such as Title, Description, Status, and more. • Find all evaluation forms that are tagged with a specific set of tags. Important things to know • A Search operation, unlike a List operation, takes time to index changes to resource (create, update or delete). ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -4187,7 +4247,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// Searches the hours of operation overrides. See also: AWS API Documentation search-hours-of-operation-overrides is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: HoursOfOperationOverrides
+    /// Searches the hours of operation overrides. See also: AWS API Documentation search-hours-of-operation-overrides is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: HoursOfOperationOverrides
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -4202,7 +4262,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// Searches the hours of operation in an Connect Customer instance, with optional filtering. See also: AWS API Documentation search-hours-of-operations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: Ho...
+    /// Searches the hours of operation in an Connect Customer instance, with optional filtering. See also: AWS API Documentation search-hours-of-operations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Hour...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -4217,7 +4277,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// Searches for metrics in the specified Connect Customer instance using search criteria and optional tag-based filters. Use pagination to en- sure that the operation returns quickly and successfully. See also: AWS API Documentation search-metrics is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated respon...
+    /// Searches for metrics in the specified Connect Customer instance using search criteria and optional tag-based filters. Use pagination to ensure that the operation returns quickly and successfully. See also: AWS API Documentation search-metrics is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, th...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -4232,7 +4292,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// Searches for notifications based on specified criteria and filters. Re- turns a paginated list of notifications matching the search parameters, ordered by descending creation time. Supports filtering by content and tags. See also: AWS API Documentation
+    /// Searches for notifications based on specified criteria and filters. Returns a paginated list of notifications matching the search parameters, ordered by descending creation time. Supports filtering by content and tags. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -4247,7 +4307,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// Searches predefined attributes that meet certain criteria. A predefined attribute is made up of a name and a value. You can use predefined at- tributes for: o Routing proficiency (for example, agent certification) that has pre- defined values (for example, a list of possible certifications). For more information, see Create predefined attributes for routing con- tacts to agents . o Contact information that varies between transfers or conferences, such as the name of the business unit handling th...
+    /// Searches predefined attributes that meet certain criteria. A predefined attribute is made up of a name and a value. You can use predefined attributes for: • Routing proficiency (for example, agent certification) that has predefined values (for example, a list of possible certifications). For more information, see Create predefined attributes for routing contacts to agents . • Contact information that varies between transfers or conferences, such as the name of the business unit handling the cont...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -4262,7 +4322,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// Searches prompts in an Connect Customer instance, with optional filter- ing. See also: AWS API Documentation search-prompts is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Prompts
+    /// Searches prompts in an Connect Customer instance, with optional filtering. See also: AWS API Documentation search-prompts is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Prompts
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -4277,7 +4337,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// Searches queues in an Connect Customer instance, with optional filter- ing. See also: AWS API Documentation search-queues is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Queues
+    /// Searches queues in an Connect Customer instance, with optional filtering. See also: AWS API Documentation search-queues is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Queues
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -4322,7 +4382,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// Searches routing profiles in an Connect Customer instance, with op- tional filtering. NOTE: SearchRoutingProfiles does not populate LastModifiedRegion, LastMod- ifiedTime, MediaConcurrencies.CrossChannelBehavior, and AgentAvail- abilityTimer in its response, but DescribeRoutingProfile does. See also: AWS API Documentation search-routing-profiles is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing ...
+    /// Searches routing profiles in an Connect Customer instance, with optional filtering. NOTE: SearchRoutingProfiles does not populate LastModifiedRegion, LastModifiedTime, MediaConcurrencies.CrossChannelBehavior, and AgentAvailabilityTimer in its response, but DescribeRoutingProfile does. See also: AWS API Documentation search-routing-profiles is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -4337,7 +4397,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// Searches rules in an Connect Customer instance, with optional filter- ing. See also: AWS API Documentation search-rules is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex- pressions: Rules
+    /// Searches rules in an Connect Customer instance, with optional filtering. See also: AWS API Documentation search-rules is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Rules
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -4352,7 +4412,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// Searches security profiles in an Connect Customer instance, with op- tional filtering. For information about security profiles, see Security Profiles in the Connect Customer Administrator Guide . For a mapping of the API name and user interface name of the security profile permissions, see List of security profile permissions . See also: AWS API Documentation search-security-profiles is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. Y...
+    /// Searches security profiles in an Connect Customer instance, with optional filtering. For information about security profiles, see Security Profiles in the Connect Customer Administrator Guide . For a mapping of the API name and user interface name of the security profile permissions, see List of security profile permissions . See also: AWS API Documentation search-security-profiles is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -4382,7 +4442,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// Searches UserHierarchyGroups in an Connect Customer instance, with op- tional filtering. WARNING: The UserHierarchyGroup with "LevelId": "0" is the foundation for building levels on top of an instance. It is not user-definable, nor is it visible in the UI. See also: AWS API Documentation search-user-hierarchy-groups is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment...
+    /// Searches UserHierarchyGroups in an Connect Customer instance, with optional filtering. WARNING: The UserHierarchyGroup with "LevelId": "0" is the foundation for building levels on top of an instance. It is not user-definable, nor is it visible in the UI. See also: AWS API Documentation search-user-hierarchy-groups is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -4397,7 +4457,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// Searches users in an Connect Customer instance, with optional filter- ing. NOTE: AfterContactWorkTimeLimit is returned in milliseconds. See also: AWS API Documentation search-users is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the...
+    /// Searches users in an Connect Customer instance, with optional filtering. NOTE: AfterContactWorkTimeLimit is returned in milliseconds. See also: AWS API Documentation search-users is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the fol...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -4412,7 +4472,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// Searches views based on name, description, or tags. See also: AWS API Documentation search-views is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex- pressions: Views
+    /// Searches views based on name, description, or tags. See also: AWS API Documentation search-views is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Views
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -4442,7 +4502,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// Searches for workspace associations with users or routing profiles based on various criteria. See also: AWS API Documentation search-workspace-associations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expres...
+    /// Searches for workspace associations with users or routing profiles based on various criteria. See also: AWS API Documentation search-workspace-associations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expression...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -4472,7 +4532,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// Processes chat integration events from Amazon Web Services or external integrations to Connect Customer. A chat integration event includes: o SourceId, DestinationId, and Subtype: a set of identifiers, uniquely representing a chat o ChatEvent: details of the chat action to perform such as sending a message, event, or disconnecting from a chat When a chat integration event is sent with chat identifiers that do not map to an active chat contact, a new chat contact is also created be- fore handling...
+    /// Processes chat integration events from Amazon Web Services or external integrations to Connect Customer. A chat integration event includes: • SourceId, DestinationId, and Subtype: a set of identifiers, uniquely representing a chat • ChatEvent: details of the chat action to perform such as sending a message, event, or disconnecting from a chat When a chat integration event is sent with chat identifiers that do not map to an active chat contact, a new chat contact is also created before handling c...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -4502,7 +4562,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// Sends an outbound web notification to a customer's web browser for out- bound campaigns. For more information about outbound campaigns, see Set up Connect Customer outbound campaigns . NOTE: Only the Connect Customer outbound campaigns service principal is allowed to assume a role in your account and call this API. See also: AWS API Documentation
+    /// Sends an outbound web notification to a customer's web browser for outbound campaigns. For more information about outbound campaigns, see Set up Connect Customer outbound campaigns . NOTE: Only the Connect Customer outbound campaigns service principal is allowed to assume a role in your account and call this API. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -4517,7 +4577,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// Starts a chat contact with an AI agent. Use the returned ParticipantToken with the CreateParticipantConnection operation. For more information about chat, see the following topics in the Con- nect Customer Administrator Guide : o Concepts: Web and mobile messaging capabilities in Connect Customer o Connect Customer Chat security best practices See also: AWS API Documentation
+    /// Starts a chat contact with an AI agent. Use the returned ParticipantToken with the CreateParticipantConnection operation. For more information about chat, see the following topics in the Connect Customer Administrator Guide : • Concepts: Web and mobile messaging capabilities in Connect Customer • Connect Customer Chat security best practices See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -4532,7 +4592,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// Provides a pre-signed Amazon S3 URL in response for uploading your con- tent. WARNING: You may only use this API to upload attachments to a Connect Cus- tomer Case , Connect Customer Email , or Connect Customer Task . See also: AWS API Documentation
+    /// Provides a pre-signed Amazon S3 URL in response for uploading your content. WARNING: You may only use this API to upload attachments to a Connect Customer Case , Connect Customer Email , or Connect Customer Task . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -4562,7 +4622,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// Starts a Contact Lens post-call analytics job for the specified con- tact. This API runs Conversational Analytics post-contact analysis on a voice recording that is already attached to the contact, generating transcription, sentiment analysis, redaction, and summarization results based on the provided configuration. WARNING: A voice recording must already be attached to the contact before calling this API. Use CreateAttachedFile to attach a recording from an S3 source URI. NOTE: For example, you...
+    /// Starts a Contact Lens post-call analytics job for the specified contact. This API runs Conversational Analytics post-contact analysis on a voice recording that is already attached to the contact, generating transcription, sentiment analysis, redaction, and summarization results based on the provided configuration. WARNING: A voice recording must already be attached to the contact before calling this API. Use CreateAttachedFile to attach a recording from an S3 source URI. NOTE: For example, you c...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -4577,7 +4637,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// Starts an empty evaluation in the specified Connect Customer instance, using the given evaluation form for the particular contact. The evalua- tion form version used for the contact evaluation corresponds to the currently activated version. If no version is activated for the evalua- tion form, the contact evaluation cannot be started. See also: AWS API Documentation
+    /// Starts an empty evaluation in the specified Connect Customer instance, using the given evaluation form for the particular contact. The evaluation form version used for the contact evaluation corresponds to the currently activated version. If no version is activated for the evaluation form, the contact evaluation cannot be started. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -4592,7 +4652,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// Enables in-flight message processing for an ongoing chat session. Mes- sage processing will stay active for the rest of the chat, even if an individual contact segment ends. See also: AWS API Documentation
+    /// Enables in-flight message processing for an ongoing chat session. Message processing will stay active for the rest of the chat, even if an individual contact segment ends. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -4607,7 +4667,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// Starts recording the contact: o If the API is called before the agent joins the call, recording starts when the agent joins the call. o If the API is called after the agent joins the call, recording starts at the time of the API call. StartContactRecording is a one-time action. For example, if you use StopContactRecording to stop recording an ongoing call, you can't use StartContactRecording to restart it. For scenarios where the recording has started and you want to suspend and resume it, such ...
+    /// Starts recording the contact: • If the API is called before the agent joins the call, recording starts when the agent joins the call. • If the API is called after the agent joins the call, recording starts at the time of the API call. StartContactRecording is a one-time action. For example, if you use StopContactRecording to stop recording an ongoing call, you can't use StartContactRecording to restart it. For scenarios where the recording has started and you want to suspend and resume it, such ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -4622,7 +4682,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// Initiates real-time message streaming for a new chat contact. For more information about message streaming, see Enable real-time chat message streaming in the Connect Customer Administrator Guide . For more information about chat, see the following topics in the Con- nect Customer Administrator Guide : o Concepts: Web and mobile messaging capabilities in Connect Customer o Connect Customer Chat security best practices See also: AWS API Documentation
+    /// Initiates real-time message streaming for a new chat contact. For more information about message streaming, see Enable real-time chat message streaming in the Connect Customer Administrator Guide . For more information about chat, see the following topics in the Connect Customer Administrator Guide : • Concepts: Web and mobile messaging capabilities in Connect Customer • Connect Customer Chat security best practices See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -4637,7 +4697,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// Creates an inbound email contact and initiates a flow to start the email contact for the customer. Response of this API provides the Con- tactId of the email contact created. See also: AWS API Documentation
+    /// Creates an inbound email contact and initiates a flow to start the email contact for the customer. Response of this API provides the ContactId of the email contact created. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -4652,7 +4712,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// Starts an asynchronous validation process for an evaluation form ver- sion in the specified Connect Customer instance. The validation first performs structural checks on the form content (such as verifying re- quired fields, valid scoring configuration, and correct conditional logic), then asynchronously analyzes questions configured for genera- tive AI evaluation against a set of best practices. Use GetEvaluationFormValidation to retrieve the status and results once the validation completes. Se...
+    /// Starts an asynchronous validation process for an evaluation form version in the specified Connect Customer instance. The validation first performs structural checks on the form content (such as verifying required fields, valid scoring configuration, and correct conditional logic), then asynchronously analyzes questions configured for generative AI evaluation against a set of best practices. Use GetEvaluationFormValidation to retrieve the status and results once the validation completes. See also...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -4667,7 +4727,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// Initiates a new outbound SMS or WhatsApp contact to a customer. Re- sponse of this API provides the ContactId of the outbound SMS or What- sApp contact created. SourceEndpoint only supports Endpoints with CONNECT_PHONENUMBER_ARN as Type and DestinationEndpoint only supports Endpoints with TELE- PHONE_NUMBER as Type. ContactFlowId initiates the flow to manage the new contact created. This API can be used to initiate outbound SMS or WhatsApp contacts for an agent, or it can also deflect an ongoing...
+    /// Initiates a new outbound SMS or WhatsApp contact to a customer. Response of this API provides the ContactId of the outbound SMS or WhatsApp contact created. SourceEndpoint only supports Endpoints with CONNECT_PHONENUMBER_ARN as Type and DestinationEndpoint only supports Endpoints with TELEPHONE_NUMBER as Type. ContactFlowId initiates the flow to manage the new contact created. This API can be used to initiate outbound SMS or WhatsApp contacts for an agent, or it can also deflect an ongoing conta...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -4682,7 +4742,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// Initiates a flow to send an agent reply or outbound email contact (cre- ated from the CreateContact API) to a customer. See also: AWS API Documentation
+    /// Initiates a flow to send an agent reply or outbound email contact (created from the CreateContact API) to a customer. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -4697,7 +4757,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// Places an outbound call to a contact, and then initiates the flow. It performs the actions in the flow that's specified (in ContactFlowId ). Agents do not initiate the outbound API, which means that they do not dial the contact. If the flow places an outbound call to a contact, and then puts the contact in queue, the call is then routed to the agent, like any other inbound case. Dialing timeout for this operation can be configured with the RingTime- outInSeconds parameter. If not specified, the ...
+    /// Places an outbound call to a contact, and then initiates the flow. It performs the actions in the flow that's specified (in ContactFlowId ). Agents do not initiate the outbound API, which means that they do not dial the contact. If the flow places an outbound call to a contact, and then puts the contact in queue, the call is then routed to the agent, like any other inbound case. Dialing timeout for this operation can be configured with the RingTimeoutInSeconds parameter. If not specified, the de...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -4712,7 +4772,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// Starts screen sharing for a contact. For more information about screen sharing, see Set up in-app, web, video calling, and screen sharing ca- pabilities in the Connect Customer Administrator Guide . See also: AWS API Documentation
+    /// Starts screen sharing for a contact. For more information about screen sharing, see Set up in-app, web, video calling, and screen sharing capabilities in the Connect Customer Administrator Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -4727,7 +4787,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// Initiates a flow to start a new task contact. For more information about task contacts, see Concepts: Tasks in Connect Customer in the Connect Customer Administrator Guide . When using PreviousContactId and RelatedContactId input parameters, note the following: o PreviousContactId o Any updates to user-defined task contact attributes on any contact linked through the same PreviousContactId will affect every contact in the chain. o There can be a maximum of 12 linked task contacts in a chain. Tha...
+    /// Initiates a flow to start a new task contact. For more information about task contacts, see Concepts: Tasks in Connect Customer in the Connect Customer Administrator Guide . When using PreviousContactId and RelatedContactId input parameters, note the following: • PreviousContactId • Any updates to user-defined task contact attributes on any contact linked through the same PreviousContactId will affect every contact in the chain. • There can be a maximum of 12 linked task contacts in a chain. Tha...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -4757,7 +4817,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// Places an inbound in-app, web, or video call to a contact, and then initiates the flow. It performs the actions in the flow that are speci- fied (in ContactFlowId) and present in the Connect Customer instance (specified as InstanceId). See also: AWS API Documentation
+    /// Places an inbound in-app, web, or video call to a contact, and then initiates the flow. It performs the actions in the flow that are specified (in ContactFlowId) and present in the Connect Customer instance (specified as InstanceId). See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -4787,7 +4847,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// Ends the specified contact. Use this API to stop queued callbacks. It does not work for voice contacts that use the following initiation methods: o DISCONNECT o TRANSFER o QUEUE_TRANSFER o EXTERNAL_OUTBOUND o MONITOR Chat and task contacts can be terminated in any state, regardless of initiation method. See also: AWS API Documentation
+    /// Ends the specified contact. Use this API to stop queued callbacks. It does not work for voice contacts that use the following initiation methods: • DISCONNECT • TRANSFER • QUEUE_TRANSFER • EXTERNAL_OUTBOUND • MONITOR Chat and task contacts can be terminated in any state, regardless of initiation method. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -4802,7 +4862,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// Stops recording a call when a contact is being recorded. StopContac- tRecording is a one-time action. If you use StopContactRecording to stop recording an ongoing call, you can't use StartContactRecording to restart it. For scenarios where the recording has started and you want to suspend it for sensitive information (for example, to collect a credit card number), and then restart it, use SuspendContactRecording and ResumeContactRecording. Only voice recordings are supported at this time. See al...
+    /// Stops recording a call when a contact is being recorded. StopContactRecording is a one-time action. If you use StopContactRecording to stop recording an ongoing call, you can't use StartContactRecording to restart it. For scenarios where the recording has started and you want to suspend it for sensitive information (for example, to collect a credit card number), and then restart it, use SuspendContactRecording and ResumeContactRecording. Only voice recordings are supported at this time. See also...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -4847,7 +4907,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// Submits a contact evaluation in the specified Connect Customer in- stance. Answers included in the request are merged with existing an- swers for the given evaluation. If no answers or notes are passed, the evaluation is submitted with the existing answers and notes. You can delete an answer or note by passing an empty object ({} ) to the ques- tion identifier. If a contact evaluation is already in submitted state, this operation will trigger a resubmission. See also: AWS API Documentation
+    /// Submits a contact evaluation in the specified Connect Customer instance. Answers included in the request are merged with existing answers for the given evaluation. If no answers or notes are passed, the evaluation is submitted with the existing answers and notes. You can delete an answer or note by passing an empty object ({} ) to the question identifier. If a contact evaluation is already in submitted state, this operation will trigger a resubmission. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -4862,7 +4922,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// When a contact is being recorded, this API suspends recording whatever is selected in the flow configuration: call (IVR or agent), screen, or both. If only call recording or only screen recording is enabled, then it would be suspended. For example, you might suspend the screen recording while collecting sensitive information, such as a credit card number. Then use ResumeContactRecording to restart recording the screen. The period of time that the recording is suspended is filled with si- lence i...
+    /// When a contact is being recorded, this API suspends recording whatever is selected in the flow configuration: call (IVR or agent), screen, or both. If only call recording or only screen recording is enabled, then it would be suspended. For example, you might suspend the screen recording while collecting sensitive information, such as a credit card number. Then use ResumeContactRecording to restart recording the screen. The period of time that the recording is suspended is filled with silence in ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -4907,7 +4967,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// Transfers TASK or EMAIL contacts from one agent or queue to another agent or queue at any point after a contact is created. You can trans- fer a contact to another queue by providing the flow which orchestrates the contact to the destination queue. This gives you more control over contact handling and helps you adhere to the service level agreement (SLA) guaranteed to your customers. Note the following requirements: o Transfer is only supported for TASK and EMAIL contacts. o Do not use both Queu...
+    /// Transfers TASK or EMAIL contacts from one agent or queue to another agent or queue at any point after a contact is created. You can transfer a contact to another queue by providing the flow which orchestrates the contact to the destination queue. This gives you more control over contact handling and helps you adhere to the service level agreement (SLA) guaranteed to your customers. Note the following requirements: • Transfer is only supported for TASK and EMAIL contacts. • Do not use both QueueI...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -4922,7 +4982,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// Removes the specified tags from the contact resource. For more informa- tion about this API is used, see Set up granular billing for a detailed view of your Connect Customer usage . See also: AWS API Documentation
+    /// Removes the specified tags from the contact resource. For more information about this API is used, see Set up granular billing for a detailed view of your Connect Customer usage . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -4967,7 +5027,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// Updates the attached files configuration for the specified Connect Cus- tomer instance and attachment scope. If no instance-specific configuration exists, this operation creates one. Partial updates are supportedonly specified fields are updated, while unspecified fields retain their current values. See also: AWS API Documentation
+    /// Updates the attached files configuration for the specified Connect Customer instance and attachment scope. If no instance-specific configuration exists, this operation creates one. Partial updates are supportedonly specified fields are updated, while unspecified fields retain their current values. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -4982,7 +5042,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// This API is in preview release for Connect Customer and is subject to change. To request access to this API, contact Amazon Web Services Sup- port. Updates the selected authentication profile. See also: AWS API Documentation
+    /// This API is in preview release for Connect Customer and is subject to change. To request access to this API, contact Amazon Web Services Support. Updates the selected authentication profile. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -4997,7 +5057,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// Creates or updates user-defined contact attributes associated with the specified contact. You can create or update user-defined attributes for both ongoing and completed contacts. For example, while the call is active, you can up- date the customer's name or the reason the customer called. You can add notes about steps that the agent took during the call that display to the next agent that takes the call. You can also update attributes for a contact using data from your CRM application and save ...
+    /// Creates or updates user-defined contact attributes associated with the specified contact. You can create or update user-defined attributes for both ongoing and completed contacts. For example, while the call is active, you can update the customer's name or the reason the customer called. You can add notes about steps that the agent took during the call that display to the next agent that takes the call. You can also update attributes for a contact using data from your CRM application and save th...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -5020,6 +5080,21 @@ public class AwsConnect : IAwsConnect
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateContactEvaluationAsync(
         AwsConnectUpdateContactEvaluationOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Updates the name, description, or flow version associated with an alias. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> UpdateContactFlowAliasAsync(
+        AwsConnectUpdateContactFlowAliasOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
@@ -5072,7 +5147,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// Updates specified flow module for the specified Connect Customer in- stance. Use the $SAVED alias in the request to describe the SAVED content of a Flow. For example, arn:aws:.../contact-flow/{id}:$SAVED . After a flow is published, $SAVED needs to be supplied to view saved content that has not been published. See also: AWS API Documentation
+    /// Updates specified flow module for the specified Connect Customer instance. Use the $SAVED alias in the request to describe the SAVED content of a Flow. For example, arn:aws:.../contact-flow/{id}:$SAVED . After a flow is published, $SAVED needs to be supplied to view saved content that has not been published. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -5117,7 +5192,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// This API is in preview release for Connect Customer and is subject to change. Adds or updates user-defined contact information associated with the specified contact. At least one field to be updated must be present in the request. WARNING: You can add or update user-defined contact information for both on- going and completed contacts. See also: AWS API Documentation
+    /// This API is in preview release for Connect Customer and is subject to change. Adds or updates user-defined contact information associated with the specified contact. At least one field to be updated must be present in the request. WARNING: You can add or update user-defined contact information for both ongoing and completed contacts. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -5177,7 +5252,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// Updates the cross-region routing configuration for an Amazon Connect Global Resiliency instance enabled for global routing. When invoked with IsolatedAll set to true , this operation disables cross-region routing, meaning contacts originating in one Region will no longer be routed to agents in another Region. NOTE: This operation is available only for Amazon Connect Global Re- siliency instances enabled for global routing. Reporting and contact search continue to operate globally after you use t...
+    /// Updates the cross-region routing configuration for an Amazon Connect Global Resiliency instance enabled for global routing. When invoked with IsolatedAll set to true , this operation disables cross-region routing, meaning contacts originating in one Region will no longer be routed to agents in another Region. NOTE: This operation is available only for Amazon Connect Global Resiliency instances enabled for global routing. Reporting and contact search continue to operate globally after you use thi...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -5192,7 +5267,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// Updates all properties for an attribute using all properties from Cre- ateDataTableAttribute. There are no other granular update endpoints. It does not act as a patch operation - all properties must be provided. System managed attributes are not mutable by customers. Changing an at- tribute's validation does not invalidate existing values since valida- tion only runs when values are created or updated. See also: AWS API Documentation
+    /// Updates all properties for an attribute using all properties from CreateDataTableAttribute. There are no other granular update endpoints. It does not act as a patch operation - all properties must be provided. System managed attributes are not mutable by customers. Changing an attribute's validation does not invalidate existing values since validation only runs when values are created or updated. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -5222,7 +5297,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// Updates the primary values for a record. This operation affects all ex- isting values that are currently associated to the record and its pri- mary values. Users that have restrictions on attributes and/or primary values are not authorized to use this endpoint. The combination of new primary values must be unique within the table. See also: AWS API Documentation
+    /// Updates the primary values for a record. This operation affects all existing values that are currently associated to the record and its primary values. Users that have restrictions on attributes and/or primary values are not authorized to use this endpoint. The combination of new primary values must be unique within the table. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -5237,7 +5312,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// Updates an email address metadata. For more information about email ad- dresses, see Create email addresses in the Connect Customer Administra- tor Guide. See also: AWS API Documentation
+    /// Updates an email address metadata. For more information about email addresses, see Create email addresses in the Connect Customer Administrator Guide. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -5252,7 +5327,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// Updates details about a specific evaluation form version in the speci- fied Connect Customer instance. Question and section identifiers cannot be duplicated within the same evaluation form. This operation does not support partial updates. Instead it does a full update of evaluation form content. See also: AWS API Documentation
+    /// Updates details about a specific evaluation form version in the specified Connect Customer instance. Question and section identifiers cannot be duplicated within the same evaluation form. This operation does not support partial updates. Instead it does a full update of evaluation form content. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -5267,7 +5342,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// Updates an extraction definition in the specified Connect Customer in- stance. See also: AWS API Documentation
+    /// Updates an extraction definition in the specified Connect Customer instance. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -5357,7 +5432,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// Updates the name and/or description of an existing metric in the speci- fied Connect Customer instance. See also: AWS API Documentation
+    /// Updates the name and/or description of an existing metric in the specified Connect Customer instance. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -5372,7 +5447,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// Updates the localized content of an existing notification. This opera- tion applies to all users for whom the notification was sent. See also: AWS API Documentation
+    /// Updates the localized content of an existing notification. This operation applies to all users for whom the notification was sent. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -5387,7 +5462,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// Instructs Connect Customer to resume the authentication process. The subsequent actions depend on the request body contents: o If a code is provided : Connect retrieves the identity information from Amazon Cognito and imports it into Connect Customer Profiles. o If an error is provided : The error branch of the Authenticate Cus- tomer block is executed. NOTE: The API returns a success response to acknowledge the request. How- ever, the interaction and exchange of identity information occur async...
+    /// Instructs Connect Customer to resume the authentication process. The subsequent actions depend on the request body contents: • If a code is provided : Connect retrieves the identity information from Amazon Cognito and imports it into Connect Customer Profiles. • If an error is provided : The error branch of the Authenticate Customer block is executed. NOTE: The API returns a success response to acknowledge the request. However, the interaction and exchange of identity information occur asynchron...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -5402,7 +5477,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// Updates timeouts for when human chat participants are to be considered idle, and when agents are automatically disconnected from a chat due to idleness. You can set four timers: o Customer idle timeout o Customer auto-disconnect timeout o Agent idle timeout o Agent auto-disconnect timeout For more information about how chat timeouts work, see Set up chat timeouts for human participants . See also: AWS API Documentation
+    /// Updates timeouts for when human chat participants are to be considered idle, and when agents are automatically disconnected from a chat due to idleness. You can set four timers: • Customer idle timeout • Customer auto-disconnect timeout • Agent idle timeout • Agent auto-disconnect timeout For more information about how chat timeouts work, see Set up chat timeouts for human participants . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -5417,7 +5492,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// Updates a phone numbers metadata. WARNING: To verify the status of a previous UpdatePhoneNumberMetadata opera- tion, call the DescribePhoneNumber API. See also: AWS API Documentation
+    /// Updates a phone numbers metadata. WARNING: To verify the status of a previous UpdatePhoneNumberMetadata operation, call the DescribePhoneNumber API. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -5432,7 +5507,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// Updates your claimed phone number from its current Connect Customer in- stance or traffic distribution group to another Connect Customer in- stance or traffic distribution group in the same Amazon Web Services Region. WARNING: After using this API, you must verify that the phone number is at- tached to the correct flow in the target instance or traffic distri- bution group. You need to do this because the API switches only the phone number to a new instance or traffic distribution group. It does...
+    /// Updates your claimed phone number from its current Connect Customer instance or traffic distribution group to another Connect Customer instance or traffic distribution group in the same Amazon Web Services Region. WARNING: After using this API, you must verify that the phone number is attached to the correct flow in the target instance or traffic distribution group. You need to do this because the API switches only the phone number to a new instance or traffic distribution group. It doesn't migr...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -5447,7 +5522,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// Updates a predefined attribute for the specified Connect Customer in- stance. A predefined attribute is made up of a name and a value. For the predefined attributes per instance quota, see Connect Customer quotas . Use cases Following are common uses cases for this API: o Update routing proficiency (for example, agent certification) that has predefined values (for example, a list of possible certifica- tions). For more information, see Create predefined attributes for routing contacts to agents ...
+    /// Updates a predefined attribute for the specified Connect Customer instance. A predefined attribute is made up of a name and a value. For the predefined attributes per instance quota, see Connect Customer quotas . Use cases Following are common uses cases for this API: • Update routing proficiency (for example, agent certification) that has predefined values (for example, a list of possible certifications). For more information, see Create predefined attributes for routing contacts to agents . • ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -5507,7 +5582,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// Updates the name and description of a queue. At least Name or Descrip- tion must be provided. See also: AWS API Documentation
+    /// Updates the name and description of a queue. At least Name or Description must be provided. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -5522,7 +5597,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// Updates the outbound caller ID name, number, and outbound whisper flow for a specified queue. WARNING: o If the phone number is claimed to a traffic distribution group that was created in the same Region as the Connect Customer in- stance where you are calling this API, then you can use a full phone number ARN or a UUID for OutboundCallerIdNumberId . However, if the phone number is claimed to a traffic distribution group that is in one Region, and you are calling this API from an in- stance in a...
+    /// Updates the outbound caller ID name, number, and outbound whisper flow for a specified queue. WARNING: • If the phone number is claimed to a traffic distribution group that was created in the same Region as the Connect Customer instance where you are calling this API, then you can use a full phone number ARN or a UUID for OutboundCallerIdNumberId . However, if the phone number is claimed to a traffic distribution group that is in one Region, and you are calling this API from an instance in anoth...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -5582,7 +5657,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// Updates the name and description of a quick connect. The request ac- cepts the following data in JSON format. At least Name or Description must be provided. See also: AWS API Documentation
+    /// Updates the name and description of a quick connect. The request accepts the following data in JSON format. At least Name or Description must be provided. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -5642,7 +5717,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// Updates the name and description of a routing profile. The request ac- cepts the following data in JSON format. At least Name or Description must be provided. See also: AWS API Documentation
+    /// Updates the name and description of a routing profile. The request accepts the following data in JSON format. At least Name or Description must be provided. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -5702,7 +5777,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// Updates details about a specific task template in the specified Connect Customer instance. This operation does not support partial updates. In- stead it does a full update of template content. See also: AWS API Documentation
+    /// Updates details about a specific task template in the specified Connect Customer instance. This operation does not support partial updates. Instead it does a full update of template content. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -5717,7 +5792,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// Updates any of the metadata for a test case, such as the name, descrip- tion, and status or content of an existing test case. This API doesn't allow customers to update the tags of the test case resource for the specified Amazon Connect instance. See also: AWS API Documentation
+    /// Updates any of the metadata for a test case, such as the name, description, and status or content of an existing test case. This API doesn't allow customers to update the tags of the test case resource for the specified Amazon Connect instance. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -5732,7 +5807,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// Updates the traffic distribution for a given traffic distribution group. WARNING: When you shift telephony traffic, also shift agents and/or agent sign-ins to ensure they can handle the calls in the other Region. If you don't shift the agents, voice calls will go to the shifted Re- gion but there won't be any agents available to receive the calls. NOTE: The SignInConfig distribution is available only on a default Traf- ficDistributionGroup (see the IsDefault parameter in the TrafficDistributionG...
+    /// Updates the traffic distribution for a given traffic distribution group. WARNING: When you shift telephony traffic, also shift agents and/or agent sign-ins to ensure they can handle the calls in the other Region. If you don't shift the agents, voice calls will go to the shifted Region but there won't be any agents available to receive the calls. NOTE: The SignInConfig distribution is available only on a default TrafficDistributionGroup (see the IsDefault parameter in the TrafficDistributionGroup...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -5747,7 +5822,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// Updates the configuration settings for the specified user, including per-channel auto-accept and after contact work (ACW) timeout settings. NOTE: This operation replaces the UpdateUserPhoneConfig API. While Upda- teUserPhoneConfig applies the same ACW timeout to all channels, Up- dateUserConfig allows you to set different auto-accept and ACW time- out values for each channel type. See also: AWS API Documentation
+    /// Updates the configuration settings for the specified user, including per-channel auto-accept and after contact work (ACW) timeout settings. NOTE: This operation replaces the UpdateUserPhoneConfig API. While UpdateUserPhoneConfig applies the same ACW timeout to all channels, UpdateUserConfig allows you to set different auto-accept and ACW timeout values for each channel type. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -5792,7 +5867,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// Updates the user hierarchy structure: add, remove, and rename user hi- erarchy levels. See also: AWS API Documentation
+    /// Updates the user hierarchy structure: add, remove, and rename user hierarchy levels. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -5807,7 +5882,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// Updates the identity information for the specified user. WARNING: We strongly recommend limiting who has the ability to invoke Upda- teUserIdentityInfo . Someone with that ability can change the login credentials of other users by changing their email address. This poses a security risk to your organization. They can change the email address of a user to the attacker's email address, and then reset the password through email. For more information, see Best Practices for Security Profiles in the ...
+    /// Updates the identity information for the specified user. WARNING: We strongly recommend limiting who has the ability to invoke UpdateUserIdentityInfo . Someone with that ability can change the login credentials of other users by changing their email address. This poses a security risk to your organization. They can change the email address of a user to the attacker's email address, and then reset the password through email. For more information, see Best Practices for Security Profiles in the Co...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -5822,7 +5897,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// Updates the status of a notification for a specific user, such as mark- ing it as read or hidden. Users can only update notification status for notifications that have been sent to them. READ status deprioritizes the notification and greys it out, while HIDDEN status removes it from the notification widget. See also: AWS API Documentation
+    /// Updates the status of a notification for a specific user, such as marking it as read or hidden. Users can only update notification status for notifications that have been sent to them. READ status deprioritizes the notification and greys it out, while HIDDEN status removes it from the notification widget. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -5837,7 +5912,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// Updates the phone configuration settings for the specified user. NOTE: We recommend using the UpdateUserConfig API, which supports addi- tional functionality that is not available in the UpdateUser- PhoneConfig API, such as voice enhancement settings and per-channel configuration for auto-accept and After Contact Work (ACW) timeouts. In comparison, the UpdateUserPhoneConfig API will always set the same ACW timeouts to all channels the user handles. See also: AWS API Documentation
+    /// Updates the phone configuration settings for the specified user. NOTE: We recommend using the UpdateUserConfig API, which supports additional functionality that is not available in the UpdateUserPhoneConfig API, such as voice enhancement settings and per-channel configuration for auto-accept and After Contact Work (ACW) timeouts. In comparison, the UpdateUserPhoneConfig API will always set the same ACW timeouts to all channels the user handles. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -5942,7 +6017,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// Updates the configuration of a page in a workspace, including the asso- ciated view and input data. See also: AWS API Documentation
+    /// Updates the configuration of a page in a workspace, including the associated view and input data. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

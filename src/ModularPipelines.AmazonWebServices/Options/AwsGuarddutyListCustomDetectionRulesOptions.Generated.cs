@@ -15,7 +15,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns all available custom detection rules in GuardDuty. You can fil- ter the results by data source, severity, tactic, technique, and ser- vice. See also: AWS API Documentation list-custom-detection-rules is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract...
+/// Returns all available custom detection rules in GuardDuty. You can filter the results by data source, severity, tactic, technique, and service. See also: AWS API Documentation list-custom-detection-rules is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data fr...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -23,16 +23,13 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsGuarddutyListCustomDetectionRulesOptions : AwsOptions
 {
     /// <summary>
-    /// A list of filter criteria to apply when listing custom detection rules. Constraints: o min: 0 o max: 100 (structure) Contains filter criteria for listing custom detection rules or associations. Name -&gt; (string) [required] The name of the field to filter by. Possible values: o name o description o dataSource o severity o tactic o technique o service Values -&gt; (list) [required] The values to match against the specified filter name. Constraints: o min: 1 o max: 50 (string) Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9 _.\-:/]+ Condition -&gt; (string) The condition to apply to the filter. For example, EQUALS or CONTAINS . Possible values: o EQUALS o CONTAINS Shorthand Syntax: Name=string,Values=string,string,Condition=string ... JSON Syntax: [ { "Name": "name"|"description"|"dataSource"|"severity"|"tactic"|"technique"|"service", "Values": ["string", ...], "Condition": "EQUALS"|"CONTAINS" } ... ]
+    /// A list of filter criteria to apply when listing custom detection rules. Constraints: • min: 0 • max: 100 (structure) Contains filter criteria for listing custom detection rules or associations. Name -&gt; (string) [required] The name of the field to filter by. Possible values: • name • description • dataSource • severity • tactic • technique • service Values -&gt; (list) [required] The values to match against the specified filter name. Constraints: • min: 1 • max: 50 (string) Constraints: • min: 1 • max: 255 • pattern: [a-zA-Z0-9 _.\-:/]+ Condition -&gt; (string) The condition to apply to the filter. For example, EQUALS or CONTAINS . Possible values: • EQUALS • CONTAINS Shorthand Syntax: Name=string,Values=string,string,Condition=string ... JSON Syntax: [ { "Name": "name"|"description"|"dataSource"|"severity"|"tactic"|"technique"|"service", "Values": ["string", ...], "Condition": "EQUALS"|"CONTAINS" } ... ]
     /// </summary>
     [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -42,15 +39,27 @@ public record AwsGuarddutyListCustomDetectionRulesOptions : AwsOptions
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 100
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

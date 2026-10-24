@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsElasticbeanstalkUpdateApplicationOptions : AwsOptions, IValidat
     /// <summary>
     /// Updates the specified application to have the specified properties. NOTE: If a property (for example, description ) is not provided, the value remains unchanged. To clear these properties, specify an empty string. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ApplicationName">The name of the application to update. If no such application is found, UpdateApplication returns an InvalidParameterValue error. Constraints: o min: 1 o max: 100</param>
+    /// <param name="ApplicationName">The name of the application to update. If no such application is found, UpdateApplication returns an InvalidParameterValue error. Constraints: • min: 1 • max: 100</param>
     public AwsElasticbeanstalkUpdateApplicationOptions(
         string ApplicationName
     )
@@ -56,13 +57,13 @@ public record AwsElasticbeanstalkUpdateApplicationOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the application to update. If no such application is found, UpdateApplication returns an InvalidParameterValue error. Constraints: o min: 1 o max: 100
+    /// The name of the application to update. If no such application is found, UpdateApplication returns an InvalidParameterValue error. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--application-name")]
     public string? ApplicationName { get; private init; }
 
     /// <summary>
-    /// A new description for the application. Default: If not specified, Elastic Beanstalk does not update the de- scription. Constraints: o max: 200
+    /// A new description for the application. Default: If not specified, Elastic Beanstalk does not update the description. Constraints: • max: 200
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
@@ -88,6 +89,15 @@ public record AwsElasticbeanstalkUpdateApplicationOptions : AwsOptions, IValidat
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

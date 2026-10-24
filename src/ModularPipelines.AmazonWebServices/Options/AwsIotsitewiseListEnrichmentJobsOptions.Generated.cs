@@ -11,13 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Lists enrichment jobs within a workspace with optional filtering and pagination. Results are ordered by createdAt timestamp descending (newest first). Filtering Combine filters to narrow results: o datasetId: Filter by dataset o propertyAliasOR timeSeriesId: Filter by time series (specify one, not both) o status: Filter by job status (e.g., RUNNING to find active jobs) o jobType: Filter by enrichment type (currently only EVENT_DETECTION) o startDateand endDate: Filter by job creation time range ...
+/// Lists enrichment jobs within a workspace with optional filtering and pagination. Results are ordered by createdAt timestamp descending (newest first). Filtering Combine filters to narrow results: • datasetId: Filter by dataset • propertyAliasOR timeSeriesId: Filter by time series (specify one, not both) • status: Filter by job status (e.g., RUNNING to find active jobs) • jobType: Filter by enrichment type (currently only EVENT_DETECTION) • startDateand endDate: Filter by job creation time range ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,9 +28,9 @@ public record AwsIotsitewiseListEnrichmentJobsOptions : AwsOptions, IValidatable
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Lists enrichment jobs within a workspace with optional filtering and pagination. Results are ordered by createdAt timestamp descending (newest first). Filtering Combine filters to narrow results: o datasetId: Filter by dataset o propertyAliasOR timeSeriesId: Filter by time series (specify one, not both) o status: Filter by job status (e.g., RUNNING to find active jobs) o jobType: Filter by enrichment type (currently only EVENT_DETECTION) o startDateand endDate: Filter by job creation time range ...
+    /// Lists enrichment jobs within a workspace with optional filtering and pagination. Results are ordered by createdAt timestamp descending (newest first). Filtering Combine filters to narrow results: • datasetId: Filter by dataset • propertyAliasOR timeSeriesId: Filter by time series (specify one, not both) • status: Filter by job status (e.g., RUNNING to find active jobs) • jobType: Filter by enrichment type (currently only EVENT_DETECTION) • startDateand endDate: Filter by job creation time range ...
     /// </summary>
-    /// <param name="WorkspaceName">The name of the IoT SiteWise workspace to list enrichment jobs from. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$</param>
+    /// <param name="WorkspaceName">The name of the IoT SiteWise workspace to list enrichment jobs from. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9_-]+$</param>
     public AwsIotsitewiseListEnrichmentJobsOptions(
         string WorkspaceName
     )
@@ -58,37 +59,37 @@ public record AwsIotsitewiseListEnrichmentJobsOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the IoT SiteWise workspace to list enrichment jobs from. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$
+    /// The name of the IoT SiteWise workspace to list enrichment jobs from. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9_-]+$
     /// </summary>
     [CliOption("--workspace-name")]
     public string? WorkspaceName { get; private init; }
 
     /// <summary>
-    /// Filter jobs by dataset ID. Returns only jobs analyzing data from the specified dataset. Constraints: o min: 36 o max: 36 o pattern: ^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$
+    /// Filter jobs by dataset ID. Returns only jobs analyzing data from the specified dataset. Constraints: • min: 36 • max: 36 • pattern: ^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$
     /// </summary>
     [CliOption("--dataset-id")]
     public string? DataSetId { get; set; }
 
     /// <summary>
-    /// Filter by property alias (human-readable sensor name). Specify ei- ther propertyAlias or timeSeriesId, but not both. Returns only jobs analyzing the specified property alias. Constraints: o min: 1 o max: 2048 o pattern: [^\u0000-\u001F\u007F]+
+    /// Filter by property alias (human-readable sensor name). Specify either propertyAlias or timeSeriesId, but not both. Returns only jobs analyzing the specified property alias. Constraints: • min: 1 • max: 2048 • pattern: [^\u0000-\u001F\u007F]+
     /// </summary>
     [CliOption("--property-alias")]
     public string? PropertyAlias { get; set; }
 
     /// <summary>
-    /// Filter by time series ID (system identifier). Specify either time- SeriesId or propertyAlias, but not both. Returns only jobs analyzing the specified time series. Constraints: o min: 36 o max: 73
+    /// Filter by time series ID (system identifier). Specify either timeSeriesId or propertyAlias, but not both. Returns only jobs analyzing the specified time series. Constraints: • min: 36 • max: 73
     /// </summary>
     [CliOption("--time-series-id")]
     public string? TimeSeriesId { get; set; }
 
     /// <summary>
-    /// Filter by job status. Returns only jobs in the specified status. Use RUNNING to find active jobs, or FAILED to identify jobs requiring attention. Possible values: o PENDING o RUNNING o COMPLETED o FAILED o TIMED_OUT o CANCELLED
+    /// Filter by job status. Returns only jobs in the specified status. Use RUNNING to find active jobs, or FAILED to identify jobs requiring attention. Possible values: • PENDING • RUNNING • COMPLETED • FAILED • TIMED_OUT • CANCELLED
     /// </summary>
     [CliOption("--status")]
     public AwsIotsitewiseListEnrichmentJobsStatus? Status { get; set; }
 
     /// <summary>
-    /// Filter by enrichment job type. Currently only EVENT_DETECTION is supported. Use this filter to future-proof queries when additional job types are added. Possible values: o EVENT_DETECTION
+    /// Filter by enrichment job type. Currently only EVENT_DETECTION is supported. Use this filter to future-proof queries when additional job types are added. Possible values: • EVENT_DETECTION
     /// </summary>
     [CliOption("--job-type")]
     public string? JobType { get; set; }
@@ -108,9 +109,6 @@ public record AwsIotsitewiseListEnrichmentJobsOptions : AwsOptions, IValidatable
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
-
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
@@ -119,16 +117,19 @@ public record AwsIotsitewiseListEnrichmentJobsOptions : AwsOptions, IValidatable
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 250
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 250
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
@@ -145,6 +146,15 @@ public record AwsIotsitewiseListEnrichmentJobsOptions : AwsOptions, IValidatable
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

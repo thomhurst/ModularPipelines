@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Writes multiple data records into a Firehose stream in a single call, which can achieve higher throughput per producer than when writing sin- gle records. To write single data records into a Firehose stream, use PutRecord . Applications using these operations are referred to as pro- ducers. Firehose accumulates and publishes a particular metric for a customer account in one minute intervals. It is possible that the bursts of in- coming bytes/records ingested to a Firehose stream last only for a ...
+/// Writes multiple data records into a Firehose stream in a single call, which can achieve higher throughput per producer than when writing single records. To write single data records into a Firehose stream, use PutRecord . Applications using these operations are referred to as producers. Firehose accumulates and publishes a particular metric for a customer account in one minute intervals. It is possible that the bursts of incoming bytes/records ingested to a Firehose stream last only for a few se...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsFirehosePutRecordBatchOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Writes multiple data records into a Firehose stream in a single call, which can achieve higher throughput per producer than when writing sin- gle records. To write single data records into a Firehose stream, use PutRecord . Applications using these operations are referred to as pro- ducers. Firehose accumulates and publishes a particular metric for a customer account in one minute intervals. It is possible that the bursts of in- coming bytes/records ingested to a Firehose stream last only for a ...
+    /// Writes multiple data records into a Firehose stream in a single call, which can achieve higher throughput per producer than when writing single records. To write single data records into a Firehose stream, use PutRecord . Applications using these operations are referred to as producers. Firehose accumulates and publishes a particular metric for a customer account in one minute intervals. It is possible that the bursts of incoming bytes/records ingested to a Firehose stream last only for a few se...
     /// </summary>
-    /// <param name="DeliveryStreamName">The name of the Firehose stream. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_.-]+</param>
-    /// <param name="Records">One or more records. Constraints: o min: 1 o max: 500 (structure) The unit of data in a Firehose stream. Data -&gt; (blob) [required] The data blob, which is base64-encoded when the blob is seri- alized. The maximum size of the data blob, before base64-en- coding, is 1,000 KiB. Constraints: o min: 0 o max: 1024000 Shorthand Syntax: --records Data1 Data2 Data3 JSON Syntax: [ { "Data": blob } ... ]</param>
+    /// <param name="DeliveryStreamName">The name of the Firehose stream. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9_.-]+</param>
+    /// <param name="Records">One or more records. Constraints: • min: 1 • max: 500 (structure) The unit of data in a Firehose stream. Data -&gt; (blob) [required] The data blob, which is base64-encoded when the blob is serialized. The maximum size of the data blob, before base64-encoding, is 1,000 KiB. Constraints: • min: 0 • max: 1024000 Shorthand Syntax: --records Data1 Data2 Data3 JSON Syntax: [ { "Data": blob } ... ]</param>
     public AwsFirehosePutRecordBatchOptions(
         string DeliveryStreamName,
         IEnumerable<string> Records
@@ -71,13 +72,13 @@ public record AwsFirehosePutRecordBatchOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the Firehose stream. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_.-]+
+    /// The name of the Firehose stream. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9_.-]+
     /// </summary>
     [CliOption("--delivery-stream-name")]
     public string? DeliveryStreamName { get; private init; }
 
     /// <summary>
-    /// One or more records. Constraints: o min: 1 o max: 500 (structure) The unit of data in a Firehose stream. Data -&gt; (blob) [required] The data blob, which is base64-encoded when the blob is seri- alized. The maximum size of the data blob, before base64-en- coding, is 1,000 KiB. Constraints: o min: 0 o max: 1024000 Shorthand Syntax: --records Data1 Data2 Data3 JSON Syntax: [ { "Data": blob } ... ]
+    /// One or more records. Constraints: • min: 1 • max: 500 (structure) The unit of data in a Firehose stream. Data -&gt; (blob) [required] The data blob, which is base64-encoded when the blob is serialized. The maximum size of the data blob, before base64-encoding, is 1,000 KiB. Constraints: • min: 0 • max: 1024000 Shorthand Syntax: --records Data1 Data2 Data3 JSON Syntax: [ { "Data": blob } ... ]
     /// </summary>
     [CliOption("--records", GroupValues = true)]
     public IEnumerable<string>? Records { get; private init; }
@@ -103,6 +104,15 @@ public record AwsFirehosePutRecordBatchOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

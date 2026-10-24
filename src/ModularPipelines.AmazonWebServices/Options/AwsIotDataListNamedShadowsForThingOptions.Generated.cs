@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Lists the shadows for the specified thing. Requires permission to access the ListNamedShadowsForThing action. See also: AWS API Documentation NOTE: For production code it is strongly recommended to use the custom endpoint for your account (retrievable via the iot describe-endpoint command) to ensure best availability and reachability of the ser- vice. The default endpoints (intended for testing purposes only) can be found at https://docs.aws.amazon.com/general/latest/gr/iot-core.html#iot-core-da...
+/// Lists the shadows for the specified thing. Requires permission to access the ListNamedShadowsForThing action. See also: AWS API Documentation NOTE: For production code it is strongly recommended to use the custom endpoint for your account (retrievable via the iot describe-endpoint command) to ensure best availability and reachability of the service. The default endpoints (intended for testing purposes only) can be found at https://docs.aws.amazon.com/general/latest/gr/iot-core.html#iot-core-data...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +27,9 @@ public record AwsIotDataListNamedShadowsForThingOptions : AwsOptions, IValidatab
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Lists the shadows for the specified thing. Requires permission to access the ListNamedShadowsForThing action. See also: AWS API Documentation NOTE: For production code it is strongly recommended to use the custom endpoint for your account (retrievable via the iot describe-endpoint command) to ensure best availability and reachability of the ser- vice. The default endpoints (intended for testing purposes only) can be found at https://docs.aws.amazon.com/general/latest/gr/iot-core.html#iot-core-da...
+    /// Lists the shadows for the specified thing. Requires permission to access the ListNamedShadowsForThing action. See also: AWS API Documentation NOTE: For production code it is strongly recommended to use the custom endpoint for your account (retrievable via the iot describe-endpoint command) to ensure best availability and reachability of the service. The default endpoints (intended for testing purposes only) can be found at https://docs.aws.amazon.com/general/latest/gr/iot-core.html#iot-core-data...
     /// </summary>
-    /// <param name="ThingName">The name of the thing. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9:_-]+</param>
+    /// <param name="ThingName">The name of the thing. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9:_-]+</param>
     public AwsIotDataListNamedShadowsForThingOptions(
         string ThingName
     )
@@ -57,7 +58,7 @@ public record AwsIotDataListNamedShadowsForThingOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the thing. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9:_-]+
+    /// The name of the thing. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9:_-]+
     /// </summary>
     [CliOption("--thing-name")]
     public string? ThingName { get; private init; }
@@ -70,7 +71,7 @@ public record AwsIotDataListNamedShadowsForThingOptions : AwsOptions, IValidatab
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// The result page size. Constraints: o min: 1 o max: 100
+    /// The result page size. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
@@ -96,6 +97,15 @@ public record AwsIotDataListNamedShadowsForThingOptions : AwsOptions, IValidatab
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

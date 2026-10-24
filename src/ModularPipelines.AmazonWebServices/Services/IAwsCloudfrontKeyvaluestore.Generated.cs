@@ -6,14 +6,14 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using ModularPipelines.Models;
+using ModularPipelines;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
 namespace ModularPipelines.AmazonWebServices.Services;
 
 /// <summary>
-/// aws cloudfrontkeyvaluestore commands.
+/// aws cloudfront-keyvaluestore commands.
 /// </summary>
 /// <remarks>
 /// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
@@ -28,8 +28,7 @@ public interface IAwsCloudfrontKeyvaluestore
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteKeyAsync(AwsCloudfrontKeyvaluestoreDeleteKeyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteKeyAsync(AwsCloudfrontKeyvaluestoreDeleteKeyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns metadata information about Key Value Store. See also: AWS API Documentation
@@ -38,8 +37,7 @@ public interface IAwsCloudfrontKeyvaluestore
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeKeyValueStoreAsync(AwsCloudfrontKeyvaluestoreDescribeKeyValueStoreOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeKeyValueStoreAsync(AwsCloudfrontKeyvaluestoreDescribeKeyValueStoreOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a key value pair. See also: AWS API Documentation
@@ -48,18 +46,16 @@ public interface IAwsCloudfrontKeyvaluestore
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetKeyAsync(AwsCloudfrontKeyvaluestoreGetKeyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetKeyAsync(AwsCloudfrontKeyvaluestoreGetKeyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Returns a list of key value pairs. See also: AWS API Documentation list-keys is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagi- nation by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query ar- gument must extract data from the results of the following query ex- pressions: Items
+    /// Returns a list of key value pairs. See also: AWS API Documentation list-keys is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Items
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListKeysAsync(AwsCloudfrontKeyvaluestoreListKeysOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListKeysAsync(AwsCloudfrontKeyvaluestoreListKeysOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a new key value pair or replaces the value of an existing key. See also: AWS API Documentation
@@ -68,8 +64,7 @@ public interface IAwsCloudfrontKeyvaluestore
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutKeyAsync(AwsCloudfrontKeyvaluestorePutKeyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutKeyAsync(AwsCloudfrontKeyvaluestorePutKeyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Puts or Deletes multiple key value pairs in a single, all-or-nothing operation. See also: AWS API Documentation
@@ -78,7 +73,6 @@ public interface IAwsCloudfrontKeyvaluestore
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateKeysAsync(AwsCloudfrontKeyvaluestoreUpdateKeysOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateKeysAsync(AwsCloudfrontKeyvaluestoreUpdateKeysOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

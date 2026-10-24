@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsPersonalizeEventsPutActionsOptions : AwsOptions, IValidatableOb
     /// <summary>
     /// Adds one or more actions to an Actions dataset. For more information see Importing actions individually . See also: AWS API Documentation
     /// </summary>
-    /// <param name="DataSetArn">The Amazon Resource Name (ARN) of the Actions dataset you are adding the action or actions to. Constraints: o max: 256 o pattern: arn:([a-z\d-]+):personalize:.*:.*:.+</param>
-    /// <param name="Actions">A list of action data. Constraints: o min: 1 o max: 10 (structure) Represents action metadata added to an Action dataset using the PutActions API. For more information see Importing actions indi- vidually . actionId -&gt; (string) [required] The ID associated with the action. Constraints: o min: 1 o max: 256 properties -&gt; (string) A string map of action-specific metadata. Each element in the map consists of a key-value pair. For example, {"value": "100"} . The keys use camel case names that match the fields in the schema for the Actions dataset. In the previous example, the value matches the 'VALUE' field defined in the Actions schema. For categorical string data, to include multiple cat- egories for a single action, separate each category with a pipe separator (| ). For example, \"Deluxe|Premium\" . Constraints: o min: 1 o max: 32000 Shorthand Syntax: actionId=string,properties=string ... JSON Syntax: [ { "actionId": "string", "properties": "string" } ... ]</param>
+    /// <param name="DataSetArn">The Amazon Resource Name (ARN) of the Actions dataset you are adding the action or actions to. Constraints: • max: 256 • pattern: arn:([a-z\d-]+):personalize:.*:.*:.+</param>
+    /// <param name="Actions">A list of action data. Constraints: • min: 1 • max: 10 (structure) Represents action metadata added to an Action dataset using the PutActions API. For more information see Importing actions individually . actionId -&gt; (string) [required] The ID associated with the action. Constraints: • min: 1 • max: 256 properties -&gt; (string) A string map of action-specific metadata. Each element in the map consists of a key-value pair. For example, {"value": "100"} . The keys use camel case names that match the fields in the schema for the Actions dataset. In the previous example, the value matches the 'VALUE' field defined in the Actions schema. For categorical string data, to include multiple categories for a single action, separate each category with a pipe separator (| ). For example, \"Deluxe|Premium\" . Constraints: • min: 1 • max: 32000 Shorthand Syntax: actionId=string,properties=string ... JSON Syntax: [ { "actionId": "string", "properties": "string" } ... ]</param>
     public AwsPersonalizeEventsPutActionsOptions(
         string DataSetArn,
         IEnumerable<string> Actions
@@ -71,13 +72,13 @@ public record AwsPersonalizeEventsPutActionsOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the Actions dataset you are adding the action or actions to. Constraints: o max: 256 o pattern: arn:([a-z\d-]+):personalize:.*:.*:.+
+    /// The Amazon Resource Name (ARN) of the Actions dataset you are adding the action or actions to. Constraints: • max: 256 • pattern: arn:([a-z\d-]+):personalize:.*:.*:.+
     /// </summary>
     [CliOption("--dataset-arn")]
     public string? DataSetArn { get; private init; }
 
     /// <summary>
-    /// A list of action data. Constraints: o min: 1 o max: 10 (structure) Represents action metadata added to an Action dataset using the PutActions API. For more information see Importing actions indi- vidually . actionId -&gt; (string) [required] The ID associated with the action. Constraints: o min: 1 o max: 256 properties -&gt; (string) A string map of action-specific metadata. Each element in the map consists of a key-value pair. For example, {"value": "100"} . The keys use camel case names that match the fields in the schema for the Actions dataset. In the previous example, the value matches the 'VALUE' field defined in the Actions schema. For categorical string data, to include multiple cat- egories for a single action, separate each category with a pipe separator (| ). For example, \"Deluxe|Premium\" . Constraints: o min: 1 o max: 32000 Shorthand Syntax: actionId=string,properties=string ... JSON Syntax: [ { "actionId": "string", "properties": "string" } ... ]
+    /// A list of action data. Constraints: • min: 1 • max: 10 (structure) Represents action metadata added to an Action dataset using the PutActions API. For more information see Importing actions individually . actionId -&gt; (string) [required] The ID associated with the action. Constraints: • min: 1 • max: 256 properties -&gt; (string) A string map of action-specific metadata. Each element in the map consists of a key-value pair. For example, {"value": "100"} . The keys use camel case names that match the fields in the schema for the Actions dataset. In the previous example, the value matches the 'VALUE' field defined in the Actions schema. For categorical string data, to include multiple categories for a single action, separate each category with a pipe separator (| ). For example, \"Deluxe|Premium\" . Constraints: • min: 1 • max: 32000 Shorthand Syntax: actionId=string,properties=string ... JSON Syntax: [ { "actionId": "string", "properties": "string" } ... ]
     /// </summary>
     [CliOption("--actions", GroupValues = true)]
     public IEnumerable<string>? Actions { get; private init; }
@@ -103,6 +104,15 @@ public record AwsPersonalizeEventsPutActionsOptions : AwsOptions, IValidatableOb
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

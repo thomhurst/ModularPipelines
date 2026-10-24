@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Makes a copy of an existing snapshot. NOTE: This operation is valid for Valkey or Redis OSS only. WARNING: Users or groups that have permissions to use the CopySnapshot opera- tion can create their own Amazon S3 buckets and copy snapshots to it. To control access to your snapshots, use an IAM policy to con- trol who has the ability to use the CopySnapshot operation. For more information about using IAM to control the use of ElastiCache opera- tions, see Exporting Snapshots and Authentication &amp; A...
+/// Makes a copy of an existing snapshot. NOTE: This operation is valid for Valkey or Redis OSS only. WARNING: Users or groups that have permissions to use the CopySnapshot operation can create their own Amazon S3 buckets and copy snapshots to it. To control access to your snapshots, use an IAM policy to control who has the ability to use the CopySnapshot operation. For more information about using IAM to control the use of ElastiCache operations, see Exporting Snapshots and Authentication &amp; Access ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsElasticacheCopySnapshotOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Makes a copy of an existing snapshot. NOTE: This operation is valid for Valkey or Redis OSS only. WARNING: Users or groups that have permissions to use the CopySnapshot opera- tion can create their own Amazon S3 buckets and copy snapshots to it. To control access to your snapshots, use an IAM policy to con- trol who has the ability to use the CopySnapshot operation. For more information about using IAM to control the use of ElastiCache opera- tions, see Exporting Snapshots and Authentication &amp; A...
+    /// Makes a copy of an existing snapshot. NOTE: This operation is valid for Valkey or Redis OSS only. WARNING: Users or groups that have permissions to use the CopySnapshot operation can create their own Amazon S3 buckets and copy snapshots to it. To control access to your snapshots, use an IAM policy to control who has the ability to use the CopySnapshot operation. For more information about using IAM to control the use of ElastiCache operations, see Exporting Snapshots and Authentication &amp; Access ...
     /// </summary>
     /// <param name="SourceSnapshotName">The name of an existing snapshot from which to make a copy.</param>
-    /// <param name="TargetSnapshotName">A name for the snapshot copy. ElastiCache does not permit overwrit- ing a snapshot, therefore this name must be unique within its con- text - ElastiCache or an Amazon S3 bucket if exporting. This value is stored as a lowercase string.</param>
+    /// <param name="TargetSnapshotName">A name for the snapshot copy. ElastiCache does not permit overwriting a snapshot, therefore this name must be unique within its context - ElastiCache or an Amazon S3 bucket if exporting. This value is stored as a lowercase string.</param>
     public AwsElasticacheCopySnapshotOptions(
         string SourceSnapshotName,
         string TargetSnapshotName
@@ -66,13 +67,13 @@ public record AwsElasticacheCopySnapshotOptions : AwsOptions, IValidatableObject
     public string? SourceSnapshotName { get; private init; }
 
     /// <summary>
-    /// A name for the snapshot copy. ElastiCache does not permit overwrit- ing a snapshot, therefore this name must be unique within its con- text - ElastiCache or an Amazon S3 bucket if exporting. This value is stored as a lowercase string.
+    /// A name for the snapshot copy. ElastiCache does not permit overwriting a snapshot, therefore this name must be unique within its context - ElastiCache or an Amazon S3 bucket if exporting. This value is stored as a lowercase string.
     /// </summary>
     [CliOption("--target-snapshot-name")]
     public string? TargetSnapshotName { get; private init; }
 
     /// <summary>
-    /// The Amazon S3 bucket to which the snapshot is exported. This parame- ter is used only when exporting a snapshot for external access. When using this parameter to export a snapshot, be sure Amazon Elas- tiCache has the needed permissions to this S3 bucket. For more in- formation, see Step 2: Grant ElastiCache Access to Your Amazon S3 Bucket in the Amazon ElastiCache User Guide . For more information, see Exporting a Snapshot in the Amazon Elasti- Cache User Guide .
+    /// The Amazon S3 bucket to which the snapshot is exported. This parameter is used only when exporting a snapshot for external access. When using this parameter to export a snapshot, be sure Amazon ElastiCache has the needed permissions to this S3 bucket. For more information, see Step 2: Grant ElastiCache Access to Your Amazon S3 Bucket in the Amazon ElastiCache User Guide . For more information, see Exporting a Snapshot in the Amazon ElastiCache User Guide .
     /// </summary>
     [CliOption("--target-bucket")]
     public string? TargetBucket { get; set; }
@@ -110,6 +111,15 @@ public record AwsElasticacheCopySnapshotOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

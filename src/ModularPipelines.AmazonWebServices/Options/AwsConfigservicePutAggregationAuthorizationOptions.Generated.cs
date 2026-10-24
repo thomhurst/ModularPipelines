@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Authorizes the aggregator account and region to collect data from the source account and region. NOTE: Tags are added at creation and cannot be updated with this oper- ation PutAggregationAuthorization is an idempotent API. Subsequent re- quests wont create a duplicate resource if one was already cre- ated. If a following request has different tags values, Config will ignore these differences and treat it as an idempotent re- quest of the previous. In this case, tags will not be updated, even if...
+/// Authorizes the aggregator account and region to collect data from the source account and region. NOTE: Tags are added at creation and cannot be updated with this operation PutAggregationAuthorization is an idempotent API. Subsequent requests wont create a duplicate resource if one was already created. If a following request has different tags values, Config will ignore these differences and treat it as an idempotent request of the previous. In this case, tags will not be updated, even if they ar...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsConfigservicePutAggregationAuthorizationOptions : AwsOptions, I
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Authorizes the aggregator account and region to collect data from the source account and region. NOTE: Tags are added at creation and cannot be updated with this oper- ation PutAggregationAuthorization is an idempotent API. Subsequent re- quests wont create a duplicate resource if one was already cre- ated. If a following request has different tags values, Config will ignore these differences and treat it as an idempotent re- quest of the previous. In this case, tags will not be updated, even if...
+    /// Authorizes the aggregator account and region to collect data from the source account and region. NOTE: Tags are added at creation and cannot be updated with this operation PutAggregationAuthorization is an idempotent API. Subsequent requests wont create a duplicate resource if one was already created. If a following request has different tags values, Config will ignore these differences and treat it as an idempotent request of the previous. In this case, tags will not be updated, even if they ar...
     /// </summary>
-    /// <param name="AuthorizedAccountId">The 12-digit account ID of the account authorized to aggregate data. Constraints: o pattern: \d{12}</param>
-    /// <param name="AuthorizedAwsRegion">The region authorized to collect aggregated data. Constraints: o min: 1 o max: 64</param>
+    /// <param name="AuthorizedAccountId">The 12-digit account ID of the account authorized to aggregate data. Constraints: • pattern: \d{12}</param>
+    /// <param name="AuthorizedAwsRegion">The region authorized to collect aggregated data. Constraints: • min: 1 • max: 64</param>
     public AwsConfigservicePutAggregationAuthorizationOptions(
         string AuthorizedAccountId,
         string AuthorizedAwsRegion
@@ -60,19 +61,19 @@ public record AwsConfigservicePutAggregationAuthorizationOptions : AwsOptions, I
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The 12-digit account ID of the account authorized to aggregate data. Constraints: o pattern: \d{12}
+    /// The 12-digit account ID of the account authorized to aggregate data. Constraints: • pattern: \d{12}
     /// </summary>
     [CliOption("--authorized-account-id")]
     public string? AuthorizedAccountId { get; private init; }
 
     /// <summary>
-    /// The region authorized to collect aggregated data. Constraints: o min: 1 o max: 64
+    /// The region authorized to collect aggregated data. Constraints: • min: 1 • max: 64
     /// </summary>
     [CliOption("--authorized-aws-region")]
     public string? AuthorizedAwsRegion { get; private init; }
 
     /// <summary>
-    /// An array of tag object. Constraints: o min: 0 o max: 50 (structure) The tags for the resource. The metadata that you apply to a re- source to help you categorize and organize them. Each tag con- sists of a key and an optional value, both of which you define. Tag keys can have a maximum character length of 128 characters, and tag values can have a maximum length of 256 characters. Key -&gt; (string) One part of a key-value pair that make up a tag. A key is a general label that acts like a category for more specific tag values. Constraints: o min: 1 o max: 128 Value -&gt; (string) The optional part of a key-value pair that make up a tag. A value acts as a descriptor within a tag category (key). Constraints: o min: 0 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// An array of tag object. Constraints: • min: 0 • max: 50 (structure) The tags for the resource. The metadata that you apply to a resource to help you categorize and organize them. Each tag consists of a key and an optional value, both of which you define. Tag keys can have a maximum character length of 128 characters, and tag values can have a maximum length of 256 characters. Key -&gt; (string) One part of a key-value pair that make up a tag. A key is a general label that acts like a category for more specific tag values. Constraints: • min: 1 • max: 128 Value -&gt; (string) The optional part of a key-value pair that make up a tag. A value acts as a descriptor within a tag category (key). Constraints: • min: 0 • max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
@@ -98,6 +99,15 @@ public record AwsConfigservicePutAggregationAuthorizationOptions : AwsOptions, I
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

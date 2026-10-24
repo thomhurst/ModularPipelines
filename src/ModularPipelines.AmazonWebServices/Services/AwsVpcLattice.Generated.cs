@@ -6,15 +6,15 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
+using ModularPipelines;
 using ModularPipelines.Context;
-using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
 namespace ModularPipelines.AmazonWebServices.Services;
 
 /// <summary>
-/// aws vpclattice commands.
+/// aws vpc-lattice commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AwsVpcLattice : IAwsVpcLattice
@@ -32,7 +32,7 @@ public class AwsVpcLattice : IAwsVpcLattice
     #region Commands
 
     /// <summary>
-    /// Updates the listener rules in a batch. You can use this operation to change the priority of listener rules. This can be useful when bulk up- dating or swapping rule priority. Required permissions: vpc-lattice:UpdateRule For more information, see How Amazon VPC Lattice works with IAM in the Amazon VPC Lattice User Guide . See also: AWS API Documentation
+    /// Updates the listener rules in a batch. You can use this operation to change the priority of listener rules. This can be useful when bulk updating or swapping rule priority. Required permissions: vpc-lattice:UpdateRule For more information, see How Amazon VPC Lattice works with IAM in the Amazon VPC Lattice User Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -47,7 +47,7 @@ public class AwsVpcLattice : IAwsVpcLattice
     }
 
     /// <summary>
-    /// Enables access logs to be sent to Amazon CloudWatch, Amazon S3, and Amazon Kinesis Data Firehose. The service network owner can use the ac- cess logs to audit the services in the network. The service network owner can only see access logs from clients and services that are asso- ciated with their service network. Access log entries represent traffic originated from VPCs associated with that network. For more informa- tion, see Access logs in the Amazon VPC Lattice User Guide . See also: AWS API ...
+    /// Enables access logs to be sent to Amazon CloudWatch, Amazon S3, and Amazon Kinesis Data Firehose. The service network owner can use the access logs to audit the services in the network. The service network owner can only see access logs from clients and services that are associated with their service network. Access log entries represent traffic originated from VPCs associated with that network. For more information, see Access logs in the Amazon VPC Lattice User Guide . See also: AWS API Docume...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -107,7 +107,7 @@ public class AwsVpcLattice : IAwsVpcLattice
     }
 
     /// <summary>
-    /// Creates a listener rule. Each listener has a default rule for checking connection requests, but you can define additional rules. Each rule consists of a priority, one or more actions, and one or more condi- tions. For more information, see Listener rules in the Amazon VPC Lat- tice User Guide . See also: AWS API Documentation
+    /// Creates a listener rule. Each listener has a default rule for checking connection requests, but you can define additional rules. Each rule consists of a priority, one or more actions, and one or more conditions. For more information, see Listener rules in the Amazon VPC Lattice User Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -137,7 +137,7 @@ public class AwsVpcLattice : IAwsVpcLattice
     }
 
     /// <summary>
-    /// Associates the specified service network with the specified resource configuration. This allows the resource configuration to receive con- nections through the service network, including through a service net- work VPC endpoint. See also: AWS API Documentation
+    /// Associates the specified service network with the specified resource configuration. This allows the resource configuration to receive connections through the service network, including through a service network VPC endpoint. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -152,7 +152,7 @@ public class AwsVpcLattice : IAwsVpcLattice
     }
 
     /// <summary>
-    /// Associates the specified service with the specified service network. For more information, see Manage service associations in the Amazon VPC Lattice User Guide . You can't use this operation if the service and service network are al- ready associated or if there is a disassociation or deletion in progress. If the association fails, you can retry the operation by deleting the association and recreating it. You cannot associate a service and service network that are shared with a caller. The calle...
+    /// Associates the specified service with the specified service network. For more information, see Manage service associations in the Amazon VPC Lattice User Guide . You can't use this operation if the service and service network are already associated or if there is a disassociation or deletion in progress. If the association fails, you can retry the operation by deleting the association and recreating it. You cannot associate a service and service network that are shared with a caller. The caller ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -167,7 +167,7 @@ public class AwsVpcLattice : IAwsVpcLattice
     }
 
     /// <summary>
-    /// Associates a VPC with a service network. When you associate a VPC with the service network, it enables all the resources within that VPC to be clients and communicate with other services in the service network. For more information, see Manage VPC associations in the Amazon VPC Lattice User Guide . You can't use this operation if there is a disassociation in progress. If the association fails, retry by deleting the association and recre- ating it. As a result of this operation, the association g...
+    /// Associates a VPC with a service network. When you associate a VPC with the service network, it enables all the resources within that VPC to be clients and communicate with other services in the service network. For more information, see Manage VPC associations in the Amazon VPC Lattice User Guide . You can't use this operation if there is a disassociation in progress. If the association fails, retry by deleting the association and recreating it. As a result of this operation, the association get...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -227,7 +227,7 @@ public class AwsVpcLattice : IAwsVpcLattice
     }
 
     /// <summary>
-    /// Deletes the specified auth policy. If an auth is set to AWS_IAM and the auth policy is deleted, all requests are denied. If you are trying to remove the auth policy completely, you must set the auth type to NONE . If auth is enabled on the resource, but no auth policy is set, all re- quests are denied. See also: AWS API Documentation
+    /// Deletes the specified auth policy. If an auth is set to AWS_IAM and the auth policy is deleted, all requests are denied. If you are trying to remove the auth policy completely, you must set the auth type to NONE . If auth is enabled on the resource, but no auth policy is set, all requests are denied. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -287,7 +287,7 @@ public class AwsVpcLattice : IAwsVpcLattice
     }
 
     /// <summary>
-    /// Disassociates the resource configuration from the resource VPC end- point. See also: AWS API Documentation
+    /// Disassociates the resource configuration from the resource VPC endpoint. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -332,7 +332,7 @@ public class AwsVpcLattice : IAwsVpcLattice
     }
 
     /// <summary>
-    /// Deletes a listener rule. Each listener has a default rule for checking connection requests, but you can define additional rules. Each rule consists of a priority, one or more actions, and one or more condi- tions. You can delete additional listener rules, but you cannot delete the default rule. For more information, see Listener rules in the Amazon VPC Lattice User Guide . See also: AWS API Documentation
+    /// Deletes a listener rule. Each listener has a default rule for checking connection requests, but you can define additional rules. Each rule consists of a priority, one or more actions, and one or more conditions. You can delete additional listener rules, but you cannot delete the default rule. For more information, see Listener rules in the Amazon VPC Lattice User Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -347,7 +347,7 @@ public class AwsVpcLattice : IAwsVpcLattice
     }
 
     /// <summary>
-    /// Deletes a service network. You can only delete the service network if there is no service or VPC associated with it. If you delete a service network, all resources related to the service network, such as the re- source policy, auth policy, and access log subscriptions, are also deleted. For more information, see Delete a service network in the Ama- zon VPC Lattice User Guide . See also: AWS API Documentation
+    /// Deletes a service network. You can only delete the service network if there is no service or VPC associated with it. If you delete a service network, all resources related to the service network, such as the resource policy, auth policy, and access log subscriptions, are also deleted. For more information, see Delete a service network in the Amazon VPC Lattice User Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -362,7 +362,7 @@ public class AwsVpcLattice : IAwsVpcLattice
     }
 
     /// <summary>
-    /// Deletes the association between a service network and a resource con- figuration. See also: AWS API Documentation
+    /// Deletes the association between a service network and a resource configuration. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -407,7 +407,7 @@ public class AwsVpcLattice : IAwsVpcLattice
     }
 
     /// <summary>
-    /// Deletes a service. A service can't be deleted if it's associated with a service network. If you delete a service, all resources related to the service, such as the resource policy, auth policy, listeners, listener rules, and access log subscriptions, are also deleted. For more infor- mation, see Delete a service in the Amazon VPC Lattice User Guide . See also: AWS API Documentation
+    /// Deletes a service. A service can't be deleted if it's associated with a service network. If you delete a service, all resources related to the service, such as the resource policy, auth policy, listeners, listener rules, and access log subscriptions, are also deleted. For more information, see Delete a service in the Amazon VPC Lattice User Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -557,7 +557,7 @@ public class AwsVpcLattice : IAwsVpcLattice
     }
 
     /// <summary>
-    /// Retrieves information about the specified listener rules. You can also retrieve information about the default listener rule. For more informa- tion, see Listener rules in the Amazon VPC Lattice User Guide . See also: AWS API Documentation
+    /// Retrieves information about the specified listener rules. You can also retrieve information about the default listener rule. For more information, see Listener rules in the Amazon VPC Lattice User Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -662,7 +662,7 @@ public class AwsVpcLattice : IAwsVpcLattice
     }
 
     /// <summary>
-    /// Lists the access log subscriptions for the specified service network or service. See also: AWS API Documentation list-access-log-subscriptions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: items
+    /// Lists the access log subscriptions for the specified service network or service. See also: AWS API Documentation list-access-log-subscriptions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: items
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -677,7 +677,7 @@ public class AwsVpcLattice : IAwsVpcLattice
     }
 
     /// <summary>
-    /// Lists the domain verifications. See also: AWS API Documentation list-domain-verifications is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: items
+    /// Lists the domain verifications. See also: AWS API Documentation list-domain-verifications is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: items
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -692,7 +692,7 @@ public class AwsVpcLattice : IAwsVpcLattice
     }
 
     /// <summary>
-    /// Lists the listeners for the specified service. See also: AWS API Documentation list-listeners is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: items
+    /// Lists the listeners for the specified service. See also: AWS API Documentation list-listeners is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: items
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -707,7 +707,7 @@ public class AwsVpcLattice : IAwsVpcLattice
     }
 
     /// <summary>
-    /// Lists the resource configurations owned by or shared with this account. See also: AWS API Documentation list-resource-configurations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: items
+    /// Lists the resource configurations owned by or shared with this account. See also: AWS API Documentation list-resource-configurations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: items
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -722,7 +722,7 @@ public class AwsVpcLattice : IAwsVpcLattice
     }
 
     /// <summary>
-    /// Lists the associations for the specified VPC endpoint. See also: AWS API Documentation list-resource-endpoint-associations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: items
+    /// Lists the associations for the specified VPC endpoint. See also: AWS API Documentation list-resource-endpoint-associations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: items
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -752,7 +752,7 @@ public class AwsVpcLattice : IAwsVpcLattice
     }
 
     /// <summary>
-    /// Lists the rules for the specified listener. See also: AWS API Documentation list-rules is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex- pressions: items
+    /// Lists the rules for the specified listener. See also: AWS API Documentation list-rules is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: items
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -767,7 +767,7 @@ public class AwsVpcLattice : IAwsVpcLattice
     }
 
     /// <summary>
-    /// Lists the associations between a service network and a resource config- uration. See also: AWS API Documentation list-service-network-resource-associations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-pagi- nate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the re- sults of the following query expres...
+    /// Lists the associations between a service network and a resource configuration. See also: AWS API Documentation list-service-network-resource-associations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions:...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -782,7 +782,7 @@ public class AwsVpcLattice : IAwsVpcLattice
     }
 
     /// <summary>
-    /// Lists the associations between a service network and a service. You can filter the list either by service or service network. You must provide either the service network identifier or the service identifier. Every association in Amazon VPC Lattice has a unique Amazon Resource Name (ARN), such as when a service network is associated with a VPC or when a service is associated with a service network. If the association is for a resource is shared with another account, the association in- cludes the...
+    /// Lists the associations between a service network and a service. You can filter the list either by service or service network. You must provide either the service network identifier or the service identifier. Every association in Amazon VPC Lattice has a unique Amazon Resource Name (ARN), such as when a service network is associated with a VPC or when a service is associated with a service network. If the association is for a resource is shared with another account, the association includes the l...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -794,6 +794,36 @@ public class AwsVpcLattice : IAwsVpcLattice
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new AwsVpcLatticeListServiceNetworkServiceAssociationsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Lists the associations between a service network and a VPC. You can filter the list either by VPC or service network. You must provide either the ID of the service network identifier or the ID of the VPC. See also: AWS API Documentation list-service-network-vpc-associations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argu...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListServiceNetworkVpcAssociationsAsync(
+        AwsVpcLatticeListServiceNetworkVpcAssociationsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsVpcLatticeListServiceNetworkVpcAssociationsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Lists the associations between a service network and a VPC endpoint. See also: AWS API Documentation list-service-network-vpc-endpoint-associations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: items
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListServiceNetworkVpcEndpointAssociationsAsync(
+        AwsVpcLatticeListServiceNetworkVpcEndpointAssociationsOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -812,37 +842,7 @@ public class AwsVpcLattice : IAwsVpcLattice
     }
 
     /// <summary>
-    /// Lists the associations between a service network and a VPC. You can filter the list either by VPC or service network. You must provide ei- ther the ID of the service network identifier or the ID of the VPC. See also: AWS API Documentation list-service-network-vpc-associations is a paginated operation. Multi- ple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate ar- gument. When using --output text and the --quer...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListServiceNetworkVpcAssociationsAsync(
-        AwsVpcLatticeListServiceNetworkVpcAssociationsOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsVpcLatticeListServiceNetworkVpcAssociationsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
-    /// Lists the associations between a service network and a VPC endpoint. See also: AWS API Documentation list-service-network-vpc-endpoint-associations is a paginated opera- tion. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argu- ment on a paginated response, the --query argument must extract data from the results of the following query expressions: i...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListServiceNetworkVpcEndpointAssociationsAsync(
-        AwsVpcLatticeListServiceNetworkVpcEndpointAssociationsOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
-    /// Lists the services owned by the caller account or shared with the caller account. See also: AWS API Documentation list-services is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: items
+    /// Lists the services owned by the caller account or shared with the caller account. See also: AWS API Documentation list-services is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: items
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -872,7 +872,7 @@ public class AwsVpcLattice : IAwsVpcLattice
     }
 
     /// <summary>
-    /// Lists your target groups. You can narrow your search by using the fil- ters below in your request. See also: AWS API Documentation list-target-groups is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: ite...
+    /// Lists your target groups. You can narrow your search by using the filters below in your request. See also: AWS API Documentation list-target-groups is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: items
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -887,7 +887,7 @@ public class AwsVpcLattice : IAwsVpcLattice
     }
 
     /// <summary>
-    /// Lists the targets for the target group. By default, all targets are in- cluded. You can use this API to check the health status of targets. You can also lter the results by target. See also: AWS API Documentation list-targets is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argum...
+    /// Lists the targets for the target group. By default, all targets are included. You can use this API to check the health status of targets. You can also lter the results by target. See also: AWS API Documentation list-targets is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -917,7 +917,7 @@ public class AwsVpcLattice : IAwsVpcLattice
     }
 
     /// <summary>
-    /// Attaches a resource-based permission policy to a service or service network. The policy must contain the same actions and condition state- ments as the Amazon Web Services Resource Access Manager permission for sharing services and service networks. See also: AWS API Documentation
+    /// Attaches a resource-based permission policy to a service or service network. The policy must contain the same actions and condition statements as the Amazon Web Services Resource Access Manager permission for sharing services and service networks. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1082,7 +1082,7 @@ public class AwsVpcLattice : IAwsVpcLattice
     }
 
     /// <summary>
-    /// Updates the service network and VPC association. If you add a security group to the service network and VPC association, the association must continue to have at least one security group. You can add or edit secu- rity groups at any time. However, to remove all security groups, you must first delete the association and then recreate it without security groups. See also: AWS API Documentation
+    /// Updates the service network and VPC association. If you add a security group to the service network and VPC association, the association must continue to have at least one security group. You can add or edit security groups at any time. However, to remove all security groups, you must first delete the association and then recreate it without security groups. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

@@ -22,25 +22,25 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsSsmDescribeAssociationOptions : AwsOptions
 {
     /// <summary>
-    /// The name of the SSM document. Constraints: o pattern: ^[a-zA-Z0-9_\-.:/]{3,128}$
+    /// The name of the SSM document. Constraints: • pattern: ^[a-zA-Z0-9_\-.:/]{3,128}$
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
 
     /// <summary>
-    /// The managed node ID. Constraints: o pattern: (^i-(\w{8}|\w{17})$)|(^mi-\w{17}$)
+    /// The managed node ID. Constraints: • pattern: (^i-(\w{8}|\w{17})$)|(^mi-\w{17}$)
     /// </summary>
     [CliOption("--instance-id")]
     public string? InstanceId { get; set; }
 
     /// <summary>
-    /// The association ID for which you want information. Constraints: o pattern: [0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}
+    /// The association ID for which you want information. Constraints: • pattern: [0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}
     /// </summary>
     [CliOption("--association-id")]
     public string? AssociationId { get; set; }
 
     /// <summary>
-    /// Specify the association version to retrieve. To view the latest ver- sion, either specify $LATEST for this parameter, or omit this para- meter. To view a list of all associations for a managed node, use ListAssociations . To get a list of versions for a specific associa- tion, use ListAssociationVersions . Constraints: o pattern: ^(([$]LATEST)|([1-9][0-9]*))$
+    /// Specify the association version to retrieve. To view the latest version, either specify $LATEST for this parameter, or omit this parameter. To view a list of all associations for a managed node, use ListAssociations . To get a list of versions for a specific association, use ListAssociationVersions . Constraints: • pattern: ^(([$]LATEST)|([1-9][0-9]*))$
     /// </summary>
     [CliOption("--association-version")]
     public string? AssociationVersion { get; set; }
@@ -50,5 +50,14 @@ public record AwsSsmDescribeAssociationOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates an existing collaboration change request. This operation allows approval actions for pending change requests in collaborations (AP- PROVE, DENY, CANCEL, COMMIT). For change requests without automatic approval, a member in the collab- oration can manually APPROVE or DENY a change request. The collabora- tion owner can manually CANCEL or COMMIT a change request. See also: AWS API Documentation
+/// Updates an existing collaboration change request. This operation allows approval actions for pending change requests in collaborations (APPROVE, DENY, CANCEL, COMMIT). For change requests without automatic approval, a member in the collaboration can manually APPROVE or DENY a change request. The collaboration owner can manually CANCEL or COMMIT a change request. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,11 +27,11 @@ public record AwsCleanroomsUpdateCollaborationChangeRequestOptions : AwsOptions,
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates an existing collaboration change request. This operation allows approval actions for pending change requests in collaborations (AP- PROVE, DENY, CANCEL, COMMIT). For change requests without automatic approval, a member in the collab- oration can manually APPROVE or DENY a change request. The collabora- tion owner can manually CANCEL or COMMIT a change request. See also: AWS API Documentation
+    /// Updates an existing collaboration change request. This operation allows approval actions for pending change requests in collaborations (APPROVE, DENY, CANCEL, COMMIT). For change requests without automatic approval, a member in the collaboration can manually APPROVE or DENY a change request. The collaboration owner can manually CANCEL or COMMIT a change request. See also: AWS API Documentation
     /// </summary>
-    /// <param name="CollaborationIdentifier">The unique identifier of the collaboration that contains the change request to be updated. Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
-    /// <param name="ChangeRequestIdentifier">The unique identifier of the specific change request to be updated within the collaboration. Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
-    /// <param name="Action">The action to perform on the change request. Valid values include APPROVE (approve the change), DENY (reject the change), CANCEL (can- cel the request), and COMMIT (commit after the request is approved). For change requests without automatic approval, a member in the col- laboration can manually APPROVE or DENY a change request. The col- laboration owner can manually CANCEL or COMMIT a change request. Possible values: o APPROVE o DENY o CANCEL o COMMIT</param>
+    /// <param name="CollaborationIdentifier">The unique identifier of the collaboration that contains the change request to be updated. Constraints: • min: 36 • max: 36 • pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
+    /// <param name="ChangeRequestIdentifier">The unique identifier of the specific change request to be updated within the collaboration. Constraints: • min: 36 • max: 36 • pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
+    /// <param name="Action">The action to perform on the change request. Valid values include APPROVE (approve the change), DENY (reject the change), CANCEL (cancel the request), and COMMIT (commit after the request is approved). For change requests without automatic approval, a member in the collaboration can manually APPROVE or DENY a change request. The collaboration owner can manually CANCEL or COMMIT a change request. Possible values: • APPROVE • DENY • CANCEL • COMMIT</param>
     public AwsCleanroomsUpdateCollaborationChangeRequestOptions(
         string CollaborationIdentifier,
         string ChangeRequestIdentifier,
@@ -64,19 +65,19 @@ public record AwsCleanroomsUpdateCollaborationChangeRequestOptions : AwsOptions,
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the collaboration that contains the change request to be updated. Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
+    /// The unique identifier of the collaboration that contains the change request to be updated. Constraints: • min: 36 • max: 36 • pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
     /// </summary>
     [CliOption("--collaboration-identifier")]
     public string? CollaborationIdentifier { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the specific change request to be updated within the collaboration. Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
+    /// The unique identifier of the specific change request to be updated within the collaboration. Constraints: • min: 36 • max: 36 • pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
     /// </summary>
     [CliOption("--change-request-identifier")]
     public string? ChangeRequestIdentifier { get; private init; }
 
     /// <summary>
-    /// The action to perform on the change request. Valid values include APPROVE (approve the change), DENY (reject the change), CANCEL (can- cel the request), and COMMIT (commit after the request is approved). For change requests without automatic approval, a member in the col- laboration can manually APPROVE or DENY a change request. The col- laboration owner can manually CANCEL or COMMIT a change request. Possible values: o APPROVE o DENY o CANCEL o COMMIT
+    /// The action to perform on the change request. Valid values include APPROVE (approve the change), DENY (reject the change), CANCEL (cancel the request), and COMMIT (commit after the request is approved). For change requests without automatic approval, a member in the collaboration can manually APPROVE or DENY a change request. The collaboration owner can manually CANCEL or COMMIT a change request. Possible values: • APPROVE • DENY • CANCEL • COMMIT
     /// </summary>
     [CliOption("--action")]
     public AwsCleanroomsUpdateCollaborationChangeRequestAction? Action { get; private init; }
@@ -102,6 +103,15 @@ public record AwsCleanroomsUpdateCollaborationChangeRequestOptions : AwsOptions,
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

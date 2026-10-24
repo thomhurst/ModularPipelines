@@ -6,15 +6,15 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
+using ModularPipelines;
 using ModularPipelines.Context;
-using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
 namespace ModularPipelines.AmazonWebServices.Services;
 
 /// <summary>
-/// aws wait commands.
+/// aws amp wait commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AwsAmpWait
@@ -77,7 +77,7 @@ public class AwsAmpWait
     }
 
     /// <summary>
-    /// Wait until a scraper reaches DELETED status It will poll every 2 sec- onds until a successful state has been reached. This will exit with a return code of 255 after 60 failed checks. See also: AWS API Documentation
+    /// Wait until a scraper reaches DELETED status It will poll every 2 seconds until a successful state has been reached. This will exit with a return code of 255 after 60 failed checks. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -92,7 +92,7 @@ public class AwsAmpWait
     }
 
     /// <summary>
-    /// Wait until a workspace reaches ACTIVE status It will poll every 2 sec- onds until a successful state has been reached. This will exit with a return code of 255 after 60 failed checks. See also: AWS API Documentation
+    /// Wait until a workspace reaches ACTIVE status It will poll every 2 seconds until a successful state has been reached. This will exit with a return code of 255 after 60 failed checks. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -107,7 +107,7 @@ public class AwsAmpWait
     }
 
     /// <summary>
-    /// Wait until a workspace reaches DELETED status It will poll every 2 sec- onds until a successful state has been reached. This will exit with a return code of 255 after 60 failed checks. See also: AWS API Documentation
+    /// Wait until a workspace reaches DELETED status It will poll every 2 seconds until a successful state has been reached. This will exit with a return code of 255 after 60 failed checks. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

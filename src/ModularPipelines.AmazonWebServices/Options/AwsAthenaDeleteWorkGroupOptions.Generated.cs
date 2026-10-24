@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsAthenaDeleteWorkGroupOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Deletes the workgroup with the specified name. The primary workgroup cannot be deleted. See also: AWS API Documentation
     /// </summary>
-    /// <param name="WorkGroup">The unique name of the workgroup to delete. Constraints: o pattern: [a-zA-Z0-9._-]{1,128}</param>
+    /// <param name="WorkGroup">The unique name of the workgroup to delete. Constraints: • pattern: [a-zA-Z0-9._-]{1,128}</param>
     public AwsAthenaDeleteWorkGroupOptions(
         string WorkGroup
     )
@@ -56,13 +57,13 @@ public record AwsAthenaDeleteWorkGroupOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique name of the workgroup to delete. Constraints: o pattern: [a-zA-Z0-9._-]{1,128}
+    /// The unique name of the workgroup to delete. Constraints: • pattern: [a-zA-Z0-9._-]{1,128}
     /// </summary>
     [CliOption("--work-group")]
     public string? WorkGroup { get; private init; }
 
     /// <summary>
-    /// The option to delete the workgroup and its contents even if the workgroup contains any named queries, query executions, or note- books.
+    /// The option to delete the workgroup and its contents even if the workgroup contains any named queries, query executions, or notebooks.
     /// </summary>
     [CliFlag("--recursive-delete-option", NegatedName = "--no-recursive-delete-option")]
     public bool? RecursiveDeleteOption { get; set; }
@@ -88,6 +89,15 @@ public record AwsAthenaDeleteWorkGroupOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

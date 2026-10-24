@@ -11,7 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -29,7 +29,7 @@ public record AwsServicecatalogAppregistryCreateApplicationOptions : AwsOptions,
     /// <summary>
     /// Creates a new application that is the top-level node in a hierarchy of related cloud resource abstractions. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">The name of the application. The name must be unique in the region in which you are creating the application. Constraints: o min: 1 o max: 256 o pattern: [-.\w]+</param>
+    /// <param name="Name">The name of the application. The name must be unique in the region in which you are creating the application. Constraints: • min: 1 • max: 256 • pattern: [-.\w]+</param>
     public AwsServicecatalogAppregistryCreateApplicationOptions(
         string Name
     )
@@ -58,25 +58,25 @@ public record AwsServicecatalogAppregistryCreateApplicationOptions : AwsOptions,
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the application. The name must be unique in the region in which you are creating the application. Constraints: o min: 1 o max: 256 o pattern: [-.\w]+
+    /// The name of the application. The name must be unique in the region in which you are creating the application. Constraints: • min: 1 • max: 256 • pattern: [-.\w]+
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The description of the application. Constraints: o max: 1024
+    /// The description of the application. Constraints: • max: 1024
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// Key-value pairs you can use to associate with the application. Constraints: o min: 0 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:\/=+\-@]*)$ value -&gt; (string) Constraints: o max: 256 o pattern: [\p{L}\p{Z}\p{N}_.:/=+\-@]* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// Key-value pairs you can use to associate with the application. Constraints: • min: 0 • max: 50 key -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: ^([\p{L}\p{Z}\p{N}_.:\/=+\-@]*)$ value -&gt; (string) Constraints: • max: 256 • pattern: [\p{L}\p{Z}\p{N}_.:/=+\-@]* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>
-    /// A unique identifier that you provide to ensure idempotency. If you retry a request that completed successfully using the same client token and the same parameters, the retry succeeds without performing any further actions. If you retry a successful request using the same client token, but one or more of the parameters are different, the retry fails. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9][a-zA-Z0-9_-]*
+    /// A unique identifier that you provide to ensure idempotency. If you retry a request that completed successfully using the same client token and the same parameters, the retry succeeds without performing any further actions. If you retry a successful request using the same client token, but one or more of the parameters are different, the retry fails. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9][a-zA-Z0-9_-]*
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
@@ -103,6 +103,15 @@ public record AwsServicecatalogAppregistryCreateApplicationOptions : AwsOptions,
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

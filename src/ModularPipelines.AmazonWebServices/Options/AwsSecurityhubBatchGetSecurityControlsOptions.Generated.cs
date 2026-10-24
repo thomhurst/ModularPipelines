@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsSecurityhubBatchGetSecurityControlsOptions : AwsOptions, IValid
     /// <summary>
     /// Provides details about a batch of security controls for the current Amazon Web Services account and Amazon Web Services Region. See also: AWS API Documentation
     /// </summary>
-    /// <param name="SecurityControlIds">A list of security controls (identified with SecurityControlId , Se- curityControlArn , or a mix of both parameters). The security con- trol ID or Amazon Resource Name (ARN) is the same across standards. (string) Constraints: o pattern: .*\S.* Syntax: "string" "string" ...</param>
+    /// <param name="SecurityControlIds">A list of security controls (identified with SecurityControlId , SecurityControlArn , or a mix of both parameters). The security control ID or Amazon Resource Name (ARN) is the same across standards. (string) Constraints: • pattern: .*\S.* Syntax: "string" "string" ...</param>
     public AwsSecurityhubBatchGetSecurityControlsOptions(
         IEnumerable<string> SecurityControlIds
     )
@@ -67,7 +68,7 @@ public record AwsSecurityhubBatchGetSecurityControlsOptions : AwsOptions, IValid
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A list of security controls (identified with SecurityControlId , Se- curityControlArn , or a mix of both parameters). The security con- trol ID or Amazon Resource Name (ARN) is the same across standards. (string) Constraints: o pattern: .*\S.* Syntax: "string" "string" ...
+    /// A list of security controls (identified with SecurityControlId , SecurityControlArn , or a mix of both parameters). The security control ID or Amazon Resource Name (ARN) is the same across standards. (string) Constraints: • pattern: .*\S.* Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--security-control-ids", GroupValues = true)]
     public IEnumerable<string>? SecurityControlIds { get; private init; }
@@ -93,6 +94,15 @@ public record AwsSecurityhubBatchGetSecurityControlsOptions : AwsOptions, IValid
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsGlueUpdateUsageProfileOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Update an Glue usage profile. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">The name of the usage profile. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*</param>
-    /// <param name="Configuration">A ProfileConfiguration object specifying the job and session values for the profile. SessionConfiguration -&gt; (map) A key-value map of configuration parameters for Glue sessions. key -&gt; (string) Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* value -&gt; (structure) Specifies the values that an admin sets for each job or ses- sion parameter configured in a Glue usage profile. DefaultValue -&gt; (string) A default value for the parameter. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_.-]+ AllowedValues -&gt; (list) A list of allowed values for the parameter. (string) Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_.-]+ MinValue -&gt; (string) A minimum allowed value for the parameter. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_.-]+ MaxValue -&gt; (string) A maximum allowed value for the parameter. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_.-]+ JobConfiguration -&gt; (map) A key-value map of configuration parameters for Glue jobs. key -&gt; (string) Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* value -&gt; (structure) Specifies the values that an admin sets for each job or ses- sion parameter configured in a Glue usage profile. DefaultValue -&gt; (string) A default value for the parameter. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_.-]+ AllowedValues -&gt; (list) A list of allowed values for the parameter. (string) Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_.-]+ MinValue -&gt; (string) A minimum allowed value for the parameter. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_.-]+ MaxValue -&gt; (string) A maximum allowed value for the parameter. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_.-]+ JSON Syntax: { "SessionConfiguration": {"string": { "DefaultValue": "string", "AllowedValues": ["string", ...], "MinValue": "string", "MaxValue": "string" } ...}, "JobConfiguration": {"string": { "DefaultValue": "string", "AllowedValues": ["string", ...], "MinValue": "string", "MaxValue": "string" } ...} }</param>
+    /// <param name="Name">The name of the usage profile. Constraints: • min: 1 • max: 255 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*</param>
+    /// <param name="Configuration">A ProfileConfiguration object specifying the job and session values for the profile. SessionConfiguration -&gt; (map) A key-value map of configuration parameters for Glue sessions. key -&gt; (string) Constraints: • min: 1 • max: 255 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* value -&gt; (structure) Specifies the values that an admin sets for each job or session parameter configured in a Glue usage profile. DefaultValue -&gt; (string) A default value for the parameter. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9_.-]+ AllowedValues -&gt; (list) A list of allowed values for the parameter. (string) Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9_.-]+ MinValue -&gt; (string) A minimum allowed value for the parameter. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9_.-]+ MaxValue -&gt; (string) A maximum allowed value for the parameter. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9_.-]+ JobConfiguration -&gt; (map) A key-value map of configuration parameters for Glue jobs. key -&gt; (string) Constraints: • min: 1 • max: 255 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* value -&gt; (structure) Specifies the values that an admin sets for each job or session parameter configured in a Glue usage profile. DefaultValue -&gt; (string) A default value for the parameter. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9_.-]+ AllowedValues -&gt; (list) A list of allowed values for the parameter. (string) Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9_.-]+ MinValue -&gt; (string) A minimum allowed value for the parameter. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9_.-]+ MaxValue -&gt; (string) A maximum allowed value for the parameter. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9_.-]+ JSON Syntax: { "SessionConfiguration": {"string": { "DefaultValue": "string", "AllowedValues": ["string", ...], "MinValue": "string", "MaxValue": "string" } ...}, "JobConfiguration": {"string": { "DefaultValue": "string", "AllowedValues": ["string", ...], "MinValue": "string", "MaxValue": "string" } ...} }</param>
     public AwsGlueUpdateUsageProfileOptions(
         string Name,
         string Configuration
@@ -60,19 +61,19 @@ public record AwsGlueUpdateUsageProfileOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the usage profile. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
+    /// The name of the usage profile. Constraints: • min: 1 • max: 255 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// A ProfileConfiguration object specifying the job and session values for the profile. SessionConfiguration -&gt; (map) A key-value map of configuration parameters for Glue sessions. key -&gt; (string) Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* value -&gt; (structure) Specifies the values that an admin sets for each job or ses- sion parameter configured in a Glue usage profile. DefaultValue -&gt; (string) A default value for the parameter. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_.-]+ AllowedValues -&gt; (list) A list of allowed values for the parameter. (string) Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_.-]+ MinValue -&gt; (string) A minimum allowed value for the parameter. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_.-]+ MaxValue -&gt; (string) A maximum allowed value for the parameter. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_.-]+ JobConfiguration -&gt; (map) A key-value map of configuration parameters for Glue jobs. key -&gt; (string) Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* value -&gt; (structure) Specifies the values that an admin sets for each job or ses- sion parameter configured in a Glue usage profile. DefaultValue -&gt; (string) A default value for the parameter. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_.-]+ AllowedValues -&gt; (list) A list of allowed values for the parameter. (string) Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_.-]+ MinValue -&gt; (string) A minimum allowed value for the parameter. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_.-]+ MaxValue -&gt; (string) A maximum allowed value for the parameter. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_.-]+ JSON Syntax: { "SessionConfiguration": {"string": { "DefaultValue": "string", "AllowedValues": ["string", ...], "MinValue": "string", "MaxValue": "string" } ...}, "JobConfiguration": {"string": { "DefaultValue": "string", "AllowedValues": ["string", ...], "MinValue": "string", "MaxValue": "string" } ...} }
+    /// A ProfileConfiguration object specifying the job and session values for the profile. SessionConfiguration -&gt; (map) A key-value map of configuration parameters for Glue sessions. key -&gt; (string) Constraints: • min: 1 • max: 255 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* value -&gt; (structure) Specifies the values that an admin sets for each job or session parameter configured in a Glue usage profile. DefaultValue -&gt; (string) A default value for the parameter. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9_.-]+ AllowedValues -&gt; (list) A list of allowed values for the parameter. (string) Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9_.-]+ MinValue -&gt; (string) A minimum allowed value for the parameter. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9_.-]+ MaxValue -&gt; (string) A maximum allowed value for the parameter. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9_.-]+ JobConfiguration -&gt; (map) A key-value map of configuration parameters for Glue jobs. key -&gt; (string) Constraints: • min: 1 • max: 255 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* value -&gt; (structure) Specifies the values that an admin sets for each job or session parameter configured in a Glue usage profile. DefaultValue -&gt; (string) A default value for the parameter. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9_.-]+ AllowedValues -&gt; (list) A list of allowed values for the parameter. (string) Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9_.-]+ MinValue -&gt; (string) A minimum allowed value for the parameter. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9_.-]+ MaxValue -&gt; (string) A maximum allowed value for the parameter. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9_.-]+ JSON Syntax: { "SessionConfiguration": {"string": { "DefaultValue": "string", "AllowedValues": ["string", ...], "MinValue": "string", "MaxValue": "string" } ...}, "JobConfiguration": {"string": { "DefaultValue": "string", "AllowedValues": ["string", ...], "MinValue": "string", "MaxValue": "string" } ...} }
     /// </summary>
     [CliOption("--configuration")]
     public string? Configuration { get; private init; }
 
     /// <summary>
-    /// A description of the usage profile. Constraints: o min: 0 o max: 2048 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*
+    /// A description of the usage profile. Constraints: • min: 0 • max: 2048 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
@@ -98,6 +99,15 @@ public record AwsGlueUpdateUsageProfileOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

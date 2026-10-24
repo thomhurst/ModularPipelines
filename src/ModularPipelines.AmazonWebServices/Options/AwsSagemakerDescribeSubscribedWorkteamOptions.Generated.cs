@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Gets information about a work team provided by a vendor. It returns de- tails about the subscription with a vendor in the Amazon Web Services Marketplace. See also: AWS API Documentation
+/// Gets information about a work team provided by a vendor. It returns details about the subscription with a vendor in the Amazon Web Services Marketplace. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsSagemakerDescribeSubscribedWorkteamOptions : AwsOptions, IValid
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Gets information about a work team provided by a vendor. It returns de- tails about the subscription with a vendor in the Amazon Web Services Marketplace. See also: AWS API Documentation
+    /// Gets information about a work team provided by a vendor. It returns details about the subscription with a vendor in the Amazon Web Services Marketplace. See also: AWS API Documentation
     /// </summary>
-    /// <param name="WorkteamArn">The Amazon Resource Name (ARN) of the subscribed work team to de- scribe. Constraints: o min: 0 o max: 256 o pattern: arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:work- team/.*</param>
+    /// <param name="WorkteamArn">The Amazon Resource Name (ARN) of the subscribed work team to describe. Constraints: • min: 0 • max: 256 • pattern: arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:workteam/.*</param>
     public AwsSagemakerDescribeSubscribedWorkteamOptions(
         string WorkteamArn
     )
@@ -56,7 +57,7 @@ public record AwsSagemakerDescribeSubscribedWorkteamOptions : AwsOptions, IValid
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the subscribed work team to de- scribe. Constraints: o min: 0 o max: 256 o pattern: arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:work- team/.*
+    /// The Amazon Resource Name (ARN) of the subscribed work team to describe. Constraints: • min: 0 • max: 256 • pattern: arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:workteam/.*
     /// </summary>
     [CliOption("--workteam-arn")]
     public string? WorkteamArn { get; private init; }
@@ -82,6 +83,15 @@ public record AwsSagemakerDescribeSubscribedWorkteamOptions : AwsOptions, IValid
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

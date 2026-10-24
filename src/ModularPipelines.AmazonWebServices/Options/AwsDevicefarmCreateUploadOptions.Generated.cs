@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,9 +28,9 @@ public record AwsDevicefarmCreateUploadOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Uploads an app or test scripts. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ProjectArn">The ARN of the project for the upload. Constraints: o min: 32 o max: 1011 o pattern: ^arn:aws:devicefarm:.+</param>
-    /// <param name="Name">The upload's file name. The name should not contain any forward slashes (/ ). If you are uploading an iOS app, the file name must end with the .ipa extension. If you are uploading an Android app, the file name must end with the .apk extension. For all others, the file name must end with the .zip file extension. Constraints: o min: 0 o max: 256</param>
-    /// <param name="Type">The upload's upload type. Must be one of the following values: o ANDROID_APP o IOS_APP o WEB_APP o EXTERNAL_DATA o APPIUM_JAVA_JUNIT_TEST_PACKAGE o APPIUM_JAVA_TESTNG_TEST_PACKAGE o APPIUM_PYTHON_TEST_PACKAGE o APPIUM_NODE_TEST_PACKAGE o APPIUM_RUBY_TEST_PACKAGE o APPIUM_WEB_JAVA_JUNIT_TEST_PACKAGE o APPIUM_WEB_JAVA_TESTNG_TEST_PACKAGE o APPIUM_WEB_PYTHON_TEST_PACKAGE o APPIUM_WEB_NODE_TEST_PACKAGE o APPIUM_WEB_RUBY_TEST_PACKAGE o INSTRUMENTATION_TEST_PACKAGE o XCTEST_TEST_PACKAGE o XCTEST_UI_TEST_PACKAGE o APPIUM_JAVA_JUNIT_TEST_SPEC o APPIUM_JAVA_TESTNG_TEST_SPEC o APPIUM_PYTHON_TEST_SPEC o APPIUM_NODE_TEST_SPEC o APPIUM_RUBY_TEST_SPEC o APPIUM_WEB_JAVA_JUNIT_TEST_SPEC o APPIUM_WEB_JAVA_TESTNG_TEST_SPEC o APPIUM_WEB_PYTHON_TEST_SPEC o APPIUM_WEB_NODE_TEST_SPEC o APPIUM_WEB_RUBY_TEST_SPEC o INSTRUMENTATION_TEST_SPEC o XCTEST_UI_TEST_SPEC If you call CreateUpload with WEB_APP specified, AWS Device Farm throws an ArgumentException error. Possible values: o ANDROID_APP o IOS_APP o WEB_APP o EXTERNAL_DATA o APPIUM_JAVA_JUNIT_TEST_PACKAGE o APPIUM_JAVA_TESTNG_TEST_PACKAGE o APPIUM_PYTHON_TEST_PACKAGE o APPIUM_NODE_TEST_PACKAGE o APPIUM_RUBY_TEST_PACKAGE o APPIUM_WEB_JAVA_JUNIT_TEST_PACKAGE o APPIUM_WEB_JAVA_TESTNG_TEST_PACKAGE o APPIUM_WEB_PYTHON_TEST_PACKAGE o APPIUM_WEB_NODE_TEST_PACKAGE o APPIUM_WEB_RUBY_TEST_PACKAGE o CALABASH_TEST_PACKAGE o INSTRUMENTATION_TEST_PACKAGE o UIAUTOMATION_TEST_PACKAGE o UIAUTOMATOR_TEST_PACKAGE o XCTEST_TEST_PACKAGE o XCTEST_UI_TEST_PACKAGE o APPIUM_JAVA_JUNIT_TEST_SPEC o APPIUM_JAVA_TESTNG_TEST_SPEC o APPIUM_PYTHON_TEST_SPEC o APPIUM_NODE_TEST_SPEC o APPIUM_RUBY_TEST_SPEC o APPIUM_WEB_JAVA_JUNIT_TEST_SPEC o APPIUM_WEB_JAVA_TESTNG_TEST_SPEC o APPIUM_WEB_PYTHON_TEST_SPEC o APPIUM_WEB_NODE_TEST_SPEC o APPIUM_WEB_RUBY_TEST_SPEC o INSTRUMENTATION_TEST_SPEC o XCTEST_UI_TEST_SPEC</param>
+    /// <param name="ProjectArn">The ARN of the project for the upload. Constraints: • min: 32 • max: 1011 • pattern: ^arn:aws:devicefarm:.+</param>
+    /// <param name="Name">The upload's file name. The name should not contain any forward slashes (/ ). If you are uploading an iOS app, the file name must end with the .ipa extension. If you are uploading an Android app, the file name must end with the .apk extension. For all others, the file name must end with the .zip file extension. Constraints: • min: 0 • max: 256</param>
+    /// <param name="Type">The upload's upload type. Must be one of the following values: • ANDROID_APP • IOS_APP • WEB_APP • EXTERNAL_DATA • APPIUM_JAVA_JUNIT_TEST_PACKAGE • APPIUM_JAVA_TESTNG_TEST_PACKAGE • APPIUM_PYTHON_TEST_PACKAGE • APPIUM_NODE_TEST_PACKAGE • APPIUM_RUBY_TEST_PACKAGE • APPIUM_WEB_JAVA_JUNIT_TEST_PACKAGE • APPIUM_WEB_JAVA_TESTNG_TEST_PACKAGE • APPIUM_WEB_PYTHON_TEST_PACKAGE • APPIUM_WEB_NODE_TEST_PACKAGE • APPIUM_WEB_RUBY_TEST_PACKAGE • INSTRUMENTATION_TEST_PACKAGE • XCTEST_TEST_PACKAGE • XCTEST_UI_TEST_PACKAGE • APPIUM_JAVA_JUNIT_TEST_SPEC • APPIUM_JAVA_TESTNG_TEST_SPEC • APPIUM_PYTHON_TEST_SPEC • APPIUM_NODE_TEST_SPEC • APPIUM_RUBY_TEST_SPEC • APPIUM_WEB_JAVA_JUNIT_TEST_SPEC • APPIUM_WEB_JAVA_TESTNG_TEST_SPEC • APPIUM_WEB_PYTHON_TEST_SPEC • APPIUM_WEB_NODE_TEST_SPEC • APPIUM_WEB_RUBY_TEST_SPEC • INSTRUMENTATION_TEST_SPEC • XCTEST_UI_TEST_SPEC If you call CreateUpload with WEB_APP specified, AWS Device Farm throws an ArgumentException error. Possible values: • ANDROID_APP • IOS_APP • WEB_APP • EXTERNAL_DATA • APPIUM_JAVA_JUNIT_TEST_PACKAGE • APPIUM_JAVA_TESTNG_TEST_PACKAGE • APPIUM_PYTHON_TEST_PACKAGE • APPIUM_NODE_TEST_PACKAGE • APPIUM_RUBY_TEST_PACKAGE • APPIUM_WEB_JAVA_JUNIT_TEST_PACKAGE • APPIUM_WEB_JAVA_TESTNG_TEST_PACKAGE • APPIUM_WEB_PYTHON_TEST_PACKAGE • APPIUM_WEB_NODE_TEST_PACKAGE • APPIUM_WEB_RUBY_TEST_PACKAGE • CALABASH_TEST_PACKAGE • INSTRUMENTATION_TEST_PACKAGE • UIAUTOMATION_TEST_PACKAGE • UIAUTOMATOR_TEST_PACKAGE • XCTEST_TEST_PACKAGE • XCTEST_UI_TEST_PACKAGE • APPIUM_JAVA_JUNIT_TEST_SPEC • APPIUM_JAVA_TESTNG_TEST_SPEC • APPIUM_PYTHON_TEST_SPEC • APPIUM_NODE_TEST_SPEC • APPIUM_RUBY_TEST_SPEC • APPIUM_WEB_JAVA_JUNIT_TEST_SPEC • APPIUM_WEB_JAVA_TESTNG_TEST_SPEC • APPIUM_WEB_PYTHON_TEST_SPEC • APPIUM_WEB_NODE_TEST_SPEC • APPIUM_WEB_RUBY_TEST_SPEC • INSTRUMENTATION_TEST_SPEC • XCTEST_UI_TEST_SPEC</param>
     public AwsDevicefarmCreateUploadOptions(
         string ProjectArn,
         string Name,
@@ -64,25 +65,25 @@ public record AwsDevicefarmCreateUploadOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the project for the upload. Constraints: o min: 32 o max: 1011 o pattern: ^arn:aws:devicefarm:.+
+    /// The ARN of the project for the upload. Constraints: • min: 32 • max: 1011 • pattern: ^arn:aws:devicefarm:.+
     /// </summary>
     [CliOption("--project-arn")]
     public string? ProjectArn { get; private init; }
 
     /// <summary>
-    /// The upload's file name. The name should not contain any forward slashes (/ ). If you are uploading an iOS app, the file name must end with the .ipa extension. If you are uploading an Android app, the file name must end with the .apk extension. For all others, the file name must end with the .zip file extension. Constraints: o min: 0 o max: 256
+    /// The upload's file name. The name should not contain any forward slashes (/ ). If you are uploading an iOS app, the file name must end with the .ipa extension. If you are uploading an Android app, the file name must end with the .apk extension. For all others, the file name must end with the .zip file extension. Constraints: • min: 0 • max: 256
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The upload's upload type. Must be one of the following values: o ANDROID_APP o IOS_APP o WEB_APP o EXTERNAL_DATA o APPIUM_JAVA_JUNIT_TEST_PACKAGE o APPIUM_JAVA_TESTNG_TEST_PACKAGE o APPIUM_PYTHON_TEST_PACKAGE o APPIUM_NODE_TEST_PACKAGE o APPIUM_RUBY_TEST_PACKAGE o APPIUM_WEB_JAVA_JUNIT_TEST_PACKAGE o APPIUM_WEB_JAVA_TESTNG_TEST_PACKAGE o APPIUM_WEB_PYTHON_TEST_PACKAGE o APPIUM_WEB_NODE_TEST_PACKAGE o APPIUM_WEB_RUBY_TEST_PACKAGE o INSTRUMENTATION_TEST_PACKAGE o XCTEST_TEST_PACKAGE o XCTEST_UI_TEST_PACKAGE o APPIUM_JAVA_JUNIT_TEST_SPEC o APPIUM_JAVA_TESTNG_TEST_SPEC o APPIUM_PYTHON_TEST_SPEC o APPIUM_NODE_TEST_SPEC o APPIUM_RUBY_TEST_SPEC o APPIUM_WEB_JAVA_JUNIT_TEST_SPEC o APPIUM_WEB_JAVA_TESTNG_TEST_SPEC o APPIUM_WEB_PYTHON_TEST_SPEC o APPIUM_WEB_NODE_TEST_SPEC o APPIUM_WEB_RUBY_TEST_SPEC o INSTRUMENTATION_TEST_SPEC o XCTEST_UI_TEST_SPEC If you call CreateUpload with WEB_APP specified, AWS Device Farm throws an ArgumentException error. Possible values: o ANDROID_APP o IOS_APP o WEB_APP o EXTERNAL_DATA o APPIUM_JAVA_JUNIT_TEST_PACKAGE o APPIUM_JAVA_TESTNG_TEST_PACKAGE o APPIUM_PYTHON_TEST_PACKAGE o APPIUM_NODE_TEST_PACKAGE o APPIUM_RUBY_TEST_PACKAGE o APPIUM_WEB_JAVA_JUNIT_TEST_PACKAGE o APPIUM_WEB_JAVA_TESTNG_TEST_PACKAGE o APPIUM_WEB_PYTHON_TEST_PACKAGE o APPIUM_WEB_NODE_TEST_PACKAGE o APPIUM_WEB_RUBY_TEST_PACKAGE o CALABASH_TEST_PACKAGE o INSTRUMENTATION_TEST_PACKAGE o UIAUTOMATION_TEST_PACKAGE o UIAUTOMATOR_TEST_PACKAGE o XCTEST_TEST_PACKAGE o XCTEST_UI_TEST_PACKAGE o APPIUM_JAVA_JUNIT_TEST_SPEC o APPIUM_JAVA_TESTNG_TEST_SPEC o APPIUM_PYTHON_TEST_SPEC o APPIUM_NODE_TEST_SPEC o APPIUM_RUBY_TEST_SPEC o APPIUM_WEB_JAVA_JUNIT_TEST_SPEC o APPIUM_WEB_JAVA_TESTNG_TEST_SPEC o APPIUM_WEB_PYTHON_TEST_SPEC o APPIUM_WEB_NODE_TEST_SPEC o APPIUM_WEB_RUBY_TEST_SPEC o INSTRUMENTATION_TEST_SPEC o XCTEST_UI_TEST_SPEC
+    /// The upload's upload type. Must be one of the following values: • ANDROID_APP • IOS_APP • WEB_APP • EXTERNAL_DATA • APPIUM_JAVA_JUNIT_TEST_PACKAGE • APPIUM_JAVA_TESTNG_TEST_PACKAGE • APPIUM_PYTHON_TEST_PACKAGE • APPIUM_NODE_TEST_PACKAGE • APPIUM_RUBY_TEST_PACKAGE • APPIUM_WEB_JAVA_JUNIT_TEST_PACKAGE • APPIUM_WEB_JAVA_TESTNG_TEST_PACKAGE • APPIUM_WEB_PYTHON_TEST_PACKAGE • APPIUM_WEB_NODE_TEST_PACKAGE • APPIUM_WEB_RUBY_TEST_PACKAGE • INSTRUMENTATION_TEST_PACKAGE • XCTEST_TEST_PACKAGE • XCTEST_UI_TEST_PACKAGE • APPIUM_JAVA_JUNIT_TEST_SPEC • APPIUM_JAVA_TESTNG_TEST_SPEC • APPIUM_PYTHON_TEST_SPEC • APPIUM_NODE_TEST_SPEC • APPIUM_RUBY_TEST_SPEC • APPIUM_WEB_JAVA_JUNIT_TEST_SPEC • APPIUM_WEB_JAVA_TESTNG_TEST_SPEC • APPIUM_WEB_PYTHON_TEST_SPEC • APPIUM_WEB_NODE_TEST_SPEC • APPIUM_WEB_RUBY_TEST_SPEC • INSTRUMENTATION_TEST_SPEC • XCTEST_UI_TEST_SPEC If you call CreateUpload with WEB_APP specified, AWS Device Farm throws an ArgumentException error. Possible values: • ANDROID_APP • IOS_APP • WEB_APP • EXTERNAL_DATA • APPIUM_JAVA_JUNIT_TEST_PACKAGE • APPIUM_JAVA_TESTNG_TEST_PACKAGE • APPIUM_PYTHON_TEST_PACKAGE • APPIUM_NODE_TEST_PACKAGE • APPIUM_RUBY_TEST_PACKAGE • APPIUM_WEB_JAVA_JUNIT_TEST_PACKAGE • APPIUM_WEB_JAVA_TESTNG_TEST_PACKAGE • APPIUM_WEB_PYTHON_TEST_PACKAGE • APPIUM_WEB_NODE_TEST_PACKAGE • APPIUM_WEB_RUBY_TEST_PACKAGE • CALABASH_TEST_PACKAGE • INSTRUMENTATION_TEST_PACKAGE • UIAUTOMATION_TEST_PACKAGE • UIAUTOMATOR_TEST_PACKAGE • XCTEST_TEST_PACKAGE • XCTEST_UI_TEST_PACKAGE • APPIUM_JAVA_JUNIT_TEST_SPEC • APPIUM_JAVA_TESTNG_TEST_SPEC • APPIUM_PYTHON_TEST_SPEC • APPIUM_NODE_TEST_SPEC • APPIUM_RUBY_TEST_SPEC • APPIUM_WEB_JAVA_JUNIT_TEST_SPEC • APPIUM_WEB_JAVA_TESTNG_TEST_SPEC • APPIUM_WEB_PYTHON_TEST_SPEC • APPIUM_WEB_NODE_TEST_SPEC • APPIUM_WEB_RUBY_TEST_SPEC • INSTRUMENTATION_TEST_SPEC • XCTEST_UI_TEST_SPEC
     /// </summary>
     [CliOption("--type")]
     public string? Type { get; private init; }
 
     /// <summary>
-    /// The upload's content type (for example, application/octet-stream ). Constraints: o min: 0 o max: 64
+    /// The upload's content type (for example, application/octet-stream ). Constraints: • min: 0 • max: 64
     /// </summary>
     [CliOption("--content-type")]
     public string? ContentType { get; set; }
@@ -108,6 +109,15 @@ public record AwsDevicefarmCreateUploadOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

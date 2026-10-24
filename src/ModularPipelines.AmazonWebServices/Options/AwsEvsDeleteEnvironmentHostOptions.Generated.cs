@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes a host from an Amazon EVS environment. NOTE: Before deleting a host, you must unassign and decommission the host from within the SDDC Manager user interface. Not doing so could im- pact the availability of your virtual machines or result in data loss. See also: AWS API Documentation
+/// Deletes a host from an Amazon EVS environment. NOTE: Before deleting a host, you must unassign and decommission the host from within the SDDC Manager user interface. Not doing so could impact the availability of your virtual machines or result in data loss. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +27,10 @@ public record AwsEvsDeleteEnvironmentHostOptions : AwsOptions, IValidatableObjec
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes a host from an Amazon EVS environment. NOTE: Before deleting a host, you must unassign and decommission the host from within the SDDC Manager user interface. Not doing so could im- pact the availability of your virtual machines or result in data loss. See also: AWS API Documentation
+    /// Deletes a host from an Amazon EVS environment. NOTE: Before deleting a host, you must unassign and decommission the host from within the SDDC Manager user interface. Not doing so could impact the availability of your virtual machines or result in data loss. See also: AWS API Documentation
     /// </summary>
-    /// <param name="EnvironmentId">A unique ID for the host's environment. Constraints: o pattern: (env-[a-zA-Z0-9]{10})</param>
-    /// <param name="HostName">The DNS hostname associated with the host to be deleted. Constraints: o pattern: ([a-zA-Z0-9\-]*)</param>
+    /// <param name="EnvironmentId">A unique ID for the host's environment. Constraints: • pattern: (env-[a-zA-Z0-9]{10})</param>
+    /// <param name="HostName">The DNS hostname associated with the host to be deleted. Constraints: • pattern: ([a-zA-Z0-9\-]*)</param>
     public AwsEvsDeleteEnvironmentHostOptions(
         string EnvironmentId,
         string HostName
@@ -61,19 +62,19 @@ public record AwsEvsDeleteEnvironmentHostOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A unique ID for the host's environment. Constraints: o pattern: (env-[a-zA-Z0-9]{10})
+    /// A unique ID for the host's environment. Constraints: • pattern: (env-[a-zA-Z0-9]{10})
     /// </summary>
     [CliOption("--environment-id")]
     public string? EnvironmentId { get; private init; }
 
     /// <summary>
-    /// The DNS hostname associated with the host to be deleted. Constraints: o pattern: ([a-zA-Z0-9\-]*)
+    /// The DNS hostname associated with the host to be deleted. Constraints: • pattern: ([a-zA-Z0-9\-]*)
     /// </summary>
     [CliOption("--host-name")]
     public string? HostName { get; private init; }
 
     /// <summary>
-    /// NOTE: This parameter is not used in Amazon EVS currently. If you sup- ply input for this parameter, it will have no effect. A unique, case-sensitive identifier that you provide to ensure the idempotency of the host deletion request. If you do not specify a client token, a randomly generated token is used for the request to ensure idempotency. Constraints: o min: 1 o max: 100 o pattern: [!-~]+
+    /// NOTE: This parameter is not used in Amazon EVS currently. If you supply input for this parameter, it will have no effect. A unique, case-sensitive identifier that you provide to ensure the idempotency of the host deletion request. If you do not specify a client token, a randomly generated token is used for the request to ensure idempotency. Constraints: • min: 1 • max: 100 • pattern: [!-~]+
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
@@ -100,6 +101,15 @@ public record AwsEvsDeleteEnvironmentHostOptions : AwsOptions, IValidatableObjec
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

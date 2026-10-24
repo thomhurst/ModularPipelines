@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Disables server-side encryption (SSE) for the Firehose stream. This operation is asynchronous. It returns immediately. When you invoke it, Firehose first sets the encryption status of the stream to DIS- ABLING , and then to DISABLED . You can continue to read and write data to your stream while its status is DISABLING . It can take up to 5 sec- onds after the encryption status changes to DISABLED before all records written to the Firehose stream are no longer subject to encryption. To find out w...
+/// Disables server-side encryption (SSE) for the Firehose stream. This operation is asynchronous. It returns immediately. When you invoke it, Firehose first sets the encryption status of the stream to DISABLING , and then to DISABLED . You can continue to read and write data to your stream while its status is DISABLING . It can take up to 5 seconds after the encryption status changes to DISABLED before all records written to the Firehose stream are no longer subject to encryption. To find out wheth...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsFirehoseStopDeliveryStreamEncryptionOptions : AwsOptions, IVali
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Disables server-side encryption (SSE) for the Firehose stream. This operation is asynchronous. It returns immediately. When you invoke it, Firehose first sets the encryption status of the stream to DIS- ABLING , and then to DISABLED . You can continue to read and write data to your stream while its status is DISABLING . It can take up to 5 sec- onds after the encryption status changes to DISABLED before all records written to the Firehose stream are no longer subject to encryption. To find out w...
+    /// Disables server-side encryption (SSE) for the Firehose stream. This operation is asynchronous. It returns immediately. When you invoke it, Firehose first sets the encryption status of the stream to DISABLING , and then to DISABLED . You can continue to read and write data to your stream while its status is DISABLING . It can take up to 5 seconds after the encryption status changes to DISABLED before all records written to the Firehose stream are no longer subject to encryption. To find out wheth...
     /// </summary>
-    /// <param name="DeliveryStreamName">The name of the Firehose stream for which you want to disable server-side encryption (SSE). Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_.-]+</param>
+    /// <param name="DeliveryStreamName">The name of the Firehose stream for which you want to disable server-side encryption (SSE). Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9_.-]+</param>
     public AwsFirehoseStopDeliveryStreamEncryptionOptions(
         string DeliveryStreamName
     )
@@ -56,7 +57,7 @@ public record AwsFirehoseStopDeliveryStreamEncryptionOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the Firehose stream for which you want to disable server-side encryption (SSE). Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_.-]+
+    /// The name of the Firehose stream for which you want to disable server-side encryption (SSE). Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9_.-]+
     /// </summary>
     [CliOption("--delivery-stream-name")]
     public string? DeliveryStreamName { get; private init; }
@@ -82,6 +83,15 @@ public record AwsFirehoseStopDeliveryStreamEncryptionOptions : AwsOptions, IVali
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

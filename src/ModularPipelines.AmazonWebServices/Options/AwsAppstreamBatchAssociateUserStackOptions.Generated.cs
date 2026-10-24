@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsAppstreamBatchAssociateUserStackOptions : AwsOptions, IValidata
     /// <summary>
     /// Associates the specified users with the specified stacks. Users in a user pool cannot be assigned to stacks with fleets that are joined to an Active Directory domain. See also: AWS API Documentation
     /// </summary>
-    /// <param name="UserStackAssociations">The list of UserStackAssociation objects. Constraints: o min: 1 o max: 25 (structure) Describes a user in the user pool and the associated stack. StackName -&gt; (string) [required] The name of the stack that is associated with the user. Constraints: o min: 1 UserName -&gt; (string) [required] The email address of the user who is associated with the stack. NOTE: Users' email addresses are case-sensitive. Constraints: o min: 1 o max: 128 o pattern: [\p{L}\p{M}\p{S}\p{N}\p{P}]+ AuthenticationType -&gt; (string) [required] The authentication type for the user. Possible values: o API o SAML o USERPOOL o AWS_AD SendEmailNotification -&gt; (boolean) Specifies whether a welcome email is sent to a user after the user is created in the user pool. Shorthand Syntax: StackName=string,UserName=string,AuthenticationType=string,SendEmailNotification=boolean ... JSON Syntax: [ { "StackName": "string", "UserName": "string", "AuthenticationType": "API"|"SAML"|"USERPOOL"|"AWS_AD", "SendEmailNotification": true|false } ... ]</param>
+    /// <param name="UserStackAssociations">The list of UserStackAssociation objects. Constraints: • min: 1 • max: 25 (structure) Describes a user in the user pool and the associated stack. StackName -&gt; (string) [required] The name of the stack that is associated with the user. Constraints: • min: 1 UserName -&gt; (string) [required] The email address of the user who is associated with the stack. NOTE: Users' email addresses are case-sensitive. Constraints: • min: 1 • max: 128 • pattern: [\p{L}\p{M}\p{S}\p{N}\p{P}]+ AuthenticationType -&gt; (string) [required] The authentication type for the user. Possible values: • API • SAML • USERPOOL • AWS_AD SendEmailNotification -&gt; (boolean) Specifies whether a welcome email is sent to a user after the user is created in the user pool. Shorthand Syntax: StackName=string,UserName=string,AuthenticationType=string,SendEmailNotification=boolean ... JSON Syntax: [ { "StackName": "string", "UserName": "string", "AuthenticationType": "API"|"SAML"|"USERPOOL"|"AWS_AD", "SendEmailNotification": true|false } ... ]</param>
     public AwsAppstreamBatchAssociateUserStackOptions(
         IEnumerable<string> UserStackAssociations
     )
@@ -67,7 +68,7 @@ public record AwsAppstreamBatchAssociateUserStackOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The list of UserStackAssociation objects. Constraints: o min: 1 o max: 25 (structure) Describes a user in the user pool and the associated stack. StackName -&gt; (string) [required] The name of the stack that is associated with the user. Constraints: o min: 1 UserName -&gt; (string) [required] The email address of the user who is associated with the stack. NOTE: Users' email addresses are case-sensitive. Constraints: o min: 1 o max: 128 o pattern: [\p{L}\p{M}\p{S}\p{N}\p{P}]+ AuthenticationType -&gt; (string) [required] The authentication type for the user. Possible values: o API o SAML o USERPOOL o AWS_AD SendEmailNotification -&gt; (boolean) Specifies whether a welcome email is sent to a user after the user is created in the user pool. Shorthand Syntax: StackName=string,UserName=string,AuthenticationType=string,SendEmailNotification=boolean ... JSON Syntax: [ { "StackName": "string", "UserName": "string", "AuthenticationType": "API"|"SAML"|"USERPOOL"|"AWS_AD", "SendEmailNotification": true|false } ... ]
+    /// The list of UserStackAssociation objects. Constraints: • min: 1 • max: 25 (structure) Describes a user in the user pool and the associated stack. StackName -&gt; (string) [required] The name of the stack that is associated with the user. Constraints: • min: 1 UserName -&gt; (string) [required] The email address of the user who is associated with the stack. NOTE: Users' email addresses are case-sensitive. Constraints: • min: 1 • max: 128 • pattern: [\p{L}\p{M}\p{S}\p{N}\p{P}]+ AuthenticationType -&gt; (string) [required] The authentication type for the user. Possible values: • API • SAML • USERPOOL • AWS_AD SendEmailNotification -&gt; (boolean) Specifies whether a welcome email is sent to a user after the user is created in the user pool. Shorthand Syntax: StackName=string,UserName=string,AuthenticationType=string,SendEmailNotification=boolean ... JSON Syntax: [ { "StackName": "string", "UserName": "string", "AuthenticationType": "API"|"SAML"|"USERPOOL"|"AWS_AD", "SendEmailNotification": true|false } ... ]
     /// </summary>
     [CliOption("--user-stack-associations", GroupValues = true)]
     public IEnumerable<string>? UserStackAssociations { get; private init; }
@@ -93,6 +94,15 @@ public record AwsAppstreamBatchAssociateUserStackOptions : AwsOptions, IValidata
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

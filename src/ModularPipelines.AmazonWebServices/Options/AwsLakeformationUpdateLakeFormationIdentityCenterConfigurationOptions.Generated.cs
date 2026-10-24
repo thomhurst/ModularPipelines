@@ -23,31 +23,31 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsLakeformationUpdateLakeFormationIdentityCenterConfigurationOptions : AwsOptions
 {
     /// <summary>
-    /// The identifier for the Data Catalog. By default, the account ID. The Data Catalog is the persistent metadata store. It contains database definitions, table definitions, view definitions, and other control information to manage your Lake Formation environment. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
+    /// The identifier for the Data Catalog. By default, the account ID. The Data Catalog is the persistent metadata store. It contains database definitions, table definitions, view definitions, and other control information to manage your Lake Formation environment. Constraints: • min: 1 • max: 255 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
     /// </summary>
     [CliOption("--catalog-id")]
     public string? CatalogId { get; set; }
 
     /// <summary>
-    /// A list of Amazon Web Services account IDs or Amazon Web Services or- ganization/organizational unit ARNs that are allowed to access to access data managed by Lake Formation. If the ShareRecipients list includes valid values, then the resource share is updated with the principals you want to have access to the resources. If the ShareRecipients value is null, both the list of share recipi- ents and the resource share remain unchanged. If the ShareRecipients value is an empty list, then the existing share recipients list will be cleared, and the resource share will be deleted. Constraints: o min: 0 o max: 30 (structure) The Lake Formation principal. Supported principals are IAM users or IAM roles. DataLakePrincipalIdentifier -&gt; (string) An identifier for the Lake Formation principal. Constraints: o min: 1 o max: 255 Shorthand Syntax: DataLakePrincipalIdentifier=string ... JSON Syntax: [ { "DataLakePrincipalIdentifier": "string" } ... ]
+    /// A list of Amazon Web Services account IDs or Amazon Web Services organization/organizational unit ARNs that are allowed to access to access data managed by Lake Formation. If the ShareRecipients list includes valid values, then the resource share is updated with the principals you want to have access to the resources. If the ShareRecipients value is null, both the list of share recipients and the resource share remain unchanged. If the ShareRecipients value is an empty list, then the existing share recipients list will be cleared, and the resource share will be deleted. Constraints: • min: 0 • max: 30 (structure) The Lake Formation principal. Supported principals are IAM users or IAM roles. DataLakePrincipalIdentifier -&gt; (string) An identifier for the Lake Formation principal. Constraints: • min: 1 • max: 255 Shorthand Syntax: DataLakePrincipalIdentifier=string ... JSON Syntax: [ { "DataLakePrincipalIdentifier": "string" } ... ]
     /// </summary>
     [CliOption("--share-recipients", GroupValues = true)]
     public IEnumerable<string>? ShareRecipients { get; set; }
 
     /// <summary>
-    /// A list of service integrations for enabling trusted identity propa- gation with external services such as Redshift. (tagged union structure) A union structure representing different service integration types. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: Redshift. Redshift -&gt; (list) Redshift service integration configuration. (tagged union structure) A union structure representing different Redshift inte- gration scopes. NOTE: This is a Tagged Union structure. Only one of the fol- lowing top level keys can be set: RedshiftConnect. RedshiftConnect -&gt; (structure) Configuration for Redshift Connect integration. Authorization -&gt; (string) [required] The authorization status for Redshift Connect. Valid values are ENABLED or DISABLED. Possible values: o ENABLED o DISABLED JSON Syntax: [ { "Redshift": [ { "RedshiftConnect": { "Authorization": "ENABLED"|"DISABLED" } } ... ] } ... ]
+    /// A list of service integrations for enabling trusted identity propagation with external services such as Redshift. (tagged union structure) A union structure representing different service integration types. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: Redshift. Redshift -&gt; (list) Redshift service integration configuration. (tagged union structure) A union structure representing different Redshift integration scopes. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: RedshiftConnect. RedshiftConnect -&gt; (structure) Configuration for Redshift Connect integration. Authorization -&gt; (string) [required] The authorization status for Redshift Connect. Valid values are ENABLED or DISABLED. Possible values: • ENABLED • DISABLED JSON Syntax: [ { "Redshift": [ { "RedshiftConnect": { "Authorization": "ENABLED"|"DISABLED" } } ... ] } ... ]
     /// </summary>
     [CliOption("--service-integrations", GroupValues = true)]
     public IEnumerable<string>? ServiceIntegrations { get; set; }
 
     /// <summary>
-    /// Allows to enable or disable the IAM Identity Center connection. Possible values: o ENABLED o DISABLED
+    /// Allows to enable or disable the IAM Identity Center connection. Possible values: • ENABLED • DISABLED
     /// </summary>
     [CliOption("--application-status")]
     public AwsLakeformationUpdateLakeFormationIdentityCenterConfigurationApplicationStatus? ApplicationStatus { get; set; }
 
     /// <summary>
-    /// A list of the account IDs of Amazon Web Services accounts of third-party applications that are allowed to access data managed by Lake Formation. Status -&gt; (string) [required] Allows to enable or disable the third-party applications that are allowed to access data managed by Lake Formation. Possible values: o ENABLED o DISABLED AuthorizedTargets -&gt; (list) [required] List of third-party application ARNs integrated with Lake Forma- tion. (string) Shorthand Syntax: Status=string,AuthorizedTargets=string,string JSON Syntax: { "Status": "ENABLED"|"DISABLED", "AuthorizedTargets": ["string", ...] }
+    /// A list of the account IDs of Amazon Web Services accounts of third-party applications that are allowed to access data managed by Lake Formation. Status -&gt; (string) [required] Allows to enable or disable the third-party applications that are allowed to access data managed by Lake Formation. Possible values: • ENABLED • DISABLED AuthorizedTargets -&gt; (list) [required] List of third-party application ARNs integrated with Lake Formation. (string) Shorthand Syntax: Status=string,AuthorizedTargets=string,string JSON Syntax: { "Status": "ENABLED"|"DISABLED", "AuthorizedTargets": ["string", ...] }
     /// </summary>
     [CliOption("--external-filtering")]
     public string? ExternalFiltering { get; set; }
@@ -57,5 +57,14 @@ public record AwsLakeformationUpdateLakeFormationIdentityCenterConfigurationOpti
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

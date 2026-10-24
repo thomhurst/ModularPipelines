@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsChimeLogoutUserOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Logs out the specified user from all of the devices they are currently logged into. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AccountId">The Amazon Chime account ID. Constraints: o pattern: .*\S.*</param>
-    /// <param name="UserId">The user ID. Constraints: o pattern: .*\S.*</param>
+    /// <param name="AccountId">The Amazon Chime account ID. Constraints: • pattern: .*\S.*</param>
+    /// <param name="UserId">The user ID. Constraints: • pattern: .*\S.*</param>
     public AwsChimeLogoutUserOptions(
         string AccountId,
         string UserId
@@ -60,13 +61,13 @@ public record AwsChimeLogoutUserOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Chime account ID. Constraints: o pattern: .*\S.*
+    /// The Amazon Chime account ID. Constraints: • pattern: .*\S.*
     /// </summary>
     [CliOption("--account-id")]
     public string? AccountId { get; private init; }
 
     /// <summary>
-    /// The user ID. Constraints: o pattern: .*\S.*
+    /// The user ID. Constraints: • pattern: .*\S.*
     /// </summary>
     [CliOption("--user-id")]
     public string? UserId { get; private init; }
@@ -92,6 +93,15 @@ public record AwsChimeLogoutUserOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

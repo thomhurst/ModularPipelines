@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,9 +29,9 @@ public record AwsInspectorSubscribeToEventOptions : AwsOptions, IValidatableObje
     /// <summary>
     /// Enables the process of sending Amazon Simple Notification Service (SNS) notifications about a specified event to a specified SNS topic. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The ARN of the assessment template that is used during the event for which you want to receive SNS notifications. Constraints: o min: 1 o max: 300</param>
-    /// <param name="Event">The event for which you want to receive SNS notifications. Possible values: o ASSESSMENT_RUN_STARTED o ASSESSMENT_RUN_COMPLETED o ASSESSMENT_RUN_STATE_CHANGED o FINDING_REPORTED o OTHER</param>
-    /// <param name="TopicArn">The ARN of the SNS topic to which the SNS notifications are sent. Constraints: o min: 1 o max: 300</param>
+    /// <param name="ResourceArn">The ARN of the assessment template that is used during the event for which you want to receive SNS notifications. Constraints: • min: 1 • max: 300</param>
+    /// <param name="Event">The event for which you want to receive SNS notifications. Possible values: • ASSESSMENT_RUN_STARTED • ASSESSMENT_RUN_COMPLETED • ASSESSMENT_RUN_STATE_CHANGED • FINDING_REPORTED • OTHER</param>
+    /// <param name="TopicArn">The ARN of the SNS topic to which the SNS notifications are sent. Constraints: • min: 1 • max: 300</param>
     public AwsInspectorSubscribeToEventOptions(
         string ResourceArn,
         AwsInspectorSubscribeToEventEvent Event,
@@ -64,19 +65,19 @@ public record AwsInspectorSubscribeToEventOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the assessment template that is used during the event for which you want to receive SNS notifications. Constraints: o min: 1 o max: 300
+    /// The ARN of the assessment template that is used during the event for which you want to receive SNS notifications. Constraints: • min: 1 • max: 300
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
 
     /// <summary>
-    /// The event for which you want to receive SNS notifications. Possible values: o ASSESSMENT_RUN_STARTED o ASSESSMENT_RUN_COMPLETED o ASSESSMENT_RUN_STATE_CHANGED o FINDING_REPORTED o OTHER
+    /// The event for which you want to receive SNS notifications. Possible values: • ASSESSMENT_RUN_STARTED • ASSESSMENT_RUN_COMPLETED • ASSESSMENT_RUN_STATE_CHANGED • FINDING_REPORTED • OTHER
     /// </summary>
     [CliOption("--event")]
     public AwsInspectorSubscribeToEventEvent? Event { get; private init; }
 
     /// <summary>
-    /// The ARN of the SNS topic to which the SNS notifications are sent. Constraints: o min: 1 o max: 300
+    /// The ARN of the SNS topic to which the SNS notifications are sent. Constraints: • min: 1 • max: 300
     /// </summary>
     [CliOption("--topic-arn")]
     public string? TopicArn { get; private init; }
@@ -102,6 +103,15 @@ public record AwsInspectorSubscribeToEventOptions : AwsOptions, IValidatableObje
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -15,7 +15,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns a list of existing Resource Groups in your account. Minimum permissions To run this command, you must have the following permissions: o resource-groups:ListGroups See also: AWS API Documentation list-groups is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must ex...
+/// Returns a list of existing Resource Groups in your account. Minimum permissions To run this command, you must have the following permissions: • resource-groups:ListGroups See also: AWS API Documentation list-groups is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extr...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -23,16 +23,13 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsResourceGroupsListGroupsOptions : AwsOptions
 {
     /// <summary>
-    /// Filters, formatted as GroupFilter objects, that you want to apply to a ListGroups operation. o resource-type - Filter the results to include only those resource groups that have the specified resource type in their Resource- TypeFilter . For example, AWS::EC2::Instance would return any re- source group with a ResourceTypeFilter that includes AWS::EC2::In- stance . o configuration-type - Filter the results to include only those groups that have the specified configuration types attached. The current supported values are: o AWS::ResourceGroups::ApplicationGroup o AWS::AppRegistry::Application o AWS::AppRegistry::ApplicationResourceGroup o AWS::CloudFormation::Stack o AWS::EC2::CapacityReservationPool o AWS::EC2::HostManagement o AWS::NetworkFirewall::RuleGroup (structure) A filter collection that you can use to restrict the results from a List operation to only those you want to include. Name -&gt; (string) [required] The name of the filter. Filter names are case-sensitive. Possible values: o resource-type o configuration-type o owner o display-name o criticality Values -&gt; (list) [required] One or more filter values. Allowed filter values vary by group filter name, and are case-sensitive. Constraints: o min: 1 o max: 5 (string) Constraints: o min: 1 o max: 300 o pattern: AWS::(AllSup- ported|[a-zA-Z0-9]+::[a-zA-Z0-9]+)|[\s\p{L}0-9_\.-]* Shorthand Syntax: Name=string,Values=string,string ... JSON Syntax: [ { "Name": "resource-type"|"configuration-type"|"owner"|"display-name"|"criticality", "Values": ["string", ...] } ... ]
+    /// Filters, formatted as GroupFilter objects, that you want to apply to a ListGroups operation. • resource-type - Filter the results to include only those resource groups that have the specified resource type in their ResourceTypeFilter . For example, AWS::EC2::Instance would return any resource group with a ResourceTypeFilter that includes AWS::EC2::Instance . • configuration-type - Filter the results to include only those groups that have the specified configuration types attached. The current supported values are: • AWS::ResourceGroups::ApplicationGroup • AWS::AppRegistry::Application • AWS::AppRegistry::ApplicationResourceGroup • AWS::CloudFormation::Stack • AWS::EC2::CapacityReservationPool • AWS::EC2::HostManagement • AWS::NetworkFirewall::RuleGroup (structure) A filter collection that you can use to restrict the results from a List operation to only those you want to include. Name -&gt; (string) [required] The name of the filter. Filter names are case-sensitive. Possible values: • resource-type • configuration-type • owner • display-name • criticality Values -&gt; (list) [required] One or more filter values. Allowed filter values vary by group filter name, and are case-sensitive. Constraints: • min: 1 • max: 5 (string) Constraints: • min: 1 • max: 300 • pattern: AWS::(AllSupported|[a-zA-Z0-9]+::[a-zA-Z0-9]+)|[\s\p{L}0-9_\.-]* Shorthand Syntax: Name=string,Values=string,string ... JSON Syntax: [ { "Name": "resource-type"|"configuration-type"|"owner"|"display-name"|"criticality", "Values": ["string", ...] } ... ]
     /// </summary>
     [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -42,15 +39,27 @@ public record AwsResourceGroupsListGroupsOptions : AwsOptions
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 50
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 50
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

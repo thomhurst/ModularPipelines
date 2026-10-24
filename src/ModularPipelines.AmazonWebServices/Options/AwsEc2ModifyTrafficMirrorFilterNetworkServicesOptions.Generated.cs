@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Allows or restricts mirroring network services. By default, Amazon DNS network services are not eligible for Traffic Mirror. Use AddNetworkServices to add network services to a Traffic Mirror filter. When a network service is added to the Traffic Mirror filter, all traffic related to that network service will be mirrored. When you no longer want to mirror network services, use RemoveNetwork- Services to remove the network services from the Traffic Mirror filter. See also: AWS API Documentation
+/// Allows or restricts mirroring network services. By default, Amazon DNS network services are not eligible for Traffic Mirror. Use AddNetworkServices to add network services to a Traffic Mirror filter. When a network service is added to the Traffic Mirror filter, all traffic related to that network service will be mirrored. When you no longer want to mirror network services, use RemoveNetworkServices to remove the network services from the Traffic Mirror filter. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +26,7 @@ public record AwsEc2ModifyTrafficMirrorFilterNetworkServicesOptions : AwsOptions
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Allows or restricts mirroring network services. By default, Amazon DNS network services are not eligible for Traffic Mirror. Use AddNetworkServices to add network services to a Traffic Mirror filter. When a network service is added to the Traffic Mirror filter, all traffic related to that network service will be mirrored. When you no longer want to mirror network services, use RemoveNetwork- Services to remove the network services from the Traffic Mirror filter. See also: AWS API Documentation
+    /// Allows or restricts mirroring network services. By default, Amazon DNS network services are not eligible for Traffic Mirror. Use AddNetworkServices to add network services to a Traffic Mirror filter. When a network service is added to the Traffic Mirror filter, all traffic related to that network service will be mirrored. When you no longer want to mirror network services, use RemoveNetworkServices to remove the network services from the Traffic Mirror filter. See also: AWS API Documentation
     /// </summary>
     /// <param name="TrafficMirrorFilterId">The ID of the Traffic Mirror filter.</param>
     public AwsEc2ModifyTrafficMirrorFilterNetworkServicesOptions(
@@ -62,19 +63,19 @@ public record AwsEc2ModifyTrafficMirrorFilterNetworkServicesOptions : AwsOptions
     public string? TrafficMirrorFilterId { get; private init; }
 
     /// <summary>
-    /// The network service, for example Amazon DNS, that you want to mir- ror. (string) Possible values: o amazon-dns Syntax: "string" "string" ...
+    /// The network service, for example Amazon DNS, that you want to mirror. (string) Possible values: • amazon-dns Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--add-network-services", GroupValues = true)]
     public IEnumerable<string>? AddNetworkServices { get; set; }
 
     /// <summary>
-    /// The network service, for example Amazon DNS, that you no longer want to mirror. (string) Possible values: o amazon-dns Syntax: "string" "string" ...
+    /// The network service, for example Amazon DNS, that you no longer want to mirror. (string) Possible values: • amazon-dns Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--remove-network-services", GroupValues = true)]
     public IEnumerable<string>? RemoveNetworkServices { get; set; }
 
     /// <summary>
-    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation . Otherwise, it is UnauthorizedOperation .
     /// </summary>
     [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
@@ -100,6 +101,15 @@ public record AwsEc2ModifyTrafficMirrorFilterNetworkServicesOptions : AwsOptions
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

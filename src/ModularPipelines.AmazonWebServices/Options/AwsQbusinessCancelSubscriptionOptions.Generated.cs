@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsQbusinessCancelSubscriptionOptions : AwsOptions, IValidatableOb
     /// <summary>
     /// Unsubscribes a user or a group from their pricing tier in an Amazon Q Business application. An unsubscribed user or group loses all Amazon Q Business feature access at the start of next month. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ApplicationId">The identifier of the Amazon Q Business application for which the subscription is being cancelled. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]{35}</param>
-    /// <param name="SubscriptionId">The identifier of the Amazon Q Business subscription being can- celled. Constraints: o min: 0 o max: 1224</param>
+    /// <param name="ApplicationId">The identifier of the Amazon Q Business application for which the subscription is being cancelled. Constraints: • min: 36 • max: 36 • pattern: [a-zA-Z0-9][a-zA-Z0-9-]{35}</param>
+    /// <param name="SubscriptionId">The identifier of the Amazon Q Business subscription being cancelled. Constraints: • min: 0 • max: 1224</param>
     public AwsQbusinessCancelSubscriptionOptions(
         string ApplicationId,
         string SubscriptionId
@@ -60,13 +61,13 @@ public record AwsQbusinessCancelSubscriptionOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the Amazon Q Business application for which the subscription is being cancelled. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]{35}
+    /// The identifier of the Amazon Q Business application for which the subscription is being cancelled. Constraints: • min: 36 • max: 36 • pattern: [a-zA-Z0-9][a-zA-Z0-9-]{35}
     /// </summary>
     [CliOption("--application-id")]
     public string? ApplicationId { get; private init; }
 
     /// <summary>
-    /// The identifier of the Amazon Q Business subscription being can- celled. Constraints: o min: 0 o max: 1224
+    /// The identifier of the Amazon Q Business subscription being cancelled. Constraints: • min: 0 • max: 1224
     /// </summary>
     [CliOption("--subscription-id")]
     public string? SubscriptionId { get; private init; }
@@ -92,6 +93,15 @@ public record AwsQbusinessCancelSubscriptionOptions : AwsOptions, IValidatableOb
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

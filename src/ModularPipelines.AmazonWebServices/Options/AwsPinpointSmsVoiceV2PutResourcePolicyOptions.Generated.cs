@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Attaches a resource-based policy to a End User Messaging SMS re- source(phone number, sender Id, phone poll, or opt-out list) that is used for sharing the resource. A shared resource can be a Pool, Opt-out list, Sender Id, or Phone number. For more information about re- source-based policies, see Working with shared resources in the End User Messaging SMS User Guide . See also: AWS API Documentation
+/// Attaches a resource-based policy to a End User Messaging SMS resource(phone number, sender Id, phone poll, or opt-out list) that is used for sharing the resource. A shared resource can be a Pool, Opt-out list, Sender Id, or Phone number. For more information about resource-based policies, see Working with shared resources in the End User Messaging SMS User Guide . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsPinpointSmsVoiceV2PutResourcePolicyOptions : AwsOptions, IValid
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Attaches a resource-based policy to a End User Messaging SMS re- source(phone number, sender Id, phone poll, or opt-out list) that is used for sharing the resource. A shared resource can be a Pool, Opt-out list, Sender Id, or Phone number. For more information about re- source-based policies, see Working with shared resources in the End User Messaging SMS User Guide . See also: AWS API Documentation
+    /// Attaches a resource-based policy to a End User Messaging SMS resource(phone number, sender Id, phone poll, or opt-out list) that is used for sharing the resource. A shared resource can be a Pool, Opt-out list, Sender Id, or Phone number. For more information about resource-based policies, see Working with shared resources in the End User Messaging SMS User Guide . See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the End User Messaging SMS re- source to attach the resource-based policy to. Constraints: o min: 20 o max: 256 o pattern: arn:[A-Za-z0-9_:/-]+</param>
-    /// <param name="Policy">The JSON formatted resource-based policy to attach. Constraints: o min: 1 o max: 10000</param>
+    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the End User Messaging SMS resource to attach the resource-based policy to. Constraints: • min: 20 • max: 256 • pattern: arn:[A-Za-z0-9_:/-]+</param>
+    /// <param name="Policy">The JSON formatted resource-based policy to attach. Constraints: • min: 1 • max: 10000</param>
     public AwsPinpointSmsVoiceV2PutResourcePolicyOptions(
         string ResourceArn,
         string Policy
@@ -60,13 +61,13 @@ public record AwsPinpointSmsVoiceV2PutResourcePolicyOptions : AwsOptions, IValid
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the End User Messaging SMS re- source to attach the resource-based policy to. Constraints: o min: 20 o max: 256 o pattern: arn:[A-Za-z0-9_:/-]+
+    /// The Amazon Resource Name (ARN) of the End User Messaging SMS resource to attach the resource-based policy to. Constraints: • min: 20 • max: 256 • pattern: arn:[A-Za-z0-9_:/-]+
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
 
     /// <summary>
-    /// The JSON formatted resource-based policy to attach. Constraints: o min: 1 o max: 10000
+    /// The JSON formatted resource-based policy to attach. Constraints: • min: 1 • max: 10000
     /// </summary>
     [CliOption("--policy")]
     public string? Policy { get; private init; }
@@ -92,6 +93,15 @@ public record AwsPinpointSmsVoiceV2PutResourcePolicyOptions : AwsOptions, IValid
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -6,8 +6,8 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
+using ModularPipelines;
 using ModularPipelines.Context;
-using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
@@ -34,12 +34,12 @@ public class AwsLambda : IAwsLambda
     #region Sub-command Groups
 
     /// <summary>
-    /// aws wait sub-commands.
+    /// aws lambda wait sub-commands.
     /// </summary>
     public AwsLambdaWait Wait => _wait ??= new AwsLambdaWait(_command);
 
     /// <summary>
-    /// aws wizard sub-commands.
+    /// aws lambda wizard sub-commands.
     /// </summary>
     public AwsLambdaWizard Wizard => _wizard ??= new AwsLambdaWizard(_command);
 
@@ -48,7 +48,7 @@ public class AwsLambda : IAwsLambda
     #region Commands
 
     /// <summary>
-    /// Adds permissions to the resource-based policy of a version of an Lambda layer . Use this action to grant layer usage permission to other ac- counts. You can grant permission to a single account, all accounts in an organization, or all Amazon Web Services accounts. To revoke permission, call RemoveLayerVersionPermission with the statement ID that you specified when you added it. See also: AWS API Documentation
+    /// Adds permissions to the resource-based policy of a version of an Lambda layer . Use this action to grant layer usage permission to other accounts. You can grant permission to a single account, all accounts in an organization, or all Amazon Web Services accounts. To revoke permission, call RemoveLayerVersionPermission with the statement ID that you specified when you added it. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -63,7 +63,7 @@ public class AwsLambda : IAwsLambda
     }
 
     /// <summary>
-    /// Grants a principal permission to use a function. You can apply the pol- icy at the function level, or specify a qualifier to restrict access to a single version or alias. If you use a qualifier, the invoker must use the full Amazon Resource Name (ARN) of that version or alias to invoke the function. Note: Lambda does not support adding policies to version $LATEST. To grant permission to another account, specify the account ID as the Principal . To grant permission to an organization defined in O...
+    /// Grants a principal permission to use a function. You can apply the policy at the function level, or specify a qualifier to restrict access to a single version or alias. If you use a qualifier, the invoker must use the full Amazon Resource Name (ARN) of that version or alias to invoke the function. Note: Lambda does not support adding policies to version $LATEST. To grant permission to another account, specify the account ID as the Principal . To grant permission to an organization defined in Org...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -78,7 +78,7 @@ public class AwsLambda : IAwsLambda
     }
 
     /// <summary>
-    /// Saves the progress of a durable function execution during runtime. This API is used by the Lambda durable functions SDK to checkpoint completed steps and schedule asynchronous operations. You typically don't need to call this API directly as the SDK handles checkpointing automatically. Each checkpoint operation consumes the current checkpoint token and re- turns a new one for the next checkpoint. This ensures that checkpoints are applied in the correct order and prevents duplicate or out-of-orde...
+    /// Saves the progress of a durable function execution during runtime. This API is used by the Lambda durable functions SDK to checkpoint completed steps and schedule asynchronous operations. You typically don't need to call this API directly as the SDK handles checkpointing automatically. Each checkpoint operation consumes the current checkpoint token and returns a new one for the next checkpoint. This ensures that checkpoints are applied in the correct order and prevents duplicate or out-of-order ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -93,7 +93,7 @@ public class AwsLambda : IAwsLambda
     }
 
     /// <summary>
-    /// Creates an alias for a Lambda function version. Use aliases to provide clients with a function identifier that you can update to invoke a dif- ferent version. You can also map an alias to split invocation requests between two ver- sions. Use the RoutingConfig parameter to specify a second version and the percentage of invocation requests that it receives. See also: AWS API Documentation
+    /// Creates an alias for a Lambda Event Function version. Use aliases to provide clients with a function identifier that you can update to invoke a different version. You can also map an alias to split invocation requests between two versions. Use the RoutingConfig parameter to specify a second version and the percentage of invocation requests that it receives. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -108,7 +108,7 @@ public class AwsLambda : IAwsLambda
     }
 
     /// <summary>
-    /// Creates a capacity provider that manages compute resources for Lambda functions See also: AWS API Documentation
+    /// Creates a capacity provider that manages compute resources for Lambda Event Functions See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -123,7 +123,7 @@ public class AwsLambda : IAwsLambda
     }
 
     /// <summary>
-    /// Creates a code signing configuration. A code signing configuration de- fines a list of allowed signing profiles and defines the code-signing validation policy (action to be taken if deployment validation checks fail). See also: AWS API Documentation
+    /// Creates a code signing configuration. A code signing configuration defines a list of allowed signing profiles and defines the code-signing validation policy (action to be taken if deployment validation checks fail). See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -138,7 +138,7 @@ public class AwsLambda : IAwsLambda
     }
 
     /// <summary>
-    /// Creates a mapping between an event source and an Lambda function. Lambda reads items from the event source and invokes the function. For details about how to configure different event sources, see the following topics. o Amazon DynamoDB Streams o Amazon Kinesis o Amazon SQS o Amazon MQ and RabbitMQ o Amazon MSK o Apache Kafka o Amazon DocumentDB The following error handling options are available for stream sources (DynamoDB, Kinesis, Amazon MSK, and self-managed Apache Kafka): o BisectBatchOnFun...
+    /// Creates a mapping between an event source and an Lambda Event Function. Lambda reads items from the event source and invokes the function. For details about how to configure different event sources, see the following topics. • Amazon DynamoDB Streams • Amazon Kinesis • Amazon SQS • Amazon MQ and RabbitMQ • Amazon MSK • Apache Kafka • Amazon DocumentDB The following error handling options are available for stream sources (DynamoDB, Kinesis, Amazon MSK, and self-managed Apache Kafka): • BisectBatc...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -153,7 +153,7 @@ public class AwsLambda : IAwsLambda
     }
 
     /// <summary>
-    /// Creates a Lambda function. To create a function, you need a deployment package and an execution role . The deployment package is a .zip file archive or container image that contains your function code. The execu- tion role grants the function permission to use Amazon Web Services services, such as Amazon CloudWatch Logs for log streaming and X-Ray for request tracing. If the deployment package is a container image , then you set the pack- age type to Image . For a container image, the code prope...
+    /// Creates a Lambda Event Function. To create a function, you need a deployment package and an execution role . The deployment package is a .zip file archive or container image that contains your function code. The execution role grants the function permission to use Amazon Web Services services, such as Amazon CloudWatch Logs for log streaming and X-Ray for request tracing. If the deployment package is a container image , then you set the package type to Image . For a container image, the code pro...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -168,7 +168,7 @@ public class AwsLambda : IAwsLambda
     }
 
     /// <summary>
-    /// Creates a Lambda function URL with the specified configuration parame- ters. A function URL is a dedicated HTTP(S) endpoint that you can use to invoke your function. See also: AWS API Documentation
+    /// Creates a Lambda function URL with the specified configuration parameters. A function URL is a dedicated HTTP(S) endpoint that you can use to invoke your function. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -183,7 +183,7 @@ public class AwsLambda : IAwsLambda
     }
 
     /// <summary>
-    /// Deletes a Lambda function alias . See also: AWS API Documentation
+    /// Deletes a Lambda Event Function alias . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -228,7 +228,7 @@ public class AwsLambda : IAwsLambda
     }
 
     /// <summary>
-    /// Deletes an event source mapping . You can get the identifier of a map- ping from the output of ListEventSourceMappings . When you delete an event source mapping, it enters a Deleting state and might not be completely deleted for several seconds. See also: AWS API Documentation
+    /// Deletes an event source mapping . You can get the identifier of a mapping from the output of ListEventSourceMappings . When you delete an event source mapping, it enters a Deleting state and might not be completely deleted for several seconds. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -273,7 +273,7 @@ public class AwsLambda : IAwsLambda
     }
 
     /// <summary>
-    /// Deletes the configuration for asynchronous invocation for a function, version, or alias. To configure options for asynchronous invocation, use PutFunction- EventInvokeConfig . See also: AWS API Documentation
+    /// Deletes the configuration for asynchronous invocation for a function, version, or alias. To configure options for asynchronous invocation, use PutFunctionEventInvokeConfig . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -288,7 +288,7 @@ public class AwsLambda : IAwsLambda
     }
 
     /// <summary>
-    /// Deletes a Lambda function. To delete a specific function version, use the Qualifier parameter. Otherwise, all versions and aliases are deleted. This doesn't require the user to have explicit permissions for DeleteAlias . NOTE: A deleted Lambda function cannot be recovered. Ensure that you spec- ify the correct function name and version before deleting. To delete Lambda event source mappings that invoke a function, use DeleteEventSourceMapping . For Amazon Web Services services and re- sources th...
+    /// Deletes a Lambda Event Function. To delete a specific function version, use the Qualifier parameter. Otherwise, all versions and aliases are deleted. This doesn't require the user to have explicit permissions for DeleteAlias . NOTE: A deleted Lambda function cannot be recovered. Ensure that you specify the correct function name and version before deleting. To delete Lambda event source mappings that invoke a function, use DeleteEventSourceMapping . For Amazon Web Services services and resources ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -378,7 +378,7 @@ public class AwsLambda : IAwsLambda
     }
 
     /// <summary>
-    /// Returns details about a Lambda function alias . See also: AWS API Documentation
+    /// Returns details about a Lambda Event Function alias . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -423,7 +423,7 @@ public class AwsLambda : IAwsLambda
     }
 
     /// <summary>
-    /// Retrieves the execution history for a durable execution , showing all the steps, callbacks, and events that occurred during the execution. This provides a detailed audit trail of the execution's progress over time. The history is available while the execution is running and for a re- tention period after it completes (1-90 days, default 30 days). You can control whether to include execution data such as step results and callback payloads. See also: AWS API Documentation get-durable-execution-his...
+    /// Retrieves the execution history for a durable execution , showing all the steps, callbacks, and events that occurred during the execution. This provides a detailed audit trail of the execution's progress over time. The history is available while the execution is running and for a retention period after it completes (1-90 days, default 30 days). You can control whether to include execution data such as step results and callback payloads. See also: AWS API Documentation get-durable-execution-histo...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -438,7 +438,7 @@ public class AwsLambda : IAwsLambda
     }
 
     /// <summary>
-    /// Retrieves detailed information about a specific durable execution , in- cluding its current status, input payload, result or error information, and execution metadata such as start time and usage statistics. See also: AWS API Documentation
+    /// Retrieves detailed information about a specific durable execution , including its current status, input payload, result or error information, and execution metadata such as start time and usage statistics. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -468,7 +468,7 @@ public class AwsLambda : IAwsLambda
     }
 
     /// <summary>
-    /// Returns details about an event source mapping. You can get the identi- fier of a mapping from the output of ListEventSourceMappings . See also: AWS API Documentation
+    /// Returns details about an event source mapping. You can get the identifier of a mapping from the output of ListEventSourceMappings . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -498,7 +498,7 @@ public class AwsLambda : IAwsLambda
     }
 
     /// <summary>
-    /// Returns details about the reserved concurrency configuration for a function. To set a concurrency limit for a function, use PutFunction- Concurrency . See also: AWS API Documentation
+    /// Returns details about the reserved concurrency configuration for a function. To set a concurrency limit for a function, use PutFunctionConcurrency . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -513,7 +513,7 @@ public class AwsLambda : IAwsLambda
     }
 
     /// <summary>
-    /// Returns the version-specific settings of a Lambda function or version. The output includes only options that can vary between versions of a function. To modify these settings, use UpdateFunctionConfiguration . To get all of a function's details, including function-level settings, use GetFunction . See also: AWS API Documentation
+    /// Returns the version-specific settings of a Lambda Event Function or version. The output includes only options that can vary between versions of a function. To modify these settings, use UpdateFunctionConfiguration . To get all of a function's details, including function-level settings, use GetFunction . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -528,7 +528,7 @@ public class AwsLambda : IAwsLambda
     }
 
     /// <summary>
-    /// Retrieves the configuration for asynchronous invocation for a function, version, or alias. To configure options for asynchronous invocation, use PutFunction- EventInvokeConfig . See also: AWS API Documentation
+    /// Retrieves the configuration for asynchronous invocation for a function, version, or alias. To configure options for asynchronous invocation, use PutFunctionEventInvokeConfig . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -543,7 +543,7 @@ public class AwsLambda : IAwsLambda
     }
 
     /// <summary>
-    /// Returns information about the function or function version, with a link to download the deployment package that's valid for 10 minutes. If you specify a function version, only details that are specific to that ver- sion are returned. See also: AWS API Documentation
+    /// Returns information about the function or function version, with a link to download the deployment package that's valid for 10 minutes. If you specify a function version, only details that are specific to that version are returned. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -693,7 +693,7 @@ public class AwsLambda : IAwsLambda
     }
 
     /// <summary>
-    /// Retrieves the runtime management configuration for a function's ver- sion. If the runtime update mode is Manual , this includes the ARN of the runtime version and the runtime update mode. If the runtime update mode is Auto or Function update , this includes the runtime update mode and null is returned for the ARN. For more information, see Runtime up- dates . See also: AWS API Documentation
+    /// Retrieves the runtime management configuration for a function's version. If the runtime update mode is Manual , this includes the ARN of the runtime version and the runtime update mode. If the runtime update mode is Auto or Function update , this includes the runtime update mode and null is returned for the ARN. For more information, see Runtime updates . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -708,7 +708,7 @@ public class AwsLambda : IAwsLambda
     }
 
     /// <summary>
-    /// Invokes a Lambda function. You can invoke a function synchronously (and wait for the response), or asynchronously. By default, Lambda invokes your function synchronously (i.e. the``InvocationType`` is RequestRe- sponse ). To invoke a function asynchronously, set InvocationType to Event . Lambda passes the ClientContext object to your function for synchronous invocations only. For synchronous invocations, the maximum payload size is 6 MB. For asynchronous invocations, the maximum payload size is ...
+    /// Invokes a Lambda Event Function. You can invoke a function synchronously (and wait for the response), or asynchronously. By default, Lambda invokes your function synchronously (i.e. the``InvocationType`` is RequestResponse ). To invoke a function asynchronously, set InvocationType to Event . Lambda passes the ClientContext object to your function for synchronous invocations only. For synchronous invocations, the maximum payload size is 6 MB. For asynchronous invocations, the maximum payload size...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -723,7 +723,7 @@ public class AwsLambda : IAwsLambda
     }
 
     /// <summary>
-    /// Returns a list of aliases for a Lambda function. See also: AWS API Documentation list-aliases is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex- pressions: Aliases
+    /// Returns a list of aliases for a Lambda Event Function. See also: AWS API Documentation list-aliases is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Aliases
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -738,7 +738,7 @@ public class AwsLambda : IAwsLambda
     }
 
     /// <summary>
-    /// Returns a list of capacity providers in your account. See also: AWS API Documentation list-capacity-providers is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: CapacityProviders
+    /// Returns a list of capacity providers in your account. See also: AWS API Documentation list-capacity-providers is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: CapacityProviders
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -768,7 +768,7 @@ public class AwsLambda : IAwsLambda
     }
 
     /// <summary>
-    /// Returns a list of durable executions for a specified Lambda function. You can filter the results by execution name, status, and start time range. This API supports pagination for large result sets. See also: AWS API Documentation list-durable-executions-by-function is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument ...
+    /// Returns a list of durable executions for a specified Lambda function. You can filter the results by execution name, status, and start time range. This API supports pagination for large result sets. See also: AWS API Documentation list-durable-executions-by-function is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -798,7 +798,7 @@ public class AwsLambda : IAwsLambda
     }
 
     /// <summary>
-    /// Retrieves a list of configurations for asynchronous invocation for a function. To configure options for asynchronous invocation, use PutFunction- EventInvokeConfig . See also: AWS API Documentation list-function-event-invoke-configs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --qu...
+    /// Retrieves a list of configurations for asynchronous invocation for a function. To configure options for asynchronous invocation, use PutFunctionEventInvokeConfig . See also: AWS API Documentation list-function-event-invoke-configs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query ar...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -813,37 +813,7 @@ public class AwsLambda : IAwsLambda
     }
 
     /// <summary>
-    /// List the functions that use the specified code signing configuration. You can use this method prior to deleting a code signing configuration, to verify that no functions are using it. See also: AWS API Documentation list-functions-by-code-signing-config is a paginated operation. Multi- ple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate ar- gument. When using --output text and the --query argument on a pagi- n...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListFunctionsByCodeSigningConfigAsync(
-        AwsLambdaListFunctionsByCodeSigningConfigOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
-    /// Returns a list of Lambda functions, with the version-specific configu- ration of each. Lambda returns up to 50 functions per call. Set FunctionVersion to ALL to include all published versions of each function in addition to the unpublished version. NOTE: The ListFunctions operation returns a subset of the FunctionConfig- uration fields. To get the additional fields (State, StateReason- Code, StateReason, LastUpdateStatus, LastUpdateStatusReason, LastUp- dateStatusReasonCode, RuntimeVersionConfig...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListFunctionsAsync(
-        AwsLambdaListFunctionsOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLambdaListFunctionsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
-    /// Returns a list of Lambda function URLs for the specified function. See also: AWS API Documentation list-function-url-configs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: FunctionUrlConfigs
+    /// Returns a list of Lambda function URLs for the specified function. See also: AWS API Documentation list-function-url-configs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: FunctionUrlConfigs
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -858,7 +828,7 @@ public class AwsLambda : IAwsLambda
     }
 
     /// <summary>
-    /// Returns a list of function versions that are configured to use a spe- cific capacity provider. See also: AWS API Documentation list-function-versions-by-capacity-provider is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-pagi- nate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the re- sults of the followi...
+    /// Returns a list of function versions that are configured to use a specific capacity provider. See also: AWS API Documentation list-function-versions-by-capacity-provider is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following que...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -873,22 +843,37 @@ public class AwsLambda : IAwsLambda
     }
 
     /// <summary>
-    /// Lists Lambda layers and shows information about the latest version of each. Specify a runtime identifier to list only layers that indicate that they're compatible with that runtime. Specify a compatible archi- tecture to include only layers that are compatible with that instruction set architecture . See also: AWS API Documentation list-layers is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing th...
+    /// List the functions that use the specified code signing configuration. You can use this method prior to deleting a code signing configuration, to verify that no functions are using it. See also: AWS API Documentation list-functions-by-code-signing-config is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated r...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListLayersAsync(
-        AwsLambdaListLayersOptions? options = null,
+    public virtual async Task<CommandResult> ListFunctionsByCodeSigningConfigAsync(
+        AwsLambdaListFunctionsByCodeSigningConfigOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLambdaListLayersOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
-    /// Lists the versions of an Lambda layer . Versions that have been deleted aren't listed. Specify a runtime identifier to list only versions that indicate that they're compatible with that runtime. Specify a compati- ble architecture to include only layer versions that are compatible with that architecture. See also: AWS API Documentation list-layer-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by ...
+    /// Returns a list of Lambda Event Functions, with the version-specific configuration of each. Lambda returns up to 50 functions per call. Set FunctionVersion to ALL to include all published versions of each function in addition to the unpublished version. NOTE: The ListFunctions operation returns a subset of the FunctionConfiguration fields. To get the additional fields (State, StateReasonCode, StateReason, LastUpdateStatus, LastUpdateStatusReason, LastUpdateStatusReasonCode, RuntimeVersionConfig) ...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListFunctionsAsync(
+        AwsLambdaListFunctionsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLambdaListFunctionsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Lists the versions of an Lambda layer . Versions that have been deleted aren't listed. Specify a runtime identifier to list only versions that indicate that they're compatible with that runtime. Specify a compatible architecture to include only layer versions that are compatible with that architecture. See also: AWS API Documentation list-layer-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by pr...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -903,7 +888,22 @@ public class AwsLambda : IAwsLambda
     }
 
     /// <summary>
-    /// Retrieves a list of provisioned concurrency configurations for a func- tion. See also: AWS API Documentation list-provisioned-concurrency-configs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Pro...
+    /// Lists Lambda layers and shows information about the latest version of each. Specify a runtime identifier to list only layers that indicate that they're compatible with that runtime. Specify a compatible architecture to include only layers that are compatible with that instruction set architecture . See also: AWS API Documentation list-layers is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the ...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListLayersAsync(
+        AwsLambdaListLayersOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLambdaListLayersOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Retrieves a list of provisioned concurrency configurations for a function. See also: AWS API Documentation list-provisioned-concurrency-configs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Provision...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -918,7 +918,7 @@ public class AwsLambda : IAwsLambda
     }
 
     /// <summary>
-    /// Returns a function, event source mapping, or code signing configura- tion's tags . You can also view function tags with GetFunction . See also: AWS API Documentation
+    /// Returns a function, event source mapping, or code signing configuration's tags . You can also view function tags with GetFunction . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -948,7 +948,7 @@ public class AwsLambda : IAwsLambda
     }
 
     /// <summary>
-    /// Creates an Lambda layer from a ZIP archive. Each time you call Publish- LayerVersion with the same layer name, a new version is created. Add layers to your function with CreateFunction or UpdateFunctionCon- figuration . See also: AWS API Documentation
+    /// Creates an Lambda layer from a ZIP archive. Each time you call PublishLayerVersion with the same layer name, a new version is created. Add layers to your function with CreateFunction or UpdateFunctionConfiguration . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -963,7 +963,7 @@ public class AwsLambda : IAwsLambda
     }
 
     /// <summary>
-    /// Creates a version from the current code and configuration of a func- tion. Use versions to create a snapshot of your function code and con- figuration that doesn't change. Lambda doesn't publish a version if the function's configuration and code haven't changed since the last version. Use UpdateFunctionCode or UpdateFunctionConfiguration to update the function before publishing a version. Clients can invoke versions directly or with an alias. To create an alias, use CreateAlias . See also: AWS A...
+    /// Creates a version from the current code and configuration of a function. Use versions to create a snapshot of your function code and configuration that doesn't change. Lambda doesn't publish a version if the function's configuration and code haven't changed since the last version. Use UpdateFunctionCode or UpdateFunctionConfiguration to update the function before publishing a version. Clients can invoke versions directly or with an alias. To create an alias, use CreateAlias . See also: AWS API D...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1038,7 +1038,7 @@ public class AwsLambda : IAwsLambda
     }
 
     /// <summary>
-    /// Sets the scaling configuration for a Lambda Managed Instances function. The scaling configuration defines the minimum and maximum number of ex- ecution environments that can be provisioned for the function, allowing you to control scaling behavior and resource allocation. See also: AWS API Documentation
+    /// Sets the scaling configuration for a Lambda Managed Instances function. The scaling configuration defines the minimum and maximum number of execution environments that can be provisioned for the function, allowing you to control scaling behavior and resource allocation. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1068,7 +1068,7 @@ public class AwsLambda : IAwsLambda
     }
 
     /// <summary>
-    /// Adds a resource-based policy to a Lambda resource. Resource-based poli- cies grant access to other Amazon Web Services accounts , organizations , or services . Resource-based policies apply to a single Lambda re- source (for example, a function, function version, or function alias). WARNING: This operation replaces any existing policy on the Lambda resource. If you previously added permissions using the AddPermission opera- tion, the new policy overwrites those permissions. See also: AWS API Doc...
+    /// Adds a resource-based policy to a Lambda resource. Resource-based policies grant access to other Amazon Web Services accounts , organizations , or services . Resource-based policies apply to a single Lambda resource (for example, a function, function version, or function alias). WARNING: This operation replaces any existing policy on the Lambda resource. If you previously added permissions using the AddPermission operation, the new policy overwrites those permissions. See also: AWS API Documenta...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1113,7 +1113,7 @@ public class AwsLambda : IAwsLambda
     }
 
     /// <summary>
-    /// Revokes function-use permission from an Amazon Web Services service or another Amazon Web Services account. You can get the ID of the state- ment from the output of GetPolicy . See also: AWS API Documentation
+    /// Revokes function-use permission from an Amazon Web Services service or another Amazon Web Services account. You can get the ID of the statement from the output of GetPolicy . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1128,7 +1128,7 @@ public class AwsLambda : IAwsLambda
     }
 
     /// <summary>
-    /// Sends a failure response for a callback operation in a durable execu- tion. Use this API when an external system cannot complete a callback operation successfully. See also: AWS API Documentation
+    /// Sends a failure response for a callback operation in a durable execution. Use this API when an external system cannot complete a callback operation successfully. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1143,7 +1143,7 @@ public class AwsLambda : IAwsLambda
     }
 
     /// <summary>
-    /// Sends a heartbeat signal for a long-running callback operation to pre- vent timeout. Use this API to extend the callback timeout period while the external operation is still in progress. See also: AWS API Documentation
+    /// Sends a heartbeat signal for a long-running callback operation to prevent timeout. Use this API to extend the callback timeout period while the external operation is still in progress. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1158,7 +1158,7 @@ public class AwsLambda : IAwsLambda
     }
 
     /// <summary>
-    /// Sends a successful completion response for a callback operation in a durable execution. Use this API when an external system has success- fully completed a callback operation. See also: AWS API Documentation
+    /// Sends a successful completion response for a callback operation in a durable execution. Use this API when an external system has successfully completed a callback operation. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1188,7 +1188,7 @@ public class AwsLambda : IAwsLambda
     }
 
     /// <summary>
-    /// Adds tags to a function, event source mapping, or code signing configu- ration. See also: AWS API Documentation
+    /// Adds tags to a function, event source mapping, or code signing configuration. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1218,7 +1218,7 @@ public class AwsLambda : IAwsLambda
     }
 
     /// <summary>
-    /// Updates the configuration of a Lambda function alias . See also: AWS API Documentation
+    /// Updates the configuration of a Lambda Event Function alias . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1248,7 +1248,7 @@ public class AwsLambda : IAwsLambda
     }
 
     /// <summary>
-    /// Update the code signing configuration. Changes to the code signing con- figuration take effect the next time a user tries to deploy a code package to the function. See also: AWS API Documentation
+    /// Update the code signing configuration. Changes to the code signing configuration take effect the next time a user tries to deploy a code package to the function. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1263,7 +1263,7 @@ public class AwsLambda : IAwsLambda
     }
 
     /// <summary>
-    /// Updates an event source mapping. You can change the function that Lambda invokes, or pause invocation and resume later from the same lo- cation. For details about how to configure different event sources, see the following topics. o Amazon DynamoDB Streams o Amazon Kinesis o Amazon SQS o Amazon MQ and RabbitMQ o Amazon MSK o Apache Kafka o Amazon DocumentDB The following error handling options are available for stream sources (DynamoDB, Kinesis, Amazon MSK, and self-managed Apache Kafka): o Bise...
+    /// Updates an event source mapping. You can change the function that Lambda invokes, or pause invocation and resume later from the same location. For details about how to configure different event sources, see the following topics. • Amazon DynamoDB Streams • Amazon Kinesis • Amazon SQS • Amazon MQ and RabbitMQ • Amazon MSK • Apache Kafka • Amazon DocumentDB The following error handling options are available for stream sources (DynamoDB, Kinesis, Amazon MSK, and self-managed Apache Kafka): • Bisect...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1278,7 +1278,7 @@ public class AwsLambda : IAwsLambda
     }
 
     /// <summary>
-    /// Updates a Lambda function's code. If code signing is enabled for the function, the code package must be signed by a trusted publisher. For more information, see Configuring code signing for Lambda . If the function's package type is Image , then you must specify the code package in ImageUri as the URI of a container image in the Amazon ECR registry. If the function's package type is Zip , then you must specify the de- ployment package as a .zip file archive . Enter the Amazon S3 bucket and key o...
+    /// Updates a Lambda Event Function's code. If code signing is enabled for the function, the code package must be signed by a trusted publisher. For more information, see Configuring code signing for Lambda . If the function's package type is Image , then you must specify the code package in ImageUri as the URI of a container image in the Amazon ECR registry. If the function's package type is Zip , then you must specify the deployment package as a .zip file archive . Enter the Amazon S3 bucket and k...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1293,7 +1293,7 @@ public class AwsLambda : IAwsLambda
     }
 
     /// <summary>
-    /// Modify the version-specific settings of a Lambda function. When you update a function, Lambda provisions an instance of the func- tion and its supporting resources. If your function connects to a VPC, this process can take a minute. During this time, you can't modify the function, but you can still invoke it. The LastUpdateStatus , LastUp- dateStatusReason , and LastUpdateStatusReasonCode fields in the re- sponse from GetFunctionConfiguration indicate when the update is com- plete and the functi...
+    /// Modifies the version-specific settings of a Lambda Event Function. When you update a function, Lambda provisions an instance of the function and its supporting resources. If your function connects to a VPC, this process can take a minute. During this time, you can't modify the function, but you can still invoke it. The LastUpdateStatus , LastUpdateStatusReason , and LastUpdateStatusReasonCode fields in the response from GetFunctionConfiguration indicate when the update is complete and the functi...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1308,7 +1308,7 @@ public class AwsLambda : IAwsLambda
     }
 
     /// <summary>
-    /// Updates the configuration for asynchronous invocation for a function, version, or alias. To configure options for asynchronous invocation, use PutFunction- EventInvokeConfig . See also: AWS API Documentation
+    /// Updates the configuration for asynchronous invocation for a function, version, or alias. To configure options for asynchronous invocation, use PutFunctionEventInvokeConfig . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

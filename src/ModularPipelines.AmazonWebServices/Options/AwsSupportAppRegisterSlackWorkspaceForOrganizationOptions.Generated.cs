@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Registers a Slack workspace for your Amazon Web Services account. To call this API, your account must be part of an organization in Organi- zations. If you're the management account and you want to register Slack work- spaces for your organization, you must complete the following tasks: o Sign in to the Amazon Web Services Support Center and authorize the Slack workspaces where you want your organization to have access to. See Authorize a Slack workspace in the Amazon Web Services Support User G...
+/// Registers a Slack workspace for your Amazon Web Services account. To call this API, your account must be part of an organization in Organizations. If you're the management account and you want to register Slack workspaces for your organization, you must complete the following tasks: • Sign in to the Amazon Web Services Support Center and authorize the Slack workspaces where you want your organization to have access to. See Authorize a Slack workspace in the Amazon Web Services Support User Guide...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsSupportAppRegisterSlackWorkspaceForOrganizationOptions : AwsOpt
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Registers a Slack workspace for your Amazon Web Services account. To call this API, your account must be part of an organization in Organi- zations. If you're the management account and you want to register Slack work- spaces for your organization, you must complete the following tasks: o Sign in to the Amazon Web Services Support Center and authorize the Slack workspaces where you want your organization to have access to. See Authorize a Slack workspace in the Amazon Web Services Support User G...
+    /// Registers a Slack workspace for your Amazon Web Services account. To call this API, your account must be part of an organization in Organizations. If you're the management account and you want to register Slack workspaces for your organization, you must complete the following tasks: • Sign in to the Amazon Web Services Support Center and authorize the Slack workspaces where you want your organization to have access to. See Authorize a Slack workspace in the Amazon Web Services Support User Guide...
     /// </summary>
-    /// <param name="TeamId">The team ID in Slack. This ID uniquely identifies a Slack workspace, such as T012ABCDEFG . Specify the Slack workspace that you want to use for your organization. Constraints: o min: 1 o max: 256 o pattern: ^\S+$</param>
+    /// <param name="TeamId">The team ID in Slack. This ID uniquely identifies a Slack workspace, such as T012ABCDEFG . Specify the Slack workspace that you want to use for your organization. Constraints: • min: 1 • max: 256 • pattern: ^\S+$</param>
     public AwsSupportAppRegisterSlackWorkspaceForOrganizationOptions(
         string TeamId
     )
@@ -56,7 +57,7 @@ public record AwsSupportAppRegisterSlackWorkspaceForOrganizationOptions : AwsOpt
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The team ID in Slack. This ID uniquely identifies a Slack workspace, such as T012ABCDEFG . Specify the Slack workspace that you want to use for your organization. Constraints: o min: 1 o max: 256 o pattern: ^\S+$
+    /// The team ID in Slack. This ID uniquely identifies a Slack workspace, such as T012ABCDEFG . Specify the Slack workspace that you want to use for your organization. Constraints: • min: 1 • max: 256 • pattern: ^\S+$
     /// </summary>
     [CliOption("--team-id")]
     public string? TeamId { get; private init; }
@@ -82,6 +83,15 @@ public record AwsSupportAppRegisterSlackWorkspaceForOrganizationOptions : AwsOpt
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

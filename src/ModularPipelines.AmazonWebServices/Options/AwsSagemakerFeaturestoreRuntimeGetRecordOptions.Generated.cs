@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,8 +29,8 @@ public record AwsSagemakerFeaturestoreRuntimeGetRecordOptions : AwsOptions, IVal
     /// <summary>
     /// Use for OnlineStore serving from a FeatureStore . Only the latest records stored in the OnlineStore can be retrieved. If no Record with RecordIdentifierValue is found, then an empty result is returned. See also: AWS API Documentation
     /// </summary>
-    /// <param name="FeatureGroupName">The name or Amazon Resource Name (ARN) of the feature group from which you want to retrieve a record. Constraints: o min: 1 o max: 150 o pattern: (arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:fea- ture-group/)?([a-zA-Z0-9]([-_]*[a-zA-Z0-9]){0,63})</param>
-    /// <param name="RecordIdentifierValueAsString">The value that corresponds to RecordIdentifier type and uniquely identifies the record in the FeatureGroup . Constraints: o max: 358400 o pattern: .*</param>
+    /// <param name="FeatureGroupName">The name or Amazon Resource Name (ARN) of the feature group from which you want to retrieve a record. Constraints: • min: 1 • max: 150 • pattern: (arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:feature-group/)?([a-zA-Z0-9]([-_]*[a-zA-Z0-9]){0,63})</param>
+    /// <param name="RecordIdentifierValueAsString">The value that corresponds to RecordIdentifier type and uniquely identifies the record in the FeatureGroup . Constraints: • max: 358400 • pattern: .*</param>
     public AwsSagemakerFeaturestoreRuntimeGetRecordOptions(
         string FeatureGroupName,
         string RecordIdentifierValueAsString
@@ -61,25 +62,25 @@ public record AwsSagemakerFeaturestoreRuntimeGetRecordOptions : AwsOptions, IVal
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name or Amazon Resource Name (ARN) of the feature group from which you want to retrieve a record. Constraints: o min: 1 o max: 150 o pattern: (arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:fea- ture-group/)?([a-zA-Z0-9]([-_]*[a-zA-Z0-9]){0,63})
+    /// The name or Amazon Resource Name (ARN) of the feature group from which you want to retrieve a record. Constraints: • min: 1 • max: 150 • pattern: (arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:feature-group/)?([a-zA-Z0-9]([-_]*[a-zA-Z0-9]){0,63})
     /// </summary>
     [CliOption("--feature-group-name")]
     public string? FeatureGroupName { get; private init; }
 
     /// <summary>
-    /// The value that corresponds to RecordIdentifier type and uniquely identifies the record in the FeatureGroup . Constraints: o max: 358400 o pattern: .*
+    /// The value that corresponds to RecordIdentifier type and uniquely identifies the record in the FeatureGroup . Constraints: • max: 358400 • pattern: .*
     /// </summary>
     [CliOption("--record-identifier-value-as-string")]
     public string? RecordIdentifierValueAsString { get; private init; }
 
     /// <summary>
-    /// List of names of Features to be retrieved. If not specified, the latest value for all the Features are returned. Constraints: o min: 1 (string) Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9]([-_]*[a-zA-Z0-9]){0,63} Syntax: "string" "string" ...
+    /// List of names of Features to be retrieved. If not specified, the latest value for all the Features are returned. Constraints: • min: 1 (string) Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9]([-_]*[a-zA-Z0-9]){0,63} Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--feature-names", GroupValues = true)]
     public IEnumerable<string>? FeatureNames { get; set; }
 
     /// <summary>
-    /// Parameter to request ExpiresAt in response. If Enabled , GetRecord will return the value of ExpiresAt , if it is not null. If Disabled and null, GetRecord will return null. Possible values: o Enabled o Disabled
+    /// Parameter to request ExpiresAt in response. If Enabled , GetRecord will return the value of ExpiresAt , if it is not null. If Disabled and null, GetRecord will return null. Possible values: • Enabled • Disabled
     /// </summary>
     [CliOption("--expiration-time-response")]
     public AwsSagemakerFeaturestoreRuntimeGetRecordExpirationTimeResponse? ExpirationTimeResponse { get; set; }
@@ -105,6 +106,15 @@ public record AwsSagemakerFeaturestoreRuntimeGetRecordOptions : AwsOptions, IVal
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

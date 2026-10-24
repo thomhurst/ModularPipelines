@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsCodeguruprofilerAddNotificationChannelsOptions : AwsOptions, IV
     /// <summary>
     /// Add up to 2 anomaly notifications channels for a profiling group. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Channels">One or 2 channels to report to when anomalies are detected. Constraints: o min: 1 o max: 2 (structure) Notification medium for users to get alerted for events that oc- cur in application profile. We support SNS topic as a notifica- tion channel. eventPublishers -&gt; (list) [required] List of publishers for different type of events that may be detected in an application from the profile. Anomaly detec- tion is the only event publisher in Profiler. Constraints: o min: 1 o max: 1 (string) Possible values: o AnomalyDetection id -&gt; (string) Unique identifier for each Channel in the notification con- figuration of a Profiling Group. A random UUID for channelId is used when adding a channel to the notification configura- tion if not specified in the request. Constraints: o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12} uri -&gt; (string) [required] Unique arn of the resource to be used for notifications. We support a valid SNS topic arn as a channel uri. Shorthand Syntax: eventPublishers=string,string,id=string,uri=string ... JSON Syntax: [ { "eventPublishers": ["AnomalyDetection", ...], "id": "string", "uri": "string" } ... ]</param>
-    /// <param name="ProfilingGroupName">The name of the profiling group that we are setting up notifications for. Constraints: o min: 1 o max: 255 o pattern: ^[\w-]+$</param>
+    /// <param name="Channels">One or 2 channels to report to when anomalies are detected. Constraints: • min: 1 • max: 2 (structure) Notification medium for users to get alerted for events that occur in application profile. We support SNS topic as a notification channel. eventPublishers -&gt; (list) [required] List of publishers for different type of events that may be detected in an application from the profile. Anomaly detection is the only event publisher in Profiler. Constraints: • min: 1 • max: 1 (string) Possible values: • AnomalyDetection id -&gt; (string) Unique identifier for each Channel in the notification configuration of a Profiling Group. A random UUID for channelId is used when adding a channel to the notification configuration if not specified in the request. Constraints: • pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12} uri -&gt; (string) [required] Unique arn of the resource to be used for notifications. We support a valid SNS topic arn as a channel uri. Shorthand Syntax: eventPublishers=string,string,id=string,uri=string ... JSON Syntax: [ { "eventPublishers": ["AnomalyDetection", ...], "id": "string", "uri": "string" } ... ]</param>
+    /// <param name="ProfilingGroupName">The name of the profiling group that we are setting up notifications for. Constraints: • min: 1 • max: 255 • pattern: ^[\w-]+$</param>
     public AwsCodeguruprofilerAddNotificationChannelsOptions(
         IEnumerable<string> Channels,
         string ProfilingGroupName
@@ -71,13 +72,13 @@ public record AwsCodeguruprofilerAddNotificationChannelsOptions : AwsOptions, IV
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// One or 2 channels to report to when anomalies are detected. Constraints: o min: 1 o max: 2 (structure) Notification medium for users to get alerted for events that oc- cur in application profile. We support SNS topic as a notifica- tion channel. eventPublishers -&gt; (list) [required] List of publishers for different type of events that may be detected in an application from the profile. Anomaly detec- tion is the only event publisher in Profiler. Constraints: o min: 1 o max: 1 (string) Possible values: o AnomalyDetection id -&gt; (string) Unique identifier for each Channel in the notification con- figuration of a Profiling Group. A random UUID for channelId is used when adding a channel to the notification configura- tion if not specified in the request. Constraints: o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12} uri -&gt; (string) [required] Unique arn of the resource to be used for notifications. We support a valid SNS topic arn as a channel uri. Shorthand Syntax: eventPublishers=string,string,id=string,uri=string ... JSON Syntax: [ { "eventPublishers": ["AnomalyDetection", ...], "id": "string", "uri": "string" } ... ]
+    /// One or 2 channels to report to when anomalies are detected. Constraints: • min: 1 • max: 2 (structure) Notification medium for users to get alerted for events that occur in application profile. We support SNS topic as a notification channel. eventPublishers -&gt; (list) [required] List of publishers for different type of events that may be detected in an application from the profile. Anomaly detection is the only event publisher in Profiler. Constraints: • min: 1 • max: 1 (string) Possible values: • AnomalyDetection id -&gt; (string) Unique identifier for each Channel in the notification configuration of a Profiling Group. A random UUID for channelId is used when adding a channel to the notification configuration if not specified in the request. Constraints: • pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12} uri -&gt; (string) [required] Unique arn of the resource to be used for notifications. We support a valid SNS topic arn as a channel uri. Shorthand Syntax: eventPublishers=string,string,id=string,uri=string ... JSON Syntax: [ { "eventPublishers": ["AnomalyDetection", ...], "id": "string", "uri": "string" } ... ]
     /// </summary>
     [CliOption("--channels", GroupValues = true)]
     public IEnumerable<string>? Channels { get; private init; }
 
     /// <summary>
-    /// The name of the profiling group that we are setting up notifications for. Constraints: o min: 1 o max: 255 o pattern: ^[\w-]+$
+    /// The name of the profiling group that we are setting up notifications for. Constraints: • min: 1 • max: 255 • pattern: ^[\w-]+$
     /// </summary>
     [CliOption("--profiling-group-name")]
     public string? ProfilingGroupName { get; private init; }
@@ -103,6 +104,15 @@ public record AwsCodeguruprofilerAddNotificationChannelsOptions : AwsOptions, IV
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

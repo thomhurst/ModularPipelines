@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Gets the aggregated profile of a profiling group for a specified time range. Amazon CodeGuru Profiler collects posted agent profiles for a profiling group into aggregated profiles. &lt;note&gt; &lt;p&gt; Because aggregated profiles expire over time &lt;code&gt;Get- Profile&lt;/code&gt; is not idempotent. &lt;/p&gt; &lt;/note&gt; &lt;p&gt; Specify the time range for the requested aggregated profile using 1 or 2 of the fol- lowing parameters: &lt;code&gt;startTime&lt;/code&gt;, &lt;code&gt;endTime&lt;/code&gt;, &lt;code&gt;period&lt;/code&gt;. The maximum time range allowed...
+/// Gets the aggregated profile of a profiling group for a specified time range. Amazon CodeGuru Profiler collects posted agent profiles for a profiling group into aggregated profiles. &lt;note&gt; &lt;p&gt; Because aggregated profiles expire over time &lt;code&gt;GetProfile&lt;/code&gt; is not idempotent. &lt;/p&gt; &lt;/note&gt; &lt;p&gt; Specify the time range for the requested aggregated profile using 1 or 2 of the following parameters: &lt;code&gt;startTime&lt;/code&gt;, &lt;code&gt;endTime&lt;/code&gt;, &lt;code&gt;period&lt;/code&gt;. The maximum time range allowed is ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -22,9 +22,9 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsCodeguruprofilerGetProfileOptions : AwsOptions
 {
     /// <summary>
-    /// Gets the aggregated profile of a profiling group for a specified time range. Amazon CodeGuru Profiler collects posted agent profiles for a profiling group into aggregated profiles. &lt;note&gt; &lt;p&gt; Because aggregated profiles expire over time &lt;code&gt;Get- Profile&lt;/code&gt; is not idempotent. &lt;/p&gt; &lt;/note&gt; &lt;p&gt; Specify the time range for the requested aggregated profile using 1 or 2 of the fol- lowing parameters: &lt;code&gt;startTime&lt;/code&gt;, &lt;code&gt;endTime&lt;/code&gt;, &lt;code&gt;period&lt;/code&gt;. The maximum time range allowed...
+    /// Gets the aggregated profile of a profiling group for a specified time range. Amazon CodeGuru Profiler collects posted agent profiles for a profiling group into aggregated profiles. &lt;note&gt; &lt;p&gt; Because aggregated profiles expire over time &lt;code&gt;GetProfile&lt;/code&gt; is not idempotent. &lt;/p&gt; &lt;/note&gt; &lt;p&gt; Specify the time range for the requested aggregated profile using 1 or 2 of the following parameters: &lt;code&gt;startTime&lt;/code&gt;, &lt;code&gt;endTime&lt;/code&gt;, &lt;code&gt;period&lt;/code&gt;. The maximum time range allowed is ...
     /// </summary>
-    /// <param name="ProfilingGroupName">The name of the profiling group to get. Constraints: o min: 1 o max: 255 o pattern: ^[\w-]+$</param>
+    /// <param name="ProfilingGroupName">The name of the profiling group to get. Constraints: • min: 1 • max: 255 • pattern: ^[\w-]+$</param>
     /// <param name="Outfile">The &lt;outfile&gt; operand.</param>
     public AwsCodeguruprofilerGetProfileOptions(
         string ProfilingGroupName,
@@ -44,37 +44,37 @@ public record AwsCodeguruprofilerGetProfileOptions : AwsOptions
     }
 
     /// <summary>
-    /// The name of the profiling group to get. Constraints: o min: 1 o max: 255 o pattern: ^[\w-]+$
+    /// The name of the profiling group to get. Constraints: • min: 1 • max: 255 • pattern: ^[\w-]+$
     /// </summary>
     [CliOption("--profiling-group-name")]
     public string ProfilingGroupName { get; private init; }
 
     /// <summary>
-    /// The format of the returned profiling data. The format maps to the Accept and Content-Type headers of the HTTP request. You can specify one of the following: or the default . &lt;ul&gt; &lt;li&gt; &lt;p&gt; &lt;code&gt;application/json&lt;/code&gt; standard JSON for- mat &lt;/p&gt; &lt;/li&gt; &lt;li&gt; &lt;p&gt; &lt;code&gt;application/x-amzn-ion&lt;/code&gt; the Amazon Ion data format. For more information, see &lt;a href="http://amzn.github.io/ion-docs/"&gt;Amazon Ion&lt;/a&gt;. &lt;/p&gt; &lt;/li&gt; &lt;/ul&gt;
+    /// The format of the returned profiling data. The format maps to the Accept and Content-Type headers of the HTTP request. You can specify one of the following: or the default . &lt;ul&gt; &lt;li&gt; &lt;p&gt; &lt;code&gt;application/json&lt;/code&gt; standard JSON format &lt;/p&gt; &lt;/li&gt; &lt;li&gt; &lt;p&gt; &lt;code&gt;application/x-amzn-ion&lt;/code&gt; the Amazon Ion data format. For more information, see &lt;a href="http://amzn.github.io/ion-docs/"&gt;Amazon Ion&lt;/a&gt;. &lt;/p&gt; &lt;/li&gt; &lt;/ul&gt;
     /// </summary>
     [CliOption("--accept")]
     public string? Accept { get; set; }
 
     /// <summary>
-    /// The end time of the requested profile. Specify using the ISO 8601 format. For example, 2020-06-01T13:15:02.001Z represents 1 millisec- ond past June 1, 2020 1:15:02 PM UTC. If you specify endTime , then you must also specify period or start- Time , but not both.
+    /// The end time of the requested profile. Specify using the ISO 8601 format. For example, 2020-06-01T13:15:02.001Z represents 1 millisecond past June 1, 2020 1:15:02 PM UTC. If you specify endTime , then you must also specify period or startTime , but not both.
     /// </summary>
     [CliOption("--end-time")]
     public string? EndTime { get; set; }
 
     /// <summary>
-    /// The maximum depth of the stacks in the code that is represented in the aggregated profile. For example, if CodeGuru Profiler finds a method A , which calls method B , which calls method C , which calls method D , then the depth is 4. If the maxDepth is set to 2, then the aggregated profile contains representations of methods A and B . Constraints: o min: 1 o max: 10000
+    /// The maximum depth of the stacks in the code that is represented in the aggregated profile. For example, if CodeGuru Profiler finds a method A , which calls method B , which calls method C , which calls method D , then the depth is 4. If the maxDepth is set to 2, then the aggregated profile contains representations of methods A and B . Constraints: • min: 1 • max: 10000
     /// </summary>
     [CliOption("--max-depth")]
     public int? MaxDepth { get; set; }
 
     /// <summary>
-    /// Used with startTime or endTime to specify the time range for the re- turned aggregated profile. Specify using the ISO 8601 format. For example, P1DT1H1M1S . &lt;p&gt; To get the latest aggregated profile, specify only &lt;code&gt;pe- riod&lt;/code&gt;. &lt;/p&gt; Constraints: o min: 1 o max: 64
+    /// Used with startTime or endTime to specify the time range for the returned aggregated profile. Specify using the ISO 8601 format. For example, P1DT1H1M1S . &lt;p&gt; To get the latest aggregated profile, specify only &lt;code&gt;period&lt;/code&gt;. &lt;/p&gt; Constraints: • min: 1 • max: 64
     /// </summary>
     [CliOption("--period")]
     public string? Period { get; set; }
 
     /// <summary>
-    /// The start time of the profile to get. Specify using the ISO 8601 format. For example, 2020-06-01T13:15:02.001Z represents 1 millisec- ond past June 1, 2020 1:15:02 PM UTC. &lt;p&gt; If you specify &lt;code&gt;startTime&lt;/code&gt;, then you must also specify &lt;code&gt;period&lt;/code&gt; or &lt;code&gt;endTime&lt;/code&gt;, but not both. &lt;/p&gt; outfile (string) [required] Filename where the content will be saved
+    /// The start time of the profile to get. Specify using the ISO 8601 format. For example, 2020-06-01T13:15:02.001Z represents 1 millisecond past June 1, 2020 1:15:02 PM UTC. &lt;p&gt; If you specify &lt;code&gt;startTime&lt;/code&gt;, then you must also specify &lt;code&gt;period&lt;/code&gt; or &lt;code&gt;endTime&lt;/code&gt;, but not both. &lt;/p&gt; outfile (string) [required] Filename where the content will be saved
     /// </summary>
     [CliOption("--start-time")]
     public string? StartTime { get; set; }
@@ -84,5 +84,14 @@ public record AwsCodeguruprofilerGetProfileOptions : AwsOptions
     /// </summary>
     [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
     public string Outfile { get; private init; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

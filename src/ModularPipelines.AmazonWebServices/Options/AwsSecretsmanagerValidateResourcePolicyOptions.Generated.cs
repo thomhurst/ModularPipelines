@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Validates that a resource policy does not grant a wide range of princi- pals access to your secret. A resource-based policy is optional for se- crets. The API performs three checks when validating the policy: o Sends a call to Zelkova , an automated reasoning engine, to ensure your resource policy does not allow broad access to your secret, for example policies that use a wildcard for the principal. o Checks for correct syntax in a policy. o Verifies the policy does not lock out a caller. Secret...
+/// Validates that a resource policy does not grant a wide range of principals access to your secret. A resource-based policy is optional for secrets. The API performs three checks when validating the policy: • Sends a call to Zelkova , an automated reasoning engine, to ensure your resource policy does not allow broad access to your secret, for example policies that use a wildcard for the principal. • Checks for correct syntax in a policy. • Verifies the policy does not lock out a caller. Secrets Ma...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +27,9 @@ public record AwsSecretsmanagerValidateResourcePolicyOptions : AwsOptions, IVali
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Validates that a resource policy does not grant a wide range of princi- pals access to your secret. A resource-based policy is optional for se- crets. The API performs three checks when validating the policy: o Sends a call to Zelkova , an automated reasoning engine, to ensure your resource policy does not allow broad access to your secret, for example policies that use a wildcard for the principal. o Checks for correct syntax in a policy. o Verifies the policy does not lock out a caller. Secret...
+    /// Validates that a resource policy does not grant a wide range of principals access to your secret. A resource-based policy is optional for secrets. The API performs three checks when validating the policy: • Sends a call to Zelkova , an automated reasoning engine, to ensure your resource policy does not allow broad access to your secret, for example policies that use a wildcard for the principal. • Checks for correct syntax in a policy. • Verifies the policy does not lock out a caller. Secrets Ma...
     /// </summary>
-    /// <param name="ResourcePolicy">A JSON-formatted string that contains an Amazon Web Services re- source-based policy. The policy in the string identifies who can ac- cess or manage this secret and its versions. For example policies, see Permissions policy examples . Constraints: o min: 1 o max: 20480</param>
+    /// <param name="ResourcePolicy">A JSON-formatted string that contains an Amazon Web Services resource-based policy. The policy in the string identifies who can access or manage this secret and its versions. For example policies, see Permissions policy examples . Constraints: • min: 1 • max: 20480</param>
     public AwsSecretsmanagerValidateResourcePolicyOptions(
         string ResourcePolicy
     )
@@ -57,13 +58,13 @@ public record AwsSecretsmanagerValidateResourcePolicyOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A JSON-formatted string that contains an Amazon Web Services re- source-based policy. The policy in the string identifies who can ac- cess or manage this secret and its versions. For example policies, see Permissions policy examples . Constraints: o min: 1 o max: 20480
+    /// A JSON-formatted string that contains an Amazon Web Services resource-based policy. The policy in the string identifies who can access or manage this secret and its versions. For example policies, see Permissions policy examples . Constraints: • min: 1 • max: 20480
     /// </summary>
     [CliOption("--resource-policy")]
     public string? ResourcePolicy { get; private init; }
 
     /// <summary>
-    /// The ARN or name of the secret with the resource-based policy you want to validate. Constraints: o min: 1 o max: 2048
+    /// The ARN or name of the secret with the resource-based policy you want to validate. Constraints: • min: 1 • max: 2048
     /// </summary>
     [SecretValue]
     [CliOption("--secret-id")]
@@ -90,6 +91,15 @@ public record AwsSecretsmanagerValidateResourcePolicyOptions : AwsOptions, IVali
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

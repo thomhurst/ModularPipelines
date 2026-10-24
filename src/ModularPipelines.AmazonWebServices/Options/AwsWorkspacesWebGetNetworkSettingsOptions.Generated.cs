@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsWorkspacesWebGetNetworkSettingsOptions : AwsOptions, IValidatab
     /// <summary>
     /// Gets the network settings. See also: AWS API Documentation
     /// </summary>
-    /// <param name="NetworkSettingsArn">The ARN of the network settings. Constraints: o min: 20 o max: 2048 o pattern: arn:[\w+=\/,.@-]+:[a-zA-Z0-9\-]+:[a-zA-Z0-9\-]*:[a-zA-Z0-9]{1,12}:[a-zA-Z]+(\/[a-fA-F0-9\-]{36})+</param>
+    /// <param name="NetworkSettingsArn">The ARN of the network settings. Constraints: • min: 20 • max: 2048 • pattern: arn:[\w+=\/,.@-]+:[a-zA-Z0-9\-]+:[a-zA-Z0-9\-]*:[a-zA-Z0-9]{1,12}:[a-zA-Z]+(\/[a-fA-F0-9\-]{36})+</param>
     public AwsWorkspacesWebGetNetworkSettingsOptions(
         string NetworkSettingsArn
     )
@@ -56,7 +57,7 @@ public record AwsWorkspacesWebGetNetworkSettingsOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the network settings. Constraints: o min: 20 o max: 2048 o pattern: arn:[\w+=\/,.@-]+:[a-zA-Z0-9\-]+:[a-zA-Z0-9\-]*:[a-zA-Z0-9]{1,12}:[a-zA-Z]+(\/[a-fA-F0-9\-]{36})+
+    /// The ARN of the network settings. Constraints: • min: 20 • max: 2048 • pattern: arn:[\w+=\/,.@-]+:[a-zA-Z0-9\-]+:[a-zA-Z0-9\-]*:[a-zA-Z0-9]{1,12}:[a-zA-Z]+(\/[a-fA-F0-9\-]{36})+
     /// </summary>
     [CliOption("--network-settings-arn")]
     public string? NetworkSettingsArn { get; private init; }
@@ -82,6 +83,15 @@ public record AwsWorkspacesWebGetNetworkSettingsOptions : AwsOptions, IValidatab
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

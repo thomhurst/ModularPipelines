@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// When you disable Amazon Security Lake from your account, Security Lake is disabled in all Amazon Web Services Regions and it stops collecting data from your sources. Also, this API automatically takes steps to re- move the account from Security Lake. However, Security Lake retains all of your existing settings and the resources that it created in your Amazon Web Services account in the current Amazon Web Services Region. The DeleteDataLake operation does not delete the data that is stored in you...
+/// When you disable Amazon Security Lake from your account, Security Lake is disabled in all Amazon Web Services Regions and it stops collecting data from your sources. Also, this API automatically takes steps to remove the account from Security Lake. However, Security Lake retains all of your existing settings and the resources that it created in your Amazon Web Services account in the current Amazon Web Services Region. The DeleteDataLake operation does not delete the data that is stored in your ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsSecuritylakeDeleteDataLakeOptions : AwsOptions, IValidatableObj
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// When you disable Amazon Security Lake from your account, Security Lake is disabled in all Amazon Web Services Regions and it stops collecting data from your sources. Also, this API automatically takes steps to re- move the account from Security Lake. However, Security Lake retains all of your existing settings and the resources that it created in your Amazon Web Services account in the current Amazon Web Services Region. The DeleteDataLake operation does not delete the data that is stored in you...
+    /// When you disable Amazon Security Lake from your account, Security Lake is disabled in all Amazon Web Services Regions and it stops collecting data from your sources. Also, this API automatically takes steps to remove the account from Security Lake. However, Security Lake retains all of your existing settings and the resources that it created in your Amazon Web Services account in the current Amazon Web Services Region. The DeleteDataLake operation does not delete the data that is stored in your ...
     /// </summary>
-    /// <param name="Regions">The list of Regions where Security Lake is enabled. (string) Constraints: o pattern: ^(us(-gov)?|af|ap|ca|eu|me|sa)-(cen- tral|north|(north(?:east|west))|south|south(?:east|west)|east|west)-\d+$ Syntax: "string" "string" ...</param>
+    /// <param name="Regions">The list of Regions where Security Lake is enabled. (string) Constraints: • pattern: ^(us(-gov)?|af|ap|ca|eu|me|sa)-(central|north|(north(?:east|west))|south|south(?:east|west)|east|west)-\d+$ Syntax: "string" "string" ...</param>
     public AwsSecuritylakeDeleteDataLakeOptions(
         IEnumerable<string> Regions
     )
@@ -67,7 +68,7 @@ public record AwsSecuritylakeDeleteDataLakeOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The list of Regions where Security Lake is enabled. (string) Constraints: o pattern: ^(us(-gov)?|af|ap|ca|eu|me|sa)-(cen- tral|north|(north(?:east|west))|south|south(?:east|west)|east|west)-\d+$ Syntax: "string" "string" ...
+    /// The list of Regions where Security Lake is enabled. (string) Constraints: • pattern: ^(us(-gov)?|af|ap|ca|eu|me|sa)-(central|north|(north(?:east|west))|south|south(?:east|west)|east|west)-\d+$ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--regions", GroupValues = true)]
     public IEnumerable<string>? Regions { get; private init; }
@@ -93,6 +94,15 @@ public record AwsSecuritylakeDeleteDataLakeOptions : AwsOptions, IValidatableObj
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

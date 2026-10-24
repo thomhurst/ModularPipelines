@@ -10,13 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Generates a prediction for the observation using the specified ML Model . Note: Not all response parameters will be populated. Whether a re- sponse parameter is populated depends on the type of model re- quested. See also: AWS API Documentation
+/// Generates a prediction for the observation using the specified ML Model . Note: Not all response parameters will be populated. Whether a response parameter is populated depends on the type of model requested. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,11 +26,11 @@ public record AwsMachinelearningPredictOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Generates a prediction for the observation using the specified ML Model . Note: Not all response parameters will be populated. Whether a re- sponse parameter is populated depends on the type of model re- quested. See also: AWS API Documentation
+    /// Generates a prediction for the observation using the specified ML Model . Note: Not all response parameters will be populated. Whether a response parameter is populated depends on the type of model requested. See also: AWS API Documentation
     /// </summary>
-    /// <param name="MlModelId">A unique identifier of the MLModel . Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_.-]+</param>
-    /// <param name="Record">A map of variable name-value pairs that represent an observation. key -&gt; (string) The name of a variable. Currently it's used to specify the name of the target value, label, weight, and tags. value -&gt; (string) The value of a variable. Currently it's used to specify values of the target value, weights, and tag variables and for filter- ing variable values. Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}</param>
-    /// <param name="PredictEndpoint">Constraints: o max: 2048 o pattern: https://[a-zA-Z0-9-.]*\.amazon(aws)?\.com[/]?</param>
+    /// <param name="MlModelId">A unique identifier of the MLModel . Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9_.-]+</param>
+    /// <param name="Record">A map of variable name-value pairs that represent an observation. key -&gt; (string) The name of a variable. Currently it's used to specify the name of the target value, label, weight, and tags. value -&gt; (string) The value of a variable. Currently it's used to specify values of the target value, weights, and tag variables and for filtering variable values. Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}</param>
+    /// <param name="PredictEndpoint">Constraints: • max: 2048 • pattern: https://[a-zA-Z0-9-.]*\.amazon(aws)?\.com[/]?</param>
     public AwsMachinelearningPredictOptions(
         string MlModelId,
         IReadOnlyList<KeyValue> Record,
@@ -76,19 +76,19 @@ public record AwsMachinelearningPredictOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A unique identifier of the MLModel . Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_.-]+
+    /// A unique identifier of the MLModel . Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9_.-]+
     /// </summary>
     [CliOption("--ml-model-id")]
     public string? MlModelId { get; private init; }
 
     /// <summary>
-    /// A map of variable name-value pairs that represent an observation. key -&gt; (string) The name of a variable. Currently it's used to specify the name of the target value, label, weight, and tags. value -&gt; (string) The value of a variable. Currently it's used to specify values of the target value, weights, and tag variables and for filter- ing variable values. Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// A map of variable name-value pairs that represent an observation. key -&gt; (string) The name of a variable. Currently it's used to specify the name of the target value, label, weight, and tags. value -&gt; (string) The value of a variable. Currently it's used to specify values of the target value, weights, and tag variables and for filtering variable values. Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--record", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Record { get; private init; }
 
     /// <summary>
-    /// Constraints: o max: 2048 o pattern: https://[a-zA-Z0-9-.]*\.amazon(aws)?\.com[/]?
+    /// Constraints: • max: 2048 • pattern: https://[a-zA-Z0-9-.]*\.amazon(aws)?\.com[/]?
     /// </summary>
     [CliOption("--predict-endpoint")]
     public string? PredictEndpoint { get; private init; }
@@ -114,6 +114,15 @@ public record AwsMachinelearningPredictOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

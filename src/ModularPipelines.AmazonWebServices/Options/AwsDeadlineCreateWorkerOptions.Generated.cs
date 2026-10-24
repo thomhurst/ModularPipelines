@@ -11,13 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a worker. A worker tells your instance how much processing power (vCPU), and memory (GiB) youll need to assemble the digital as- sets held within a particular instance. You can specify certain in- stance types to use, or let the worker know which instances types to exclude. Deadline Cloud limits the number of workers to less than or equal to the fleet's maximum worker count. The service maintains eventual con- sistency for the worker count. If you make multiple rapid calls to Cre- ateWor...
+/// Creates a worker. A worker tells your instance how much processing power (vCPU), and memory (GiB) youll need to assemble the digital assets held within a particular instance. You can specify certain instance types to use, or let the worker know which instances types to exclude. Deadline Cloud limits the number of workers to less than or equal to the fleet's maximum worker count. The service maintains eventual consistency for the worker count. If you make multiple rapid calls to CreateWorker befo...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,10 +27,10 @@ public record AwsDeadlineCreateWorkerOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a worker. A worker tells your instance how much processing power (vCPU), and memory (GiB) youll need to assemble the digital as- sets held within a particular instance. You can specify certain in- stance types to use, or let the worker know which instances types to exclude. Deadline Cloud limits the number of workers to less than or equal to the fleet's maximum worker count. The service maintains eventual con- sistency for the worker count. If you make multiple rapid calls to Cre- ateWor...
+    /// Creates a worker. A worker tells your instance how much processing power (vCPU), and memory (GiB) youll need to assemble the digital assets held within a particular instance. You can specify certain instance types to use, or let the worker know which instances types to exclude. Deadline Cloud limits the number of workers to less than or equal to the fleet's maximum worker count. The service maintains eventual consistency for the worker count. If you make multiple rapid calls to CreateWorker befo...
     /// </summary>
-    /// <param name="FarmId">The farm ID of the farm to connect to the worker. Constraints: o pattern: farm-[0-9a-f]{32}</param>
-    /// <param name="FleetId">The fleet ID to connect to the worker. Constraints: o pattern: fleet-[0-9a-f]{32}</param>
+    /// <param name="FarmId">The farm ID of the farm to connect to the worker. Constraints: • pattern: farm-[0-9a-f]{32}</param>
+    /// <param name="FleetId">The fleet ID to connect to the worker. Constraints: • pattern: fleet-[0-9a-f]{32}</param>
     public AwsDeadlineCreateWorkerOptions(
         string FarmId,
         string FleetId
@@ -62,25 +62,25 @@ public record AwsDeadlineCreateWorkerOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The farm ID of the farm to connect to the worker. Constraints: o pattern: farm-[0-9a-f]{32}
+    /// The farm ID of the farm to connect to the worker. Constraints: • pattern: farm-[0-9a-f]{32}
     /// </summary>
     [CliOption("--farm-id")]
     public string? FarmId { get; private init; }
 
     /// <summary>
-    /// The fleet ID to connect to the worker. Constraints: o pattern: fleet-[0-9a-f]{32}
+    /// The fleet ID to connect to the worker. Constraints: • pattern: fleet-[0-9a-f]{32}
     /// </summary>
     [CliOption("--fleet-id")]
     public string? FleetId { get; private init; }
 
     /// <summary>
-    /// The IP address and host name of the worker. ipAddresses -&gt; (structure) The IP address of the host. ipV4Addresses -&gt; (list) The IpV4 address of the network. (string) Constraints: o pattern: (?:[0-9]{1,3}\.){3}[0-9]{1,3} ipV6Addresses -&gt; (list) The IpV6 address for the network and node component. (string) Constraints: o pattern: (?:[A-F0-9]{1,4}:){7}[A-F0-9]{1,4} hostName -&gt; (string) The host name. Constraints: o pattern: [a-zA-Z0-9_\.\-]{0,255} Shorthand Syntax: ipAddresses={ipV4Addresses=[string,string],ipV6Addresses=[string,string]},hostName=string JSON Syntax: { "ipAddresses": { "ipV4Addresses": ["string", ...], "ipV6Addresses": ["string", ...] }, "hostName": "string" }
+    /// The IP address and host name of the worker. ipAddresses -&gt; (structure) The IP address of the host. ipV4Addresses -&gt; (list) The IpV4 address of the network. (string) Constraints: • pattern: (?:[0-9]{1,3}\.){3}[0-9]{1,3} ipV6Addresses -&gt; (list) The IpV6 address for the network and node component. (string) Constraints: • pattern: (?:[A-F0-9]{1,4}:){7}[A-F0-9]{1,4} hostName -&gt; (string) The host name. Constraints: • pattern: [a-zA-Z0-9_\.\-]{0,255} Shorthand Syntax: ipAddresses={ipV4Addresses=[string,string],ipV6Addresses=[string,string]},hostName=string JSON Syntax: { "ipAddresses": { "ipV4Addresses": ["string", ...], "ipV6Addresses": ["string", ...] }, "hostName": "string" }
     /// </summary>
     [CliOption("--host-properties")]
     public string? HostProperties { get; set; }
 
     /// <summary>
-    /// The unique token which the server uses to recognize retries of the same request. Constraints: o min: 1 o max: 64
+    /// The unique token which the server uses to recognize retries of the same request. Constraints: • min: 1 • max: 64
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
@@ -113,6 +113,15 @@ public record AwsDeadlineCreateWorkerOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

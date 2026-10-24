@@ -11,7 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -30,7 +30,7 @@ public record AwsBcmPricingCalculatorCreateWorkloadEstimateOptions : AwsOptions,
     /// <summary>
     /// Creates a new workload estimate to model costs for a specific workload. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">A descriptive name for the workload estimate. Constraints: o min: 0 o max: 64 o pattern: [a-zA-Z0-9-]+</param>
+    /// <param name="Name">A descriptive name for the workload estimate. Constraints: • min: 0 • max: 64 • pattern: [a-zA-Z0-9-]+</param>
     public AwsBcmPricingCalculatorCreateWorkloadEstimateOptions(
         string Name
     )
@@ -59,26 +59,26 @@ public record AwsBcmPricingCalculatorCreateWorkloadEstimateOptions : AwsOptions,
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A descriptive name for the workload estimate. Constraints: o min: 0 o max: 64 o pattern: [a-zA-Z0-9-]+
+    /// A descriptive name for the workload estimate. Constraints: • min: 0 • max: 64 • pattern: [a-zA-Z0-9-]+
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier to ensure idempotency of the re- quest. Constraints: o min: 1 o max: 64 o pattern: [\u0021-\u007E]+
+    /// A unique, case-sensitive identifier to ensure idempotency of the request. Constraints: • min: 1 • max: 64 • pattern: [\u0021-\u007E]+
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// The type of pricing rates to use for the estimate. Possible values: o BEFORE_DISCOUNTS o AFTER_DISCOUNTS o AFTER_DISCOUNTS_AND_COMMITMENTS
+    /// The type of pricing rates to use for the estimate. Possible values: • BEFORE_DISCOUNTS • AFTER_DISCOUNTS • AFTER_DISCOUNTS_AND_COMMITMENTS
     /// </summary>
     [CliOption("--rate-type")]
     public AwsBcmPricingCalculatorCreateWorkloadEstimateRateType? RateType { get; set; }
 
     /// <summary>
-    /// The tags to apply to the workload estimate. Constraints: o min: 0 o max: 200 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: [\w\s:+=@/-]+ value -&gt; (string) Constraints: o min: 0 o max: 256 o pattern: [\w\s:+=@/-]* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The tags to apply to the workload estimate. Constraints: • min: 0 • max: 200 key -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: [\w\s:+=@/-]+ value -&gt; (string) Constraints: • min: 0 • max: 256 • pattern: [\w\s:+=@/-]* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
@@ -104,6 +104,15 @@ public record AwsBcmPricingCalculatorCreateWorkloadEstimateOptions : AwsOptions,
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Modifies the connection options for your Site-to-Site VPN connection. When you modify the VPN connection options, the VPN endpoint IP ad- dresses on the Amazon Web Services side do not change, and the tunnel options do not change. Your VPN connection will be temporarily unavail- able for a brief period while the VPN connection is updated. See also: AWS API Documentation
+/// Modifies the connection options for your Site-to-Site VPN connection. When you modify the VPN connection options, the VPN endpoint IP addresses on the Amazon Web Services side do not change, and the tunnel options do not change. Your VPN connection will be temporarily unavailable for a brief period while the VPN connection is updated. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,7 +27,7 @@ public record AwsEc2ModifyVpnConnectionOptionsOptions : AwsOptions, IValidatable
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Modifies the connection options for your Site-to-Site VPN connection. When you modify the VPN connection options, the VPN endpoint IP ad- dresses on the Amazon Web Services side do not change, and the tunnel options do not change. Your VPN connection will be temporarily unavail- able for a brief period while the VPN connection is updated. See also: AWS API Documentation
+    /// Modifies the connection options for your Site-to-Site VPN connection. When you modify the VPN connection options, the VPN endpoint IP addresses on the Amazon Web Services side do not change, and the tunnel options do not change. Your VPN connection will be temporarily unavailable for a brief period while the VPN connection is updated. See also: AWS API Documentation
     /// </summary>
     /// <param name="VpnConnectionId">The ID of the Site-to-Site VPN connection.</param>
     public AwsEc2ModifyVpnConnectionOptionsOptions(
@@ -87,13 +88,13 @@ public record AwsEc2ModifyVpnConnectionOptionsOptions : AwsOptions, IValidatable
     public string? RemoteIpv6NetworkCidr { get; set; }
 
     /// <summary>
-    /// The desired bandwidth specification for the VPN connection. standard supports up to 1.25 Gbps per tunnel, while large supports up to 5 Gbps per tunnel. Large bandwidth is only available for VPN connec- tions attached to a transit gateway or to Cloud WAN. The default value is standard . Possible values: o standard o large
+    /// The desired bandwidth specification for the VPN connection. standard supports up to 1.25 Gbps per tunnel, while large supports up to 5 Gbps per tunnel. Large bandwidth is only available for VPN connections attached to a transit gateway or to Cloud WAN. The default value is standard . Possible values: • standard • large
     /// </summary>
     [CliOption("--tunnel-bandwidth")]
     public AwsEc2ModifyVpnConnectionOptionsTunnelBandwidth? TunnelBandwidth { get; set; }
 
     /// <summary>
-    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation . Otherwise, it is UnauthorizedOperation .
     /// </summary>
     [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
@@ -119,6 +120,15 @@ public record AwsEc2ModifyVpnConnectionOptionsOptions : AwsOptions, IValidatable
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

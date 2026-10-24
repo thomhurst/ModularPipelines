@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +29,7 @@ public record AwsOpensearchListInstanceTypeDetailsOptions : AwsOptions, IValidat
     /// <summary>
     /// Lists all instance types and available features for a given OpenSearch or Elasticsearch version. See also: AWS API Documentation
     /// </summary>
-    /// <param name="EngineVersion">The version of OpenSearch or Elasticsearch, in the format Elastic- search_X.Y or OpenSearch_X.Y. Defaults to the latest version of OpenSearch. Constraints: o min: 14 o max: 18 o pattern: ^Elastic- search_[0-9]{1}\.[0-9]{1,2}$|^OpenSearch_[0-9]{1,2}\.[0-9]{1,2}$</param>
+    /// <param name="EngineVersion">The version of OpenSearch or Elasticsearch, in the format Elasticsearch_X.Y or OpenSearch_X.Y. Defaults to the latest version of OpenSearch. Constraints: • min: 14 • max: 18 • pattern: ^Elasticsearch_[0-9]{1}\.[0-9]{1,2}$|^OpenSearch_[0-9]{1,2}\.[0-9]{1,2}$</param>
     public AwsOpensearchListInstanceTypeDetailsOptions(
         string EngineVersion
     )
@@ -57,25 +58,25 @@ public record AwsOpensearchListInstanceTypeDetailsOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The version of OpenSearch or Elasticsearch, in the format Elastic- search_X.Y or OpenSearch_X.Y. Defaults to the latest version of OpenSearch. Constraints: o min: 14 o max: 18 o pattern: ^Elastic- search_[0-9]{1}\.[0-9]{1,2}$|^OpenSearch_[0-9]{1,2}\.[0-9]{1,2}$
+    /// The version of OpenSearch or Elasticsearch, in the format Elasticsearch_X.Y or OpenSearch_X.Y. Defaults to the latest version of OpenSearch. Constraints: • min: 14 • max: 18 • pattern: ^Elasticsearch_[0-9]{1}\.[0-9]{1,2}$|^OpenSearch_[0-9]{1,2}\.[0-9]{1,2}$
     /// </summary>
     [CliOption("--engine-version")]
     public string? EngineVersion { get; private init; }
 
     /// <summary>
-    /// The name of the domain. Constraints: o min: 3 o max: 28 o pattern: [a-z][a-z0-9\-]+
+    /// The name of the domain. Constraints: • min: 3 • max: 28 • pattern: [a-z][a-z0-9\-]+
     /// </summary>
     [CliOption("--domain-name")]
     public string? DomainName { get; set; }
 
     /// <summary>
-    /// An optional parameter that specifies the maximum number of results to return. You can use nextToken to get the next page of results. Constraints: o max: 100
+    /// An optional parameter that specifies the maximum number of results to return. You can use nextToken to get the next page of results. Constraints: • max: 100
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
     /// <summary>
-    /// If your initial ListInstanceTypeDetails operation returns a nextTo- ken , you can include the returned nextToken in subsequent ListIn- stanceTypeDetails operations, which returns results in the next page.
+    /// If your initial ListInstanceTypeDetails operation returns a nextToken , you can include the returned nextToken in subsequent ListInstanceTypeDetails operations, which returns results in the next page.
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
@@ -88,7 +89,7 @@ public record AwsOpensearchListInstanceTypeDetailsOptions : AwsOptions, IValidat
     public bool? RetrieveAzs { get; set; }
 
     /// <summary>
-    /// An optional parameter that lists information for a given instance type. Constraints: o min: 10 o max: 40 o pattern: ^.*\..*\.search$
+    /// An optional parameter that lists information for a given instance type. Constraints: • min: 10 • max: 40 • pattern: ^.*\..*\.search$
     /// </summary>
     [CliOption("--instance-type")]
     public string? InstanceType { get; set; }
@@ -114,6 +115,15 @@ public record AwsOpensearchListInstanceTypeDetailsOptions : AwsOptions, IValidat
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

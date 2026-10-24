@@ -6,8 +6,8 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
+using ModularPipelines;
 using ModularPipelines.Context;
-using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
@@ -33,7 +33,7 @@ public class AwsInspector2 : IAwsInspector2
     #region Sub-command Groups
 
     /// <summary>
-    /// aws wait sub-commands.
+    /// aws inspector2 wait sub-commands.
     /// </summary>
     public AwsInspector2Wait Wait => _wait ??= new AwsInspector2Wait(_command);
 
@@ -42,7 +42,7 @@ public class AwsInspector2 : IAwsInspector2
     #region Commands
 
     /// <summary>
-    /// Associates an Amazon Web Services account with an Amazon Inspector del- egated administrator. An HTTP 200 response indicates the association was successfully started, but doesnt indicate whether it was completed. You can check if the association completed by using ListMembers for multiple accounts or GetMembers for a single account. See also: AWS API Documentation
+    /// Associates an Amazon Web Services account with an Amazon Inspector delegated administrator. An HTTP 200 response indicates the association was successfully started, but doesnt indicate whether it was completed. You can check if the association completed by using ListMembers for multiple accounts or GetMembers for a single account. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -57,7 +57,7 @@ public class AwsInspector2 : IAwsInspector2
     }
 
     /// <summary>
-    /// Associates multiple code repositories with an Amazon Inspector code se- curity scan configuration. See also: AWS API Documentation
+    /// Associates multiple code repositories with an Amazon Inspector code security scan configuration. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -147,7 +147,7 @@ public class AwsInspector2 : IAwsInspector2
     }
 
     /// <summary>
-    /// Retrieves Amazon Inspector deep inspection activation status of multi- ple member accounts within your organization. You must be the delegated administrator of an organization in Amazon Inspector to use this API. See also: AWS API Documentation
+    /// Retrieves Amazon Inspector deep inspection activation status of multiple member accounts within your organization. You must be the delegated administrator of an organization in Amazon Inspector to use this API. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -162,7 +162,7 @@ public class AwsInspector2 : IAwsInspector2
     }
 
     /// <summary>
-    /// Activates or deactivates Amazon Inspector deep inspection for the pro- vided member accounts in your organization. You must be the delegated administrator of an organization in Amazon Inspector to use this API. See also: AWS API Documentation
+    /// Activates or deactivates Amazon Inspector deep inspection for the provided member accounts in your organization. You must be the delegated administrator of an organization in Amazon Inspector to use this API. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -222,7 +222,7 @@ public class AwsInspector2 : IAwsInspector2
     }
 
     /// <summary>
-    /// Creates a code security integration with a source code repository provider. After calling the CreateCodeSecurityIntegration operation, you complete authentication and authorization with your provider. Next you call the UpdateCodeSecurityIntegration operation to provide the details to com- plete the integration setup See also: AWS API Documentation
+    /// Creates a code security integration with a source code repository provider. After calling the CreateCodeSecurityIntegration operation, you complete authentication and authorization with your provider. Next you call the UpdateCodeSecurityIntegration operation to provide the details to complete the integration setup See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -252,7 +252,7 @@ public class AwsInspector2 : IAwsInspector2
     }
 
     /// <summary>
-    /// Creates a connector that links an external cloud provider to Amazon In- spector for vulnerability scanning. See also: AWS API Documentation
+    /// Creates a connector that links an external cloud provider to Amazon Inspector for vulnerability scanning. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -387,7 +387,7 @@ public class AwsInspector2 : IAwsInspector2
     }
 
     /// <summary>
-    /// Describe Amazon Inspector configuration settings for an Amazon Web Ser- vices organization. See also: AWS API Documentation
+    /// Describe Amazon Inspector configuration settings for an Amazon Web Services organization. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -402,7 +402,7 @@ public class AwsInspector2 : IAwsInspector2
     }
 
     /// <summary>
-    /// Disables the Amazon Inspector delegated administrator for your organi- zation. See also: AWS API Documentation
+    /// Disables the Amazon Inspector delegated administrator for your organization. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -417,7 +417,7 @@ public class AwsInspector2 : IAwsInspector2
     }
 
     /// <summary>
-    /// Disables Amazon Inspector scans for one or more Amazon Web Services ac- counts. Disabling all scan types in an account disables the Amazon In- spector service. See also: AWS API Documentation
+    /// Disables Amazon Inspector scans for one or more Amazon Web Services accounts. Disabling all scan types in an account disables the Amazon Inspector service. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -432,7 +432,7 @@ public class AwsInspector2 : IAwsInspector2
     }
 
     /// <summary>
-    /// Disassociates a member account from an Amazon Inspector delegated ad- ministrator. See also: AWS API Documentation
+    /// Disassociates a member account from an Amazon Inspector delegated administrator. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -447,7 +447,7 @@ public class AwsInspector2 : IAwsInspector2
     }
 
     /// <summary>
-    /// Enables the Amazon Inspector delegated administrator for your Organiza- tions organization. See also: AWS API Documentation
+    /// Enables the Amazon Inspector delegated administrator for your Organizations organization. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -462,7 +462,7 @@ public class AwsInspector2 : IAwsInspector2
     }
 
     /// <summary>
-    /// Enables Amazon Inspector scans for one or more Amazon Web Services ac- counts. See also: AWS API Documentation
+    /// Enables Amazon Inspector scans for one or more Amazon Web Services accounts. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -492,7 +492,7 @@ public class AwsInspector2 : IAwsInspector2
     }
 
     /// <summary>
-    /// Retrieves CIS scan result details. See also: AWS API Documentation get-cis-scan-result-details is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: scanResultDetails
+    /// Retrieves CIS scan result details. See also: AWS API Documentation get-cis-scan-result-details is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: scanResultDetails
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -582,7 +582,7 @@ public class AwsInspector2 : IAwsInspector2
     }
 
     /// <summary>
-    /// Retrieves information about the Amazon Inspector delegated administra- tor for your organization. See also: AWS API Documentation
+    /// Retrieves information about the Amazon Inspector delegated administrator for your organization. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -672,7 +672,7 @@ public class AwsInspector2 : IAwsInspector2
     }
 
     /// <summary>
-    /// Lists the permissions an account has to configure Amazon Inspector. If the account is a member account or standalone account with resources managed by an Organizations policy, the operation returns fewer permis- sions. See also: AWS API Documentation list-account-permissions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query arg...
+    /// Lists the permissions an account has to configure Amazon Inspector. If the account is a member account or standalone account with resources managed by an Organizations policy, the operation returns fewer permissions. See also: AWS API Documentation list-account-permissions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argum...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -687,7 +687,7 @@ public class AwsInspector2 : IAwsInspector2
     }
 
     /// <summary>
-    /// Lists CIS scan configurations. See also: AWS API Documentation list-cis-scan-configurations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: scanConfigurations
+    /// Lists CIS scan configurations. See also: AWS API Documentation list-cis-scan-configurations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: scanConfigurations
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -702,7 +702,7 @@ public class AwsInspector2 : IAwsInspector2
     }
 
     /// <summary>
-    /// Lists scan results aggregated by checks. See also: AWS API Documentation list-cis-scan-results-aggregated-by-checks is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-pagi- nate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the re- sults of the following query expressions: checkAggregations
+    /// Lists scan results aggregated by checks. See also: AWS API Documentation list-cis-scan-results-aggregated-by-checks is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: checkAggregations
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -717,7 +717,7 @@ public class AwsInspector2 : IAwsInspector2
     }
 
     /// <summary>
-    /// Lists scan results aggregated by a target resource. See also: AWS API Documentation list-cis-scan-results-aggregated-by-target-resource is a paginated op- eration. Multiple API calls may be issued in order to retrieve the en- tire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argu- ment on a paginated response, the --query argument must extract data from the results of the following query expressions: targetResou...
+    /// Lists scan results aggregated by a target resource. See also: AWS API Documentation list-cis-scan-results-aggregated-by-target-resource is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: targetResourceAgg...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -732,7 +732,7 @@ public class AwsInspector2 : IAwsInspector2
     }
 
     /// <summary>
-    /// Returns a CIS scan list. See also: AWS API Documentation list-cis-scans is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: scans
+    /// Returns a CIS scan list. See also: AWS API Documentation list-cis-scans is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: scans
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -792,7 +792,7 @@ public class AwsInspector2 : IAwsInspector2
     }
 
     /// <summary>
-    /// Lists scan configurations for Amazon Web Services Config connectors. Results are paginated. Use the nextToken parameter to retrieve the next page of results. See also: AWS API Documentation list-connector-scan-configurations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argu...
+    /// Lists scan configurations for Amazon Web Services Config connectors. Results are paginated. Use the nextToken parameter to retrieve the next page of results. See also: AWS API Documentation list-connector-scan-configurations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -807,7 +807,7 @@ public class AwsInspector2 : IAwsInspector2
     }
 
     /// <summary>
-    /// Lists connectors in your account. Results are paginated. Use the next- Token parameter to retrieve the next page of results. See also: AWS API Documentation list-connectors is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follo...
+    /// Lists connectors in your account. Results are paginated. Use the nextToken parameter to retrieve the next page of results. See also: AWS API Documentation list-connectors is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following q...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -822,7 +822,7 @@ public class AwsInspector2 : IAwsInspector2
     }
 
     /// <summary>
-    /// Lists coverage details for your environment. See also: AWS API Documentation list-coverage is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: coveredResources
+    /// Lists coverage details for your environment. See also: AWS API Documentation list-coverage is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: coveredResources
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -837,7 +837,7 @@ public class AwsInspector2 : IAwsInspector2
     }
 
     /// <summary>
-    /// Lists Amazon Inspector coverage statistics for your environment. See also: AWS API Documentation list-coverage-statistics is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: countsByGroup
+    /// Lists Amazon Inspector coverage statistics for your environment. See also: AWS API Documentation list-coverage-statistics is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: countsByGroup
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -852,7 +852,7 @@ public class AwsInspector2 : IAwsInspector2
     }
 
     /// <summary>
-    /// Lists information about the Amazon Inspector delegated administrator of your organization. See also: AWS API Documentation list-delegated-admin-accounts is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressio...
+    /// Lists information about the Amazon Inspector delegated administrator of your organization. See also: AWS API Documentation list-delegated-admin-accounts is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -867,7 +867,7 @@ public class AwsInspector2 : IAwsInspector2
     }
 
     /// <summary>
-    /// Lists the filters associated with your account. See also: AWS API Documentation list-filters is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex- pressions: filters
+    /// Lists the filters associated with your account. See also: AWS API Documentation list-filters is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: filters
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -882,7 +882,7 @@ public class AwsInspector2 : IAwsInspector2
     }
 
     /// <summary>
-    /// Lists aggregated finding data for your environment based on specific criteria. See also: AWS API Documentation list-finding-aggregations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: responses
+    /// Lists aggregated finding data for your environment based on specific criteria. See also: AWS API Documentation list-finding-aggregations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: responses
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -897,7 +897,7 @@ public class AwsInspector2 : IAwsInspector2
     }
 
     /// <summary>
-    /// Lists findings for your environment. See also: AWS API Documentation list-findings is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: findings
+    /// Lists findings for your environment. See also: AWS API Documentation list-findings is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: findings
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -912,7 +912,7 @@ public class AwsInspector2 : IAwsInspector2
     }
 
     /// <summary>
-    /// List members associated with the Amazon Inspector delegated administra- tor for your organization. See also: AWS API Documentation list-members is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex- pressions: membe...
+    /// List members associated with the Amazon Inspector delegated administrator for your organization. See also: AWS API Documentation list-members is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: members
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1017,7 +1017,7 @@ public class AwsInspector2 : IAwsInspector2
     }
 
     /// <summary>
-    /// Starts a CIS session. This API is used by the Amazon Inspector SSM plu- gin to communicate with the Amazon Inspector service. The Amazon In- spector SSM plugin calls this API to start a CIS scan session for the scan ID supplied by the service. See also: AWS API Documentation
+    /// Starts a CIS session. This API is used by the Amazon Inspector SSM plugin to communicate with the Amazon Inspector service. The Amazon Inspector SSM plugin calls this API to start a CIS scan session for the scan ID supplied by the service. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1047,7 +1047,7 @@ public class AwsInspector2 : IAwsInspector2
     }
 
     /// <summary>
-    /// Stops a CIS session. This API is used by the Amazon Inspector SSM plu- gin to communicate with the Amazon Inspector service. The Amazon In- spector SSM plugin calls this API to stop a CIS scan session for the scan ID supplied by the service. See also: AWS API Documentation
+    /// Stops a CIS session. This API is used by the Amazon Inspector SSM plugin to communicate with the Amazon Inspector service. The Amazon Inspector SSM plugin calls this API to stop a CIS scan session for the scan ID supplied by the service. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1107,7 +1107,7 @@ public class AwsInspector2 : IAwsInspector2
     }
 
     /// <summary>
-    /// Updates an existing code security integration. After calling the CreateCodeSecurityIntegration operation, you complete authentication and authorization with your provider. Next you call the UpdateCodeSecurityIntegration operation to provide the details to com- plete the integration setup See also: AWS API Documentation
+    /// Updates an existing code security integration. After calling the CreateCodeSecurityIntegration operation, you complete authentication and authorization with your provider. Next you call the UpdateCodeSecurityIntegration operation to provide the details to complete the integration setup See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1137,7 +1137,7 @@ public class AwsInspector2 : IAwsInspector2
     }
 
     /// <summary>
-    /// Updates the scan configuration for your Amazon Inspector account. If you don't specify an accountId , this operation updates the delegated administrator's configuration and propagates it to member accounts that have not been individually configured. If you specify an accountId , this operation updates that member account's configuration. Only the delegated administrator can specify an accountId ; member accounts can- not call this operation. See also: AWS API Documentation
+    /// Updates the scan configuration for your Amazon Inspector account. If you don't specify an accountId , this operation updates the delegated administrator's configuration and propagates it to member accounts that have not been individually configured. If you specify an accountId , this operation updates that member account's configuration. Only the delegated administrator can specify an accountId ; member accounts cannot call this operation. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1227,6 +1227,21 @@ public class AwsInspector2 : IAwsInspector2
     }
 
     /// <summary>
+    /// Updates the Amazon Inspector deep inspection custom paths for your organization. You must be an Amazon Inspector delegated administrator to use this API. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> UpdateOrgEc2DeepInspectionConfigurationAsync(
+        AwsInspector2UpdateOrgEc2DeepInspectionConfigurationOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
     /// Updates the configurations for your Amazon Inspector organization. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -1235,21 +1250,6 @@ public class AwsInspector2 : IAwsInspector2
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateOrganizationConfigurationAsync(
         AwsInspector2UpdateOrganizationConfigurationOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
-    /// Updates the Amazon Inspector deep inspection custom paths for your or- ganization. You must be an Amazon Inspector delegated administrator to use this API. See also: AWS API Documentation
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> UpdateOrgEc2DeepInspectionConfigurationAsync(
-        AwsInspector2UpdateOrgEc2DeepInspectionConfigurationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {

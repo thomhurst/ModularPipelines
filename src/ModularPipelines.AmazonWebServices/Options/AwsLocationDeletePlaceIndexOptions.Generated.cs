@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// WARNING: This operation is no longer current and may be deprecated in the fu- ture. We recommend you upgrade to the Places API V2 unless you re- quire Grab data. o DeletePlaceIndex is part of a previous Amazon Location Service Places API (version 1) which has been superseded by a more intu- itive, powerful, and complete API (version 2). o The Places API version 2 has a simplified interface that can be used without creating or managing place index resources. o If you are using an Amazon Web Servi...
+/// WARNING: This operation is no longer current and may be deprecated in the future. We recommend you upgrade to the Places API V2 unless you require Grab data. • DeletePlaceIndex is part of a previous Amazon Location Service Places API (version 1) which has been superseded by a more intuitive, powerful, and complete API (version 2). • The Places API version 2 has a simplified interface that can be used without creating or managing place index resources. • If you are using an Amazon Web Services SD...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsLocationDeletePlaceIndexOptions : AwsOptions, IValidatableObjec
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// WARNING: This operation is no longer current and may be deprecated in the fu- ture. We recommend you upgrade to the Places API V2 unless you re- quire Grab data. o DeletePlaceIndex is part of a previous Amazon Location Service Places API (version 1) which has been superseded by a more intu- itive, powerful, and complete API (version 2). o The Places API version 2 has a simplified interface that can be used without creating or managing place index resources. o If you are using an Amazon Web Servi...
+    /// WARNING: This operation is no longer current and may be deprecated in the future. We recommend you upgrade to the Places API V2 unless you require Grab data. • DeletePlaceIndex is part of a previous Amazon Location Service Places API (version 1) which has been superseded by a more intuitive, powerful, and complete API (version 2). • The Places API version 2 has a simplified interface that can be used without creating or managing place index resources. • If you are using an Amazon Web Services SD...
     /// </summary>
-    /// <param name="IndexName">The name of the place index resource to be deleted. Constraints: o min: 1 o max: 100 o pattern: [-._\w]+</param>
+    /// <param name="IndexName">The name of the place index resource to be deleted. Constraints: • min: 1 • max: 100 • pattern: [-._\w]+</param>
     public AwsLocationDeletePlaceIndexOptions(
         string IndexName
     )
@@ -56,7 +57,7 @@ public record AwsLocationDeletePlaceIndexOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the place index resource to be deleted. Constraints: o min: 1 o max: 100 o pattern: [-._\w]+
+    /// The name of the place index resource to be deleted. Constraints: • min: 1 • max: 100 • pattern: [-._\w]+
     /// </summary>
     [CliOption("--index-name")]
     public string? IndexName { get; private init; }
@@ -82,6 +83,15 @@ public record AwsLocationDeletePlaceIndexOptions : AwsOptions, IValidatableObjec
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

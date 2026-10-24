@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,10 +28,10 @@ public record AwsMedicalImagingUpdateImageSetMetadataOptions : AwsOptions, IVali
     /// <summary>
     /// Update image set metadata attributes. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DatastoreId">The data store identifier. Constraints: o pattern: [0-9a-z]{32}</param>
-    /// <param name="ImageSetId">The image set identifier. Constraints: o pattern: [0-9a-z]{32}</param>
-    /// <param name="LatestVersionId">The latest image set version identifier. Constraints: o pattern: \d+</param>
-    /// <param name="UpdateImageSetMetadataUpdates">Update image set metadata updates. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: DICOMUpdates, revertToVersionId. DICOMUpdates -&gt; (structure) The object containing removableAttributes and updatableAttrib- utes . removableAttributes -&gt; (blob) The DICOM tags to be removed from ImageSetMetadata . Constraints: o min: 1 o max: 30000 updatableAttributes -&gt; (blob) The DICOM tags that need to be updated in ImageSetMetadata . Constraints: o min: 1 o max: 30000 revertToVersionId -&gt; (string) Specifies the previous image set version ID to revert the cur- rent image set back to. NOTE: You must provide either revertToVersionId or DICOMUpdates in your request. A ValidationException error is thrown if both parameters are provided at the same time. Constraints: o pattern: \d+ Shorthand Syntax: DICOMUpdates={removableAttributes=blob,updatableAttributes=blob},revertToVersionId=string JSON Syntax: { "DICOMUpdates": { "removableAttributes": blob, "updatableAttributes": blob }, "revertToVersionId": "string" }</param>
+    /// <param name="DatastoreId">The data store identifier. Constraints: • pattern: [0-9a-z]{32}</param>
+    /// <param name="ImageSetId">The image set identifier. Constraints: • pattern: [0-9a-z]{32}</param>
+    /// <param name="LatestVersionId">The latest image set version identifier. Constraints: • pattern: \d+</param>
+    /// <param name="UpdateImageSetMetadataUpdates">Update image set metadata updates. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: DICOMUpdates, revertToVersionId. DICOMUpdates -&gt; (structure) The object containing removableAttributes and updatableAttributes . removableAttributes -&gt; (blob) The DICOM tags to be removed from ImageSetMetadata . Constraints: • min: 1 • max: 30000 updatableAttributes -&gt; (blob) The DICOM tags that need to be updated in ImageSetMetadata . Constraints: • min: 1 • max: 30000 revertToVersionId -&gt; (string) Specifies the previous image set version ID to revert the current image set back to. NOTE: You must provide either revertToVersionId or DICOMUpdates in your request. A ValidationException error is thrown if both parameters are provided at the same time. Constraints: • pattern: \d+ Shorthand Syntax: DICOMUpdates={removableAttributes=blob,updatableAttributes=blob},revertToVersionId=string JSON Syntax: { "DICOMUpdates": { "removableAttributes": blob, "updatableAttributes": blob }, "revertToVersionId": "string" }</param>
     public AwsMedicalImagingUpdateImageSetMetadataOptions(
         string DatastoreId,
         string ImageSetId,
@@ -68,31 +69,31 @@ public record AwsMedicalImagingUpdateImageSetMetadataOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The data store identifier. Constraints: o pattern: [0-9a-z]{32}
+    /// The data store identifier. Constraints: • pattern: [0-9a-z]{32}
     /// </summary>
     [CliOption("--datastore-id")]
     public string? DatastoreId { get; private init; }
 
     /// <summary>
-    /// The image set identifier. Constraints: o pattern: [0-9a-z]{32}
+    /// The image set identifier. Constraints: • pattern: [0-9a-z]{32}
     /// </summary>
     [CliOption("--image-set-id")]
     public string? ImageSetId { get; private init; }
 
     /// <summary>
-    /// The latest image set version identifier. Constraints: o pattern: \d+
+    /// The latest image set version identifier. Constraints: • pattern: \d+
     /// </summary>
     [CliOption("--latest-version-id")]
     public string? LatestVersionId { get; private init; }
 
     /// <summary>
-    /// Update image set metadata updates. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: DICOMUpdates, revertToVersionId. DICOMUpdates -&gt; (structure) The object containing removableAttributes and updatableAttrib- utes . removableAttributes -&gt; (blob) The DICOM tags to be removed from ImageSetMetadata . Constraints: o min: 1 o max: 30000 updatableAttributes -&gt; (blob) The DICOM tags that need to be updated in ImageSetMetadata . Constraints: o min: 1 o max: 30000 revertToVersionId -&gt; (string) Specifies the previous image set version ID to revert the cur- rent image set back to. NOTE: You must provide either revertToVersionId or DICOMUpdates in your request. A ValidationException error is thrown if both parameters are provided at the same time. Constraints: o pattern: \d+ Shorthand Syntax: DICOMUpdates={removableAttributes=blob,updatableAttributes=blob},revertToVersionId=string JSON Syntax: { "DICOMUpdates": { "removableAttributes": blob, "updatableAttributes": blob }, "revertToVersionId": "string" }
+    /// Update image set metadata updates. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: DICOMUpdates, revertToVersionId. DICOMUpdates -&gt; (structure) The object containing removableAttributes and updatableAttributes . removableAttributes -&gt; (blob) The DICOM tags to be removed from ImageSetMetadata . Constraints: • min: 1 • max: 30000 updatableAttributes -&gt; (blob) The DICOM tags that need to be updated in ImageSetMetadata . Constraints: • min: 1 • max: 30000 revertToVersionId -&gt; (string) Specifies the previous image set version ID to revert the current image set back to. NOTE: You must provide either revertToVersionId or DICOMUpdates in your request. A ValidationException error is thrown if both parameters are provided at the same time. Constraints: • pattern: \d+ Shorthand Syntax: DICOMUpdates={removableAttributes=blob,updatableAttributes=blob},revertToVersionId=string JSON Syntax: { "DICOMUpdates": { "removableAttributes": blob, "updatableAttributes": blob }, "revertToVersionId": "string" }
     /// </summary>
     [CliOption("--update-image-set-metadata-updates")]
     public string? UpdateImageSetMetadataUpdates { get; private init; }
 
     /// <summary>
-    /// Setting this flag will force the UpdateImageSetMetadata operation for the following attributes: o Tag.StudyInstanceUID , Tag.SeriesInstanceUID , Tag.SOPInstanceUID , and Tag.StudyID o Adding, removing, or updating private tags for an individual SOP Instance
+    /// Setting this flag will force the UpdateImageSetMetadata operation for the following attributes: • Tag.StudyInstanceUID , Tag.SeriesInstanceUID , Tag.SOPInstanceUID , and Tag.StudyID • Adding, removing, or updating private tags for an individual SOP Instance
     /// </summary>
     [CliFlag("--force", NegatedName = "--no-force")]
     public bool? Force { get; set; }
@@ -124,6 +125,15 @@ public record AwsMedicalImagingUpdateImageSetMetadataOptions : AwsOptions, IVali
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

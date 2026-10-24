@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsWellarchitectedUpdateProfileOptions : AwsOptions, IValidatableO
     /// <summary>
     /// Update a profile. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ProfileArn">The profile ARN. Constraints: o min: 0 o max: 2084 o pattern: arn:aws[-a-z]*:wellarchi- tected:[a-z]{2}(-gov)?-[a-z]+-\d:\d{12}:profile/[a-z0-9]+</param>
+    /// <param name="ProfileArn">The profile ARN. Constraints: • min: 0 • max: 2084 • pattern: arn:aws[-a-z]*:wellarchitected:[a-z]{2}(-gov)?-[a-z]+-\d:\d{12}:profile/[a-z0-9]+</param>
     public AwsWellarchitectedUpdateProfileOptions(
         string ProfileArn
     )
@@ -56,19 +57,19 @@ public record AwsWellarchitectedUpdateProfileOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The profile ARN. Constraints: o min: 0 o max: 2084 o pattern: arn:aws[-a-z]*:wellarchi- tected:[a-z]{2}(-gov)?-[a-z]+-\d:\d{12}:profile/[a-z0-9]+
+    /// The profile ARN. Constraints: • min: 0 • max: 2084 • pattern: arn:aws[-a-z]*:wellarchitected:[a-z]{2}(-gov)?-[a-z]+-\d:\d{12}:profile/[a-z0-9]+
     /// </summary>
     [CliOption("--profile-arn")]
     public string? ProfileArn { get; private init; }
 
     /// <summary>
-    /// The profile description. Constraints: o min: 3 o max: 100
+    /// The profile description. Constraints: • min: 3 • max: 100
     /// </summary>
     [CliOption("--profile-description")]
     public string? ProfileDescription { get; set; }
 
     /// <summary>
-    /// Profile questions. (structure) An update to a profile question. QuestionId -&gt; (string) The ID of the question. Constraints: o min: 1 o max: 128 SelectedChoiceIds -&gt; (list) The selected choices. (string) The ID of a choice. Constraints: o min: 1 o max: 64 Shorthand Syntax: QuestionId=string,SelectedChoiceIds=string,string ... JSON Syntax: [ { "QuestionId": "string", "SelectedChoiceIds": ["string", ...] } ... ]
+    /// Profile questions. (structure) An update to a profile question. QuestionId -&gt; (string) The ID of the question. Constraints: • min: 1 • max: 128 SelectedChoiceIds -&gt; (list) The selected choices. (string) The ID of a choice. Constraints: • min: 1 • max: 64 Shorthand Syntax: QuestionId=string,SelectedChoiceIds=string,string ... JSON Syntax: [ { "QuestionId": "string", "SelectedChoiceIds": ["string", ...] } ... ]
     /// </summary>
     [CliOption("--profile-questions", GroupValues = true)]
     public IEnumerable<string>? ProfileQuestions { get; set; }
@@ -94,6 +95,15 @@ public record AwsWellarchitectedUpdateProfileOptions : AwsOptions, IValidatableO
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

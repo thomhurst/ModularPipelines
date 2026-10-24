@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsCustomerProfilesGetUploadJobPathOptions : AwsOptions, IValidata
     /// <summary>
     /// This API retrieves the pre-signed URL and client token for uploading the file associated with the upload job. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DomainName">The unique name of the domain containing the upload job. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$</param>
-    /// <param name="JobId">The unique identifier of the upload job to retrieve the upload path for. This is generated from the CreateUploadJob API. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$</param>
+    /// <param name="DomainName">The unique name of the domain containing the upload job. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9_-]+$</param>
+    /// <param name="JobId">The unique identifier of the upload job to retrieve the upload path for. This is generated from the CreateUploadJob API. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9_-]+$</param>
     public AwsCustomerProfilesGetUploadJobPathOptions(
         string DomainName,
         string JobId
@@ -60,13 +61,13 @@ public record AwsCustomerProfilesGetUploadJobPathOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique name of the domain containing the upload job. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$
+    /// The unique name of the domain containing the upload job. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9_-]+$
     /// </summary>
     [CliOption("--domain-name")]
     public string? DomainName { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the upload job to retrieve the upload path for. This is generated from the CreateUploadJob API. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$
+    /// The unique identifier of the upload job to retrieve the upload path for. This is generated from the CreateUploadJob API. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9_-]+$
     /// </summary>
     [CliOption("--job-id")]
     public string? JobId { get; private init; }
@@ -92,6 +93,15 @@ public record AwsCustomerProfilesGetUploadJobPathOptions : AwsOptions, IValidata
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,8 +29,8 @@ public record AwsSsmContactsCreateRotationOverrideOptions : AwsOptions, IValidat
     /// <summary>
     /// Creates an override for a rotation in an on-call schedule. See also: AWS API Documentation
     /// </summary>
-    /// <param name="RotationId">The Amazon Resource Name (ARN) of the rotation to create an override for. Constraints: o min: 1 o max: 2048 o pattern: arn:(aws|aws-cn|aws-us-gov):ssm-con- tacts:[-\w+=\/,.@]*:[0-9]+:([\w+=\/,.@:-]+)*</param>
-    /// <param name="NewContactIds">The Amazon Resource Names (ARNs) of the contacts to replace those in the current on-call rotation with. If you want to include any current team members in the override shift, you must include their ARNs in the new contact ID list. Constraints: o min: 0 o max: 30 (string) Constraints: o min: 1 o max: 2048 o pattern: arn:(aws|aws-cn|aws-us-gov):ssm-con- tacts:[-\w+=\/,.@]*:[0-9]+:([\w+=\/,.@:-]+)* Syntax: "string" "string" ...</param>
+    /// <param name="RotationId">The Amazon Resource Name (ARN) of the rotation to create an override for. Constraints: • min: 1 • max: 2048 • pattern: arn:(aws|aws-cn|aws-us-gov):ssm-contacts:[-\w+=\/,.@]*:[0-9]+:([\w+=\/,.@:-]+)*</param>
+    /// <param name="NewContactIds">The Amazon Resource Names (ARNs) of the contacts to replace those in the current on-call rotation with. If you want to include any current team members in the override shift, you must include their ARNs in the new contact ID list. Constraints: • min: 0 • max: 30 (string) Constraints: • min: 1 • max: 2048 • pattern: arn:(aws|aws-cn|aws-us-gov):ssm-contacts:[-\w+=\/,.@]*:[0-9]+:([\w+=\/,.@:-]+)* Syntax: "string" "string" ...</param>
     /// <param name="StartTime">The date and time when the override goes into effect.</param>
     /// <param name="EndTime">The date and time when the override ends.</param>
     public AwsSsmContactsCreateRotationOverrideOptions(
@@ -80,13 +81,13 @@ public record AwsSsmContactsCreateRotationOverrideOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the rotation to create an override for. Constraints: o min: 1 o max: 2048 o pattern: arn:(aws|aws-cn|aws-us-gov):ssm-con- tacts:[-\w+=\/,.@]*:[0-9]+:([\w+=\/,.@:-]+)*
+    /// The Amazon Resource Name (ARN) of the rotation to create an override for. Constraints: • min: 1 • max: 2048 • pattern: arn:(aws|aws-cn|aws-us-gov):ssm-contacts:[-\w+=\/,.@]*:[0-9]+:([\w+=\/,.@:-]+)*
     /// </summary>
     [CliOption("--rotation-id")]
     public string? RotationId { get; private init; }
 
     /// <summary>
-    /// The Amazon Resource Names (ARNs) of the contacts to replace those in the current on-call rotation with. If you want to include any current team members in the override shift, you must include their ARNs in the new contact ID list. Constraints: o min: 0 o max: 30 (string) Constraints: o min: 1 o max: 2048 o pattern: arn:(aws|aws-cn|aws-us-gov):ssm-con- tacts:[-\w+=\/,.@]*:[0-9]+:([\w+=\/,.@:-]+)* Syntax: "string" "string" ...
+    /// The Amazon Resource Names (ARNs) of the contacts to replace those in the current on-call rotation with. If you want to include any current team members in the override shift, you must include their ARNs in the new contact ID list. Constraints: • min: 0 • max: 30 (string) Constraints: • min: 1 • max: 2048 • pattern: arn:(aws|aws-cn|aws-us-gov):ssm-contacts:[-\w+=\/,.@]*:[0-9]+:([\w+=\/,.@:-]+)* Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--new-contact-ids", GroupValues = true)]
     public IEnumerable<string>? NewContactIds { get; private init; }
@@ -104,7 +105,7 @@ public record AwsSsmContactsCreateRotationOverrideOptions : AwsOptions, IValidat
     public string? EndTime { get; private init; }
 
     /// <summary>
-    /// A token that ensures that the operation is called only once with the specified details. Constraints: o max: 2048 o pattern: ^[\\\/a-zA-Z0-9_+=\-]*$
+    /// A token that ensures that the operation is called only once with the specified details. Constraints: • max: 2048 • pattern: ^[\\\/a-zA-Z0-9_+=\-]*$
     /// </summary>
     [SecretValue]
     [CliOption("--idempotency-token")]
@@ -131,6 +132,15 @@ public record AwsSsmContactsCreateRotationOverrideOptions : AwsOptions, IValidat
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

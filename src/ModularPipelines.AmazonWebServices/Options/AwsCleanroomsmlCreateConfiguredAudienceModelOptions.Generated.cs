@@ -10,7 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -29,10 +29,10 @@ public record AwsCleanroomsmlCreateConfiguredAudienceModelOptions : AwsOptions, 
     /// <summary>
     /// Defines the information necessary to create a configured audience model. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">The name of the configured audience model. Constraints: o min: 1 o max: 63 o pattern: (?!\s*$)[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDBFF-\uDC00\uDFFF\t]*</param>
-    /// <param name="AudienceModelArn">The Amazon Resource Name (ARN) of the audience model to use for the configured audience model. Constraints: o min: 20 o max: 2048 o pattern: arn:aws[-a-z]*:cleanrooms-ml:[-a-z0-9]+:[0-9]{12}:audi- ence-model/[-a-zA-Z0-9_/.]+</param>
-    /// <param name="OutputConfig">Configure the Amazon S3 location and IAM Role for audiences created using this configured audience model. Each audience will have a unique location. The IAM Role must have s3:PutObject permission on the destination Amazon S3 location. If the destination is protected with Amazon S3 KMS-SSE, then the Role must also have the required KMS permissions. destination -&gt; (structure) [required] Defines the Amazon S3 bucket where the configured audience is stored. s3Destination -&gt; (structure) [required] The Amazon S3 bucket and path for the configured audience. s3Uri -&gt; (string) [required] The Amazon S3 location URI. Constraints: o min: 1 o max: 1285 o pattern: s3://.+ roleArn -&gt; (string) [required] The ARN of the IAM role that can write the Amazon S3 bucket. Constraints: o min: 20 o max: 2048 o pattern: arn:aws[-a-z]*:iam::[0-9]{12}:role/.+ Shorthand Syntax: destination={s3Destination={s3Uri=string}},roleArn=string JSON Syntax: { "destination": { "s3Destination": { "s3Uri": "string" } }, "roleArn": "string" }</param>
-    /// <param name="SharedAudienceMetrics">Whether audience metrics are shared. Constraints: o min: 1 o max: 1 (string) Possible values: o ALL o NONE Syntax: "string" "string" ...</param>
+    /// <param name="Name">The name of the configured audience model. Constraints: • min: 1 • max: 63 • pattern: (?!\s*$)[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDBFF-\uDC00\uDFFF\t]*</param>
+    /// <param name="AudienceModelArn">The Amazon Resource Name (ARN) of the audience model to use for the configured audience model. Constraints: • min: 20 • max: 2048 • pattern: arn:aws[-a-z]*:cleanrooms-ml:[-a-z0-9]+:[0-9]{12}:audience-model/[-a-zA-Z0-9_/.]+</param>
+    /// <param name="OutputConfig">Configure the Amazon S3 location and IAM Role for audiences created using this configured audience model. Each audience will have a unique location. The IAM Role must have s3:PutObject permission on the destination Amazon S3 location. If the destination is protected with Amazon S3 KMS-SSE, then the Role must also have the required KMS permissions. destination -&gt; (structure) [required] Defines the Amazon S3 bucket where the configured audience is stored. s3Destination -&gt; (structure) [required] The Amazon S3 bucket and path for the configured audience. s3Uri -&gt; (string) [required] The Amazon S3 location URI. Constraints: • min: 1 • max: 1285 • pattern: s3://.+ roleArn -&gt; (string) [required] The ARN of the IAM role that can write the Amazon S3 bucket. Constraints: • min: 20 • max: 2048 • pattern: arn:aws[-a-z]*:iam::[0-9]{12}:role/.+ Shorthand Syntax: destination={s3Destination={s3Uri=string}},roleArn=string JSON Syntax: { "destination": { "s3Destination": { "s3Uri": "string" } }, "roleArn": "string" }</param>
+    /// <param name="SharedAudienceMetrics">Whether audience metrics are shared. Constraints: • min: 1 • max: 1 (string) Possible values: • ALL • NONE Syntax: "string" "string" ...</param>
     public AwsCleanroomsmlCreateConfiguredAudienceModelOptions(
         string Name,
         string AudienceModelArn,
@@ -81,55 +81,55 @@ public record AwsCleanroomsmlCreateConfiguredAudienceModelOptions : AwsOptions, 
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the configured audience model. Constraints: o min: 1 o max: 63 o pattern: (?!\s*$)[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDBFF-\uDC00\uDFFF\t]*
+    /// The name of the configured audience model. Constraints: • min: 1 • max: 63 • pattern: (?!\s*$)[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDBFF-\uDC00\uDFFF\t]*
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the audience model to use for the configured audience model. Constraints: o min: 20 o max: 2048 o pattern: arn:aws[-a-z]*:cleanrooms-ml:[-a-z0-9]+:[0-9]{12}:audi- ence-model/[-a-zA-Z0-9_/.]+
+    /// The Amazon Resource Name (ARN) of the audience model to use for the configured audience model. Constraints: • min: 20 • max: 2048 • pattern: arn:aws[-a-z]*:cleanrooms-ml:[-a-z0-9]+:[0-9]{12}:audience-model/[-a-zA-Z0-9_/.]+
     /// </summary>
     [CliOption("--audience-model-arn")]
     public string? AudienceModelArn { get; private init; }
 
     /// <summary>
-    /// Configure the Amazon S3 location and IAM Role for audiences created using this configured audience model. Each audience will have a unique location. The IAM Role must have s3:PutObject permission on the destination Amazon S3 location. If the destination is protected with Amazon S3 KMS-SSE, then the Role must also have the required KMS permissions. destination -&gt; (structure) [required] Defines the Amazon S3 bucket where the configured audience is stored. s3Destination -&gt; (structure) [required] The Amazon S3 bucket and path for the configured audience. s3Uri -&gt; (string) [required] The Amazon S3 location URI. Constraints: o min: 1 o max: 1285 o pattern: s3://.+ roleArn -&gt; (string) [required] The ARN of the IAM role that can write the Amazon S3 bucket. Constraints: o min: 20 o max: 2048 o pattern: arn:aws[-a-z]*:iam::[0-9]{12}:role/.+ Shorthand Syntax: destination={s3Destination={s3Uri=string}},roleArn=string JSON Syntax: { "destination": { "s3Destination": { "s3Uri": "string" } }, "roleArn": "string" }
+    /// Configure the Amazon S3 location and IAM Role for audiences created using this configured audience model. Each audience will have a unique location. The IAM Role must have s3:PutObject permission on the destination Amazon S3 location. If the destination is protected with Amazon S3 KMS-SSE, then the Role must also have the required KMS permissions. destination -&gt; (structure) [required] Defines the Amazon S3 bucket where the configured audience is stored. s3Destination -&gt; (structure) [required] The Amazon S3 bucket and path for the configured audience. s3Uri -&gt; (string) [required] The Amazon S3 location URI. Constraints: • min: 1 • max: 1285 • pattern: s3://.+ roleArn -&gt; (string) [required] The ARN of the IAM role that can write the Amazon S3 bucket. Constraints: • min: 20 • max: 2048 • pattern: arn:aws[-a-z]*:iam::[0-9]{12}:role/.+ Shorthand Syntax: destination={s3Destination={s3Uri=string}},roleArn=string JSON Syntax: { "destination": { "s3Destination": { "s3Uri": "string" } }, "roleArn": "string" }
     /// </summary>
     [CliOption("--output-config")]
     public string? OutputConfig { get; private init; }
 
     /// <summary>
-    /// Whether audience metrics are shared. Constraints: o min: 1 o max: 1 (string) Possible values: o ALL o NONE Syntax: "string" "string" ...
+    /// Whether audience metrics are shared. Constraints: • min: 1 • max: 1 (string) Possible values: • ALL • NONE Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--shared-audience-metrics", GroupValues = true)]
     public IEnumerable<string>? SharedAudienceMetrics { get; private init; }
 
     /// <summary>
-    /// The description of the configured audience model. Constraints: o min: 0 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDBFF-\uDC00\uDFFF\t\r\n]*
+    /// The description of the configured audience model. Constraints: • min: 0 • max: 255 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDBFF-\uDC00\uDFFF\t\r\n]*
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The minimum number of users from the seed audience that must match with users in the training data of the audience model. The default value is 500. Constraints: o min: 25 o max: 500000
+    /// The minimum number of users from the seed audience that must match with users in the training data of the audience model. The default value is 500. Constraints: • min: 25 • max: 500000
     /// </summary>
     [CliOption("--min-matching-seed-size")]
     public int? MinMatchingSeedSize { get; set; }
 
     /// <summary>
-    /// Configure the list of output sizes of audiences that can be created using this configured audience model. A request to StartAudience- GenerationJob that uses this configured audience model must have an audienceSize selected from this list. You can use the ABSOLUTE Au- dienceSize to configure out audience sizes using the count of iden- tifiers in the output. You can use the Percentage AudienceSize to configure sizes in the range 1-100 percent. audienceSizeType -&gt; (string) [required] Whether the audience output sizes are defined as an absolute number or a percentage. Possible values: o ABSOLUTE o PERCENTAGE audienceSizeBins -&gt; (list) [required] An array of the different audience output sizes. Constraints: o min: 1 o max: 25 (integer) Constraints: o min: 1 o max: 20000000 Shorthand Syntax: audienceSizeType=string,audienceSizeBins=integer,integer JSON Syntax: { "audienceSizeType": "ABSOLUTE"|"PERCENTAGE", "audienceSizeBins": [integer, ...] }
+    /// Configure the list of output sizes of audiences that can be created using this configured audience model. A request to StartAudienceGenerationJob that uses this configured audience model must have an audienceSize selected from this list. You can use the ABSOLUTE AudienceSize to configure out audience sizes using the count of identifiers in the output. You can use the Percentage AudienceSize to configure sizes in the range 1-100 percent. audienceSizeType -&gt; (string) [required] Whether the audience output sizes are defined as an absolute number or a percentage. Possible values: • ABSOLUTE • PERCENTAGE audienceSizeBins -&gt; (list) [required] An array of the different audience output sizes. Constraints: • min: 1 • max: 25 (integer) Constraints: • min: 1 • max: 20000000 Shorthand Syntax: audienceSizeType=string,audienceSizeBins=integer,integer JSON Syntax: { "audienceSizeType": "ABSOLUTE"|"PERCENTAGE", "audienceSizeBins": [integer, ...] }
     /// </summary>
     [CliOption("--audience-size-config")]
     public string? AudienceSizeConfig { get; set; }
 
     /// <summary>
-    /// The optional metadata that you apply to the resource to help you categorize and organize them. Each tag consists of a key and an op- tional value, both of which you define. The following basic restrictions apply to tags: o Maximum number of tags per resource - 50. o For each resource, each tag key must be unique, and each tag key can have only one value. o Maximum key length - 128 Unicode characters in UTF-8. o Maximum value length - 256 Unicode characters in UTF-8. o If your tagging schema is used across multiple services and re- sources, remember that other services may have restrictions on al- lowed characters. Generally allowed characters are: letters, num- bers, and spaces representable in UTF-8, and the following charac- ters: + - = . _ : / @. o Tag keys and values are case sensitive. o Do not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for keys as it is reserved for AWS use. You can- not edit or delete tag keys with this prefix. Values can have this prefix. If a tag value has aws as its prefix but the key does not, then Clean Rooms ML considers it to be a user tag and will count against the limit of 50 tags. Tags with only the key prefix of aws do not count against your tags per resource limit. Constraints: o min: 0 o max: 200 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The optional metadata that you apply to the resource to help you categorize and organize them. Each tag consists of a key and an optional value, both of which you define. The following basic restrictions apply to tags: • Maximum number of tags per resource - 50. • For each resource, each tag key must be unique, and each tag key can have only one value. • Maximum key length - 128 Unicode characters in UTF-8. • Maximum value length - 256 Unicode characters in UTF-8. • If your tagging schema is used across multiple services and resources, remember that other services may have restrictions on allowed characters. Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following characters: + - = . _ : / @. • Tag keys and values are case sensitive. • Do not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for keys as it is reserved for AWS use. You cannot edit or delete tag keys with this prefix. Values can have this prefix. If a tag value has aws as its prefix but the key does not, then Clean Rooms ML considers it to be a user tag and will count against the limit of 50 tags. Tags with only the key prefix of aws do not count against your tags per resource limit. Constraints: • min: 0 • max: 200 key -&gt; (string) Constraints: • min: 1 • max: 128 value -&gt; (string) Constraints: • min: 0 • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>
-    /// Configure how the service tags audience generation jobs created us- ing this configured audience model. If you specify NONE , the tags from the StartAudienceGenerationJob request determine the tags of the audience generation job. If you specify FROM_PARENT_RESOURCE , the audience generation job inherits the tags from the configured audience model, by default. Tags in the StartAudienceGenerationJob will override the default. When the client is in a different account than the configured audi- ence model, the tags from the client are never applied to a resource in the caller's account. Possible values: o FROM_PARENT_RESOURCE o NONE
+    /// Configure how the service tags audience generation jobs created using this configured audience model. If you specify NONE , the tags from the StartAudienceGenerationJob request determine the tags of the audience generation job. If you specify FROM_PARENT_RESOURCE , the audience generation job inherits the tags from the configured audience model, by default. Tags in the StartAudienceGenerationJob will override the default. When the client is in a different account than the configured audience model, the tags from the client are never applied to a resource in the caller's account. Possible values: • FROM_PARENT_RESOURCE • NONE
     /// </summary>
     [CliOption("--child-resource-tag-on-create-policy")]
     public AwsCleanroomsmlCreateConfiguredAudienceModelChildResourceTagOnCreatePolicy? ChildResourceTagOnCreatePolicy { get; set; }
@@ -155,6 +155,15 @@ public record AwsCleanroomsmlCreateConfiguredAudienceModelOptions : AwsOptions, 
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

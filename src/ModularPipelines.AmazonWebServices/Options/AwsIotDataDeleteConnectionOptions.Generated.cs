@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsIotDataDeleteConnectionOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Disconnects a connected MQTT client from Amazon Web Services IoT Core. When you disconnect a client, Amazon Web Services IoT Core closes the client's network connection and optionally cleans the session state. Requires permission to access the DeleteConnection action. See also: AWS API Documentation NOTE: For production code it is strongly recommended to use the custom endpoint for your account (retrievable via the iot describe-endpoint command) to ensure best availability and reachability of th...
     /// </summary>
-    /// <param name="ClientId">The unique identifier of the MQTT client to disconnect. The client ID can't start with a dollar sign ($). MQTT client IDs must be URL encoded (percent-encoded) when they con- tain characters that are not valid in HTTP requests, such as spaces, forward slashes (/), and UTF-8 characters. Constraints: o min: 1 o max: 128 o pattern: ^[^$].*</param>
+    /// <param name="ClientId">The unique identifier of the MQTT client to disconnect. The client ID can't start with a dollar sign ($). MQTT client IDs must be URL encoded (percent-encoded) when they contain characters that are not valid in HTTP requests, such as spaces, forward slashes (/), and UTF-8 characters. Constraints: • min: 1 • max: 128 • pattern: ^[^$].*</param>
     public AwsIotDataDeleteConnectionOptions(
         string ClientId
     )
@@ -56,19 +57,19 @@ public record AwsIotDataDeleteConnectionOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the MQTT client to disconnect. The client ID can't start with a dollar sign ($). MQTT client IDs must be URL encoded (percent-encoded) when they con- tain characters that are not valid in HTTP requests, such as spaces, forward slashes (/), and UTF-8 characters. Constraints: o min: 1 o max: 128 o pattern: ^[^$].*
+    /// The unique identifier of the MQTT client to disconnect. The client ID can't start with a dollar sign ($). MQTT client IDs must be URL encoded (percent-encoded) when they contain characters that are not valid in HTTP requests, such as spaces, forward slashes (/), and UTF-8 characters. Constraints: • min: 1 • max: 128 • pattern: ^[^$].*
     /// </summary>
     [CliOption("--client-id")]
     public string? ClientId { get; private init; }
 
     /// <summary>
-    /// Specifies whether to remove the client's persistent session state when disconnecting. Set to TRUE to delete all session information, including subscriptions and queued messages. Set to FALSE to pre- serve the session state for persistent sessions . For clean sessions this parameter will be ignored. By default, this is set to FALSE (preserves the session state).
+    /// Specifies whether to remove the client's persistent session state when disconnecting. Set to TRUE to delete all session information, including subscriptions and queued messages. Set to FALSE to preserve the session state for persistent sessions . For clean sessions this parameter will be ignored. By default, this is set to FALSE (preserves the session state).
     /// </summary>
     [CliFlag("--clean-session", NegatedName = "--no-clean-session")]
     public bool? CleanSession { get; set; }
 
     /// <summary>
-    /// Controls if Amazon Web Services IoT Core publishes the client's Last Will and Testament (LWT) message upon disconnection. Set to TRUE to prevent publishing the LWT message. Set to FALSE to ensure that LWT is published. By default, this is set to FALSE (LWT message is pub- lished).
+    /// Controls if Amazon Web Services IoT Core publishes the client's Last Will and Testament (LWT) message upon disconnection. Set to TRUE to prevent publishing the LWT message. Set to FALSE to ensure that LWT is published. By default, this is set to FALSE (LWT message is published).
     /// </summary>
     [CliFlag("--prevent-will-message", NegatedName = "--no-prevent-will-message")]
     public bool? PreventWillMessage { get; set; }
@@ -94,6 +95,15 @@ public record AwsIotDataDeleteConnectionOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

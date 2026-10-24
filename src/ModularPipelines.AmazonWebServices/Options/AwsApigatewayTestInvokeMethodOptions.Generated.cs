@@ -10,13 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Simulate the invocation of a Method in your RestApi with headers, para- meters, and an incoming request body. See also: AWS API Documentation
+/// Simulate the invocation of a Method in your RestApi with headers, parameters, and an incoming request body. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,7 +26,7 @@ public record AwsApigatewayTestInvokeMethodOptions : AwsOptions, IValidatableObj
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Simulate the invocation of a Method in your RestApi with headers, para- meters, and an incoming request body. See also: AWS API Documentation
+    /// Simulate the invocation of a Method in your RestApi with headers, parameters, and an incoming request body. See also: AWS API Documentation
     /// </summary>
     /// <param name="RestApiId">The string identifier of the associated RestApi.</param>
     /// <param name="ResourceId">Specifies a test invoke method request's resource ID.</param>
@@ -83,7 +83,7 @@ public record AwsApigatewayTestInvokeMethodOptions : AwsOptions, IValidatableObj
     public string? HttpMethod { get; private init; }
 
     /// <summary>
-    /// The URI path, including query string, of the simulated invocation request. Use this to specify path parameters and query string para- meters.
+    /// The URI path, including query string, of the simulated invocation request. Use this to specify path parameters and query string parameters.
     /// </summary>
     [CliOption("--path-with-query-string")]
     public string? PathWithQueryString { get; set; }
@@ -95,7 +95,7 @@ public record AwsApigatewayTestInvokeMethodOptions : AwsOptions, IValidatableObj
     public string? Body { get; set; }
 
     /// <summary>
-    /// A key-value map of headers to simulate an incoming invocation re- quest. key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// A key-value map of headers to simulate an incoming invocation request. key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--headers", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Headers { get; set; }
@@ -139,6 +139,15 @@ public record AwsApigatewayTestInvokeMethodOptions : AwsOptions, IValidatableObj
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

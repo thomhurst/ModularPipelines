@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves a list of events that occurred during a specific time in a space. You can use these events to audit user and system activity in a space. For more information, see Monitoring in the Amazon CodeCatalyst User Guide . NOTE: ListEventLogs guarantees events for the last 30 days in a given space. You can also view and retrieve a list of management events over the last 90 days for Amazon CodeCatalyst in the CloudTrail con- sole by viewing Event history, or by creating a trail to create and mai...
+/// Retrieves a list of events that occurred during a specific time in a space. You can use these events to audit user and system activity in a space. For more information, see Monitoring in the Amazon CodeCatalyst User Guide . NOTE: ListEventLogs guarantees events for the last 30 days in a given space. You can also view and retrieve a list of management events over the last 90 days for Amazon CodeCatalyst in the CloudTrail console by viewing Event history, or by creating a trail to create and maint...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,11 +27,11 @@ public record AwsCodecatalystListEventLogsOptions : AwsOptions, IValidatableObje
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Retrieves a list of events that occurred during a specific time in a space. You can use these events to audit user and system activity in a space. For more information, see Monitoring in the Amazon CodeCatalyst User Guide . NOTE: ListEventLogs guarantees events for the last 30 days in a given space. You can also view and retrieve a list of management events over the last 90 days for Amazon CodeCatalyst in the CloudTrail con- sole by viewing Event history, or by creating a trail to create and mai...
+    /// Retrieves a list of events that occurred during a specific time in a space. You can use these events to audit user and system activity in a space. For more information, see Monitoring in the Amazon CodeCatalyst User Guide . NOTE: ListEventLogs guarantees events for the last 30 days in a given space. You can also view and retrieve a list of management events over the last 90 days for Amazon CodeCatalyst in the CloudTrail console by viewing Event history, or by creating a trail to create and maint...
     /// </summary>
-    /// <param name="SpaceName">The name of the space. Constraints: o min: 3 o max: 63 o pattern: [a-zA-Z0-9]+(?:[-_\.][a-zA-Z0-9]+)*</param>
-    /// <param name="StartTime">The date and time when you want to start retrieving events, in coor- dinated universal time (UTC) timestamp format as specified in RFC 3339 .</param>
-    /// <param name="EndTime">The time after which you do not want any events retrieved, in coor- dinated universal time (UTC) timestamp format as specified in RFC 3339 .</param>
+    /// <param name="SpaceName">The name of the space. Constraints: • min: 3 • max: 63 • pattern: [a-zA-Z0-9]+(?:[-_\.][a-zA-Z0-9]+)*</param>
+    /// <param name="StartTime">The date and time when you want to start retrieving events, in coordinated universal time (UTC) timestamp format as specified in RFC 3339 .</param>
+    /// <param name="EndTime">The time after which you do not want any events retrieved, in coordinated universal time (UTC) timestamp format as specified in RFC 3339 .</param>
     public AwsCodecatalystListEventLogsOptions(
         string SpaceName,
         string StartTime,
@@ -65,19 +66,19 @@ public record AwsCodecatalystListEventLogsOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the space. Constraints: o min: 3 o max: 63 o pattern: [a-zA-Z0-9]+(?:[-_\.][a-zA-Z0-9]+)*
+    /// The name of the space. Constraints: • min: 3 • max: 63 • pattern: [a-zA-Z0-9]+(?:[-_\.][a-zA-Z0-9]+)*
     /// </summary>
     [CliOption("--space-name")]
     public string? SpaceName { get; private init; }
 
     /// <summary>
-    /// The date and time when you want to start retrieving events, in coor- dinated universal time (UTC) timestamp format as specified in RFC 3339 .
+    /// The date and time when you want to start retrieving events, in coordinated universal time (UTC) timestamp format as specified in RFC 3339 .
     /// </summary>
     [CliOption("--start-time")]
     public string? StartTime { get; private init; }
 
     /// <summary>
-    /// The time after which you do not want any events retrieved, in coor- dinated universal time (UTC) timestamp format as specified in RFC 3339 .
+    /// The time after which you do not want any events retrieved, in coordinated universal time (UTC) timestamp format as specified in RFC 3339 .
     /// </summary>
     [CliOption("--end-time")]
     public string? EndTime { get; private init; }
@@ -91,9 +92,6 @@ public record AwsCodecatalystListEventLogsOptions : AwsOptions, IValidatableObje
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
-
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
@@ -102,16 +100,19 @@ public record AwsCodecatalystListEventLogsOptions : AwsOptions, IValidatableObje
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 250
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 250
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
@@ -128,6 +129,15 @@ public record AwsCodecatalystListEventLogsOptions : AwsOptions, IValidatableObje
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

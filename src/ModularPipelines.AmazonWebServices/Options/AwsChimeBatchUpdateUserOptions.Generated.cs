@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates user details within the UpdateUserRequestItem object for up to 20 users for the specified Amazon Chime account. Currently, only Li- censeType updates are supported for this action. See also: AWS API Documentation
+/// Updates user details within the UpdateUserRequestItem object for up to 20 users for the specified Amazon Chime account. Currently, only LicenseType updates are supported for this action. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsChimeBatchUpdateUserOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates user details within the UpdateUserRequestItem object for up to 20 users for the specified Amazon Chime account. Currently, only Li- censeType updates are supported for this action. See also: AWS API Documentation
+    /// Updates user details within the UpdateUserRequestItem object for up to 20 users for the specified Amazon Chime account. Currently, only LicenseType updates are supported for this action. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AccountId">The Amazon Chime account ID. Constraints: o pattern: .*\S.*</param>
-    /// <param name="UpdateUserRequestItems">The request containing the user IDs and details to update. Constraints: o max: 20 (structure) The user ID and user fields to update, used with the BatchUpda- teUser action. UserId -&gt; (string) [required] The user ID. Constraints: o pattern: .*\S.* LicenseType -&gt; (string) The user license type. Possible values: o Basic o Plus o Pro o ProTrial UserType -&gt; (string) The user type. Possible values: o PrivateUser o SharedDevice AlexaForBusinessMetadata -&gt; (structure) The Alexa for Business metadata. IsAlexaForBusinessEnabled -&gt; (boolean) Starts or stops Alexa for Business. AlexaForBusinessRoomArn -&gt; (string) The ARN of the room resource. Shorthand Syntax: UserId=string,LicenseType=string,UserType=string,AlexaForBusinessMetadata={IsAlexaForBusinessEnabled=boolean,AlexaForBusinessRoomArn=string} ... JSON Syntax: [ { "UserId": "string", "LicenseType": "Basic"|"Plus"|"Pro"|"ProTrial", "UserType": "PrivateUser"|"SharedDevice", "AlexaForBusinessMetadata": { "IsAlexaForBusinessEnabled": true|false, "AlexaForBusinessRoomArn": "string" } } ... ]</param>
+    /// <param name="AccountId">The Amazon Chime account ID. Constraints: • pattern: .*\S.*</param>
+    /// <param name="UpdateUserRequestItems">The request containing the user IDs and details to update. Constraints: • max: 20 (structure) The user ID and user fields to update, used with the BatchUpdateUser action. UserId -&gt; (string) [required] The user ID. Constraints: • pattern: .*\S.* LicenseType -&gt; (string) The user license type. Possible values: • Basic • Plus • Pro • ProTrial UserType -&gt; (string) The user type. Possible values: • PrivateUser • SharedDevice AlexaForBusinessMetadata -&gt; (structure) The Alexa for Business metadata. IsAlexaForBusinessEnabled -&gt; (boolean) Starts or stops Alexa for Business. AlexaForBusinessRoomArn -&gt; (string) The ARN of the room resource. Shorthand Syntax: UserId=string,LicenseType=string,UserType=string,AlexaForBusinessMetadata={IsAlexaForBusinessEnabled=boolean,AlexaForBusinessRoomArn=string} ... JSON Syntax: [ { "UserId": "string", "LicenseType": "Basic"|"Plus"|"Pro"|"ProTrial", "UserType": "PrivateUser"|"SharedDevice", "AlexaForBusinessMetadata": { "IsAlexaForBusinessEnabled": true|false, "AlexaForBusinessRoomArn": "string" } } ... ]</param>
     public AwsChimeBatchUpdateUserOptions(
         string AccountId,
         IEnumerable<string> UpdateUserRequestItems
@@ -71,13 +72,13 @@ public record AwsChimeBatchUpdateUserOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Chime account ID. Constraints: o pattern: .*\S.*
+    /// The Amazon Chime account ID. Constraints: • pattern: .*\S.*
     /// </summary>
     [CliOption("--account-id")]
     public string? AccountId { get; private init; }
 
     /// <summary>
-    /// The request containing the user IDs and details to update. Constraints: o max: 20 (structure) The user ID and user fields to update, used with the BatchUpda- teUser action. UserId -&gt; (string) [required] The user ID. Constraints: o pattern: .*\S.* LicenseType -&gt; (string) The user license type. Possible values: o Basic o Plus o Pro o ProTrial UserType -&gt; (string) The user type. Possible values: o PrivateUser o SharedDevice AlexaForBusinessMetadata -&gt; (structure) The Alexa for Business metadata. IsAlexaForBusinessEnabled -&gt; (boolean) Starts or stops Alexa for Business. AlexaForBusinessRoomArn -&gt; (string) The ARN of the room resource. Shorthand Syntax: UserId=string,LicenseType=string,UserType=string,AlexaForBusinessMetadata={IsAlexaForBusinessEnabled=boolean,AlexaForBusinessRoomArn=string} ... JSON Syntax: [ { "UserId": "string", "LicenseType": "Basic"|"Plus"|"Pro"|"ProTrial", "UserType": "PrivateUser"|"SharedDevice", "AlexaForBusinessMetadata": { "IsAlexaForBusinessEnabled": true|false, "AlexaForBusinessRoomArn": "string" } } ... ]
+    /// The request containing the user IDs and details to update. Constraints: • max: 20 (structure) The user ID and user fields to update, used with the BatchUpdateUser action. UserId -&gt; (string) [required] The user ID. Constraints: • pattern: .*\S.* LicenseType -&gt; (string) The user license type. Possible values: • Basic • Plus • Pro • ProTrial UserType -&gt; (string) The user type. Possible values: • PrivateUser • SharedDevice AlexaForBusinessMetadata -&gt; (structure) The Alexa for Business metadata. IsAlexaForBusinessEnabled -&gt; (boolean) Starts or stops Alexa for Business. AlexaForBusinessRoomArn -&gt; (string) The ARN of the room resource. Shorthand Syntax: UserId=string,LicenseType=string,UserType=string,AlexaForBusinessMetadata={IsAlexaForBusinessEnabled=boolean,AlexaForBusinessRoomArn=string} ... JSON Syntax: [ { "UserId": "string", "LicenseType": "Basic"|"Plus"|"Pro"|"ProTrial", "UserType": "PrivateUser"|"SharedDevice", "AlexaForBusinessMetadata": { "IsAlexaForBusinessEnabled": true|false, "AlexaForBusinessRoomArn": "string" } } ... ]
     /// </summary>
     [CliOption("--update-user-request-items", GroupValues = true)]
     public IEnumerable<string>? UpdateUserRequestItems { get; private init; }
@@ -103,6 +104,15 @@ public record AwsChimeBatchUpdateUserOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsSecurityhubGenerateRecommendedPolicyV2Options : AwsOptions, IVa
     /// <summary>
     /// Begins the recommended policy generation to remediate a Security Hub finding. GenerateRecommendedPolicyV2 only supports findings for unused permissions. See also: AWS API Documentation
     /// </summary>
-    /// <param name="MetadataUid">The unique identifier (ID) of Security Hub OCSF findings found under the metadata.uid field of the finding. Constraints: o pattern: .*\S.*</param>
+    /// <param name="MetadataUid">The unique identifier (ID) of Security Hub OCSF findings found under the metadata.uid field of the finding. Constraints: • pattern: .*\S.*</param>
     public AwsSecurityhubGenerateRecommendedPolicyV2Options(
         string MetadataUid
     )
@@ -56,7 +57,7 @@ public record AwsSecurityhubGenerateRecommendedPolicyV2Options : AwsOptions, IVa
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier (ID) of Security Hub OCSF findings found under the metadata.uid field of the finding. Constraints: o pattern: .*\S.*
+    /// The unique identifier (ID) of Security Hub OCSF findings found under the metadata.uid field of the finding. Constraints: • pattern: .*\S.*
     /// </summary>
     [CliOption("--metadata-uid")]
     public string? MetadataUid { get; private init; }
@@ -82,6 +83,15 @@ public record AwsSecurityhubGenerateRecommendedPolicyV2Options : AwsOptions, IVa
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

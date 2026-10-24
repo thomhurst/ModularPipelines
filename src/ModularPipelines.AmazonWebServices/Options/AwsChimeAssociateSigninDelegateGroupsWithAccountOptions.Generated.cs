@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsChimeAssociateSigninDelegateGroupsWithAccountOptions : AwsOptio
     /// <summary>
     /// Associates the specified sign-in delegate groups with the specified Amazon Chime account. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AccountId">The Amazon Chime account ID. Constraints: o pattern: .*\S.*</param>
-    /// <param name="SigninDelegateGroups">The sign-in delegate groups. (structure) An Active Directory (AD) group whose members are granted permis- sion to act as delegates. GroupName -&gt; (string) The group name. Constraints: o pattern: .*\S.* Shorthand Syntax: GroupName=string ... JSON Syntax: [ { "GroupName": "string" } ... ]</param>
+    /// <param name="AccountId">The Amazon Chime account ID. Constraints: • pattern: .*\S.*</param>
+    /// <param name="SigninDelegateGroups">The sign-in delegate groups. (structure) An Active Directory (AD) group whose members are granted permission to act as delegates. GroupName -&gt; (string) The group name. Constraints: • pattern: .*\S.* Shorthand Syntax: GroupName=string ... JSON Syntax: [ { "GroupName": "string" } ... ]</param>
     public AwsChimeAssociateSigninDelegateGroupsWithAccountOptions(
         string AccountId,
         IEnumerable<string> SigninDelegateGroups
@@ -71,13 +72,13 @@ public record AwsChimeAssociateSigninDelegateGroupsWithAccountOptions : AwsOptio
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Chime account ID. Constraints: o pattern: .*\S.*
+    /// The Amazon Chime account ID. Constraints: • pattern: .*\S.*
     /// </summary>
     [CliOption("--account-id")]
     public string? AccountId { get; private init; }
 
     /// <summary>
-    /// The sign-in delegate groups. (structure) An Active Directory (AD) group whose members are granted permis- sion to act as delegates. GroupName -&gt; (string) The group name. Constraints: o pattern: .*\S.* Shorthand Syntax: GroupName=string ... JSON Syntax: [ { "GroupName": "string" } ... ]
+    /// The sign-in delegate groups. (structure) An Active Directory (AD) group whose members are granted permission to act as delegates. GroupName -&gt; (string) The group name. Constraints: • pattern: .*\S.* Shorthand Syntax: GroupName=string ... JSON Syntax: [ { "GroupName": "string" } ... ]
     /// </summary>
     [CliOption("--signin-delegate-groups", GroupValues = true)]
     public IEnumerable<string>? SigninDelegateGroups { get; private init; }
@@ -103,6 +104,15 @@ public record AwsChimeAssociateSigninDelegateGroupsWithAccountOptions : AwsOptio
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

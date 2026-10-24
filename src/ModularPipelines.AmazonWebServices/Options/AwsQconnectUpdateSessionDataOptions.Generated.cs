@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,9 +28,9 @@ public record AwsQconnectUpdateSessionDataOptions : AwsOptions, IValidatableObje
     /// <summary>
     /// Updates the data stored on an Amazon Q in Connect Session. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AssistantId">The identifier of the Amazon Q in Connect assistant. Can be either the ID or the ARN. URLs cannot contain the ARN. Constraints: o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$|^arn:[a-z-]*?:wis- dom:[a-z0-9-]*?:[0-9]{12}:[a-z-]*?/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(?:/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}){0,2}</param>
-    /// <param name="SessionId">The identifier of the session. Can be either the ID or the ARN. URLs cannot contain the ARN. Constraints: o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$|^arn:[a-z-]*?:wis- dom:[a-z0-9-]*?:[0-9]{12}:[a-z-]*?/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(?:/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}){0,2}</param>
-    /// <param name="Data">The data stored on the Amazon Q in Connect Session. Constraints: o min: 0 o max: 50 (structure) The list of key-value pairs that are stored on the session. key -&gt; (string) [required] The key of the data stored on the session. Constraints: o min: 1 o max: 4096 value -&gt; (tagged union structure) [required] The value of the data stored on the session. NOTE: This is a Tagged Union structure. Only one of the follow- ing top level keys can be set: stringValue. stringValue -&gt; (string) The string value of the data stored on the session. Constraints: o min: 1 o max: 4096 Shorthand Syntax: key=string,value={stringValue=string} ... JSON Syntax: [ { "key": "string", "value": { "stringValue": "string" } } ... ]</param>
+    /// <param name="AssistantId">The identifier of the Amazon Q in Connect assistant. Can be either the ID or the ARN. URLs cannot contain the ARN. Constraints: • pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$|^arn:[a-z-]*?:wisdom:[a-z0-9-]*?:[0-9]{12}:[a-z-]*?/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(?:/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}){0,2}</param>
+    /// <param name="SessionId">The identifier of the session. Can be either the ID or the ARN. URLs cannot contain the ARN. Constraints: • pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$|^arn:[a-z-]*?:wisdom:[a-z0-9-]*?:[0-9]{12}:[a-z-]*?/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(?:/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}){0,2}</param>
+    /// <param name="Data">The data stored on the Amazon Q in Connect Session. Constraints: • min: 0 • max: 50 (structure) The list of key-value pairs that are stored on the session. key -&gt; (string) [required] The key of the data stored on the session. Constraints: • min: 1 • max: 4096 value -&gt; (tagged union structure) [required] The value of the data stored on the session. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: stringValue. stringValue -&gt; (string) The string value of the data stored on the session. Constraints: • min: 1 • max: 4096 Shorthand Syntax: key=string,value={stringValue=string} ... JSON Syntax: [ { "key": "string", "value": { "stringValue": "string" } } ... ]</param>
     public AwsQconnectUpdateSessionDataOptions(
         string AssistantId,
         string SessionId,
@@ -75,25 +76,25 @@ public record AwsQconnectUpdateSessionDataOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the Amazon Q in Connect assistant. Can be either the ID or the ARN. URLs cannot contain the ARN. Constraints: o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$|^arn:[a-z-]*?:wis- dom:[a-z0-9-]*?:[0-9]{12}:[a-z-]*?/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(?:/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}){0,2}
+    /// The identifier of the Amazon Q in Connect assistant. Can be either the ID or the ARN. URLs cannot contain the ARN. Constraints: • pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$|^arn:[a-z-]*?:wisdom:[a-z0-9-]*?:[0-9]{12}:[a-z-]*?/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(?:/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}){0,2}
     /// </summary>
     [CliOption("--assistant-id")]
     public string? AssistantId { get; private init; }
 
     /// <summary>
-    /// The identifier of the session. Can be either the ID or the ARN. URLs cannot contain the ARN. Constraints: o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$|^arn:[a-z-]*?:wis- dom:[a-z0-9-]*?:[0-9]{12}:[a-z-]*?/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(?:/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}){0,2}
+    /// The identifier of the session. Can be either the ID or the ARN. URLs cannot contain the ARN. Constraints: • pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$|^arn:[a-z-]*?:wisdom:[a-z0-9-]*?:[0-9]{12}:[a-z-]*?/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(?:/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}){0,2}
     /// </summary>
     [CliOption("--session-id")]
     public string? SessionId { get; private init; }
 
     /// <summary>
-    /// The data stored on the Amazon Q in Connect Session. Constraints: o min: 0 o max: 50 (structure) The list of key-value pairs that are stored on the session. key -&gt; (string) [required] The key of the data stored on the session. Constraints: o min: 1 o max: 4096 value -&gt; (tagged union structure) [required] The value of the data stored on the session. NOTE: This is a Tagged Union structure. Only one of the follow- ing top level keys can be set: stringValue. stringValue -&gt; (string) The string value of the data stored on the session. Constraints: o min: 1 o max: 4096 Shorthand Syntax: key=string,value={stringValue=string} ... JSON Syntax: [ { "key": "string", "value": { "stringValue": "string" } } ... ]
+    /// The data stored on the Amazon Q in Connect Session. Constraints: • min: 0 • max: 50 (structure) The list of key-value pairs that are stored on the session. key -&gt; (string) [required] The key of the data stored on the session. Constraints: • min: 1 • max: 4096 value -&gt; (tagged union structure) [required] The value of the data stored on the session. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: stringValue. stringValue -&gt; (string) The string value of the data stored on the session. Constraints: • min: 1 • max: 4096 Shorthand Syntax: key=string,value={stringValue=string} ... JSON Syntax: [ { "key": "string", "value": { "stringValue": "string" } } ... ]
     /// </summary>
     [CliOption("--data", GroupValues = true)]
     public IEnumerable<string>? Data { get; private init; }
 
     /// <summary>
-    /// The namespace into which the session data is stored. Supported name- spaces are: Custom Possible values: o Custom
+    /// The namespace into which the session data is stored. Supported namespaces are: Custom Possible values: • Custom
     /// </summary>
     [CliOption("--namespace")]
     public string? Namespace { get; set; }
@@ -119,6 +120,15 @@ public record AwsQconnectUpdateSessionDataOptions : AwsOptions, IValidatableObje
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

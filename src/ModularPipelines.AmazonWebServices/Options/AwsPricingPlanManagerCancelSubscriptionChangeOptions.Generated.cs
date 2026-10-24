@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +29,7 @@ public record AwsPricingPlanManagerCancelSubscriptionChangeOptions : AwsOptions,
     /// <summary>
     /// Cancels a pending scheduled change on a subscription, such as a pending downgrade or cancellation. The subscription returns to its state before the change was scheduled. NOTE: You cannot cancel a scheduled change close to its effective date. If the change is within the processing window, this operation returns an error. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Arn">The ARN of the subscription whose pending change you want to cancel. Constraints: o min: 1 o max: 2048</param>
+    /// <param name="Arn">The ARN of the subscription whose pending change you want to cancel. Constraints: • min: 1 • max: 2048</param>
     /// <param name="IfMatch">The ETag value from a previous GetSubscription or ListSubscriptions response.</param>
     public AwsPricingPlanManagerCancelSubscriptionChangeOptions(
         string Arn,
@@ -61,7 +62,7 @@ public record AwsPricingPlanManagerCancelSubscriptionChangeOptions : AwsOptions,
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the subscription whose pending change you want to cancel. Constraints: o min: 1 o max: 2048
+    /// The ARN of the subscription whose pending change you want to cancel. Constraints: • min: 1 • max: 2048
     /// </summary>
     [CliOption("--arn")]
     public string? Arn { get; private init; }
@@ -73,7 +74,7 @@ public record AwsPricingPlanManagerCancelSubscriptionChangeOptions : AwsOptions,
     public string? IfMatch { get; private init; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier that you provide to ensure the request is handled only once. Constraints: o min: 1 o max: 64
+    /// A unique, case-sensitive identifier that you provide to ensure the request is handled only once. Constraints: • min: 1 • max: 64
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
@@ -100,6 +101,15 @@ public record AwsPricingPlanManagerCancelSubscriptionChangeOptions : AwsOptions,
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

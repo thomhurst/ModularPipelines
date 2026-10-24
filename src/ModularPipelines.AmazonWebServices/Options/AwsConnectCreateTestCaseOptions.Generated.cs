@@ -10,7 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -29,8 +29,8 @@ public record AwsConnectCreateTestCaseOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Creates a test case with its content and metadata for the specified Amazon Connect instance. See also: AWS API Documentation
     /// </summary>
-    /// <param name="InstanceId">The identifier of the Amazon Connect instance. Constraints: o min: 1 o max: 250 o pattern: ^(arn:(aws|aws-us-gov):con- nect:[a-z]{2}-[a-z]+-[0-9]{1}:[0-9]{1,20}:in- stance/)?[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$</param>
-    /// <param name="Name">The name of the test. Constraints: o min: 1</param>
+    /// <param name="InstanceId">The identifier of the Amazon Connect instance. Constraints: • min: 1 • max: 250 • pattern: ^(arn:(aws|aws-us-gov):connect:[a-z]{2}-[a-z]+-[0-9]{1}:[0-9]{1,20}:instance/)?[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$</param>
+    /// <param name="Name">The name of the test. Constraints: • min: 1</param>
     /// <param name="Content">The JSON string that represents the content of the test.</param>
     public AwsConnectCreateTestCaseOptions(
         string InstanceId,
@@ -66,13 +66,13 @@ public record AwsConnectCreateTestCaseOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the Amazon Connect instance. Constraints: o min: 1 o max: 250 o pattern: ^(arn:(aws|aws-us-gov):con- nect:[a-z]{2}-[a-z]+-[0-9]{1}:[0-9]{1,20}:in- stance/)?[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$
+    /// The identifier of the Amazon Connect instance. Constraints: • min: 1 • max: 250 • pattern: ^(arn:(aws|aws-us-gov):connect:[a-z]{2}-[a-z]+-[0-9]{1}:[0-9]{1,20}:instance/)?[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$
     /// </summary>
     [CliOption("--instance-id")]
     public string? InstanceId { get; private init; }
 
     /// <summary>
-    /// The name of the test. Constraints: o min: 1
+    /// The name of the test. Constraints: • min: 1
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
@@ -90,7 +90,7 @@ public record AwsConnectCreateTestCaseOptions : AwsOptions, IValidatableObject
     public string? Description { get; set; }
 
     /// <summary>
-    /// Defines the starting point for your test. Type -&gt; (string) The type of entry point. Possible values: o VOICE_CALL o CHAT VoiceCallEntryPointParameters -&gt; (structure) Parameters for voice call entry point. SourcePhoneNumber -&gt; (string) The source phone number for the test. Constraints: o pattern: \\+[1-9]\\d{1,14}$ DestinationPhoneNumber -&gt; (string) The destination phone number for the test. Constraints: o pattern: \\+[1-9]\\d{1,14}$ FlowId -&gt; (string) The flow identifier for the test. Constraints: o max: 500 ChatEntryPointParameters -&gt; (structure) Parameters for chat entry point. FlowId -&gt; (string) The flow identifier for the test. Constraints: o max: 500 Shorthand Syntax: Type=string,VoiceCallEntryPointParameters={SourcePhoneNumber=string,DestinationPhoneNumber=string,FlowId=string},ChatEntryPointParameters={FlowId=string} JSON Syntax: { "Type": "VOICE_CALL"|"CHAT", "VoiceCallEntryPointParameters": { "SourcePhoneNumber": "string", "DestinationPhoneNumber": "string", "FlowId": "string" }, "ChatEntryPointParameters": { "FlowId": "string" } }
+    /// Defines the starting point for your test. Type -&gt; (string) The type of entry point. Possible values: • VOICE_CALL • CHAT VoiceCallEntryPointParameters -&gt; (structure) Parameters for voice call entry point. SourcePhoneNumber -&gt; (string) The source phone number for the test. Constraints: • pattern: \\+[1-9]\\d{1,14}$ DestinationPhoneNumber -&gt; (string) The destination phone number for the test. Constraints: • pattern: \\+[1-9]\\d{1,14}$ FlowId -&gt; (string) The flow identifier for the test. Constraints: • max: 500 ChatEntryPointParameters -&gt; (structure) Parameters for chat entry point. FlowId -&gt; (string) The flow identifier for the test. Constraints: • max: 500 Shorthand Syntax: Type=string,VoiceCallEntryPointParameters={SourcePhoneNumber=string,DestinationPhoneNumber=string,FlowId=string},ChatEntryPointParameters={FlowId=string} JSON Syntax: { "Type": "VOICE_CALL"|"CHAT", "VoiceCallEntryPointParameters": { "SourcePhoneNumber": "string", "DestinationPhoneNumber": "string", "FlowId": "string" }, "ChatEntryPointParameters": { "FlowId": "string" } }
     /// </summary>
     [CliOption("--entry-point")]
     public string? EntryPoint { get; set; }
@@ -102,19 +102,19 @@ public record AwsConnectCreateTestCaseOptions : AwsOptions, IValidatableObject
     public string? InitializationData { get; set; }
 
     /// <summary>
-    /// Indicates the test status as either SAVED or PUBLISHED. The PUB- LISHED status will initiate validation on the content. The SAVED status does not initiate validation of the content. Possible values: o PUBLISHED o SAVED
+    /// Indicates the test status as either SAVED or PUBLISHED. The PUBLISHED status will initiate validation on the content. The SAVED status does not initiate validation of the content. Possible values: • PUBLISHED • SAVED
     /// </summary>
     [CliOption("--status")]
     public AwsConnectCreateTestCaseStatus? Status { get; set; }
 
     /// <summary>
-    /// Id of the test case if you want to create it in a replica region us- ing Amazon Connect Global Resiliency Constraints: o max: 500
+    /// Id of the test case if you want to create it in a replica region using Amazon Connect Global Resiliency Constraints: • max: 500
     /// </summary>
     [CliOption("--test-case-id")]
     public string? TestCaseId { get; set; }
 
     /// <summary>
-    /// The tags used to organize, track, or control access for this re- source. Constraints: o min: 1 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^(?!aws:)[\p{L}\p{Z}\p{N}_.:/=+\-@]*$ value -&gt; (string) Constraints: o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The tags used to organize, track, or control access for this resource. Constraints: • min: 1 • max: 50 key -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: ^(?!aws:)[\p{L}\p{Z}\p{N}_.:/=+\-@]*$ value -&gt; (string) Constraints: • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
@@ -126,7 +126,7 @@ public record AwsConnectCreateTestCaseOptions : AwsOptions, IValidatableObject
     public string? LastModifiedTime { get; set; }
 
     /// <summary>
-    /// The region in which the resource was last modified Constraints: o pattern: [a-z]{2}(-[a-z]+){1,2}(-[0-9])?
+    /// The region in which the resource was last modified Constraints: • pattern: [a-z]{2}(-[a-z]+){1,2}(-[0-9])?
     /// </summary>
     [CliOption("--last-modified-region")]
     public string? LastModifiedRegion { get; set; }
@@ -152,6 +152,15 @@ public record AwsConnectCreateTestCaseOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

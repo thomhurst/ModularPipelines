@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates an Add On instance for the subscription indicated in the re- quest. The resulting Amazon Resource Name (ARN) can be used in a condi- tional statement for a rule set or traffic policy. See also: AWS API Documentation
+/// Creates an Add On instance for the subscription indicated in the request. The resulting Amazon Resource Name (ARN) can be used in a conditional statement for a rule set or traffic policy. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +27,9 @@ public record AwsMailmanagerCreateAddonInstanceOptions : AwsOptions, IValidatabl
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates an Add On instance for the subscription indicated in the re- quest. The resulting Amazon Resource Name (ARN) can be used in a condi- tional statement for a rule set or traffic policy. See also: AWS API Documentation
+    /// Creates an Add On instance for the subscription indicated in the request. The resulting Amazon Resource Name (ARN) can be used in a conditional statement for a rule set or traffic policy. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AddonSubscriptionId">The unique ID of a previously created subscription that an Add On instance is created for. You can only have one instance per sub- scription. Constraints: o min: 4 o max: 67 o pattern: as-[a-zA-Z0-9]{1,64}</param>
+    /// <param name="AddonSubscriptionId">The unique ID of a previously created subscription that an Add On instance is created for. You can only have one instance per subscription. Constraints: • min: 4 • max: 67 • pattern: as-[a-zA-Z0-9]{1,64}</param>
     public AwsMailmanagerCreateAddonInstanceOptions(
         string AddonSubscriptionId
     )
@@ -57,20 +58,20 @@ public record AwsMailmanagerCreateAddonInstanceOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique ID of a previously created subscription that an Add On instance is created for. You can only have one instance per sub- scription. Constraints: o min: 4 o max: 67 o pattern: as-[a-zA-Z0-9]{1,64}
+    /// The unique ID of a previously created subscription that an Add On instance is created for. You can only have one instance per subscription. Constraints: • min: 4 • max: 67 • pattern: as-[a-zA-Z0-9]{1,64}
     /// </summary>
     [CliOption("--addon-subscription-id")]
     public string? AddonSubscriptionId { get; private init; }
 
     /// <summary>
-    /// A unique token that Amazon SES uses to recognize subsequent retries of the same request. Constraints: o min: 1 o max: 128
+    /// A unique token that Amazon SES uses to recognize subsequent retries of the same request. Constraints: • min: 1 • max: 128
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// The tags used to organize, track, or control access for the re- source. For example, { "tags": {"key1":"value1", "key2":"value2"} }. Constraints: o min: 0 o max: 200 (structure) A key-value pair (the value is optional), that you can define and assign to Amazon Web Services resources. Key -&gt; (string) [required] The key of the key-value tag. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9/_\+=\.:@\-]+ Value -&gt; (string) [required] The value of the key-value tag. Constraints: o min: 0 o max: 256 o pattern: [a-zA-Z0-9/_\+=\.:@\-]* Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// The tags used to organize, track, or control access for the resource. For example, { "tags": {"key1":"value1", "key2":"value2"} }. Constraints: • min: 0 • max: 200 (structure) A key-value pair (the value is optional), that you can define and assign to Amazon Web Services resources. Key -&gt; (string) [required] The key of the key-value tag. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9/_\+=\.:@\-]+ Value -&gt; (string) [required] The value of the key-value tag. Constraints: • min: 0 • max: 256 • pattern: [a-zA-Z0-9/_\+=\.:@\-]* Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
@@ -96,6 +97,15 @@ public record AwsMailmanagerCreateAddonInstanceOptions : AwsOptions, IValidatabl
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

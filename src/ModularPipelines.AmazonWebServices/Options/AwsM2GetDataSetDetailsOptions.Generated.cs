@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsM2GetDataSetDetailsOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Gets the details of a specific data set. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ApplicationId">The unique identifier of the application that this data set is asso- ciated with. Constraints: o pattern: ^\S{1,80}$</param>
-    /// <param name="DataSetName">The name of the data set. Constraints: o pattern: ^\S{1,200}$</param>
+    /// <param name="ApplicationId">The unique identifier of the application that this data set is associated with. Constraints: • pattern: ^\S{1,80}$</param>
+    /// <param name="DataSetName">The name of the data set. Constraints: • pattern: ^\S{1,200}$</param>
     public AwsM2GetDataSetDetailsOptions(
         string ApplicationId,
         string DataSetName
@@ -60,13 +61,13 @@ public record AwsM2GetDataSetDetailsOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the application that this data set is asso- ciated with. Constraints: o pattern: ^\S{1,80}$
+    /// The unique identifier of the application that this data set is associated with. Constraints: • pattern: ^\S{1,80}$
     /// </summary>
     [CliOption("--application-id")]
     public string? ApplicationId { get; private init; }
 
     /// <summary>
-    /// The name of the data set. Constraints: o pattern: ^\S{1,200}$
+    /// The name of the data set. Constraints: • pattern: ^\S{1,200}$
     /// </summary>
     [CliOption("--data-set-name")]
     public string? DataSetName { get; private init; }
@@ -92,6 +93,15 @@ public record AwsM2GetDataSetDetailsOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

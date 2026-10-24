@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsSagemakerEdgeGetDeviceRegistrationOptions : AwsOptions, IValida
     /// <summary>
     /// Use to check if a device is registered with SageMaker Edge Manager. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DeviceName">The unique name of the device you want to get the registration sta- tus from. Constraints: o min: 1 o max: 63 o pattern: ^[a-zA-Z0-9](-*_*[a-zA-Z0-9])*$</param>
-    /// <param name="DeviceFleetName">The name of the fleet that the device belongs to. Constraints: o min: 1 o max: 63 o pattern: ^[a-zA-Z0-9](-*_*[a-zA-Z0-9])*$</param>
+    /// <param name="DeviceName">The unique name of the device you want to get the registration status from. Constraints: • min: 1 • max: 63 • pattern: ^[a-zA-Z0-9](-*_*[a-zA-Z0-9])*$</param>
+    /// <param name="DeviceFleetName">The name of the fleet that the device belongs to. Constraints: • min: 1 • max: 63 • pattern: ^[a-zA-Z0-9](-*_*[a-zA-Z0-9])*$</param>
     public AwsSagemakerEdgeGetDeviceRegistrationOptions(
         string DeviceName,
         string DeviceFleetName
@@ -60,13 +61,13 @@ public record AwsSagemakerEdgeGetDeviceRegistrationOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique name of the device you want to get the registration sta- tus from. Constraints: o min: 1 o max: 63 o pattern: ^[a-zA-Z0-9](-*_*[a-zA-Z0-9])*$
+    /// The unique name of the device you want to get the registration status from. Constraints: • min: 1 • max: 63 • pattern: ^[a-zA-Z0-9](-*_*[a-zA-Z0-9])*$
     /// </summary>
     [CliOption("--device-name")]
     public string? DeviceName { get; private init; }
 
     /// <summary>
-    /// The name of the fleet that the device belongs to. Constraints: o min: 1 o max: 63 o pattern: ^[a-zA-Z0-9](-*_*[a-zA-Z0-9])*$
+    /// The name of the fleet that the device belongs to. Constraints: • min: 1 • max: 63 • pattern: ^[a-zA-Z0-9](-*_*[a-zA-Z0-9])*$
     /// </summary>
     [CliOption("--device-fleet-name")]
     public string? DeviceFleetName { get; private init; }
@@ -92,6 +93,15 @@ public record AwsSagemakerEdgeGetDeviceRegistrationOptions : AwsOptions, IValida
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

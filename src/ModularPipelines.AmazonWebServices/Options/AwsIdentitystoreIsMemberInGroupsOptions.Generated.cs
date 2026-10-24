@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Checks the user's membership in all requested groups and returns if the member exists in all queried groups. NOTE: If you have access to a member account, you can use this API opera- tion from the member account. For more information, see Limiting ac- cess to the identity store from member accounts in the IAM Identity Center User Guide . See also: AWS API Documentation
+/// Checks the user's membership in all requested groups and returns if the member exists in all queried groups. NOTE: If you have access to a member account, you can use this API operation from the member account. For more information, see Limiting access to the identity store from member accounts in the IAM Identity Center User Guide . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,11 +26,11 @@ public record AwsIdentitystoreIsMemberInGroupsOptions : AwsOptions, IValidatable
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Checks the user's membership in all requested groups and returns if the member exists in all queried groups. NOTE: If you have access to a member account, you can use this API opera- tion from the member account. For more information, see Limiting ac- cess to the identity store from member accounts in the IAM Identity Center User Guide . See also: AWS API Documentation
+    /// Checks the user's membership in all requested groups and returns if the member exists in all queried groups. NOTE: If you have access to a member account, you can use this API operation from the member account. For more information, see Limiting access to the identity store from member accounts in the IAM Identity Center User Guide . See also: AWS API Documentation
     /// </summary>
-    /// <param name="IdentityStoreId">The globally unique identifier for the identity store. You can specify the identity store by ID or by Amazon Resource Name (ARN). For example, identity store ID d-1234567890 or identity store ARN arn:aws:identitystore::111122223333:identitystore/d-1234567890 . Constraints: o min: 1 o max: 93 o pattern: (arn:aws[a-z-]*:identitystore::\d{12}:identitys- tore/)?(d-[0-9a-f]{10}|[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})</param>
-    /// <param name="MemberId">An object containing the identifier of a group member. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: UserId. UserId -&gt; (string) The identifier for a user in the identity store. You can specify the user by ID or by Amazon Resource Name (ARN). For example, user ID a1b2c3d4-5678-90ab-cdef-EXAMPLE11111 or user ARN arn:aws:identitys- tore:::user/a1b2c3d4-5678-90ab-cdef-EXAMPLE11111 . Constraints: o min: 1 o max: 100 o pattern: (arn:aws[a-z-]*:identitystore:::(user|group|member- ship)/)?([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12} Shorthand Syntax: UserId=string JSON Syntax: { "UserId": "string" }</param>
-    /// <param name="GroupIds">A list of identifiers for groups in the identity store. You can specify each group by ID or by Amazon Resource Name (ARN). For example, group ID a1b2c3d4-5678-90ab-cdef-EXAMPLE22222 or group ARN arn:aws:identitystore:::group/a1b2c3d4-5678-90ab-cdef-EXAM- PLE22222 . Constraints: o min: 1 o max: 100 (string) Constraints: o min: 1 o max: 100 o pattern: (arn:aws[a-z-]*:identitystore:::(user|group|member- ship)/)?([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12} Syntax: "string" "string" ...</param>
+    /// <param name="IdentityStoreId">The globally unique identifier for the identity store. You can specify the identity store by ID or by Amazon Resource Name (ARN). For example, identity store ID d-1234567890 or identity store ARN arn:aws:identitystore::111122223333:identitystore/d-1234567890 . Constraints: • min: 1 • max: 93 • pattern: (arn:aws[a-z-]*:identitystore::\d{12}:identitystore/)?(d-[0-9a-f]{10}|[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})</param>
+    /// <param name="MemberId">An object containing the identifier of a group member. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: UserId. UserId -&gt; (string) The identifier for a user in the identity store. You can specify the user by ID or by Amazon Resource Name (ARN). For example, user ID a1b2c3d4-5678-90ab-cdef-EXAMPLE11111 or user ARN arn:aws:identitystore:::user/a1b2c3d4-5678-90ab-cdef-EXAMPLE11111 . Constraints: • min: 1 • max: 100 • pattern: (arn:aws[a-z-]*:identitystore:::(user|group|membership)/)?([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12} Shorthand Syntax: UserId=string JSON Syntax: { "UserId": "string" }</param>
+    /// <param name="GroupIds">A list of identifiers for groups in the identity store. You can specify each group by ID or by Amazon Resource Name (ARN). For example, group ID a1b2c3d4-5678-90ab-cdef-EXAMPLE22222 or group ARN arn:aws:identitystore:::group/a1b2c3d4-5678-90ab-cdef-EXAMPLE22222 . Constraints: • min: 1 • max: 100 (string) Constraints: • min: 1 • max: 100 • pattern: (arn:aws[a-z-]*:identitystore:::(user|group|membership)/)?([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12} Syntax: "string" "string" ...</param>
     public AwsIdentitystoreIsMemberInGroupsOptions(
         string IdentityStoreId,
         string MemberId,
@@ -75,19 +76,19 @@ public record AwsIdentitystoreIsMemberInGroupsOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The globally unique identifier for the identity store. You can specify the identity store by ID or by Amazon Resource Name (ARN). For example, identity store ID d-1234567890 or identity store ARN arn:aws:identitystore::111122223333:identitystore/d-1234567890 . Constraints: o min: 1 o max: 93 o pattern: (arn:aws[a-z-]*:identitystore::\d{12}:identitys- tore/)?(d-[0-9a-f]{10}|[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})
+    /// The globally unique identifier for the identity store. You can specify the identity store by ID or by Amazon Resource Name (ARN). For example, identity store ID d-1234567890 or identity store ARN arn:aws:identitystore::111122223333:identitystore/d-1234567890 . Constraints: • min: 1 • max: 93 • pattern: (arn:aws[a-z-]*:identitystore::\d{12}:identitystore/)?(d-[0-9a-f]{10}|[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})
     /// </summary>
     [CliOption("--identity-store-id")]
     public string? IdentityStoreId { get; private init; }
 
     /// <summary>
-    /// An object containing the identifier of a group member. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: UserId. UserId -&gt; (string) The identifier for a user in the identity store. You can specify the user by ID or by Amazon Resource Name (ARN). For example, user ID a1b2c3d4-5678-90ab-cdef-EXAMPLE11111 or user ARN arn:aws:identitys- tore:::user/a1b2c3d4-5678-90ab-cdef-EXAMPLE11111 . Constraints: o min: 1 o max: 100 o pattern: (arn:aws[a-z-]*:identitystore:::(user|group|member- ship)/)?([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12} Shorthand Syntax: UserId=string JSON Syntax: { "UserId": "string" }
+    /// An object containing the identifier of a group member. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: UserId. UserId -&gt; (string) The identifier for a user in the identity store. You can specify the user by ID or by Amazon Resource Name (ARN). For example, user ID a1b2c3d4-5678-90ab-cdef-EXAMPLE11111 or user ARN arn:aws:identitystore:::user/a1b2c3d4-5678-90ab-cdef-EXAMPLE11111 . Constraints: • min: 1 • max: 100 • pattern: (arn:aws[a-z-]*:identitystore:::(user|group|membership)/)?([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12} Shorthand Syntax: UserId=string JSON Syntax: { "UserId": "string" }
     /// </summary>
     [CliOption("--member-id")]
     public string? MemberId { get; private init; }
 
     /// <summary>
-    /// A list of identifiers for groups in the identity store. You can specify each group by ID or by Amazon Resource Name (ARN). For example, group ID a1b2c3d4-5678-90ab-cdef-EXAMPLE22222 or group ARN arn:aws:identitystore:::group/a1b2c3d4-5678-90ab-cdef-EXAM- PLE22222 . Constraints: o min: 1 o max: 100 (string) Constraints: o min: 1 o max: 100 o pattern: (arn:aws[a-z-]*:identitystore:::(user|group|member- ship)/)?([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12} Syntax: "string" "string" ...
+    /// A list of identifiers for groups in the identity store. You can specify each group by ID or by Amazon Resource Name (ARN). For example, group ID a1b2c3d4-5678-90ab-cdef-EXAMPLE22222 or group ARN arn:aws:identitystore:::group/a1b2c3d4-5678-90ab-cdef-EXAMPLE22222 . Constraints: • min: 1 • max: 100 (string) Constraints: • min: 1 • max: 100 • pattern: (arn:aws[a-z-]*:identitystore:::(user|group|membership)/)?([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12} Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--group-ids", GroupValues = true)]
     public IEnumerable<string>? GroupIds { get; private init; }
@@ -113,6 +114,15 @@ public record AwsIdentitystoreIsMemberInGroupsOptions : AwsOptions, IValidatable
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

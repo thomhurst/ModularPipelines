@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,9 +29,9 @@ public record AwsIotCreateCertificateProviderOptions : AwsOptions, IValidatableO
     /// <summary>
     /// Creates an Amazon Web Services IoT Core certificate provider. You can use Amazon Web Services IoT Core certificate provider to customize how to sign a certificate signing request (CSR) in IoT fleet provisioning. For more information, see Customizing certificate signing using Amazon Web Services IoT Core certificate provider from Amazon Web Services IoT Core Developer Guide . Requires permission to access the CreateCertificateProvider action. WARNING: After you create a certificate provider, the ...
     /// </summary>
-    /// <param name="CertificateProviderName">The name of the certificate provider. Constraints: o min: 1 o max: 128 o pattern: [\w=,@-]+</param>
-    /// <param name="LambdaFunctionArn">The ARN of the Lambda function that defines the authentication logic. Constraints: o max: 2048 o pattern: [\s\S]*</param>
-    /// <param name="AccountDefaultForOperations">A list of the operations that the certificate provider will use to generate certificates. Valid value: CreateCertificateFromCsr . Constraints: o min: 1 o max: 1 (string) Possible values: o CreateCertificateFromCsr Syntax: "string" "string" ...</param>
+    /// <param name="CertificateProviderName">The name of the certificate provider. Constraints: • min: 1 • max: 128 • pattern: [\w=,@-]+</param>
+    /// <param name="LambdaFunctionArn">The ARN of the Lambda function that defines the authentication logic. Constraints: • max: 2048 • pattern: [\s\S]*</param>
+    /// <param name="AccountDefaultForOperations">A list of the operations that the certificate provider will use to generate certificates. Valid value: CreateCertificateFromCsr . Constraints: • min: 1 • max: 1 (string) Possible values: • CreateCertificateFromCsr Syntax: "string" "string" ...</param>
     public AwsIotCreateCertificateProviderOptions(
         string CertificateProviderName,
         string LambdaFunctionArn,
@@ -76,32 +77,32 @@ public record AwsIotCreateCertificateProviderOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the certificate provider. Constraints: o min: 1 o max: 128 o pattern: [\w=,@-]+
+    /// The name of the certificate provider. Constraints: • min: 1 • max: 128 • pattern: [\w=,@-]+
     /// </summary>
     [CliOption("--certificate-provider-name")]
     public string? CertificateProviderName { get; private init; }
 
     /// <summary>
-    /// The ARN of the Lambda function that defines the authentication logic. Constraints: o max: 2048 o pattern: [\s\S]*
+    /// The ARN of the Lambda function that defines the authentication logic. Constraints: • max: 2048 • pattern: [\s\S]*
     /// </summary>
     [CliOption("--lambda-function-arn")]
     public string? LambdaFunctionArn { get; private init; }
 
     /// <summary>
-    /// A list of the operations that the certificate provider will use to generate certificates. Valid value: CreateCertificateFromCsr . Constraints: o min: 1 o max: 1 (string) Possible values: o CreateCertificateFromCsr Syntax: "string" "string" ...
+    /// A list of the operations that the certificate provider will use to generate certificates. Valid value: CreateCertificateFromCsr . Constraints: • min: 1 • max: 1 (string) Possible values: • CreateCertificateFromCsr Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--account-default-for-operations", GroupValues = true)]
     public IEnumerable<string>? AccountDefaultForOperations { get; private init; }
 
     /// <summary>
-    /// A string that you can optionally pass in the CreateCertifi- cateProvider request to make sure the request is idempotent. Constraints: o min: 36 o max: 64 o pattern: \S{36,64}
+    /// A string that you can optionally pass in the CreateCertificateProvider request to make sure the request is idempotent. Constraints: • min: 36 • max: 64 • pattern: \S{36,64}
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// Metadata which can be used to manage the certificate provider. (structure) A set of key/value pairs that are used to manage the resource. Key -&gt; (string) [required] The tag's key. Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Value -&gt; (string) The tag's value. Constraints: o min: 0 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// Metadata which can be used to manage the certificate provider. (structure) A set of key/value pairs that are used to manage the resource. Key -&gt; (string) [required] The tag's key. Constraints: • min: 1 • max: 128 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Value -&gt; (string) The tag's value. Constraints: • min: 0 • max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
@@ -127,6 +128,15 @@ public record AwsIotCreateCertificateProviderOptions : AwsOptions, IValidatableO
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

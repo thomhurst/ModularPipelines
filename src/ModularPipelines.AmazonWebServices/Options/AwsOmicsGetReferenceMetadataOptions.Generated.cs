@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsOmicsGetReferenceMetadataOptions : AwsOptions, IValidatableObje
     /// <summary>
     /// Retrieves metadata for a reference genome. This operation returns the number of parts, part size, and MD5 of an entire file. This operation does not return tags. To retrieve the list of tags for a read set, use the ListTagsForResource API operation. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Id">The reference's ID. Constraints: o min: 10 o max: 36 o pattern: [0-9]+</param>
-    /// <param name="ReferenceStoreId">The reference's reference store ID. Constraints: o min: 10 o max: 36 o pattern: [0-9]+</param>
+    /// <param name="Id">The reference's ID. Constraints: • min: 10 • max: 36 • pattern: [0-9]+</param>
+    /// <param name="ReferenceStoreId">The reference's reference store ID. Constraints: • min: 10 • max: 36 • pattern: [0-9]+</param>
     public AwsOmicsGetReferenceMetadataOptions(
         string Id,
         string ReferenceStoreId
@@ -60,13 +61,13 @@ public record AwsOmicsGetReferenceMetadataOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The reference's ID. Constraints: o min: 10 o max: 36 o pattern: [0-9]+
+    /// The reference's ID. Constraints: • min: 10 • max: 36 • pattern: [0-9]+
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; private init; }
 
     /// <summary>
-    /// The reference's reference store ID. Constraints: o min: 10 o max: 36 o pattern: [0-9]+
+    /// The reference's reference store ID. Constraints: • min: 10 • max: 36 • pattern: [0-9]+
     /// </summary>
     [CliOption("--reference-store-id")]
     public string? ReferenceStoreId { get; private init; }
@@ -92,6 +93,15 @@ public record AwsOmicsGetReferenceMetadataOptions : AwsOptions, IValidatableObje
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

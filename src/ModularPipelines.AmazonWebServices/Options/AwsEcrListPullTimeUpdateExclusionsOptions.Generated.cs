@@ -23,13 +23,13 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsEcrListPullTimeUpdateExclusionsOptions : AwsOptions
 {
     /// <summary>
-    /// The maximum number of pull time update exclusion results returned by ListPullTimeUpdateExclusions in paginated output. When this parame- ter is used, ListPullTimeUpdateExclusions only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListPullTimeUpdateExclusions request with the returned next- Token value. This value can be between 1 and 1000. If this parameter is not used, then ListPullTimeUpdateExclusions returns up to 100 re- sults and a nextToken value, if applicable. Constraints: o min: 1 o max: 1000
+    /// The maximum number of pull time update exclusion results returned by ListPullTimeUpdateExclusions in paginated output. When this parameter is used, ListPullTimeUpdateExclusions only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListPullTimeUpdateExclusions request with the returned nextToken value. This value can be between 1 and 1000. If this parameter is not used, then ListPullTimeUpdateExclusions returns up to 100 results and a nextToken value, if applicable. Constraints: • min: 1 • max: 1000
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
     /// <summary>
-    /// The nextToken value returned from a previous paginated ListPullTime- UpdateExclusions request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. This value is null when there are no more results to return. NOTE: This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes.
+    /// The nextToken value returned from a previous paginated ListPullTimeUpdateExclusions request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. This value is null when there are no more results to return. NOTE: This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes.
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
@@ -40,5 +40,14 @@ public record AwsEcrListPullTimeUpdateExclusionsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns detailed compliance information about the specified member ac- count. Details include resources that are in and out of compliance with the specified policy. The reasons for resources being considered compliant depend on the Firewall Manager policy type. See also: AWS API Documentation
+/// Returns detailed compliance information about the specified member account. Details include resources that are in and out of compliance with the specified policy. The reasons for resources being considered compliant depend on the Firewall Manager policy type. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsFmsGetComplianceDetailOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns detailed compliance information about the specified member ac- count. Details include resources that are in and out of compliance with the specified policy. The reasons for resources being considered compliant depend on the Firewall Manager policy type. See also: AWS API Documentation
+    /// Returns detailed compliance information about the specified member account. Details include resources that are in and out of compliance with the specified policy. The reasons for resources being considered compliant depend on the Firewall Manager policy type. See also: AWS API Documentation
     /// </summary>
-    /// <param name="PolicyId">The ID of the policy that you want to get the details for. PolicyId is returned by PutPolicy and by ListPolicies . Constraints: o min: 36 o max: 36 o pattern: ^[a-z0-9A-Z-]{36}$</param>
-    /// <param name="MemberAccount">The Amazon Web Services account that owns the resources that you want to get the details for. Constraints: o min: 1 o max: 1024 o pattern: ^[0-9]+$</param>
+    /// <param name="PolicyId">The ID of the policy that you want to get the details for. PolicyId is returned by PutPolicy and by ListPolicies . Constraints: • min: 36 • max: 36 • pattern: ^[a-z0-9A-Z-]{36}$</param>
+    /// <param name="MemberAccount">The Amazon Web Services account that owns the resources that you want to get the details for. Constraints: • min: 1 • max: 1024 • pattern: ^[0-9]+$</param>
     public AwsFmsGetComplianceDetailOptions(
         string PolicyId,
         string MemberAccount
@@ -60,13 +61,13 @@ public record AwsFmsGetComplianceDetailOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the policy that you want to get the details for. PolicyId is returned by PutPolicy and by ListPolicies . Constraints: o min: 36 o max: 36 o pattern: ^[a-z0-9A-Z-]{36}$
+    /// The ID of the policy that you want to get the details for. PolicyId is returned by PutPolicy and by ListPolicies . Constraints: • min: 36 • max: 36 • pattern: ^[a-z0-9A-Z-]{36}$
     /// </summary>
     [CliOption("--policy-id")]
     public string? PolicyId { get; private init; }
 
     /// <summary>
-    /// The Amazon Web Services account that owns the resources that you want to get the details for. Constraints: o min: 1 o max: 1024 o pattern: ^[0-9]+$
+    /// The Amazon Web Services account that owns the resources that you want to get the details for. Constraints: • min: 1 • max: 1024 • pattern: ^[0-9]+$
     /// </summary>
     [CliOption("--member-account")]
     public string? MemberAccount { get; private init; }
@@ -92,6 +93,15 @@ public record AwsFmsGetComplianceDetailOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

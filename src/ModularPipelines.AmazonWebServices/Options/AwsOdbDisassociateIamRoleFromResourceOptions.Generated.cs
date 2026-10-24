@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Disassociates an Amazon Web Services Identity and Access Management (IAM) service role from a specified resource to disable Amazon Web Ser- vices service integration. See also: AWS API Documentation
+/// Disassociates an Amazon Web Services Identity and Access Management (IAM) service role from a specified resource to disable Amazon Web Services service integration. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,11 +26,11 @@ public record AwsOdbDisassociateIamRoleFromResourceOptions : AwsOptions, IValida
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Disassociates an Amazon Web Services Identity and Access Management (IAM) service role from a specified resource to disable Amazon Web Ser- vices service integration. See also: AWS API Documentation
+    /// Disassociates an Amazon Web Services Identity and Access Management (IAM) service role from a specified resource to disable Amazon Web Services service integration. See also: AWS API Documentation
     /// </summary>
-    /// <param name="IamRoleArn">The Amazon Resource Name (ARN) of the Amazon Web Services Identity and Access Management (IAM) service role to disassociate from the resource. Constraints: o min: 20 o max: 2048 o pattern: arn:(?:aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):iam::[0-9]{12}:role/.+</param>
-    /// <param name="AwsIntegration">The Amazon Web Services integration configuration settings for the Amazon Web Services Identity and Access Management (IAM) service role disassociation. Possible values: o KmsTde</param>
-    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the target resource to disassoci- ate from the Amazon Web Services Identity and Access Management (IAM) service role. Constraints: o min: 20 o max: 2048 o pattern: arn:(?:aws|aws-cn|aws-us-gov|aws-iso-[a-z]?|aws-iso):odb:[a-z0-9-]+:\d{12}:(?:cloud-vm-clus- ter|cloud-autonomous-vm-cluster|exadb-vm-cluster)/[a-z0-9-_]+</param>
+    /// <param name="IamRoleArn">The Amazon Resource Name (ARN) of the Amazon Web Services Identity and Access Management (IAM) service role to disassociate from the resource. Constraints: • min: 20 • max: 2048 • pattern: arn:(?:aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):iam::[0-9]{12}:role/.+</param>
+    /// <param name="AwsIntegration">The Amazon Web Services integration configuration settings for the Amazon Web Services Identity and Access Management (IAM) service role disassociation. Possible values: • KmsTde</param>
+    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the target resource to disassociate from the Amazon Web Services Identity and Access Management (IAM) service role. Constraints: • min: 20 • max: 2048 • pattern: arn:(?:aws|aws-cn|aws-us-gov|aws-iso-[a-z]?|aws-iso):odb:[a-z0-9-]+:\d{12}:(?:cloud-vm-cluster|cloud-autonomous-vm-cluster|exadb-vm-cluster)/[a-z0-9-_]+</param>
     public AwsOdbDisassociateIamRoleFromResourceOptions(
         string IamRoleArn,
         string AwsIntegration,
@@ -64,19 +65,19 @@ public record AwsOdbDisassociateIamRoleFromResourceOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the Amazon Web Services Identity and Access Management (IAM) service role to disassociate from the resource. Constraints: o min: 20 o max: 2048 o pattern: arn:(?:aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):iam::[0-9]{12}:role/.+
+    /// The Amazon Resource Name (ARN) of the Amazon Web Services Identity and Access Management (IAM) service role to disassociate from the resource. Constraints: • min: 20 • max: 2048 • pattern: arn:(?:aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):iam::[0-9]{12}:role/.+
     /// </summary>
     [CliOption("--iam-role-arn")]
     public string? IamRoleArn { get; private init; }
 
     /// <summary>
-    /// The Amazon Web Services integration configuration settings for the Amazon Web Services Identity and Access Management (IAM) service role disassociation. Possible values: o KmsTde
+    /// The Amazon Web Services integration configuration settings for the Amazon Web Services Identity and Access Management (IAM) service role disassociation. Possible values: • KmsTde
     /// </summary>
     [CliOption("--aws-integration")]
     public string? AwsIntegration { get; private init; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the target resource to disassoci- ate from the Amazon Web Services Identity and Access Management (IAM) service role. Constraints: o min: 20 o max: 2048 o pattern: arn:(?:aws|aws-cn|aws-us-gov|aws-iso-[a-z]?|aws-iso):odb:[a-z0-9-]+:\d{12}:(?:cloud-vm-clus- ter|cloud-autonomous-vm-cluster|exadb-vm-cluster)/[a-z0-9-_]+
+    /// The Amazon Resource Name (ARN) of the target resource to disassociate from the Amazon Web Services Identity and Access Management (IAM) service role. Constraints: • min: 20 • max: 2048 • pattern: arn:(?:aws|aws-cn|aws-us-gov|aws-iso-[a-z]?|aws-iso):odb:[a-z0-9-]+:\d{12}:(?:cloud-vm-cluster|cloud-autonomous-vm-cluster|exadb-vm-cluster)/[a-z0-9-_]+
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
@@ -102,6 +103,15 @@ public record AwsOdbDisassociateIamRoleFromResourceOptions : AwsOptions, IValida
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

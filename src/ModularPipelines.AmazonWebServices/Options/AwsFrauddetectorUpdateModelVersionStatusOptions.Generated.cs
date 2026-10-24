@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates the status of a model version. You can perform the following status updates: o Change the TRAINING_IN_PROGRESS status to TRAINING_CANCELLED . o Change the TRAINING_COMPLETE status to ACTIVE . o Change ACTIVE to INACTIVE . See also: AWS API Documentation
+/// Updates the status of a model version. You can perform the following status updates: • Change the TRAINING_IN_PROGRESS status to TRAINING_CANCELLED . • Change the TRAINING_COMPLETE status to ACTIVE . • Change ACTIVE to INACTIVE . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,12 +27,12 @@ public record AwsFrauddetectorUpdateModelVersionStatusOptions : AwsOptions, IVal
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates the status of a model version. You can perform the following status updates: o Change the TRAINING_IN_PROGRESS status to TRAINING_CANCELLED . o Change the TRAINING_COMPLETE status to ACTIVE . o Change ACTIVE to INACTIVE . See also: AWS API Documentation
+    /// Updates the status of a model version. You can perform the following status updates: • Change the TRAINING_IN_PROGRESS status to TRAINING_CANCELLED . • Change the TRAINING_COMPLETE status to ACTIVE . • Change ACTIVE to INACTIVE . See also: AWS API Documentation
     /// </summary>
-    /// <param name="ModelId">The model ID of the model version to update. Constraints: o min: 1 o max: 64 o pattern: ^[0-9a-z_]+$</param>
-    /// <param name="ModelType">The model type. Possible values: o ONLINE_FRAUD_INSIGHTS o TRANSACTION_FRAUD_INSIGHTS o ACCOUNT_TAKEOVER_INSIGHTS</param>
-    /// <param name="ModelVersionNumber">The model version number. Constraints: o min: 3 o max: 7 o pattern: ^[1-9][0-9]{0,3}\.[0-9]{1,2}$</param>
-    /// <param name="Status">The model version status. Possible values: o ACTIVE o INACTIVE o TRAINING_CANCELLED</param>
+    /// <param name="ModelId">The model ID of the model version to update. Constraints: • min: 1 • max: 64 • pattern: ^[0-9a-z_]+$</param>
+    /// <param name="ModelType">The model type. Possible values: • ONLINE_FRAUD_INSIGHTS • TRANSACTION_FRAUD_INSIGHTS • ACCOUNT_TAKEOVER_INSIGHTS</param>
+    /// <param name="ModelVersionNumber">The model version number. Constraints: • min: 3 • max: 7 • pattern: ^[1-9][0-9]{0,3}\.[0-9]{1,2}$</param>
+    /// <param name="Status">The model version status. Possible values: • ACTIVE • INACTIVE • TRAINING_CANCELLED</param>
     public AwsFrauddetectorUpdateModelVersionStatusOptions(
         string ModelId,
         AwsFrauddetectorUpdateModelVersionStatusModelType ModelType,
@@ -67,25 +68,25 @@ public record AwsFrauddetectorUpdateModelVersionStatusOptions : AwsOptions, IVal
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The model ID of the model version to update. Constraints: o min: 1 o max: 64 o pattern: ^[0-9a-z_]+$
+    /// The model ID of the model version to update. Constraints: • min: 1 • max: 64 • pattern: ^[0-9a-z_]+$
     /// </summary>
     [CliOption("--model-id")]
     public string? ModelId { get; private init; }
 
     /// <summary>
-    /// The model type. Possible values: o ONLINE_FRAUD_INSIGHTS o TRANSACTION_FRAUD_INSIGHTS o ACCOUNT_TAKEOVER_INSIGHTS
+    /// The model type. Possible values: • ONLINE_FRAUD_INSIGHTS • TRANSACTION_FRAUD_INSIGHTS • ACCOUNT_TAKEOVER_INSIGHTS
     /// </summary>
     [CliOption("--model-type")]
     public AwsFrauddetectorUpdateModelVersionStatusModelType? ModelType { get; private init; }
 
     /// <summary>
-    /// The model version number. Constraints: o min: 3 o max: 7 o pattern: ^[1-9][0-9]{0,3}\.[0-9]{1,2}$
+    /// The model version number. Constraints: • min: 3 • max: 7 • pattern: ^[1-9][0-9]{0,3}\.[0-9]{1,2}$
     /// </summary>
     [CliOption("--model-version-number")]
     public string? ModelVersionNumber { get; private init; }
 
     /// <summary>
-    /// The model version status. Possible values: o ACTIVE o INACTIVE o TRAINING_CANCELLED
+    /// The model version status. Possible values: • ACTIVE • INACTIVE • TRAINING_CANCELLED
     /// </summary>
     [CliOption("--status")]
     public AwsFrauddetectorUpdateModelVersionStatusStatus? Status { get; private init; }
@@ -111,6 +112,15 @@ public record AwsFrauddetectorUpdateModelVersionStatusOptions : AwsOptions, IVal
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

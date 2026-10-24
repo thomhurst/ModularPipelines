@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsCloudtrailCreateTrailOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Creates a trail that specifies the settings for delivery of log data to an Amazon S3 bucket. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">Specifies the name of the trail. The name must meet the following requirements: o Contain only ASCII letters (a-z, A-Z), numbers (0-9), periods (.), underscores (_), or dashes (-) o Start with a letter or number, and end with a letter or number o Be between 3 and 128 characters o Have no adjacent periods, underscores or dashes. Names like my-_namespace and my--namespace are not valid. o Not be in IP address format (for example, 192.168.5.4)</param>
+    /// <param name="Name">Specifies the name of the trail. The name must meet the following requirements: • Contain only ASCII letters (a-z, A-Z), numbers (0-9), periods (.), underscores (_), or dashes (-) • Start with a letter or number, and end with a letter or number • Be between 3 and 128 characters • Have no adjacent periods, underscores or dashes. Names like my-_namespace and my--namespace are not valid. • Not be in IP address format (for example, 192.168.5.4)</param>
     /// <param name="S3BucketName">Specifies the name of the Amazon S3 bucket designated for publishing log files. For information about bucket naming rules, see Bucket naming rules in the Amazon Simple Storage Service User Guide .</param>
     public AwsCloudtrailCreateTrailOptions(
         string Name,
@@ -60,7 +61,7 @@ public record AwsCloudtrailCreateTrailOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Specifies the name of the trail. The name must meet the following requirements: o Contain only ASCII letters (a-z, A-Z), numbers (0-9), periods (.), underscores (_), or dashes (-) o Start with a letter or number, and end with a letter or number o Be between 3 and 128 characters o Have no adjacent periods, underscores or dashes. Names like my-_namespace and my--namespace are not valid. o Not be in IP address format (for example, 192.168.5.4)
+    /// Specifies the name of the trail. The name must meet the following requirements: • Contain only ASCII letters (a-z, A-Z), numbers (0-9), periods (.), underscores (_), or dashes (-) • Start with a letter or number, and end with a letter or number • Be between 3 and 128 characters • Have no adjacent periods, underscores or dashes. Names like my-_namespace and my--namespace are not valid. • Not be in IP address format (for example, 192.168.5.4)
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
@@ -72,31 +73,31 @@ public record AwsCloudtrailCreateTrailOptions : AwsOptions, IValidatableObject
     public string? S3BucketName { get; private init; }
 
     /// <summary>
-    /// Specifies the Amazon S3 key prefix that comes after the name of the bucket you have designated for log file delivery. For more informa- tion, see Finding Your CloudTrail Log Files . The maximum length is 200 characters.
+    /// Specifies the Amazon S3 key prefix that comes after the name of the bucket you have designated for log file delivery. For more information, see Finding Your CloudTrail Log Files . The maximum length is 200 characters.
     /// </summary>
     [CliOption("--s3-key-prefix")]
     public string? S3KeyPrefix { get; set; }
 
     /// <summary>
-    /// Specifies the name or ARN of the Amazon SNS topic defined for noti- fication of log file delivery. The maximum length is 256 characters.
+    /// Specifies the name or ARN of the Amazon SNS topic defined for notification of log file delivery. The maximum length is 256 characters.
     /// </summary>
     [CliOption("--sns-topic-name")]
     public string? SnsTopicName { get; set; }
 
     /// <summary>
-    /// Specifies whether the trail is publishing events from global ser- vices such as IAM to the log files. Setting this value to true only delivers global service events to the trail if the trail is multi-Region or if the trail's home Region is the partition leader Region (for example, us-east-1).
+    /// Specifies whether the trail is publishing events from global services such as IAM to the log files. Setting this value to true only delivers global service events to the trail if the trail is multi-Region or if the trail's home Region is the partition leader Region (for example, us-east-1).
     /// </summary>
     [CliFlag("--include-global-service-events", NegatedName = "--no-include-global-service-events")]
     public bool? IncludeGlobalServiceEvents { get; set; }
 
     /// <summary>
-    /// Specifies whether the trail is created in the current Region or in all Regions. The default is false, which creates a trail only in the Region where you are signed in. As a best practice, consider creat- ing trails that log events in all Regions.
+    /// Specifies whether the trail is created in the current Region or in all Regions. The default is false, which creates a trail only in the Region where you are signed in. As a best practice, consider creating trails that log events in all Regions.
     /// </summary>
     [CliFlag("--is-multi-region-trail", NegatedName = "--no-is-multi-region-trail")]
     public bool? IsMultiRegionTrail { get; set; }
 
     /// <summary>
-    /// Specifies whether log file integrity validation is enabled. The de- fault is false. NOTE: When you disable log file integrity validation, the chain of di- gest files is broken after one hour. CloudTrail does not create digest files for log files that were delivered during a period in which log file integrity validation was disabled. For exam- ple, if you enable log file integrity validation at noon on Jan- uary 1, disable it at noon on January 2, and re-enable it at noon on January 10, digest files will not be created for the log files delivered from noon on January 2 to noon on January 10. The same applies whenever you stop CloudTrail logging or delete a trail.
+    /// Specifies whether log file integrity validation is enabled. The default is false. NOTE: When you disable log file integrity validation, the chain of digest files is broken after one hour. CloudTrail does not create digest files for log files that were delivered during a period in which log file integrity validation was disabled. For example, if you enable log file integrity validation at noon on January 1, disable it at noon on January 2, and re-enable it at noon on January 10, digest files will not be created for the log files delivered from noon on January 2 to noon on January 10. The same applies whenever you stop CloudTrail logging or delete a trail.
     /// </summary>
     [CliFlag("--enable-log-file-validation", NegatedName = "--no-enable-log-file-validation")]
     public bool? EnableLogFileValidation { get; set; }
@@ -114,25 +115,25 @@ public record AwsCloudtrailCreateTrailOptions : AwsOptions, IValidatableObject
     public string? CloudWatchLogsRoleArn { get; set; }
 
     /// <summary>
-    /// Specifies the KMS key ID to use to encrypt the logs and digest files delivered by CloudTrail. The value can be an alias name prefixed by alias/ , a fully specified ARN to an alias, a fully specified ARN to a key, or a globally unique identifier. CloudTrail also supports KMS multi-Region keys. For more information about multi-Region keys, see Using multi-Region keys in the Key Man- agement Service Developer Guide . Examples: o alias/MyAliasName o arn:aws:kms:us-east-2:123456789012:alias/MyAliasName o arn:aws:kms:us-east-2:123456789012:key/12345678-1234-1234-1234-123456789012 o 12345678-1234-1234-1234-123456789012
+    /// Specifies the KMS key ID to use to encrypt the logs and digest files delivered by CloudTrail. The value can be an alias name prefixed by alias/ , a fully specified ARN to an alias, a fully specified ARN to a key, or a globally unique identifier. CloudTrail also supports KMS multi-Region keys. For more information about multi-Region keys, see Using multi-Region keys in the Key Management Service Developer Guide . Examples: • alias/MyAliasName • arn:aws:kms:us-east-2:123456789012:alias/MyAliasName • arn:aws:kms:us-east-2:123456789012:key/12345678-1234-1234-1234-123456789012 • 12345678-1234-1234-1234-123456789012
     /// </summary>
     [CliOption("--kms-key-id")]
     public string? KmsKeyId { get; set; }
 
     /// <summary>
-    /// Specifies whether the trail is created for all accounts in an orga- nization in Organizations, or only for the current Amazon Web Ser- vices account. The default is false, and cannot be true unless the call is made on behalf of an Amazon Web Services account that is the management account or delegated administrator account for an organi- zation in Organizations.
+    /// Specifies whether the trail is created for all accounts in an organization in Organizations, or only for the current Amazon Web Services account. The default is false, and cannot be true unless the call is made on behalf of an Amazon Web Services account that is the management account or delegated administrator account for an organization in Organizations.
     /// </summary>
     [CliFlag("--is-organization-trail", NegatedName = "--no-is-organization-trail")]
     public bool? IsOrganizationTrail { get; set; }
 
     /// <summary>
-    /// A list of tags. Constraints: o max: 200 (structure) A custom key-value pair associated with a resource such as a CloudTrail trail, event data store, dashboard, or channel. Key -&gt; (string) [required] The key in a key-value pair. The key must be must be no longer than 128 Unicode characters. The key must be unique for the resource to which it applies. Constraints: o min: 1 o max: 128 Value -&gt; (string) The value in a key-value pair of a tag. The value must be no longer than 256 Unicode characters. Constraints: o min: 1 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// A list of tags. Constraints: • max: 200 (structure) A custom key-value pair associated with a resource such as a CloudTrail trail, event data store, dashboard, or channel. Key -&gt; (string) [required] The key in a key-value pair. The key must be must be no longer than 128 Unicode characters. The key must be unique for the resource to which it applies. Constraints: • min: 1 • max: 128 Value -&gt; (string) The value in a key-value pair of a tag. The value must be no longer than 256 Unicode characters. Constraints: • min: 1 • max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags-list", GroupValues = true)]
     public IEnumerable<string>? TagsList { get; set; }
 
     /// <summary>
-    /// Specifies whether recursive logging is enabled for the trail. If you set RecursiveLogging to false , CloudTrail suppresses events gener- ated by CloudTrail when it delivers log files to your trail's desti- nations, including Amazon S3 and CloudWatch Logs. The default value is true .
+    /// Specifies whether recursive logging is enabled for the trail. If you set RecursiveLogging to false , CloudTrail suppresses events generated by CloudTrail when it delivers log files to your trail's destinations, including Amazon S3 and CloudWatch Logs. The default value is true .
     /// </summary>
     [CliFlag("--recursive-logging", NegatedName = "--no-recursive-logging")]
     public bool? RecursiveLogging { get; set; }
@@ -158,6 +159,15 @@ public record AwsCloudtrailCreateTrailOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

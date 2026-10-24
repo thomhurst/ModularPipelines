@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes a given Timestream database. This is an irreversible operation. After a database is deleted, the time-series data from its tables can- not be recovered. NOTE: All tables in the database must be deleted first, or a ValidationEx- ception error will be thrown. Due to the nature of distributed retries, the operation can return either success or a ResourceNotFoundException. Clients should con- sider them equivalent. See code sample for details. See also: AWS API Documentation
+/// Deletes a given Timestream database. This is an irreversible operation. After a database is deleted, the time-series data from its tables cannot be recovered. NOTE: All tables in the database must be deleted first, or a ValidationException error will be thrown. Due to the nature of distributed retries, the operation can return either success or a ResourceNotFoundException. Clients should consider them equivalent. See code sample for details. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +26,7 @@ public record AwsTimestreamWriteDeleteDatabaseOptions : AwsOptions, IValidatable
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes a given Timestream database. This is an irreversible operation. After a database is deleted, the time-series data from its tables can- not be recovered. NOTE: All tables in the database must be deleted first, or a ValidationEx- ception error will be thrown. Due to the nature of distributed retries, the operation can return either success or a ResourceNotFoundException. Clients should con- sider them equivalent. See code sample for details. See also: AWS API Documentation
+    /// Deletes a given Timestream database. This is an irreversible operation. After a database is deleted, the time-series data from its tables cannot be recovered. NOTE: All tables in the database must be deleted first, or a ValidationException error will be thrown. Due to the nature of distributed retries, the operation can return either success or a ResourceNotFoundException. Clients should consider them equivalent. See code sample for details. See also: AWS API Documentation
     /// </summary>
     /// <param name="DatabaseName">The name of the Timestream database to be deleted.</param>
     public AwsTimestreamWriteDeleteDatabaseOptions(
@@ -82,6 +83,15 @@ public record AwsTimestreamWriteDeleteDatabaseOptions : AwsOptions, IValidatable
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

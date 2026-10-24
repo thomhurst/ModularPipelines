@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes a specific alarm mute rule. When you delete a mute rule, any alarms that are currently being muted by that rule are immediately unmuted. If those alarms are in an ALARM state, their configured actions will trigger. This operation is idempotent. If you delete a mute rule that does not exist, the operation succeeds without returning an error. Permissions To delete a mute rule, you need the cloudwatch:DeleteAlarmMuteRule per- mission on the alarm mute rule resource. See also: AWS API Docume...
+/// Deletes a specific alarm mute rule. When you delete a mute rule, any alarms that are currently being muted by that rule are immediately unmuted. If those alarms are in an ALARM state, their configured actions will trigger. This operation is idempotent. If you delete a mute rule that does not exist, the operation succeeds without returning an error. Permissions To delete a mute rule, you need the cloudwatch:DeleteAlarmMuteRule permission on the alarm mute rule resource. See also: AWS API Document...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsCloudwatchDeleteAlarmMuteRuleOptions : AwsOptions, IValidatable
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes a specific alarm mute rule. When you delete a mute rule, any alarms that are currently being muted by that rule are immediately unmuted. If those alarms are in an ALARM state, their configured actions will trigger. This operation is idempotent. If you delete a mute rule that does not exist, the operation succeeds without returning an error. Permissions To delete a mute rule, you need the cloudwatch:DeleteAlarmMuteRule per- mission on the alarm mute rule resource. See also: AWS API Docume...
+    /// Deletes a specific alarm mute rule. When you delete a mute rule, any alarms that are currently being muted by that rule are immediately unmuted. If those alarms are in an ALARM state, their configured actions will trigger. This operation is idempotent. If you delete a mute rule that does not exist, the operation succeeds without returning an error. Permissions To delete a mute rule, you need the cloudwatch:DeleteAlarmMuteRule permission on the alarm mute rule resource. See also: AWS API Document...
     /// </summary>
-    /// <param name="AlarmMuteRuleName">The name of the alarm mute rule to delete. Constraints: o min: 1 o max: 255</param>
+    /// <param name="AlarmMuteRuleName">The name of the alarm mute rule to delete. Constraints: • min: 1 • max: 255</param>
     public AwsCloudwatchDeleteAlarmMuteRuleOptions(
         string AlarmMuteRuleName
     )
@@ -56,7 +57,7 @@ public record AwsCloudwatchDeleteAlarmMuteRuleOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the alarm mute rule to delete. Constraints: o min: 1 o max: 255
+    /// The name of the alarm mute rule to delete. Constraints: • min: 1 • max: 255
     /// </summary>
     [CliOption("--alarm-mute-rule-name")]
     public string? AlarmMuteRuleName { get; private init; }
@@ -82,6 +83,15 @@ public record AwsCloudwatchDeleteAlarmMuteRuleOptions : AwsOptions, IValidatable
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsTransferDescribeAccessOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Describes the access that is assigned to the specific file transfer protocol-enabled server, as identified by its ServerId property and its ExternalId . The response from this call returns the properties of the access that is associated with the ServerId value that was specified. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ServerId">A system-assigned unique identifier for a server that has this ac- cess assigned. Constraints: o min: 19 o max: 19 o pattern: s-([0-9a-f]{17})</param>
-    /// <param name="ExternalId">A unique identifier that is required to identify specific groups within your directory. The users of the group that you associate have access to your Amazon S3 or Amazon EFS resources over the en- abled protocols using Transfer Family. If you know the group name, you can view the SID values by running the following command using Windows PowerShell. Get-ADGroup -Filter {samAccountName -like "*YourGroupName* *"} -Properties * | Select SamAccountName,ObjectSid In that command, replace YourGroupName with the name of your Active Directory group. The regular expression used to validate this parameter is a string of characters consisting of uppercase and lowercase alphanumeric characters with no spaces. You can also include underscores or any of the following characters: =,.@:/- Constraints: o min: 1 o max: 256 o pattern: S-1-[\d-]+</param>
+    /// <param name="ServerId">A system-assigned unique identifier for a server that has this access assigned. Constraints: • min: 19 • max: 19 • pattern: s-([0-9a-f]{17})</param>
+    /// <param name="ExternalId">A unique identifier that is required to identify specific groups within your directory. The users of the group that you associate have access to your Amazon S3 or Amazon EFS resources over the enabled protocols using Transfer Family. If you know the group name, you can view the SID values by running the following command using Windows PowerShell. Get-ADGroup -Filter {samAccountName -like "*YourGroupName* *"} -Properties * | Select SamAccountName,ObjectSid In that command, replace YourGroupName with the name of your Active Directory group. The regular expression used to validate this parameter is a string of characters consisting of uppercase and lowercase alphanumeric characters with no spaces. You can also include underscores or any of the following characters: =,.@:/- Constraints: • min: 1 • max: 256 • pattern: S-1-[\d-]+</param>
     public AwsTransferDescribeAccessOptions(
         string ServerId,
         string ExternalId
@@ -60,13 +61,13 @@ public record AwsTransferDescribeAccessOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A system-assigned unique identifier for a server that has this ac- cess assigned. Constraints: o min: 19 o max: 19 o pattern: s-([0-9a-f]{17})
+    /// A system-assigned unique identifier for a server that has this access assigned. Constraints: • min: 19 • max: 19 • pattern: s-([0-9a-f]{17})
     /// </summary>
     [CliOption("--server-id")]
     public string? ServerId { get; private init; }
 
     /// <summary>
-    /// A unique identifier that is required to identify specific groups within your directory. The users of the group that you associate have access to your Amazon S3 or Amazon EFS resources over the en- abled protocols using Transfer Family. If you know the group name, you can view the SID values by running the following command using Windows PowerShell. Get-ADGroup -Filter {samAccountName -like "*YourGroupName* *"} -Properties * | Select SamAccountName,ObjectSid In that command, replace YourGroupName with the name of your Active Directory group. The regular expression used to validate this parameter is a string of characters consisting of uppercase and lowercase alphanumeric characters with no spaces. You can also include underscores or any of the following characters: =,.@:/- Constraints: o min: 1 o max: 256 o pattern: S-1-[\d-]+
+    /// A unique identifier that is required to identify specific groups within your directory. The users of the group that you associate have access to your Amazon S3 or Amazon EFS resources over the enabled protocols using Transfer Family. If you know the group name, you can view the SID values by running the following command using Windows PowerShell. Get-ADGroup -Filter {samAccountName -like "*YourGroupName* *"} -Properties * | Select SamAccountName,ObjectSid In that command, replace YourGroupName with the name of your Active Directory group. The regular expression used to validate this parameter is a string of characters consisting of uppercase and lowercase alphanumeric characters with no spaces. You can also include underscores or any of the following characters: =,.@:/- Constraints: • min: 1 • max: 256 • pattern: S-1-[\d-]+
     /// </summary>
     [CliOption("--external-id")]
     public string? ExternalId { get; private init; }
@@ -92,6 +93,15 @@ public record AwsTransferDescribeAccessOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

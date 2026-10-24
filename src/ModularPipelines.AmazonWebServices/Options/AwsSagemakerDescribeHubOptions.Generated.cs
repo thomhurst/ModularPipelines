@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsSagemakerDescribeHubOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Describes a hub. See also: AWS API Documentation
     /// </summary>
-    /// <param name="HubName">The name of the hub to describe. Constraints: o pattern: (arn:[a-z0-9-\.]{1,63}:sage- maker:\w+(?:-\w+)+:(\d{12}|aws):hub\/)?[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}</param>
+    /// <param name="HubName">The name of the hub to describe. Constraints: • pattern: (arn:[a-z0-9-\.]{1,63}:sagemaker:\w+(?:-\w+)+:(\d{12}|aws):hub\/)?[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}</param>
     public AwsSagemakerDescribeHubOptions(
         string HubName
     )
@@ -56,7 +57,7 @@ public record AwsSagemakerDescribeHubOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the hub to describe. Constraints: o pattern: (arn:[a-z0-9-\.]{1,63}:sage- maker:\w+(?:-\w+)+:(\d{12}|aws):hub\/)?[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}
+    /// The name of the hub to describe. Constraints: • pattern: (arn:[a-z0-9-\.]{1,63}:sagemaker:\w+(?:-\w+)+:(\d{12}|aws):hub\/)?[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}
     /// </summary>
     [CliOption("--hub-name")]
     public string? HubName { get; private init; }
@@ -82,6 +83,15 @@ public record AwsSagemakerDescribeHubOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

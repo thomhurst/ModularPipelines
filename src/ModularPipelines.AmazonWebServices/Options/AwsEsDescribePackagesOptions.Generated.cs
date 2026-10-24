@@ -23,13 +23,13 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsEsDescribePackagesOptions : AwsOptions
 {
     /// <summary>
-    /// Only returns packages that match the DescribePackagesFilterList val- ues. (structure) Filter to apply in DescribePackage response. Name -&gt; (string) Any field from PackageDetails . Possible values: o PackageID o PackageName o PackageStatus Value -&gt; (list) A non-empty list of values for the specified field. Constraints: o min: 1 (string) Constraints: o pattern: ^[0-9a-zA-Z\*\.\\/\?-]*$ Shorthand Syntax: Name=string,Value=string,string ... JSON Syntax: [ { "Name": "PackageID"|"PackageName"|"PackageStatus", "Value": ["string", ...] } ... ]
+    /// Only returns packages that match the DescribePackagesFilterList values. (structure) Filter to apply in DescribePackage response. Name -&gt; (string) Any field from PackageDetails . Possible values: • PackageID • PackageName • PackageStatus Value -&gt; (list) A non-empty list of values for the specified field. Constraints: • min: 1 (string) Constraints: • pattern: ^[0-9a-zA-Z\*\.\\/\?-]*$ Shorthand Syntax: Name=string,Value=string,string ... JSON Syntax: [ { "Name": "PackageID"|"PackageName"|"PackageStatus", "Value": ["string", ...] } ... ]
     /// </summary>
     [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     /// <summary>
-    /// Limits results to a maximum number of packages. Constraints: o max: 100
+    /// Limits results to a maximum number of packages. Constraints: • max: 100
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
@@ -46,5 +46,14 @@ public record AwsEsDescribePackagesOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

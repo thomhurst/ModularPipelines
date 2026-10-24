@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsElasticacheCreateCacheSubnetGroupOptions : AwsOptions, IValidat
     /// <summary>
     /// Creates a new cache subnet group. Use this parameter only when you are creating a cluster in an Amazon Virtual Private Cloud (Amazon VPC). See also: AWS API Documentation
     /// </summary>
-    /// <param name="CacheSubnetGroupName">A name for the cache subnet group. This value is stored as a lower- case string. Constraints: Must contain no more than 255 alphanumeric characters or hyphens. Example: mysubnetgroup</param>
+    /// <param name="CacheSubnetGroupName">A name for the cache subnet group. This value is stored as a lowercase string. Constraints: Must contain no more than 255 alphanumeric characters or hyphens. Example: mysubnetgroup</param>
     /// <param name="CacheSubnetGroupDescription">A description for the cache subnet group.</param>
     /// <param name="SubnetIds">A list of VPC subnet IDs for the cache subnet group. (string) Syntax: "string" "string" ...</param>
     public AwsElasticacheCreateCacheSubnetGroupOptions(
@@ -75,7 +76,7 @@ public record AwsElasticacheCreateCacheSubnetGroupOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A name for the cache subnet group. This value is stored as a lower- case string. Constraints: Must contain no more than 255 alphanumeric characters or hyphens. Example: mysubnetgroup
+    /// A name for the cache subnet group. This value is stored as a lowercase string. Constraints: Must contain no more than 255 alphanumeric characters or hyphens. Example: mysubnetgroup
     /// </summary>
     [CliOption("--cache-subnet-group-name")]
     public string? CacheSubnetGroupName { get; private init; }
@@ -119,6 +120,15 @@ public record AwsElasticacheCreateCacheSubnetGroupOptions : AwsOptions, IValidat
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

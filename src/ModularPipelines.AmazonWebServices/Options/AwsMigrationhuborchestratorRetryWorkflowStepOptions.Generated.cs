@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,9 +28,9 @@ public record AwsMigrationhuborchestratorRetryWorkflowStepOptions : AwsOptions, 
     /// <summary>
     /// Retry a failed step in a migration workflow. See also: AWS API Documentation
     /// </summary>
-    /// <param name="WorkflowId">The ID of the migration workflow. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z0-9-]+</param>
-    /// <param name="StepGroupId">The ID of the step group. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z0-9-]+</param>
-    /// <param name="Id">The ID of the step. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z0-9-]+</param>
+    /// <param name="WorkflowId">The ID of the migration workflow. Constraints: • min: 1 • max: 100 • pattern: [a-zA-Z0-9-]+</param>
+    /// <param name="StepGroupId">The ID of the step group. Constraints: • min: 1 • max: 100 • pattern: [a-zA-Z0-9-]+</param>
+    /// <param name="Id">The ID of the step. Constraints: • min: 1 • max: 100 • pattern: [a-zA-Z0-9-]+</param>
     public AwsMigrationhuborchestratorRetryWorkflowStepOptions(
         string WorkflowId,
         string StepGroupId,
@@ -64,19 +65,19 @@ public record AwsMigrationhuborchestratorRetryWorkflowStepOptions : AwsOptions, 
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the migration workflow. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z0-9-]+
+    /// The ID of the migration workflow. Constraints: • min: 1 • max: 100 • pattern: [a-zA-Z0-9-]+
     /// </summary>
     [CliOption("--workflow-id")]
     public string? WorkflowId { get; private init; }
 
     /// <summary>
-    /// The ID of the step group. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z0-9-]+
+    /// The ID of the step group. Constraints: • min: 1 • max: 100 • pattern: [a-zA-Z0-9-]+
     /// </summary>
     [CliOption("--step-group-id")]
     public string? StepGroupId { get; private init; }
 
     /// <summary>
-    /// The ID of the step. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z0-9-]+
+    /// The ID of the step. Constraints: • min: 1 • max: 100 • pattern: [a-zA-Z0-9-]+
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; private init; }
@@ -102,6 +103,15 @@ public record AwsMigrationhuborchestratorRetryWorkflowStepOptions : AwsOptions, 
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,8 +29,8 @@ public record AwsBedrockDataAutomationUpdateBlueprintOptions : AwsOptions, IVali
     /// <summary>
     /// Updates an existing Amazon Bedrock Data Automation Blueprint See also: AWS API Documentation
     /// </summary>
-    /// <param name="BlueprintArn">ARN generated at the server side when a Blueprint is created Constraints: o min: 0 o max: 128 o pattern: arn:aws(|-cn|-us-gov):bedrock:[a-zA-Z0-9-]*:(aws|[0-9]{12}):blue- print/(bedrock-data-automation-pub- lic-[a-zA-Z0-9-_]{1,30}|[a-zA-Z0-9-]{12,36})</param>
-    /// <param name="Schema">Schema of the blueprint Constraints: o min: 1 o max: 100000</param>
+    /// <param name="BlueprintArn">ARN generated at the server side when a Blueprint is created Constraints: • min: 0 • max: 128 • pattern: arn:aws(|-cn|-us-gov):bedrock:[a-zA-Z0-9-]*:(aws|[0-9]{12}):blueprint/(bedrock-data-automation-public-[a-zA-Z0-9-_]{1,30}|[a-zA-Z0-9-]{12,36})</param>
+    /// <param name="Schema">Schema of the blueprint Constraints: • min: 1 • max: 100000</param>
     public AwsBedrockDataAutomationUpdateBlueprintOptions(
         string BlueprintArn,
         string Schema
@@ -61,25 +62,25 @@ public record AwsBedrockDataAutomationUpdateBlueprintOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// ARN generated at the server side when a Blueprint is created Constraints: o min: 0 o max: 128 o pattern: arn:aws(|-cn|-us-gov):bedrock:[a-zA-Z0-9-]*:(aws|[0-9]{12}):blue- print/(bedrock-data-automation-pub- lic-[a-zA-Z0-9-_]{1,30}|[a-zA-Z0-9-]{12,36})
+    /// ARN generated at the server side when a Blueprint is created Constraints: • min: 0 • max: 128 • pattern: arn:aws(|-cn|-us-gov):bedrock:[a-zA-Z0-9-]*:(aws|[0-9]{12}):blueprint/(bedrock-data-automation-public-[a-zA-Z0-9-_]{1,30}|[a-zA-Z0-9-]{12,36})
     /// </summary>
     [CliOption("--blueprint-arn")]
     public string? BlueprintArn { get; private init; }
 
     /// <summary>
-    /// Schema of the blueprint Constraints: o min: 1 o max: 100000
+    /// Schema of the blueprint Constraints: • min: 1 • max: 100000
     /// </summary>
     [CliOption("--schema")]
     public string? Schema { get; private init; }
 
     /// <summary>
-    /// Stage of the Blueprint Possible values: o DEVELOPMENT o LIVE
+    /// Stage of the Blueprint Possible values: • DEVELOPMENT • LIVE
     /// </summary>
     [CliOption("--blueprint-stage")]
     public AwsBedrockDataAutomationUpdateBlueprintBlueprintStage? BlueprintStage { get; set; }
 
     /// <summary>
-    /// KMS Encryption Configuration kmsKeyId -&gt; (string) [required] KMS Key Identifier Constraints: o min: 1 o max: 2048 o pattern: [A-Za-z0-9][A-Za-z0-9:_/+=,@.-]+ kmsEncryptionContext -&gt; (map) KMS Encryption Context Constraints: o min: 1 key -&gt; (string) Encryption context key. Constraints: o min: 1 o max: 2000 o pattern: .*\S.* value -&gt; (string) Encryption context value. Constraints: o min: 1 o max: 2000 o pattern: .*\S.* Shorthand Syntax: kmsKeyId=string,kmsEncryptionContext={KeyName1=string,KeyName2=string} JSON Syntax: { "kmsKeyId": "string", "kmsEncryptionContext": {"string": "string" ...} }
+    /// KMS Encryption Configuration kmsKeyId -&gt; (string) [required] KMS Key Identifier Constraints: • min: 1 • max: 2048 • pattern: [A-Za-z0-9][A-Za-z0-9:_/+=,@.-]+ kmsEncryptionContext -&gt; (map) KMS Encryption Context Constraints: • min: 1 key -&gt; (string) Encryption context key. Constraints: • min: 1 • max: 2000 • pattern: .*\S.* value -&gt; (string) Encryption context value. Constraints: • min: 1 • max: 2000 • pattern: .*\S.* Shorthand Syntax: kmsKeyId=string,kmsEncryptionContext={KeyName1=string,KeyName2=string} JSON Syntax: { "kmsKeyId": "string", "kmsEncryptionContext": {"string": "string" ...} }
     /// </summary>
     [CliOption("--encryption-configuration")]
     public string? EncryptionConfiguration { get; set; }
@@ -105,6 +106,15 @@ public record AwsBedrockDataAutomationUpdateBlueprintOptions : AwsOptions, IVali
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

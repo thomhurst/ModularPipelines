@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates an email template. Email templates enable you to send personal- ized email to one or more destinations in a single operation. For more information, see the Amazon SES Developer Guide . You can execute this operation no more than once per second. See also: AWS API Documentation
+/// Updates an email template. Email templates enable you to send personalized email to one or more destinations in a single operation. For more information, see the Amazon SES Developer Guide . You can execute this operation no more than once per second. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsSesUpdateTemplateOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates an email template. Email templates enable you to send personal- ized email to one or more destinations in a single operation. For more information, see the Amazon SES Developer Guide . You can execute this operation no more than once per second. See also: AWS API Documentation
+    /// Updates an email template. Email templates enable you to send personalized email to one or more destinations in a single operation. For more information, see the Amazon SES Developer Guide . You can execute this operation no more than once per second. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Template">The content of the email, composed of a subject line and either an HTML part or a text-only part. TemplateName -&gt; (string) [required] The name of the template. You use this name when you send email using the SendTemplatedEmail or SendBulkTemplatedEmail opera- tions. SubjectPart -&gt; (string) The subject line of the email. TextPart -&gt; (string) The email body that is visible to recipients whose email clients do not display HTML content. HtmlPart -&gt; (string) The HTML body of the email. Shorthand Syntax: TemplateName=string,SubjectPart=string,TextPart=string,HtmlPart=string JSON Syntax: { "TemplateName": "string", "SubjectPart": "string", "TextPart": "string", "HtmlPart": "string" }</param>
+    /// <param name="Template">The content of the email, composed of a subject line and either an HTML part or a text-only part. TemplateName -&gt; (string) [required] The name of the template. You use this name when you send email using the SendTemplatedEmail or SendBulkTemplatedEmail operations. SubjectPart -&gt; (string) The subject line of the email. TextPart -&gt; (string) The email body that is visible to recipients whose email clients do not display HTML content. HtmlPart -&gt; (string) The HTML body of the email. Shorthand Syntax: TemplateName=string,SubjectPart=string,TextPart=string,HtmlPart=string JSON Syntax: { "TemplateName": "string", "SubjectPart": "string", "TextPart": "string", "HtmlPart": "string" }</param>
     public AwsSesUpdateTemplateOptions(
         string Template
     )
@@ -56,7 +57,7 @@ public record AwsSesUpdateTemplateOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The content of the email, composed of a subject line and either an HTML part or a text-only part. TemplateName -&gt; (string) [required] The name of the template. You use this name when you send email using the SendTemplatedEmail or SendBulkTemplatedEmail opera- tions. SubjectPart -&gt; (string) The subject line of the email. TextPart -&gt; (string) The email body that is visible to recipients whose email clients do not display HTML content. HtmlPart -&gt; (string) The HTML body of the email. Shorthand Syntax: TemplateName=string,SubjectPart=string,TextPart=string,HtmlPart=string JSON Syntax: { "TemplateName": "string", "SubjectPart": "string", "TextPart": "string", "HtmlPart": "string" }
+    /// The content of the email, composed of a subject line and either an HTML part or a text-only part. TemplateName -&gt; (string) [required] The name of the template. You use this name when you send email using the SendTemplatedEmail or SendBulkTemplatedEmail operations. SubjectPart -&gt; (string) The subject line of the email. TextPart -&gt; (string) The email body that is visible to recipients whose email clients do not display HTML content. HtmlPart -&gt; (string) The HTML body of the email. Shorthand Syntax: TemplateName=string,SubjectPart=string,TextPart=string,HtmlPart=string JSON Syntax: { "TemplateName": "string", "SubjectPart": "string", "TextPart": "string", "HtmlPart": "string" }
     /// </summary>
     [CliOption("--template")]
     public string? Template { get; private init; }
@@ -82,6 +83,15 @@ public record AwsSesUpdateTemplateOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

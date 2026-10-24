@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves all Amazon OpenSearch Service-managed VPC endpoints associ- ated with a particular domain. See also: AWS API Documentation
+/// Retrieves all Amazon OpenSearch Service-managed VPC endpoints associated with a particular domain. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +27,9 @@ public record AwsEsListVpcEndpointsForDomainOptions : AwsOptions, IValidatableOb
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Retrieves all Amazon OpenSearch Service-managed VPC endpoints associ- ated with a particular domain. See also: AWS API Documentation
+    /// Retrieves all Amazon OpenSearch Service-managed VPC endpoints associated with a particular domain. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DomainName">Name of the ElasticSearch domain whose VPC endpoints are to be listed. Constraints: o min: 3 o max: 28 o pattern: [a-z][a-z0-9\-]+</param>
+    /// <param name="DomainName">Name of the ElasticSearch domain whose VPC endpoints are to be listed. Constraints: • min: 3 • max: 28 • pattern: [a-z][a-z0-9\-]+</param>
     public AwsEsListVpcEndpointsForDomainOptions(
         string DomainName
     )
@@ -57,7 +58,7 @@ public record AwsEsListVpcEndpointsForDomainOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Name of the ElasticSearch domain whose VPC endpoints are to be listed. Constraints: o min: 3 o max: 28 o pattern: [a-z][a-z0-9\-]+
+    /// Name of the ElasticSearch domain whose VPC endpoints are to be listed. Constraints: • min: 3 • max: 28 • pattern: [a-z][a-z0-9\-]+
     /// </summary>
     [CliOption("--domain-name")]
     public string? DomainName { get; private init; }
@@ -90,6 +91,15 @@ public record AwsEsListVpcEndpointsForDomainOptions : AwsOptions, IValidatableOb
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

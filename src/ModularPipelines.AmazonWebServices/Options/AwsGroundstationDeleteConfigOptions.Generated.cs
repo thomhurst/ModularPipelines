@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,8 +29,8 @@ public record AwsGroundstationDeleteConfigOptions : AwsOptions, IValidatableObje
     /// <summary>
     /// Deletes a Config . See also: AWS API Documentation
     /// </summary>
-    /// <param name="ConfigId">UUID of a Config . Constraints: o min: 36 o max: 36 o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}</param>
-    /// <param name="ConfigType">Type of a Config . Possible values: o antenna-downlink o antenna-downlink-demod-decode o tracking o dataflow-endpoint o antenna-uplink o uplink-echo o s3-recording o telemetry-sink</param>
+    /// <param name="ConfigId">UUID of a Config . Constraints: • min: 36 • max: 36 • pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}</param>
+    /// <param name="ConfigType">Type of a Config . Possible values: • antenna-downlink • antenna-downlink-demod-decode • tracking • dataflow-endpoint • antenna-uplink • uplink-echo • s3-recording • telemetry-sink</param>
     public AwsGroundstationDeleteConfigOptions(
         string ConfigId,
         AwsGroundstationDeleteConfigConfigType ConfigType
@@ -60,13 +61,13 @@ public record AwsGroundstationDeleteConfigOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// UUID of a Config . Constraints: o min: 36 o max: 36 o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}
+    /// UUID of a Config . Constraints: • min: 36 • max: 36 • pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}
     /// </summary>
     [CliOption("--config-id")]
     public string? ConfigId { get; private init; }
 
     /// <summary>
-    /// Type of a Config . Possible values: o antenna-downlink o antenna-downlink-demod-decode o tracking o dataflow-endpoint o antenna-uplink o uplink-echo o s3-recording o telemetry-sink
+    /// Type of a Config . Possible values: • antenna-downlink • antenna-downlink-demod-decode • tracking • dataflow-endpoint • antenna-uplink • uplink-echo • s3-recording • telemetry-sink
     /// </summary>
     [CliOption("--config-type")]
     public AwsGroundstationDeleteConfigConfigType? ConfigType { get; private init; }
@@ -92,6 +93,15 @@ public record AwsGroundstationDeleteConfigOptions : AwsOptions, IValidatableObje
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

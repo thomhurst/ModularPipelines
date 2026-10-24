@@ -22,13 +22,13 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsSagemakerDeleteArtifactOptions : AwsOptions
 {
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the artifact to delete. Constraints: o min: 0 o max: 256 o pattern: arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:arti- fact/.*
+    /// The Amazon Resource Name (ARN) of the artifact to delete. Constraints: • min: 0 • max: 256 • pattern: arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:artifact/.*
     /// </summary>
     [CliOption("--artifact-arn")]
     public string? ArtifactArn { get; set; }
 
     /// <summary>
-    /// The URI of the source. SourceUri -&gt; (string) [required] The URI of the source. Constraints: o min: 1 o max: 2048 o pattern: .* SourceTypes -&gt; (list) A list of source types. (structure) The ID and ID type of an artifact source. SourceIdType -&gt; (string) [required] The type of ID. Possible values: o MD5Hash o S3ETag o S3Version o Custom Value -&gt; (string) [required] The ID. Constraints: o min: 0 o max: 256 Shorthand Syntax: SourceUri=string,SourceTypes=[{SourceIdType=string,Value=string},{SourceIdType=string,Value=string}] JSON Syntax: { "SourceUri": "string", "SourceTypes": [ { "SourceIdType": "MD5Hash"|"S3ETag"|"S3Version"|"Custom", "Value": "string" } ... ] }
+    /// The URI of the source. SourceUri -&gt; (string) [required] The URI of the source. Constraints: • min: 1 • max: 2048 • pattern: .* SourceTypes -&gt; (list) A list of source types. (structure) The ID and ID type of an artifact source. SourceIdType -&gt; (string) [required] The type of ID. Possible values: • MD5Hash • S3ETag • S3Version • Custom Value -&gt; (string) [required] The ID. Constraints: • min: 0 • max: 256 Shorthand Syntax: SourceUri=string,SourceTypes=[{SourceIdType=string,Value=string},{SourceIdType=string,Value=string}] JSON Syntax: { "SourceUri": "string", "SourceTypes": [ { "SourceIdType": "MD5Hash"|"S3ETag"|"S3Version"|"Custom", "Value": "string" } ... ] }
     /// </summary>
     [CliOption("--source")]
     public string? Source { get; set; }
@@ -38,5 +38,14 @@ public record AwsSagemakerDeleteArtifactOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

@@ -10,7 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -29,7 +29,7 @@ public record AwsApigatewayPutGatewayResponseOptions : AwsOptions, IValidatableO
     /// Creates a customization of a GatewayResponse of a specified response type and status code on the given RestApi. See also: AWS API Documentation
     /// </summary>
     /// <param name="RestApiId">The string identifier of the associated RestApi.</param>
-    /// <param name="ResponseType">The response type of the associated GatewayResponse Possible values: o DEFAULT_4XX o DEFAULT_5XX o RESOURCE_NOT_FOUND o UNAUTHORIZED o INVALID_API_KEY o ACCESS_DENIED o AUTHORIZER_FAILURE o AUTHORIZER_CONFIGURATION_ERROR o INVALID_SIGNATURE o EXPIRED_TOKEN o MISSING_AUTHENTICATION_TOKEN o INTEGRATION_FAILURE o INTEGRATION_TIMEOUT o API_CONFIGURATION_ERROR o UNSUPPORTED_MEDIA_TYPE o BAD_REQUEST_PARAMETERS o BAD_REQUEST_BODY o REQUEST_TOO_LARGE o THROTTLED o QUOTA_EXCEEDED o WAF_FILTERED</param>
+    /// <param name="ResponseType">The response type of the associated GatewayResponse Possible values: • DEFAULT_4XX • DEFAULT_5XX • RESOURCE_NOT_FOUND • UNAUTHORIZED • INVALID_API_KEY • ACCESS_DENIED • AUTHORIZER_FAILURE • AUTHORIZER_CONFIGURATION_ERROR • INVALID_SIGNATURE • EXPIRED_TOKEN • MISSING_AUTHENTICATION_TOKEN • INTEGRATION_FAILURE • INTEGRATION_TIMEOUT • API_CONFIGURATION_ERROR • UNSUPPORTED_MEDIA_TYPE • BAD_REQUEST_PARAMETERS • BAD_REQUEST_BODY • REQUEST_TOO_LARGE • THROTTLED • QUOTA_EXCEEDED • WAF_FILTERED</param>
     public AwsApigatewayPutGatewayResponseOptions(
         string RestApiId,
         string ResponseType
@@ -67,19 +67,19 @@ public record AwsApigatewayPutGatewayResponseOptions : AwsOptions, IValidatableO
     public string? RestApiId { get; private init; }
 
     /// <summary>
-    /// The response type of the associated GatewayResponse Possible values: o DEFAULT_4XX o DEFAULT_5XX o RESOURCE_NOT_FOUND o UNAUTHORIZED o INVALID_API_KEY o ACCESS_DENIED o AUTHORIZER_FAILURE o AUTHORIZER_CONFIGURATION_ERROR o INVALID_SIGNATURE o EXPIRED_TOKEN o MISSING_AUTHENTICATION_TOKEN o INTEGRATION_FAILURE o INTEGRATION_TIMEOUT o API_CONFIGURATION_ERROR o UNSUPPORTED_MEDIA_TYPE o BAD_REQUEST_PARAMETERS o BAD_REQUEST_BODY o REQUEST_TOO_LARGE o THROTTLED o QUOTA_EXCEEDED o WAF_FILTERED
+    /// The response type of the associated GatewayResponse Possible values: • DEFAULT_4XX • DEFAULT_5XX • RESOURCE_NOT_FOUND • UNAUTHORIZED • INVALID_API_KEY • ACCESS_DENIED • AUTHORIZER_FAILURE • AUTHORIZER_CONFIGURATION_ERROR • INVALID_SIGNATURE • EXPIRED_TOKEN • MISSING_AUTHENTICATION_TOKEN • INTEGRATION_FAILURE • INTEGRATION_TIMEOUT • API_CONFIGURATION_ERROR • UNSUPPORTED_MEDIA_TYPE • BAD_REQUEST_PARAMETERS • BAD_REQUEST_BODY • REQUEST_TOO_LARGE • THROTTLED • QUOTA_EXCEEDED • WAF_FILTERED
     /// </summary>
     [CliOption("--response-type")]
     public string? ResponseType { get; private init; }
 
     /// <summary>
-    /// The HTTP status code of the GatewayResponse. Constraints: o pattern: [1-5]\d\d
+    /// The HTTP status code of the GatewayResponse. Constraints: • pattern: [1-5]\d\d
     /// </summary>
     [CliOption("--status-code")]
     public string? StatusCode { get; set; }
 
     /// <summary>
-    /// Response parameters (paths, query strings and headers) of the Gate- wayResponse as a string-to-string map of key-value pairs. key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// Response parameters (paths, query strings and headers) of the GatewayResponse as a string-to-string map of key-value pairs. key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--response-parameters", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? ResponseParameters { get; set; }
@@ -111,6 +111,15 @@ public record AwsApigatewayPutGatewayResponseOptions : AwsOptions, IValidatableO
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

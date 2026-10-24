@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns the endpoint of a repository for a specific package format. A repository has one endpoint for each package format: o cargo o generic o maven o npm o nuget o pypi o ruby o swift See also: AWS API Documentation
+/// Returns the endpoint of a repository for a specific package format. A repository has one endpoint for each package format: • cargo • generic • maven • npm • nuget • pypi • ruby • swift See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,11 +27,11 @@ public record AwsCodeartifactGetRepositoryEndpointOptions : AwsOptions, IValidat
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns the endpoint of a repository for a specific package format. A repository has one endpoint for each package format: o cargo o generic o maven o npm o nuget o pypi o ruby o swift See also: AWS API Documentation
+    /// Returns the endpoint of a repository for a specific package format. A repository has one endpoint for each package format: • cargo • generic • maven • npm • nuget • pypi • ruby • swift See also: AWS API Documentation
     /// </summary>
-    /// <param name="Domain">The name of the domain that contains the repository. Constraints: o min: 2 o max: 50 o pattern: [a-z][a-z0-9\-]{0,48}[a-z0-9]</param>
-    /// <param name="Repository">The name of the repository. Constraints: o min: 2 o max: 100 o pattern: [A-Za-z0-9][A-Za-z0-9._\-]{1,99}</param>
-    /// <param name="Format">Returns which endpoint of a repository to return. A repository has one endpoint for each package format. Possible values: o npm o pypi o maven o nuget o generic o ruby o swift o cargo</param>
+    /// <param name="Domain">The name of the domain that contains the repository. Constraints: • min: 2 • max: 50 • pattern: [a-z][a-z0-9\-]{0,48}[a-z0-9]</param>
+    /// <param name="Repository">The name of the repository. Constraints: • min: 2 • max: 100 • pattern: [A-Za-z0-9][A-Za-z0-9._\-]{1,99}</param>
+    /// <param name="Format">Returns which endpoint of a repository to return. A repository has one endpoint for each package format. Possible values: • npm • pypi • maven • nuget • generic • ruby • swift • cargo</param>
     public AwsCodeartifactGetRepositoryEndpointOptions(
         string Domain,
         string Repository,
@@ -64,31 +65,31 @@ public record AwsCodeartifactGetRepositoryEndpointOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the domain that contains the repository. Constraints: o min: 2 o max: 50 o pattern: [a-z][a-z0-9\-]{0,48}[a-z0-9]
+    /// The name of the domain that contains the repository. Constraints: • min: 2 • max: 50 • pattern: [a-z][a-z0-9\-]{0,48}[a-z0-9]
     /// </summary>
     [CliOption("--domain")]
     public string? Domain { get; private init; }
 
     /// <summary>
-    /// The name of the repository. Constraints: o min: 2 o max: 100 o pattern: [A-Za-z0-9][A-Za-z0-9._\-]{1,99}
+    /// The name of the repository. Constraints: • min: 2 • max: 100 • pattern: [A-Za-z0-9][A-Za-z0-9._\-]{1,99}
     /// </summary>
     [CliOption("--repository")]
     public string? Repository { get; private init; }
 
     /// <summary>
-    /// Returns which endpoint of a repository to return. A repository has one endpoint for each package format. Possible values: o npm o pypi o maven o nuget o generic o ruby o swift o cargo
+    /// Returns which endpoint of a repository to return. A repository has one endpoint for each package format. Possible values: • npm • pypi • maven • nuget • generic • ruby • swift • cargo
     /// </summary>
     [CliOption("--format")]
     public AwsCodeartifactGetRepositoryEndpointFormat? Format { get; private init; }
 
     /// <summary>
-    /// The 12-digit account number of the Amazon Web Services account that owns the domain that contains the repository. It does not include dashes or spaces. Constraints: o min: 12 o max: 12 o pattern: [0-9]{12}
+    /// The 12-digit account number of the Amazon Web Services account that owns the domain that contains the repository. It does not include dashes or spaces. Constraints: • min: 12 • max: 12 • pattern: [0-9]{12}
     /// </summary>
     [CliOption("--domain-owner")]
     public string? DomainOwner { get; set; }
 
     /// <summary>
-    /// A string that specifies the type of endpoint. Possible values: o dualstack o ipv4
+    /// A string that specifies the type of endpoint. Possible values: • dualstack • ipv4
     /// </summary>
     [CliOption("--endpoint-type")]
     public AwsCodeartifactGetRepositoryEndpointEndpointType? EndpointType { get; set; }
@@ -114,6 +115,15 @@ public record AwsCodeartifactGetRepositoryEndpointOptions : AwsOptions, IValidat
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

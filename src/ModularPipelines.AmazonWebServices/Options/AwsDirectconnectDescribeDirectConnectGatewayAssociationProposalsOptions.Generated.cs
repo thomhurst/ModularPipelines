@@ -15,7 +15,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Describes one or more association proposals for connection between a virtual private gateway or transit gateway and a Direct Connect gate- way. See also: AWS API Documentation
+/// Describes one or more association proposals for connection between a virtual private gateway or transit gateway and a Direct Connect gateway. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -41,7 +41,7 @@ public record AwsDirectconnectDescribeDirectConnectGatewayAssociationProposalsOp
     public string? AssociatedGatewayId { get; set; }
 
     /// <summary>
-    /// The maximum number of results to return with a single call. To re- trieve the remaining results, make another call with the returned nextToken value. If MaxResults is given a value larger than 100, only 100 results are returned.
+    /// The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value. If MaxResults is given a value larger than 100, only 100 results are returned.
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
@@ -58,5 +58,14 @@ public record AwsDirectconnectDescribeDirectConnectGatewayAssociationProposalsOp
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

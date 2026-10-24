@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Add or remove time window exclusions for one or more Service Level Ob- jectives (SLOs). See also: AWS API Documentation
+/// Add or remove time window exclusions for one or more Service Level Objectives (SLOs). See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsApplicationSignalsBatchUpdateExclusionWindowsOptions : AwsOptio
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Add or remove time window exclusions for one or more Service Level Ob- jectives (SLOs). See also: AWS API Documentation
+    /// Add or remove time window exclusions for one or more Service Level Objectives (SLOs). See also: AWS API Documentation
     /// </summary>
-    /// <param name="SloIds">The list of SLO IDs to add or remove exclusion windows from. Constraints: o min: 1 o max: 50 (string) Syntax: "string" "string" ...</param>
+    /// <param name="SloIds">The list of SLO IDs to add or remove exclusion windows from. Constraints: • min: 1 • max: 50 (string) Syntax: "string" "string" ...</param>
     public AwsApplicationSignalsBatchUpdateExclusionWindowsOptions(
         IEnumerable<string> SloIds
     )
@@ -67,19 +68,19 @@ public record AwsApplicationSignalsBatchUpdateExclusionWindowsOptions : AwsOptio
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The list of SLO IDs to add or remove exclusion windows from. Constraints: o min: 1 o max: 50 (string) Syntax: "string" "string" ...
+    /// The list of SLO IDs to add or remove exclusion windows from. Constraints: • min: 1 • max: 50 (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--slo-ids", GroupValues = true)]
     public IEnumerable<string>? SloIds { get; private init; }
 
     /// <summary>
-    /// A list of exclusion windows to add to the specified SLOs. You can add up to 10 exclusion windows per SLO. Constraints: o min: 0 o max: 10 (structure) The core SLO time window exclusion object that includes Window, StartTime, RecurrenceRule, and Reason. Window -&gt; (structure) [required] The SLO time window exclusion . DurationUnit -&gt; (string) [required] The unit of time for the exclusion window duration. Valid values: MINUTE, HOUR, DAY, MONTH. Possible values: o MINUTE o HOUR o DAY o MONTH Duration -&gt; (integer) [required] The number of time units for the exclusion window length. Constraints: o min: 1 StartTime -&gt; (timestamp) The start of the SLO time window exclusion. Defaults to cur- rent time if not specified. RecurrenceRule -&gt; (structure) The recurrence rule for the SLO time window exclusion. Sup- ports both cron and rate expressions. Expression -&gt; (string) [required] A cron or rate expression that specifies the schedule for the exclusion window. Constraints: o min: 1 o max: 1024 Reason -&gt; (string) A description explaining why this time period should be ex- cluded from SLO calculations. Constraints: o min: 1 o max: 1024 Shorthand Syntax: Window={DurationUnit=string,Duration=integer},StartTime=timestamp,RecurrenceRule={Expression=string},Reason=string ... JSON Syntax: [ { "Window": { "DurationUnit": "MINUTE"|"HOUR"|"DAY"|"MONTH", "Duration": integer }, "StartTime": timestamp, "RecurrenceRule": { "Expression": "string" }, "Reason": "string" } ... ]
+    /// A list of exclusion windows to add to the specified SLOs. You can add up to 10 exclusion windows per SLO. Constraints: • min: 0 • max: 10 (structure) The core SLO time window exclusion object that includes Window, StartTime, RecurrenceRule, and Reason. Window -&gt; (structure) [required] The SLO time window exclusion . DurationUnit -&gt; (string) [required] The unit of time for the exclusion window duration. Valid values: MINUTE, HOUR, DAY, MONTH. Possible values: • MINUTE • HOUR • DAY • MONTH Duration -&gt; (integer) [required] The number of time units for the exclusion window length. Constraints: • min: 1 StartTime -&gt; (timestamp) The start of the SLO time window exclusion. Defaults to current time if not specified. RecurrenceRule -&gt; (structure) The recurrence rule for the SLO time window exclusion. Supports both cron and rate expressions. Expression -&gt; (string) [required] A cron or rate expression that specifies the schedule for the exclusion window. Constraints: • min: 1 • max: 1024 Reason -&gt; (string) A description explaining why this time period should be excluded from SLO calculations. Constraints: • min: 1 • max: 1024 Shorthand Syntax: Window={DurationUnit=string,Duration=integer},StartTime=timestamp,RecurrenceRule={Expression=string},Reason=string ... JSON Syntax: [ { "Window": { "DurationUnit": "MINUTE"|"HOUR"|"DAY"|"MONTH", "Duration": integer }, "StartTime": timestamp, "RecurrenceRule": { "Expression": "string" }, "Reason": "string" } ... ]
     /// </summary>
     [CliOption("--add-exclusion-windows", GroupValues = true)]
     public IEnumerable<string>? AddExclusionWindows { get; set; }
 
     /// <summary>
-    /// A list of exclusion windows to remove from the specified SLOs. The window configuration must match an existing exclusion window. Constraints: o min: 0 o max: 10 (structure) The core SLO time window exclusion object that includes Window, StartTime, RecurrenceRule, and Reason. Window -&gt; (structure) [required] The SLO time window exclusion . DurationUnit -&gt; (string) [required] The unit of time for the exclusion window duration. Valid values: MINUTE, HOUR, DAY, MONTH. Possible values: o MINUTE o HOUR o DAY o MONTH Duration -&gt; (integer) [required] The number of time units for the exclusion window length. Constraints: o min: 1 StartTime -&gt; (timestamp) The start of the SLO time window exclusion. Defaults to cur- rent time if not specified. RecurrenceRule -&gt; (structure) The recurrence rule for the SLO time window exclusion. Sup- ports both cron and rate expressions. Expression -&gt; (string) [required] A cron or rate expression that specifies the schedule for the exclusion window. Constraints: o min: 1 o max: 1024 Reason -&gt; (string) A description explaining why this time period should be ex- cluded from SLO calculations. Constraints: o min: 1 o max: 1024 Shorthand Syntax: Window={DurationUnit=string,Duration=integer},StartTime=timestamp,RecurrenceRule={Expression=string},Reason=string ... JSON Syntax: [ { "Window": { "DurationUnit": "MINUTE"|"HOUR"|"DAY"|"MONTH", "Duration": integer }, "StartTime": timestamp, "RecurrenceRule": { "Expression": "string" }, "Reason": "string" } ... ]
+    /// A list of exclusion windows to remove from the specified SLOs. The window configuration must match an existing exclusion window. Constraints: • min: 0 • max: 10 (structure) The core SLO time window exclusion object that includes Window, StartTime, RecurrenceRule, and Reason. Window -&gt; (structure) [required] The SLO time window exclusion . DurationUnit -&gt; (string) [required] The unit of time for the exclusion window duration. Valid values: MINUTE, HOUR, DAY, MONTH. Possible values: • MINUTE • HOUR • DAY • MONTH Duration -&gt; (integer) [required] The number of time units for the exclusion window length. Constraints: • min: 1 StartTime -&gt; (timestamp) The start of the SLO time window exclusion. Defaults to current time if not specified. RecurrenceRule -&gt; (structure) The recurrence rule for the SLO time window exclusion. Supports both cron and rate expressions. Expression -&gt; (string) [required] A cron or rate expression that specifies the schedule for the exclusion window. Constraints: • min: 1 • max: 1024 Reason -&gt; (string) A description explaining why this time period should be excluded from SLO calculations. Constraints: • min: 1 • max: 1024 Shorthand Syntax: Window={DurationUnit=string,Duration=integer},StartTime=timestamp,RecurrenceRule={Expression=string},Reason=string ... JSON Syntax: [ { "Window": { "DurationUnit": "MINUTE"|"HOUR"|"DAY"|"MONTH", "Duration": integer }, "StartTime": timestamp, "RecurrenceRule": { "Expression": "string" }, "Reason": "string" } ... ]
     /// </summary>
     [CliOption("--remove-exclusion-windows", GroupValues = true)]
     public IEnumerable<string>? RemoveExclusionWindows { get; set; }
@@ -105,6 +106,15 @@ public record AwsApplicationSignalsBatchUpdateExclusionWindowsOptions : AwsOptio
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

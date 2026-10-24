@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Get a specific Recommendation. This API provides global recommenda- tions, eliminating the need to call the API in each AWS Region. See also: AWS API Documentation
+/// Get a specific Recommendation. This API provides global recommendations, eliminating the need to call the API in each AWS Region. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +27,9 @@ public record AwsTrustedadvisorGetRecommendationOptions : AwsOptions, IValidatab
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Get a specific Recommendation. This API provides global recommenda- tions, eliminating the need to call the API in each AWS Region. See also: AWS API Documentation
+    /// Get a specific Recommendation. This API provides global recommendations, eliminating the need to call the API in each AWS Region. See also: AWS API Documentation
     /// </summary>
-    /// <param name="RecommendationIdentifier">The Recommendation identifier Constraints: o min: 20 o max: 200 o pattern: arn:[\w-]+:trustedadvisor::\d{12}:recommendation\/[\w-]+</param>
+    /// <param name="RecommendationIdentifier">The Recommendation identifier Constraints: • min: 20 • max: 200 • pattern: arn:[\w-]+:trustedadvisor::\d{12}:recommendation\/[\w-]+</param>
     public AwsTrustedadvisorGetRecommendationOptions(
         string RecommendationIdentifier
     )
@@ -57,13 +58,13 @@ public record AwsTrustedadvisorGetRecommendationOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Recommendation identifier Constraints: o min: 20 o max: 200 o pattern: arn:[\w-]+:trustedadvisor::\d{12}:recommendation\/[\w-]+
+    /// The Recommendation identifier Constraints: • min: 20 • max: 200 • pattern: arn:[\w-]+:trustedadvisor::\d{12}:recommendation\/[\w-]+
     /// </summary>
     [CliOption("--recommendation-identifier")]
     public string? RecommendationIdentifier { get; private init; }
 
     /// <summary>
-    /// The ISO 639-1 code for the language that you want your recommenda- tions to appear in. Possible values: o en o ja o zh o fr o de o ko o zh_TW o it o es o pt_BR o id
+    /// The ISO 639-1 code for the language that you want your recommendations to appear in. Possible values: • en • ja • zh • fr • de • ko • zh_TW • it • es • pt_BR • id
     /// </summary>
     [CliOption("--language")]
     public AwsTrustedadvisorGetRecommendationLanguage? Language { get; set; }
@@ -89,6 +90,15 @@ public record AwsTrustedadvisorGetRecommendationOptions : AwsOptions, IValidatab
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

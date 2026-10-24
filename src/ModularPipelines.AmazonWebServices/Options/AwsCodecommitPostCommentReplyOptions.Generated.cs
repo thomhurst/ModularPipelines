@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +29,7 @@ public record AwsCodecommitPostCommentReplyOptions : AwsOptions, IValidatableObj
     /// <summary>
     /// Posts a comment in reply to an existing comment on a comparison between commits or a pull request. See also: AWS API Documentation
     /// </summary>
-    /// <param name="InReplyTo">The system-generated ID of the comment to which you want to reply. To get this ID, use GetCommentsForComparedCommit or GetComments- ForPullRequest .</param>
+    /// <param name="InReplyTo">The system-generated ID of the comment to which you want to reply. To get this ID, use GetCommentsForComparedCommit or GetCommentsForPullRequest .</param>
     /// <param name="Content">The contents of your reply to a comment.</param>
     public AwsCodecommitPostCommentReplyOptions(
         string InReplyTo,
@@ -61,7 +62,7 @@ public record AwsCodecommitPostCommentReplyOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The system-generated ID of the comment to which you want to reply. To get this ID, use GetCommentsForComparedCommit or GetComments- ForPullRequest .
+    /// The system-generated ID of the comment to which you want to reply. To get this ID, use GetCommentsForComparedCommit or GetCommentsForPullRequest .
     /// </summary>
     [CliOption("--in-reply-to")]
     public string? InReplyTo { get; private init; }
@@ -73,7 +74,7 @@ public record AwsCodecommitPostCommentReplyOptions : AwsOptions, IValidatableObj
     public string? Content { get; private init; }
 
     /// <summary>
-    /// A unique, client-generated idempotency token that, when provided in a request, ensures the request cannot be repeated with a changed pa- rameter. If a request is received with the same parameters and a to- ken is included, the request returns information about the initial request that used that token.
+    /// A unique, client-generated idempotency token that, when provided in a request, ensures the request cannot be repeated with a changed parameter. If a request is received with the same parameters and a token is included, the request returns information about the initial request that used that token.
     /// </summary>
     [SecretValue]
     [CliOption("--client-request-token")]
@@ -100,6 +101,15 @@ public record AwsCodecommitPostCommentReplyOptions : AwsOptions, IValidatableObj
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

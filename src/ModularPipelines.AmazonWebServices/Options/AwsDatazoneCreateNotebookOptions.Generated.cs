@@ -11,7 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -30,9 +30,9 @@ public record AwsDatazoneCreateNotebookOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Creates a notebook in Amazon SageMaker Unified Studio. A notebook is a collaborative document within a project that contains code cells for interactive computing. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DomainIdentifier">The identifier of the Amazon SageMaker Unified Studio domain in which to create the notebook. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}</param>
-    /// <param name="OwningProjectIdentifier">The identifier of the project that owns the notebook. Constraints: o pattern: [a-zA-Z0-9_-]{1,36}</param>
-    /// <param name="Name">The name of the notebook. The name must be between 1 and 256 charac- ters. Constraints: o min: 1 o max: 256</param>
+    /// <param name="DomainIdentifier">The identifier of the Amazon SageMaker Unified Studio domain in which to create the notebook. Constraints: • pattern: dzd[-_][a-zA-Z0-9_-]{1,36}</param>
+    /// <param name="OwningProjectIdentifier">The identifier of the project that owns the notebook. Constraints: • pattern: [a-zA-Z0-9_-]{1,36}</param>
+    /// <param name="Name">The name of the notebook. The name must be between 1 and 256 characters. Constraints: • min: 1 • max: 256</param>
     public AwsDatazoneCreateNotebookOptions(
         string DomainIdentifier,
         string OwningProjectIdentifier,
@@ -67,49 +67,49 @@ public record AwsDatazoneCreateNotebookOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the Amazon SageMaker Unified Studio domain in which to create the notebook. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}
+    /// The identifier of the Amazon SageMaker Unified Studio domain in which to create the notebook. Constraints: • pattern: dzd[-_][a-zA-Z0-9_-]{1,36}
     /// </summary>
     [CliOption("--domain-identifier")]
     public string? DomainIdentifier { get; private init; }
 
     /// <summary>
-    /// The identifier of the project that owns the notebook. Constraints: o pattern: [a-zA-Z0-9_-]{1,36}
+    /// The identifier of the project that owns the notebook. Constraints: • pattern: [a-zA-Z0-9_-]{1,36}
     /// </summary>
     [CliOption("--owning-project-identifier")]
     public string? OwningProjectIdentifier { get; private init; }
 
     /// <summary>
-    /// The name of the notebook. The name must be between 1 and 256 charac- ters. Constraints: o min: 1 o max: 256
+    /// The name of the notebook. The name must be between 1 and 256 characters. Constraints: • min: 1 • max: 256
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The description of the notebook. Constraints: o min: 0 o max: 2048
+    /// The description of the notebook. Constraints: • min: 0 • max: 2048
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The type of the notebook. Possible values: o DATA o SQL
+    /// The type of the notebook. Possible values: • DATA • SQL
     /// </summary>
     [CliOption("--type")]
     public AwsDatazoneCreateNotebookType? Type { get; set; }
 
     /// <summary>
-    /// The metadata for the notebook, specified as key-value pairs. You can specify up to 50 entries, with keys up to 128 characters and values up to 1024 characters. Constraints: o min: 0 o max: 50 key -&gt; (string) Constraints: o min: 0 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 1024 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The metadata for the notebook, specified as key-value pairs. You can specify up to 50 entries, with keys up to 128 characters and values up to 1024 characters. Constraints: • min: 0 • max: 50 key -&gt; (string) Constraints: • min: 0 • max: 128 value -&gt; (string) Constraints: • min: 0 • max: 1024 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--metadata", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Metadata { get; set; }
 
     /// <summary>
-    /// The sensitive parameters for the notebook, specified as key-value pairs. You can specify up to 50 entries, with keys up to 128 charac- ters and values up to 1024 characters. Constraints: o min: 0 o max: 50 key -&gt; (string) Constraints: o min: 0 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 1024 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The sensitive parameters for the notebook, specified as key-value pairs. You can specify up to 50 entries, with keys up to 128 characters and values up to 1024 characters. Constraints: • min: 0 • max: 50 key -&gt; (string) Constraints: • min: 0 • max: 128 value -&gt; (string) Constraints: • min: 0 • max: 1024 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--parameters", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Parameters { get; set; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier to ensure idempotency of the re- quest. This field is automatically populated if not provided. Constraints: o min: 1 o max: 128 o pattern: [\x21-\x7E]+
+    /// A unique, case-sensitive identifier to ensure idempotency of the request. This field is automatically populated if not provided. Constraints: • min: 1 • max: 128 • pattern: [\x21-\x7E]+
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
@@ -136,6 +136,15 @@ public record AwsDatazoneCreateNotebookOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

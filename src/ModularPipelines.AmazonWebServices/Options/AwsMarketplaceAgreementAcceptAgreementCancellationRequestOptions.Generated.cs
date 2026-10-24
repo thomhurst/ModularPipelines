@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Allows buyers (acceptors) to accept a cancellation request that is in PENDING_APPROVAL status. Once accepted, the cancellation request tran- sitions to APPROVED status and the agreement cancellation will be processed. NOTE: Only cancellation requests in PENDING_APPROVAL status can be ac- cepted. A ConflictException is thrown if the cancellation request is in any other status. See also: AWS API Documentation
+/// Allows buyers (acceptors) to accept a cancellation request that is in PENDING_APPROVAL status. Once accepted, the cancellation request transitions to APPROVED status and the agreement cancellation will be processed. NOTE: Only cancellation requests in PENDING_APPROVAL status can be accepted. A ConflictException is thrown if the cancellation request is in any other status. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsMarketplaceAgreementAcceptAgreementCancellationRequestOptions :
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Allows buyers (acceptors) to accept a cancellation request that is in PENDING_APPROVAL status. Once accepted, the cancellation request tran- sitions to APPROVED status and the agreement cancellation will be processed. NOTE: Only cancellation requests in PENDING_APPROVAL status can be ac- cepted. A ConflictException is thrown if the cancellation request is in any other status. See also: AWS API Documentation
+    /// Allows buyers (acceptors) to accept a cancellation request that is in PENDING_APPROVAL status. Once accepted, the cancellation request transitions to APPROVED status and the agreement cancellation will be processed. NOTE: Only cancellation requests in PENDING_APPROVAL status can be accepted. A ConflictException is thrown if the cancellation request is in any other status. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AgreementId">The unique identifier of the agreement associated with the cancella- tion request. Constraints: o min: 1 o max: 64 o pattern: [A-Za-z0-9_/-]+</param>
-    /// <param name="AgreementCancellationRequestId">The unique identifier of the cancellation request to accept. Constraints: o min: 1 o max: 64 o pattern: acr-[a-zA-Z0-9]+</param>
+    /// <param name="AgreementId">The unique identifier of the agreement associated with the cancellation request. Constraints: • min: 1 • max: 64 • pattern: [A-Za-z0-9_/-]+</param>
+    /// <param name="AgreementCancellationRequestId">The unique identifier of the cancellation request to accept. Constraints: • min: 1 • max: 64 • pattern: acr-[a-zA-Z0-9]+</param>
     public AwsMarketplaceAgreementAcceptAgreementCancellationRequestOptions(
         string AgreementId,
         string AgreementCancellationRequestId
@@ -60,13 +61,13 @@ public record AwsMarketplaceAgreementAcceptAgreementCancellationRequestOptions :
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the agreement associated with the cancella- tion request. Constraints: o min: 1 o max: 64 o pattern: [A-Za-z0-9_/-]+
+    /// The unique identifier of the agreement associated with the cancellation request. Constraints: • min: 1 • max: 64 • pattern: [A-Za-z0-9_/-]+
     /// </summary>
     [CliOption("--agreement-id")]
     public string? AgreementId { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the cancellation request to accept. Constraints: o min: 1 o max: 64 o pattern: acr-[a-zA-Z0-9]+
+    /// The unique identifier of the cancellation request to accept. Constraints: • min: 1 • max: 64 • pattern: acr-[a-zA-Z0-9]+
     /// </summary>
     [CliOption("--agreement-cancellation-request-id")]
     public string? AgreementCancellationRequestId { get; private init; }
@@ -92,6 +93,15 @@ public record AwsMarketplaceAgreementAcceptAgreementCancellationRequestOptions :
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

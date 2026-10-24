@@ -16,7 +16,7 @@ using ModularPipelines.AmazonWebServices.Enums;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns information about all of the operations that return an opera- tion ID and that have ever been performed on domains that were regis- tered by the current account. This command runs only in the us-east-1 Region. See also: AWS API Documentation list-operations is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument ...
+/// Returns information about all of the operations that return an operation ID and that have ever been performed on domains that were registered by the current account. This command runs only in the us-east-1 Region. See also: AWS API Documentation list-operations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a pag...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -24,46 +24,43 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsRoute53domainsListOperationsOptions : AwsOptions
 {
     /// <summary>
-    /// An optional parameter that lets you get information about all the operations that you submitted after a specified date and time. Spec- ify the date and time in Unix time format and Coordinated Universal time (UTC).
+    /// An optional parameter that lets you get information about all the operations that you submitted after a specified date and time. Specify the date and time in Unix time format and Coordinated Universal time (UTC).
     /// </summary>
     [CliOption("--submitted-since")]
     public string? SubmittedSince { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
     /// <summary>
-    /// The status of the operations. Constraints: o max: 5 (string) Possible values: o SUBMITTED o IN_PROGRESS o ERROR o SUCCESSFUL o FAILED Syntax: "string" "string" ...
+    /// The status of the operations. Constraints: • max: 5 (string) Possible values: • SUBMITTED • IN_PROGRESS • ERROR • SUCCESSFUL • FAILED Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--status", GroupValues = true)]
     public IEnumerable<string>? Status { get; set; }
 
     /// <summary>
-    /// An arrays of the domains operation types. Constraints: o max: 21 (string) Possible values: o REGISTER_DOMAIN o DELETE_DOMAIN o TRANSFER_IN_DOMAIN o UPDATE_DOMAIN_CONTACT o UPDATE_NAMESERVER o CHANGE_PRIVACY_PROTECTION o DOMAIN_LOCK o ENABLE_AUTORENEW o DISABLE_AUTORENEW o ADD_DNSSEC o REMOVE_DNSSEC o EXPIRE_DOMAIN o TRANSFER_OUT_DOMAIN o CHANGE_DOMAIN_OWNER o RENEW_DOMAIN o PUSH_DOMAIN o INTERNAL_TRANSFER_OUT_DOMAIN o INTERNAL_TRANSFER_IN_DOMAIN o RELEASE_TO_GANDI o TRANSFER_ON_RENEW o RESTORE_DOMAIN Syntax: "string" "string" ...
+    /// An arrays of the domains operation types. Constraints: • max: 21 (string) Possible values: • REGISTER_DOMAIN • DELETE_DOMAIN • TRANSFER_IN_DOMAIN • UPDATE_DOMAIN_CONTACT • UPDATE_NAMESERVER • CHANGE_PRIVACY_PROTECTION • DOMAIN_LOCK • ENABLE_AUTORENEW • DISABLE_AUTORENEW • ADD_DNSSEC • REMOVE_DNSSEC • EXPIRE_DOMAIN • TRANSFER_OUT_DOMAIN • CHANGE_DOMAIN_OWNER • RENEW_DOMAIN • PUSH_DOMAIN • INTERNAL_TRANSFER_OUT_DOMAIN • INTERNAL_TRANSFER_IN_DOMAIN • RELEASE_TO_GANDI • TRANSFER_ON_RENEW • RESTORE_DOMAIN Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--type", GroupValues = true)]
     public IEnumerable<string>? Type { get; set; }
 
     /// <summary>
-    /// The sort type for returned values. Possible values: o SubmittedDate
+    /// The sort type for returned values. Possible values: • SubmittedDate
     /// </summary>
     [CliOption("--sort-by")]
     public string? SortBy { get; set; }
 
     /// <summary>
-    /// The sort order for returned values, either ascending or descending. Possible values: o ASC o DESC
+    /// The sort order for returned values, either ascending or descending. Possible values: • ASC • DESC
     /// </summary>
     [CliOption("--sort-order")]
     public AwsRoute53domainsListOperationsSortOrder? SortOrder { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -73,9 +70,21 @@ public record AwsRoute53domainsListOperationsOptions : AwsOptions
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o max: 100
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • max: 100
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

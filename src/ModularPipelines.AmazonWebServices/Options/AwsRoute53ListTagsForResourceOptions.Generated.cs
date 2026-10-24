@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,8 +29,8 @@ public record AwsRoute53ListTagsForResourceOptions : AwsOptions, IValidatableObj
     /// <summary>
     /// Lists tags for one health check or hosted zone. For information about using tags for cost allocation, see Using Cost Allocation Tags in the Billing and Cost Management User Guide . See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceType">The type of the resource. o The resource type for health checks is healthcheck . o The resource type for hosted zones is hostedzone . Possible values: o healthcheck o hostedzone</param>
-    /// <param name="ResourceId">The ID of the resource for which you want to retrieve tags. Constraints: o max: 64</param>
+    /// <param name="ResourceType">The type of the resource. • The resource type for health checks is healthcheck . • The resource type for hosted zones is hostedzone . Possible values: • healthcheck • hostedzone</param>
+    /// <param name="ResourceId">The ID of the resource for which you want to retrieve tags. Constraints: • max: 64</param>
     public AwsRoute53ListTagsForResourceOptions(
         AwsRoute53ListTagsForResourceResourceType ResourceType,
         string ResourceId
@@ -60,13 +61,13 @@ public record AwsRoute53ListTagsForResourceOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The type of the resource. o The resource type for health checks is healthcheck . o The resource type for hosted zones is hostedzone . Possible values: o healthcheck o hostedzone
+    /// The type of the resource. • The resource type for health checks is healthcheck . • The resource type for hosted zones is hostedzone . Possible values: • healthcheck • hostedzone
     /// </summary>
     [CliOption("--resource-type")]
     public AwsRoute53ListTagsForResourceResourceType? ResourceType { get; private init; }
 
     /// <summary>
-    /// The ID of the resource for which you want to retrieve tags. Constraints: o max: 64
+    /// The ID of the resource for which you want to retrieve tags. Constraints: • max: 64
     /// </summary>
     [CliOption("--resource-id")]
     public string? ResourceId { get; private init; }
@@ -92,6 +93,15 @@ public record AwsRoute53ListTagsForResourceOptions : AwsOptions, IValidatableObj
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

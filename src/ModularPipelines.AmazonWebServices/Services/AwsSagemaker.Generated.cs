@@ -6,8 +6,8 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
+using ModularPipelines;
 using ModularPipelines.Context;
-using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
@@ -33,7 +33,7 @@ public class AwsSagemaker : IAwsSagemaker
     #region Sub-command Groups
 
     /// <summary>
-    /// aws wait sub-commands.
+    /// aws sagemaker wait sub-commands.
     /// </summary>
     public AwsSagemakerWait Wait => _wait ??= new AwsSagemakerWait(_command);
 
@@ -57,7 +57,7 @@ public class AwsSagemaker : IAwsSagemaker
     }
 
     /// <summary>
-    /// Adds or overwrites one or more tags for the specified SageMaker re- source. You can add tags to notebook instances, training jobs, hyperpa- rameter tuning jobs, batch transform jobs, models, labeling jobs, work teams, endpoint configurations, and endpoints. Each tag consists of a key and an optional value. Tag keys must be unique per resource. For more information about tags, see For more in- formation, see Amazon Web Services Tagging Strategies . NOTE: Tags that you add to a hyperparameter tuni...
+    /// Adds or overwrites one or more tags for the specified SageMaker resource. You can add tags to notebook instances, training jobs, hyperparameter tuning jobs, batch transform jobs, models, labeling jobs, work teams, endpoint configurations, and endpoints. Each tag consists of a key and an optional value. Tag keys must be unique per resource. For more information about tags, see For more information, see Amazon Web Services Tagging Strategies . NOTE: Tags that you add to a hyperparameter tuning job...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -72,7 +72,7 @@ public class AwsSagemaker : IAwsSagemaker
     }
 
     /// <summary>
-    /// Associates a trial component with a trial. A trial component can be as- sociated with multiple trials. To disassociate a trial component from a trial, call the DisassociateTrialComponent API. See also: AWS API Documentation
+    /// Associates a trial component with a trial. A trial component can be associated with multiple trials. To disassociate a trial component from a trial, call the DisassociateTrialComponent API. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -87,7 +87,7 @@ public class AwsSagemaker : IAwsSagemaker
     }
 
     /// <summary>
-    /// Attaches an elastic network interface (ENI) to a node in a HyperPod cluster. To use this operation, you must have the sagemaker:AttachClusterN- odeNetworkInterface permission. See also: AWS API Documentation
+    /// Attaches an elastic network interface (ENI) to a node in a HyperPod cluster. To use this operation, you must have the sagemaker:AttachClusterNodeNetworkInterface permission. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -102,7 +102,7 @@ public class AwsSagemaker : IAwsSagemaker
     }
 
     /// <summary>
-    /// Attaches your Amazon Elastic Block Store (Amazon EBS) volume to a node in your EKS orchestrated HyperPod cluster. This API works with the Amazon Elastic Block Store (Amazon EBS) Con- tainer Storage Interface (CSI) driver to manage the lifecycle of per- sistent storage in your HyperPod EKS clusters. See also: AWS API Documentation
+    /// Attaches your Amazon Elastic Block Store (Amazon EBS) volume to a node in your EKS orchestrated HyperPod cluster. This API works with the Amazon Elastic Block Store (Amazon EBS) Container Storage Interface (CSI) driver to manage the lifecycle of persistent storage in your HyperPod EKS clusters. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -117,7 +117,7 @@ public class AwsSagemaker : IAwsSagemaker
     }
 
     /// <summary>
-    /// Adds nodes to a HyperPod cluster by incrementing the target count for one or more instance groups. This operation returns a unique NodeLogi- calId for each node being added, which can be used to track the provi- sioning status of the node. This API provides a safer alternative to UpdateCluster for scaling operations by avoiding unintended configura- tion changes. NOTE: This API is only supported for clusters using Continuous as the NodeProvisioningMode . See also: AWS API Documentation
+    /// Adds nodes to a HyperPod cluster by incrementing the target count for one or more instance groups. This operation returns a unique NodeLogicalId for each node being added, which can be used to track the provisioning status of the node. This API provides a safer alternative to UpdateCluster for scaling operations by avoiding unintended configuration changes. NOTE: This API is only supported for clusters using Continuous as the NodeProvisioningMode . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -132,7 +132,7 @@ public class AwsSagemaker : IAwsSagemaker
     }
 
     /// <summary>
-    /// Deletes specific nodes within a SageMaker HyperPod cluster. BatchDeleteClusterNodes accepts a cluster name and a list of node IDs. WARNING: o To safeguard your work, back up your data to Amazon S3 or an FSx for Lustre file system before invoking the API on a worker node group. This will help prevent any potential data loss from the in- stance root volume. For more information about backup, see Use the backup script provided by SageMaker HyperPod . o If you want to invoke this API on an existing ...
+    /// Deletes specific nodes within a SageMaker HyperPod cluster. BatchDeleteClusterNodes accepts a cluster name and a list of node IDs. WARNING: • To safeguard your work, back up your data to Amazon S3 or an FSx for Lustre file system before invoking the API on a worker node group. This will help prevent any potential data loss from the instance root volume. For more information about backup, see Use the backup script provided by SageMaker HyperPod . • If you want to invoke this API on an existing cl...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -162,7 +162,7 @@ public class AwsSagemaker : IAwsSagemaker
     }
 
     /// <summary>
-    /// Reboots specific nodes within a SageMaker HyperPod cluster using a soft recovery mechanism. BatchRebootClusterNodes performs a graceful reboot of the specified nodes by calling the Amazon Elastic Compute Cloud Re- bootInstances API, which attempts to cleanly shut down the operating system before restarting the instance. This operation is useful for recovering from transient issues or apply- ing certain configuration changes that require a restart. NOTE: o Rebooting a node may cause temporary ser...
+    /// Reboots specific nodes within a SageMaker HyperPod cluster using a soft recovery mechanism. BatchRebootClusterNodes performs a graceful reboot of the specified nodes by calling the Amazon Elastic Compute Cloud RebootInstances API, which attempts to cleanly shut down the operating system before restarting the instance. This operation is useful for recovering from transient issues or applying certain configuration changes that require a restart. NOTE: • Rebooting a node may cause temporary service...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -177,7 +177,7 @@ public class AwsSagemaker : IAwsSagemaker
     }
 
     /// <summary>
-    /// Replaces specific nodes within a SageMaker HyperPod cluster with new hardware. BatchReplaceClusterNodes terminates the specified instances and provisions new replacement instances with the same configuration but fresh hardware. The Amazon Machine Image (AMI) and instance config- uration remain the same. This operation is useful for recovering from hardware failures or per- sistent issues that cannot be resolved through a reboot. WARNING: o Data Loss Warning: Replacing nodes destroys all instance...
+    /// Replaces specific nodes within a SageMaker HyperPod cluster with new hardware. BatchReplaceClusterNodes terminates the specified instances and provisions new replacement instances with the same configuration but fresh hardware. The Amazon Machine Image (AMI) and instance configuration remain the same. This operation is useful for recovering from hardware failures or persistent issues that cannot be resolved through a reboot. WARNING: • Data Loss Warning: Replacing nodes destroys all instance vol...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -192,7 +192,7 @@ public class AwsSagemaker : IAwsSagemaker
     }
 
     /// <summary>
-    /// Creates an action . An action is a lineage tracking entity that repre- sents an action or activity. For example, a model deployment or an HPO job. Generally, an action involves at least one input or output arti- fact. For more information, see Amazon SageMaker ML Lineage Tracking . See also: AWS API Documentation
+    /// Creates an action . An action is a lineage tracking entity that represents an action or activity. For example, a model deployment or an HPO job. Generally, an action involves at least one input or output artifact. For more information, see Amazon SageMaker ML Lineage Tracking . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -207,7 +207,7 @@ public class AwsSagemaker : IAwsSagemaker
     }
 
     /// <summary>
-    /// Creates a benchmark job that runs performance benchmarks against infer- ence infrastructure using a predefined AI workload configuration. The benchmark job measures metrics such as latency, throughput, and cost for your generative AI inference endpoints. See also: AWS API Documentation
+    /// Creates a benchmark job that runs performance benchmarks against inference infrastructure using a predefined AI workload configuration. The benchmark job measures metrics such as latency, throughput, and cost for your generative AI inference endpoints. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -222,7 +222,7 @@ public class AwsSagemaker : IAwsSagemaker
     }
 
     /// <summary>
-    /// Creates a recommendation job that generates intelligent optimization recommendations for generative AI inference deployments. The job ana- lyzes your model, workload configuration, and performance targets to recommend optimal instance types, model optimization techniques (such as quantization and speculative decoding), and deployment configura- tions. See also: AWS API Documentation
+    /// Creates a recommendation job that generates intelligent optimization recommendations for generative AI inference deployments. The job analyzes your model, workload configuration, and performance targets to recommend optimal instance types, model optimization techniques (such as quantization and speculative decoding), and deployment configurations. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -267,7 +267,7 @@ public class AwsSagemaker : IAwsSagemaker
     }
 
     /// <summary>
-    /// Creates a configuration for running a SageMaker AI image as a Kernel- Gateway app. The configuration specifies the Amazon Elastic File System storage volume on the image, and a list of the kernels in the image. See also: AWS API Documentation
+    /// Creates a configuration for running a SageMaker AI image as a KernelGateway app. The configuration specifies the Amazon Elastic File System storage volume on the image, and a list of the kernels in the image. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -282,7 +282,7 @@ public class AwsSagemaker : IAwsSagemaker
     }
 
     /// <summary>
-    /// Creates a running app for the specified UserProfile. This operation is automatically invoked by Amazon SageMaker AI upon access to the associ- ated Domain, and when new kernel configurations are selected by the user. A user may have multiple Apps active simultaneously. See also: AWS API Documentation
+    /// Creates a running app for the specified UserProfile. This operation is automatically invoked by Amazon SageMaker AI upon access to the associated Domain, and when new kernel configurations are selected by the user. A user may have multiple Apps active simultaneously. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -297,7 +297,7 @@ public class AwsSagemaker : IAwsSagemaker
     }
 
     /// <summary>
-    /// Creates an artifact . An artifact is a lineage tracking entity that represents a URI addressable object or data. Some examples are the S3 URI of a dataset and the ECR registry path of an image. For more infor- mation, see Amazon SageMaker ML Lineage Tracking . See also: AWS API Documentation
+    /// Creates an artifact . An artifact is a lineage tracking entity that represents a URI addressable object or data. Some examples are the S3 URI of a dataset and the ECR registry path of an image. For more information, see Amazon SageMaker ML Lineage Tracking . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -312,7 +312,7 @@ public class AwsSagemaker : IAwsSagemaker
     }
 
     /// <summary>
-    /// Creates an Autopilot job also referred to as Autopilot experiment or AutoML job. An AutoML job in SageMaker AI is a fully automated process that allows you to build machine learning models with minimal effort and machine learning expertise. When initiating an AutoML job, you provide your data and optionally specify parameters tailored to your use case. Sage- Maker AI then automates the entire model development lifecycle, includ- ing data preprocessing, model training, tuning, and evaluation. Aut...
+    /// Creates an Autopilot job also referred to as Autopilot experiment or AutoML job. An AutoML job in SageMaker AI is a fully automated process that allows you to build machine learning models with minimal effort and machine learning expertise. When initiating an AutoML job, you provide your data and optionally specify parameters tailored to your use case. SageMaker AI then automates the entire model development lifecycle, including data preprocessing, model training, tuning, and evaluation. AutoML ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -327,7 +327,7 @@ public class AwsSagemaker : IAwsSagemaker
     }
 
     /// <summary>
-    /// Creates an Autopilot job also referred to as Autopilot experiment or AutoML job V2. An AutoML job in SageMaker AI is a fully automated process that allows you to build machine learning models with minimal effort and machine learning expertise. When initiating an AutoML job, you provide your data and optionally specify parameters tailored to your use case. Sage- Maker AI then automates the entire model development lifecycle, includ- ing data preprocessing, model training, tuning, and evaluation. ...
+    /// Creates an Autopilot job also referred to as Autopilot experiment or AutoML job V2. An AutoML job in SageMaker AI is a fully automated process that allows you to build machine learning models with minimal effort and machine learning expertise. When initiating an AutoML job, you provide your data and optionally specify parameters tailored to your use case. SageMaker AI then automates the entire model development lifecycle, including data preprocessing, model training, tuning, and evaluation. Auto...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -357,7 +357,7 @@ public class AwsSagemaker : IAwsSagemaker
     }
 
     /// <summary>
-    /// Create cluster policy configuration. This policy is used for task pri- oritization and fair-share allocation of idle compute. This helps pri- oritize critical workloads and distributes idle compute across enti- ties. See also: AWS API Documentation
+    /// Create cluster policy configuration. This policy is used for task prioritization and fair-share allocation of idle compute. This helps prioritize critical workloads and distributes idle compute across entities. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -372,7 +372,7 @@ public class AwsSagemaker : IAwsSagemaker
     }
 
     /// <summary>
-    /// Creates a Git repository as a resource in your SageMaker AI account. You can associate the repository with notebook instances so that you can use Git source control for the notebooks you create. The Git repos- itory is a resource in your SageMaker AI account, so it can be associ- ated with more than one notebook instance, and it persists indepen- dently from the lifecycle of any notebook instances it is associated with. The repository can be hosted either in Amazon Web Services CodeCommit or in ...
+    /// Creates a Git repository as a resource in your SageMaker AI account. You can associate the repository with notebook instances so that you can use Git source control for the notebooks you create. The Git repository is a resource in your SageMaker AI account, so it can be associated with more than one notebook instance, and it persists independently from the lifecycle of any notebook instances it is associated with. The repository can be hosted either in Amazon Web Services CodeCommit or in any ot...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -387,7 +387,7 @@ public class AwsSagemaker : IAwsSagemaker
     }
 
     /// <summary>
-    /// Starts a model compilation job. After the model has been compiled, Ama- zon SageMaker AI saves the resulting model artifacts to an Amazon Sim- ple Storage Service (Amazon S3) bucket that you specify. If you choose to host your model using Amazon SageMaker AI hosting ser- vices, you can use the resulting model artifacts as part of the model. You can also use the artifacts with Amazon Web Services IoT Greengrass. In that case, deploy them as an ML resource. In the request body, you provide the fol...
+    /// Starts a model compilation job. After the model has been compiled, Amazon SageMaker AI saves the resulting model artifacts to an Amazon Simple Storage Service (Amazon S3) bucket that you specify. If you choose to host your model using Amazon SageMaker AI hosting services, you can use the resulting model artifacts as part of the model. You can also use the artifacts with Amazon Web Services IoT Greengrass. In that case, deploy them as an ML resource. In the request body, you provide the following...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -402,7 +402,7 @@ public class AwsSagemaker : IAwsSagemaker
     }
 
     /// <summary>
-    /// Create compute allocation definition. This defines how compute is allo- cated, shared, and borrowed for specified entities. Specifically, how to lend and borrow idle compute and assign a fair-share weight to the specified entities. See also: AWS API Documentation
+    /// Create compute allocation definition. This defines how compute is allocated, shared, and borrowed for specified entities. Specifically, how to lend and borrow idle compute and assign a fair-share weight to the specified entities. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -417,7 +417,7 @@ public class AwsSagemaker : IAwsSagemaker
     }
 
     /// <summary>
-    /// Creates a context . A context is a lineage tracking entity that repre- sents a logical grouping of other tracking or experiment entities. Some examples are an endpoint and a model package. For more information, see Amazon SageMaker ML Lineage Tracking . See also: AWS API Documentation
+    /// Creates a context . A context is a lineage tracking entity that represents a logical grouping of other tracking or experiment entities. Some examples are an endpoint and a model package. For more information, see Amazon SageMaker ML Lineage Tracking . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -432,7 +432,7 @@ public class AwsSagemaker : IAwsSagemaker
     }
 
     /// <summary>
-    /// Creates a definition for a job that monitors data quality and drift. For information about model monitor, see Amazon SageMaker AI Model Mon- itor . See also: AWS API Documentation
+    /// Creates a definition for a job that monitors data quality and drift. For information about model monitor, see Amazon SageMaker AI Model Monitor . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -462,7 +462,7 @@ public class AwsSagemaker : IAwsSagemaker
     }
 
     /// <summary>
-    /// Creates a Domain . A domain consists of an associated Amazon Elastic File System volume, a list of authorized users, and a variety of secu- rity, application, policy, and Amazon Virtual Private Cloud (VPC) con- figurations. Users within a domain can share notebook files and other artifacts with each other. EFS storage When a domain is created, an EFS volume is created for use by all of the users within the domain. Each user receives a private home direc- tory within the EFS volume for notebooks,...
+    /// Creates a Domain . A domain consists of an associated Amazon Elastic File System volume, a list of authorized users, and a variety of security, application, policy, and Amazon Virtual Private Cloud (VPC) configurations. Users within a domain can share notebook files and other artifacts with each other. EFS storage When a domain is created, an EFS volume is created for use by all of the users within the domain. Each user receives a private home directory within the EFS volume for notebooks, Git r...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -522,7 +522,7 @@ public class AwsSagemaker : IAwsSagemaker
     }
 
     /// <summary>
-    /// Creates an endpoint configuration that SageMaker hosting services uses to deploy models. In the configuration, you identify one or more mod- els, created using the CreateModel API, to deploy and the resources that you want SageMaker to provision. Then you call the CreateEndpoint API. NOTE: Use this API if you want to use SageMaker hosting services to deploy models into production. In the request, you define a ProductionVariant , for each model that you want to deploy. Each ProductionVariant para...
+    /// Creates an endpoint configuration that SageMaker hosting services uses to deploy models. In the configuration, you identify one or more models, created using the CreateModel API, to deploy and the resources that you want SageMaker to provision. Then you call the CreateEndpoint API. NOTE: Use this API if you want to use SageMaker hosting services to deploy models into production. In the request, you define a ProductionVariant , for each model that you want to deploy. Each ProductionVariant parame...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -537,7 +537,7 @@ public class AwsSagemaker : IAwsSagemaker
     }
 
     /// <summary>
-    /// Creates an endpoint using the endpoint configuration specified in the request. SageMaker uses the endpoint to provision resources and deploy models. You create the endpoint configuration with the CreateEndpointConfig API. Use this API to deploy models using SageMaker hosting services. NOTE: You must not delete an EndpointConfig that is in use by an endpoint that is live or while the UpdateEndpoint or CreateEndpoint opera- tions are being performed on the endpoint. To update an endpoint, you must...
+    /// Creates an endpoint using the endpoint configuration specified in the request. SageMaker uses the endpoint to provision resources and deploy models. You create the endpoint configuration with the CreateEndpointConfig API. Use this API to deploy models using SageMaker hosting services. NOTE: You must not delete an EndpointConfig that is in use by an endpoint that is live or while the UpdateEndpoint or CreateEndpoint operations are being performed on the endpoint. To update an endpoint, you must c...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -552,7 +552,7 @@ public class AwsSagemaker : IAwsSagemaker
     }
 
     /// <summary>
-    /// Creates a SageMaker experiment . An experiment is a collection of tri- als that are observed, compared and evaluated as a group. A trial is a set of steps, called trial components , that produce a machine learning model. NOTE: In the Studio UI, trials are referred to as run groups and trial components are referred to as runs . The goal of an experiment is to determine the components that produce the best model. Multiple trials are performed, each one isolating and measuring the impact of a chang...
+    /// Creates a SageMaker experiment . An experiment is a collection of trials that are observed, compared and evaluated as a group. A trial is a set of steps, called trial components , that produce a machine learning model. NOTE: In the Studio UI, trials are referred to as run groups and trial components are referred to as runs . The goal of an experiment is to determine the components that produce the best model. Multiple trials are performed, each one isolating and measuring the impact of a change ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -567,7 +567,7 @@ public class AwsSagemaker : IAwsSagemaker
     }
 
     /// <summary>
-    /// Create a new FeatureGroup . A FeatureGroup is a group of Features de- fined in the FeatureStore to describe a Record . The FeatureGroup defines the schema and features contained in the Fea- tureGroup . A FeatureGroup definition is composed of a list of Features , a RecordIdentifierFeatureName , an EventTimeFeatureName and configu- rations for its OnlineStore and OfflineStore . Check Amazon Web Ser- vices service quotas to see the FeatureGroup s quota for your Amazon Web Services account. Note th...
+    /// Create a new FeatureGroup . A FeatureGroup is a group of Features defined in the FeatureStore to describe a Record . The FeatureGroup defines the schema and features contained in the FeatureGroup . A FeatureGroup definition is composed of a list of Features , a RecordIdentifierFeatureName , an EventTimeFeatureName and configurations for its OnlineStore and OfflineStore . Check Amazon Web Services service quotas to see the FeatureGroup s quota for your Amazon Web Services account. Note that it ca...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -597,7 +597,7 @@ public class AwsSagemaker : IAwsSagemaker
     }
 
     /// <summary>
-    /// Creates presigned URLs for accessing hub content artifacts. This opera- tion generates time-limited, secure URLs that allow direct download of model artifacts and associated files from Amazon SageMaker hub content, including gated models that require end-user license agreement accep- tance. See also: AWS API Documentation create-hub-content-presigned-urls is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination b...
+    /// Creates presigned URLs for accessing hub content artifacts. This operation generates time-limited, secure URLs that allow direct download of model artifacts and associated files from Amazon SageMaker hub content, including gated models that require end-user license agreement acceptance. See also: AWS API Documentation create-hub-content-presigned-urls is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by prov...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -642,7 +642,7 @@ public class AwsSagemaker : IAwsSagemaker
     }
 
     /// <summary>
-    /// Defines the settings you will use for the human review workflow user interface. Reviewers will see a three-panel interface with an instruc- tion area, the item to review, and an input area. See also: AWS API Documentation
+    /// Defines the settings you will use for the human review workflow user interface. Reviewers will see a three-panel interface with an instruction area, the item to review, and an input area. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -657,7 +657,7 @@ public class AwsSagemaker : IAwsSagemaker
     }
 
     /// <summary>
-    /// Starts a hyperparameter tuning job. A hyperparameter tuning job finds the best version of a model by running many training jobs on your dataset using the algorithm you choose and values for hyperparameters within ranges that you specify. It then chooses the hyperparameter val- ues that result in a model that performs the best, as measured by an objective metric that you choose. A hyperparameter tuning job automatically creates Amazon SageMaker ex- periments, trials, and trial components for each...
+    /// Starts a hyperparameter tuning job. A hyperparameter tuning job finds the best version of a model by running many training jobs on your dataset using the algorithm you choose and values for hyperparameters within ranges that you specify. It then chooses the hyperparameter values that result in a model that performs the best, as measured by an objective metric that you choose. A hyperparameter tuning job automatically creates Amazon SageMaker experiments, trials, and trial components for each tra...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -687,7 +687,7 @@ public class AwsSagemaker : IAwsSagemaker
     }
 
     /// <summary>
-    /// Creates a version of the SageMaker AI image specified by ImageName . The version represents the Amazon ECR container image specified by Ba- seImage . See also: AWS API Documentation
+    /// Creates a version of the SageMaker AI image specified by ImageName . The version represents the Amazon ECR container image specified by BaseImage . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -702,7 +702,7 @@ public class AwsSagemaker : IAwsSagemaker
     }
 
     /// <summary>
-    /// Creates an inference component, which is a SageMaker AI hosting object that you can use to deploy a model to an endpoint. In the inference component settings, you specify the model, the endpoint, and how the model utilizes the resources that the endpoint hosts. You can optimize resource utilization by tailoring how the required CPU cores, accelera- tors, and memory are allocated. You can deploy multiple inference com- ponents to an endpoint, where each inference component contains one model and ...
+    /// Creates an inference component, which is a SageMaker AI hosting object that you can use to deploy a model to an endpoint. In the inference component settings, you specify the model, the endpoint, and how the model utilizes the resources that the endpoint hosts. You can optimize resource utilization by tailoring how the required CPU cores, accelerators, and memory are allocated. You can deploy multiple inference components to an endpoint, where each inference component contains one model and the ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -717,7 +717,7 @@ public class AwsSagemaker : IAwsSagemaker
     }
 
     /// <summary>
-    /// Creates an inference experiment using the configurations specified in the request. Use this API to setup and schedule an experiment to compare model vari- ants on a Amazon SageMaker inference endpoint. For more information about inference experiments, see Shadow tests . Amazon SageMaker begins your experiment at the scheduled time and routes traffic to your endpoint's model variants based on your speci- fied configuration. While the experiment is in progress or after it has concluded, you can vi...
+    /// Creates an inference experiment using the configurations specified in the request. Use this API to setup and schedule an experiment to compare model variants on a Amazon SageMaker inference endpoint. For more information about inference experiments, see Shadow tests . Amazon SageMaker begins your experiment at the scheduled time and routes traffic to your endpoint's model variants based on your specified configuration. While the experiment is in progress or after it has concluded, you can view m...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -732,7 +732,7 @@ public class AwsSagemaker : IAwsSagemaker
     }
 
     /// <summary>
-    /// Starts a recommendation job. You can create either an instance recom- mendation or load test job. See also: AWS API Documentation
+    /// Starts a recommendation job. You can create either an instance recommendation or load test job. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -747,7 +747,7 @@ public class AwsSagemaker : IAwsSagemaker
     }
 
     /// <summary>
-    /// Creates a model customization job in Amazon SageMaker. A job runs a workload based on the job category and configuration you provide. You specify the job category, a schema-versioned configuration document, and an IAM role that grants Amazon SageMaker permission to access re- sources on your behalf. Use the AgentRFT category to fine-tune a model using multi-turn rein- forcement learning with reward signals. Use the AgentRFTEvaluation cat- egory to evaluate a fine-tuned or base model by running m...
+    /// Creates a model customization job in Amazon SageMaker. A job runs a workload based on the job category and configuration you provide. You specify the job category, a schema-versioned configuration document, and an IAM role that grants Amazon SageMaker permission to access resources on your behalf. Use the AgentRFT category to fine-tune a model using multi-turn reinforcement learning with reward signals. Use the AgentRFTEvaluation category to evaluate a fine-tuned or base model by running multi-t...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -762,7 +762,7 @@ public class AwsSagemaker : IAwsSagemaker
     }
 
     /// <summary>
-    /// Creates a job that uses workers to label the data objects in your input dataset. You can use the labeled data to train machine learning models. You can select your workforce from one of three providers: o A private workforce that you create. It can include employees, con- tractors, and outside experts. Use a private workforce when want the data to stay within your organization or when a specific set of skills is required. o One or more vendors that you select from the Amazon Web Services Mar- ke...
+    /// Creates a job that uses workers to label the data objects in your input dataset. You can use the labeled data to train machine learning models. You can select your workforce from one of three providers: • A private workforce that you create. It can include employees, contractors, and outside experts. Use a private workforce when want the data to stay within your organization or when a specific set of skills is required. • One or more vendors that you select from the Amazon Web Services Marketpla...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -867,7 +867,7 @@ public class AwsSagemaker : IAwsSagemaker
     }
 
     /// <summary>
-    /// Creates a model in SageMaker. In the request, you name the model and describe a primary container. For the primary container, you specify the Docker image that contains inference code, artifacts (from prior training), and a custom environment map that the inference code uses when you deploy the model for predictions. Use this API to create a model if you want to use SageMaker hosting services or run a batch transform job. To host your model, you create an endpoint configuration with the Cre- ate...
+    /// Creates a model in SageMaker. In the request, you name the model and describe a primary container. For the primary container, you specify the Docker image that contains inference code, artifacts (from prior training), and a custom environment map that the inference code uses when you deploy the model for predictions. Use this API to create a model if you want to use SageMaker hosting services or run a batch transform job. To host your model, you create an endpoint configuration with the CreateEn...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -882,7 +882,7 @@ public class AwsSagemaker : IAwsSagemaker
     }
 
     /// <summary>
-    /// Creates a model group. A model group contains a group of model ver- sions. See also: AWS API Documentation
+    /// Creates a model group. A model group contains a group of model versions. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -897,7 +897,7 @@ public class AwsSagemaker : IAwsSagemaker
     }
 
     /// <summary>
-    /// Creates a model package that you can use to create SageMaker models or list on Amazon Web Services Marketplace, or a versioned model that is part of a model group. Buyers can subscribe to model packages listed on Amazon Web Services Marketplace to create models in SageMaker. To create a model package by specifying a Docker container that con- tains your inference code and the Amazon S3 location of your model ar- tifacts, provide values for InferenceSpecification . To create a model from an algor...
+    /// Creates a model package that you can use to create SageMaker models or list on Amazon Web Services Marketplace, or a versioned model that is part of a model group. Buyers can subscribe to model packages listed on Amazon Web Services Marketplace to create models in SageMaker. To create a model package by specifying a Docker container that contains your inference code and the Amazon S3 location of your model artifacts, provide values for InferenceSpecification . To create a model from an algorithm...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -912,7 +912,7 @@ public class AwsSagemaker : IAwsSagemaker
     }
 
     /// <summary>
-    /// Creates a definition for a job that monitors model quality and drift. For information about model monitor, see Amazon SageMaker AI Model Mon- itor . See also: AWS API Documentation
+    /// Creates a definition for a job that monitors model quality and drift. For information about model monitor, see Amazon SageMaker AI Model Monitor . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -942,7 +942,7 @@ public class AwsSagemaker : IAwsSagemaker
     }
 
     /// <summary>
-    /// Creates a lifecycle configuration that you can associate with a note- book instance. A lifecycle configuration is a collection of shell scripts that run when you create or start a notebook instance. Each lifecycle configuration script has a limit of 16384 characters. The value of the $PATH environment variable that is available to both scripts is /sbin:bin:/usr/sbin:/usr/bin . View Amazon CloudWatch Logs for notebook instance lifecycle configura- tions in log group /aws/sagemaker/NotebookInstanc...
+    /// Creates a lifecycle configuration that you can associate with a notebook instance. A lifecycle configuration is a collection of shell scripts that run when you create or start a notebook instance. Each lifecycle configuration script has a limit of 16384 characters. The value of the $PATH environment variable that is available to both scripts is /sbin:bin:/usr/sbin:/usr/bin . View Amazon CloudWatch Logs for notebook instance lifecycle configurations in log group /aws/sagemaker/NotebookInstances i...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -957,7 +957,7 @@ public class AwsSagemaker : IAwsSagemaker
     }
 
     /// <summary>
-    /// Creates an SageMaker AI notebook instance. A notebook instance is a ma- chine learning (ML) compute instance running on a Jupyter notebook. In a CreateNotebookInstance request, specify the type of ML compute in- stance that you want to run. SageMaker AI launches the instance, in- stalls common libraries that you can use to explore datasets for model training, and attaches an ML storage volume to the notebook instance. SageMaker AI also provides a set of example notebooks. Each notebook demonstra...
+    /// Creates an SageMaker AI notebook instance. A notebook instance is a machine learning (ML) compute instance running on a Jupyter notebook. In a CreateNotebookInstance request, specify the type of ML compute instance that you want to run. SageMaker AI launches the instance, installs common libraries that you can use to explore datasets for model training, and attaches an ML storage volume to the notebook instance. SageMaker AI also provides a set of example notebooks. Each notebook demonstrates ho...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -972,7 +972,7 @@ public class AwsSagemaker : IAwsSagemaker
     }
 
     /// <summary>
-    /// Creates a job that optimizes a model for inference performance. To cre- ate the job, you provide the location of a source model, and you pro- vide the settings for the optimization techniques that you want the job to apply. When the job completes successfully, SageMaker uploads the new optimized model to the output destination that you specify. For more information about how to use this action, and about the sup- ported optimization techniques, see Optimize model inference with Ama- zon SageMake...
+    /// Creates a job that optimizes a model for inference performance. To create the job, you provide the location of a source model, and you provide the settings for the optimization techniques that you want the job to apply. When the job completes successfully, SageMaker uploads the new optimized model to the output destination that you specify. For more information about how to use this action, and about the supported optimization techniques, see Optimize model inference with Amazon SageMaker . See ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1032,7 +1032,7 @@ public class AwsSagemaker : IAwsSagemaker
     }
 
     /// <summary>
-    /// Creates a URL for a specified UserProfile in a Domain. When accessed in a web browser, the user will be automatically signed in to the domain, and granted access to all of the Apps and files associated with the Do- main's Amazon Elastic File System volume. This operation can only be called when the authentication mode equals IAM. The IAM role or user passed to this API defines the permissions to ac- cess the app. Once the presigned URL is created, no additional permis- sion is required to access...
+    /// Creates a URL for a specified UserProfile in a Domain. When accessed in a web browser, the user will be automatically signed in to the domain, and granted access to all of the Apps and files associated with the Domain's Amazon Elastic File System volume. This operation can only be called when the authentication mode equals IAM. The IAM role or user passed to this API defines the permissions to access the app. Once the presigned URL is created, no additional permission is required to access this ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1077,7 +1077,7 @@ public class AwsSagemaker : IAwsSagemaker
     }
 
     /// <summary>
-    /// Returns a URL that you can use to connect to the Jupyter server from a notebook instance. In the SageMaker AI console, when you choose Open next to a notebook instance, SageMaker AI opens a new tab showing the Jupyter server home page from the notebook instance. The console uses this API to get the URL and show the page. The IAM role or user used to call this API defines the permissions to access the notebook instance. Once the presigned URL is created, no ad- ditional permission is required to ...
+    /// Returns a URL that you can use to connect to the Jupyter server from a notebook instance. In the SageMaker AI console, when you choose Open next to a notebook instance, SageMaker AI opens a new tab showing the Jupyter server home page from the notebook instance. The console uses this API to get the URL and show the page. The IAM role or user used to call this API defines the permissions to access the notebook instance. Once the presigned URL is created, no additional permission is required to ac...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1107,7 +1107,7 @@ public class AwsSagemaker : IAwsSagemaker
     }
 
     /// <summary>
-    /// Creates a machine learning (ML) project that can contain one or more templates that set up an ML pipeline from training to deploying an ap- proved model. See also: AWS API Documentation
+    /// Creates a machine learning (ML) project that can contain one or more templates that set up an ML pipeline from training to deploying an approved model. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1152,7 +1152,7 @@ public class AwsSagemaker : IAwsSagemaker
     }
 
     /// <summary>
-    /// Starts a model training job. After training completes, SageMaker saves the resulting model artifacts to an Amazon S3 location that you spec- ify. If you choose to host your model using SageMaker hosting services, you can use the resulting model artifacts as part of the model. You can also use the artifacts in a machine learning service other than Sage- Maker, provided that you know how to use them for inference. In the request body, you provide the following: o AlgorithmSpecification - Identifie...
+    /// Starts a model training job. After training completes, SageMaker saves the resulting model artifacts to an Amazon S3 location that you specify. If you choose to host your model using SageMaker hosting services, you can use the resulting model artifacts as part of the model. You can also use the artifacts in a machine learning service other than SageMaker, provided that you know how to use them for inference. In the request body, you provide the following: • AlgorithmSpecification - Identifies th...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1167,7 +1167,7 @@ public class AwsSagemaker : IAwsSagemaker
     }
 
     /// <summary>
-    /// Creates a new training plan in SageMaker to reserve compute capacity. Amazon SageMaker Training Plan is a capability within SageMaker that allows customers to reserve and manage GPU capacity for large-scale AI model training. It provides a way to secure predictable access to com- putational resources within specific timelines and budgets, without the need to manage underlying infrastructure. How it works Plans can be created for specific resources such as SageMaker Training Jobs or SageMaker Hyp...
+    /// Creates a new training plan in SageMaker to reserve compute capacity. Amazon SageMaker Training Plan is a capability within SageMaker that allows customers to reserve and manage GPU capacity for large-scale AI model training. It provides a way to secure predictable access to computational resources within specific timelines and budgets, without the need to manage underlying infrastructure. How it works Plans can be created for specific resources such as SageMaker Training Jobs or SageMaker Hyper...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1182,7 +1182,22 @@ public class AwsSagemaker : IAwsSagemaker
     }
 
     /// <summary>
-    /// Starts a transform job. A transform job uses a trained model to get in- ferences on a dataset and saves these results to an Amazon S3 location that you specify. To perform batch transformations, you create a transform job and use the data that you have readily available. In the request body, you provide the following: o TransformJobName - Identifies the transform job. The name must be unique within an Amazon Web Services Region in an Amazon Web Services account. o ModelName - Identifies the mode...
+    /// Creates a training session in Amazon SageMaker. A training session provisions compute resources for fine-tuning a foundation model using Low-Rank Adaptation (LoRA). After the session is created, you can submit training operations and sample inference requests through the Amazon SageMaker Training Session Runtime API. The following operations are related to CreateTrainingSession : • DescribeTrainingSession • ListTrainingSessions • StopTrainingSession • DeleteTrainingSession See also: AWS API Docu...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> CreateTrainingSessionAsync(
+        AwsSagemakerCreateTrainingSessionOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Starts a transform job. A transform job uses a trained model to get inferences on a dataset and saves these results to an Amazon S3 location that you specify. To perform batch transformations, you create a transform job and use the data that you have readily available. In the request body, you provide the following: • TransformJobName - Identifies the transform job. The name must be unique within an Amazon Web Services Region in an Amazon Web Services account. • ModelName - Identifies the model ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1197,7 +1212,7 @@ public class AwsSagemaker : IAwsSagemaker
     }
 
     /// <summary>
-    /// Creates a trial component , which is a stage of a machine learning trial . A trial is composed of one or more trial components. A trial component can be used in multiple trials. Trial components include pre-processing jobs, training jobs, and batch transform jobs. When you use SageMaker Studio or the SageMaker Python SDK, all experi- ments, trials, and trial components are automatically tracked, logged, and indexed. When you use the Amazon Web Services SDK for Python (Boto), you must use the log...
+    /// Creates a trial component , which is a stage of a machine learning trial . A trial is composed of one or more trial components. A trial component can be used in multiple trials. Trial components include pre-processing jobs, training jobs, and batch transform jobs. When you use SageMaker Studio or the SageMaker Python SDK, all experiments, trials, and trial components are automatically tracked, logged, and indexed. When you use the Amazon Web Services SDK for Python (Boto), you must use the loggi...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1212,7 +1227,7 @@ public class AwsSagemaker : IAwsSagemaker
     }
 
     /// <summary>
-    /// Creates an SageMaker trial . A trial is a set of steps called trial components that produce a machine learning model. A trial is part of a single SageMaker experiment . When you use SageMaker Studio or the SageMaker Python SDK, all experi- ments, trials, and trial components are automatically tracked, logged, and indexed. When you use the Amazon Web Services SDK for Python (Boto), you must use the logging APIs provided by the SDK. You can add tags to a trial and then use the Search API to search...
+    /// Creates an SageMaker trial . A trial is a set of steps called trial components that produce a machine learning model. A trial is part of a single SageMaker experiment . When you use SageMaker Studio or the SageMaker Python SDK, all experiments, trials, and trial components are automatically tracked, logged, and indexed. When you use the Amazon Web Services SDK for Python (Boto), you must use the logging APIs provided by the SDK. You can add tags to a trial and then use the Search API to search f...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1227,7 +1242,7 @@ public class AwsSagemaker : IAwsSagemaker
     }
 
     /// <summary>
-    /// Creates a user profile. A user profile represents a single user within a domain, and is the main way to reference a "person" for the purposes of sharing, reporting, and other user-oriented features. This entity is created when a user onboards to a domain. If an administrator invites a person by email or imports them from IAM Identity Center, a user pro- file is automatically created. A user profile is the primary holder of settings for an individual user and has a reference to the user's pri- va...
+    /// Creates a user profile. A user profile represents a single user within a domain, and is the main way to reference a "person" for the purposes of sharing, reporting, and other user-oriented features. This entity is created when a user onboards to a domain. If an administrator invites a person by email or imports them from IAM Identity Center, a user profile is automatically created. A user profile is the primary holder of settings for an individual user and has a reference to the user's private A...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1452,7 +1467,7 @@ public class AwsSagemaker : IAwsSagemaker
     }
 
     /// <summary>
-    /// Deletes the specified compilation job. This action deletes only the compilation job resource in Amazon SageMaker AI. It doesn't delete other resources that are related to that job, such as the model arti- facts that the job creates, the compilation logs in CloudWatch, the compiled model, or the IAM role. You can delete a compilation job only if its current status is COM- PLETED , FAILED , or STOPPED . If the job status is STARTING or IN- PROGRESS , stop the job, and then delete it after its stat...
+    /// Deletes the specified compilation job. This action deletes only the compilation job resource in Amazon SageMaker AI. It doesn't delete other resources that are related to that job, such as the model artifacts that the job creates, the compilation logs in CloudWatch, the compiled model, or the IAM role. You can delete a compilation job only if its current status is COMPLETED , FAILED , or STOPPED . If the job status is STARTING or INPROGRESS , stop the job, and then delete it after its status bec...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1572,7 +1587,7 @@ public class AwsSagemaker : IAwsSagemaker
     }
 
     /// <summary>
-    /// Deletes an endpoint configuration. The DeleteEndpointConfig API deletes only the specified configuration. It does not delete endpoints created using the configuration. You must not delete an EndpointConfig in use by an endpoint that is live or while the UpdateEndpoint or CreateEndpoint operations are being performed on the endpoint. If you delete the EndpointConfig of an end- point that is active or being created or updated you may lose visibil- ity into the instance type the endpoint is using. ...
+    /// Deletes an endpoint configuration. The DeleteEndpointConfig API deletes only the specified configuration. It does not delete endpoints created using the configuration. You must not delete an EndpointConfig in use by an endpoint that is live or while the UpdateEndpoint or CreateEndpoint operations are being performed on the endpoint. If you delete the EndpointConfig of an endpoint that is active or being created or updated you may lose visibility into the instance type the endpoint is using. The ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1587,7 +1602,7 @@ public class AwsSagemaker : IAwsSagemaker
     }
 
     /// <summary>
-    /// Deletes an endpoint. SageMaker frees up all of the resources that were deployed when the endpoint was created. SageMaker retires any custom KMS key grants associated with the end- point, meaning you don't need to use the RevokeGrant API call. When you delete your endpoint, SageMaker asynchronously deletes associ- ated endpoint resources such as KMS key grants. You might still see these resources in your account for a few minutes after deleting your endpoint. Do not delete or revoke the permissio...
+    /// Deletes an endpoint. SageMaker frees up all of the resources that were deployed when the endpoint was created. SageMaker retires any custom KMS key grants associated with the endpoint, meaning you don't need to use the RevokeGrant API call. When you delete your endpoint, SageMaker asynchronously deletes associated endpoint resources such as KMS key grants. You might still see these resources in your account for a few minutes after deleting your endpoint. Do not delete or revoke the permissions f...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1602,7 +1617,7 @@ public class AwsSagemaker : IAwsSagemaker
     }
 
     /// <summary>
-    /// Deletes an SageMaker experiment. All trials associated with the experi- ment must be deleted first. Use the ListTrials API to get a list of the trials associated with the experiment. See also: AWS API Documentation
+    /// Deletes an SageMaker experiment. All trials associated with the experiment must be deleted first. Use the ListTrials API to get a list of the trials associated with the experiment. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1617,7 +1632,7 @@ public class AwsSagemaker : IAwsSagemaker
     }
 
     /// <summary>
-    /// Delete the FeatureGroup and any data that was written to the Online- Store of the FeatureGroup . Data cannot be accessed from the Online- Store immediately after DeleteFeatureGroup is called. Data written into the OfflineStore will not be deleted. The Amazon Web Services Glue database and tables that are automatically created for your OfflineStore are not deleted. Note that it can take approximately 10-15 minutes to delete an Online- Store FeatureGroup with the InMemory StorageType . See also: A...
+    /// Delete the FeatureGroup and any data that was written to the OnlineStore of the FeatureGroup . Data cannot be accessed from the OnlineStore immediately after DeleteFeatureGroup is called. Data written into the OfflineStore will not be deleted. The Amazon Web Services Glue database and tables that are automatically created for your OfflineStore are not deleted. Note that it can take approximately 10-15 minutes to delete an OnlineStore FeatureGroup with the InMemory StorageType . See also: AWS API...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1662,7 +1677,7 @@ public class AwsSagemaker : IAwsSagemaker
     }
 
     /// <summary>
-    /// Delete a hub content reference in order to remove a model from a pri- vate hub. See also: AWS API Documentation
+    /// Delete a hub content reference in order to remove a model from a private hub. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1692,7 +1707,7 @@ public class AwsSagemaker : IAwsSagemaker
     }
 
     /// <summary>
-    /// Use this operation to delete a human task user interface (worker task template). To see a list of human task user interfaces (work task templates) in your account, use ListHumanTaskUis . When you delete a worker task tem- plate, it no longer appears when you call ListHumanTaskUis . See also: AWS API Documentation
+    /// Use this operation to delete a human task user interface (worker task template). To see a list of human task user interfaces (work task templates) in your account, use ListHumanTaskUis . When you delete a worker task template, it no longer appears when you call ListHumanTaskUis . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1722,7 +1737,7 @@ public class AwsSagemaker : IAwsSagemaker
     }
 
     /// <summary>
-    /// Deletes a SageMaker AI image and all versions of the image. The con- tainer images aren't deleted. See also: AWS API Documentation
+    /// Deletes a SageMaker AI image and all versions of the image. The container images aren't deleted. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1737,7 +1752,7 @@ public class AwsSagemaker : IAwsSagemaker
     }
 
     /// <summary>
-    /// Deletes a version of a SageMaker AI image. The container image the ver- sion represents isn't deleted. See also: AWS API Documentation
+    /// Deletes a version of a SageMaker AI image. The container image the version represents isn't deleted. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1767,7 +1782,7 @@ public class AwsSagemaker : IAwsSagemaker
     }
 
     /// <summary>
-    /// Deletes an inference experiment. NOTE: This operation does not delete your endpoint, variants, or any un- derlying resources. This operation only deletes the metadata of your experiment. See also: AWS API Documentation
+    /// Deletes an inference experiment. NOTE: This operation does not delete your endpoint, variants, or any underlying resources. This operation only deletes the metadata of your experiment. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1782,7 +1797,7 @@ public class AwsSagemaker : IAwsSagemaker
     }
 
     /// <summary>
-    /// Deletes a job. This operation is idempotent. If the job is currently running, you must stop it before deleting it by calling StopJob . The following operations are related to DeleteJob : o CreateJob o StopJob o DescribeJob See also: AWS API Documentation
+    /// Deletes a job. This operation is idempotent. If the job is currently running, you must stop it before deleting it by calling StopJob . The following operations are related to DeleteJob : • CreateJob • StopJob • DescribeJob See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1977,7 +1992,7 @@ public class AwsSagemaker : IAwsSagemaker
     }
 
     /// <summary>
-    /// Deletes an SageMaker AI notebook instance. Before you can delete a notebook instance, you must call the StopNotebookInstance API. WARNING: When you delete a notebook instance, you lose all of your data. SageMaker AI removes the ML compute instance, and deletes the ML storage volume and the network interface associated with the note- book instance. See also: AWS API Documentation
+    /// Deletes an SageMaker AI notebook instance. Before you can delete a notebook instance, you must call the StopNotebookInstance API. WARNING: When you delete a notebook instance, you lose all of your data. SageMaker AI removes the ML compute instance, and deletes the ML storage volume and the network interface associated with the notebook instance. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2037,7 +2052,7 @@ public class AwsSagemaker : IAwsSagemaker
     }
 
     /// <summary>
-    /// Deletes a processing job. After Amazon SageMaker deletes a processing job, all of the metadata for the processing job is lost. You can delete only processing jobs that are in a terminal state (Stopped , Failed , or Completed ). You cannot delete a job that is in the InProgress or Stopping state. After deleting the job, you can reuse its name to cre- ate another processing job. See also: AWS API Documentation
+    /// Deletes a processing job. After Amazon SageMaker deletes a processing job, all of the metadata for the processing job is lost. You can delete only processing jobs that are in a terminal state (Stopped , Failed , or Completed ). You cannot delete a job that is in the InProgress or Stopping state. After deleting the job, you can reuse its name to create another processing job. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2082,7 +2097,7 @@ public class AwsSagemaker : IAwsSagemaker
     }
 
     /// <summary>
-    /// Deletes the Amazon SageMaker AI Studio Lifecycle Configuration. In or- der to delete the Lifecycle Configuration, there must be no running apps using the Lifecycle Configuration. You must also remove the Life- cycle Configuration from UserSettings in all Domains and UserProfiles. See also: AWS API Documentation
+    /// Deletes the Amazon SageMaker AI Studio Lifecycle Configuration. In order to delete the Lifecycle Configuration, there must be no running apps using the Lifecycle Configuration. You must also remove the Lifecycle Configuration from UserSettings in all Domains and UserProfiles. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2127,7 +2142,22 @@ public class AwsSagemaker : IAwsSagemaker
     }
 
     /// <summary>
-    /// Deletes the specified trial component. A trial component must be disas- sociated from all trials before the trial component can be deleted. To disassociate a trial component from a trial, call the DisassociateTrialComponent API. See also: AWS API Documentation
+    /// Deletes a training session. You must stop a running session before deleting it. Use the StopTrainingSession operation to stop the session first. The following operations are related to DeleteTrainingSession : • CreateTrainingSession • DescribeTrainingSession • StopTrainingSession See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> DeleteTrainingSessionAsync(
+        AwsSagemakerDeleteTrainingSessionOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Deletes the specified trial component. A trial component must be disassociated from all trials before the trial component can be deleted. To disassociate a trial component from a trial, call the DisassociateTrialComponent API. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2157,7 +2187,7 @@ public class AwsSagemaker : IAwsSagemaker
     }
 
     /// <summary>
-    /// Deletes a user profile. When a user profile is deleted, the user loses access to their EFS volume, including data, notebooks, and other arti- facts. See also: AWS API Documentation
+    /// Deletes a user profile. When a user profile is deleted, the user loses access to their EFS volume, including data, notebooks, and other artifacts. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2172,7 +2202,7 @@ public class AwsSagemaker : IAwsSagemaker
     }
 
     /// <summary>
-    /// Use this operation to delete a workforce. If you want to create a new workforce in an Amazon Web Services Region where a workforce already exists, use this operation to delete the ex- isting workforce and then use CreateWorkforce to create a new work- force. WARNING: If a private workforce contains one or more work teams, you must use the DeleteWorkteam operation to delete all work teams before you delete the workforce. If you try to delete a workforce that contains one or more work teams, you w...
+    /// Use this operation to delete a workforce. If you want to create a new workforce in an Amazon Web Services Region where a workforce already exists, use this operation to delete the existing workforce and then use CreateWorkforce to create a new workforce. WARNING: If a private workforce contains one or more work teams, you must use the DeleteWorkteam operation to delete all work teams before you delete the workforce. If you try to delete a workforce that contains one or more work teams, you will ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2232,7 +2262,7 @@ public class AwsSagemaker : IAwsSagemaker
     }
 
     /// <summary>
-    /// Returns details of an AI benchmark job, including its status, configu- ration, target endpoint, and timing information. See also: AWS API Documentation
+    /// Returns details of an AI benchmark job, including its status, configuration, target endpoint, and timing information. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2277,7 +2307,7 @@ public class AwsSagemaker : IAwsSagemaker
     }
 
     /// <summary>
-    /// Returns a description of the specified algorithm that is in your ac- count. See also: AWS API Documentation
+    /// Returns a description of the specified algorithm that is in your account. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2367,7 +2397,7 @@ public class AwsSagemaker : IAwsSagemaker
     }
 
     /// <summary>
-    /// Retrieves detailed information about a specific event for a given Hy- perPod cluster. This functionality is only supported when the NodePro- visioningMode is set to Continuous . See also: AWS API Documentation
+    /// Retrieves detailed information about a specific event for a given HyperPod cluster. This functionality is only supported when the NodeProvisioningMode is set to Continuous . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2382,7 +2412,7 @@ public class AwsSagemaker : IAwsSagemaker
     }
 
     /// <summary>
-    /// Retrieves information of a node (also called a instance interchange- ably) of a SageMaker HyperPod cluster. See also: AWS API Documentation
+    /// Retrieves information of a node (also called a instance interchangeably) of a SageMaker HyperPod cluster. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2412,7 +2442,7 @@ public class AwsSagemaker : IAwsSagemaker
     }
 
     /// <summary>
-    /// Description of the cluster policy. This policy is used for task priori- tization and fair-share allocation. This helps prioritize critical workloads and distributes idle compute across entities. See also: AWS API Documentation
+    /// Description of the cluster policy. This policy is used for task prioritization and fair-share allocation. This helps prioritize critical workloads and distributes idle compute across entities. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2622,7 +2652,7 @@ public class AwsSagemaker : IAwsSagemaker
     }
 
     /// <summary>
-    /// Use this operation to describe a FeatureGroup . The response includes information on the creation time, FeatureGroup name, the unique identi- fier for each FeatureGroup , and more. See also: AWS API Documentation
+    /// Use this operation to describe a FeatureGroup . The response includes information on the creation time, FeatureGroup name, the unique identifier for each FeatureGroup , and more. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2787,7 +2817,7 @@ public class AwsSagemaker : IAwsSagemaker
     }
 
     /// <summary>
-    /// Provides the results of the Inference Recommender job. One or more rec- ommendation jobs are returned. See also: AWS API Documentation
+    /// Provides the results of the Inference Recommender job. One or more recommendation jobs are returned. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2802,7 +2832,7 @@ public class AwsSagemaker : IAwsSagemaker
     }
 
     /// <summary>
-    /// Returns detailed information about a job, including its current status, secondary status, configuration, and timestamps. Use SecondaryStatus for granular progress tracking and SecondaryStatusTransitions to see the full history of status changes with timestamps. The following operations are related to DescribeJob : o CreateJob o ListJobs o StopJob o DeleteJob See also: AWS API Documentation
+    /// Returns detailed information about a job, including its current status, secondary status, configuration, and timestamps. Use SecondaryStatus for granular progress tracking and SecondaryStatusTransitions to see the full history of status changes with timestamps. The following operations are related to DescribeJob : • CreateJob • ListJobs • StopJob • DeleteJob See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2817,7 +2847,7 @@ public class AwsSagemaker : IAwsSagemaker
     }
 
     /// <summary>
-    /// Returns the JSON schema for a specified job category and schema ver- sion. Use this schema to validate your JobConfigDocument before calling CreateJob . If you don't specify a schema version, the latest version is returned. The schema defines required fields, allowed values, and constraints for the job configuration. The following operations are related to DescribeJobSchemaVersion : o ListJobSchemaVersions o CreateJob See also: AWS API Documentation
+    /// Returns the JSON schema for a specified job category and schema version. Use this schema to validate your JobConfigDocument before calling CreateJob . If you don't specify a schema version, the latest version is returned. The schema defines required fields, allowed values, and constraints for the job configuration. The following operations are related to DescribeJobSchemaVersion : • ListJobSchemaVersions • CreateJob See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2982,7 +3012,7 @@ public class AwsSagemaker : IAwsSagemaker
     }
 
     /// <summary>
-    /// Returns a description of the specified model package, which is used to create SageMaker models or list them on Amazon Web Services Market- place. WARNING: If you provided a KMS Key ID when you created your model package, you will see the KMS Decrypt API call in your CloudTrail logs when you use this API. To call this operation without requiring kms:De- crypt permission on the customer-managed key, set IncludedData to MetadataOnly ; the response is returned with the embedded Model- Card.ModelCard...
+    /// Returns a description of the specified model package, which is used to create SageMaker models or list them on Amazon Web Services Marketplace. WARNING: If you provided a KMS Key ID when you created your model package, you will see the KMS Decrypt API call in your CloudTrail logs when you use this API. To call this operation without requiring kms:Decrypt permission on the customer-managed key, set IncludedData to MetadataOnly ; the response is returned with the embedded ModelCard.ModelCardConten...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -3207,7 +3237,7 @@ public class AwsSagemaker : IAwsSagemaker
     }
 
     /// <summary>
-    /// Gets information about a work team provided by a vendor. It returns de- tails about the subscription with a vendor in the Amazon Web Services Marketplace. See also: AWS API Documentation
+    /// Gets information about a work team provided by a vendor. It returns details about the subscription with a vendor in the Amazon Web Services Marketplace. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -3222,7 +3252,7 @@ public class AwsSagemaker : IAwsSagemaker
     }
 
     /// <summary>
-    /// Returns information about a training job. Some of the attributes below only appear if the training job success- fully starts. If the training job fails, TrainingJobStatus is Failed and, depending on the FailureReason , attributes like TrainingStartTime , TrainingTimeInSeconds , TrainingEndTime , and BillableTimeInSeconds may not be present in the response. See also: AWS API Documentation
+    /// Returns information about a training job. Some of the attributes below only appear if the training job successfully starts. If the training job fails, TrainingJobStatus is Failed and, depending on the FailureReason , attributes like TrainingStartTime , TrainingTimeInSeconds , TrainingEndTime , and BillableTimeInSeconds may not be present in the response. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -3237,7 +3267,7 @@ public class AwsSagemaker : IAwsSagemaker
     }
 
     /// <summary>
-    /// Retrieves the extension history for a specified training plan. The re- sponse includes details about each extension, such as the offering ID, start and end dates, status, payment status, and cost information. See also: AWS API Documentation describe-training-plan-extension-history is a paginated operation. Mul- tiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --q...
+    /// Retrieves the extension history for a specified training plan. The response includes details about each extension, such as the offering ID, start and end dates, status, payment status, and cost information. See also: AWS API Documentation describe-training-plan-extension-history is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -3260,6 +3290,21 @@ public class AwsSagemaker : IAwsSagemaker
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DescribeTrainingPlanAsync(
         AwsSagemakerDescribeTrainingPlanOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Retrieves detailed information about a training session, including its current status, model configuration, Low-Rank Adaptation (LoRA) parameters, and timestamps. The following operations are related to DescribeTrainingSession : • CreateTrainingSession • ListTrainingSessions • StopTrainingSession • DeleteTrainingSession See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> DescribeTrainingSessionAsync(
+        AwsSagemakerDescribeTrainingSessionOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
@@ -3327,7 +3372,7 @@ public class AwsSagemaker : IAwsSagemaker
     }
 
     /// <summary>
-    /// Lists private workforce information, including workforce name, Amazon Resource Name (ARN), and, if applicable, allowed IP address ranges (- CIDRs ). Allowable IP address ranges are the IP addresses that workers can use to access tasks. WARNING: This operation applies only to private workforces. See also: AWS API Documentation
+    /// Lists private workforce information, including workforce name, Amazon Resource Name (ARN), and, if applicable, allowed IP address ranges (CIDRs ). Allowable IP address ranges are the IP addresses that workers can use to access tasks. WARNING: This operation applies only to private workforces. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -3342,7 +3387,7 @@ public class AwsSagemaker : IAwsSagemaker
     }
 
     /// <summary>
-    /// Gets information about a specific work team. You can see information such as the creation date, the last updated date, membership informa- tion, and the work team's Amazon Resource Name (ARN). See also: AWS API Documentation
+    /// Gets information about a specific work team. You can see information such as the creation date, the last updated date, membership information, and the work team's Amazon Resource Name (ARN). See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -3357,7 +3402,7 @@ public class AwsSagemaker : IAwsSagemaker
     }
 
     /// <summary>
-    /// Detaches your Amazon Elastic Block Store (Amazon EBS) volume from a node in your EKS orchestrated SageMaker HyperPod cluster. This API works with the Amazon Elastic Block Store (Amazon EBS) Con- tainer Storage Interface (CSI) driver to manage the lifecycle of per- sistent storage in your HyperPod EKS clusters. See also: AWS API Documentation
+    /// Detaches your Amazon Elastic Block Store (Amazon EBS) volume from a node in your EKS orchestrated SageMaker HyperPod cluster. This API works with the Amazon Elastic Block Store (Amazon EBS) Container Storage Interface (CSI) driver to manage the lifecycle of persistent storage in your HyperPod EKS clusters. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -3387,7 +3432,7 @@ public class AwsSagemaker : IAwsSagemaker
     }
 
     /// <summary>
-    /// Disassociates a trial component from a trial. This doesn't effect other trials the component is associated with. Before you can delete a compo- nent, you must disassociate the component from all trials it is associ- ated with. To associate a trial component with a trial, call the AssociateTrialComponent API. To get a list of the trials a component is associated with, use the Search API. Specify ExperimentTrialComponent for the Resource parame- ter. The list appears in the response under Results....
+    /// Disassociates a trial component from a trial. This doesn't effect other trials the component is associated with. Before you can delete a component, you must disassociate the component from all trials it is associated with. To associate a trial component with a trial, call the AssociateTrialComponent API. To get a list of the trials a component is associated with, use the Search API. Specify ExperimentTrialComponent for the Resource parameter. The list appears in the response under Results.TrialC...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -3417,7 +3462,7 @@ public class AwsSagemaker : IAwsSagemaker
     }
 
     /// <summary>
-    /// Extends an existing training plan by purchasing an extension offering. This allows you to add additional compute capacity time to your train- ing plan without creating a new plan or reconfiguring your workloads. To find available extension offerings, use the `` SearchTrainingPlanOfferings `` API with the TrainingPlanArn parameter. To view the history of extensions for a training plan, use the `` DescribeTrainingPlanExtensionHistory `` API. See also: AWS API Documentation
+    /// Extends an existing training plan by purchasing an extension offering. This allows you to add additional compute capacity time to your training plan without creating a new plan or reconfiguring your workloads. To find available extension offerings, use the `` SearchTrainingPlanOfferings `` API with the TrainingPlanArn parameter. To view the history of extensions for a training plan, use the `` DescribeTrainingPlanExtensionHistory `` API. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -3462,7 +3507,7 @@ public class AwsSagemaker : IAwsSagemaker
     }
 
     /// <summary>
-    /// Gets a resource policy that manages access for a model group. For in- formation about resource policies, see Identity-based policies and re- source-based policies in the Amazon Web Services Identity and Access Management User Guide. . See also: AWS API Documentation
+    /// Gets a resource policy that manages access for a model group. For information about resource policies, see Identity-based policies and resource-based policies in the Amazon Web Services Identity and Access Management User Guide. . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -3492,7 +3537,7 @@ public class AwsSagemaker : IAwsSagemaker
     }
 
     /// <summary>
-    /// Starts an Amazon SageMaker Inference Recommender autoscaling recommen- dation job. Returns recommendations for autoscaling policies that you can apply to your SageMaker endpoint. See also: AWS API Documentation
+    /// Starts an Amazon SageMaker Inference Recommender autoscaling recommendation job. Returns recommendations for autoscaling policies that you can apply to your SageMaker endpoint. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -3507,7 +3552,7 @@ public class AwsSagemaker : IAwsSagemaker
     }
 
     /// <summary>
-    /// An auto-complete API for the search functionality in the SageMaker con- sole. It returns suggestions of possible matches for the property name to use in Search queries. Provides suggestions for HyperParameters , Tags , and Metrics . See also: AWS API Documentation
+    /// An auto-complete API for the search functionality in the SageMaker console. It returns suggestions of possible matches for the property name to use in Search queries. Provides suggestions for HyperParameters , Tags , and Metrics . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -3537,7 +3582,7 @@ public class AwsSagemaker : IAwsSagemaker
     }
 
     /// <summary>
-    /// Lists the actions in your account and their properties. See also: AWS API Documentation list-actions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex- pressions: ActionSummaries
+    /// Lists the actions in your account and their properties. See also: AWS API Documentation list-actions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: ActionSummaries
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -3567,7 +3612,7 @@ public class AwsSagemaker : IAwsSagemaker
     }
 
     /// <summary>
-    /// Returns a list of AI recommendation jobs in your account. You can fil- ter the results by name, status, and creation time, and sort the re- sults. The response is paginated. See also: AWS API Documentation list-ai-recommendation-jobs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --q...
+    /// Returns a list of AI recommendation jobs in your account. You can filter the results by name, status, and creation time, and sort the results. The response is paginated. See also: AWS API Documentation list-ai-recommendation-jobs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query arg...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -3597,7 +3642,7 @@ public class AwsSagemaker : IAwsSagemaker
     }
 
     /// <summary>
-    /// Lists the machine learning algorithms that have been created. See also: AWS API Documentation list-algorithms is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: AlgorithmSummaryList
+    /// Lists the machine learning algorithms that have been created. See also: AWS API Documentation list-algorithms is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: AlgorithmSummaryList
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -3612,7 +3657,7 @@ public class AwsSagemaker : IAwsSagemaker
     }
 
     /// <summary>
-    /// Lists the aliases of a specified image or image version. See also: AWS API Documentation list-aliases is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex- pressions: SageMakerImageVersionAliases
+    /// Lists the aliases of a specified image or image version. See also: AWS API Documentation list-aliases is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: SageMakerImageVersionAliases
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -3642,7 +3687,7 @@ public class AwsSagemaker : IAwsSagemaker
     }
 
     /// <summary>
-    /// Lists apps. See also: AWS API Documentation list-apps is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagi- nation by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query ar- gument must extract data from the results of the following query ex- pressions: Apps
+    /// Lists apps. See also: AWS API Documentation list-apps is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Apps
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -3657,7 +3702,7 @@ public class AwsSagemaker : IAwsSagemaker
     }
 
     /// <summary>
-    /// Lists the artifacts in your account and their properties. See also: AWS API Documentation list-artifacts is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: ArtifactSummaries
+    /// Lists the artifacts in your account and their properties. See also: AWS API Documentation list-artifacts is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: ArtifactSummaries
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -3702,7 +3747,7 @@ public class AwsSagemaker : IAwsSagemaker
     }
 
     /// <summary>
-    /// List the candidates created for the job. See also: AWS API Documentation list-candidates-for-auto-ml-job is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Candidates
+    /// List the candidates created for the job. See also: AWS API Documentation list-candidates-for-auto-ml-job is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Candidates
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -3747,7 +3792,7 @@ public class AwsSagemaker : IAwsSagemaker
     }
 
     /// <summary>
-    /// List the cluster policy configurations. See also: AWS API Documentation list-cluster-scheduler-configs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: ClusterSchedulerConfigSummaries
+    /// List the cluster policy configurations. See also: AWS API Documentation list-cluster-scheduler-configs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: ClusterSchedulerConfigSummaries
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -3762,7 +3807,7 @@ public class AwsSagemaker : IAwsSagemaker
     }
 
     /// <summary>
-    /// Retrieves the list of SageMaker HyperPod clusters. See also: AWS API Documentation list-clusters is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: ClusterSummaries
+    /// Retrieves the list of SageMaker HyperPod clusters. See also: AWS API Documentation list-clusters is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: ClusterSummaries
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -3822,7 +3867,7 @@ public class AwsSagemaker : IAwsSagemaker
     }
 
     /// <summary>
-    /// Lists the contexts in your account and their properties. See also: AWS API Documentation list-contexts is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: ContextSummaries
+    /// Lists the contexts in your account and their properties. See also: AWS API Documentation list-contexts is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: ContextSummaries
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -3837,7 +3882,7 @@ public class AwsSagemaker : IAwsSagemaker
     }
 
     /// <summary>
-    /// Lists the data quality job definitions in your account. See also: AWS API Documentation list-data-quality-job-definitions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: JobDefinitionSummaries
+    /// Lists the data quality job definitions in your account. See also: AWS API Documentation list-data-quality-job-definitions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: JobDefinitionSummaries
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -3867,7 +3912,7 @@ public class AwsSagemaker : IAwsSagemaker
     }
 
     /// <summary>
-    /// A list of devices. See also: AWS API Documentation list-devices is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex- pressions: DeviceSummaries
+    /// A list of devices. See also: AWS API Documentation list-devices is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: DeviceSummaries
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -3882,7 +3927,7 @@ public class AwsSagemaker : IAwsSagemaker
     }
 
     /// <summary>
-    /// Lists the domains. See also: AWS API Documentation list-domains is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex- pressions: Domains
+    /// Lists the domains. See also: AWS API Documentation list-domains is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Domains
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -3897,7 +3942,7 @@ public class AwsSagemaker : IAwsSagemaker
     }
 
     /// <summary>
-    /// Lists all edge deployment plans. See also: AWS API Documentation list-edge-deployment-plans is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: EdgeDeploymentPlanSummaries
+    /// Lists all edge deployment plans. See also: AWS API Documentation list-edge-deployment-plans is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: EdgeDeploymentPlanSummaries
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -3912,7 +3957,7 @@ public class AwsSagemaker : IAwsSagemaker
     }
 
     /// <summary>
-    /// Returns a list of edge packaging jobs. See also: AWS API Documentation list-edge-packaging-jobs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: EdgePackagingJobSummaries
+    /// Returns a list of edge packaging jobs. See also: AWS API Documentation list-edge-packaging-jobs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: EdgePackagingJobSummaries
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -3942,7 +3987,7 @@ public class AwsSagemaker : IAwsSagemaker
     }
 
     /// <summary>
-    /// Lists endpoints. See also: AWS API Documentation list-endpoints is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Endpoints
+    /// Lists endpoints. See also: AWS API Documentation list-endpoints is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Endpoints
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -4002,21 +4047,6 @@ public class AwsSagemaker : IAwsSagemaker
     }
 
     /// <summary>
-    /// List the contents of a hub. See also: AWS API Documentation
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListHubContentsAsync(
-        AwsSagemakerListHubContentsOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
     /// List hub content versions. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -4025,6 +4055,21 @@ public class AwsSagemaker : IAwsSagemaker
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListHubContentVersionsAsync(
         AwsSagemakerListHubContentVersionsOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// List the contents of a hub. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListHubContentsAsync(
+        AwsSagemakerListHubContentsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
@@ -4047,7 +4092,7 @@ public class AwsSagemaker : IAwsSagemaker
     }
 
     /// <summary>
-    /// Returns information about the human task user interfaces in your ac- count. See also: AWS API Documentation list-human-task-uis is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: HumanTaskUiSummaries
+    /// Returns information about the human task user interfaces in your account. See also: AWS API Documentation list-human-task-uis is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: HumanTaskUiSummaries
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -4062,7 +4107,7 @@ public class AwsSagemaker : IAwsSagemaker
     }
 
     /// <summary>
-    /// Gets a list of HyperParameterTuningJobSummary objects that describe the hyperparameter tuning jobs launched in your account. See also: AWS API Documentation list-hyper-parameter-tuning-jobs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the res...
+    /// Gets a list of HyperParameterTuningJobSummary objects that describe the hyperparameter tuning jobs launched in your account. See also: AWS API Documentation list-hyper-parameter-tuning-jobs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -4074,21 +4119,6 @@ public class AwsSagemaker : IAwsSagemaker
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSagemakerListHyperParameterTuningJobsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
-    /// Lists the images in your account and their properties. The list can be filtered by creation time or modified time, and whether the image name contains a specified string. See also: AWS API Documentation list-images is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must ex...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListImagesAsync(
-        AwsSagemakerListImagesOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSagemakerListImagesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -4107,7 +4137,22 @@ public class AwsSagemaker : IAwsSagemaker
     }
 
     /// <summary>
-    /// Lists the inference components in your account and their properties. See also: AWS API Documentation list-inference-components is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: InferenceComponents
+    /// Lists the images in your account and their properties. The list can be filtered by creation time or modified time, and whether the image name contains a specified string. See also: AWS API Documentation list-images is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extr...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListImagesAsync(
+        AwsSagemakerListImagesOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSagemakerListImagesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Lists the inference components in your account and their properties. See also: AWS API Documentation list-inference-components is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: InferenceComponents
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -4122,7 +4167,7 @@ public class AwsSagemaker : IAwsSagemaker
     }
 
     /// <summary>
-    /// Returns the list of all inference experiments. See also: AWS API Documentation list-inference-experiments is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: InferenceExperiments
+    /// Returns the list of all inference experiments. See also: AWS API Documentation list-inference-experiments is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: InferenceExperiments
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -4137,22 +4182,7 @@ public class AwsSagemaker : IAwsSagemaker
     }
 
     /// <summary>
-    /// Lists recommendation jobs that satisfy various filters. See also: AWS API Documentation list-inference-recommendations-jobs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: InferenceRecommendationsJ...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListInferenceRecommendationsJobsAsync(
-        AwsSagemakerListInferenceRecommendationsJobsOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSagemakerListInferenceRecommendationsJobsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
-    /// Returns a list of the subtasks for an Inference Recommender job. The supported subtasks are benchmarks, which evaluate the performance of your model on different instance types. See also: AWS API Documentation list-inference-recommendations-job-steps is a paginated operation. Mul- tiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a pagi- nated ...
+    /// Returns a list of the subtasks for an Inference Recommender job. The supported subtasks are benchmarks, which evaluate the performance of your model on different instance types. See also: AWS API Documentation list-inference-recommendations-job-steps is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated resp...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -4167,7 +4197,22 @@ public class AwsSagemaker : IAwsSagemaker
     }
 
     /// <summary>
-    /// Lists available configuration schema versions for a specified job cate- gory. Use the schema versions with DescribeJobSchemaVersion to retrieve the full schema document. The following operations are related to ListJobSchemaVersions : o DescribeJobSchemaVersion o CreateJob See also: AWS API Documentation list-job-schema-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate ...
+    /// Lists recommendation jobs that satisfy various filters. See also: AWS API Documentation list-inference-recommendations-jobs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: InferenceRecommendationsJobs
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListInferenceRecommendationsJobsAsync(
+        AwsSagemakerListInferenceRecommendationsJobsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSagemakerListInferenceRecommendationsJobsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Lists available configuration schema versions for a specified job category. Use the schema versions with DescribeJobSchemaVersion to retrieve the full schema document. The following operations are related to ListJobSchemaVersions : • DescribeJobSchemaVersion • CreateJob See also: AWS API Documentation list-job-schema-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate ar...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -4182,7 +4227,7 @@ public class AwsSagemaker : IAwsSagemaker
     }
 
     /// <summary>
-    /// Lists jobs in a specified category. You can filter results by creation time, last modified time, name, and status. Results are sorted by the field you specify in SortBy . Use pagination to retrieve large result sets efficiently. The following operations are related to ListJobs : o CreateJob o DescribeJob See also: AWS API Documentation list-jobs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagi- nation by providin...
+    /// Lists jobs in a specified category. You can filter results by creation time, last modified time, name, and status. Results are sorted by the field you specify in SortBy . Use pagination to retrieve large result sets efficiently. The following operations are related to ListJobs : • CreateJob • DescribeJob See also: AWS API Documentation list-jobs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -4197,7 +4242,7 @@ public class AwsSagemaker : IAwsSagemaker
     }
 
     /// <summary>
-    /// Gets a list of labeling jobs assigned to a specified work team. See also: AWS API Documentation list-labeling-jobs-for-workteam is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: LabelingJobSummaryLis...
+    /// Gets a list of labeling jobs assigned to a specified work team. See also: AWS API Documentation list-labeling-jobs-for-workteam is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: LabelingJobSummaryList
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -4257,7 +4302,7 @@ public class AwsSagemaker : IAwsSagemaker
     }
 
     /// <summary>
-    /// Lists all MLflow Tracking Servers. See also: AWS API Documentation list-mlflow-tracking-servers is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: TrackingServerSummaries
+    /// Lists all MLflow Tracking Servers. See also: AWS API Documentation list-mlflow-tracking-servers is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: TrackingServerSummaries
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -4272,7 +4317,7 @@ public class AwsSagemaker : IAwsSagemaker
     }
 
     /// <summary>
-    /// Lists model bias jobs definitions that satisfy various filters. See also: AWS API Documentation list-model-bias-job-definitions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: JobDefinitionSummarie...
+    /// Lists model bias jobs definitions that satisfy various filters. See also: AWS API Documentation list-model-bias-job-definitions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: JobDefinitionSummaries
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -4287,7 +4332,7 @@ public class AwsSagemaker : IAwsSagemaker
     }
 
     /// <summary>
-    /// List the export jobs for the Amazon SageMaker Model Card. See also: AWS API Documentation list-model-card-export-jobs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: ModelCardExportJobSummaries
+    /// List the export jobs for the Amazon SageMaker Model Card. See also: AWS API Documentation list-model-card-export-jobs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: ModelCardExportJobSummaries
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -4295,6 +4340,21 @@ public class AwsSagemaker : IAwsSagemaker
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListModelCardExportJobsAsync(
         AwsSagemakerListModelCardExportJobsOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// List existing versions of an Amazon SageMaker Model Card. See also: AWS API Documentation list-model-card-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: ModelCardVersionSummaryList
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListModelCardVersionsAsync(
+        AwsSagemakerListModelCardVersionsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
@@ -4317,22 +4377,7 @@ public class AwsSagemaker : IAwsSagemaker
     }
 
     /// <summary>
-    /// List existing versions of an Amazon SageMaker Model Card. See also: AWS API Documentation list-model-card-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: ModelCardVersionSummaryList
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListModelCardVersionsAsync(
-        AwsSagemakerListModelCardVersionsOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
-    /// Lists model explainability job definitions that satisfy various fil- ters. See also: AWS API Documentation list-model-explainability-job-definitions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-pagi- nate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the re- sults of the following query expressions: ...
+    /// Lists model explainability job definitions that satisfy various filters. See also: AWS API Documentation list-model-explainability-job-definitions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: JobDef...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -4362,7 +4407,7 @@ public class AwsSagemaker : IAwsSagemaker
     }
 
     /// <summary>
-    /// Gets a list of the model groups in your Amazon Web Services account. See also: AWS API Documentation list-model-package-groups is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: ModelPackageGroupSummary...
+    /// Gets a list of the model groups in your Amazon Web Services account. See also: AWS API Documentation list-model-package-groups is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: ModelPackageGroupSummaryLi...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -4392,7 +4437,7 @@ public class AwsSagemaker : IAwsSagemaker
     }
 
     /// <summary>
-    /// Gets a list of model quality monitoring job definitions in your ac- count. See also: AWS API Documentation list-model-quality-job-definitions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: JobDefi...
+    /// Gets a list of model quality monitoring job definitions in your account. See also: AWS API Documentation list-model-quality-job-definitions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: JobDefinition...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -4407,7 +4452,7 @@ public class AwsSagemaker : IAwsSagemaker
     }
 
     /// <summary>
-    /// Lists models created with the CreateModel API. See also: AWS API Documentation list-models is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex- pressions: Models
+    /// Lists models created with the CreateModel API. See also: AWS API Documentation list-models is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Models
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -4422,7 +4467,7 @@ public class AwsSagemaker : IAwsSagemaker
     }
 
     /// <summary>
-    /// Gets a list of past alerts in a model monitoring schedule. See also: AWS API Documentation list-monitoring-alert-history is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: MonitoringAlertHistory
+    /// Gets a list of past alerts in a model monitoring schedule. See also: AWS API Documentation list-monitoring-alert-history is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: MonitoringAlertHistory
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -4452,7 +4497,7 @@ public class AwsSagemaker : IAwsSagemaker
     }
 
     /// <summary>
-    /// Returns list of all monitoring job executions. See also: AWS API Documentation list-monitoring-executions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: MonitoringExecutionSummaries
+    /// Returns list of all monitoring job executions. See also: AWS API Documentation list-monitoring-executions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: MonitoringExecutionSummaries
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -4467,7 +4512,7 @@ public class AwsSagemaker : IAwsSagemaker
     }
 
     /// <summary>
-    /// Returns list of all monitoring schedules. See also: AWS API Documentation list-monitoring-schedules is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: MonitoringScheduleSummaries
+    /// Returns list of all monitoring schedules. See also: AWS API Documentation list-monitoring-schedules is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: MonitoringScheduleSummaries
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -4482,7 +4527,7 @@ public class AwsSagemaker : IAwsSagemaker
     }
 
     /// <summary>
-    /// Lists notebook instance lifestyle configurations created with the CreateNotebookInstanceLifecycleConfig API. See also: AWS API Documentation list-notebook-instance-lifecycle-configs is a paginated operation. Mul- tiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a pagi- nated response, the --query argument must extract data from the results of ...
+    /// Lists notebook instance lifestyle configurations created with the CreateNotebookInstanceLifecycleConfig API. See also: AWS API Documentation list-notebook-instance-lifecycle-configs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -4497,7 +4542,7 @@ public class AwsSagemaker : IAwsSagemaker
     }
 
     /// <summary>
-    /// Returns a list of the SageMaker AI notebook instances in the re- quester's account in an Amazon Web Services Region. See also: AWS API Documentation list-notebook-instances is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- i...
+    /// Returns a list of the SageMaker AI notebook instances in the requester's account in an Amazon Web Services Region. See also: AWS API Documentation list-notebook-instances is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following q...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -4542,22 +4587,7 @@ public class AwsSagemaker : IAwsSagemaker
     }
 
     /// <summary>
-    /// Gets a list of the pipeline executions. See also: AWS API Documentation list-pipeline-executions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: PipelineExecutionSummaries
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListPipelineExecutionsAsync(
-        AwsSagemakerListPipelineExecutionsOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
-    /// Gets a list of PipeLineExecutionStep objects. See also: AWS API Documentation list-pipeline-execution-steps is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: PipelineExecutionSteps
+    /// Gets a list of PipeLineExecutionStep objects. See also: AWS API Documentation list-pipeline-execution-steps is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: PipelineExecutionSteps
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -4572,7 +4602,22 @@ public class AwsSagemaker : IAwsSagemaker
     }
 
     /// <summary>
-    /// Gets a list of parameters for a pipeline execution. See also: AWS API Documentation list-pipeline-parameters-for-execution is a paginated operation. Multi- ple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate ar- gument. When using --output text and the --query argument on a pagi- nated response, the --query argument must extract data from the results of the following query expressions: PipelineParameters
+    /// Gets a list of the pipeline executions. See also: AWS API Documentation list-pipeline-executions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: PipelineExecutionSummaries
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListPipelineExecutionsAsync(
+        AwsSagemakerListPipelineExecutionsOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Gets a list of parameters for a pipeline execution. See also: AWS API Documentation list-pipeline-parameters-for-execution is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: PipelineParameters
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -4584,21 +4629,6 @@ public class AwsSagemaker : IAwsSagemaker
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
-    /// Gets a list of pipelines. See also: AWS API Documentation list-pipelines is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: PipelineSummaries
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListPipelinesAsync(
-        AwsSagemakerListPipelinesOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSagemakerListPipelinesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -4614,6 +4644,21 @@ public class AwsSagemaker : IAwsSagemaker
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Gets a list of pipelines. See also: AWS API Documentation list-pipelines is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: PipelineSummaries
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListPipelinesAsync(
+        AwsSagemakerListPipelinesOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSagemakerListPipelinesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -4662,7 +4707,7 @@ public class AwsSagemaker : IAwsSagemaker
     }
 
     /// <summary>
-    /// Lists spaces. See also: AWS API Documentation list-spaces is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex- pressions: Spaces
+    /// Lists spaces. See also: AWS API Documentation list-spaces is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Spaces
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -4677,7 +4722,7 @@ public class AwsSagemaker : IAwsSagemaker
     }
 
     /// <summary>
-    /// Lists devices allocated to the stage, containing detailed device infor- mation and deployment status. See also: AWS API Documentation list-stage-devices is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: ...
+    /// Lists devices allocated to the stage, containing detailed device information and deployment status. See also: AWS API Documentation list-stage-devices is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: De...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -4692,7 +4737,7 @@ public class AwsSagemaker : IAwsSagemaker
     }
 
     /// <summary>
-    /// Lists the Amazon SageMaker AI Studio Lifecycle Configurations in your Amazon Web Services Account. See also: AWS API Documentation list-studio-lifecycle-configs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query e...
+    /// Lists the Amazon SageMaker AI Studio Lifecycle Configurations in your Amazon Web Services Account. See also: AWS API Documentation list-studio-lifecycle-configs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expre...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -4707,7 +4752,7 @@ public class AwsSagemaker : IAwsSagemaker
     }
 
     /// <summary>
-    /// Gets a list of the work teams that you are subscribed to in the Amazon Web Services Marketplace. The list may be empty if no work team satis- fies the filter specified in the NameContains parameter. See also: AWS API Documentation list-subscribed-workteams is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginate...
+    /// Gets a list of the work teams that you are subscribed to in the Amazon Web Services Marketplace. The list may be empty if no work team satisfies the filter specified in the NameContains parameter. See also: AWS API Documentation list-subscribed-workteams is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -4722,7 +4767,7 @@ public class AwsSagemaker : IAwsSagemaker
     }
 
     /// <summary>
-    /// Returns the tags for the specified SageMaker resource. See also: AWS API Documentation list-tags is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagi- nation by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query ar- gument must extract data from the results of the following query ex- pressions: Tags
+    /// Returns the tags for the specified SageMaker resource. See also: AWS API Documentation list-tags is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Tags
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -4737,7 +4782,7 @@ public class AwsSagemaker : IAwsSagemaker
     }
 
     /// <summary>
-    /// Gets a list of TrainingJobSummary objects that describe the training jobs that a hyperparameter tuning job launched. See also: AWS API Documentation list-training-jobs-for-hyper-parameter-tuning-job is a paginated opera- tion. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argu- ment on a paginated response, the --query argument must extract data fro...
+    /// Gets a list of TrainingJobSummary objects that describe the training jobs that a hyperparameter tuning job launched. See also: AWS API Documentation list-training-jobs-for-hyper-parameter-tuning-job is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from th...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -4752,7 +4797,7 @@ public class AwsSagemaker : IAwsSagemaker
     }
 
     /// <summary>
-    /// Lists training jobs. NOTE: When StatusEquals and MaxResults are set at the same time, the MaxResults number of training jobs are first retrieved ignoring the StatusEquals parameter and then they are filtered by the StatusE- quals parameter, which is returned as a response. For example, if ListTrainingJobs is invoked with the following para- meters: { ... MaxResults: 100, StatusEquals: InProgress ... } First, 100 trainings jobs with any status, including those other than InProgress , are selected...
+    /// Lists training jobs. NOTE: When StatusEquals and MaxResults are set at the same time, the MaxResults number of training jobs are first retrieved ignoring the StatusEquals parameter and then they are filtered by the StatusEquals parameter, which is returned as a response. For example, if ListTrainingJobs is invoked with the following parameters: { ... MaxResults: 100, StatusEquals: InProgress ... } First, 100 trainings jobs with any status, including those other than InProgress , are selected (so...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -4782,6 +4827,21 @@ public class AwsSagemaker : IAwsSagemaker
     }
 
     /// <summary>
+    /// Lists training sessions in your account. You can filter results by creation time, name, and status. The operation paginates results. To retrieve additional results, use the NextToken parameter. The following operations are related to ListTrainingSessions : • CreateTrainingSession • DescribeTrainingSession See also: AWS API Documentation list-training-sessions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListTrainingSessionsAsync(
+        AwsSagemakerListTrainingSessionsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSagemakerListTrainingSessionsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
     /// Lists transform jobs. See also: AWS API Documentation list-transform-jobs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: TransformJobSummaries
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -4797,7 +4857,7 @@ public class AwsSagemaker : IAwsSagemaker
     }
 
     /// <summary>
-    /// Lists the trial components in your account. You can sort the list by trial component name or creation time. You can filter the list to show only components that were created in a specific time range. You can also filter on one of the following: o ExperimentName o SourceArn o TrialName See also: AWS API Documentation list-trial-components is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no...
+    /// Lists the trial components in your account. You can sort the list by trial component name or creation time. You can filter the list to show only components that were created in a specific time range. You can also filter on one of the following: • ExperimentName • SourceArn • TrialName See also: AWS API Documentation list-trial-components is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -4827,7 +4887,7 @@ public class AwsSagemaker : IAwsSagemaker
     }
 
     /// <summary>
-    /// Lists all UltraServers that are part of a specified reserved capacity. See also: AWS API Documentation list-ultra-servers-by-reserved-capacity is a paginated operation. Mul- tiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a pagi- nated response, the --query argument must extract data from the results of the following query expressions: UltraS...
+    /// Lists all UltraServers that are part of a specified reserved capacity. See also: AWS API Documentation list-ultra-servers-by-reserved-capacity is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: UltraServe...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -4857,7 +4917,7 @@ public class AwsSagemaker : IAwsSagemaker
     }
 
     /// <summary>
-    /// Use this operation to list all private and vendor workforces in an Ama- zon Web Services Region. Note that you can only have one private work- force per Amazon Web Services Region. See also: AWS API Documentation list-workforces is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query ...
+    /// Use this operation to list all private and vendor workforces in an Amazon Web Services Region. Note that you can only have one private workforce per Amazon Web Services Region. See also: AWS API Documentation list-workforces is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -4872,7 +4932,7 @@ public class AwsSagemaker : IAwsSagemaker
     }
 
     /// <summary>
-    /// Gets a list of private work teams that you have defined in a region. The list may be empty if no work team satisfies the filter specified in the NameContains parameter. See also: AWS API Documentation list-workteams is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must...
+    /// Gets a list of private work teams that you have defined in a region. The list may be empty if no work team satisfies the filter specified in the NameContains parameter. See also: AWS API Documentation list-workteams is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must ext...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -4887,7 +4947,7 @@ public class AwsSagemaker : IAwsSagemaker
     }
 
     /// <summary>
-    /// Adds a resouce policy to control access to a model group. For informa- tion about resoure policies, see Identity-based policies and re- source-based policies in the Amazon Web Services Identity and Access Management User Guide. . See also: AWS API Documentation
+    /// Adds a resouce policy to control access to a model group. For information about resoure policies, see Identity-based policies and resource-based policies in the Amazon Web Services Identity and Access Management User Guide. . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -4902,7 +4962,7 @@ public class AwsSagemaker : IAwsSagemaker
     }
 
     /// <summary>
-    /// Use this action to inspect your lineage and discover relationships be- tween entities. For more information, see Querying Lineage Entities in the Amazon SageMaker Developer Guide . See also: AWS API Documentation
+    /// Use this action to inspect your lineage and discover relationships between entities. For more information, see Querying Lineage Entities in the Amazon SageMaker Developer Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -4932,7 +4992,7 @@ public class AwsSagemaker : IAwsSagemaker
     }
 
     /// <summary>
-    /// Renders the UI template so that you can preview the worker's experi- ence. See also: AWS API Documentation
+    /// Renders the UI template so that you can preview the worker's experience. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -4962,7 +5022,7 @@ public class AwsSagemaker : IAwsSagemaker
     }
 
     /// <summary>
-    /// Finds SageMaker resources that match a search query. Matching resources are returned as a list of SearchRecord objects in the response. You can sort the search results by any resource property in a ascending or de- scending order. You can query against the following value types: numeric, text, Boolean, and timestamp. NOTE: The Search API may provide access to otherwise restricted data. See Amazon SageMaker API Permissions: Actions, Permissions, and Re- sources Reference for more information. See...
+    /// Finds SageMaker resources that match a search query. Matching resources are returned as a list of SearchRecord objects in the response. You can sort the search results by any resource property in a ascending or descending order. You can query against the following value types: numeric, text, Boolean, and timestamp. NOTE: The Search API may provide access to otherwise restricted data. See Amazon SageMaker API Permissions: Actions, Permissions, and Resources Reference for more information. See als...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -4977,7 +5037,7 @@ public class AwsSagemaker : IAwsSagemaker
     }
 
     /// <summary>
-    /// Searches for available training plan offerings based on specified cri- teria. o Users search for available plan offerings based on their requirements (e.g., instance type, count, start time, duration). o And then, they create a plan that best matches their needs using the ID of the plan offering they want to use. For more information about how to reserve GPU capacity for your Sage- Maker training jobs or SageMaker HyperPod clusters using Amazon Sage- Maker Training Plan , see `` CreateTrainingPl...
+    /// Searches for available training plan offerings based on specified criteria. • Users search for available plan offerings based on their requirements (e.g., instance type, count, start time, duration). • And then, they create a plan that best matches their needs using the ID of the plan offering they want to use. For more information about how to reserve GPU capacity for your SageMaker training jobs or SageMaker HyperPod clusters using Amazon SageMaker Training Plan , see `` CreateTrainingPlan `` ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -5022,7 +5082,7 @@ public class AwsSagemaker : IAwsSagemaker
     }
 
     /// <summary>
-    /// Start deep health checks for a SageMaker HyperPod cluster. You can use DescribeClusterNode API to track progress of the deep health checks. The unhealthy nodes will be automatically rebooted or replaced. Please see Resilience-related Kubernetes labels by SageMaker HyperPod for de- tails. See also: AWS API Documentation
+    /// Start deep health checks for a SageMaker HyperPod cluster. You can use DescribeClusterNode API to track progress of the deep health checks. The unhealthy nodes will be automatically rebooted or replaced. Please see Resilience-related Kubernetes labels by SageMaker HyperPod for details. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -5097,7 +5157,7 @@ public class AwsSagemaker : IAwsSagemaker
     }
 
     /// <summary>
-    /// Launches an ML compute instance with the latest version of the li- braries and attaches your ML storage volume. After configuring the notebook instance, SageMaker AI sets the notebook instance status to InService . A notebook instance's status must be InService before you can connect to your Jupyter notebook. See also: AWS API Documentation
+    /// Launches an ML compute instance with the latest version of the libraries and attaches your ML storage volume. After configuring the notebook instance, SageMaker AI sets the notebook instance status to InService . A notebook instance's status must be InService before you can connect to your Jupyter notebook. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -5127,7 +5187,7 @@ public class AwsSagemaker : IAwsSagemaker
     }
 
     /// <summary>
-    /// Initiates a remote connection session between a local integrated devel- opment environments (IDEs) and a remote SageMaker space. See also: AWS API Documentation
+    /// Initiates a remote connection session between a local integrated development environments (IDEs) and a remote SageMaker space. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -5187,7 +5247,7 @@ public class AwsSagemaker : IAwsSagemaker
     }
 
     /// <summary>
-    /// Stops a model compilation job. To stop a job, Amazon SageMaker AI sends the algorithm the SIGTERM sig- nal. This gracefully shuts the job down. If the job hasn't stopped, it sends the SIGKILL signal. When it receives a StopCompilationJob request, Amazon SageMaker AI changes the CompilationJobStatus of the job to Stopping . After Amazon SageMaker stops the job, it sets the CompilationJobStatus to Stopped . See also: AWS API Documentation
+    /// Stops a model compilation job. To stop a job, Amazon SageMaker AI sends the algorithm the SIGTERM signal. This gracefully shuts the job down. If the job hasn't stopped, it sends the SIGKILL signal. When it receives a StopCompilationJob request, Amazon SageMaker AI changes the CompilationJobStatus of the job to Stopping . After Amazon SageMaker stops the job, it sets the CompilationJobStatus to Stopped . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -5232,7 +5292,7 @@ public class AwsSagemaker : IAwsSagemaker
     }
 
     /// <summary>
-    /// Stops a running hyperparameter tuning job and all running training jobs that the tuning job launched. All model artifacts output from the training jobs are stored in Amazon Simple Storage Service (Amazon S3). All data that the training jobs write to Amazon CloudWatch Logs are still available in CloudWatch. Af- ter the tuning job moves to the Stopped state, it releases all reserved resources for the tuning job. See also: AWS API Documentation
+    /// Stops a running hyperparameter tuning job and all running training jobs that the tuning job launched. All model artifacts output from the training jobs are stored in Amazon Simple Storage Service (Amazon S3). All data that the training jobs write to Amazon CloudWatch Logs are still available in CloudWatch. After the tuning job moves to the Stopped state, it releases all reserved resources for the tuning job. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -5277,7 +5337,7 @@ public class AwsSagemaker : IAwsSagemaker
     }
 
     /// <summary>
-    /// Stops a running job. When you call StopJob , Amazon SageMaker sets the job status to Stopping . After the job stops, the status changes to Stopped . Partial results may be available in the output location if the job was in progress. To delete a stopped job, call DeleteJob . The following operations are related to StopJob : o CreateJob o DescribeJob o DeleteJob See also: AWS API Documentation
+    /// Stops a running job. When you call StopJob , Amazon SageMaker sets the job status to Stopping . After the job stops, the status changes to Stopped . Partial results may be available in the output location if the job was in progress. To delete a stopped job, call DeleteJob . The following operations are related to StopJob : • CreateJob • DescribeJob • DeleteJob See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -5337,7 +5397,7 @@ public class AwsSagemaker : IAwsSagemaker
     }
 
     /// <summary>
-    /// Terminates the ML compute instance. Before terminating the instance, SageMaker AI disconnects the ML storage volume from it. SageMaker AI preserves the ML storage volume. SageMaker AI stops charging you for the ML compute instance when you call StopNotebookInstance . To access data on the ML storage volume for a notebook instance that has been terminated, call the StartNotebookInstance API. StartNote- bookInstance launches another ML compute instance, configures it, and attaches the preserved ML...
+    /// Terminates the ML compute instance. Before terminating the instance, SageMaker AI disconnects the ML storage volume from it. SageMaker AI preserves the ML storage volume. SageMaker AI stops charging you for the ML compute instance when you call StopNotebookInstance . To access data on the ML storage volume for a notebook instance that has been terminated, call the StartNotebookInstance API. StartNotebookInstance launches another ML compute instance, configures it, and attaches the preserved ML s...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -5367,7 +5427,7 @@ public class AwsSagemaker : IAwsSagemaker
     }
 
     /// <summary>
-    /// Stops a pipeline execution. Callback Step A pipeline execution won't stop while a callback step is running. When you call StopPipelineExecution on a pipeline execution with a running callback step, SageMaker Pipelines sends an additional Amazon SQS mes- sage to the specified SQS queue. The body of the SQS message contains a "Status" field which is set to "Stopping". You should add logic to your Amazon SQS message consumer to take any needed action (for example, resource cleanup) upon receipt of ...
+    /// Stops a pipeline execution. Callback Step A pipeline execution won't stop while a callback step is running. When you call StopPipelineExecution on a pipeline execution with a running callback step, SageMaker Pipelines sends an additional Amazon SQS message to the specified SQS queue. The body of the SQS message contains a "Status" field which is set to "Stopping". You should add logic to your Amazon SQS message consumer to take any needed action (for example, resource cleanup) upon receipt of th...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -5397,7 +5457,7 @@ public class AwsSagemaker : IAwsSagemaker
     }
 
     /// <summary>
-    /// Stops a training job. To stop a job, SageMaker sends the algorithm the SIGTERM signal, which delays job termination for 120 seconds. Algo- rithms might use this 120-second window to save the model artifacts, so the results of the training is not lost. When it receives a StopTrainingJob request, SageMaker changes the sta- tus of the job to Stopping . After SageMaker stops the job, it sets the status to Stopped . See also: AWS API Documentation
+    /// Stops a training job. To stop a job, SageMaker sends the algorithm the SIGTERM signal, which delays job termination for 120 seconds. Algorithms might use this 120-second window to save the model artifacts, so the results of the training is not lost. When it receives a StopTrainingJob request, SageMaker changes the status of the job to Stopping . After SageMaker stops the job, it sets the status to Stopped . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -5412,7 +5472,22 @@ public class AwsSagemaker : IAwsSagemaker
     }
 
     /// <summary>
-    /// Stops a batch transform job. When Amazon SageMaker receives a StopTransformJob request, the status of the job changes to Stopping . After Amazon SageMaker stops the job, the status is set to Stopped . When you stop a batch transform job be- fore it is completed, Amazon SageMaker doesn't store the job's output in Amazon S3. See also: AWS API Documentation
+    /// Stops a running training session and sets the session status to Stopping . After the session stops, the status changes to Stopped . To delete a stopped session, use the DeleteTrainingSession operation. The following operations are related to StopTrainingSession : • CreateTrainingSession • DescribeTrainingSession • DeleteTrainingSession See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> StopTrainingSessionAsync(
+        AwsSagemakerStopTrainingSessionOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Stops a batch transform job. When Amazon SageMaker receives a StopTransformJob request, the status of the job changes to Stopping . After Amazon SageMaker stops the job, the status is set to Stopped . When you stop a batch transform job before it is completed, Amazon SageMaker doesn't store the job's output in Amazon S3. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -5502,7 +5577,7 @@ public class AwsSagemaker : IAwsSagemaker
     }
 
     /// <summary>
-    /// Updates the platform software of a SageMaker HyperPod cluster for secu- rity patching. To learn how to use this API, see Update the SageMaker HyperPod platform software of a cluster . WARNING: The UpgradeClusterSoftware API call may impact your SageMaker Hyper- Pod cluster uptime and availability. Plan accordingly to mitigate potential disruptions to your workloads. See also: AWS API Documentation
+    /// Updates the platform software of a SageMaker HyperPod cluster for security patching. To learn how to use this API, see Update the SageMaker HyperPod platform software of a cluster . WARNING: The UpgradeClusterSoftware API call may impact your SageMaker HyperPod cluster uptime and availability. Plan accordingly to mitigate potential disruptions to your workloads. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -5607,7 +5682,7 @@ public class AwsSagemaker : IAwsSagemaker
     }
 
     /// <summary>
-    /// Deploys the EndpointConfig specified in the request to a new fleet of instances. SageMaker shifts endpoint traffic to the new instances with the updated endpoint configuration and then deletes the old instances using the previous EndpointConfig (there is no availability loss). For more information about how to control the update and traffic shifting process, see Update models in production . When SageMaker receives the request, it sets the endpoint status to Up- dating . After updating the endpo...
+    /// Deploys the EndpointConfig specified in the request to a new fleet of instances. SageMaker shifts endpoint traffic to the new instances with the updated endpoint configuration and then deletes the old instances using the previous EndpointConfig (there is no availability loss). For more information about how to control the update and traffic shifting process, see Update models in production . When SageMaker receives the request, it sets the endpoint status to Updating . After updating the endpoin...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -5622,7 +5697,7 @@ public class AwsSagemaker : IAwsSagemaker
     }
 
     /// <summary>
-    /// Updates variant weight of one or more variants associated with an ex- isting endpoint, or capacity of one variant associated with an existing endpoint. When it receives the request, SageMaker sets the endpoint status to Updating . After updating the endpoint, it sets the status to InService . To check the status of an endpoint, use the DescribeEndpoint API. See also: AWS API Documentation
+    /// Updates variant weight of one or more variants associated with an existing endpoint, or capacity of one variant associated with an existing endpoint. When it receives the request, SageMaker sets the endpoint status to Updating . After updating the endpoint, it sets the status to InService . To check the status of an endpoint, use the DescribeEndpoint API. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -5652,7 +5727,7 @@ public class AwsSagemaker : IAwsSagemaker
     }
 
     /// <summary>
-    /// Updates the feature group by either adding features or updating the on- line store configuration. Use one of the following request parameters at a time while using the UpdateFeatureGroup API. You can add features for your feature group using the FeatureAdditions request parameter. Features cannot be removed from a feature group. You can update the online store configuration by using the OnlineStore- Config request parameter. If a TtlDuration is specified, the default TtlDuration applies for all ...
+    /// Updates the feature group by either adding features or updating the online store configuration. Use one of the following request parameters at a time while using the UpdateFeatureGroup API. You can add features for your feature group using the FeatureAdditions request parameter. Features cannot be removed from a feature group. You can update the online store configuration by using the OnlineStoreConfig request parameter. If a TtlDuration is specified, the default TtlDuration applies for all reco...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -5682,7 +5757,7 @@ public class AwsSagemaker : IAwsSagemaker
     }
 
     /// <summary>
-    /// Updates SageMaker hub content (either a Model or Notebook resource). You can update the metadata that describes the resource. In addition to the required request fields, specify at least one of the following fields to update: o HubContentDescription o HubContentDisplayName o HubContentMarkdown o HubContentSearchKeywords o SupportStatus For more information about hubs, see Private curated hubs for founda- tion model access control in JumpStart . NOTE: If you want to update a ModelReference resour...
+    /// Updates SageMaker hub content (either a Model or Notebook resource). You can update the metadata that describes the resource. In addition to the required request fields, specify at least one of the following fields to update: • HubContentDescription • HubContentDisplayName • HubContentMarkdown • HubContentSearchKeywords • SupportStatus For more information about hubs, see Private curated hubs for foundation model access control in JumpStart . NOTE: If you want to update a ModelReference resource...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -5772,7 +5847,7 @@ public class AwsSagemaker : IAwsSagemaker
     }
 
     /// <summary>
-    /// Runtime settings for a model that is deployed with an inference compo- nent. See also: AWS API Documentation
+    /// Runtime settings for a model that is deployed with an inference component. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -5787,7 +5862,7 @@ public class AwsSagemaker : IAwsSagemaker
     }
 
     /// <summary>
-    /// Updates an inference experiment that you created. The status of the in- ference experiment has to be either Created , Running . For more infor- mation on the status of an inference experiment, see DescribeInferenceExperiment . See also: AWS API Documentation
+    /// Updates an inference experiment that you created. The status of the inference experiment has to be either Created , Running . For more information on the status of an inference experiment, see DescribeInferenceExperiment . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -5892,7 +5967,7 @@ public class AwsSagemaker : IAwsSagemaker
     }
 
     /// <summary>
-    /// Updates a notebook instance lifecycle configuration created with the CreateNotebookInstanceLifecycleConfig API. NOTE: Updates to lifecycle configurations affect all notebook instances using that configuration upon their next start. Lifecycle configura- tion scripts execute with root access and the notebook instance's IAM execution role privileges. Grant this permission only to trusted principals. See Customize a Notebook Instance Using a Lifecycle Con- figuration Script for security best practic...
+    /// Updates a notebook instance lifecycle configuration created with the CreateNotebookInstanceLifecycleConfig API. NOTE: Updates to lifecycle configurations affect all notebook instances using that configuration upon their next start. Lifecycle configuration scripts execute with root access and the notebook instance's IAM execution role privileges. Grant this permission only to trusted principals. See Customize a Notebook Instance Using a Lifecycle Configuration Script for security best practices. ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -5982,7 +6057,7 @@ public class AwsSagemaker : IAwsSagemaker
     }
 
     /// <summary>
-    /// Updates a machine learning (ML) project that is created from a template that sets up an ML pipeline from training to deploying an approved model. NOTE: You must not update a project that is in use. If you update the Ser- viceCatalogProvisioningUpdateDetails of a project that is active or being created, or updated, you may lose resources already created by the project. See also: AWS API Documentation
+    /// Updates a machine learning (ML) project that is created from a template that sets up an ML pipeline from training to deploying an approved model. NOTE: You must not update a project that is in use. If you update the ServiceCatalogProvisioningUpdateDetails of a project that is active or being created, or updated, you may lose resources already created by the project. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -6012,7 +6087,7 @@ public class AwsSagemaker : IAwsSagemaker
     }
 
     /// <summary>
-    /// Update a model training job to request a new Debugger profiling config- uration or to change warm pool retention length. See also: AWS API Documentation
+    /// Update a model training job to request a new Debugger profiling configuration or to change warm pool retention length. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -6087,7 +6162,7 @@ public class AwsSagemaker : IAwsSagemaker
     }
 
     /// <summary>
-    /// Updates an existing work team with new member definitions or descrip- tion. See also: AWS API Documentation
+    /// Updates an existing work team with new member definitions or description. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

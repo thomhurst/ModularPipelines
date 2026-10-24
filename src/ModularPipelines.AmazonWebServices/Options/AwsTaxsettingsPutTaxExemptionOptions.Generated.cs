@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,10 +28,10 @@ public record AwsTaxsettingsPutTaxExemptionOptions : AwsOptions, IValidatableObj
     /// <summary>
     /// Adds the tax exemption for a single account or all accounts listed in a consolidated billing family. The IAM action is tax:UpdateExemptions . See also: AWS API Documentation
     /// </summary>
-    /// <param name="AccountIds">The list of unique account identifiers. Constraints: o min: 1 o max: 550 (string) Constraints: o min: 12 o max: 12 o pattern: \d+ Syntax: "string" "string" ...</param>
-    /// <param name="Authority">The address domain associate with the tax information. country -&gt; (string) [required] The country code for the country that the address is in. Constraints: o min: 2 o max: 2 o pattern: [a-zA-Z]+ state -&gt; (string) The state that the address is located. Constraints: o min: 1 o max: 50 o pattern: (?!\s*$)[\s\S]+ Shorthand Syntax: country=string,state=string JSON Syntax: { "country": "string", "state": "string" }</param>
-    /// <param name="ExemptionType">The exemption type. Use the supported tax exemption type descrip- tion. Constraints: o min: 1 o max: 200 o pattern: [\s\S]*</param>
-    /// <param name="ExemptionCertificate">The exemption certificate. documentName -&gt; (string) [required] The exemption certificate file name. Constraints: o min: 0 o max: 128 o pattern: ([A-Za-z0-9_.-]+)\.([pP][dD][fF]|[jJ][pP][gG]|[pP][nN][gG]) documentFile -&gt; (blob) [required] The exemption certificate file content. Constraints: o min: 1 o max: 4194304 Shorthand Syntax: documentName=string,documentFile=blob JSON Syntax: { "documentName": "string", "documentFile": blob }</param>
+    /// <param name="AccountIds">The list of unique account identifiers. Constraints: • min: 1 • max: 550 (string) Constraints: • min: 12 • max: 12 • pattern: \d+ Syntax: "string" "string" ...</param>
+    /// <param name="Authority">The address domain associate with the tax information. country -&gt; (string) [required] The country code for the country that the address is in. Constraints: • min: 2 • max: 2 • pattern: [a-zA-Z]+ state -&gt; (string) The state that the address is located. Constraints: • min: 1 • max: 50 • pattern: (?!\s*$)[\s\S]+ Shorthand Syntax: country=string,state=string JSON Syntax: { "country": "string", "state": "string" }</param>
+    /// <param name="ExemptionType">The exemption type. Use the supported tax exemption type description. Constraints: • min: 1 • max: 200 • pattern: [\s\S]*</param>
+    /// <param name="ExemptionCertificate">The exemption certificate. documentName -&gt; (string) [required] The exemption certificate file name. Constraints: • min: 0 • max: 128 • pattern: ([A-Za-z0-9_.-]+)\.([pP][dD][fF]|[jJ][pP][gG]|[pP][nN][gG]) documentFile -&gt; (blob) [required] The exemption certificate file content. Constraints: • min: 1 • max: 4194304 Shorthand Syntax: documentName=string,documentFile=blob JSON Syntax: { "documentName": "string", "documentFile": blob }</param>
     public AwsTaxsettingsPutTaxExemptionOptions(
         IEnumerable<string> AccountIds,
         string Authority,
@@ -79,25 +80,25 @@ public record AwsTaxsettingsPutTaxExemptionOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The list of unique account identifiers. Constraints: o min: 1 o max: 550 (string) Constraints: o min: 12 o max: 12 o pattern: \d+ Syntax: "string" "string" ...
+    /// The list of unique account identifiers. Constraints: • min: 1 • max: 550 (string) Constraints: • min: 12 • max: 12 • pattern: \d+ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--account-ids", GroupValues = true)]
     public IEnumerable<string>? AccountIds { get; private init; }
 
     /// <summary>
-    /// The address domain associate with the tax information. country -&gt; (string) [required] The country code for the country that the address is in. Constraints: o min: 2 o max: 2 o pattern: [a-zA-Z]+ state -&gt; (string) The state that the address is located. Constraints: o min: 1 o max: 50 o pattern: (?!\s*$)[\s\S]+ Shorthand Syntax: country=string,state=string JSON Syntax: { "country": "string", "state": "string" }
+    /// The address domain associate with the tax information. country -&gt; (string) [required] The country code for the country that the address is in. Constraints: • min: 2 • max: 2 • pattern: [a-zA-Z]+ state -&gt; (string) The state that the address is located. Constraints: • min: 1 • max: 50 • pattern: (?!\s*$)[\s\S]+ Shorthand Syntax: country=string,state=string JSON Syntax: { "country": "string", "state": "string" }
     /// </summary>
     [CliOption("--authority")]
     public string? Authority { get; private init; }
 
     /// <summary>
-    /// The exemption type. Use the supported tax exemption type descrip- tion. Constraints: o min: 1 o max: 200 o pattern: [\s\S]*
+    /// The exemption type. Use the supported tax exemption type description. Constraints: • min: 1 • max: 200 • pattern: [\s\S]*
     /// </summary>
     [CliOption("--exemption-type")]
     public string? ExemptionType { get; private init; }
 
     /// <summary>
-    /// The exemption certificate. documentName -&gt; (string) [required] The exemption certificate file name. Constraints: o min: 0 o max: 128 o pattern: ([A-Za-z0-9_.-]+)\.([pP][dD][fF]|[jJ][pP][gG]|[pP][nN][gG]) documentFile -&gt; (blob) [required] The exemption certificate file content. Constraints: o min: 1 o max: 4194304 Shorthand Syntax: documentName=string,documentFile=blob JSON Syntax: { "documentName": "string", "documentFile": blob }
+    /// The exemption certificate. documentName -&gt; (string) [required] The exemption certificate file name. Constraints: • min: 0 • max: 128 • pattern: ([A-Za-z0-9_.-]+)\.([pP][dD][fF]|[jJ][pP][gG]|[pP][nN][gG]) documentFile -&gt; (blob) [required] The exemption certificate file content. Constraints: • min: 1 • max: 4194304 Shorthand Syntax: documentName=string,documentFile=blob JSON Syntax: { "documentName": "string", "documentFile": blob }
     /// </summary>
     [CliOption("--exemption-certificate")]
     public string? ExemptionCertificate { get; private init; }
@@ -123,6 +124,15 @@ public record AwsTaxsettingsPutTaxExemptionOptions : AwsOptions, IValidatableObj
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

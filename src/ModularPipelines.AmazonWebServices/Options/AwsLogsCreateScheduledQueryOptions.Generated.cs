@@ -10,14 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a scheduled query that runs CloudWatch Logs Insights queries at regular intervals. Scheduled queries enable proactive monitoring by au- tomatically executing queries to detect patterns and anomalies in your log data. Query results can be delivered to Amazon S3 for analysis or further processing. See also: AWS API Documentation
+/// Creates a scheduled query that runs CloudWatch Logs Insights queries at regular intervals. Scheduled queries enable proactive monitoring by automatically executing queries to detect patterns and anomalies in your log data. Query results can be delivered to Amazon S3 for analysis or further processing. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,13 +27,13 @@ public record AwsLogsCreateScheduledQueryOptions : AwsOptions, IValidatableObjec
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a scheduled query that runs CloudWatch Logs Insights queries at regular intervals. Scheduled queries enable proactive monitoring by au- tomatically executing queries to detect patterns and anomalies in your log data. Query results can be delivered to Amazon S3 for analysis or further processing. See also: AWS API Documentation
+    /// Creates a scheduled query that runs CloudWatch Logs Insights queries at regular intervals. Scheduled queries enable proactive monitoring by automatically executing queries to detect patterns and anomalies in your log data. Query results can be delivered to Amazon S3 for analysis or further processing. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">The name of the scheduled query. The name must be unique within your account and region. Length must be between 1 and 300 characters. Constraints: o min: 1 o max: 300</param>
-    /// <param name="QueryLanguage">The query language to use for the scheduled query. Valid values are CWLI , PPL , and SQL . Possible values: o CWLI o SQL o PPL</param>
-    /// <param name="QueryString">The query string to execute. This is the same query syntax used in CloudWatch Logs Insights. Maximum length is 10,000 characters. Constraints: o min: 0 o max: 10000</param>
-    /// <param name="ScheduleExpression">A cron expression that defines when the scheduled query runs. The expression uses standard cron syntax and supports minute-level pre- cision. Maximum length is 256 characters. Constraints: o max: 256</param>
-    /// <param name="ExecutionRoleArn">The ARN of the IAM role that grants permissions to execute the query and deliver results to the specified destination. The role must have permissions to read from the specified log groups and write to the destination. Constraints: o min: 1</param>
+    /// <param name="Name">The name of the scheduled query. The name must be unique within your account and region. Length must be between 1 and 300 characters. Constraints: • min: 1 • max: 300</param>
+    /// <param name="QueryLanguage">The query language to use for the scheduled query. Valid values are CWLI , PPL , and SQL . Possible values: • CWLI • SQL • PPL</param>
+    /// <param name="QueryString">The query string to execute. This is the same query syntax used in CloudWatch Logs Insights. Maximum length is 10,000 characters. Constraints: • min: 0 • max: 10000</param>
+    /// <param name="ScheduleExpression">A cron expression that defines when the scheduled query runs. The expression uses standard cron syntax and supports minute-level precision. Maximum length is 256 characters. Constraints: • max: 256</param>
+    /// <param name="ExecutionRoleArn">The ARN of the IAM role that grants permissions to execute the query and deliver results to the specified destination. The role must have permissions to read from the specified log groups and write to the destination. Constraints: • min: 1</param>
     public AwsLogsCreateScheduledQueryOptions(
         string Name,
         AwsLogsCreateScheduledQueryQueryLanguage QueryLanguage,
@@ -73,49 +73,49 @@ public record AwsLogsCreateScheduledQueryOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the scheduled query. The name must be unique within your account and region. Length must be between 1 and 300 characters. Constraints: o min: 1 o max: 300
+    /// The name of the scheduled query. The name must be unique within your account and region. Length must be between 1 and 300 characters. Constraints: • min: 1 • max: 300
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The query language to use for the scheduled query. Valid values are CWLI , PPL , and SQL . Possible values: o CWLI o SQL o PPL
+    /// The query language to use for the scheduled query. Valid values are CWLI , PPL , and SQL . Possible values: • CWLI • SQL • PPL
     /// </summary>
     [CliOption("--query-language")]
     public AwsLogsCreateScheduledQueryQueryLanguage? QueryLanguage { get; private init; }
 
     /// <summary>
-    /// The query string to execute. This is the same query syntax used in CloudWatch Logs Insights. Maximum length is 10,000 characters. Constraints: o min: 0 o max: 10000
+    /// The query string to execute. This is the same query syntax used in CloudWatch Logs Insights. Maximum length is 10,000 characters. Constraints: • min: 0 • max: 10000
     /// </summary>
     [CliOption("--query-string")]
     public string? QueryString { get; private init; }
 
     /// <summary>
-    /// A cron expression that defines when the scheduled query runs. The expression uses standard cron syntax and supports minute-level pre- cision. Maximum length is 256 characters. Constraints: o max: 256
+    /// A cron expression that defines when the scheduled query runs. The expression uses standard cron syntax and supports minute-level precision. Maximum length is 256 characters. Constraints: • max: 256
     /// </summary>
     [CliOption("--schedule-expression")]
     public string? ScheduleExpression { get; private init; }
 
     /// <summary>
-    /// The ARN of the IAM role that grants permissions to execute the query and deliver results to the specified destination. The role must have permissions to read from the specified log groups and write to the destination. Constraints: o min: 1
+    /// The ARN of the IAM role that grants permissions to execute the query and deliver results to the specified destination. The role must have permissions to read from the specified log groups and write to the destination. Constraints: • min: 1
     /// </summary>
     [CliOption("--execution-role-arn")]
     public string? ExecutionRoleArn { get; private init; }
 
     /// <summary>
-    /// An optional description for the scheduled query to help identify its purpose and functionality. Constraints: o max: 1024
+    /// An optional description for the scheduled query to help identify its purpose and functionality. Constraints: • max: 1024
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// An array of log group names or ARNs to query. You can specify be- tween 1 and 50 log groups. Log groups can be identified by name or full ARN. Constraints: o min: 1 o max: 50 (string) Constraints: o min: 1 o max: 2048 o pattern: [\w#+=/:,.@-]* Syntax: "string" "string" ...
+    /// An array of log group names or ARNs to query. You can specify between 1 and 50 log groups. Log groups can be identified by name or full ARN. Constraints: • min: 1 • max: 50 (string) Constraints: • min: 1 • max: 2048 • pattern: [\w#+=/:,.@-]* Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--log-group-identifiers", GroupValues = true)]
     public IEnumerable<string>? LogGroupIdentifiers { get; set; }
 
     /// <summary>
-    /// The timezone for evaluating the schedule expression. This determines when the scheduled query executes relative to the specified time- zone. Constraints: o min: 1
+    /// The timezone for evaluating the schedule expression. This determines when the scheduled query executes relative to the specified timezone. Constraints: • min: 1
     /// </summary>
     [CliOption("--timezone")]
     public string? Timezone { get; set; }
@@ -124,40 +124,40 @@ public record AwsLogsCreateScheduledQueryOptions : AwsOptions, IValidatableObjec
     /// The time offset in seconds that defines the lookback period for the query. This determines how far back in time the query searches from the execution time.
     /// </summary>
     [CliOption("--start-time-offset")]
-    public int? StartTimeOffset { get; set; }
+    public long? StartTimeOffset { get; set; }
 
     /// <summary>
-    /// The time offset in seconds that defines the end of the lookback pe- riod for the query. Together with startTimeOffset , this determines the time window relative to the execution time over which the query runs.
+    /// The time offset in seconds that defines the end of the lookback period for the query. Together with startTimeOffset , this determines the time window relative to the execution time over which the query runs.
     /// </summary>
     [CliOption("--end-time-offset")]
-    public int? EndTimeOffset { get; set; }
+    public long? EndTimeOffset { get; set; }
 
     /// <summary>
-    /// Configuration for where to deliver query results. Supports Amazon S3 destinations for storing query output and lookup table destinations for automatically refreshing lookup tables with query results. You can configure one or both destination types. s3Configuration -&gt; (structure) Configuration for delivering query results to Amazon S3. destinationIdentifier -&gt; (string) [required] The Amazon S3 URI where query results are delivered. Must be a valid S3 URI format. Constraints: o max: 1024 o pattern: s3://[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9](/.*)? roleArn -&gt; (string) [required] The ARN of the IAM role that grants permissions to write query results to the specified Amazon S3 destination. Constraints: o min: 1 ownerAccountId -&gt; (string) The Amazon Web Services accountId for the bucket owning ac- count. Constraints: o min: 12 o max: 12 o pattern: ^\d{12}$ kmsKeyId -&gt; (string) The Amazon Resource Name (ARN) of the KMS encryption key. Must belong to the same Amazon Web Services Region as the destination Amazon S3 bucket. Constraints: o max: 256 lookupTableConfiguration -&gt; (structure) Configuration for delivering query results to a lookup table. The query results automatically populate or refresh the speci- fied lookup table on each scheduled execution. tableName -&gt; (string) [required] The name of the lookup table to create or update with query results. The name can contain only alphanumeric characters and underscores. Constraints: o min: 1 o max: 256 o pattern: ^[a-zA-Z0-9_]+$ roleArn -&gt; (string) [required] The ARN of the IAM role that grants permissions to create or update the lookup table with query results. Constraints: o min: 1 description -&gt; (string) A description of the lookup table. Constraints: o min: 0 o max: 1024 kmsKeyId -&gt; (string) The ARN of the KMS key to use to encrypt the lookup table data. If you don't specify a key, the data is encrypted with an Amazon Web Services-owned key. Constraints: o max: 256 tags -&gt; (map) Key-value pairs to associate with the lookup table for re- source management and cost allocation. The service applies tags only during initial table creation. Constraints: o min: 1 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]+)$ value -&gt; (string) Constraints: o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: s3Configuration={destinationIdentifier=string,roleArn=string,ownerAccountId=string,kmsKeyId=string},lookupTableConfiguration={tableName=string,roleArn=string,description=string,kmsKeyId=string,tags={KeyName1=string,KeyName2=string}} JSON Syntax: { "s3Configuration": { "destinationIdentifier": "string", "roleArn": "string", "ownerAccountId": "string", "kmsKeyId": "string" }, "lookupTableConfiguration": { "tableName": "string", "roleArn": "string", "description": "string", "kmsKeyId": "string", "tags": {"string": "string" ...} } }
+    /// Configuration for where to deliver query results. Supports Amazon S3 destinations for storing query output and lookup table destinations for automatically refreshing lookup tables with query results. You can configure one or both destination types. s3Configuration -&gt; (structure) Configuration for delivering query results to Amazon S3. destinationIdentifier -&gt; (string) [required] The Amazon S3 URI where query results are delivered. Must be a valid S3 URI format. Constraints: • max: 1024 • pattern: s3://[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9](/.*)? roleArn -&gt; (string) [required] The ARN of the IAM role that grants permissions to write query results to the specified Amazon S3 destination. Constraints: • min: 1 ownerAccountId -&gt; (string) The Amazon Web Services accountId for the bucket owning account. Constraints: • min: 12 • max: 12 • pattern: ^\d{12}$ kmsKeyId -&gt; (string) The Amazon Resource Name (ARN) of the KMS encryption key. Must belong to the same Amazon Web Services Region as the destination Amazon S3 bucket. Constraints: • max: 256 lookupTableConfiguration -&gt; (structure) Configuration for delivering query results to a lookup table. The query results automatically populate or refresh the specified lookup table on each scheduled execution. tableName -&gt; (string) [required] The name of the lookup table to create or update with query results. The name can contain only alphanumeric characters and underscores. Constraints: • min: 1 • max: 256 • pattern: ^[a-zA-Z0-9_]+$ roleArn -&gt; (string) [required] The ARN of the IAM role that grants permissions to create or update the lookup table with query results. Constraints: • min: 1 description -&gt; (string) A description of the lookup table. Constraints: • min: 0 • max: 1024 kmsKeyId -&gt; (string) The ARN of the KMS key to use to encrypt the lookup table data. If you don't specify a key, the data is encrypted with an Amazon Web Services-owned key. Constraints: • max: 256 tags -&gt; (map) Key-value pairs to associate with the lookup table for resource management and cost allocation. The service applies tags only during initial table creation. Constraints: • min: 1 • max: 50 key -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]+)$ value -&gt; (string) Constraints: • max: 256 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: s3Configuration={destinationIdentifier=string,roleArn=string,ownerAccountId=string,kmsKeyId=string},lookupTableConfiguration={tableName=string,roleArn=string,description=string,kmsKeyId=string,tags={KeyName1=string,KeyName2=string}} JSON Syntax: { "s3Configuration": { "destinationIdentifier": "string", "roleArn": "string", "ownerAccountId": "string", "kmsKeyId": "string" }, "lookupTableConfiguration": { "tableName": "string", "roleArn": "string", "description": "string", "kmsKeyId": "string", "tags": {"string": "string" ...} } }
     /// </summary>
     [CliOption("--destination-configuration")]
     public string? DestinationConfiguration { get; set; }
 
     /// <summary>
-    /// The start time for the scheduled query in Unix epoch format. The query will not execute before this time. Constraints: o min: 0
+    /// The start time for the scheduled query in Unix epoch format. The query will not execute before this time. Constraints: • min: 0
     /// </summary>
     [CliOption("--schedule-start-time")]
-    public int? ScheduleStartTime { get; set; }
+    public long? ScheduleStartTime { get; set; }
 
     /// <summary>
-    /// The end time for the scheduled query in Unix epoch format. The query will stop executing after this time. Constraints: o min: 0
+    /// The end time for the scheduled query in Unix epoch format. The query will stop executing after this time. Constraints: • min: 0
     /// </summary>
     [CliOption("--schedule-end-time")]
-    public int? ScheduleEndTime { get; set; }
+    public long? ScheduleEndTime { get; set; }
 
     /// <summary>
-    /// The initial state of the scheduled query. Valid values are ENABLED and DISABLED . Default is ENABLED . Possible values: o ENABLED o DISABLED
+    /// The initial state of the scheduled query. Valid values are ENABLED and DISABLED . Default is ENABLED . Possible values: • ENABLED • DISABLED
     /// </summary>
     [CliOption("--state")]
     public AwsLogsCreateScheduledQueryState? State { get; set; }
 
     /// <summary>
-    /// Key-value pairs to associate with the scheduled query for resource management and cost allocation. Constraints: o min: 1 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]+)$ value -&gt; (string) Constraints: o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// Key-value pairs to associate with the scheduled query for resource management and cost allocation. Constraints: • min: 1 • max: 50 key -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]+)$ value -&gt; (string) Constraints: • max: 256 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
@@ -183,6 +183,15 @@ public record AwsLogsCreateScheduledQueryOptions : AwsOptions, IValidatableObjec
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

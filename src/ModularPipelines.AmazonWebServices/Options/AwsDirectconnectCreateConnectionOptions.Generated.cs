@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -89,25 +90,25 @@ public record AwsDirectconnectCreateConnectionOptions : AwsOptions, IValidatable
     public string? LagId { get; set; }
 
     /// <summary>
-    /// The tags to associate with the lag. Constraints: o min: 1 (structure) Information about a tag. key -&gt; (string) [required] The key. Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ value -&gt; (string) The value. Constraints: o min: 0 o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
+    /// The tags to associate with the lag. Constraints: • min: 1 (structure) Information about a tag. key -&gt; (string) [required] The key. Constraints: • min: 1 • max: 128 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ value -&gt; (string) The value. Constraints: • min: 0 • max: 256 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
-    /// The name of the service provider associated with the requested con- nection.
+    /// The name of the service provider associated with the requested connection.
     /// </summary>
     [CliOption("--provider-name")]
     public string? ProviderName { get; set; }
 
     /// <summary>
-    /// Indicates whether you want the connection to support MAC Security (MACsec). MAC Security (MACsec) is unavailable on hosted connections. For in- formation about MAC Security (MACsec) prerequisites, see MAC Secu- rity in Direct Connect in the Direct Connect User Guide .
+    /// Indicates whether you want the connection to support MAC Security (MACsec). MAC Security (MACsec) is unavailable on hosted connections. For information about MAC Security (MACsec) prerequisites, see MAC Security in Direct Connect in the Direct Connect User Guide .
     /// </summary>
     [CliFlag("--request-mac-sec", NegatedName = "--no-request-mac-sec")]
     public bool? RequestMacSec { get; set; }
 
     /// <summary>
-    /// The billing mode for the connection. Possible values: o PayAsYouGo o FlatRateTier1 o FlatRateTier2 o FlatRateTier3 o FlatRateTier4 o FlatRateTier5
+    /// The billing mode for the connection. Possible values: • PayAsYouGo • FlatRateTier1 • FlatRateTier2 • FlatRateTier3 • FlatRateTier4 • FlatRateTier5
     /// </summary>
     [CliOption("--billing-mode")]
     public AwsDirectconnectCreateConnectionBillingMode? BillingMode { get; set; }
@@ -133,6 +134,15 @@ public record AwsDirectconnectCreateConnectionOptions : AwsOptions, IValidatable
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Adds one or more pieces of evidence to a control in an Audit Manager assessment. You can import manual evidence from any S3 bucket by specifying the S3 URI of the object. You can also upload a file from your browser, or en- ter plain text in response to a risk assessment question. The following restrictions apply to this action: o manualEvidence can be only one of the following: evidenceFileName , s3ResourcePath , or textResponse o Maximum size of an individual evidence file: 100 MB o Number of ...
+/// Adds one or more pieces of evidence to a control in an Audit Manager assessment. You can import manual evidence from any S3 bucket by specifying the S3 URI of the object. You can also upload a file from your browser, or enter plain text in response to a risk assessment question. The following restrictions apply to this action: • manualEvidence can be only one of the following: evidenceFileName , s3ResourcePath , or textResponse • Maximum size of an individual evidence file: 100 MB • Number of da...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,12 +26,12 @@ public record AwsAuditManagerBatchImportEvidenceToAssessmentControlOptions : Aws
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Adds one or more pieces of evidence to a control in an Audit Manager assessment. You can import manual evidence from any S3 bucket by specifying the S3 URI of the object. You can also upload a file from your browser, or en- ter plain text in response to a risk assessment question. The following restrictions apply to this action: o manualEvidence can be only one of the following: evidenceFileName , s3ResourcePath , or textResponse o Maximum size of an individual evidence file: 100 MB o Number of ...
+    /// Adds one or more pieces of evidence to a control in an Audit Manager assessment. You can import manual evidence from any S3 bucket by specifying the S3 URI of the object. You can also upload a file from your browser, or enter plain text in response to a risk assessment question. The following restrictions apply to this action: • manualEvidence can be only one of the following: evidenceFileName , s3ResourcePath , or textResponse • Maximum size of an individual evidence file: 100 MB • Number of da...
     /// </summary>
-    /// <param name="AssessmentId">The identifier for the assessment. Constraints: o min: 36 o max: 36 o pattern: ^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$</param>
-    /// <param name="ControlSetId">The identifier for the control set. Constraints: o min: 1 o max: 300 o pattern: ^[\w\W\s\S]*$</param>
-    /// <param name="ControlId">The identifier for the control. Constraints: o min: 36 o max: 36 o pattern: ^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$</param>
-    /// <param name="ManualEvidence">The list of manual evidence objects. Constraints: o min: 1 o max: 50 (structure) Evidence that's manually added to a control in Audit Manager. manualEvidence can be one of the following: evidenceFileName , s3ResourcePath , or textResponse . s3ResourcePath -&gt; (string) The S3 URL of the object that's imported as manual evidence. Constraints: o min: 1 o max: 1024 o pattern: ^(S|s)3:\/\/[a-zA-Z0-9\-\.\(\)\'\*\_\!\=\+\@\:\s\,\?\/]+$ textResponse -&gt; (string) The plain text response that's entered and saved as manual evidence. Constraints: o min: 1 o max: 1000 o pattern: ^[\w\W\s\S]*$ evidenceFileName -&gt; (string) The name of the file that's uploaded as manual evidence. This name is populated using the evidenceFileName value from the ` GetEvidenceFileUploadUrl https://docs.aws.amazon.com/audit-manager/latest/APIReference/API_GetEvidenceFileUploadUrl.html`__ API response. Constraints: o min: 1 o max: 300 o pattern: [^\/]* Shorthand Syntax: s3ResourcePath=string,textResponse=string,evidenceFileName=string ... JSON Syntax: [ { "s3ResourcePath": "string", "textResponse": "string", "evidenceFileName": "string" } ... ]</param>
+    /// <param name="AssessmentId">The identifier for the assessment. Constraints: • min: 36 • max: 36 • pattern: ^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$</param>
+    /// <param name="ControlSetId">The identifier for the control set. Constraints: • min: 1 • max: 300 • pattern: ^[\w\W\s\S]*$</param>
+    /// <param name="ControlId">The identifier for the control. Constraints: • min: 36 • max: 36 • pattern: ^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$</param>
+    /// <param name="ManualEvidence">The list of manual evidence objects. Constraints: • min: 1 • max: 50 (structure) Evidence that's manually added to a control in Audit Manager. manualEvidence can be one of the following: evidenceFileName , s3ResourcePath , or textResponse . s3ResourcePath -&gt; (string) The S3 URL of the object that's imported as manual evidence. Constraints: • min: 1 • max: 1024 • pattern: ^(S|s)3:\/\/[a-zA-Z0-9\-\.\(\)\'\*\_\!\=\+\@\:\s\,\?\/]+$ textResponse -&gt; (string) The plain text response that's entered and saved as manual evidence. Constraints: • min: 1 • max: 1000 • pattern: ^[\w\W\s\S]*$ evidenceFileName -&gt; (string) The name of the file that's uploaded as manual evidence. This name is populated using the evidenceFileName value from the ` GetEvidenceFileUploadUrl https://docs.aws.amazon.com/audit-manager/latest/APIReference/API_GetEvidenceFileUploadUrl.html`__ API response. Constraints: • min: 1 • max: 300 • pattern: [^\/]* Shorthand Syntax: s3ResourcePath=string,textResponse=string,evidenceFileName=string ... JSON Syntax: [ { "s3ResourcePath": "string", "textResponse": "string", "evidenceFileName": "string" } ... ]</param>
     public AwsAuditManagerBatchImportEvidenceToAssessmentControlOptions(
         string AssessmentId,
         string ControlSetId,
@@ -79,25 +80,25 @@ public record AwsAuditManagerBatchImportEvidenceToAssessmentControlOptions : Aws
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier for the assessment. Constraints: o min: 36 o max: 36 o pattern: ^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$
+    /// The identifier for the assessment. Constraints: • min: 36 • max: 36 • pattern: ^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$
     /// </summary>
     [CliOption("--assessment-id")]
     public string? AssessmentId { get; private init; }
 
     /// <summary>
-    /// The identifier for the control set. Constraints: o min: 1 o max: 300 o pattern: ^[\w\W\s\S]*$
+    /// The identifier for the control set. Constraints: • min: 1 • max: 300 • pattern: ^[\w\W\s\S]*$
     /// </summary>
     [CliOption("--control-set-id")]
     public string? ControlSetId { get; private init; }
 
     /// <summary>
-    /// The identifier for the control. Constraints: o min: 36 o max: 36 o pattern: ^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$
+    /// The identifier for the control. Constraints: • min: 36 • max: 36 • pattern: ^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$
     /// </summary>
     [CliOption("--control-id")]
     public string? ControlId { get; private init; }
 
     /// <summary>
-    /// The list of manual evidence objects. Constraints: o min: 1 o max: 50 (structure) Evidence that's manually added to a control in Audit Manager. manualEvidence can be one of the following: evidenceFileName , s3ResourcePath , or textResponse . s3ResourcePath -&gt; (string) The S3 URL of the object that's imported as manual evidence. Constraints: o min: 1 o max: 1024 o pattern: ^(S|s)3:\/\/[a-zA-Z0-9\-\.\(\)\'\*\_\!\=\+\@\:\s\,\?\/]+$ textResponse -&gt; (string) The plain text response that's entered and saved as manual evidence. Constraints: o min: 1 o max: 1000 o pattern: ^[\w\W\s\S]*$ evidenceFileName -&gt; (string) The name of the file that's uploaded as manual evidence. This name is populated using the evidenceFileName value from the ` GetEvidenceFileUploadUrl https://docs.aws.amazon.com/audit-manager/latest/APIReference/API_GetEvidenceFileUploadUrl.html`__ API response. Constraints: o min: 1 o max: 300 o pattern: [^\/]* Shorthand Syntax: s3ResourcePath=string,textResponse=string,evidenceFileName=string ... JSON Syntax: [ { "s3ResourcePath": "string", "textResponse": "string", "evidenceFileName": "string" } ... ]
+    /// The list of manual evidence objects. Constraints: • min: 1 • max: 50 (structure) Evidence that's manually added to a control in Audit Manager. manualEvidence can be one of the following: evidenceFileName , s3ResourcePath , or textResponse . s3ResourcePath -&gt; (string) The S3 URL of the object that's imported as manual evidence. Constraints: • min: 1 • max: 1024 • pattern: ^(S|s)3:\/\/[a-zA-Z0-9\-\.\(\)\'\*\_\!\=\+\@\:\s\,\?\/]+$ textResponse -&gt; (string) The plain text response that's entered and saved as manual evidence. Constraints: • min: 1 • max: 1000 • pattern: ^[\w\W\s\S]*$ evidenceFileName -&gt; (string) The name of the file that's uploaded as manual evidence. This name is populated using the evidenceFileName value from the ` GetEvidenceFileUploadUrl https://docs.aws.amazon.com/audit-manager/latest/APIReference/API_GetEvidenceFileUploadUrl.html`__ API response. Constraints: • min: 1 • max: 300 • pattern: [^\/]* Shorthand Syntax: s3ResourcePath=string,textResponse=string,evidenceFileName=string ... JSON Syntax: [ { "s3ResourcePath": "string", "textResponse": "string", "evidenceFileName": "string" } ... ]
     /// </summary>
     [CliOption("--manual-evidence", GroupValues = true)]
     public IEnumerable<string>? ManualEvidence { get; private init; }
@@ -123,6 +124,15 @@ public record AwsAuditManagerBatchImportEvidenceToAssessmentControlOptions : Aws
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

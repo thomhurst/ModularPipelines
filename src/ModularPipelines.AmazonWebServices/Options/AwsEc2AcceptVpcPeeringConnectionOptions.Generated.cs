@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsEc2AcceptVpcPeeringConnectionOptions : AwsOptions, IValidatable
     /// <summary>
     /// Accept a VPC peering connection request. To accept a request, the VPC peering connection must be in the pending-acceptance state, and you must be the owner of the peer VPC. Use DescribeVpcPeeringConnections to view your outstanding VPC peering connection requests. For an inter-Region VPC peering connection request, you must accept the VPC peering connection in the Region of the accepter VPC. See also: AWS API Documentation
     /// </summary>
-    /// <param name="VpcPeeringConnectionId">The ID of the VPC peering connection. You must specify this parame- ter in the request.</param>
+    /// <param name="VpcPeeringConnectionId">The ID of the VPC peering connection. You must specify this parameter in the request.</param>
     public AwsEc2AcceptVpcPeeringConnectionOptions(
         string VpcPeeringConnectionId
     )
@@ -56,13 +57,13 @@ public record AwsEc2AcceptVpcPeeringConnectionOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the VPC peering connection. You must specify this parame- ter in the request.
+    /// The ID of the VPC peering connection. You must specify this parameter in the request.
     /// </summary>
     [CliOption("--vpc-peering-connection-id")]
     public string? VpcPeeringConnectionId { get; private init; }
 
     /// <summary>
-    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation . Otherwise, it is UnauthorizedOperation .
     /// </summary>
     [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
@@ -88,6 +89,15 @@ public record AwsEc2AcceptVpcPeeringConnectionOptions : AwsOptions, IValidatable
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

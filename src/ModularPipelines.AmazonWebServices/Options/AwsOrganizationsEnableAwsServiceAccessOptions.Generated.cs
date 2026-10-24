@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Provides an Amazon Web Services service (the service that is specified by ServicePrincipal ) with permissions to view the structure of an or- ganization, create a service-linked role in all the accounts in the or- ganization, and allow the service to perform operations on behalf of the organization and its accounts. Establishing these permissions can be a first step in enabling the integration of an Amazon Web Services service with Organizations. WARNING: We recommend that you enable integration...
+/// Provides an Amazon Web Services service (the service that is specified by ServicePrincipal ) with permissions to view the structure of an organization, create a service-linked role in all the accounts in the organization, and allow the service to perform operations on behalf of the organization and its accounts. Establishing these permissions can be a first step in enabling the integration of an Amazon Web Services service with Organizations. WARNING: We recommend that you enable integration bet...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsOrganizationsEnableAwsServiceAccessOptions : AwsOptions, IValid
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Provides an Amazon Web Services service (the service that is specified by ServicePrincipal ) with permissions to view the structure of an or- ganization, create a service-linked role in all the accounts in the or- ganization, and allow the service to perform operations on behalf of the organization and its accounts. Establishing these permissions can be a first step in enabling the integration of an Amazon Web Services service with Organizations. WARNING: We recommend that you enable integration...
+    /// Provides an Amazon Web Services service (the service that is specified by ServicePrincipal ) with permissions to view the structure of an organization, create a service-linked role in all the accounts in the organization, and allow the service to perform operations on behalf of the organization and its accounts. Establishing these permissions can be a first step in enabling the integration of an Amazon Web Services service with Organizations. WARNING: We recommend that you enable integration bet...
     /// </summary>
-    /// <param name="ServicePrincipal">The service principal name of the Amazon Web Services service for which you want to enable integration with your organization. This is typically in the form of a URL, such as `` service-abbreviation .amazonaws.com`` . Constraints: o min: 1 o max: 128 o pattern: [\w+=,.@-]*</param>
+    /// <param name="ServicePrincipal">The service principal name of the Amazon Web Services service for which you want to enable integration with your organization. This is typically in the form of a URL, such as `` service-abbreviation .amazonaws.com`` . Constraints: • min: 1 • max: 128 • pattern: [\w+=,.@-]*</param>
     public AwsOrganizationsEnableAwsServiceAccessOptions(
         string ServicePrincipal
     )
@@ -56,7 +57,7 @@ public record AwsOrganizationsEnableAwsServiceAccessOptions : AwsOptions, IValid
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The service principal name of the Amazon Web Services service for which you want to enable integration with your organization. This is typically in the form of a URL, such as `` service-abbreviation .amazonaws.com`` . Constraints: o min: 1 o max: 128 o pattern: [\w+=,.@-]*
+    /// The service principal name of the Amazon Web Services service for which you want to enable integration with your organization. This is typically in the form of a URL, such as `` service-abbreviation .amazonaws.com`` . Constraints: • min: 1 • max: 128 • pattern: [\w+=,.@-]*
     /// </summary>
     [CliOption("--service-principal")]
     public string? ServicePrincipal { get; private init; }
@@ -82,6 +83,15 @@ public record AwsOrganizationsEnableAwsServiceAccessOptions : AwsOptions, IValid
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

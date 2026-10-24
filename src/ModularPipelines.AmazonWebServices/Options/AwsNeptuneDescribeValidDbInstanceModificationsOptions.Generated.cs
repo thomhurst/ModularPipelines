@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// You can call DescribeValidDBInstanceModifications to learn what modi- fications you can make to your DB instance. You can use this informa- tion when you call ModifyDBInstance . See also: AWS API Documentation
+/// You can call DescribeValidDBInstanceModifications to learn what modifications you can make to your DB instance. You can use this information when you call ModifyDBInstance . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +26,7 @@ public record AwsNeptuneDescribeValidDbInstanceModificationsOptions : AwsOptions
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// You can call DescribeValidDBInstanceModifications to learn what modi- fications you can make to your DB instance. You can use this informa- tion when you call ModifyDBInstance . See also: AWS API Documentation
+    /// You can call DescribeValidDBInstanceModifications to learn what modifications you can make to your DB instance. You can use this information when you call ModifyDBInstance . See also: AWS API Documentation
     /// </summary>
     /// <param name="DbInstanceIdentifier">The customer identifier or the ARN of your DB instance.</param>
     public AwsNeptuneDescribeValidDbInstanceModificationsOptions(
@@ -82,6 +83,15 @@ public record AwsNeptuneDescribeValidDbInstanceModificationsOptions : AwsOptions
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

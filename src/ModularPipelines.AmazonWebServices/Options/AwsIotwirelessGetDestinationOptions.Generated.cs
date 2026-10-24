@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsIotwirelessGetDestinationOptions : AwsOptions, IValidatableObje
     /// <summary>
     /// Gets information about a destination. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">The name of the resource to get. Constraints: o max: 128 o pattern: [a-zA-Z0-9-_]+</param>
+    /// <param name="Name">The name of the resource to get. Constraints: • max: 128 • pattern: [a-zA-Z0-9-_]+</param>
     public AwsIotwirelessGetDestinationOptions(
         string Name
     )
@@ -56,7 +57,7 @@ public record AwsIotwirelessGetDestinationOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the resource to get. Constraints: o max: 128 o pattern: [a-zA-Z0-9-_]+
+    /// The name of the resource to get. Constraints: • max: 128 • pattern: [a-zA-Z0-9-_]+
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
@@ -82,6 +83,15 @@ public record AwsIotwirelessGetDestinationOptions : AwsOptions, IValidatableObje
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

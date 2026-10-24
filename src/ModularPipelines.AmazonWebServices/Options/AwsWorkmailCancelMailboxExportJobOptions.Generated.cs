@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Cancels a mailbox export job. NOTE: If the mailbox export job is near completion, it might not be possi- ble to cancel it. See also: AWS API Documentation
+/// Cancels a mailbox export job. NOTE: If the mailbox export job is near completion, it might not be possible to cancel it. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +27,10 @@ public record AwsWorkmailCancelMailboxExportJobOptions : AwsOptions, IValidatabl
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Cancels a mailbox export job. NOTE: If the mailbox export job is near completion, it might not be possi- ble to cancel it. See also: AWS API Documentation
+    /// Cancels a mailbox export job. NOTE: If the mailbox export job is near completion, it might not be possible to cancel it. See also: AWS API Documentation
     /// </summary>
-    /// <param name="JobId">The job ID. Constraints: o min: 1 o max: 63 o pattern: [A-Za-z0-9-]+</param>
-    /// <param name="OrganizationId">The organization ID. Constraints: o min: 34 o max: 34 o pattern: ^m-[0-9a-f]{32}$</param>
+    /// <param name="JobId">The job ID. Constraints: • min: 1 • max: 63 • pattern: [A-Za-z0-9-]+</param>
+    /// <param name="OrganizationId">The organization ID. Constraints: • min: 34 • max: 34 • pattern: ^m-[0-9a-f]{32}$</param>
     public AwsWorkmailCancelMailboxExportJobOptions(
         string JobId,
         string OrganizationId
@@ -61,19 +62,19 @@ public record AwsWorkmailCancelMailboxExportJobOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The job ID. Constraints: o min: 1 o max: 63 o pattern: [A-Za-z0-9-]+
+    /// The job ID. Constraints: • min: 1 • max: 63 • pattern: [A-Za-z0-9-]+
     /// </summary>
     [CliOption("--job-id")]
     public string? JobId { get; private init; }
 
     /// <summary>
-    /// The organization ID. Constraints: o min: 34 o max: 34 o pattern: ^m-[0-9a-f]{32}$
+    /// The organization ID. Constraints: • min: 34 • max: 34 • pattern: ^m-[0-9a-f]{32}$
     /// </summary>
     [CliOption("--organization-id")]
     public string? OrganizationId { get; private init; }
 
     /// <summary>
-    /// The idempotency token for the client request. Constraints: o min: 1 o max: 128 o pattern: [\x21-\x7e]+
+    /// The idempotency token for the client request. Constraints: • min: 1 • max: 128 • pattern: [\x21-\x7e]+
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
@@ -100,6 +101,15 @@ public record AwsWorkmailCancelMailboxExportJobOptions : AwsOptions, IValidatabl
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

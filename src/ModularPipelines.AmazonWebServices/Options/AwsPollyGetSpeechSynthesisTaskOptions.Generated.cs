@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves a specific SpeechSynthesisTask object based on its TaskID. This object contains information about the given speech synthesis task, including the status of the task, and a link to the S3 bucket contain- ing the output of the task. See also: AWS API Documentation
+/// Retrieves a specific SpeechSynthesisTask object based on its TaskID. This object contains information about the given speech synthesis task, including the status of the task, and a link to the S3 bucket containing the output of the task. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsPollyGetSpeechSynthesisTaskOptions : AwsOptions, IValidatableOb
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Retrieves a specific SpeechSynthesisTask object based on its TaskID. This object contains information about the given speech synthesis task, including the status of the task, and a link to the S3 bucket contain- ing the output of the task. See also: AWS API Documentation
+    /// Retrieves a specific SpeechSynthesisTask object based on its TaskID. This object contains information about the given speech synthesis task, including the status of the task, and a link to the S3 bucket containing the output of the task. See also: AWS API Documentation
     /// </summary>
-    /// <param name="TaskId">The Amazon Polly generated identifier for a speech synthesis task. Constraints: o pattern: ^[a-zA-Z0-9_-]{1,100}$</param>
+    /// <param name="TaskId">The Amazon Polly generated identifier for a speech synthesis task. Constraints: • pattern: ^[a-zA-Z0-9_-]{1,100}$</param>
     public AwsPollyGetSpeechSynthesisTaskOptions(
         string TaskId
     )
@@ -56,7 +57,7 @@ public record AwsPollyGetSpeechSynthesisTaskOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Polly generated identifier for a speech synthesis task. Constraints: o pattern: ^[a-zA-Z0-9_-]{1,100}$
+    /// The Amazon Polly generated identifier for a speech synthesis task. Constraints: • pattern: ^[a-zA-Z0-9_-]{1,100}$
     /// </summary>
     [CliOption("--task-id")]
     public string? TaskId { get; private init; }
@@ -82,6 +83,15 @@ public record AwsPollyGetSpeechSynthesisTaskOptions : AwsOptions, IValidatableOb
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

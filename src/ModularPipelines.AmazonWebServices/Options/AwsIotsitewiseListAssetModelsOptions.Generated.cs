@@ -23,22 +23,19 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsIotsitewiseListAssetModelsOptions : AwsOptions
 {
     /// <summary>
-    /// The type of asset model. If you don't provide an assetModelTypes , all types of asset models are returned. o ASSET_MODEL An asset model that you can use to create assets. Can't be included as a component in another asset model. o COMPONENT_MODEL A reusable component that you can include in the composite models of other asset models. You can't create assets directly from this type of asset model. o INTERFACE An interface is a type of model that defines a standard structure that can be applied to different asset models. (string) Possible values: o ASSET_MODEL o COMPONENT_MODEL o INTERFACE Syntax: "string" "string" ...
+    /// The type of asset model. If you don't provide an assetModelTypes , all types of asset models are returned. • ASSET_MODEL An asset model that you can use to create assets. Can't be included as a component in another asset model. • COMPONENT_MODEL A reusable component that you can include in the composite models of other asset models. You can't create assets directly from this type of asset model. • INTERFACE An interface is a type of model that defines a standard structure that can be applied to different asset models. (string) Possible values: • ASSET_MODEL • COMPONENT_MODEL • INTERFACE Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--asset-model-types", GroupValues = true)]
     public IEnumerable<string>? AssetModelTypes { get; set; }
 
     /// <summary>
-    /// The version alias that specifies the latest or active version of the asset model. The details are returned in the response. The default value is LATEST . See Asset model versions in the IoT SiteWise User Guide . Constraints: o pattern: ^(LATEST|ACTIVE)$
+    /// The version alias that specifies the latest or active version of the asset model. The details are returned in the response. The default value is LATEST . See Asset model versions in the IoT SiteWise User Guide . Constraints: • pattern: ^(LATEST|ACTIVE)$
     /// </summary>
     [CliOption("--asset-model-version")]
     public string? AssetModelVersion { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -48,15 +45,27 @@ public record AwsIotsitewiseListAssetModelsOptions : AwsOptions
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 250
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 250
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

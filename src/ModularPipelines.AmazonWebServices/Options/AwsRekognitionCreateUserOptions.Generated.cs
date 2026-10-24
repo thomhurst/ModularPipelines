@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a new User within a collection specified by CollectionId . Takes UserId as a parameter, which is a user provided ID which should be unique within the collection. The provided UserId will alias the system generated UUID to make the UserId more user friendly. Uses a ClientToken , an idempotency token that ensures a call to Crea- teUser completes only once. If the value is not supplied, the AWS SDK generates an idempotency token for the requests. This prevents retries after a network error ...
+/// Creates a new User within a collection specified by CollectionId . Takes UserId as a parameter, which is a user provided ID which should be unique within the collection. The provided UserId will alias the system generated UUID to make the UserId more user friendly. Uses a ClientToken , an idempotency token that ensures a call to CreateUser completes only once. If the value is not supplied, the AWS SDK generates an idempotency token for the requests. This prevents retries after a network error re...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +27,10 @@ public record AwsRekognitionCreateUserOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a new User within a collection specified by CollectionId . Takes UserId as a parameter, which is a user provided ID which should be unique within the collection. The provided UserId will alias the system generated UUID to make the UserId more user friendly. Uses a ClientToken , an idempotency token that ensures a call to Crea- teUser completes only once. If the value is not supplied, the AWS SDK generates an idempotency token for the requests. This prevents retries after a network error ...
+    /// Creates a new User within a collection specified by CollectionId . Takes UserId as a parameter, which is a user provided ID which should be unique within the collection. The provided UserId will alias the system generated UUID to make the UserId more user friendly. Uses a ClientToken , an idempotency token that ensures a call to CreateUser completes only once. If the value is not supplied, the AWS SDK generates an idempotency token for the requests. This prevents retries after a network error re...
     /// </summary>
-    /// <param name="CollectionId">The ID of an existing collection to which the new UserID needs to be created. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9_.\-]+</param>
-    /// <param name="UserId">ID for the UserID to be created. This ID needs to be unique within the collection. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_.\-:]+</param>
+    /// <param name="CollectionId">The ID of an existing collection to which the new UserID needs to be created. Constraints: • min: 1 • max: 255 • pattern: [a-zA-Z0-9_.\-]+</param>
+    /// <param name="UserId">ID for the UserID to be created. This ID needs to be unique within the collection. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9_.\-:]+</param>
     public AwsRekognitionCreateUserOptions(
         string CollectionId,
         string UserId
@@ -61,19 +62,19 @@ public record AwsRekognitionCreateUserOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of an existing collection to which the new UserID needs to be created. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9_.\-]+
+    /// The ID of an existing collection to which the new UserID needs to be created. Constraints: • min: 1 • max: 255 • pattern: [a-zA-Z0-9_.\-]+
     /// </summary>
     [CliOption("--collection-id")]
     public string? CollectionId { get; private init; }
 
     /// <summary>
-    /// ID for the UserID to be created. This ID needs to be unique within the collection. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_.\-:]+
+    /// ID for the UserID to be created. This ID needs to be unique within the collection. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9_.\-:]+
     /// </summary>
     [CliOption("--user-id")]
     public string? UserId { get; private init; }
 
     /// <summary>
-    /// Idempotent token used to identify the request to CreateUser . If you use the same token with multiple CreateUser requests, the same re- sponse is returned. Use ClientRequestToken to prevent the same re- quest from being processed more than once. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9-_]+$
+    /// Idempotent token used to identify the request to CreateUser . If you use the same token with multiple CreateUser requests, the same response is returned. Use ClientRequestToken to prevent the same request from being processed more than once. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9-_]+$
     /// </summary>
     [SecretValue]
     [CliOption("--client-request-token")]
@@ -100,6 +101,15 @@ public record AwsRekognitionCreateUserOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns a list of approval sessions. For more information, see Session in the Multi-party approval User Guide . See also: AWS API Documentation list-sessions is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expr...
+/// Returns a list of approval sessions. For more information, see Session in the Multi-party approval User Guide . See also: AWS API Documentation list-sessions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressi...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +27,9 @@ public record AwsMpaListSessionsOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns a list of approval sessions. For more information, see Session in the Multi-party approval User Guide . See also: AWS API Documentation list-sessions is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expr...
+    /// Returns a list of approval sessions. For more information, see Session in the Multi-party approval User Guide . See also: AWS API Documentation list-sessions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressi...
     /// </summary>
-    /// <param name="ApprovalTeamArn">Amazon Resource Name (ARN) for the approval team. Constraints: o min: 20 o max: 2048 o pattern: arn:aws(-[^:]+)?:mpa:[a-z0-9-]{1,20}:[0-9]{12}:ap- proval-team/[a-zA-Z0-9._-]+</param>
+    /// <param name="ApprovalTeamArn">Amazon Resource Name (ARN) for the approval team. Constraints: • min: 20 • max: 2048 • pattern: arn:aws(-[^:]+)?:mpa:[a-z0-9-]{1,20}:[0-9]{12}:approval-team/[a-zA-Z0-9._-]+</param>
     public AwsMpaListSessionsOptions(
         string ApprovalTeamArn
     )
@@ -57,22 +58,19 @@ public record AwsMpaListSessionsOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Amazon Resource Name (ARN) for the approval team. Constraints: o min: 20 o max: 2048 o pattern: arn:aws(-[^:]+)?:mpa:[a-z0-9-]{1,20}:[0-9]{12}:ap- proval-team/[a-zA-Z0-9._-]+
+    /// Amazon Resource Name (ARN) for the approval team. Constraints: • min: 20 • max: 2048 • pattern: arn:aws(-[^:]+)?:mpa:[a-z0-9-]{1,20}:[0-9]{12}:approval-team/[a-zA-Z0-9._-]+
     /// </summary>
     [CliOption("--approval-team-arn")]
     public string? ApprovalTeamArn { get; private init; }
 
     /// <summary>
-    /// An array of Filter objects. Contains the filter to apply when list- ing sessions. Constraints: o min: 0 o max: 10 (structure) Contains the filter to apply to requests. You can specify up to 10 filters for a request. FieldName -&gt; (string) Name of the filter to use. NOTE: Supported filters The supported filters for ListSessions are: ActionName , SessionStatus , and InitationTime . Possible values: o ActionName o ApprovalTeamName o VotingTime o Vote o SessionStatus o InitiationTime Operator -&gt; (string) Operator to use for filtering. o EQ : Equal to the specified value o NE : Not equal to the specified value o GT : Greater than the specified value o LT : Less than the specified value o GTE : Greater than or equal to the specified value o LTE : Less than or equal to the specified value o CONTAINS : Contains the specified value o NOT_CONTAINS : Does not contain the specified value o BETWEEN : Between two values, inclusive of the specified values. NOTE: Supported operators for each filter : o ActionName : EQ | NE | CONTAINS | NOT_CONTAINS o SessionStatus : EQ | NE o InitiationTime : GT | LT | GTE | LTE | BETWEEN Possible values: o EQ o NE o GT o LT o GTE o LTE o CONTAINS o NOT_CONTAINS o BETWEEN Value -&gt; (string) Value to use for filtering. For the BETWEEN operator, specify values in the format a AND b (AND is case-insensitive). Constraints: o min: 0 o max: 1000 Shorthand Syntax: FieldName=string,Operator=string,Value=string ... JSON Syntax: [ { "FieldName": "ActionName"|"ApprovalTeamName"|"VotingTime"|"Vote"|"SessionStatus"|"InitiationTime", "Operator": "EQ"|"NE"|"GT"|"LT"|"GTE"|"LTE"|"CONTAINS"|"NOT_CONTAINS"|"BETWEEN", "Value": "string" } ... ]
+    /// An array of Filter objects. Contains the filter to apply when listing sessions. Constraints: • min: 0 • max: 10 (structure) Contains the filter to apply to requests. You can specify up to 10 filters for a request. FieldName -&gt; (string) Name of the filter to use. NOTE: Supported filters The supported filters for ListSessions are: ActionName , SessionStatus , and InitationTime . Possible values: • ActionName • ApprovalTeamName • VotingTime • Vote • SessionStatus • InitiationTime Operator -&gt; (string) Operator to use for filtering. • EQ : Equal to the specified value • NE : Not equal to the specified value • GT : Greater than the specified value • LT : Less than the specified value • GTE : Greater than or equal to the specified value • LTE : Less than or equal to the specified value • CONTAINS : Contains the specified value • NOT_CONTAINS : Does not contain the specified value • BETWEEN : Between two values, inclusive of the specified values. NOTE: Supported operators for each filter : • ActionName : EQ | NE | CONTAINS | NOT_CONTAINS • SessionStatus : EQ | NE • InitiationTime : GT | LT | GTE | LTE | BETWEEN Possible values: • EQ • NE • GT • LT • GTE • LTE • CONTAINS • NOT_CONTAINS • BETWEEN Value -&gt; (string) Value to use for filtering. For the BETWEEN operator, specify values in the format a AND b (AND is case-insensitive). Constraints: • min: 0 • max: 1000 Shorthand Syntax: FieldName=string,Operator=string,Value=string ... JSON Syntax: [ { "FieldName": "ActionName"|"ApprovalTeamName"|"VotingTime"|"Vote"|"SessionStatus"|"InitiationTime", "Operator": "EQ"|"NE"|"GT"|"LT"|"GTE"|"LTE"|"CONTAINS"|"NOT_CONTAINS"|"BETWEEN", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -82,16 +80,19 @@ public record AwsMpaListSessionsOptions : AwsOptions, IValidatableObject
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 20
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 20
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
@@ -108,6 +109,15 @@ public record AwsMpaListSessionsOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -29,10 +30,10 @@ public record AwsWafv2DeleteIpSetOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Deletes the specified IPSet . See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">The name of the IP set. You cannot change the name of an IPSet after you create it. Constraints: o min: 1 o max: 128 o pattern: ^[\w\-]+$</param>
-    /// <param name="Scope">Specifies whether this is for a global resource type, such as a Ama- zon CloudFront distribution. For an Amplify application, use CLOUD- FRONT . To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows: o CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1 . o API and SDKs - For all calls, use the Region endpoint us-east-1. Possible values: o CLOUDFRONT o REGIONAL</param>
-    /// <param name="Id">A unique identifier for the set. This ID is returned in the re- sponses to create and list commands. You provide it to operations like update and delete. Constraints: o min: 1 o max: 36 o pattern: ^[0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12}$</param>
-    /// <param name="LockToken">A token used for optimistic locking. WAF returns a token to your get and list requests, to mark the state of the entity at the time of the request. To make changes to the entity associated with the to- ken, you provide the token to operations like update and delete . WAF uses the token to ensure that no changes have been made to the entity since you last retrieved it. If a change has been made, the update fails with a WAFOptimisticLockException . If this happens, perform another get , and use the new token returned by that opera- tion. Constraints: o min: 1 o max: 36 o pattern: ^[0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12}$</param>
+    /// <param name="Name">The name of the IP set. You cannot change the name of an IPSet after you create it. Constraints: • min: 1 • max: 128 • pattern: ^[\w\-]+$</param>
+    /// <param name="Scope">Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. For an Amplify application, use CLOUDFRONT . To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows: • CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1 . • API and SDKs - For all calls, use the Region endpoint us-east-1. Possible values: • CLOUDFRONT • REGIONAL</param>
+    /// <param name="Id">A unique identifier for the set. This ID is returned in the responses to create and list commands. You provide it to operations like update and delete. Constraints: • min: 1 • max: 36 • pattern: ^[0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12}$</param>
+    /// <param name="LockToken">A token used for optimistic locking. WAF returns a token to your get and list requests, to mark the state of the entity at the time of the request. To make changes to the entity associated with the token, you provide the token to operations like update and delete . WAF uses the token to ensure that no changes have been made to the entity since you last retrieved it. If a change has been made, the update fails with a WAFOptimisticLockException . If this happens, perform another get , and use the new token returned by that operation. Constraints: • min: 1 • max: 36 • pattern: ^[0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12}$</param>
     public AwsWafv2DeleteIpSetOptions(
         string Name,
         AwsWafv2DeleteIpSetScope Scope,
@@ -69,25 +70,25 @@ public record AwsWafv2DeleteIpSetOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the IP set. You cannot change the name of an IPSet after you create it. Constraints: o min: 1 o max: 128 o pattern: ^[\w\-]+$
+    /// The name of the IP set. You cannot change the name of an IPSet after you create it. Constraints: • min: 1 • max: 128 • pattern: ^[\w\-]+$
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// Specifies whether this is for a global resource type, such as a Ama- zon CloudFront distribution. For an Amplify application, use CLOUD- FRONT . To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows: o CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1 . o API and SDKs - For all calls, use the Region endpoint us-east-1. Possible values: o CLOUDFRONT o REGIONAL
+    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. For an Amplify application, use CLOUDFRONT . To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows: • CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1 . • API and SDKs - For all calls, use the Region endpoint us-east-1. Possible values: • CLOUDFRONT • REGIONAL
     /// </summary>
     [CliOption("--scope")]
     public AwsWafv2DeleteIpSetScope? Scope { get; private init; }
 
     /// <summary>
-    /// A unique identifier for the set. This ID is returned in the re- sponses to create and list commands. You provide it to operations like update and delete. Constraints: o min: 1 o max: 36 o pattern: ^[0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12}$
+    /// A unique identifier for the set. This ID is returned in the responses to create and list commands. You provide it to operations like update and delete. Constraints: • min: 1 • max: 36 • pattern: ^[0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12}$
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; private init; }
 
     /// <summary>
-    /// A token used for optimistic locking. WAF returns a token to your get and list requests, to mark the state of the entity at the time of the request. To make changes to the entity associated with the to- ken, you provide the token to operations like update and delete . WAF uses the token to ensure that no changes have been made to the entity since you last retrieved it. If a change has been made, the update fails with a WAFOptimisticLockException . If this happens, perform another get , and use the new token returned by that opera- tion. Constraints: o min: 1 o max: 36 o pattern: ^[0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12}$
+    /// A token used for optimistic locking. WAF returns a token to your get and list requests, to mark the state of the entity at the time of the request. To make changes to the entity associated with the token, you provide the token to operations like update and delete . WAF uses the token to ensure that no changes have been made to the entity since you last retrieved it. If a change has been made, the update fails with a WAFOptimisticLockException . If this happens, perform another get , and use the new token returned by that operation. Constraints: • min: 1 • max: 36 • pattern: ^[0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12}$
     /// </summary>
     [SecretValue]
     [CliOption("--lock-token")]
@@ -114,6 +115,15 @@ public record AwsWafv2DeleteIpSetOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

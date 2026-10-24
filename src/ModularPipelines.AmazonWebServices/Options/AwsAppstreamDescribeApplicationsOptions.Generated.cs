@@ -23,13 +23,13 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsAppstreamDescribeApplicationsOptions : AwsOptions
 {
     /// <summary>
-    /// The ARNs for the applications. (string) Constraints: o pattern: ^arn:aws(?:\-cn|\-iso\-b|\-iso|\-us\-gov)?:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.\\-]{0,1023}$ Syntax: "string" "string" ...
+    /// The ARNs for the applications. (string) Constraints: • pattern: ^arn:aws(?:\-cn|\-iso\-b|\-iso|\-us\-gov)?:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.\\-]{0,1023}$ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--arns", GroupValues = true)]
     public IEnumerable<string>? Arns { get; set; }
 
     /// <summary>
-    /// The pagination token used to retrieve the next page of results for this operation. Constraints: o min: 1
+    /// The pagination token used to retrieve the next page of results for this operation. Constraints: • min: 1
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
@@ -46,5 +46,14 @@ public record AwsAppstreamDescribeApplicationsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

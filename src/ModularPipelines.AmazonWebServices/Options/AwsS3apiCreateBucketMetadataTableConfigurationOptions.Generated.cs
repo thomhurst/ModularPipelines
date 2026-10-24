@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// WARNING: We recommend that you create your S3 Metadata configurations by us- ing the V2 CreateBucketMetadataConfiguration API operation. We no longer recommend using the V1 CreateBucketMetadataTableConfiguration API operation. If you created your S3 Metadata configuration before July 15, 2025, we recommend that you delete and re-create your configuration by us- ing CreateBucketMetadataConfiguration so that you can expire journal table records and create a live inventory table. Creates a V1 S3 Me...
+/// WARNING: We recommend that you create your S3 Metadata configurations by using the V2 CreateBucketMetadataConfiguration API operation. We no longer recommend using the V1 CreateBucketMetadataTableConfiguration API operation. If you created your S3 Metadata configuration before July 15, 2025, we recommend that you delete and re-create your configuration by using CreateBucketMetadataConfiguration so that you can expire journal table records and create a live inventory table. Creates a V1 S3 Metada...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +27,10 @@ public record AwsS3apiCreateBucketMetadataTableConfigurationOptions : AwsOptions
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// WARNING: We recommend that you create your S3 Metadata configurations by us- ing the V2 CreateBucketMetadataConfiguration API operation. We no longer recommend using the V1 CreateBucketMetadataTableConfiguration API operation. If you created your S3 Metadata configuration before July 15, 2025, we recommend that you delete and re-create your configuration by us- ing CreateBucketMetadataConfiguration so that you can expire journal table records and create a live inventory table. Creates a V1 S3 Me...
+    /// WARNING: We recommend that you create your S3 Metadata configurations by using the V2 CreateBucketMetadataConfiguration API operation. We no longer recommend using the V1 CreateBucketMetadataTableConfiguration API operation. If you created your S3 Metadata configuration before July 15, 2025, we recommend that you delete and re-create your configuration by using CreateBucketMetadataConfiguration so that you can expire journal table records and create a live inventory table. Creates a V1 S3 Metada...
     /// </summary>
-    /// <param name="Bucket">The general purpose bucket that you want to create the metadata ta- ble configuration for.</param>
-    /// <param name="MetadataTableConfiguration">The contents of your metadata table configuration. S3TablesDestination -&gt; (structure) [required] The destination information for the metadata table configura- tion. The destination table bucket must be in the same Region and Amazon Web Services account as the general purpose bucket. The specified metadata table name must be unique within the aws_s3_metadata namespace in the destination table bucket. TableBucketArn -&gt; (string) [required] The Amazon Resource Name (ARN) for the table bucket that's specified as the destination in the metadata table configura- tion. The destination table bucket must be in the same Region and Amazon Web Services account as the general purpose bucket. TableName -&gt; (string) [required] The name for the metadata table in your metadata table con- figuration. The specified metadata table name must be unique within the aws_s3_metadata namespace in the destination table bucket. Shorthand Syntax: S3TablesDestination={TableBucketArn=string,TableName=string} JSON Syntax: { "S3TablesDestination": { "TableBucketArn": "string", "TableName": "string" } }</param>
+    /// <param name="Bucket">The general purpose bucket that you want to create the metadata table configuration for.</param>
+    /// <param name="MetadataTableConfiguration">The contents of your metadata table configuration. S3TablesDestination -&gt; (structure) [required] The destination information for the metadata table configuration. The destination table bucket must be in the same Region and Amazon Web Services account as the general purpose bucket. The specified metadata table name must be unique within the aws_s3_metadata namespace in the destination table bucket. TableBucketArn -&gt; (string) [required] The Amazon Resource Name (ARN) for the table bucket that's specified as the destination in the metadata table configuration. The destination table bucket must be in the same Region and Amazon Web Services account as the general purpose bucket. TableName -&gt; (string) [required] The name for the metadata table in your metadata table configuration. The specified metadata table name must be unique within the aws_s3_metadata namespace in the destination table bucket. Shorthand Syntax: S3TablesDestination={TableBucketArn=string,TableName=string} JSON Syntax: { "S3TablesDestination": { "TableBucketArn": "string", "TableName": "string" } }</param>
     public AwsS3apiCreateBucketMetadataTableConfigurationOptions(
         string Bucket,
         string MetadataTableConfiguration
@@ -61,13 +62,13 @@ public record AwsS3apiCreateBucketMetadataTableConfigurationOptions : AwsOptions
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The general purpose bucket that you want to create the metadata ta- ble configuration for.
+    /// The general purpose bucket that you want to create the metadata table configuration for.
     /// </summary>
     [CliOption("--bucket")]
     public string? Bucket { get; private init; }
 
     /// <summary>
-    /// The contents of your metadata table configuration. S3TablesDestination -&gt; (structure) [required] The destination information for the metadata table configura- tion. The destination table bucket must be in the same Region and Amazon Web Services account as the general purpose bucket. The specified metadata table name must be unique within the aws_s3_metadata namespace in the destination table bucket. TableBucketArn -&gt; (string) [required] The Amazon Resource Name (ARN) for the table bucket that's specified as the destination in the metadata table configura- tion. The destination table bucket must be in the same Region and Amazon Web Services account as the general purpose bucket. TableName -&gt; (string) [required] The name for the metadata table in your metadata table con- figuration. The specified metadata table name must be unique within the aws_s3_metadata namespace in the destination table bucket. Shorthand Syntax: S3TablesDestination={TableBucketArn=string,TableName=string} JSON Syntax: { "S3TablesDestination": { "TableBucketArn": "string", "TableName": "string" } }
+    /// The contents of your metadata table configuration. S3TablesDestination -&gt; (structure) [required] The destination information for the metadata table configuration. The destination table bucket must be in the same Region and Amazon Web Services account as the general purpose bucket. The specified metadata table name must be unique within the aws_s3_metadata namespace in the destination table bucket. TableBucketArn -&gt; (string) [required] The Amazon Resource Name (ARN) for the table bucket that's specified as the destination in the metadata table configuration. The destination table bucket must be in the same Region and Amazon Web Services account as the general purpose bucket. TableName -&gt; (string) [required] The name for the metadata table in your metadata table configuration. The specified metadata table name must be unique within the aws_s3_metadata namespace in the destination table bucket. Shorthand Syntax: S3TablesDestination={TableBucketArn=string,TableName=string} JSON Syntax: { "S3TablesDestination": { "TableBucketArn": "string", "TableName": "string" } }
     /// </summary>
     [CliOption("--metadata-table-configuration")]
     public string? MetadataTableConfiguration { get; private init; }
@@ -79,7 +80,7 @@ public record AwsS3apiCreateBucketMetadataTableConfigurationOptions : AwsOptions
     public string? ContentMd5 { get; set; }
 
     /// <summary>
-    /// The checksum algorithm to use with your metadata table configura- tion. Possible values: o CRC32 o CRC32C o SHA1 o SHA256 o CRC64NVME o SHA512 o MD5 o XXHASH64 o XXHASH3 o XXHASH128
+    /// The checksum algorithm to use with your metadata table configuration. Possible values: • CRC32 • CRC32C • SHA1 • SHA256 • CRC64NVME • SHA512 • MD5 • XXHASH64 • XXHASH3 • XXHASH128
     /// </summary>
     [CliOption("--checksum-algorithm")]
     public AwsS3apiCreateBucketMetadataTableConfigurationChecksumAlgorithm? ChecksumAlgorithm { get; set; }
@@ -111,6 +112,15 @@ public record AwsS3apiCreateBucketMetadataTableConfigurationOptions : AwsOptions
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

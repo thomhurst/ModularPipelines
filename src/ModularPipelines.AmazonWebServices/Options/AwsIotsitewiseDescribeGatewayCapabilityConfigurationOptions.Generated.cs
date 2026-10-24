@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Each gateway capability defines data sources for a gateway. This is the namespace of the gateway capability. . The namespace follows the format service:capability:version , where: o service - The service providing the capability, or iotsitewise . o capability - The specific capability type. Options include: opcuacol- lector for the OPC UA data source collector, or publisher for data publisher capability. o version - The version number of the capability. Option include 2 for Classic streams, V2 g...
+/// Each gateway capability defines data sources for a gateway. This is the namespace of the gateway capability. . The namespace follows the format service:capability:version , where: • service - The service providing the capability, or iotsitewise . • capability - The specific capability type. Options include: opcuacollector for the OPC UA data source collector, or publisher for data publisher capability. • version - The version number of the capability. Option include 2 for Classic streams, V2 gat...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsIotsitewiseDescribeGatewayCapabilityConfigurationOptions : AwsO
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Each gateway capability defines data sources for a gateway. This is the namespace of the gateway capability. . The namespace follows the format service:capability:version , where: o service - The service providing the capability, or iotsitewise . o capability - The specific capability type. Options include: opcuacol- lector for the OPC UA data source collector, or publisher for data publisher capability. o version - The version number of the capability. Option include 2 for Classic streams, V2 g...
+    /// Each gateway capability defines data sources for a gateway. This is the namespace of the gateway capability. . The namespace follows the format service:capability:version , where: • service - The service providing the capability, or iotsitewise . • capability - The specific capability type. Options include: opcuacollector for the OPC UA data source collector, or publisher for data publisher capability. • version - The version number of the capability. Option include 2 for Classic streams, V2 gat...
     /// </summary>
-    /// <param name="GatewayId">The ID of the gateway that defines the capability configuration. Constraints: o min: 36 o max: 36 o pattern: ^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$</param>
-    /// <param name="CapabilityNamespace">The namespace of the capability configuration. For example, if you configure OPC UA sources for an MQTT-enabled gateway, your OPC-UA capability configuration has the namespace iotsitewise:opcuacollec- tor:3 . Constraints: o min: 1 o max: 512 o pattern: ^[a-zA-Z]+:[a-zA-Z]+:[0-9]+$</param>
+    /// <param name="GatewayId">The ID of the gateway that defines the capability configuration. Constraints: • min: 36 • max: 36 • pattern: ^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$</param>
+    /// <param name="CapabilityNamespace">The namespace of the capability configuration. For example, if you configure OPC UA sources for an MQTT-enabled gateway, your OPC-UA capability configuration has the namespace iotsitewise:opcuacollector:3 . Constraints: • min: 1 • max: 512 • pattern: ^[a-zA-Z]+:[a-zA-Z]+:[0-9]+$</param>
     public AwsIotsitewiseDescribeGatewayCapabilityConfigurationOptions(
         string GatewayId,
         string CapabilityNamespace
@@ -60,13 +61,13 @@ public record AwsIotsitewiseDescribeGatewayCapabilityConfigurationOptions : AwsO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the gateway that defines the capability configuration. Constraints: o min: 36 o max: 36 o pattern: ^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$
+    /// The ID of the gateway that defines the capability configuration. Constraints: • min: 36 • max: 36 • pattern: ^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$
     /// </summary>
     [CliOption("--gateway-id")]
     public string? GatewayId { get; private init; }
 
     /// <summary>
-    /// The namespace of the capability configuration. For example, if you configure OPC UA sources for an MQTT-enabled gateway, your OPC-UA capability configuration has the namespace iotsitewise:opcuacollec- tor:3 . Constraints: o min: 1 o max: 512 o pattern: ^[a-zA-Z]+:[a-zA-Z]+:[0-9]+$
+    /// The namespace of the capability configuration. For example, if you configure OPC UA sources for an MQTT-enabled gateway, your OPC-UA capability configuration has the namespace iotsitewise:opcuacollector:3 . Constraints: • min: 1 • max: 512 • pattern: ^[a-zA-Z]+:[a-zA-Z]+:[0-9]+$
     /// </summary>
     [CliOption("--capability-namespace")]
     public string? CapabilityNamespace { get; private init; }
@@ -92,6 +93,15 @@ public record AwsIotsitewiseDescribeGatewayCapabilityConfigurationOptions : AwsO
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsCodeconnectionsUpdateHostOptions : AwsOptions, IValidatableObje
     /// <summary>
     /// Updates a specified host with the provided configurations. See also: AWS API Documentation
     /// </summary>
-    /// <param name="HostArn">The Amazon Resource Name (ARN) of the host to be updated. Constraints: o min: 0 o max: 256 o pattern: arn:aws(-[\w]+)*:(codestar-connections|codeconnec- tions):.+:[0-9]{12}:host\/.+</param>
+    /// <param name="HostArn">The Amazon Resource Name (ARN) of the host to be updated. Constraints: • min: 0 • max: 256 • pattern: arn:aws(-[\w]+)*:(codestar-connections|codeconnections):.+:[0-9]{12}:host\/.+</param>
     public AwsCodeconnectionsUpdateHostOptions(
         string HostArn
     )
@@ -56,19 +57,19 @@ public record AwsCodeconnectionsUpdateHostOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the host to be updated. Constraints: o min: 0 o max: 256 o pattern: arn:aws(-[\w]+)*:(codestar-connections|codeconnec- tions):.+:[0-9]{12}:host\/.+
+    /// The Amazon Resource Name (ARN) of the host to be updated. Constraints: • min: 0 • max: 256 • pattern: arn:aws(-[\w]+)*:(codestar-connections|codeconnections):.+:[0-9]{12}:host\/.+
     /// </summary>
     [CliOption("--host-arn")]
     public string? HostArn { get; private init; }
 
     /// <summary>
-    /// The URL or endpoint of the host to be updated. Constraints: o min: 1 o max: 512 o pattern: .*
+    /// The URL or endpoint of the host to be updated. Constraints: • min: 1 • max: 512 • pattern: .*
     /// </summary>
     [CliOption("--provider-endpoint")]
     public string? ProviderEndpoint { get; set; }
 
     /// <summary>
-    /// The VPC configuration of the host to be updated. A VPC must be con- figured and the infrastructure to be represented by the host must already be connected to the VPC. VpcId -&gt; (string) [required] The ID of the Amazon VPC connected to the infrastructure where your provider type is installed. Constraints: o min: 12 o max: 21 o pattern: vpc-\w{8}(\w{9})? SubnetIds -&gt; (list) [required] The ID of the subnet or subnets associated with the Amazon VPC connected to the infrastructure where your provider type is in- stalled. Constraints: o min: 1 o max: 10 (string) Constraints: o min: 15 o max: 24 o pattern: subnet-\w{8}(\w{9})? SecurityGroupIds -&gt; (list) [required] The ID of the security group or security groups associated with the Amazon VPC connected to the infrastructure where your provider type is installed. Constraints: o min: 1 o max: 10 (string) Constraints: o min: 11 o max: 20 o pattern: sg-\w{8}(\w{9})? TlsCertificate -&gt; (string) The value of the Transport Layer Security (TLS) certificate as- sociated with the infrastructure where your provider type is in- stalled. Constraints: o min: 1 o max: 16384 o pattern: [\s\S]* Shorthand Syntax: VpcId=string,SubnetIds=string,string,SecurityGroupIds=string,string,TlsCertificate=string JSON Syntax: { "VpcId": "string", "SubnetIds": ["string", ...], "SecurityGroupIds": ["string", ...], "TlsCertificate": "string" }
+    /// The VPC configuration of the host to be updated. A VPC must be configured and the infrastructure to be represented by the host must already be connected to the VPC. VpcId -&gt; (string) [required] The ID of the Amazon VPC connected to the infrastructure where your provider type is installed. Constraints: • min: 12 • max: 21 • pattern: vpc-\w{8}(\w{9})? SubnetIds -&gt; (list) [required] The ID of the subnet or subnets associated with the Amazon VPC connected to the infrastructure where your provider type is installed. Constraints: • min: 1 • max: 10 (string) Constraints: • min: 15 • max: 24 • pattern: subnet-\w{8}(\w{9})? SecurityGroupIds -&gt; (list) [required] The ID of the security group or security groups associated with the Amazon VPC connected to the infrastructure where your provider type is installed. Constraints: • min: 1 • max: 10 (string) Constraints: • min: 11 • max: 20 • pattern: sg-\w{8}(\w{9})? TlsCertificate -&gt; (string) The value of the Transport Layer Security (TLS) certificate associated with the infrastructure where your provider type is installed. Constraints: • min: 1 • max: 16384 • pattern: [\s\S]* Shorthand Syntax: VpcId=string,SubnetIds=string,string,SecurityGroupIds=string,string,TlsCertificate=string JSON Syntax: { "VpcId": "string", "SubnetIds": ["string", ...], "SecurityGroupIds": ["string", ...], "TlsCertificate": "string" }
     /// </summary>
     [CliOption("--vpc-configuration")]
     public string? VpcConfiguration { get; set; }
@@ -94,6 +95,15 @@ public record AwsCodeconnectionsUpdateHostOptions : AwsOptions, IValidatableObje
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

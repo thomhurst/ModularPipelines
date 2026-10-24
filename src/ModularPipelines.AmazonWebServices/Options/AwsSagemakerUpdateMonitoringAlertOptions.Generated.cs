@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,10 +28,10 @@ public record AwsSagemakerUpdateMonitoringAlertOptions : AwsOptions, IValidatabl
     /// <summary>
     /// Update the parameters of a model monitor alert. See also: AWS API Documentation
     /// </summary>
-    /// <param name="MonitoringScheduleName">The name of a monitoring schedule. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}</param>
-    /// <param name="MonitoringAlertName">The name of a monitoring alert. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}</param>
-    /// <param name="DatapointsToAlert">Within EvaluationPeriod , how many execution failures will raise an alert. Constraints: o min: 1 o max: 100</param>
-    /// <param name="EvaluationPeriod">The number of most recent monitoring executions to consider when evaluating alert status. Constraints: o min: 1 o max: 100</param>
+    /// <param name="MonitoringScheduleName">The name of a monitoring schedule. Constraints: • min: 1 • max: 63 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}</param>
+    /// <param name="MonitoringAlertName">The name of a monitoring alert. Constraints: • min: 1 • max: 63 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}</param>
+    /// <param name="DatapointsToAlert">Within EvaluationPeriod , how many execution failures will raise an alert. Constraints: • min: 1 • max: 100</param>
+    /// <param name="EvaluationPeriod">The number of most recent monitoring executions to consider when evaluating alert status. Constraints: • min: 1 • max: 100</param>
     public AwsSagemakerUpdateMonitoringAlertOptions(
         string MonitoringScheduleName,
         string MonitoringAlertName,
@@ -66,25 +67,25 @@ public record AwsSagemakerUpdateMonitoringAlertOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of a monitoring schedule. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}
+    /// The name of a monitoring schedule. Constraints: • min: 1 • max: 63 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}
     /// </summary>
     [CliOption("--monitoring-schedule-name")]
     public string? MonitoringScheduleName { get; private init; }
 
     /// <summary>
-    /// The name of a monitoring alert. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}
+    /// The name of a monitoring alert. Constraints: • min: 1 • max: 63 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}
     /// </summary>
     [CliOption("--monitoring-alert-name")]
     public string? MonitoringAlertName { get; private init; }
 
     /// <summary>
-    /// Within EvaluationPeriod , how many execution failures will raise an alert. Constraints: o min: 1 o max: 100
+    /// Within EvaluationPeriod , how many execution failures will raise an alert. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--datapoints-to-alert")]
     public int? DatapointsToAlert { get; private init; }
 
     /// <summary>
-    /// The number of most recent monitoring executions to consider when evaluating alert status. Constraints: o min: 1 o max: 100
+    /// The number of most recent monitoring executions to consider when evaluating alert status. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--evaluation-period")]
     public int? EvaluationPeriod { get; private init; }
@@ -110,6 +111,15 @@ public record AwsSagemakerUpdateMonitoringAlertOptions : AwsOptions, IValidatabl
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

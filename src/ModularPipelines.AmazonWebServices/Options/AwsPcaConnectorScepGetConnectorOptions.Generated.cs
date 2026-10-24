@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsPcaConnectorScepGetConnectorOptions : AwsOptions, IValidatableO
     /// <summary>
     /// Retrieves details about the specified Connector . Calling this action returns important details about the connector, such as the public SCEP URL where your clients can request certificates. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ConnectorArn">The Amazon Resource Name (ARN) of the connector. Constraints: o min: 5 o max: 200 o pattern: arn:aws(-[a-z]+)*:pca-connec- tor-scep:[a-z]+(-[a-z]+)+-[1-9]\d*:\d{12}:connec- tor\/[0-9a-f]{8}(-[0-9a-f]{4}){3}-[0-9a-f]{12}</param>
+    /// <param name="ConnectorArn">The Amazon Resource Name (ARN) of the connector. Constraints: • min: 5 • max: 200 • pattern: arn:aws(-[a-z]+)*:pca-connector-scep:[a-z]+(-[a-z]+)+-[1-9]\d*:\d{12}:connector\/[0-9a-f]{8}(-[0-9a-f]{4}){3}-[0-9a-f]{12}</param>
     public AwsPcaConnectorScepGetConnectorOptions(
         string ConnectorArn
     )
@@ -56,7 +57,7 @@ public record AwsPcaConnectorScepGetConnectorOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the connector. Constraints: o min: 5 o max: 200 o pattern: arn:aws(-[a-z]+)*:pca-connec- tor-scep:[a-z]+(-[a-z]+)+-[1-9]\d*:\d{12}:connec- tor\/[0-9a-f]{8}(-[0-9a-f]{4}){3}-[0-9a-f]{12}
+    /// The Amazon Resource Name (ARN) of the connector. Constraints: • min: 5 • max: 200 • pattern: arn:aws(-[a-z]+)*:pca-connector-scep:[a-z]+(-[a-z]+)+-[1-9]\d*:\d{12}:connector\/[0-9a-f]{8}(-[0-9a-f]{4}){3}-[0-9a-f]{12}
     /// </summary>
     [CliOption("--connector-arn")]
     public string? ConnectorArn { get; private init; }
@@ -82,6 +83,15 @@ public record AwsPcaConnectorScepGetConnectorOptions : AwsOptions, IValidatableO
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

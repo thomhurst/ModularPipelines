@@ -11,13 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a security policy to be used by one or more OpenSearch Server- less collections. Security policies provide access to a collection and its OpenSearch Dashboards endpoint from public networks or specific VPC endpoints. They also allow you to secure a collection with a KMS en- cryption key. For more information, see Network access for Amazon OpenSearch Serverless and Encryption at rest for Amazon OpenSearch Serverless . See also: AWS API Documentation create-security-policy uses document ty...
+/// Creates a security policy to be used by one or more OpenSearch Serverless collections. Security policies provide access to a collection and its OpenSearch Dashboards endpoint from public networks or specific VPC endpoints. They also allow you to secure a collection with a KMS encryption key. For more information, see Network access for Amazon OpenSearch Serverless and Encryption at rest for Amazon OpenSearch Serverless . See also: AWS API Documentation create-security-policy uses document type v...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,11 +28,11 @@ public record AwsOpensearchserverlessCreateSecurityPolicyOptions : AwsOptions, I
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a security policy to be used by one or more OpenSearch Server- less collections. Security policies provide access to a collection and its OpenSearch Dashboards endpoint from public networks or specific VPC endpoints. They also allow you to secure a collection with a KMS en- cryption key. For more information, see Network access for Amazon OpenSearch Serverless and Encryption at rest for Amazon OpenSearch Serverless . See also: AWS API Documentation create-security-policy uses document ty...
+    /// Creates a security policy to be used by one or more OpenSearch Serverless collections. Security policies provide access to a collection and its OpenSearch Dashboards endpoint from public networks or specific VPC endpoints. They also allow you to secure a collection with a KMS encryption key. For more information, see Network access for Amazon OpenSearch Serverless and Encryption at rest for Amazon OpenSearch Serverless . See also: AWS API Documentation create-security-policy uses document type v...
     /// </summary>
-    /// <param name="Type">The type of security policy. Possible values: o encryption o network</param>
-    /// <param name="Name">The name of the policy. Constraints: o min: 3 o max: 32 o pattern: [a-z][a-z0-9-]+</param>
-    /// <param name="Policy">The JSON policy document to use as the content for the new policy. Constraints: o min: 1 o max: 20480 o pattern: .*[\u0009\u000A\u000D\u0020-\u007E\u00A1-\u00FF]+.*</param>
+    /// <param name="Type">The type of security policy. Possible values: • encryption • network</param>
+    /// <param name="Name">The name of the policy. Constraints: • min: 3 • max: 32 • pattern: [a-z][a-z0-9-]+</param>
+    /// <param name="Policy">The JSON policy document to use as the content for the new policy. Constraints: • min: 1 • max: 20480 • pattern: .*[\u0009\u000A\u000D\u0020-\u007E\u00A1-\u00FF]+.*</param>
     public AwsOpensearchserverlessCreateSecurityPolicyOptions(
         AwsOpensearchserverlessCreateSecurityPolicyType Type,
         string Name,
@@ -65,31 +66,31 @@ public record AwsOpensearchserverlessCreateSecurityPolicyOptions : AwsOptions, I
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The type of security policy. Possible values: o encryption o network
+    /// The type of security policy. Possible values: • encryption • network
     /// </summary>
     [CliOption("--type")]
     public AwsOpensearchserverlessCreateSecurityPolicyType? Type { get; private init; }
 
     /// <summary>
-    /// The name of the policy. Constraints: o min: 3 o max: 32 o pattern: [a-z][a-z0-9-]+
+    /// The name of the policy. Constraints: • min: 3 • max: 32 • pattern: [a-z][a-z0-9-]+
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The JSON policy document to use as the content for the new policy. Constraints: o min: 1 o max: 20480 o pattern: .*[\u0009\u000A\u000D\u0020-\u007E\u00A1-\u00FF]+.*
+    /// The JSON policy document to use as the content for the new policy. Constraints: • min: 1 • max: 20480 • pattern: .*[\u0009\u000A\u000D\u0020-\u007E\u00A1-\u00FF]+.*
     /// </summary>
     [CliOption("--policy")]
     public string? Policy { get; private init; }
 
     /// <summary>
-    /// A description of the policy. Typically used to store information about the permissions defined in the policy. Constraints: o min: 0 o max: 1000
+    /// A description of the policy. Typically used to store information about the permissions defined in the policy. Constraints: • min: 0 • max: 1000
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// Unique, case-sensitive identifier to ensure idempotency of the re- quest. Constraints: o min: 1 o max: 512
+    /// Unique, case-sensitive identifier to ensure idempotency of the request. Constraints: • min: 1 • max: 512
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
@@ -116,6 +117,15 @@ public record AwsOpensearchserverlessCreateSecurityPolicyOptions : AwsOptions, I
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

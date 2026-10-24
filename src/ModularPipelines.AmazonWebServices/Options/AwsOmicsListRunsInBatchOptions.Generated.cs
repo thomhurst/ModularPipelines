@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -29,7 +30,7 @@ public record AwsOmicsListRunsInBatchOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Returns a paginated list of individual workflow runs within a specific batch. Use this operation to map each runSettingId to its HealthOmics-generated runId , and to check the submission status of each run. Only one filter per call is supported. See also: AWS API Documentation list-runs-in-batch is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output tex...
     /// </summary>
-    /// <param name="BatchId">The identifier portion of the run batch ARN. Constraints: o min: 1 o max: 18 o pattern: [0-9]+</param>
+    /// <param name="BatchId">The identifier portion of the run batch ARN. Constraints: • min: 1 • max: 18 • pattern: [0-9]+</param>
     public AwsOmicsListRunsInBatchOptions(
         string BatchId
     )
@@ -58,13 +59,13 @@ public record AwsOmicsListRunsInBatchOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier portion of the run batch ARN. Constraints: o min: 1 o max: 18 o pattern: [0-9]+
+    /// The identifier portion of the run batch ARN. Constraints: • min: 1 • max: 18 • pattern: [0-9]+
     /// </summary>
     [CliOption("--batch-id")]
     public string? BatchId { get; private init; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
@@ -77,7 +78,7 @@ public record AwsOmicsListRunsInBatchOptions : AwsOptions, IValidatableObject
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// Filter runs by submission status. Possible values: o SUCCESS o FAILED o CANCEL_SUCCESS o CANCEL_FAILED o DELETE_SUCCESS o DELETE_FAILED Constraints: o min: 1 o max: 64
+    /// Filter runs by submission status. Possible values: • SUCCESS • FAILED • CANCEL_SUCCESS • CANCEL_FAILED • DELETE_SUCCESS • DELETE_FAILED Constraints: • min: 1 • max: 64
     /// </summary>
     [CliOption("--submission-status")]
     public AwsOmicsListRunsInBatchSubmissionStatus? SubmissionStatus { get; set; }
@@ -97,14 +98,14 @@ public record AwsOmicsListRunsInBatchOptions : AwsOptions, IValidatableObject
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
-
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 100
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
@@ -121,6 +122,15 @@ public record AwsOmicsListRunsInBatchOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

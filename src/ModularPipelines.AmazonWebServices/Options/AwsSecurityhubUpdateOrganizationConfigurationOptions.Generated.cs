@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates the configuration of your organization in Security Hub CSPM. Only the Security Hub CSPM administrator account can invoke this opera- tion. See also: AWS API Documentation
+/// Updates the configuration of your organization in Security Hub CSPM. Only the Security Hub CSPM administrator account can invoke this operation. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +27,9 @@ public record AwsSecurityhubUpdateOrganizationConfigurationOptions : AwsOptions,
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates the configuration of your organization in Security Hub CSPM. Only the Security Hub CSPM administrator account can invoke this opera- tion. See also: AWS API Documentation
+    /// Updates the configuration of your organization in Security Hub CSPM. Only the Security Hub CSPM administrator account can invoke this operation. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AutoEnable">Whether to automatically enable Security Hub CSPM in new member ac- counts when they join the organization. If set to true , then Security Hub CSPM is automatically enabled in new accounts. If set to false , then Security Hub CSPM isn't enabled in new accounts automatically. The default value is false . If the ConfigurationType of your organization is set to CENTRAL , then this field is set to false and can't be changed in the home Re- gion and linked Regions. However, in that case, the delegated admin- istrator can create a configuration policy in which Security Hub CSPM is enabled and associate the policy with new organization ac- counts.</param>
+    /// <param name="AutoEnable">Whether to automatically enable Security Hub CSPM in new member accounts when they join the organization. If set to true , then Security Hub CSPM is automatically enabled in new accounts. If set to false , then Security Hub CSPM isn't enabled in new accounts automatically. The default value is false . If the ConfigurationType of your organization is set to CENTRAL , then this field is set to false and can't be changed in the home Region and linked Regions. However, in that case, the delegated administrator can create a configuration policy in which Security Hub CSPM is enabled and associate the policy with new organization accounts.</param>
     public AwsSecurityhubUpdateOrganizationConfigurationOptions(
         bool AutoEnable
     )
@@ -56,19 +57,19 @@ public record AwsSecurityhubUpdateOrganizationConfigurationOptions : AwsOptions,
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Whether to automatically enable Security Hub CSPM in new member ac- counts when they join the organization. If set to true , then Security Hub CSPM is automatically enabled in new accounts. If set to false , then Security Hub CSPM isn't enabled in new accounts automatically. The default value is false . If the ConfigurationType of your organization is set to CENTRAL , then this field is set to false and can't be changed in the home Re- gion and linked Regions. However, in that case, the delegated admin- istrator can create a configuration policy in which Security Hub CSPM is enabled and associate the policy with new organization ac- counts.
+    /// Whether to automatically enable Security Hub CSPM in new member accounts when they join the organization. If set to true , then Security Hub CSPM is automatically enabled in new accounts. If set to false , then Security Hub CSPM isn't enabled in new accounts automatically. The default value is false . If the ConfigurationType of your organization is set to CENTRAL , then this field is set to false and can't be changed in the home Region and linked Regions. However, in that case, the delegated administrator can create a configuration policy in which Security Hub CSPM is enabled and associate the policy with new organization accounts.
     /// </summary>
     [CliFlag("--auto-enable", NegatedName = "--no-auto-enable")]
     public bool? AutoEnable { get; private init; }
 
     /// <summary>
-    /// Whether to automatically enable Security Hub CSPM default standards in new member accounts when they join the organization. The default value of this parameter is equal to DEFAULT . If equal to DEFAULT , then Security Hub CSPM default standards are automatically enabled for new member accounts. If equal to NONE , then default standards are not automatically enabled for new member accounts. If the ConfigurationType of your organization is set to CENTRAL , then this field is set to NONE and can't be changed in the home Re- gion and linked Regions. However, in that case, the delegated admin- istrator can create a configuration policy in which specific secu- rity standards are enabled and associate the policy with new organi- zation accounts. Possible values: o NONE o DEFAULT
+    /// Whether to automatically enable Security Hub CSPM default standards in new member accounts when they join the organization. The default value of this parameter is equal to DEFAULT . If equal to DEFAULT , then Security Hub CSPM default standards are automatically enabled for new member accounts. If equal to NONE , then default standards are not automatically enabled for new member accounts. If the ConfigurationType of your organization is set to CENTRAL , then this field is set to NONE and can't be changed in the home Region and linked Regions. However, in that case, the delegated administrator can create a configuration policy in which specific security standards are enabled and associate the policy with new organization accounts. Possible values: • NONE • DEFAULT
     /// </summary>
     [CliOption("--auto-enable-standards")]
     public AwsSecurityhubUpdateOrganizationConfigurationAutoEnableStandards? AutoEnableStandards { get; set; }
 
     /// <summary>
-    /// Provides information about the way an organization is configured in Security Hub CSPM. ConfigurationType -&gt; (string) Indicates whether the organization uses local or central config- uration. If you use local configuration, the Security Hub CSPM delegated administrator can set AutoEnable to true and AutoEnableStandards to DEFAULT . This automatically enables Security Hub CSPM and default security standards in new organization accounts. These new account settings must be set separately in each Amazon Web Services Region, and settings may be different in each Region. If you use central configuration, the delegated administrator can create configuration policies. Configuration policies can be used to configure Security Hub CSPM, security standards, and se- curity controls in multiple accounts and Regions. If you want new organization accounts to use a specific configuration, you can create a configuration policy and associate it with the root or specific organizational units (OUs). New accounts will in- herit the policy from the root or their assigned OU. Possible values: o CENTRAL o LOCAL Status -&gt; (string) Describes whether central configuration could be enabled as the ConfigurationType for the organization. If your Configura- tionType is local configuration, then the value of Status is al- ways ENABLED . Possible values: o PENDING o ENABLED o FAILED StatusMessage -&gt; (string) Provides an explanation if the value of Status is equal to FAILED when ConfigurationType is equal to CENTRAL . Constraints: o pattern: .*\S.* Shorthand Syntax: ConfigurationType=string,Status=string,StatusMessage=string JSON Syntax: { "ConfigurationType": "CENTRAL"|"LOCAL", "Status": "PENDING"|"ENABLED"|"FAILED", "StatusMessage": "string" }
+    /// Provides information about the way an organization is configured in Security Hub CSPM. ConfigurationType -&gt; (string) Indicates whether the organization uses local or central configuration. If you use local configuration, the Security Hub CSPM delegated administrator can set AutoEnable to true and AutoEnableStandards to DEFAULT . This automatically enables Security Hub CSPM and default security standards in new organization accounts. These new account settings must be set separately in each Amazon Web Services Region, and settings may be different in each Region. If you use central configuration, the delegated administrator can create configuration policies. Configuration policies can be used to configure Security Hub CSPM, security standards, and security controls in multiple accounts and Regions. If you want new organization accounts to use a specific configuration, you can create a configuration policy and associate it with the root or specific organizational units (OUs). New accounts will inherit the policy from the root or their assigned OU. Possible values: • CENTRAL • LOCAL Status -&gt; (string) Describes whether central configuration could be enabled as the ConfigurationType for the organization. If your ConfigurationType is local configuration, then the value of Status is always ENABLED . Possible values: • PENDING • ENABLED • FAILED StatusMessage -&gt; (string) Provides an explanation if the value of Status is equal to FAILED when ConfigurationType is equal to CENTRAL . Constraints: • pattern: .*\S.* Shorthand Syntax: ConfigurationType=string,Status=string,StatusMessage=string JSON Syntax: { "ConfigurationType": "CENTRAL"|"LOCAL", "Status": "PENDING"|"ENABLED"|"FAILED", "StatusMessage": "string" }
     /// </summary>
     [CliOption("--organization-configuration")]
     public string? OrganizationConfiguration { get; set; }
@@ -94,6 +95,15 @@ public record AwsSecurityhubUpdateOrganizationConfigurationOptions : AwsOptions,
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Adds or updates an authentication method for an application. See also: AWS API Documentation put-application-authentication-method uses document type values. Docu- ment types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, op- tions and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
+/// Adds or updates an authentication method for an application. See also: AWS API Documentation put-application-authentication-method uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsSsoAdminPutApplicationAuthenticationMethodOptions : AwsOptions,
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Adds or updates an authentication method for an application. See also: AWS API Documentation put-application-authentication-method uses document type values. Docu- ment types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, op- tions and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
+    /// Adds or updates an authentication method for an application. See also: AWS API Documentation put-application-authentication-method uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
     /// </summary>
-    /// <param name="ApplicationArn">Specifies the ARN of the application with the authentication method to add or update. Constraints: o min: 10 o max: 1224 o pattern: arn:aws(-[a-z]{1,5}){0,3}:sso::\d{12}:applica- tion/(sso)?ins-[a-zA-Z0-9-.]{16}/apl-[a-zA-Z0-9]{16}</param>
-    /// <param name="AuthenticationMethodType">Specifies the type of the authentication method that you want to add or update. Possible values: o IAM</param>
+    /// <param name="ApplicationArn">Specifies the ARN of the application with the authentication method to add or update. Constraints: • min: 10 • max: 1224 • pattern: arn:aws(-[a-z]{1,5}){0,3}:sso::\d{12}:application/(sso)?ins-[a-zA-Z0-9-.]{16}/apl-[a-zA-Z0-9]{16}</param>
+    /// <param name="AuthenticationMethodType">Specifies the type of the authentication method that you want to add or update. Possible values: • IAM</param>
     /// <param name="AuthenticationMethod">Specifies a structure that describes the authentication method to add or update. The structure type you provide is determined by the AuthenticationMethodType parameter. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: Iam. Iam -&gt; (structure) A structure that describes details for IAM authentication. ActorPolicy -&gt; (document) [required] An IAM policy document in JSON. Shorthand Syntax: Iam={} JSON Syntax: { "Iam": { "ActorPolicy": {...} } }</param>
     public AwsSsoAdminPutApplicationAuthenticationMethodOptions(
         string ApplicationArn,
@@ -64,13 +65,13 @@ public record AwsSsoAdminPutApplicationAuthenticationMethodOptions : AwsOptions,
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Specifies the ARN of the application with the authentication method to add or update. Constraints: o min: 10 o max: 1224 o pattern: arn:aws(-[a-z]{1,5}){0,3}:sso::\d{12}:applica- tion/(sso)?ins-[a-zA-Z0-9-.]{16}/apl-[a-zA-Z0-9]{16}
+    /// Specifies the ARN of the application with the authentication method to add or update. Constraints: • min: 10 • max: 1224 • pattern: arn:aws(-[a-z]{1,5}){0,3}:sso::\d{12}:application/(sso)?ins-[a-zA-Z0-9-.]{16}/apl-[a-zA-Z0-9]{16}
     /// </summary>
     [CliOption("--application-arn")]
     public string? ApplicationArn { get; private init; }
 
     /// <summary>
-    /// Specifies the type of the authentication method that you want to add or update. Possible values: o IAM
+    /// Specifies the type of the authentication method that you want to add or update. Possible values: • IAM
     /// </summary>
     [CliOption("--authentication-method-type")]
     public string? AuthenticationMethodType { get; private init; }
@@ -102,6 +103,15 @@ public record AwsSsoAdminPutApplicationAuthenticationMethodOptions : AwsOptions,
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

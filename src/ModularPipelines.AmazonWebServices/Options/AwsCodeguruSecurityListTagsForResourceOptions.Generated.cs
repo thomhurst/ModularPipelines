@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsCodeguruSecurityListTagsForResourceOptions : AwsOptions, IValid
     /// <summary>
     /// Returns a list of all tags associated with a scan. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The ARN of the ScanName object. You can retrieve this ARN by calling CreateScan , ListScans , or GetScan . Constraints: o min: 1 o max: 300 o pattern: arn:aws:codeguru-secu- rity:[\S]+:[\d]{12}:scans\/[a-zA-Z0-9-_$:.]*</param>
+    /// <param name="ResourceArn">The ARN of the ScanName object. You can retrieve this ARN by calling CreateScan , ListScans , or GetScan . Constraints: • min: 1 • max: 300 • pattern: arn:aws:codeguru-security:[\S]+:[\d]{12}:scans\/[a-zA-Z0-9-_$:.]*</param>
     public AwsCodeguruSecurityListTagsForResourceOptions(
         string ResourceArn
     )
@@ -56,7 +57,7 @@ public record AwsCodeguruSecurityListTagsForResourceOptions : AwsOptions, IValid
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the ScanName object. You can retrieve this ARN by calling CreateScan , ListScans , or GetScan . Constraints: o min: 1 o max: 300 o pattern: arn:aws:codeguru-secu- rity:[\S]+:[\d]{12}:scans\/[a-zA-Z0-9-_$:.]*
+    /// The ARN of the ScanName object. You can retrieve this ARN by calling CreateScan , ListScans , or GetScan . Constraints: • min: 1 • max: 300 • pattern: arn:aws:codeguru-security:[\S]+:[\d]{12}:scans\/[a-zA-Z0-9-_$:.]*
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
@@ -82,6 +83,15 @@ public record AwsCodeguruSecurityListTagsForResourceOptions : AwsOptions, IValid
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

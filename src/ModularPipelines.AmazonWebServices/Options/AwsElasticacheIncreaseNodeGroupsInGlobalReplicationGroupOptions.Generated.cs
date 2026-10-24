@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -80,7 +81,7 @@ public record AwsElasticacheIncreaseNodeGroupsInGlobalReplicationGroupOptions : 
     public bool? ApplyImmediately { get; private init; }
 
     /// <summary>
-    /// Describes the replication group IDs, the Amazon regions where they are stored and the shard configuration for each that comprise the Global datastore (structure) A list of the replication groups ReplicationGroupId -&gt; (string) [required] The name of the secondary cluster ReplicationGroupRegion -&gt; (string) [required] The Amazon region where the cluster is stored ReshardingConfiguration -&gt; (list) [required] A list of PreferredAvailabilityZones objects that specifies the configuration of a node group in the resharded cluster. (structure) A list of PreferredAvailabilityZones objects that speci- fies the configuration of a node group in the resharded cluster. NodeGroupId -&gt; (string) Either the ElastiCache supplied 4-digit id or a user supplied id for the node group these configuration values apply to. Constraints: o min: 1 o max: 4 o pattern: \d+ PreferredAvailabilityZones -&gt; (list) A list of preferred availability zones for the nodes in this cluster. (string) JSON Syntax: [ { "ReplicationGroupId": "string", "ReplicationGroupRegion": "string", "ReshardingConfiguration": [ { "NodeGroupId": "string", "PreferredAvailabilityZones": ["string", ...] } ... ] } ... ]
+    /// Describes the replication group IDs, the Amazon regions where they are stored and the shard configuration for each that comprise the Global datastore (structure) A list of the replication groups ReplicationGroupId -&gt; (string) [required] The name of the secondary cluster ReplicationGroupRegion -&gt; (string) [required] The Amazon region where the cluster is stored ReshardingConfiguration -&gt; (list) [required] A list of PreferredAvailabilityZones objects that specifies the configuration of a node group in the resharded cluster. (structure) A list of PreferredAvailabilityZones objects that specifies the configuration of a node group in the resharded cluster. NodeGroupId -&gt; (string) Either the ElastiCache supplied 4-digit id or a user supplied id for the node group these configuration values apply to. Constraints: • min: 1 • max: 4 • pattern: \d+ PreferredAvailabilityZones -&gt; (list) A list of preferred availability zones for the nodes in this cluster. (string) JSON Syntax: [ { "ReplicationGroupId": "string", "ReplicationGroupRegion": "string", "ReshardingConfiguration": [ { "NodeGroupId": "string", "PreferredAvailabilityZones": ["string", ...] } ... ] } ... ]
     /// </summary>
     [CliOption("--regional-configurations", GroupValues = true)]
     public IEnumerable<string>? RegionalConfigurations { get; set; }
@@ -106,6 +107,15 @@ public record AwsElasticacheIncreaseNodeGroupsInGlobalReplicationGroupOptions : 
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

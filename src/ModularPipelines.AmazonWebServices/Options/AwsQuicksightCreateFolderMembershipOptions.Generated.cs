@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,10 +29,10 @@ public record AwsQuicksightCreateFolderMembershipOptions : AwsOptions, IValidata
     /// <summary>
     /// Adds an asset, such as a dashboard, analysis, or dataset into a folder. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AwsAccountId">The ID for the Amazon Web Services account that contains the folder. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$</param>
-    /// <param name="FolderId">The ID of the folder. Constraints: o min: 1 o max: 2048 o pattern: [\w\-]+</param>
-    /// <param name="MemberId">The ID of the asset that you want to add to the folder. Constraints: o min: 1 o max: 2048 o pattern: [\w\-]+</param>
-    /// <param name="MemberType">The member type of the asset that you want to add to a folder. Possible values: o DASHBOARD o ANALYSIS o DATASET o DATASOURCE o TOPIC</param>
+    /// <param name="AwsAccountId">The ID for the Amazon Web Services account that contains the folder. Constraints: • min: 12 • max: 12 • pattern: ^[0-9]{12}$</param>
+    /// <param name="FolderId">The ID of the folder. Constraints: • min: 1 • max: 2048 • pattern: [\w\-]+</param>
+    /// <param name="MemberId">The ID of the asset that you want to add to the folder. Constraints: • min: 1 • max: 2048 • pattern: [\w\-]+</param>
+    /// <param name="MemberType">The member type of the asset that you want to add to a folder. Possible values: • DASHBOARD • ANALYSIS • DATASET • DATASOURCE • TOPIC</param>
     public AwsQuicksightCreateFolderMembershipOptions(
         string AwsAccountId,
         string FolderId,
@@ -68,25 +69,25 @@ public record AwsQuicksightCreateFolderMembershipOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID for the Amazon Web Services account that contains the folder. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$
+    /// The ID for the Amazon Web Services account that contains the folder. Constraints: • min: 12 • max: 12 • pattern: ^[0-9]{12}$
     /// </summary>
     [CliOption("--aws-account-id")]
     public string? AwsAccountId { get; private init; }
 
     /// <summary>
-    /// The ID of the folder. Constraints: o min: 1 o max: 2048 o pattern: [\w\-]+
+    /// The ID of the folder. Constraints: • min: 1 • max: 2048 • pattern: [\w\-]+
     /// </summary>
     [CliOption("--folder-id")]
     public string? FolderId { get; private init; }
 
     /// <summary>
-    /// The ID of the asset that you want to add to the folder. Constraints: o min: 1 o max: 2048 o pattern: [\w\-]+
+    /// The ID of the asset that you want to add to the folder. Constraints: • min: 1 • max: 2048 • pattern: [\w\-]+
     /// </summary>
     [CliOption("--member-id")]
     public string? MemberId { get; private init; }
 
     /// <summary>
-    /// The member type of the asset that you want to add to a folder. Possible values: o DASHBOARD o ANALYSIS o DATASET o DATASOURCE o TOPIC
+    /// The member type of the asset that you want to add to a folder. Possible values: • DASHBOARD • ANALYSIS • DATASET • DATASOURCE • TOPIC
     /// </summary>
     [CliOption("--member-type")]
     public AwsQuicksightCreateFolderMembershipMemberType? MemberType { get; private init; }
@@ -112,6 +113,15 @@ public record AwsQuicksightCreateFolderMembershipOptions : AwsOptions, IValidata
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

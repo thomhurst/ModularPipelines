@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates Amazon Quick Sight customizations. Currently, you can add a custom default theme by using the CreateAccountCustomization or Up- dateAccountCustomization API operation. To further customize Amazon Quick Sight by removing Amazon Quick Sight sample assets and videos for all new users, see Customizing Quick Sight in the Amazon Quick Sight User Guide. You can create customizations for your Amazon Web Services account or, if you specify a namespace, for a Quick Sight namespace instead. Cus- to...
+/// Creates Amazon Quick Sight customizations. Currently, you can add a custom default theme by using the CreateAccountCustomization or UpdateAccountCustomization API operation. To further customize Amazon Quick Sight by removing Amazon Quick Sight sample assets and videos for all new users, see Customizing Quick Sight in the Amazon Quick Sight User Guide. You can create customizations for your Amazon Web Services account or, if you specify a namespace, for a Quick Sight namespace instead. Customiza...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsQuicksightCreateAccountCustomizationOptions : AwsOptions, IVali
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates Amazon Quick Sight customizations. Currently, you can add a custom default theme by using the CreateAccountCustomization or Up- dateAccountCustomization API operation. To further customize Amazon Quick Sight by removing Amazon Quick Sight sample assets and videos for all new users, see Customizing Quick Sight in the Amazon Quick Sight User Guide. You can create customizations for your Amazon Web Services account or, if you specify a namespace, for a Quick Sight namespace instead. Cus- to...
+    /// Creates Amazon Quick Sight customizations. Currently, you can add a custom default theme by using the CreateAccountCustomization or UpdateAccountCustomization API operation. To further customize Amazon Quick Sight by removing Amazon Quick Sight sample assets and videos for all new users, see Customizing Quick Sight in the Amazon Quick Sight User Guide. You can create customizations for your Amazon Web Services account or, if you specify a namespace, for a Quick Sight namespace instead. Customiza...
     /// </summary>
-    /// <param name="AwsAccountId">The ID for the Amazon Web Services account that you want to cus- tomize Quick Sight for. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$</param>
-    /// <param name="AccountCustomization">The Quick Sight customizations you're adding. You can add these to an Amazon Web Services account and a QuickSight namespace. For example, you can add a default theme by setting AccountCus- tomization to the midnight theme: "AccountCustomization": { "De- faultTheme": "arn:aws:quicksight::aws:theme/MIDNIGHT" } . Or, you can add a custom theme by specifying "AccountCustomization": { "De- faultTheme": "arn:aws:quick- sight:us-west-2:111122223333:theme/bdb844d0-0fe9-4d9d-b520-0fe602d93639" } . DefaultTheme -&gt; (string) The default theme for this Quick Sight subscription. DefaultEmailCustomizationTemplate -&gt; (string) The default email customization template. Shorthand Syntax: DefaultTheme=string,DefaultEmailCustomizationTemplate=string JSON Syntax: { "DefaultTheme": "string", "DefaultEmailCustomizationTemplate": "string" }</param>
+    /// <param name="AwsAccountId">The ID for the Amazon Web Services account that you want to customize Quick Sight for. Constraints: • min: 12 • max: 12 • pattern: ^[0-9]{12}$</param>
+    /// <param name="AccountCustomization">The Quick Sight customizations you're adding. You can add these to an Amazon Web Services account and a QuickSight namespace. For example, you can add a default theme by setting AccountCustomization to the midnight theme: "AccountCustomization": { "DefaultTheme": "arn:aws:quicksight::aws:theme/MIDNIGHT" } . Or, you can add a custom theme by specifying "AccountCustomization": { "DefaultTheme": "arn:aws:quicksight:us-west-2:111122223333:theme/bdb844d0-0fe9-4d9d-b520-0fe602d93639" } . DefaultTheme -&gt; (string) The default theme for this Quick Sight subscription. DefaultEmailCustomizationTemplate -&gt; (string) The default email customization template. Shorthand Syntax: DefaultTheme=string,DefaultEmailCustomizationTemplate=string JSON Syntax: { "DefaultTheme": "string", "DefaultEmailCustomizationTemplate": "string" }</param>
     public AwsQuicksightCreateAccountCustomizationOptions(
         string AwsAccountId,
         string AccountCustomization
@@ -60,25 +61,25 @@ public record AwsQuicksightCreateAccountCustomizationOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID for the Amazon Web Services account that you want to cus- tomize Quick Sight for. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$
+    /// The ID for the Amazon Web Services account that you want to customize Quick Sight for. Constraints: • min: 12 • max: 12 • pattern: ^[0-9]{12}$
     /// </summary>
     [CliOption("--aws-account-id")]
     public string? AwsAccountId { get; private init; }
 
     /// <summary>
-    /// The Quick Sight customizations you're adding. You can add these to an Amazon Web Services account and a QuickSight namespace. For example, you can add a default theme by setting AccountCus- tomization to the midnight theme: "AccountCustomization": { "De- faultTheme": "arn:aws:quicksight::aws:theme/MIDNIGHT" } . Or, you can add a custom theme by specifying "AccountCustomization": { "De- faultTheme": "arn:aws:quick- sight:us-west-2:111122223333:theme/bdb844d0-0fe9-4d9d-b520-0fe602d93639" } . DefaultTheme -&gt; (string) The default theme for this Quick Sight subscription. DefaultEmailCustomizationTemplate -&gt; (string) The default email customization template. Shorthand Syntax: DefaultTheme=string,DefaultEmailCustomizationTemplate=string JSON Syntax: { "DefaultTheme": "string", "DefaultEmailCustomizationTemplate": "string" }
+    /// The Quick Sight customizations you're adding. You can add these to an Amazon Web Services account and a QuickSight namespace. For example, you can add a default theme by setting AccountCustomization to the midnight theme: "AccountCustomization": { "DefaultTheme": "arn:aws:quicksight::aws:theme/MIDNIGHT" } . Or, you can add a custom theme by specifying "AccountCustomization": { "DefaultTheme": "arn:aws:quicksight:us-west-2:111122223333:theme/bdb844d0-0fe9-4d9d-b520-0fe602d93639" } . DefaultTheme -&gt; (string) The default theme for this Quick Sight subscription. DefaultEmailCustomizationTemplate -&gt; (string) The default email customization template. Shorthand Syntax: DefaultTheme=string,DefaultEmailCustomizationTemplate=string JSON Syntax: { "DefaultTheme": "string", "DefaultEmailCustomizationTemplate": "string" }
     /// </summary>
     [CliOption("--account-customization")]
     public string? AccountCustomization { get; private init; }
 
     /// <summary>
-    /// The Quick Sight namespace that you want to add customizations to. Constraints: o max: 64 o pattern: ^[a-zA-Z0-9._-]*$
+    /// The Quick Sight namespace that you want to add customizations to. Constraints: • max: 64 • pattern: ^[a-zA-Z0-9._-]*$
     /// </summary>
     [CliOption("--namespace")]
     public string? Namespace { get; set; }
 
     /// <summary>
-    /// A list of the tags that you want to attach to this resource. Constraints: o min: 1 o max: 200 (structure) The key or keys of the key-value pairs for the resource tag or tags assigned to the resource. Key -&gt; (string) [required] Tag key. Constraints: o min: 1 o max: 128 Value -&gt; (string) [required] Tag value. Constraints: o min: 1 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// A list of the tags that you want to attach to this resource. Constraints: • min: 1 • max: 200 (structure) The key or keys of the key-value pairs for the resource tag or tags assigned to the resource. Key -&gt; (string) [required] Tag key. Constraints: • min: 1 • max: 128 Value -&gt; (string) [required] Tag value. Constraints: • min: 1 • max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
@@ -104,6 +105,15 @@ public record AwsQuicksightCreateAccountCustomizationOptions : AwsOptions, IVali
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

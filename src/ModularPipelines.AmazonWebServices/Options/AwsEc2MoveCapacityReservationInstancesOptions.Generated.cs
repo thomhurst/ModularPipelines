@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Move available capacity from a source Capacity Reservation to a desti- nation Capacity Reservation. The source Capacity Reservation and the destination Capacity Reservation must be active , owned by your Amazon Web Services account, and share the following: o Instance type o Platform o Availability Zone o Tenancy o Placement group o Capacity Reservation end time - At specific time or Manually . See also: AWS API Documentation
+/// Move available capacity from a source Capacity Reservation to a destination Capacity Reservation. The source Capacity Reservation and the destination Capacity Reservation must be active , owned by your Amazon Web Services account, and share the following: • Instance type • Platform • Availability Zone • Tenancy • Placement group • Capacity Reservation end time - At specific time or Manually . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,11 +27,11 @@ public record AwsEc2MoveCapacityReservationInstancesOptions : AwsOptions, IValid
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Move available capacity from a source Capacity Reservation to a desti- nation Capacity Reservation. The source Capacity Reservation and the destination Capacity Reservation must be active , owned by your Amazon Web Services account, and share the following: o Instance type o Platform o Availability Zone o Tenancy o Placement group o Capacity Reservation end time - At specific time or Manually . See also: AWS API Documentation
+    /// Move available capacity from a source Capacity Reservation to a destination Capacity Reservation. The source Capacity Reservation and the destination Capacity Reservation must be active , owned by your Amazon Web Services account, and share the following: • Instance type • Platform • Availability Zone • Tenancy • Placement group • Capacity Reservation end time - At specific time or Manually . See also: AWS API Documentation
     /// </summary>
-    /// <param name="SourceCapacityReservationId">The ID of the Capacity Reservation from which you want to move ca- pacity.</param>
+    /// <param name="SourceCapacityReservationId">The ID of the Capacity Reservation from which you want to move capacity.</param>
     /// <param name="DestinationCapacityReservationId">The ID of the Capacity Reservation that you want to move capacity into.</param>
-    /// <param name="InstanceCount">The number of instances that you want to move from the source Capac- ity Reservation.</param>
+    /// <param name="InstanceCount">The number of instances that you want to move from the source Capacity Reservation.</param>
     public AwsEc2MoveCapacityReservationInstancesOptions(
         string SourceCapacityReservationId,
         string DestinationCapacityReservationId,
@@ -64,7 +65,7 @@ public record AwsEc2MoveCapacityReservationInstancesOptions : AwsOptions, IValid
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the Capacity Reservation from which you want to move ca- pacity.
+    /// The ID of the Capacity Reservation from which you want to move capacity.
     /// </summary>
     [CliOption("--source-capacity-reservation-id")]
     public string? SourceCapacityReservationId { get; private init; }
@@ -76,19 +77,19 @@ public record AwsEc2MoveCapacityReservationInstancesOptions : AwsOptions, IValid
     public string? DestinationCapacityReservationId { get; private init; }
 
     /// <summary>
-    /// The number of instances that you want to move from the source Capac- ity Reservation.
+    /// The number of instances that you want to move from the source Capacity Reservation.
     /// </summary>
     [CliOption("--instance-count")]
     public int? InstanceCount { get; private init; }
 
     /// <summary>
-    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation . Otherwise, it is UnauthorizedOperation .
     /// </summary>
     [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     /// <summary>
-    /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. For more information, see Ensure Idempo- tency .
+    /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. For more information, see Ensure Idempotency .
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
@@ -115,6 +116,15 @@ public record AwsEc2MoveCapacityReservationInstancesOptions : AwsOptions, IValid
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

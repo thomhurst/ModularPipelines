@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// This API works with the following fleet types: EC2 Requests authorization to remotely connect to an instance in an Amazon GameLift Servers managed fleet. Use this operation to connect to in- stances with game servers that use Amazon GameLift Servers server SDK 4.x or earlier. To connect to instances with game servers that use server SDK 5.x or later, call https://docs.aws.amazon.com/gamelift/latest/apireference/API_GetComputeAccess . To request access to an instance, specify IDs for the instance...
+/// This API works with the following fleet types: EC2 Requests authorization to remotely connect to an instance in an Amazon GameLift Servers managed fleet. Use this operation to connect to instances with game servers that use Amazon GameLift Servers server SDK 4.x or earlier. To connect to instances with game servers that use server SDK 5.x or later, call https://docs.aws.amazon.com/gamelift/latest/apireference/API_GetComputeAccess . To request access to an instance, specify IDs for the instance a...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsGameliftGetInstanceAccessOptions : AwsOptions, IValidatableObje
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// This API works with the following fleet types: EC2 Requests authorization to remotely connect to an instance in an Amazon GameLift Servers managed fleet. Use this operation to connect to in- stances with game servers that use Amazon GameLift Servers server SDK 4.x or earlier. To connect to instances with game servers that use server SDK 5.x or later, call https://docs.aws.amazon.com/gamelift/latest/apireference/API_GetComputeAccess . To request access to an instance, specify IDs for the instance...
+    /// This API works with the following fleet types: EC2 Requests authorization to remotely connect to an instance in an Amazon GameLift Servers managed fleet. Use this operation to connect to instances with game servers that use Amazon GameLift Servers server SDK 4.x or earlier. To connect to instances with game servers that use server SDK 5.x or later, call https://docs.aws.amazon.com/gamelift/latest/apireference/API_GetComputeAccess . To request access to an instance, specify IDs for the instance a...
     /// </summary>
-    /// <param name="FleetId">A unique identifier for the fleet that contains the instance you want to access. You can request access to instances in EC2 fleets with the following statuses: ACTIVATING , ACTIVE , or ERROR . Use either a fleet ID or an ARN value. NOTE: You can access fleets in ERROR status for a short period of time before Amazon GameLift Servers deletes them. Constraints: o min: 1 o max: 512 o pattern: ^[a-z]*fleet-[a-zA-Z0-9\-]+$|^arn:.*:[a-z]*fleet\/[a-z]*fleet-[a-zA-Z0-9\-]+$</param>
-    /// <param name="InstanceId">A unique identifier for the instance you want to access. You can ac- cess an instance in any status. Constraints: o min: 1 o max: 256 o pattern: ^[a-zA-Z0-9\.-]+$</param>
+    /// <param name="FleetId">A unique identifier for the fleet that contains the instance you want to access. You can request access to instances in EC2 fleets with the following statuses: ACTIVATING , ACTIVE , or ERROR . Use either a fleet ID or an ARN value. NOTE: You can access fleets in ERROR status for a short period of time before Amazon GameLift Servers deletes them. Constraints: • min: 1 • max: 512 • pattern: ^[a-z]*fleet-[a-zA-Z0-9\-]+$|^arn:.*:[a-z]*fleet\/[a-z]*fleet-[a-zA-Z0-9\-]+$</param>
+    /// <param name="InstanceId">A unique identifier for the instance you want to access. You can access an instance in any status. Constraints: • min: 1 • max: 256 • pattern: ^[a-zA-Z0-9\.-]+$</param>
     public AwsGameliftGetInstanceAccessOptions(
         string FleetId,
         string InstanceId
@@ -60,13 +61,13 @@ public record AwsGameliftGetInstanceAccessOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A unique identifier for the fleet that contains the instance you want to access. You can request access to instances in EC2 fleets with the following statuses: ACTIVATING , ACTIVE , or ERROR . Use either a fleet ID or an ARN value. NOTE: You can access fleets in ERROR status for a short period of time before Amazon GameLift Servers deletes them. Constraints: o min: 1 o max: 512 o pattern: ^[a-z]*fleet-[a-zA-Z0-9\-]+$|^arn:.*:[a-z]*fleet\/[a-z]*fleet-[a-zA-Z0-9\-]+$
+    /// A unique identifier for the fleet that contains the instance you want to access. You can request access to instances in EC2 fleets with the following statuses: ACTIVATING , ACTIVE , or ERROR . Use either a fleet ID or an ARN value. NOTE: You can access fleets in ERROR status for a short period of time before Amazon GameLift Servers deletes them. Constraints: • min: 1 • max: 512 • pattern: ^[a-z]*fleet-[a-zA-Z0-9\-]+$|^arn:.*:[a-z]*fleet\/[a-z]*fleet-[a-zA-Z0-9\-]+$
     /// </summary>
     [CliOption("--fleet-id")]
     public string? FleetId { get; private init; }
 
     /// <summary>
-    /// A unique identifier for the instance you want to access. You can ac- cess an instance in any status. Constraints: o min: 1 o max: 256 o pattern: ^[a-zA-Z0-9\.-]+$
+    /// A unique identifier for the instance you want to access. You can access an instance in any status. Constraints: • min: 1 • max: 256 • pattern: ^[a-zA-Z0-9\.-]+$
     /// </summary>
     [CliOption("--instance-id")]
     public string? InstanceId { get; private init; }
@@ -92,6 +93,15 @@ public record AwsGameliftGetInstanceAccessOptions : AwsOptions, IValidatableObje
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -22,7 +22,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsInspector2BatchGetAccountStatusOptions : AwsOptions
 {
     /// <summary>
-    /// The 12-digit Amazon Web Services account IDs of the accounts to re- trieve Amazon Inspector status for. Constraints: o min: 0 o max: 100 (string) Constraints: o min: 12 o max: 12 o pattern: \d{12} Syntax: "string" "string" ...
+    /// The 12-digit Amazon Web Services account IDs of the accounts to retrieve Amazon Inspector status for. Constraints: • min: 0 • max: 100 (string) Constraints: • min: 12 • max: 12 • pattern: \d{12} Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--account-ids", GroupValues = true)]
     public IEnumerable<string>? AccountIds { get; set; }
@@ -32,5 +32,14 @@ public record AwsInspector2BatchGetAccountStatusOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

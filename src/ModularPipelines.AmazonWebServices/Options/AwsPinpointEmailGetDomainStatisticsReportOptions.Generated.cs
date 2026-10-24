@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,8 +29,8 @@ public record AwsPinpointEmailGetDomainStatisticsReportOptions : AwsOptions, IVa
     /// Retrieve inbox placement and engagement rates for the domains that you use to send email. See also: AWS API Documentation
     /// </summary>
     /// <param name="Domain">The domain that you want to obtain deliverability metrics for.</param>
-    /// <param name="StartDate">The first day (in Unix time) that you want to obtain domain deliver- ability metrics for.</param>
-    /// <param name="EndDate">The last day (in Unix time) that you want to obtain domain deliver- ability metrics for. The EndDate that you specify has to be less than or equal to 30 days after the StartDate .</param>
+    /// <param name="StartDate">The first day (in Unix time) that you want to obtain domain deliverability metrics for.</param>
+    /// <param name="EndDate">The last day (in Unix time) that you want to obtain domain deliverability metrics for. The EndDate that you specify has to be less than or equal to 30 days after the StartDate .</param>
     public AwsPinpointEmailGetDomainStatisticsReportOptions(
         string Domain,
         string StartDate,
@@ -70,13 +71,13 @@ public record AwsPinpointEmailGetDomainStatisticsReportOptions : AwsOptions, IVa
     public string? Domain { get; private init; }
 
     /// <summary>
-    /// The first day (in Unix time) that you want to obtain domain deliver- ability metrics for.
+    /// The first day (in Unix time) that you want to obtain domain deliverability metrics for.
     /// </summary>
     [CliOption("--start-date")]
     public string? StartDate { get; private init; }
 
     /// <summary>
-    /// The last day (in Unix time) that you want to obtain domain deliver- ability metrics for. The EndDate that you specify has to be less than or equal to 30 days after the StartDate .
+    /// The last day (in Unix time) that you want to obtain domain deliverability metrics for. The EndDate that you specify has to be less than or equal to 30 days after the StartDate .
     /// </summary>
     [CliOption("--end-date")]
     public string? EndDate { get; private init; }
@@ -102,6 +103,15 @@ public record AwsPinpointEmailGetDomainStatisticsReportOptions : AwsOptions, IVa
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

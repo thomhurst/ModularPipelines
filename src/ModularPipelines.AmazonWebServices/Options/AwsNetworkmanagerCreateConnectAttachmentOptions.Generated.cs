@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a core network Connect attachment from a specified core network attachment. A core network Connect attachment is a GRE-based tunnel attachment that you can use to establish a connection between a core network and an ap- pliance. A core network Connect attachment uses an existing VPC attach- ment as the underlying transport mechanism. See also: AWS API Documentation
+/// Creates a core network Connect attachment from a specified core network attachment. A core network Connect attachment is a GRE-based tunnel attachment that you can use to establish a connection between a core network and an appliance. A core network Connect attachment uses an existing VPC attachment as the underlying transport mechanism. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,12 +27,12 @@ public record AwsNetworkmanagerCreateConnectAttachmentOptions : AwsOptions, IVal
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a core network Connect attachment from a specified core network attachment. A core network Connect attachment is a GRE-based tunnel attachment that you can use to establish a connection between a core network and an ap- pliance. A core network Connect attachment uses an existing VPC attach- ment as the underlying transport mechanism. See also: AWS API Documentation
+    /// Creates a core network Connect attachment from a specified core network attachment. A core network Connect attachment is a GRE-based tunnel attachment that you can use to establish a connection between a core network and an appliance. A core network Connect attachment uses an existing VPC attachment as the underlying transport mechanism. See also: AWS API Documentation
     /// </summary>
-    /// <param name="CoreNetworkId">The ID of a core network where you want to create the attachment. Constraints: o min: 0 o max: 50 o pattern: ^core-network-([0-9a-f]{8,17})$</param>
-    /// <param name="EdgeLocation">The Region where the edge is located. Constraints: o min: 1 o max: 63 o pattern: [\s\S]*</param>
-    /// <param name="TransportAttachmentId">The ID of the attachment between the two connections. Constraints: o min: 0 o max: 50 o pattern: ^attachment-([0-9a-f]{8,17})$</param>
-    /// <param name="Options">Options for creating an attachment. Protocol -&gt; (string) The protocol used for the attachment connection. Possible values: o GRE o NO_ENCAP Shorthand Syntax: Protocol=string JSON Syntax: { "Protocol": "GRE"|"NO_ENCAP" }</param>
+    /// <param name="CoreNetworkId">The ID of a core network where you want to create the attachment. Constraints: • min: 0 • max: 50 • pattern: ^core-network-([0-9a-f]{8,17})$</param>
+    /// <param name="EdgeLocation">The Region where the edge is located. Constraints: • min: 1 • max: 63 • pattern: [\s\S]*</param>
+    /// <param name="TransportAttachmentId">The ID of the attachment between the two connections. Constraints: • min: 0 • max: 50 • pattern: ^attachment-([0-9a-f]{8,17})$</param>
+    /// <param name="Options">Options for creating an attachment. Protocol -&gt; (string) The protocol used for the attachment connection. Possible values: • GRE • NO_ENCAP Shorthand Syntax: Protocol=string JSON Syntax: { "Protocol": "GRE"|"NO_ENCAP" }</param>
     public AwsNetworkmanagerCreateConnectAttachmentOptions(
         string CoreNetworkId,
         string EdgeLocation,
@@ -69,43 +70,43 @@ public record AwsNetworkmanagerCreateConnectAttachmentOptions : AwsOptions, IVal
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of a core network where you want to create the attachment. Constraints: o min: 0 o max: 50 o pattern: ^core-network-([0-9a-f]{8,17})$
+    /// The ID of a core network where you want to create the attachment. Constraints: • min: 0 • max: 50 • pattern: ^core-network-([0-9a-f]{8,17})$
     /// </summary>
     [CliOption("--core-network-id")]
     public string? CoreNetworkId { get; private init; }
 
     /// <summary>
-    /// The Region where the edge is located. Constraints: o min: 1 o max: 63 o pattern: [\s\S]*
+    /// The Region where the edge is located. Constraints: • min: 1 • max: 63 • pattern: [\s\S]*
     /// </summary>
     [CliOption("--edge-location")]
     public string? EdgeLocation { get; private init; }
 
     /// <summary>
-    /// The ID of the attachment between the two connections. Constraints: o min: 0 o max: 50 o pattern: ^attachment-([0-9a-f]{8,17})$
+    /// The ID of the attachment between the two connections. Constraints: • min: 0 • max: 50 • pattern: ^attachment-([0-9a-f]{8,17})$
     /// </summary>
     [CliOption("--transport-attachment-id")]
     public string? TransportAttachmentId { get; private init; }
 
     /// <summary>
-    /// Options for creating an attachment. Protocol -&gt; (string) The protocol used for the attachment connection. Possible values: o GRE o NO_ENCAP Shorthand Syntax: Protocol=string JSON Syntax: { "Protocol": "GRE"|"NO_ENCAP" }
+    /// Options for creating an attachment. Protocol -&gt; (string) The protocol used for the attachment connection. Possible values: • GRE • NO_ENCAP Shorthand Syntax: Protocol=string JSON Syntax: { "Protocol": "GRE"|"NO_ENCAP" }
     /// </summary>
     [CliOption("--options")]
     public string? Options { get; private init; }
 
     /// <summary>
-    /// The routing policy label to apply to the Connect attachment for traffic routing decisions. Constraints: o min: 0 o max: 256 o pattern: [\s\S]*
+    /// The routing policy label to apply to the Connect attachment for traffic routing decisions. Constraints: • min: 0 • max: 256 • pattern: [\s\S]*
     /// </summary>
     [CliOption("--routing-policy-label")]
     public string? RoutingPolicyLabel { get; set; }
 
     /// <summary>
-    /// The list of key-value tags associated with the request. (structure) Describes a tag. Key -&gt; (string) The tag key. Constraints: Maximum length of 128 characters. Constraints: o min: 0 o max: 10000000 o pattern: [\s\S]* Value -&gt; (string) The tag value. Constraints: Maximum length of 256 characters. Constraints: o min: 0 o max: 10000000 o pattern: [\s\S]* Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// The list of key-value tags associated with the request. (structure) Describes a tag. Key -&gt; (string) The tag key. Constraints: Maximum length of 128 characters. Constraints: • min: 0 • max: 10000000 • pattern: [\s\S]* Value -&gt; (string) The tag value. Constraints: Maximum length of 256 characters. Constraints: • min: 0 • max: 10000000 • pattern: [\s\S]* Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
-    /// The client token associated with the request. Constraints: o min: 0 o max: 256 o pattern: [\s\S]*
+    /// The client token associated with the request. Constraints: • min: 0 • max: 256 • pattern: [\s\S]*
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
@@ -132,6 +133,15 @@ public record AwsNetworkmanagerCreateConnectAttachmentOptions : AwsOptions, IVal
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

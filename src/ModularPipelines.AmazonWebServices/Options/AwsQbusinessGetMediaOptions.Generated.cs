@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,10 +28,10 @@ public record AwsQbusinessGetMediaOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Returns the image bytes corresponding to a media object. If you have implemented your own application with the Chat and ChatSync APIs, and have enabled content extraction from visual data in Amazon Q Business, you use the GetMedia API operation to download the images so you can show them in your UI with responses. For more information, see Extracting semantic meaning from images and visuals . See also: AWS API Documentation
     /// </summary>
-    /// <param name="ApplicationId">The identifier of the Amazon Q Business which contains the media ob- ject. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]{35}</param>
-    /// <param name="ConversationId">The identifier of the Amazon Q Business conversation. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]{35}</param>
-    /// <param name="MessageId">The identifier of the Amazon Q Business message. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]{35}</param>
-    /// <param name="MediaId">The identifier of the media object. You can find this in the sourceAttributions returned by the Chat , ChatSync , and ListMes- sages API responses. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]{35}</param>
+    /// <param name="ApplicationId">The identifier of the Amazon Q Business which contains the media object. Constraints: • min: 36 • max: 36 • pattern: [a-zA-Z0-9][a-zA-Z0-9-]{35}</param>
+    /// <param name="ConversationId">The identifier of the Amazon Q Business conversation. Constraints: • min: 36 • max: 36 • pattern: [a-zA-Z0-9][a-zA-Z0-9-]{35}</param>
+    /// <param name="MessageId">The identifier of the Amazon Q Business message. Constraints: • min: 36 • max: 36 • pattern: [a-zA-Z0-9][a-zA-Z0-9-]{35}</param>
+    /// <param name="MediaId">The identifier of the media object. You can find this in the sourceAttributions returned by the Chat , ChatSync , and ListMessages API responses. Constraints: • min: 36 • max: 36 • pattern: [a-zA-Z0-9][a-zA-Z0-9-]{35}</param>
     public AwsQbusinessGetMediaOptions(
         string ApplicationId,
         string ConversationId,
@@ -68,25 +69,25 @@ public record AwsQbusinessGetMediaOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the Amazon Q Business which contains the media ob- ject. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]{35}
+    /// The identifier of the Amazon Q Business which contains the media object. Constraints: • min: 36 • max: 36 • pattern: [a-zA-Z0-9][a-zA-Z0-9-]{35}
     /// </summary>
     [CliOption("--application-id")]
     public string? ApplicationId { get; private init; }
 
     /// <summary>
-    /// The identifier of the Amazon Q Business conversation. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]{35}
+    /// The identifier of the Amazon Q Business conversation. Constraints: • min: 36 • max: 36 • pattern: [a-zA-Z0-9][a-zA-Z0-9-]{35}
     /// </summary>
     [CliOption("--conversation-id")]
     public string? ConversationId { get; private init; }
 
     /// <summary>
-    /// The identifier of the Amazon Q Business message. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]{35}
+    /// The identifier of the Amazon Q Business message. Constraints: • min: 36 • max: 36 • pattern: [a-zA-Z0-9][a-zA-Z0-9-]{35}
     /// </summary>
     [CliOption("--message-id")]
     public string? MessageId { get; private init; }
 
     /// <summary>
-    /// The identifier of the media object. You can find this in the sourceAttributions returned by the Chat , ChatSync , and ListMes- sages API responses. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]{35}
+    /// The identifier of the media object. You can find this in the sourceAttributions returned by the Chat , ChatSync , and ListMessages API responses. Constraints: • min: 36 • max: 36 • pattern: [a-zA-Z0-9][a-zA-Z0-9-]{35}
     /// </summary>
     [CliOption("--media-id")]
     public string? MediaId { get; private init; }
@@ -112,6 +113,15 @@ public record AwsQbusinessGetMediaOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

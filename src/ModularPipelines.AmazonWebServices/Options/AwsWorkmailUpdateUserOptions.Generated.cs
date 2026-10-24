@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,8 +29,8 @@ public record AwsWorkmailUpdateUserOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Updates data for the user. To have the latest information, it must be preceded by a DescribeUser call. The dataset in the request should be the one expected when performing another DescribeUser call. See also: AWS API Documentation
     /// </summary>
-    /// <param name="OrganizationId">The identifier for the organization under which the user exists. Constraints: o min: 34 o max: 34 o pattern: ^m-[0-9a-f]{32}$</param>
-    /// <param name="UserId">The identifier for the user to be updated. The identifier can be the UserId , Username , or email . The follow- ing identity formats are available: o User ID: 12345678-1234-1234-1234-123456789012 or S-1-1-12-1234567890-123456789-123456789-1234 o Email address: user@domain.tld o User name: user Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9._%+@-]+</param>
+    /// <param name="OrganizationId">The identifier for the organization under which the user exists. Constraints: • min: 34 • max: 34 • pattern: ^m-[0-9a-f]{32}$</param>
+    /// <param name="UserId">The identifier for the user to be updated. The identifier can be the UserId , Username , or email . The following identity formats are available: • User ID: 12345678-1234-1234-1234-123456789012 or S-1-1-12-1234567890-123456789-123456789-1234 • Email address: user@domain.tld • User name: user Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9._%+@-]+</param>
     public AwsWorkmailUpdateUserOptions(
         string OrganizationId,
         string UserId
@@ -61,109 +62,109 @@ public record AwsWorkmailUpdateUserOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier for the organization under which the user exists. Constraints: o min: 34 o max: 34 o pattern: ^m-[0-9a-f]{32}$
+    /// The identifier for the organization under which the user exists. Constraints: • min: 34 • max: 34 • pattern: ^m-[0-9a-f]{32}$
     /// </summary>
     [CliOption("--organization-id")]
     public string? OrganizationId { get; private init; }
 
     /// <summary>
-    /// The identifier for the user to be updated. The identifier can be the UserId , Username , or email . The follow- ing identity formats are available: o User ID: 12345678-1234-1234-1234-123456789012 or S-1-1-12-1234567890-123456789-123456789-1234 o Email address: user@domain.tld o User name: user Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9._%+@-]+
+    /// The identifier for the user to be updated. The identifier can be the UserId , Username , or email . The following identity formats are available: • User ID: 12345678-1234-1234-1234-123456789012 or S-1-1-12-1234567890-123456789-123456789-1234 • Email address: user@domain.tld • User name: user Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9._%+@-]+
     /// </summary>
     [CliOption("--user-id")]
     public string? UserId { get; private init; }
 
     /// <summary>
-    /// Updates the user role. You cannot pass SYSTEM_USER or RESOURCE . Possible values: o USER o RESOURCE o SYSTEM_USER o REMOTE_USER
+    /// Updates the user role. You cannot pass SYSTEM_USER or RESOURCE . Possible values: • USER • RESOURCE • SYSTEM_USER • REMOTE_USER
     /// </summary>
     [CliOption("--role")]
     public AwsWorkmailUpdateUserRole? Role { get; set; }
 
     /// <summary>
-    /// Updates the display name of the user. Constraints: o max: 256
+    /// Updates the display name of the user. Constraints: • max: 256
     /// </summary>
     [CliOption("--display-name")]
     public string? DisplayName { get; set; }
 
     /// <summary>
-    /// Updates the user's first name. Constraints: o max: 256
+    /// Updates the user's first name. Constraints: • max: 256
     /// </summary>
     [CliOption("--first-name")]
     public string? FirstName { get; set; }
 
     /// <summary>
-    /// Updates the user's last name. Constraints: o max: 256
+    /// Updates the user's last name. Constraints: • max: 256
     /// </summary>
     [CliOption("--last-name")]
     public string? LastName { get; set; }
 
     /// <summary>
-    /// dress-list (boolean) If enabled, the user is hidden from the global address list.
+    /// If enabled, the user is hidden from the global address list.
     /// </summary>
     [CliFlag("--hidden-from-global-address-list", NegatedName = "--no-hidden-from-global-address-list")]
     public bool? HiddenFromGlobalAddressList { get; set; }
 
     /// <summary>
-    /// Updates the user's initials. Constraints: o max: 256
+    /// Updates the user's initials. Constraints: • max: 256
     /// </summary>
     [CliOption("--initials")]
     public string? Initials { get; set; }
 
     /// <summary>
-    /// Updates the user's contact details. Constraints: o max: 256
+    /// Updates the user's contact details. Constraints: • max: 256
     /// </summary>
     [CliOption("--telephone")]
     public string? Telephone { get; set; }
 
     /// <summary>
-    /// Updates the user's street address. Constraints: o max: 256
+    /// Updates the user's street address. Constraints: • max: 256
     /// </summary>
     [CliOption("--street")]
     public string? Street { get; set; }
 
     /// <summary>
-    /// Updates the user's job title. Constraints: o max: 256
+    /// Updates the user's job title. Constraints: • max: 256
     /// </summary>
     [CliOption("--job-title")]
     public string? JobTitle { get; set; }
 
     /// <summary>
-    /// Updates the user's city. Constraints: o max: 256
+    /// Updates the user's city. Constraints: • max: 256
     /// </summary>
     [CliOption("--city")]
     public string? City { get; set; }
 
     /// <summary>
-    /// Updates the user's company. Constraints: o max: 256
+    /// Updates the user's company. Constraints: • max: 256
     /// </summary>
     [CliOption("--company")]
     public string? Company { get; set; }
 
     /// <summary>
-    /// Updates the user's zip code. Constraints: o max: 256
+    /// Updates the user's zip code. Constraints: • max: 256
     /// </summary>
     [CliOption("--zip-code")]
     public string? ZipCode { get; set; }
 
     /// <summary>
-    /// Updates the user's department. Constraints: o max: 256
+    /// Updates the user's department. Constraints: • max: 256
     /// </summary>
     [CliOption("--department")]
     public string? Department { get; set; }
 
     /// <summary>
-    /// Updates the user's country. Constraints: o max: 256
+    /// Updates the user's country. Constraints: • max: 256
     /// </summary>
     [CliOption("--country")]
     public string? Country { get; set; }
 
     /// <summary>
-    /// Updates the user's office. Constraints: o max: 256
+    /// Updates the user's office. Constraints: • max: 256
     /// </summary>
     [CliOption("--office")]
     public string? Office { get; set; }
 
     /// <summary>
-    /// User ID from the IAM Identity Center. If this parameter is empty it will be updated automatically when the user logs in for the first time to the mailbox associated with WorkMail. Constraints: o min: 0 o max: 47 o pattern: ^$|^([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}$
+    /// User ID from the IAM Identity Center. If this parameter is empty it will be updated automatically when the user logs in for the first time to the mailbox associated with WorkMail. Constraints: • min: 0 • max: 47 • pattern: ^$|^([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}$
     /// </summary>
     [CliOption("--identity-provider-user-id")]
     public string? IdentityProviderUserId { get; set; }
@@ -189,6 +190,15 @@ public record AwsWorkmailUpdateUserOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

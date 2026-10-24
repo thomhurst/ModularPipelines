@@ -22,7 +22,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsCloudtrailStartImportOptions : AwsOptions
 {
     /// <summary>
-    /// The ARN of the destination event data store. Use this parameter for a new import. Constraints: o min: 1 o max: 1 (string) Constraints: o min: 3 o max: 256 o pattern: ^[a-zA-Z0-9._/\-:]+$ Syntax: "string" "string" ...
+    /// The ARN of the destination event data store. Use this parameter for a new import. Constraints: • min: 1 • max: 1 (string) Constraints: • min: 3 • max: 256 • pattern: ^[a-zA-Z0-9._/\-:]+$ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--destinations", GroupValues = true)]
     public IEnumerable<string>? Destinations { get; set; }
@@ -34,7 +34,7 @@ public record AwsCloudtrailStartImportOptions : AwsOptions
     public string? ImportSource { get; set; }
 
     /// <summary>
-    /// Use with EndEventTime to bound a StartImport request, and limit im- ported trail events to only those events logged within a specified time period. When you specify a time range, CloudTrail checks the prefix and log file names to verify the names contain a date between the specified StartEventTime and EndEventTime before attempting to import events.
+    /// Use with EndEventTime to bound a StartImport request, and limit imported trail events to only those events logged within a specified time period. When you specify a time range, CloudTrail checks the prefix and log file names to verify the names contain a date between the specified StartEventTime and EndEventTime before attempting to import events.
     /// </summary>
     [CliOption("--start-event-time")]
     public string? StartEventTime { get; set; }
@@ -46,7 +46,7 @@ public record AwsCloudtrailStartImportOptions : AwsOptions
     public string? EndEventTime { get; set; }
 
     /// <summary>
-    /// The ID of the import. Use this parameter when you are retrying an import. Constraints: o min: 36 o max: 36 o pattern: ^[a-f0-9\-]+$
+    /// The ID of the import. Use this parameter when you are retrying an import. Constraints: • min: 36 • max: 36 • pattern: ^[a-f0-9\-]+$
     /// </summary>
     [CliOption("--import-id")]
     public string? ImportId { get; set; }
@@ -56,5 +56,14 @@ public record AwsCloudtrailStartImportOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Monitors the progress of resource creation for an ECS Express Gateway Service. This command provides real-time monitoring of service deploy- ments showing the status of load balancers, security groups, auto-scal- ing configurations, and other AWS resources as they are created or up- dated. Use --resource-view RESOURCE to view all service resources, or --resource-view DEPLOYMENT to track only resources that have changed in the most recent deployment. Choose --mode INTERACTIVE for real-time displa...
+/// Monitors the progress of resource creation for an ECS Express Gateway Service. This command provides real-time monitoring of service deployments showing the status of load balancers, security groups, auto-scaling configurations, and other AWS resources as they are created or updated. Use --resource-view RESOURCE to view all service resources, or --resource-view DEPLOYMENT to track only resources that have changed in the most recent deployment. Choose --mode INTERACTIVE for real-time display with...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -22,7 +22,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsEcsMonitorExpressGatewayServiceOptions : AwsOptions
 {
     /// <summary>
-    /// Monitors the progress of resource creation for an ECS Express Gateway Service. This command provides real-time monitoring of service deploy- ments showing the status of load balancers, security groups, auto-scal- ing configurations, and other AWS resources as they are created or up- dated. Use --resource-view RESOURCE to view all service resources, or --resource-view DEPLOYMENT to track only resources that have changed in the most recent deployment. Choose --mode INTERACTIVE for real-time displa...
+    /// Monitors the progress of resource creation for an ECS Express Gateway Service. This command provides real-time monitoring of service deployments showing the status of load balancers, security groups, auto-scaling configurations, and other AWS resources as they are created or updated. Use --resource-view RESOURCE to view all service resources, or --resource-view DEPLOYMENT to track only resources that have changed in the most recent deployment. Choose --mode INTERACTIVE for real-time display with...
     /// </summary>
     /// <param name="ServiceArn"></param>
     public AwsEcsMonitorExpressGatewayServiceOptions(
@@ -49,5 +49,14 @@ public record AwsEcsMonitorExpressGatewayServiceOptions : AwsOptions
 
     [CliOption("--timeout")]
     public int? Timeout { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

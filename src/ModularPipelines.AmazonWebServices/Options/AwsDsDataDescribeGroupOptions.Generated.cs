@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsDsDataDescribeGroupOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Returns information about a specific group. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DirectoryId">The Identifier (ID) of the directory associated with the group. Constraints: o pattern: ^d-[0-9a-f]{10}$</param>
-    /// <param name="SamAccountName">The name of the group. Constraints: o min: 1 o max: 64 o pattern: ^[^:;|=+"*?&lt;&gt;/\\,\[\]@]+$</param>
+    /// <param name="DirectoryId">The Identifier (ID) of the directory associated with the group. Constraints: • pattern: ^d-[0-9a-f]{10}$</param>
+    /// <param name="SamAccountName">The name of the group. Constraints: • min: 1 • max: 64 • pattern: ^[^:;|=+"*?&lt;&gt;/\\,\[\]@]+$</param>
     public AwsDsDataDescribeGroupOptions(
         string DirectoryId,
         string SamAccountName
@@ -60,25 +61,25 @@ public record AwsDsDataDescribeGroupOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Identifier (ID) of the directory associated with the group. Constraints: o pattern: ^d-[0-9a-f]{10}$
+    /// The Identifier (ID) of the directory associated with the group. Constraints: • pattern: ^d-[0-9a-f]{10}$
     /// </summary>
     [CliOption("--directory-id")]
     public string? DirectoryId { get; private init; }
 
     /// <summary>
-    /// The name of the group. Constraints: o min: 1 o max: 64 o pattern: ^[^:;|=+"*?&lt;&gt;/\\,\[\]@]+$
+    /// The name of the group. Constraints: • min: 1 • max: 64 • pattern: ^[^:;|=+"*?&lt;&gt;/\\,\[\]@]+$
     /// </summary>
     [CliOption("--sam-account-name")]
     public string? SamAccountName { get; private init; }
 
     /// <summary>
-    /// One or more attributes to be returned for the group. For a list of supported attributes, see Directory Service Data Attributes . Constraints: o min: 1 o max: 25 (string) Constraints: o min: 1 o max: 63 o pattern: ^[A-Za-z*][A-Za-z-*]*$ Syntax: "string" "string" ...
+    /// One or more attributes to be returned for the group. For a list of supported attributes, see Directory Service Data Attributes . Constraints: • min: 1 • max: 25 (string) Constraints: • min: 1 • max: 63 • pattern: ^[A-Za-z*][A-Za-z-*]*$ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--other-attributes", GroupValues = true)]
     public IEnumerable<string>? OtherAttributes { get; set; }
 
     /// <summary>
-    /// The domain name that's associated with the group. NOTE: This parameter is optional, so you can return groups outside of your Managed Microsoft AD domain. When no value is defined, only your Managed Microsoft AD groups are returned. This value is case insensitive. Constraints: o min: 1 o max: 255 o pattern: ^([a-zA-Z0-9]+[\\.-])+([a-zA-Z0-9])+[.]?$
+    /// The domain name that's associated with the group. NOTE: This parameter is optional, so you can return groups outside of your Managed Microsoft AD domain. When no value is defined, only your Managed Microsoft AD groups are returned. This value is case insensitive. Constraints: • min: 1 • max: 255 • pattern: ^([a-zA-Z0-9]+[\\.-])+([a-zA-Z0-9])+[.]?$
     /// </summary>
     [CliOption("--realm")]
     public string? Realm { get; set; }
@@ -104,6 +105,15 @@ public record AwsDsDataDescribeGroupOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

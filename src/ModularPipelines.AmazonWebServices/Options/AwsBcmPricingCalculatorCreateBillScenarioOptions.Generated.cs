@@ -11,7 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -30,7 +30,7 @@ public record AwsBcmPricingCalculatorCreateBillScenarioOptions : AwsOptions, IVa
     /// <summary>
     /// Creates a new bill scenario to model potential changes to Amazon Web Services usage and costs. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">A descriptive name for the bill scenario. Constraints: o min: 0 o max: 64 o pattern: [a-zA-Z0-9-]+</param>
+    /// <param name="Name">A descriptive name for the bill scenario. Constraints: • min: 0 • max: 64 • pattern: [a-zA-Z0-9-]+</param>
     public AwsBcmPricingCalculatorCreateBillScenarioOptions(
         string Name
     )
@@ -59,32 +59,32 @@ public record AwsBcmPricingCalculatorCreateBillScenarioOptions : AwsOptions, IVa
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A descriptive name for the bill scenario. Constraints: o min: 0 o max: 64 o pattern: [a-zA-Z0-9-]+
+    /// A descriptive name for the bill scenario. Constraints: • min: 0 • max: 64 • pattern: [a-zA-Z0-9-]+
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier to ensure idempotency of the re- quest. Constraints: o min: 1 o max: 64 o pattern: [\u0021-\u007E]+
+    /// A unique, case-sensitive identifier to ensure idempotency of the request. Constraints: • min: 1 • max: 64 • pattern: [\u0021-\u007E]+
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// The tags to apply to the bill scenario. Constraints: o min: 0 o max: 200 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: [\w\s:+=@/-]+ value -&gt; (string) Constraints: o min: 0 o max: 256 o pattern: [\w\s:+=@/-]* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The tags to apply to the bill scenario. Constraints: • min: 0 • max: 200 key -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: [\w\s:+=@/-]+ value -&gt; (string) Constraints: • min: 0 • max: 256 • pattern: [\w\s:+=@/-]* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>
-    /// The setting for the reserved instance and savings plan group sharing used in this estimate. Possible values: o OPEN o PRIORITIZED o RESTRICTED
+    /// The setting for the reserved instance and savings plan group sharing used in this estimate. Possible values: • OPEN • PRIORITIZED • RESTRICTED
     /// </summary>
     [CliOption("--group-sharing-preference")]
     public AwsBcmPricingCalculatorCreateBillScenarioGroupSharingPreference? GroupSharingPreference { get; set; }
 
     /// <summary>
-    /// The arn of the cost category used in the reserved and prioritized group sharing. Constraints: o min: 20 o max: 2048 o pattern: arn:aws[-a-z0-9]*:ce::[0-9]{12}:costcate- gory/[a-f0-9-]{36}
+    /// The arn of the cost category used in the reserved and prioritized group sharing. Constraints: • min: 20 • max: 2048 • pattern: arn:aws[-a-z0-9]*:ce::[0-9]{12}:costcategory/[a-f0-9-]{36}
     /// </summary>
     [CliOption("--cost-category-group-sharing-preference-arn")]
     public string? CostCategoryGroupSharingPreferenceArn { get; set; }
@@ -110,6 +110,15 @@ public record AwsBcmPricingCalculatorCreateBillScenarioOptions : AwsOptions, IVa
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

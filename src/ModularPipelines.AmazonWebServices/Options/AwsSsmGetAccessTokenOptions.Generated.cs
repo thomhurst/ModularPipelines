@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsSsmGetAccessTokenOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Returns a credentials set to be used with just-in-time node access. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AccessRequestId">The ID of a just-in-time node access request. Constraints: o pattern: ^(oi)-[0-9a-f]{12}$</param>
+    /// <param name="AccessRequestId">The ID of a just-in-time node access request. Constraints: • pattern: ^(oi)-[0-9a-f]{12}$</param>
     public AwsSsmGetAccessTokenOptions(
         string AccessRequestId
     )
@@ -56,7 +57,7 @@ public record AwsSsmGetAccessTokenOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of a just-in-time node access request. Constraints: o pattern: ^(oi)-[0-9a-f]{12}$
+    /// The ID of a just-in-time node access request. Constraints: • pattern: ^(oi)-[0-9a-f]{12}$
     /// </summary>
     [CliOption("--access-request-id")]
     public string? AccessRequestId { get; private init; }
@@ -82,6 +83,15 @@ public record AwsSsmGetAccessTokenOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

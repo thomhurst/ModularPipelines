@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// WARNING: Amazon SNS message data protection is no longer available to new customers. For more information and guidance on alternatives, see Amazon SNS message data protection availability change . Adds or updates an inline policy document that is stored in the speci- fied Amazon SNS topic. See also: AWS API Documentation
+/// WARNING: Amazon SNS message data protection is no longer available to new customers. For more information and guidance on alternatives, see Amazon SNS message data protection availability change . Adds or updates an inline policy document that is stored in the specified Amazon SNS topic. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +26,7 @@ public record AwsSnsPutDataProtectionPolicyOptions : AwsOptions, IValidatableObj
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// WARNING: Amazon SNS message data protection is no longer available to new customers. For more information and guidance on alternatives, see Amazon SNS message data protection availability change . Adds or updates an inline policy document that is stored in the speci- fied Amazon SNS topic. See also: AWS API Documentation
+    /// WARNING: Amazon SNS message data protection is no longer available to new customers. For more information and guidance on alternatives, see Amazon SNS message data protection availability change . Adds or updates an inline policy document that is stored in the specified Amazon SNS topic. See also: AWS API Documentation
     /// </summary>
     /// <param name="ResourceArn">The ARN of the topic whose DataProtectionPolicy you want to add or update. For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference.</param>
     /// <param name="DataProtectionPolicy">The JSON serialization of the topic's DataProtectionPolicy . The DataProtectionPolicy must be in JSON string format. Length Constraints: Maximum length of 30,720.</param>
@@ -92,6 +93,15 @@ public record AwsSnsPutDataProtectionPolicyOptions : AwsOptions, IValidatableObj
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

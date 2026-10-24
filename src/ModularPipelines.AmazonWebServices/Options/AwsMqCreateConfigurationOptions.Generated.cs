@@ -10,14 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a new configuration for the specified configuration name. Ama- zon MQ uses the default configuration (the engine type and version). See also: AWS API Documentation
+/// Creates a new configuration for the specified configuration name. Amazon MQ uses the default configuration (the engine type and version). See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,9 +27,9 @@ public record AwsMqCreateConfigurationOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a new configuration for the specified configuration name. Ama- zon MQ uses the default configuration (the engine type and version). See also: AWS API Documentation
+    /// Creates a new configuration for the specified configuration name. Amazon MQ uses the default configuration (the engine type and version). See also: AWS API Documentation
     /// </summary>
-    /// <param name="EngineType">Required. The type of broker engine. Currently, Amazon MQ supports ACTIVEMQ and RABBITMQ. Possible values: o ACTIVEMQ o RABBITMQ</param>
+    /// <param name="EngineType">Required. The type of broker engine. Currently, Amazon MQ supports ACTIVEMQ and RABBITMQ. Possible values: • ACTIVEMQ • RABBITMQ</param>
     /// <param name="Name">Required. The name of the configuration. This value can contain only alphanumeric characters, dashes, periods, underscores, and tildes (- . _ ~). This value must be 1-150 characters long.</param>
     public AwsMqCreateConfigurationOptions(
         AwsMqCreateConfigurationEngineType EngineType,
@@ -61,7 +61,7 @@ public record AwsMqCreateConfigurationOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Required. The type of broker engine. Currently, Amazon MQ supports ACTIVEMQ and RABBITMQ. Possible values: o ACTIVEMQ o RABBITMQ
+    /// Required. The type of broker engine. Currently, Amazon MQ supports ACTIVEMQ and RABBITMQ. Possible values: • ACTIVEMQ • RABBITMQ
     /// </summary>
     [CliOption("--engine-type")]
     public AwsMqCreateConfigurationEngineType? EngineType { get; private init; }
@@ -73,13 +73,13 @@ public record AwsMqCreateConfigurationOptions : AwsOptions, IValidatableObject
     public string? Name { get; private init; }
 
     /// <summary>
-    /// Optional. The authentication strategy associated with the configura- tion. The default is SIMPLE. Possible values: o SIMPLE o LDAP o CONFIG_MANAGED
+    /// Optional. The authentication strategy associated with the configuration. The default is SIMPLE. Possible values: • SIMPLE • LDAP • CONFIG_MANAGED
     /// </summary>
     [CliOption("--authentication-strategy")]
     public AwsMqCreateConfigurationAuthenticationStrategy? AuthenticationStrategy { get; set; }
 
     /// <summary>
-    /// The broker engine version. Defaults to the latest available version for the specified broker engine type. For more information, see the ActiveMQ version management and the RabbitMQ version management sec- tions in the Amazon MQ Developer Guide.
+    /// The broker engine version. Defaults to the latest available version for the specified broker engine type. For more information, see the ActiveMQ version management and the RabbitMQ version management sections in the Amazon MQ Developer Guide.
     /// </summary>
     [CliOption("--engine-version")]
     public string? EngineVersion { get; set; }
@@ -111,6 +111,15 @@ public record AwsMqCreateConfigurationOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

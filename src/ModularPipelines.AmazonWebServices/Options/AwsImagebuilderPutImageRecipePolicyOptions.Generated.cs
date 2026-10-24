@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Applies a policy to an image recipe. The preferred way to share re- sources is with the RAM API CreateResourceShare . If you use the PutIm- ageRecipePolicy operation instead, you must also call the RAM API PromoteResourceShareCreatedFromPolicy . Otherwise, the resource isn't visible to the principals that it's shared with. See also: AWS API Documentation
+/// Applies a policy to an image recipe. The preferred way to share resources is with the RAM API CreateResourceShare . If you use the PutImageRecipePolicy operation instead, you must also call the RAM API PromoteResourceShareCreatedFromPolicy . Otherwise, the resource isn't visible to the principals that it's shared with. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsImagebuilderPutImageRecipePolicyOptions : AwsOptions, IValidata
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Applies a policy to an image recipe. The preferred way to share re- sources is with the RAM API CreateResourceShare . If you use the PutIm- ageRecipePolicy operation instead, you must also call the RAM API PromoteResourceShareCreatedFromPolicy . Otherwise, the resource isn't visible to the principals that it's shared with. See also: AWS API Documentation
+    /// Applies a policy to an image recipe. The preferred way to share resources is with the RAM API CreateResourceShare . If you use the PutImageRecipePolicy operation instead, you must also call the RAM API PromoteResourceShareCreatedFromPolicy . Otherwise, the resource isn't visible to the principals that it's shared with. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ImageRecipeArn">The Amazon Resource Name (ARN) of the image recipe that this policy should be applied to. Constraints: o pattern: ^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws):im- age-recipe/[a-z0-9-_]+/(?:[0-9]+|x)\.(?:[0-9]+|x)\.(?:[0-9]+|x)$</param>
-    /// <param name="Policy">The policy to apply. Constraints: o min: 1 o max: 30000</param>
+    /// <param name="ImageRecipeArn">The Amazon Resource Name (ARN) of the image recipe that this policy should be applied to. Constraints: • pattern: ^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws):image-recipe/[a-z0-9-_]+/(?:[0-9]+|x)\.(?:[0-9]+|x)\.(?:[0-9]+|x)$</param>
+    /// <param name="Policy">The policy to apply. Constraints: • min: 1 • max: 30000</param>
     public AwsImagebuilderPutImageRecipePolicyOptions(
         string ImageRecipeArn,
         string Policy
@@ -60,13 +61,13 @@ public record AwsImagebuilderPutImageRecipePolicyOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the image recipe that this policy should be applied to. Constraints: o pattern: ^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws):im- age-recipe/[a-z0-9-_]+/(?:[0-9]+|x)\.(?:[0-9]+|x)\.(?:[0-9]+|x)$
+    /// The Amazon Resource Name (ARN) of the image recipe that this policy should be applied to. Constraints: • pattern: ^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws):image-recipe/[a-z0-9-_]+/(?:[0-9]+|x)\.(?:[0-9]+|x)\.(?:[0-9]+|x)$
     /// </summary>
     [CliOption("--image-recipe-arn")]
     public string? ImageRecipeArn { get; private init; }
 
     /// <summary>
-    /// The policy to apply. Constraints: o min: 1 o max: 30000
+    /// The policy to apply. Constraints: • min: 1 • max: 30000
     /// </summary>
     [CliOption("--policy")]
     public string? Policy { get; private init; }
@@ -92,6 +93,15 @@ public record AwsImagebuilderPutImageRecipePolicyOptions : AwsOptions, IValidata
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

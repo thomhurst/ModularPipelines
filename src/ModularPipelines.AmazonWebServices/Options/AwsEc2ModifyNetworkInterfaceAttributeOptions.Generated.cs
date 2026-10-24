@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Modifies the specified network interface attribute. You can specify only one attribute at a time. You can use this action to attach and de- tach security groups from an existing EC2 instance. See also: AWS API Documentation
+/// Modifies the specified network interface attribute. You can specify only one attribute at a time. You can use this action to attach and detach security groups from an existing EC2 instance. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +26,7 @@ public record AwsEc2ModifyNetworkInterfaceAttributeOptions : AwsOptions, IValida
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Modifies the specified network interface attribute. You can specify only one attribute at a time. You can use this action to attach and de- tach security groups from an existing EC2 instance. See also: AWS API Documentation
+    /// Modifies the specified network interface attribute. You can specify only one attribute at a time. You can use this action to attach and detach security groups from an existing EC2 instance. See also: AWS API Documentation
     /// </summary>
     /// <param name="NetworkInterfaceId">The ID of the network interface.</param>
     public AwsEc2ModifyNetworkInterfaceAttributeOptions(
@@ -62,7 +63,7 @@ public record AwsEc2ModifyNetworkInterfaceAttributeOptions : AwsOptions, IValida
     public string? NetworkInterfaceId { get; private init; }
 
     /// <summary>
-    /// Updates the ENA Express configuration for the network interface thats attached to the instance. EnaSrdEnabled -&gt; (boolean) Indicates whether ENA Express is enabled for the network inter- face. EnaSrdUdpSpecification -&gt; (structure) Configures ENA Express for UDP network traffic. EnaSrdUdpEnabled -&gt; (boolean) Indicates whether UDP traffic to and from the instance uses ENA Express. To specify this setting, you must first enable ENA Express. Shorthand Syntax: EnaSrdEnabled=boolean,EnaSrdUdpSpecification={EnaSrdUdpEnabled=boolean} JSON Syntax: { "EnaSrdEnabled": true|false, "EnaSrdUdpSpecification": { "EnaSrdUdpEnabled": true|false } }
+    /// Updates the ENA Express configuration for the network interface thats attached to the instance. EnaSrdEnabled -&gt; (boolean) Indicates whether ENA Express is enabled for the network interface. EnaSrdUdpSpecification -&gt; (structure) Configures ENA Express for UDP network traffic. EnaSrdUdpEnabled -&gt; (boolean) Indicates whether UDP traffic to and from the instance uses ENA Express. To specify this setting, you must first enable ENA Express. Shorthand Syntax: EnaSrdEnabled=boolean,EnaSrdUdpSpecification={EnaSrdUdpEnabled=boolean} JSON Syntax: { "EnaSrdEnabled": true|false, "EnaSrdUdpSpecification": { "EnaSrdUdpEnabled": true|false } }
     /// </summary>
     [CliOption("--ena-srd-specification")]
     public string? EnaSrdSpecification { get; set; }
@@ -74,13 +75,13 @@ public record AwsEc2ModifyNetworkInterfaceAttributeOptions : AwsOptions, IValida
     public bool? EnablePrimaryIpv6 { get; set; }
 
     /// <summary>
-    /// A connection tracking specification. TcpEstablishedTimeout -&gt; (integer) Timeout (in seconds) for idle TCP connections in an established state. Min: 60 seconds. Max: 432000 seconds (5 days). Default: 350 seconds for Nitro v6 instance types (excluding P6e-GB200); 432000 seconds for all other instance types (including P6e-GB200). Recommended: Less than 432000 seconds. UdpStreamTimeout -&gt; (integer) Timeout (in seconds) for idle UDP flows classified as streams which have seen more than one request-response transaction. Min: 60 seconds. Max: 180 seconds (3 minutes). Default: 180 seconds. UdpTimeout -&gt; (integer) Timeout (in seconds) for idle UDP flows that have seen traffic only in a single direction or a single request-response transac- tion. Min: 30 seconds. Max: 60 seconds. Default: 30 seconds. Shorthand Syntax: TcpEstablishedTimeout=integer,UdpStreamTimeout=integer,UdpTimeout=integer JSON Syntax: { "TcpEstablishedTimeout": integer, "UdpStreamTimeout": integer, "UdpTimeout": integer }
+    /// A connection tracking specification. TcpEstablishedTimeout -&gt; (integer) Timeout (in seconds) for idle TCP connections in an established state. Min: 60 seconds. Max: 432000 seconds (5 days). Default: 350 seconds for Nitro v6 instance types (excluding P6e-GB200); 432000 seconds for all other instance types (including P6e-GB200). Recommended: Less than 432000 seconds. UdpStreamTimeout -&gt; (integer) Timeout (in seconds) for idle UDP flows classified as streams which have seen more than one request-response transaction. Min: 60 seconds. Max: 180 seconds (3 minutes). Default: 180 seconds. UdpTimeout -&gt; (integer) Timeout (in seconds) for idle UDP flows that have seen traffic only in a single direction or a single request-response transaction. Min: 30 seconds. Max: 60 seconds. Default: 30 seconds. Shorthand Syntax: TcpEstablishedTimeout=integer,UdpStreamTimeout=integer,UdpTimeout=integer JSON Syntax: { "TcpEstablishedTimeout": integer, "UdpStreamTimeout": integer, "UdpTimeout": integer }
     /// </summary>
     [CliOption("--connection-tracking-specification")]
     public string? ConnectionTrackingSpecification { get; set; }
 
     /// <summary>
-    /// Indicates whether to assign a public IPv4 address to a network in- terface. This option can be enabled for any network interface but will only apply to the primary network interface (eth0).
+    /// Indicates whether to assign a public IPv4 address to a network interface. This option can be enabled for any network interface but will only apply to the primary network interface (eth0).
     /// </summary>
     [CliFlag("--associate-public-ip-address", NegatedName = "--no-associate-public-ip-address")]
     public bool? AssociatePublicIpAddress { get; set; }
@@ -92,7 +93,7 @@ public record AwsEc2ModifyNetworkInterfaceAttributeOptions : AwsOptions, IValida
     public IEnumerable<string>? AssociatedSubnetIds { get; set; }
 
     /// <summary>
-    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation . Otherwise, it is UnauthorizedOperation .
     /// </summary>
     [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
@@ -104,7 +105,7 @@ public record AwsEc2ModifyNetworkInterfaceAttributeOptions : AwsOptions, IValida
     public string? Description { get; set; }
 
     /// <summary>
-    /// Enable or disable source/destination checks, which ensure that the instance is either the source or the destination of any traffic that it receives. If the value is true , source/destination checks are enabled; otherwise, they are disabled. The default value is true . You must disable source/destination checks if the instance runs ser- vices such as network address translation, routing, or firewalls. Value -&gt; (boolean) The attribute value. The valid values are true or false .
+    /// Enable or disable source/destination checks, which ensure that the instance is either the source or the destination of any traffic that it receives. If the value is true , source/destination checks are enabled; otherwise, they are disabled. The default value is true . You must disable source/destination checks if the instance runs services such as network address translation, routing, or firewalls. Value -&gt; (boolean) The attribute value. The valid values are true or false .
     /// </summary>
     [CliFlag("--source-dest-check", NegatedName = "--no-source-dest-check")]
     public bool? SourceDestCheck { get; set; }
@@ -116,7 +117,7 @@ public record AwsEc2ModifyNetworkInterfaceAttributeOptions : AwsOptions, IValida
     public IEnumerable<string>? Groups { get; set; }
 
     /// <summary>
-    /// Information about the interface attachment. If modifying the delete on termination attribute, you must specify the ID of the interface attachment. DefaultEnaQueueCount -&gt; (boolean) The default number of the ENA queues. EnaQueueCount -&gt; (integer) The number of ENA queues to be created with the instance. AttachmentId -&gt; (string) The ID of the network interface attachment. DeleteOnTermination -&gt; (boolean) Indicates whether the network interface is deleted when the in- stance is terminated. Shorthand Syntax: DefaultEnaQueueCount=boolean,EnaQueueCount=integer,AttachmentId=string,DeleteOnTermination=boolean JSON Syntax: { "DefaultEnaQueueCount": true|false, "EnaQueueCount": integer, "AttachmentId": "string", "DeleteOnTermination": true|false }
+    /// Information about the interface attachment. If modifying the delete on termination attribute, you must specify the ID of the interface attachment. DefaultEnaQueueCount -&gt; (boolean) The default number of the ENA queues. EnaQueueCount -&gt; (integer) The number of ENA queues to be created with the instance. AttachmentId -&gt; (string) The ID of the network interface attachment. DeleteOnTermination -&gt; (boolean) Indicates whether the network interface is deleted when the instance is terminated. Shorthand Syntax: DefaultEnaQueueCount=boolean,EnaQueueCount=integer,AttachmentId=string,DeleteOnTermination=boolean JSON Syntax: { "DefaultEnaQueueCount": true|false, "EnaQueueCount": integer, "AttachmentId": "string", "DeleteOnTermination": true|false }
     /// </summary>
     [CliOption("--attachment")]
     public string? Attachment { get; set; }
@@ -142,6 +143,15 @@ public record AwsEc2ModifyNetworkInterfaceAttributeOptions : AwsOptions, IValida
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

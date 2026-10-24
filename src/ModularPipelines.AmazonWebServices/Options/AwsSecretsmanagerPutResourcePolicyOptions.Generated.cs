@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Attaches a resource-based permission policy to a secret. A re- source-based policy is optional. For more information, see Authentication and access control for Secrets Manager For information about attaching a policy in the console, see Attach a permissions policy to a secret . Secrets Manager generates a CloudTrail log entry when you call this ac- tion. Do not include sensitive information in request parameters be- cause it might be logged. For more information, see Logging Secrets Manager even...
+/// Attaches a resource-based permission policy to a secret. A resource-based policy is optional. For more information, see Authentication and access control for Secrets Manager For information about attaching a policy in the console, see Attach a permissions policy to a secret . Secrets Manager generates a CloudTrail log entry when you call this action. Do not include sensitive information in request parameters because it might be logged. For more information, see Logging Secrets Manager events wit...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +27,10 @@ public record AwsSecretsmanagerPutResourcePolicyOptions : AwsOptions, IValidatab
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Attaches a resource-based permission policy to a secret. A re- source-based policy is optional. For more information, see Authentication and access control for Secrets Manager For information about attaching a policy in the console, see Attach a permissions policy to a secret . Secrets Manager generates a CloudTrail log entry when you call this ac- tion. Do not include sensitive information in request parameters be- cause it might be logged. For more information, see Logging Secrets Manager even...
+    /// Attaches a resource-based permission policy to a secret. A resource-based policy is optional. For more information, see Authentication and access control for Secrets Manager For information about attaching a policy in the console, see Attach a permissions policy to a secret . Secrets Manager generates a CloudTrail log entry when you call this action. Do not include sensitive information in request parameters because it might be logged. For more information, see Logging Secrets Manager events wit...
     /// </summary>
-    /// <param name="SecretId">The ARN or name of the secret to attach the resource-based policy. For an ARN, we recommend that you specify a complete ARN rather than a partial ARN. See Finding a secret from a partial ARN . Constraints: o min: 1 o max: 2048</param>
-    /// <param name="ResourcePolicy">A JSON-formatted string for an Amazon Web Services resource-based policy. For example policies, see Permissions policy examples . Constraints: o min: 1 o max: 20480</param>
+    /// <param name="SecretId">The ARN or name of the secret to attach the resource-based policy. For an ARN, we recommend that you specify a complete ARN rather than a partial ARN. See Finding a secret from a partial ARN . Constraints: • min: 1 • max: 2048</param>
+    /// <param name="ResourcePolicy">A JSON-formatted string for an Amazon Web Services resource-based policy. For example policies, see Permissions policy examples . Constraints: • min: 1 • max: 20480</param>
     public AwsSecretsmanagerPutResourcePolicyOptions(
         string SecretId,
         string ResourcePolicy
@@ -61,20 +62,20 @@ public record AwsSecretsmanagerPutResourcePolicyOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN or name of the secret to attach the resource-based policy. For an ARN, we recommend that you specify a complete ARN rather than a partial ARN. See Finding a secret from a partial ARN . Constraints: o min: 1 o max: 2048
+    /// The ARN or name of the secret to attach the resource-based policy. For an ARN, we recommend that you specify a complete ARN rather than a partial ARN. See Finding a secret from a partial ARN . Constraints: • min: 1 • max: 2048
     /// </summary>
     [SecretValue]
     [CliOption("--secret-id")]
     public string? SecretId { get; private init; }
 
     /// <summary>
-    /// A JSON-formatted string for an Amazon Web Services resource-based policy. For example policies, see Permissions policy examples . Constraints: o min: 1 o max: 20480
+    /// A JSON-formatted string for an Amazon Web Services resource-based policy. For example policies, see Permissions policy examples . Constraints: • min: 1 • max: 20480
     /// </summary>
     [CliOption("--resource-policy")]
     public string? ResourcePolicy { get; private init; }
 
     /// <summary>
-    /// Specifies whether to block resource-based policies that allow broad access to the secret, for example those that use a wildcard for the principal. By default, public policies aren't blocked. WARNING: Resource policy validation and the BlockPublicPolicy parameter help protect your resources by preventing public access from be- ing granted through the resource policies that are directly at- tached to your secrets. In addition to using these features, carefully inspect the following policies to confirm that they do not grant public access: o Identity-based policies attached to associated Amazon Web Ser- vices principals (for example, IAM roles) o Resource-based policies attached to associated Amazon Web Ser- vices resources (for example, Key Management Service (KMS) keys) To review permissions to your secrets, see Determine who has permissions to your secrets .
+    /// Specifies whether to block resource-based policies that allow broad access to the secret, for example those that use a wildcard for the principal. By default, public policies aren't blocked. WARNING: Resource policy validation and the BlockPublicPolicy parameter help protect your resources by preventing public access from being granted through the resource policies that are directly attached to your secrets. In addition to using these features, carefully inspect the following policies to confirm that they do not grant public access: • Identity-based policies attached to associated Amazon Web Services principals (for example, IAM roles) • Resource-based policies attached to associated Amazon Web Services resources (for example, Key Management Service (KMS) keys) To review permissions to your secrets, see Determine who has permissions to your secrets .
     /// </summary>
     [CliFlag("--block-public-policy", NegatedName = "--no-block-public-policy")]
     public bool? BlockPublicPolicy { get; set; }
@@ -100,6 +101,15 @@ public record AwsSecretsmanagerPutResourcePolicyOptions : AwsOptions, IValidatab
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

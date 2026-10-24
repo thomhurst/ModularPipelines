@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,11 +28,11 @@ public record AwsFrauddetectorCreateRuleOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Creates a rule for use with the specified detector. See also: AWS API Documentation
     /// </summary>
-    /// <param name="RuleId">The rule ID. Constraints: o min: 1 o max: 64 o pattern: ^[0-9a-z_-]+$</param>
-    /// <param name="DetectorId">The detector ID for the rule's parent detector. Constraints: o min: 1 o max: 64 o pattern: ^[0-9a-z_-]+$</param>
-    /// <param name="Expression">The rule expression. Constraints: o min: 1 o max: 4096</param>
-    /// <param name="Language">The language of the rule. Possible values: o DETECTORPL</param>
-    /// <param name="Outcomes">The outcome or outcomes returned when the rule expression matches. Constraints: o min: 1 (string) Syntax: "string" "string" ...</param>
+    /// <param name="RuleId">The rule ID. Constraints: • min: 1 • max: 64 • pattern: ^[0-9a-z_-]+$</param>
+    /// <param name="DetectorId">The detector ID for the rule's parent detector. Constraints: • min: 1 • max: 64 • pattern: ^[0-9a-z_-]+$</param>
+    /// <param name="Expression">The rule expression. Constraints: • min: 1 • max: 4096</param>
+    /// <param name="Language">The language of the rule. Possible values: • DETECTORPL</param>
+    /// <param name="Outcomes">The outcome or outcomes returned when the rule expression matches. Constraints: • min: 1 (string) Syntax: "string" "string" ...</param>
     public AwsFrauddetectorCreateRuleOptions(
         string RuleId,
         string DetectorId,
@@ -83,43 +84,43 @@ public record AwsFrauddetectorCreateRuleOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The rule ID. Constraints: o min: 1 o max: 64 o pattern: ^[0-9a-z_-]+$
+    /// The rule ID. Constraints: • min: 1 • max: 64 • pattern: ^[0-9a-z_-]+$
     /// </summary>
     [CliOption("--rule-id")]
     public string? RuleId { get; private init; }
 
     /// <summary>
-    /// The detector ID for the rule's parent detector. Constraints: o min: 1 o max: 64 o pattern: ^[0-9a-z_-]+$
+    /// The detector ID for the rule's parent detector. Constraints: • min: 1 • max: 64 • pattern: ^[0-9a-z_-]+$
     /// </summary>
     [CliOption("--detector-id")]
     public string? DetectorId { get; private init; }
 
     /// <summary>
-    /// The rule expression. Constraints: o min: 1 o max: 4096
+    /// The rule expression. Constraints: • min: 1 • max: 4096
     /// </summary>
     [CliOption("--expression")]
     public string? Expression { get; private init; }
 
     /// <summary>
-    /// The language of the rule. Possible values: o DETECTORPL
+    /// The language of the rule. Possible values: • DETECTORPL
     /// </summary>
     [CliOption("--language")]
     public string? Language { get; private init; }
 
     /// <summary>
-    /// The outcome or outcomes returned when the rule expression matches. Constraints: o min: 1 (string) Syntax: "string" "string" ...
+    /// The outcome or outcomes returned when the rule expression matches. Constraints: • min: 1 (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--outcomes", GroupValues = true)]
     public IEnumerable<string>? Outcomes { get; private init; }
 
     /// <summary>
-    /// The rule description. Constraints: o min: 1 o max: 128
+    /// The rule description. Constraints: • min: 1 • max: 128
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// A collection of key and value pairs. Constraints: o min: 0 o max: 200 (structure) A key and value pair. key -&gt; (string) [required] A tag key. Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ value -&gt; (string) [required] A value assigned to a tag key. Constraints: o min: 0 o max: 256 Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
+    /// A collection of key and value pairs. Constraints: • min: 0 • max: 200 (structure) A key and value pair. key -&gt; (string) [required] A tag key. Constraints: • min: 1 • max: 128 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ value -&gt; (string) [required] A value assigned to a tag key. Constraints: • min: 0 • max: 256 Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
@@ -145,6 +146,15 @@ public record AwsFrauddetectorCreateRuleOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -6,8 +6,8 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
+using ModularPipelines;
 using ModularPipelines.Context;
-using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
@@ -32,7 +32,7 @@ public class AwsAppfabric : IAwsAppfabric
     #region Commands
 
     /// <summary>
-    /// Gets user access details in a batch request. This action polls data from the tasks that are kicked off by the Star- tUserAccessTasks action. See also: AWS API Documentation
+    /// Gets user access details in a batch request. This action polls data from the tasks that are kicked off by the StartUserAccessTasks action. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -47,7 +47,7 @@ public class AwsAppfabric : IAwsAppfabric
     }
 
     /// <summary>
-    /// Establishes a connection between Amazon Web Services AppFabric and an application, which allows AppFabric to call the APIs of the applica- tion. See also: AWS API Documentation
+    /// Establishes a connection between Amazon Web Services AppFabric and an application, which allows AppFabric to call the APIs of the application. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -62,7 +62,7 @@ public class AwsAppfabric : IAwsAppfabric
     }
 
     /// <summary>
-    /// Creates an app authorization within an app bundle, which allows AppFab- ric to connect to an application. See also: AWS API Documentation
+    /// Creates an app authorization within an app bundle, which allows AppFabric to connect to an application. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -77,7 +77,7 @@ public class AwsAppfabric : IAwsAppfabric
     }
 
     /// <summary>
-    /// Creates an app bundle to collect data from an application using AppFab- ric. See also: AWS API Documentation
+    /// Creates an app bundle to collect data from an application using AppFabric. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -137,7 +137,7 @@ public class AwsAppfabric : IAwsAppfabric
     }
 
     /// <summary>
-    /// Deletes an app bundle. You must delete all associated app authoriza- tions before you can delete an app bundle. See also: AWS API Documentation
+    /// Deletes an app bundle. You must delete all associated app authorizations before you can delete an app bundle. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -152,7 +152,7 @@ public class AwsAppfabric : IAwsAppfabric
     }
 
     /// <summary>
-    /// Deletes an ingestion destination. This deletes the association between an ingestion and it's destination. It doesn't delete previously ingested data or the storage destination, such as the Amazon S3 bucket where the data is delivered. If the inges- tion destination is deleted while the associated ingestion is enabled, the ingestion will fail and is eventually disabled. See also: AWS API Documentation
+    /// Deletes an ingestion destination. This deletes the association between an ingestion and it's destination. It doesn't delete previously ingested data or the storage destination, such as the Amazon S3 bucket where the data is delivered. If the ingestion destination is deleted while the associated ingestion is enabled, the ingestion will fail and is eventually disabled. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -242,7 +242,7 @@ public class AwsAppfabric : IAwsAppfabric
     }
 
     /// <summary>
-    /// Returns a list of all app authorizations configured for an app bundle. See also: AWS API Documentation list-app-authorizations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: appAuthorizationSummaryL...
+    /// Returns a list of all app authorizations configured for an app bundle. See also: AWS API Documentation list-app-authorizations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: appAuthorizationSummaryLis...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -272,7 +272,7 @@ public class AwsAppfabric : IAwsAppfabric
     }
 
     /// <summary>
-    /// Returns a list of all ingestion destinations configured for an inges- tion. See also: AWS API Documentation list-ingestion-destinations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: ingestionDest...
+    /// Returns a list of all ingestion destinations configured for an ingestion. See also: AWS API Documentation list-ingestion-destinations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: ingestionDestinatio...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -287,7 +287,7 @@ public class AwsAppfabric : IAwsAppfabric
     }
 
     /// <summary>
-    /// Returns a list of all ingestions configured for an app bundle. See also: AWS API Documentation list-ingestions is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: ingestions
+    /// Returns a list of all ingestions configured for an app bundle. See also: AWS API Documentation list-ingestions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: ingestions
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -332,7 +332,7 @@ public class AwsAppfabric : IAwsAppfabric
     }
 
     /// <summary>
-    /// Starts the tasks to search user access status for a specific email ad- dress. The tasks are stopped when the user access status data is found. The tasks are terminated when the API calls to the application time out. See also: AWS API Documentation
+    /// Starts the tasks to search user access status for a specific email address. The tasks are stopped when the user access status data is found. The tasks are terminated when the API calls to the application time out. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -392,7 +392,7 @@ public class AwsAppfabric : IAwsAppfabric
     }
 
     /// <summary>
-    /// Updates an app authorization within an app bundle, which allows AppFab- ric to connect to an application. If the app authorization was in a connected state, updating the app au- thorization will set it back to a PendingConnect state. See also: AWS API Documentation
+    /// Updates an app authorization within an app bundle, which allows AppFabric to connect to an application. If the app authorization was in a connected state, updating the app authorization will set it back to a PendingConnect state. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

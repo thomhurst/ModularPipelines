@@ -30,25 +30,25 @@ public record AwsManagedblockchainListNetworksOptions : AwsOptions
     public string? Name { get; set; }
 
     /// <summary>
-    /// An optional framework specifier. If provided, only networks of this framework type are listed. Possible values: o HYPERLEDGER_FABRIC o ETHEREUM
+    /// An optional framework specifier. If provided, only networks of this framework type are listed. Possible values: • HYPERLEDGER_FABRIC • ETHEREUM
     /// </summary>
     [CliOption("--framework")]
     public AwsManagedblockchainListNetworksFramework? Framework { get; set; }
 
     /// <summary>
-    /// An optional status specifier. If provided, only networks currently in this status are listed. Applies only to Hyperledger Fabric. Possible values: o CREATING o AVAILABLE o CREATE_FAILED o DELETING o DELETED
+    /// An optional status specifier. If provided, only networks currently in this status are listed. Applies only to Hyperledger Fabric. Possible values: • CREATING • AVAILABLE • CREATE_FAILED • DELETING • DELETED
     /// </summary>
     [CliOption("--status")]
     public AwsManagedblockchainListNetworksStatus? Status { get; set; }
 
     /// <summary>
-    /// The maximum number of networks to list. Constraints: o min: 1 o max: 10
+    /// The maximum number of networks to list. Constraints: • min: 1 • max: 10
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
     /// <summary>
-    /// The pagination token that indicates the next set of results to re- trieve. Constraints: o max: 128
+    /// The pagination token that indicates the next set of results to retrieve. Constraints: • max: 128
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
@@ -59,5 +59,14 @@ public record AwsManagedblockchainListNetworksOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes the sync configuration for a specified repository and connec- tion. See also: AWS API Documentation
+/// Deletes the sync configuration for a specified repository and connection. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsCodestarConnectionsDeleteSyncConfigurationOptions : AwsOptions,
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes the sync configuration for a specified repository and connec- tion. See also: AWS API Documentation
+    /// Deletes the sync configuration for a specified repository and connection. See also: AWS API Documentation
     /// </summary>
-    /// <param name="SyncType">The type of sync configuration to be deleted. Possible values: o CFN_STACK_SYNC</param>
-    /// <param name="ResourceName">The name of the Amazon Web Services resource associated with the sync configuration to be deleted. Constraints: o min: 1 o max: 100 o pattern: ^[0-9A-Za-z]+[0-9A-Za-z_\\-]*$</param>
+    /// <param name="SyncType">The type of sync configuration to be deleted. Possible values: • CFN_STACK_SYNC</param>
+    /// <param name="ResourceName">The name of the Amazon Web Services resource associated with the sync configuration to be deleted. Constraints: • min: 1 • max: 100 • pattern: ^[0-9A-Za-z]+[0-9A-Za-z_\\-]*$</param>
     public AwsCodestarConnectionsDeleteSyncConfigurationOptions(
         string SyncType,
         string ResourceName
@@ -60,13 +61,13 @@ public record AwsCodestarConnectionsDeleteSyncConfigurationOptions : AwsOptions,
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The type of sync configuration to be deleted. Possible values: o CFN_STACK_SYNC
+    /// The type of sync configuration to be deleted. Possible values: • CFN_STACK_SYNC
     /// </summary>
     [CliOption("--sync-type")]
     public string? SyncType { get; private init; }
 
     /// <summary>
-    /// The name of the Amazon Web Services resource associated with the sync configuration to be deleted. Constraints: o min: 1 o max: 100 o pattern: ^[0-9A-Za-z]+[0-9A-Za-z_\\-]*$
+    /// The name of the Amazon Web Services resource associated with the sync configuration to be deleted. Constraints: • min: 1 • max: 100 • pattern: ^[0-9A-Za-z]+[0-9A-Za-z_\\-]*$
     /// </summary>
     [CliOption("--resource-name")]
     public string? ResourceName { get; private init; }
@@ -92,6 +93,15 @@ public record AwsCodestarConnectionsDeleteSyncConfigurationOptions : AwsOptions,
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

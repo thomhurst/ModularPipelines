@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Wait until GraphSnapshot is Available It will poll every 60 seconds un- til a successful state has been reached. This will exit with a return code of 255 after 120 failed checks. See also: AWS API Documentation
+/// Wait until GraphSnapshot is Available It will poll every 60 seconds until a successful state has been reached. This will exit with a return code of 255 after 120 failed checks. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsNeptuneGraphWaitGraphSnapshotAvailableOptions : AwsOptions, IVa
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Wait until GraphSnapshot is Available It will poll every 60 seconds un- til a successful state has been reached. This will exit with a return code of 255 after 120 failed checks. See also: AWS API Documentation
+    /// Wait until GraphSnapshot is Available It will poll every 60 seconds until a successful state has been reached. This will exit with a return code of 255 after 120 failed checks. See also: AWS API Documentation
     /// </summary>
-    /// <param name="SnapshotIdentifier">The ID of the snapshot to retrieve. Constraints: o pattern: gs-[a-z0-9]{10}</param>
+    /// <param name="SnapshotIdentifier">The ID of the snapshot to retrieve. Constraints: • pattern: gs-[a-z0-9]{10}</param>
     public AwsNeptuneGraphWaitGraphSnapshotAvailableOptions(
         string SnapshotIdentifier
     )
@@ -56,7 +57,7 @@ public record AwsNeptuneGraphWaitGraphSnapshotAvailableOptions : AwsOptions, IVa
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the snapshot to retrieve. Constraints: o pattern: gs-[a-z0-9]{10}
+    /// The ID of the snapshot to retrieve. Constraints: • pattern: gs-[a-z0-9]{10}
     /// </summary>
     [CliOption("--snapshot-identifier")]
     public string? SnapshotIdentifier { get; private init; }
@@ -82,6 +83,15 @@ public record AwsNeptuneGraphWaitGraphSnapshotAvailableOptions : AwsOptions, IVa
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

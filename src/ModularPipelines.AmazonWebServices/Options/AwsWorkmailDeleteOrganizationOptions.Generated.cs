@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes an WorkMail organization and all underlying AWS resources man- aged by WorkMail as part of the organization. You can choose whether to delete the associated directory. For more information, see Removing an organization in the WorkMail Administrator Guide . See also: AWS API Documentation
+/// Deletes an WorkMail organization and all underlying AWS resources managed by WorkMail as part of the organization. You can choose whether to delete the associated directory. For more information, see Removing an organization in the WorkMail Administrator Guide . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +27,9 @@ public record AwsWorkmailDeleteOrganizationOptions : AwsOptions, IValidatableObj
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes an WorkMail organization and all underlying AWS resources man- aged by WorkMail as part of the organization. You can choose whether to delete the associated directory. For more information, see Removing an organization in the WorkMail Administrator Guide . See also: AWS API Documentation
+    /// Deletes an WorkMail organization and all underlying AWS resources managed by WorkMail as part of the organization. You can choose whether to delete the associated directory. For more information, see Removing an organization in the WorkMail Administrator Guide . See also: AWS API Documentation
     /// </summary>
-    /// <param name="OrganizationId">The organization ID. Constraints: o min: 34 o max: 34 o pattern: ^m-[0-9a-f]{32}$</param>
+    /// <param name="OrganizationId">The organization ID. Constraints: • min: 34 • max: 34 • pattern: ^m-[0-9a-f]{32}$</param>
     /// <param name="DeleteDirectory">If true, deletes the AWS Directory Service directory associated with the organization.</param>
     public AwsWorkmailDeleteOrganizationOptions(
         string OrganizationId,
@@ -60,7 +61,7 @@ public record AwsWorkmailDeleteOrganizationOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The organization ID. Constraints: o min: 34 o max: 34 o pattern: ^m-[0-9a-f]{32}$
+    /// The organization ID. Constraints: • min: 34 • max: 34 • pattern: ^m-[0-9a-f]{32}$
     /// </summary>
     [CliOption("--organization-id")]
     public string? OrganizationId { get; private init; }
@@ -72,7 +73,7 @@ public record AwsWorkmailDeleteOrganizationOptions : AwsOptions, IValidatableObj
     public bool? DeleteDirectory { get; private init; }
 
     /// <summary>
-    /// The idempotency token associated with the request. Constraints: o min: 1 o max: 128 o pattern: [\x21-\x7e]+
+    /// The idempotency token associated with the request. Constraints: • min: 1 • max: 128 • pattern: [\x21-\x7e]+
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
@@ -85,7 +86,7 @@ public record AwsWorkmailDeleteOrganizationOptions : AwsOptions, IValidatableObj
     public bool? ForceDelete { get; set; }
 
     /// <summary>
-    /// plication (boolean) Deletes IAM Identity Center application for WorkMail. This action does not affect authentication settings for any organization.
+    /// Deletes IAM Identity Center application for WorkMail. This action does not affect authentication settings for any organization.
     /// </summary>
     [CliFlag("--delete-identity-center-application", NegatedName = "--no-delete-identity-center-application")]
     public bool? DeleteIdentityCenterApplication { get; set; }
@@ -111,6 +112,15 @@ public record AwsWorkmailDeleteOrganizationOptions : AwsOptions, IValidatableObj
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

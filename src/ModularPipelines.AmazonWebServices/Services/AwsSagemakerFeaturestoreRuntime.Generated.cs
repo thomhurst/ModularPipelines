@@ -6,15 +6,15 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
+using ModularPipelines;
 using ModularPipelines.Context;
-using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
 namespace ModularPipelines.AmazonWebServices.Services;
 
 /// <summary>
-/// aws sagemakerfeaturestoreruntime commands.
+/// aws sagemaker-featurestore-runtime commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AwsSagemakerFeaturestoreRuntime : IAwsSagemakerFeaturestoreRuntime
@@ -47,7 +47,7 @@ public class AwsSagemakerFeaturestoreRuntime : IAwsSagemakerFeaturestoreRuntime
     }
 
     /// <summary>
-    /// Writes a batch of Records to one or more FeatureGroup s. Use this API for bulk ingestion of records into the OnlineStore and OfflineStore . You can set the ingested records to expire at a given time to live (TTL) duration after the record's event time by specifying the TtlDura- tion parameter. A request level TtlDuration applies to all entries that do not specify their own TtlDuration . See also: AWS API Documentation
+    /// Writes a batch of Records to one or more FeatureGroup s. Use this API for bulk ingestion of records into the OnlineStore and OfflineStore . You can set the ingested records to expire at a given time to live (TTL) duration after the record's event time by specifying the TtlDuration parameter. A request level TtlDuration applies to all entries that do not specify their own TtlDuration . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -92,7 +92,7 @@ public class AwsSagemakerFeaturestoreRuntime : IAwsSagemakerFeaturestoreRuntime
     }
 
     /// <summary>
-    /// Lists the RecordIdentifier values of all records stored in a Feature- Group 's OnlineStore . This enables you to discover which records exist without retrieving the full record data. See also: AWS API Documentation list-records is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query arg...
+    /// Lists the RecordIdentifier values of all records stored in a FeatureGroup 's OnlineStore . This enables you to discover which records exist without retrieving the full record data. See also: AWS API Documentation list-records is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argumen...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -107,7 +107,7 @@ public class AwsSagemakerFeaturestoreRuntime : IAwsSagemakerFeaturestoreRuntime
     }
 
     /// <summary>
-    /// The PutRecord API is used to ingest a list of Records into your feature group. If a new records EventTime is greater, the new record is written to both the OnlineStore and OfflineStore . Otherwise, the record is a his- toric record and it is written only to the OfflineStore . You can specify the ingestion to be applied to the OnlineStore , Of- flineStore , or both by using the TargetStores request parameter. You can set the ingested record to expire at a given time to live (TTL) duration after t...
+    /// The PutRecord API is used to ingest a list of Records into your feature group. If a new records EventTime is greater, the new record is written to both the OnlineStore and OfflineStore . Otherwise, the record is a historic record and it is written only to the OfflineStore . You can specify the ingestion to be applied to the OnlineStore , OfflineStore , or both by using the TargetStores request parameter. You can set the ingested record to expire at a given time to live (TTL) duration after the r...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -122,7 +122,7 @@ public class AwsSagemakerFeaturestoreRuntime : IAwsSagemakerFeaturestoreRuntime
     }
 
     /// <summary>
-    /// Updates one or more feature values for an existing record in the speci- fied feature group. Features that you do not include in the request re- main unchanged. You can update up to 100 features per call. WARNING: This operation is available only for feature groups that use the Standard_V2 or InMemory online store type. The record must already exist. If the record does not exist or has been soft-deleted, the operation returns a ResourceNotFound error. To create a record, use PutRecord . If you pr...
+    /// Updates one or more feature values for an existing record in the specified feature group. Features that you do not include in the request remain unchanged. You can update up to 100 features per call. WARNING: This operation is available only for feature groups that use the Standard_V2 or InMemory online store type. The record must already exist. If the record does not exist or has been soft-deleted, the operation returns a ResourceNotFound error. To create a record, use PutRecord . If you provid...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

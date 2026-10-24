@@ -11,13 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates an existing recommendation with new content, status, or meta- data See also: AWS API Documentation
+/// Updates an existing recommendation with new content, status, or metadata See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,10 +28,10 @@ public record AwsDevopsAgentUpdateRecommendationOptions : AwsOptions, IValidatab
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates an existing recommendation with new content, status, or meta- data See also: AWS API Documentation
+    /// Updates an existing recommendation with new content, status, or metadata See also: AWS API Documentation
     /// </summary>
-    /// <param name="AgentSpaceId">The unique identifier for the agent space containing the recommenda- tion Constraints: o min: 1 o max: 2048</param>
-    /// <param name="RecommendationId">The unique identifier for the recommendation to update Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_.-]+</param>
+    /// <param name="AgentSpaceId">The unique identifier for the agent space containing the recommendation Constraints: • min: 1 • max: 2048</param>
+    /// <param name="RecommendationId">The unique identifier for the recommendation to update Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9_.-]+</param>
     public AwsDevopsAgentUpdateRecommendationOptions(
         string AgentSpaceId,
         string RecommendationId
@@ -62,19 +63,19 @@ public record AwsDevopsAgentUpdateRecommendationOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier for the agent space containing the recommenda- tion Constraints: o min: 1 o max: 2048
+    /// The unique identifier for the agent space containing the recommendation Constraints: • min: 1 • max: 2048
     /// </summary>
     [CliOption("--agent-space-id")]
     public string? AgentSpaceId { get; private init; }
 
     /// <summary>
-    /// The unique identifier for the recommendation to update Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_.-]+
+    /// The unique identifier for the recommendation to update Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9_.-]+
     /// </summary>
     [CliOption("--recommendation-id")]
     public string? RecommendationId { get; private init; }
 
     /// <summary>
-    /// Current status of the recommendation Possible values: o PROPOSED o ACCEPTED o REJECTED o CLOSED o COMPLETED o UPDATE_IN_PROGRESS
+    /// Current status of the recommendation Possible values: • PROPOSED • ACCEPTED • REJECTED • CLOSED • COMPLETED • UPDATE_IN_PROGRESS
     /// </summary>
     [CliOption("--status")]
     public AwsDevopsAgentUpdateRecommendationStatus? Status { get; set; }
@@ -86,7 +87,7 @@ public record AwsDevopsAgentUpdateRecommendationOptions : AwsOptions, IValidatab
     public string? AdditionalContext { get; set; }
 
     /// <summary>
-    /// A unique token that ensures idempotency of the request Constraints: o min: 1 o max: 64 o pattern: [\x21-\x7E]+
+    /// A unique token that ensures idempotency of the request Constraints: • min: 1 • max: 64 • pattern: [\x21-\x7E]+
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
@@ -113,6 +114,15 @@ public record AwsDevopsAgentUpdateRecommendationOptions : AwsOptions, IValidatab
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

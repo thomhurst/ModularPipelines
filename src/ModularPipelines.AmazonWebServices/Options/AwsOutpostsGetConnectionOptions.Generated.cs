@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// NOTE: Amazon Web Services uses this action to install Outpost servers. Gets information about the specified connection. Use CloudTrail to monitor this action or Amazon Web Services managed policy for Amazon Web Services Outposts to secure it. For more informa- tion, see Amazon Web Services managed policies for Amazon Web Services Outposts and Logging Amazon Web Services Outposts API calls with Amazon Web Services CloudTrail in the Amazon Web Services Outposts User Guide . See also: AWS API Docum...
+/// NOTE: Amazon Web Services uses this action to install Outpost servers. Gets information about the specified connection. Use CloudTrail to monitor this action or Amazon Web Services managed policy for Amazon Web Services Outposts to secure it. For more information, see Amazon Web Services managed policies for Amazon Web Services Outposts and Logging Amazon Web Services Outposts API calls with Amazon Web Services CloudTrail in the Amazon Web Services Outposts User Guide . See also: AWS API Documen...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsOutpostsGetConnectionOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// NOTE: Amazon Web Services uses this action to install Outpost servers. Gets information about the specified connection. Use CloudTrail to monitor this action or Amazon Web Services managed policy for Amazon Web Services Outposts to secure it. For more informa- tion, see Amazon Web Services managed policies for Amazon Web Services Outposts and Logging Amazon Web Services Outposts API calls with Amazon Web Services CloudTrail in the Amazon Web Services Outposts User Guide . See also: AWS API Docum...
+    /// NOTE: Amazon Web Services uses this action to install Outpost servers. Gets information about the specified connection. Use CloudTrail to monitor this action or Amazon Web Services managed policy for Amazon Web Services Outposts to secure it. For more information, see Amazon Web Services managed policies for Amazon Web Services Outposts and Logging Amazon Web Services Outposts API calls with Amazon Web Services CloudTrail in the Amazon Web Services Outposts User Guide . See also: AWS API Documen...
     /// </summary>
-    /// <param name="ConnectionId">The ID of the connection. Constraints: o min: 1 o max: 1024 o pattern: ^[a-zA-Z0-9+/=]{1,1024}$</param>
+    /// <param name="ConnectionId">The ID of the connection. Constraints: • min: 1 • max: 1024 • pattern: ^[a-zA-Z0-9+/=]{1,1024}$</param>
     public AwsOutpostsGetConnectionOptions(
         string ConnectionId
     )
@@ -56,7 +57,7 @@ public record AwsOutpostsGetConnectionOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the connection. Constraints: o min: 1 o max: 1024 o pattern: ^[a-zA-Z0-9+/=]{1,1024}$
+    /// The ID of the connection. Constraints: • min: 1 • max: 1024 • pattern: ^[a-zA-Z0-9+/=]{1,1024}$
     /// </summary>
     [CliOption("--connection-id")]
     public string? ConnectionId { get; private init; }
@@ -82,6 +83,15 @@ public record AwsOutpostsGetConnectionOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

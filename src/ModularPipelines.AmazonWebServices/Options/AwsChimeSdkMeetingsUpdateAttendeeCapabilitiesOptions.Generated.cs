@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// The capabilities that you want to update. NOTE: You use the capabilities with a set of values that control what the capabilities can do, such as SendReceive data. For more information about those values, see . When using capabilities, be aware of these corner cases: o If you specify MeetingFeatures:Video:MaxResolution:None when you cre- ate a meeting, all API requests that include SendReceive , Send , or Receive for AttendeeCapabilities:Video will be rejected with Valida- tionError 400 . o If yo...
+/// The capabilities that you want to update. NOTE: You use the capabilities with a set of values that control what the capabilities can do, such as SendReceive data. For more information about those values, see . When using capabilities, be aware of these corner cases: • If you specify MeetingFeatures:Video:MaxResolution:None when you create a meeting, all API requests that include SendReceive , Send , or Receive for AttendeeCapabilities:Video will be rejected with ValidationError 400 . • If you sp...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,11 +26,11 @@ public record AwsChimeSdkMeetingsUpdateAttendeeCapabilitiesOptions : AwsOptions,
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// The capabilities that you want to update. NOTE: You use the capabilities with a set of values that control what the capabilities can do, such as SendReceive data. For more information about those values, see . When using capabilities, be aware of these corner cases: o If you specify MeetingFeatures:Video:MaxResolution:None when you cre- ate a meeting, all API requests that include SendReceive , Send , or Receive for AttendeeCapabilities:Video will be rejected with Valida- tionError 400 . o If yo...
+    /// The capabilities that you want to update. NOTE: You use the capabilities with a set of values that control what the capabilities can do, such as SendReceive data. For more information about those values, see . When using capabilities, be aware of these corner cases: • If you specify MeetingFeatures:Video:MaxResolution:None when you create a meeting, all API requests that include SendReceive , Send , or Receive for AttendeeCapabilities:Video will be rejected with ValidationError 400 . • If you sp...
     /// </summary>
-    /// <param name="MeetingId">The ID of the meeting associated with the update request. Constraints: o pattern: [a-fA-F0-9]{8}(?:-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12}</param>
-    /// <param name="AttendeeId">The ID of the attendee associated with the update request. Constraints: o pattern: [a-fA-F0-9]{8}(?:-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12}</param>
-    /// <param name="Capabilities">The capabilities that you want to update. Audio -&gt; (string) [required] The audio capability assigned to an attendee. Possible values: o SendReceive o Send o Receive o None Video -&gt; (string) [required] The video capability assigned to an attendee. Possible values: o SendReceive o Send o Receive o None Content -&gt; (string) [required] The content capability assigned to an attendee. Possible values: o SendReceive o Send o Receive o None Shorthand Syntax: Audio=string,Video=string,Content=string JSON Syntax: { "Audio": "SendReceive"|"Send"|"Receive"|"None", "Video": "SendReceive"|"Send"|"Receive"|"None", "Content": "SendReceive"|"Send"|"Receive"|"None" }</param>
+    /// <param name="MeetingId">The ID of the meeting associated with the update request. Constraints: • pattern: [a-fA-F0-9]{8}(?:-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12}</param>
+    /// <param name="AttendeeId">The ID of the attendee associated with the update request. Constraints: • pattern: [a-fA-F0-9]{8}(?:-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12}</param>
+    /// <param name="Capabilities">The capabilities that you want to update. Audio -&gt; (string) [required] The audio capability assigned to an attendee. Possible values: • SendReceive • Send • Receive • None Video -&gt; (string) [required] The video capability assigned to an attendee. Possible values: • SendReceive • Send • Receive • None Content -&gt; (string) [required] The content capability assigned to an attendee. Possible values: • SendReceive • Send • Receive • None Shorthand Syntax: Audio=string,Video=string,Content=string JSON Syntax: { "Audio": "SendReceive"|"Send"|"Receive"|"None", "Video": "SendReceive"|"Send"|"Receive"|"None", "Content": "SendReceive"|"Send"|"Receive"|"None" }</param>
     public AwsChimeSdkMeetingsUpdateAttendeeCapabilitiesOptions(
         string MeetingId,
         string AttendeeId,
@@ -64,19 +65,19 @@ public record AwsChimeSdkMeetingsUpdateAttendeeCapabilitiesOptions : AwsOptions,
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the meeting associated with the update request. Constraints: o pattern: [a-fA-F0-9]{8}(?:-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12}
+    /// The ID of the meeting associated with the update request. Constraints: • pattern: [a-fA-F0-9]{8}(?:-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12}
     /// </summary>
     [CliOption("--meeting-id")]
     public string? MeetingId { get; private init; }
 
     /// <summary>
-    /// The ID of the attendee associated with the update request. Constraints: o pattern: [a-fA-F0-9]{8}(?:-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12}
+    /// The ID of the attendee associated with the update request. Constraints: • pattern: [a-fA-F0-9]{8}(?:-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12}
     /// </summary>
     [CliOption("--attendee-id")]
     public string? AttendeeId { get; private init; }
 
     /// <summary>
-    /// The capabilities that you want to update. Audio -&gt; (string) [required] The audio capability assigned to an attendee. Possible values: o SendReceive o Send o Receive o None Video -&gt; (string) [required] The video capability assigned to an attendee. Possible values: o SendReceive o Send o Receive o None Content -&gt; (string) [required] The content capability assigned to an attendee. Possible values: o SendReceive o Send o Receive o None Shorthand Syntax: Audio=string,Video=string,Content=string JSON Syntax: { "Audio": "SendReceive"|"Send"|"Receive"|"None", "Video": "SendReceive"|"Send"|"Receive"|"None", "Content": "SendReceive"|"Send"|"Receive"|"None" }
+    /// The capabilities that you want to update. Audio -&gt; (string) [required] The audio capability assigned to an attendee. Possible values: • SendReceive • Send • Receive • None Video -&gt; (string) [required] The video capability assigned to an attendee. Possible values: • SendReceive • Send • Receive • None Content -&gt; (string) [required] The content capability assigned to an attendee. Possible values: • SendReceive • Send • Receive • None Shorthand Syntax: Audio=string,Video=string,Content=string JSON Syntax: { "Audio": "SendReceive"|"Send"|"Receive"|"None", "Video": "SendReceive"|"Send"|"Receive"|"None", "Content": "SendReceive"|"Send"|"Receive"|"None" }
     /// </summary>
     [CliOption("--capabilities")]
     public string? Capabilities { get; private init; }
@@ -102,6 +103,15 @@ public record AwsChimeSdkMeetingsUpdateAttendeeCapabilitiesOptions : AwsOptions,
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

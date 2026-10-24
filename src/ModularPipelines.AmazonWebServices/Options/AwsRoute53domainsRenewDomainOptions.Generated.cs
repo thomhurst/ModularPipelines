@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// This operation renews a domain for the specified number of years. The cost of renewing your domain is billed to your Amazon Web Services ac- count. We recommend that you renew your domain several weeks before the expi- ration date. Some TLD registries delete domains before the expiration date if you haven't renewed far enough in advance. For more information about renewing domain registration, see Renewing Registration for a Do- main in the Amazon Route 53 Developer Guide . See also: AWS API Doc...
+/// This operation renews a domain for the specified number of years. The cost of renewing your domain is billed to your Amazon Web Services account. We recommend that you renew your domain several weeks before the expiration date. Some TLD registries delete domains before the expiration date if you haven't renewed far enough in advance. For more information about renewing domain registration, see Renewing Registration for a Domain in the Amazon Route 53 Developer Guide . See also: AWS API Documenta...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsRoute53domainsRenewDomainOptions : AwsOptions, IValidatableObje
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// This operation renews a domain for the specified number of years. The cost of renewing your domain is billed to your Amazon Web Services ac- count. We recommend that you renew your domain several weeks before the expi- ration date. Some TLD registries delete domains before the expiration date if you haven't renewed far enough in advance. For more information about renewing domain registration, see Renewing Registration for a Do- main in the Amazon Route 53 Developer Guide . See also: AWS API Doc...
+    /// This operation renews a domain for the specified number of years. The cost of renewing your domain is billed to your Amazon Web Services account. We recommend that you renew your domain several weeks before the expiration date. Some TLD registries delete domains before the expiration date if you haven't renewed far enough in advance. For more information about renewing domain registration, see Renewing Registration for a Domain in the Amazon Route 53 Developer Guide . See also: AWS API Documenta...
     /// </summary>
-    /// <param name="DomainName">The name of the domain that you want to renew. Constraints: o max: 255</param>
+    /// <param name="DomainName">The name of the domain that you want to renew. Constraints: • max: 255</param>
     /// <param name="CurrentExpiryYear">The year when the registration for the domain is set to expire. This value must match the current expiration date for the domain.</param>
     public AwsRoute53domainsRenewDomainOptions(
         string DomainName,
@@ -59,7 +60,7 @@ public record AwsRoute53domainsRenewDomainOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the domain that you want to renew. Constraints: o max: 255
+    /// The name of the domain that you want to renew. Constraints: • max: 255
     /// </summary>
     [CliOption("--domain-name")]
     public string? DomainName { get; private init; }
@@ -71,10 +72,16 @@ public record AwsRoute53domainsRenewDomainOptions : AwsOptions, IValidatableObje
     public int? CurrentExpiryYear { get; private init; }
 
     /// <summary>
-    /// The number of years that you want to renew the domain for. The maxi- mum number of years depends on the top-level domain. For the range of valid values for your domain, see Domains that You Can Register with Amazon Route 53 in the Amazon Route 53 Developer Guide . Default: 1 Constraints: o min: 1 o max: 10
+    /// The number of years that you want to renew the domain for. The maximum number of years depends on the top-level domain. For the range of valid values for your domain, see Domains that You Can Register with Amazon Route 53 in the Amazon Route 53 Developer Guide . Default: 1 Constraints: • min: 1 • max: 10
     /// </summary>
     [CliOption("--duration-in-years")]
     public int? DurationInYears { get; set; }
+
+    /// <summary>
+    /// Specifies the maximum price that you agree to pay to renew the domain name. This element is required if the domain has registry premium pricing, and optional if the domain is priced at the standard rate for its TLD. If you include it and the renewal price is more than MaxPrice , the request fails. MaxPrice -&gt; (double) [required] The maximum amount that you agree to accept. Constraints: • min: 0.0 • max: 2000000000.0 Currency -&gt; (string) [required] The currency for the MaxPrice . Constraints: • min: 3 • max: 3 Shorthand Syntax: MaxPrice=double,Currency=string JSON Syntax: { "MaxPrice": double, "Currency": "string" }
+    /// </summary>
+    [CliOption("--consent")]
+    public string? Consent { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
@@ -97,6 +104,15 @@ public record AwsRoute53domainsRenewDomainOptions : AwsOptions, IValidatableObje
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

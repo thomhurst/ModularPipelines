@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,9 +28,9 @@ public record AwsBedrockAgentDisassociateAgentCollaboratorOptions : AwsOptions, 
     /// <summary>
     /// Disassociates an agent collaborator. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AgentId">An agent ID. Constraints: o pattern: [0-9a-zA-Z]{10}</param>
-    /// <param name="AgentVersion">The agent's version. Constraints: o min: 5 o max: 5 o pattern: DRAFT</param>
-    /// <param name="CollaboratorId">The collaborator's ID. Constraints: o pattern: [0-9a-zA-Z]{10}</param>
+    /// <param name="AgentId">An agent ID. Constraints: • pattern: [0-9a-zA-Z]{10}</param>
+    /// <param name="AgentVersion">The agent's version. Constraints: • min: 5 • max: 5 • pattern: DRAFT</param>
+    /// <param name="CollaboratorId">The collaborator's ID. Constraints: • pattern: [0-9a-zA-Z]{10}</param>
     public AwsBedrockAgentDisassociateAgentCollaboratorOptions(
         string AgentId,
         string AgentVersion,
@@ -64,19 +65,19 @@ public record AwsBedrockAgentDisassociateAgentCollaboratorOptions : AwsOptions, 
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// An agent ID. Constraints: o pattern: [0-9a-zA-Z]{10}
+    /// An agent ID. Constraints: • pattern: [0-9a-zA-Z]{10}
     /// </summary>
     [CliOption("--agent-id")]
     public string? AgentId { get; private init; }
 
     /// <summary>
-    /// The agent's version. Constraints: o min: 5 o max: 5 o pattern: DRAFT
+    /// The agent's version. Constraints: • min: 5 • max: 5 • pattern: DRAFT
     /// </summary>
     [CliOption("--agent-version")]
     public string? AgentVersion { get; private init; }
 
     /// <summary>
-    /// The collaborator's ID. Constraints: o pattern: [0-9a-zA-Z]{10}
+    /// The collaborator's ID. Constraints: • pattern: [0-9a-zA-Z]{10}
     /// </summary>
     [CliOption("--collaborator-id")]
     public string? CollaboratorId { get; private init; }
@@ -102,6 +103,15 @@ public record AwsBedrockAgentDisassociateAgentCollaboratorOptions : AwsOptions, 
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -11,13 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns a list of history records for a specific profile, for a spe- cific domain. See also: AWS API Documentation
+/// Returns a list of history records for a specific profile, for a specific domain. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,10 +28,10 @@ public record AwsCustomerProfilesListProfileHistoryRecordsOptions : AwsOptions, 
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns a list of history records for a specific profile, for a spe- cific domain. See also: AWS API Documentation
+    /// Returns a list of history records for a specific profile, for a specific domain. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DomainName">The unique name of the domain for which to return profile history records. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$</param>
-    /// <param name="ProfileId">The identifier of the profile to be taken. Constraints: o pattern: [a-f0-9]{32}</param>
+    /// <param name="DomainName">The unique name of the domain for which to return profile history records. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9_-]+$</param>
+    /// <param name="ProfileId">The identifier of the profile to be taken. Constraints: • pattern: [a-f0-9]{32}</param>
     public AwsCustomerProfilesListProfileHistoryRecordsOptions(
         string DomainName,
         string ProfileId
@@ -62,44 +63,44 @@ public record AwsCustomerProfilesListProfileHistoryRecordsOptions : AwsOptions, 
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique name of the domain for which to return profile history records. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$
+    /// The unique name of the domain for which to return profile history records. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9_-]+$
     /// </summary>
     [CliOption("--domain-name")]
     public string? DomainName { get; private init; }
 
     /// <summary>
-    /// The identifier of the profile to be taken. Constraints: o pattern: [a-f0-9]{32}
+    /// The identifier of the profile to be taken. Constraints: • pattern: [a-f0-9]{32}
     /// </summary>
     [CliOption("--profile-id")]
     public string? ProfileId { get; private init; }
 
     /// <summary>
-    /// Applies a filter to include profile history records only with the specified ObjectTypeName value in the response. Constraints: o min: 1 o max: 255 o pattern: ^[a-zA-Z_][a-zA-Z_0-9-]*$
+    /// Applies a filter to include profile history records only with the specified ObjectTypeName value in the response. Constraints: • min: 1 • max: 255 • pattern: ^[a-zA-Z_][a-zA-Z_0-9-]*$
     /// </summary>
     [CliOption("--object-type-name")]
     public string? ObjectTypeName { get; set; }
 
     /// <summary>
-    /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results. Constraints: o min: 1 o max: 1024
+    /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results. Constraints: • min: 1 • max: 1024
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// The maximum number of results to return per page. Constraints: o min: 1 o max: 100
+    /// The maximum number of results to return per page. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
     /// <summary>
-    /// Applies a filter to include profile history records only with the specified ActionType value in the response. Possible values: o ADDED_PROFILE_KEY o DELETED_PROFILE_KEY o CREATED o UPDATED o INGESTED o DELETED_BY_CUSTOMER o EXPIRED o MERGED o DELETED_BY_MERGE
+    /// Applies a filter to include profile history records only with the specified ActionType value in the response. Possible values: • ADDED_PROFILE_KEY • DELETED_PROFILE_KEY • CREATED • UPDATED • INGESTED • DELETED_BY_CUSTOMER • EXPIRED • MERGED • DELETED_BY_MERGE
     /// </summary>
     [CliOption("--action-type")]
     public AwsCustomerProfilesListProfileHistoryRecordsActionType? ActionType { get; set; }
 
     /// <summary>
-    /// Applies a filter to include profile history records only with the specified PerformedBy value in the response. The PerformedBy value can be the Amazon Resource Name (ARN) of the person or service prin- cipal who performed the action. Constraints: o min: 1 o max: 255
+    /// Applies a filter to include profile history records only with the specified PerformedBy value in the response. The PerformedBy value can be the Amazon Resource Name (ARN) of the person or service principal who performed the action. Constraints: • min: 1 • max: 255
     /// </summary>
     [CliOption("--performed-by")]
     public string? PerformedBy { get; set; }
@@ -125,6 +126,15 @@ public record AwsCustomerProfilesListProfileHistoryRecordsOptions : AwsOptions, 
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

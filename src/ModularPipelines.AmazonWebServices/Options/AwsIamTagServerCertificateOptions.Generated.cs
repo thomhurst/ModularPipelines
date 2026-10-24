@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsIamTagServerCertificateOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Adds one or more tags to an IAM server certificate. If a tag with the same key name already exists, then that tag is overwritten with the new value. NOTE: For certificates in a Region supported by Certificate Manager (ACM), we recommend that you don't use IAM server certificates. Instead, use ACM to provision, manage, and deploy your server certificates. For more information about IAM server certificates, Working with server certificates in the IAM User Guide . A tag consists of a key name and a...
     /// </summary>
-    /// <param name="ServerCertificateName">The name of the IAM server certificate to which you want to add tags. This parameter allows (through its regex pattern ) a string of char- acters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following charac- ters: _+=,.@- Constraints: o min: 1 o max: 128 o pattern: [\w+=,.@-]+</param>
-    /// <param name="Tags">The list of tags that you want to attach to the IAM server certifi- cate. Each tag consists of a key name and an associated value. Constraints: o max: 50 (structure) A structure that represents user-provided metadata that can be associated with an IAM resource. For more information about tag- ging, see Tagging IAM resources in the IAM User Guide . Key -&gt; (string) [required] The key name that can be used to look up or retrieve the as- sociated value. For example, Department or Cost Center are common choices. Constraints: o min: 1 o max: 128 o pattern: [\p{L}\p{Z}\p{N}_.:/=+\-@]+ Value -&gt; (string) [required] The value associated with this tag. For example, tags with a key name of Department could have values such as Human Re- sources , Accounting , and Support . Tags with a key name of Cost Center might have values that consist of the number as- sociated with the different cost centers in your company. Typically, many resources have tags with the same key name but with different values. Constraints: o min: 0 o max: 256 o pattern: [\p{L}\p{Z}\p{N}_.:/=+\-@]* Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]</param>
+    /// <param name="ServerCertificateName">The name of the IAM server certificate to which you want to add tags. This parameter allows (through its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@- Constraints: • min: 1 • max: 128 • pattern: [\w+=,.@-]+</param>
+    /// <param name="Tags">The list of tags that you want to attach to the IAM server certificate. Each tag consists of a key name and an associated value. Constraints: • max: 50 (structure) A structure that represents user-provided metadata that can be associated with an IAM resource. For more information about tagging, see Tagging IAM resources in the IAM User Guide . Key -&gt; (string) [required] The key name that can be used to look up or retrieve the associated value. For example, Department or Cost Center are common choices. Constraints: • min: 1 • max: 128 • pattern: [\p{L}\p{Z}\p{N}_.:/=+\-@]+ Value -&gt; (string) [required] The value associated with this tag. For example, tags with a key name of Department could have values such as Human Resources , Accounting , and Support . Tags with a key name of Cost Center might have values that consist of the number associated with the different cost centers in your company. Typically, many resources have tags with the same key name but with different values. Constraints: • min: 0 • max: 256 • pattern: [\p{L}\p{Z}\p{N}_.:/=+\-@]* Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]</param>
     public AwsIamTagServerCertificateOptions(
         string ServerCertificateName,
         IEnumerable<string> Tags
@@ -71,13 +72,13 @@ public record AwsIamTagServerCertificateOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the IAM server certificate to which you want to add tags. This parameter allows (through its regex pattern ) a string of char- acters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following charac- ters: _+=,.@- Constraints: o min: 1 o max: 128 o pattern: [\w+=,.@-]+
+    /// The name of the IAM server certificate to which you want to add tags. This parameter allows (through its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@- Constraints: • min: 1 • max: 128 • pattern: [\w+=,.@-]+
     /// </summary>
     [CliOption("--server-certificate-name")]
     public string? ServerCertificateName { get; private init; }
 
     /// <summary>
-    /// The list of tags that you want to attach to the IAM server certifi- cate. Each tag consists of a key name and an associated value. Constraints: o max: 50 (structure) A structure that represents user-provided metadata that can be associated with an IAM resource. For more information about tag- ging, see Tagging IAM resources in the IAM User Guide . Key -&gt; (string) [required] The key name that can be used to look up or retrieve the as- sociated value. For example, Department or Cost Center are common choices. Constraints: o min: 1 o max: 128 o pattern: [\p{L}\p{Z}\p{N}_.:/=+\-@]+ Value -&gt; (string) [required] The value associated with this tag. For example, tags with a key name of Department could have values such as Human Re- sources , Accounting , and Support . Tags with a key name of Cost Center might have values that consist of the number as- sociated with the different cost centers in your company. Typically, many resources have tags with the same key name but with different values. Constraints: o min: 0 o max: 256 o pattern: [\p{L}\p{Z}\p{N}_.:/=+\-@]* Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// The list of tags that you want to attach to the IAM server certificate. Each tag consists of a key name and an associated value. Constraints: • max: 50 (structure) A structure that represents user-provided metadata that can be associated with an IAM resource. For more information about tagging, see Tagging IAM resources in the IAM User Guide . Key -&gt; (string) [required] The key name that can be used to look up or retrieve the associated value. For example, Department or Cost Center are common choices. Constraints: • min: 1 • max: 128 • pattern: [\p{L}\p{Z}\p{N}_.:/=+\-@]+ Value -&gt; (string) [required] The value associated with this tag. For example, tags with a key name of Department could have values such as Human Resources , Accounting , and Support . Tags with a key name of Cost Center might have values that consist of the number associated with the different cost centers in your company. Typically, many resources have tags with the same key name but with different values. Constraints: • min: 0 • max: 256 • pattern: [\p{L}\p{Z}\p{N}_.:/=+\-@]* Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; private init; }
@@ -103,6 +104,15 @@ public record AwsIamTagServerCertificateOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

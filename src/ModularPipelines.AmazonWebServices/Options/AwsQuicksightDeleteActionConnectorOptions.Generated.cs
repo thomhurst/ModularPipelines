@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Hard deletes an action connector, making it unrecoverable. This opera- tion removes the connector and all its associated configurations. Any resources currently using this action connector will no longer be able to perform actions through it. See also: AWS API Documentation
+/// Hard deletes an action connector, making it unrecoverable. This operation removes the connector and all its associated configurations. Any resources currently using this action connector will no longer be able to perform actions through it. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsQuicksightDeleteActionConnectorOptions : AwsOptions, IValidatab
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Hard deletes an action connector, making it unrecoverable. This opera- tion removes the connector and all its associated configurations. Any resources currently using this action connector will no longer be able to perform actions through it. See also: AWS API Documentation
+    /// Hard deletes an action connector, making it unrecoverable. This operation removes the connector and all its associated configurations. Any resources currently using this action connector will no longer be able to perform actions through it. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AwsAccountId">The Amazon Web Services account ID that contains the action connec- tor to delete. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$</param>
-    /// <param name="ActionConnectorId">The unique identifier of the action connector to delete. Constraints: o min: 1 o max: 512 o pattern: [\w\-]+</param>
+    /// <param name="AwsAccountId">The Amazon Web Services account ID that contains the action connector to delete. Constraints: • min: 12 • max: 12 • pattern: ^[0-9]{12}$</param>
+    /// <param name="ActionConnectorId">The unique identifier of the action connector to delete. Constraints: • min: 1 • max: 512 • pattern: [\w\-]+</param>
     public AwsQuicksightDeleteActionConnectorOptions(
         string AwsAccountId,
         string ActionConnectorId
@@ -60,13 +61,13 @@ public record AwsQuicksightDeleteActionConnectorOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Web Services account ID that contains the action connec- tor to delete. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$
+    /// The Amazon Web Services account ID that contains the action connector to delete. Constraints: • min: 12 • max: 12 • pattern: ^[0-9]{12}$
     /// </summary>
     [CliOption("--aws-account-id")]
     public string? AwsAccountId { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the action connector to delete. Constraints: o min: 1 o max: 512 o pattern: [\w\-]+
+    /// The unique identifier of the action connector to delete. Constraints: • min: 1 • max: 512 • pattern: [\w\-]+
     /// </summary>
     [CliOption("--action-connector-id")]
     public string? ActionConnectorId { get; private init; }
@@ -92,6 +93,15 @@ public record AwsQuicksightDeleteActionConnectorOptions : AwsOptions, IValidatab
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

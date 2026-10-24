@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -29,8 +30,8 @@ public record AwsRdsRestoreDbInstanceFromS3Options : AwsOptions, IValidatableObj
     /// <summary>
     /// Amazon Relational Database Service (Amazon RDS) supports importing MySQL databases by using backup files. You can create a backup of your on-premises database, store it on Amazon Simple Storage Service (Amazon S3), and then restore the backup file onto a new Amazon RDS DB instance running MySQL. For more information, see Restoring a backup into an Amazon RDS for MySQL DB instance in the Amazon RDS User Guide. This operation doesn't apply to RDS Custom. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DbInstanceIdentifier">The DB instance identifier. This parameter is stored as a lowercase string. Constraints: o Must contain from 1 to 63 letters, numbers, or hyphens. o First character must be a letter. o Can't end with a hyphen or contain two consecutive hyphens. Example: mydbinstance</param>
-    /// <param name="DbInstanceClass">The compute and memory capacity of the DB instance, for example db.m4.large. Not all DB instance classes are available in all Amazon Web Services Regions, or for all database engines. For the full list of DB instance classes, and availability for your engine, see DB In- stance Class in the Amazon RDS User Guide. Importing from Amazon S3 isn't supported on the db.t2.micro DB in- stance class.</param>
+    /// <param name="DbInstanceIdentifier">The DB instance identifier. This parameter is stored as a lowercase string. Constraints: • Must contain from 1 to 63 letters, numbers, or hyphens. • First character must be a letter. • Can't end with a hyphen or contain two consecutive hyphens. Example: mydbinstance</param>
+    /// <param name="DbInstanceClass">The compute and memory capacity of the DB instance, for example db.m4.large. Not all DB instance classes are available in all Amazon Web Services Regions, or for all database engines. For the full list of DB instance classes, and availability for your engine, see DB Instance Class in the Amazon RDS User Guide. Importing from Amazon S3 isn't supported on the db.t2.micro DB instance class.</param>
     /// <param name="Engine">The name of the database engine to be used for this instance. Valid Values: mysql</param>
     /// <param name="SourceEngine">The name of the engine of your source database. Valid Values: mysql</param>
     /// <param name="SourceEngineVersion">The version of the database that the backup files were created from. MySQL versions 5.6 and 5.7 are supported. Example: 5.6.40</param>
@@ -82,13 +83,13 @@ public record AwsRdsRestoreDbInstanceFromS3Options : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The DB instance identifier. This parameter is stored as a lowercase string. Constraints: o Must contain from 1 to 63 letters, numbers, or hyphens. o First character must be a letter. o Can't end with a hyphen or contain two consecutive hyphens. Example: mydbinstance
+    /// The DB instance identifier. This parameter is stored as a lowercase string. Constraints: • Must contain from 1 to 63 letters, numbers, or hyphens. • First character must be a letter. • Can't end with a hyphen or contain two consecutive hyphens. Example: mydbinstance
     /// </summary>
     [CliOption("--db-instance-identifier")]
     public string? DbInstanceIdentifier { get; private init; }
 
     /// <summary>
-    /// The compute and memory capacity of the DB instance, for example db.m4.large. Not all DB instance classes are available in all Amazon Web Services Regions, or for all database engines. For the full list of DB instance classes, and availability for your engine, see DB In- stance Class in the Amazon RDS User Guide. Importing from Amazon S3 isn't supported on the db.t2.micro DB in- stance class.
+    /// The compute and memory capacity of the DB instance, for example db.m4.large. Not all DB instance classes are available in all Amazon Web Services Regions, or for all database engines. For the full list of DB instance classes, and availability for your engine, see DB Instance Class in the Amazon RDS User Guide. Importing from Amazon S3 isn't supported on the db.t2.micro DB instance class.
     /// </summary>
     [CliOption("--db-instance-class")]
     public string? DbInstanceClass { get; private init; }
@@ -130,19 +131,19 @@ public record AwsRdsRestoreDbInstanceFromS3Options : AwsOptions, IValidatableObj
     public string? DbName { get; set; }
 
     /// <summary>
-    /// The amount of storage (in gibibytes) to allocate initially for the DB instance. Follow the allocation rules specified in CreateDBIn- stance . This setting isn't valid for RDS for SQL Server. NOTE: Be sure to allocate enough storage for your new DB instance so that the restore operation can succeed. You can also allocate additional storage for future growth.
+    /// The amount of storage (in gibibytes) to allocate initially for the DB instance. Follow the allocation rules specified in CreateDBInstance . This setting isn't valid for RDS for SQL Server. NOTE: Be sure to allocate enough storage for your new DB instance so that the restore operation can succeed. You can also allocate additional storage for future growth.
     /// </summary>
     [CliOption("--allocated-storage")]
     public int? AllocatedStorage { get; set; }
 
     /// <summary>
-    /// The name for the master user. Constraints: o Must be 1 to 16 letters or numbers. o First character must be a letter. o Can't be a reserved word for the chosen database engine.
+    /// The name for the master user. Constraints: • Must be 1 to 16 letters or numbers. • First character must be a letter. • Can't be a reserved word for the chosen database engine.
     /// </summary>
     [CliOption("--master-username")]
     public string? MasterUsername { get; set; }
 
     /// <summary>
-    /// The password for the master user. Constraints: o Can't be specified if ManageMasterUserPassword is turned on. o Can include any printable ASCII character except "/", """, or "@". For RDS for Oracle, can't include the "&amp;" (ampersand) or the "'" (single quotes) character. Length Constraints: o RDS for Db2 - Must contain from 8 to 128 characters. o RDS for MariaDB - Must contain from 8 to 41 characters. o RDS for Microsoft SQL Server - Must contain from 8 to 128 charac- ters. o RDS for MySQL - Must contain from 8 to 41 characters. o RDS for Oracle - Must contain from 8 to 30 characters. o RDS for PostgreSQL - Must contain from 8 to 128 characters.
+    /// The password for the master user. Constraints: • Can't be specified if ManageMasterUserPassword is turned on. • Can include any printable ASCII character except "/", """, or "@". For RDS for Oracle, can't include the "&amp;" (ampersand) or the "'" (single quotes) character. Length Constraints: • RDS for Db2 - Must contain from 8 to 128 characters. • RDS for MariaDB - Must contain from 8 to 41 characters. • RDS for Microsoft SQL Server - Must contain from 8 to 128 characters. • RDS for MySQL - Must contain from 8 to 41 characters. • RDS for Oracle - Must contain from 8 to 30 characters. • RDS for PostgreSQL - Must contain from 8 to 128 characters.
     /// </summary>
     [SecretValue]
     [CliOption("--master-user-password")]
@@ -161,37 +162,37 @@ public record AwsRdsRestoreDbInstanceFromS3Options : AwsOptions, IValidatableObj
     public IEnumerable<string>? VpcSecurityGroupIds { get; set; }
 
     /// <summary>
-    /// The Availability Zone that the DB instance is created in. For infor- mation about Amazon Web Services Regions and Availability Zones, see Regions and Availability Zones in the Amazon RDS User Guide. Default: A random, system-chosen Availability Zone in the endpoint's Amazon Web Services Region. Example: us-east-1d Constraint: The AvailabilityZone parameter can't be specified if the DB instance is a Multi-AZ deployment. The specified Availability Zone must be in the same Amazon Web Services Region as the current endpoint.
+    /// The Availability Zone that the DB instance is created in. For information about Amazon Web Services Regions and Availability Zones, see Regions and Availability Zones in the Amazon RDS User Guide. Default: A random, system-chosen Availability Zone in the endpoint's Amazon Web Services Region. Example: us-east-1d Constraint: The AvailabilityZone parameter can't be specified if the DB instance is a Multi-AZ deployment. The specified Availability Zone must be in the same Amazon Web Services Region as the current endpoint.
     /// </summary>
     [CliOption("--availability-zone")]
     public string? AvailabilityZone { get; set; }
 
     /// <summary>
-    /// A DB subnet group to associate with this DB instance. Constraints: If supplied, must match the name of an existing DBSub- netGroup. Example: mydbsubnetgroup
+    /// A DB subnet group to associate with this DB instance. Constraints: If supplied, must match the name of an existing DBSubnetGroup. Example: mydbsubnetgroup
     /// </summary>
     [CliOption("--db-subnet-group-name")]
     public string? DbSubnetGroupName { get; set; }
 
     /// <summary>
-    /// The time range each week during which system maintenance can occur, in Universal Coordinated Time (UTC). For more information, see Amazon RDS Maintenance Window in the Amazon RDS User Guide. Constraints: o Must be in the format ddd:hh24:mi-ddd:hh24:mi . o Valid Days: Mon, Tue, Wed, Thu, Fri, Sat, Sun. o Must be in Universal Coordinated Time (UTC). o Must not conflict with the preferred backup window. o Must be at least 30 minutes.
+    /// The time range each week during which system maintenance can occur, in Universal Coordinated Time (UTC). For more information, see Amazon RDS Maintenance Window in the Amazon RDS User Guide. Constraints: • Must be in the format ddd:hh24:mi-ddd:hh24:mi . • Valid Days: Mon, Tue, Wed, Thu, Fri, Sat, Sun. • Must be in Universal Coordinated Time (UTC). • Must not conflict with the preferred backup window. • Must be at least 30 minutes.
     /// </summary>
     [CliOption("--preferred-maintenance-window")]
     public string? PreferredMaintenanceWindow { get; set; }
 
     /// <summary>
-    /// The name of the DB parameter group to associate with this DB in- stance. If you do not specify a value for DBParameterGroupName , then the default DBParameterGroup for the specified DB engine is used.
+    /// The name of the DB parameter group to associate with this DB instance. If you do not specify a value for DBParameterGroupName , then the default DBParameterGroup for the specified DB engine is used.
     /// </summary>
     [CliOption("--db-parameter-group-name")]
     public string? DbParameterGroupName { get; set; }
 
     /// <summary>
-    /// The number of days for which automated backups are retained. Setting this parameter to a positive number enables backups. For more infor- mation, see CreateDBInstance .
+    /// The number of days for which automated backups are retained. Setting this parameter to a positive number enables backups. For more information, see CreateDBInstance .
     /// </summary>
     [CliOption("--backup-retention-period")]
     public int? BackupRetentionPeriod { get; set; }
 
     /// <summary>
-    /// The time range each day during which automated backups are created if automated backups are enabled. For more information, see Backup window in the Amazon RDS User Guide. Constraints: o Must be in the format hh24:mi-hh24:mi . o Must be in Universal Coordinated Time (UTC). o Must not conflict with the preferred maintenance window. o Must be at least 30 minutes.
+    /// The time range each day during which automated backups are created if automated backups are enabled. For more information, see Backup window in the Amazon RDS User Guide. Constraints: • Must be in the format hh24:mi-hh24:mi . • Must be in Universal Coordinated Time (UTC). • Must not conflict with the preferred maintenance window. • Must be at least 30 minutes.
     /// </summary>
     [CliOption("--preferred-backup-window")]
     public string? PreferredBackupWindow { get; set; }
@@ -203,7 +204,7 @@ public record AwsRdsRestoreDbInstanceFromS3Options : AwsOptions, IValidatableObj
     public int? Port { get; set; }
 
     /// <summary>
-    /// Specifies whether the DB instance is a Multi-AZ deployment. If the DB instance is a Multi-AZ deployment, you can't set the Availabili- tyZone parameter.
+    /// Specifies whether the DB instance is a Multi-AZ deployment. If the DB instance is a Multi-AZ deployment, you can't set the AvailabilityZone parameter.
     /// </summary>
     [CliFlag("--multi-az", NegatedName = "--no-multi-az")]
     public bool? MultiAz { get; set; }
@@ -215,7 +216,7 @@ public record AwsRdsRestoreDbInstanceFromS3Options : AwsOptions, IValidatableObj
     public string? EngineVersion { get; set; }
 
     /// <summary>
-    /// Specifies whether to automatically apply minor engine upgrades to the DB instance during the maintenance window. By default, minor en- gine upgrades are not applied automatically. For more information about automatic minor version upgrades, see Automatically upgrading the minor engine version .
+    /// Specifies whether to automatically apply minor engine upgrades to the DB instance during the maintenance window. By default, minor engine upgrades are not applied automatically. For more information about automatic minor version upgrades, see Automatically upgrading the minor engine version .
     /// </summary>
     [CliFlag("--auto-minor-version-upgrade", NegatedName = "--no-auto-minor-version-upgrade")]
     public bool? AutoMinorVersionUpgrade { get; set; }
@@ -245,13 +246,13 @@ public record AwsRdsRestoreDbInstanceFromS3Options : AwsOptions, IValidatableObj
     public string? OptionGroupName { get; set; }
 
     /// <summary>
-    /// Specifies whether the DB instance is publicly accessible. When the DB instance is publicly accessible, its Domain Name System (DNS) endpoint resolves to the private IP address from within the DB instance's virtual private cloud (VPC). It resolves to the public IP address from outside of the DB instance's VPC. Access to the DB in- stance is ultimately controlled by the security group it uses. That public access is not permitted if the security group assigned to the DB instance doesn't permit it. When the DB instance isn't publicly accessible, it is an internal DB instance with a DNS name that resolves to a private IP address. For more information, see CreateDBInstance .
+    /// Specifies whether the DB instance is publicly accessible. When the DB instance is publicly accessible, its Domain Name System (DNS) endpoint resolves to the private IP address from within the DB instance's virtual private cloud (VPC). It resolves to the public IP address from outside of the DB instance's VPC. Access to the DB instance is ultimately controlled by the security group it uses. That public access is not permitted if the security group assigned to the DB instance doesn't permit it. When the DB instance isn't publicly accessible, it is an internal DB instance with a DNS name that resolves to a private IP address. For more information, see CreateDBInstance .
     /// </summary>
     [CliFlag("--publicly-accessible", NegatedName = "--no-publicly-accessible")]
     public bool? PubliclyAccessible { get; set; }
 
     /// <summary>
-    /// A list of tags to associate with this DB instance. For more informa- tion, see Tagging Amazon RDS Resources in the Amazon RDS User Guide. (structure) Metadata assigned to an Amazon RDS resource consisting of a key-value pair. For more information, see Tagging Amazon RDS resources in the Amazon RDS User Guide or Tagging Amazon Aurora and Amazon RDS resources in the Amazon Aurora User Guide . Key -&gt; (string) A key is the required name of the tag. The string value can be from 1 to 128 Unicode characters in length and can't be prefixed with aws: or rds: . The string can only contain only the set of Unicode letters, digits, white-space, '_', '.', ':', '/', '=', '+', '-', '@' (Java regex: "^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$"). Value -&gt; (string) A value is the optional value of the tag. The string value can be from 1 to 256 Unicode characters in length and can't be prefixed with aws: or rds: . The string can only contain only the set of Unicode letters, digits, white-space, '_', '.', ':', '/', '=', '+', '-', '@' (Java regex: "^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$"). Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// A list of tags to associate with this DB instance. For more information, see Tagging Amazon RDS Resources in the Amazon RDS User Guide. (structure) Metadata assigned to an Amazon RDS resource consisting of a key-value pair. For more information, see Tagging Amazon RDS resources in the Amazon RDS User Guide or Tagging Amazon Aurora and Amazon RDS resources in the Amazon Aurora User Guide . Key -&gt; (string) A key is the required name of the tag. The string value can be from 1 to 128 Unicode characters in length and can't be prefixed with aws: or rds: . The string can only contain only the set of Unicode letters, digits, white-space, '_', '.', ':', '/', '=', '+', '-', '@' (Java regex: "^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$"). Value -&gt; (string) A value is the optional value of the tag. The string value can be from 1 to 256 Unicode characters in length and can't be prefixed with aws: or rds: . The string can only contain only the set of Unicode letters, digits, white-space, '_', '.', ':', '/', '=', '+', '-', '@' (Java regex: "^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$"). Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
@@ -269,7 +270,7 @@ public record AwsRdsRestoreDbInstanceFromS3Options : AwsOptions, IValidatableObj
     public bool? StorageEncrypted { get; set; }
 
     /// <summary>
-    /// The Amazon Web Services KMS key identifier for an encrypted DB in- stance. The Amazon Web Services KMS key identifier is the key ARN, key ID, alias ARN, or alias name for the KMS key. To use a KMS key in a dif- ferent Amazon Web Services account, specify the key ARN or alias ARN. If the StorageEncrypted parameter is enabled, and you do not specify a value for the KmsKeyId parameter, then Amazon RDS will use your default KMS key. There is a default KMS key for your Amazon Web Ser- vices account. Your Amazon Web Services account has a different de- fault KMS key for each Amazon Web Services Region.
+    /// The Amazon Web Services KMS key identifier for an encrypted DB instance. The Amazon Web Services KMS key identifier is the key ARN, key ID, alias ARN, or alias name for the KMS key. To use a KMS key in a different Amazon Web Services account, specify the key ARN or alias ARN. If the StorageEncrypted parameter is enabled, and you do not specify a value for the KmsKeyId parameter, then Amazon RDS will use your default KMS key. There is a default KMS key for your Amazon Web Services account. Your Amazon Web Services account has a different default KMS key for each Amazon Web Services Region.
     /// </summary>
     [CliOption("--kms-key-id")]
     public string? KmsKeyId { get; set; }
@@ -281,19 +282,19 @@ public record AwsRdsRestoreDbInstanceFromS3Options : AwsOptions, IValidatableObj
     public bool? CopyTagsToSnapshot { get; set; }
 
     /// <summary>
-    /// The interval, in seconds, between points when Enhanced Monitoring metrics are collected for the DB instance. To disable collecting En- hanced Monitoring metrics, specify 0. If MonitoringRoleArn is specified, then you must also set Moni- toringInterval to a value other than 0. Valid Values: 0, 1, 5, 10, 15, 30, 60 Default: 0
+    /// The interval, in seconds, between points when Enhanced Monitoring metrics are collected for the DB instance. To disable collecting Enhanced Monitoring metrics, specify 0. If MonitoringRoleArn is specified, then you must also set MonitoringInterval to a value other than 0. Valid Values: 0, 1, 5, 10, 15, 30, 60 Default: 0
     /// </summary>
     [CliOption("--monitoring-interval")]
     public int? MonitoringInterval { get; set; }
 
     /// <summary>
-    /// The ARN for the IAM role that permits RDS to send enhanced monitor- ing metrics to Amazon CloudWatch Logs. For example, arn:aws:iam:123456789012:role/emaccess . For information on creating a monitoring role, see Setting Up and Enabling Enhanced Monitoring in the Amazon RDS User Guide. If MonitoringInterval is set to a value other than 0, then you must supply a MonitoringRoleArn value.
+    /// The ARN for the IAM role that permits RDS to send enhanced monitoring metrics to Amazon CloudWatch Logs. For example, arn:aws:iam:123456789012:role/emaccess . For information on creating a monitoring role, see Setting Up and Enabling Enhanced Monitoring in the Amazon RDS User Guide. If MonitoringInterval is set to a value other than 0, then you must supply a MonitoringRoleArn value.
     /// </summary>
     [CliOption("--monitoring-role-arn")]
     public string? MonitoringRoleArn { get; set; }
 
     /// <summary>
-    /// tication (boolean) Specifies whether to enable mapping of Amazon Web Services Identity and Access Management (IAM) accounts to database accounts. By de- fault, mapping isn't enabled. For more information about IAM database authentication, see IAM Database Authentication for MySQL and PostgreSQL in the Amazon RDS User Guide.
+    /// Specifies whether to enable mapping of Amazon Web Services Identity and Access Management (IAM) accounts to database accounts. By default, mapping isn't enabled. For more information about IAM database authentication, see IAM Database Authentication for MySQL and PostgreSQL in the Amazon RDS User Guide.
     /// </summary>
     [CliFlag("--enable-iam-database-authentication", NegatedName = "--no-enable-iam-database-authentication")]
     public bool? EnableIamDatabaseAuthentication { get; set; }
@@ -305,37 +306,37 @@ public record AwsRdsRestoreDbInstanceFromS3Options : AwsOptions, IValidatableObj
     public string? S3Prefix { get; set; }
 
     /// <summary>
-    /// Specifies the mode of Database Insights to enable for the DB in- stance. NOTE: Aurora DB instances inherit this value from the DB cluster, so you can't change this value. Possible values: o standard o advanced
+    /// Specifies the mode of Database Insights to enable for the DB instance. NOTE: Aurora DB instances inherit this value from the DB cluster, so you can't change this value. Possible values: • standard • advanced
     /// </summary>
     [CliOption("--database-insights-mode")]
     public AwsRdsRestoreDbInstanceFromS3DatabaseInsightsMode? DatabaseInsightsMode { get; set; }
 
     /// <summary>
-    /// Specifies whether to enable Performance Insights for the DB in- stance. For more information, see Using Amazon Performance Insights in the Amazon RDS User Guide .
+    /// Specifies whether to enable Performance Insights for the DB instance. For more information, see Using Amazon Performance Insights in the Amazon RDS User Guide .
     /// </summary>
     [CliFlag("--enable-performance-insights", NegatedName = "--no-enable-performance-insights")]
     public bool? EnablePerformanceInsights { get; set; }
 
     /// <summary>
-    /// The Amazon Web Services KMS key identifier for encryption of Perfor- mance Insights data. The Amazon Web Services KMS key identifier is the key ARN, key ID, alias ARN, or alias name for the KMS key. If you do not specify a value for PerformanceInsightsKMSKeyId , then Amazon RDS uses your default KMS key. There is a default KMS key for your Amazon Web Services account. Your Amazon Web Services account has a different default KMS key for each Amazon Web Services Region.
+    /// The Amazon Web Services KMS key identifier for encryption of Performance Insights data. The Amazon Web Services KMS key identifier is the key ARN, key ID, alias ARN, or alias name for the KMS key. If you do not specify a value for PerformanceInsightsKMSKeyId , then Amazon RDS uses your default KMS key. There is a default KMS key for your Amazon Web Services account. Your Amazon Web Services account has a different default KMS key for each Amazon Web Services Region.
     /// </summary>
     [CliOption("--performance-insights-kms-key-id")]
     public string? PerformanceInsightsKmsKeyId { get; set; }
 
     /// <summary>
-    /// The number of days to retain Performance Insights data. The default is 7 days. The following values are valid: o 7 o month * 31, where month is a number of months from 1-23 o 731 For example, the following values are valid: o 93 (3 months * 31) o 341 (11 months * 31) o 589 (19 months * 31) o 731 If you specify a retention period such as 94, which isn't a valid value, RDS issues an error.
+    /// The number of days to retain Performance Insights data. The default is 7 days. The following values are valid: • 7 • month * 31, where month is a number of months from 1-23 • 731 For example, the following values are valid: • 93 (3 months * 31) • 341 (11 months * 31) • 589 (19 months * 31) • 731 If you specify a retention period such as 94, which isn't a valid value, RDS issues an error.
     /// </summary>
     [CliOption("--performance-insights-retention-period")]
     public int? PerformanceInsightsRetentionPeriod { get; set; }
 
     /// <summary>
-    /// The list of logs that the restored DB instance is to export to CloudWatch Logs. The values in the list depend on the DB engine be- ing used. For more information, see Publishing Database Logs to Ama- zon CloudWatch Logs in the Amazon RDS User Guide . (string) Syntax: "string" "string" ...
+    /// The list of logs that the restored DB instance is to export to CloudWatch Logs. The values in the list depend on the DB engine being used. For more information, see Publishing Database Logs to Amazon CloudWatch Logs in the Amazon RDS User Guide . (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--enable-cloudwatch-logs-exports", GroupValues = true)]
     public IEnumerable<string>? EnableCloudwatchLogsExports { get; set; }
 
     /// <summary>
-    /// The number of CPU cores and the number of threads per core for the DB instance class of the DB instance. (structure) Contains the processor features of a DB instance class. To specify the number of CPU cores, use the coreCount feature name for the Name parameter. To specify the number of threads per core, use the threadsPerCore feature name for the Name para- meter. You can set the processor features of the DB instance class for a DB instance when you call one of the following actions: o CreateDBInstance o ModifyDBInstance o RestoreDBInstanceFromDBSnapshot o RestoreDBInstanceFromS3 o RestoreDBInstanceToPointInTime You can view the valid processor values for a particular in- stance class by calling the DescribeOrderableDBInstanceOptions action and specifying the instance class for the DBInstanceClass parameter. In addition, you can use the following actions for DB instance class processor information: o DescribeDBInstances o DescribeDBSnapshots o DescribeValidDBInstanceModifications If you call DescribeDBInstances , ProcessorFeature returns non-null values only if the following conditions are met: o You are accessing an Oracle or SQL Server DB instance. o Your Oracle or SQL Server DB instance class supports configur- ing the number of CPU cores and threads per core. o The current number CPU cores and threads is set to a non-de- fault value. For more information, see Configuring the processor for a DB in- stance class in RDS for Oracle , Optimizing your RDS for SQL Server CPU , and DB instance classes in the Amazon RDS User Guide. Name -&gt; (string) The name of the processor feature. Valid names are coreCount and threadsPerCore . Value -&gt; (string) The value of a processor feature. Shorthand Syntax: Name=string,Value=string ... JSON Syntax: [ { "Name": "string", "Value": "string" } ... ]
+    /// The number of CPU cores and the number of threads per core for the DB instance class of the DB instance. (structure) Contains the processor features of a DB instance class. To specify the number of CPU cores, use the coreCount feature name for the Name parameter. To specify the number of threads per core, use the threadsPerCore feature name for the Name parameter. You can set the processor features of the DB instance class for a DB instance when you call one of the following actions: • CreateDBInstance • ModifyDBInstance • RestoreDBInstanceFromDBSnapshot • RestoreDBInstanceFromS3 • RestoreDBInstanceToPointInTime You can view the valid processor values for a particular instance class by calling the DescribeOrderableDBInstanceOptions action and specifying the instance class for the DBInstanceClass parameter. In addition, you can use the following actions for DB instance class processor information: • DescribeDBInstances • DescribeDBSnapshots • DescribeValidDBInstanceModifications If you call DescribeDBInstances , ProcessorFeature returns non-null values only if the following conditions are met: • You are accessing an Oracle or SQL Server DB instance. • Your Oracle or SQL Server DB instance class supports configuring the number of CPU cores and threads per core. • The current number CPU cores and threads is set to a non-default value. For more information, see Configuring the processor for a DB instance class in RDS for Oracle , Optimizing your RDS for SQL Server CPU , and DB instance classes in the Amazon RDS User Guide. Name -&gt; (string) The name of the processor feature. Valid names are coreCount and threadsPerCore . Value -&gt; (string) The value of a processor feature. Shorthand Syntax: Name=string,Value=string ... JSON Syntax: [ { "Name": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--processor-features", GroupValues = true)]
     public IEnumerable<string>? ProcessorFeatures { get; set; }
@@ -353,25 +354,25 @@ public record AwsRdsRestoreDbInstanceFromS3Options : AwsOptions, IValidatableObj
     public bool? DeletionProtection { get; set; }
 
     /// <summary>
-    /// The upper limit in gibibytes (GiB) to which Amazon RDS can automati- cally scale the storage of the DB instance. For more information about this setting, including limitations that apply to it, see Managing capacity automatically with Amazon RDS storage autoscaling in the Amazon RDS User Guide .
+    /// The upper limit in gibibytes (GiB) to which Amazon RDS can automatically scale the storage of the DB instance. For more information about this setting, including limitations that apply to it, see Managing capacity automatically with Amazon RDS storage autoscaling in the Amazon RDS User Guide .
     /// </summary>
     [CliOption("--max-allocated-storage")]
     public int? MaxAllocatedStorage { get; set; }
 
     /// <summary>
-    /// The network type of the DB instance. Valid Values: o IPV4 o DUAL The network type is determined by the DBSubnetGroup specified for the DB instance. A DBSubnetGroup can support only the IPv4 protocol or the IPv4 and the IPv6 protocols (DUAL ). For more information, see Working with a DB instance in a VPC in the Amazon RDS User Guide.
+    /// The network type of the DB instance. Valid Values: • IPV4 • DUAL The network type is determined by the DBSubnetGroup specified for the DB instance. A DBSubnetGroup can support only the IPv4 protocol or the IPv4 and the IPv6 protocols (DUAL ). For more information, see Working with a DB instance in a VPC in the Amazon RDS User Guide.
     /// </summary>
     [CliOption("--network-type")]
     public string? NetworkType { get; set; }
 
     /// <summary>
-    /// Specifies whether to manage the master user password with Amazon Web Services Secrets Manager. For more information, see Password management with Amazon Web Ser- vices Secrets Manager in the Amazon RDS User Guide. Constraints: o Can't manage the master user password with Amazon Web Services Se- crets Manager if MasterUserPassword is specified.
+    /// Specifies whether to manage the master user password with Amazon Web Services Secrets Manager. For more information, see Password management with Amazon Web Services Secrets Manager in the Amazon RDS User Guide. Constraints: • Can't manage the master user password with Amazon Web Services Secrets Manager if MasterUserPassword is specified.
     /// </summary>
     [CliFlag("--manage-master-user-password", NegatedName = "--no-manage-master-user-password")]
     public bool? ManageMasterUserPassword { get; set; }
 
     /// <summary>
-    /// The Amazon Web Services KMS key identifier to encrypt a secret that is automatically generated and managed in Amazon Web Services Se- crets Manager. This setting is valid only if the master user password is managed by RDS in Amazon Web Services Secrets Manager for the DB instance. The Amazon Web Services KMS key identifier is the key ARN, key ID, alias ARN, or alias name for the KMS key. To use a KMS key in a dif- ferent Amazon Web Services account, specify the key ARN or alias ARN. If you don't specify MasterUserSecretKmsKeyId , then the aws/se- cretsmanager KMS key is used to encrypt the secret. If the secret is in a different Amazon Web Services account, then you can't use the aws/secretsmanager KMS key to encrypt the secret, and you must use a customer managed KMS key. There is a default KMS key for your Amazon Web Services account. Your Amazon Web Services account has a different default KMS key for each Amazon Web Services Region.
+    /// The Amazon Web Services KMS key identifier to encrypt a secret that is automatically generated and managed in Amazon Web Services Secrets Manager. This setting is valid only if the master user password is managed by RDS in Amazon Web Services Secrets Manager for the DB instance. The Amazon Web Services KMS key identifier is the key ARN, key ID, alias ARN, or alias name for the KMS key. To use a KMS key in a different Amazon Web Services account, specify the key ARN or alias ARN. If you don't specify MasterUserSecretKmsKeyId , then the aws/secretsmanager KMS key is used to encrypt the secret. If the secret is in a different Amazon Web Services account, then you can't use the aws/secretsmanager KMS key to encrypt the secret, and you must use a customer managed KMS key. There is a default KMS key for your Amazon Web Services account. Your Amazon Web Services account has a different default KMS key for each Amazon Web Services Region.
     /// </summary>
     [CliOption("--master-user-secret-kms-key-id")]
     public string? MasterUserSecretKmsKeyId { get; set; }
@@ -383,25 +384,25 @@ public record AwsRdsRestoreDbInstanceFromS3Options : AwsOptions, IValidatableObj
     public bool? DedicatedLogVolume { get; set; }
 
     /// <summary>
-    /// The CA certificate identifier to use for the DB instance's server certificate. This setting doesn't apply to RDS Custom DB instances. For more information, see Using SSL/TLS to encrypt a connection to a DB instance in the Amazon RDS User Guide and Using SSL/TLS to en- crypt a connection to a DB cluster in the Amazon Aurora User Guide .
+    /// The CA certificate identifier to use for the DB instance's server certificate. This setting doesn't apply to RDS Custom DB instances. For more information, see Using SSL/TLS to encrypt a connection to a DB instance in the Amazon RDS User Guide and Using SSL/TLS to encrypt a connection to a DB cluster in the Amazon Aurora User Guide .
     /// </summary>
     [CliOption("--ca-certificate-identifier")]
     public string? CaCertificateIdentifier { get; set; }
 
     /// <summary>
-    /// The lifecycle type for this DB instance. NOTE: By default, this value is set to open-source-rds-extended-sup- port , which enrolls your DB instance into Amazon RDS Extended Support. At the end of standard support, you can avoid charges for Extended Support by setting the value to open-source-rds-ex- tended-support-disabled . In this case, RDS automatically up- grades your restored DB instance to a higher engine version, if the major engine version is past its end of standard support date. You can use this setting to enroll your DB instance into Amazon RDS Extended Support. With RDS Extended Support, you can run the se- lected major engine version on your DB instance past the end of standard support for that engine version. For more information, see Amazon RDS Extended Support Amazon RDS in the Amazon RDS User Guide . This setting applies only to RDS for MySQL and RDS for PostgreSQL. For Amazon Aurora DB instances, the engine lifecycle support is man- aged by the DB cluster. Valid Values: open-source-rds-extended-support | open-source-rds-ex- tended-support-disabled Default: open-source-rds-extended-support
+    /// The lifecycle type for this DB instance. NOTE: By default, this value is set to open-source-rds-extended-support , which enrolls your DB instance into Amazon RDS Extended Support. At the end of standard support, you can avoid charges for Extended Support by setting the value to open-source-rds-extended-support-disabled . In this case, RDS automatically upgrades your restored DB instance to a higher engine version, if the major engine version is past its end of standard support date. You can use this setting to enroll your DB instance into Amazon RDS Extended Support. With RDS Extended Support, you can run the selected major engine version on your DB instance past the end of standard support for that engine version. For more information, see Amazon RDS Extended Support Amazon RDS in the Amazon RDS User Guide . This setting applies only to RDS for MySQL and RDS for PostgreSQL. For Amazon Aurora DB instances, the engine lifecycle support is managed by the DB cluster. Valid Values: open-source-rds-extended-support | open-source-rds-extended-support-disabled Default: open-source-rds-extended-support
     /// </summary>
     [CliOption("--engine-lifecycle-support")]
     public string? EngineLifecycleSupport { get; set; }
 
     /// <summary>
-    /// A list of additional storage volumes to modify or delete for the DB instance. You can modify or delete up to three additional storage volumes using the names rdsdbdata2 , rdsdbdata3 , and rdsdbdata4 . Additional storage volumes are supported for RDS for Oracle and RDS for SQL Server DB instances only. (structure) Contains details about an additional storage volume for a DB in- stance. RDS support additional storage volumes for RDS for Ora- cle and RDS for SQL Server. VolumeName -&gt; (string) [required] The name of the additional storage volume. Valid Values: RDSDBDATA2 | RDSDBDATA3 | RDSDBDATA4 AllocatedStorage -&gt; (integer) The amount of storage allocated for the additional storage volume, in gibibytes (GiB). The minimum is 20 GiB. The maxi- mum is 65,536 GiB (64 TiB). IOPS -&gt; (integer) The number of I/O operations per second (IOPS) provisioned for the additional storage volume. MaxAllocatedStorage -&gt; (integer) The upper limit in gibibytes (GiB) to which RDS can automati- cally scale the storage of the additional storage volume. StorageThroughput -&gt; (integer) The storage throughput value for the additional storage vol- ume, in mebibytes per second (MiBps). This setting applies only to the General Purpose SSD (gp3 ) storage type. StorageType -&gt; (string) The storage type for the additional storage volume. Valid Values: GP3 | IO2 Shorthand Syntax: VolumeName=string,AllocatedStorage=integer,IOPS=integer,MaxAllocatedStorage=integer,StorageThroughput=integer,StorageType=string ... JSON Syntax: [ { "VolumeName": "string", "AllocatedStorage": integer, "IOPS": integer, "MaxAllocatedStorage": integer, "StorageThroughput": integer, "StorageType": "string" } ... ]
+    /// A list of additional storage volumes to modify or delete for the DB instance. You can modify or delete up to three additional storage volumes using the names rdsdbdata2 , rdsdbdata3 , and rdsdbdata4 . Additional storage volumes are supported for RDS for Oracle and RDS for SQL Server DB instances only. (structure) Contains details about an additional storage volume for a DB instance. RDS support additional storage volumes for RDS for Oracle and RDS for SQL Server. VolumeName -&gt; (string) [required] The name of the additional storage volume. Valid Values: RDSDBDATA2 | RDSDBDATA3 | RDSDBDATA4 AllocatedStorage -&gt; (integer) The amount of storage allocated for the additional storage volume, in gibibytes (GiB). The minimum is 20 GiB. The maximum is 65,536 GiB (64 TiB). IOPS -&gt; (integer) The number of I/O operations per second (IOPS) provisioned for the additional storage volume. MaxAllocatedStorage -&gt; (integer) The upper limit in gibibytes (GiB) to which RDS can automatically scale the storage of the additional storage volume. StorageThroughput -&gt; (integer) The storage throughput value for the additional storage volume, in mebibytes per second (MiBps). This setting applies only to the General Purpose SSD (gp3 ) storage type. StorageType -&gt; (string) The storage type for the additional storage volume. Valid Values: GP3 | IO2 Shorthand Syntax: VolumeName=string,AllocatedStorage=integer,IOPS=integer,MaxAllocatedStorage=integer,StorageThroughput=integer,StorageType=string ... JSON Syntax: [ { "VolumeName": "string", "AllocatedStorage": integer, "IOPS": integer, "MaxAllocatedStorage": integer, "StorageThroughput": integer, "StorageType": "string" } ... ]
     /// </summary>
     [CliOption("--additional-storage-volumes", GroupValues = true)]
     public IEnumerable<string>? AdditionalStorageVolumes { get; set; }
 
     /// <summary>
-    /// Tags to assign to resources associated with the DB instance. Valid Values: o auto-backup - The DB instance's automated backup. (structure) The tags to apply to resources when creating or modifying a DB instance or DB cluster. When you specify a tag, you must specify the resource type to tag, otherwise the request will fail. ResourceType -&gt; (string) The type of resource to tag on creation. Valid Values: o auto-backup - The DB instance's automated backup. o cluster-auto-backup - The DB cluster's automated backup. Tags -&gt; (list) A list of tags. For more information, see Tagging Amazon RDS resources in the Amazon RDS User Guide or Tagging Amazon Aurora and Amazon RDS resources in the Amazon Aurora User Guide . (structure) Metadata assigned to an Amazon RDS resource consisting of a key-value pair. For more information, see Tagging Amazon RDS resources in the Amazon RDS User Guide or Tagging Amazon Aurora and Amazon RDS resources in the Amazon Aurora User Guide . Key -&gt; (string) A key is the required name of the tag. The string value can be from 1 to 128 Unicode characters in length and can't be prefixed with aws: or rds: . The string can only contain only the set of Unicode let- ters, digits, white-space, '_', '.', ':', '/', '=', '+', '-', '@' (Java regex: "^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$"). Value -&gt; (string) A value is the optional value of the tag. The string value can be from 1 to 256 Unicode characters in length and can't be prefixed with aws: or rds: . The string can only contain only the set of Unicode let- ters, digits, white-space, '_', '.', ':', '/', '=', '+', '-', '@' (Java regex: "^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$"). Shorthand Syntax: ResourceType=string,Tags=[{Key=string,Value=string},{Key=string,Value=string}] ... JSON Syntax: [ { "ResourceType": "string", "Tags": [ { "Key": "string", "Value": "string" } ... ] } ... ]
+    /// Tags to assign to resources associated with the DB instance. Valid Values: • auto-backup - The DB instance's automated backup. (structure) The tags to apply to resources when creating or modifying a DB instance or DB cluster. When you specify a tag, you must specify the resource type to tag, otherwise the request will fail. ResourceType -&gt; (string) The type of resource to tag on creation. Valid Values: • auto-backup - The DB instance's automated backup. • cluster-auto-backup - The DB cluster's automated backup. Tags -&gt; (list) A list of tags. For more information, see Tagging Amazon RDS resources in the Amazon RDS User Guide or Tagging Amazon Aurora and Amazon RDS resources in the Amazon Aurora User Guide . (structure) Metadata assigned to an Amazon RDS resource consisting of a key-value pair. For more information, see Tagging Amazon RDS resources in the Amazon RDS User Guide or Tagging Amazon Aurora and Amazon RDS resources in the Amazon Aurora User Guide . Key -&gt; (string) A key is the required name of the tag. The string value can be from 1 to 128 Unicode characters in length and can't be prefixed with aws: or rds: . The string can only contain only the set of Unicode letters, digits, white-space, '_', '.', ':', '/', '=', '+', '-', '@' (Java regex: "^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$"). Value -&gt; (string) A value is the optional value of the tag. The string value can be from 1 to 256 Unicode characters in length and can't be prefixed with aws: or rds: . The string can only contain only the set of Unicode letters, digits, white-space, '_', '.', ':', '/', '=', '+', '-', '@' (Java regex: "^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$"). Shorthand Syntax: ResourceType=string,Tags=[{Key=string,Value=string},{Key=string,Value=string}] ... JSON Syntax: [ { "ResourceType": "string", "Tags": [ { "Key": "string", "Value": "string" } ... ] } ... ]
     /// </summary>
     [CliOption("--tag-specifications", GroupValues = true)]
     public IEnumerable<string>? TagSpecifications { get; set; }
@@ -427,6 +428,15 @@ public record AwsRdsRestoreDbInstanceFromS3Options : AwsOptions, IValidatableObj
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

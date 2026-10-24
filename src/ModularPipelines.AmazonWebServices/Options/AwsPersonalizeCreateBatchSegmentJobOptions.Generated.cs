@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a batch segment job. The operation can handle up to 50 million records and the input file must be in JSON format. For more informa- tion, see Getting batch recommendations and user segments . See also: AWS API Documentation
+/// Creates a batch segment job. The operation can handle up to 50 million records and the input file must be in JSON format. For more information, see Getting batch recommendations and user segments . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,13 +26,13 @@ public record AwsPersonalizeCreateBatchSegmentJobOptions : AwsOptions, IValidata
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a batch segment job. The operation can handle up to 50 million records and the input file must be in JSON format. For more informa- tion, see Getting batch recommendations and user segments . See also: AWS API Documentation
+    /// Creates a batch segment job. The operation can handle up to 50 million records and the input file must be in JSON format. For more information, see Getting batch recommendations and user segments . See also: AWS API Documentation
     /// </summary>
-    /// <param name="JobName">The name of the batch segment job to create. Constraints: o min: 1 o max: 63 o pattern: ^[a-zA-Z0-9][a-zA-Z0-9\-_]*</param>
-    /// <param name="SolutionVersionArn">The Amazon Resource Name (ARN) of the solution version you want the batch segment job to use to generate batch segments. Constraints: o max: 256 o pattern: arn:([a-z\d-]+):personalize:.*:.*:.+</param>
-    /// <param name="JobInput">The Amazon S3 path for the input data used to generate the batch segment job. s3DataSource -&gt; (structure) [required] The configuration details of an Amazon S3 input or output bucket. path -&gt; (string) [required] The file path of the Amazon S3 bucket. Constraints: o max: 256 o pattern: (s3|http|https)://.+ kmsKeyArn -&gt; (string) The Amazon Resource Name (ARN) of the Key Management Service (KMS) key that Amazon Personalize uses to encrypt or decrypt the input and output files. Constraints: o max: 2048 o pattern: arn:aws.*:kms:.*:[0-9]{12}:key/.* Shorthand Syntax: s3DataSource={path=string,kmsKeyArn=string} JSON Syntax: { "s3DataSource": { "path": "string", "kmsKeyArn": "string" } }</param>
-    /// <param name="JobOutput">The Amazon S3 path for the bucket where the job's output will be stored. s3DataDestination -&gt; (structure) [required] The configuration details of an Amazon S3 input or output bucket. path -&gt; (string) [required] The file path of the Amazon S3 bucket. Constraints: o max: 256 o pattern: (s3|http|https)://.+ kmsKeyArn -&gt; (string) The Amazon Resource Name (ARN) of the Key Management Service (KMS) key that Amazon Personalize uses to encrypt or decrypt the input and output files. Constraints: o max: 2048 o pattern: arn:aws.*:kms:.*:[0-9]{12}:key/.* Shorthand Syntax: s3DataDestination={path=string,kmsKeyArn=string} JSON Syntax: { "s3DataDestination": { "path": "string", "kmsKeyArn": "string" } }</param>
-    /// <param name="RoleArn">The ARN of the Amazon Identity and Access Management role that has permissions to read and write to your input and output Amazon S3 buckets respectively. Constraints: o max: 256 o pattern: arn:([a-z\d-]+):iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+</param>
+    /// <param name="JobName">The name of the batch segment job to create. Constraints: • min: 1 • max: 63 • pattern: ^[a-zA-Z0-9][a-zA-Z0-9\-_]*</param>
+    /// <param name="SolutionVersionArn">The Amazon Resource Name (ARN) of the solution version you want the batch segment job to use to generate batch segments. Constraints: • max: 256 • pattern: arn:([a-z\d-]+):personalize:.*:.*:.+</param>
+    /// <param name="JobInput">The Amazon S3 path for the input data used to generate the batch segment job. s3DataSource -&gt; (structure) [required] The configuration details of an Amazon S3 input or output bucket. path -&gt; (string) [required] The file path of the Amazon S3 bucket. Constraints: • max: 256 • pattern: (s3|http|https)://.+ kmsKeyArn -&gt; (string) The Amazon Resource Name (ARN) of the Key Management Service (KMS) key that Amazon Personalize uses to encrypt or decrypt the input and output files. Constraints: • max: 2048 • pattern: arn:aws.*:kms:.*:[0-9]{12}:key/.* Shorthand Syntax: s3DataSource={path=string,kmsKeyArn=string} JSON Syntax: { "s3DataSource": { "path": "string", "kmsKeyArn": "string" } }</param>
+    /// <param name="JobOutput">The Amazon S3 path for the bucket where the job's output will be stored. s3DataDestination -&gt; (structure) [required] The configuration details of an Amazon S3 input or output bucket. path -&gt; (string) [required] The file path of the Amazon S3 bucket. Constraints: • max: 256 • pattern: (s3|http|https)://.+ kmsKeyArn -&gt; (string) The Amazon Resource Name (ARN) of the Key Management Service (KMS) key that Amazon Personalize uses to encrypt or decrypt the input and output files. Constraints: • max: 2048 • pattern: arn:aws.*:kms:.*:[0-9]{12}:key/.* Shorthand Syntax: s3DataDestination={path=string,kmsKeyArn=string} JSON Syntax: { "s3DataDestination": { "path": "string", "kmsKeyArn": "string" } }</param>
+    /// <param name="RoleArn">The ARN of the Amazon Identity and Access Management role that has permissions to read and write to your input and output Amazon S3 buckets respectively. Constraints: • max: 256 • pattern: arn:([a-z\d-]+):iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+</param>
     public AwsPersonalizeCreateBatchSegmentJobOptions(
         string JobName,
         string SolutionVersionArn,
@@ -72,37 +73,37 @@ public record AwsPersonalizeCreateBatchSegmentJobOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the batch segment job to create. Constraints: o min: 1 o max: 63 o pattern: ^[a-zA-Z0-9][a-zA-Z0-9\-_]*
+    /// The name of the batch segment job to create. Constraints: • min: 1 • max: 63 • pattern: ^[a-zA-Z0-9][a-zA-Z0-9\-_]*
     /// </summary>
     [CliOption("--job-name")]
     public string? JobName { get; private init; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the solution version you want the batch segment job to use to generate batch segments. Constraints: o max: 256 o pattern: arn:([a-z\d-]+):personalize:.*:.*:.+
+    /// The Amazon Resource Name (ARN) of the solution version you want the batch segment job to use to generate batch segments. Constraints: • max: 256 • pattern: arn:([a-z\d-]+):personalize:.*:.*:.+
     /// </summary>
     [CliOption("--solution-version-arn")]
     public string? SolutionVersionArn { get; private init; }
 
     /// <summary>
-    /// The Amazon S3 path for the input data used to generate the batch segment job. s3DataSource -&gt; (structure) [required] The configuration details of an Amazon S3 input or output bucket. path -&gt; (string) [required] The file path of the Amazon S3 bucket. Constraints: o max: 256 o pattern: (s3|http|https)://.+ kmsKeyArn -&gt; (string) The Amazon Resource Name (ARN) of the Key Management Service (KMS) key that Amazon Personalize uses to encrypt or decrypt the input and output files. Constraints: o max: 2048 o pattern: arn:aws.*:kms:.*:[0-9]{12}:key/.* Shorthand Syntax: s3DataSource={path=string,kmsKeyArn=string} JSON Syntax: { "s3DataSource": { "path": "string", "kmsKeyArn": "string" } }
+    /// The Amazon S3 path for the input data used to generate the batch segment job. s3DataSource -&gt; (structure) [required] The configuration details of an Amazon S3 input or output bucket. path -&gt; (string) [required] The file path of the Amazon S3 bucket. Constraints: • max: 256 • pattern: (s3|http|https)://.+ kmsKeyArn -&gt; (string) The Amazon Resource Name (ARN) of the Key Management Service (KMS) key that Amazon Personalize uses to encrypt or decrypt the input and output files. Constraints: • max: 2048 • pattern: arn:aws.*:kms:.*:[0-9]{12}:key/.* Shorthand Syntax: s3DataSource={path=string,kmsKeyArn=string} JSON Syntax: { "s3DataSource": { "path": "string", "kmsKeyArn": "string" } }
     /// </summary>
     [CliOption("--job-input")]
     public string? JobInput { get; private init; }
 
     /// <summary>
-    /// The Amazon S3 path for the bucket where the job's output will be stored. s3DataDestination -&gt; (structure) [required] The configuration details of an Amazon S3 input or output bucket. path -&gt; (string) [required] The file path of the Amazon S3 bucket. Constraints: o max: 256 o pattern: (s3|http|https)://.+ kmsKeyArn -&gt; (string) The Amazon Resource Name (ARN) of the Key Management Service (KMS) key that Amazon Personalize uses to encrypt or decrypt the input and output files. Constraints: o max: 2048 o pattern: arn:aws.*:kms:.*:[0-9]{12}:key/.* Shorthand Syntax: s3DataDestination={path=string,kmsKeyArn=string} JSON Syntax: { "s3DataDestination": { "path": "string", "kmsKeyArn": "string" } }
+    /// The Amazon S3 path for the bucket where the job's output will be stored. s3DataDestination -&gt; (structure) [required] The configuration details of an Amazon S3 input or output bucket. path -&gt; (string) [required] The file path of the Amazon S3 bucket. Constraints: • max: 256 • pattern: (s3|http|https)://.+ kmsKeyArn -&gt; (string) The Amazon Resource Name (ARN) of the Key Management Service (KMS) key that Amazon Personalize uses to encrypt or decrypt the input and output files. Constraints: • max: 2048 • pattern: arn:aws.*:kms:.*:[0-9]{12}:key/.* Shorthand Syntax: s3DataDestination={path=string,kmsKeyArn=string} JSON Syntax: { "s3DataDestination": { "path": "string", "kmsKeyArn": "string" } }
     /// </summary>
     [CliOption("--job-output")]
     public string? JobOutput { get; private init; }
 
     /// <summary>
-    /// The ARN of the Amazon Identity and Access Management role that has permissions to read and write to your input and output Amazon S3 buckets respectively. Constraints: o max: 256 o pattern: arn:([a-z\d-]+):iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+
+    /// The ARN of the Amazon Identity and Access Management role that has permissions to read and write to your input and output Amazon S3 buckets respectively. Constraints: • max: 256 • pattern: arn:([a-z\d-]+):iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+
     /// </summary>
     [CliOption("--role-arn")]
     public string? RoleArn { get; private init; }
 
     /// <summary>
-    /// The ARN of the filter to apply to the batch segment job. For more information on using filters, see Filtering batch recommendations . Constraints: o max: 256 o pattern: arn:([a-z\d-]+):personalize:.*:.*:.+
+    /// The ARN of the filter to apply to the batch segment job. For more information on using filters, see Filtering batch recommendations . Constraints: • max: 256 • pattern: arn:([a-z\d-]+):personalize:.*:.*:.+
     /// </summary>
     [CliOption("--filter-arn")]
     public string? FilterArn { get; set; }
@@ -114,7 +115,7 @@ public record AwsPersonalizeCreateBatchSegmentJobOptions : AwsOptions, IValidata
     public int? NumResults { get; set; }
 
     /// <summary>
-    /// A list of tags to apply to the batch segment job. Constraints: o min: 0 o max: 200 (structure) The optional metadata that you apply to resources to help you categorize and organize them. Each tag consists of a key and an optional value, both of which you define. For more information see Tagging Amazon Personalize resources . tagKey -&gt; (string) [required] One part of a key-value pair that makes up a tag. A key is a general label that acts like a category for more specific tag values. Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ tagValue -&gt; (string) [required] The optional part of a key-value pair that makes up a tag. A value acts as a descriptor within a tag category (key). Constraints: o min: 0 o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: tagKey=string,tagValue=string ... JSON Syntax: [ { "tagKey": "string", "tagValue": "string" } ... ]
+    /// A list of tags to apply to the batch segment job. Constraints: • min: 0 • max: 200 (structure) The optional metadata that you apply to resources to help you categorize and organize them. Each tag consists of a key and an optional value, both of which you define. For more information see Tagging Amazon Personalize resources . tagKey -&gt; (string) [required] One part of a key-value pair that makes up a tag. A key is a general label that acts like a category for more specific tag values. Constraints: • min: 1 • max: 128 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ tagValue -&gt; (string) [required] The optional part of a key-value pair that makes up a tag. A value acts as a descriptor within a tag category (key). Constraints: • min: 0 • max: 256 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: tagKey=string,tagValue=string ... JSON Syntax: [ { "tagKey": "string", "tagValue": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
@@ -140,6 +141,15 @@ public record AwsPersonalizeCreateBatchSegmentJobOptions : AwsOptions, IValidata
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

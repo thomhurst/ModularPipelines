@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Installs an application to the device in a remote access session. For Android applications, the file must be in .apk format. For iOS applica- tions, the file must be in .ipa format. See also: AWS API Documentation
+/// Installs an application to the device in a remote access session. For Android applications, the file must be in .apk format. For iOS applications, the file must be in .ipa format. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsDevicefarmInstallToRemoteAccessSessionOptions : AwsOptions, IVa
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Installs an application to the device in a remote access session. For Android applications, the file must be in .apk format. For iOS applica- tions, the file must be in .ipa format. See also: AWS API Documentation
+    /// Installs an application to the device in a remote access session. For Android applications, the file must be in .apk format. For iOS applications, the file must be in .ipa format. See also: AWS API Documentation
     /// </summary>
-    /// <param name="RemoteAccessSessionArn">The Amazon Resource Name (ARN) of the remote access session about which you are requesting information. Constraints: o min: 32 o max: 1011 o pattern: ^arn:aws:devicefarm:.+</param>
-    /// <param name="AppArn">The ARN of the app about which you are requesting information. Constraints: o min: 32 o max: 1011 o pattern: ^arn:aws:devicefarm:.+</param>
+    /// <param name="RemoteAccessSessionArn">The Amazon Resource Name (ARN) of the remote access session about which you are requesting information. Constraints: • min: 32 • max: 1011 • pattern: ^arn:aws:devicefarm:.+</param>
+    /// <param name="AppArn">The ARN of the app about which you are requesting information. Constraints: • min: 32 • max: 1011 • pattern: ^arn:aws:devicefarm:.+</param>
     public AwsDevicefarmInstallToRemoteAccessSessionOptions(
         string RemoteAccessSessionArn,
         string AppArn
@@ -60,13 +61,13 @@ public record AwsDevicefarmInstallToRemoteAccessSessionOptions : AwsOptions, IVa
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the remote access session about which you are requesting information. Constraints: o min: 32 o max: 1011 o pattern: ^arn:aws:devicefarm:.+
+    /// The Amazon Resource Name (ARN) of the remote access session about which you are requesting information. Constraints: • min: 32 • max: 1011 • pattern: ^arn:aws:devicefarm:.+
     /// </summary>
     [CliOption("--remote-access-session-arn")]
     public string? RemoteAccessSessionArn { get; private init; }
 
     /// <summary>
-    /// The ARN of the app about which you are requesting information. Constraints: o min: 32 o max: 1011 o pattern: ^arn:aws:devicefarm:.+
+    /// The ARN of the app about which you are requesting information. Constraints: • min: 32 • max: 1011 • pattern: ^arn:aws:devicefarm:.+
     /// </summary>
     [CliOption("--app-arn")]
     public string? AppArn { get; private init; }
@@ -92,6 +93,15 @@ public record AwsDevicefarmInstallToRemoteAccessSessionOptions : AwsOptions, IVa
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

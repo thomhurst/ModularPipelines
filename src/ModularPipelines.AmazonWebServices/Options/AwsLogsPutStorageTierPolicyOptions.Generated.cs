@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,7 +29,7 @@ public record AwsLogsPutStorageTierPolicyOptions : AwsOptions, IValidatableObjec
     /// <summary>
     /// Sets the storage tier policy for the account. When you set the storage tier to INTELLIGENT_TIERING , the service automatically moves log data to the most cost-effective storage tier based on access frequency. See also: AWS API Documentation
     /// </summary>
-    /// <param name="StorageTier">The storage tier to set for the account. Use INTELLIGENT_TIERING to automatically optimize storage costs by moving log data to the ap- propriate tier based on access frequency. Possible values: o STANDARD o INTELLIGENT_TIERING</param>
+    /// <param name="StorageTier">The storage tier to set for the account. Use INTELLIGENT_TIERING to automatically optimize storage costs by moving log data to the appropriate tier based on access frequency. Possible values: • STANDARD • INTELLIGENT_TIERING</param>
     public AwsLogsPutStorageTierPolicyOptions(
         AwsLogsPutStorageTierPolicyStorageTier StorageTier
     )
@@ -56,7 +57,7 @@ public record AwsLogsPutStorageTierPolicyOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The storage tier to set for the account. Use INTELLIGENT_TIERING to automatically optimize storage costs by moving log data to the ap- propriate tier based on access frequency. Possible values: o STANDARD o INTELLIGENT_TIERING
+    /// The storage tier to set for the account. Use INTELLIGENT_TIERING to automatically optimize storage costs by moving log data to the appropriate tier based on access frequency. Possible values: • STANDARD • INTELLIGENT_TIERING
     /// </summary>
     [CliOption("--storage-tier")]
     public AwsLogsPutStorageTierPolicyStorageTier? StorageTier { get; private init; }
@@ -82,6 +83,15 @@ public record AwsLogsPutStorageTierPolicyOptions : AwsOptions, IValidatableObjec
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

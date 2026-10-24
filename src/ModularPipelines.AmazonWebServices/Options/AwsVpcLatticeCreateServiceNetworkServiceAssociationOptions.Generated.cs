@@ -11,13 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Associates the specified service with the specified service network. For more information, see Manage service associations in the Amazon VPC Lattice User Guide . You can't use this operation if the service and service network are al- ready associated or if there is a disassociation or deletion in progress. If the association fails, you can retry the operation by deleting the association and recreating it. You cannot associate a service and service network that are shared with a caller. The calle...
+/// Associates the specified service with the specified service network. For more information, see Manage service associations in the Amazon VPC Lattice User Guide . You can't use this operation if the service and service network are already associated or if there is a disassociation or deletion in progress. If the association fails, you can retry the operation by deleting the association and recreating it. You cannot associate a service and service network that are shared with a caller. The caller ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,10 +27,10 @@ public record AwsVpcLatticeCreateServiceNetworkServiceAssociationOptions : AwsOp
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Associates the specified service with the specified service network. For more information, see Manage service associations in the Amazon VPC Lattice User Guide . You can't use this operation if the service and service network are al- ready associated or if there is a disassociation or deletion in progress. If the association fails, you can retry the operation by deleting the association and recreating it. You cannot associate a service and service network that are shared with a caller. The calle...
+    /// Associates the specified service with the specified service network. For more information, see Manage service associations in the Amazon VPC Lattice User Guide . You can't use this operation if the service and service network are already associated or if there is a disassociation or deletion in progress. If the association fails, you can retry the operation by deleting the association and recreating it. You cannot associate a service and service network that are shared with a caller. The caller ...
     /// </summary>
-    /// <param name="ServiceIdentifier">The ID or ARN of the service. Constraints: o min: 17 o max: 2048 o pattern: ((svc-[0-9a-z]{17})|(arn:[a-z0-9\-]+:vpc-lat- tice:[a-zA-Z0-9\-]+:\d{12}:service/svc-[0-9a-z]{17}))</param>
-    /// <param name="ServiceNetworkIdentifier">The ID or ARN of the service network. You must use an ARN if the re- sources are in different accounts. Constraints: o min: 3 o max: 2048 o pattern: ((sn-[0-9a-z]{17})|(arn:[a-z0-9\-]+:vpc-lat- tice:[a-zA-Z0-9\-]+:\d{12}:servicenetwork/sn-[0-9a-z]{17}))</param>
+    /// <param name="ServiceIdentifier">The ID or ARN of the service. Constraints: • min: 17 • max: 2048 • pattern: ((svc-[0-9a-z]{17})|(arn:[a-z0-9\-]+:vpc-lattice:[a-zA-Z0-9\-]+:\d{12}:service/svc-[0-9a-z]{17}))</param>
+    /// <param name="ServiceNetworkIdentifier">The ID or ARN of the service network. You must use an ARN if the resources are in different accounts. Constraints: • min: 3 • max: 2048 • pattern: ((sn-[0-9a-z]{17})|(arn:[a-z0-9\-]+:vpc-lattice:[a-zA-Z0-9\-]+:\d{12}:servicenetwork/sn-[0-9a-z]{17}))</param>
     public AwsVpcLatticeCreateServiceNetworkServiceAssociationOptions(
         string ServiceIdentifier,
         string ServiceNetworkIdentifier
@@ -62,26 +62,26 @@ public record AwsVpcLatticeCreateServiceNetworkServiceAssociationOptions : AwsOp
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID or ARN of the service. Constraints: o min: 17 o max: 2048 o pattern: ((svc-[0-9a-z]{17})|(arn:[a-z0-9\-]+:vpc-lat- tice:[a-zA-Z0-9\-]+:\d{12}:service/svc-[0-9a-z]{17}))
+    /// The ID or ARN of the service. Constraints: • min: 17 • max: 2048 • pattern: ((svc-[0-9a-z]{17})|(arn:[a-z0-9\-]+:vpc-lattice:[a-zA-Z0-9\-]+:\d{12}:service/svc-[0-9a-z]{17}))
     /// </summary>
     [CliOption("--service-identifier")]
     public string? ServiceIdentifier { get; private init; }
 
     /// <summary>
-    /// The ID or ARN of the service network. You must use an ARN if the re- sources are in different accounts. Constraints: o min: 3 o max: 2048 o pattern: ((sn-[0-9a-z]{17})|(arn:[a-z0-9\-]+:vpc-lat- tice:[a-zA-Z0-9\-]+:\d{12}:servicenetwork/sn-[0-9a-z]{17}))
+    /// The ID or ARN of the service network. You must use an ARN if the resources are in different accounts. Constraints: • min: 3 • max: 2048 • pattern: ((sn-[0-9a-z]{17})|(arn:[a-z0-9\-]+:vpc-lattice:[a-zA-Z0-9\-]+:\d{12}:servicenetwork/sn-[0-9a-z]{17}))
     /// </summary>
     [CliOption("--service-network-identifier")]
     public string? ServiceNetworkIdentifier { get; private init; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you retry a request that completed successfully using the same client token and parameters, the retry succeeds without performing any actions. If the parameters aren't identical, the retry fails. Constraints: o min: 1 o max: 64 o pattern: .*[!-~]+.*
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you retry a request that completed successfully using the same client token and parameters, the retry succeeds without performing any actions. If the parameters aren't identical, the retry fails. Constraints: • min: 1 • max: 64 • pattern: .*[!-~]+.*
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// The tags for the association. Constraints: o min: 0 o max: 200 key -&gt; (string) The key of the tag. Constraints: Tag keys are case-sensitive and accept a maximum of 128 Unicode characters. Valid characters are Unicode letters, digits, white space, and any of the following symbols: _ . : / = + - @ May not begin with aws: . Constraints: o min: 1 o max: 128 value -&gt; (string) The value of the tag. Constraints: Tag values are case-sensitive and accept a maximum of 256 Unicode characters. Valid characters are Unicode letters, digits, white space, and any of the following symbols: _ . : / = + - @ Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The tags for the association. Constraints: • min: 0 • max: 200 key -&gt; (string) The key of the tag. Constraints: Tag keys are case-sensitive and accept a maximum of 128 Unicode characters. Valid characters are Unicode letters, digits, white space, and any of the following symbols: _ . : / = + - @ May not begin with aws: . Constraints: • min: 1 • max: 128 value -&gt; (string) The value of the tag. Constraints: Tag values are case-sensitive and accept a maximum of 256 Unicode characters. Valid characters are Unicode letters, digits, white space, and any of the following symbols: _ . : / = + - @ Constraints: • min: 0 • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
@@ -107,6 +107,15 @@ public record AwsVpcLatticeCreateServiceNetworkServiceAssociationOptions : AwsOp
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

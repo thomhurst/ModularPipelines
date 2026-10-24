@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Modifies a Cedar static policy in the specified policy store. You can change only certain elements of the UpdatePolicyDefinition parameter. You can directly update only static policies. To change a tem- plate-linked policy, you must update the template instead, using UpdatePolicyTemplate . NOTE: o If policy validation is enabled in the policy store, then updating a static policy causes Verified Permissions to validate the policy against the schema in the policy store. If the updated static pol- ...
+/// Modifies a Cedar static policy in the specified policy store. You can change only certain elements of the UpdatePolicyDefinition parameter. You can directly update only static policies. To change a template-linked policy, you must update the template instead, using UpdatePolicyTemplate . NOTE: • If policy validation is enabled in the policy store, then updating a static policy causes Verified Permissions to validate the policy against the schema in the policy store. If the updated static policy ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsVerifiedpermissionsUpdatePolicyOptions : AwsOptions, IValidatab
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Modifies a Cedar static policy in the specified policy store. You can change only certain elements of the UpdatePolicyDefinition parameter. You can directly update only static policies. To change a tem- plate-linked policy, you must update the template instead, using UpdatePolicyTemplate . NOTE: o If policy validation is enabled in the policy store, then updating a static policy causes Verified Permissions to validate the policy against the schema in the policy store. If the updated static pol- ...
+    /// Modifies a Cedar static policy in the specified policy store. You can change only certain elements of the UpdatePolicyDefinition parameter. You can directly update only static policies. To change a template-linked policy, you must update the template instead, using UpdatePolicyTemplate . NOTE: • If policy validation is enabled in the policy store, then updating a static policy causes Verified Permissions to validate the policy against the schema in the policy store. If the updated static policy ...
     /// </summary>
-    /// <param name="PolicyStoreId">Specifies the ID of the policy store that contains the policy that you want to update. To specify a policy store, use its ID or alias name. When using an alias name, prefix it with policy-store-alias/ . For example: o ID: PSEXAMPLEabcdefg111111 o Alias name: policy-store-alias/example-policy-store To view aliases, use ListPolicyStoreAliases . Constraints: o min: 1 o max: 200 o pattern: [a-zA-Z0-9-/_]*</param>
-    /// <param name="PolicyId">Specifies the ID of the policy that you want to update. To find this value, you can use ListPolicies . You can use the policy name in place of the policy ID. When using a name, prefix it with name/ . For example: o ID: SPEXAMPLEabcdefg111111 o Name: name/example-policy Constraints: o min: 1 o max: 200 o pattern: [a-zA-Z0-9-/_]*</param>
+    /// <param name="PolicyStoreId">Specifies the ID of the policy store that contains the policy that you want to update. To specify a policy store, use its ID or alias name. When using an alias name, prefix it with policy-store-alias/ . For example: • ID: PSEXAMPLEabcdefg111111 • Alias name: policy-store-alias/example-policy-store To view aliases, use ListPolicyStoreAliases . Constraints: • min: 1 • max: 200 • pattern: [a-zA-Z0-9-/_]*</param>
+    /// <param name="PolicyId">Specifies the ID of the policy that you want to update. To find this value, you can use ListPolicies . You can use the policy name in place of the policy ID. When using a name, prefix it with name/ . For example: • ID: SPEXAMPLEabcdefg111111 • Name: name/example-policy Constraints: • min: 1 • max: 200 • pattern: [a-zA-Z0-9-/_]*</param>
     public AwsVerifiedpermissionsUpdatePolicyOptions(
         string PolicyStoreId,
         string PolicyId
@@ -60,25 +61,25 @@ public record AwsVerifiedpermissionsUpdatePolicyOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Specifies the ID of the policy store that contains the policy that you want to update. To specify a policy store, use its ID or alias name. When using an alias name, prefix it with policy-store-alias/ . For example: o ID: PSEXAMPLEabcdefg111111 o Alias name: policy-store-alias/example-policy-store To view aliases, use ListPolicyStoreAliases . Constraints: o min: 1 o max: 200 o pattern: [a-zA-Z0-9-/_]*
+    /// Specifies the ID of the policy store that contains the policy that you want to update. To specify a policy store, use its ID or alias name. When using an alias name, prefix it with policy-store-alias/ . For example: • ID: PSEXAMPLEabcdefg111111 • Alias name: policy-store-alias/example-policy-store To view aliases, use ListPolicyStoreAliases . Constraints: • min: 1 • max: 200 • pattern: [a-zA-Z0-9-/_]*
     /// </summary>
     [CliOption("--policy-store-id")]
     public string? PolicyStoreId { get; private init; }
 
     /// <summary>
-    /// Specifies the ID of the policy that you want to update. To find this value, you can use ListPolicies . You can use the policy name in place of the policy ID. When using a name, prefix it with name/ . For example: o ID: SPEXAMPLEabcdefg111111 o Name: name/example-policy Constraints: o min: 1 o max: 200 o pattern: [a-zA-Z0-9-/_]*
+    /// Specifies the ID of the policy that you want to update. To find this value, you can use ListPolicies . You can use the policy name in place of the policy ID. When using a name, prefix it with name/ . For example: • ID: SPEXAMPLEabcdefg111111 • Name: name/example-policy Constraints: • min: 1 • max: 200 • pattern: [a-zA-Z0-9-/_]*
     /// </summary>
     [CliOption("--policy-id")]
     public string? PolicyId { get; private init; }
 
     /// <summary>
-    /// Specifies the updated policy content that you want to replace on the specified policy. The content must be valid Cedar policy language text. If you don't specify this parameter, the existing policy definition remains unchanged. You can change only the following elements from the policy defini- tion: o The action referenced by the policy. o Any conditional clauses, such as when or unless clauses. You can't change the following elements: o Changing from static to templateLinked . o Changing the effect of the policy from permit or forbid . o The principal referenced by the policy. o The resource referenced by the policy. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: static. static -&gt; (structure) Contains details about the updates to be applied to a static policy. description -&gt; (string) Specifies the description to be added to or replaced on the static policy. Constraints: o min: 0 o max: 150 statement -&gt; (string) [required] Specifies the Cedar policy language text to be added to or replaced on the static policy. WARNING: You can change only the following elements from the orig- inal content: o The action referenced by the policy. o Any conditional clauses, such as when or unless clauses. You can't change the following elements: o Changing from StaticPolicy to TemplateLinkedPolicy . o The effect (permit or forbid ) of the policy. o The principal referenced by the policy. o The resource referenced by the policy. Constraints: o min: 1 Shorthand Syntax: static={description=string,statement=string} JSON Syntax: { "static": { "description": "string", "statement": "string" } }
+    /// Specifies the updated policy content that you want to replace on the specified policy. The content must be valid Cedar policy language text. If you don't specify this parameter, the existing policy definition remains unchanged. You can change only the following elements from the policy definition: • The action referenced by the policy. • Any conditional clauses, such as when or unless clauses. You can't change the following elements: • Changing from static to templateLinked . • Changing the effect of the policy from permit or forbid . • The principal referenced by the policy. • The resource referenced by the policy. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: static. static -&gt; (structure) Contains details about the updates to be applied to a static policy. description -&gt; (string) Specifies the description to be added to or replaced on the static policy. Constraints: • min: 0 • max: 150 statement -&gt; (string) [required] Specifies the Cedar policy language text to be added to or replaced on the static policy. WARNING: You can change only the following elements from the original content: • The action referenced by the policy. • Any conditional clauses, such as when or unless clauses. You can't change the following elements: • Changing from StaticPolicy to TemplateLinkedPolicy . • The effect (permit or forbid ) of the policy. • The principal referenced by the policy. • The resource referenced by the policy. Constraints: • min: 1 Shorthand Syntax: static={description=string,statement=string} JSON Syntax: { "static": { "description": "string", "statement": "string" } }
     /// </summary>
     [CliOption("--definition")]
     public string? Definition { get; set; }
 
     /// <summary>
-    /// Specifies a name for the policy that is unique among all policies within the policy store. You can use the name in place of the policy ID in API operations that reference the policy. The name must be prefixed with name/ . NOTE: If you don't include the name in an update request, the existing name is unchanged. To remove a name, set it to an empty string ("" ). If you specify a name that is already associated with another policy in the policy store, you receive a ConflictException error. Constraints: o min: 0 o max: 150 o pattern: [a-zA-Z0-9-/_]*
+    /// Specifies a name for the policy that is unique among all policies within the policy store. You can use the name in place of the policy ID in API operations that reference the policy. The name must be prefixed with name/ . NOTE: If you don't include the name in an update request, the existing name is unchanged. To remove a name, set it to an empty string ("" ). If you specify a name that is already associated with another policy in the policy store, you receive a ConflictException error. Constraints: • min: 0 • max: 150 • pattern: [a-zA-Z0-9-/_]*
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
@@ -104,6 +105,15 @@ public record AwsVerifiedpermissionsUpdatePolicyOptions : AwsOptions, IValidatab
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

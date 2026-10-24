@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -29,7 +30,7 @@ public record AwsOpensearchserverlessUpdateCollectionOptions : AwsOptions, IVali
     /// <summary>
     /// Updates an OpenSearch Serverless collection. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Id">The unique identifier of the collection. Constraints: o min: 3 o max: 40 o pattern: [a-z0-9]{3,40}</param>
+    /// <param name="Id">The unique identifier of the collection. Constraints: • min: 3 • max: 40 • pattern: [a-z0-9]{3,40}</param>
     public AwsOpensearchserverlessUpdateCollectionOptions(
         string Id
     )
@@ -58,31 +59,31 @@ public record AwsOpensearchserverlessUpdateCollectionOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the collection. Constraints: o min: 3 o max: 40 o pattern: [a-z0-9]{3,40}
+    /// The unique identifier of the collection. Constraints: • min: 3 • max: 40 • pattern: [a-z0-9]{3,40}
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; private init; }
 
     /// <summary>
-    /// A description of the collection. Constraints: o min: 0 o max: 1000
+    /// A description of the collection. Constraints: • min: 0 • max: 1000
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// Configuration options for vector search capabilities in the collec- tion. ServerlessVectorAcceleration -&gt; (string) [required] Specifies whether serverless vector acceleration is enabled for the collection. Possible values: o ENABLED o DISABLED o ALLOWED Shorthand Syntax: ServerlessVectorAcceleration=string JSON Syntax: { "ServerlessVectorAcceleration": "ENABLED"|"DISABLED"|"ALLOWED" }
+    /// Configuration options for vector search capabilities in the collection. ServerlessVectorAcceleration -&gt; (string) [required] Specifies whether serverless vector acceleration is enabled for the collection. Possible values: • ENABLED • DISABLED • ALLOWED Shorthand Syntax: ServerlessVectorAcceleration=string JSON Syntax: { "ServerlessVectorAcceleration": "ENABLED"|"DISABLED"|"ALLOWED" }
     /// </summary>
     [CliOption("--vector-options")]
     public string? VectorOptions { get; set; }
 
     /// <summary>
-    /// Indicates whether to enable or disable deletion protection for the collection. When set to ENABLED , the collection cannot be deleted. Possible values: o ENABLED o DISABLED
+    /// Indicates whether to enable or disable deletion protection for the collection. When set to ENABLED , the collection cannot be deleted. Possible values: • ENABLED • DISABLED
     /// </summary>
     [CliOption("--deletion-protection")]
     public AwsOpensearchserverlessUpdateCollectionDeletionProtection? DeletionProtection { get; set; }
 
     /// <summary>
-    /// Unique, case-sensitive identifier to ensure idempotency of the re- quest. Constraints: o min: 1 o max: 512
+    /// Unique, case-sensitive identifier to ensure idempotency of the request. Constraints: • min: 1 • max: 512
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
@@ -109,6 +110,15 @@ public record AwsOpensearchserverlessUpdateCollectionOptions : AwsOptions, IVali
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

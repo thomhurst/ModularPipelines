@@ -10,7 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +28,7 @@ public record AwsS3vectorsCreateVectorBucketOptions : AwsOptions, IValidatableOb
     /// <summary>
     /// Creates a vector bucket in the Amazon Web Services Region that you want your bucket to be in. Permissions You must have the s3vectors:CreateVectorBucket permission to use this operation. You must have the s3vectors:TagResource permission in addition to s3vectors:CreateVectorBucket permission to create a vector bucket with tags. See also: AWS API Documentation
     /// </summary>
-    /// <param name="VectorBucketName">The name of the vector bucket to create. Constraints: o min: 3 o max: 63</param>
+    /// <param name="VectorBucketName">The name of the vector bucket to create. Constraints: • min: 3 • max: 63</param>
     public AwsS3vectorsCreateVectorBucketOptions(
         string VectorBucketName
     )
@@ -57,19 +57,19 @@ public record AwsS3vectorsCreateVectorBucketOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the vector bucket to create. Constraints: o min: 3 o max: 63
+    /// The name of the vector bucket to create. Constraints: • min: 3 • max: 63
     /// </summary>
     [CliOption("--vector-bucket-name")]
     public string? VectorBucketName { get; private init; }
 
     /// <summary>
-    /// The encryption configuration for the vector bucket. By default, if you don't specify, all new vectors in Amazon S3 vector buckets use server-side encryption with Amazon S3 managed keys (SSE-S3), specif- ically AES256 . sseType -&gt; (string) The server-side encryption type to use for the encryption con- figuration of the vector bucket. By default, if you don't spec- ify, all new vectors in Amazon S3 vector buckets use server-side encryption with Amazon S3 managed keys (SSE-S3), specifically AES256 . Possible values: o AES256 o aws:kms kmsKeyArn -&gt; (string) Amazon Web Services Key Management Service (KMS) customer man- aged key ID to use for the encryption configuration. This para- meter is allowed if and only if sseType is set to aws:kms . To specify the KMS key, you must use the format of the KMS key Amazon Resource Name (ARN). For example, specify Key ARN in the following format: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab Constraints: o min: 1 o max: 2048 o pattern: (arn:aws[-a-z0-9]*:kms:[-a-z0-9]*:[0-9]{12}:key/.+) Shorthand Syntax: sseType=string,kmsKeyArn=string JSON Syntax: { "sseType": "AES256"|"aws:kms", "kmsKeyArn": "string" }
+    /// The encryption configuration for the vector bucket. By default, if you don't specify, all new vectors in Amazon S3 vector buckets use server-side encryption with Amazon S3 managed keys (SSE-S3), specifically AES256 . sseType -&gt; (string) The server-side encryption type to use for the encryption configuration of the vector bucket. By default, if you don't specify, all new vectors in Amazon S3 vector buckets use server-side encryption with Amazon S3 managed keys (SSE-S3), specifically AES256 . Possible values: • AES256 • aws:kms kmsKeyArn -&gt; (string) Amazon Web Services Key Management Service (KMS) customer managed key ID to use for the encryption configuration. This parameter is allowed if and only if sseType is set to aws:kms . To specify the KMS key, you must use the format of the KMS key Amazon Resource Name (ARN). For example, specify Key ARN in the following format: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab Constraints: • min: 1 • max: 2048 • pattern: (arn:aws[-a-z0-9]*:kms:[-a-z0-9]*:[0-9]{12}:key/.+) Shorthand Syntax: sseType=string,kmsKeyArn=string JSON Syntax: { "sseType": "AES256"|"aws:kms", "kmsKeyArn": "string" }
     /// </summary>
     [CliOption("--encryption-configuration")]
     public string? EncryptionConfiguration { get; set; }
 
     /// <summary>
-    /// An array of user-defined tags that you would like to apply to the vector bucket that you are creating. A tag is a key-value pair that you apply to your resources. Tags can help you organize and control access to resources. For more information, see Tagging for cost al- location or attribute-based access control (ABAC) . NOTE: You must have the s3vectors:TagResource permission in addition to s3vectors:CreateVectorBucket permission to create a vector bucket with tags. key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) value -&gt; (string) Constraints: o min: 0 o max: 256 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// An array of user-defined tags that you would like to apply to the vector bucket that you are creating. A tag is a key-value pair that you apply to your resources. Tags can help you organize and control access to resources. For more information, see Tagging for cost allocation or attribute-based access control (ABAC) . NOTE: You must have the s3vectors:TagResource permission in addition to s3vectors:CreateVectorBucket permission to create a vector bucket with tags. key -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) value -&gt; (string) Constraints: • min: 0 • max: 256 • pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
@@ -95,6 +95,15 @@ public record AwsS3vectorsCreateVectorBucketOptions : AwsOptions, IValidatableOb
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

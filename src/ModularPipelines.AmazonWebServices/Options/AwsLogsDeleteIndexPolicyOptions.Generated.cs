@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes a log-group level field index policy that was applied to a sin- gle log group. The indexing of the log events that happened before you delete the policy will still be used for as many as 30 days to improve CloudWatch Logs Insights queries. If the deleted policy included facet configurations, those facets will no longer be available for interactive exploration in the CloudWatch Logs Insights console for this log group. However, facet data is re- tained for up to 30 days. You can't use thi...
+/// Deletes a log-group level field index policy that was applied to a single log group. The indexing of the log events that happened before you delete the policy will still be used for as many as 30 days to improve CloudWatch Logs Insights queries. If the deleted policy included facet configurations, those facets will no longer be available for interactive exploration in the CloudWatch Logs Insights console for this log group. However, facet data is retained for up to 30 days. You can't use this op...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsLogsDeleteIndexPolicyOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes a log-group level field index policy that was applied to a sin- gle log group. The indexing of the log events that happened before you delete the policy will still be used for as many as 30 days to improve CloudWatch Logs Insights queries. If the deleted policy included facet configurations, those facets will no longer be available for interactive exploration in the CloudWatch Logs Insights console for this log group. However, facet data is re- tained for up to 30 days. You can't use thi...
+    /// Deletes a log-group level field index policy that was applied to a single log group. The indexing of the log events that happened before you delete the policy will still be used for as many as 30 days to improve CloudWatch Logs Insights queries. If the deleted policy included facet configurations, those facets will no longer be available for interactive exploration in the CloudWatch Logs Insights console for this log group. However, facet data is retained for up to 30 days. You can't use this op...
     /// </summary>
-    /// <param name="LogGroupIdentifier">The log group to delete the index policy for. You can specify either the name or the ARN of the log group. Constraints: o min: 1 o max: 2048 o pattern: [\w#+=/:,.@-]*</param>
+    /// <param name="LogGroupIdentifier">The log group to delete the index policy for. You can specify either the name or the ARN of the log group. Constraints: • min: 1 • max: 2048 • pattern: [\w#+=/:,.@-]*</param>
     public AwsLogsDeleteIndexPolicyOptions(
         string LogGroupIdentifier
     )
@@ -56,7 +57,7 @@ public record AwsLogsDeleteIndexPolicyOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The log group to delete the index policy for. You can specify either the name or the ARN of the log group. Constraints: o min: 1 o max: 2048 o pattern: [\w#+=/:,.@-]*
+    /// The log group to delete the index policy for. You can specify either the name or the ARN of the log group. Constraints: • min: 1 • max: 2048 • pattern: [\w#+=/:,.@-]*
     /// </summary>
     [CliOption("--log-group-identifier")]
     public string? LogGroupIdentifier { get; private init; }
@@ -82,6 +83,15 @@ public record AwsLogsDeleteIndexPolicyOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

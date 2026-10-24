@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Removes the given thing from the billing group. Requires permission to access the RemoveThingFromBillingGroup action. NOTE: This call is asynchronous. It might take several seconds for the de- tachment to propagate. See also: AWS API Documentation
+/// Removes the given thing from the billing group. Requires permission to access the RemoveThingFromBillingGroup action. NOTE: This call is asynchronous. It might take several seconds for the detachment to propagate. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -22,7 +22,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsIotRemoveThingFromBillingGroupOptions : AwsOptions
 {
     /// <summary>
-    /// The name of the billing group. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9:_-]+
+    /// The name of the billing group. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9:_-]+
     /// </summary>
     [CliOption("--billing-group-name")]
     public string? BillingGroupName { get; set; }
@@ -34,7 +34,7 @@ public record AwsIotRemoveThingFromBillingGroupOptions : AwsOptions
     public string? BillingGroupArn { get; set; }
 
     /// <summary>
-    /// The name of the thing to be removed from the billing group. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9:_-]+
+    /// The name of the thing to be removed from the billing group. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9:_-]+
     /// </summary>
     [CliOption("--thing-name")]
     public string? ThingName { get; set; }
@@ -50,5 +50,14 @@ public record AwsIotRemoveThingFromBillingGroupOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

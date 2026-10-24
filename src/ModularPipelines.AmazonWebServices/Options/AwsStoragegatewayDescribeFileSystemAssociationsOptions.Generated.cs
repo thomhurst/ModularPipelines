@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsStoragegatewayDescribeFileSystemAssociationsOptions : AwsOption
     /// <summary>
     /// Gets the file system association information. This operation is only supported for FSx File Gateways. See also: AWS API Documentation
     /// </summary>
-    /// <param name="FileSystemAssociationArnList">An array containing the Amazon Resource Name (ARN) of each file sys- tem association to be described. Constraints: o min: 1 o max: 10 (string) Constraints: o min: 50 o max: 500 Syntax: "string" "string" ...</param>
+    /// <param name="FileSystemAssociationArnList">An array containing the Amazon Resource Name (ARN) of each file system association to be described. Constraints: • min: 1 • max: 10 (string) Constraints: • min: 50 • max: 500 Syntax: "string" "string" ...</param>
     public AwsStoragegatewayDescribeFileSystemAssociationsOptions(
         IEnumerable<string> FileSystemAssociationArnList
     )
@@ -67,7 +68,7 @@ public record AwsStoragegatewayDescribeFileSystemAssociationsOptions : AwsOption
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// An array containing the Amazon Resource Name (ARN) of each file sys- tem association to be described. Constraints: o min: 1 o max: 10 (string) Constraints: o min: 50 o max: 500 Syntax: "string" "string" ...
+    /// An array containing the Amazon Resource Name (ARN) of each file system association to be described. Constraints: • min: 1 • max: 10 (string) Constraints: • min: 50 • max: 500 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--file-system-association-arn-list", GroupValues = true)]
     public IEnumerable<string>? FileSystemAssociationArnList { get; private init; }
@@ -93,6 +94,15 @@ public record AwsStoragegatewayDescribeFileSystemAssociationsOptions : AwsOption
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

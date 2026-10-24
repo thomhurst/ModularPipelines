@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Used by administrators to choose which groups in the directory should have access to upload and download files over the enabled protocols us- ing Transfer Family. For example, a Microsoft Active Directory might contain 50,000 users, but only a small fraction might need the ability to transfer files to the server. An administrator can use CreateAccess to limit the access to the correct set of users who need this ability. See also: AWS API Documentation
+/// Used by administrators to choose which groups in the directory should have access to upload and download files over the enabled protocols using Transfer Family. For example, a Microsoft Active Directory might contain 50,000 users, but only a small fraction might need the ability to transfer files to the server. An administrator can use CreateAccess to limit the access to the correct set of users who need this ability. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,11 +27,11 @@ public record AwsTransferCreateAccessOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Used by administrators to choose which groups in the directory should have access to upload and download files over the enabled protocols us- ing Transfer Family. For example, a Microsoft Active Directory might contain 50,000 users, but only a small fraction might need the ability to transfer files to the server. An administrator can use CreateAccess to limit the access to the correct set of users who need this ability. See also: AWS API Documentation
+    /// Used by administrators to choose which groups in the directory should have access to upload and download files over the enabled protocols using Transfer Family. For example, a Microsoft Active Directory might contain 50,000 users, but only a small fraction might need the ability to transfer files to the server. An administrator can use CreateAccess to limit the access to the correct set of users who need this ability. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Role">The Amazon Resource Name (ARN) of the Identity and Access Management (IAM) role that controls your users' access to your Amazon S3 bucket or Amazon EFS file system. The policies attached to this role deter- mine the level of access that you want to provide your users when transferring files into and out of your Amazon S3 bucket or Amazon EFS file system. The IAM role should also contain a trust relation- ship that allows the server to access your resources when servicing your users' transfer requests. Constraints: o min: 20 o max: 2048 o pattern: arn:.*role/\S+</param>
-    /// <param name="ServerId">A system-assigned unique identifier for a server instance. This is the specific server that you added your user to. Constraints: o min: 19 o max: 19 o pattern: s-([0-9a-f]{17})</param>
-    /// <param name="ExternalId">A unique identifier that is required to identify specific groups within your directory. The users of the group that you associate have access to your Amazon S3 or Amazon EFS resources over the en- abled protocols using Transfer Family. If you know the group name, you can view the SID values by running the following command using Windows PowerShell. Get-ADGroup -Filter {samAccountName -like "*YourGroupName* *"} -Properties * | Select SamAccountName,ObjectSid In that command, replace YourGroupName with the name of your Active Directory group. The regular expression used to validate this parameter is a string of characters consisting of uppercase and lowercase alphanumeric characters with no spaces. You can also include underscores or any of the following characters: =,.@:/- Constraints: o min: 1 o max: 256 o pattern: S-1-[\d-]+</param>
+    /// <param name="Role">The Amazon Resource Name (ARN) of the Identity and Access Management (IAM) role that controls your users' access to your Amazon S3 bucket or Amazon EFS file system. The policies attached to this role determine the level of access that you want to provide your users when transferring files into and out of your Amazon S3 bucket or Amazon EFS file system. The IAM role should also contain a trust relationship that allows the server to access your resources when servicing your users' transfer requests. Constraints: • min: 20 • max: 2048 • pattern: arn:.*role/\S+</param>
+    /// <param name="ServerId">A system-assigned unique identifier for a server instance. This is the specific server that you added your user to. Constraints: • min: 19 • max: 19 • pattern: s-([0-9a-f]{17})</param>
+    /// <param name="ExternalId">A unique identifier that is required to identify specific groups within your directory. The users of the group that you associate have access to your Amazon S3 or Amazon EFS resources over the enabled protocols using Transfer Family. If you know the group name, you can view the SID values by running the following command using Windows PowerShell. Get-ADGroup -Filter {samAccountName -like "*YourGroupName* *"} -Properties * | Select SamAccountName,ObjectSid In that command, replace YourGroupName with the name of your Active Directory group. The regular expression used to validate this parameter is a string of characters consisting of uppercase and lowercase alphanumeric characters with no spaces. You can also include underscores or any of the following characters: =,.@:/- Constraints: • min: 1 • max: 256 • pattern: S-1-[\d-]+</param>
     public AwsTransferCreateAccessOptions(
         string Role,
         string ServerId,
@@ -65,49 +66,49 @@ public record AwsTransferCreateAccessOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the Identity and Access Management (IAM) role that controls your users' access to your Amazon S3 bucket or Amazon EFS file system. The policies attached to this role deter- mine the level of access that you want to provide your users when transferring files into and out of your Amazon S3 bucket or Amazon EFS file system. The IAM role should also contain a trust relation- ship that allows the server to access your resources when servicing your users' transfer requests. Constraints: o min: 20 o max: 2048 o pattern: arn:.*role/\S+
+    /// The Amazon Resource Name (ARN) of the Identity and Access Management (IAM) role that controls your users' access to your Amazon S3 bucket or Amazon EFS file system. The policies attached to this role determine the level of access that you want to provide your users when transferring files into and out of your Amazon S3 bucket or Amazon EFS file system. The IAM role should also contain a trust relationship that allows the server to access your resources when servicing your users' transfer requests. Constraints: • min: 20 • max: 2048 • pattern: arn:.*role/\S+
     /// </summary>
     [CliOption("--role")]
     public string? Role { get; private init; }
 
     /// <summary>
-    /// A system-assigned unique identifier for a server instance. This is the specific server that you added your user to. Constraints: o min: 19 o max: 19 o pattern: s-([0-9a-f]{17})
+    /// A system-assigned unique identifier for a server instance. This is the specific server that you added your user to. Constraints: • min: 19 • max: 19 • pattern: s-([0-9a-f]{17})
     /// </summary>
     [CliOption("--server-id")]
     public string? ServerId { get; private init; }
 
     /// <summary>
-    /// A unique identifier that is required to identify specific groups within your directory. The users of the group that you associate have access to your Amazon S3 or Amazon EFS resources over the en- abled protocols using Transfer Family. If you know the group name, you can view the SID values by running the following command using Windows PowerShell. Get-ADGroup -Filter {samAccountName -like "*YourGroupName* *"} -Properties * | Select SamAccountName,ObjectSid In that command, replace YourGroupName with the name of your Active Directory group. The regular expression used to validate this parameter is a string of characters consisting of uppercase and lowercase alphanumeric characters with no spaces. You can also include underscores or any of the following characters: =,.@:/- Constraints: o min: 1 o max: 256 o pattern: S-1-[\d-]+
+    /// A unique identifier that is required to identify specific groups within your directory. The users of the group that you associate have access to your Amazon S3 or Amazon EFS resources over the enabled protocols using Transfer Family. If you know the group name, you can view the SID values by running the following command using Windows PowerShell. Get-ADGroup -Filter {samAccountName -like "*YourGroupName* *"} -Properties * | Select SamAccountName,ObjectSid In that command, replace YourGroupName with the name of your Active Directory group. The regular expression used to validate this parameter is a string of characters consisting of uppercase and lowercase alphanumeric characters with no spaces. You can also include underscores or any of the following characters: =,.@:/- Constraints: • min: 1 • max: 256 • pattern: S-1-[\d-]+
     /// </summary>
     [CliOption("--external-id")]
     public string? ExternalId { get; private init; }
 
     /// <summary>
-    /// The landing directory (folder) for a user when they log in to the server using the client. A HomeDirectory example is /bucket_name/home/mydirectory . NOTE: You can use the HomeDirectory parameter for HomeDirectoryType when it is set to either PATH or LOGICAL . Constraints: o min: 0 o max: 1024 o pattern: (|/.*)
+    /// The landing directory (folder) for a user when they log in to the server using the client. A HomeDirectory example is /bucket_name/home/mydirectory . NOTE: You can use the HomeDirectory parameter for HomeDirectoryType when it is set to either PATH or LOGICAL . Constraints: • min: 0 • max: 1024 • pattern: (|/.*)
     /// </summary>
     [CliOption("--home-directory")]
     public string? HomeDirectory { get; set; }
 
     /// <summary>
-    /// The type of landing directory (folder) that you want your users' home directory to be when they log in to the server. If you set it to PATH , the user will see the absolute Amazon S3 bucket or Amazon EFS path as is in their file transfer protocol clients. If you set it to LOGICAL , you need to provide mappings in the HomeDirecto- ryMappings for how you want to make Amazon S3 or Amazon EFS paths visible to your users. NOTE: If HomeDirectoryType is LOGICAL , you must provide mappings, us- ing the HomeDirectoryMappings parameter. If, on the other hand, HomeDirectoryType is PATH , you provide an absolute path using the HomeDirectory parameter. You cannot have both HomeDirectory and HomeDirectoryMappings in your template. Possible values: o PATH o LOGICAL
+    /// The type of landing directory (folder) that you want your users' home directory to be when they log in to the server. If you set it to PATH , the user will see the absolute Amazon S3 bucket or Amazon EFS path as is in their file transfer protocol clients. If you set it to LOGICAL , you need to provide mappings in the HomeDirectoryMappings for how you want to make Amazon S3 or Amazon EFS paths visible to your users. NOTE: If HomeDirectoryType is LOGICAL , you must provide mappings, using the HomeDirectoryMappings parameter. If, on the other hand, HomeDirectoryType is PATH , you provide an absolute path using the HomeDirectory parameter. You cannot have both HomeDirectory and HomeDirectoryMappings in your template. Possible values: • PATH • LOGICAL
     /// </summary>
     [CliOption("--home-directory-type")]
     public AwsTransferCreateAccessHomeDirectoryType? HomeDirectoryType { get; set; }
 
     /// <summary>
-    /// Logical directory mappings that specify what Amazon S3 or Amazon EFS paths and keys should be visible to your user and how you want to make them visible. You must specify the Entry and Target pair, where Entry shows how the path is made visible and Target is the actual Amazon S3 or Amazon EFS path. If you only specify a target, it is displayed as is. You also must ensure that your Identity and Access Management (IAM) role provides access to paths in Target . This value can be set only when HomeDirectoryType is set to LOGICAL . The following is an Entry and Target pair example. [ { "Entry": "/directory1", "Target": "/bucket_name/home/mydi- rectory" } ] In most cases, you can use this value instead of the session policy to lock down your user to the designated home directory ("chroot "). To do this, you can set Entry to / and set Target to the HomeDirec- tory parameter value. The following is an Entry and Target pair example for chroot . [ { "Entry": "/", "Target": "/bucket_name/home/mydirectory" } ] Constraints: o min: 1 o max: 50000 (structure) Represents an object that contains entries and targets for Home- DirectoryMappings . The following is an Entry and Target pair example for chroot . [ { "Entry": "/", "Target": "/bucket_name/home/mydirectory" } ] Entry -&gt; (string) [required] Represents an entry for HomeDirectoryMappings . Constraints: o min: 0 o max: 1024 o pattern: /.* Target -&gt; (string) [required] Represents the map target that is used in a HomeDirecto- ryMapEntry . Constraints: o min: 0 o max: 1024 o pattern: /.* Type -&gt; (string) Specifies the type of mapping. Set the type to FILE if you want the mapping to point to a file, or DIRECTORY for the di- rectory to point to a directory. NOTE: By default, home directory mappings have a Type of DIREC- TORY when you create a Transfer Family server. You would need to explicitly set Type to FILE if you want a mapping to have a file target. Possible values: o FILE o DIRECTORY Shorthand Syntax: Entry=string,Target=string,Type=string ... JSON Syntax: [ { "Entry": "string", "Target": "string", "Type": "FILE"|"DIRECTORY" } ... ]
+    /// Logical directory mappings that specify what Amazon S3 or Amazon EFS paths and keys should be visible to your user and how you want to make them visible. You must specify the Entry and Target pair, where Entry shows how the path is made visible and Target is the actual Amazon S3 or Amazon EFS path. If you only specify a target, it is displayed as is. You also must ensure that your Identity and Access Management (IAM) role provides access to paths in Target . This value can be set only when HomeDirectoryType is set to LOGICAL . The following is an Entry and Target pair example. [ { "Entry": "/directory1", "Target": "/bucket_name/home/mydirectory" } ] In most cases, you can use this value instead of the session policy to lock down your user to the designated home directory ("chroot "). To do this, you can set Entry to / and set Target to the HomeDirectory parameter value. The following is an Entry and Target pair example for chroot . [ { "Entry": "/", "Target": "/bucket_name/home/mydirectory" } ] Constraints: • min: 1 • max: 50000 (structure) Represents an object that contains entries and targets for HomeDirectoryMappings . The following is an Entry and Target pair example for chroot . [ { "Entry": "/", "Target": "/bucket_name/home/mydirectory" } ] Entry -&gt; (string) [required] Represents an entry for HomeDirectoryMappings . Constraints: • min: 0 • max: 1024 • pattern: /.* Target -&gt; (string) [required] Represents the map target that is used in a HomeDirectoryMapEntry . Constraints: • min: 0 • max: 1024 • pattern: /.* Type -&gt; (string) Specifies the type of mapping. Set the type to FILE if you want the mapping to point to a file, or DIRECTORY for the directory to point to a directory. NOTE: By default, home directory mappings have a Type of DIRECTORY when you create a Transfer Family server. You would need to explicitly set Type to FILE if you want a mapping to have a file target. Possible values: • FILE • DIRECTORY Shorthand Syntax: Entry=string,Target=string,Type=string ... JSON Syntax: [ { "Entry": "string", "Target": "string", "Type": "FILE"|"DIRECTORY" } ... ]
     /// </summary>
     [CliOption("--home-directory-mappings", GroupValues = true)]
     public IEnumerable<string>? HomeDirectoryMappings { get; set; }
 
     /// <summary>
-    /// A session policy for your user so that you can use the same Identity and Access Management (IAM) role across multiple users. This policy scopes down a user's access to portions of their Amazon S3 bucket. Variables that you can use inside this policy include ${Trans- fer:UserName} , ${Transfer:HomeDirectory} , and ${Transfer:Home- Bucket} . NOTE: This policy applies only when the domain of ServerId is Amazon S3. Amazon EFS does not use session policies. For session policies, Transfer Family stores the policy as a JSON blob, instead of the Amazon Resource Name (ARN) of the pol- icy. You save the policy as a JSON blob and pass it in the Pol- icy argument. For an example of a session policy, see Example session policy . For more information, see AssumeRole in the Security Token Ser- vice API Reference . Constraints: o min: 0 o max: 2048
+    /// A session policy for your user so that you can use the same Identity and Access Management (IAM) role across multiple users. This policy scopes down a user's access to portions of their Amazon S3 bucket. Variables that you can use inside this policy include ${Transfer:UserName} , ${Transfer:HomeDirectory} , and ${Transfer:HomeBucket} . NOTE: This policy applies only when the domain of ServerId is Amazon S3. Amazon EFS does not use session policies. For session policies, Transfer Family stores the policy as a JSON blob, instead of the Amazon Resource Name (ARN) of the policy. You save the policy as a JSON blob and pass it in the Policy argument. For an example of a session policy, see Example session policy . For more information, see AssumeRole in the Security Token Service API Reference . Constraints: • min: 0 • max: 2048
     /// </summary>
     [CliOption("--policy")]
     public string? Policy { get; set; }
 
     /// <summary>
-    /// The full POSIX identity, including user ID (Uid ), group ID (Gid ), and any secondary groups IDs (SecondaryGids ), that controls your users' access to your Amazon EFS file systems. The POSIX permissions that are set on files and directories in your file system determine the level of access your users get when transferring files into and out of your Amazon EFS file systems. Uid -&gt; (long) [required] The POSIX user ID used for all EFS operations by this user. Constraints: o min: 0 o max: 4294967295 Gid -&gt; (long) [required] The POSIX group ID used for all EFS operations by this user. Constraints: o min: 0 o max: 4294967295 SecondaryGids -&gt; (list) The secondary POSIX group IDs used for all EFS operations by this user. Constraints: o min: 0 o max: 16 (long) Constraints: o min: 0 o max: 4294967295 Shorthand Syntax: Uid=long,Gid=long,SecondaryGids=long,long JSON Syntax: { "Uid": long, "Gid": long, "SecondaryGids": [long, ...] }
+    /// The full POSIX identity, including user ID (Uid ), group ID (Gid ), and any secondary groups IDs (SecondaryGids ), that controls your users' access to your Amazon EFS file systems. The POSIX permissions that are set on files and directories in your file system determine the level of access your users get when transferring files into and out of your Amazon EFS file systems. Uid -&gt; (long) [required] The POSIX user ID used for all EFS operations by this user. Constraints: • min: 0 • max: 4294967295 Gid -&gt; (long) [required] The POSIX group ID used for all EFS operations by this user. Constraints: • min: 0 • max: 4294967295 SecondaryGids -&gt; (list) The secondary POSIX group IDs used for all EFS operations by this user. Constraints: • min: 0 • max: 16 (long) Constraints: • min: 0 • max: 4294967295 Shorthand Syntax: Uid=long,Gid=long,SecondaryGids=long,long JSON Syntax: { "Uid": long, "Gid": long, "SecondaryGids": [long, ...] }
     /// </summary>
     [CliOption("--posix-profile")]
     public string? PosixProfile { get; set; }
@@ -133,6 +134,15 @@ public record AwsTransferCreateAccessOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

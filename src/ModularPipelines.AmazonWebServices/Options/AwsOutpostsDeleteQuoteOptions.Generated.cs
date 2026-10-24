@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsOutpostsDeleteQuoteOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Deletes the specified quote. See also: AWS API Documentation
     /// </summary>
-    /// <param name="QuoteIdentifier">The ID of the quote. Constraints: o min: 1 o max: 255 o pattern: ^(arn:aws([a-z-]+)?:out- posts:[a-z\d-]+:\d{12}:quote/)?oq-[a-f0-9]{17}$</param>
+    /// <param name="QuoteIdentifier">The ID of the quote. Constraints: • min: 1 • max: 255 • pattern: ^(arn:aws([a-z-]+)?:outposts:[a-z\d-]+:\d{12}:quote/)?oq-[a-f0-9]{17}$</param>
     public AwsOutpostsDeleteQuoteOptions(
         string QuoteIdentifier
     )
@@ -56,7 +57,7 @@ public record AwsOutpostsDeleteQuoteOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the quote. Constraints: o min: 1 o max: 255 o pattern: ^(arn:aws([a-z-]+)?:out- posts:[a-z\d-]+:\d{12}:quote/)?oq-[a-f0-9]{17}$
+    /// The ID of the quote. Constraints: • min: 1 • max: 255 • pattern: ^(arn:aws([a-z-]+)?:outposts:[a-z\d-]+:\d{12}:quote/)?oq-[a-f0-9]{17}$
     /// </summary>
     [CliOption("--quote-identifier")]
     public string? QuoteIdentifier { get; private init; }
@@ -82,6 +83,15 @@ public record AwsOutpostsDeleteQuoteOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

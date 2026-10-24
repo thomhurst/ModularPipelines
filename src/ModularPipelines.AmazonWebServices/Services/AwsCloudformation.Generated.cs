@@ -6,8 +6,8 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
+using ModularPipelines;
 using ModularPipelines.Context;
-using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
@@ -33,7 +33,7 @@ public class AwsCloudformation : IAwsCloudformation
     #region Sub-command Groups
 
     /// <summary>
-    /// aws wait sub-commands.
+    /// aws cloudformation wait sub-commands.
     /// </summary>
     public AwsCloudformationWait Wait => _wait ??= new AwsCloudformationWait(_command);
 
@@ -42,7 +42,7 @@ public class AwsCloudformation : IAwsCloudformation
     #region Commands
 
     /// <summary>
-    /// Activate trusted access with Organizations. With trusted access between StackSets and Organizations activated, the management account has per- missions to create and manage StackSets for your organization. See also: AWS API Documentation
+    /// Activate trusted access with Organizations. With trusted access between StackSets and Organizations activated, the management account has permissions to create and manage StackSets for your organization. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -57,7 +57,7 @@ public class AwsCloudformation : IAwsCloudformation
     }
 
     /// <summary>
-    /// Activates a public third-party extension, such as a resource or module, to make it available for use in stack templates in your current account and Region. It can also create CloudFormation Hooks, which allow you to evaluate resource configurations before CloudFormation provisions them. Hooks integrate with both CloudFormation and Cloud Control API opera- tions. After you activate an extension, you can use SetTypeConfiguration to set specific properties for the extension. To see which extensions...
+    /// Activates a public third-party extension, such as a resource or module, to make it available for use in stack templates in your current account and Region. It can also create CloudFormation Hooks, which allow you to evaluate resource configurations before CloudFormation provisions them. Hooks integrate with both CloudFormation and Cloud Control API operations. After you activate an extension, you can use SetTypeConfiguration to set specific properties for the extension. To see which extensions h...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -87,7 +87,7 @@ public class AwsCloudformation : IAwsCloudformation
     }
 
     /// <summary>
-    /// Cancels an update on the specified stack. If the call completes suc- cessfully, the stack rolls back the update and reverts to the previous stack configuration. NOTE: You can cancel only stacks that are in the UPDATE_IN_PROGRESS state. See also: AWS API Documentation
+    /// Cancels an update on the specified stack. If the call completes successfully, the stack rolls back the update and reverts to the previous stack configuration. NOTE: You can cancel only stacks that are in the UPDATE_IN_PROGRESS state. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -102,7 +102,7 @@ public class AwsCloudformation : IAwsCloudformation
     }
 
     /// <summary>
-    /// Continues rolling back a stack from UPDATE_ROLLBACK_FAILED to UP- DATE_ROLLBACK_COMPLETE state. Depending on the cause of the failure, you can manually fix the error and continue the rollback. By continuing the rollback, you can return your stack to a working state (the UP- DATE_ROLLBACK_COMPLETE state) and then try to update the stack again. A stack enters the UPDATE_ROLLBACK_FAILED state when CloudFormation can't roll back all changes after a failed stack update. For example, this might occur ...
+    /// Continues rolling back a stack from UPDATE_ROLLBACK_FAILED to UPDATE_ROLLBACK_COMPLETE state. Depending on the cause of the failure, you can manually fix the error and continue the rollback. By continuing the rollback, you can return your stack to a working state (the UPDATE_ROLLBACK_COMPLETE state) and then try to update the stack again. A stack enters the UPDATE_ROLLBACK_FAILED state when CloudFormation can't roll back all changes after a failed stack update. For example, this might occur when...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -132,7 +132,7 @@ public class AwsCloudformation : IAwsCloudformation
     }
 
     /// <summary>
-    /// Creates a template from existing resources that are not already managed with CloudFormation. You can check the status of the template genera- tion using the DescribeGeneratedTemplate API action. See also: AWS API Documentation
+    /// Creates a template from existing resources that are not already managed with CloudFormation. You can check the status of the template generation using the DescribeGeneratedTemplate API action. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -147,7 +147,7 @@ public class AwsCloudformation : IAwsCloudformation
     }
 
     /// <summary>
-    /// Creates stack instances for the specified accounts, within the speci- fied Amazon Web Services Regions. A stack instance refers to a stack in a specific account and Region. You must specify at least one value for either Accounts or DeploymentTargets , and you must specify at least one value for Regions . NOTE: The maximum number of organizational unit (OUs) supported by a Cre- ateStackInstances operation is 50. If you need more than 50, consider the following options: o Batch processing: If you ...
+    /// Creates stack instances for the specified accounts, within the specified Amazon Web Services Regions. A stack instance refers to a stack in a specific account and Region. You must specify at least one value for either Accounts or DeploymentTargets , and you must specify at least one value for Regions . NOTE: The maximum number of organizational unit (OUs) supported by a CreateStackInstances operation is 50. If you need more than 50, consider the following options: • Batch processing: If you don'...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -207,7 +207,7 @@ public class AwsCloudformation : IAwsCloudformation
     }
 
     /// <summary>
-    /// Deactivates trusted access with Organizations. If trusted access is de- activated, the management account does not have permissions to create and manage service-managed StackSets for your organization. See also: AWS API Documentation
+    /// Deactivates trusted access with Organizations. If trusted access is deactivated, the management account does not have permissions to create and manage service-managed StackSets for your organization. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -222,7 +222,7 @@ public class AwsCloudformation : IAwsCloudformation
     }
 
     /// <summary>
-    /// Deactivates a public third-party extension, such as a resource or mod- ule, or a CloudFormation Hook when you no longer use it. Deactivating an extension deletes the configuration details that are associated with it. To temporarily disable a CloudFormation Hook in- stead, you can use SetTypeConfiguration . Once deactivated, an extension can't be used in any CloudFormation op- eration. This includes stack update operations where the stack template includes the extension, even if no updates are be...
+    /// Deactivates a public third-party extension, such as a resource or module, or a CloudFormation Hook when you no longer use it. Deactivating an extension deletes the configuration details that are associated with it. To temporarily disable a CloudFormation Hook instead, you can use SetTypeConfiguration . Once deactivated, an extension can't be used in any CloudFormation operation. This includes stack update operations where the stack template includes the extension, even if no updates are being ma...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -237,7 +237,7 @@ public class AwsCloudformation : IAwsCloudformation
     }
 
     /// <summary>
-    /// Deletes the specified change set. Deleting change sets ensures that no one executes the wrong change set. If the call successfully completes, CloudFormation successfully deleted the change set. If IncludeNestedStacks specifies True during the creation of the nested change set, then DeleteChangeSet will delete all change sets that be- long to the stacks hierarchy and will also delete all change sets for nested stacks with the status of REVIEW_IN_PROGRESS . See also: AWS API Documentation
+    /// Deletes the specified change set. Deleting change sets ensures that no one executes the wrong change set. If the call successfully completes, CloudFormation successfully deleted the change set. If IncludeNestedStacks specifies True during the creation of the nested change set, then DeleteChangeSet will delete all change sets that belong to the stacks hierarchy and will also delete all change sets for nested stacks with the status of REVIEW_IN_PROGRESS . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -267,7 +267,7 @@ public class AwsCloudformation : IAwsCloudformation
     }
 
     /// <summary>
-    /// Deletes stack instances for the specified accounts, in the specified Amazon Web Services Regions. NOTE: The maximum number of organizational unit (OUs) supported by a DeleteStackInstances operation is 50. If you need more than 50, consider the following options: o Batch processing: If you don't want to expose your OU hierarchy, split up the operations into multiple calls with less than 50 OUs each. o Parent OU strategy: If you don't mind exposing the OU hierarchy, target a parent OU that contain...
+    /// Deletes stack instances for the specified accounts, in the specified Amazon Web Services Regions. NOTE: The maximum number of organizational unit (OUs) supported by a DeleteStackInstances operation is 50. If you need more than 50, consider the following options: • Batch processing: If you don't want to expose your OU hierarchy, split up the operations into multiple calls with less than 50 OUs each. • Parent OU strategy: If you don't mind exposing the OU hierarchy, target a parent OU that contain...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -297,7 +297,7 @@ public class AwsCloudformation : IAwsCloudformation
     }
 
     /// <summary>
-    /// Deletes a StackSet. Before you can delete a StackSet, all its member stack instances must be deleted. For more information about how to com- plete this, see DeleteStackInstances . See also: AWS API Documentation
+    /// Deletes a StackSet. Before you can delete a StackSet, all its member stack instances must be deleted. For more information about how to complete this, see DeleteStackInstances . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -327,7 +327,7 @@ public class AwsCloudformation : IAwsCloudformation
     }
 
     /// <summary>
-    /// Marks an extension or extension version as DEPRECATED in the CloudFor- mation registry, removing it from active use. Deprecated extensions or extension versions cannot be used in CloudFormation operations. To deregister an entire extension, you must individually deregister all active versions of that extension. If an extension has only a single active version, deregistering that version results in the extension it- self being deregistered and marked as deprecated in the registry. You can't dereg...
+    /// Marks an extension or extension version as DEPRECATED in the CloudFormation registry, removing it from active use. Deprecated extensions or extension versions cannot be used in CloudFormation operations. To deregister an entire extension, you must individually deregister all active versions of that extension. If an extension has only a single active version, deregistering that version results in the extension itself being deregistered and marked as deprecated in the registry. You can't deregiste...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -342,7 +342,7 @@ public class AwsCloudformation : IAwsCloudformation
     }
 
     /// <summary>
-    /// Retrieves your account's CloudFormation limits, such as the maximum number of stacks that you can create in your account. For more informa- tion about account limits, see Understand CloudFormation quotas in the CloudFormation User Guide . See also: AWS API Documentation describe-account-limits is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text ...
+    /// Retrieves your account's CloudFormation limits, such as the maximum number of stacks that you can create in your account. For more information about account limits, see Understand CloudFormation quotas in the CloudFormation User Guide . See also: AWS API Documentation describe-account-limits is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text an...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -372,7 +372,7 @@ public class AwsCloudformation : IAwsCloudformation
     }
 
     /// <summary>
-    /// Returns the inputs for the change set and a list of changes that Cloud- Formation will make if you execute the change set. For more informa- tion, see Update CloudFormation stacks using change sets in the Cloud- Formation User Guide . See also: AWS API Documentation describe-change-set is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the ...
+    /// Returns the inputs for the change set and a list of changes that CloudFormation will make if you execute the change set. For more information, see Update CloudFormation stacks using change sets in the CloudFormation User Guide . See also: AWS API Documentation describe-change-set is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --quer...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -387,7 +387,7 @@ public class AwsCloudformation : IAwsCloudformation
     }
 
     /// <summary>
-    /// Returns CloudFormation events based on flexible query criteria. Groups events by operation ID, enabling you to focus on individual stack oper- ations during deployment. An operation is any action performed on a stack, including stack life- cycle actions (Create, Update, Delete, Rollback), change set creation, nested stack creation, and automatic rollbacks triggered by failures. Each operation has a unique identifier (Operation ID) and represents a discrete change attempt on the stack. Returns di...
+    /// Returns CloudFormation events based on flexible query criteria. Groups events by operation ID, enabling you to focus on individual stack operations during deployment. An operation is any action performed on a stack, including stack lifecycle actions (Create, Update, Delete, Rollback), change set creation, nested stack creation, and automatic rollbacks triggered by failures. Each operation has a unique identifier (Operation ID) and represents a discrete change attempt on the stack. Returns differ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -402,7 +402,7 @@ public class AwsCloudformation : IAwsCloudformation
     }
 
     /// <summary>
-    /// Describes a generated template. The output includes details about the progress of the creation of a generated template started by a Create- GeneratedTemplate API action or the update of a generated template started with an UpdateGeneratedTemplate API action. See also: AWS API Documentation
+    /// Describes a generated template. The output includes details about the progress of the creation of a generated template started by a CreateGeneratedTemplate API action or the update of a generated template started with an UpdateGeneratedTemplate API action. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -417,7 +417,7 @@ public class AwsCloudformation : IAwsCloudformation
     }
 
     /// <summary>
-    /// Retrieves information about the account's OrganizationAccess status. This API can be called either by the management account or the dele- gated administrator by using the CallAs parameter. This API can also be called without the CallAs parameter by the management account. See also: AWS API Documentation
+    /// Retrieves information about the account's OrganizationAccess status. This API can be called either by the management account or the delegated administrator by using the CallAs parameter. This API can also be called without the CallAs parameter by the management account. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -432,7 +432,7 @@ public class AwsCloudformation : IAwsCloudformation
     }
 
     /// <summary>
-    /// Returns information about a CloudFormation extension publisher. If you don't supply a PublisherId , and you have registered as an ex- tension publisher, DescribePublisher returns information about your own publisher account. For more information about registering as a publisher, see: o RegisterPublisher o Publishing extensions to make them available for public use in the CloudFormation Command Line Interface (CLI) User Guide See also: AWS API Documentation
+    /// Returns information about a CloudFormation extension publisher. If you don't supply a PublisherId , and you have registered as an extension publisher, DescribePublisher returns information about your own publisher account. For more information about registering as a publisher, see: • RegisterPublisher • Publishing extensions to make them available for public use in the CloudFormation Command Line Interface (CLI) User Guide See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -462,7 +462,7 @@ public class AwsCloudformation : IAwsCloudformation
     }
 
     /// <summary>
-    /// Returns information about a stack drift detection operation. A stack drift detection operation detects whether a stack's actual configura- tion differs, or has drifted , from its expected configuration, as de- fined in the stack template and any values specified as template para- meters. A stack is considered to have drifted if one or more of its re- sources have drifted. For more information about stack and resource drift, see Detect unmanaged configuration changes to stacks and re- sources wit...
+    /// Returns information about a stack drift detection operation. A stack drift detection operation detects whether a stack's actual configuration differs, or has drifted , from its expected configuration, as defined in the stack template and any values specified as template parameters. A stack is considered to have drifted if one or more of its resources have drifted. For more information about stack and resource drift, see Detect unmanaged configuration changes to stacks and resources with drift de...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -477,7 +477,7 @@ public class AwsCloudformation : IAwsCloudformation
     }
 
     /// <summary>
-    /// Returns all stack related events for a specified stack in reverse chronological order. For more information about a stack's event his- tory, see Understand CloudFormation stack creation events in the Cloud- Formation User Guide . NOTE: You can list events for stacks that have failed to create or have been deleted by specifying the unique stack identifier (stack ID). See also: AWS API Documentation describe-stack-events is a paginated operation. Multiple API calls may be issued in order to retrie...
+    /// Returns all stack related events for a specified stack in reverse chronological order. For more information about a stack's event history, see Understand CloudFormation stack creation events in the CloudFormation User Guide . NOTE: You can list events for stacks that have failed to create or have been deleted by specifying the unique stack identifier (stack ID). See also: AWS API Documentation describe-stack-events is a paginated operation. Multiple API calls may be issued in order to retrieve t...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -492,7 +492,7 @@ public class AwsCloudformation : IAwsCloudformation
     }
 
     /// <summary>
-    /// Returns the stack instance that's associated with the specified Stack- Set, Amazon Web Services account, and Amazon Web Services Region. For a list of stack instances that are associated with a specific StackSet, use ListStackInstances . See also: AWS API Documentation
+    /// Returns the stack instance that's associated with the specified StackSet, Amazon Web Services account, and Amazon Web Services Region. For a list of stack instances that are associated with a specific StackSet, use ListStackInstances . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -522,7 +522,7 @@ public class AwsCloudformation : IAwsCloudformation
     }
 
     /// <summary>
-    /// Returns drift information for the resources that have been checked for drift in the specified stack. This includes actual and expected config- uration values for resources where CloudFormation detects configuration drift. For a given stack, there will be one StackResourceDrift for each stack resource that has been checked for drift. Resources that haven't yet been checked for drift aren't included. Resources that don't currently support drift detection aren't checked, and so not included. For a ...
+    /// Returns drift information for the resources that have been checked for drift in the specified stack. This includes actual and expected configuration values for resources where CloudFormation detects configuration drift. For a given stack, there will be one StackResourceDrift for each stack resource that has been checked for drift. Resources that haven't yet been checked for drift aren't included. Resources that don't currently support drift detection aren't checked, and so not included. For a li...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -552,7 +552,7 @@ public class AwsCloudformation : IAwsCloudformation
     }
 
     /// <summary>
-    /// Returns Amazon Web Services resource descriptions for running and deleted stacks. If StackName is specified, all the associated resources that are part of the stack are returned. If PhysicalResourceId is spec- ified, the associated resources of the stack that the resource belongs to are returned. NOTE: Only the first 100 resources will be returned. If your stack has more resources than this, you should use ListStackResources instead. For deleted stacks, DescribeStackResources returns resource in...
+    /// Returns Amazon Web Services resource descriptions for running and deleted stacks. If StackName is specified, all the associated resources that are part of the stack are returned. If PhysicalResourceId is specified, the associated resources of the stack that the resource belongs to are returned. NOTE: Only the first 100 resources will be returned. If your stack has more resources than this, you should use ListStackResources instead. For deleted stacks, DescribeStackResources returns resource info...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -597,7 +597,7 @@ public class AwsCloudformation : IAwsCloudformation
     }
 
     /// <summary>
-    /// Returns the description for the specified stack; if no stack name was specified, then it returns the description for all the stacks created. For more information about a stack's event history, see Understand CloudFormation stack creation events in the CloudFormation User Guide . NOTE: If the stack doesn't exist, a ValidationError is returned. See also: AWS API Documentation describe-stacks is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of re...
+    /// Returns the description for the specified stack; if no stack name was specified, then it returns the description for all the stacks created. For more information about a stack's event history, see Understand CloudFormation stack creation events in the CloudFormation User Guide . NOTE: If the stack doesn't exist, a ValidationError is returned. See also: AWS API Documentation describe-stacks is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of resu...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -627,7 +627,7 @@ public class AwsCloudformation : IAwsCloudformation
     }
 
     /// <summary>
-    /// Returns information about an extension's registration, including its current status and type and version identifiers. When you initiate a registration request using RegisterType , you can then use DescribeTypeRegistration to monitor the progress of that reg- istration request. Once the registration request has completed, use DescribeType to re- turn detailed information about an extension. See also: AWS API Documentation
+    /// Returns information about an extension's registration, including its current status and type and version identifiers. When you initiate a registration request using RegisterType , you can then use DescribeTypeRegistration to monitor the progress of that registration request. Once the registration request has completed, use DescribeType to return detailed information about an extension. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -657,7 +657,7 @@ public class AwsCloudformation : IAwsCloudformation
     }
 
     /// <summary>
-    /// Returns information about whether a resource's actual configuration differs, or has drifted , from its expected configuration, as defined in the stack template and any values specified as template parameters. This information includes actual and expected property values for re- sources in which CloudFormation detects drift. Only resource properties explicitly defined in the stack template are checked for drift. For more information about stack and resource drift, see Detect unmanaged configurati...
+    /// Returns information about whether a resource's actual configuration differs, or has drifted , from its expected configuration, as defined in the stack template and any values specified as template parameters. This information includes actual and expected property values for resources in which CloudFormation detects drift. Only resource properties explicitly defined in the stack template are checked for drift. For more information about stack and resource drift, see Detect unmanaged configuration...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -672,7 +672,7 @@ public class AwsCloudformation : IAwsCloudformation
     }
 
     /// <summary>
-    /// Detect drift on a StackSet. When CloudFormation performs drift detec- tion on a StackSet, it performs drift detection on the stack associated with each stack instance in the StackSet. For more information, see Performing drift detection on CloudFormation StackSets . DetectStackSetDrift returns the OperationId of the StackSet drift detection operation. Use this operation id with DescribeStackSetOp- eration to monitor the progress of the drift detection operation. The drift detection operation may...
+    /// Detect drift on a StackSet. When CloudFormation performs drift detection on a StackSet, it performs drift detection on the stack associated with each stack instance in the StackSet. For more information, see Performing drift detection on CloudFormation StackSets . DetectStackSetDrift returns the OperationId of the StackSet drift detection operation. Use this operation id with DescribeStackSetOperation to monitor the progress of the drift detection operation. The drift detection operation may tak...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -702,7 +702,7 @@ public class AwsCloudformation : IAwsCloudformation
     }
 
     /// <summary>
-    /// Updates a stack using the input information that was provided when the specified change set was created. After the call successfully com- pletes, CloudFormation starts updating the stack. Use the De- scribeStacks action to view the status of the update. When you execute a change set, CloudFormation deletes all other change sets associated with the stack because they aren't valid for the up- dated stack. If a stack policy is associated with the stack, CloudFormation enforces the policy during the...
+    /// Updates a stack using the input information that was provided when the specified change set was created. After the call successfully completes, CloudFormation starts updating the stack. Use the DescribeStacks action to view the status of the update. When you execute a change set, CloudFormation deletes all other change sets associated with the stack because they aren't valid for the updated stack. If a stack policy is associated with the stack, CloudFormation enforces the policy during the updat...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -747,7 +747,7 @@ public class AwsCloudformation : IAwsCloudformation
     }
 
     /// <summary>
-    /// Retrieves detailed information and remediation guidance for a Hook in- vocation result. If the Hook uses a KMS key to encrypt annotations, callers of the GetH- ookResult operation must have kms:Decrypt permissions. For more infor- mation, see KMS key policy and permissions for encrypting CloudForma- tion Hooks results at rest in the CloudFormation Hooks User Guide . See also: AWS API Documentation
+    /// Retrieves detailed information and remediation guidance for a Hook invocation result. If the Hook uses a KMS key to encrypt annotations, callers of the GetHookResult operation must have kms:Decrypt permissions. For more information, see KMS key policy and permissions for encrypting CloudFormation Hooks results at rest in the CloudFormation Hooks User Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -777,7 +777,7 @@ public class AwsCloudformation : IAwsCloudformation
     }
 
     /// <summary>
-    /// Returns the template body for a specified stack. You can get the tem- plate for running or deleted stacks. For deleted stacks, GetTemplate returns the template for up to 90 days after the stack has been deleted. NOTE: If the template doesn't exist, a ValidationError is returned. See also: AWS API Documentation
+    /// Returns the template body for a specified stack. You can get the template for running or deleted stacks. For deleted stacks, GetTemplate returns the template for up to 90 days after the stack has been deleted. NOTE: If the template doesn't exist, a ValidationError is returned. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -792,7 +792,7 @@ public class AwsCloudformation : IAwsCloudformation
     }
 
     /// <summary>
-    /// Returns information about a new or existing template. The GetTemplate- Summary action is useful for viewing parameter information, such as de- fault parameter values and parameter types, before you create or update a stack or StackSet. You can use the GetTemplateSummary action when you submit a template, or you can get template information for a StackSet, or a running or deleted stack. For deleted stacks, GetTemplateSummary returns the template information for up to 90 days after the stack has b...
+    /// Returns information about a new or existing template. The GetTemplateSummary action is useful for viewing parameter information, such as default parameter values and parameter types, before you create or update a stack or StackSet. You can use the GetTemplateSummary action when you submit a template, or you can get template information for a StackSet, or a running or deleted stack. For deleted stacks, GetTemplateSummary returns the template information for up to 90 days after the stack has been ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -807,7 +807,7 @@ public class AwsCloudformation : IAwsCloudformation
     }
 
     /// <summary>
-    /// Import existing stacks into a new StackSets. Use the stack import oper- ation to import up to 10 stacks into a new StackSet in the same account as the source stack or in a different administrator account and Region, by specifying the stack ID of the stack you intend to import. See also: AWS API Documentation
+    /// Import existing stacks into a new StackSets. Use the stack import operation to import up to 10 stacks into a new StackSet in the same account as the source stack or in a different administrator account and Region, by specifying the stack ID of the stack you intend to import. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -822,7 +822,7 @@ public class AwsCloudformation : IAwsCloudformation
     }
 
     /// <summary>
-    /// Returns the ID and status of each active change set for a stack. For example, CloudFormation lists change sets that are in the CRE- ATE_IN_PROGRESS or CREATE_PENDING state. See also: AWS API Documentation list-change-sets is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument mu...
+    /// Returns the ID and status of each active change set for a stack. For example, CloudFormation lists change sets that are in the CREATE_IN_PROGRESS or CREATE_PENDING state. See also: AWS API Documentation list-change-sets is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -837,7 +837,7 @@ public class AwsCloudformation : IAwsCloudformation
     }
 
     /// <summary>
-    /// Lists all exported output values in the account and Region in which you call this action. Use this action to see the exported output values that you can import into other stacks. To import values, use the Fn::ImportValue function. For more information, see Get exported outputs from a deployed Cloud- Formation stack . See also: AWS API Documentation list-exports is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable paginati...
+    /// Lists all exported output values in the account and Region in which you call this action. Use this action to see the exported output values that you can import into other stacks. To import values, use the Fn::ImportValue function. For more information, see Get exported outputs from a deployed CloudFormation stack . See also: AWS API Documentation list-exports is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -852,7 +852,7 @@ public class AwsCloudformation : IAwsCloudformation
     }
 
     /// <summary>
-    /// Lists your generated templates in this Region. See also: AWS API Documentation list-generated-templates is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: Summaries
+    /// Lists your generated templates in this Region. See also: AWS API Documentation list-generated-templates is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Summaries
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -867,7 +867,7 @@ public class AwsCloudformation : IAwsCloudformation
     }
 
     /// <summary>
-    /// Returns summaries of invoked Hooks. For more information, see View in- vocation summaries for CloudFormation Hooks in the CloudFormation Hooks User Guide . This operation supports the following parameter combinations: o No parameters: Returns all Hook invocation summaries. o TypeArn only: Returns summaries for a specific Hook. o TypeArn and Status : Returns summaries for a specific Hook filtered by status. o TargetId and TargetType : Returns summaries for a specific Hook invo- cation target. See...
+    /// Returns summaries of invoked Hooks. For more information, see View invocation summaries for CloudFormation Hooks in the CloudFormation Hooks User Guide . This operation supports the following parameter combinations: • No parameters: Returns all Hook invocation summaries. • TypeArn only: Returns summaries for a specific Hook. • TypeArn and Status : Returns summaries for a specific Hook filtered by status. • TargetId and TargetType : Returns summaries for a specific Hook invocation target. See als...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -897,7 +897,7 @@ public class AwsCloudformation : IAwsCloudformation
     }
 
     /// <summary>
-    /// Lists the related resources for a list of resources from a resource scan. The response indicates whether each returned resource is already managed by CloudFormation. See also: AWS API Documentation list-resource-scan-related-resources is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --...
+    /// Lists the related resources for a list of resources from a resource scan. The response indicates whether each returned resource is already managed by CloudFormation. See also: AWS API Documentation list-resource-scan-related-resources is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --quer...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -912,7 +912,7 @@ public class AwsCloudformation : IAwsCloudformation
     }
 
     /// <summary>
-    /// Lists the resources from a resource scan. The results can be filtered by resource identifier, resource type prefix, tag key, and tag value. Only resources that match all specified filters are returned. The re- sponse indicates whether each returned resource is already managed by CloudFormation. See also: AWS API Documentation list-resource-scan-resources is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by...
+    /// Lists the resources from a resource scan. The results can be filtered by resource identifier, resource type prefix, tag key, and tag value. Only resources that match all specified filters are returned. The response indicates whether each returned resource is already managed by CloudFormation. See also: AWS API Documentation list-resource-scan-resources is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by pro...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -927,7 +927,7 @@ public class AwsCloudformation : IAwsCloudformation
     }
 
     /// <summary>
-    /// List the resource scans from newest to oldest. By default it will re- turn up to 10 resource scans. See also: AWS API Documentation list-resource-scans is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: R...
+    /// List the resource scans from newest to oldest. By default it will return up to 10 resource scans. See also: AWS API Documentation list-resource-scans is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Res...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -957,7 +957,7 @@ public class AwsCloudformation : IAwsCloudformation
     }
 
     /// <summary>
-    /// Returns summary information about stack instances that are associated with the specified StackSet. You can filter for stack instances that are associated with a specific Amazon Web Services account name or Re- gion, or that have a specific status. See also: AWS API Documentation list-stack-instances is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output...
+    /// Returns summary information about stack instances that are associated with the specified StackSet. You can filter for stack instances that are associated with a specific Amazon Web Services account name or Region, or that have a specific status. See also: AWS API Documentation list-stack-instances is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output t...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -972,7 +972,7 @@ public class AwsCloudformation : IAwsCloudformation
     }
 
     /// <summary>
-    /// Lists the stack refactor actions that will be taken after calling the ExecuteStackRefactor action. See also: AWS API Documentation list-stack-refactor-actions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query exp...
+    /// Lists the stack refactor actions that will be taken after calling the ExecuteStackRefactor action. See also: AWS API Documentation list-stack-refactor-actions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query express...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1032,7 +1032,7 @@ public class AwsCloudformation : IAwsCloudformation
     }
 
     /// <summary>
-    /// Returns summary information about the results of a StackSet operation. NOTE: This API provides eventually consistent reads meaning it may take some time but will eventually return the most up-to-date data. See also: AWS API Documentation list-stack-set-operation-results is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argu...
+    /// Returns summary information about the results of a StackSet operation. NOTE: This API provides eventually consistent reads meaning it may take some time but will eventually return the most up-to-date data. See also: AWS API Documentation list-stack-set-operation-results is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1062,7 +1062,7 @@ public class AwsCloudformation : IAwsCloudformation
     }
 
     /// <summary>
-    /// Returns summary information about StackSets that are associated with the user. NOTE: This API provides strongly consistent reads meaning it will always return the most up-to-date data. o [Self-managed permissions] If you set the CallAs parameter to SELF while signed in to your Amazon Web Services account, ListStackSets returns all self-managed StackSets in your Amazon Web Services ac- count. o [Service-managed permissions] If you set the CallAs parameter to SELF while signed in to the organizati...
+    /// Returns summary information about StackSets that are associated with the user. NOTE: This API provides strongly consistent reads meaning it will always return the most up-to-date data. • [Self-managed permissions] If you set the CallAs parameter to SELF while signed in to your Amazon Web Services account, ListStackSets returns all self-managed StackSets in your Amazon Web Services account. • [Service-managed permissions] If you set the CallAs parameter to SELF while signed in to the organization...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1107,21 +1107,6 @@ public class AwsCloudformation : IAwsCloudformation
     }
 
     /// <summary>
-    /// Returns summary information about all extensions, including your pri- vate resource types, modules, and Hooks as well as all public exten- sions from Amazon Web Services and third-party publishers. See also: AWS API Documentation list-types is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, th...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListTypesAsync(
-        AwsCloudformationListTypesOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsCloudformationListTypesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
     /// Returns summary information about the versions of an extension. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -1137,7 +1122,22 @@ public class AwsCloudformation : IAwsCloudformation
     }
 
     /// <summary>
-    /// Packages the local artifacts (local paths) that your AWS CloudFormation template references. The command uploads local artifacts, such as source code for an AWS Lambda function or a Swagger file for an AWS API Gateway REST API, to an S3 bucket. The command returns a copy of your template, replacing references to local artifacts with the S3 location where the command uploaded the artifacts. Use this command to quickly upload local artifacts that might be re- quired by your template. After you pac...
+    /// Returns summary information about all extensions, including your private resource types, modules, and Hooks as well as all public extensions from Amazon Web Services and third-party publishers. See also: AWS API Documentation list-types is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --qu...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListTypesAsync(
+        AwsCloudformationListTypesOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsCloudformationListTypesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Packages the local artifacts (local paths) that your AWS CloudFormation template references. The command uploads local artifacts, such as source code for an AWS Lambda function or a Swagger file for an AWS API Gateway REST API, to an S3 bucket. The command returns a copy of your template, replacing references to local artifacts with the S3 location where the command uploaded the artifacts. Use this command to quickly upload local artifacts that might be required by your template. After you packa...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1182,7 +1182,7 @@ public class AwsCloudformation : IAwsCloudformation
     }
 
     /// <summary>
-    /// Registers your account as a publisher of public extensions in the CloudFormation registry. Public extensions are available for use by all CloudFormation users. This publisher ID applies to your account in all Amazon Web Services Regions. For information about requirements for registering as a public exten- sion publisher, see Prerequisite: Registering your account to publish CloudFormation extensions in the CloudFormation Command Line Interface (CLI) User Guide . See also: AWS API Documentation
+    /// Registers your account as a publisher of public extensions in the CloudFormation registry. Public extensions are available for use by all CloudFormation users. This publisher ID applies to your account in all Amazon Web Services Regions. For information about requirements for registering as a public extension publisher, see Prerequisite: Registering your account to publish CloudFormation extensions in the CloudFormation Command Line Interface (CLI) User Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1197,7 +1197,7 @@ public class AwsCloudformation : IAwsCloudformation
     }
 
     /// <summary>
-    /// Registers an extension with the CloudFormation service. Registering an extension makes it available for use in CloudFormation templates in your Amazon Web Services account, and includes: o Validating the extension schema. o Determining which handlers, if any, have been specified for the ex- tension. o Making the extension available for use in your account. For more information about how to develop extensions and ready them for registration, see Creating resource types using the CloudFormation CL...
+    /// Registers an extension with the CloudFormation service. Registering an extension makes it available for use in CloudFormation templates in your Amazon Web Services account, and includes: • Validating the extension schema. • Determining which handlers, if any, have been specified for the extension. • Making the extension available for use in your account. For more information about how to develop extensions and ready them for registration, see Creating resource types using the CloudFormation CLI ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1212,7 +1212,7 @@ public class AwsCloudformation : IAwsCloudformation
     }
 
     /// <summary>
-    /// When specifying RollbackStack , you preserve the state of previously provisioned resources when an operation fails. You can check the status of the stack through the DescribeStacks operation. Rolls back the specified stack to the last known stable state from CRE- ATE_FAILED or UPDATE_FAILED stack statuses. This operation will delete a stack if it doesn't contain a last known stable state. A last known stable state includes any status in a *_COM- PLETE . This includes the following stack statuses...
+    /// When specifying RollbackStack , you preserve the state of previously provisioned resources when an operation fails. You can check the status of the stack through the DescribeStacks operation. Rolls back the specified stack to the last known stable state from CREATE_FAILED or UPDATE_FAILED stack statuses. This operation will delete a stack if it doesn't contain a last known stable state. A last known stable state includes any status in a *_COMPLETE . This includes the following stack statuses. • ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1242,7 +1242,7 @@ public class AwsCloudformation : IAwsCloudformation
     }
 
     /// <summary>
-    /// Specifies the configuration data for a CloudFormation extension, such as a resource or Hook, in the given account and Region. For more information, see Edit configuration data for extensions in your account in the CloudFormation User Guide . To view the current configuration data for an extension, refer to the ConfigurationSchema element of DescribeType . WARNING: It's strongly recommended that you use dynamic references to re- strict sensitive configuration definitions, such as third-party cre-...
+    /// Specifies the configuration data for a CloudFormation extension, such as a resource or Hook, in the given account and Region. For more information, see Edit configuration data for extensions in your account in the CloudFormation User Guide . To view the current configuration data for an extension, refer to the ConfigurationSchema element of DescribeType . WARNING: It's strongly recommended that you use dynamic references to restrict sensitive configuration definitions, such as third-party creden...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1272,7 +1272,7 @@ public class AwsCloudformation : IAwsCloudformation
     }
 
     /// <summary>
-    /// Sends a signal to the specified resource with a success or failure sta- tus. You can use the SignalResource operation in conjunction with a creation policy or update policy. CloudFormation doesn't proceed with a stack creation or update until resources receive the required number of signals or the timeout period is exceeded. The SignalResource operation is useful in cases where you want to send signals from anywhere other than an Amazon EC2 instance. See also: AWS API Documentation
+    /// Sends a signal to the specified resource with a success or failure status. You can use the SignalResource operation in conjunction with a creation policy or update policy. CloudFormation doesn't proceed with a stack creation or update until resources receive the required number of signals or the timeout period is exceeded. The SignalResource operation is useful in cases where you want to send signals from anywhere other than an Amazon EC2 instance. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1302,7 +1302,7 @@ public class AwsCloudformation : IAwsCloudformation
     }
 
     /// <summary>
-    /// Stops an in-progress operation on a StackSet and its associated stack instances. StackSets will cancel all the unstarted stack instance de- ployments and wait for those are in-progress to complete. See also: AWS API Documentation
+    /// Stops an in-progress operation on a StackSet and its associated stack instances. StackSets will cancel all the unstarted stack instance deployments and wait for those are in-progress to complete. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1317,7 +1317,7 @@ public class AwsCloudformation : IAwsCloudformation
     }
 
     /// <summary>
-    /// Tests a registered extension to make sure it meets all necessary re- quirements for being published in the CloudFormation registry. o For resource types, this includes passing all contracts tests defined for the type. o For modules, this includes determining if the module's model meets all necessary requirements. For more information, see Testing your public extension before publish- ing in the CloudFormation Command Line Interface (CLI) User Guide . If you don't specify a version, CloudFormatio...
+    /// Tests a registered extension to make sure it meets all necessary requirements for being published in the CloudFormation registry. • For resource types, this includes passing all contracts tests defined for the type. • For modules, this includes determining if the module's model meets all necessary requirements. For more information, see Testing your public extension before publishing in the CloudFormation Command Line Interface (CLI) User Guide . If you don't specify a version, CloudFormation us...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1332,7 +1332,7 @@ public class AwsCloudformation : IAwsCloudformation
     }
 
     /// <summary>
-    /// Updates a generated template. This can be used to change the name, add and remove resources, refresh resources, and change the DeletionPolicy and UpdateReplacePolicy settings. You can check the status of the up- date to the generated template using the DescribeGeneratedTemplate API action. See also: AWS API Documentation
+    /// Updates a generated template. This can be used to change the name, add and remove resources, refresh resources, and change the DeletionPolicy and UpdateReplacePolicy settings. You can check the status of the update to the generated template using the DescribeGeneratedTemplate API action. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1347,7 +1347,7 @@ public class AwsCloudformation : IAwsCloudformation
     }
 
     /// <summary>
-    /// Updates the parameter values for stack instances for the specified ac- counts, within the specified Amazon Web Services Regions. A stack in- stance refers to a stack in a specific account and Region. You can only update stack instances in Amazon Web Services Regions and accounts where they already exist; to create additional stack in- stances, use CreateStackInstances . During StackSet updates, any parameters overridden for a stack instance aren't updated, but retain their overridden value. You ...
+    /// Updates the parameter values for stack instances for the specified accounts, within the specified Amazon Web Services Regions. A stack instance refers to a stack in a specific account and Region. You can only update stack instances in Amazon Web Services Regions and accounts where they already exist; to create additional stack instances, use CreateStackInstances . During StackSet updates, any parameters overridden for a stack instance aren't updated, but retain their overridden value. You can on...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1377,7 +1377,7 @@ public class AwsCloudformation : IAwsCloudformation
     }
 
     /// <summary>
-    /// Updates the StackSet and associated stack instances in the specified accounts and Amazon Web Services Regions. Even if the StackSet operation created by updating the StackSet fails (completely or partially, below or above a specified failure toler- ance), the StackSet is updated with your changes. Subsequent CreateS- tackInstances calls on the specified StackSet use the updated StackSet. NOTE: The maximum number of organizational unit (OUs) supported by a Up- dateStackSet operation is 50. If you...
+    /// Updates the StackSet and associated stack instances in the specified accounts and Amazon Web Services Regions. Even if the StackSet operation created by updating the StackSet fails (completely or partially, below or above a specified failure tolerance), the StackSet is updated with your changes. Subsequent CreateStackInstances calls on the specified StackSet use the updated StackSet. NOTE: The maximum number of organizational unit (OUs) supported by a UpdateStackSet operation is 50. If you need ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1392,7 +1392,7 @@ public class AwsCloudformation : IAwsCloudformation
     }
 
     /// <summary>
-    /// Updates termination protection for the specified stack. If a user at- tempts to delete a stack with termination protection enabled, the oper- ation fails and the stack remains unchanged. For more information, see Protect a CloudFormation stack from being deleted in the CloudFormation User Guide . For nested stacks , termination protection is set on the root stack and can't be changed directly on the nested stack. See also: AWS API Documentation
+    /// Updates termination protection for the specified stack. If a user attempts to delete a stack with termination protection enabled, the operation fails and the stack remains unchanged. For more information, see Protect a CloudFormation stack from being deleted in the CloudFormation User Guide . For nested stacks , termination protection is set on the root stack and can't be changed directly on the nested stack. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1407,7 +1407,7 @@ public class AwsCloudformation : IAwsCloudformation
     }
 
     /// <summary>
-    /// Validates a specified template. CloudFormation first checks if the tem- plate is valid JSON. If it isn't, CloudFormation checks if the template is valid YAML. If both these checks fail, CloudFormation returns a tem- plate validation error. See also: AWS API Documentation
+    /// Validates a specified template. CloudFormation first checks if the template is valid JSON. If it isn't, CloudFormation checks if the template is valid YAML. If both these checks fail, CloudFormation returns a template validation error. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

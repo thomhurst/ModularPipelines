@@ -6,15 +6,15 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
+using ModularPipelines;
 using ModularPipelines.Context;
-using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
 namespace ModularPipelines.AmazonWebServices.Services;
 
 /// <summary>
-/// aws wait commands.
+/// aws transcribe wait commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AwsTranscribeWait
@@ -32,7 +32,7 @@ public class AwsTranscribeWait
     #region Commands
 
     /// <summary>
-    /// Wait until JMESPath query CallAnalyticsJob.CallAnalyticsJobStatus re- turns COMPLETED when polling with get-call-analytics-job. It will poll every 10 seconds until a successful state has been reached. This will exit with a return code of 255 after 180 failed checks. See also: AWS API Documentation
+    /// Wait until JMESPath query CallAnalyticsJob.CallAnalyticsJobStatus returns COMPLETED when polling with get-call-analytics-job. It will poll every 10 seconds until a successful state has been reached. This will exit with a return code of 255 after 180 failed checks. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -47,7 +47,7 @@ public class AwsTranscribeWait
     }
 
     /// <summary>
-    /// Wait until JMESPath query LanguageModel.ModelStatus returns COMPLETED when polling with describe-language-model. It will poll every 120 sec- onds until a successful state has been reached. This will exit with a return code of 255 after 180 failed checks. See also: AWS API Documentation
+    /// Wait until JMESPath query LanguageModel.ModelStatus returns COMPLETED when polling with describe-language-model. It will poll every 120 seconds until a successful state has been reached. This will exit with a return code of 255 after 180 failed checks. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -62,7 +62,7 @@ public class AwsTranscribeWait
     }
 
     /// <summary>
-    /// Wait until JMESPath query MedicalScribeJob.MedicalScribeJobStatus re- turns COMPLETED when polling with get-medical-scribe-job. It will poll every 10 seconds until a successful state has been reached. This will exit with a return code of 255 after 180 failed checks. See also: AWS API Documentation
+    /// Wait until JMESPath query MedicalScribeJob.MedicalScribeJobStatus returns COMPLETED when polling with get-medical-scribe-job. It will poll every 10 seconds until a successful state has been reached. This will exit with a return code of 255 after 180 failed checks. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -77,7 +77,7 @@ public class AwsTranscribeWait
     }
 
     /// <summary>
-    /// Wait until JMESPath query MedicalTranscriptionJob.TranscriptionJobSta- tus returns COMPLETED when polling with get-medical-transcription-job. It will poll every 10 seconds until a successful state has been reached. This will exit with a return code of 255 after 180 failed checks. See also: AWS API Documentation
+    /// Wait until JMESPath query MedicalTranscriptionJob.TranscriptionJobStatus returns COMPLETED when polling with get-medical-transcription-job. It will poll every 10 seconds until a successful state has been reached. This will exit with a return code of 255 after 180 failed checks. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -92,7 +92,7 @@ public class AwsTranscribeWait
     }
 
     /// <summary>
-    /// Wait until JMESPath query VocabularyState returns READY when polling with get-medical-vocabulary. It will poll every 10 seconds until a suc- cessful state has been reached. This will exit with a return code of 255 after 180 failed checks. See also: AWS API Documentation
+    /// Wait until JMESPath query VocabularyState returns READY when polling with get-medical-vocabulary. It will poll every 10 seconds until a successful state has been reached. This will exit with a return code of 255 after 180 failed checks. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -107,7 +107,7 @@ public class AwsTranscribeWait
     }
 
     /// <summary>
-    /// Wait until JMESPath query TranscriptionJob.TranscriptionJobStatus re- turns COMPLETED when polling with get-transcription-job. It will poll every 10 seconds until a successful state has been reached. This will exit with a return code of 255 after 180 failed checks. See also: AWS API Documentation
+    /// Wait until JMESPath query TranscriptionJob.TranscriptionJobStatus returns COMPLETED when polling with get-transcription-job. It will poll every 10 seconds until a successful state has been reached. This will exit with a return code of 255 after 180 failed checks. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

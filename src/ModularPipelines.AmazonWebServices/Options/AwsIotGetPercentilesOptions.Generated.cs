@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Groups the aggregated values that match the query into percentile groupings. The default percentile groupings are: 1,5,25,50,75,95,99, although you can specify your own when you call GetPercentiles . This function returns a value for each percentile group specified (or the default percentile groupings). The percentile group "1" contains the aggregated field value that occurs in approximately one percent of the values that match the query. The percentile group "5" contains the ag- gregated field ...
+/// Groups the aggregated values that match the query into percentile groupings. The default percentile groupings are: 1,5,25,50,75,95,99, although you can specify your own when you call GetPercentiles . This function returns a value for each percentile group specified (or the default percentile groupings). The percentile group "1" contains the aggregated field value that occurs in approximately one percent of the values that match the query. The percentile group "5" contains the aggregated field va...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsIotGetPercentilesOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Groups the aggregated values that match the query into percentile groupings. The default percentile groupings are: 1,5,25,50,75,95,99, although you can specify your own when you call GetPercentiles . This function returns a value for each percentile group specified (or the default percentile groupings). The percentile group "1" contains the aggregated field value that occurs in approximately one percent of the values that match the query. The percentile group "5" contains the ag- gregated field ...
+    /// Groups the aggregated values that match the query into percentile groupings. The default percentile groupings are: 1,5,25,50,75,95,99, although you can specify your own when you call GetPercentiles . This function returns a value for each percentile group specified (or the default percentile groupings). The percentile group "1" contains the aggregated field value that occurs in approximately one percent of the values that match the query. The percentile group "5" contains the aggregated field va...
     /// </summary>
-    /// <param name="QueryString">The search query string. Constraints: o min: 1</param>
+    /// <param name="QueryString">The search query string. Constraints: • min: 1</param>
     public AwsIotGetPercentilesOptions(
         string QueryString
     )
@@ -56,19 +57,19 @@ public record AwsIotGetPercentilesOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The search query string. Constraints: o min: 1
+    /// The search query string. Constraints: • min: 1
     /// </summary>
     [CliOption("--query-string")]
     public string? QueryString { get; private init; }
 
     /// <summary>
-    /// The name of the index to search. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9:_-]+
+    /// The name of the index to search. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9:_-]+
     /// </summary>
     [CliOption("--index-name")]
     public string? IndexName { get; set; }
 
     /// <summary>
-    /// The field to aggregate. Constraints: o min: 1
+    /// The field to aggregate. Constraints: • min: 1
     /// </summary>
     [CliOption("--aggregation-field")]
     public string? AggregationField { get; set; }
@@ -80,7 +81,7 @@ public record AwsIotGetPercentilesOptions : AwsOptions, IValidatableObject
     public string? QueryVersion { get; set; }
 
     /// <summary>
-    /// The percentile groups returned. (double) Constraints: o min: 0 o max: 100 Syntax: double double ...
+    /// The percentile groups returned. (double) Constraints: • min: 0 • max: 100 Syntax: double double ...
     /// </summary>
     [CliOption("--percents", GroupValues = true)]
     public IEnumerable<string>? Percents { get; set; }
@@ -106,6 +107,15 @@ public record AwsIotGetPercentilesOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

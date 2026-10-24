@@ -22,13 +22,13 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsDmsDescribeReplicationConfigsOptions : AwsOptions
 {
     /// <summary>
-    /// Filters applied to the replication configs. (structure) Identifies the name and value of a filter object. This filter is used to limit the number and type of DMS objects that are re- turned for a particular Describe* call or similar operation. Filters are used as an optional parameter for certain API opera- tions. Name -&gt; (string) [required] The name of the filter as specified for a Describe* or simi- lar operation. Values -&gt; (list) [required] The filter value, which can specify one or more values used to narrow the returned results. (string) Shorthand Syntax: Name=string,Values=string,string ... JSON Syntax: [ { "Name": "string", "Values": ["string", ...] } ... ]
+    /// Filters applied to the replication configs. (structure) Identifies the name and value of a filter object. This filter is used to limit the number and type of DMS objects that are returned for a particular Describe* call or similar operation. Filters are used as an optional parameter for certain API operations. Name -&gt; (string) [required] The name of the filter as specified for a Describe* or similar operation. Values -&gt; (list) [required] The filter value, which can specify one or more values used to narrow the returned results. (string) Shorthand Syntax: Name=string,Values=string,string ... JSON Syntax: [ { "Name": "string", "Values": ["string", ...] } ... ]
     /// </summary>
     [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     /// <summary>
-    /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination to- ken called a marker is included in the response so that the remain- ing results can be retrieved.
+    /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.
     /// </summary>
     [CliOption("--max-records")]
     public int? MaxRecords { get; set; }
@@ -44,5 +44,14 @@ public record AwsDmsDescribeReplicationConfigsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

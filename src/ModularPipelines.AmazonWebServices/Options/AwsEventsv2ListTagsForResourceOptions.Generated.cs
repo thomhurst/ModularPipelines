@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsEventsv2ListTagsForResourceOptions : AwsOptions, IValidatableOb
     /// <summary>
     /// Lists the tags on an event bus, subscriber, or event source. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">ARN for an EventBridge resource that supports tagging: event buses, subscribers, and event sources. Constraints: o min: 1 o max: 1011 o pattern: arn:aws(-[a-z0-9]+)*:events:[a-z][a-z0-9]*(-[a-z0-9]+)*:([0-9]{12}):(event-busv2|sub- scriber|event-sourcev2\/(aws\.service|aws\.part- ner))\/[A-Za-z0-9][\.\-_A-Za-z0-9]{0,255}\/[a-z0-9]{25}</param>
+    /// <param name="ResourceArn">ARN for an EventBridge resource that supports tagging: event buses, subscribers, and event sources. Constraints: • min: 1 • max: 1011 • pattern: arn:aws(-[a-z0-9]+)*:events:[a-z][a-z0-9]*(-[a-z0-9]+)*:([0-9]{12}):(event-busv2|subscriber|event-sourcev2\/(aws\.service|aws\.partner))\/[A-Za-z0-9][\.\-_A-Za-z0-9]{0,255}\/[a-z0-9]{25}</param>
     public AwsEventsv2ListTagsForResourceOptions(
         string ResourceArn
     )
@@ -56,7 +57,7 @@ public record AwsEventsv2ListTagsForResourceOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// ARN for an EventBridge resource that supports tagging: event buses, subscribers, and event sources. Constraints: o min: 1 o max: 1011 o pattern: arn:aws(-[a-z0-9]+)*:events:[a-z][a-z0-9]*(-[a-z0-9]+)*:([0-9]{12}):(event-busv2|sub- scriber|event-sourcev2\/(aws\.service|aws\.part- ner))\/[A-Za-z0-9][\.\-_A-Za-z0-9]{0,255}\/[a-z0-9]{25}
+    /// ARN for an EventBridge resource that supports tagging: event buses, subscribers, and event sources. Constraints: • min: 1 • max: 1011 • pattern: arn:aws(-[a-z0-9]+)*:events:[a-z][a-z0-9]*(-[a-z0-9]+)*:([0-9]{12}):(event-busv2|subscriber|event-sourcev2\/(aws\.service|aws\.partner))\/[A-Za-z0-9][\.\-_A-Za-z0-9]{0,255}\/[a-z0-9]{25}
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
@@ -82,6 +83,15 @@ public record AwsEventsv2ListTagsForResourceOptions : AwsOptions, IValidatableOb
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

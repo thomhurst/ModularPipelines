@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +29,7 @@ public record AwsWorkmailListMailboxExportJobsOptions : AwsOptions, IValidatable
     /// <summary>
     /// Lists the mailbox export jobs started for the specified organization within the last seven days. See also: AWS API Documentation
     /// </summary>
-    /// <param name="OrganizationId">The organization ID. Constraints: o min: 34 o max: 34 o pattern: ^m-[0-9a-f]{32}$</param>
+    /// <param name="OrganizationId">The organization ID. Constraints: • min: 34 • max: 34 • pattern: ^m-[0-9a-f]{32}$</param>
     public AwsWorkmailListMailboxExportJobsOptions(
         string OrganizationId
     )
@@ -57,20 +58,20 @@ public record AwsWorkmailListMailboxExportJobsOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The organization ID. Constraints: o min: 34 o max: 34 o pattern: ^m-[0-9a-f]{32}$
+    /// The organization ID. Constraints: • min: 34 • max: 34 • pattern: ^m-[0-9a-f]{32}$
     /// </summary>
     [CliOption("--organization-id")]
     public string? OrganizationId { get; private init; }
 
     /// <summary>
-    /// The token to use to retrieve the next page of results. Constraints: o min: 1 o max: 1024 o pattern: [\S\s]*|[a-zA-Z0-9/+=]{1,1024}
+    /// The token to use to retrieve the next page of results. Constraints: • min: 1 • max: 1024 • pattern: [\S\s]*|[a-zA-Z0-9/+=]{1,1024}
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// The maximum number of results to return in a single call. Constraints: o min: 1 o max: 100
+    /// The maximum number of results to return in a single call. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
@@ -96,6 +97,15 @@ public record AwsWorkmailListMailboxExportJobsOptions : AwsOptions, IValidatable
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

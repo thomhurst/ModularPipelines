@@ -22,13 +22,13 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsCodecommitGetBranchOptions : AwsOptions
 {
     /// <summary>
-    /// The name of the repository that contains the branch for which you want to retrieve information. Constraints: o min: 1 o max: 100 o pattern: [\w\.-]+
+    /// The name of the repository that contains the branch for which you want to retrieve information. Constraints: • min: 1 • max: 100 • pattern: [\w\.-]+
     /// </summary>
     [CliOption("--repository-name")]
     public string? RepositoryName { get; set; }
 
     /// <summary>
-    /// The name of the branch for which you want to retrieve information. Constraints: o min: 1 o max: 256
+    /// The name of the branch for which you want to retrieve information. Constraints: • min: 1 • max: 256
     /// </summary>
     [CliOption("--branch-name")]
     public string? BranchName { get; set; }
@@ -38,5 +38,14 @@ public record AwsCodecommitGetBranchOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

@@ -6,8 +6,8 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
+using ModularPipelines;
 using ModularPipelines.Context;
-using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
@@ -32,7 +32,7 @@ public class AwsGamelift : IAwsGamelift
     #region Commands
 
     /// <summary>
-    /// This API works with the following fleet types: EC2, Anywhere, Con- tainer Registers a player's acceptance or rejection of a proposed FlexMatch match. A matchmaking configuration may require player acceptance; if so, then matches built with that configuration cannot be completed un- less all players accept the proposed match within a specified time limit. When FlexMatch builds a match, all the matchmaking tickets involved in the proposed match are placed into status REQUIRES_ACCEPTANCE . This is ...
+    /// This API works with the following fleet types: EC2, Anywhere, Container Registers a player's acceptance or rejection of a proposed FlexMatch match. A matchmaking configuration may require player acceptance; if so, then matches built with that configuration cannot be completed unless all players accept the proposed match within a specified time limit. When FlexMatch builds a match, all the matchmaking tickets involved in the proposed match are placed into status REQUIRES_ACCEPTANCE . This is a tr...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -47,7 +47,7 @@ public class AwsGamelift : IAwsGamelift
     }
 
     /// <summary>
-    /// This API works with the following fleet types: EC2 (FleetIQ) Locates an available game server and temporarily reserves it to host gameplay and players. This operation is called from a game client or client service (such as a matchmaker) to request hosting resources for a new game session. In response, Amazon GameLift Servers FleetIQ lo- cates an available game server, places it in CLAIMED status for 60 sec- onds, and returns connection information that players can use to con- nect to the game se...
+    /// This API works with the following fleet types: EC2 (FleetIQ) Locates an available game server and temporarily reserves it to host gameplay and players. This operation is called from a game client or client service (such as a matchmaker) to request hosting resources for a new game session. In response, Amazon GameLift Servers FleetIQ locates an available game server, places it in CLAIMED status for 60 seconds, and returns connection information that players can use to connect to the game server. ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -62,7 +62,7 @@ public class AwsGamelift : IAwsGamelift
     }
 
     /// <summary>
-    /// This API works with the following fleet types: EC2, Anywhere, Con- tainer Creates an alias for a fleet. In most situations, you can use an alias ID in place of a fleet ID. An alias provides a level of abstraction for a fleet that is useful when redirecting player traffic from one fleet to another, such as when updating your game build. Amazon GameLift Servers supports two types of routing strategies for aliases: simple and terminal. A simple alias points to an active fleet. A terminal alias is u...
+    /// This API works with the following fleet types: EC2, Anywhere, Container Creates an alias for a fleet. In most situations, you can use an alias ID in place of a fleet ID. An alias provides a level of abstraction for a fleet that is useful when redirecting player traffic from one fleet to another, such as when updating your game build. Amazon GameLift Servers supports two types of routing strategies for aliases: simple and terminal. A simple alias points to an active fleet. A terminal alias is use...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -92,7 +92,7 @@ public class AwsGamelift : IAwsGamelift
     }
 
     /// <summary>
-    /// This API works with the following fleet types: Container Creates a managed fleet of Amazon Elastic Compute Cloud (Amazon EC2) instances to host your containerized game servers. Use this operation to define how to deploy a container architecture onto each fleet in- stance and configure fleet settings. You can create a container fleet in any Amazon Web Services Regions that Amazon GameLift Servers sup- ports for multi-location fleets. A container fleet can be deployed to a single location or multi...
+    /// This API works with the following fleet types: Container Creates a managed fleet of Amazon Elastic Compute Cloud (Amazon EC2) instances to host your containerized game servers. Use this operation to define how to deploy a container architecture onto each fleet instance and configure fleet settings. You can create a container fleet in any Amazon Web Services Regions that Amazon GameLift Servers supports for multi-location fleets. A container fleet can be deployed to a single location or multiple ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -107,7 +107,7 @@ public class AwsGamelift : IAwsGamelift
     }
 
     /// <summary>
-    /// This API works with the following fleet types: Container Creates a ContainerGroupDefinition that describes a set of containers for hosting your game server with Amazon GameLift Servers managed con- tainers hosting. An Amazon GameLift Servers container group is similar to a container task or pod. Use container group definitions when you create a container fleet with CreateContainerFleet . A container group definition determines how Amazon GameLift Servers de- ploys your containers to each instanc...
+    /// This API works with the following fleet types: Container Creates a ContainerGroupDefinition that describes a set of containers for hosting your game server with Amazon GameLift Servers managed containers hosting. An Amazon GameLift Servers container group is similar to a container task or pod. Use container group definitions when you create a container fleet with CreateContainerFleet . A container group definition determines how Amazon GameLift Servers deploys your containers to each instance in...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -122,7 +122,7 @@ public class AwsGamelift : IAwsGamelift
     }
 
     /// <summary>
-    /// This API works with the following fleet types: EC2, Anywhere, Con- tainer Adds remote locations to an EC2 and begins populating the new locations with instances. The new instances conform to the fleet's instance type, auto-scaling, and other configuration settings. NOTE: You can't add remote locations to a fleet that resides in an Amazon Web Services Region that doesn't support multiple locations. Fleets created prior to March 2021 can't support multiple locations. To add fleet locations, specif...
+    /// This API works with the following fleet types: EC2, Anywhere, Container Adds remote locations to an EC2 fleet and begins populating the new locations with instances. The new instances conform to the fleet's instance type, auto-scaling, and other configuration settings. NOTE: You can't add remote locations to a fleet that resides in an Amazon Web Services Region that doesn't support multiple locations. Fleets created prior to March 2021 can't support multiple locations. To add fleet locations, sp...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -137,7 +137,7 @@ public class AwsGamelift : IAwsGamelift
     }
 
     /// <summary>
-    /// This API works with the following fleet types: EC2, Anywhere, Con- tainer Creates a fleet of compute resources to host your game servers. Use this operation to set up a fleet for the following compute types: Managed EC2 fleet An EC2 fleet is a set of Amazon Elastic Compute Cloud (Amazon EC2) in- stances. Your game server build is deployed to each fleet instance. Amazon GameLift Servers manages the fleet's instances and controls the lifecycle of game server processes, which host game sessions for...
+    /// This API works with the following fleet types: EC2, Anywhere, Container Creates a fleet of compute resources to host your game servers. Use this operation to set up a fleet for the following compute types: Managed EC2 fleet An EC2 fleet is a set of Amazon Elastic Compute Cloud (Amazon EC2) instances. Your game server build is deployed to each fleet instance. Amazon GameLift Servers manages the fleet's instances and controls the lifecycle of game server processes, which host game sessions for pla...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -152,7 +152,7 @@ public class AwsGamelift : IAwsGamelift
     }
 
     /// <summary>
-    /// This API works with the following fleet types: EC2 (FleetIQ) Creates a Amazon GameLift Servers FleetIQ game server group for manag- ing game hosting on a collection of Amazon Elastic Compute Cloud in- stances for game hosting. This operation creates the game server group, creates an Auto Scaling group in your Amazon Web Services account, and establishes a link between the two groups. You can view the status of your game server groups in the Amazon GameLift Servers console. Game server group metr...
+    /// This API works with the following fleet types: EC2 (FleetIQ) Creates a Amazon GameLift Servers FleetIQ game server group for managing game hosting on a collection of Amazon Elastic Compute Cloud instances for game hosting. This operation creates the game server group, creates an Auto Scaling group in your Amazon Web Services account, and establishes a link between the two groups. You can view the status of your game server groups in the Amazon GameLift Servers console. Game server group metrics ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -167,7 +167,7 @@ public class AwsGamelift : IAwsGamelift
     }
 
     /// <summary>
-    /// This API works with the following fleet types: EC2, Anywhere, Con- tainer Creates a multiplayer game session for players in a specific fleet lo- cation. This operation prompts an available server process to start a game session and retrieves connection information for the new game ses- sion. As an alternative, consider using the Amazon GameLift Servers game session placement feature with StartGameSessionPlacement , which uses the FleetIQ algorithm and queues to optimize the placement process. Wh...
+    /// This API works with the following fleet types: EC2, Anywhere, Container Creates a multiplayer game session for players in a specific fleet location. This operation prompts an available server process to start a game session and retrieves connection information for the new game session. As an alternative, consider using the Amazon GameLift Servers game session placement feature with StartGameSessionPlacement , which uses the FleetIQ algorithm and queues to optimize the placement process. When cre...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -182,7 +182,7 @@ public class AwsGamelift : IAwsGamelift
     }
 
     /// <summary>
-    /// This API works with the following fleet types: EC2, Anywhere, Con- tainer Creates a placement queue that processes requests for new game ses- sions. A queue uses FleetIQ algorithms to locate the best available placement locations for a new game session, and then prompts the game server process to start a new game session. A game session queue is configured with a set of destinations (Amazon GameLift Servers fleets or aliases) that determine where the queue can place new game sessions. These dest...
+    /// This API works with the following fleet types: EC2, Anywhere, Container Creates a placement queue that processes requests for new game sessions. A queue uses FleetIQ algorithms to locate the best available placement locations for a new game session, and then prompts the game server process to start a new game session. A game session queue is configured with a set of destinations (Amazon GameLift Servers fleets or aliases) that determine where the queue can place new game sessions. These destinat...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -212,7 +212,7 @@ public class AwsGamelift : IAwsGamelift
     }
 
     /// <summary>
-    /// This API works with the following fleet types: EC2, Anywhere, Con- tainer Defines a new matchmaking configuration for use with FlexMatch. Whether your are using FlexMatch with Amazon GameLift Servers hosting or as a standalone matchmaking service, the matchmaking configuration sets out rules for matching players and forming teams. If you're also using Ama- zon GameLift Servers hosting, it defines how to start game sessions for each match. Your matchmaking system can use multiple configurations t...
+    /// This API works with the following fleet types: EC2, Anywhere, Container Defines a new matchmaking configuration for use with FlexMatch. Whether you are using FlexMatch with Amazon GameLift Servers hosting or as a standalone matchmaking service, the matchmaking configuration sets out rules for matching players and forming teams. If you're also using Amazon GameLift Servers hosting, it defines how to start game sessions for each match. Your matchmaking system can use multiple configurations to han...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -227,7 +227,7 @@ public class AwsGamelift : IAwsGamelift
     }
 
     /// <summary>
-    /// This API works with the following fleet types: EC2, Anywhere, Con- tainer Creates a new rule set for FlexMatch matchmaking. A rule set describes the type of match to create, such as the number and size of teams. It also sets the parameters for acceptable player matches, such as minimum skill level or character type. To create a matchmaking rule set, provide unique rule set name and the rule set body in JSON format. Rule sets must be defined in the same Re- gion as the matchmaking configuration t...
+    /// This API works with the following fleet types: EC2, Anywhere, Container Creates a new rule set for FlexMatch matchmaking. A rule set describes the type of match to create, such as the number and size of teams. It also sets the parameters for acceptable player matches, such as minimum skill level or character type. To create a matchmaking rule set, provide unique rule set name and the rule set body in JSON format. Rule sets must be defined in the same Region as the matchmaking configuration they ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -242,7 +242,7 @@ public class AwsGamelift : IAwsGamelift
     }
 
     /// <summary>
-    /// This API works with the following fleet types: EC2, Anywhere, Con- tainer Reserves an open player slot in a game session for a player. New player sessions can be created in any game session with an open slot that is in ACTIVE status and has a player creation policy of ACCEPT_ALL . You can add a group of players to a game session with CreatePlayerSessions . To create a player session, specify a game session ID, player ID, and optionally a set of player data. If successful, a slot is reserved in t...
+    /// This API works with the following fleet types: EC2, Anywhere, Container Reserves an open player slot in a game session for a player. New player sessions can be created in any game session with an open slot that is in ACTIVE status and has a player creation policy of ACCEPT_ALL . You can add a group of players to a game session with CreatePlayerSessions . To create a player session, specify a game session ID, player ID, and optionally a set of player data. If successful, a slot is reserved in the...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -257,7 +257,7 @@ public class AwsGamelift : IAwsGamelift
     }
 
     /// <summary>
-    /// This API works with the following fleet types: EC2, Anywhere, Con- tainer Reserves open slots in a game session for a group of players. New player sessions can be created in any game session with an open slot that is in ACTIVE status and has a player creation policy of ACCEPT_ALL . To add a single player to a game session, use CreatePlayerSession To create player sessions, specify a game session ID and a list of player IDs. Optionally, provide a set of player data for each player ID. If successf...
+    /// This API works with the following fleet types: EC2, Anywhere, Container Reserves open slots in a game session for a group of players. New player sessions can be created in any game session with an open slot that is in ACTIVE status and has a player creation policy of ACCEPT_ALL . To add a single player to a game session, use CreatePlayerSession To create player sessions, specify a game session ID and a list of player IDs. Optionally, provide a set of player data for each player ID. If successful...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -272,7 +272,7 @@ public class AwsGamelift : IAwsGamelift
     }
 
     /// <summary>
-    /// This API works with the following fleet types: EC2, Anywhere Creates a new script record for your Amazon GameLift Servers Realtime script. Realtime scripts are JavaScript that provide configuration set- tings and optional custom game logic for your game. The script is de- ployed when you create a Amazon GameLift Servers Realtime fleet to host your game sessions. Script logic is executed during an active game ses- sion. To create a new script record, specify a script name and provide the script f...
+    /// This API works with the following fleet types: EC2, Anywhere Creates a new script record for your Amazon GameLift Servers Realtime script. Realtime scripts are JavaScript that provide configuration settings and optional custom game logic for your game. The script is deployed when you create a Amazon GameLift Servers Realtime fleet to host your game sessions. Script logic is executed during an active game session. To create a new script record, specify a script name and provide the script file(s)...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -287,7 +287,7 @@ public class AwsGamelift : IAwsGamelift
     }
 
     /// <summary>
-    /// This API works with the following fleet types: EC2 Requests authorization to create or delete a peer connection between the VPC for your Amazon GameLift Servers fleet and a virtual private cloud (VPC) in your Amazon Web Services account. VPC peering enables the game servers on your fleet to communicate directly with other Ama- zon Web Services resources. After you've received authorization, use CreateVpcPeeringConnection to establish the peering connection. For more information, see VPC Peering ...
+    /// This API works with the following fleet types: EC2 Requests authorization to create or delete a peer connection between the VPC for your Amazon GameLift Servers fleet and a virtual private cloud (VPC) in your Amazon Web Services account. VPC peering enables the game servers on your fleet to communicate directly with other Amazon Web Services resources. After you've received authorization, use CreateVpcPeeringConnection to establish the peering connection. For more information, see VPC Peering wi...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -317,7 +317,7 @@ public class AwsGamelift : IAwsGamelift
     }
 
     /// <summary>
-    /// This API works with the following fleet types: EC2, Anywhere, Con- tainer Deletes an alias. This operation removes all record of the alias. Game clients attempting to access a server process using the deleted alias receive an error. To delete an alias, specify the alias ID to be deleted. Related actions All APIs by task See also: AWS API Documentation
+    /// This API works with the following fleet types: EC2, Anywhere, Container Deletes an alias. This operation removes all record of the alias. Game clients attempting to access a server process using the deleted alias receive an error. To delete an alias, specify the alias ID to be deleted. Related actions All APIs by task See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -332,7 +332,7 @@ public class AwsGamelift : IAwsGamelift
     }
 
     /// <summary>
-    /// This API works with the following fleet types: EC2 Deletes a build. This operation permanently deletes the build resource and any uploaded build files. Deleting a build does not affect the sta- tus of any active fleets using the build, but you can no longer create new fleets with the deleted build. To delete a build, specify the build ID. Learn more Upload a Custom Server Build All APIs by task See also: AWS API Documentation
+    /// This API works with the following fleet types: EC2 Deletes a build. This operation permanently deletes the build resource and any uploaded build files. Deleting a build does not affect the status of any active fleets using the build, but you can no longer create new fleets with the deleted build. To delete a build, specify the build ID. Learn more Upload a Custom Server Build All APIs by task See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -362,7 +362,7 @@ public class AwsGamelift : IAwsGamelift
     }
 
     /// <summary>
-    /// This API works with the following fleet types: Container Request options: Deletes a container group definition. o Delete an entire container group definition, including all versions. Specify the container group definition name, or use an ARN value without the version number. o Delete a particular version. Specify the container group definition name and a version number, or use an ARN value that includes the ver- sion number. o Keep the newest versions and delete all older versions. Specify the c...
+    /// This API works with the following fleet types: Container Request options: Deletes a container group definition. • Delete an entire container group definition, including all versions. Specify the container group definition name, or use an ARN value without the version number. • Delete a particular version. Specify the container group definition name and a version number, or use an ARN value that includes the version number. • Keep the newest versions and delete all older versions. Specify the con...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -377,7 +377,7 @@ public class AwsGamelift : IAwsGamelift
     }
 
     /// <summary>
-    /// This API works with the following fleet types: EC2, Anywhere, Con- tainer Removes locations from a multi-location fleet. When deleting a loca- tion, all game server process and all instances that are still active in the location are shut down. To delete fleet locations, identify the fleet ID and provide a list of the locations to be deleted. If successful, GameLift sets the location status to DELETING , and be- gins to shut down existing server processes and terminate instances in each location ...
+    /// This API works with the following fleet types: EC2, Anywhere, Container Removes locations from a multi-location fleet. When deleting a location, all game server processes and all instances that are still active in the location are shut down. To delete fleet locations, identify the fleet ID and provide a list of the locations to be deleted. If successful, GameLift sets the location status to DELETING , and begins to shut down existing server processes and terminate instances in each location bein...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -392,7 +392,7 @@ public class AwsGamelift : IAwsGamelift
     }
 
     /// <summary>
-    /// This API works with the following fleet types: EC2, Anywhere Deletes all resources and information related to a fleet and shuts down any currently running fleet instances, including those in remote loca- tions. NOTE: If the fleet being deleted has a VPC peering connection, you first need to get a valid authorization (good for 24 hours) by calling CreateVpcPeeringAuthorization . You don't need to explicitly delete the VPC peering connection. To delete a fleet, specify the fleet ID to be terminate...
+    /// This API works with the following fleet types: EC2, Anywhere Deletes all resources and information related to a fleet and shuts down any currently running fleet instances, including those in remote locations. NOTE: If the fleet being deleted has a VPC peering connection, you first need to get a valid authorization (good for 24 hours) by calling CreateVpcPeeringAuthorization . You don't need to explicitly delete the VPC peering connection. To delete a fleet, specify the fleet ID to be terminated....
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -407,7 +407,7 @@ public class AwsGamelift : IAwsGamelift
     }
 
     /// <summary>
-    /// This API works with the following fleet types: EC2 (FleetIQ) Terminates a game server group and permanently deletes the game server group record. You have several options for how these resources are im- pacted when deleting the game server group. Depending on the type of delete operation selected, this operation might affect these resources: o The game server group o The corresponding Auto Scaling group o All game servers that are currently running in the group To delete a game server group, ide...
+    /// This API works with the following fleet types: EC2 (FleetIQ) Terminates a game server group and permanently deletes the game server group record. You have several options for how these resources are impacted when deleting the game server group. Depending on the type of delete operation selected, this operation might affect these resources: • The game server group • The corresponding Auto Scaling group • All game servers that are currently running in the group To delete a game server group, ident...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -422,7 +422,7 @@ public class AwsGamelift : IAwsGamelift
     }
 
     /// <summary>
-    /// This API works with the following fleet types: EC2, Anywhere, Con- tainer Deletes a game session queue. Once a queue is successfully deleted, un- fulfilled StartGameSessionPlacement requests that reference the queue will fail. To delete a queue, specify the queue name. See also: AWS API Documentation
+    /// This API works with the following fleet types: EC2, Anywhere, Container Deletes a game session queue. Once a queue is successfully deleted, unfulfilled StartGameSessionPlacement requests that reference the queue will fail. To delete a queue, specify the queue name. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -452,7 +452,7 @@ public class AwsGamelift : IAwsGamelift
     }
 
     /// <summary>
-    /// This API works with the following fleet types: EC2, Anywhere, Con- tainer Permanently removes a FlexMatch matchmaking configuration. To delete, specify the configuration name. A matchmaking configuration cannot be deleted if it is being used in any active matchmaking tickets. See also: AWS API Documentation
+    /// This API works with the following fleet types: EC2, Anywhere, Container Permanently removes a FlexMatch matchmaking configuration. To delete, specify the configuration name. A matchmaking configuration cannot be deleted if it is being used in any active matchmaking tickets. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -467,7 +467,7 @@ public class AwsGamelift : IAwsGamelift
     }
 
     /// <summary>
-    /// This API works with the following fleet types: EC2, Anywhere, Con- tainer Deletes an existing matchmaking rule set. To delete the rule set, pro- vide the rule set name. Rule sets cannot be deleted if they are cur- rently being used by a matchmaking configuration. Learn more o Build a rule set See also: AWS API Documentation
+    /// This API works with the following fleet types: EC2, Anywhere, Container Deletes an existing matchmaking rule set. To delete the rule set, provide the rule set name. Rule sets cannot be deleted if they are currently being used by a matchmaking configuration. Learn more • Build a rule set See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -527,7 +527,7 @@ public class AwsGamelift : IAwsGamelift
     }
 
     /// <summary>
-    /// This API works with the following fleet types: EC2 Removes a VPC peering connection. To delete the connection, you must have a valid authorization for the VPC peering connection that you want to delete.. Once a valid authorization exists, call this operation from the Amazon Web Services account that is used to manage the Amazon GameLift Servers fleets. Identify the connection to delete by the connection ID and fleet ID. If successful, the connection is removed. Related actions All APIs by task S...
+    /// This API works with the following fleet types: EC2 Removes a VPC peering connection. To delete the connection, you must have a valid authorization for the VPC peering connection that you want to delete. Once a valid authorization exists, call this operation from the Amazon Web Services account that is used to manage the Amazon GameLift Servers fleets. Identify the connection to delete by the connection ID and fleet ID. If successful, the connection is removed. Related actions All APIs by task Se...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -542,7 +542,7 @@ public class AwsGamelift : IAwsGamelift
     }
 
     /// <summary>
-    /// This API works with the following fleet types: Anywhere Removes a compute resource from an Anywhere fleet. Deregistered com- putes can no longer host game sessions through Amazon GameLift Servers. Use this operation with an Anywhere fleet that doesn't use the Amazon GameLift Servers Agent For Anywhere fleets with the Agent, the Agent handles all compute registry tasks for you. To deregister a compute, call this operation from the compute that's being deregistered and specify the compute name and...
+    /// This API works with the following fleet types: Anywhere Removes a compute resource from an Anywhere fleet. Deregistered computes can no longer host game sessions through Amazon GameLift Servers. Use this operation with an Anywhere fleet that doesn't use the Amazon GameLift Servers Agent. For Anywhere fleets with the Agent, the Agent handles all compute registry tasks for you. To deregister a compute, call this operation from the compute that's being deregistered and specify the compute name and ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -572,7 +572,7 @@ public class AwsGamelift : IAwsGamelift
     }
 
     /// <summary>
-    /// This API works with the following fleet types: EC2, Anywhere, Con- tainer Retrieves properties for an alias. This operation returns all alias metadata and settings. To get an alias's target fleet ID only, use Re- solveAlias . To get alias properties, specify the alias ID. If successful, the re- quested alias record is returned. Related actions All APIs by task See also: AWS API Documentation
+    /// This API works with the following fleet types: EC2, Anywhere, Container Retrieves properties for an alias. This operation returns all alias metadata and settings. To get an alias's target fleet ID only, use ResolveAlias . To get alias properties, specify the alias ID. If successful, the requested alias record is returned. Related actions All APIs by task See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -587,7 +587,7 @@ public class AwsGamelift : IAwsGamelift
     }
 
     /// <summary>
-    /// This API works with the following fleet types: EC2 Retrieves properties for a custom game build. To request a build re- source, specify a build ID. If successful, an object containing the build properties is returned. Learn more Upload a Custom Server Build All APIs by task See also: AWS API Documentation
+    /// This API works with the following fleet types: EC2 Retrieves properties for a custom game build. To request a build resource, specify a build ID. If successful, an object containing the build properties is returned. Learn more Upload a Custom Server Build All APIs by task See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -602,7 +602,7 @@ public class AwsGamelift : IAwsGamelift
     }
 
     /// <summary>
-    /// This API works with the following fleet types: EC2, Anywhere, Con- tainer Retrieves properties for a specific compute resource in an Amazon GameLift Servers fleet. You can list all computes in a fleet by calling ListCompute . Request options Provide the fleet ID and compute name. The compute name varies depend- ing on the type of fleet. o For a compute in a managed EC2 fleet, provide an instance ID. Each instance in the fleet is a compute. o For a compute in a managed container fleet, provide a ...
+    /// This API works with the following fleet types: EC2, Anywhere, Container Retrieves properties for a specific compute resource in an Amazon GameLift Servers fleet. You can list all computes in a fleet by calling ListCompute . Request options Provide the fleet ID and compute name. The compute name varies depending on the type of fleet. • For a compute in a managed EC2 fleet, provide an instance ID. Each instance in the fleet is a compute. • For a compute in a managed container fleet, provide a comp...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -617,7 +617,7 @@ public class AwsGamelift : IAwsGamelift
     }
 
     /// <summary>
-    /// This API works with the following fleet types: Container Retrieves the properties for a container fleet. When requesting attrib- utes for multiple fleets, use the pagination parameters to retrieve re- sults as a set of sequential pages. Request options o Get container fleet properties for a single fleet. Provide either the fleet ID or ARN value. Results If successful, a ContainerFleet object is returned. This object in- cludes the fleet properties, including information about the most re- cent d...
+    /// This API works with the following fleet types: Container Retrieves the properties for a container fleet. When requesting attributes for multiple fleets, use the pagination parameters to retrieve results as a set of sequential pages. Request options • Get container fleet properties for a single fleet. Provide either the fleet ID or ARN value. Results If successful, a ContainerFleet object is returned. This object includes the fleet properties, including information about the most recent deploymen...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -632,7 +632,7 @@ public class AwsGamelift : IAwsGamelift
     }
 
     /// <summary>
-    /// This API works with the following fleet types: Container Retrieves the properties of a container group definition, including all container definitions in the group. Request options: o Retrieve the latest version of a container group definition. Specify the container group definition name only, or use an ARN value without a version number. o Retrieve a particular version. Specify the container group definition name and a version number, or use an ARN value that includes the ver- sion number. Resu...
+    /// This API works with the following fleet types: Container Retrieves the properties of a container group definition, including all container definitions in the group. Request options: • Retrieve the latest version of a container group definition. Specify the container group definition name only, or use an ARN value without a version number. • Retrieve a particular version. Specify the container group definition name and a version number, or use an ARN value that includes the version number. Result...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -647,7 +647,7 @@ public class AwsGamelift : IAwsGamelift
     }
 
     /// <summary>
-    /// This API works with the following fleet types: Container Retrieves the port mappings for a container group running on a con- tainer fleet. Port mappings show how container ports are mapped to con- nection ports on the fleet instance. Use this operation to find the connection port for a specific container on a fleet instance. Request options o Get port mappings for a game server container group. Provide the fleet ID, set ContainerGroupType to GAME_SERVER , and specify the ComputeName for the game...
+    /// This API works with the following fleet types: Container Retrieves the port mappings for a container group running on a container fleet. Port mappings show how container ports are mapped to connection ports on the fleet instance. Use this operation to find the connection port for a specific container on a fleet instance. Request options • Get port mappings for a game server container group. Provide the fleet ID, set ContainerGroupType to GAME_SERVER , and specify the ComputeName for the game ser...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -662,7 +662,7 @@ public class AwsGamelift : IAwsGamelift
     }
 
     /// <summary>
-    /// This API works with the following fleet types: EC2 Retrieves the instance limits and current utilization for an Amazon Web Services Region or location. Instance limits control the number of in- stances, per instance type, per location, that your Amazon Web Services account can use. Learn more at Amazon EC2 Instance Types . The informa- tion returned includes the maximum number of instances allowed and your account's current usage across all fleets. This information can affect your ability to sca...
+    /// This API works with the following fleet types: EC2 Retrieves the instance limits and current utilization for an Amazon Web Services Region or location. Instance limits control the number of instances, per instance type, per location, that your Amazon Web Services account can use. Learn more at Amazon EC2 Instance Types . The information returned includes the maximum number of instances allowed and your account's current usage across all fleets. This information can affect your ability to scale y...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -677,7 +677,7 @@ public class AwsGamelift : IAwsGamelift
     }
 
     /// <summary>
-    /// This API works with the following fleet types: EC2, Anywhere Retrieves core fleet-wide properties for fleets in an Amazon Web Ser- vices Region. Properties include the computing hardware and deployment configuration for instances in the fleet. You can use this operation in the following ways: o To get attributes for specific fleets, provide a list of fleet IDs or fleet ARNs. o To get attributes for all fleets, do not provide a fleet identifier. When requesting attributes for multiple fleets, use...
+    /// This API works with the following fleet types: EC2, Anywhere Retrieves core fleet-wide properties for fleets in an Amazon Web Services Region. Properties include the computing hardware and deployment configuration for instances in the fleet. You can use this operation in the following ways: • To get attributes for specific fleets, provide a list of fleet IDs or fleet ARNs. • To get attributes for all fleets, do not provide a fleet identifier. When requesting attributes for multiple fleets, use t...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -707,7 +707,7 @@ public class AwsGamelift : IAwsGamelift
     }
 
     /// <summary>
-    /// This API works with the following fleet types: Container Retrieves information about a managed container fleet deployment. Request options o Get information about the latest deployment for a specific fleet. Provide the fleet ID or ARN. o Get information about a specific deployment. Provide the fleet ID or ARN and the deployment ID. Results If successful, a FleetDeployment object is returned. See also: AWS API Documentation
+    /// This API works with the following fleet types: Container Retrieves information about a managed container fleet deployment. Request options • Get information about the latest deployment for a specific fleet. Provide the fleet ID or ARN. • Get information about a specific deployment. Provide the fleet ID or ARN and the deployment ID. Results If successful, a FleetDeployment object is returned. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -722,7 +722,7 @@ public class AwsGamelift : IAwsGamelift
     }
 
     /// <summary>
-    /// This API works with the following fleet types: EC2, Anywhere, Con- tainer Retrieves entries from a fleet's event log. Fleet events are initiated by changes in status, such as during fleet creation and termination, changes in capacity, etc. If a fleet has multiple locations, events are also initiated by changes to status and capacity in remote locations. You can specify a time range to limit the result set. Use the pagina- tion parameters to retrieve results as a set of sequential pages. If succe...
+    /// This API works with the following fleet types: EC2, Anywhere, Container Retrieves entries from a fleet's event log. Fleet events are initiated by changes in status, such as during fleet creation and termination, changes in capacity, etc. If a fleet has multiple locations, events are also initiated by changes to status and capacity in remote locations. You can specify a time range to limit the result set. Use the pagination parameters to retrieve results as a set of sequential pages. If successfu...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -737,7 +737,7 @@ public class AwsGamelift : IAwsGamelift
     }
 
     /// <summary>
-    /// This API works with the following fleet types: EC2, Anywhere, Con- tainer Retrieves information on a fleet's remote locations, including life-cy- cle status and any suspended fleet activity. This operation can be used in the following ways: o To get data for specific locations, provide a fleet identifier and a list of locations. Location data is returned in the order that it is requested. o To get data for all locations, provide a fleet identifier only. Loca- tion data is returned in no particul...
+    /// This API works with the following fleet types: EC2, Anywhere, Container Retrieves information on a fleet's remote locations, including life-cycle status and any suspended fleet activity. This operation can be used in the following ways: • To get data for specific locations, provide a fleet identifier and a list of locations. Location data is returned in the order that it is requested. • To get data for all locations, provide a fleet identifier only. Location data is returned in no particular ord...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -752,7 +752,7 @@ public class AwsGamelift : IAwsGamelift
     }
 
     /// <summary>
-    /// This API works with the following fleet types: EC2, Anywhere, Con- tainer Retrieves the resource capacity settings for a fleet location. The data returned includes the current capacity (number of EC2 instances) and some scaling settings for the requested fleet location. For a managed container fleet, this operation also returns counts for game server container groups. Use this operation to retrieve capacity information for a fleet's re- mote location or home Region (you can also retrieve home Re...
+    /// This API works with the following fleet types: EC2, Anywhere, Container Retrieves the resource capacity settings for a fleet location. The data returned includes the current capacity (number of EC2 instances) and some scaling settings for the requested fleet location. For a managed container fleet, this operation also returns counts for game server container groups. Use this operation to retrieve capacity information for a fleet's remote location or home Region (you can also retrieve home Region...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -767,7 +767,7 @@ public class AwsGamelift : IAwsGamelift
     }
 
     /// <summary>
-    /// This API works with the following fleet types: EC2, Anywhere Retrieves current usage data for a fleet location. Utilization data provides a snapshot of current game hosting activity at the requested location. Use this operation to retrieve utilization information for a fleet's remote location or home Region (you can also retrieve home Re- gion utilization by calling DescribeFleetUtilization ). To retrieve utilization data, identify a fleet and location. If successful, a FleetUtilization object i...
+    /// This API works with the following fleet types: EC2, Anywhere Retrieves current usage data for a fleet location. Utilization data provides a snapshot of current game hosting activity at the requested location. Use this operation to retrieve utilization information for a fleet's remote location or home Region (you can also retrieve home Region utilization by calling DescribeFleetUtilization ). To retrieve utilization data, identify a fleet and location. If successful, a FleetUtilization object is ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -782,7 +782,7 @@ public class AwsGamelift : IAwsGamelift
     }
 
     /// <summary>
-    /// This API works with the following fleet types: EC2 Retrieves a fleet's inbound connection permissions. Connection permis- sions specify IP addresses and port settings that incoming traffic can use to access server processes in the fleet. Game server processes that are running in the fleet must use a port that falls within this range. Use this operation in the following ways: o To retrieve the port settings for a fleet, identify the fleet's unique identifier. o To check the status of recent updat...
+    /// This API works with the following fleet types: EC2 Retrieves a fleet's inbound connection permissions. Connection permissions specify IP addresses and port settings that incoming traffic can use to access server processes in the fleet. Game server processes that are running in the fleet must use a port that falls within this range. Use this operation in the following ways: • To retrieve the port settings for a fleet, identify the fleet's unique identifier. • To check the status of recent updates...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -797,7 +797,7 @@ public class AwsGamelift : IAwsGamelift
     }
 
     /// <summary>
-    /// This API works with the following fleet types: EC2 Retrieves utilization statistics for one or more fleets. Utilization data provides a snapshot of how the fleet's hosting resources are cur- rently being used. For fleets with remote locations, this operation re- trieves data for the fleet's home Region only. See DescribeFleetLocationUtilization to get utilization statistics for a fleet's remote locations. This operation can be used in the following ways: o To get utilization data for one or more...
+    /// This API works with the following fleet types: EC2 Retrieves utilization statistics for one or more fleets. Utilization data provides a snapshot of how the fleet's hosting resources are currently being used. For fleets with remote locations, this operation retrieves data for the fleet's home Region only. See DescribeFleetLocationUtilization to get utilization statistics for a fleet's remote locations. This operation can be used in the following ways: • To get utilization data for one or more spe...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -827,7 +827,7 @@ public class AwsGamelift : IAwsGamelift
     }
 
     /// <summary>
-    /// This API works with the following fleet types: EC2 (FleetIQ) Retrieves status information about the Amazon EC2 instances associated with a Amazon GameLift Servers FleetIQ game server group. Use this op- eration to detect when instances are active or not available to host new game servers. To request status for all instances in the game server group, provide a game server group ID only. To request status for specific instances, provide the game server group ID and one or more instance IDs. Use th...
+    /// This API works with the following fleet types: EC2 (FleetIQ) Retrieves status information about the Amazon EC2 instances associated with a Amazon GameLift Servers FleetIQ game server group. Use this operation to detect when instances are active or not available to host new game servers. To request status for all instances in the game server group, provide a game server group ID only. To request status for specific instances, provide the game server group ID and one or more instance IDs. Use the ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -842,7 +842,7 @@ public class AwsGamelift : IAwsGamelift
     }
 
     /// <summary>
-    /// This API works with the following fleet types: EC2 (FleetIQ) Retrieves information for a registered game server. Information in- cludes game server status, health check info, and the instance that the game server is running on. To retrieve game server information, specify the game server ID. If successful, the requested game server object is returned. Learn more Amazon GameLift Servers FleetIQ Guide See also: AWS API Documentation
+    /// This API works with the following fleet types: EC2 (FleetIQ) Retrieves information for a registered game server. Information includes game server status, health check info, and the instance that the game server is running on. To retrieve game server information, specify the game server ID. If successful, the requested game server object is returned. Learn more Amazon GameLift Servers FleetIQ Guide See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -857,7 +857,7 @@ public class AwsGamelift : IAwsGamelift
     }
 
     /// <summary>
-    /// This API works with the following fleet types: EC2, Anywhere, Con- tainer Retrieves additional game session properties, including the game ses- sion protection policy in force, a set of one or more game sessions in a specific fleet location. You can optionally filter the results by current game session status. This operation can be used in the following ways: o To retrieve details for all game sessions that are currently running on all locations in a fleet, provide a fleet or alias ID, with an o...
+    /// This API works with the following fleet types: EC2, Anywhere, Container Retrieves additional game session properties, including the game session protection policy in force, for a set of one or more game sessions in a specific fleet location. You can optionally filter the results by current game session status. This operation can be used in the following ways: • To retrieve details for all game sessions that are currently running on all locations in a fleet, provide a fleet or alias ID, with an o...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -872,7 +872,7 @@ public class AwsGamelift : IAwsGamelift
     }
 
     /// <summary>
-    /// This API works with the following fleet types: EC2, Anywhere, Con- tainer Retrieves information, including current status, about a game session placement request. To get game session placement details, specify the placement ID. This operation is not designed to be continually called to track game session status. This practice can cause you to exceed your API limit, which results in errors. Instead, you must configure an Amazon Simple Notification Service (SNS) topic to receive notifications from...
+    /// This API works with the following fleet types: EC2, Anywhere, Container Retrieves information, including current status, about a game session placement request. To get game session placement details, specify the placement ID. This operation is not designed to be continually called to track game session status. This practice can cause you to exceed your API limit, which results in errors. Instead, you must configure an Amazon Simple Notification Service (SNS) topic to receive notifications from F...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -887,7 +887,7 @@ public class AwsGamelift : IAwsGamelift
     }
 
     /// <summary>
-    /// This API works with the following fleet types: EC2, Anywhere, Con- tainer Retrieves the properties for one or more game session queues. When re- questing multiple queues, use the pagination parameters to retrieve re- sults as a set of sequential pages. When specifying a list of queues, objects are returned only for queues that currently exist in the Re- gion. Learn more View Your Queues See also: AWS API Documentation describe-game-session-queues is a paginated operation. Multiple API calls may ...
+    /// This API works with the following fleet types: EC2, Anywhere, Container Retrieves the properties for one or more game session queues. When requesting multiple queues, use the pagination parameters to retrieve results as a set of sequential pages. When specifying a list of queues, objects are returned only for queues that currently exist in the Region. Learn more View Your Queues See also: AWS API Documentation describe-game-session-queues is a paginated operation. Multiple API calls may be issue...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -902,7 +902,7 @@ public class AwsGamelift : IAwsGamelift
     }
 
     /// <summary>
-    /// This API works with the following fleet types: EC2, Anywhere, Con- tainer Retrieves a set of one or more game sessions in a specific fleet loca- tion. You can optionally filter the results by current game session status. This operation can be used in the following ways: o To retrieve all game sessions that are currently running on all loca- tions in a fleet, provide a fleet or alias ID, with an optional sta- tus filter. This approach returns all game sessions in the fleet's home Region and all r...
+    /// This API works with the following fleet types: EC2, Anywhere, Container Retrieves a set of one or more game sessions in a specific fleet location. You can optionally filter the results by current game session status. This operation can be used in the following ways: • To retrieve all game sessions that are currently running on all locations in a fleet, provide a fleet or alias ID, with an optional status filter. This approach returns all game sessions in the fleet's home Region and all remote lo...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -917,7 +917,7 @@ public class AwsGamelift : IAwsGamelift
     }
 
     /// <summary>
-    /// This API works with the following fleet types: EC2, Container Retrieves information about the EC2 instances in an Amazon GameLift Servers managed fleet, including instance ID, connection data, and sta- tus. You can use this operation with a multi-location fleet to get lo- cation-specific instance information. As an alternative, use the opera- tions https://docs.aws.amazon.com/gamelift/latest/apireference/API_ListCompute and https://docs.aws.amazon.com/gamelift/latest/apireference/API_DescribeCom...
+    /// This API works with the following fleet types: EC2, Container Retrieves information about the EC2 instances in an Amazon GameLift Servers managed fleet, including instance ID, connection data, and status. You can use this operation with a multi-location fleet to get location-specific instance information. As an alternative, use the operations https://docs.aws.amazon.com/gamelift/latest/apireference/API_ListCompute and https://docs.aws.amazon.com/gamelift/latest/apireference/API_DescribeCompute t...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -932,7 +932,7 @@ public class AwsGamelift : IAwsGamelift
     }
 
     /// <summary>
-    /// This API works with the following fleet types: EC2, Anywhere, Con- tainer Retrieves the details of FlexMatch matchmaking configurations. This operation offers the following options: (1) retrieve all matchmak- ing configurations, (2) retrieve configurations for a specified list, or (3) retrieve all configurations that use a specified rule set name. When requesting multiple items, use the pagination parameters to re- trieve results as a set of sequential pages. If successful, a configuration is re...
+    /// This API works with the following fleet types: EC2, Anywhere, Container Retrieves the details of FlexMatch matchmaking configurations. This operation offers the following options: (1) retrieve all matchmaking configurations, (2) retrieve configurations for a specified list, or (3) retrieve all configurations that use a specified rule set name. When requesting multiple items, use the pagination parameters to retrieve results as a set of sequential pages. If successful, a configuration is returned...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -947,7 +947,7 @@ public class AwsGamelift : IAwsGamelift
     }
 
     /// <summary>
-    /// This API works with the following fleet types: EC2, Anywhere, Con- tainer Retrieves one or more matchmaking tickets. Use this operation to re- trieve ticket information, including--after a successful match is made--connection information for the resulting new game session. To request matchmaking tickets, provide a list of up to 10 ticket IDs. If the request is successful, a ticket object is returned for each re- quested ID that currently exists. This operation is not designed to be continually c...
+    /// This API works with the following fleet types: EC2, Anywhere, Container Retrieves one or more matchmaking tickets. Use this operation to retrieve ticket information, including--after a successful match is made--connection information for the resulting new game session. To request matchmaking tickets, provide a list of up to 10 ticket IDs. If the request is successful, a ticket object is returned for each requested ID that currently exists. This operation is not designed to be continually called ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -962,7 +962,7 @@ public class AwsGamelift : IAwsGamelift
     }
 
     /// <summary>
-    /// This API works with the following fleet types: EC2, Anywhere, Con- tainer Retrieves the details for FlexMatch matchmaking rule sets. You can re- quest all existing rule sets for the Region, or provide a list of one or more rule set names. When requesting multiple items, use the pagina- tion parameters to retrieve results as a set of sequential pages. If successful, a rule set is returned for each requested name. Learn more o Build a rule set See also: AWS API Documentation describe-matchmaking-r...
+    /// This API works with the following fleet types: EC2, Anywhere, Container Retrieves the details for FlexMatch matchmaking rule sets. You can request all existing rule sets for the Region, or provide a list of one or more rule set names. When requesting multiple items, use the pagination parameters to retrieve results as a set of sequential pages. If successful, a rule set is returned for each requested name. Learn more • Build a rule set See also: AWS API Documentation describe-matchmaking-rule-se...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -977,7 +977,7 @@ public class AwsGamelift : IAwsGamelift
     }
 
     /// <summary>
-    /// This API works with the following fleet types: EC2, Anywhere, Con- tainer Retrieves properties for one or more player sessions. This action can be used in the following ways: o To retrieve a specific player session, provide the player session ID only. o To retrieve all player sessions in a game session, provide the game session ID only. o To retrieve all player sessions for a specific player, provide a player ID only. To request player sessions, specify either a player session ID, game session I...
+    /// This API works with the following fleet types: EC2, Anywhere, Container Retrieves properties for one or more player sessions. This action can be used in the following ways: • To retrieve a specific player session, provide the player session ID only. • To retrieve all player sessions in a game session, provide the game session ID only. • To retrieve all player sessions for a specific player, provide a player ID only. To request player sessions, specify either a player session ID, game session ID,...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -992,7 +992,7 @@ public class AwsGamelift : IAwsGamelift
     }
 
     /// <summary>
-    /// This API works with the following fleet types: EC2 Retrieves a fleet's runtime configuration settings. The runtime config- uration determines which server processes run, and how, on computes in the fleet. For managed EC2 fleets, the runtime configuration describes server processes that run on each fleet instance. You can update a fleet's runtime configuration at any time using UpdateRuntimeConfiguration . To get the current runtime configuration for a fleet, provide the fleet ID. If successful, ...
+    /// This API works with the following fleet types: EC2 Retrieves a fleet's runtime configuration settings. The runtime configuration determines which server processes run, and how, on computes in the fleet. For managed EC2 fleets, the runtime configuration describes server processes that run on each fleet instance. You can update a fleet's runtime configuration at any time using UpdateRuntimeConfiguration . To get the current runtime configuration for a fleet, provide the fleet ID. If successful, a ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1007,7 +1007,7 @@ public class AwsGamelift : IAwsGamelift
     }
 
     /// <summary>
-    /// This API works with the following fleet types: EC2, Container Retrieves all scaling policies applied to a fleet. To get a fleet's scaling policies, specify the fleet ID. You can filter this request by policy status, such as to retrieve only active scaling policies. Use the pagination parameters to retrieve results as a set of sequential pages. If successful, set of ScalingPolicy objects is re- turned for the fleet. A fleet may have all of its scaling policies suspended. This operation does not a...
+    /// This API works with the following fleet types: EC2, Container Retrieves all scaling policies applied to a fleet. To get a fleet's scaling policies, specify the fleet ID. You can filter this request by policy status, such as to retrieve only active scaling policies. Use the pagination parameters to retrieve results as a set of sequential pages. If successful, set of ScalingPolicy objects is returned for the fleet. A fleet may have all of its scaling policies suspended. This operation does not aff...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1037,7 +1037,7 @@ public class AwsGamelift : IAwsGamelift
     }
 
     /// <summary>
-    /// This API works with the following fleet types: EC2 Retrieves valid VPC peering authorizations that are pending for the Amazon Web Services account. This operation returns all VPC peering au- thorizations and requests for peering. This includes those initiated and received by this account. Related actions All APIs by task See also: AWS API Documentation
+    /// This API works with the following fleet types: EC2 Retrieves valid VPC peering authorizations that are pending for the Amazon Web Services account. This operation returns all VPC peering authorizations and requests for peering. This includes those initiated and received by this account. Related actions All APIs by task See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1067,7 +1067,7 @@ public class AwsGamelift : IAwsGamelift
     }
 
     /// <summary>
-    /// This API works with the following fleet types: EC2, Container Requests authorization to remotely connect to a hosting resource in a Amazon GameLift Servers managed fleet. This operation is not used with Amazon GameLift Servers Anywhere fleets. Request options Provide the fleet ID and compute name. The compute name varies depend- ing on the type of fleet. o For a compute in a managed EC2 fleet, provide an instance ID. Each instance in the fleet is a compute. o For a compute in a managed container...
+    /// This API works with the following fleet types: EC2, Container Requests authorization to remotely connect to a hosting resource in a Amazon GameLift Servers managed fleet. This operation is not used with Amazon GameLift Servers Anywhere fleets. Request options Provide the fleet ID and compute name. The compute name varies depending on the type of fleet. • For a compute in a managed EC2 fleet, provide an instance ID. Each instance in the fleet is a compute. • For a compute in a managed container f...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1082,7 +1082,7 @@ public class AwsGamelift : IAwsGamelift
     }
 
     /// <summary>
-    /// This API works with the following fleet types: EC2, Anywhere, Con- tainer Requests an authentication token from Amazon GameLift Servers for a compute resource in an Amazon GameLift Servers fleet. Game servers that are running on the compute use this token to communicate with the Ama- zon GameLift Servers service, such as when calling the Amazon GameLift Servers server SDK action InitSDK() . Authentication tokens are valid for a limited time span, so you need to request a fresh token before the c...
+    /// This API works with the following fleet types: EC2, Anywhere, Container Requests an authentication token from Amazon GameLift Servers for a compute resource in an Amazon GameLift Servers fleet. Game servers that are running on the compute use this token to communicate with the Amazon GameLift Servers service, such as when calling the Amazon GameLift Servers server SDK action InitSDK() . Authentication tokens are valid for a limited time span, so you need to request a fresh token before the curre...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1127,7 +1127,7 @@ public class AwsGamelift : IAwsGamelift
     }
 
     /// <summary>
-    /// This API works with the following fleet types: EC2 Requests authorization to remotely connect to an instance in an Amazon GameLift Servers managed fleet. Use this operation to connect to in- stances with game servers that use Amazon GameLift Servers server SDK 4.x or earlier. To connect to instances with game servers that use server SDK 5.x or later, call https://docs.aws.amazon.com/gamelift/latest/apireference/API_GetComputeAccess . To request access to an instance, specify IDs for the instance...
+    /// This API works with the following fleet types: EC2 Requests authorization to remotely connect to an instance in an Amazon GameLift Servers managed fleet. Use this operation to connect to instances with game servers that use Amazon GameLift Servers server SDK 4.x or earlier. To connect to instances with game servers that use server SDK 5.x or later, call https://docs.aws.amazon.com/gamelift/latest/apireference/API_GetComputeAccess . To request access to an instance, specify IDs for the instance a...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1142,7 +1142,7 @@ public class AwsGamelift : IAwsGamelift
     }
 
     /// <summary>
-    /// This API works with the following fleet types: EC2 (server SDK 5.x or later), Container Retrieves connection details for game clients to connect to game ses- sions. Player gateway benefits: DDoS protection with negligible impact to latency. To enable player gateway on your fleet, set PlayerGatewayMode to EN- ABLED or REQUIRED when calling CreateFleet or CreateContainerFleet . How to use: After creating a game session and adding players, call this operation with the game session ID and player IDs...
+    /// This API works with the following fleet types: EC2 (server SDK 5.x or later), Container Retrieves connection details for game clients to connect to game sessions. Player gateway benefits: DDoS protection with negligible impact to latency. To enable player gateway on your fleet, set PlayerGatewayMode to ENABLED or REQUIRED when calling CreateFleet or CreateContainerFleet . How to use: After creating a game session and adding players, call this operation with the game session ID and player IDs. Wh...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1157,7 +1157,7 @@ public class AwsGamelift : IAwsGamelift
     }
 
     /// <summary>
-    /// This API works with the following fleet types: EC2, Anywhere, Con- tainer Retrieves all aliases for this Amazon Web Services account. You can filter the result set by alias name and/or routing strategy type. Use the pagination parameters to retrieve results in sequential pages. NOTE: Returned aliases are not listed in any particular order. Related actions All APIs by task See also: AWS API Documentation list-aliases is a paginated operation. Multiple API calls may be issued in order to retrieve ...
+    /// This API works with the following fleet types: EC2, Anywhere, Container Retrieves all aliases for this Amazon Web Services account. You can filter the result set by alias name and/or routing strategy type. Use the pagination parameters to retrieve results in sequential pages. NOTE: Returned aliases are not listed in any particular order. Related actions All APIs by task See also: AWS API Documentation list-aliases is a paginated operation. Multiple API calls may be issued in order to retrieve th...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1172,7 +1172,7 @@ public class AwsGamelift : IAwsGamelift
     }
 
     /// <summary>
-    /// This API works with the following fleet types: EC2 Retrieves build resources for all builds associated with the Amazon Web Services account in use. You can limit results to builds that are in a specific status by using the Status parameter. Use the pagination para- meters to retrieve results in NOTE: Build resources are not listed in any particular order. Learn more Upload a Custom Server Build All APIs by task See also: AWS API Documentation list-builds is a paginated operation. Multiple API ca...
+    /// This API works with the following fleet types: EC2 Retrieves build resources for all builds associated with the Amazon Web Services account in use. You can limit results to builds that are in a specific status by using the Status parameter. Use the pagination parameters to retrieve results in NOTE: Build resources are not listed in any particular order. Learn more Upload a Custom Server Build All APIs by task See also: AWS API Documentation list-builds is a paginated operation. Multiple API call...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1187,7 +1187,7 @@ public class AwsGamelift : IAwsGamelift
     }
 
     /// <summary>
-    /// This API works with the following fleet types: EC2, Anywhere, Con- tainer Retrieves information on the compute resources in an Amazon GameLift Servers fleet. Use the pagination parameters to retrieve results in a set of sequential pages. Request options o Retrieve a list of all computes in a fleet. Specify a fleet ID. o Retrieve a list of all computes in a specific fleet location. Specify a fleet ID and location. Results If successful, this operation returns information on a set of computes. Dep...
+    /// This API works with the following fleet types: EC2, Anywhere, Container Retrieves information on the compute resources in an Amazon GameLift Servers fleet. Use the pagination parameters to retrieve results in a set of sequential pages. Request options • Retrieve a list of all computes in a fleet. Specify a fleet ID. • Retrieve a list of all computes in a specific fleet location. Specify a fleet ID and location. Results If successful, this operation returns information on a set of computes. Depen...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1202,7 +1202,7 @@ public class AwsGamelift : IAwsGamelift
     }
 
     /// <summary>
-    /// This API works with the following fleet types: Container Retrieves a collection of container fleet resources in an Amazon Web Services Region. For fleets that have multiple locations, this opera- tion retrieves fleets based on their home Region only. Request options o Get a list of all fleets. Call this operation without specifying a container group definition. o Get a list of fleets filtered by container group definition. Provide the container group definition name or ARN value. o To get a list...
+    /// This API works with the following fleet types: Container Retrieves a collection of container fleet resources in an Amazon Web Services Region. For fleets that have multiple locations, this operation retrieves fleets based on their home Region only. Request options • Get a list of all fleets. Call this operation without specifying a container group definition. • Get a list of fleets filtered by container group definition. Provide the container group definition name or ARN value. • To get a list o...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1217,22 +1217,7 @@ public class AwsGamelift : IAwsGamelift
     }
 
     /// <summary>
-    /// This API works with the following fleet types: Container Retrieves container group definitions for the Amazon Web Services ac- count and Amazon Web Services Region. Use the pagination parameters to retrieve results in a set of sequential pages. This operation returns only the latest version of each definition. To retrieve all versions of a container group definition, use ListContainerGroupDefinitionVersions . Request options: o Retrieve the most recent versions of all container group definitions...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListContainerGroupDefinitionsAsync(
-        AwsGameliftListContainerGroupDefinitionsOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsGameliftListContainerGroupDefinitionsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
-    /// This API works with the following fleet types: Container Retrieves all versions of a container group definition. Use the pagina- tion parameters to retrieve results in a set of sequential pages. Request options: o Get all versions of a specified container group definition. Specify the container group definition name or ARN value. (If the ARN value has a version number, it's ignored.) Results: If successful, this operation returns the complete properties of a set of container group definition ver...
+    /// This API works with the following fleet types: Container Retrieves all versions of a container group definition. Use the pagination parameters to retrieve results in a set of sequential pages. Request options: • Get all versions of a specified container group definition. Specify the container group definition name or ARN value. (If the ARN value has a version number, it's ignored.) Results: If successful, this operation returns the complete properties of a set of container group definition versi...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1247,7 +1232,22 @@ public class AwsGamelift : IAwsGamelift
     }
 
     /// <summary>
-    /// This API works with the following fleet types: Container Retrieves a collection of container fleet deployments in an Amazon Web Services Region. Use the pagination parameters to retrieve results as a set of sequential pages. Request options o Get a list of all deployments. Call this operation without specifying a fleet ID. o Get a list of all deployments for a fleet. Specify the container fleet ID or ARN value. Results If successful, this operation returns a list of deployments that match the re...
+    /// This API works with the following fleet types: Container Retrieves container group definitions for the Amazon Web Services account and Amazon Web Services Region. Use the pagination parameters to retrieve results in a set of sequential pages. This operation returns only the latest version of each definition. To retrieve all versions of a container group definition, use ListContainerGroupDefinitionVersions . Request options: • Retrieve the most recent versions of all container group definitions. ...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListContainerGroupDefinitionsAsync(
+        AwsGameliftListContainerGroupDefinitionsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsGameliftListContainerGroupDefinitionsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// This API works with the following fleet types: Container Retrieves a collection of container fleet deployments in an Amazon Web Services Region. Use the pagination parameters to retrieve results as a set of sequential pages. Request options • Get a list of all deployments. Call this operation without specifying a fleet ID. • Get a list of all deployments for a fleet. Specify the container fleet ID or ARN value. Results If successful, this operation returns a list of deployments that match the re...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1262,7 +1262,7 @@ public class AwsGamelift : IAwsGamelift
     }
 
     /// <summary>
-    /// This API works with the following fleet types: EC2, Anywhere, Con- tainer Retrieves a collection of fleet resources in an Amazon Web Services Re- gion. You can filter the result set to find only those fleets that are deployed with a specific build or script. For fleets that have multiple locations, this operation retrieves fleets based on their home Region only. You can use operation in the following ways: o To get a list of all fleets in a Region, don't provide a build or script identifier. o T...
+    /// This API works with the following fleet types: EC2, Anywhere, Container Retrieves a collection of fleet resources in an Amazon Web Services Region. You can filter the result set to find only those fleets that are deployed with a specific build or script. For fleets that have multiple locations, this operation retrieves fleets based on their home Region only. You can use this operation in the following ways: • To get a list of all fleets in a Region, don't provide a build or script identifier. • ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1277,7 +1277,7 @@ public class AwsGamelift : IAwsGamelift
     }
 
     /// <summary>
-    /// This API works with the following fleet types: EC2 (FleetIQ) Lists a game server groups. See also: AWS API Documentation list-game-server-groups is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: GameSe...
+    /// This API works with the following fleet types: EC2 (FleetIQ) Lists game server groups. See also: AWS API Documentation list-game-server-groups is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: GameServer...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1307,7 +1307,7 @@ public class AwsGamelift : IAwsGamelift
     }
 
     /// <summary>
-    /// This API works with the following fleet types: EC2, Anywhere, Con- tainer Lists all custom and Amazon Web Services locations where Amazon GameLift Servers can host game servers. This operation also returns UDP ping beacon information for locations, which you can use to measure network latency between player devices and potential hosting locations. Learn more Service locations See also: AWS API Documentation list-locations is a paginated operation. Multiple API calls may be is- sued in order to r...
+    /// This API works with the following fleet types: EC2, Anywhere, Container Lists all custom and Amazon Web Services locations where Amazon GameLift Servers can host game servers. This operation also returns UDP ping beacon information for locations, which you can use to measure network latency between player devices and potential hosting locations. Learn more Service locations See also: AWS API Documentation list-locations is a paginated operation. Multiple API calls may be issued in order to retri...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1337,7 +1337,7 @@ public class AwsGamelift : IAwsGamelift
     }
 
     /// <summary>
-    /// This API works with the following fleet types: EC2, Anywhere, Con- tainer Retrieves all tags assigned to a Amazon GameLift Servers resource. Use resource tags to organize Amazon Web Services resources for a range of purposes. This operation handles the permissions necessary to manage tags for Amazon GameLift Servers resources that support tagging. To list tags for a resource, specify the unique ARN value for the re- source. Learn more Tagging Amazon Web Services Resources in the Amazon Web Servi...
+    /// This API works with the following fleet types: EC2, Anywhere, Container Retrieves all tags assigned to a Amazon GameLift Servers resource. Use resource tags to organize Amazon Web Services resources for a range of purposes. This operation handles the permissions necessary to manage tags for Amazon GameLift Servers resources that support tagging. To list tags for a resource, specify the unique ARN value for the resource. Learn more Tagging Amazon Web Services Resources in the Amazon Web Services ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1352,7 +1352,7 @@ public class AwsGamelift : IAwsGamelift
     }
 
     /// <summary>
-    /// This API works with the following fleet types: EC2, Container Creates or updates a scaling policy for a fleet. Scaling policies are used to automatically scale a fleet's hosting capacity to meet player demand. An active scaling policy instructs Amazon GameLift Servers to track a fleet metric and automatically change the fleet's capacity when a certain threshold is reached. There are two types of scaling poli- cies: target-based and rule-based. Use a target-based policy to quickly and efficiently...
+    /// This API works with the following fleet types: EC2, Container Creates or updates a scaling policy for a fleet. Scaling policies are used to automatically scale a fleet's hosting capacity to meet player demand. An active scaling policy instructs Amazon GameLift Servers to track a fleet metric and automatically change the fleet's capacity when a certain threshold is reached. There are two types of scaling policies: target-based and rule-based. Use a target-based policy to quickly and efficiently m...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1382,7 +1382,7 @@ public class AwsGamelift : IAwsGamelift
     }
 
     /// <summary>
-    /// This API works with the following fleet types: EC2 (FleetIQ) Creates a new game server resource and notifies Amazon GameLift Servers FleetIQ that the game server is ready to host gameplay and players. This operation is called by a game server process that is running on an instance in a game server group. Registering game servers enables Ama- zon GameLift Servers FleetIQ to track available game servers and en- ables game clients and services to claim a game server for a new game session. To regis...
+    /// This API works with the following fleet types: EC2 (FleetIQ) Creates a new game server resource and notifies Amazon GameLift Servers FleetIQ that the game server is ready to host gameplay and players. This operation is called by a game server process that is running on an instance in a game server group. Registering game servers enables Amazon GameLift Servers FleetIQ to track available game servers and enables game clients and services to claim a game server for a new game session. To register ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1412,7 +1412,7 @@ public class AwsGamelift : IAwsGamelift
     }
 
     /// <summary>
-    /// This API works with the following fleet types: EC2, Anywhere, Con- tainer Attempts to retrieve a fleet ID that is associated with an alias. Spec- ify a unique alias identifier. If the alias has a SIMPLE routing strategy, Amazon GameLift Servers re- turns a fleet ID. If the alias has a TERMINAL routing strategy, the re- sult is a TerminalRoutingStrategyException . Related actions All APIs by task See also: AWS API Documentation
+    /// This API works with the following fleet types: EC2, Anywhere, Container Attempts to retrieve a fleet ID that is associated with an alias. Specify a unique alias identifier. If the alias has a SIMPLE routing strategy, Amazon GameLift Servers returns a fleet ID. If the alias has a TERMINAL routing strategy, the result is a TerminalRoutingStrategyException . Related actions All APIs by task See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1427,7 +1427,7 @@ public class AwsGamelift : IAwsGamelift
     }
 
     /// <summary>
-    /// This API works with the following fleet types: EC2 (FleetIQ) Reinstates activity on a game server group after it has been suspended. A game server group might be suspended by the SuspendGameServerGroup operation, or it might be suspended involuntarily due to a configura- tion problem. In the second case, you can manually resume activity on the group once the configuration problem has been resolved. Refer to the game server group status and status reason for more information on why group activity...
+    /// This API works with the following fleet types: EC2 (FleetIQ) Reinstates activity on a game server group after it has been suspended. A game server group might be suspended by the SuspendGameServerGroup operation, or it might be suspended involuntarily due to a configuration problem. In the second case, you can manually resume activity on the group once the configuration problem has been resolved. Refer to the game server group status and status reason for more information on why group activity i...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1442,7 +1442,7 @@ public class AwsGamelift : IAwsGamelift
     }
 
     /// <summary>
-    /// This API works with the following fleet types: EC2, Anywhere, Con- tainer Retrieves all active game sessions that match a set of search criteria and sorts them into a specified order. This operation is not designed to continually track game session status because that practice can cause you to exceed your API limit and gener- ate errors. Instead, configure an Amazon Simple Notification Service (Amazon SNS) topic to receive notifications from a matchmaker or a game session placement queue. When s...
+    /// This API works with the following fleet types: EC2, Anywhere, Container Retrieves all active game sessions that match a set of search criteria and sorts them into a specified order. This operation is not designed to continually track game session status because that practice can cause you to exceed your API limit and generate errors. Instead, configure an Amazon Simple Notification Service (Amazon SNS) topic to receive notifications from a matchmaker or a game session placement queue. When searc...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1457,7 +1457,7 @@ public class AwsGamelift : IAwsGamelift
     }
 
     /// <summary>
-    /// This API works with the following fleet types: EC2, Container Resumes certain types of activity on fleet instances that were sus- pended with StopFleetActions . For multi-location fleets, fleet actions are managed separately for each location. Currently, this operation is used to restart a fleet's auto-scaling activity. This operation can be used in the following ways: o To restart actions on instances in the fleet's home Region, provide a fleet ID and the type of actions to resume. o To restart...
+    /// This API works with the following fleet types: EC2, Container Resumes certain types of activity on fleet instances that were suspended with StopFleetActions . For multi-location fleets, fleet actions are managed separately for each location. Currently, this operation is used to restart a fleet's auto-scaling activity. This operation can be used in the following ways: • To restart actions on instances in the fleet's home Region, provide a fleet ID and the type of actions to resume. • To restart a...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1472,7 +1472,7 @@ public class AwsGamelift : IAwsGamelift
     }
 
     /// <summary>
-    /// This API works with the following fleet types: EC2, Anywhere, Con- tainer Makes a request to start a new game session using a game session queue. When processing a placement request, Amazon GameLift Servers looks for the best possible available resource to host the game session, based on how the queue is configured to prioritize factors such as resource cost, latency, and location. After selecting an available resource, Amazon GameLift Servers prompts the resource to start a game session. A plac...
+    /// This API works with the following fleet types: EC2, Anywhere, Container Makes a request to start a new game session using a game session queue. When processing a placement request, Amazon GameLift Servers looks for the best possible available resource to host the game session, based on how the queue is configured to prioritize factors such as resource cost, latency, and location. After selecting an available resource, Amazon GameLift Servers prompts the resource to start a game session. A placem...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1487,7 +1487,7 @@ public class AwsGamelift : IAwsGamelift
     }
 
     /// <summary>
-    /// This API works with the following fleet types: EC2, Anywhere, Con- tainer Finds new players to fill open slots in currently running game ses- sions. The backfill match process is essentially identical to the process of forming new matches. Backfill requests use the same match- maker that was used to make the original match, and they provide match- making data for all players currently in the game session. FlexMatch uses this information to select new players so that backfilled match continues to...
+    /// This API works with the following fleet types: EC2, Anywhere, Container Finds new players to fill open slots in currently running game sessions. The backfill match process is essentially identical to the process of forming new matches. Backfill requests use the same matchmaker that was used to make the original match, and they provide matchmaking data for all players currently in the game session. FlexMatch uses this information to select new players so that the backfilled match continues to mee...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1502,7 +1502,7 @@ public class AwsGamelift : IAwsGamelift
     }
 
     /// <summary>
-    /// This API works with the following fleet types: EC2, Anywhere, Con- tainer Uses FlexMatch to create a game match for a group of players based on custom matchmaking rules. With games that use Amazon GameLift Servers managed hosting, this operation also triggers Amazon GameLift Servers to find hosting resources and start a new game session for the new match. Each matchmaking request includes information on one or more players and specifies the FlexMatch matchmaker to use. When a request is for mult...
+    /// This API works with the following fleet types: EC2, Anywhere, Container Uses FlexMatch to create a game match for a group of players based on custom matchmaking rules. With games that use Amazon GameLift Servers managed hosting, this operation also triggers Amazon GameLift Servers to find hosting resources and start a new game session for the new match. Each matchmaking request includes information on one or more players and specifies the FlexMatch matchmaker to use. When a request is for multip...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1532,7 +1532,7 @@ public class AwsGamelift : IAwsGamelift
     }
 
     /// <summary>
-    /// This API works with the following fleet types: EC2, Anywhere, Con- tainer Cancels a game session placement that's in PENDING status. To stop a placement, provide the placement ID value. Results If successful, this operation removes the placement request from the queue and moves the GameSessionPlacement to CANCELLED status. This operation results in an InvalidRequestExecption (400) error if a game session has already been created for this placement. You can clean up an unneeded game session by ca...
+    /// This API works with the following fleet types: EC2, Anywhere, Container Cancels a game session placement that's in PENDING status. To stop a placement, provide the placement ID value. Results If successful, this operation removes the placement request from the queue and moves the GameSessionPlacement to CANCELLED status. This operation results in an InvalidRequestException (400) error if a game session has already been created for this placement. You can clean up an unneeded game session by call...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1547,7 +1547,7 @@ public class AwsGamelift : IAwsGamelift
     }
 
     /// <summary>
-    /// This API works with the following fleet types: EC2, Anywhere, Con- tainer Cancels a matchmaking ticket or match backfill ticket that is currently being processed. To stop the matchmaking operation, specify the ticket ID. If successful, work on the ticket is stopped, and the ticket status is changed to CANCELLED . This call is also used to turn off automatic backfill for an individual game session. This is for game sessions that are created with a match- making configuration that has automatic ba...
+    /// This API works with the following fleet types: EC2, Anywhere, Container Cancels a matchmaking ticket or match backfill ticket that is currently being processed. To stop the matchmaking operation, specify the ticket ID. If successful, work on the ticket is stopped, and the ticket status is changed to CANCELLED . This call is also used to turn off automatic backfill for an individual game session. This is for game sessions that are created with a matchmaking configuration that has automatic backfi...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1562,7 +1562,7 @@ public class AwsGamelift : IAwsGamelift
     }
 
     /// <summary>
-    /// This API works with the following fleet types: EC2 (FleetIQ) Temporarily stops activity on a game server group without terminating instances or the game server group. You can restart activity by calling ResumeGameServerGroup . You can suspend the following activity: o Instance type replacement - This activity evaluates the current game hosting viability of all Spot instance types that are defined for the game server group. It updates the Auto Scaling group to remove nonvi- able Spot Instance typ...
+    /// This API works with the following fleet types: EC2 (FleetIQ) Temporarily stops activity on a game server group without terminating instances or the game server group. You can restart activity by calling ResumeGameServerGroup . You can suspend the following activity: • Instance type replacement - This activity evaluates the current game hosting viability of all Spot instance types that are defined for the game server group. It updates the Auto Scaling group to remove nonviable Spot Instance types...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1577,7 +1577,7 @@ public class AwsGamelift : IAwsGamelift
     }
 
     /// <summary>
-    /// This API works with the following fleet types: EC2, Anywhere, Con- tainer Assigns a tag to an Amazon GameLift Servers resource. You can use tags to organize resources, create IAM permissions policies to manage access to groups of resources, customize Amazon Web Services cost breakdowns, and more. This operation handles the permissions necessary to manage tags for Amazon GameLift Servers resources that support tagging. To add a tag to a resource, specify the unique ARN value for the re- source an...
+    /// This API works with the following fleet types: EC2, Anywhere, Container Assigns a tag to an Amazon GameLift Servers resource. You can use tags to organize resources, create IAM permissions policies to manage access to groups of resources, customize Amazon Web Services cost breakdowns, and more. This operation handles the permissions necessary to manage tags for Amazon GameLift Servers resources that support tagging. To add a tag to a resource, specify the unique ARN value for the resource and pr...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1592,7 +1592,7 @@ public class AwsGamelift : IAwsGamelift
     }
 
     /// <summary>
-    /// This API works with the following fleet types: EC2, Anywhere, Con- tainer Ends a game session that's currently in progress. Use this action to terminate any game session that isn't in ERROR status. Terminating a game session is the most efficient way to free up a server process when it's hosting a game session that's in a bad state or not ending prop- erly. You can use this action to terminate a game session that's being hosted on any type of Amazon GameLift Servers fleet compute, including comp...
+    /// This API works with the following fleet types: EC2, Anywhere, Container Ends a game session that's currently in progress. Use this action to terminate any game session that isn't in ERROR status. Terminating a game session is the most efficient way to free up a server process when it's hosting a game session that's in a bad state or not ending properly. You can use this action to terminate a game session that's being hosted on any type of Amazon GameLift Servers fleet compute, including computes...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1607,7 +1607,7 @@ public class AwsGamelift : IAwsGamelift
     }
 
     /// <summary>
-    /// This API works with the following fleet types: EC2, Anywhere, Con- tainer Removes a tag assigned to a Amazon GameLift Servers resource. You can use resource tags to organize Amazon Web Services resources for a range of purposes. This operation handles the permissions necessary to manage tags for Amazon GameLift Servers resources that support tagging. To remove a tag from a resource, specify the unique ARN value for the resource and provide a string list containing one or more tags to re- move. T...
+    /// This API works with the following fleet types: EC2, Anywhere, Container Removes a tag assigned to a Amazon GameLift Servers resource. You can use resource tags to organize Amazon Web Services resources for a range of purposes. This operation handles the permissions necessary to manage tags for Amazon GameLift Servers resources that support tagging. To remove a tag from a resource, specify the unique ARN value for the resource and provide a string list containing one or more tags to remove. This ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1622,7 +1622,7 @@ public class AwsGamelift : IAwsGamelift
     }
 
     /// <summary>
-    /// This API works with the following fleet types: EC2, Anywhere, Con- tainer Updates properties for an alias. Specify the unique identifier of the alias to be updated and the new property values. When reassigning an alias to a new fleet, provide an updated routing strategy. If successful, the updated alias record is returned. Related actions All APIs by task See also: AWS API Documentation
+    /// This API works with the following fleet types: EC2, Anywhere, Container Updates properties for an alias. Specify the unique identifier of the alias to be updated and the new property values. When reassigning an alias to a new fleet, provide an updated routing strategy. If successful, the updated alias record is returned. Related actions All APIs by task See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1637,7 +1637,7 @@ public class AwsGamelift : IAwsGamelift
     }
 
     /// <summary>
-    /// This API works with the following fleet types: EC2 Updates metadata in a build resource, including the build name and ver- sion. To update the metadata, specify the build ID to update and pro- vide the new values. If successful, a build object containing the up- dated metadata is returned. Learn more Upload a Custom Server Build All APIs by task See also: AWS API Documentation
+    /// This API works with the following fleet types: EC2 Updates metadata in a build resource, including the build name and version. To update the metadata, specify the build ID to update and provide the new values. If successful, a build object containing the updated metadata is returned. Learn more Upload a Custom Server Build All APIs by task See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1652,7 +1652,7 @@ public class AwsGamelift : IAwsGamelift
     }
 
     /// <summary>
-    /// This API works with the following fleet types: Container Updates the properties of a managed container fleet. Depending on the properties being updated, this operation might initiate a fleet deploy- ment. You can track deployments for a fleet using https://docs.aws.amazon.com/gamelift/latest/apireference/API_DescribeFleetDeployment.html . NOTE: A managed fleet's runtime environment, which depends on the fleet's Amazon Machine Image {AMI} version, can't be updated. You must create a new fleet. As...
+    /// This API works with the following fleet types: Container Updates the properties of a managed container fleet. Depending on the properties being updated, this operation might initiate a fleet deployment. You can track deployments for a fleet using https://docs.aws.amazon.com/gamelift/latest/apireference/API_DescribeFleetDeployment.html . NOTE: A managed fleet's runtime environment, which depends on the fleet's Amazon Machine Image (AMI) version, can't be updated. You must create a new fleet. As a...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1667,7 +1667,7 @@ public class AwsGamelift : IAwsGamelift
     }
 
     /// <summary>
-    /// This API works with the following fleet types: Container Updates properties in an existing container group definition. This op- eration doesn't replace the definition. Instead, it creates a new ver- sion of the definition and saves it separately. You can access all ver- sions that you choose to retain. The only property you can't update is the container group type. Request options: o Update based on the latest version of the container group definition. Specify the container group definition name...
+    /// This API works with the following fleet types: Container Updates properties in an existing container group definition. This operation doesn't replace the definition. Instead, it creates a new version of the definition and saves it separately. You can access all versions that you choose to retain. The only property you can't update is the container group type. Request options: • Update based on the latest version of the container group definition. Specify the container group definition name only,...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1682,7 +1682,7 @@ public class AwsGamelift : IAwsGamelift
     }
 
     /// <summary>
-    /// This API works with the following fleet types: EC2, Anywhere Updates a fleet's mutable attributes, such as game session protection and resource creation limits. To update fleet attributes, specify the fleet ID and the property val- ues that you want to change. If successful, Amazon GameLift Servers re- turns the identifiers for the updated fleet. NOTE: A managed fleet's runtime environment, which depends on the fleet's Amazon Machine Image {AMI} version, can't be updated. You must create a new f...
+    /// This API works with the following fleet types: EC2, Anywhere Updates a fleet's mutable attributes, such as game session protection and resource creation limits. To update fleet attributes, specify the fleet ID and the property values that you want to change. If successful, Amazon GameLift Servers returns the identifiers for the updated fleet. NOTE: A managed fleet's runtime environment, which depends on the fleet's Amazon Machine Image (AMI) version, can't be updated. You must create a new fleet...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1697,7 +1697,7 @@ public class AwsGamelift : IAwsGamelift
     }
 
     /// <summary>
-    /// This API works with the following fleet types: EC2, Container Updates capacity settings for a managed EC2 fleet or managed container fleet. For these fleets, you adjust capacity by changing the number of instances in the fleet. Fleet capacity determines the number of game sessions and players that the fleet can host based on its configura- tion. For fleets with multiple locations, use this operation to manage capacity settings in each location individually. o Minimum/maximum size: Set hard limit...
+    /// This API works with the following fleet types: EC2, Container Updates capacity settings for a managed EC2 fleet or managed container fleet. For these fleets, you adjust capacity by changing the number of instances in the fleet. Fleet capacity determines the number of game sessions and players that the fleet can host based on its configuration. For fleets with multiple locations, use this operation to manage capacity settings in each location individually. • Minimum/maximum size: Set hard limits ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1712,7 +1712,7 @@ public class AwsGamelift : IAwsGamelift
     }
 
     /// <summary>
-    /// This API works with the following fleet types: EC2 Updates permissions that allow inbound traffic to connect to game ses- sions in the fleet. To update settings, specify the fleet ID to be updated and specify the changes to be made. List the permissions you want to add in InboundPer- missionAuthorizations , and permissions you want to remove in Inbound- PermissionRevocations . Permissions to be removed must match existing fleet permissions. If successful, the fleet identifiers for the updated fl...
+    /// This API works with the following fleet types: EC2 Updates permissions that allow inbound traffic to connect to game sessions in the fleet. To update settings, specify the fleet ID to be updated and specify the changes to be made. List the permissions you want to add in InboundPermissionAuthorizations , and permissions you want to remove in InboundPermissionRevocations . Permissions to be removed must match existing fleet permissions. If successful, the fleet identifiers for the updated fleet ar...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1727,7 +1727,7 @@ public class AwsGamelift : IAwsGamelift
     }
 
     /// <summary>
-    /// This API works with the following fleet types: EC2 (FleetIQ) Updates Amazon GameLift Servers FleetIQ-specific properties for a game server group. Many Auto Scaling group properties are updated on the Auto Scaling group directly, including the launch template, Auto Scal- ing policies, and maximum/minimum/desired instance counts. To update the game server group, specify the game server group ID and provide the updated values. Before applying the updates, the new values are validated to ensure that...
+    /// This API works with the following fleet types: EC2 (FleetIQ) Updates Amazon GameLift Servers FleetIQ-specific properties for a game server group. Many Auto Scaling group properties are updated on the Auto Scaling group directly, including the launch template, Auto Scaling policies, and maximum/minimum/desired instance counts. To update the game server group, specify the game server group ID and provide the updated values. Before applying the updates, the new values are validated to ensure that A...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1742,7 +1742,7 @@ public class AwsGamelift : IAwsGamelift
     }
 
     /// <summary>
-    /// This API works with the following fleet types: EC2 (FleetIQ) Updates information about a registered game server to help Amazon GameLift Servers FleetIQ track game server availability. This operation is called by a game server process that is running on an instance in a game server group. Use this operation to update the following types of game server infor- mation. You can make all three types of updates in the same request: o To update the game server's utilization status from AVAILABLE (when t...
+    /// This API works with the following fleet types: EC2 (FleetIQ) Updates information about a registered game server to help Amazon GameLift Servers FleetIQ track game server availability. This operation is called by a game server process that is running on an instance in a game server group. Use this operation to update the following types of game server information. You can make all three types of updates in the same request: • To update the game server's utilization status from AVAILABLE (when the...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1757,7 +1757,7 @@ public class AwsGamelift : IAwsGamelift
     }
 
     /// <summary>
-    /// This API works with the following fleet types: EC2, Anywhere, Con- tainer Updates the mutable properties of a game session. To update a game session, specify the game session ID and the values you want to change. If successful, the updated GameSession object is returned. All APIs by task See also: AWS API Documentation
+    /// This API works with the following fleet types: EC2, Anywhere, Container Updates the mutable properties of a game session. To update a game session, specify the game session ID and the values you want to change. If successful, the updated GameSession object is returned. All APIs by task See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1772,7 +1772,7 @@ public class AwsGamelift : IAwsGamelift
     }
 
     /// <summary>
-    /// This API works with the following fleet types: EC2, Anywhere, Con- tainer Updates the configuration of a game session queue, which determines how the queue processes new game session requests. To update settings, specify the queue name to be updated and provide the new settings. When updating destinations, provide a complete list of destinations. Learn more Using Multi-Region Queues See also: AWS API Documentation
+    /// This API works with the following fleet types: EC2, Anywhere, Container Updates the configuration of a game session queue, which determines how the queue processes new game session requests. To update settings, specify the queue name to be updated and provide the new settings. When updating destinations, provide a complete list of destinations. Learn more Using Multi-Region Queues See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1787,7 +1787,7 @@ public class AwsGamelift : IAwsGamelift
     }
 
     /// <summary>
-    /// This API works with the following fleet types: EC2, Anywhere, Con- tainer Updates settings for a FlexMatch matchmaking configuration. These changes affect all matches and game sessions that are created after the update. To update settings, specify the configuration name to be up- dated and provide the new settings. Learn more Design a FlexMatch matchmaker See also: AWS API Documentation
+    /// This API works with the following fleet types: EC2, Anywhere, Container Updates settings for a FlexMatch matchmaking configuration. These changes affect all matches and game sessions that are created after the update. To update settings, specify the configuration name to be updated and provide the new settings. Learn more Design a FlexMatch matchmaker See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1802,7 +1802,7 @@ public class AwsGamelift : IAwsGamelift
     }
 
     /// <summary>
-    /// This API works with the following fleet types: EC2 Updates the runtime configuration for the specified fleet. The runtime configuration tells Amazon GameLift Servers how to launch server processes on computes in managed EC2 and Anywhere fleets. You can up- date a fleet's runtime configuration at any time after the fleet is created; it does not need to be in ACTIVE status. To update runtime configuration, specify the fleet ID and provide a RuntimeConfiguration with an updated set of server proces...
+    /// This API works with the following fleet types: EC2 Updates the runtime configuration for the specified fleet. The runtime configuration tells Amazon GameLift Servers how to launch server processes on computes in managed EC2 and Anywhere fleets. You can update a fleet's runtime configuration at any time after the fleet is created; it does not need to be in ACTIVE status. To update runtime configuration, specify the fleet ID and provide a RuntimeConfiguration with an updated set of server process ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1817,7 +1817,7 @@ public class AwsGamelift : IAwsGamelift
     }
 
     /// <summary>
-    /// This API works with the following fleet types: EC2 Updates Realtime script metadata and content. To update script metadata, specify the script ID and provide updated name and/or version values. To update script content, provide an updated zip file by pointing to either a local file or an Amazon S3 bucket location. You can use either method regardless of how the original script was uploaded. Use the Ver- sion parameter to track updates to the script. If the call is successful, the updated metadat...
+    /// This API works with the following fleet types: EC2 Updates Realtime script metadata and content. To update script metadata, specify the script ID and provide updated name and/or version values. To update script content, provide an updated zip file by pointing to either a local file or an Amazon S3 bucket location. You can use either method regardless of how the original script was uploaded. Use the Version parameter to track updates to the script. If the call is successful, the updated metadata ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1847,7 +1847,7 @@ public class AwsGamelift : IAwsGamelift
     }
 
     /// <summary>
-    /// This API works with the following fleet types: EC2, Anywhere, Con- tainer Validates the syntax of a matchmaking rule or rule set. This operation checks that the rule set is using syntactically correct JSON and that it conforms to allowed property expressions. To validate syntax, pro- vide a rule set JSON string. Learn more o Build a rule set See also: AWS API Documentation
+    /// This API works with the following fleet types: EC2, Anywhere, Container Validates the syntax of a matchmaking rule or rule set. This operation checks that the rule set is using syntactically correct JSON and that it conforms to allowed property expressions. To validate syntax, provide a rule set JSON string. Learn more • Build a rule set See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

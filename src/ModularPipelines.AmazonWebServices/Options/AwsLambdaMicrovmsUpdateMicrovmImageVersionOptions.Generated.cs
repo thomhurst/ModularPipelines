@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,9 +29,9 @@ public record AwsLambdaMicrovmsUpdateMicrovmImageVersionOptions : AwsOptions, IV
     /// <summary>
     /// Updates the status of a specific MicroVM image version. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ImageIdentifier">The unique identifier (ARN or ID) of the MicroVM image. Constraints: o min: 1 o max: 256</param>
-    /// <param name="ImageVersion">The version of the MicroVM image to update. Constraints: o min: 1 o max: 2048 o pattern: [^\s]+</param>
-    /// <param name="Status">The new status to set for the MicroVM image version. Possible values: o ACTIVE o INACTIVE</param>
+    /// <param name="ImageIdentifier">The unique identifier (ARN or ID) of the MicroVM image. Constraints: • min: 1 • max: 256</param>
+    /// <param name="ImageVersion">The version of the MicroVM image to update. Constraints: • min: 1 • max: 2048 • pattern: [^\s]+</param>
+    /// <param name="Status">The new status to set for the MicroVM image version. Possible values: • ACTIVE • INACTIVE</param>
     public AwsLambdaMicrovmsUpdateMicrovmImageVersionOptions(
         string ImageIdentifier,
         string ImageVersion,
@@ -64,19 +65,19 @@ public record AwsLambdaMicrovmsUpdateMicrovmImageVersionOptions : AwsOptions, IV
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier (ARN or ID) of the MicroVM image. Constraints: o min: 1 o max: 256
+    /// The unique identifier (ARN or ID) of the MicroVM image. Constraints: • min: 1 • max: 256
     /// </summary>
     [CliOption("--image-identifier")]
     public string? ImageIdentifier { get; private init; }
 
     /// <summary>
-    /// The version of the MicroVM image to update. Constraints: o min: 1 o max: 2048 o pattern: [^\s]+
+    /// The version of the MicroVM image to update. Constraints: • min: 1 • max: 2048 • pattern: [^\s]+
     /// </summary>
     [CliOption("--image-version")]
     public string? ImageVersion { get; private init; }
 
     /// <summary>
-    /// The new status to set for the MicroVM image version. Possible values: o ACTIVE o INACTIVE
+    /// The new status to set for the MicroVM image version. Possible values: • ACTIVE • INACTIVE
     /// </summary>
     [CliOption("--status")]
     public AwsLambdaMicrovmsUpdateMicrovmImageVersionStatus? Status { get; private init; }
@@ -102,6 +103,15 @@ public record AwsLambdaMicrovmsUpdateMicrovmImageVersionOptions : AwsOptions, IV
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

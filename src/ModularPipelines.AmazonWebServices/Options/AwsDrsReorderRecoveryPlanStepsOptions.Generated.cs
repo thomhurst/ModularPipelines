@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsDrsReorderRecoveryPlanStepsOptions : AwsOptions, IValidatableOb
     /// <summary>
     /// Reorders steps in a Recovery Plan. Accepts a complete ordered list of step ARNs. See also: AWS API Documentation
     /// </summary>
-    /// <param name="RecoveryPlanArn">The ARN of the Recovery Plan. Constraints: o min: 20 o max: 2048 o pattern: arn:aws(-[a-z0-9]+)*:drs:[a-z0-9-]+:[0-9]{12}:[a-zA-Z0-9_/.-]+</param>
-    /// <param name="OrderedStepArns">Ordered list of all step ARNs representing the desired sequence. Constraints: o min: 1 o max: 20 (string) Strict ARN type for Recovery Plan resources. Only allows safe characters in the resource portion rejects HTML/script injec- tion characters (&lt;, &gt;, ", ', etc.) per AWS API input validation standards. Resource portion allows: [ A-Za-z0-9_ /.-] which covers all DRS recovery plan resource identifiers (plan-xxx, st-xxx, exec-xxx, step-xxx). Constraints: o min: 20 o max: 2048 o pattern: arn:aws(-[a-z0-9]+)*:drs:[a-z0-9-]+:[0-9]{12}:[a-zA-Z0-9_/.-]+ Syntax: "string" "string" ...</param>
+    /// <param name="RecoveryPlanArn">The ARN of the Recovery Plan. Constraints: • min: 20 • max: 2048 • pattern: arn:aws(-[a-z0-9]+)*:drs:[a-z0-9-]+:[0-9]{12}:[a-zA-Z0-9_/.-]+</param>
+    /// <param name="OrderedStepArns">Ordered list of all step ARNs representing the desired sequence. Constraints: • min: 1 • max: 20 (string) Strict ARN type for Recovery Plan resources. Only allows safe characters in the resource portion rejects HTML/script injection characters (&lt;, &gt;, ", ', etc.) per AWS API input validation standards. Resource portion allows: [ A-Za-z0-9_ /.-] which covers all DRS recovery plan resource identifiers (plan-xxx, st-xxx, exec-xxx, step-xxx). Constraints: • min: 20 • max: 2048 • pattern: arn:aws(-[a-z0-9]+)*:drs:[a-z0-9-]+:[0-9]{12}:[a-zA-Z0-9_/.-]+ Syntax: "string" "string" ...</param>
     public AwsDrsReorderRecoveryPlanStepsOptions(
         string RecoveryPlanArn,
         IEnumerable<string> OrderedStepArns
@@ -71,13 +72,13 @@ public record AwsDrsReorderRecoveryPlanStepsOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the Recovery Plan. Constraints: o min: 20 o max: 2048 o pattern: arn:aws(-[a-z0-9]+)*:drs:[a-z0-9-]+:[0-9]{12}:[a-zA-Z0-9_/.-]+
+    /// The ARN of the Recovery Plan. Constraints: • min: 20 • max: 2048 • pattern: arn:aws(-[a-z0-9]+)*:drs:[a-z0-9-]+:[0-9]{12}:[a-zA-Z0-9_/.-]+
     /// </summary>
     [CliOption("--recovery-plan-arn")]
     public string? RecoveryPlanArn { get; private init; }
 
     /// <summary>
-    /// Ordered list of all step ARNs representing the desired sequence. Constraints: o min: 1 o max: 20 (string) Strict ARN type for Recovery Plan resources. Only allows safe characters in the resource portion rejects HTML/script injec- tion characters (&lt;, &gt;, ", ', etc.) per AWS API input validation standards. Resource portion allows: [ A-Za-z0-9_ /.-] which covers all DRS recovery plan resource identifiers (plan-xxx, st-xxx, exec-xxx, step-xxx). Constraints: o min: 20 o max: 2048 o pattern: arn:aws(-[a-z0-9]+)*:drs:[a-z0-9-]+:[0-9]{12}:[a-zA-Z0-9_/.-]+ Syntax: "string" "string" ...
+    /// Ordered list of all step ARNs representing the desired sequence. Constraints: • min: 1 • max: 20 (string) Strict ARN type for Recovery Plan resources. Only allows safe characters in the resource portion rejects HTML/script injection characters (&lt;, &gt;, ", ', etc.) per AWS API input validation standards. Resource portion allows: [ A-Za-z0-9_ /.-] which covers all DRS recovery plan resource identifiers (plan-xxx, st-xxx, exec-xxx, step-xxx). Constraints: • min: 20 • max: 2048 • pattern: arn:aws(-[a-z0-9]+)*:drs:[a-z0-9-]+:[0-9]{12}:[a-zA-Z0-9_/.-]+ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--ordered-step-arns", GroupValues = true)]
     public IEnumerable<string>? OrderedStepArns { get; private init; }
@@ -103,6 +104,15 @@ public record AwsDrsReorderRecoveryPlanStepsOptions : AwsOptions, IValidatableOb
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

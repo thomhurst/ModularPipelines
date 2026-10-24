@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes the record of a single premigration assessment run. This operation removes all metadata that DMS maintains about this as- sessment run. However, the operation leaves untouched all information about this assessment run that is stored in your Amazon S3 bucket. See also: AWS API Documentation
+/// Deletes the record of a single premigration assessment run. This operation removes all metadata that DMS maintains about this assessment run. However, the operation leaves untouched all information about this assessment run that is stored in your Amazon S3 bucket. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +26,7 @@ public record AwsDmsDeleteReplicationTaskAssessmentRunOptions : AwsOptions, IVal
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes the record of a single premigration assessment run. This operation removes all metadata that DMS maintains about this as- sessment run. However, the operation leaves untouched all information about this assessment run that is stored in your Amazon S3 bucket. See also: AWS API Documentation
+    /// Deletes the record of a single premigration assessment run. This operation removes all metadata that DMS maintains about this assessment run. However, the operation leaves untouched all information about this assessment run that is stored in your Amazon S3 bucket. See also: AWS API Documentation
     /// </summary>
     /// <param name="ReplicationTaskAssessmentRunArn">Amazon Resource Name (ARN) of the premigration assessment run to be deleted.</param>
     public AwsDmsDeleteReplicationTaskAssessmentRunOptions(
@@ -82,6 +83,15 @@ public record AwsDmsDeleteReplicationTaskAssessmentRunOptions : AwsOptions, IVal
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

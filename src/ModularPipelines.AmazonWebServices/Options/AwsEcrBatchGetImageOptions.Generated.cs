@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Gets detailed information for an image. Images are specified with ei- ther an imageTag or imageDigest . When an image is pulled, the BatchGetImage API is called once to re- trieve the image manifest. See also: AWS API Documentation
+/// Gets detailed information for an image. Images are specified with either an imageTag or imageDigest . When an image is pulled, the BatchGetImage API is called once to retrieve the image manifest. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsEcrBatchGetImageOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Gets detailed information for an image. Images are specified with ei- ther an imageTag or imageDigest . When an image is pulled, the BatchGetImage API is called once to re- trieve the image manifest. See also: AWS API Documentation
+    /// Gets detailed information for an image. Images are specified with either an imageTag or imageDigest . When an image is pulled, the BatchGetImage API is called once to retrieve the image manifest. See also: AWS API Documentation
     /// </summary>
-    /// <param name="RepositoryName">The repository that contains the images to describe. Constraints: o min: 2 o max: 256 o pattern: [a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*(\/[a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*)*</param>
-    /// <param name="ImageIds">A list of image ID references that correspond to images to describe. The format of the imageIds reference is imageTag=tag or imageDi- gest=digest . Constraints: o min: 1 o max: 100 (structure) An object with identifying information for an image in an Amazon ECR repository. imageDigest -&gt; (string) The sha256 digest of the image manifest. imageTag -&gt; (string) The tag used for the image. Constraints: o min: 1 o max: 300 Shorthand Syntax: imageDigest=string,imageTag=string ... JSON Syntax: [ { "imageDigest": "string", "imageTag": "string" } ... ]</param>
+    /// <param name="RepositoryName">The repository that contains the images to describe. Constraints: • min: 2 • max: 256 • pattern: [a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*(\/[a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*)*</param>
+    /// <param name="ImageIds">A list of image ID references that correspond to images to describe. The format of the imageIds reference is imageTag=tag or imageDigest=digest . Constraints: • min: 1 • max: 100 (structure) An object with identifying information for an image in an Amazon ECR repository. imageDigest -&gt; (string) The sha256 digest of the image manifest. imageTag -&gt; (string) The tag used for the image. Constraints: • min: 1 • max: 300 Shorthand Syntax: imageDigest=string,imageTag=string ... JSON Syntax: [ { "imageDigest": "string", "imageTag": "string" } ... ]</param>
     public AwsEcrBatchGetImageOptions(
         string RepositoryName,
         IEnumerable<string> ImageIds
@@ -71,25 +72,25 @@ public record AwsEcrBatchGetImageOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The repository that contains the images to describe. Constraints: o min: 2 o max: 256 o pattern: [a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*(\/[a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*)*
+    /// The repository that contains the images to describe. Constraints: • min: 2 • max: 256 • pattern: [a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*(\/[a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*)*
     /// </summary>
     [CliOption("--repository-name")]
     public string? RepositoryName { get; private init; }
 
     /// <summary>
-    /// A list of image ID references that correspond to images to describe. The format of the imageIds reference is imageTag=tag or imageDi- gest=digest . Constraints: o min: 1 o max: 100 (structure) An object with identifying information for an image in an Amazon ECR repository. imageDigest -&gt; (string) The sha256 digest of the image manifest. imageTag -&gt; (string) The tag used for the image. Constraints: o min: 1 o max: 300 Shorthand Syntax: imageDigest=string,imageTag=string ... JSON Syntax: [ { "imageDigest": "string", "imageTag": "string" } ... ]
+    /// A list of image ID references that correspond to images to describe. The format of the imageIds reference is imageTag=tag or imageDigest=digest . Constraints: • min: 1 • max: 100 (structure) An object with identifying information for an image in an Amazon ECR repository. imageDigest -&gt; (string) The sha256 digest of the image manifest. imageTag -&gt; (string) The tag used for the image. Constraints: • min: 1 • max: 300 Shorthand Syntax: imageDigest=string,imageTag=string ... JSON Syntax: [ { "imageDigest": "string", "imageTag": "string" } ... ]
     /// </summary>
     [CliOption("--image-ids", GroupValues = true)]
     public IEnumerable<string>? ImageIds { get; private init; }
 
     /// <summary>
-    /// The Amazon Web Services account ID associated with the registry that contains the images to describe. If you do not specify a registry, the default registry is assumed. Constraints: o pattern: [0-9]{12}
+    /// The Amazon Web Services account ID associated with the registry that contains the images to describe. If you do not specify a registry, the default registry is assumed. Constraints: • pattern: [0-9]{12}
     /// </summary>
     [CliOption("--registry-id")]
     public string? RegistryId { get; set; }
 
     /// <summary>
-    /// The accepted media types for the request. Valid values: application/vnd.docker.distribution.manifest.v1+json | application/vnd.docker.distribution.manifest.v2+json | applica- tion/vnd.oci.image.manifest.v1+json Constraints: o min: 1 o max: 100 (string) Syntax: "string" "string" ...
+    /// The accepted media types for the request. Valid values: application/vnd.docker.distribution.manifest.v1+json | application/vnd.docker.distribution.manifest.v2+json | application/vnd.oci.image.manifest.v1+json Constraints: • min: 1 • max: 100 (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--accepted-media-types", GroupValues = true)]
     public IEnumerable<string>? AcceptedMediaTypes { get; set; }
@@ -115,6 +116,15 @@ public record AwsEcrBatchGetImageOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

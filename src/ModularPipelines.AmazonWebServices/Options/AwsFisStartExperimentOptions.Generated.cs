@@ -11,7 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -29,7 +29,7 @@ public record AwsFisStartExperimentOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Starts running an experiment from the specified experiment template. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ExperimentTemplateId">The ID of the experiment template. Constraints: o max: 64 o pattern: [\S]+</param>
+    /// <param name="ExperimentTemplateId">The ID of the experiment template. Constraints: • max: 64 • pattern: [\S]+</param>
     public AwsFisStartExperimentOptions(
         string ExperimentTemplateId
     )
@@ -58,26 +58,26 @@ public record AwsFisStartExperimentOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the experiment template. Constraints: o max: 64 o pattern: [\S]+
+    /// The ID of the experiment template. Constraints: • max: 64 • pattern: [\S]+
     /// </summary>
     [CliOption("--experiment-template-id")]
     public string? ExperimentTemplateId { get; private init; }
 
     /// <summary>
-    /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Constraints: o min: 1 o max: 1024 o pattern: [\S]+
+    /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Constraints: • min: 1 • max: 1024 • pattern: [\S]+
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// The experiment options for running the experiment. actionsMode -&gt; (string) Specifies the actions mode for experiment options. Possible values: o skip-all o run-all Shorthand Syntax: actionsMode=string JSON Syntax: { "actionsMode": "skip-all"|"run-all" }
+    /// The experiment options for running the experiment. actionsMode -&gt; (string) Specifies the actions mode for experiment options. Possible values: • skip-all • run-all Shorthand Syntax: actionsMode=string JSON Syntax: { "actionsMode": "skip-all"|"run-all" }
     /// </summary>
     [CliOption("--experiment-options")]
     public string? ExperimentOptions { get; set; }
 
     /// <summary>
-    /// The tags to apply to the experiment. Constraints: o max: 50 key -&gt; (string) Constraints: o max: 128 o pattern: [\s\S]+ value -&gt; (string) Constraints: o max: 256 o pattern: [\s\S]* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The tags to apply to the experiment. Constraints: • max: 50 key -&gt; (string) Constraints: • max: 128 • pattern: [\s\S]+ value -&gt; (string) Constraints: • max: 256 • pattern: [\s\S]* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
@@ -103,6 +103,15 @@ public record AwsFisStartExperimentOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

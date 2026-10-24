@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsFinspaceGetKxUserOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Retrieves information about the specified kdb user. See also: AWS API Documentation
     /// </summary>
-    /// <param name="UserName">A unique identifier for the user. Constraints: o min: 1 o max: 50 o pattern: ^[0-9A-Za-z_-]{1,50}$</param>
-    /// <param name="EnvironmentId">A unique identifier for the kdb environment. Constraints: o min: 1 o max: 26 o pattern: ^[a-zA-Z0-9]{1,26}$</param>
+    /// <param name="UserName">A unique identifier for the user. Constraints: • min: 1 • max: 50 • pattern: ^[0-9A-Za-z_-]{1,50}$</param>
+    /// <param name="EnvironmentId">A unique identifier for the kdb environment. Constraints: • min: 1 • max: 26 • pattern: ^[a-zA-Z0-9]{1,26}$</param>
     public AwsFinspaceGetKxUserOptions(
         string UserName,
         string EnvironmentId
@@ -60,13 +61,13 @@ public record AwsFinspaceGetKxUserOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A unique identifier for the user. Constraints: o min: 1 o max: 50 o pattern: ^[0-9A-Za-z_-]{1,50}$
+    /// A unique identifier for the user. Constraints: • min: 1 • max: 50 • pattern: ^[0-9A-Za-z_-]{1,50}$
     /// </summary>
     [CliOption("--user-name")]
     public string? UserName { get; private init; }
 
     /// <summary>
-    /// A unique identifier for the kdb environment. Constraints: o min: 1 o max: 26 o pattern: ^[a-zA-Z0-9]{1,26}$
+    /// A unique identifier for the kdb environment. Constraints: • min: 1 • max: 26 • pattern: ^[a-zA-Z0-9]{1,26}$
     /// </summary>
     [CliOption("--environment-id")]
     public string? EnvironmentId { get; private init; }
@@ -92,6 +93,15 @@ public record AwsFinspaceGetKxUserOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

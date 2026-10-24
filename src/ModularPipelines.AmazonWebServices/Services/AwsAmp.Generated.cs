@@ -6,8 +6,8 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
+using ModularPipelines;
 using ModularPipelines.Context;
-using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
@@ -33,7 +33,7 @@ public class AwsAmp : IAwsAmp
     #region Sub-command Groups
 
     /// <summary>
-    /// aws wait sub-commands.
+    /// aws amp wait sub-commands.
     /// </summary>
     public AwsAmpWait Wait => _wait ??= new AwsAmpWait(_command);
 
@@ -57,7 +57,7 @@ public class AwsAmp : IAwsAmp
     }
 
     /// <summary>
-    /// Creates an anomaly detector within a workspace using the Random Cut Forest algorithm for time-series analysis. The anomaly detector ana- lyzes Amazon Managed Service for Prometheus metrics to identify unusual patterns and behaviors. See also: AWS API Documentation
+    /// Creates an anomaly detector within a workspace using the Random Cut Forest algorithm for time-series analysis. The anomaly detector analyzes Amazon Managed Service for Prometheus metrics to identify unusual patterns and behaviors. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -117,7 +117,7 @@ public class AwsAmp : IAwsAmp
     }
 
     /// <summary>
-    /// Creates a scraper to collect metrics from Prometheus-compatible sources. The scraper sends the collected metrics to Amazon Managed Ser- vice for Prometheus workspaces or CloudWatch datasets. You can config- ure scrapers to collect metrics from Amazon EKS clusters, Amazon MSK clusters, or from VPC-based sources that support DNS-based service dis- covery. Scrapers are flexible. You can configure a scraper to control which metrics to collect, the frequency of collection, which transfor- mations to ...
+    /// Creates a scraper to collect metrics from Prometheus-compatible sources. The scraper sends the collected metrics to Amazon Managed Service for Prometheus workspaces or CloudWatch datasets. You can configure scrapers to collect metrics from Amazon EKS clusters, Amazon MSK clusters, or from VPC-based sources that support DNS-based service discovery. Scrapers are flexible. You can configure a scraper to control which metrics to collect, the frequency of collection, which transformations to apply to...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -132,7 +132,7 @@ public class AwsAmp : IAwsAmp
     }
 
     /// <summary>
-    /// Creates a Prometheus workspace. A workspace is a logical space dedi- cated to the storage and querying of Prometheus metrics. You can have one or more workspaces in each Region in your account. See also: AWS API Documentation
+    /// Creates a Prometheus workspace. A workspace is a logical space dedicated to the storage and querying of Prometheus metrics. You can have one or more workspaces in each Region in your account. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -162,7 +162,7 @@ public class AwsAmp : IAwsAmp
     }
 
     /// <summary>
-    /// Removes an anomaly detector from a workspace. This operation is idempo- tent. See also: AWS API Documentation
+    /// Removes an anomaly detector from a workspace. This operation is idempotent. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -222,7 +222,7 @@ public class AwsAmp : IAwsAmp
     }
 
     /// <summary>
-    /// Deletes one rule groups namespace and its associated rule groups defin- ition. See also: AWS API Documentation
+    /// Deletes one rule groups namespace and its associated rule groups definition. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -297,7 +297,7 @@ public class AwsAmp : IAwsAmp
     }
 
     /// <summary>
-    /// Retrieves detailed information about a specific anomaly detector, in- cluding its status and configuration. See also: AWS API Documentation
+    /// Retrieves detailed information about a specific anomaly detector, including its status and configuration. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -312,7 +312,7 @@ public class AwsAmp : IAwsAmp
     }
 
     /// <summary>
-    /// Returns complete information about the current rules and alerting log- ging configuration of the workspace. NOTE: These logging configurations are only for rules and alerting logs. See also: AWS API Documentation
+    /// Returns complete information about the current rules and alerting logging configuration of the workspace. NOTE: These logging configurations are only for rules and alerting logs. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -327,7 +327,7 @@ public class AwsAmp : IAwsAmp
     }
 
     /// <summary>
-    /// Retrieves the details of the query logging configuration for the speci- fied workspace. See also: AWS API Documentation
+    /// Retrieves the details of the query logging configuration for the specified workspace. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -342,7 +342,7 @@ public class AwsAmp : IAwsAmp
     }
 
     /// <summary>
-    /// Returns information about the resource-based policy attached to an Ama- zon Managed Service for Prometheus workspace. See also: AWS API Documentation
+    /// Returns information about the resource-based policy attached to an Amazon Managed Service for Prometheus workspace. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -357,7 +357,7 @@ public class AwsAmp : IAwsAmp
     }
 
     /// <summary>
-    /// Returns complete information about one rule groups namespace. To re- trieve a list of rule groups namespaces, use ListRuleGroupsNamespaces . See also: AWS API Documentation
+    /// Returns complete information about one rule groups namespace. To retrieve a list of rule groups namespaces, use ListRuleGroupsNamespaces . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -402,7 +402,7 @@ public class AwsAmp : IAwsAmp
     }
 
     /// <summary>
-    /// Use this operation to return information about the configuration of a workspace. The configuration details returned include workspace config- uration status, label set limits, and retention period. See also: AWS API Documentation
+    /// Use this operation to return information about the configuration of a workspace. The configuration details returned include workspace configuration status, label set limits, and retention period. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -447,7 +447,7 @@ public class AwsAmp : IAwsAmp
     }
 
     /// <summary>
-    /// Returns a paginated list of anomaly detectors for a workspace with op- tional filtering by alias. See also: AWS API Documentation list-anomaly-detectors is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: ...
+    /// Returns a paginated list of anomaly detectors for a workspace with optional filtering by alias. See also: AWS API Documentation list-anomaly-detectors is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: an...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -462,7 +462,7 @@ public class AwsAmp : IAwsAmp
     }
 
     /// <summary>
-    /// Returns a list of rule groups namespaces in a workspace. See also: AWS API Documentation list-rule-groups-namespaces is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: ruleGroupsNamespaces
+    /// Returns a list of rule groups namespaces in a workspace. See also: AWS API Documentation list-rule-groups-namespaces is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: ruleGroupsNamespaces
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -477,7 +477,7 @@ public class AwsAmp : IAwsAmp
     }
 
     /// <summary>
-    /// The ListScrapers operation lists all of the scrapers in your account. This includes scrapers being created or deleted. You can optionally filter the returned list. See also: AWS API Documentation list-scrapers is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extra...
+    /// The ListScrapers operation lists all of the scrapers in your account. This includes scrapers being created or deleted. You can optionally filter the returned list. See also: AWS API Documentation list-scrapers is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract d...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -507,7 +507,7 @@ public class AwsAmp : IAwsAmp
     }
 
     /// <summary>
-    /// Lists all of the Amazon Managed Service for Prometheus workspaces in your account. This includes workspaces being created or deleted. See also: AWS API Documentation list-workspaces is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of ...
+    /// Lists all of the Amazon Managed Service for Prometheus workspaces in your account. This includes workspaces being created or deleted. See also: AWS API Documentation list-workspaces is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -537,7 +537,7 @@ public class AwsAmp : IAwsAmp
     }
 
     /// <summary>
-    /// When you call PutAnomalyDetector , the operation creates a new anomaly detector if one doesn't exist, or updates an existing one. Each call to this operation triggers a complete retraining of the detector, which includes querying the minimum required samples and backfilling the de- tector with historical data. This process occurs regardless of whether you're making a minor change like updating the evaluation interval or making more substantial modifications. The operation serves as the sin- gle ...
+    /// When you call PutAnomalyDetector , the operation creates a new anomaly detector if one doesn't exist, or updates an existing one. Each call to this operation triggers a complete retraining of the detector, which includes querying the minimum required samples and backfilling the detector with historical data. This process occurs regardless of whether you're making a minor change like updating the evaluation interval or making more substantial modifications. The operation serves as the single meth...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -552,7 +552,7 @@ public class AwsAmp : IAwsAmp
     }
 
     /// <summary>
-    /// Creates or updates a resource-based policy for an Amazon Managed Ser- vice for Prometheus workspace. Use resource-based policies to grant permissions to other AWS accounts or services to access your workspace. Only Prometheus-compatible APIs can be used for workspace sharing. You can add non-Prometheus-compatible APIs to the policy, but they will be ignored. For more information, see Prometheus-compatible APIs in the Amazon Managed Service for Prometheus User Guide . If your workspace uses custo...
+    /// Creates or updates a resource-based policy for an Amazon Managed Service for Prometheus workspace. Use resource-based policies to grant permissions to other AWS accounts or services to access your workspace. Only Prometheus-compatible APIs can be used for workspace sharing. You can add non-Prometheus-compatible APIs to the policy, but they will be ignored. For more information, see Prometheus-compatible APIs in the Amazon Managed Service for Prometheus User Guide . If your workspace uses custome...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -582,7 +582,7 @@ public class AwsAmp : IAwsAmp
     }
 
     /// <summary>
-    /// The TagResource operation associates tags with an Amazon Managed Ser- vice for Prometheus resource. The only resources that can be tagged are rule groups namespaces, scrapers, and workspaces. If you specify a new tag key for the resource, this tag is appended to the list of tags associated with the resource. If you specify a tag key that is already associated with the resource, the new tag value that you specify replaces the previous value for that tag. To remove a tag, use UntagResource . See a...
+    /// The TagResource operation associates tags with an Amazon Managed Service for Prometheus resource. The only resources that can be tagged are rule groups namespaces, scrapers, and workspaces. If you specify a new tag key for the resource, this tag is appended to the list of tags associated with the resource. If you specify a tag key that is already associated with the resource, the new tag value that you specify replaces the previous value for that tag. To remove a tag, use UntagResource . See als...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -687,7 +687,7 @@ public class AwsAmp : IAwsAmp
     }
 
     /// <summary>
-    /// Use this operation to create or update the label sets, label set lim- its, and retention period of a workspace. You must specify at least one of limitsPerLabelSet or retentionPeri- odInDays for the request to be valid. See also: AWS API Documentation
+    /// Use this operation to create or update the label sets, label set limits, and retention period of a workspace. You must specify at least one of limitsPerLabelSet or retentionPeriodInDays for the request to be valid. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

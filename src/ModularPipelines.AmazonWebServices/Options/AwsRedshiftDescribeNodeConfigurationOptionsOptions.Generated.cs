@@ -11,13 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns properties of possible node configurations such as node type, number of nodes, and disk usage for the specified action type. See also: AWS API Documentation describe-node-configuration-options is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data f...
+/// Returns properties of possible node configurations such as node type, number of nodes, and disk usage for the specified action type. See also: AWS API Documentation describe-node-configuration-options is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,9 +28,9 @@ public record AwsRedshiftDescribeNodeConfigurationOptionsOptions : AwsOptions, I
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns properties of possible node configurations such as node type, number of nodes, and disk usage for the specified action type. See also: AWS API Documentation describe-node-configuration-options is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data f...
+    /// Returns properties of possible node configurations such as node type, number of nodes, and disk usage for the specified action type. See also: AWS API Documentation describe-node-configuration-options is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from ...
     /// </summary>
-    /// <param name="ActionType">The action type to evaluate for possible node configurations. Spec- ify "restore-cluster" to get configuration combinations based on an existing snapshot. Specify "recommend-node-config" to get configura- tion recommendations based on an existing cluster or snapshot. Spec- ify "resize-cluster" to get configuration combinations for elastic resize based on an existing cluster. Possible values: o restore-cluster o recommend-node-config o resize-cluster</param>
+    /// <param name="ActionType">The action type to evaluate for possible node configurations. Specify "restore-cluster" to get configuration combinations based on an existing snapshot. Specify "recommend-node-config" to get configuration recommendations based on an existing cluster or snapshot. Specify "resize-cluster" to get configuration combinations for elastic resize based on an existing cluster. Possible values: • restore-cluster • recommend-node-config • resize-cluster</param>
     public AwsRedshiftDescribeNodeConfigurationOptionsOptions(
         AwsRedshiftDescribeNodeConfigurationOptionsActionType ActionType
     )
@@ -57,46 +58,43 @@ public record AwsRedshiftDescribeNodeConfigurationOptionsOptions : AwsOptions, I
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The action type to evaluate for possible node configurations. Spec- ify "restore-cluster" to get configuration combinations based on an existing snapshot. Specify "recommend-node-config" to get configura- tion recommendations based on an existing cluster or snapshot. Spec- ify "resize-cluster" to get configuration combinations for elastic resize based on an existing cluster. Possible values: o restore-cluster o recommend-node-config o resize-cluster
+    /// The action type to evaluate for possible node configurations. Specify "restore-cluster" to get configuration combinations based on an existing snapshot. Specify "recommend-node-config" to get configuration recommendations based on an existing cluster or snapshot. Specify "resize-cluster" to get configuration combinations for elastic resize based on an existing cluster. Possible values: • restore-cluster • recommend-node-config • resize-cluster
     /// </summary>
     [CliOption("--action-type")]
     public AwsRedshiftDescribeNodeConfigurationOptionsActionType? ActionType { get; private init; }
 
     /// <summary>
-    /// The identifier of the cluster to evaluate for possible node configu- rations. Constraints: o max: 2147483647
+    /// The identifier of the cluster to evaluate for possible node configurations. Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--cluster-identifier")]
     public string? ClusterIdentifier { get; set; }
 
     /// <summary>
-    /// The identifier of the snapshot to evaluate for possible node config- urations. Constraints: o max: 2147483647
+    /// The identifier of the snapshot to evaluate for possible node configurations. Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--snapshot-identifier")]
     public string? SnapshotIdentifier { get; set; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the snapshot associated with the message to describe node configuration. Constraints: o max: 2147483647
+    /// The Amazon Resource Name (ARN) of the snapshot associated with the message to describe node configuration. Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--snapshot-arn")]
     public string? SnapshotArn { get; set; }
 
     /// <summary>
-    /// The Amazon Web Services account used to create or copy the snapshot. Required if you are restoring a snapshot you do not own, optional if you own the snapshot. Constraints: o max: 2147483647
+    /// The Amazon Web Services account used to create or copy the snapshot. Required if you are restoring a snapshot you do not own, optional if you own the snapshot. Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--owner-account")]
     public string? OwnerAccount { get; set; }
 
     /// <summary>
-    /// A set of name, operator, and value items to filter the results. (structure) A set of elements to filter the returned node configurations. Name -&gt; (string) The name of the element to filter. Possible values: o NodeType o NumberOfNodes o EstimatedDiskUtilizationPercent o Mode Operator -&gt; (string) The filter operator. If filter Name is NodeType only the 'in' operator is supported. Provide one value to evaluate for 'eq', 'lt', 'le', 'gt', and 'ge'. Provide two values to eval- uate for 'between'. Provide a list of values for 'in'. Possible values: o eq o lt o gt o le o ge o in o between Values -&gt; (list) List of values. Compare Name using Operator to Values. If filter Name is NumberOfNodes, then values can range from 0 to 200. If filter Name is EstimatedDiskUtilizationPercent, then values can range from 0 to 100. For example, filter Num- berOfNodes (name) GT (operator) 3 (values). (string) Constraints: o max: 2147483647 Shorthand Syntax: Name=string,Operator=string,Values=string,string ... JSON Syntax: [ { "Name": "NodeType"|"NumberOfNodes"|"EstimatedDiskUtilizationPercent"|"Mode", "Operator": "eq"|"lt"|"gt"|"le"|"ge"|"in"|"between", "Values": ["string", ...] } ... ]
+    /// A set of name, operator, and value items to filter the results. (structure) A set of elements to filter the returned node configurations. Name -&gt; (string) The name of the element to filter. Possible values: • NodeType • NumberOfNodes • EstimatedDiskUtilizationPercent • Mode Operator -&gt; (string) The filter operator. If filter Name is NodeType only the 'in' operator is supported. Provide one value to evaluate for 'eq', 'lt', 'le', 'gt', and 'ge'. Provide two values to evaluate for 'between'. Provide a list of values for 'in'. Possible values: • eq • lt • gt • le • ge • in • between Values -&gt; (list) List of values. Compare Name using Operator to Values. If filter Name is NumberOfNodes, then values can range from 0 to 200. If filter Name is EstimatedDiskUtilizationPercent, then values can range from 0 to 100. For example, filter NumberOfNodes (name) GT (operator) 3 (values). (string) Constraints: • max: 2147483647 Shorthand Syntax: Name=string,Operator=string,Values=string,string ... JSON Syntax: [ { "Name": "NodeType"|"NumberOfNodes"|"EstimatedDiskUtilizationPercent"|"Mode", "Operator": "eq"|"lt"|"gt"|"le"|"ge"|"in"|"between", "Values": ["string", ...] } ... ]
     /// </summary>
     [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -106,16 +104,19 @@ public record AwsRedshiftDescribeNodeConfigurationOptionsOptions : AwsOptions, I
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
@@ -132,6 +133,15 @@ public record AwsRedshiftDescribeNodeConfigurationOptionsOptions : AwsOptions, I
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

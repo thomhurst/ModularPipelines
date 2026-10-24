@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsSsmIncidentsGetTimelineEventOptions : AwsOptions, IValidatableO
     /// <summary>
     /// Retrieves a timeline event based on its ID and incident record. See also: AWS API Documentation
     /// </summary>
-    /// <param name="EventId">The ID of the event. You can get an event's ID when you create it, or by using ListTimelineEvents . Constraints: o min: 0 o max: 50</param>
-    /// <param name="IncidentRecordArn">The Amazon Resource Name (ARN) of the incident that includes the timeline event. Constraints: o min: 0 o max: 1000 o pattern: ^arn:aws(-cn|-us-gov)?:[a-z0-9-]*:[a-z0-9-]*:([0-9]{12})?:.+$</param>
+    /// <param name="EventId">The ID of the event. You can get an event's ID when you create it, or by using ListTimelineEvents . Constraints: • min: 0 • max: 50</param>
+    /// <param name="IncidentRecordArn">The Amazon Resource Name (ARN) of the incident that includes the timeline event. Constraints: • min: 0 • max: 1000 • pattern: ^arn:aws(-cn|-us-gov)?:[a-z0-9-]*:[a-z0-9-]*:([0-9]{12})?:.+$</param>
     public AwsSsmIncidentsGetTimelineEventOptions(
         string EventId,
         string IncidentRecordArn
@@ -60,13 +61,13 @@ public record AwsSsmIncidentsGetTimelineEventOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the event. You can get an event's ID when you create it, or by using ListTimelineEvents . Constraints: o min: 0 o max: 50
+    /// The ID of the event. You can get an event's ID when you create it, or by using ListTimelineEvents . Constraints: • min: 0 • max: 50
     /// </summary>
     [CliOption("--event-id")]
     public string? EventId { get; private init; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the incident that includes the timeline event. Constraints: o min: 0 o max: 1000 o pattern: ^arn:aws(-cn|-us-gov)?:[a-z0-9-]*:[a-z0-9-]*:([0-9]{12})?:.+$
+    /// The Amazon Resource Name (ARN) of the incident that includes the timeline event. Constraints: • min: 0 • max: 1000 • pattern: ^arn:aws(-cn|-us-gov)?:[a-z0-9-]*:[a-z0-9-]*:([0-9]{12})?:.+$
     /// </summary>
     [CliOption("--incident-record-arn")]
     public string? IncidentRecordArn { get; private init; }
@@ -92,6 +93,15 @@ public record AwsSsmIncidentsGetTimelineEventOptions : AwsOptions, IValidatableO
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsOsisUntagResourceOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Removes one or more tags from an OpenSearch Ingestion pipeline. For more information, see Tagging Amazon OpenSearch Ingestion pipelines . See also: AWS API Documentation
     /// </summary>
-    /// <param name="Arn">The Amazon Resource Name (ARN) of the pipeline to remove tags from. Constraints: o min: 46 o max: 76 o pattern: ^arn:(aws|aws\-cn|aws\-us\-gov|aws\-iso|aws\-iso\-b):osis:.+:pipeline\/.+$</param>
+    /// <param name="Arn">The Amazon Resource Name (ARN) of the pipeline to remove tags from. Constraints: • min: 46 • max: 76 • pattern: ^arn:(aws|aws\-cn|aws\-us\-gov|aws\-iso|aws\-iso\-b):osis:.+:pipeline\/.+$</param>
     /// <param name="TagKeys">The tag keys to remove. (string) Syntax: "string" "string" ...</param>
     public AwsOsisUntagResourceOptions(
         string Arn,
@@ -71,7 +72,7 @@ public record AwsOsisUntagResourceOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the pipeline to remove tags from. Constraints: o min: 46 o max: 76 o pattern: ^arn:(aws|aws\-cn|aws\-us\-gov|aws\-iso|aws\-iso\-b):osis:.+:pipeline\/.+$
+    /// The Amazon Resource Name (ARN) of the pipeline to remove tags from. Constraints: • min: 46 • max: 76 • pattern: ^arn:(aws|aws\-cn|aws\-us\-gov|aws\-iso|aws\-iso\-b):osis:.+:pipeline\/.+$
     /// </summary>
     [CliOption("--arn")]
     public string? Arn { get; private init; }
@@ -103,6 +104,15 @@ public record AwsOsisUntagResourceOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

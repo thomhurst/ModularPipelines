@@ -15,7 +15,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// This operation returns all the domain names registered with Amazon Route 53 for the current Amazon Web Services account if no filtering conditions are used. See also: AWS API Documentation list-domains is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data fr...
+/// This operation returns all the domain names registered with Amazon Route 53 for the current Amazon Web Services account if no filtering conditions are used. See also: AWS API Documentation list-domains is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -23,28 +23,25 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsRoute53domainsListDomainsOptions : AwsOptions
 {
     /// <summary>
-    /// A complex type that contains information about the filters applied during the ListDomains request. The filter conditions can include domain name and domain expiration. (structure) Information for the filtering of a list of domains returned by ListDomains . Name -&gt; (string) [required] Name of the field which should be used for filtering the list of domains. Possible values: o DomainName o Expiry Operator -&gt; (string) [required] The operator values for filtering domain names. The values can be: o LE : Less than, or equal to o GE : Greater than, or equal to o BEGINS_WITH : Begins with Possible values: o LE o GE o BEGINS_WITH Values -&gt; (list) [required] An array of strings presenting values to compare. Only 1 item in the list is currently supported. Constraints: o min: 1 o max: 1 (string) Constraints: o min: 1 o max: 1024 Shorthand Syntax: Name=string,Operator=string,Values=string,string ... JSON Syntax: [ { "Name": "DomainName"|"Expiry", "Operator": "LE"|"GE"|"BEGINS_WITH", "Values": ["string", ...] } ... ]
+    /// A complex type that contains information about the filters applied during the ListDomains request. The filter conditions can include domain name and domain expiration. (structure) Information for the filtering of a list of domains returned by ListDomains . Name -&gt; (string) [required] Name of the field which should be used for filtering the list of domains. Possible values: • DomainName • Expiry Operator -&gt; (string) [required] The operator values for filtering domain names. The values can be: • LE : Less than, or equal to • GE : Greater than, or equal to • BEGINS_WITH : Begins with Possible values: • LE • GE • BEGINS_WITH Values -&gt; (list) [required] An array of strings presenting values to compare. Only 1 item in the list is currently supported. Constraints: • min: 1 • max: 1 (string) Constraints: • min: 1 • max: 1024 Shorthand Syntax: Name=string,Operator=string,Values=string,string ... JSON Syntax: [ { "Name": "DomainName"|"Expiry", "Operator": "LE"|"GE"|"BEGINS_WITH", "Values": ["string", ...] } ... ]
     /// </summary>
     [CliOption("--filter-conditions", GroupValues = true)]
     public IEnumerable<string>? FilterConditions { get; set; }
 
     /// <summary>
-    /// A complex type that contains information about the requested order- ing of domains in the returned list. Name -&gt; (string) [required] Field to be used for sorting the list of domains. It can be ei- ther the name or the expiration for a domain. Note that if fil- terCondition is used in the same ListDomains call, the field used for sorting has to be the same as the field used for fil- tering. Possible values: o DomainName o Expiry SortOrder -&gt; (string) [required] The sort order for a list of domains. Either ascending (ASC) or descending (DES). Possible values: o ASC o DESC Shorthand Syntax: Name=string,SortOrder=string JSON Syntax: { "Name": "DomainName"|"Expiry", "SortOrder": "ASC"|"DESC" }
+    /// A complex type that contains information about the requested ordering of domains in the returned list. Name -&gt; (string) [required] Field to be used for sorting the list of domains. It can be either the name or the expiration for a domain. Note that if filterCondition is used in the same ListDomains call, the field used for sorting has to be the same as the field used for filtering. Possible values: • DomainName • Expiry SortOrder -&gt; (string) [required] The sort order for a list of domains. Either ascending (ASC) or descending (DES). Possible values: • ASC • DESC Shorthand Syntax: Name=string,SortOrder=string JSON Syntax: { "Name": "DomainName"|"Expiry", "SortOrder": "ASC"|"DESC" }
     /// </summary>
     [CliOption("--sort-condition")]
     public string? SortCondition { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -54,9 +51,21 @@ public record AwsRoute53domainsListDomainsOptions : AwsOptions
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o max: 100
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • max: 100
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

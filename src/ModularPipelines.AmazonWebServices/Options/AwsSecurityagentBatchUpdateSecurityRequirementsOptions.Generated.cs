@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +29,7 @@ public record AwsSecurityagentBatchUpdateSecurityRequirementsOptions : AwsOption
     /// Batch updates security requirements within a customer managed pack. See also: AWS API Documentation
     /// </summary>
     /// <param name="PackId">The unique identifier of the security requirement pack containing the requirements to update.</param>
-    /// <param name="SecurityRequirements">The list of security requirement updates to apply. (structure) Contains the details for updating an existing security require- ment within a pack. The name is an immutable identifier used to locate the requirement and cannot be modified. name -&gt; (string) [required] The name of the security requirement to update. This is an immutable identifier and cannot be changed once the require- ment is created. description -&gt; (string) The updated description of the security requirement. domain -&gt; (string) The updated security domain the requirement belongs to. evaluation -&gt; (string) The updated evaluation criteria used to assess compliance with this requirement. remediation -&gt; (string) The updated remediation steps when the requirement is not met. Shorthand Syntax: name=string,description=string,domain=string,evaluation=string,remediation=string ... JSON Syntax: [ { "name": "string", "description": "string", "domain": "string", "evaluation": "string", "remediation": "string" } ... ]</param>
+    /// <param name="SecurityRequirements">The list of security requirement updates to apply. (structure) Contains the details for updating an existing security requirement within a pack. The name is an immutable identifier used to locate the requirement and cannot be modified. name -&gt; (string) [required] The name of the security requirement to update. This is an immutable identifier and cannot be changed once the requirement is created. description -&gt; (string) The updated description of the security requirement. domain -&gt; (string) The updated security domain the requirement belongs to. evaluation -&gt; (string) The updated evaluation criteria used to assess compliance with this requirement. remediation -&gt; (string) The updated remediation steps when the requirement is not met. Shorthand Syntax: name=string,description=string,domain=string,evaluation=string,remediation=string ... JSON Syntax: [ { "name": "string", "description": "string", "domain": "string", "evaluation": "string", "remediation": "string" } ... ]</param>
     public AwsSecurityagentBatchUpdateSecurityRequirementsOptions(
         string PackId,
         IEnumerable<string> SecurityRequirements
@@ -77,7 +78,7 @@ public record AwsSecurityagentBatchUpdateSecurityRequirementsOptions : AwsOption
     public string? PackId { get; private init; }
 
     /// <summary>
-    /// The list of security requirement updates to apply. (structure) Contains the details for updating an existing security require- ment within a pack. The name is an immutable identifier used to locate the requirement and cannot be modified. name -&gt; (string) [required] The name of the security requirement to update. This is an immutable identifier and cannot be changed once the require- ment is created. description -&gt; (string) The updated description of the security requirement. domain -&gt; (string) The updated security domain the requirement belongs to. evaluation -&gt; (string) The updated evaluation criteria used to assess compliance with this requirement. remediation -&gt; (string) The updated remediation steps when the requirement is not met. Shorthand Syntax: name=string,description=string,domain=string,evaluation=string,remediation=string ... JSON Syntax: [ { "name": "string", "description": "string", "domain": "string", "evaluation": "string", "remediation": "string" } ... ]
+    /// The list of security requirement updates to apply. (structure) Contains the details for updating an existing security requirement within a pack. The name is an immutable identifier used to locate the requirement and cannot be modified. name -&gt; (string) [required] The name of the security requirement to update. This is an immutable identifier and cannot be changed once the requirement is created. description -&gt; (string) The updated description of the security requirement. domain -&gt; (string) The updated security domain the requirement belongs to. evaluation -&gt; (string) The updated evaluation criteria used to assess compliance with this requirement. remediation -&gt; (string) The updated remediation steps when the requirement is not met. Shorthand Syntax: name=string,description=string,domain=string,evaluation=string,remediation=string ... JSON Syntax: [ { "name": "string", "description": "string", "domain": "string", "evaluation": "string", "remediation": "string" } ... ]
     /// </summary>
     [CliOption("--security-requirements", GroupValues = true)]
     public IEnumerable<string>? SecurityRequirements { get; private init; }
@@ -103,6 +104,15 @@ public record AwsSecurityagentBatchUpdateSecurityRequirementsOptions : AwsOption
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

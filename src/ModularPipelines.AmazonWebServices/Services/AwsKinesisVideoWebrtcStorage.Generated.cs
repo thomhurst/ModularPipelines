@@ -6,15 +6,15 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
+using ModularPipelines;
 using ModularPipelines.Context;
-using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
 namespace ModularPipelines.AmazonWebServices.Services;
 
 /// <summary>
-/// aws kinesisvideowebrtcstorage commands.
+/// aws kinesis-video-webrtc-storage commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AwsKinesisVideoWebrtcStorage : IAwsKinesisVideoWebrtcStorage
@@ -32,7 +32,7 @@ public class AwsKinesisVideoWebrtcStorage : IAwsKinesisVideoWebrtcStorage
     #region Commands
 
     /// <summary>
-    /// Join the ongoing one way-video and/or multi-way audio WebRTC session as a viewer for an input channel. If theres no existing session for the channel, create a new streaming session and provide the Amazon Resource Name (ARN) of the signaling channel (channelArn ) and client id (clien- tId ). Currently for SINGLE_MASTER type, a video producing device is able to ingest both audio and video media into a stream, while viewers can only ingest audio. Both a video producing device and viewers can join a...
+    /// Join the ongoing one way-video and/or multi-way audio WebRTC session as a viewer for an input channel. If theres no existing session for the channel, create a new streaming session and provide the Amazon Resource Name (ARN) of the signaling channel (channelArn ) and client id (clientId ). Currently for SINGLE_MASTER type, a video producing device is able to ingest both audio and video media into a stream, while viewers can only ingest audio. Both a video producing device and viewers can join a s...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

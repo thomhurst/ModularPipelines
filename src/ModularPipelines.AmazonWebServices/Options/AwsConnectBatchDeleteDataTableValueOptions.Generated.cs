@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes multiple values from a data table. API users may delete values at any time. When deletion is requested from the admin website, a warn- ing is shown alerting the user of the most recent time the attribute and its values were accessed. System managed values are not deletable by customers. See also: AWS API Documentation
+/// Deletes multiple values from a data table. API users may delete values at any time. When deletion is requested from the admin website, a warning is shown alerting the user of the most recent time the attribute and its values were accessed. System managed values are not deletable by customers. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,11 +26,11 @@ public record AwsConnectBatchDeleteDataTableValueOptions : AwsOptions, IValidata
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes multiple values from a data table. API users may delete values at any time. When deletion is requested from the admin website, a warn- ing is shown alerting the user of the most recent time the attribute and its values were accessed. System managed values are not deletable by customers. See also: AWS API Documentation
+    /// Deletes multiple values from a data table. API users may delete values at any time. When deletion is requested from the admin website, a warning is shown alerting the user of the most recent time the attribute and its values were accessed. System managed values are not deletable by customers. See also: AWS API Documentation
     /// </summary>
-    /// <param name="InstanceId">The unique identifier for the Amazon Connect instance. Constraints: o min: 1 o max: 100</param>
-    /// <param name="DataTableId">The unique identifier for the data table. Must also accept the table ARN with or without a version alias. Constraints: o min: 1 o max: 256</param>
-    /// <param name="Values">A list of value identifiers to delete, each specifying primary val- ues, attribute name, and lock version information. (structure) A data table delete value identifier. PrimaryValues -&gt; (list) The identifier's primary values. (structure) Represents a primary key value used to identify a spe- cific record in a data table. Primary values are used in combination to create unique record identifiers when a table has multiple primary attributes. AttributeName -&gt; (string) [required] The name of the primary attribute that this value be- longs to. Constraints: o min: 1 o max: 127 o pattern: ^[\p{L}\p{Z}\p{N}\-_.:=@'|]+$ Value -&gt; (string) [required] The actual value for the primary attribute. Must be provided as a string regardless of the attribute's value type. Primary values cannot be expressions and must be explicitly specified. AttributeName -&gt; (string) [required] The identifier's attribute name. Constraints: o min: 1 o max: 127 o pattern: ^[\p{L}\p{Z}\p{N}\-_.:=@'|]+$ LockVersion -&gt; (structure) [required] The identifier's lock version. DataTable -&gt; (string) The lock version for the data table itself. Used for op- timistic locking and table versioning. Changes with each update to the table's metadata or structure. Attribute -&gt; (string) The lock version for a specific attribute. When the Val- ueLockLevel is ATTRIBUTE, this version changes when any value for the attribute changes. For other lock levels, it only changes when the attribute's properties are di- rectly updated. PrimaryValues -&gt; (string) The lock version for a specific set of primary values (record). This includes the default record even if the table does not have any primary attributes. Used for record-level locking. Value -&gt; (string) The lock version for a specific value. Changes each time the individual value is modified. Used for the finest-grained locking control. Shorthand Syntax: PrimaryValues=[{AttributeName=string,Value=string},{AttributeName=string,Value=string}],AttributeName=string,LockVersion={DataTable=string,Attribute=string,PrimaryValues=string,Value=string} ... JSON Syntax: [ { "PrimaryValues": [ { "AttributeName": "string", "Value": "string" } ... ], "AttributeName": "string", "LockVersion": { "DataTable": "string", "Attribute": "string", "PrimaryValues": "string", "Value": "string" } } ... ]</param>
+    /// <param name="InstanceId">The unique identifier for the Amazon Connect instance. Constraints: • min: 1 • max: 100</param>
+    /// <param name="DataTableId">The unique identifier for the data table. Must also accept the table ARN with or without a version alias. Constraints: • min: 1 • max: 256</param>
+    /// <param name="Values">A list of value identifiers to delete, each specifying primary values, attribute name, and lock version information. (structure) A data table delete value identifier. PrimaryValues -&gt; (list) The identifier's primary values. (structure) Represents a primary key value used to identify a specific record in a data table. Primary values are used in combination to create unique record identifiers when a table has multiple primary attributes. AttributeName -&gt; (string) [required] The name of the primary attribute that this value belongs to. Constraints: • min: 1 • max: 127 • pattern: ^[\p{L}\p{Z}\p{N}\-_.:=@'|]+$ Value -&gt; (string) [required] The actual value for the primary attribute. Must be provided as a string regardless of the attribute's value type. Primary values cannot be expressions and must be explicitly specified. AttributeName -&gt; (string) [required] The identifier's attribute name. Constraints: • min: 1 • max: 127 • pattern: ^[\p{L}\p{Z}\p{N}\-_.:=@'|]+$ LockVersion -&gt; (structure) [required] The identifier's lock version. DataTable -&gt; (string) The lock version for the data table itself. Used for optimistic locking and table versioning. Changes with each update to the table's metadata or structure. Attribute -&gt; (string) The lock version for a specific attribute. When the ValueLockLevel is ATTRIBUTE, this version changes when any value for the attribute changes. For other lock levels, it only changes when the attribute's properties are directly updated. PrimaryValues -&gt; (string) The lock version for a specific set of primary values (record). This includes the default record even if the table does not have any primary attributes. Used for record-level locking. Value -&gt; (string) The lock version for a specific value. Changes each time the individual value is modified. Used for the finest-grained locking control. Shorthand Syntax: PrimaryValues=[{AttributeName=string,Value=string},{AttributeName=string,Value=string}],AttributeName=string,LockVersion={DataTable=string,Attribute=string,PrimaryValues=string,Value=string} ... JSON Syntax: [ { "PrimaryValues": [ { "AttributeName": "string", "Value": "string" } ... ], "AttributeName": "string", "LockVersion": { "DataTable": "string", "Attribute": "string", "PrimaryValues": "string", "Value": "string" } } ... ]</param>
     public AwsConnectBatchDeleteDataTableValueOptions(
         string InstanceId,
         string DataTableId,
@@ -75,19 +76,19 @@ public record AwsConnectBatchDeleteDataTableValueOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier for the Amazon Connect instance. Constraints: o min: 1 o max: 100
+    /// The unique identifier for the Amazon Connect instance. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--instance-id")]
     public string? InstanceId { get; private init; }
 
     /// <summary>
-    /// The unique identifier for the data table. Must also accept the table ARN with or without a version alias. Constraints: o min: 1 o max: 256
+    /// The unique identifier for the data table. Must also accept the table ARN with or without a version alias. Constraints: • min: 1 • max: 256
     /// </summary>
     [CliOption("--data-table-id")]
     public string? DataTableId { get; private init; }
 
     /// <summary>
-    /// A list of value identifiers to delete, each specifying primary val- ues, attribute name, and lock version information. (structure) A data table delete value identifier. PrimaryValues -&gt; (list) The identifier's primary values. (structure) Represents a primary key value used to identify a spe- cific record in a data table. Primary values are used in combination to create unique record identifiers when a table has multiple primary attributes. AttributeName -&gt; (string) [required] The name of the primary attribute that this value be- longs to. Constraints: o min: 1 o max: 127 o pattern: ^[\p{L}\p{Z}\p{N}\-_.:=@'|]+$ Value -&gt; (string) [required] The actual value for the primary attribute. Must be provided as a string regardless of the attribute's value type. Primary values cannot be expressions and must be explicitly specified. AttributeName -&gt; (string) [required] The identifier's attribute name. Constraints: o min: 1 o max: 127 o pattern: ^[\p{L}\p{Z}\p{N}\-_.:=@'|]+$ LockVersion -&gt; (structure) [required] The identifier's lock version. DataTable -&gt; (string) The lock version for the data table itself. Used for op- timistic locking and table versioning. Changes with each update to the table's metadata or structure. Attribute -&gt; (string) The lock version for a specific attribute. When the Val- ueLockLevel is ATTRIBUTE, this version changes when any value for the attribute changes. For other lock levels, it only changes when the attribute's properties are di- rectly updated. PrimaryValues -&gt; (string) The lock version for a specific set of primary values (record). This includes the default record even if the table does not have any primary attributes. Used for record-level locking. Value -&gt; (string) The lock version for a specific value. Changes each time the individual value is modified. Used for the finest-grained locking control. Shorthand Syntax: PrimaryValues=[{AttributeName=string,Value=string},{AttributeName=string,Value=string}],AttributeName=string,LockVersion={DataTable=string,Attribute=string,PrimaryValues=string,Value=string} ... JSON Syntax: [ { "PrimaryValues": [ { "AttributeName": "string", "Value": "string" } ... ], "AttributeName": "string", "LockVersion": { "DataTable": "string", "Attribute": "string", "PrimaryValues": "string", "Value": "string" } } ... ]
+    /// A list of value identifiers to delete, each specifying primary values, attribute name, and lock version information. (structure) A data table delete value identifier. PrimaryValues -&gt; (list) The identifier's primary values. (structure) Represents a primary key value used to identify a specific record in a data table. Primary values are used in combination to create unique record identifiers when a table has multiple primary attributes. AttributeName -&gt; (string) [required] The name of the primary attribute that this value belongs to. Constraints: • min: 1 • max: 127 • pattern: ^[\p{L}\p{Z}\p{N}\-_.:=@'|]+$ Value -&gt; (string) [required] The actual value for the primary attribute. Must be provided as a string regardless of the attribute's value type. Primary values cannot be expressions and must be explicitly specified. AttributeName -&gt; (string) [required] The identifier's attribute name. Constraints: • min: 1 • max: 127 • pattern: ^[\p{L}\p{Z}\p{N}\-_.:=@'|]+$ LockVersion -&gt; (structure) [required] The identifier's lock version. DataTable -&gt; (string) The lock version for the data table itself. Used for optimistic locking and table versioning. Changes with each update to the table's metadata or structure. Attribute -&gt; (string) The lock version for a specific attribute. When the ValueLockLevel is ATTRIBUTE, this version changes when any value for the attribute changes. For other lock levels, it only changes when the attribute's properties are directly updated. PrimaryValues -&gt; (string) The lock version for a specific set of primary values (record). This includes the default record even if the table does not have any primary attributes. Used for record-level locking. Value -&gt; (string) The lock version for a specific value. Changes each time the individual value is modified. Used for the finest-grained locking control. Shorthand Syntax: PrimaryValues=[{AttributeName=string,Value=string},{AttributeName=string,Value=string}],AttributeName=string,LockVersion={DataTable=string,Attribute=string,PrimaryValues=string,Value=string} ... JSON Syntax: [ { "PrimaryValues": [ { "AttributeName": "string", "Value": "string" } ... ], "AttributeName": "string", "LockVersion": { "DataTable": "string", "Attribute": "string", "PrimaryValues": "string", "Value": "string" } } ... ]
     /// </summary>
     [CliOption("--values", GroupValues = true)]
     public IEnumerable<string>? Values { get; private init; }
@@ -113,6 +114,15 @@ public record AwsConnectBatchDeleteDataTableValueOptions : AwsOptions, IValidata
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

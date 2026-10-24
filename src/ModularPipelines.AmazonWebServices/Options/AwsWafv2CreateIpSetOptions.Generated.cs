@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates an IPSet , which you use to identify web requests that origi- nate from specific IP addresses or ranges of IP addresses. For example, if you're receiving a lot of requests from a ranges of IP addresses, you can configure WAF to block them using an IPSet that lists those IP addresses. See also: AWS API Documentation
+/// Creates an IPSet , which you use to identify web requests that originate from specific IP addresses or ranges of IP addresses. For example, if you're receiving a lot of requests from a ranges of IP addresses, you can configure WAF to block them using an IPSet that lists those IP addresses. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,12 +27,12 @@ public record AwsWafv2CreateIpSetOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates an IPSet , which you use to identify web requests that origi- nate from specific IP addresses or ranges of IP addresses. For example, if you're receiving a lot of requests from a ranges of IP addresses, you can configure WAF to block them using an IPSet that lists those IP addresses. See also: AWS API Documentation
+    /// Creates an IPSet , which you use to identify web requests that originate from specific IP addresses or ranges of IP addresses. For example, if you're receiving a lot of requests from a ranges of IP addresses, you can configure WAF to block them using an IPSet that lists those IP addresses. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">The name of the IP set. You cannot change the name of an IPSet after you create it. Constraints: o min: 1 o max: 128 o pattern: ^[\w\-]+$</param>
-    /// <param name="Scope">Specifies whether this is for a global resource type, such as a Ama- zon CloudFront distribution. For an Amplify application, use CLOUD- FRONT . To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows: o CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1 . o API and SDKs - For all calls, use the Region endpoint us-east-1. Possible values: o CLOUDFRONT o REGIONAL</param>
-    /// <param name="IpAddressVersion">The version of the IP addresses, either IPV4 or IPV6 . Possible values: o IPV4 o IPV6</param>
-    /// <param name="Addresses">Contains an array of strings that specifies zero or more IP ad- dresses or blocks of IP addresses that you want WAF to inspect for in incoming requests. All addresses must be specified using Class- less Inter-Domain Routing (CIDR) notation. WAF supports all IPv4 and IPv6 CIDR ranges except for /0 . Example address strings: o For requests that originated from the IP address 192.0.2.44, spec- ify 192.0.2.44/32 . o For requests that originated from IP addresses from 192.0.2.0 to 192.0.2.255, specify 192.0.2.0/24 . o For requests that originated from the IP address 1111:0000:0000:0000:0000:0000:0000:0111, specify 1111:0000:0000:0000:0000:0000:0000:0111/128 . o For requests that originated from IP addresses 1111:0000:0000:0000:0000:0000:0000:0000 to 1111:0000:0000:0000:ffff:ffff:ffff:ffff, specify 1111:0000:0000:0000:0000:0000:0000:0000/64 . For more information about CIDR notation, see the Wikipedia entry Classless Inter-Domain Routing . Example JSON Addresses specifications: o Empty array: "Addresses": [] o Array with one address: "Addresses": ["192.0.2.44/32"] o Array with three addresses: "Addresses": ["192.0.2.44/32", "192.0.2.0/24", "192.0.0.0/16"] o INVALID specification: "Addresses": [""] INVALID (string) Constraints: o min: 1 o max: 50 o pattern: .*\S.* Syntax: "string" "string" ...</param>
+    /// <param name="Name">The name of the IP set. You cannot change the name of an IPSet after you create it. Constraints: • min: 1 • max: 128 • pattern: ^[\w\-]+$</param>
+    /// <param name="Scope">Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. For an Amplify application, use CLOUDFRONT . To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows: • CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1 . • API and SDKs - For all calls, use the Region endpoint us-east-1. Possible values: • CLOUDFRONT • REGIONAL</param>
+    /// <param name="IpAddressVersion">The version of the IP addresses, either IPV4 or IPV6 . Possible values: • IPV4 • IPV6</param>
+    /// <param name="Addresses">Contains an array of strings that specifies zero or more IP addresses or blocks of IP addresses that you want WAF to inspect for in incoming requests. All addresses must be specified using Classless Inter-Domain Routing (CIDR) notation. WAF supports all IPv4 and IPv6 CIDR ranges except for /0 . Example address strings: • For requests that originated from the IP address 192.0.2.44, specify 192.0.2.44/32 . • For requests that originated from IP addresses from 192.0.2.0 to 192.0.2.255, specify 192.0.2.0/24 . • For requests that originated from the IP address 1111:0000:0000:0000:0000:0000:0000:0111, specify 1111:0000:0000:0000:0000:0000:0000:0111/128 . • For requests that originated from IP addresses 1111:0000:0000:0000:0000:0000:0000:0000 to 1111:0000:0000:0000:ffff:ffff:ffff:ffff, specify 1111:0000:0000:0000:0000:0000:0000:0000/64 . For more information about CIDR notation, see the Wikipedia entry Classless Inter-Domain Routing . Example JSON Addresses specifications: • Empty array: "Addresses": [] • Array with one address: "Addresses": ["192.0.2.44/32"] • Array with three addresses: "Addresses": ["192.0.2.44/32", "192.0.2.0/24", "192.0.0.0/16"] • INVALID specification: "Addresses": [""] INVALID (string) Constraints: • min: 1 • max: 50 • pattern: .*\S.* Syntax: "string" "string" ...</param>
     public AwsWafv2CreateIpSetOptions(
         string Name,
         AwsWafv2CreateIpSetScope Scope,
@@ -78,37 +79,37 @@ public record AwsWafv2CreateIpSetOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the IP set. You cannot change the name of an IPSet after you create it. Constraints: o min: 1 o max: 128 o pattern: ^[\w\-]+$
+    /// The name of the IP set. You cannot change the name of an IPSet after you create it. Constraints: • min: 1 • max: 128 • pattern: ^[\w\-]+$
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// Specifies whether this is for a global resource type, such as a Ama- zon CloudFront distribution. For an Amplify application, use CLOUD- FRONT . To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows: o CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1 . o API and SDKs - For all calls, use the Region endpoint us-east-1. Possible values: o CLOUDFRONT o REGIONAL
+    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. For an Amplify application, use CLOUDFRONT . To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows: • CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1 . • API and SDKs - For all calls, use the Region endpoint us-east-1. Possible values: • CLOUDFRONT • REGIONAL
     /// </summary>
     [CliOption("--scope")]
     public AwsWafv2CreateIpSetScope? Scope { get; private init; }
 
     /// <summary>
-    /// The version of the IP addresses, either IPV4 or IPV6 . Possible values: o IPV4 o IPV6
+    /// The version of the IP addresses, either IPV4 or IPV6 . Possible values: • IPV4 • IPV6
     /// </summary>
     [CliOption("--ip-address-version")]
     public AwsWafv2CreateIpSetIpAddressVersion? IpAddressVersion { get; private init; }
 
     /// <summary>
-    /// Contains an array of strings that specifies zero or more IP ad- dresses or blocks of IP addresses that you want WAF to inspect for in incoming requests. All addresses must be specified using Class- less Inter-Domain Routing (CIDR) notation. WAF supports all IPv4 and IPv6 CIDR ranges except for /0 . Example address strings: o For requests that originated from the IP address 192.0.2.44, spec- ify 192.0.2.44/32 . o For requests that originated from IP addresses from 192.0.2.0 to 192.0.2.255, specify 192.0.2.0/24 . o For requests that originated from the IP address 1111:0000:0000:0000:0000:0000:0000:0111, specify 1111:0000:0000:0000:0000:0000:0000:0111/128 . o For requests that originated from IP addresses 1111:0000:0000:0000:0000:0000:0000:0000 to 1111:0000:0000:0000:ffff:ffff:ffff:ffff, specify 1111:0000:0000:0000:0000:0000:0000:0000/64 . For more information about CIDR notation, see the Wikipedia entry Classless Inter-Domain Routing . Example JSON Addresses specifications: o Empty array: "Addresses": [] o Array with one address: "Addresses": ["192.0.2.44/32"] o Array with three addresses: "Addresses": ["192.0.2.44/32", "192.0.2.0/24", "192.0.0.0/16"] o INVALID specification: "Addresses": [""] INVALID (string) Constraints: o min: 1 o max: 50 o pattern: .*\S.* Syntax: "string" "string" ...
+    /// Contains an array of strings that specifies zero or more IP addresses or blocks of IP addresses that you want WAF to inspect for in incoming requests. All addresses must be specified using Classless Inter-Domain Routing (CIDR) notation. WAF supports all IPv4 and IPv6 CIDR ranges except for /0 . Example address strings: • For requests that originated from the IP address 192.0.2.44, specify 192.0.2.44/32 . • For requests that originated from IP addresses from 192.0.2.0 to 192.0.2.255, specify 192.0.2.0/24 . • For requests that originated from the IP address 1111:0000:0000:0000:0000:0000:0000:0111, specify 1111:0000:0000:0000:0000:0000:0000:0111/128 . • For requests that originated from IP addresses 1111:0000:0000:0000:0000:0000:0000:0000 to 1111:0000:0000:0000:ffff:ffff:ffff:ffff, specify 1111:0000:0000:0000:0000:0000:0000:0000/64 . For more information about CIDR notation, see the Wikipedia entry Classless Inter-Domain Routing . Example JSON Addresses specifications: • Empty array: "Addresses": [] • Array with one address: "Addresses": ["192.0.2.44/32"] • Array with three addresses: "Addresses": ["192.0.2.44/32", "192.0.2.0/24", "192.0.0.0/16"] • INVALID specification: "Addresses": [""] INVALID (string) Constraints: • min: 1 • max: 50 • pattern: .*\S.* Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--addresses", GroupValues = true)]
     public IEnumerable<string>? Addresses { get; private init; }
 
     /// <summary>
-    /// A description of the IP set that helps with identification. Constraints: o min: 1 o max: 256 o pattern: ^[\w+=:#@/\-,\.][\w+=:#@/\-,\.\s]+[\w+=:#@/\-,\.]$
+    /// A description of the IP set that helps with identification. Constraints: • min: 1 • max: 256 • pattern: ^[\w+=:#@/\-,\.][\w+=:#@/\-,\.\s]+[\w+=:#@/\-,\.]$
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// An array of key:value pairs to associate with the resource. Constraints: o min: 1 (structure) A tag associated with an Amazon Web Services resource. Tags are key:value pairs that you can use to categorize and manage your resources, for purposes like billing or other management. Typi- cally, the tag key represents a category, such as "environment", and the tag value represents a specific value within that cate- gory, such as "test," "development," or "production". Or you might set the tag key to "customer" and the value to the cus- tomer name or ID. You can specify one or more tags to add to each Amazon Web Services resource, up to 50 tags for a resource. You can tag the Amazon Web Services resources that you manage through WAF: web ACLs, rule groups, IP sets, and regex pattern sets. You can't manage or view tags through the WAF console. Key -&gt; (string) [required] Part of the key:value pair that defines a tag. You can use a tag key to describe a category of information, such as "cus- tomer." Tag keys are case-sensitive. Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Value -&gt; (string) [required] Part of the key:value pair that defines a tag. You can use a tag value to describe a specific value within a category, such as "companyA" or "companyB." Tag values are case-sensi- tive. Constraints: o min: 0 o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// An array of key:value pairs to associate with the resource. Constraints: • min: 1 (structure) A tag associated with an Amazon Web Services resource. Tags are key:value pairs that you can use to categorize and manage your resources, for purposes like billing or other management. Typically, the tag key represents a category, such as "environment", and the tag value represents a specific value within that category, such as "test," "development," or "production". Or you might set the tag key to "customer" and the value to the customer name or ID. You can specify one or more tags to add to each Amazon Web Services resource, up to 50 tags for a resource. You can tag the Amazon Web Services resources that you manage through WAF: web ACLs, rule groups, IP sets, and regex pattern sets. You can't manage or view tags through the WAF console. Key -&gt; (string) [required] Part of the key:value pair that defines a tag. You can use a tag key to describe a category of information, such as "customer." Tag keys are case-sensitive. Constraints: • min: 1 • max: 128 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Value -&gt; (string) [required] Part of the key:value pair that defines a tag. You can use a tag value to describe a specific value within a category, such as "companyA" or "companyB." Tag values are case-sensitive. Constraints: • min: 0 • max: 256 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
@@ -134,6 +135,15 @@ public record AwsWafv2CreateIpSetOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Associates an additional Channel with a particular ManagedNotification- Configuration . Supported Channels include Amazon Q Developer in chat applications, the Console Mobile Application, and emails (notifications-contacts). See also: AWS API Documentation
+/// Associates an additional Channel with a particular ManagedNotificationConfiguration . Supported Channels include Amazon Q Developer in chat applications, the Console Mobile Application, and emails (notifications-contacts). See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsNotificationsAssociateManagedNotificationAdditionalChannelOptio
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Associates an additional Channel with a particular ManagedNotification- Configuration . Supported Channels include Amazon Q Developer in chat applications, the Console Mobile Application, and emails (notifications-contacts). See also: AWS API Documentation
+    /// Associates an additional Channel with a particular ManagedNotificationConfiguration . Supported Channels include Amazon Q Developer in chat applications, the Console Mobile Application, and emails (notifications-contacts). See also: AWS API Documentation
     /// </summary>
-    /// <param name="ChannelArn">The Amazon Resource Name (ARN) of the Channel to associate with the ManagedNotificationConfiguration . Supported ARNs include Amazon Q Developer in chat applications, the Console Mobile Application, and email (notifications-contacts). Constraints: o pattern: arn:[a-z-]{3,10}:(chatbot|consoleapp|notifications-con- tacts):[a-zA-Z0-9-]*:[0-9]{12}:[a-zA-Z0-9-_.@]+/[a-zA-Z0-9/_.@:-]+</param>
-    /// <param name="ManagedNotificationConfigurationArn">The Amazon Resource Name (ARN) of the ManagedNotificationConfigura- tion to associate with the additional Channel. Constraints: o pattern: arn:[a-z-]{3,10}:notifications::[0-9]{12}:managed-notifi- cation-configuration/category/[a-zA-Z0-9\-]{3,64}/sub-cate- gory/[a-zA-Z0-9\-]{3,64}</param>
+    /// <param name="ChannelArn">The Amazon Resource Name (ARN) of the Channel to associate with the ManagedNotificationConfiguration . Supported ARNs include Amazon Q Developer in chat applications, the Console Mobile Application, and email (notifications-contacts). Constraints: • pattern: arn:[a-z-]{3,10}:(chatbot|consoleapp|notifications-contacts):[a-zA-Z0-9-]*:[0-9]{12}:[a-zA-Z0-9-_.@]+/[a-zA-Z0-9/_.@:-]+</param>
+    /// <param name="ManagedNotificationConfigurationArn">The Amazon Resource Name (ARN) of the ManagedNotificationConfiguration to associate with the additional Channel. Constraints: • pattern: arn:[a-z-]{3,10}:notifications::[0-9]{12}:managed-notification-configuration/category/[a-zA-Z0-9\-]{3,64}/sub-category/[a-zA-Z0-9\-]{3,64}</param>
     public AwsNotificationsAssociateManagedNotificationAdditionalChannelOptions(
         string ChannelArn,
         string ManagedNotificationConfigurationArn
@@ -60,19 +61,19 @@ public record AwsNotificationsAssociateManagedNotificationAdditionalChannelOptio
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the Channel to associate with the ManagedNotificationConfiguration . Supported ARNs include Amazon Q Developer in chat applications, the Console Mobile Application, and email (notifications-contacts). Constraints: o pattern: arn:[a-z-]{3,10}:(chatbot|consoleapp|notifications-con- tacts):[a-zA-Z0-9-]*:[0-9]{12}:[a-zA-Z0-9-_.@]+/[a-zA-Z0-9/_.@:-]+
+    /// The Amazon Resource Name (ARN) of the Channel to associate with the ManagedNotificationConfiguration . Supported ARNs include Amazon Q Developer in chat applications, the Console Mobile Application, and email (notifications-contacts). Constraints: • pattern: arn:[a-z-]{3,10}:(chatbot|consoleapp|notifications-contacts):[a-zA-Z0-9-]*:[0-9]{12}:[a-zA-Z0-9-_.@]+/[a-zA-Z0-9/_.@:-]+
     /// </summary>
     [CliOption("--channel-arn")]
     public string? ChannelArn { get; private init; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the ManagedNotificationConfigura- tion to associate with the additional Channel. Constraints: o pattern: arn:[a-z-]{3,10}:notifications::[0-9]{12}:managed-notifi- cation-configuration/category/[a-zA-Z0-9\-]{3,64}/sub-cate- gory/[a-zA-Z0-9\-]{3,64}
+    /// The Amazon Resource Name (ARN) of the ManagedNotificationConfiguration to associate with the additional Channel. Constraints: • pattern: arn:[a-z-]{3,10}:notifications::[0-9]{12}:managed-notification-configuration/category/[a-zA-Z0-9\-]{3,64}/sub-category/[a-zA-Z0-9\-]{3,64}
     /// </summary>
     [CliOption("--managed-notification-configuration-arn")]
     public string? ManagedNotificationConfigurationArn { get; private init; }
 
     /// <summary>
-    /// Specifies whether this channel is subscribed to sensitive events. The notifications:SubscribeSensitiveEvents permission controls ac- cess to sensitive events. Defaults to false.
+    /// Specifies whether this channel is subscribed to sensitive events. The notifications:SubscribeSensitiveEvents permission controls access to sensitive events. Defaults to false.
     /// </summary>
     [CliFlag("--is-sensitive-events-subscribed", NegatedName = "--no-is-sensitive-events-subscribed")]
     public bool? IsSensitiveEventsSubscribed { get; set; }
@@ -98,6 +99,15 @@ public record AwsNotificationsAssociateManagedNotificationAdditionalChannelOptio
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

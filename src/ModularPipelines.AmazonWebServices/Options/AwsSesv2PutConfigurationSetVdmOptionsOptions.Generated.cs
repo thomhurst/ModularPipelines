@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -62,7 +63,7 @@ public record AwsSesv2PutConfigurationSetVdmOptionsOptions : AwsOptions, IValida
     public string? ConfigurationSetName { get; private init; }
 
     /// <summary>
-    /// The VDM options to apply to the configuration set. DashboardOptions -&gt; (structure) Specifies additional settings for your VDM configuration as ap- plicable to the Dashboard. EngagementMetrics -&gt; (string) Specifies the status of your VDM engagement metrics collec- tion. Can be one of the following: o ENABLED Amazon SES enables engagement metrics for the con- figuration set. o DISABLED Amazon SES disables engagement metrics for the configuration set. Possible values: o ENABLED o DISABLED GuardianOptions -&gt; (structure) Specifies additional settings for your VDM configuration as ap- plicable to the Guardian. OptimizedSharedDelivery -&gt; (string) Specifies the status of your VDM optimized shared delivery. Can be one of the following: o ENABLED Amazon SES enables optimized shared delivery for the configuration set. o DISABLED Amazon SES disables optimized shared delivery for the configuration set. Possible values: o ENABLED o DISABLED Shorthand Syntax: DashboardOptions={EngagementMetrics=string},GuardianOptions={OptimizedSharedDelivery=string} JSON Syntax: { "DashboardOptions": { "EngagementMetrics": "ENABLED"|"DISABLED" }, "GuardianOptions": { "OptimizedSharedDelivery": "ENABLED"|"DISABLED" } }
+    /// The VDM options to apply to the configuration set. DashboardOptions -&gt; (structure) Specifies additional settings for your VDM configuration as applicable to the Dashboard. EngagementMetrics -&gt; (string) Specifies the status of your VDM engagement metrics collection. Can be one of the following: • ENABLED Amazon SES enables engagement metrics for the configuration set. • DISABLED Amazon SES disables engagement metrics for the configuration set. Possible values: • ENABLED • DISABLED GuardianOptions -&gt; (structure) Specifies additional settings for your VDM configuration as applicable to the Guardian. OptimizedSharedDelivery -&gt; (string) Specifies the status of your VDM optimized shared delivery. Can be one of the following: • ENABLED Amazon SES enables optimized shared delivery for the configuration set. • DISABLED Amazon SES disables optimized shared delivery for the configuration set. Possible values: • ENABLED • DISABLED Shorthand Syntax: DashboardOptions={EngagementMetrics=string},GuardianOptions={OptimizedSharedDelivery=string} JSON Syntax: { "DashboardOptions": { "EngagementMetrics": "ENABLED"|"DISABLED" }, "GuardianOptions": { "OptimizedSharedDelivery": "ENABLED"|"DISABLED" } }
     /// </summary>
     [CliOption("--vdm-options")]
     public string? VdmOptions { get; set; }
@@ -88,6 +89,15 @@ public record AwsSesv2PutConfigurationSetVdmOptionsOptions : AwsOptions, IValida
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Wait until Graph is Stopped It will poll every 20 seconds until a suc- cessful state has been reached. This will exit with a return code of 255 after 90 failed checks. See also: AWS API Documentation
+/// Wait until Graph is Stopped It will poll every 20 seconds until a successful state has been reached. This will exit with a return code of 255 after 90 failed checks. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsNeptuneGraphWaitGraphStoppedOptions : AwsOptions, IValidatableO
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Wait until Graph is Stopped It will poll every 20 seconds until a suc- cessful state has been reached. This will exit with a return code of 255 after 90 failed checks. See also: AWS API Documentation
+    /// Wait until Graph is Stopped It will poll every 20 seconds until a successful state has been reached. This will exit with a return code of 255 after 90 failed checks. See also: AWS API Documentation
     /// </summary>
-    /// <param name="GraphIdentifier">The unique identifier of the Neptune Analytics graph. Constraints: o pattern: g-[a-z0-9]{10}</param>
+    /// <param name="GraphIdentifier">The unique identifier of the Neptune Analytics graph. Constraints: • pattern: g-[a-z0-9]{10}</param>
     public AwsNeptuneGraphWaitGraphStoppedOptions(
         string GraphIdentifier
     )
@@ -56,7 +57,7 @@ public record AwsNeptuneGraphWaitGraphStoppedOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the Neptune Analytics graph. Constraints: o pattern: g-[a-z0-9]{10}
+    /// The unique identifier of the Neptune Analytics graph. Constraints: • pattern: g-[a-z0-9]{10}
     /// </summary>
     [CliOption("--graph-identifier")]
     public string? GraphIdentifier { get; private init; }
@@ -82,6 +83,15 @@ public record AwsNeptuneGraphWaitGraphStoppedOptions : AwsOptions, IValidatableO
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

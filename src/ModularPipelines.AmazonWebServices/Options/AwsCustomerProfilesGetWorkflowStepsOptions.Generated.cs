@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,8 +29,8 @@ public record AwsCustomerProfilesGetWorkflowStepsOptions : AwsOptions, IValidata
     /// <summary>
     /// Get granular list of steps in workflow. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DomainName">The unique name of the domain. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$</param>
-    /// <param name="WorkflowId">Unique identifier for the workflow. Constraints: o pattern: [a-f0-9]{32}</param>
+    /// <param name="DomainName">The unique name of the domain. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9_-]+$</param>
+    /// <param name="WorkflowId">Unique identifier for the workflow. Constraints: • pattern: [a-f0-9]{32}</param>
     public AwsCustomerProfilesGetWorkflowStepsOptions(
         string DomainName,
         string WorkflowId
@@ -61,26 +62,26 @@ public record AwsCustomerProfilesGetWorkflowStepsOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique name of the domain. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$
+    /// The unique name of the domain. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9_-]+$
     /// </summary>
     [CliOption("--domain-name")]
     public string? DomainName { get; private init; }
 
     /// <summary>
-    /// Unique identifier for the workflow. Constraints: o pattern: [a-f0-9]{32}
+    /// Unique identifier for the workflow. Constraints: • pattern: [a-f0-9]{32}
     /// </summary>
     [CliOption("--workflow-id")]
     public string? WorkflowId { get; private init; }
 
     /// <summary>
-    /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results. Constraints: o min: 1 o max: 1024
+    /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results. Constraints: • min: 1 • max: 1024
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// The maximum number of results to return per page. Constraints: o min: 1 o max: 100
+    /// The maximum number of results to return per page. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
@@ -106,6 +107,15 @@ public record AwsCustomerProfilesGetWorkflowStepsOptions : AwsOptions, IValidata
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,9 +29,9 @@ public record AwsNetworkmanagerCreateCoreNetworkPrefixListAssociationOptions : A
     /// <summary>
     /// Creates an association between a core network and a prefix list for routing control. See also: AWS API Documentation
     /// </summary>
-    /// <param name="CoreNetworkId">The ID of the core network to associate with the prefix list. Constraints: o min: 0 o max: 50 o pattern: ^core-network-([0-9a-f]{8,17})$</param>
-    /// <param name="PrefixListArn">The ARN of the prefix list to associate with the core network. Constraints: o min: 0 o max: 500 o pattern: [\s\S]*</param>
-    /// <param name="PrefixListAlias">An optional alias for the prefix list association. Constraints: o min: 0 o max: 256 o pattern: [\s\S]*</param>
+    /// <param name="CoreNetworkId">The ID of the core network to associate with the prefix list. Constraints: • min: 0 • max: 50 • pattern: ^core-network-([0-9a-f]{8,17})$</param>
+    /// <param name="PrefixListArn">The ARN of the prefix list to associate with the core network. Constraints: • min: 0 • max: 500 • pattern: [\s\S]*</param>
+    /// <param name="PrefixListAlias">An optional alias for the prefix list association. Constraints: • min: 0 • max: 256 • pattern: [\s\S]*</param>
     public AwsNetworkmanagerCreateCoreNetworkPrefixListAssociationOptions(
         string CoreNetworkId,
         string PrefixListArn,
@@ -65,25 +66,25 @@ public record AwsNetworkmanagerCreateCoreNetworkPrefixListAssociationOptions : A
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the core network to associate with the prefix list. Constraints: o min: 0 o max: 50 o pattern: ^core-network-([0-9a-f]{8,17})$
+    /// The ID of the core network to associate with the prefix list. Constraints: • min: 0 • max: 50 • pattern: ^core-network-([0-9a-f]{8,17})$
     /// </summary>
     [CliOption("--core-network-id")]
     public string? CoreNetworkId { get; private init; }
 
     /// <summary>
-    /// The ARN of the prefix list to associate with the core network. Constraints: o min: 0 o max: 500 o pattern: [\s\S]*
+    /// The ARN of the prefix list to associate with the core network. Constraints: • min: 0 • max: 500 • pattern: [\s\S]*
     /// </summary>
     [CliOption("--prefix-list-arn")]
     public string? PrefixListArn { get; private init; }
 
     /// <summary>
-    /// An optional alias for the prefix list association. Constraints: o min: 0 o max: 256 o pattern: [\s\S]*
+    /// An optional alias for the prefix list association. Constraints: • min: 0 • max: 256 • pattern: [\s\S]*
     /// </summary>
     [CliOption("--prefix-list-alias")]
     public string? PrefixListAlias { get; private init; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Constraints: o min: 0 o max: 256 o pattern: [\s\S]*
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Constraints: • min: 0 • max: 256 • pattern: [\s\S]*
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
@@ -110,6 +111,15 @@ public record AwsNetworkmanagerCreateCoreNetworkPrefixListAssociationOptions : A
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

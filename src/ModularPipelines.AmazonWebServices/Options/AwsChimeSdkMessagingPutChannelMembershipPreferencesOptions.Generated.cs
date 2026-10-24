@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Sets the membership preferences of an AppInstanceUser or AppInstanceBot for the specified channel. The user or bot must be a member of the channel. Only the user or bot who owns the membership can set prefer- ences. Users or bots in the AppInstanceAdmin and channel moderator roles can't set preferences for other users. Banned users or bots can't set membership preferences for the channel from which they are banned. NOTE: The x-amz-chime-bearer request header is mandatory. Use the ARN of an AppIn...
+/// Sets the membership preferences of an AppInstanceUser or AppInstanceBot for the specified channel. The user or bot must be a member of the channel. Only the user or bot who owns the membership can set preferences. Users or bots in the AppInstanceAdmin and channel moderator roles can't set preferences for other users. Banned users or bots can't set membership preferences for the channel from which they are banned. NOTE: The x-amz-chime-bearer request header is mandatory. Use the ARN of an AppInst...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,12 +26,12 @@ public record AwsChimeSdkMessagingPutChannelMembershipPreferencesOptions : AwsOp
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Sets the membership preferences of an AppInstanceUser or AppInstanceBot for the specified channel. The user or bot must be a member of the channel. Only the user or bot who owns the membership can set prefer- ences. Users or bots in the AppInstanceAdmin and channel moderator roles can't set preferences for other users. Banned users or bots can't set membership preferences for the channel from which they are banned. NOTE: The x-amz-chime-bearer request header is mandatory. Use the ARN of an AppIn...
+    /// Sets the membership preferences of an AppInstanceUser or AppInstanceBot for the specified channel. The user or bot must be a member of the channel. Only the user or bot who owns the membership can set preferences. Users or bots in the AppInstanceAdmin and channel moderator roles can't set preferences for other users. Banned users or bots can't set membership preferences for the channel from which they are banned. NOTE: The x-amz-chime-bearer request header is mandatory. Use the ARN of an AppInst...
     /// </summary>
-    /// <param name="ChannelArn">The ARN of the channel. Constraints: o min: 5 o max: 1600 o pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}</param>
-    /// <param name="MemberArn">The ARN of the member setting the preferences. Constraints: o min: 5 o max: 1600 o pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}</param>
-    /// <param name="ChimeBearer">The ARN of the AppInstanceUser or AppInstanceBot that makes the API call. Constraints: o min: 5 o max: 1600 o pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}</param>
-    /// <param name="Preferences">The channel membership preferences of an AppInstanceUser . PushNotifications -&gt; (structure) The push notification configuration of a message. AllowNotifications -&gt; (string) [required] Enum value that indicates which push notifications to send to the requested member of a channel. ALL sends all push notifi- cations, NONE sends no push notifications, FILTERED sends only filtered push notifications. Possible values: o ALL o NONE o FILTERED FilterRule -&gt; (string) The simple JSON object used to send a subset of a push noti- fication to the requested member. Constraints: o min: 1 o pattern: [\s\S]* Shorthand Syntax: PushNotifications={AllowNotifications=string,FilterRule=string} JSON Syntax: { "PushNotifications": { "AllowNotifications": "ALL"|"NONE"|"FILTERED", "FilterRule": "string" } }</param>
+    /// <param name="ChannelArn">The ARN of the channel. Constraints: • min: 5 • max: 1600 • pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}</param>
+    /// <param name="MemberArn">The ARN of the member setting the preferences. Constraints: • min: 5 • max: 1600 • pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}</param>
+    /// <param name="ChimeBearer">The ARN of the AppInstanceUser or AppInstanceBot that makes the API call. Constraints: • min: 5 • max: 1600 • pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}</param>
+    /// <param name="Preferences">The channel membership preferences of an AppInstanceUser . PushNotifications -&gt; (structure) The push notification configuration of a message. AllowNotifications -&gt; (string) [required] Enum value that indicates which push notifications to send to the requested member of a channel. ALL sends all push notifications, NONE sends no push notifications, FILTERED sends only filtered push notifications. Possible values: • ALL • NONE • FILTERED FilterRule -&gt; (string) The simple JSON object used to send a subset of a push notification to the requested member. Constraints: • min: 1 • pattern: [\s\S]* Shorthand Syntax: PushNotifications={AllowNotifications=string,FilterRule=string} JSON Syntax: { "PushNotifications": { "AllowNotifications": "ALL"|"NONE"|"FILTERED", "FilterRule": "string" } }</param>
     public AwsChimeSdkMessagingPutChannelMembershipPreferencesOptions(
         string ChannelArn,
         string MemberArn,
@@ -68,25 +69,25 @@ public record AwsChimeSdkMessagingPutChannelMembershipPreferencesOptions : AwsOp
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the channel. Constraints: o min: 5 o max: 1600 o pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}
+    /// The ARN of the channel. Constraints: • min: 5 • max: 1600 • pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}
     /// </summary>
     [CliOption("--channel-arn")]
     public string? ChannelArn { get; private init; }
 
     /// <summary>
-    /// The ARN of the member setting the preferences. Constraints: o min: 5 o max: 1600 o pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}
+    /// The ARN of the member setting the preferences. Constraints: • min: 5 • max: 1600 • pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}
     /// </summary>
     [CliOption("--member-arn")]
     public string? MemberArn { get; private init; }
 
     /// <summary>
-    /// The ARN of the AppInstanceUser or AppInstanceBot that makes the API call. Constraints: o min: 5 o max: 1600 o pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}
+    /// The ARN of the AppInstanceUser or AppInstanceBot that makes the API call. Constraints: • min: 5 • max: 1600 • pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}
     /// </summary>
     [CliOption("--chime-bearer")]
     public string? ChimeBearer { get; private init; }
 
     /// <summary>
-    /// The channel membership preferences of an AppInstanceUser . PushNotifications -&gt; (structure) The push notification configuration of a message. AllowNotifications -&gt; (string) [required] Enum value that indicates which push notifications to send to the requested member of a channel. ALL sends all push notifi- cations, NONE sends no push notifications, FILTERED sends only filtered push notifications. Possible values: o ALL o NONE o FILTERED FilterRule -&gt; (string) The simple JSON object used to send a subset of a push noti- fication to the requested member. Constraints: o min: 1 o pattern: [\s\S]* Shorthand Syntax: PushNotifications={AllowNotifications=string,FilterRule=string} JSON Syntax: { "PushNotifications": { "AllowNotifications": "ALL"|"NONE"|"FILTERED", "FilterRule": "string" } }
+    /// The channel membership preferences of an AppInstanceUser . PushNotifications -&gt; (structure) The push notification configuration of a message. AllowNotifications -&gt; (string) [required] Enum value that indicates which push notifications to send to the requested member of a channel. ALL sends all push notifications, NONE sends no push notifications, FILTERED sends only filtered push notifications. Possible values: • ALL • NONE • FILTERED FilterRule -&gt; (string) The simple JSON object used to send a subset of a push notification to the requested member. Constraints: • min: 1 • pattern: [\s\S]* Shorthand Syntax: PushNotifications={AllowNotifications=string,FilterRule=string} JSON Syntax: { "PushNotifications": { "AllowNotifications": "ALL"|"NONE"|"FILTERED", "FilterRule": "string" } }
     /// </summary>
     [CliOption("--preferences")]
     public string? Preferences { get; private init; }
@@ -112,6 +113,15 @@ public record AwsChimeSdkMessagingPutChannelMembershipPreferencesOptions : AwsOp
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

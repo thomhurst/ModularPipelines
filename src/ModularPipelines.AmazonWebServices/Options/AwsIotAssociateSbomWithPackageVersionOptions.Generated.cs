@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Associates the selected software bill of materials (SBOM) with a spe- cific software package version. Requires permission to access the AssociateSbomWithPackageVersion ac- tion. See also: AWS API Documentation
+/// Associates the selected software bill of materials (SBOM) with a specific software package version. Requires permission to access the AssociateSbomWithPackageVersion action. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,11 +27,11 @@ public record AwsIotAssociateSbomWithPackageVersionOptions : AwsOptions, IValida
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Associates the selected software bill of materials (SBOM) with a spe- cific software package version. Requires permission to access the AssociateSbomWithPackageVersion ac- tion. See also: AWS API Documentation
+    /// Associates the selected software bill of materials (SBOM) with a specific software package version. Requires permission to access the AssociateSbomWithPackageVersion action. See also: AWS API Documentation
     /// </summary>
-    /// <param name="PackageName">The name of the new software package. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9-_.]+</param>
-    /// <param name="VersionName">The name of the new package version. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9-_.]+</param>
-    /// <param name="Sbom">A specific software bill of matrerials associated with a software package version. s3Location -&gt; (structure) The S3 location. bucket -&gt; (string) The S3 bucket. Constraints: o min: 1 key -&gt; (string) The S3 key. Constraints: o min: 1 version -&gt; (string) The S3 bucket version. Shorthand Syntax: s3Location={bucket=string,key=string,version=string} JSON Syntax: { "s3Location": { "bucket": "string", "key": "string", "version": "string" } }</param>
+    /// <param name="PackageName">The name of the new software package. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9-_.]+</param>
+    /// <param name="VersionName">The name of the new package version. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9-_.]+</param>
+    /// <param name="Sbom">A specific software bill of matrerials associated with a software package version. s3Location -&gt; (structure) The S3 location. bucket -&gt; (string) The S3 bucket. Constraints: • min: 1 key -&gt; (string) The S3 key. Constraints: • min: 1 version -&gt; (string) The S3 bucket version. Shorthand Syntax: s3Location={bucket=string,key=string,version=string} JSON Syntax: { "s3Location": { "bucket": "string", "key": "string", "version": "string" } }</param>
     public AwsIotAssociateSbomWithPackageVersionOptions(
         string PackageName,
         string VersionName,
@@ -65,25 +66,25 @@ public record AwsIotAssociateSbomWithPackageVersionOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the new software package. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9-_.]+
+    /// The name of the new software package. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9-_.]+
     /// </summary>
     [CliOption("--package-name")]
     public string? PackageName { get; private init; }
 
     /// <summary>
-    /// The name of the new package version. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9-_.]+
+    /// The name of the new package version. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9-_.]+
     /// </summary>
     [CliOption("--version-name")]
     public string? VersionName { get; private init; }
 
     /// <summary>
-    /// A specific software bill of matrerials associated with a software package version. s3Location -&gt; (structure) The S3 location. bucket -&gt; (string) The S3 bucket. Constraints: o min: 1 key -&gt; (string) The S3 key. Constraints: o min: 1 version -&gt; (string) The S3 bucket version. Shorthand Syntax: s3Location={bucket=string,key=string,version=string} JSON Syntax: { "s3Location": { "bucket": "string", "key": "string", "version": "string" } }
+    /// A specific software bill of matrerials associated with a software package version. s3Location -&gt; (structure) The S3 location. bucket -&gt; (string) The S3 bucket. Constraints: • min: 1 key -&gt; (string) The S3 key. Constraints: • min: 1 version -&gt; (string) The S3 bucket version. Shorthand Syntax: s3Location={bucket=string,key=string,version=string} JSON Syntax: { "s3Location": { "bucket": "string", "key": "string", "version": "string" } }
     /// </summary>
     [CliOption("--sbom")]
     public string? Sbom { get; private init; }
 
     /// <summary>
-    /// A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required. Constraints: o min: 36 o max: 64 o pattern: \S{36,64}
+    /// A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required. Constraints: • min: 36 • max: 64 • pattern: \S{36,64}
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
@@ -110,6 +111,15 @@ public record AwsIotAssociateSbomWithPackageVersionOptions : AwsOptions, IValida
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

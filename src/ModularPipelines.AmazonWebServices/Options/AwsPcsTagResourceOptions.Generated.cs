@@ -10,7 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,8 +28,8 @@ public record AwsPcsTagResourceOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Adds or edits tags on an PCS resource. Each tag consists of a tag key and a tag value. The tag key and tag value are case-sensitive strings. The tag value can be an empty (null) string. To add a tag, specify a new tag key and a tag value. To edit a tag, specify an existing tag key and a new tag value. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the resource. Constraints: o min: 1 o max: 1011 o pattern: arn:aws.*:pcs:.*:[0-9]{12}:.*/[a-z0-9_\-]+</param>
-    /// <param name="Tags">1 or more tags added to the resource. Each tag consists of a tag key and tag value. The tag value is optional and can be an empty string. Constraints: o min: 1 o max: 200 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}</param>
+    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the resource. Constraints: • min: 1 • max: 1011 • pattern: arn:aws.*:pcs:.*:[0-9]{12}:.*/[a-z0-9_\-]+</param>
+    /// <param name="Tags">1 or more tags added to the resource. Each tag consists of a tag key and tag value. The tag value is optional and can be an empty string. Constraints: • min: 1 • max: 200 key -&gt; (string) Constraints: • min: 1 • max: 128 value -&gt; (string) Constraints: • min: 0 • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}</param>
     public AwsPcsTagResourceOptions(
         string ResourceArn,
         IReadOnlyList<KeyValue> Tags
@@ -72,13 +72,13 @@ public record AwsPcsTagResourceOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the resource. Constraints: o min: 1 o max: 1011 o pattern: arn:aws.*:pcs:.*:[0-9]{12}:.*/[a-z0-9_\-]+
+    /// The Amazon Resource Name (ARN) of the resource. Constraints: • min: 1 • max: 1011 • pattern: arn:aws.*:pcs:.*:[0-9]{12}:.*/[a-z0-9_\-]+
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
 
     /// <summary>
-    /// 1 or more tags added to the resource. Each tag consists of a tag key and tag value. The tag value is optional and can be an empty string. Constraints: o min: 1 o max: 200 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// 1 or more tags added to the resource. Each tag consists of a tag key and tag value. The tag value is optional and can be an empty string. Constraints: • min: 1 • max: 200 key -&gt; (string) Constraints: • min: 1 • max: 128 value -&gt; (string) Constraints: • min: 0 • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; private init; }
@@ -104,6 +104,15 @@ public record AwsPcsTagResourceOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

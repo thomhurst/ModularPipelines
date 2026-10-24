@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes a tag from an Amazon Web Services Payment Cryptography key. NOTE: Tagging or untagging an Amazon Web Services Payment Cryptography key can allow or deny permission to the key. Cross-account use: This operation supports cross-account use when the key has a resource-based policy that grants access. For more in- formation, see Resource-based policies . Related operations: o ListTagsForResource o TagResource See also: AWS API Documentation
+/// Deletes a tag from an Amazon Web Services Payment Cryptography key. NOTE: Tagging or untagging an Amazon Web Services Payment Cryptography key can allow or deny permission to the key. Cross-account use: This operation supports cross-account use when the key has a resource-based policy that grants access. For more information, see Resource-based policies . Related operations: • ListTagsForResource • TagResource See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsPaymentCryptographyUntagResourceOptions : AwsOptions, IValidata
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes a tag from an Amazon Web Services Payment Cryptography key. NOTE: Tagging or untagging an Amazon Web Services Payment Cryptography key can allow or deny permission to the key. Cross-account use: This operation supports cross-account use when the key has a resource-based policy that grants access. For more in- formation, see Resource-based policies . Related operations: o ListTagsForResource o TagResource See also: AWS API Documentation
+    /// Deletes a tag from an Amazon Web Services Payment Cryptography key. NOTE: Tagging or untagging an Amazon Web Services Payment Cryptography key can allow or deny permission to the key. Cross-account use: This operation supports cross-account use when the key has a resource-based policy that grants access. For more information, see Resource-based policies . Related operations: • ListTagsForResource • TagResource See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The KeyARN of the key whose tags are being removed. Constraints: o min: 70 o max: 150 o pattern: arn:aws:payment-cryptogra- phy:[a-z]{2}-[a-z]{1,16}-[0-9]+:[0-9]{12}:key/[0-9a-zA-Z]{16,64}</param>
-    /// <param name="TagKeys">One or more tag keys. Don't include the tag values. If the Amazon Web Services Payment Cryptography key doesn't have the specified tag key, Amazon Web Services Payment Cryptography doesn't throw an exception or return a response. To confirm that the opera- tion succeeded, use the ListTagsForResource operation. Constraints: o min: 0 o max: 200 (string) Constraints: o min: 1 o max: 128 Syntax: "string" "string" ...</param>
+    /// <param name="ResourceArn">The KeyARN of the key whose tags are being removed. Constraints: • min: 70 • max: 150 • pattern: arn:aws:payment-cryptography:[a-z]{2}-[a-z]{1,16}-[0-9]+:[0-9]{12}:key/[0-9a-zA-Z]{16,64}</param>
+    /// <param name="TagKeys">One or more tag keys. Don't include the tag values. If the Amazon Web Services Payment Cryptography key doesn't have the specified tag key, Amazon Web Services Payment Cryptography doesn't throw an exception or return a response. To confirm that the operation succeeded, use the ListTagsForResource operation. Constraints: • min: 0 • max: 200 (string) Constraints: • min: 1 • max: 128 Syntax: "string" "string" ...</param>
     public AwsPaymentCryptographyUntagResourceOptions(
         string ResourceArn,
         IEnumerable<string> TagKeys
@@ -71,13 +72,13 @@ public record AwsPaymentCryptographyUntagResourceOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The KeyARN of the key whose tags are being removed. Constraints: o min: 70 o max: 150 o pattern: arn:aws:payment-cryptogra- phy:[a-z]{2}-[a-z]{1,16}-[0-9]+:[0-9]{12}:key/[0-9a-zA-Z]{16,64}
+    /// The KeyARN of the key whose tags are being removed. Constraints: • min: 70 • max: 150 • pattern: arn:aws:payment-cryptography:[a-z]{2}-[a-z]{1,16}-[0-9]+:[0-9]{12}:key/[0-9a-zA-Z]{16,64}
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
 
     /// <summary>
-    /// One or more tag keys. Don't include the tag values. If the Amazon Web Services Payment Cryptography key doesn't have the specified tag key, Amazon Web Services Payment Cryptography doesn't throw an exception or return a response. To confirm that the opera- tion succeeded, use the ListTagsForResource operation. Constraints: o min: 0 o max: 200 (string) Constraints: o min: 1 o max: 128 Syntax: "string" "string" ...
+    /// One or more tag keys. Don't include the tag values. If the Amazon Web Services Payment Cryptography key doesn't have the specified tag key, Amazon Web Services Payment Cryptography doesn't throw an exception or return a response. To confirm that the operation succeeded, use the ListTagsForResource operation. Constraints: • min: 0 • max: 200 (string) Constraints: • min: 1 • max: 128 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--tag-keys", GroupValues = true)]
     public IEnumerable<string>? TagKeys { get; private init; }
@@ -103,6 +104,15 @@ public record AwsPaymentCryptographyUntagResourceOptions : AwsOptions, IValidata
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

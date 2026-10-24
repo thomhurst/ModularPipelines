@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Lists all the private hosted zones that a specified VPC is associated with, regardless of which Amazon Web Services account or Amazon Web Services service owns the hosted zones. The HostedZoneOwner structure in the response contains one of the following values: o An OwningAccount element, which contains the account number of either the current Amazon Web Services account or another Amazon Web Ser- vices account. Some services, such as Cloud Map, create hosted zones using the current account. o A...
+/// Lists all the private hosted zones that a specified VPC is associated with, regardless of which Amazon Web Services account or Amazon Web Services service owns the hosted zones. The HostedZoneOwner structure in the response contains one of the following values: • An OwningAccount element, which contains the account number of either the current Amazon Web Services account or another Amazon Web Services account. Some services, such as Cloud Map, create hosted zones using the current account. • An ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +27,10 @@ public record AwsRoute53ListHostedZonesByVpcOptions : AwsOptions, IValidatableOb
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Lists all the private hosted zones that a specified VPC is associated with, regardless of which Amazon Web Services account or Amazon Web Services service owns the hosted zones. The HostedZoneOwner structure in the response contains one of the following values: o An OwningAccount element, which contains the account number of either the current Amazon Web Services account or another Amazon Web Ser- vices account. Some services, such as Cloud Map, create hosted zones using the current account. o A...
+    /// Lists all the private hosted zones that a specified VPC is associated with, regardless of which Amazon Web Services account or Amazon Web Services service owns the hosted zones. The HostedZoneOwner structure in the response contains one of the following values: • An OwningAccount element, which contains the account number of either the current Amazon Web Services account or another Amazon Web Services account. Some services, such as Cloud Map, create hosted zones using the current account. • An ...
     /// </summary>
-    /// <param name="VpcId">The ID of the Amazon VPC that you want to list hosted zones for. Constraints: o max: 1024</param>
-    /// <param name="VpcRegion">For the Amazon VPC that you specified for VPCId , the Amazon Web Services Region that you created the VPC in. Possible values: o us-east-1 o us-east-2 o us-west-1 o us-west-2 o eu-west-1 o eu-west-2 o eu-west-3 o eu-central-1 o eu-central-2 o ap-east-1 o me-south-1 o us-gov-west-1 o us-gov-east-1 o us-iso-east-1 o us-iso-west-1 o us-isob-east-1 o me-central-1 o ap-southeast-1 o ap-southeast-2 o ap-southeast-3 o ap-south-1 o ap-south-2 o ap-northeast-1 o ap-northeast-2 o ap-northeast-3 o eu-north-1 o sa-east-1 o ca-central-1 o cn-north-1 o cn-northwest-1 o af-south-1 o eu-south-1 o eu-south-2 o ap-southeast-4 o il-central-1 o ca-west-1 o ap-southeast-5 o mx-central-1 o us-isof-south-1 o us-isof-east-1 o ap-southeast-7 o ap-east-2 o eu-isoe-west-1 o ap-southeast-6 o us-isob-west-1 o eusc-de-east-1 Constraints: o min: 1 o max: 64</param>
+    /// <param name="VpcId">The ID of the Amazon VPC that you want to list hosted zones for. Constraints: • max: 1024</param>
+    /// <param name="VpcRegion">For the Amazon VPC that you specified for VPCId , the Amazon Web Services Region that you created the VPC in. Possible values: • us-east-1 • us-east-2 • us-west-1 • us-west-2 • eu-west-1 • eu-west-2 • eu-west-3 • eu-central-1 • eu-central-2 • ap-east-1 • me-south-1 • us-gov-west-1 • us-gov-east-1 • us-iso-east-1 • us-iso-west-1 • us-isob-east-1 • me-central-1 • ap-southeast-1 • ap-southeast-2 • ap-southeast-3 • ap-south-1 • ap-south-2 • ap-northeast-1 • ap-northeast-2 • ap-northeast-3 • eu-north-1 • sa-east-1 • ca-central-1 • cn-north-1 • cn-northwest-1 • af-south-1 • eu-south-1 • eu-south-2 • ap-southeast-4 • il-central-1 • ca-west-1 • ap-southeast-5 • mx-central-1 • us-isof-south-1 • us-isof-east-1 • ap-southeast-7 • ap-east-2 • eu-isoe-west-1 • ap-southeast-6 • us-isob-west-1 • eusc-de-east-1 Constraints: • min: 1 • max: 64</param>
     public AwsRoute53ListHostedZonesByVpcOptions(
         string VpcId,
         string VpcRegion
@@ -61,25 +62,25 @@ public record AwsRoute53ListHostedZonesByVpcOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the Amazon VPC that you want to list hosted zones for. Constraints: o max: 1024
+    /// The ID of the Amazon VPC that you want to list hosted zones for. Constraints: • max: 1024
     /// </summary>
     [CliOption("--vpc-id")]
     public string? VpcId { get; private init; }
 
     /// <summary>
-    /// For the Amazon VPC that you specified for VPCId , the Amazon Web Services Region that you created the VPC in. Possible values: o us-east-1 o us-east-2 o us-west-1 o us-west-2 o eu-west-1 o eu-west-2 o eu-west-3 o eu-central-1 o eu-central-2 o ap-east-1 o me-south-1 o us-gov-west-1 o us-gov-east-1 o us-iso-east-1 o us-iso-west-1 o us-isob-east-1 o me-central-1 o ap-southeast-1 o ap-southeast-2 o ap-southeast-3 o ap-south-1 o ap-south-2 o ap-northeast-1 o ap-northeast-2 o ap-northeast-3 o eu-north-1 o sa-east-1 o ca-central-1 o cn-north-1 o cn-northwest-1 o af-south-1 o eu-south-1 o eu-south-2 o ap-southeast-4 o il-central-1 o ca-west-1 o ap-southeast-5 o mx-central-1 o us-isof-south-1 o us-isof-east-1 o ap-southeast-7 o ap-east-2 o eu-isoe-west-1 o ap-southeast-6 o us-isob-west-1 o eusc-de-east-1 Constraints: o min: 1 o max: 64
+    /// For the Amazon VPC that you specified for VPCId , the Amazon Web Services Region that you created the VPC in. Possible values: • us-east-1 • us-east-2 • us-west-1 • us-west-2 • eu-west-1 • eu-west-2 • eu-west-3 • eu-central-1 • eu-central-2 • ap-east-1 • me-south-1 • us-gov-west-1 • us-gov-east-1 • us-iso-east-1 • us-iso-west-1 • us-isob-east-1 • me-central-1 • ap-southeast-1 • ap-southeast-2 • ap-southeast-3 • ap-south-1 • ap-south-2 • ap-northeast-1 • ap-northeast-2 • ap-northeast-3 • eu-north-1 • sa-east-1 • ca-central-1 • cn-north-1 • cn-northwest-1 • af-south-1 • eu-south-1 • eu-south-2 • ap-southeast-4 • il-central-1 • ca-west-1 • ap-southeast-5 • mx-central-1 • us-isof-south-1 • us-isof-east-1 • ap-southeast-7 • ap-east-2 • eu-isoe-west-1 • ap-southeast-6 • us-isob-west-1 • eusc-de-east-1 Constraints: • min: 1 • max: 64
     /// </summary>
     [CliOption("--vpc-region")]
     public string? VpcRegion { get; private init; }
 
     /// <summary>
-    /// (Optional) The maximum number of hosted zones that you want Amazon Route 53 to return. If the specified VPC is associated with more than MaxItems hosted zones, the response includes a NextToken ele- ment. NextToken contains an encrypted token that identifies the first hosted zone that Route 53 will return if you submit another request.
+    /// (Optional) The maximum number of hosted zones that you want Amazon Route 53 to return. If the specified VPC is associated with more than MaxItems hosted zones, the response includes a NextToken element. NextToken contains an encrypted token that identifies the first hosted zone that Route 53 will return if you submit another request.
     /// </summary>
     [CliOption("--max-items")]
     public string? MaxItems { get; set; }
 
     /// <summary>
-    /// If the previous response included a NextToken element, the specified VPC is associated with more hosted zones. To get more hosted zones, submit another ListHostedZonesByVPC request. For the value of NextToken , specify the value of NextToken from the previous response. If the previous response didn't include a NextToken element, there are no more hosted zones to get. Constraints: o max: 1024
+    /// If the previous response included a NextToken element, the specified VPC is associated with more hosted zones. To get more hosted zones, submit another ListHostedZonesByVPC request. For the value of NextToken , specify the value of NextToken from the previous response. If the previous response didn't include a NextToken element, there are no more hosted zones to get. Constraints: • max: 1024
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
@@ -106,6 +107,15 @@ public record AwsRoute53ListHostedZonesByVpcOptions : AwsOptions, IValidatableOb
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -22,13 +22,13 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsNetworkmanagerCreateGlobalNetworkOptions : AwsOptions
 {
     /// <summary>
-    /// A description of the global network. Constraints: Maximum length of 256 characters. Constraints: o min: 0 o max: 256 o pattern: [\s\S]*
+    /// A description of the global network. Constraints: Maximum length of 256 characters. Constraints: • min: 0 • max: 256 • pattern: [\s\S]*
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The tags to apply to the resource during creation. (structure) Describes a tag. Key -&gt; (string) The tag key. Constraints: Maximum length of 128 characters. Constraints: o min: 0 o max: 10000000 o pattern: [\s\S]* Value -&gt; (string) The tag value. Constraints: Maximum length of 256 characters. Constraints: o min: 0 o max: 10000000 o pattern: [\s\S]* Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// The tags to apply to the resource during creation. (structure) Describes a tag. Key -&gt; (string) The tag key. Constraints: Maximum length of 128 characters. Constraints: • min: 0 • max: 10000000 • pattern: [\s\S]* Value -&gt; (string) The tag value. Constraints: Maximum length of 256 characters. Constraints: • min: 0 • max: 10000000 • pattern: [\s\S]* Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
@@ -38,5 +38,14 @@ public record AwsNetworkmanagerCreateGlobalNetworkOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

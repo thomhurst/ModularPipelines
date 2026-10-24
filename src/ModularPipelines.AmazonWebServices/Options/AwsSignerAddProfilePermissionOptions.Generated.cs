@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsSignerAddProfilePermissionOptions : AwsOptions, IValidatableObj
     /// <summary>
     /// Adds cross-account permissions to a signing profile. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ProfileName">The human-readable name of the signing profile. Constraints: o min: 2 o max: 64 o pattern: ^[a-zA-Z0-9_]{2,}</param>
-    /// <param name="Action">For cross-account signing. Grant a designated account permission to perform one or more of the following actions. Each action is associ- ated with a specific API's operations. For more information about cross-account signing, see Using cross-account signing with signing profiles in the AWS Signer Developer Guide . You can designate the following actions to an account. o signer:StartSigningJob . This action isn't supported for container image workflows. For details, see StartSigningJob . o signer:SignPayload . This action isn't supported for AWS Lambda workflows. For details, see SignPayload o signer:GetSigningProfile . For details, see GetSigningProfile . o signer:RevokeSignature . For details, see RevokeSignature .</param>
+    /// <param name="ProfileName">The human-readable name of the signing profile. Constraints: • min: 2 • max: 64 • pattern: ^[a-zA-Z0-9_]{2,}</param>
+    /// <param name="Action">For cross-account signing. Grant a designated account permission to perform one or more of the following actions. Each action is associated with a specific API's operations. For more information about cross-account signing, see Using cross-account signing with signing profiles in the AWS Signer Developer Guide . You can designate the following actions to an account. • signer:StartSigningJob . This action isn't supported for container image workflows. For details, see StartSigningJob . • signer:SignPayload . This action isn't supported for AWS Lambda workflows. For details, see SignPayload • signer:GetSigningProfile . For details, see GetSigningProfile . • signer:RevokeSignature . For details, see RevokeSignature .</param>
     /// <param name="Principal">The AWS principal receiving cross-account permissions. This may be an IAM role or another AWS account ID.</param>
     /// <param name="StatementId">A unique identifier for the cross-account permission statement.</param>
     public AwsSignerAddProfilePermissionOptions(
@@ -68,13 +69,13 @@ public record AwsSignerAddProfilePermissionOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The human-readable name of the signing profile. Constraints: o min: 2 o max: 64 o pattern: ^[a-zA-Z0-9_]{2,}
+    /// The human-readable name of the signing profile. Constraints: • min: 2 • max: 64 • pattern: ^[a-zA-Z0-9_]{2,}
     /// </summary>
     [CliOption("--profile-name")]
     public string? ProfileName { get; private init; }
 
     /// <summary>
-    /// For cross-account signing. Grant a designated account permission to perform one or more of the following actions. Each action is associ- ated with a specific API's operations. For more information about cross-account signing, see Using cross-account signing with signing profiles in the AWS Signer Developer Guide . You can designate the following actions to an account. o signer:StartSigningJob . This action isn't supported for container image workflows. For details, see StartSigningJob . o signer:SignPayload . This action isn't supported for AWS Lambda workflows. For details, see SignPayload o signer:GetSigningProfile . For details, see GetSigningProfile . o signer:RevokeSignature . For details, see RevokeSignature .
+    /// For cross-account signing. Grant a designated account permission to perform one or more of the following actions. Each action is associated with a specific API's operations. For more information about cross-account signing, see Using cross-account signing with signing profiles in the AWS Signer Developer Guide . You can designate the following actions to an account. • signer:StartSigningJob . This action isn't supported for container image workflows. For details, see StartSigningJob . • signer:SignPayload . This action isn't supported for AWS Lambda workflows. For details, see SignPayload • signer:GetSigningProfile . For details, see GetSigningProfile . • signer:RevokeSignature . For details, see RevokeSignature .
     /// </summary>
     [CliOption("--action")]
     public string? Action { get; private init; }
@@ -92,7 +93,7 @@ public record AwsSignerAddProfilePermissionOptions : AwsOptions, IValidatableObj
     public string? StatementId { get; private init; }
 
     /// <summary>
-    /// The version of the signing profile. Constraints: o min: 10 o max: 10 o pattern: ^[a-zA-Z0-9]{10}$
+    /// The version of the signing profile. Constraints: • min: 10 • max: 10 • pattern: ^[a-zA-Z0-9]{10}$
     /// </summary>
     [CliOption("--profile-version")]
     public string? ProfileVersion { get; set; }
@@ -124,6 +125,15 @@ public record AwsSignerAddProfilePermissionOptions : AwsOptions, IValidatableObj
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

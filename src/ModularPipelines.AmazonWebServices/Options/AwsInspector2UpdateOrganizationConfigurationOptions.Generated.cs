@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsInspector2UpdateOrganizationConfigurationOptions : AwsOptions, 
     /// <summary>
     /// Updates the configurations for your Amazon Inspector organization. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AutoEnable">Defines which scan types are enabled automatically for new members of your Amazon Inspector organization. ec2 -&gt; (boolean) [required] Represents whether Amazon EC2 scans are automatically enabled for new members of your Amazon Inspector organization. ecr -&gt; (boolean) [required] Represents whether Amazon ECR scans are automatically enabled for new members of your Amazon Inspector organization. lambda -&gt; (boolean) Represents whether Amazon Web Services Lambda standard scans are automatically enabled for new members of your Amazon Inspector organization. lambdaCode -&gt; (boolean) Represents whether Lambda code scans are automatically enabled for new members of your Amazon Inspector organization. codeRepository -&gt; (boolean) Represents whether code repository scans are automatically en- abled for new members of your Amazon Inspector organization. Shorthand Syntax: ec2=boolean,ecr=boolean,lambda=boolean,lambdaCode=boolean,codeRepository=boolean JSON Syntax: { "ec2": true|false, "ecr": true|false, "lambda": true|false, "lambdaCode": true|false, "codeRepository": true|false }</param>
+    /// <param name="AutoEnable">Defines which scan types are enabled automatically for new members of your Amazon Inspector organization. ec2 -&gt; (boolean) [required] Represents whether Amazon EC2 scans are automatically enabled for new members of your Amazon Inspector organization. ecr -&gt; (boolean) [required] Represents whether Amazon ECR scans are automatically enabled for new members of your Amazon Inspector organization. lambda -&gt; (boolean) Represents whether Amazon Web Services Lambda standard scans are automatically enabled for new members of your Amazon Inspector organization. lambdaCode -&gt; (boolean) Represents whether Lambda code scans are automatically enabled for new members of your Amazon Inspector organization. codeRepository -&gt; (boolean) Represents whether code repository scans are automatically enabled for new members of your Amazon Inspector organization. Shorthand Syntax: ec2=boolean,ecr=boolean,lambda=boolean,lambdaCode=boolean,codeRepository=boolean JSON Syntax: { "ec2": true|false, "ecr": true|false, "lambda": true|false, "lambdaCode": true|false, "codeRepository": true|false }</param>
     public AwsInspector2UpdateOrganizationConfigurationOptions(
         string AutoEnable
     )
@@ -56,7 +57,7 @@ public record AwsInspector2UpdateOrganizationConfigurationOptions : AwsOptions, 
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Defines which scan types are enabled automatically for new members of your Amazon Inspector organization. ec2 -&gt; (boolean) [required] Represents whether Amazon EC2 scans are automatically enabled for new members of your Amazon Inspector organization. ecr -&gt; (boolean) [required] Represents whether Amazon ECR scans are automatically enabled for new members of your Amazon Inspector organization. lambda -&gt; (boolean) Represents whether Amazon Web Services Lambda standard scans are automatically enabled for new members of your Amazon Inspector organization. lambdaCode -&gt; (boolean) Represents whether Lambda code scans are automatically enabled for new members of your Amazon Inspector organization. codeRepository -&gt; (boolean) Represents whether code repository scans are automatically en- abled for new members of your Amazon Inspector organization. Shorthand Syntax: ec2=boolean,ecr=boolean,lambda=boolean,lambdaCode=boolean,codeRepository=boolean JSON Syntax: { "ec2": true|false, "ecr": true|false, "lambda": true|false, "lambdaCode": true|false, "codeRepository": true|false }
+    /// Defines which scan types are enabled automatically for new members of your Amazon Inspector organization. ec2 -&gt; (boolean) [required] Represents whether Amazon EC2 scans are automatically enabled for new members of your Amazon Inspector organization. ecr -&gt; (boolean) [required] Represents whether Amazon ECR scans are automatically enabled for new members of your Amazon Inspector organization. lambda -&gt; (boolean) Represents whether Amazon Web Services Lambda standard scans are automatically enabled for new members of your Amazon Inspector organization. lambdaCode -&gt; (boolean) Represents whether Lambda code scans are automatically enabled for new members of your Amazon Inspector organization. codeRepository -&gt; (boolean) Represents whether code repository scans are automatically enabled for new members of your Amazon Inspector organization. Shorthand Syntax: ec2=boolean,ecr=boolean,lambda=boolean,lambdaCode=boolean,codeRepository=boolean JSON Syntax: { "ec2": true|false, "ecr": true|false, "lambda": true|false, "lambdaCode": true|false, "codeRepository": true|false }
     /// </summary>
     [CliOption("--auto-enable")]
     public string? AutoEnable { get; private init; }
@@ -82,6 +83,15 @@ public record AwsInspector2UpdateOrganizationConfigurationOptions : AwsOptions, 
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

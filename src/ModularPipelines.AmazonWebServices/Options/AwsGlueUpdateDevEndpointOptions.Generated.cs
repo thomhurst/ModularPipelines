@@ -10,7 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -69,13 +69,13 @@ public record AwsGlueUpdateDevEndpointOptions : AwsOptions, IValidatableObject
     public string? PublicKey { get; set; }
 
     /// <summary>
-    /// The list of public keys for the DevEndpoint to use. Constraints: o max: 5 (string) Syntax: "string" "string" ...
+    /// The list of public keys for the DevEndpoint to use. Constraints: • max: 5 (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--add-public-keys", GroupValues = true)]
     public IEnumerable<string>? AddPublicKeys { get; set; }
 
     /// <summary>
-    /// The list of public keys to be deleted from the DevEndpoint . Constraints: o max: 5 (string) Syntax: "string" "string" ...
+    /// The list of public keys to be deleted from the DevEndpoint . Constraints: • max: 5 (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--delete-public-keys", GroupValues = true)]
     public IEnumerable<string>? DeletePublicKeys { get; set; }
@@ -99,7 +99,7 @@ public record AwsGlueUpdateDevEndpointOptions : AwsOptions, IValidatableObject
     public IEnumerable<string>? DeleteArguments { get; set; }
 
     /// <summary>
-    /// The map of arguments to add the map of arguments used to configure the DevEndpoint . Valid arguments are: o "--enable-glue-datacatalog": "" You can specify a version of Python support for development end- points by using the Arguments parameter in the CreateDevEndpoint or UpdateDevEndpoint APIs. If no arguments are provided, the version defaults to Python 2. Constraints: o min: 0 o max: 100 key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The map of arguments to add the map of arguments used to configure the DevEndpoint . Valid arguments are: • "--enable-glue-datacatalog": "" You can specify a version of Python support for development endpoints by using the Arguments parameter in the CreateDevEndpoint or UpdateDevEndpoint APIs. If no arguments are provided, the version defaults to Python 2. Constraints: • min: 0 • max: 100 key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--add-arguments", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? AddArguments { get; set; }
@@ -125,6 +125,15 @@ public record AwsGlueUpdateDevEndpointOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

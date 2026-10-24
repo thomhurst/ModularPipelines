@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes the specified trial component. A trial component must be disas- sociated from all trials before the trial component can be deleted. To disassociate a trial component from a trial, call the DisassociateTrialComponent API. See also: AWS API Documentation
+/// Deletes the specified trial component. A trial component must be disassociated from all trials before the trial component can be deleted. To disassociate a trial component from a trial, call the DisassociateTrialComponent API. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsSagemakerDeleteTrialComponentOptions : AwsOptions, IValidatable
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes the specified trial component. A trial component must be disas- sociated from all trials before the trial component can be deleted. To disassociate a trial component from a trial, call the DisassociateTrialComponent API. See also: AWS API Documentation
+    /// Deletes the specified trial component. A trial component must be disassociated from all trials before the trial component can be deleted. To disassociate a trial component from a trial, call the DisassociateTrialComponent API. See also: AWS API Documentation
     /// </summary>
-    /// <param name="TrialComponentName">The name of the component to delete. Constraints: o min: 1 o max: 120 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,119}</param>
+    /// <param name="TrialComponentName">The name of the component to delete. Constraints: • min: 1 • max: 120 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,119}</param>
     public AwsSagemakerDeleteTrialComponentOptions(
         string TrialComponentName
     )
@@ -56,7 +57,7 @@ public record AwsSagemakerDeleteTrialComponentOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the component to delete. Constraints: o min: 1 o max: 120 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,119}
+    /// The name of the component to delete. Constraints: • min: 1 • max: 120 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,119}
     /// </summary>
     [CliOption("--trial-component-name")]
     public string? TrialComponentName { get; private init; }
@@ -82,6 +83,15 @@ public record AwsSagemakerDeleteTrialComponentOptions : AwsOptions, IValidatable
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

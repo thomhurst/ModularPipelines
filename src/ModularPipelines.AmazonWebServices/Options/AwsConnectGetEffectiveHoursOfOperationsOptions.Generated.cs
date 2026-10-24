@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,10 +28,10 @@ public record AwsConnectGetEffectiveHoursOfOperationsOptions : AwsOptions, IVali
     /// <summary>
     /// Get the hours of operations with the effective override applied. See also: AWS API Documentation
     /// </summary>
-    /// <param name="InstanceId">The identifier of the Connect Customer instance. Constraints: o min: 1 o max: 100</param>
+    /// <param name="InstanceId">The identifier of the Connect Customer instance. Constraints: • min: 1 • max: 100</param>
     /// <param name="HoursOfOperationId">The identifier for the hours of operation.</param>
-    /// <param name="FromDate">The date from when the hours of operation are listed. Constraints: o pattern: ^\d{4}-\d{2}-\d{2}$</param>
-    /// <param name="ToDate">The date until when the hours of operation are listed. Constraints: o pattern: ^\d{4}-\d{2}-\d{2}$</param>
+    /// <param name="FromDate">The date from when the hours of operation are listed. Constraints: • pattern: ^\d{4}-\d{2}-\d{2}$</param>
+    /// <param name="ToDate">The date until when the hours of operation are listed. Constraints: • pattern: ^\d{4}-\d{2}-\d{2}$</param>
     public AwsConnectGetEffectiveHoursOfOperationsOptions(
         string InstanceId,
         string HoursOfOperationId,
@@ -68,7 +69,7 @@ public record AwsConnectGetEffectiveHoursOfOperationsOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the Connect Customer instance. Constraints: o min: 1 o max: 100
+    /// The identifier of the Connect Customer instance. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--instance-id")]
     public string? InstanceId { get; private init; }
@@ -80,13 +81,13 @@ public record AwsConnectGetEffectiveHoursOfOperationsOptions : AwsOptions, IVali
     public string? HoursOfOperationId { get; private init; }
 
     /// <summary>
-    /// The date from when the hours of operation are listed. Constraints: o pattern: ^\d{4}-\d{2}-\d{2}$
+    /// The date from when the hours of operation are listed. Constraints: • pattern: ^\d{4}-\d{2}-\d{2}$
     /// </summary>
     [CliOption("--from-date")]
     public string? FromDate { get; private init; }
 
     /// <summary>
-    /// The date until when the hours of operation are listed. Constraints: o pattern: ^\d{4}-\d{2}-\d{2}$
+    /// The date until when the hours of operation are listed. Constraints: • pattern: ^\d{4}-\d{2}-\d{2}$
     /// </summary>
     [CliOption("--to-date")]
     public string? ToDate { get; private init; }
@@ -112,6 +113,15 @@ public record AwsConnectGetEffectiveHoursOfOperationsOptions : AwsOptions, IVali
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

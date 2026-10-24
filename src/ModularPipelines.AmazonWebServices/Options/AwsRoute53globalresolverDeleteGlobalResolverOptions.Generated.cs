@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsRoute53globalresolverDeleteGlobalResolverOptions : AwsOptions, 
     /// <summary>
     /// Deletes a Route 53 Global Resolver instance. This operation cannot be undone. All associated DNS views, access sources, tokens, and firewall rules are also deleted. WARNING: Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify --region us-east-2 on Amazon Web Services CLI commands. See al...
     /// </summary>
-    /// <param name="GlobalResolverId">The unique identifier of the Route 53 Global Resolver to delete. Constraints: o min: 1 o max: 64 o pattern: [-.a-zA-Z0-9]+</param>
+    /// <param name="GlobalResolverId">The unique identifier of the Route 53 Global Resolver to delete. Constraints: • min: 1 • max: 64 • pattern: [-.a-zA-Z0-9]+</param>
     public AwsRoute53globalresolverDeleteGlobalResolverOptions(
         string GlobalResolverId
     )
@@ -56,7 +57,7 @@ public record AwsRoute53globalresolverDeleteGlobalResolverOptions : AwsOptions, 
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the Route 53 Global Resolver to delete. Constraints: o min: 1 o max: 64 o pattern: [-.a-zA-Z0-9]+
+    /// The unique identifier of the Route 53 Global Resolver to delete. Constraints: • min: 1 • max: 64 • pattern: [-.a-zA-Z0-9]+
     /// </summary>
     [CliOption("--global-resolver-id")]
     public string? GlobalResolverId { get; private init; }
@@ -82,6 +83,15 @@ public record AwsRoute53globalresolverDeleteGlobalResolverOptions : AwsOptions, 
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

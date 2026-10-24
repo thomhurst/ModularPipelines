@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Lists all versions of a configuration bundle, with optional filtering by branch name or creation source. See also: AWS API Documentation list-configuration-bundle-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow...
+/// Lists all versions of a configuration bundle, with optional filtering by branch name or creation source. See also: AWS API Documentation list-configuration-bundle-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +27,9 @@ public record AwsBedrockAgentcoreControlListConfigurationBundleVersionsOptions :
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Lists all versions of a configuration bundle, with optional filtering by branch name or creation source. See also: AWS API Documentation list-configuration-bundle-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow...
+    /// Lists all versions of a configuration bundle, with optional filtering by branch name or creation source. See also: AWS API Documentation list-configuration-bundle-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following ...
     /// </summary>
-    /// <param name="BundleId">The unique identifier of the configuration bundle to list versions for. Constraints: o pattern: [a-zA-Z][a-zA-Z0-9-_]{0,99}-[a-zA-Z0-9]{10}</param>
+    /// <param name="BundleId">The unique identifier of the configuration bundle to list versions for. Constraints: • pattern: [a-zA-Z][a-zA-Z0-9-_]{0,99}-[a-zA-Z0-9]{10}</param>
     public AwsBedrockAgentcoreControlListConfigurationBundleVersionsOptions(
         string BundleId
     )
@@ -57,22 +58,19 @@ public record AwsBedrockAgentcoreControlListConfigurationBundleVersionsOptions :
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the configuration bundle to list versions for. Constraints: o pattern: [a-zA-Z][a-zA-Z0-9-_]{0,99}-[a-zA-Z0-9]{10}
+    /// The unique identifier of the configuration bundle to list versions for. Constraints: • pattern: [a-zA-Z][a-zA-Z0-9-_]{0,99}-[a-zA-Z0-9]{10}
     /// </summary>
     [CliOption("--bundle-id")]
     public string? BundleId { get; private init; }
 
     /// <summary>
-    /// An optional filter for listing versions, including branch name, cre- ation source, and whether to return only the latest version per branch. branchName -&gt; (string) Filter by branch name. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z][a-zA-Z0-9_/-]{0,127} createdByName -&gt; (string) Filter by creation source name. latestPerBranch -&gt; (boolean) When true, returns only the latest version for each branch. When false or not specified, returns all versions. Can be combined with branchName to get the latest version for a specific branch. Shorthand Syntax: branchName=string,createdByName=string,latestPerBranch=boolean JSON Syntax: { "branchName": "string", "createdByName": "string", "latestPerBranch": true|false }
+    /// An optional filter for listing versions, including branch name, creation source, and whether to return only the latest version per branch. branchName -&gt; (string) Filter by branch name. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z][a-zA-Z0-9_/-]{0,127} createdByName -&gt; (string) Filter by creation source name. latestPerBranch -&gt; (boolean) When true, returns only the latest version for each branch. When false or not specified, returns all versions. Can be combined with branchName to get the latest version for a specific branch. Shorthand Syntax: branchName=string,createdByName=string,latestPerBranch=boolean JSON Syntax: { "branchName": "string", "createdByName": "string", "latestPerBranch": true|false }
     /// </summary>
     [CliOption("--filter")]
     public string? Filter { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -82,16 +80,19 @@ public record AwsBedrockAgentcoreControlListConfigurationBundleVersionsOptions :
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 100
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
@@ -108,6 +109,15 @@ public record AwsBedrockAgentcoreControlListConfigurationBundleVersionsOptions :
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

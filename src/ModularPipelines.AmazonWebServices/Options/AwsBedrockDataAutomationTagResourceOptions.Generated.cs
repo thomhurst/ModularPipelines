@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsBedrockDataAutomationTagResourceOptions : AwsOptions, IValidata
     /// <summary>
     /// Tag an Amazon Bedrock Data Automation resource See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">ARN of a taggable resource Constraints: o min: 20 o max: 1011 o pattern: arn:aws(|-cn|-iso|-iso-[a-z]|-us-gov):bedrock:[a-z0-9-]*:[0-9]{12}:(blue- print|data-automation-project|blueprint-optimization-invoca- tion|data-automation-library|data-automation-library-inges- tion-job)/[a-zA-Z0-9-]{12,36}</param>
-    /// <param name="Tags">List of tags Constraints: o min: 0 o max: 200 (structure) Key value pair of a tag key -&gt; (string) [required] Defines the context of the tag. Constraints: o min: 1 o max: 128 value -&gt; (string) [required] Defines the value within the context. e.g. &lt;key=reason, value=training&gt;. Constraints: o min: 0 o max: 256 Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]</param>
+    /// <param name="ResourceArn">ARN of a taggable resource Constraints: • min: 20 • max: 1011 • pattern: arn:aws(|-cn|-iso|-iso-[a-z]|-us-gov):bedrock:[a-z0-9-]*:[0-9]{12}:(blueprint|data-automation-project|blueprint-optimization-invocation|data-automation-library|data-automation-library-ingestion-job)/[a-zA-Z0-9-]{12,36}</param>
+    /// <param name="Tags">List of tags Constraints: • min: 0 • max: 200 (structure) Key value pair of a tag key -&gt; (string) [required] Defines the context of the tag. Constraints: • min: 1 • max: 128 value -&gt; (string) [required] Defines the value within the context. e.g. &lt;key=reason, value=training&gt;. Constraints: • min: 0 • max: 256 Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]</param>
     public AwsBedrockDataAutomationTagResourceOptions(
         string ResourceArn,
         IEnumerable<string> Tags
@@ -71,13 +72,13 @@ public record AwsBedrockDataAutomationTagResourceOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// ARN of a taggable resource Constraints: o min: 20 o max: 1011 o pattern: arn:aws(|-cn|-iso|-iso-[a-z]|-us-gov):bedrock:[a-z0-9-]*:[0-9]{12}:(blue- print|data-automation-project|blueprint-optimization-invoca- tion|data-automation-library|data-automation-library-inges- tion-job)/[a-zA-Z0-9-]{12,36}
+    /// ARN of a taggable resource Constraints: • min: 20 • max: 1011 • pattern: arn:aws(|-cn|-iso|-iso-[a-z]|-us-gov):bedrock:[a-z0-9-]*:[0-9]{12}:(blueprint|data-automation-project|blueprint-optimization-invocation|data-automation-library|data-automation-library-ingestion-job)/[a-zA-Z0-9-]{12,36}
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
 
     /// <summary>
-    /// List of tags Constraints: o min: 0 o max: 200 (structure) Key value pair of a tag key -&gt; (string) [required] Defines the context of the tag. Constraints: o min: 1 o max: 128 value -&gt; (string) [required] Defines the value within the context. e.g. &lt;key=reason, value=training&gt;. Constraints: o min: 0 o max: 256 Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
+    /// List of tags Constraints: • min: 0 • max: 200 (structure) Key value pair of a tag key -&gt; (string) [required] Defines the context of the tag. Constraints: • min: 1 • max: 128 value -&gt; (string) [required] Defines the value within the context. e.g. &lt;key=reason, value=training&gt;. Constraints: • min: 0 • max: 256 Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; private init; }
@@ -103,6 +104,15 @@ public record AwsBedrockDataAutomationTagResourceOptions : AwsOptions, IValidata
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

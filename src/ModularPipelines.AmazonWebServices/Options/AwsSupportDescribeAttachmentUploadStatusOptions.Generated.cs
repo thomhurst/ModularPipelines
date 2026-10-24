@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns the current status, file name, and progress of a multipart at- tachment upload that was started with GetAttachmentUploadLinks . Use this operation to track where an upload is in the workflow. While parts are still being uploaded and reported through CompleteAttachmentUpload , the uploadStatus is attachment-not-ready and uploadProgress reports the total number of parts and how many have been completed so far. Af- ter every part has been reported and the service finishes processing the upl...
+/// Returns the current status, file name, and progress of a multipart attachment upload that was started with GetAttachmentUploadLinks . Use this operation to track where an upload is in the workflow. While parts are still being uploaded and reported through CompleteAttachmentUpload , the uploadStatus is attachment-not-ready and uploadProgress reports the total number of parts and how many have been completed so far. After every part has been reported and the service finishes processing the upload ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsSupportDescribeAttachmentUploadStatusOptions : AwsOptions, IVal
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns the current status, file name, and progress of a multipart at- tachment upload that was started with GetAttachmentUploadLinks . Use this operation to track where an upload is in the workflow. While parts are still being uploaded and reported through CompleteAttachmentUpload , the uploadStatus is attachment-not-ready and uploadProgress reports the total number of parts and how many have been completed so far. Af- ter every part has been reported and the service finishes processing the upl...
+    /// Returns the current status, file name, and progress of a multipart attachment upload that was started with GetAttachmentUploadLinks . Use this operation to track where an upload is in the workflow. While parts are still being uploaded and reported through CompleteAttachmentUpload , the uploadStatus is attachment-not-ready and uploadProgress reports the total number of parts and how many have been completed so far. After every part has been reported and the service finishes processing the upload ...
     /// </summary>
-    /// <param name="UploadId">The unique identifier for the upload. The uploadId is returned by GetAttachmentUploadLinks when you initiate the upload. Constraints: o min: 1 o max: 2048</param>
+    /// <param name="UploadId">The unique identifier for the upload. The uploadId is returned by GetAttachmentUploadLinks when you initiate the upload. Constraints: • min: 1 • max: 2048</param>
     public AwsSupportDescribeAttachmentUploadStatusOptions(
         string UploadId
     )
@@ -56,13 +57,13 @@ public record AwsSupportDescribeAttachmentUploadStatusOptions : AwsOptions, IVal
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier for the upload. The uploadId is returned by GetAttachmentUploadLinks when you initiate the upload. Constraints: o min: 1 o max: 2048
+    /// The unique identifier for the upload. The uploadId is returned by GetAttachmentUploadLinks when you initiate the upload. Constraints: • min: 1 • max: 2048
     /// </summary>
     [CliOption("--upload-id")]
     public string? UploadId { get; private init; }
 
     /// <summary>
-    /// Specifies whether to validate the request without actually returning upload status. When set to true , the request is validated but no status is returned, and the operation returns a DryRunOperationEx- ception . When omitted or set to false , the request runs normally.
+    /// Specifies whether to validate the request without actually returning upload status. When set to true , the request is validated but no status is returned, and the operation returns a DryRunOperationException . When omitted or set to false , the request runs normally.
     /// </summary>
     [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
@@ -88,6 +89,15 @@ public record AwsSupportDescribeAttachmentUploadStatusOptions : AwsOptions, IVal
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

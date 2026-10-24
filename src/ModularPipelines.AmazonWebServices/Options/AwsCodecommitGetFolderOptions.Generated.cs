@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsCodecommitGetFolderOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Returns the contents of a specified folder in a repository. See also: AWS API Documentation
     /// </summary>
-    /// <param name="RepositoryName">The name of the repository. Constraints: o min: 1 o max: 100 o pattern: [\w\.-]+</param>
-    /// <param name="FolderPath">The fully qualified path to the folder whose contents are returned, including the folder name. For example, /examples is a fully-quali- fied path to a folder named examples that was created off of the root directory (/) of a repository.</param>
+    /// <param name="RepositoryName">The name of the repository. Constraints: • min: 1 • max: 100 • pattern: [\w\.-]+</param>
+    /// <param name="FolderPath">The fully qualified path to the folder whose contents are returned, including the folder name. For example, /examples is a fully-qualified path to a folder named examples that was created off of the root directory (/) of a repository.</param>
     public AwsCodecommitGetFolderOptions(
         string RepositoryName,
         string FolderPath
@@ -60,13 +61,13 @@ public record AwsCodecommitGetFolderOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the repository. Constraints: o min: 1 o max: 100 o pattern: [\w\.-]+
+    /// The name of the repository. Constraints: • min: 1 • max: 100 • pattern: [\w\.-]+
     /// </summary>
     [CliOption("--repository-name")]
     public string? RepositoryName { get; private init; }
 
     /// <summary>
-    /// The fully qualified path to the folder whose contents are returned, including the folder name. For example, /examples is a fully-quali- fied path to a folder named examples that was created off of the root directory (/) of a repository.
+    /// The fully qualified path to the folder whose contents are returned, including the folder name. For example, /examples is a fully-qualified path to a folder named examples that was created off of the root directory (/) of a repository.
     /// </summary>
     [CliOption("--folder-path")]
     public string? FolderPath { get; private init; }
@@ -98,6 +99,15 @@ public record AwsCodecommitGetFolderOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsPartnercentralRevenueMeasurementTagResourceOptions : AwsOptions
     /// <summary>
     /// Adds or overwrites one or more tags for the specified resource. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the resource to tag. Constraints: o min: 1 o max: 1011 o pattern: arn:aws:partnercentral:[a-z0-9-]+:[0-9]{12}:cata- log/[a-zA-Z]+/(revenue-attribution/[a-zA-Z0-9-]+|marketplace-rev- enue-share/prod-[a-z0-9]{13})</param>
-    /// <param name="Tags">The tags to add to the resource. Constraints: o min: 1 o max: 200 (structure) A key-value pair used for organizing and managing resources through metadata tags. Key -&gt; (string) [required] The key portion of the tag. Constraints: o min: 1 o max: 128 o pattern: [^\x00-\x1F\x7F]+ Value -&gt; (string) [required] The value portion of the tag. Constraints: o min: 0 o max: 256 o pattern: [^\x00-\x1F\x7F]* Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]</param>
+    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the resource to tag. Constraints: • min: 1 • max: 1011 • pattern: arn:aws:partnercentral:[a-z0-9-]+:[0-9]{12}:catalog/[a-zA-Z]+/(revenue-attribution/[a-zA-Z0-9-]+|marketplace-revenue-share/prod-[a-z0-9]{13})</param>
+    /// <param name="Tags">The tags to add to the resource. Constraints: • min: 1 • max: 200 (structure) A key-value pair used for organizing and managing resources through metadata tags. Key -&gt; (string) [required] The key portion of the tag. Constraints: • min: 1 • max: 128 • pattern: [^\x00-\x1F\x7F]+ Value -&gt; (string) [required] The value portion of the tag. Constraints: • min: 0 • max: 256 • pattern: [^\x00-\x1F\x7F]* Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]</param>
     public AwsPartnercentralRevenueMeasurementTagResourceOptions(
         string ResourceArn,
         IEnumerable<string> Tags
@@ -71,13 +72,13 @@ public record AwsPartnercentralRevenueMeasurementTagResourceOptions : AwsOptions
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the resource to tag. Constraints: o min: 1 o max: 1011 o pattern: arn:aws:partnercentral:[a-z0-9-]+:[0-9]{12}:cata- log/[a-zA-Z]+/(revenue-attribution/[a-zA-Z0-9-]+|marketplace-rev- enue-share/prod-[a-z0-9]{13})
+    /// The Amazon Resource Name (ARN) of the resource to tag. Constraints: • min: 1 • max: 1011 • pattern: arn:aws:partnercentral:[a-z0-9-]+:[0-9]{12}:catalog/[a-zA-Z]+/(revenue-attribution/[a-zA-Z0-9-]+|marketplace-revenue-share/prod-[a-z0-9]{13})
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
 
     /// <summary>
-    /// The tags to add to the resource. Constraints: o min: 1 o max: 200 (structure) A key-value pair used for organizing and managing resources through metadata tags. Key -&gt; (string) [required] The key portion of the tag. Constraints: o min: 1 o max: 128 o pattern: [^\x00-\x1F\x7F]+ Value -&gt; (string) [required] The value portion of the tag. Constraints: o min: 0 o max: 256 o pattern: [^\x00-\x1F\x7F]* Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// The tags to add to the resource. Constraints: • min: 1 • max: 200 (structure) A key-value pair used for organizing and managing resources through metadata tags. Key -&gt; (string) [required] The key portion of the tag. Constraints: • min: 1 • max: 128 • pattern: [^\x00-\x1F\x7F]+ Value -&gt; (string) [required] The value portion of the tag. Constraints: • min: 0 • max: 256 • pattern: [^\x00-\x1F\x7F]* Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; private init; }
@@ -103,6 +104,15 @@ public record AwsPartnercentralRevenueMeasurementTagResourceOptions : AwsOptions
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

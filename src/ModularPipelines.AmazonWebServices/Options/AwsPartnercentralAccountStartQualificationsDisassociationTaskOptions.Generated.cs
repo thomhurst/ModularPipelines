@@ -11,13 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Initiates an asynchronous task to disassociate your partner qualifica- tions from a primary account. You must currently be associated and can- not disassociate if you are the primary partner. Use GetQualifications- DisassociationTask to monitor task progress. See also: AWS API Documentation
+/// Initiates an asynchronous task to disassociate your partner qualifications from a primary account. You must currently be associated and cannot disassociate if you are the primary partner. Use GetQualificationsDisassociationTask to monitor task progress. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,11 +28,11 @@ public record AwsPartnercentralAccountStartQualificationsDisassociationTaskOptio
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Initiates an asynchronous task to disassociate your partner qualifica- tions from a primary account. You must currently be associated and can- not disassociate if you are the primary partner. Use GetQualifications- DisassociationTask to monitor task progress. See also: AWS API Documentation
+    /// Initiates an asynchronous task to disassociate your partner qualifications from a primary account. You must currently be associated and cannot disassociate if you are the primary partner. Use GetQualificationsDisassociationTask to monitor task progress. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Catalog">The catalog in which to perform the qualifications disassociation. Valid values: AWS , Sandbox . Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9-]+</param>
-    /// <param name="Identifier">Your partner identifier. You can provide either a partner ID (for example, partner-abc123 ) or a partner ARN. You must own this iden- tifier. Constraints: o min: 1 o max: 200 o pattern: (partner-[A-Za-z0-9]{13}|arn:[a-z-]+:partner- central:[a-z0-9-]+:[0-9]{12}:catalog/[A-Za-z-_]+/partner/part- ner-[A-Za-z0-9]{13})</param>
-    /// <param name="AssociatedPartner">The primary partner's profile and account identifier that you are currently associated with and will disassociate from. You must pro- vide at least one of ProfileId or AccountId . The specified partner must match your current primary association. ProfileId -&gt; (string) The unique identifier for the partner profile, in the format pprofile-* . Required in requests if AccountId is not provided. Constraints: o min: 1 o max: 50 o pattern: pprofile-[A-Za-z0-9]{13} AccountId -&gt; (string) The 12-digit AWS account ID linked to the partner profile. Re- quired in requests if ProfileId is not provided. Constraints: o pattern: [0-9]{12} Shorthand Syntax: ProfileId=string,AccountId=string JSON Syntax: { "ProfileId": "string", "AccountId": "string" }</param>
+    /// <param name="Catalog">The catalog in which to perform the qualifications disassociation. Valid values: AWS , Sandbox . Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9-]+</param>
+    /// <param name="Identifier">Your partner identifier. You can provide either a partner ID (for example, partner-abc123 ) or a partner ARN. You must own this identifier. Constraints: • min: 1 • max: 200 • pattern: (partner-[A-Za-z0-9]{13}|arn:[a-z-]+:partnercentral:[a-z0-9-]+:[0-9]{12}:catalog/[A-Za-z-_]+/partner/partner-[A-Za-z0-9]{13})</param>
+    /// <param name="AssociatedPartner">The primary partner's profile and account identifier that you are currently associated with and will disassociate from. You must provide at least one of ProfileId or AccountId . The specified partner must match your current primary association. ProfileId -&gt; (string) The unique identifier for the partner profile, in the format pprofile-* . Required in requests if AccountId is not provided. Constraints: • min: 1 • max: 50 • pattern: pprofile-[A-Za-z0-9]{13} AccountId -&gt; (string) The 12-digit AWS account ID linked to the partner profile. Required in requests if ProfileId is not provided. Constraints: • pattern: [0-9]{12} Shorthand Syntax: ProfileId=string,AccountId=string JSON Syntax: { "ProfileId": "string", "AccountId": "string" }</param>
     public AwsPartnercentralAccountStartQualificationsDisassociationTaskOptions(
         AwsPartnercentralAccountStartQualificationsDisassociationTaskCatalog Catalog,
         string Identifier,
@@ -65,25 +66,25 @@ public record AwsPartnercentralAccountStartQualificationsDisassociationTaskOptio
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The catalog in which to perform the qualifications disassociation. Valid values: AWS , Sandbox . Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9-]+
+    /// The catalog in which to perform the qualifications disassociation. Valid values: AWS , Sandbox . Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9-]+
     /// </summary>
     [CliOption("--catalog")]
     public AwsPartnercentralAccountStartQualificationsDisassociationTaskCatalog? Catalog { get; private init; }
 
     /// <summary>
-    /// Your partner identifier. You can provide either a partner ID (for example, partner-abc123 ) or a partner ARN. You must own this iden- tifier. Constraints: o min: 1 o max: 200 o pattern: (partner-[A-Za-z0-9]{13}|arn:[a-z-]+:partner- central:[a-z0-9-]+:[0-9]{12}:catalog/[A-Za-z-_]+/partner/part- ner-[A-Za-z0-9]{13})
+    /// Your partner identifier. You can provide either a partner ID (for example, partner-abc123 ) or a partner ARN. You must own this identifier. Constraints: • min: 1 • max: 200 • pattern: (partner-[A-Za-z0-9]{13}|arn:[a-z-]+:partnercentral:[a-z0-9-]+:[0-9]{12}:catalog/[A-Za-z-_]+/partner/partner-[A-Za-z0-9]{13})
     /// </summary>
     [CliOption("--identifier")]
     public string? Identifier { get; private init; }
 
     /// <summary>
-    /// The primary partner's profile and account identifier that you are currently associated with and will disassociate from. You must pro- vide at least one of ProfileId or AccountId . The specified partner must match your current primary association. ProfileId -&gt; (string) The unique identifier for the partner profile, in the format pprofile-* . Required in requests if AccountId is not provided. Constraints: o min: 1 o max: 50 o pattern: pprofile-[A-Za-z0-9]{13} AccountId -&gt; (string) The 12-digit AWS account ID linked to the partner profile. Re- quired in requests if ProfileId is not provided. Constraints: o pattern: [0-9]{12} Shorthand Syntax: ProfileId=string,AccountId=string JSON Syntax: { "ProfileId": "string", "AccountId": "string" }
+    /// The primary partner's profile and account identifier that you are currently associated with and will disassociate from. You must provide at least one of ProfileId or AccountId . The specified partner must match your current primary association. ProfileId -&gt; (string) The unique identifier for the partner profile, in the format pprofile-* . Required in requests if AccountId is not provided. Constraints: • min: 1 • max: 50 • pattern: pprofile-[A-Za-z0-9]{13} AccountId -&gt; (string) The 12-digit AWS account ID linked to the partner profile. Required in requests if ProfileId is not provided. Constraints: • pattern: [0-9]{12} Shorthand Syntax: ProfileId=string,AccountId=string JSON Syntax: { "ProfileId": "string", "AccountId": "string" }
     /// </summary>
     [CliOption("--associated-partner")]
     public string? AssociatedPartner { get; private init; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Constraints: o min: 1 o max: 64 o pattern: [A-Za-z0-9-_]+
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Constraints: • min: 1 • max: 64 • pattern: [A-Za-z0-9-_]+
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
@@ -110,6 +111,15 @@ public record AwsPartnercentralAccountStartQualificationsDisassociationTaskOptio
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

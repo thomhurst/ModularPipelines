@@ -23,7 +23,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsResourceGroupsUpdateAccountSettingsOptions : AwsOptions
 {
     /// <summary>
-    /// Specifies whether you want to turn group lifecycle events on or off. You can't turn on group lifecycle events if your resource groups quota is greater than 2,000. Possible values: o ACTIVE o INACTIVE
+    /// Specifies whether you want to turn group lifecycle events on or off. You can't turn on group lifecycle events if your resource groups quota is greater than 2,000. Possible values: • ACTIVE • INACTIVE
     /// </summary>
     [CliOption("--group-lifecycle-events-desired-status")]
     public AwsResourceGroupsUpdateAccountSettingsGroupLifecycleEventsDesiredStatus? GroupLifecycleEventsDesiredStatus { get; set; }
@@ -33,5 +33,14 @@ public record AwsResourceGroupsUpdateAccountSettingsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

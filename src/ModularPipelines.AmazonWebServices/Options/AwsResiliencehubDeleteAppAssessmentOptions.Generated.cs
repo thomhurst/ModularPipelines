@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +29,7 @@ public record AwsResiliencehubDeleteAppAssessmentOptions : AwsOptions, IValidata
     /// <summary>
     /// Deletes an Resilience Hub application assessment. This is a destructive action that can't be undone. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AssessmentArn">Amazon Resource Name (ARN) of the assessment. The format for this ARN is: arn:partition :resiliencehub:region :account :app-assess- ment/app-id . For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference guide. Constraints: o pattern: ^arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:([a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]):[0-9]{12}:[A-Za-z0-9/][A-Za-z0-9:_/+.-]{0,1023}$</param>
+    /// <param name="AssessmentArn">Amazon Resource Name (ARN) of the assessment. The format for this ARN is: arn:partition :resiliencehub:region :account :app-assessment/app-id . For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference guide. Constraints: • pattern: ^arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:([a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]):[0-9]{12}:[A-Za-z0-9/][A-Za-z0-9:_/+.-]{0,1023}$</param>
     public AwsResiliencehubDeleteAppAssessmentOptions(
         string AssessmentArn
     )
@@ -57,13 +58,13 @@ public record AwsResiliencehubDeleteAppAssessmentOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Amazon Resource Name (ARN) of the assessment. The format for this ARN is: arn:partition :resiliencehub:region :account :app-assess- ment/app-id . For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference guide. Constraints: o pattern: ^arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:([a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]):[0-9]{12}:[A-Za-z0-9/][A-Za-z0-9:_/+.-]{0,1023}$
+    /// Amazon Resource Name (ARN) of the assessment. The format for this ARN is: arn:partition :resiliencehub:region :account :app-assessment/app-id . For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference guide. Constraints: • pattern: ^arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:([a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]):[0-9]{12}:[A-Za-z0-9/][A-Za-z0-9:_/+.-]{0,1023}$
     /// </summary>
     [CliOption("--assessment-arn")]
     public string? AssessmentArn { get; private init; }
 
     /// <summary>
-    /// Used for an idempotency token. A client token is a unique, case-sen- sitive string of up to 64 ASCII characters. You should not reuse the same client token for other API requests. Constraints: o min: 1 o max: 63 o pattern: ^[A-Za-z0-9_.-]{0,63}$
+    /// Used for an idempotency token. A client token is a unique, case-sensitive string of up to 64 ASCII characters. You should not reuse the same client token for other API requests. Constraints: • min: 1 • max: 63 • pattern: ^[A-Za-z0-9_.-]{0,63}$
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
@@ -90,6 +91,15 @@ public record AwsResiliencehubDeleteAppAssessmentOptions : AwsOptions, IValidata
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

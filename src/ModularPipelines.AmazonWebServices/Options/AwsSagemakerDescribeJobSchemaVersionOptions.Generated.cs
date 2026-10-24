@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns the JSON schema for a specified job category and schema ver- sion. Use this schema to validate your JobConfigDocument before calling CreateJob . If you don't specify a schema version, the latest version is returned. The schema defines required fields, allowed values, and constraints for the job configuration. The following operations are related to DescribeJobSchemaVersion : o ListJobSchemaVersions o CreateJob See also: AWS API Documentation
+/// Returns the JSON schema for a specified job category and schema version. Use this schema to validate your JobConfigDocument before calling CreateJob . If you don't specify a schema version, the latest version is returned. The schema defines required fields, allowed values, and constraints for the job configuration. The following operations are related to DescribeJobSchemaVersion : • ListJobSchemaVersions • CreateJob See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +27,9 @@ public record AwsSagemakerDescribeJobSchemaVersionOptions : AwsOptions, IValidat
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns the JSON schema for a specified job category and schema ver- sion. Use this schema to validate your JobConfigDocument before calling CreateJob . If you don't specify a schema version, the latest version is returned. The schema defines required fields, allowed values, and constraints for the job configuration. The following operations are related to DescribeJobSchemaVersion : o ListJobSchemaVersions o CreateJob See also: AWS API Documentation
+    /// Returns the JSON schema for a specified job category and schema version. Use this schema to validate your JobConfigDocument before calling CreateJob . If you don't specify a schema version, the latest version is returned. The schema defines required fields, allowed values, and constraints for the job configuration. The following operations are related to DescribeJobSchemaVersion : • ListJobSchemaVersions • CreateJob See also: AWS API Documentation
     /// </summary>
-    /// <param name="JobCategory">The category of the job schema to describe. Possible values: o AgentRFT o AgentRFTEvaluation</param>
+    /// <param name="JobCategory">The category of the job schema to describe. Possible values: • AgentRFT • AgentRFTEvaluation</param>
     public AwsSagemakerDescribeJobSchemaVersionOptions(
         AwsSagemakerDescribeJobSchemaVersionJobCategory JobCategory
     )
@@ -56,13 +57,13 @@ public record AwsSagemakerDescribeJobSchemaVersionOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The category of the job schema to describe. Possible values: o AgentRFT o AgentRFTEvaluation
+    /// The category of the job schema to describe. Possible values: • AgentRFT • AgentRFTEvaluation
     /// </summary>
     [CliOption("--job-category")]
     public AwsSagemakerDescribeJobSchemaVersionJobCategory? JobCategory { get; private init; }
 
     /// <summary>
-    /// The version of the schema to retrieve. If not specified, the latest version is returned. Constraints: o min: 5 o max: 16 o pattern: \d+\.\d+\.\d+
+    /// The version of the schema to retrieve. If not specified, the latest version is returned. Constraints: • min: 5 • max: 16 • pattern: \d+\.\d+\.\d+
     /// </summary>
     [CliOption("--job-config-schema-version")]
     public string? JobConfigSchemaVersion { get; set; }
@@ -88,6 +89,15 @@ public record AwsSagemakerDescribeJobSchemaVersionOptions : AwsOptions, IValidat
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

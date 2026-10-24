@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a Directory by copying the published schema into the direc- tory. A directory cannot be created without a schema. You can also quickly create a directory using a managed schema, called the QuickStartSchema . For more information, see Managed Schema in the Amazon Cloud Directory Developer Guide . See also: AWS API Documentation
+/// Creates a Directory by copying the published schema into the directory. A directory cannot be created without a schema. You can also quickly create a directory using a managed schema, called the QuickStartSchema . For more information, see Managed Schema in the Amazon Cloud Directory Developer Guide . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsClouddirectoryCreateDirectoryOptions : AwsOptions, IValidatable
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a Directory by copying the published schema into the direc- tory. A directory cannot be created without a schema. You can also quickly create a directory using a managed schema, called the QuickStartSchema . For more information, see Managed Schema in the Amazon Cloud Directory Developer Guide . See also: AWS API Documentation
+    /// Creates a Directory by copying the published schema into the directory. A directory cannot be created without a schema. You can also quickly create a directory using a managed schema, called the QuickStartSchema . For more information, see Managed Schema in the Amazon Cloud Directory Developer Guide . See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">The name of the Directory . Should be unique per account, per re- gion. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9._-]*$</param>
+    /// <param name="Name">The name of the Directory . Should be unique per account, per region. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9._-]*$</param>
     /// <param name="SchemaArn">The Amazon Resource Name (ARN) of the published schema that will be copied into the data Directory . For more information, see arns .</param>
     public AwsClouddirectoryCreateDirectoryOptions(
         string Name,
@@ -60,7 +61,7 @@ public record AwsClouddirectoryCreateDirectoryOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the Directory . Should be unique per account, per re- gion. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9._-]*$
+    /// The name of the Directory . Should be unique per account, per region. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9._-]*$
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
@@ -92,6 +93,15 @@ public record AwsClouddirectoryCreateDirectoryOptions : AwsOptions, IValidatable
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

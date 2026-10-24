@@ -11,13 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Lists the configuration check operations performed by AWS Systems Man- ager for SAP. See also: AWS API Documentation list-configuration-check-operations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressio...
+/// Lists the configuration check operations performed by AWS Systems Manager for SAP. See also: AWS API Documentation list-configuration-check-operations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Co...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,9 +28,9 @@ public record AwsSsmSapListConfigurationCheckOperationsOptions : AwsOptions, IVa
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Lists the configuration check operations performed by AWS Systems Man- ager for SAP. See also: AWS API Documentation list-configuration-check-operations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressio...
+    /// Lists the configuration check operations performed by AWS Systems Manager for SAP. See also: AWS API Documentation list-configuration-check-operations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Co...
     /// </summary>
-    /// <param name="ApplicationId">The ID of the application. Constraints: o min: 1 o max: 60 o pattern: [\w\d\.-]+</param>
+    /// <param name="ApplicationId">The ID of the application. Constraints: • min: 1 • max: 60 • pattern: [\w\d\.-]+</param>
     public AwsSsmSapListConfigurationCheckOperationsOptions(
         string ApplicationId
     )
@@ -58,28 +59,25 @@ public record AwsSsmSapListConfigurationCheckOperationsOptions : AwsOptions, IVa
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the application. Constraints: o min: 1 o max: 60 o pattern: [\w\d\.-]+
+    /// The ID of the application. Constraints: • min: 1 • max: 60 • pattern: [\w\d\.-]+
     /// </summary>
     [CliOption("--application-id")]
     public string? ApplicationId { get; private init; }
 
     /// <summary>
-    /// The mode for listing configuration check operations. Defaults to "LATEST_PER_CHECK". o LATEST_PER_CHECK - Will list the latest configuration check opera- tion per check type. o ALL_OPERATIONS - Will list all configuration check operations per- formed on the application. Possible values: o ALL_OPERATIONS o LATEST_PER_CHECK
+    /// The mode for listing configuration check operations. Defaults to "LATEST_PER_CHECK". • LATEST_PER_CHECK - Will list the latest configuration check operation per check type. • ALL_OPERATIONS - Will list all configuration check operations performed on the application. Possible values: • ALL_OPERATIONS • LATEST_PER_CHECK
     /// </summary>
     [CliOption("--list-mode")]
     public AwsSsmSapListConfigurationCheckOperationsListMode? ListMode { get; set; }
 
     /// <summary>
-    /// The filters of an operation. Constraints: o min: 1 o max: 10 (structure) A specific result obtained by specifying the name, value, and operator. Name -&gt; (string) [required] The name of the filter. Filter names are case-sensitive. Constraints: o min: 1 o max: 32 Value -&gt; (string) [required] The filter values. Filter values are case-sensitive. If you specify multiple values for a filter, the values are joined with an OR, and the request returns all results that match any of the specified values Constraints: o min: 1 o max: 64 Operator -&gt; (string) [required] The operator for the filter. Possible values: o Equals o GreaterThanOrEquals o LessThanOrEquals Shorthand Syntax: Name=string,Value=string,Operator=string ... JSON Syntax: [ { "Name": "string", "Value": "string", "Operator": "Equals"|"GreaterThanOrEquals"|"LessThanOrEquals" } ... ]
+    /// The filters of an operation. Constraints: • min: 1 • max: 10 (structure) A specific result obtained by specifying the name, value, and operator. Name -&gt; (string) [required] The name of the filter. Filter names are case-sensitive. Constraints: • min: 1 • max: 32 Value -&gt; (string) [required] The filter values. Filter values are case-sensitive. If you specify multiple values for a filter, the values are joined with an OR, and the request returns all results that match any of the specified values Constraints: • min: 1 • max: 64 Operator -&gt; (string) [required] The operator for the filter. Possible values: • Equals • GreaterThanOrEquals • LessThanOrEquals Shorthand Syntax: Name=string,Value=string,Operator=string ... JSON Syntax: [ { "Name": "string", "Value": "string", "Operator": "Equals"|"GreaterThanOrEquals"|"LessThanOrEquals" } ... ]
     /// </summary>
     [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -89,16 +87,19 @@ public record AwsSsmSapListConfigurationCheckOperationsOptions : AwsOptions, IVa
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 50
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 50
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
@@ -115,6 +116,15 @@ public record AwsSsmSapListConfigurationCheckOperationsOptions : AwsOptions, IVa
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

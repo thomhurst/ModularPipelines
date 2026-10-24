@@ -11,13 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves all of the cost anomalies detected on your account during the time period that's specified by the DateInterval object. Anomalies are available for up to 90 days. See also: AWS API Documentation get-anomalies is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument mu...
+/// Retrieves all of the cost anomalies detected on your account during the time period that's specified by the DateInterval object. Anomalies are available for up to 90 days. See also: AWS API Documentation get-anomalies is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must e...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,9 +28,9 @@ public record AwsCeGetAnomaliesOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Retrieves all of the cost anomalies detected on your account during the time period that's specified by the DateInterval object. Anomalies are available for up to 90 days. See also: AWS API Documentation get-anomalies is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument mu...
+    /// Retrieves all of the cost anomalies detected on your account during the time period that's specified by the DateInterval object. Anomalies are available for up to 90 days. See also: AWS API Documentation get-anomalies is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must e...
     /// </summary>
-    /// <param name="DateInterval">Assigns the start and end dates for retrieving cost anomalies. The returned anomaly object will have an AnomalyEndDate in the specified time range. StartDate -&gt; (string) [required] The first date an anomaly was observed. Constraints: o min: 0 o max: 40 o pattern: (\d{4}-\d{2}-\d{2})(T\d{2}:\d{2}:\d{2}Z)? EndDate -&gt; (string) The last date an anomaly was observed. Constraints: o min: 0 o max: 40 o pattern: (\d{4}-\d{2}-\d{2})(T\d{2}:\d{2}:\d{2}Z)? Shorthand Syntax: StartDate=string,EndDate=string JSON Syntax: { "StartDate": "string", "EndDate": "string" }</param>
+    /// <param name="DateInterval">Assigns the start and end dates for retrieving cost anomalies. The returned anomaly object will have an AnomalyEndDate in the specified time range. StartDate -&gt; (string) [required] The first date an anomaly was observed. Constraints: • min: 0 • max: 40 • pattern: (\d{4}-\d{2}-\d{2})(T\d{2}:\d{2}:\d{2}Z)? EndDate -&gt; (string) The last date an anomaly was observed. Constraints: • min: 0 • max: 40 • pattern: (\d{4}-\d{2}-\d{2})(T\d{2}:\d{2}:\d{2}Z)? Shorthand Syntax: StartDate=string,EndDate=string JSON Syntax: { "StartDate": "string", "EndDate": "string" }</param>
     public AwsCeGetAnomaliesOptions(
         string DateInterval
     )
@@ -58,34 +59,31 @@ public record AwsCeGetAnomaliesOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Assigns the start and end dates for retrieving cost anomalies. The returned anomaly object will have an AnomalyEndDate in the specified time range. StartDate -&gt; (string) [required] The first date an anomaly was observed. Constraints: o min: 0 o max: 40 o pattern: (\d{4}-\d{2}-\d{2})(T\d{2}:\d{2}:\d{2}Z)? EndDate -&gt; (string) The last date an anomaly was observed. Constraints: o min: 0 o max: 40 o pattern: (\d{4}-\d{2}-\d{2})(T\d{2}:\d{2}:\d{2}Z)? Shorthand Syntax: StartDate=string,EndDate=string JSON Syntax: { "StartDate": "string", "EndDate": "string" }
+    /// Assigns the start and end dates for retrieving cost anomalies. The returned anomaly object will have an AnomalyEndDate in the specified time range. StartDate -&gt; (string) [required] The first date an anomaly was observed. Constraints: • min: 0 • max: 40 • pattern: (\d{4}-\d{2}-\d{2})(T\d{2}:\d{2}:\d{2}Z)? EndDate -&gt; (string) The last date an anomaly was observed. Constraints: • min: 0 • max: 40 • pattern: (\d{4}-\d{2}-\d{2})(T\d{2}:\d{2}:\d{2}Z)? Shorthand Syntax: StartDate=string,EndDate=string JSON Syntax: { "StartDate": "string", "EndDate": "string" }
     /// </summary>
     [CliOption("--date-interval")]
     public string? DateInterval { get; private init; }
 
     /// <summary>
-    /// Retrieves all of the cost anomalies detected for a specific cost anomaly monitor Amazon Resource Name (ARN). Constraints: o min: 0 o max: 1024 o pattern: [\S\s]*
+    /// Retrieves all of the cost anomalies detected for a specific cost anomaly monitor Amazon Resource Name (ARN). Constraints: • min: 0 • max: 1024 • pattern: [\S\s]*
     /// </summary>
     [CliOption("--monitor-arn")]
     public string? MonitorArn { get; set; }
 
     /// <summary>
-    /// Filters anomaly results by the feedback field on the anomaly object. Possible values: o YES o NO o PLANNED_ACTIVITY
+    /// Filters anomaly results by the feedback field on the anomaly object. Possible values: • YES • NO • PLANNED_ACTIVITY
     /// </summary>
     [CliOption("--feedback")]
     public AwsCeGetAnomaliesFeedback? Feedback { get; set; }
 
     /// <summary>
-    /// Filters anomaly results by the total impact field on the anomaly ob- ject. For example, you can filter anomalies GREATER_THAN 200.00 to retrieve anomalies, with an estimated dollar impact greater than 200. NumericOperator -&gt; (string) [required] The comparing value that's used in the filter. Possible values: o EQUAL o GREATER_THAN_OR_EQUAL o LESS_THAN_OR_EQUAL o GREATER_THAN o LESS_THAN o BETWEEN StartValue -&gt; (double) [required] The lower bound dollar value that's used in the filter. EndValue -&gt; (double) The upper bound dollar value that's used in the filter. Shorthand Syntax: NumericOperator=string,StartValue=double,EndValue=double JSON Syntax: { "NumericOperator": "EQUAL"|"GREATER_THAN_OR_EQUAL"|"LESS_THAN_OR_EQUAL"|"GREATER_THAN"|"LESS_THAN"|"BETWEEN", "StartValue": double, "EndValue": double }
+    /// Filters anomaly results by the total impact field on the anomaly object. For example, you can filter anomalies GREATER_THAN 200.00 to retrieve anomalies, with an estimated dollar impact greater than 200. NumericOperator -&gt; (string) [required] The comparing value that's used in the filter. Possible values: • EQUAL • GREATER_THAN_OR_EQUAL • LESS_THAN_OR_EQUAL • GREATER_THAN • LESS_THAN • BETWEEN StartValue -&gt; (double) [required] The lower bound dollar value that's used in the filter. EndValue -&gt; (double) The upper bound dollar value that's used in the filter. Shorthand Syntax: NumericOperator=string,StartValue=double,EndValue=double JSON Syntax: { "NumericOperator": "EQUAL"|"GREATER_THAN_OR_EQUAL"|"LESS_THAN_OR_EQUAL"|"GREATER_THAN"|"LESS_THAN"|"BETWEEN", "StartValue": double, "EndValue": double }
     /// </summary>
     [CliOption("--total-impact")]
     public string? TotalImpact { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -95,16 +93,19 @@ public record AwsCeGetAnomaliesOptions : AwsOptions, IValidatableObject
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
@@ -121,6 +122,15 @@ public record AwsCeGetAnomaliesOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

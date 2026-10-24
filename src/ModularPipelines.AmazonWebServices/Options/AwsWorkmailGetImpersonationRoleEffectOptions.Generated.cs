@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,9 +28,9 @@ public record AwsWorkmailGetImpersonationRoleEffectOptions : AwsOptions, IValida
     /// <summary>
     /// Tests whether the given impersonation role can impersonate a target user. See also: AWS API Documentation
     /// </summary>
-    /// <param name="OrganizationId">The WorkMail organization where the impersonation role is defined. Constraints: o min: 34 o max: 34 o pattern: ^m-[0-9a-f]{32}$</param>
-    /// <param name="ImpersonationRoleId">The impersonation role ID to test. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_-]+</param>
-    /// <param name="TargetUser">The WorkMail organization user chosen to test the impersonation role. The following identity formats are available: o User ID: 12345678-1234-1234-1234-123456789012 or S-1-1-12-1234567890-123456789-123456789-1234 o Email address: user@domain.tld o User name: user Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9._%+@-]+</param>
+    /// <param name="OrganizationId">The WorkMail organization where the impersonation role is defined. Constraints: • min: 34 • max: 34 • pattern: ^m-[0-9a-f]{32}$</param>
+    /// <param name="ImpersonationRoleId">The impersonation role ID to test. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9_-]+</param>
+    /// <param name="TargetUser">The WorkMail organization user chosen to test the impersonation role. The following identity formats are available: • User ID: 12345678-1234-1234-1234-123456789012 or S-1-1-12-1234567890-123456789-123456789-1234 • Email address: user@domain.tld • User name: user Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9._%+@-]+</param>
     public AwsWorkmailGetImpersonationRoleEffectOptions(
         string OrganizationId,
         string ImpersonationRoleId,
@@ -64,19 +65,19 @@ public record AwsWorkmailGetImpersonationRoleEffectOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The WorkMail organization where the impersonation role is defined. Constraints: o min: 34 o max: 34 o pattern: ^m-[0-9a-f]{32}$
+    /// The WorkMail organization where the impersonation role is defined. Constraints: • min: 34 • max: 34 • pattern: ^m-[0-9a-f]{32}$
     /// </summary>
     [CliOption("--organization-id")]
     public string? OrganizationId { get; private init; }
 
     /// <summary>
-    /// The impersonation role ID to test. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_-]+
+    /// The impersonation role ID to test. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9_-]+
     /// </summary>
     [CliOption("--impersonation-role-id")]
     public string? ImpersonationRoleId { get; private init; }
 
     /// <summary>
-    /// The WorkMail organization user chosen to test the impersonation role. The following identity formats are available: o User ID: 12345678-1234-1234-1234-123456789012 or S-1-1-12-1234567890-123456789-123456789-1234 o Email address: user@domain.tld o User name: user Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9._%+@-]+
+    /// The WorkMail organization user chosen to test the impersonation role. The following identity formats are available: • User ID: 12345678-1234-1234-1234-123456789012 or S-1-1-12-1234567890-123456789-123456789-1234 • Email address: user@domain.tld • User name: user Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9._%+@-]+
     /// </summary>
     [CliOption("--target-user")]
     public string? TargetUser { get; private init; }
@@ -102,6 +103,15 @@ public record AwsWorkmailGetImpersonationRoleEffectOptions : AwsOptions, IValida
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

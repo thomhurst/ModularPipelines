@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Promotes a read replica DB instance to a standalone DB instance. NOTE: o Backup duration is a function of the amount of changes to the database since the previous backup. If you plan to promote a read replica to a standalone instance, we recommend that you enable backups and complete at least one backup prior to promotion. In addition, a read replica cannot be promoted to a standalone in- stance when it is in the backing-up status. If you have enabled backups on your read replica, configure the ...
+/// Promotes a read replica DB instance to a standalone DB instance. NOTE: • Backup duration is a function of the amount of changes to the database since the previous backup. If you plan to promote a read replica to a standalone instance, we recommend that you enable backups and complete at least one backup prior to promotion. In addition, a read replica cannot be promoted to a standalone instance when it is in the backing-up status. If you have enabled backups on your read replica, configure the au...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsRdsPromoteReadReplicaOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Promotes a read replica DB instance to a standalone DB instance. NOTE: o Backup duration is a function of the amount of changes to the database since the previous backup. If you plan to promote a read replica to a standalone instance, we recommend that you enable backups and complete at least one backup prior to promotion. In addition, a read replica cannot be promoted to a standalone in- stance when it is in the backing-up status. If you have enabled backups on your read replica, configure the ...
+    /// Promotes a read replica DB instance to a standalone DB instance. NOTE: • Backup duration is a function of the amount of changes to the database since the previous backup. If you plan to promote a read replica to a standalone instance, we recommend that you enable backups and complete at least one backup prior to promotion. In addition, a read replica cannot be promoted to a standalone instance when it is in the backing-up status. If you have enabled backups on your read replica, configure the au...
     /// </summary>
-    /// <param name="DbInstanceIdentifier">The DB instance identifier. This value is stored as a lowercase string. Constraints: o Must match the identifier of an existing read replica DB instance. Example: mydbinstance</param>
+    /// <param name="DbInstanceIdentifier">The DB instance identifier. This value is stored as a lowercase string. Constraints: • Must match the identifier of an existing read replica DB instance. Example: mydbinstance</param>
     public AwsRdsPromoteReadReplicaOptions(
         string DbInstanceIdentifier
     )
@@ -56,25 +57,25 @@ public record AwsRdsPromoteReadReplicaOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The DB instance identifier. This value is stored as a lowercase string. Constraints: o Must match the identifier of an existing read replica DB instance. Example: mydbinstance
+    /// The DB instance identifier. This value is stored as a lowercase string. Constraints: • Must match the identifier of an existing read replica DB instance. Example: mydbinstance
     /// </summary>
     [CliOption("--db-instance-identifier")]
     public string? DbInstanceIdentifier { get; private init; }
 
     /// <summary>
-    /// The number of days for which automated backups are retained. Setting this parameter to a positive number enables backups. Setting this parameter to 0 disables automated backups. Default: 1 Constraints: o Must be a value from 0 to 35. o Can't be set to 0 if the DB instance is a source to read replicas.
+    /// The number of days for which automated backups are retained. Setting this parameter to a positive number enables backups. Setting this parameter to 0 disables automated backups. Default: 1 Constraints: • Must be a value from 0 to 35. • Can't be set to 0 if the DB instance is a source to read replicas.
     /// </summary>
     [CliOption("--backup-retention-period")]
     public int? BackupRetentionPeriod { get; set; }
 
     /// <summary>
-    /// The daily time range during which automated backups are created if automated backups are enabled, using the BackupRetentionPeriod para- meter. The default is a 30-minute window selected at random from an 8-hour block of time for each Amazon Web Services Region. To see the time blocks available, see Adjusting the Preferred Maintenance Window in the Amazon RDS User Guide. Constraints: o Must be in the format hh24:mi-hh24:mi . o Must be in Universal Coordinated Time (UTC). o Must not conflict with the preferred maintenance window. o Must be at least 30 minutes.
+    /// The daily time range during which automated backups are created if automated backups are enabled, using the BackupRetentionPeriod parameter. The default is a 30-minute window selected at random from an 8-hour block of time for each Amazon Web Services Region. To see the time blocks available, see Adjusting the Preferred Maintenance Window in the Amazon RDS User Guide. Constraints: • Must be in the format hh24:mi-hh24:mi . • Must be in Universal Coordinated Time (UTC). • Must not conflict with the preferred maintenance window. • Must be at least 30 minutes.
     /// </summary>
     [CliOption("--preferred-backup-window")]
     public string? PreferredBackupWindow { get; set; }
 
     /// <summary>
-    /// Tags to assign to resources associated with the DB instance. Valid Values: o auto-backup - The DB instance's automated backup. (structure) The tags to apply to resources when creating or modifying a DB instance or DB cluster. When you specify a tag, you must specify the resource type to tag, otherwise the request will fail. ResourceType -&gt; (string) The type of resource to tag on creation. Valid Values: o auto-backup - The DB instance's automated backup. o cluster-auto-backup - The DB cluster's automated backup. Tags -&gt; (list) A list of tags. For more information, see Tagging Amazon RDS resources in the Amazon RDS User Guide or Tagging Amazon Aurora and Amazon RDS resources in the Amazon Aurora User Guide . (structure) Metadata assigned to an Amazon RDS resource consisting of a key-value pair. For more information, see Tagging Amazon RDS resources in the Amazon RDS User Guide or Tagging Amazon Aurora and Amazon RDS resources in the Amazon Aurora User Guide . Key -&gt; (string) A key is the required name of the tag. The string value can be from 1 to 128 Unicode characters in length and can't be prefixed with aws: or rds: . The string can only contain only the set of Unicode let- ters, digits, white-space, '_', '.', ':', '/', '=', '+', '-', '@' (Java regex: "^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$"). Value -&gt; (string) A value is the optional value of the tag. The string value can be from 1 to 256 Unicode characters in length and can't be prefixed with aws: or rds: . The string can only contain only the set of Unicode let- ters, digits, white-space, '_', '.', ':', '/', '=', '+', '-', '@' (Java regex: "^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$"). Shorthand Syntax: ResourceType=string,Tags=[{Key=string,Value=string},{Key=string,Value=string}] ... JSON Syntax: [ { "ResourceType": "string", "Tags": [ { "Key": "string", "Value": "string" } ... ] } ... ]
+    /// Tags to assign to resources associated with the DB instance. Valid Values: • auto-backup - The DB instance's automated backup. (structure) The tags to apply to resources when creating or modifying a DB instance or DB cluster. When you specify a tag, you must specify the resource type to tag, otherwise the request will fail. ResourceType -&gt; (string) The type of resource to tag on creation. Valid Values: • auto-backup - The DB instance's automated backup. • cluster-auto-backup - The DB cluster's automated backup. Tags -&gt; (list) A list of tags. For more information, see Tagging Amazon RDS resources in the Amazon RDS User Guide or Tagging Amazon Aurora and Amazon RDS resources in the Amazon Aurora User Guide . (structure) Metadata assigned to an Amazon RDS resource consisting of a key-value pair. For more information, see Tagging Amazon RDS resources in the Amazon RDS User Guide or Tagging Amazon Aurora and Amazon RDS resources in the Amazon Aurora User Guide . Key -&gt; (string) A key is the required name of the tag. The string value can be from 1 to 128 Unicode characters in length and can't be prefixed with aws: or rds: . The string can only contain only the set of Unicode letters, digits, white-space, '_', '.', ':', '/', '=', '+', '-', '@' (Java regex: "^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$"). Value -&gt; (string) A value is the optional value of the tag. The string value can be from 1 to 256 Unicode characters in length and can't be prefixed with aws: or rds: . The string can only contain only the set of Unicode letters, digits, white-space, '_', '.', ':', '/', '=', '+', '-', '@' (Java regex: "^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$"). Shorthand Syntax: ResourceType=string,Tags=[{Key=string,Value=string},{Key=string,Value=string}] ... JSON Syntax: [ { "ResourceType": "string", "Tags": [ { "Key": "string", "Value": "string" } ... ] } ... ]
     /// </summary>
     [CliOption("--tag-specifications", GroupValues = true)]
     public IEnumerable<string>? TagSpecifications { get; set; }
@@ -100,6 +101,15 @@ public record AwsRdsPromoteReadReplicaOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

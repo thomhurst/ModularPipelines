@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsDynamodbstreamsGetRecordsOptions : AwsOptions, IValidatableObje
     /// <summary>
     /// Retrieves the stream records from a given shard. Specify a shard iterator using the ShardIterator parameter. The shard iterator specifies the position in the shard from which you want to start reading stream records sequentially. If there are no stream records available in the portion of the shard that the iterator points to, GetRecords returns an empty list. Note that it might take multiple calls to get to a portion of the shard that contains stream records. NOTE: GetRecords can retrieve a maxi...
     /// </summary>
-    /// <param name="ShardIterator">A shard iterator that was retrieved from a previous GetShardIterator operation. This iterator can be used to access the stream records in this shard. Constraints: o min: 1 o max: 2048</param>
+    /// <param name="ShardIterator">A shard iterator that was retrieved from a previous GetShardIterator operation. This iterator can be used to access the stream records in this shard. Constraints: • min: 1 • max: 2048</param>
     public AwsDynamodbstreamsGetRecordsOptions(
         string ShardIterator
     )
@@ -56,13 +57,13 @@ public record AwsDynamodbstreamsGetRecordsOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A shard iterator that was retrieved from a previous GetShardIterator operation. This iterator can be used to access the stream records in this shard. Constraints: o min: 1 o max: 2048
+    /// A shard iterator that was retrieved from a previous GetShardIterator operation. This iterator can be used to access the stream records in this shard. Constraints: • min: 1 • max: 2048
     /// </summary>
     [CliOption("--shard-iterator")]
     public string? ShardIterator { get; private init; }
 
     /// <summary>
-    /// The maximum number of records to return from the shard. The upper limit is 1000. Constraints: o min: 1
+    /// The maximum number of records to return from the shard. The upper limit is 1000. Constraints: • min: 1
     /// </summary>
     [CliOption("--limit")]
     public int? Limit { get; set; }
@@ -88,6 +89,15 @@ public record AwsDynamodbstreamsGetRecordsOptions : AwsOptions, IValidatableObje
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

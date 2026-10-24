@@ -10,13 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Associate tags with a resource. For more information, see Tagging re- sources in the Amazon Bedrock User Guide. See also: AWS API Documentation
+/// Associate tags with a resource. For more information, see Tagging resources in the Amazon Bedrock User Guide. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +26,10 @@ public record AwsBedrockAgentRuntimeTagResourceOptions : AwsOptions, IValidatabl
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Associate tags with a resource. For more information, see Tagging re- sources in the Amazon Bedrock User Guide. See also: AWS API Documentation
+    /// Associate tags with a resource. For more information, see Tagging resources in the Amazon Bedrock User Guide. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the resource to tag. Constraints: o min: 20 o max: 1011 o pattern: (^arn:aws(-[^:]+)?:bedrock:[a-zA-Z0-9-]+:[0-9]{12}:(ses- sion)/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$)</param>
-    /// <param name="Tags">An object containing key-value pairs that define the tags to attach to the resource. Constraints: o min: 1 o max: 200 key -&gt; (string) Key of a tag Constraints: o min: 1 o max: 128 o pattern: ^[a-zA-Z0-9\s._:/=+@-]*$ value -&gt; (string) Value of a tag Constraints: o min: 0 o max: 256 o pattern: ^[a-zA-Z0-9\s._:/=+@-]*$ Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}</param>
+    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the resource to tag. Constraints: • min: 20 • max: 1011 • pattern: (^arn:aws(-[^:]+)?:bedrock:[a-zA-Z0-9-]+:[0-9]{12}:(session)/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$)</param>
+    /// <param name="Tags">An object containing key-value pairs that define the tags to attach to the resource. Constraints: • min: 1 • max: 200 key -&gt; (string) Key of a tag Constraints: • min: 1 • max: 128 • pattern: ^[a-zA-Z0-9\s._:/=+@-]*$ value -&gt; (string) Value of a tag Constraints: • min: 0 • max: 256 • pattern: ^[a-zA-Z0-9\s._:/=+@-]*$ Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}</param>
     public AwsBedrockAgentRuntimeTagResourceOptions(
         string ResourceArn,
         IReadOnlyList<KeyValue> Tags
@@ -72,13 +72,13 @@ public record AwsBedrockAgentRuntimeTagResourceOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the resource to tag. Constraints: o min: 20 o max: 1011 o pattern: (^arn:aws(-[^:]+)?:bedrock:[a-zA-Z0-9-]+:[0-9]{12}:(ses- sion)/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$)
+    /// The Amazon Resource Name (ARN) of the resource to tag. Constraints: • min: 20 • max: 1011 • pattern: (^arn:aws(-[^:]+)?:bedrock:[a-zA-Z0-9-]+:[0-9]{12}:(session)/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$)
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
 
     /// <summary>
-    /// An object containing key-value pairs that define the tags to attach to the resource. Constraints: o min: 1 o max: 200 key -&gt; (string) Key of a tag Constraints: o min: 1 o max: 128 o pattern: ^[a-zA-Z0-9\s._:/=+@-]*$ value -&gt; (string) Value of a tag Constraints: o min: 0 o max: 256 o pattern: ^[a-zA-Z0-9\s._:/=+@-]*$ Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// An object containing key-value pairs that define the tags to attach to the resource. Constraints: • min: 1 • max: 200 key -&gt; (string) Key of a tag Constraints: • min: 1 • max: 128 • pattern: ^[a-zA-Z0-9\s._:/=+@-]*$ value -&gt; (string) Value of a tag Constraints: • min: 0 • max: 256 • pattern: ^[a-zA-Z0-9\s._:/=+@-]*$ Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; private init; }
@@ -104,6 +104,15 @@ public record AwsBedrockAgentRuntimeTagResourceOptions : AwsOptions, IValidatabl
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

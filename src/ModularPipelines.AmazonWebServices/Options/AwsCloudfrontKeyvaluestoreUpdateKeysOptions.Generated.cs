@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsCloudfrontKeyvaluestoreUpdateKeysOptions : AwsOptions, IValidat
     /// <summary>
     /// Puts or Deletes multiple key value pairs in a single, all-or-nothing operation. See also: AWS API Documentation
     /// </summary>
-    /// <param name="KvsArn">The Amazon Resource Name (ARN) of the Key Value Store. Constraints: o min: 1 o max: 2048</param>
-    /// <param name="IfMatch">The current version (ETag) of the Key Value Store that you are up- dating keys of, which you can get using DescribeKeyValueStore.</param>
+    /// <param name="KvsArn">The Amazon Resource Name (ARN) of the Key Value Store. Constraints: • min: 1 • max: 2048</param>
+    /// <param name="IfMatch">The current version (ETag) of the Key Value Store that you are updating keys of, which you can get using DescribeKeyValueStore.</param>
     public AwsCloudfrontKeyvaluestoreUpdateKeysOptions(
         string KvsArn,
         string IfMatch
@@ -60,25 +61,25 @@ public record AwsCloudfrontKeyvaluestoreUpdateKeysOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the Key Value Store. Constraints: o min: 1 o max: 2048
+    /// The Amazon Resource Name (ARN) of the Key Value Store. Constraints: • min: 1 • max: 2048
     /// </summary>
     [CliOption("--kvs-arn")]
     public string? KvsArn { get; private init; }
 
     /// <summary>
-    /// The current version (ETag) of the Key Value Store that you are up- dating keys of, which you can get using DescribeKeyValueStore.
+    /// The current version (ETag) of the Key Value Store that you are updating keys of, which you can get using DescribeKeyValueStore.
     /// </summary>
     [CliOption("--if-match")]
     public string? IfMatch { get; private init; }
 
     /// <summary>
-    /// List of key value pairs to put. (structure) List item for key value pair to put. Key -&gt; (string) [required] The key of the key value pair list item to put. Constraints: o min: 1 o max: 1024 Value -&gt; (string) [required] The value for the key value pair to put. Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// List of key value pairs to put. (structure) List item for key value pair to put. Key -&gt; (string) [required] The key of the key value pair list item to put. Constraints: • min: 1 • max: 1024 Value -&gt; (string) [required] The value for the key value pair to put. Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--puts", GroupValues = true)]
     public IEnumerable<string>? Puts { get; set; }
 
     /// <summary>
-    /// List of keys to delete. (structure) List item for keys to delete. Key -&gt; (string) [required] The key of the key value pair to be deleted. Constraints: o min: 1 o max: 1024 Shorthand Syntax: Key=string ... JSON Syntax: [ { "Key": "string" } ... ]
+    /// List of keys to delete. (structure) List item for keys to delete. Key -&gt; (string) [required] The key of the key value pair to be deleted. Constraints: • min: 1 • max: 1024 Shorthand Syntax: Key=string ... JSON Syntax: [ { "Key": "string" } ... ]
     /// </summary>
     [CliOption("--deletes", GroupValues = true)]
     public IEnumerable<string>? Deletes { get; set; }
@@ -104,6 +105,15 @@ public record AwsCloudfrontKeyvaluestoreUpdateKeysOptions : AwsOptions, IValidat
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

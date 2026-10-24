@@ -23,7 +23,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsDynamodbListContributorInsightsOptions : AwsOptions
 {
     /// <summary>
-    /// The name of the table. You can also provide the Amazon Resource Name (ARN) of the table in this parameter. Constraints: o min: 1 o max: 1024
+    /// The name of the table. You can also provide the Amazon Resource Name (ARN) of the table in this parameter. Constraints: • min: 1 • max: 1024
     /// </summary>
     [CliOption("--table-name")]
     public string? TableName { get; set; }
@@ -36,7 +36,7 @@ public record AwsDynamodbListContributorInsightsOptions : AwsOptions
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// Maximum number of results to return per page. Constraints: o max: 100
+    /// Maximum number of results to return per page. Constraints: • max: 100
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
@@ -46,5 +46,14 @@ public record AwsDynamodbListContributorInsightsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

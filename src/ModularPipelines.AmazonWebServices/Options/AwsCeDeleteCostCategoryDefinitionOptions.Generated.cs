@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsCeDeleteCostCategoryDefinitionOptions : AwsOptions, IValidatabl
     /// <summary>
     /// Deletes a cost category. Expenses from this month going forward will no longer be categorized with this cost category. See also: AWS API Documentation
     /// </summary>
-    /// <param name="CostCategoryArn">The unique identifier for your cost category. Constraints: o min: 20 o max: 2048 o pattern: arn:aws[-a-z0-9]*:[a-z0-9]+:[-a-z0-9]*:[0-9]{12}:[-a-zA-Z0-9/:_]+</param>
+    /// <param name="CostCategoryArn">The unique identifier for your cost category. Constraints: • min: 20 • max: 2048 • pattern: arn:aws[-a-z0-9]*:[a-z0-9]+:[-a-z0-9]*:[0-9]{12}:[-a-zA-Z0-9/:_]+</param>
     public AwsCeDeleteCostCategoryDefinitionOptions(
         string CostCategoryArn
     )
@@ -56,7 +57,7 @@ public record AwsCeDeleteCostCategoryDefinitionOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier for your cost category. Constraints: o min: 20 o max: 2048 o pattern: arn:aws[-a-z0-9]*:[a-z0-9]+:[-a-z0-9]*:[0-9]{12}:[-a-zA-Z0-9/:_]+
+    /// The unique identifier for your cost category. Constraints: • min: 20 • max: 2048 • pattern: arn:aws[-a-z0-9]*:[a-z0-9]+:[-a-z0-9]*:[0-9]{12}:[-a-zA-Z0-9/:_]+
     /// </summary>
     [CliOption("--cost-category-arn")]
     public string? CostCategoryArn { get; private init; }
@@ -82,6 +83,15 @@ public record AwsCeDeleteCostCategoryDefinitionOptions : AwsOptions, IValidatabl
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

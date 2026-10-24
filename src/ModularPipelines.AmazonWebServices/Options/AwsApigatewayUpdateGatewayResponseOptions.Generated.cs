@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +29,7 @@ public record AwsApigatewayUpdateGatewayResponseOptions : AwsOptions, IValidatab
     /// Updates a GatewayResponse of a specified response type on the given RestApi. See also: AWS API Documentation
     /// </summary>
     /// <param name="RestApiId">The string identifier of the associated RestApi.</param>
-    /// <param name="ResponseType">The response type of the associated GatewayResponse. Possible values: o DEFAULT_4XX o DEFAULT_5XX o RESOURCE_NOT_FOUND o UNAUTHORIZED o INVALID_API_KEY o ACCESS_DENIED o AUTHORIZER_FAILURE o AUTHORIZER_CONFIGURATION_ERROR o INVALID_SIGNATURE o EXPIRED_TOKEN o MISSING_AUTHENTICATION_TOKEN o INTEGRATION_FAILURE o INTEGRATION_TIMEOUT o API_CONFIGURATION_ERROR o UNSUPPORTED_MEDIA_TYPE o BAD_REQUEST_PARAMETERS o BAD_REQUEST_BODY o REQUEST_TOO_LARGE o THROTTLED o QUOTA_EXCEEDED o WAF_FILTERED</param>
+    /// <param name="ResponseType">The response type of the associated GatewayResponse. Possible values: • DEFAULT_4XX • DEFAULT_5XX • RESOURCE_NOT_FOUND • UNAUTHORIZED • INVALID_API_KEY • ACCESS_DENIED • AUTHORIZER_FAILURE • AUTHORIZER_CONFIGURATION_ERROR • INVALID_SIGNATURE • EXPIRED_TOKEN • MISSING_AUTHENTICATION_TOKEN • INTEGRATION_FAILURE • INTEGRATION_TIMEOUT • API_CONFIGURATION_ERROR • UNSUPPORTED_MEDIA_TYPE • BAD_REQUEST_PARAMETERS • BAD_REQUEST_BODY • REQUEST_TOO_LARGE • THROTTLED • QUOTA_EXCEEDED • WAF_FILTERED</param>
     public AwsApigatewayUpdateGatewayResponseOptions(
         string RestApiId,
         string ResponseType
@@ -66,13 +67,13 @@ public record AwsApigatewayUpdateGatewayResponseOptions : AwsOptions, IValidatab
     public string? RestApiId { get; private init; }
 
     /// <summary>
-    /// The response type of the associated GatewayResponse. Possible values: o DEFAULT_4XX o DEFAULT_5XX o RESOURCE_NOT_FOUND o UNAUTHORIZED o INVALID_API_KEY o ACCESS_DENIED o AUTHORIZER_FAILURE o AUTHORIZER_CONFIGURATION_ERROR o INVALID_SIGNATURE o EXPIRED_TOKEN o MISSING_AUTHENTICATION_TOKEN o INTEGRATION_FAILURE o INTEGRATION_TIMEOUT o API_CONFIGURATION_ERROR o UNSUPPORTED_MEDIA_TYPE o BAD_REQUEST_PARAMETERS o BAD_REQUEST_BODY o REQUEST_TOO_LARGE o THROTTLED o QUOTA_EXCEEDED o WAF_FILTERED
+    /// The response type of the associated GatewayResponse. Possible values: • DEFAULT_4XX • DEFAULT_5XX • RESOURCE_NOT_FOUND • UNAUTHORIZED • INVALID_API_KEY • ACCESS_DENIED • AUTHORIZER_FAILURE • AUTHORIZER_CONFIGURATION_ERROR • INVALID_SIGNATURE • EXPIRED_TOKEN • MISSING_AUTHENTICATION_TOKEN • INTEGRATION_FAILURE • INTEGRATION_TIMEOUT • API_CONFIGURATION_ERROR • UNSUPPORTED_MEDIA_TYPE • BAD_REQUEST_PARAMETERS • BAD_REQUEST_BODY • REQUEST_TOO_LARGE • THROTTLED • QUOTA_EXCEEDED • WAF_FILTERED
     /// </summary>
     [CliOption("--response-type")]
     public string? ResponseType { get; private init; }
 
     /// <summary>
-    /// For more information about supported patch operations, see Patch Op- erations . (structure) For more information about supported patch operations, see Patch Operations . op -&gt; (string) An update operation to be performed with this PATCH request. The valid value can be add, remove, replace or copy. Not all valid operations are supported for a given resource. Support of the operations depends on specific operational contexts. Attempts to apply an unsupported operation on a resource will return an error message.. Possible values: o add o remove o replace o move o copy o test path -&gt; (string) The op operation's target, as identified by a JSON Pointer value that references a location within the targeted re- source. For example, if the target resource has an updateable property of {"name":"value"}, the path for this property is /name. If the name property value is a JSON object (e.g., {"name": {"child/name": "child-value"}}), the path for the child/name property will be /name/child~1name. Any slash ("/") character appearing in path names must be escaped with "~1", as shown in the example above. Each op operation can have only one path associated with it. value -&gt; (string) The new target value of the update operation. It is applica- ble for the add or replace operation. When using AWS CLI to update a property of a JSON value, enclose the JSON object with a pair of single quotes in a Linux shell, e.g., '{"a": ...}'. from -&gt; (string) The copy update operation's source as identified by a JSON-Pointer value referencing the location within the tar- geted resource to copy the value from. For example, to pro- mote a canary deployment, you copy the canary deployment ID to the affiliated deployment ID by calling a PATCH request on a Stage resource with "op":"copy", "from":"/canarySet- tings/deploymentId" and "path":"/deploymentId". Shorthand Syntax: op=string,path=string,value=string,from=string ... JSON Syntax: [ { "op": "add"|"remove"|"replace"|"move"|"copy"|"test", "path": "string", "value": "string", "from": "string" } ... ]
+    /// For more information about supported patch operations, see Patch Operations . (structure) For more information about supported patch operations, see Patch Operations . op -&gt; (string) An update operation to be performed with this PATCH request. The valid value can be add, remove, replace or copy. Not all valid operations are supported for a given resource. Support of the operations depends on specific operational contexts. Attempts to apply an unsupported operation on a resource will return an error message.. Possible values: • add • remove • replace • move • copy • test path -&gt; (string) The op operation's target, as identified by a JSON Pointer value that references a location within the targeted resource. For example, if the target resource has an updateable property of {"name":"value"}, the path for this property is /name. If the name property value is a JSON object (e.g., {"name": {"child/name": "child-value"}}), the path for the child/name property will be /name/child~1name. Any slash ("/") character appearing in path names must be escaped with "~1", as shown in the example above. Each op operation can have only one path associated with it. value -&gt; (string) The new target value of the update operation. It is applicable for the add or replace operation. When using AWS CLI to update a property of a JSON value, enclose the JSON object with a pair of single quotes in a Linux shell, e.g., '{"a": ...}'. from -&gt; (string) The copy update operation's source as identified by a JSON-Pointer value referencing the location within the targeted resource to copy the value from. For example, to promote a canary deployment, you copy the canary deployment ID to the affiliated deployment ID by calling a PATCH request on a Stage resource with "op":"copy", "from":"/canarySettings/deploymentId" and "path":"/deploymentId". Shorthand Syntax: op=string,path=string,value=string,from=string ... JSON Syntax: [ { "op": "add"|"remove"|"replace"|"move"|"copy"|"test", "path": "string", "value": "string", "from": "string" } ... ]
     /// </summary>
     [CliOption("--patch-operations", GroupValues = true)]
     public IEnumerable<string>? PatchOperations { get; set; }
@@ -98,6 +99,15 @@ public record AwsApigatewayUpdateGatewayResponseOptions : AwsOptions, IValidatab
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

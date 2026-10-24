@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Lists information about a specific audit report created by calling the CreateCertificateAuthorityAuditReport action. Audit information is cre- ated every time the certificate authority (CA) private key is used. The private key is used when you call the IssueCertificate action or the RevokeCertificate action. See also: AWS API Documentation
+/// Lists information about a specific audit report created by calling the CreateCertificateAuthorityAuditReport action. Audit information is created every time the certificate authority (CA) private key is used. The private key is used when you call the IssueCertificate action or the RevokeCertificate action. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsAcmPcaDescribeCertificateAuthorityAuditReportOptions : AwsOptio
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Lists information about a specific audit report created by calling the CreateCertificateAuthorityAuditReport action. Audit information is cre- ated every time the certificate authority (CA) private key is used. The private key is used when you call the IssueCertificate action or the RevokeCertificate action. See also: AWS API Documentation
+    /// Lists information about a specific audit report created by calling the CreateCertificateAuthorityAuditReport action. Audit information is created every time the certificate authority (CA) private key is used. The private key is used when you call the IssueCertificate action or the RevokeCertificate action. See also: AWS API Documentation
     /// </summary>
-    /// <param name="CertificateAuthorityArn">The Amazon Resource Name (ARN) of the private CA. This must be of the form: `` arn:aws:acm-pca:region :account :certificate-author- ity/12345678-1234-1234-1234-123456789012 `` . System Message: WARNING/2 (&lt;string&gt;:, line 73) Inline literal start-string without end-string. Constraints: o min: 5 o max: 200 o pattern: arn:[\w+=/,.@-]+:acm-pca:[\w+=/,.@-]*:[0-9]*:[\w+=,.@-]+(/[\w+=,.@-]+)*</param>
-    /// <param name="AuditReportId">The report ID returned by calling the CreateCertificateAuthorityAuditReport action. Constraints: o min: 36 o max: 36 o pattern: [a-z0-9]{8}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{12}</param>
+    /// <param name="CertificateAuthorityArn">The Amazon Resource Name (ARN) of the private CA. This must be of the form: `` arn:aws:acm-pca:region :account :certificate-authority/12345678-1234-1234-1234-123456789012 `` . System Message: WARNING/2 (&lt;string&gt;:, line 73) Inline literal start-string without end-string. Constraints: • min: 5 • max: 200 • pattern: arn:[\w+=/,.@-]+:acm-pca:[\w+=/,.@-]*:[0-9]*:[\w+=,.@-]+(/[\w+=,.@-]+)*</param>
+    /// <param name="AuditReportId">The report ID returned by calling the CreateCertificateAuthorityAuditReport action. Constraints: • min: 36 • max: 36 • pattern: [a-z0-9]{8}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{12}</param>
     public AwsAcmPcaDescribeCertificateAuthorityAuditReportOptions(
         string CertificateAuthorityArn,
         string AuditReportId
@@ -60,13 +61,13 @@ public record AwsAcmPcaDescribeCertificateAuthorityAuditReportOptions : AwsOptio
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the private CA. This must be of the form: `` arn:aws:acm-pca:region :account :certificate-author- ity/12345678-1234-1234-1234-123456789012 `` . System Message: WARNING/2 (&lt;string&gt;:, line 73) Inline literal start-string without end-string. Constraints: o min: 5 o max: 200 o pattern: arn:[\w+=/,.@-]+:acm-pca:[\w+=/,.@-]*:[0-9]*:[\w+=,.@-]+(/[\w+=,.@-]+)*
+    /// The Amazon Resource Name (ARN) of the private CA. This must be of the form: `` arn:aws:acm-pca:region :account :certificate-authority/12345678-1234-1234-1234-123456789012 `` . System Message: WARNING/2 (&lt;string&gt;:, line 73) Inline literal start-string without end-string. Constraints: • min: 5 • max: 200 • pattern: arn:[\w+=/,.@-]+:acm-pca:[\w+=/,.@-]*:[0-9]*:[\w+=,.@-]+(/[\w+=,.@-]+)*
     /// </summary>
     [CliOption("--certificate-authority-arn")]
     public string? CertificateAuthorityArn { get; private init; }
 
     /// <summary>
-    /// The report ID returned by calling the CreateCertificateAuthorityAuditReport action. Constraints: o min: 36 o max: 36 o pattern: [a-z0-9]{8}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{12}
+    /// The report ID returned by calling the CreateCertificateAuthorityAuditReport action. Constraints: • min: 36 • max: 36 • pattern: [a-z0-9]{8}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{12}
     /// </summary>
     [CliOption("--audit-report-id")]
     public string? AuditReportId { get; private init; }
@@ -92,6 +93,15 @@ public record AwsAcmPcaDescribeCertificateAuthorityAuditReportOptions : AwsOptio
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

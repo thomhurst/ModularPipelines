@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Disassociates one or more connections from the specified resiliency group. This operation is atomic: either all of the specified connec- tions are disassociated, or the operation fails and no changes are made. See also: AWS API Documentation
+/// Disassociates one or more connections from the specified resiliency group. This operation is atomic: either all of the specified connections are disassociated, or the operation fails and no changes are made. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +27,10 @@ public record AwsDirectconnectDisassociateConnectionsFromResiliencyGroupOptions 
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Disassociates one or more connections from the specified resiliency group. This operation is atomic: either all of the specified connec- tions are disassociated, or the operation fails and no changes are made. See also: AWS API Documentation
+    /// Disassociates one or more connections from the specified resiliency group. This operation is atomic: either all of the specified connections are disassociated, or the operation fails and no changes are made. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ConnectionIdentifiers">The IDs or ARNs of the connections to disassociate from the re- siliency group. Constraints: o min: 1 o max: 50 (string) Constraints: o min: 1 o max: 1024 Syntax: "string" "string" ...</param>
-    /// <param name="ResiliencyGroupId">The ID of the resiliency group. Constraints: o min: 22 o max: 22 o pattern: ^(dxrg|DXRG)-[0-9a-zA-Z]{17}$</param>
+    /// <param name="ConnectionIdentifiers">The IDs or ARNs of the connections to disassociate from the resiliency group. Constraints: • min: 1 • max: 50 (string) Constraints: • min: 1 • max: 1024 Syntax: "string" "string" ...</param>
+    /// <param name="ResiliencyGroupId">The ID of the resiliency group. Constraints: • min: 22 • max: 22 • pattern: ^(dxrg|DXRG)-[0-9a-zA-Z]{17}$</param>
     public AwsDirectconnectDisassociateConnectionsFromResiliencyGroupOptions(
         IEnumerable<string> ConnectionIdentifiers,
         string ResiliencyGroupId
@@ -72,19 +73,19 @@ public record AwsDirectconnectDisassociateConnectionsFromResiliencyGroupOptions 
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The IDs or ARNs of the connections to disassociate from the re- siliency group. Constraints: o min: 1 o max: 50 (string) Constraints: o min: 1 o max: 1024 Syntax: "string" "string" ...
+    /// The IDs or ARNs of the connections to disassociate from the resiliency group. Constraints: • min: 1 • max: 50 (string) Constraints: • min: 1 • max: 1024 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--connection-identifiers", GroupValues = true)]
     public IEnumerable<string>? ConnectionIdentifiers { get; private init; }
 
     /// <summary>
-    /// The ID of the resiliency group. Constraints: o min: 22 o max: 22 o pattern: ^(dxrg|DXRG)-[0-9a-zA-Z]{17}$
+    /// The ID of the resiliency group. Constraints: • min: 22 • max: 22 • pattern: ^(dxrg|DXRG)-[0-9a-zA-Z]{17}$
     /// </summary>
     [CliOption("--resiliency-group-id")]
     public string? ResiliencyGroupId { get; private init; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Constraints: o min: 1 o max: 128
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Constraints: • min: 1 • max: 128
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
@@ -111,6 +112,15 @@ public record AwsDirectconnectDisassociateConnectionsFromResiliencyGroupOptions 
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -23,34 +23,31 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsSsmListCommandInvocationsOptions : AwsOptions
 {
     /// <summary>
-    /// (Optional) The invocations for a specific command ID. Constraints: o min: 36 o max: 36
+    /// (Optional) The invocations for a specific command ID. Constraints: • min: 36 • max: 36
     /// </summary>
     [CliOption("--command-id")]
     public string? CommandId { get; set; }
 
     /// <summary>
-    /// (Optional) The command execution details for a specific managed node ID. Constraints: o pattern: (^i-(\w{8}|\w{17})$)|(^mi-\w{17}$)
+    /// (Optional) The command execution details for a specific managed node ID. Constraints: • pattern: (^i-(\w{8}|\w{17})$)|(^mi-\w{17}$)
     /// </summary>
     [CliOption("--instance-id")]
     public string? InstanceId { get; set; }
 
     /// <summary>
-    /// (Optional) One or more filters. Use a filter to return a more spe- cific list of results. Constraints: o min: 1 o max: 5 (structure) Describes a command filter. NOTE: A managed node ID can't be specified when a command status is Pending because the command hasn't run on the node yet. key -&gt; (string) [required] The name of the filter. NOTE: The ExecutionStage filter can't be used with the ListCom- mandInvocations operation, only with ListCommands . Possible values: o InvokedAfter o InvokedBefore o Status o ExecutionStage o DocumentName value -&gt; (string) [required] The filter value. Valid values for each filter key are as follows: o InvokedAfter : Specify a timestamp to limit your results. For example, specify 2024-07-07T00:00:00Z to see a list of command executions occurring July 7, 2021, and later. o InvokedBefore : Specify a timestamp to limit your results. For example, specify 2024-07-07T00:00:00Z to see a list of command executions from before July 7, 2021. o Status : Specify a valid command status to see a list of all command executions with that status. The status choices depend on the API you call. The status values you can spec- ify for ListCommands are: o Pending o InProgress o Success o Cancelled o Failed o TimedOut (this includes both Delivery and Execution time outs) o AccessDenied o DeliveryTimedOut o ExecutionTimedOut o Incomplete o NoInstancesInTag o LimitExceeded The status values you can specify for ListCommandInvocations are: o Pending o InProgress o Delayed o Success o Cancelled o Failed o TimedOut (this includes both Delivery and Execution time outs) o AccessDenied o DeliveryTimedOut o ExecutionTimedOut o Undeliverable o InvalidPlatform o Terminated o DocumentName : Specify name of the Amazon Web Services Sys- tems Manager document (SSM document) for which you want to see command execution results. For example, specify AWS-RunPatchBaseline to see command executions that used this SSM document to perform security patching operations on managed nodes. o ExecutionStage : Specify one of the following values (List- Commands operations only): o Executing : Returns a list of command executions that are currently still running. o Complete : Returns a list of command executions that have already completed. Constraints: o min: 1 o max: 128 Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "InvokedAfter"|"InvokedBefore"|"Status"|"ExecutionStage"|"DocumentName", "value": "string" } ... ]
+    /// (Optional) One or more filters. Use a filter to return a more specific list of results. Constraints: • min: 1 • max: 5 (structure) Describes a command filter. NOTE: A managed node ID can't be specified when a command status is Pending because the command hasn't run on the node yet. key -&gt; (string) [required] The name of the filter. NOTE: The ExecutionStage filter can't be used with the ListCommandInvocations operation, only with ListCommands . Possible values: • InvokedAfter • InvokedBefore • Status • ExecutionStage • DocumentName value -&gt; (string) [required] The filter value. Valid values for each filter key are as follows: • InvokedAfter : Specify a timestamp to limit your results. For example, specify 2024-07-07T00:00:00Z to see a list of command executions occurring July 7, 2021, and later. • InvokedBefore : Specify a timestamp to limit your results. For example, specify 2024-07-07T00:00:00Z to see a list of command executions from before July 7, 2021. • Status : Specify a valid command status to see a list of all command executions with that status. The status choices depend on the API you call. The status values you can specify for ListCommands are: • Pending • InProgress • Success • Cancelled • Failed • TimedOut (this includes both Delivery and Execution time outs) • AccessDenied • DeliveryTimedOut • ExecutionTimedOut • Incomplete • NoInstancesInTag • LimitExceeded The status values you can specify for ListCommandInvocations are: • Pending • InProgress • Delayed • Success • Cancelled • Failed • TimedOut (this includes both Delivery and Execution time outs) • AccessDenied • DeliveryTimedOut • ExecutionTimedOut • Undeliverable • InvalidPlatform • Terminated • DocumentName : Specify name of the Amazon Web Services Systems Manager document (SSM document) for which you want to see command execution results. For example, specify AWS-RunPatchBaseline to see command executions that used this SSM document to perform security patching operations on managed nodes. • ExecutionStage : Specify one of the following values (ListCommands operations only): • Executing : Returns a list of command executions that are currently still running. • Complete : Returns a list of command executions that have already completed. Constraints: • min: 1 • max: 128 Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "InvokedAfter"|"InvokedBefore"|"Status"|"ExecutionStage"|"DocumentName", "value": "string" } ... ]
     /// </summary>
     [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     /// <summary>
-    /// (Optional) If set this returns the response of the command execu- tions and any command output. The default value is false .
+    /// (Optional) If set this returns the response of the command executions and any command output. The default value is false .
     /// </summary>
     [CliFlag("--details", NegatedName = "--no-details")]
     public bool? Details { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -60,15 +57,27 @@ public record AwsSsmListCommandInvocationsOptions : AwsOptions
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 50
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 50
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

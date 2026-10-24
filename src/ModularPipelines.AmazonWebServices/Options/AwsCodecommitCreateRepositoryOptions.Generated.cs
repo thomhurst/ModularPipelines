@@ -10,7 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +28,7 @@ public record AwsCodecommitCreateRepositoryOptions : AwsOptions, IValidatableObj
     /// <summary>
     /// Creates a new, empty repository. See also: AWS API Documentation
     /// </summary>
-    /// <param name="RepositoryName">The name of the new repository to be created. NOTE: The repository name must be unique across the calling Amazon Web Services account. Repository names are limited to 100 alphanu- meric, dash, and underscore characters, and cannot include cer- tain characters. For more information about the limits on repos- itory names, see Quotas in the CodeCommit User Guide . The suf- fix .git is prohibited. Constraints: o min: 1 o max: 100 o pattern: [\w\.-]+</param>
+    /// <param name="RepositoryName">The name of the new repository to be created. NOTE: The repository name must be unique across the calling Amazon Web Services account. Repository names are limited to 100 alphanumeric, dash, and underscore characters, and cannot include certain characters. For more information about the limits on repository names, see Quotas in the CodeCommit User Guide . The suffix .git is prohibited. Constraints: • min: 1 • max: 100 • pattern: [\w\.-]+</param>
     public AwsCodecommitCreateRepositoryOptions(
         string RepositoryName
     )
@@ -57,25 +57,25 @@ public record AwsCodecommitCreateRepositoryOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the new repository to be created. NOTE: The repository name must be unique across the calling Amazon Web Services account. Repository names are limited to 100 alphanu- meric, dash, and underscore characters, and cannot include cer- tain characters. For more information about the limits on repos- itory names, see Quotas in the CodeCommit User Guide . The suf- fix .git is prohibited. Constraints: o min: 1 o max: 100 o pattern: [\w\.-]+
+    /// The name of the new repository to be created. NOTE: The repository name must be unique across the calling Amazon Web Services account. Repository names are limited to 100 alphanumeric, dash, and underscore characters, and cannot include certain characters. For more information about the limits on repository names, see Quotas in the CodeCommit User Guide . The suffix .git is prohibited. Constraints: • min: 1 • max: 100 • pattern: [\w\.-]+
     /// </summary>
     [CliOption("--repository-name")]
     public string? RepositoryName { get; private init; }
 
     /// <summary>
-    /// A comment or description about the new repository. NOTE: The description field for a repository accepts all HTML charac- ters and all valid Unicode characters. Applications that do not HTML-encode the description and display it in a webpage can ex- pose users to potentially malicious code. Make sure that you HTML-encode the description field in any application that uses this API to display the repository description on a webpage. Constraints: o max: 1000
+    /// A comment or description about the new repository. NOTE: The description field for a repository accepts all HTML characters and all valid Unicode characters. Applications that do not HTML-encode the description and display it in a webpage can expose users to potentially malicious code. Make sure that you HTML-encode the description field in any application that uses this API to display the repository description on a webpage. Constraints: • max: 1000
     /// </summary>
     [CliOption("--repository-description")]
     public string? RepositoryDescription { get; set; }
 
     /// <summary>
-    /// One or more tag key-value pairs to use when tagging this repository. key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// One or more tag key-value pairs to use when tagging this repository. key -&gt; (string) Constraints: • min: 1 • max: 128 value -&gt; (string) Constraints: • min: 0 • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>
-    /// The ID of the encryption key. You can view the ID of an encryption key in the KMS console, or use the KMS APIs to programmatically re- trieve a key ID. For more information about acceptable values for kmsKeyID, see KeyId in the Decrypt API description in the Key Man- agement Service API Reference . If no key is specified, the default aws/codecommit Amazon Web Ser- vices managed key is used. Constraints: o pattern: ^[a-zA-Z0-9:/_-]+$
+    /// The ID of the encryption key. You can view the ID of an encryption key in the KMS console, or use the KMS APIs to programmatically retrieve a key ID. For more information about acceptable values for kmsKeyID, see KeyId in the Decrypt API description in the Key Management Service API Reference . If no key is specified, the default aws/codecommit Amazon Web Services managed key is used. Constraints: • pattern: ^[a-zA-Z0-9:/_-]+$
     /// </summary>
     [CliOption("--kms-key-id")]
     public string? KmsKeyId { get; set; }
@@ -101,6 +101,15 @@ public record AwsCodecommitCreateRepositoryOptions : AwsOptions, IValidatableObj
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

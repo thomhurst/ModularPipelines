@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsBedrockAgentRuntimeDeleteAgentMemoryOptions : AwsOptions, IVali
     /// <summary>
     /// Deletes memory from the specified memory identifier. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AgentAliasId">The unique identifier of an alias of an agent. Constraints: o min: 0 o max: 10 o pattern: ^[0-9a-zA-Z]+$</param>
-    /// <param name="AgentId">The unique identifier of the agent to which the alias belongs. Constraints: o min: 0 o max: 10 o pattern: ^[0-9a-zA-Z]+$</param>
+    /// <param name="AgentAliasId">The unique identifier of an alias of an agent. Constraints: • min: 0 • max: 10 • pattern: ^[0-9a-zA-Z]+$</param>
+    /// <param name="AgentId">The unique identifier of the agent to which the alias belongs. Constraints: • min: 0 • max: 10 • pattern: ^[0-9a-zA-Z]+$</param>
     public AwsBedrockAgentRuntimeDeleteAgentMemoryOptions(
         string AgentAliasId,
         string AgentId
@@ -60,25 +61,25 @@ public record AwsBedrockAgentRuntimeDeleteAgentMemoryOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of an alias of an agent. Constraints: o min: 0 o max: 10 o pattern: ^[0-9a-zA-Z]+$
+    /// The unique identifier of an alias of an agent. Constraints: • min: 0 • max: 10 • pattern: ^[0-9a-zA-Z]+$
     /// </summary>
     [CliOption("--agent-alias-id")]
     public string? AgentAliasId { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the agent to which the alias belongs. Constraints: o min: 0 o max: 10 o pattern: ^[0-9a-zA-Z]+$
+    /// The unique identifier of the agent to which the alias belongs. Constraints: • min: 0 • max: 10 • pattern: ^[0-9a-zA-Z]+$
     /// </summary>
     [CliOption("--agent-id")]
     public string? AgentId { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the memory. Constraints: o min: 2 o max: 100 o pattern: ^[0-9a-zA-Z._:-]+$
+    /// The unique identifier of the memory. Constraints: • min: 2 • max: 100 • pattern: ^[0-9a-zA-Z._:-]+$
     /// </summary>
     [CliOption("--memory-id")]
     public string? MemoryId { get; set; }
 
     /// <summary>
-    /// The unique session identifier of the memory. Constraints: o min: 2 o max: 100 o pattern: ^[0-9a-zA-Z._:-]+$
+    /// The unique session identifier of the memory. Constraints: • min: 2 • max: 100 • pattern: ^[0-9a-zA-Z._:-]+$
     /// </summary>
     [CliOption("--session-id")]
     public string? SessionId { get; set; }
@@ -104,6 +105,15 @@ public record AwsBedrockAgentRuntimeDeleteAgentMemoryOptions : AwsOptions, IVali
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

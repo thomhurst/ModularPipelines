@@ -23,22 +23,19 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsFsxDescribeBackupsOptions : AwsOptions
 {
     /// <summary>
-    /// The IDs of the backups that you want to retrieve. This parameter value overrides any filters. If any IDs aren't found, a BackupNot- Found error occurs. Constraints: o max: 50 (string) The ID of the source backup. Specifies the backup that you are copying. Constraints: o min: 12 o max: 128 o pattern: ^(backup-[0-9a-f]{8,})$ Syntax: "string" "string" ...
+    /// The IDs of the backups that you want to retrieve. This parameter value overrides any filters. If any IDs aren't found, a BackupNotFound error occurs. Constraints: • max: 50 (string) The ID of the source backup. Specifies the backup that you are copying. Constraints: • min: 12 • max: 128 • pattern: ^(backup-[0-9a-f]{8,})$ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--backup-ids", GroupValues = true)]
     public IEnumerable<string>? BackupIds { get; set; }
 
     /// <summary>
-    /// The filters structure. The supported names are file-system-id , backup-type , file-system-type , and volume-id . Constraints: o max: 10 (structure) A filter used to restrict the results of describe calls. You can use multiple filters to return results that meet all applied filter requirements. Name -&gt; (string) The name for this filter. Possible values: o file-system-id o backup-type o file-system-type o volume-id o data-repository-type o file-cache-id o file-cache-type Values -&gt; (list) The values of the filter. These are all the values for any of the applied filters. Constraints: o max: 20 (string) The value for a filter. Constraints: o min: 1 o max: 128 o pattern: ^[0-9a-zA-Z\*\.\\/\?\-\_]*$ Shorthand Syntax: Name=string,Values=string,string ... JSON Syntax: [ { "Name": "file-system-id"|"backup-type"|"file-system-type"|"volume-id"|"data-repository-type"|"file-cache-id"|"file-cache-type", "Values": ["string", ...] } ... ]
+    /// The filters structure. The supported names are file-system-id , backup-type , file-system-type , and volume-id . Constraints: • max: 10 (structure) A filter used to restrict the results of describe calls. You can use multiple filters to return results that meet all applied filter requirements. Name -&gt; (string) The name for this filter. Possible values: • file-system-id • backup-type • file-system-type • volume-id • data-repository-type • file-cache-id • file-cache-type Values -&gt; (list) The values of the filter. These are all the values for any of the applied filters. Constraints: • max: 20 (string) The value for a filter. Constraints: • min: 1 • max: 128 • pattern: ^[0-9a-zA-Z\*\.\\/\?\-\_]*$ Shorthand Syntax: Name=string,Values=string,string ... JSON Syntax: [ { "Name": "file-system-id"|"backup-type"|"file-system-type"|"volume-id"|"data-repository-type"|"file-cache-id"|"file-cache-type", "Values": ["string", ...] } ... ]
     /// </summary>
     [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -48,15 +45,27 @@ public record AwsFsxDescribeBackupsOptions : AwsOptions
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 2147483647
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 2147483647
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

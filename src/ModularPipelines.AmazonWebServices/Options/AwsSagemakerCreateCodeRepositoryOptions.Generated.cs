@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a Git repository as a resource in your SageMaker AI account. You can associate the repository with notebook instances so that you can use Git source control for the notebooks you create. The Git repos- itory is a resource in your SageMaker AI account, so it can be associ- ated with more than one notebook instance, and it persists indepen- dently from the lifecycle of any notebook instances it is associated with. The repository can be hosted either in Amazon Web Services CodeCommit or in ...
+/// Creates a Git repository as a resource in your SageMaker AI account. You can associate the repository with notebook instances so that you can use Git source control for the notebooks you create. The Git repository is a resource in your SageMaker AI account, so it can be associated with more than one notebook instance, and it persists independently from the lifecycle of any notebook instances it is associated with. The repository can be hosted either in Amazon Web Services CodeCommit or in any ot...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsSagemakerCreateCodeRepositoryOptions : AwsOptions, IValidatable
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a Git repository as a resource in your SageMaker AI account. You can associate the repository with notebook instances so that you can use Git source control for the notebooks you create. The Git repos- itory is a resource in your SageMaker AI account, so it can be associ- ated with more than one notebook instance, and it persists indepen- dently from the lifecycle of any notebook instances it is associated with. The repository can be hosted either in Amazon Web Services CodeCommit or in ...
+    /// Creates a Git repository as a resource in your SageMaker AI account. You can associate the repository with notebook instances so that you can use Git source control for the notebooks you create. The Git repository is a resource in your SageMaker AI account, so it can be associated with more than one notebook instance, and it persists independently from the lifecycle of any notebook instances it is associated with. The repository can be hosted either in Amazon Web Services CodeCommit or in any ot...
     /// </summary>
-    /// <param name="CodeRepositoryName">The name of the Git repository. The name must have 1 to 63 charac- ters. Valid characters are a-z, A-Z, 0-9, and - (hyphen). Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}</param>
-    /// <param name="GitConfig">Specifies details about the repository, including the URL where the repository is located, the default branch, and credentials to use to access the repository. RepositoryUrl -&gt; (string) [required] The URL where the Git repository is located. Constraints: o min: 11 o max: 1024 o pattern: https://([^/]+)/?.{3,1016} Branch -&gt; (string) The default branch for the Git repository. Constraints: o min: 1 o max: 1024 o pattern: [^ ~^:?*\[]+ SecretArn -&gt; (string) The Amazon Resource Name (ARN) of the Amazon Web Services Se- crets Manager secret that contains the credentials used to ac- cess the git repository. The secret must have a staging label of AWSCURRENT and must be in the following format: {"username": *UserName* , "password": *Password* } Constraints: o min: 1 o max: 2048 o pattern: arn:aws[a-z\-]*:secretsman- ager:[a-z0-9\-]*:[0-9]{12}:secret:.* Shorthand Syntax: RepositoryUrl=string,Branch=string,SecretArn=string JSON Syntax: { "RepositoryUrl": "string", "Branch": "string", "SecretArn": "string" }</param>
+    /// <param name="CodeRepositoryName">The name of the Git repository. The name must have 1 to 63 characters. Valid characters are a-z, A-Z, 0-9, and - (hyphen). Constraints: • min: 1 • max: 63 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}</param>
+    /// <param name="GitConfig">Specifies details about the repository, including the URL where the repository is located, the default branch, and credentials to use to access the repository. RepositoryUrl -&gt; (string) [required] The URL where the Git repository is located. Constraints: • min: 11 • max: 1024 • pattern: https://([^/]+)/?.{3,1016} Branch -&gt; (string) The default branch for the Git repository. Constraints: • min: 1 • max: 1024 • pattern: [^ ~^:?*\[]+ SecretArn -&gt; (string) The Amazon Resource Name (ARN) of the Amazon Web Services Secrets Manager secret that contains the credentials used to access the git repository. The secret must have a staging label of AWSCURRENT and must be in the following format: {"username": *UserName* , "password": *Password* } Constraints: • min: 1 • max: 2048 • pattern: arn:aws[a-z\-]*:secretsmanager:[a-z0-9\-]*:[0-9]{12}:secret:.* Shorthand Syntax: RepositoryUrl=string,Branch=string,SecretArn=string JSON Syntax: { "RepositoryUrl": "string", "Branch": "string", "SecretArn": "string" }</param>
     public AwsSagemakerCreateCodeRepositoryOptions(
         string CodeRepositoryName,
         string GitConfig
@@ -60,19 +61,19 @@ public record AwsSagemakerCreateCodeRepositoryOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the Git repository. The name must have 1 to 63 charac- ters. Valid characters are a-z, A-Z, 0-9, and - (hyphen). Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}
+    /// The name of the Git repository. The name must have 1 to 63 characters. Valid characters are a-z, A-Z, 0-9, and - (hyphen). Constraints: • min: 1 • max: 63 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}
     /// </summary>
     [CliOption("--code-repository-name")]
     public string? CodeRepositoryName { get; private init; }
 
     /// <summary>
-    /// Specifies details about the repository, including the URL where the repository is located, the default branch, and credentials to use to access the repository. RepositoryUrl -&gt; (string) [required] The URL where the Git repository is located. Constraints: o min: 11 o max: 1024 o pattern: https://([^/]+)/?.{3,1016} Branch -&gt; (string) The default branch for the Git repository. Constraints: o min: 1 o max: 1024 o pattern: [^ ~^:?*\[]+ SecretArn -&gt; (string) The Amazon Resource Name (ARN) of the Amazon Web Services Se- crets Manager secret that contains the credentials used to ac- cess the git repository. The secret must have a staging label of AWSCURRENT and must be in the following format: {"username": *UserName* , "password": *Password* } Constraints: o min: 1 o max: 2048 o pattern: arn:aws[a-z\-]*:secretsman- ager:[a-z0-9\-]*:[0-9]{12}:secret:.* Shorthand Syntax: RepositoryUrl=string,Branch=string,SecretArn=string JSON Syntax: { "RepositoryUrl": "string", "Branch": "string", "SecretArn": "string" }
+    /// Specifies details about the repository, including the URL where the repository is located, the default branch, and credentials to use to access the repository. RepositoryUrl -&gt; (string) [required] The URL where the Git repository is located. Constraints: • min: 11 • max: 1024 • pattern: https://([^/]+)/?.{3,1016} Branch -&gt; (string) The default branch for the Git repository. Constraints: • min: 1 • max: 1024 • pattern: [^ ~^:?*\[]+ SecretArn -&gt; (string) The Amazon Resource Name (ARN) of the Amazon Web Services Secrets Manager secret that contains the credentials used to access the git repository. The secret must have a staging label of AWSCURRENT and must be in the following format: {"username": *UserName* , "password": *Password* } Constraints: • min: 1 • max: 2048 • pattern: arn:aws[a-z\-]*:secretsmanager:[a-z0-9\-]*:[0-9]{12}:secret:.* Shorthand Syntax: RepositoryUrl=string,Branch=string,SecretArn=string JSON Syntax: { "RepositoryUrl": "string", "Branch": "string", "SecretArn": "string" }
     /// </summary>
     [CliOption("--git-config")]
     public string? GitConfig { get; private init; }
 
     /// <summary>
-    /// An array of key-value pairs. You can use tags to categorize your Amazon Web Services resources in different ways, for example, by purpose, owner, or environment. For more information, see Tagging Amazon Web Services Resources . Constraints: o min: 0 o max: 50 (structure) A tag object that consists of a key and an optional value, used to manage metadata for SageMaker Amazon Web Services resources. You can add tags to notebook instances, training jobs, hyperpa- rameter tuning jobs, batch transform jobs, models, labeling jobs, work teams, endpoint configurations, and endpoints. For more information on adding tags to SageMaker resources, see AddTags . For more information on adding metadata to your Amazon Web Ser- vices resources with tagging, see Tagging Amazon Web Services resources . For advice on best practices for managing Amazon Web Services resources with tagging, see Tagging Best Practices: Im- plement an Effective Amazon Web Services Resource Tagging Strat- egy . Key -&gt; (string) [required] The tag key. Tag keys must be unique per resource. Constraints: o min: 1 o max: 128 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Value -&gt; (string) [required] The tag value. Constraints: o min: 0 o max: 256 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// An array of key-value pairs. You can use tags to categorize your Amazon Web Services resources in different ways, for example, by purpose, owner, or environment. For more information, see Tagging Amazon Web Services Resources . Constraints: • min: 0 • max: 50 (structure) A tag object that consists of a key and an optional value, used to manage metadata for SageMaker Amazon Web Services resources. You can add tags to notebook instances, training jobs, hyperparameter tuning jobs, batch transform jobs, models, labeling jobs, work teams, endpoint configurations, and endpoints. For more information on adding tags to SageMaker resources, see AddTags . For more information on adding metadata to your Amazon Web Services resources with tagging, see Tagging Amazon Web Services resources . For advice on best practices for managing Amazon Web Services resources with tagging, see Tagging Best Practices: Implement an Effective Amazon Web Services Resource Tagging Strategy . Key -&gt; (string) [required] The tag key. Tag keys must be unique per resource. Constraints: • min: 1 • max: 128 • pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Value -&gt; (string) [required] The tag value. Constraints: • min: 0 • max: 256 • pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
@@ -98,6 +99,15 @@ public record AwsSagemakerCreateCodeRepositoryOptions : AwsOptions, IValidatable
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

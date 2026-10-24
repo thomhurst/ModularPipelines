@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// GetPlace finds a place by its unique ID. A PlaceId is returned by other place operations. For more information, see GetPlace in the Amazon Location Service De- veloper Guide . See also: AWS API Documentation
+/// GetPlace finds a place by its unique ID. A PlaceId is returned by other place operations. For more information, see GetPlace in the Amazon Location Service Developer Guide . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +27,9 @@ public record AwsGeoPlacesGetPlaceOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// GetPlace finds a place by its unique ID. A PlaceId is returned by other place operations. For more information, see GetPlace in the Amazon Location Service De- veloper Guide . See also: AWS API Documentation
+    /// GetPlace finds a place by its unique ID. A PlaceId is returned by other place operations. For more information, see GetPlace in the Amazon Location Service Developer Guide . See also: AWS API Documentation
     /// </summary>
-    /// <param name="PlaceId">The PlaceId of the place you wish to receive the information for. Constraints: o min: 0 o max: 500</param>
+    /// <param name="PlaceId">The PlaceId of the place you wish to receive the information for. Constraints: • min: 0 • max: 500</param>
     public AwsGeoPlacesGetPlaceOptions(
         string PlaceId
     )
@@ -57,43 +58,43 @@ public record AwsGeoPlacesGetPlaceOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The PlaceId of the place you wish to receive the information for. Constraints: o min: 0 o max: 500
+    /// The PlaceId of the place you wish to receive the information for. Constraints: • min: 0 • max: 500
     /// </summary>
     [CliOption("--place-id")]
     public string? PlaceId { get; private init; }
 
     /// <summary>
-    /// A list of optional additional parameters such as time zone that can be requested for each result. For GrabMaps customers, ap-southeast-1 and ap-southeast-5 regions support only the TimeZone value. Constraints: o min: 1 o max: 6 (string) Possible values: o TimeZone o Phonemes o Access o Contact o SecondaryAddresses o CrossReferences Syntax: "string" "string" ...
+    /// A list of optional additional parameters such as time zone that can be requested for each result. For GrabMaps customers, ap-southeast-1 and ap-southeast-5 regions support only the TimeZone value. Constraints: • min: 1 • max: 6 (string) Possible values: • TimeZone • Phonemes • Access • Contact • SecondaryAddresses • CrossReferences Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--additional-features", GroupValues = true)]
     public IEnumerable<string>? AdditionalFeatures { get; set; }
 
     /// <summary>
-    /// A list of BCP 47 compliant language codes for the results to be ren- dered in. If there is no data for the result in the requested lan- guage, data will be returned in the default language for the entry. For GrabMaps customers, ap-southeast-1 and ap-southeast-5 regions support only the following codes: en, id, km, lo, ms, my, pt, th, tl, vi, zh Constraints: o min: 2 o max: 35
+    /// A list of BCP 47 compliant language codes for the results to be rendered in. If there is no data for the result in the requested language, data will be returned in the default language for the entry. For GrabMaps customers, ap-southeast-1 and ap-southeast-5 regions support only the following codes: en, id, km, lo, ms, my, pt, th, tl, vi, zh Constraints: • min: 2 • max: 35
     /// </summary>
     [CliOption("--language")]
     public string? Language { get; set; }
 
     /// <summary>
-    /// The alpha-2 or alpha-3 character code for the political view of a country. The political view applies to the results of the request to represent unresolved territorial claims through the point of view of the specified country. Not supported in ap-southeast-1 and ap-south- east-5 regions for GrabMaps customers. Constraints: o min: 2 o max: 3 o pattern: ([A-Z]{2}|[A-Z]{3})
+    /// The alpha-2 or alpha-3 character code for the political view of a country. The political view applies to the results of the request to represent unresolved territorial claims through the point of view of the specified country. Not supported in ap-southeast-1 and ap-southeast-5 regions for GrabMaps customers. Constraints: • min: 2 • max: 3 • pattern: ([A-Z]{2}|[A-Z]{3})
     /// </summary>
     [CliOption("--political-view")]
     public string? PoliticalView { get; set; }
 
     /// <summary>
-    /// Indicates if the query results will be persisted in customer infra- structure. Defaults to SingleUse (not stored). Not supported in ap-southeast-1 and ap-southeast-5 regions for GrabMaps customers. NOTE: When storing GetPlace responses, you must set this field to Storage to comply with the terms of service. These requests will be charged at a higher rate. Please review the user agreement and service pricing structure to determine the correct setting for your use case. Possible values: o SingleUse o Storage
+    /// Indicates if the query results will be persisted in customer infrastructure. Defaults to SingleUse (not stored). Not supported in ap-southeast-1 and ap-southeast-5 regions for GrabMaps customers. NOTE: When storing GetPlace responses, you must set this field to Storage to comply with the terms of service. These requests will be charged at a higher rate. Please review the user agreement and service pricing structure to determine the correct setting for your use case. Possible values: • SingleUse • Storage
     /// </summary>
     [CliOption("--intended-use")]
     public AwsGeoPlacesGetPlaceIntendedUse? IntendedUse { get; set; }
 
     /// <summary>
-    /// Optional: The API key to be used for authorization. Either an API key or valid SigV4 signature must be provided when making a request. Constraints: o min: 0 o max: 1000
+    /// Optional: The API key to be used for authorization. Either an API key or valid SigV4 signature must be provided when making a request. Constraints: • min: 0 • max: 1000
     /// </summary>
     [CliOption("--key")]
     public string? Key { get; set; }
 
     /// <summary>
-    /// Specifies how address names are returned. When set to Administrative , the service returns the official administrative names for address components. Administrative currently applies only to addresses in the United States. Possible values: o Administrative
+    /// Specifies how address names are returned. When set to Administrative , the service returns the official administrative names for address components. Administrative currently applies only to addresses in the United States. Possible values: • Administrative
     /// </summary>
     [CliOption("--address-names-mode")]
     public string? AddressNamesMode { get; set; }
@@ -119,6 +120,15 @@ public record AwsGeoPlacesGetPlaceOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsRekognitionStartStreamProcessorOptions : AwsOptions, IValidatab
     /// <summary>
     /// WARNING: Service availability notice: Streaming Video and Bulk Image Analysis is no longer available to new customers. For more information, see Rekognition feature availability changes . This change does not impact the availability of other Amazon Rekognition features. Starts processing a stream processor. You create a stream processor by calling CreateStreamProcessor . To tell StartStreamProcessor which stream processor to start, use the value of the Name field specified in the call to CreateS...
     /// </summary>
-    /// <param name="Name">The name of the stream processor to start processing. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_.\-]+</param>
+    /// <param name="Name">The name of the stream processor to start processing. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9_.\-]+</param>
     public AwsRekognitionStartStreamProcessorOptions(
         string Name
     )
@@ -56,19 +57,19 @@ public record AwsRekognitionStartStreamProcessorOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the stream processor to start processing. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_.\-]+
+    /// The name of the stream processor to start processing. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9_.\-]+
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// Specifies the starting point in the Kinesis stream to start process- ing. You can use the producer timestamp or the fragment number. If you use the producer timestamp, you must put the time in millisec- onds. For more information about fragment numbers, see Fragment . This is a required parameter for label detection stream processors and should not be used to start a face search stream processor. KVSStreamStartSelector -&gt; (structure) Specifies the starting point in the stream to start processing. This can be done with a producer timestamp or a fragment number in a Kinesis stream. ProducerTimestamp -&gt; (long) The timestamp from the producer corresponding to the frag- ment, in milliseconds, expressed in unix time format. Constraints: o min: 0 FragmentNumber -&gt; (string) The unique identifier of the fragment. This value monotoni- cally increases based on the ingestion order. Constraints: o min: 1 o max: 128 o pattern: ^[0-9]+$ Shorthand Syntax: KVSStreamStartSelector={ProducerTimestamp=long,FragmentNumber=string} JSON Syntax: { "KVSStreamStartSelector": { "ProducerTimestamp": long, "FragmentNumber": "string" } }
+    /// Specifies the starting point in the Kinesis stream to start processing. You can use the producer timestamp or the fragment number. If you use the producer timestamp, you must put the time in milliseconds. For more information about fragment numbers, see Fragment . This is a required parameter for label detection stream processors and should not be used to start a face search stream processor. KVSStreamStartSelector -&gt; (structure) Specifies the starting point in the stream to start processing. This can be done with a producer timestamp or a fragment number in a Kinesis stream. ProducerTimestamp -&gt; (long) The timestamp from the producer corresponding to the fragment, in milliseconds, expressed in unix time format. Constraints: • min: 0 FragmentNumber -&gt; (string) The unique identifier of the fragment. This value monotonically increases based on the ingestion order. Constraints: • min: 1 • max: 128 • pattern: ^[0-9]+$ Shorthand Syntax: KVSStreamStartSelector={ProducerTimestamp=long,FragmentNumber=string} JSON Syntax: { "KVSStreamStartSelector": { "ProducerTimestamp": long, "FragmentNumber": "string" } }
     /// </summary>
     [CliOption("--start-selector")]
     public string? StartSelector { get; set; }
 
     /// <summary>
-    /// Specifies when to stop processing the stream. You can specify a max- imum amount of time to process the video. This is a required parameter for label detection stream processors and should not be used to start a face search stream processor. MaxDurationInSeconds -&gt; (long) Specifies the maximum amount of time in seconds that you want the stream to be processed. The largest amount of time is 2 min- utes. The default is 10 seconds. Constraints: o min: 1 o max: 120 Shorthand Syntax: MaxDurationInSeconds=long JSON Syntax: { "MaxDurationInSeconds": long }
+    /// Specifies when to stop processing the stream. You can specify a maximum amount of time to process the video. This is a required parameter for label detection stream processors and should not be used to start a face search stream processor. MaxDurationInSeconds -&gt; (long) Specifies the maximum amount of time in seconds that you want the stream to be processed. The largest amount of time is 2 minutes. The default is 10 seconds. Constraints: • min: 1 • max: 120 Shorthand Syntax: MaxDurationInSeconds=long JSON Syntax: { "MaxDurationInSeconds": long }
     /// </summary>
     [CliOption("--stop-selector")]
     public string? StopSelector { get; set; }
@@ -94,6 +95,15 @@ public record AwsRekognitionStartStreamProcessorOptions : AwsOptions, IValidatab
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

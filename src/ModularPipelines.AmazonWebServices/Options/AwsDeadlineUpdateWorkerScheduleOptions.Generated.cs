@@ -10,7 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,9 +28,9 @@ public record AwsDeadlineUpdateWorkerScheduleOptions : AwsOptions, IValidatableO
     /// <summary>
     /// Updates the schedule for a worker. See also: AWS API Documentation
     /// </summary>
-    /// <param name="FarmId">The farm ID to update. Constraints: o pattern: farm-[0-9a-f]{32}</param>
-    /// <param name="FleetId">The fleet ID to update. Constraints: o pattern: fleet-[0-9a-f]{32}</param>
-    /// <param name="WorkerId">The worker ID to update. Constraints: o pattern: worker-[0-9a-f]{32}</param>
+    /// <param name="FarmId">The farm ID to update. Constraints: • pattern: farm-[0-9a-f]{32}</param>
+    /// <param name="FleetId">The fleet ID to update. Constraints: • pattern: fleet-[0-9a-f]{32}</param>
+    /// <param name="WorkerId">The worker ID to update. Constraints: • pattern: worker-[0-9a-f]{32}</param>
     public AwsDeadlineUpdateWorkerScheduleOptions(
         string FarmId,
         string FleetId,
@@ -65,25 +65,25 @@ public record AwsDeadlineUpdateWorkerScheduleOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The farm ID to update. Constraints: o pattern: farm-[0-9a-f]{32}
+    /// The farm ID to update. Constraints: • pattern: farm-[0-9a-f]{32}
     /// </summary>
     [CliOption("--farm-id")]
     public string? FarmId { get; private init; }
 
     /// <summary>
-    /// The fleet ID to update. Constraints: o pattern: fleet-[0-9a-f]{32}
+    /// The fleet ID to update. Constraints: • pattern: fleet-[0-9a-f]{32}
     /// </summary>
     [CliOption("--fleet-id")]
     public string? FleetId { get; private init; }
 
     /// <summary>
-    /// The worker ID to update. Constraints: o pattern: worker-[0-9a-f]{32}
+    /// The worker ID to update. Constraints: • pattern: worker-[0-9a-f]{32}
     /// </summary>
     [CliOption("--worker-id")]
     public string? WorkerId { get; private init; }
 
     /// <summary>
-    /// The session actions associated with the worker schedule to update. key -&gt; (string) Constraints: o pattern: sessionaction-[0-9a-f]{32}-(0|([1-9][0-9]{0,9})) value -&gt; (structure) The updated session action information as it relates to comple- tion and progress of the session. completedStatus -&gt; (string) The status of the session upon completion. Possible values: o SUCCEEDED o FAILED o INTERRUPTED o CANCELED o NEVER_ATTEMPTED processExitCode -&gt; (integer) The process exit code. The default Deadline Cloud worker agent converts unsigned 32-bit exit codes to signed 32-bit exit codes. Constraints: o min: -2147483648 o max: 2147483647 progressMessage -&gt; (string) A message to indicate the progress of the updated session ac- tion. Constraints: o min: 0 o max: 4096 startedAt -&gt; (timestamp) The date and time the resource started running. endedAt -&gt; (timestamp) The date and time the resource ended running. updatedAt -&gt; (timestamp) The updated time. progressPercent -&gt; (float) The percentage completed. Constraints: o min: 0 o max: 100 manifests -&gt; (list) A list of output manifest properties reported by the worker agent, with each entry corresponding to a manifest property in the job. Constraints: o min: 0 o max: 10 (structure) The output manifest properties reported by the worker agent for a completed task run. outputManifestPath -&gt; (string) The manifest file path. Constraints: o min: 1 o max: 512 outputManifestHash -&gt; (string) The hash value of the file. Constraints: o min: 1 o max: 256 JSON Syntax: {"string": { "completedStatus": "SUCCEEDED"|"FAILED"|"INTERRUPTED"|"CANCELED"|"NEVER_ATTEMPTED", "processExitCode": integer, "progressMessage": "string", "startedAt": timestamp, "endedAt": timestamp, "updatedAt": timestamp, "progressPercent": float, "manifests": [ { "outputManifestPath": "string", "outputManifestHash": "string" } ... ] } ...}
+    /// The session actions associated with the worker schedule to update. key -&gt; (string) Constraints: • pattern: sessionaction-[0-9a-f]{32}-(0|([1-9][0-9]{0,9})) value -&gt; (structure) The updated session action information as it relates to completion and progress of the session. completedStatus -&gt; (string) The status of the session upon completion. Possible values: • SUCCEEDED • FAILED • INTERRUPTED • CANCELED • NEVER_ATTEMPTED processExitCode -&gt; (integer) The process exit code. The default Deadline Cloud worker agent converts unsigned 32-bit exit codes to signed 32-bit exit codes. Constraints: • min: -2147483648 • max: 2147483647 progressMessage -&gt; (string) A message to indicate the progress of the updated session action. Constraints: • min: 0 • max: 4096 startedAt -&gt; (timestamp) The date and time the resource started running. endedAt -&gt; (timestamp) The date and time the resource ended running. updatedAt -&gt; (timestamp) The updated time. progressPercent -&gt; (float) The percentage completed. Constraints: • min: 0 • max: 100 manifests -&gt; (list) A list of output manifest properties reported by the worker agent, with each entry corresponding to a manifest property in the job. Constraints: • min: 0 • max: 10 (structure) The output manifest properties reported by the worker agent for a completed task run. outputManifestPath -&gt; (string) The manifest file path. Constraints: • min: 1 • max: 512 outputManifestHash -&gt; (string) The hash value of the file. Constraints: • min: 1 • max: 256 JSON Syntax: {"string": { "completedStatus": "SUCCEEDED"|"FAILED"|"INTERRUPTED"|"CANCELED"|"NEVER_ATTEMPTED", "processExitCode": integer, "progressMessage": "string", "startedAt": timestamp, "endedAt": timestamp, "updatedAt": timestamp, "progressPercent": float, "manifests": [ { "outputManifestPath": "string", "outputManifestHash": "string" } ... ] } ...}
     /// </summary>
     [CliOption("--updated-session-actions", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? UpdatedSessionActions { get; set; }
@@ -109,6 +109,15 @@ public record AwsDeadlineUpdateWorkerScheduleOptions : AwsOptions, IValidatableO
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Disconnects a participant. For security recommendations, see Connect Customer Chat security best practices . NOTE: ConnectionToken is used for invoking this API instead of Partici- pantToken . The Amazon Connect Participant Service APIs do not use Signature Ver- sion 4 authentication . See also: AWS API Documentation
+/// Disconnects a participant. For security recommendations, see Connect Customer Chat security best practices . NOTE: ConnectionToken is used for invoking this API instead of ParticipantToken . The Amazon Connect Participant Service APIs do not use Signature Version 4 authentication . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +27,9 @@ public record AwsConnectparticipantDisconnectParticipantOptions : AwsOptions, IV
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Disconnects a participant. For security recommendations, see Connect Customer Chat security best practices . NOTE: ConnectionToken is used for invoking this API instead of Partici- pantToken . The Amazon Connect Participant Service APIs do not use Signature Ver- sion 4 authentication . See also: AWS API Documentation
+    /// Disconnects a participant. For security recommendations, see Connect Customer Chat security best practices . NOTE: ConnectionToken is used for invoking this API instead of ParticipantToken . The Amazon Connect Participant Service APIs do not use Signature Version 4 authentication . See also: AWS API Documentation
     /// </summary>
-    /// <param name="ConnectionToken">The authentication token associated with the participant's connec- tion. Constraints: o min: 1 o max: 1000</param>
+    /// <param name="ConnectionToken">The authentication token associated with the participant's connection. Constraints: • min: 1 • max: 1000</param>
     public AwsConnectparticipantDisconnectParticipantOptions(
         string ConnectionToken
     )
@@ -57,14 +58,14 @@ public record AwsConnectparticipantDisconnectParticipantOptions : AwsOptions, IV
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The authentication token associated with the participant's connec- tion. Constraints: o min: 1 o max: 1000
+    /// The authentication token associated with the participant's connection. Constraints: • min: 1 • max: 1000
     /// </summary>
     [SecretValue]
     [CliOption("--connection-token")]
     public string? ConnectionToken { get; private init; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs . Constraints: o max: 500
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs . Constraints: • max: 500
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
@@ -91,6 +92,15 @@ public record AwsConnectparticipantDisconnectParticipantOptions : AwsOptions, IV
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

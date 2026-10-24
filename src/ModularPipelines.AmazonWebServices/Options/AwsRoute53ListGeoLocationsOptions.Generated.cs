@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves a list of supported geographic locations. Countries are listed first, and continents are listed last. If Amazon Route 53 supports subdivisions for a country (for example, states or provinces), the subdivisions for that country are listed in alphabeti- cal order immediately after the corresponding country. Route 53 does not perform authorization for this API because it re- trieves information that is already available to the public. For a list of supported geolocation codes, see the Geo...
+/// Retrieves a list of supported geographic locations. Countries are listed first, and continents are listed last. If Amazon Route 53 supports subdivisions for a country (for example, states or provinces), the subdivisions for that country are listed in alphabetical order immediately after the corresponding country. Route 53 does not perform authorization for this API because it retrieves information that is already available to the public. For a list of supported geolocation codes, see the GeoLoca...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -22,19 +22,19 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsRoute53ListGeoLocationsOptions : AwsOptions
 {
     /// <summary>
-    /// The code for the continent with which you want to start listing lo- cations that Amazon Route 53 supports for geolocation. If Route 53 has already returned a page or more of results, if IsTruncated is true, and if NextContinentCode from the previous response has a value, enter that value in startcontinentcode to return the next page of results. Include startcontinentcode only if you want to list continents. Don't include startcontinentcode when you're listing countries or countries with their subdivisions. Constraints: o min: 2 o max: 2
+    /// The code for the continent with which you want to start listing locations that Amazon Route 53 supports for geolocation. If Route 53 has already returned a page or more of results, if IsTruncated is true, and if NextContinentCode from the previous response has a value, enter that value in startcontinentcode to return the next page of results. Include startcontinentcode only if you want to list continents. Don't include startcontinentcode when you're listing countries or countries with their subdivisions. Constraints: • min: 2 • max: 2
     /// </summary>
     [CliOption("--start-continent-code")]
     public string? StartContinentCode { get; set; }
 
     /// <summary>
-    /// The code for the country with which you want to start listing loca- tions that Amazon Route 53 supports for geolocation. If Route 53 has already returned a page or more of results, if IsTruncated is true , and if NextCountryCode from the previous response has a value, enter that value in startcountrycode to return the next page of results. Constraints: o min: 1 o max: 2
+    /// The code for the country with which you want to start listing locations that Amazon Route 53 supports for geolocation. If Route 53 has already returned a page or more of results, if IsTruncated is true , and if NextCountryCode from the previous response has a value, enter that value in startcountrycode to return the next page of results. Constraints: • min: 1 • max: 2
     /// </summary>
     [CliOption("--start-country-code")]
     public string? StartCountryCode { get; set; }
 
     /// <summary>
-    /// The code for the state of the United States with which you want to start listing locations that Amazon Route 53 supports for geoloca- tion. If Route 53 has already returned a page or more of results, if IsTruncated is true , and if NextSubdivisionCode from the previous response has a value, enter that value in startsubdivisioncode to return the next page of results. To list subdivisions (U.S. states), you must include both startcoun- trycode and startsubdivisioncode . Constraints: o min: 1 o max: 3
+    /// The code for the state of the United States with which you want to start listing locations that Amazon Route 53 supports for geolocation. If Route 53 has already returned a page or more of results, if IsTruncated is true , and if NextSubdivisionCode from the previous response has a value, enter that value in startsubdivisioncode to return the next page of results. To list subdivisions (U.S. states), you must include both startcountrycode and startsubdivisioncode . Constraints: • min: 1 • max: 3
     /// </summary>
     [CliOption("--start-subdivision-code")]
     public string? StartSubdivisionCode { get; set; }
@@ -50,5 +50,14 @@ public record AwsRoute53ListGeoLocationsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

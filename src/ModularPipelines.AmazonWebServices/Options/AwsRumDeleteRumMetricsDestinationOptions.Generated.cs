@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes a destination for CloudWatch RUM extended metrics, so that the specified app monitor stops sending extended metrics to that destina- tion. See also: AWS API Documentation
+/// Deletes a destination for CloudWatch RUM extended metrics, so that the specified app monitor stops sending extended metrics to that destination. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +27,10 @@ public record AwsRumDeleteRumMetricsDestinationOptions : AwsOptions, IValidatabl
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes a destination for CloudWatch RUM extended metrics, so that the specified app monitor stops sending extended metrics to that destina- tion. See also: AWS API Documentation
+    /// Deletes a destination for CloudWatch RUM extended metrics, so that the specified app monitor stops sending extended metrics to that destination. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AppMonitorName">The name of the app monitor that is sending metrics to the destina- tion that you want to delete. Constraints: o min: 1 o max: 255 o pattern: (?!\.)[\.\-_#A-Za-z0-9]+</param>
-    /// <param name="Destination">The type of destination to delete. Valid values are CloudWatch and Evidently . Possible values: o CloudWatch o Evidently</param>
+    /// <param name="AppMonitorName">The name of the app monitor that is sending metrics to the destination that you want to delete. Constraints: • min: 1 • max: 255 • pattern: (?!\.)[\.\-_#A-Za-z0-9]+</param>
+    /// <param name="Destination">The type of destination to delete. Valid values are CloudWatch and Evidently . Possible values: • CloudWatch • Evidently</param>
     public AwsRumDeleteRumMetricsDestinationOptions(
         string AppMonitorName,
         AwsRumDeleteRumMetricsDestinationDestination Destination
@@ -60,19 +61,19 @@ public record AwsRumDeleteRumMetricsDestinationOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the app monitor that is sending metrics to the destina- tion that you want to delete. Constraints: o min: 1 o max: 255 o pattern: (?!\.)[\.\-_#A-Za-z0-9]+
+    /// The name of the app monitor that is sending metrics to the destination that you want to delete. Constraints: • min: 1 • max: 255 • pattern: (?!\.)[\.\-_#A-Za-z0-9]+
     /// </summary>
     [CliOption("--app-monitor-name")]
     public string? AppMonitorName { get; private init; }
 
     /// <summary>
-    /// The type of destination to delete. Valid values are CloudWatch and Evidently . Possible values: o CloudWatch o Evidently
+    /// The type of destination to delete. Valid values are CloudWatch and Evidently . Possible values: • CloudWatch • Evidently
     /// </summary>
     [CliOption("--destination")]
     public AwsRumDeleteRumMetricsDestinationDestination? Destination { get; private init; }
 
     /// <summary>
-    /// This parameter is required if Destination is Evidently . If Destina- tion is CloudWatch , do not use this parameter. This parameter spec- ifies the ARN of the Evidently experiment that corresponds to the destination to delete. Constraints: o min: 0 o max: 2048 o pattern: .*arn:[^:]*:[^:]*:[^:]*:[^:]*:.*
+    /// This parameter is required if Destination is Evidently . If Destination is CloudWatch , do not use this parameter. This parameter specifies the ARN of the Evidently experiment that corresponds to the destination to delete. Constraints: • min: 0 • max: 2048 • pattern: .*arn:[^:]*:[^:]*:[^:]*:[^:]*:.*
     /// </summary>
     [CliOption("--destination-arn")]
     public string? DestinationArn { get; set; }
@@ -98,6 +99,15 @@ public record AwsRumDeleteRumMetricsDestinationOptions : AwsOptions, IValidatabl
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

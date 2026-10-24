@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsManagedblockchainUpdateNodeOptions : AwsOptions, IValidatableOb
     /// <summary>
     /// Updates a node configuration with new parameters. Applies only to Hyperledger Fabric. See also: AWS API Documentation
     /// </summary>
-    /// <param name="NetworkId">The unique identifier of the network that the node is on. Constraints: o min: 1 o max: 32</param>
-    /// <param name="NodeId">The unique identifier of the node. Constraints: o min: 1 o max: 32</param>
+    /// <param name="NetworkId">The unique identifier of the network that the node is on. Constraints: • min: 1 • max: 32</param>
+    /// <param name="NodeId">The unique identifier of the node. Constraints: • min: 1 • max: 32</param>
     public AwsManagedblockchainUpdateNodeOptions(
         string NetworkId,
         string NodeId
@@ -60,25 +61,25 @@ public record AwsManagedblockchainUpdateNodeOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the network that the node is on. Constraints: o min: 1 o max: 32
+    /// The unique identifier of the network that the node is on. Constraints: • min: 1 • max: 32
     /// </summary>
     [CliOption("--network-id")]
     public string? NetworkId { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the node. Constraints: o min: 1 o max: 32
+    /// The unique identifier of the node. Constraints: • min: 1 • max: 32
     /// </summary>
     [CliOption("--node-id")]
     public string? NodeId { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the member that owns the node. Applies only to Hyperledger Fabric. Constraints: o min: 1 o max: 32
+    /// The unique identifier of the member that owns the node. Applies only to Hyperledger Fabric. Constraints: • min: 1 • max: 32
     /// </summary>
     [CliOption("--member-id")]
     public string? MemberId { get; set; }
 
     /// <summary>
-    /// Configuration properties for publishing to Amazon CloudWatch Logs. Fabric -&gt; (structure) Configuration properties for logging events associated with a node that is owned by a member of a Managed Blockchain network using the Hyperledger Fabric framework. ChaincodeLogs -&gt; (structure) Configuration properties for logging events associated with chaincode execution on a peer node. Chaincode logs contain the results of instantiating, invoking, and querying the chaincode. A peer can run multiple instances of chaincode. When enabled, a log stream is created for all chaincodes, with an individual log stream for each chaincode. Cloudwatch -&gt; (structure) Parameters for publishing logs to Amazon CloudWatch Logs. Enabled -&gt; (boolean) Indicates whether logging is enabled. PeerLogs -&gt; (structure) Configuration properties for a peer node log. Peer node logs contain messages generated when your client submits transac- tion proposals to peer nodes, requests to join channels, en- rolls an admin peer, and lists the chaincode instances on a peer node. Cloudwatch -&gt; (structure) Parameters for publishing logs to Amazon CloudWatch Logs. Enabled -&gt; (boolean) Indicates whether logging is enabled. JSON Syntax: { "Fabric": { "ChaincodeLogs": { "Cloudwatch": { "Enabled": true|false } }, "PeerLogs": { "Cloudwatch": { "Enabled": true|false } } } }
+    /// Configuration properties for publishing to Amazon CloudWatch Logs. Fabric -&gt; (structure) Configuration properties for logging events associated with a node that is owned by a member of a Managed Blockchain network using the Hyperledger Fabric framework. ChaincodeLogs -&gt; (structure) Configuration properties for logging events associated with chaincode execution on a peer node. Chaincode logs contain the results of instantiating, invoking, and querying the chaincode. A peer can run multiple instances of chaincode. When enabled, a log stream is created for all chaincodes, with an individual log stream for each chaincode. Cloudwatch -&gt; (structure) Parameters for publishing logs to Amazon CloudWatch Logs. Enabled -&gt; (boolean) Indicates whether logging is enabled. PeerLogs -&gt; (structure) Configuration properties for a peer node log. Peer node logs contain messages generated when your client submits transaction proposals to peer nodes, requests to join channels, enrolls an admin peer, and lists the chaincode instances on a peer node. Cloudwatch -&gt; (structure) Parameters for publishing logs to Amazon CloudWatch Logs. Enabled -&gt; (boolean) Indicates whether logging is enabled. JSON Syntax: { "Fabric": { "ChaincodeLogs": { "Cloudwatch": { "Enabled": true|false } }, "PeerLogs": { "Cloudwatch": { "Enabled": true|false } } } }
     /// </summary>
     [CliOption("--log-publishing-configuration")]
     public string? LogPublishingConfiguration { get; set; }
@@ -104,6 +105,15 @@ public record AwsManagedblockchainUpdateNodeOptions : AwsOptions, IValidatableOb
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

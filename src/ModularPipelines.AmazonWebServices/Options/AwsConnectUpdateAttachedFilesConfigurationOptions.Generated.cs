@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates the attached files configuration for the specified Connect Cus- tomer instance and attachment scope. If no instance-specific configuration exists, this operation creates one. Partial updates are supportedonly specified fields are updated, while unspecified fields retain their current values. See also: AWS API Documentation
+/// Updates the attached files configuration for the specified Connect Customer instance and attachment scope. If no instance-specific configuration exists, this operation creates one. Partial updates are supportedonly specified fields are updated, while unspecified fields retain their current values. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +27,10 @@ public record AwsConnectUpdateAttachedFilesConfigurationOptions : AwsOptions, IV
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates the attached files configuration for the specified Connect Cus- tomer instance and attachment scope. If no instance-specific configuration exists, this operation creates one. Partial updates are supportedonly specified fields are updated, while unspecified fields retain their current values. See also: AWS API Documentation
+    /// Updates the attached files configuration for the specified Connect Customer instance and attachment scope. If no instance-specific configuration exists, this operation creates one. Partial updates are supportedonly specified fields are updated, while unspecified fields retain their current values. See also: AWS API Documentation
     /// </summary>
-    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100</param>
-    /// <param name="AttachmentScope">The scope of the attachment. Valid values are EMAIL , CHAT , CASE , and TASK . Possible values: o EMAIL o CHAT o CASE o TASK</param>
+    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: • min: 1 • max: 100</param>
+    /// <param name="AttachmentScope">The scope of the attachment. Valid values are EMAIL , CHAT , CASE , and TASK . Possible values: • EMAIL • CHAT • CASE • TASK</param>
     public AwsConnectUpdateAttachedFilesConfigurationOptions(
         string InstanceId,
         AwsConnectUpdateAttachedFilesConfigurationAttachmentScope AttachmentScope
@@ -60,25 +61,25 @@ public record AwsConnectUpdateAttachedFilesConfigurationOptions : AwsOptions, IV
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100
+    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--instance-id")]
     public string? InstanceId { get; private init; }
 
     /// <summary>
-    /// The scope of the attachment. Valid values are EMAIL , CHAT , CASE , and TASK . Possible values: o EMAIL o CHAT o CASE o TASK
+    /// The scope of the attachment. Valid values are EMAIL , CHAT , CASE , and TASK . Possible values: • EMAIL • CHAT • CASE • TASK
     /// </summary>
     [CliOption("--attachment-scope")]
     public AwsConnectUpdateAttachedFilesConfigurationAttachmentScope? AttachmentScope { get; private init; }
 
     /// <summary>
-    /// The maximum size limit for attached files in bytes. The minimum value is 1 and the maximum value is 104857600 (100 MB). Constraints: o min: 1 o max: 104857600
+    /// The maximum size limit for attached files in bytes. The minimum value is 1 and the maximum value is 104857600 (100 MB). Constraints: • min: 1 • max: 104857600
     /// </summary>
     [CliOption("--maximum-size-limit-in-bytes")]
-    public int? MaximumSizeLimitInBytes { get; set; }
+    public long? MaximumSizeLimitInBytes { get; set; }
 
     /// <summary>
-    /// The configuration for allowed file extensions. AllowedExtensions -&gt; (list) [required] The list of allowed file extensions. (structure) Information about an allowed file extension. Extension -&gt; (string) [required] The file extension. The extension must be between 1 and 10 characters and can contain only alphanumeric charac- ters, hyphens, and underscores. Constraints: o min: 1 o max: 10 o pattern: ^[a-zA-Z0-9-_]+$ Shorthand Syntax: AllowedExtensions=[{Extension=string},{Extension=string}] JSON Syntax: { "AllowedExtensions": [ { "Extension": "string" } ... ] }
+    /// The configuration for allowed file extensions. AllowedExtensions -&gt; (list) [required] The list of allowed file extensions. (structure) Information about an allowed file extension. Extension -&gt; (string) [required] The file extension. The extension must be between 1 and 10 characters and can contain only alphanumeric characters, hyphens, and underscores. Constraints: • min: 1 • max: 10 • pattern: ^[a-zA-Z0-9-_]+$ Shorthand Syntax: AllowedExtensions=[{Extension=string},{Extension=string}] JSON Syntax: { "AllowedExtensions": [ { "Extension": "string" } ... ] }
     /// </summary>
     [CliOption("--extension-configuration")]
     public string? ExtensionConfiguration { get; set; }
@@ -104,6 +105,15 @@ public record AwsConnectUpdateAttachedFilesConfigurationOptions : AwsOptions, IV
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

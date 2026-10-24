@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Splits a shard into two new shards in the Kinesis data stream, to in- crease the stream's capacity to ingest and transport data. SplitShard is called when there is a need to increase the overall capacity of a stream because of an expected increase in the volume of data records being ingested. This API is only supported for the data streams with the provisioned capacity mode. NOTE: When invoking this API, you must use either the StreamARN or the StreamName parameter, or both. It is recommended th...
+/// Splits a shard into two new shards in the Kinesis data stream, to increase the stream's capacity to ingest and transport data. SplitShard is called when there is a need to increase the overall capacity of a stream because of an expected increase in the volume of data records being ingested. This API is only supported for the data streams with the provisioned capacity mode. NOTE: When invoking this API, you must use either the StreamARN or the StreamName parameter, or both. It is recommended that...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsKinesisSplitShardOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Splits a shard into two new shards in the Kinesis data stream, to in- crease the stream's capacity to ingest and transport data. SplitShard is called when there is a need to increase the overall capacity of a stream because of an expected increase in the volume of data records being ingested. This API is only supported for the data streams with the provisioned capacity mode. NOTE: When invoking this API, you must use either the StreamARN or the StreamName parameter, or both. It is recommended th...
+    /// Splits a shard into two new shards in the Kinesis data stream, to increase the stream's capacity to ingest and transport data. SplitShard is called when there is a need to increase the overall capacity of a stream because of an expected increase in the volume of data records being ingested. This API is only supported for the data streams with the provisioned capacity mode. NOTE: When invoking this API, you must use either the StreamARN or the StreamName parameter, or both. It is recommended that...
     /// </summary>
-    /// <param name="ShardToSplit">The shard ID of the shard to split. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_.-]+</param>
-    /// <param name="NewStartingHashKey">A hash key value for the starting hash key of one of the child shards created by the split. The hash key range for a given shard constitutes a set of ordered contiguous positive integers. The value for NewStartingHashKey must be in the range of hash keys being mapped into the shard. The NewStartingHashKey hash key value and all higher hash key values in hash key range are distributed to one of the child shards. All the lower hash key values in the range are distributed to the other child shard. Constraints: o pattern: ^(0|([1-9]\d{0,38}))$</param>
+    /// <param name="ShardToSplit">The shard ID of the shard to split. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9_.-]+</param>
+    /// <param name="NewStartingHashKey">A hash key value for the starting hash key of one of the child shards created by the split. The hash key range for a given shard constitutes a set of ordered contiguous positive integers. The value for NewStartingHashKey must be in the range of hash keys being mapped into the shard. The NewStartingHashKey hash key value and all higher hash key values in hash key range are distributed to one of the child shards. All the lower hash key values in the range are distributed to the other child shard. Constraints: • pattern: ^(0|([1-9]\d{0,38}))$</param>
     public AwsKinesisSplitShardOptions(
         string ShardToSplit,
         string NewStartingHashKey
@@ -60,31 +61,31 @@ public record AwsKinesisSplitShardOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The shard ID of the shard to split. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_.-]+
+    /// The shard ID of the shard to split. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9_.-]+
     /// </summary>
     [CliOption("--shard-to-split")]
     public string? ShardToSplit { get; private init; }
 
     /// <summary>
-    /// A hash key value for the starting hash key of one of the child shards created by the split. The hash key range for a given shard constitutes a set of ordered contiguous positive integers. The value for NewStartingHashKey must be in the range of hash keys being mapped into the shard. The NewStartingHashKey hash key value and all higher hash key values in hash key range are distributed to one of the child shards. All the lower hash key values in the range are distributed to the other child shard. Constraints: o pattern: ^(0|([1-9]\d{0,38}))$
+    /// A hash key value for the starting hash key of one of the child shards created by the split. The hash key range for a given shard constitutes a set of ordered contiguous positive integers. The value for NewStartingHashKey must be in the range of hash keys being mapped into the shard. The NewStartingHashKey hash key value and all higher hash key values in hash key range are distributed to one of the child shards. All the lower hash key values in the range are distributed to the other child shard. Constraints: • pattern: ^(0|([1-9]\d{0,38}))$
     /// </summary>
     [CliOption("--new-starting-hash-key")]
     public string? NewStartingHashKey { get; private init; }
 
     /// <summary>
-    /// The name of the stream for the shard split. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_.-]+
+    /// The name of the stream for the shard split. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9_.-]+
     /// </summary>
     [CliOption("--stream-name")]
     public string? StreamName { get; set; }
 
     /// <summary>
-    /// The ARN of the stream. Constraints: o min: 1 o max: 2048 o pattern: arn:aws.*:kinesis:.*:\d{12}:stream/\S+
+    /// The ARN of the stream. Constraints: • min: 1 • max: 2048 • pattern: arn:aws.*:kinesis:.*:\d{12}:stream/\S+
     /// </summary>
     [CliOption("--stream-arn")]
     public string? StreamArn { get; set; }
 
     /// <summary>
-    /// Not Implemented. Reserved for future use. Constraints: o min: 1 o max: 24 o pattern: [a-z0-9]{20}-[a-z0-9]{3}
+    /// Not Implemented. Reserved for future use. Constraints: • min: 1 • max: 24 • pattern: [a-z0-9]{20}-[a-z0-9]{3}
     /// </summary>
     [CliOption("--stream-id")]
     public string? StreamId { get; set; }
@@ -110,6 +111,15 @@ public record AwsKinesisSplitShardOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsCloudtrailStartEventDataStoreIngestionOptions : AwsOptions, IVa
     /// <summary>
     /// WARNING: CloudTrail Lake will no longer be open to new customers starting May 31, 2026. If you would like to use CloudTrail Lake, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see CloudTrail Lake availability change . Starts the ingestion of live events on an event data store specified as either an ARN or the ID portion of the ARN. To start ingestion, the event data store Status must be STOPPED_INGESTION and the eventCategory must...
     /// </summary>
-    /// <param name="EventDataStore">The ARN (or ID suffix of the ARN) of the event data store for which you want to start ingestion. Constraints: o min: 3 o max: 256 o pattern: ^[a-zA-Z0-9._/\-:]+$</param>
+    /// <param name="EventDataStore">The ARN (or ID suffix of the ARN) of the event data store for which you want to start ingestion. Constraints: • min: 3 • max: 256 • pattern: ^[a-zA-Z0-9._/\-:]+$</param>
     public AwsCloudtrailStartEventDataStoreIngestionOptions(
         string EventDataStore
     )
@@ -56,7 +57,7 @@ public record AwsCloudtrailStartEventDataStoreIngestionOptions : AwsOptions, IVa
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN (or ID suffix of the ARN) of the event data store for which you want to start ingestion. Constraints: o min: 3 o max: 256 o pattern: ^[a-zA-Z0-9._/\-:]+$
+    /// The ARN (or ID suffix of the ARN) of the event data store for which you want to start ingestion. Constraints: • min: 3 • max: 256 • pattern: ^[a-zA-Z0-9._/\-:]+$
     /// </summary>
     [CliOption("--event-data-store")]
     public string? EventDataStore { get; private init; }
@@ -82,6 +83,15 @@ public record AwsCloudtrailStartEventDataStoreIngestionOptions : AwsOptions, IVa
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsFisGetTargetResourceTypeOptions : AwsOptions, IValidatableObjec
     /// <summary>
     /// Gets information about the specified resource type. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceType">The resource type. Constraints: o max: 128 o pattern: [\S]+</param>
+    /// <param name="ResourceType">The resource type. Constraints: • max: 128 • pattern: [\S]+</param>
     public AwsFisGetTargetResourceTypeOptions(
         string ResourceType
     )
@@ -56,7 +57,7 @@ public record AwsFisGetTargetResourceTypeOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The resource type. Constraints: o max: 128 o pattern: [\S]+
+    /// The resource type. Constraints: • max: 128 • pattern: [\S]+
     /// </summary>
     [CliOption("--resource-type")]
     public string? ResourceType { get; private init; }
@@ -82,6 +83,15 @@ public record AwsFisGetTargetResourceTypeOptions : AwsOptions, IValidatableObjec
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

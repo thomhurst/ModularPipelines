@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,8 +29,8 @@ public record AwsChimeSdkMediaPipelinesCreateMediaPipelineKinesisVideoStreamPool
     /// <summary>
     /// Creates an Amazon Kinesis Video Stream pool for use with media stream pipelines. NOTE: If a meeting uses an opt-in Region as its MediaRegion , the KVS stream must be in that same Region. For example, if a meeting uses the af-south-1 Region, the KVS stream must also be in af-south-1 . However, if the meeting uses a Region that AWS turns on by default, the KVS stream can be in any available Region, including an opt-in Region. For example, if the meeting uses ca-central-1 , the KVS stream can be in...
     /// </summary>
-    /// <param name="StreamConfiguration">The configuration settings for the stream. Region -&gt; (string) [required] The Amazon Web Services Region of the video stream. Constraints: o min: 1 o max: 32 o pattern: ^([a-z]+-){2,}\d+$ DataRetentionInHours -&gt; (integer) The amount of time that data is retained. Constraints: o min: 0 Shorthand Syntax: Region=string,DataRetentionInHours=integer JSON Syntax: { "Region": "string", "DataRetentionInHours": integer }</param>
-    /// <param name="PoolName">The name of the pool. Constraints: o min: 1 o max: 128 o pattern: ^[0-9a-zA-Z._-]+</param>
+    /// <param name="StreamConfiguration">The configuration settings for the stream. Region -&gt; (string) [required] The Amazon Web Services Region of the video stream. Constraints: • min: 1 • max: 32 • pattern: ^([a-z]+-){2,}\d+$ DataRetentionInHours -&gt; (integer) The amount of time that data is retained. Constraints: • min: 0 Shorthand Syntax: Region=string,DataRetentionInHours=integer JSON Syntax: { "Region": "string", "DataRetentionInHours": integer }</param>
+    /// <param name="PoolName">The name of the pool. Constraints: • min: 1 • max: 128 • pattern: ^[0-9a-zA-Z._-]+</param>
     public AwsChimeSdkMediaPipelinesCreateMediaPipelineKinesisVideoStreamPoolOptions(
         string StreamConfiguration,
         string PoolName
@@ -61,26 +62,26 @@ public record AwsChimeSdkMediaPipelinesCreateMediaPipelineKinesisVideoStreamPool
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The configuration settings for the stream. Region -&gt; (string) [required] The Amazon Web Services Region of the video stream. Constraints: o min: 1 o max: 32 o pattern: ^([a-z]+-){2,}\d+$ DataRetentionInHours -&gt; (integer) The amount of time that data is retained. Constraints: o min: 0 Shorthand Syntax: Region=string,DataRetentionInHours=integer JSON Syntax: { "Region": "string", "DataRetentionInHours": integer }
+    /// The configuration settings for the stream. Region -&gt; (string) [required] The Amazon Web Services Region of the video stream. Constraints: • min: 1 • max: 32 • pattern: ^([a-z]+-){2,}\d+$ DataRetentionInHours -&gt; (integer) The amount of time that data is retained. Constraints: • min: 0 Shorthand Syntax: Region=string,DataRetentionInHours=integer JSON Syntax: { "Region": "string", "DataRetentionInHours": integer }
     /// </summary>
     [CliOption("--stream-configuration")]
     public string? StreamConfiguration { get; private init; }
 
     /// <summary>
-    /// The name of the pool. Constraints: o min: 1 o max: 128 o pattern: ^[0-9a-zA-Z._-]+
+    /// The name of the pool. Constraints: • min: 1 • max: 128 • pattern: ^[0-9a-zA-Z._-]+
     /// </summary>
     [CliOption("--pool-name")]
     public string? PoolName { get; private init; }
 
     /// <summary>
-    /// The token assigned to the client making the request. Constraints: o min: 2 o max: 64 o pattern: [-_a-zA-Z0-9]*
+    /// The token assigned to the client making the request. Constraints: • min: 2 • max: 64 • pattern: [-_a-zA-Z0-9]*
     /// </summary>
     [SecretValue]
     [CliOption("--client-request-token")]
     public string? ClientRequestToken { get; set; }
 
     /// <summary>
-    /// The tags assigned to the stream pool. Constraints: o min: 1 o max: 200 (structure) A key/value pair that grants users access to meeting resources. Key -&gt; (string) [required] The key half of a tag. Constraints: o min: 1 o max: 128 Value -&gt; (string) [required] The value half of a tag. Constraints: o min: 0 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// The tags assigned to the stream pool. Constraints: • min: 1 • max: 200 (structure) A key/value pair that grants users access to meeting resources. Key -&gt; (string) [required] The key half of a tag. Constraints: • min: 1 • max: 128 Value -&gt; (string) [required] The value half of a tag. Constraints: • min: 0 • max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
@@ -106,6 +107,15 @@ public record AwsChimeSdkMediaPipelinesCreateMediaPipelineKinesisVideoStreamPool
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

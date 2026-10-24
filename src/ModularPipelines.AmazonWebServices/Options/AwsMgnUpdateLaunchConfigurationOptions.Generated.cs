@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,7 +29,7 @@ public record AwsMgnUpdateLaunchConfigurationOptions : AwsOptions, IValidatableO
     /// <summary>
     /// Updates multiple LaunchConfigurations by Source Server ID. NOTE: bootMode valid values are LEGACY_BIOS | UEFI | USE_SOURCE See also: AWS API Documentation
     /// </summary>
-    /// <param name="SourceServerId">Update Launch configuration by Source Server ID request. Constraints: o min: 19 o max: 19 o pattern: s-[0-9a-zA-Z]{17}</param>
+    /// <param name="SourceServerId">Update Launch configuration by Source Server ID request. Constraints: • min: 19 • max: 19 • pattern: s-[0-9a-zA-Z]{17}</param>
     public AwsMgnUpdateLaunchConfigurationOptions(
         string SourceServerId
     )
@@ -57,25 +58,25 @@ public record AwsMgnUpdateLaunchConfigurationOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Update Launch configuration by Source Server ID request. Constraints: o min: 19 o max: 19 o pattern: s-[0-9a-zA-Z]{17}
+    /// Update Launch configuration by Source Server ID request. Constraints: • min: 19 • max: 19 • pattern: s-[0-9a-zA-Z]{17}
     /// </summary>
     [CliOption("--source-server-id")]
     public string? SourceServerId { get; private init; }
 
     /// <summary>
-    /// Update Launch configuration name request. Constraints: o min: 0 o max: 128
+    /// Update Launch configuration name request. Constraints: • min: 0 • max: 128
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
 
     /// <summary>
-    /// Update Launch configuration launch disposition request. Possible values: o STOPPED o STARTED
+    /// Update Launch configuration launch disposition request. Possible values: • STOPPED • STARTED
     /// </summary>
     [CliOption("--launch-disposition")]
     public AwsMgnUpdateLaunchConfigurationLaunchDisposition? LaunchDisposition { get; set; }
 
     /// <summary>
-    /// Update Launch configuration Target instance right sizing request. Possible values: o NONE o BASIC
+    /// Update Launch configuration Target instance right sizing request. Possible values: • NONE • BASIC
     /// </summary>
     [CliOption("--target-instance-type-right-sizing-method")]
     public AwsMgnUpdateLaunchConfigurationTargetInstanceTypeRightSizingMethod? TargetInstanceTypeRightSizingMethod { get; set; }
@@ -99,13 +100,13 @@ public record AwsMgnUpdateLaunchConfigurationOptions : AwsOptions, IValidatableO
     public string? Licensing { get; set; }
 
     /// <summary>
-    /// Update Launch configuration boot mode request. Possible values: o LEGACY_BIOS o UEFI o USE_SOURCE
+    /// Update Launch configuration boot mode request. Possible values: • LEGACY_BIOS • UEFI • USE_SOURCE
     /// </summary>
     [CliOption("--boot-mode")]
     public AwsMgnUpdateLaunchConfigurationBootMode? BootMode { get; set; }
 
     /// <summary>
-    /// Post Launch Actions to be executed on the Test or Cutover instance. deployment -&gt; (string) Deployment type in which AWS Systems Manager Documents will be executed. Possible values: o TEST_AND_CUTOVER o CUTOVER_ONLY o TEST_ONLY s3LogBucket -&gt; (string) AWS Systems Manager Command's logs S3 log bucket. Constraints: o min: 3 o max: 63 s3OutputKeyPrefix -&gt; (string) AWS Systems Manager Command's logs S3 output key prefix. Constraints: o min: 0 o max: 256 cloudWatchLogGroupName -&gt; (string) AWS Systems Manager Command's CloudWatch log group name. Constraints: o min: 1 o max: 512 o pattern: [\.\-_/#A-Za-z0-9]+ ssmDocuments -&gt; (list) AWS Systems Manager Documents. Constraints: o min: 0 o max: 10 (structure) AWS Systems Manager Document. actionName -&gt; (string) [required] User-friendly name for the AWS Systems Manager Document. Constraints: o min: 0 o max: 256 ssmDocumentName -&gt; (string) [required] AWS Systems Manager Document name or full ARN. Constraints: o min: 3 o max: 172 o pattern: ([A-Za-z0-9/:_\.-])+ timeoutSeconds -&gt; (integer) AWS Systems Manager Document timeout seconds. Constraints: o min: 1 mustSucceedForCutover -&gt; (boolean) If true, Cutover will not be enabled if the document has failed. parameters -&gt; (map) AWS Systems Manager Document parameters. Constraints: o min: 0 o max: 20 key -&gt; (string) Constraints: o min: 1 o max: 1011 o pattern: ([A-Za-z0-9])+ value -&gt; (list) Constraints: o min: 0 o max: 10 (structure) AWS Systems Manager Parameter Store parameter. parameterType -&gt; (string) [required] AWS Systems Manager Parameter Store parameter type. Possible values: o STRING o SECURE_STRING parameterName -&gt; (string) [required] AWS Systems Manager Parameter Store parameter name. Constraints: o min: 1 o max: 1011 o pattern: ([A-Za-z0-9_\.-])+ externalParameters -&gt; (map) AWS Systems Manager Document external parameters. Constraints: o min: 0 o max: 20 key -&gt; (string) Constraints: o min: 1 o max: 1011 o pattern: ([A-Za-z0-9])+ value -&gt; (tagged union structure) AWS Systems Manager Document external parameter. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: dynamicPath. dynamicPath -&gt; (string) AWS Systems Manager Document external parameters dynamic path. Constraints: o min: 1 o max: 1011 o pattern: [a-zA-Z0-9_]+(\.[a-zA-Z0-9_\[\]]+)* JSON Syntax: { "deployment": "TEST_AND_CUTOVER"|"CUTOVER_ONLY"|"TEST_ONLY", "s3LogBucket": "string", "s3OutputKeyPrefix": "string", "cloudWatchLogGroupName": "string", "ssmDocuments": [ { "actionName": "string", "ssmDocumentName": "string", "timeoutSeconds": integer, "mustSucceedForCutover": true|false, "parameters": {"string": [ { "parameterType": "STRING"|"SECURE_STRING", "parameterName": "string" } ... ] ...}, "externalParameters": {"string": { "dynamicPath": "string" } ...} } ... ] }
+    /// Post Launch Actions to be executed on the Test or Cutover instance. deployment -&gt; (string) Deployment type in which AWS Systems Manager Documents will be executed. Possible values: • TEST_AND_CUTOVER • CUTOVER_ONLY • TEST_ONLY s3LogBucket -&gt; (string) AWS Systems Manager Command's logs S3 log bucket. Constraints: • min: 3 • max: 63 s3OutputKeyPrefix -&gt; (string) AWS Systems Manager Command's logs S3 output key prefix. Constraints: • min: 0 • max: 256 cloudWatchLogGroupName -&gt; (string) AWS Systems Manager Command's CloudWatch log group name. Constraints: • min: 1 • max: 512 • pattern: [\.\-_/#A-Za-z0-9]+ ssmDocuments -&gt; (list) AWS Systems Manager Documents. Constraints: • min: 0 • max: 10 (structure) AWS Systems Manager Document. actionName -&gt; (string) [required] User-friendly name for the AWS Systems Manager Document. Constraints: • min: 0 • max: 256 ssmDocumentName -&gt; (string) [required] AWS Systems Manager Document name or full ARN. Constraints: • min: 3 • max: 172 • pattern: ([A-Za-z0-9/:_\.-])+ timeoutSeconds -&gt; (integer) AWS Systems Manager Document timeout seconds. Constraints: • min: 1 mustSucceedForCutover -&gt; (boolean) If true, Cutover will not be enabled if the document has failed. parameters -&gt; (map) AWS Systems Manager Document parameters. Constraints: • min: 0 • max: 20 key -&gt; (string) Constraints: • min: 1 • max: 1011 • pattern: ([A-Za-z0-9])+ value -&gt; (list) Constraints: • min: 0 • max: 10 (structure) AWS Systems Manager Parameter Store parameter. parameterType -&gt; (string) [required] AWS Systems Manager Parameter Store parameter type. Possible values: • STRING • SECURE_STRING parameterName -&gt; (string) [required] AWS Systems Manager Parameter Store parameter name. Constraints: • min: 1 • max: 1011 • pattern: ([A-Za-z0-9_\.-])+ externalParameters -&gt; (map) AWS Systems Manager Document external parameters. Constraints: • min: 0 • max: 20 key -&gt; (string) Constraints: • min: 1 • max: 1011 • pattern: ([A-Za-z0-9])+ value -&gt; (tagged union structure) AWS Systems Manager Document external parameter. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: dynamicPath. dynamicPath -&gt; (string) AWS Systems Manager Document external parameters dynamic path. Constraints: • min: 1 • max: 1011 • pattern: [a-zA-Z0-9_]+(\.[a-zA-Z0-9_\[\]]+)* JSON Syntax: { "deployment": "TEST_AND_CUTOVER"|"CUTOVER_ONLY"|"TEST_ONLY", "s3LogBucket": "string", "s3OutputKeyPrefix": "string", "cloudWatchLogGroupName": "string", "ssmDocuments": [ { "actionName": "string", "ssmDocumentName": "string", "timeoutSeconds": integer, "mustSucceedForCutover": true|false, "parameters": {"string": [ { "parameterType": "STRING"|"SECURE_STRING", "parameterName": "string" } ... ] ...}, "externalParameters": {"string": { "dynamicPath": "string" } ...} } ... ] }
     /// </summary>
     [CliOption("--post-launch-actions")]
     public string? PostLaunchActions { get; set; }
@@ -117,13 +118,13 @@ public record AwsMgnUpdateLaunchConfigurationOptions : AwsOptions, IValidatableO
     public bool? EnableMapAutoTagging { get; set; }
 
     /// <summary>
-    /// Launch configuration map auto tagging MPE ID. Constraints: o min: 0 o max: 256
+    /// Launch configuration map auto tagging MPE ID. Constraints: • min: 0 • max: 256
     /// </summary>
     [CliOption("--map-auto-tagging-mpe-id")]
     public string? MapAutoTaggingMpeId { get; set; }
 
     /// <summary>
-    /// Update Launch configuration Account ID. Constraints: o min: 12 o max: 12 o pattern: .*[0-9]{12,}.*
+    /// Update Launch configuration Account ID. Constraints: • min: 12 • max: 12 • pattern: .*[0-9]{12,}.*
     /// </summary>
     [CliOption("--account-id")]
     public string? AccountId { get; set; }
@@ -149,6 +150,15 @@ public record AwsMgnUpdateLaunchConfigurationOptions : AwsOptions, IValidatableO
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +29,7 @@ public record AwsSigninDeleteResourcePermissionStatementOptions : AwsOptions, IV
     /// <summary>
     /// Remove a permission statement from the account's SignIn resource-based policy See also: AWS API Documentation
     /// </summary>
-    /// <param name="StatementId">Unique identifier of the permission statement to delete Constraints: o pattern: [A-Za-z0-9+/]{64}=?</param>
+    /// <param name="StatementId">Unique identifier of the permission statement to delete Constraints: • pattern: [A-Za-z0-9+/]{64}=?</param>
     public AwsSigninDeleteResourcePermissionStatementOptions(
         string StatementId
     )
@@ -57,13 +58,13 @@ public record AwsSigninDeleteResourcePermissionStatementOptions : AwsOptions, IV
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Unique identifier of the permission statement to delete Constraints: o pattern: [A-Za-z0-9+/]{64}=?
+    /// Unique identifier of the permission statement to delete Constraints: • pattern: [A-Za-z0-9+/]{64}=?
     /// </summary>
     [CliOption("--statement-id")]
     public string? StatementId { get; private init; }
 
     /// <summary>
-    /// Idempotency token for the request Constraints: o min: 1 o max: 64 o pattern: [!-~]+
+    /// Idempotency token for the request Constraints: • min: 1 • max: 64 • pattern: [!-~]+
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
@@ -90,6 +91,15 @@ public record AwsSigninDeleteResourcePermissionStatementOptions : AwsOptions, IV
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

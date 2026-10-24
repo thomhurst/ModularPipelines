@@ -15,7 +15,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Lists all Amazon Chime AppInstance s created under a single AWS ac- count. See also: AWS API Documentation
+/// Lists all Amazon Chime AppInstance s created under a single AWS account. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -23,13 +23,13 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsChimeSdkIdentityListAppInstancesOptions : AwsOptions
 {
     /// <summary>
-    /// The maximum number of AppInstance s that you want to return. Constraints: o min: 1 o max: 50
+    /// The maximum number of AppInstance s that you want to return. Constraints: • min: 1 • max: 50
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
     /// <summary>
-    /// The token passed by previous API requests until you reach the maxi- mum number of AppInstances . Constraints: o min: 0 o max: 2048 o pattern: .*
+    /// The token passed by previous API requests until you reach the maximum number of AppInstances . Constraints: • min: 0 • max: 2048 • pattern: .*
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
@@ -40,5 +40,14 @@ public record AwsChimeSdkIdentityListAppInstancesOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Update one or more exclusion statuses for a list of recommendation re- sources. This API supports up to 25 unique recommendation resource ARNs per request. This API currently doesn't support prioritized recommenda- tion resources. This API updates global recommendations, eliminating the need to call the API in each AWS Region. After submitting an exclu- sion update, note that it might take a few minutes for the changes to be reflected in the system. See also: AWS API Documentation
+/// Update one or more exclusion statuses for a list of recommendation resources. This API supports up to 25 unique recommendation resource ARNs per request. This API currently doesn't support prioritized recommendation resources. This API updates global recommendations, eliminating the need to call the API in each AWS Region. After submitting an exclusion update, note that it might take a few minutes for the changes to be reflected in the system. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsTrustedadvisorBatchUpdateRecommendationResourceExclusionOptions
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Update one or more exclusion statuses for a list of recommendation re- sources. This API supports up to 25 unique recommendation resource ARNs per request. This API currently doesn't support prioritized recommenda- tion resources. This API updates global recommendations, eliminating the need to call the API in each AWS Region. After submitting an exclu- sion update, note that it might take a few minutes for the changes to be reflected in the system. See also: AWS API Documentation
+    /// Update one or more exclusion statuses for a list of recommendation resources. This API supports up to 25 unique recommendation resource ARNs per request. This API currently doesn't support prioritized recommendation resources. This API updates global recommendations, eliminating the need to call the API in each AWS Region. After submitting an exclusion update, note that it might take a few minutes for the changes to be reflected in the system. See also: AWS API Documentation
     /// </summary>
-    /// <param name="RecommendationResourceExclusions">A list of recommendation resource ARNs and exclusion status to up- date Constraints: o min: 1 o max: 25 (structure) The request entry for Recommendation Resource exclusion. Each entry is a combination of Recommendation Resource ARN and corre- sponding exclusion status arn -&gt; (string) [required] The ARN of the Recommendation Resource Constraints: o min: 20 o max: 2048 o pattern: arn:[\w-]+:trustedadvisor::\d{12}:recommenda- tion-resource\/[\w-]+\/[\w-]+ isExcluded -&gt; (boolean) [required] The exclusion status Shorthand Syntax: arn=string,isExcluded=boolean ... JSON Syntax: [ { "arn": "string", "isExcluded": true|false } ... ]</param>
+    /// <param name="RecommendationResourceExclusions">A list of recommendation resource ARNs and exclusion status to update Constraints: • min: 1 • max: 25 (structure) The request entry for Recommendation Resource exclusion. Each entry is a combination of Recommendation Resource ARN and corresponding exclusion status arn -&gt; (string) [required] The ARN of the Recommendation Resource Constraints: • min: 20 • max: 2048 • pattern: arn:[\w-]+:trustedadvisor::\d{12}:recommendation-resource\/[\w-]+\/[\w-]+ isExcluded -&gt; (boolean) [required] The exclusion status Shorthand Syntax: arn=string,isExcluded=boolean ... JSON Syntax: [ { "arn": "string", "isExcluded": true|false } ... ]</param>
     public AwsTrustedadvisorBatchUpdateRecommendationResourceExclusionOptions(
         IEnumerable<string> RecommendationResourceExclusions
     )
@@ -67,7 +68,7 @@ public record AwsTrustedadvisorBatchUpdateRecommendationResourceExclusionOptions
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A list of recommendation resource ARNs and exclusion status to up- date Constraints: o min: 1 o max: 25 (structure) The request entry for Recommendation Resource exclusion. Each entry is a combination of Recommendation Resource ARN and corre- sponding exclusion status arn -&gt; (string) [required] The ARN of the Recommendation Resource Constraints: o min: 20 o max: 2048 o pattern: arn:[\w-]+:trustedadvisor::\d{12}:recommenda- tion-resource\/[\w-]+\/[\w-]+ isExcluded -&gt; (boolean) [required] The exclusion status Shorthand Syntax: arn=string,isExcluded=boolean ... JSON Syntax: [ { "arn": "string", "isExcluded": true|false } ... ]
+    /// A list of recommendation resource ARNs and exclusion status to update Constraints: • min: 1 • max: 25 (structure) The request entry for Recommendation Resource exclusion. Each entry is a combination of Recommendation Resource ARN and corresponding exclusion status arn -&gt; (string) [required] The ARN of the Recommendation Resource Constraints: • min: 20 • max: 2048 • pattern: arn:[\w-]+:trustedadvisor::\d{12}:recommendation-resource\/[\w-]+\/[\w-]+ isExcluded -&gt; (boolean) [required] The exclusion status Shorthand Syntax: arn=string,isExcluded=boolean ... JSON Syntax: [ { "arn": "string", "isExcluded": true|false } ... ]
     /// </summary>
     [CliOption("--recommendation-resource-exclusions", GroupValues = true)]
     public IEnumerable<string>? RecommendationResourceExclusions { get; private init; }
@@ -93,6 +94,15 @@ public record AwsTrustedadvisorBatchUpdateRecommendationResourceExclusionOptions
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

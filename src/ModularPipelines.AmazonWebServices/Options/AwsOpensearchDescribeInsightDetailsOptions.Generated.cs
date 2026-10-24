@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsOpensearchDescribeInsightDetailsOptions : AwsOptions, IValidata
     /// <summary>
     /// Describes the details of an existing insight for an Amazon OpenSearch Service domain. Returns detailed fields associated with the specified insight, such as text descriptions and metric data. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Entity">The entity for which to retrieve insight details. Specifies the type and value of the entity, such as a domain name or Amazon Web Ser- vices account ID. Type -&gt; (string) [required] The type of the entity. Possible values are Account and Domain- Name . Possible values: o Account o DomainName Value -&gt; (string) The value of the entity. For DomainName , this is the domain name. For Account , this is the Amazon Web Services account ID. Constraints: o min: 3 o max: 28 o pattern: ([a-z][a-z0-9\-]+|\d{12}) Shorthand Syntax: Type=string,Value=string JSON Syntax: { "Type": "Account"|"DomainName", "Value": "string" }</param>
-    /// <param name="InsightId">The unique identifier of the insight to describe. Constraints: o min: 36 o max: 36 o pattern: \p{XDigit}{8}-\p{XDigit}{4}-\p{XDigit}{4}-\p{XDigit}{4}-\p{XDigit}{12}</param>
+    /// <param name="Entity">The entity for which to retrieve insight details. Specifies the type and value of the entity, such as a domain name or Amazon Web Services account ID. Type -&gt; (string) [required] The type of the entity. Possible values are Account and DomainName . Possible values: • Account • DomainName Value -&gt; (string) The value of the entity. For DomainName , this is the domain name. For Account , this is the Amazon Web Services account ID. Constraints: • min: 3 • max: 28 • pattern: ([a-z][a-z0-9\-]+|\d{12}) Shorthand Syntax: Type=string,Value=string JSON Syntax: { "Type": "Account"|"DomainName", "Value": "string" }</param>
+    /// <param name="InsightId">The unique identifier of the insight to describe. Constraints: • min: 36 • max: 36 • pattern: \p{XDigit}{8}-\p{XDigit}{4}-\p{XDigit}{4}-\p{XDigit}{4}-\p{XDigit}{12}</param>
     public AwsOpensearchDescribeInsightDetailsOptions(
         string Entity,
         string InsightId
@@ -60,13 +61,13 @@ public record AwsOpensearchDescribeInsightDetailsOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The entity for which to retrieve insight details. Specifies the type and value of the entity, such as a domain name or Amazon Web Ser- vices account ID. Type -&gt; (string) [required] The type of the entity. Possible values are Account and Domain- Name . Possible values: o Account o DomainName Value -&gt; (string) The value of the entity. For DomainName , this is the domain name. For Account , this is the Amazon Web Services account ID. Constraints: o min: 3 o max: 28 o pattern: ([a-z][a-z0-9\-]+|\d{12}) Shorthand Syntax: Type=string,Value=string JSON Syntax: { "Type": "Account"|"DomainName", "Value": "string" }
+    /// The entity for which to retrieve insight details. Specifies the type and value of the entity, such as a domain name or Amazon Web Services account ID. Type -&gt; (string) [required] The type of the entity. Possible values are Account and DomainName . Possible values: • Account • DomainName Value -&gt; (string) The value of the entity. For DomainName , this is the domain name. For Account , this is the Amazon Web Services account ID. Constraints: • min: 3 • max: 28 • pattern: ([a-z][a-z0-9\-]+|\d{12}) Shorthand Syntax: Type=string,Value=string JSON Syntax: { "Type": "Account"|"DomainName", "Value": "string" }
     /// </summary>
     [CliOption("--entity")]
     public string? Entity { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the insight to describe. Constraints: o min: 36 o max: 36 o pattern: \p{XDigit}{8}-\p{XDigit}{4}-\p{XDigit}{4}-\p{XDigit}{4}-\p{XDigit}{12}
+    /// The unique identifier of the insight to describe. Constraints: • min: 36 • max: 36 • pattern: \p{XDigit}{8}-\p{XDigit}{4}-\p{XDigit}{4}-\p{XDigit}{4}-\p{XDigit}{12}
     /// </summary>
     [CliOption("--insight-id")]
     public string? InsightId { get; private init; }
@@ -98,6 +99,15 @@ public record AwsOpensearchDescribeInsightDetailsOptions : AwsOptions, IValidata
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +29,7 @@ public record AwsDatazoneUpdateDomainOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Updates a Amazon DataZone domain. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Identifier">The ID of the Amazon Web Services domain that is to be updated. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}</param>
+    /// <param name="Identifier">The ID of the Amazon Web Services domain that is to be updated. Constraints: • pattern: dzd[-_][a-zA-Z0-9_-]{1,36}</param>
     public AwsDatazoneUpdateDomainOptions(
         string Identifier
     )
@@ -57,7 +58,7 @@ public record AwsDatazoneUpdateDomainOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the Amazon Web Services domain that is to be updated. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}
+    /// The ID of the Amazon Web Services domain that is to be updated. Constraints: • pattern: dzd[-_][a-zA-Z0-9_-]{1,36}
     /// </summary>
     [CliOption("--identifier")]
     public string? Identifier { get; private init; }
@@ -69,19 +70,19 @@ public record AwsDatazoneUpdateDomainOptions : AwsOptions, IValidatableObject
     public string? Description { get; set; }
 
     /// <summary>
-    /// The single sign-on option to be updated as part of the UpdateDomain action. type -&gt; (string) The type of single sign-on in Amazon DataZone. Possible values: o IAM_IDC o DISABLED userAssignment -&gt; (string) The single sign-on user assignment in Amazon DataZone. Possible values: o AUTOMATIC o MANUAL idcInstanceArn -&gt; (string) The ARN of the IDC instance. Constraints: o pattern: .*arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso:::in- stance/(sso)?ins-[a-zA-Z0-9-.]{16}.* Shorthand Syntax: type=string,userAssignment=string,idcInstanceArn=string JSON Syntax: { "type": "IAM_IDC"|"DISABLED", "userAssignment": "AUTOMATIC"|"MANUAL", "idcInstanceArn": "string" }
+    /// The single sign-on option to be updated as part of the UpdateDomain action. type -&gt; (string) The type of single sign-on in Amazon DataZone. Possible values: • IAM_IDC • DISABLED userAssignment -&gt; (string) The single sign-on user assignment in Amazon DataZone. Possible values: • AUTOMATIC • MANUAL idcInstanceArn -&gt; (string) The ARN of the IDC instance. Constraints: • pattern: .*arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}.* Shorthand Syntax: type=string,userAssignment=string,idcInstanceArn=string JSON Syntax: { "type": "IAM_IDC"|"DISABLED", "userAssignment": "AUTOMATIC"|"MANUAL", "idcInstanceArn": "string" }
     /// </summary>
     [CliOption("--single-sign-on")]
     public string? SingleSignOn { get; set; }
 
     /// <summary>
-    /// The domain execution role to be updated as part of the UpdateDomain action. Constraints: o pattern: arn:aws[^:]*:iam::\d{12}:role(/[a-zA-Z0-9+=,.@_-]+)*/[a-zA-Z0-9+=,.@_-]+
+    /// The domain execution role to be updated as part of the UpdateDomain action. Constraints: • pattern: arn:aws[^:]*:iam::\d{12}:role(/[a-zA-Z0-9+=,.@_-]+)*/[a-zA-Z0-9+=,.@_-]+
     /// </summary>
     [CliOption("--domain-execution-role")]
     public string? DomainExecutionRole { get; set; }
 
     /// <summary>
-    /// The service role of the domain. Constraints: o pattern: arn:aws[^:]*:iam::\d{12}:role(/[a-zA-Z0-9+=,.@_-]+)*/[a-zA-Z0-9+=,.@_-]+
+    /// The service role of the domain. Constraints: • pattern: arn:aws[^:]*:iam::\d{12}:role(/[a-zA-Z0-9+=,.@_-]+)*/[a-zA-Z0-9+=,.@_-]+
     /// </summary>
     [CliOption("--service-role")]
     public string? ServiceRole { get; set; }
@@ -120,6 +121,15 @@ public record AwsDatazoneUpdateDomainOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

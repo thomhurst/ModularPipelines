@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsBedrockAgentcoreControlGetCapacityProviderOptions : AwsOptions,
     /// <summary>
     /// Retrieves information about a capacity provider, including its status, permissions configuration, and compute configuration. See also: AWS API Documentation
     /// </summary>
-    /// <param name="CapacityProviderId">The unique identifier of the capacity provider. Constraints: o min: 12 o max: 59 o pattern: [a-zA-Z][a-zA-Z0-9_]{0,47}-[a-zA-Z0-9]{10}</param>
+    /// <param name="CapacityProviderId">The unique identifier of the capacity provider. Constraints: • min: 12 • max: 59 • pattern: [a-zA-Z][a-zA-Z0-9_]{0,47}-[a-zA-Z0-9]{10}</param>
     public AwsBedrockAgentcoreControlGetCapacityProviderOptions(
         string CapacityProviderId
     )
@@ -56,7 +57,7 @@ public record AwsBedrockAgentcoreControlGetCapacityProviderOptions : AwsOptions,
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the capacity provider. Constraints: o min: 12 o max: 59 o pattern: [a-zA-Z][a-zA-Z0-9_]{0,47}-[a-zA-Z0-9]{10}
+    /// The unique identifier of the capacity provider. Constraints: • min: 12 • max: 59 • pattern: [a-zA-Z][a-zA-Z0-9_]{0,47}-[a-zA-Z0-9]{10}
     /// </summary>
     [CliOption("--capacity-provider-id")]
     public string? CapacityProviderId { get; private init; }
@@ -82,6 +83,15 @@ public record AwsBedrockAgentcoreControlGetCapacityProviderOptions : AwsOptions,
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

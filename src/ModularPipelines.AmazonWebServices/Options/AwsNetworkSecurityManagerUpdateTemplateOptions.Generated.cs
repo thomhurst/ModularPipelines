@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates the specified template. To prevent conflicting concurrent up- dates, provide the current updateToken . Use isPublished to publish the update or keep the template as a draft. See also: AWS API Documentation
+/// Updates the specified template. To prevent conflicting concurrent updates, provide the current updateToken . Use isPublished to publish the update or keep the template as a draft. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +27,10 @@ public record AwsNetworkSecurityManagerUpdateTemplateOptions : AwsOptions, IVali
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates the specified template. To prevent conflicting concurrent up- dates, provide the current updateToken . Use isPublished to publish the update or keep the template as a draft. See also: AWS API Documentation
+    /// Updates the specified template. To prevent conflicting concurrent updates, provide the current updateToken . Use isPublished to publish the update or keep the template as a draft. See also: AWS API Documentation
     /// </summary>
-    /// <param name="TemplateIdentifier">The identifier of the template. This is the template's Amazon Re- source Name (ARN). Constraints: o min: 1 o max: 1010</param>
-    /// <param name="UpdateToken">A token used for optimistic concurrency control. Each read and write returns an updateToken . Provide the most recent value on your next update to detect and prevent conflicting concurrent modifications. Constraints: o min: 36 o max: 36 o pattern: ([0-9a-f]{8})-([0-9a-f]{4}-){3}([0-9a-f]{12})</param>
+    /// <param name="TemplateIdentifier">The identifier of the template. This is the template's Amazon Resource Name (ARN). Constraints: • min: 1 • max: 1010</param>
+    /// <param name="UpdateToken">A token used for optimistic concurrency control. Each read and write returns an updateToken . Provide the most recent value on your next update to detect and prevent conflicting concurrent modifications. Constraints: • min: 36 • max: 36 • pattern: ([0-9a-f]{8})-([0-9a-f]{4}-){3}([0-9a-f]{12})</param>
     /// <param name="IsPublished">Specifies whether to publish the resource. When true , the resource is saved in published (ACTIVE ) state. When false , it is saved as a draft (DRAFT ).</param>
     public AwsNetworkSecurityManagerUpdateTemplateOptions(
         string TemplateIdentifier,
@@ -64,13 +65,13 @@ public record AwsNetworkSecurityManagerUpdateTemplateOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the template. This is the template's Amazon Re- source Name (ARN). Constraints: o min: 1 o max: 1010
+    /// The identifier of the template. This is the template's Amazon Resource Name (ARN). Constraints: • min: 1 • max: 1010
     /// </summary>
     [CliOption("--template-identifier")]
     public string? TemplateIdentifier { get; private init; }
 
     /// <summary>
-    /// A token used for optimistic concurrency control. Each read and write returns an updateToken . Provide the most recent value on your next update to detect and prevent conflicting concurrent modifications. Constraints: o min: 36 o max: 36 o pattern: ([0-9a-f]{8})-([0-9a-f]{4}-){3}([0-9a-f]{12})
+    /// A token used for optimistic concurrency control. Each read and write returns an updateToken . Provide the most recent value on your next update to detect and prevent conflicting concurrent modifications. Constraints: • min: 36 • max: 36 • pattern: ([0-9a-f]{8})-([0-9a-f]{4}-){3}([0-9a-f]{12})
     /// </summary>
     [SecretValue]
     [CliOption("--update-token")]
@@ -83,19 +84,19 @@ public record AwsNetworkSecurityManagerUpdateTemplateOptions : AwsOptions, IVali
     public bool? IsPublished { get; private init; }
 
     /// <summary>
-    /// A description of the template. Constraints: o min: 0 o max: 256 o pattern: [a-zA-Z0-9 _.:/=+\-@]*
+    /// A description of the template. Constraints: • min: 0 • max: 256 • pattern: [a-zA-Z0-9 _.:/=+\-@]*
     /// </summary>
     [CliOption("--template-description")]
     public string? TemplateDescription { get; set; }
 
     /// <summary>
-    /// The rules associated with the template. Constraints: o min: 1 o max: 50 (structure) A reference to a rule in a create or update request. ruleIdentifier -&gt; (string) [required] The identifier of the rule. This is the rule's Amazon Re- source Name (ARN). Constraints: o min: 1 o max: 1010 Shorthand Syntax: ruleIdentifier=string ... JSON Syntax: [ { "ruleIdentifier": "string" } ... ]
+    /// The rules associated with the template. Constraints: • min: 1 • max: 50 (structure) A reference to a rule in a create or update request. ruleIdentifier -&gt; (string) [required] The identifier of the rule. This is the rule's Amazon Resource Name (ARN). Constraints: • min: 1 • max: 1010 Shorthand Syntax: ruleIdentifier=string ... JSON Syntax: [ { "ruleIdentifier": "string" } ... ]
     /// </summary>
     [CliOption("--associated-rule-list", GroupValues = true)]
     public IEnumerable<string>? AssociatedRuleList { get; set; }
 
     /// <summary>
-    /// A unique, case-sensitive token that you provide to ensure that the operation completes no more than one time. If you retry a request with the same client token and the same parameters, the service re- turns the result of the original successful request. Constraints: o min: 1 o max: 64 o pattern: [\x21-\x7E]+
+    /// A unique, case-sensitive token that you provide to ensure that the operation completes no more than one time. If you retry a request with the same client token and the same parameters, the service returns the result of the original successful request. Constraints: • min: 1 • max: 64 • pattern: [\x21-\x7E]+
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
@@ -122,6 +123,15 @@ public record AwsNetworkSecurityManagerUpdateTemplateOptions : AwsOptions, IVali
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

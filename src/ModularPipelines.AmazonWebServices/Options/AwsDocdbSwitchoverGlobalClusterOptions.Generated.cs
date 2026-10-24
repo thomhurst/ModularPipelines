@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Switches over the specified secondary Amazon DocumentDB cluster to be the new primary Amazon DocumentDB cluster in the global database clus- ter. See also: AWS API Documentation
+/// Switches over the specified secondary Amazon DocumentDB cluster to be the new primary Amazon DocumentDB cluster in the global database cluster. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsDocdbSwitchoverGlobalClusterOptions : AwsOptions, IValidatableO
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Switches over the specified secondary Amazon DocumentDB cluster to be the new primary Amazon DocumentDB cluster in the global database clus- ter. See also: AWS API Documentation
+    /// Switches over the specified secondary Amazon DocumentDB cluster to be the new primary Amazon DocumentDB cluster in the global database cluster. See also: AWS API Documentation
     /// </summary>
-    /// <param name="GlobalClusterIdentifier">The identifier of the Amazon DocumentDB global database cluster to switch over. The identifier is the unique key assigned by the user when the cluster is created. In other words, it's the name of the global cluster. This parameter isnt case-sensitive. Constraints: o Must match the identifier of an existing global cluster (Amazon DocumentDB global database). o Minimum length of 1. Maximum length of 255. Pattern: [A-Za-z][0-9A-Za-z-:._]* Constraints: o min: 1 o max: 255 o pattern: [A-Za-z][0-9A-Za-z-:._]*</param>
-    /// <param name="TargetDbClusterIdentifier">The identifier of the secondary Amazon DocumentDB cluster to promote to the new primary for the global database cluster. Use the Amazon Resource Name (ARN) for the identifier so that Amazon DocumentDB can locate the cluster in its Amazon Web Services region. Constraints: o Must match the identifier of an existing secondary cluster. o Minimum length of 1. Maximum length of 255. Pattern: [A-Za-z][0-9A-Za-z-:._]* Constraints: o min: 1 o max: 255 o pattern: [A-Za-z][0-9A-Za-z-:._]*</param>
+    /// <param name="GlobalClusterIdentifier">The identifier of the Amazon DocumentDB global database cluster to switch over. The identifier is the unique key assigned by the user when the cluster is created. In other words, it's the name of the global cluster. This parameter isnt case-sensitive. Constraints: • Must match the identifier of an existing global cluster (Amazon DocumentDB global database). • Minimum length of 1. Maximum length of 255. Pattern: [A-Za-z][0-9A-Za-z-:._]* Constraints: • min: 1 • max: 255 • pattern: [A-Za-z][0-9A-Za-z-:._]*</param>
+    /// <param name="TargetDbClusterIdentifier">The identifier of the secondary Amazon DocumentDB cluster to promote to the new primary for the global database cluster. Use the Amazon Resource Name (ARN) for the identifier so that Amazon DocumentDB can locate the cluster in its Amazon Web Services region. Constraints: • Must match the identifier of an existing secondary cluster. • Minimum length of 1. Maximum length of 255. Pattern: [A-Za-z][0-9A-Za-z-:._]* Constraints: • min: 1 • max: 255 • pattern: [A-Za-z][0-9A-Za-z-:._]*</param>
     public AwsDocdbSwitchoverGlobalClusterOptions(
         string GlobalClusterIdentifier,
         string TargetDbClusterIdentifier
@@ -60,13 +61,13 @@ public record AwsDocdbSwitchoverGlobalClusterOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the Amazon DocumentDB global database cluster to switch over. The identifier is the unique key assigned by the user when the cluster is created. In other words, it's the name of the global cluster. This parameter isnt case-sensitive. Constraints: o Must match the identifier of an existing global cluster (Amazon DocumentDB global database). o Minimum length of 1. Maximum length of 255. Pattern: [A-Za-z][0-9A-Za-z-:._]* Constraints: o min: 1 o max: 255 o pattern: [A-Za-z][0-9A-Za-z-:._]*
+    /// The identifier of the Amazon DocumentDB global database cluster to switch over. The identifier is the unique key assigned by the user when the cluster is created. In other words, it's the name of the global cluster. This parameter isnt case-sensitive. Constraints: • Must match the identifier of an existing global cluster (Amazon DocumentDB global database). • Minimum length of 1. Maximum length of 255. Pattern: [A-Za-z][0-9A-Za-z-:._]* Constraints: • min: 1 • max: 255 • pattern: [A-Za-z][0-9A-Za-z-:._]*
     /// </summary>
     [CliOption("--global-cluster-identifier")]
     public string? GlobalClusterIdentifier { get; private init; }
 
     /// <summary>
-    /// The identifier of the secondary Amazon DocumentDB cluster to promote to the new primary for the global database cluster. Use the Amazon Resource Name (ARN) for the identifier so that Amazon DocumentDB can locate the cluster in its Amazon Web Services region. Constraints: o Must match the identifier of an existing secondary cluster. o Minimum length of 1. Maximum length of 255. Pattern: [A-Za-z][0-9A-Za-z-:._]* Constraints: o min: 1 o max: 255 o pattern: [A-Za-z][0-9A-Za-z-:._]*
+    /// The identifier of the secondary Amazon DocumentDB cluster to promote to the new primary for the global database cluster. Use the Amazon Resource Name (ARN) for the identifier so that Amazon DocumentDB can locate the cluster in its Amazon Web Services region. Constraints: • Must match the identifier of an existing secondary cluster. • Minimum length of 1. Maximum length of 255. Pattern: [A-Za-z][0-9A-Za-z-:._]* Constraints: • min: 1 • max: 255 • pattern: [A-Za-z][0-9A-Za-z-:._]*
     /// </summary>
     [CliOption("--target-db-cluster-identifier")]
     public string? TargetDbClusterIdentifier { get; private init; }
@@ -92,6 +93,15 @@ public record AwsDocdbSwitchoverGlobalClusterOptions : AwsOptions, IValidatableO
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

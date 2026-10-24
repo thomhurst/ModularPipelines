@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsMpaStartActiveApprovalTeamDeletionOptions : AwsOptions, IValida
     /// <summary>
     /// Starts the deletion process for an active approval team. NOTE: Deletions require team approval Requests to delete an active team must be approved by the team. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Arn">Amazon Resource Name (ARN) for the team. Constraints: o min: 20 o max: 2048 o pattern: arn:aws(-[^:]+)?:mpa:[a-z0-9-]{1,20}:[0-9]{12}:ap- proval-team/[a-zA-Z0-9._-]+</param>
+    /// <param name="Arn">Amazon Resource Name (ARN) for the team. Constraints: • min: 20 • max: 2048 • pattern: arn:aws(-[^:]+)?:mpa:[a-z0-9-]{1,20}:[0-9]{12}:approval-team/[a-zA-Z0-9._-]+</param>
     public AwsMpaStartActiveApprovalTeamDeletionOptions(
         string Arn
     )
@@ -56,7 +57,7 @@ public record AwsMpaStartActiveApprovalTeamDeletionOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Amazon Resource Name (ARN) for the team. Constraints: o min: 20 o max: 2048 o pattern: arn:aws(-[^:]+)?:mpa:[a-z0-9-]{1,20}:[0-9]{12}:ap- proval-team/[a-zA-Z0-9._-]+
+    /// Amazon Resource Name (ARN) for the team. Constraints: • min: 20 • max: 2048 • pattern: arn:aws(-[^:]+)?:mpa:[a-z0-9-]{1,20}:[0-9]{12}:approval-team/[a-zA-Z0-9._-]+
     /// </summary>
     [CliOption("--arn")]
     public string? Arn { get; private init; }
@@ -88,6 +89,15 @@ public record AwsMpaStartActiveApprovalTeamDeletionOptions : AwsOptions, IValida
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -11,13 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Create a workload share. The owner of a workload can share it with other Amazon Web Services ac- counts and users in the same Amazon Web Services Region. Shared access to a workload is not removed until the workload invitation is deleted. If you share a workload with an organization or OU, all accounts in the organization or OU are granted access to the workload. For more information, see Sharing a workload in the Well-Architected Tool User Guide . See also: AWS API Documentation
+/// Create a workload share. The owner of a workload can share it with other Amazon Web Services accounts and users in the same Amazon Web Services Region. Shared access to a workload is not removed until the workload invitation is deleted. If you share a workload with an organization or OU, all accounts in the organization or OU are granted access to the workload. For more information, see Sharing a workload in the Well-Architected Tool User Guide . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,11 +28,11 @@ public record AwsWellarchitectedCreateWorkloadShareOptions : AwsOptions, IValida
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Create a workload share. The owner of a workload can share it with other Amazon Web Services ac- counts and users in the same Amazon Web Services Region. Shared access to a workload is not removed until the workload invitation is deleted. If you share a workload with an organization or OU, all accounts in the organization or OU are granted access to the workload. For more information, see Sharing a workload in the Well-Architected Tool User Guide . See also: AWS API Documentation
+    /// Create a workload share. The owner of a workload can share it with other Amazon Web Services accounts and users in the same Amazon Web Services Region. Shared access to a workload is not removed until the workload invitation is deleted. If you share a workload with an organization or OU, all accounts in the organization or OU are granted access to the workload. For more information, see Sharing a workload in the Well-Architected Tool User Guide . See also: AWS API Documentation
     /// </summary>
-    /// <param name="WorkloadId">The ID assigned to the workload. This ID is unique within an Amazon Web Services Region. Constraints: o min: 32 o max: 32 o pattern: [0-9a-f]{32}</param>
-    /// <param name="SharedWith">The Amazon Web Services account ID, organization ID, or organiza- tional unit (OU) ID with which the workload, lens, profile, or re- view template is shared. Constraints: o min: 12 o max: 2048</param>
-    /// <param name="PermissionType">Permission granted on a share request. Possible values: o READONLY o CONTRIBUTOR</param>
+    /// <param name="WorkloadId">The ID assigned to the workload. This ID is unique within an Amazon Web Services Region. Constraints: • min: 32 • max: 32 • pattern: [0-9a-f]{32}</param>
+    /// <param name="SharedWith">The Amazon Web Services account ID, organization ID, or organizational unit (OU) ID with which the workload, lens, profile, or review template is shared. Constraints: • min: 12 • max: 2048</param>
+    /// <param name="PermissionType">Permission granted on a share request. Possible values: • READONLY • CONTRIBUTOR</param>
     public AwsWellarchitectedCreateWorkloadShareOptions(
         string WorkloadId,
         string SharedWith,
@@ -65,25 +66,25 @@ public record AwsWellarchitectedCreateWorkloadShareOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID assigned to the workload. This ID is unique within an Amazon Web Services Region. Constraints: o min: 32 o max: 32 o pattern: [0-9a-f]{32}
+    /// The ID assigned to the workload. This ID is unique within an Amazon Web Services Region. Constraints: • min: 32 • max: 32 • pattern: [0-9a-f]{32}
     /// </summary>
     [CliOption("--workload-id")]
     public string? WorkloadId { get; private init; }
 
     /// <summary>
-    /// The Amazon Web Services account ID, organization ID, or organiza- tional unit (OU) ID with which the workload, lens, profile, or re- view template is shared. Constraints: o min: 12 o max: 2048
+    /// The Amazon Web Services account ID, organization ID, or organizational unit (OU) ID with which the workload, lens, profile, or review template is shared. Constraints: • min: 12 • max: 2048
     /// </summary>
     [CliOption("--shared-with")]
     public string? SharedWith { get; private init; }
 
     /// <summary>
-    /// Permission granted on a share request. Possible values: o READONLY o CONTRIBUTOR
+    /// Permission granted on a share request. Possible values: • READONLY • CONTRIBUTOR
     /// </summary>
     [CliOption("--permission-type")]
     public AwsWellarchitectedCreateWorkloadSharePermissionType? PermissionType { get; private init; }
 
     /// <summary>
-    /// A unique case-sensitive string used to ensure that this request is idempotent (executes only once). You should not reuse the same token for other requests. If you retry a request with the same client request token and the same parameters after the original request has completed successfully, the result of the original request is returned. WARNING: This token is listed as required, however, if you do not specify it, the Amazon Web Services SDKs automatically generate one for you. If you are not using the Amazon Web Services SDK or the CLI, you must provide this token or the request will fail. Constraints: o min: 1 o max: 2048 o pattern: [\x00-\x7F]*
+    /// A unique case-sensitive string used to ensure that this request is idempotent (executes only once). You should not reuse the same token for other requests. If you retry a request with the same client request token and the same parameters after the original request has completed successfully, the result of the original request is returned. WARNING: This token is listed as required, however, if you do not specify it, the Amazon Web Services SDKs automatically generate one for you. If you are not using the Amazon Web Services SDK or the CLI, you must provide this token or the request will fail. Constraints: • min: 1 • max: 2048 • pattern: [\x00-\x7F]*
     /// </summary>
     [SecretValue]
     [CliOption("--client-request-token")]
@@ -110,6 +111,15 @@ public record AwsWellarchitectedCreateWorkloadShareOptions : AwsOptions, IValida
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

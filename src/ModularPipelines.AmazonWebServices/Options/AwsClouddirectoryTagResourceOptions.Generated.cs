@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsClouddirectoryTagResourceOptions : AwsOptions, IValidatableObje
     /// <summary>
     /// An API operation for adding tags to a resource. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the resource. Tagging is only sup- ported for directories.</param>
+    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the resource. Tagging is only supported for directories.</param>
     /// <param name="Tags">A list of tag key-value pairs. (structure) The tag structure that contains a tag key and value. Key -&gt; (string) The key that is associated with the tag. Value -&gt; (string) The value that is associated with the tag. Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]</param>
     public AwsClouddirectoryTagResourceOptions(
         string ResourceArn,
@@ -71,7 +72,7 @@ public record AwsClouddirectoryTagResourceOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the resource. Tagging is only sup- ported for directories.
+    /// The Amazon Resource Name (ARN) of the resource. Tagging is only supported for directories.
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
@@ -103,6 +104,15 @@ public record AwsClouddirectoryTagResourceOptions : AwsOptions, IValidatableObje
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

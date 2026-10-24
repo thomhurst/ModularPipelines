@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Enables you to programmatically view an Amazon Web Services Supply Chain data lake dataset. Developers can view the data lake dataset in- formation such as namespace, schema, and so on for a given instance ID, namespace, and dataset name. See also: AWS API Documentation
+/// Enables you to programmatically view an Amazon Web Services Supply Chain data lake dataset. Developers can view the data lake dataset information such as namespace, schema, and so on for a given instance ID, namespace, and dataset name. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,11 +26,11 @@ public record AwsSupplychainGetDataLakeDataSetOptions : AwsOptions, IValidatable
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Enables you to programmatically view an Amazon Web Services Supply Chain data lake dataset. Developers can view the data lake dataset in- formation such as namespace, schema, and so on for a given instance ID, namespace, and dataset name. See also: AWS API Documentation
+    /// Enables you to programmatically view an Amazon Web Services Supply Chain data lake dataset. Developers can view the data lake dataset information such as namespace, schema, and so on for a given instance ID, namespace, and dataset name. See also: AWS API Documentation
     /// </summary>
-    /// <param name="InstanceId">The Amazon Web Services Supply Chain instance identifier. Constraints: o min: 36 o max: 36 o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}</param>
-    /// <param name="Namespace">The namespace of the dataset, besides the custom defined namespace, every instance comes with below pre-defined namespaces: o asc - For information on the Amazon Web Services Supply Chain sup- ported datasets see https://docs.aws.amazon.com/aws-supply-chain/latest/userguide/data-model-asc.html . o default - For datasets with custom user-defined schemas. Constraints: o min: 1 o max: 50 o pattern: [a-z0-9_]+</param>
-    /// <param name="Name">The name of the dataset. For asc namespace, the name must be one of the supported data entities under https://docs.aws.amazon.com/aws-supply-chain/latest/userguide/data-model-asc.html . Constraints: o min: 1 o max: 75 o pattern: [a-z0-9_]+</param>
+    /// <param name="InstanceId">The Amazon Web Services Supply Chain instance identifier. Constraints: • min: 36 • max: 36 • pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}</param>
+    /// <param name="Namespace">The namespace of the dataset, besides the custom defined namespace, every instance comes with below pre-defined namespaces: • asc - For information on the Amazon Web Services Supply Chain supported datasets see https://docs.aws.amazon.com/aws-supply-chain/latest/userguide/data-model-asc.html . • default - For datasets with custom user-defined schemas. Constraints: • min: 1 • max: 50 • pattern: [a-z0-9_]+</param>
+    /// <param name="Name">The name of the dataset. For asc namespace, the name must be one of the supported data entities under https://docs.aws.amazon.com/aws-supply-chain/latest/userguide/data-model-asc.html . Constraints: • min: 1 • max: 75 • pattern: [a-z0-9_]+</param>
     public AwsSupplychainGetDataLakeDataSetOptions(
         string InstanceId,
         string Namespace,
@@ -64,19 +65,19 @@ public record AwsSupplychainGetDataLakeDataSetOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Web Services Supply Chain instance identifier. Constraints: o min: 36 o max: 36 o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}
+    /// The Amazon Web Services Supply Chain instance identifier. Constraints: • min: 36 • max: 36 • pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}
     /// </summary>
     [CliOption("--instance-id")]
     public string? InstanceId { get; private init; }
 
     /// <summary>
-    /// The namespace of the dataset, besides the custom defined namespace, every instance comes with below pre-defined namespaces: o asc - For information on the Amazon Web Services Supply Chain sup- ported datasets see https://docs.aws.amazon.com/aws-supply-chain/latest/userguide/data-model-asc.html . o default - For datasets with custom user-defined schemas. Constraints: o min: 1 o max: 50 o pattern: [a-z0-9_]+
+    /// The namespace of the dataset, besides the custom defined namespace, every instance comes with below pre-defined namespaces: • asc - For information on the Amazon Web Services Supply Chain supported datasets see https://docs.aws.amazon.com/aws-supply-chain/latest/userguide/data-model-asc.html . • default - For datasets with custom user-defined schemas. Constraints: • min: 1 • max: 50 • pattern: [a-z0-9_]+
     /// </summary>
     [CliOption("--namespace")]
     public string? Namespace { get; private init; }
 
     /// <summary>
-    /// The name of the dataset. For asc namespace, the name must be one of the supported data entities under https://docs.aws.amazon.com/aws-supply-chain/latest/userguide/data-model-asc.html . Constraints: o min: 1 o max: 75 o pattern: [a-z0-9_]+
+    /// The name of the dataset. For asc namespace, the name must be one of the supported data entities under https://docs.aws.amazon.com/aws-supply-chain/latest/userguide/data-model-asc.html . Constraints: • min: 1 • max: 75 • pattern: [a-z0-9_]+
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
@@ -102,6 +103,15 @@ public record AwsSupplychainGetDataLakeDataSetOptions : AwsOptions, IValidatable
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

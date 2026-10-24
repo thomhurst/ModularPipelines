@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns a list of entity aggregates for your Organizations that are af- fected by each of the specified events. See also: AWS API Documentation
+/// Returns a list of entity aggregates for your Organizations that are affected by each of the specified events. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsHealthDescribeEntityAggregatesForOrganizationOptions : AwsOptio
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns a list of entity aggregates for your Organizations that are af- fected by each of the specified events. See also: AWS API Documentation
+    /// Returns a list of entity aggregates for your Organizations that are affected by each of the specified events. See also: AWS API Documentation
     /// </summary>
-    /// <param name="EventArns">A list of event ARNs (unique identifiers). For example: "arn:aws:health:us-east-1::event/EC2/EC2_INSTANCE_RETIREMENT_SCHED- ULED/EC2_INSTANCE_RETIREMENT_SCHEDULED_ABC123-CDE456", "arn:aws:health:us-west-1::event/EBS/AWS_EBS_LOST_VOL- UME/AWS_EBS_LOST_VOLUME_CHI789_JKL101" Constraints: o min: 1 o max: 25 (string) Constraints: o max: 1600 o pattern: arn:aws(-[a-z]+(-[a-z]+)?)?:health:[^:]*:[^:]*:event(?:/[\w-]+){3} Syntax: "string" "string" ...</param>
+    /// <param name="EventArns">A list of event ARNs (unique identifiers). For example: "arn:aws:health:us-east-1::event/EC2/EC2_INSTANCE_RETIREMENT_SCHEDULED/EC2_INSTANCE_RETIREMENT_SCHEDULED_ABC123-CDE456", "arn:aws:health:us-west-1::event/EBS/AWS_EBS_LOST_VOLUME/AWS_EBS_LOST_VOLUME_CHI789_JKL101" Constraints: • min: 1 • max: 25 (string) Constraints: • max: 1600 • pattern: arn:aws(-[a-z]+(-[a-z]+)?)?:health:[^:]*:[^:]*:event(?:/[\w-]+){3} Syntax: "string" "string" ...</param>
     public AwsHealthDescribeEntityAggregatesForOrganizationOptions(
         IEnumerable<string> EventArns
     )
@@ -67,13 +68,13 @@ public record AwsHealthDescribeEntityAggregatesForOrganizationOptions : AwsOptio
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A list of event ARNs (unique identifiers). For example: "arn:aws:health:us-east-1::event/EC2/EC2_INSTANCE_RETIREMENT_SCHED- ULED/EC2_INSTANCE_RETIREMENT_SCHEDULED_ABC123-CDE456", "arn:aws:health:us-west-1::event/EBS/AWS_EBS_LOST_VOL- UME/AWS_EBS_LOST_VOLUME_CHI789_JKL101" Constraints: o min: 1 o max: 25 (string) Constraints: o max: 1600 o pattern: arn:aws(-[a-z]+(-[a-z]+)?)?:health:[^:]*:[^:]*:event(?:/[\w-]+){3} Syntax: "string" "string" ...
+    /// A list of event ARNs (unique identifiers). For example: "arn:aws:health:us-east-1::event/EC2/EC2_INSTANCE_RETIREMENT_SCHEDULED/EC2_INSTANCE_RETIREMENT_SCHEDULED_ABC123-CDE456", "arn:aws:health:us-west-1::event/EBS/AWS_EBS_LOST_VOLUME/AWS_EBS_LOST_VOLUME_CHI789_JKL101" Constraints: • min: 1 • max: 25 (string) Constraints: • max: 1600 • pattern: arn:aws(-[a-z]+(-[a-z]+)?)?:health:[^:]*:[^:]*:event(?:/[\w-]+){3} Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--event-arns", GroupValues = true)]
     public IEnumerable<string>? EventArns { get; private init; }
 
     /// <summary>
-    /// A list of 12-digit Amazon Web Services account numbers that contains the affected entities. Constraints: o min: 1 o max: 25 (string) Constraints: o max: 12 o pattern: ^\S+$ Syntax: "string" "string" ...
+    /// A list of 12-digit Amazon Web Services account numbers that contains the affected entities. Constraints: • min: 1 • max: 25 (string) Constraints: • max: 12 • pattern: ^\S+$ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--aws-account-ids", GroupValues = true)]
     public IEnumerable<string>? AwsAccountIds { get; set; }
@@ -99,6 +100,15 @@ public record AwsHealthDescribeEntityAggregatesForOrganizationOptions : AwsOptio
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

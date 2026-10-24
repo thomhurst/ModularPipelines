@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns information about an Identity Resolution Job in a specific do- main. Identity Resolution Jobs are set up using the Amazon Connect admin con- sole. For more information, see Use Identity Resolution to consolidate similar profiles . See also: AWS API Documentation
+/// Returns information about an Identity Resolution Job in a specific domain. Identity Resolution Jobs are set up using the Amazon Connect admin console. For more information, see Use Identity Resolution to consolidate similar profiles . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsCustomerProfilesGetIdentityResolutionJobOptions : AwsOptions, I
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns information about an Identity Resolution Job in a specific do- main. Identity Resolution Jobs are set up using the Amazon Connect admin con- sole. For more information, see Use Identity Resolution to consolidate similar profiles . See also: AWS API Documentation
+    /// Returns information about an Identity Resolution Job in a specific domain. Identity Resolution Jobs are set up using the Amazon Connect admin console. For more information, see Use Identity Resolution to consolidate similar profiles . See also: AWS API Documentation
     /// </summary>
-    /// <param name="DomainName">The unique name of the domain. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$</param>
-    /// <param name="JobId">The unique identifier of the Identity Resolution Job. Constraints: o pattern: [a-f0-9]{32}</param>
+    /// <param name="DomainName">The unique name of the domain. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9_-]+$</param>
+    /// <param name="JobId">The unique identifier of the Identity Resolution Job. Constraints: • pattern: [a-f0-9]{32}</param>
     public AwsCustomerProfilesGetIdentityResolutionJobOptions(
         string DomainName,
         string JobId
@@ -60,13 +61,13 @@ public record AwsCustomerProfilesGetIdentityResolutionJobOptions : AwsOptions, I
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique name of the domain. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$
+    /// The unique name of the domain. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9_-]+$
     /// </summary>
     [CliOption("--domain-name")]
     public string? DomainName { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the Identity Resolution Job. Constraints: o pattern: [a-f0-9]{32}
+    /// The unique identifier of the Identity Resolution Job. Constraints: • pattern: [a-f0-9]{32}
     /// </summary>
     [CliOption("--job-id")]
     public string? JobId { get; private init; }
@@ -92,6 +93,15 @@ public record AwsCustomerProfilesGetIdentityResolutionJobOptions : AwsOptions, I
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

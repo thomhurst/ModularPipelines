@@ -15,7 +15,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Show a list of the predictive inbox placement tests that you've per- formed, regardless of their statuses. For predictive inbox placement tests that are complete, you can use the GetDeliverabilityTestReport operation to view the results. See also: AWS API Documentation
+/// Show a list of the predictive inbox placement tests that you've performed, regardless of their statuses. For predictive inbox placement tests that are complete, you can use the GetDeliverabilityTestReport operation to view the results. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -23,14 +23,14 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsSesv2ListDeliverabilityTestReportsOptions : AwsOptions
 {
     /// <summary>
-    /// A token returned from a previous call to ListDeliverabilityTestRe- ports to indicate the position in the list of predictive inbox placement tests.
+    /// A token returned from a previous call to ListDeliverabilityTestReports to indicate the position in the list of predictive inbox placement tests.
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// The number of results to show in a single call to ListDeliverabili- tyTestReports . If the number of results is larger than the number you specified in this parameter, then the response includes a Next- Token element, which you can use to obtain additional results. The value you specify has to be at least 0, and can be no more than 1000.
+    /// The number of results to show in a single call to ListDeliverabilityTestReports . If the number of results is larger than the number you specified in this parameter, then the response includes a NextToken element, which you can use to obtain additional results. The value you specify has to be at least 0, and can be no more than 1000.
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
@@ -40,5 +40,14 @@ public record AwsSesv2ListDeliverabilityTestReportsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

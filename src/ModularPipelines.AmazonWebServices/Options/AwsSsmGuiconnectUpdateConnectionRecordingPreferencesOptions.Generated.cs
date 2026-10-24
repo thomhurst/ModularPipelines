@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +29,7 @@ public record AwsSsmGuiconnectUpdateConnectionRecordingPreferencesOptions : AwsO
     /// <summary>
     /// Updates the preferences for recording RDP connections. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ConnectionRecordingPreferences">The set of preferences used for recording RDP connections in the re- questing Amazon Web Services account and Amazon Web Services Region. This includes details such as which S3 bucket recordings are stored in. KMSKeyArn -&gt; (string) [required] The ARN of a KMS key that is used to encrypt data while it is being processed by the service. This key must exist in the same Amazon Web Services Region as the node you start an RDP connec- tion to. Constraints: o min: 1 o max: 2048 RecordingDestinations -&gt; (structure) [required] Determines where recordings of RDP connections are stored. S3Buckets -&gt; (list) [required] The S3 bucket where RDP connection recordings are stored. Constraints: o min: 1 o max: 1 (structure) The S3 bucket where RDP connection recordings are stored. BucketName -&gt; (string) [required] The name of the S3 bucket where RDP connection record- ings are stored. Constraints: o pattern: (?=^.{3,63}$)(?!^(\d+\.)+\d+$)(^(([a-z0-9]|[a-z0-9][a-z0-9\-]*[a-z0-9])\.)*([a-z0-9]|[a-z0-9][a-z0-9\-]*[a-z0-9])$) BucketOwner -&gt; (string) [required] The Amazon Web Services account number that owns the S3 bucket. Constraints: o pattern: ^[0-9]{12}$ JSON Syntax: { "KMSKeyArn": "string", "RecordingDestinations": { "S3Buckets": [ { "BucketName": "string", "BucketOwner": "string" } ... ] } }</param>
+    /// <param name="ConnectionRecordingPreferences">The set of preferences used for recording RDP connections in the requesting Amazon Web Services account and Amazon Web Services Region. This includes details such as which S3 bucket recordings are stored in. KMSKeyArn -&gt; (string) [required] The ARN of a KMS key that is used to encrypt data while it is being processed by the service. This key must exist in the same Amazon Web Services Region as the node you start an RDP connection to. Constraints: • min: 1 • max: 2048 RecordingDestinations -&gt; (structure) [required] Determines where recordings of RDP connections are stored. S3Buckets -&gt; (list) [required] The S3 bucket where RDP connection recordings are stored. Constraints: • min: 1 • max: 1 (structure) The S3 bucket where RDP connection recordings are stored. BucketName -&gt; (string) [required] The name of the S3 bucket where RDP connection recordings are stored. Constraints: • pattern: (?=^.{3,63}$)(?!^(\d+\.)+\d+$)(^(([a-z0-9]|[a-z0-9][a-z0-9\-]*[a-z0-9])\.)*([a-z0-9]|[a-z0-9][a-z0-9\-]*[a-z0-9])$) BucketOwner -&gt; (string) [required] The Amazon Web Services account number that owns the S3 bucket. Constraints: • pattern: ^[0-9]{12}$ JSON Syntax: { "KMSKeyArn": "string", "RecordingDestinations": { "S3Buckets": [ { "BucketName": "string", "BucketOwner": "string" } ... ] } }</param>
     public AwsSsmGuiconnectUpdateConnectionRecordingPreferencesOptions(
         string ConnectionRecordingPreferences
     )
@@ -57,13 +58,13 @@ public record AwsSsmGuiconnectUpdateConnectionRecordingPreferencesOptions : AwsO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The set of preferences used for recording RDP connections in the re- questing Amazon Web Services account and Amazon Web Services Region. This includes details such as which S3 bucket recordings are stored in. KMSKeyArn -&gt; (string) [required] The ARN of a KMS key that is used to encrypt data while it is being processed by the service. This key must exist in the same Amazon Web Services Region as the node you start an RDP connec- tion to. Constraints: o min: 1 o max: 2048 RecordingDestinations -&gt; (structure) [required] Determines where recordings of RDP connections are stored. S3Buckets -&gt; (list) [required] The S3 bucket where RDP connection recordings are stored. Constraints: o min: 1 o max: 1 (structure) The S3 bucket where RDP connection recordings are stored. BucketName -&gt; (string) [required] The name of the S3 bucket where RDP connection record- ings are stored. Constraints: o pattern: (?=^.{3,63}$)(?!^(\d+\.)+\d+$)(^(([a-z0-9]|[a-z0-9][a-z0-9\-]*[a-z0-9])\.)*([a-z0-9]|[a-z0-9][a-z0-9\-]*[a-z0-9])$) BucketOwner -&gt; (string) [required] The Amazon Web Services account number that owns the S3 bucket. Constraints: o pattern: ^[0-9]{12}$ JSON Syntax: { "KMSKeyArn": "string", "RecordingDestinations": { "S3Buckets": [ { "BucketName": "string", "BucketOwner": "string" } ... ] } }
+    /// The set of preferences used for recording RDP connections in the requesting Amazon Web Services account and Amazon Web Services Region. This includes details such as which S3 bucket recordings are stored in. KMSKeyArn -&gt; (string) [required] The ARN of a KMS key that is used to encrypt data while it is being processed by the service. This key must exist in the same Amazon Web Services Region as the node you start an RDP connection to. Constraints: • min: 1 • max: 2048 RecordingDestinations -&gt; (structure) [required] Determines where recordings of RDP connections are stored. S3Buckets -&gt; (list) [required] The S3 bucket where RDP connection recordings are stored. Constraints: • min: 1 • max: 1 (structure) The S3 bucket where RDP connection recordings are stored. BucketName -&gt; (string) [required] The name of the S3 bucket where RDP connection recordings are stored. Constraints: • pattern: (?=^.{3,63}$)(?!^(\d+\.)+\d+$)(^(([a-z0-9]|[a-z0-9][a-z0-9\-]*[a-z0-9])\.)*([a-z0-9]|[a-z0-9][a-z0-9\-]*[a-z0-9])$) BucketOwner -&gt; (string) [required] The Amazon Web Services account number that owns the S3 bucket. Constraints: • pattern: ^[0-9]{12}$ JSON Syntax: { "KMSKeyArn": "string", "RecordingDestinations": { "S3Buckets": [ { "BucketName": "string", "BucketOwner": "string" } ... ] } }
     /// </summary>
     [CliOption("--connection-recording-preferences")]
     public string? ConnectionRecordingPreferences { get; private init; }
 
     /// <summary>
-    /// User-provided idempotency token. Constraints: o min: 1 o max: 64
+    /// User-provided idempotency token. Constraints: • min: 1 • max: 64
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
@@ -90,6 +91,15 @@ public record AwsSsmGuiconnectUpdateConnectionRecordingPreferencesOptions : AwsO
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

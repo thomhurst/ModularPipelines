@@ -11,13 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a reference store and returns metadata in JSON format. Refer- ence stores are used to store reference genomes in FASTA format. A ref- erence store is created when the first reference genome is imported. To import additional reference genomes from an Amazon S3 bucket, use the StartReferenceImportJob API operation. For more information, see Creating a HealthOmics reference store in the Amazon Web Services HealthOmics User Guide . See also: AWS API Documentation
+/// Creates a reference store and returns metadata in JSON format. Reference stores are used to store reference genomes in FASTA format. A reference store is created when the first reference genome is imported. To import additional reference genomes from an Amazon S3 bucket, use the StartReferenceImportJob API operation. For more information, see Creating a HealthOmics reference store in the Amazon Web Services HealthOmics User Guide . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,9 +27,9 @@ public record AwsOmicsCreateReferenceStoreOptions : AwsOptions, IValidatableObje
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a reference store and returns metadata in JSON format. Refer- ence stores are used to store reference genomes in FASTA format. A ref- erence store is created when the first reference genome is imported. To import additional reference genomes from an Amazon S3 bucket, use the StartReferenceImportJob API operation. For more information, see Creating a HealthOmics reference store in the Amazon Web Services HealthOmics User Guide . See also: AWS API Documentation
+    /// Creates a reference store and returns metadata in JSON format. Reference stores are used to store reference genomes in FASTA format. A reference store is created when the first reference genome is imported. To import additional reference genomes from an Amazon S3 bucket, use the StartReferenceImportJob API operation. For more information, see Creating a HealthOmics reference store in the Amazon Web Services HealthOmics User Guide . See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">A name for the store. Constraints: o min: 1 o max: 127 o pattern: [\p{L}||\p{M}||\p{Z}||\p{S}||\p{N}||\p{P}]+</param>
+    /// <param name="Name">A name for the store. Constraints: • min: 1 • max: 127 • pattern: [\p{L}||\p{M}||\p{Z}||\p{S}||\p{N}||\p{P}]+</param>
     public AwsOmicsCreateReferenceStoreOptions(
         string Name
     )
@@ -58,31 +58,31 @@ public record AwsOmicsCreateReferenceStoreOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A name for the store. Constraints: o min: 1 o max: 127 o pattern: [\p{L}||\p{M}||\p{Z}||\p{S}||\p{N}||\p{P}]+
+    /// A name for the store. Constraints: • min: 1 • max: 127 • pattern: [\p{L}||\p{M}||\p{Z}||\p{S}||\p{N}||\p{P}]+
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// A description for the store. Constraints: o min: 1 o max: 255 o pattern: [\p{L}||\p{M}||\p{Z}||\p{S}||\p{N}||\p{P}]+
+    /// A description for the store. Constraints: • min: 1 • max: 255 • pattern: [\p{L}||\p{M}||\p{Z}||\p{S}||\p{N}||\p{P}]+
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// Server-side encryption (SSE) settings for the store. type -&gt; (string) [required] The encryption type. Possible values: o KMS keyArn -&gt; (string) An encryption key ARN. Constraints: o min: 20 o max: 2048 o pattern: .*arn:([^: ]*):([^: ]*):([^: ]*):([0-9]{12}):([^: ]*).* Shorthand Syntax: type=string,keyArn=string JSON Syntax: { "type": "KMS", "keyArn": "string" }
+    /// Server-side encryption (SSE) settings for the store. type -&gt; (string) [required] The encryption type. Possible values: • KMS keyArn -&gt; (string) An encryption key ARN. Constraints: • min: 20 • max: 2048 • pattern: .*arn:([^: ]*):([^: ]*):([^: ]*):([0-9]{12}):([^: ]*).* Shorthand Syntax: type=string,keyArn=string JSON Syntax: { "type": "KMS", "keyArn": "string" }
     /// </summary>
     [CliOption("--sse-config")]
     public string? SseConfig { get; set; }
 
     /// <summary>
-    /// Tags for the store. key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// Tags for the store. key -&gt; (string) Constraints: • min: 1 • max: 128 value -&gt; (string) Constraints: • min: 0 • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>
-    /// To ensure that requests don't run multiple times, specify a unique token for each request. Constraints: o min: 1 o max: 127 o pattern: [\p{L}||\p{M}||\p{Z}||\p{S}||\p{N}||\p{P}]+
+    /// To ensure that requests don't run multiple times, specify a unique token for each request. Constraints: • min: 1 • max: 127 • pattern: [\p{L}||\p{M}||\p{Z}||\p{S}||\p{N}||\p{P}]+
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
@@ -109,6 +109,15 @@ public record AwsOmicsCreateReferenceStoreOptions : AwsOptions, IValidatableObje
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

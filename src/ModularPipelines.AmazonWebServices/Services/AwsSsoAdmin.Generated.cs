@@ -6,15 +6,15 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
+using ModularPipelines;
 using ModularPipelines.Context;
-using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
 namespace ModularPipelines.AmazonWebServices.Services;
 
 /// <summary>
-/// aws ssoadmin commands.
+/// aws sso-admin commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AwsSsoAdmin : IAwsSsoAdmin
@@ -32,7 +32,7 @@ public class AwsSsoAdmin : IAwsSsoAdmin
     #region Commands
 
     /// <summary>
-    /// Adds a Region to an IAM Identity Center instance. This operation initi- ates an asynchronous workflow to replicate the IAM Identity Center in- stance to the target Region. The Region status is set to ADDING at first and changes to ACTIVE when the workflow completes. To use this operation, your IAM Identity Center instance and the target Region must meet the requirements described in the IAM Identity Center User Guide . The following actions are related to AddRegion : o RemoveRegion o DescribeReg...
+    /// Adds a Region to an IAM Identity Center instance. This operation initiates an asynchronous workflow to replicate the IAM Identity Center instance to the target Region. The Region status is set to ADDING at first and changes to ACTIVE when the workflow completes. To use this operation, your IAM Identity Center instance and the target Region must meet the requirements described in the IAM Identity Center User Guide . The following actions are related to AddRegion : • RemoveRegion • DescribeRegion ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -47,7 +47,7 @@ public class AwsSsoAdmin : IAwsSsoAdmin
     }
 
     /// <summary>
-    /// Attaches the specified customer managed policy to the specified Per- missionSet . See also: AWS API Documentation
+    /// Attaches the specified customer managed policy to the specified PermissionSet . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -62,7 +62,7 @@ public class AwsSsoAdmin : IAwsSsoAdmin
     }
 
     /// <summary>
-    /// Attaches an Amazon Web Services managed policy ARN to a permission set. NOTE: If the permission set is already referenced by one or more account assignments, you will need to call `` ProvisionPermissionSet `` af- ter this operation. Calling ProvisionPermissionSet applies the cor- responding IAM policy updates to all assigned accounts. See also: AWS API Documentation
+    /// Attaches an Amazon Web Services managed policy ARN to a permission set. NOTE: If the permission set is already referenced by one or more account assignments, you will need to call `` ProvisionPermissionSet `` after this operation. Calling ProvisionPermissionSet applies the corresponding IAM policy updates to all assigned accounts. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -77,7 +77,7 @@ public class AwsSsoAdmin : IAwsSsoAdmin
     }
 
     /// <summary>
-    /// Assigns access to a principal for a specified Amazon Web Services ac- count using a specified permission set. NOTE: The term principal here refers to a user or group that is defined in IAM Identity Center. NOTE: As part of a successful CreateAccountAssignment call, the specified permission set will automatically be provisioned to the account in the form of an IAM policy. That policy is attached to the IAM role created in IAM Identity Center. If the permission set is subse- quently updated, the c...
+    /// Assigns access to a principal for a specified Amazon Web Services account using a specified permission set. NOTE: The term principal here refers to a user or group that is defined in IAM Identity Center. NOTE: As part of a successful CreateAccountAssignment call, the specified permission set will automatically be provisioned to the account in the form of an IAM policy. That policy is attached to the IAM role created in IAM Identity Center. If the permission set is subsequently updated, the corre...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -107,7 +107,7 @@ public class AwsSsoAdmin : IAwsSsoAdmin
     }
 
     /// <summary>
-    /// Creates an OAuth 2.0 customer managed application in IAM Identity Cen- ter for the given application provider. NOTE: This API does not support creating SAML 2.0 customer managed appli- cations or Amazon Web Services managed applications. To learn how to create an Amazon Web Services managed application, see the applica- tion user guide. You can create a SAML 2.0 customer managed applica- tion in the Amazon Web Services Management Console only. See Setting up customer managed SAML 2.0 application...
+    /// Creates an OAuth 2.0 customer managed application in IAM Identity Center for the given application provider. NOTE: This API does not support creating SAML 2.0 customer managed applications or Amazon Web Services managed applications. To learn how to create an Amazon Web Services managed application, see the application user guide. You can create a SAML 2.0 customer managed application in the Amazon Web Services Management Console only. See Setting up customer managed SAML 2.0 applications . For ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -122,7 +122,7 @@ public class AwsSsoAdmin : IAwsSsoAdmin
     }
 
     /// <summary>
-    /// Enables the attributes-based access control (ABAC) feature for the specified IAM Identity Center instance. You can also specify new at- tributes to add to your ABAC configuration during the enabling process. For more information about ABAC, see Attribute-Based Access Control in the IAM Identity Center User Guide . NOTE: After a successful response, call DescribeInstanceAccessControlAt- tributeConfiguration to validate that InstanceAccessControlAttribut- eConfiguration was created. See also: AWS ...
+    /// Enables the attributes-based access control (ABAC) feature for the specified IAM Identity Center instance. You can also specify new attributes to add to your ABAC configuration during the enabling process. For more information about ABAC, see Attribute-Based Access Control in the IAM Identity Center User Guide . NOTE: After a successful response, call DescribeInstanceAccessControlAttributeConfiguration to validate that InstanceAccessControlAttributeConfiguration was created. See also: AWS API Do...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -137,7 +137,7 @@ public class AwsSsoAdmin : IAwsSsoAdmin
     }
 
     /// <summary>
-    /// Creates an instance of IAM Identity Center for a standalone Amazon Web Services account that is not managed by Organizations or a member Ama- zon Web Services account in an organization. You can create only one instance per account and across all Amazon Web Services Regions. The CreateInstance request is rejected if the following apply: o The instance is created within the organization management account. o An instance already exists in the same account. See also: AWS API Documentation
+    /// Creates an instance of IAM Identity Center for a standalone Amazon Web Services account that is not managed by Organizations or a member Amazon Web Services account in an organization. You can create only one instance per account and across all Amazon Web Services Regions. The CreateInstance request is rejected if the following apply: • The instance is created within the organization management account. • An instance already exists in the same account. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -152,7 +152,7 @@ public class AwsSsoAdmin : IAwsSsoAdmin
     }
 
     /// <summary>
-    /// Creates a permission set within a specified IAM Identity Center in- stance. NOTE: To grant users and groups access to Amazon Web Services account re- sources, use `` CreateAccountAssignment `` . See also: AWS API Documentation
+    /// Creates a permission set within a specified IAM Identity Center instance. NOTE: To grant users and groups access to Amazon Web Services account resources, use `` CreateAccountAssignment `` . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -167,7 +167,7 @@ public class AwsSsoAdmin : IAwsSsoAdmin
     }
 
     /// <summary>
-    /// Creates a connection to a trusted token issuer in an instance of IAM Identity Center. A trusted token issuer enables trusted identity propa- gation to be used with applications that authenticate outside of Amazon Web Services. This trusted token issuer describes an external identity provider (IdP) that can generate claims or assertions in the form of access tokens for a user. Applications enabled for IAM Identity Center can use these to- kens for authentication. See also: AWS API Documentation
+    /// Creates a connection to a trusted token issuer in an instance of IAM Identity Center. A trusted token issuer enables trusted identity propagation to be used with applications that authenticate outside of Amazon Web Services. This trusted token issuer describes an external identity provider (IdP) that can generate claims or assertions in the form of access tokens for a user. Applications enabled for IAM Identity Center can use these tokens for authentication. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -182,7 +182,7 @@ public class AwsSsoAdmin : IAwsSsoAdmin
     }
 
     /// <summary>
-    /// Deletes a principal's access from a specified Amazon Web Services ac- count using a specified permission set. NOTE: After a successful response, call DescribeAccountAssignmentDeletion- Status to describe the status of an assignment deletion request. See also: AWS API Documentation
+    /// Deletes a principal's access from a specified Amazon Web Services account using a specified permission set. NOTE: After a successful response, call DescribeAccountAssignmentDeletionStatus to describe the status of an assignment deletion request. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -212,7 +212,7 @@ public class AwsSsoAdmin : IAwsSsoAdmin
     }
 
     /// <summary>
-    /// Revoke application access to an application by deleting application as- signments for a user or group. See also: AWS API Documentation
+    /// Revoke application access to an application by deleting application assignments for a user or group. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -257,7 +257,7 @@ public class AwsSsoAdmin : IAwsSsoAdmin
     }
 
     /// <summary>
-    /// Deletes the association with the application. The connected service re- source still exists. See also: AWS API Documentation
+    /// Deletes the association with the application. The connected service resource still exists. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -317,21 +317,6 @@ public class AwsSsoAdmin : IAwsSsoAdmin
     }
 
     /// <summary>
-    /// Deletes the permissions boundary from a specified PermissionSet . See also: AWS API Documentation
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> DeletePermissionsBoundaryFromPermissionSetAsync(
-        AwsSsoAdminDeletePermissionsBoundaryFromPermissionSetOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
     /// Deletes the specified permission set. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -340,6 +325,21 @@ public class AwsSsoAdmin : IAwsSsoAdmin
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeletePermissionSetAsync(
         AwsSsoAdminDeletePermissionSetOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Deletes the permissions boundary from a specified PermissionSet . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> DeletePermissionsBoundaryFromPermissionSetAsync(
+        AwsSsoAdminDeletePermissionsBoundaryFromPermissionSetOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
@@ -422,7 +422,7 @@ public class AwsSsoAdmin : IAwsSsoAdmin
     }
 
     /// <summary>
-    /// Retrieves details about a provider that can be used to connect an Ama- zon Web Services managed application or customer managed application to IAM Identity Center. See also: AWS API Documentation
+    /// Retrieves details about a provider that can be used to connect an Amazon Web Services managed application or customer managed application to IAM Identity Center. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -452,7 +452,7 @@ public class AwsSsoAdmin : IAwsSsoAdmin
     }
 
     /// <summary>
-    /// Returns the details of an instance of IAM Identity Center. The status can be one of the following: o CREATE_IN_PROGRESS - The instance is in the process of being created. When the instance is ready for use, DescribeInstance returns the sta- tus of ACTIVE . While the instance is in the CREATE_IN_PROGRESS state, you can call only DescribeInstance and DeleteInstance opera- tions. o DELETE_IN_PROGRESS - The instance is being deleted. Returns AccessDe- niedException after the delete operation complet...
+    /// Returns the details of an instance of IAM Identity Center. The status can be one of the following: • CREATE_IN_PROGRESS - The instance is in the process of being created. When the instance is ready for use, DescribeInstance returns the status of ACTIVE . While the instance is in the CREATE_IN_PROGRESS state, you can call only DescribeInstance and DeleteInstance operations. • DELETE_IN_PROGRESS - The instance is being deleted. Returns AccessDeniedException after the delete operation completes. • ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -497,7 +497,7 @@ public class AwsSsoAdmin : IAwsSsoAdmin
     }
 
     /// <summary>
-    /// Retrieves details about a specific Region enabled in an IAM Identity Center instance. Details include the Region name, current status (AC- TIVE, ADDING, or REMOVING), the date when the Region was added, and whether it is the primary Region. The request must be made from one of the enabled Regions of the IAM Identity Center instance. The following actions are related to DescribeRegion : o AddRegion o RemoveRegion o ListRegions See also: AWS API Documentation
+    /// Retrieves details about a specific Region enabled in an IAM Identity Center instance. Details include the Region name, current status (ACTIVE, ADDING, or REMOVING), the date when the Region was added, and whether it is the primary Region. The request must be made from one of the enabled Regions of the IAM Identity Center instance. The following actions are related to DescribeRegion : • AddRegion • RemoveRegion • ListRegions See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -512,7 +512,7 @@ public class AwsSsoAdmin : IAwsSsoAdmin
     }
 
     /// <summary>
-    /// Retrieves details about a trusted token issuer configuration stored in an instance of IAM Identity Center. Details include the name of the trusted token issuer, the issuer URL, and the path of the source at- tribute and the destination attribute for a trusted token issuer con- figuration. See also: AWS API Documentation
+    /// Retrieves details about a trusted token issuer configuration stored in an instance of IAM Identity Center. Details include the name of the trusted token issuer, the issuer URL, and the path of the source attribute and the destination attribute for a trusted token issuer configuration. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -527,7 +527,7 @@ public class AwsSsoAdmin : IAwsSsoAdmin
     }
 
     /// <summary>
-    /// Detaches the specified customer managed policy from the specified Per- missionSet . See also: AWS API Documentation
+    /// Detaches the specified customer managed policy from the specified PermissionSet . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -587,7 +587,7 @@ public class AwsSsoAdmin : IAwsSsoAdmin
     }
 
     /// <summary>
-    /// Retrieves details about an authentication method used by an applica- tion. See also: AWS API Documentation get-application-authentication-method uses document type values. Docu- ment types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, op- tions and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
+    /// Retrieves details about an authentication method used by an application. See also: AWS API Documentation get-application-authentication-method uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -617,7 +617,7 @@ public class AwsSsoAdmin : IAwsSsoAdmin
     }
 
     /// <summary>
-    /// Retrieves the session configuration for an application in IAM Identity Center. The session configuration determines how users can access an applica- tion. This includes whether user background sessions are enabled. User background sessions allow users to start a job on a supported Amazon Web Services managed application without having to remain signed in to an active session while the job runs. See also: AWS API Documentation
+    /// Retrieves the session configuration for an application in IAM Identity Center. The session configuration determines how users can access an application. This includes whether user background sessions are enabled. User background sessions allow users to start a job on a supported Amazon Web Services managed application without having to remain signed in to an active session while the job runs. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -662,7 +662,7 @@ public class AwsSsoAdmin : IAwsSsoAdmin
     }
 
     /// <summary>
-    /// Lists the status of the Amazon Web Services account assignment creation requests for a specified IAM Identity Center instance. See also: AWS API Documentation list-account-assignment-creation-status is a paginated operation. Mul- tiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a pagi- nated response, the --query argument must extract data fro...
+    /// Lists the status of the Amazon Web Services account assignment creation requests for a specified IAM Identity Center instance. See also: AWS API Documentation list-account-assignment-creation-status is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from th...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -677,7 +677,7 @@ public class AwsSsoAdmin : IAwsSsoAdmin
     }
 
     /// <summary>
-    /// Lists the status of the Amazon Web Services account assignment deletion requests for a specified IAM Identity Center instance. See also: AWS API Documentation list-account-assignment-deletion-status is a paginated operation. Mul- tiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a pagi- nated response, the --query argument must extract data fro...
+    /// Lists the status of the Amazon Web Services account assignment deletion requests for a specified IAM Identity Center instance. See also: AWS API Documentation list-account-assignment-deletion-status is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from th...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -692,7 +692,7 @@ public class AwsSsoAdmin : IAwsSsoAdmin
     }
 
     /// <summary>
-    /// Retrieves a list of the IAM Identity Center associated Amazon Web Ser- vices accounts that the principal has access to. This action must be called from the management account containing your organization in- stance of IAM Identity Center. This action is not valid for account in- stances of IAM Identity Center. See also: AWS API Documentation list-account-assignments-for-principal is a paginated operation. Multi- ple API calls may be issued in order to retrieve the entire data set of results. You...
+    /// Retrieves a list of the IAM Identity Center associated Amazon Web Services accounts that the principal has access to. This action must be called from the management account containing your organization instance of IAM Identity Center. This action is not valid for account instances of IAM Identity Center. See also: AWS API Documentation list-account-assignments-for-principal is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can dis...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -707,7 +707,7 @@ public class AwsSsoAdmin : IAwsSsoAdmin
     }
 
     /// <summary>
-    /// Lists the assignee of the specified Amazon Web Services account with the specified permission set. See also: AWS API Documentation list-account-assignments is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressi...
+    /// Lists the assignee of the specified Amazon Web Services account with the specified permission set. See also: AWS API Documentation list-account-assignments is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expression...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -722,7 +722,7 @@ public class AwsSsoAdmin : IAwsSsoAdmin
     }
 
     /// <summary>
-    /// Lists all the Amazon Web Services accounts where the specified permis- sion set is provisioned. See also: AWS API Documentation list-accounts-for-provisioned-permission-set is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-pagi- nate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the re- sults of the follo...
+    /// Lists all the Amazon Web Services accounts where the specified permission set is provisioned. See also: AWS API Documentation list-accounts-for-provisioned-permission-set is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following q...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -737,7 +737,7 @@ public class AwsSsoAdmin : IAwsSsoAdmin
     }
 
     /// <summary>
-    /// Lists the access scopes and authorized targets associated with an ap- plication. See also: AWS API Documentation list-application-access-scopes is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Scope...
+    /// Lists the access scopes and authorized targets associated with an application. See also: AWS API Documentation list-application-access-scopes is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Scopes
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -752,7 +752,7 @@ public class AwsSsoAdmin : IAwsSsoAdmin
     }
 
     /// <summary>
-    /// Lists the applications to which a specified principal is assigned. You must provide a filter when calling this action from a member account against your organization instance of IAM Identity Center. A filter is not required when called from the management account against an organi- zation instance of IAM Identity Center, or from a member account against an account instance of IAM Identity Center in the same account. See also: AWS API Documentation list-application-assignments-for-principal is a ...
+    /// Lists the applications to which a specified principal is assigned. You must provide a filter when calling this action from a member account against your organization instance of IAM Identity Center. A filter is not required when called from the management account against an organization instance of IAM Identity Center, or from a member account against an account instance of IAM Identity Center in the same account. See also: AWS API Documentation list-application-assignments-for-principal is a pa...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -767,7 +767,7 @@ public class AwsSsoAdmin : IAwsSsoAdmin
     }
 
     /// <summary>
-    /// Lists Amazon Web Services account users that are assigned to an appli- cation. See also: AWS API Documentation list-application-assignments is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Applicati...
+    /// Lists Amazon Web Services account users that are assigned to an application. See also: AWS API Documentation list-application-assignments is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: ApplicationAssi...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -782,7 +782,7 @@ public class AwsSsoAdmin : IAwsSsoAdmin
     }
 
     /// <summary>
-    /// Lists all of the authentication methods supported by the specified ap- plication. See also: AWS API Documentation list-application-authentication-methods uses document type values. Doc- ument types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, op- tions and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types. list-application-authenticati...
+    /// Lists all of the authentication methods supported by the specified application. See also: AWS API Documentation list-application-authentication-methods uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types. list-application-authentication-met...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -797,7 +797,7 @@ public class AwsSsoAdmin : IAwsSsoAdmin
     }
 
     /// <summary>
-    /// List the grants associated with an application. See also: AWS API Documentation list-application-grants is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: Grants
+    /// List the grants associated with an application. See also: AWS API Documentation list-application-grants is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Grants
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -812,7 +812,7 @@ public class AwsSsoAdmin : IAwsSsoAdmin
     }
 
     /// <summary>
-    /// Lists the application providers configured in the IAM Identity Center identity store. See also: AWS API Documentation list-application-providers is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: Applic...
+    /// Lists the application providers configured in the IAM Identity Center identity store. See also: AWS API Documentation list-application-providers is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Applicat...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -827,7 +827,7 @@ public class AwsSsoAdmin : IAwsSsoAdmin
     }
 
     /// <summary>
-    /// Lists all applications associated with the instance of IAM Identity Center. When listing applications for an organization instance in the management account, member accounts must use the applicationAccount pa- rameter to filter the list to only applications created from that ac- count. When listing applications for an account instance in the same member account, a filter is not required. See also: AWS API Documentation list-applications is a paginated operation. Multiple API calls may be issued ...
+    /// Lists all applications associated with the instance of IAM Identity Center. When listing applications for an organization instance in the management account, member accounts must use the applicationAccount parameter to filter the list to only applications created from that account. When listing applications for an account instance in the same member account, a filter is not required. See also: AWS API Documentation list-applications is a paginated operation. Multiple API calls may be issued in o...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -842,7 +842,7 @@ public class AwsSsoAdmin : IAwsSsoAdmin
     }
 
     /// <summary>
-    /// Lists all customer managed policies attached to a specified Permis- sionSet . See also: AWS API Documentation list-customer-managed-policy-references-in-permission-set is a pagi- nated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following qu...
+    /// Lists all customer managed policies attached to a specified PermissionSet . See also: AWS API Documentation list-customer-managed-policy-references-in-permission-set is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -857,7 +857,7 @@ public class AwsSsoAdmin : IAwsSsoAdmin
     }
 
     /// <summary>
-    /// Lists the details of the organization and account instances of IAM Identity Center that were created in or visible to the account calling this API. See also: AWS API Documentation list-instances is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from th...
+    /// Lists the details of the organization and account instances of IAM Identity Center that were created in or visible to the account calling this API. See also: AWS API Documentation list-instances is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the re...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -872,7 +872,7 @@ public class AwsSsoAdmin : IAwsSsoAdmin
     }
 
     /// <summary>
-    /// Lists the Amazon Web Services managed policy that is attached to a specified permission set. See also: AWS API Documentation list-managed-policies-in-permission-set is a paginated operation. Mul- tiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a pagi- nated response, the --query argument must extract data from the results of the following que...
+    /// Lists the Amazon Web Services managed policy that is attached to a specified permission set. See also: AWS API Documentation list-managed-policies-in-permission-set is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query e...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -887,7 +887,7 @@ public class AwsSsoAdmin : IAwsSsoAdmin
     }
 
     /// <summary>
-    /// Lists the status of the permission set provisioning requests for a specified IAM Identity Center instance. See also: AWS API Documentation list-permission-set-provisioning-status is a paginated operation. Mul- tiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a pagi- nated response, the --query argument must extract data from the results of the...
+    /// Lists the status of the permission set provisioning requests for a specified IAM Identity Center instance. See also: AWS API Documentation list-permission-set-provisioning-status is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the fol...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -917,7 +917,7 @@ public class AwsSsoAdmin : IAwsSsoAdmin
     }
 
     /// <summary>
-    /// Lists all the permission sets that are provisioned to a specified Ama- zon Web Services account. See also: AWS API Documentation list-permission-sets-provisioned-to-account is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-pagi- nate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the re- sults of the follo...
+    /// Lists all the permission sets that are provisioned to a specified Amazon Web Services account. See also: AWS API Documentation list-permission-sets-provisioned-to-account is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following q...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -932,7 +932,7 @@ public class AwsSsoAdmin : IAwsSsoAdmin
     }
 
     /// <summary>
-    /// Lists all enabled Regions of an IAM Identity Center instance, including those that are being added or removed. This operation returns Regions with ACTIVE, ADDING, or REMOVING status. The following actions are related to ListRegions : o AddRegion o RemoveRegion o DescribeRegion See also: AWS API Documentation list-regions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argumen...
+    /// Lists all enabled Regions of an IAM Identity Center instance, including those that are being added or removed. This operation returns Regions with ACTIVE, ADDING, or REMOVING status. The following actions are related to ListRegions : • AddRegion • RemoveRegion • DescribeRegion See also: AWS API Documentation list-regions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argumen...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -962,7 +962,7 @@ public class AwsSsoAdmin : IAwsSsoAdmin
     }
 
     /// <summary>
-    /// Lists all the trusted token issuers configured in an instance of IAM Identity Center. See also: AWS API Documentation list-trusted-token-issuers is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: Truste...
+    /// Lists all the trusted token issuers configured in an instance of IAM Identity Center. See also: AWS API Documentation list-trusted-token-issuers is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: TrustedT...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -992,7 +992,7 @@ public class AwsSsoAdmin : IAwsSsoAdmin
     }
 
     /// <summary>
-    /// Adds or updates the list of authorized targets for an IAM Identity Cen- ter access scope for an application. See also: AWS API Documentation
+    /// Adds or updates the list of authorized targets for an IAM Identity Center access scope for an application. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1007,7 +1007,7 @@ public class AwsSsoAdmin : IAwsSsoAdmin
     }
 
     /// <summary>
-    /// Configure how users gain access to an application. If AssignmentsRe- quired is true (default value), users dont have access to the applica- tion unless an assignment is created using the CreateApplicationAssignment API . If false , all users have access to the application. If an assignment is created using CreateApplicationAssignment ., the user retains access if Assign- mentsRequired is set to true . See also: AWS API Documentation
+    /// Configure how users gain access to an application. If AssignmentsRequired is true (default value), users dont have access to the application unless an assignment is created using the CreateApplicationAssignment API . If false , all users have access to the application. If an assignment is created using CreateApplicationAssignment ., the user retains access if AssignmentsRequired is set to true . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1022,7 +1022,7 @@ public class AwsSsoAdmin : IAwsSsoAdmin
     }
 
     /// <summary>
-    /// Adds or updates an authentication method for an application. See also: AWS API Documentation put-application-authentication-method uses document type values. Docu- ment types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, op- tions and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
+    /// Adds or updates an authentication method for an application. See also: AWS API Documentation put-application-authentication-method uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1037,7 +1037,7 @@ public class AwsSsoAdmin : IAwsSsoAdmin
     }
 
     /// <summary>
-    /// Creates a configuration for an application to use grants. Conceptually grants are authorization to request actions related to tokens. This configuration will be used when parties are requesting and receiving tokens during the trusted identity propagation process. For more infor- mation on the IAM Identity Center supported grant workflows, see SAML 2.0 and OAuth 2.0 . A grant is created between your applications and Identity Center in- stance which enables an application to use specified mechanis...
+    /// Creates a configuration for an application to use grants. Conceptually grants are authorization to request actions related to tokens. This configuration will be used when parties are requesting and receiving tokens during the trusted identity propagation process. For more information on the IAM Identity Center supported grant workflows, see SAML 2.0 and OAuth 2.0 . A grant is created between your applications and Identity Center instance which enables an application to use specified mechanisms t...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1052,7 +1052,7 @@ public class AwsSsoAdmin : IAwsSsoAdmin
     }
 
     /// <summary>
-    /// Updates the session configuration for an application in IAM Identity Center. The session configuration determines how users can access an applica- tion. This includes whether user background sessions are enabled. User background sessions allow users to start a job on a supported Amazon Web Services managed application without having to remain signed in to an active session while the job runs. See also: AWS API Documentation
+    /// Updates the session configuration for an application in IAM Identity Center. The session configuration determines how users can access an application. This includes whether user background sessions are enabled. User background sessions allow users to start a job on a supported Amazon Web Services managed application without having to remain signed in to an active session while the job runs. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1067,7 +1067,7 @@ public class AwsSsoAdmin : IAwsSsoAdmin
     }
 
     /// <summary>
-    /// Attaches an inline policy to a permission set. NOTE: If the permission set is already referenced by one or more account assignments, you will need to call `` ProvisionPermissionSet `` af- ter this action to apply the corresponding IAM policy updates to all assigned accounts. See also: AWS API Documentation
+    /// Attaches an inline policy to a permission set. NOTE: If the permission set is already referenced by one or more account assignments, you will need to call `` ProvisionPermissionSet `` after this action to apply the corresponding IAM policy updates to all assigned accounts. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1157,7 +1157,7 @@ public class AwsSsoAdmin : IAwsSsoAdmin
     }
 
     /// <summary>
-    /// Updates the IAM Identity Center identity store attributes that you can use with the IAM Identity Center instance for attributes-based access control (ABAC). When using an external identity provider as an identity source, you can pass attributes through the SAML assertion as an alter- native to configuring attributes from the IAM Identity Center identity store. If a SAML assertion passes any of these attributes, IAM Identity Center replaces the attribute value with the value from the IAM Iden- ti...
+    /// Updates the IAM Identity Center identity store attributes that you can use with the IAM Identity Center instance for attributes-based access control (ABAC). When using an external identity provider as an identity source, you can pass attributes through the SAML assertion as an alternative to configuring attributes from the IAM Identity Center identity store. If a SAML assertion passes any of these attributes, IAM Identity Center replaces the attribute value with the value from the IAM Identity C...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1172,7 +1172,7 @@ public class AwsSsoAdmin : IAwsSsoAdmin
     }
 
     /// <summary>
-    /// Update the details for the instance of IAM Identity Center that is owned by the Amazon Web Services account. In a single UpdateInstance request, you can perform only one of the following operations: o Update the encryption configuration of the instance by specifying En- cryptionConfiguration . o Enable permission sets for the instance by specifying PermissionSet- sEnabled . A request that specifies both EncryptionConfiguration and Permission- SetsEnabled returns a ValidationException . To perfor...
+    /// Update the details for the instance of IAM Identity Center that is owned by the Amazon Web Services account. In a single UpdateInstance request, you can perform only one of the following operations: • Update the encryption configuration of the instance by specifying EncryptionConfiguration . • Enable permission sets for the instance by specifying PermissionSetsEnabled . A request that specifies both EncryptionConfiguration and PermissionSetsEnabled returns a ValidationException . To perform both...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1202,7 +1202,7 @@ public class AwsSsoAdmin : IAwsSsoAdmin
     }
 
     /// <summary>
-    /// Updates the name of the trusted token issuer, or the path of a source attribute or destination attribute for a trusted token issuer configu- ration. NOTE: Updating this trusted token issuer configuration might cause users to lose access to any applications that are configured to use the trusted token issuer. See also: AWS API Documentation
+    /// Updates the name of the trusted token issuer, or the path of a source attribute or destination attribute for a trusted token issuer configuration. NOTE: Updating this trusted token issuer configuration might cause users to lose access to any applications that are configured to use the trusted token issuer. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

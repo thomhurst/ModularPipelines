@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates the feature group by either adding features or updating the on- line store configuration. Use one of the following request parameters at a time while using the UpdateFeatureGroup API. You can add features for your feature group using the FeatureAdditions request parameter. Features cannot be removed from a feature group. You can update the online store configuration by using the OnlineStore- Config request parameter. If a TtlDuration is specified, the default TtlDuration applies for all ...
+/// Updates the feature group by either adding features or updating the online store configuration. Use one of the following request parameters at a time while using the UpdateFeatureGroup API. You can add features for your feature group using the FeatureAdditions request parameter. Features cannot be removed from a feature group. You can update the online store configuration by using the OnlineStoreConfig request parameter. If a TtlDuration is specified, the default TtlDuration applies for all reco...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsSagemakerUpdateFeatureGroupOptions : AwsOptions, IValidatableOb
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates the feature group by either adding features or updating the on- line store configuration. Use one of the following request parameters at a time while using the UpdateFeatureGroup API. You can add features for your feature group using the FeatureAdditions request parameter. Features cannot be removed from a feature group. You can update the online store configuration by using the OnlineStore- Config request parameter. If a TtlDuration is specified, the default TtlDuration applies for all ...
+    /// Updates the feature group by either adding features or updating the online store configuration. Use one of the following request parameters at a time while using the UpdateFeatureGroup API. You can add features for your feature group using the FeatureAdditions request parameter. Features cannot be removed from a feature group. You can update the online store configuration by using the OnlineStoreConfig request parameter. If a TtlDuration is specified, the default TtlDuration applies for all reco...
     /// </summary>
-    /// <param name="FeatureGroupName">The name or Amazon Resource Name (ARN) of the feature group that you're updating. Constraints: o min: 1 o max: 256 o pattern: (arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:fea- ture-group\/)?([a-zA-Z0-9]([_-]*[a-zA-Z0-9]){0,63})</param>
+    /// <param name="FeatureGroupName">The name or Amazon Resource Name (ARN) of the feature group that you're updating. Constraints: • min: 1 • max: 256 • pattern: (arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:feature-group\/)?([a-zA-Z0-9]([_-]*[a-zA-Z0-9]){0,63})</param>
     public AwsSagemakerUpdateFeatureGroupOptions(
         string FeatureGroupName
     )
@@ -56,25 +57,25 @@ public record AwsSagemakerUpdateFeatureGroupOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name or Amazon Resource Name (ARN) of the feature group that you're updating. Constraints: o min: 1 o max: 256 o pattern: (arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:fea- ture-group\/)?([a-zA-Z0-9]([_-]*[a-zA-Z0-9]){0,63})
+    /// The name or Amazon Resource Name (ARN) of the feature group that you're updating. Constraints: • min: 1 • max: 256 • pattern: (arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:feature-group\/)?([a-zA-Z0-9]([_-]*[a-zA-Z0-9]){0,63})
     /// </summary>
     [CliOption("--feature-group-name")]
     public string? FeatureGroupName { get; private init; }
 
     /// <summary>
-    /// Updates the feature group. Updating a feature group is an asynchro- nous operation. When you get an HTTP 200 response, you've made a valid request. It takes some time after you've made a valid request for Feature Store to update the feature group. Constraints: o min: 1 o max: 100 (structure) A list of features. You must include FeatureName and FeatureType . Valid feature FeatureType s are Integral , Fractional and String . FeatureName -&gt; (string) [required] The name of a feature. The type must be a string. FeatureName cannot be any of the following: is_deleted , write_time , api_invocation_time . The name: o Must start with an alphanumeric character. o Can only include alphanumeric characters, underscores, and hyphens. Spaces are not allowed. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9]([-_]*[a-zA-Z0-9]){0,63} FeatureType -&gt; (string) [required] The value type of a feature. Valid values are Integral, Frac- tional, or String. Possible values: o Integral o Fractional o String CollectionType -&gt; (string) A grouping of elements where each element within the collec- tion must have the same feature type (String , Integral , or Fractional ). o List : An ordered collection of elements. o Set : An unordered collection of unique elements. o Vector : A specialized list that represents a fixed-size array of elements. The vector dimension is determined by you. Must have elements with fractional feature types. Possible values: o List o Set o Vector CollectionConfig -&gt; (tagged union structure) Configuration for your collection. NOTE: This is a Tagged Union structure. Only one of the follow- ing top level keys can be set: VectorConfig. VectorConfig -&gt; (structure) Configuration for your vector collection type. o Dimension : The number of elements in your vector. Dimension -&gt; (integer) [required] The number of elements in your vector. Constraints: o min: 1 o max: 8192 Shorthand Syntax: FeatureName=string,FeatureType=string,CollectionType=string,CollectionConfig={VectorConfig={Dimension=integer}} ... JSON Syntax: [ { "FeatureName": "string", "FeatureType": "Integral"|"Fractional"|"String", "CollectionType": "List"|"Set"|"Vector", "CollectionConfig": { "VectorConfig": { "Dimension": integer } } } ... ]
+    /// Updates the feature group. Updating a feature group is an asynchronous operation. When you get an HTTP 200 response, you've made a valid request. It takes some time after you've made a valid request for Feature Store to update the feature group. Constraints: • min: 1 • max: 100 (structure) A list of features. You must include FeatureName and FeatureType . Valid feature FeatureType s are Integral , Fractional and String . FeatureName -&gt; (string) [required] The name of a feature. The type must be a string. FeatureName cannot be any of the following: is_deleted , write_time , api_invocation_time . The name: • Must start with an alphanumeric character. • Can only include alphanumeric characters, underscores, and hyphens. Spaces are not allowed. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9]([-_]*[a-zA-Z0-9]){0,63} FeatureType -&gt; (string) [required] The value type of a feature. Valid values are Integral, Fractional, or String. Possible values: • Integral • Fractional • String CollectionType -&gt; (string) A grouping of elements where each element within the collection must have the same feature type (String , Integral , or Fractional ). • List : An ordered collection of elements. • Set : An unordered collection of unique elements. • Vector : A specialized list that represents a fixed-size array of elements. The vector dimension is determined by you. Must have elements with fractional feature types. Possible values: • List • Set • Vector CollectionConfig -&gt; (tagged union structure) Configuration for your collection. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: VectorConfig. VectorConfig -&gt; (structure) Configuration for your vector collection type. • Dimension : The number of elements in your vector. Dimension -&gt; (integer) [required] The number of elements in your vector. Constraints: • min: 1 • max: 8192 Shorthand Syntax: FeatureName=string,FeatureType=string,CollectionType=string,CollectionConfig={VectorConfig={Dimension=integer}} ... JSON Syntax: [ { "FeatureName": "string", "FeatureType": "Integral"|"Fractional"|"String", "CollectionType": "List"|"Set"|"Vector", "CollectionConfig": { "VectorConfig": { "Dimension": integer } } } ... ]
     /// </summary>
     [CliOption("--feature-additions", GroupValues = true)]
     public IEnumerable<string>? FeatureAdditions { get; set; }
 
     /// <summary>
-    /// Updates the feature group online store configuration. TtlDuration -&gt; (structure) Time to live duration, where the record is hard deleted after the expiration time is reached; ExpiresAt = EventTime + TtlDura- tion . For information on HardDelete, see the DeleteRecord API in the Amazon SageMaker API Reference guide. Unit -&gt; (string) TtlDuration time unit. Possible values: o Seconds o Minutes o Hours o Days o Weeks Value -&gt; (integer) TtlDuration time value. Constraints: o min: 1 StorageType -&gt; (string) The online store storage type to migrate the feature group to. Use this parameter to migrate an existing feature group from Standard to Standard_V2 storage format, enabling support for the UpdateRecord operation. Migration is a one-way operation and cannot be reversed. Possible values: o Standard o Standard_V2 o InMemory Shorthand Syntax: TtlDuration={Unit=string,Value=integer},StorageType=string JSON Syntax: { "TtlDuration": { "Unit": "Seconds"|"Minutes"|"Hours"|"Days"|"Weeks", "Value": integer }, "StorageType": "Standard"|"Standard_V2"|"InMemory" }
+    /// Updates the feature group online store configuration. TtlDuration -&gt; (structure) Time to live duration, where the record is hard deleted after the expiration time is reached; ExpiresAt = EventTime + TtlDuration . For information on HardDelete, see the DeleteRecord API in the Amazon SageMaker API Reference guide. Unit -&gt; (string) TtlDuration time unit. Possible values: • Seconds • Minutes • Hours • Days • Weeks Value -&gt; (integer) TtlDuration time value. Constraints: • min: 1 StorageType -&gt; (string) The online store storage type to migrate the feature group to. Use this parameter to migrate an existing feature group from Standard to Standard_V2 storage format, enabling support for the UpdateRecord operation. Migration is a one-way operation and cannot be reversed. Possible values: • Standard • Standard_V2 • InMemory Shorthand Syntax: TtlDuration={Unit=string,Value=integer},StorageType=string JSON Syntax: { "TtlDuration": { "Unit": "Seconds"|"Minutes"|"Hours"|"Days"|"Weeks", "Value": integer }, "StorageType": "Standard"|"Standard_V2"|"InMemory" }
     /// </summary>
     [CliOption("--online-store-config")]
     public string? OnlineStoreConfig { get; set; }
 
     /// <summary>
-    /// The new throughput configuration for the feature group. You can switch between on-demand and provisioned modes or update the read / write capacity of provisioned feature groups. You can switch a fea- ture group to on-demand only once in a 24 hour period. ThroughputMode -&gt; (string) Target throughput mode of the feature group. Throughput update is an asynchronous operation, and the outcome should be moni- tored by polling LastUpdateStatus field in DescribeFeatureGroup response. You cannot update a feature group's throughput while another update is in progress. Possible values: o OnDemand o Provisioned ProvisionedReadCapacityUnits -&gt; (integer) For provisioned feature groups with online store enabled, this indicates the read throughput you are billed for and can consume without throttling. Constraints: o min: 0 o max: 10000000 ProvisionedWriteCapacityUnits -&gt; (integer) For provisioned feature groups, this indicates the write throughput you are billed for and can consume without throt- tling. Constraints: o min: 0 o max: 10000000 Shorthand Syntax: ThroughputMode=string,ProvisionedReadCapacityUnits=integer,ProvisionedWriteCapacityUnits=integer JSON Syntax: { "ThroughputMode": "OnDemand"|"Provisioned", "ProvisionedReadCapacityUnits": integer, "ProvisionedWriteCapacityUnits": integer }
+    /// The new throughput configuration for the feature group. You can switch between on-demand and provisioned modes or update the read / write capacity of provisioned feature groups. You can switch a feature group to on-demand only once in a 24 hour period. ThroughputMode -&gt; (string) Target throughput mode of the feature group. Throughput update is an asynchronous operation, and the outcome should be monitored by polling LastUpdateStatus field in DescribeFeatureGroup response. You cannot update a feature group's throughput while another update is in progress. Possible values: • OnDemand • Provisioned ProvisionedReadCapacityUnits -&gt; (integer) For provisioned feature groups with online store enabled, this indicates the read throughput you are billed for and can consume without throttling. Constraints: • min: 0 • max: 10000000 ProvisionedWriteCapacityUnits -&gt; (integer) For provisioned feature groups, this indicates the write throughput you are billed for and can consume without throttling. Constraints: • min: 0 • max: 10000000 Shorthand Syntax: ThroughputMode=string,ProvisionedReadCapacityUnits=integer,ProvisionedWriteCapacityUnits=integer JSON Syntax: { "ThroughputMode": "OnDemand"|"Provisioned", "ProvisionedReadCapacityUnits": integer, "ProvisionedWriteCapacityUnits": integer }
     /// </summary>
     [CliOption("--throughput-config")]
     public string? ThroughputConfig { get; set; }
@@ -100,6 +101,15 @@ public record AwsSagemakerUpdateFeatureGroupOptions : AwsOptions, IValidatableOb
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

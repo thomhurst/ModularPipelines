@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsDsDeleteLogSubscriptionOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Deletes the specified log subscription. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DirectoryId">Identifier of the directory whose log subscription you want to delete. Constraints: o pattern: ^d-[0-9a-f]{10}$</param>
+    /// <param name="DirectoryId">Identifier of the directory whose log subscription you want to delete. Constraints: • pattern: ^d-[0-9a-f]{10}$</param>
     public AwsDsDeleteLogSubscriptionOptions(
         string DirectoryId
     )
@@ -56,7 +57,7 @@ public record AwsDsDeleteLogSubscriptionOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Identifier of the directory whose log subscription you want to delete. Constraints: o pattern: ^d-[0-9a-f]{10}$
+    /// Identifier of the directory whose log subscription you want to delete. Constraints: • pattern: ^d-[0-9a-f]{10}$
     /// </summary>
     [CliOption("--directory-id")]
     public string? DirectoryId { get; private init; }
@@ -82,6 +83,15 @@ public record AwsDsDeleteLogSubscriptionOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

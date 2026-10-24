@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsWorkmailDeleteAccessControlRuleOptions : AwsOptions, IValidatab
     /// <summary>
     /// Deletes an access control rule for the specified WorkMail organization. NOTE: Deleting already deleted and non-existing rules does not produce an error. In those cases, the service sends back an HTTP 200 response with an empty HTTP body. See also: AWS API Documentation
     /// </summary>
-    /// <param name="OrganizationId">The identifier for the organization. Constraints: o min: 34 o max: 34 o pattern: ^m-[0-9a-f]{32}$</param>
-    /// <param name="Name">The name of the access control rule. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_-]+</param>
+    /// <param name="OrganizationId">The identifier for the organization. Constraints: • min: 34 • max: 34 • pattern: ^m-[0-9a-f]{32}$</param>
+    /// <param name="Name">The name of the access control rule. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9_-]+</param>
     public AwsWorkmailDeleteAccessControlRuleOptions(
         string OrganizationId,
         string Name
@@ -60,13 +61,13 @@ public record AwsWorkmailDeleteAccessControlRuleOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier for the organization. Constraints: o min: 34 o max: 34 o pattern: ^m-[0-9a-f]{32}$
+    /// The identifier for the organization. Constraints: • min: 34 • max: 34 • pattern: ^m-[0-9a-f]{32}$
     /// </summary>
     [CliOption("--organization-id")]
     public string? OrganizationId { get; private init; }
 
     /// <summary>
-    /// The name of the access control rule. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_-]+
+    /// The name of the access control rule. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9_-]+
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
@@ -92,6 +93,15 @@ public record AwsWorkmailDeleteAccessControlRuleOptions : AwsOptions, IValidatab
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

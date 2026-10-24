@@ -23,25 +23,25 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsBedrockListFoundationModelsOptions : AwsOptions
 {
     /// <summary>
-    /// Return models belonging to the model provider that you specify. Constraints: o pattern: [A-Za-z0-9- ]{1,63}
+    /// Return models belonging to the model provider that you specify. Constraints: • pattern: [A-Za-z0-9- ]{1,63}
     /// </summary>
     [CliOption("--by-provider")]
     public string? ByProvider { get; set; }
 
     /// <summary>
-    /// Return models that support the customization type that you specify. For more information, see Custom models in the Amazon Bedrock User Guide . Possible values: o FINE_TUNING o CONTINUED_PRE_TRAINING o DISTILLATION
+    /// Return models that support the customization type that you specify. For more information, see Custom models in the Amazon Bedrock User Guide . Possible values: • FINE_TUNING • CONTINUED_PRE_TRAINING • DISTILLATION
     /// </summary>
     [CliOption("--by-customization-type")]
     public AwsBedrockListFoundationModelsByCustomizationType? ByCustomizationType { get; set; }
 
     /// <summary>
-    /// Return models that support the output modality that you specify. Possible values: o TEXT o IMAGE o EMBEDDING
+    /// Return models that support the output modality that you specify. Possible values: • TEXT • IMAGE • EMBEDDING
     /// </summary>
     [CliOption("--by-output-modality")]
     public AwsBedrockListFoundationModelsByOutputModality? ByOutputModality { get; set; }
 
     /// <summary>
-    /// Return models that support the inference type that you specify. For more information, see Provisioned Throughput in the Amazon Bedrock User Guide . Possible values: o ON_DEMAND o PROVISIONED
+    /// Return models that support the inference type that you specify. For more information, see Provisioned Throughput in the Amazon Bedrock User Guide . Possible values: • ON_DEMAND • PROVISIONED
     /// </summary>
     [CliOption("--by-inference-type")]
     public AwsBedrockListFoundationModelsByInferenceType? ByInferenceType { get; set; }
@@ -51,5 +51,14 @@ public record AwsBedrockListFoundationModelsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

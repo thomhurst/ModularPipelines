@@ -11,13 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Lists detailed steps of test case execution that includes all observa- tions along with actions taken and data associated in the specified Amazon Connect instance. See also: AWS API Documentation
+/// Lists detailed steps of test case execution that includes all observations along with actions taken and data associated in the specified Amazon Connect instance. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,11 +28,11 @@ public record AwsConnectListTestCaseExecutionRecordsOptions : AwsOptions, IValid
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Lists detailed steps of test case execution that includes all observa- tions along with actions taken and data associated in the specified Amazon Connect instance. See also: AWS API Documentation
+    /// Lists detailed steps of test case execution that includes all observations along with actions taken and data associated in the specified Amazon Connect instance. See also: AWS API Documentation
     /// </summary>
-    /// <param name="InstanceId">The identifier of the Amazon Connect instance. Constraints: o min: 1 o max: 100</param>
-    /// <param name="TestCaseId">The identifier of the test case. Constraints: o max: 500</param>
-    /// <param name="TestCaseExecutionId">The identifier of the test case execution. Constraints: o max: 500</param>
+    /// <param name="InstanceId">The identifier of the Amazon Connect instance. Constraints: • min: 1 • max: 100</param>
+    /// <param name="TestCaseId">The identifier of the test case. Constraints: • max: 500</param>
+    /// <param name="TestCaseExecutionId">The identifier of the test case execution. Constraints: • max: 500</param>
     public AwsConnectListTestCaseExecutionRecordsOptions(
         string InstanceId,
         string TestCaseId,
@@ -66,25 +67,25 @@ public record AwsConnectListTestCaseExecutionRecordsOptions : AwsOptions, IValid
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the Amazon Connect instance. Constraints: o min: 1 o max: 100
+    /// The identifier of the Amazon Connect instance. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--instance-id")]
     public string? InstanceId { get; private init; }
 
     /// <summary>
-    /// The identifier of the test case. Constraints: o max: 500
+    /// The identifier of the test case. Constraints: • max: 500
     /// </summary>
     [CliOption("--test-case-id")]
     public string? TestCaseId { get; private init; }
 
     /// <summary>
-    /// The identifier of the test case execution. Constraints: o max: 500
+    /// The identifier of the test case execution. Constraints: • max: 500
     /// </summary>
     [CliOption("--test-case-execution-id")]
     public string? TestCaseExecutionId { get; private init; }
 
     /// <summary>
-    /// Filter execution records by status. Possible values: o INITIATED o PASSED o FAILED o IN_PROGRESS o STOPPED
+    /// Filter execution records by status. Possible values: • INITIATED • PASSED • FAILED • IN_PROGRESS • STOPPED
     /// </summary>
     [CliOption("--status")]
     public AwsConnectListTestCaseExecutionRecordsStatus? Status { get; set; }
@@ -97,7 +98,7 @@ public record AwsConnectListTestCaseExecutionRecordsOptions : AwsOptions, IValid
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// The maximum number of results to return per page. Constraints: o min: 1 o max: 100
+    /// The maximum number of results to return per page. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
@@ -123,6 +124,15 @@ public record AwsConnectListTestCaseExecutionRecordsOptions : AwsOptions, IValid
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,7 +29,7 @@ public record AwsEcsDeleteAccountSettingOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Disables an account setting for a specified user, role, or the root user for an account. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">The resource name to disable the account setting for. If serviceLon- gArnFormat is specified, the ARN for your Amazon ECS services is af- fected. If taskLongArnFormat is specified, the ARN and resource ID for your Amazon ECS tasks is affected. If containerInstanceLongAr- nFormat is specified, the ARN and resource ID for your Amazon ECS container instances is affected. If awsvpcTrunking is specified, the ENI limit for your Amazon ECS container instances is affected. Possible values: o serviceLongArnFormat o taskLongArnFormat o containerInstanceLongArnFormat o awsvpcTrunking o containerInsights o fargateFIPSMode o tagResourceAuthorization o fargateTaskRetirementWaitPeriod o guardDutyActivate o defaultLogDriverMode o fargateEventWindows</param>
+    /// <param name="Name">The resource name to disable the account setting for. If serviceLongArnFormat is specified, the ARN for your Amazon ECS services is affected. If taskLongArnFormat is specified, the ARN and resource ID for your Amazon ECS tasks is affected. If containerInstanceLongArnFormat is specified, the ARN and resource ID for your Amazon ECS container instances is affected. If awsvpcTrunking is specified, the ENI limit for your Amazon ECS container instances is affected. Possible values: • serviceLongArnFormat • taskLongArnFormat • containerInstanceLongArnFormat • awsvpcTrunking • containerInsights • fargateFIPSMode • tagResourceAuthorization • fargateTaskRetirementWaitPeriod • guardDutyActivate • defaultLogDriverMode • fargateEventWindows</param>
     public AwsEcsDeleteAccountSettingOptions(
         AwsEcsDeleteAccountSettingName Name
     )
@@ -56,13 +57,13 @@ public record AwsEcsDeleteAccountSettingOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The resource name to disable the account setting for. If serviceLon- gArnFormat is specified, the ARN for your Amazon ECS services is af- fected. If taskLongArnFormat is specified, the ARN and resource ID for your Amazon ECS tasks is affected. If containerInstanceLongAr- nFormat is specified, the ARN and resource ID for your Amazon ECS container instances is affected. If awsvpcTrunking is specified, the ENI limit for your Amazon ECS container instances is affected. Possible values: o serviceLongArnFormat o taskLongArnFormat o containerInstanceLongArnFormat o awsvpcTrunking o containerInsights o fargateFIPSMode o tagResourceAuthorization o fargateTaskRetirementWaitPeriod o guardDutyActivate o defaultLogDriverMode o fargateEventWindows
+    /// The resource name to disable the account setting for. If serviceLongArnFormat is specified, the ARN for your Amazon ECS services is affected. If taskLongArnFormat is specified, the ARN and resource ID for your Amazon ECS tasks is affected. If containerInstanceLongArnFormat is specified, the ARN and resource ID for your Amazon ECS container instances is affected. If awsvpcTrunking is specified, the ENI limit for your Amazon ECS container instances is affected. Possible values: • serviceLongArnFormat • taskLongArnFormat • containerInstanceLongArnFormat • awsvpcTrunking • containerInsights • fargateFIPSMode • tagResourceAuthorization • fargateTaskRetirementWaitPeriod • guardDutyActivate • defaultLogDriverMode • fargateEventWindows
     /// </summary>
     [CliOption("--name")]
     public AwsEcsDeleteAccountSettingName? Name { get; private init; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the principal. It can be a user, role, or the root user. If you specify the root user, it disables the account setting for all users, roles, and the root user of the account unless a user or role explicitly overrides these settings. If this field is omitted, the setting is changed only for the au- thenticated user. In order to use this parameter, you must be the root user, or the principal.
+    /// The Amazon Resource Name (ARN) of the principal. It can be a user, role, or the root user. If you specify the root user, it disables the account setting for all users, roles, and the root user of the account unless a user or role explicitly overrides these settings. If this field is omitted, the setting is changed only for the authenticated user. In order to use this parameter, you must be the root user, or the principal.
     /// </summary>
     [CliOption("--principal-arn")]
     public string? PrincipalArn { get; set; }
@@ -88,6 +89,15 @@ public record AwsEcsDeleteAccountSettingOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

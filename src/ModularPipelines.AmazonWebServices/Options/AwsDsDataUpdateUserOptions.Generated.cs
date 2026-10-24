@@ -11,7 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -30,8 +30,8 @@ public record AwsDsDataUpdateUserOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Updates user information. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DirectoryId">The identifier (ID) of the directory that's associated with the user. Constraints: o pattern: ^d-[0-9a-f]{10}$</param>
-    /// <param name="SamAccountName">The name of the user. Constraints: o min: 1 o max: 20 o pattern: ^[\w\-.]+$</param>
+    /// <param name="DirectoryId">The identifier (ID) of the directory that's associated with the user. Constraints: • pattern: ^d-[0-9a-f]{10}$</param>
+    /// <param name="SamAccountName">The name of the user. Constraints: • min: 1 • max: 20 • pattern: ^[\w\-.]+$</param>
     public AwsDsDataUpdateUserOptions(
         string DirectoryId,
         string SamAccountName
@@ -63,50 +63,50 @@ public record AwsDsDataUpdateUserOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier (ID) of the directory that's associated with the user. Constraints: o pattern: ^d-[0-9a-f]{10}$
+    /// The identifier (ID) of the directory that's associated with the user. Constraints: • pattern: ^d-[0-9a-f]{10}$
     /// </summary>
     [CliOption("--directory-id")]
     public string? DirectoryId { get; private init; }
 
     /// <summary>
-    /// The name of the user. Constraints: o min: 1 o max: 20 o pattern: ^[\w\-.]+$
+    /// The name of the user. Constraints: • min: 1 • max: 20 • pattern: ^[\w\-.]+$
     /// </summary>
     [CliOption("--sam-account-name")]
     public string? SamAccountName { get; private init; }
 
     /// <summary>
-    /// A unique and case-sensitive identifier that you provide to make sure the idempotency of the request, so multiple identical calls have the same effect as one single call. A client token is valid for 8 hours after the first request that uses it completes. After 8 hours, any request with the same client token is treated as a new request. If the request succeeds, any fu- ture uses of that token will be idempotent for another 8 hours. If you submit a request with the same client token but change one of the other parameters within the 8-hour idempotency window, Directory Service Data returns an ConflictException . NOTE: This parameter is optional when using the CLI or SDK. Constraints: o min: 1 o max: 128 o pattern: ^[\x00-\x7F]+$
+    /// A unique and case-sensitive identifier that you provide to make sure the idempotency of the request, so multiple identical calls have the same effect as one single call. A client token is valid for 8 hours after the first request that uses it completes. After 8 hours, any request with the same client token is treated as a new request. If the request succeeds, any future uses of that token will be idempotent for another 8 hours. If you submit a request with the same client token but change one of the other parameters within the 8-hour idempotency window, Directory Service Data returns an ConflictException . NOTE: This parameter is optional when using the CLI or SDK. Constraints: • min: 1 • max: 128 • pattern: ^[\x00-\x7F]+$
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// The email address of the user. Constraints: o min: 1 o max: 256
+    /// The email address of the user. Constraints: • min: 1 • max: 256
     /// </summary>
     [CliOption("--email-address")]
     public string? EmailAddress { get; set; }
 
     /// <summary>
-    /// The first name of the user. Constraints: o min: 1 o max: 64
+    /// The first name of the user. Constraints: • min: 1 • max: 64
     /// </summary>
     [CliOption("--given-name")]
     public string? GivenName { get; set; }
 
     /// <summary>
-    /// An expression that defines one or more attribute names with the data type and value of each attribute. A key is an attribute name, and the value is a list of maps. For a list of supported attributes, see Directory Service Data Attributes . NOTE: Attribute names are case insensitive. Constraints: o min: 1 o max: 25 key -&gt; (string) Constraints: o min: 1 o max: 63 o pattern: ^[A-Za-z*][A-Za-z-*]*$ value -&gt; (tagged union structure) The data type for an attribute. Each attribute value is de- scribed as a name-value pair. The name is the AD schema name, and the value is the data itself. For a list of supported at- tributes, see Directory Service Data Attributes . NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: BOOL, N, S, SS. BOOL -&gt; (boolean) Indicates that the attribute type value is a boolean. For ex- ample: "BOOL": true N -&gt; (long) Indicates that the attribute type value is a number. For ex- ample: "N": "16" S -&gt; (string) Indicates that the attribute type value is a string. For ex- ample: "S": "S Group" Constraints: o min: 1 o max: 1024 SS -&gt; (list) Indicates that the attribute type value is a string set. For example: "SS": ["sample_service_class/host.sample.com:1234/sam- ple_service_name_1", "sample_service_class/host.sam- ple.com:1234/sample_service_name_2"] Constraints: o min: 0 o max: 25 (string) Constraints: o min: 1 o max: 1024 Shorthand Syntax: KeyName1={BOOL=boolean,N=long,S=string,SS=[string,string]},KeyName2={BOOL=boolean,N=long,S=string,SS=[string,string]} JSON Syntax: {"string": { "BOOL": true|false, "N": long, "S": "string", "SS": ["string", ...] } ...}
+    /// An expression that defines one or more attribute names with the data type and value of each attribute. A key is an attribute name, and the value is a list of maps. For a list of supported attributes, see Directory Service Data Attributes . NOTE: Attribute names are case insensitive. Constraints: • min: 1 • max: 25 key -&gt; (string) Constraints: • min: 1 • max: 63 • pattern: ^[A-Za-z*][A-Za-z-*]*$ value -&gt; (tagged union structure) The data type for an attribute. Each attribute value is described as a name-value pair. The name is the AD schema name, and the value is the data itself. For a list of supported attributes, see Directory Service Data Attributes . NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: BOOL, N, S, SS. BOOL -&gt; (boolean) Indicates that the attribute type value is a boolean. For example: "BOOL": true N -&gt; (long) Indicates that the attribute type value is a number. For example: "N": "16" S -&gt; (string) Indicates that the attribute type value is a string. For example: "S": "S Group" Constraints: • min: 1 • max: 1024 SS -&gt; (list) Indicates that the attribute type value is a string set. For example: "SS": ["sample_service_class/host.sample.com:1234/sample_service_name_1", "sample_service_class/host.sample.com:1234/sample_service_name_2"] Constraints: • min: 0 • max: 25 (string) Constraints: • min: 1 • max: 1024 Shorthand Syntax: KeyName1={BOOL=boolean,N=long,S=string,SS=[string,string]},KeyName2={BOOL=boolean,N=long,S=string,SS=[string,string]} JSON Syntax: {"string": { "BOOL": true|false, "N": long, "S": "string", "SS": ["string", ...] } ...}
     /// </summary>
     [CliOption("--other-attributes", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? OtherAttributes { get; set; }
 
     /// <summary>
-    /// The last name of the user. Constraints: o min: 1 o max: 64
+    /// The last name of the user. Constraints: • min: 1 • max: 64
     /// </summary>
     [CliOption("--surname")]
     public string? Surname { get; set; }
 
     /// <summary>
-    /// The type of update to be performed. If no value exists for the at- tribute, use ADD . Otherwise, use REPLACE to change an attribute value or REMOVE to clear the attribute value. Possible values: o ADD o REPLACE o REMOVE
+    /// The type of update to be performed. If no value exists for the attribute, use ADD . Otherwise, use REPLACE to change an attribute value or REMOVE to clear the attribute value. Possible values: • ADD • REPLACE • REMOVE
     /// </summary>
     [CliOption("--update-type")]
     public AwsDsDataUpdateUserUpdateType? UpdateType { get; set; }
@@ -132,6 +132,15 @@ public record AwsDsDataUpdateUserOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

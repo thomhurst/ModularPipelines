@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a custom timeline event on the incident details page of an in- cident record. Incident Manager automatically creates timeline events that mark key moments during an incident. You can create custom time- line events to mark important events that Incident Manager can detect automatically. See also: AWS API Documentation
+/// Creates a custom timeline event on the incident details page of an incident record. Incident Manager automatically creates timeline events that mark key moments during an incident. You can create custom timeline events to mark important events that Incident Manager can detect automatically. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,12 +27,12 @@ public record AwsSsmIncidentsCreateTimelineEventOptions : AwsOptions, IValidatab
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a custom timeline event on the incident details page of an in- cident record. Incident Manager automatically creates timeline events that mark key moments during an incident. You can create custom time- line events to mark important events that Incident Manager can detect automatically. See also: AWS API Documentation
+    /// Creates a custom timeline event on the incident details page of an incident record. Incident Manager automatically creates timeline events that mark key moments during an incident. You can create custom timeline events to mark important events that Incident Manager can detect automatically. See also: AWS API Documentation
     /// </summary>
-    /// <param name="EventData">A short description of the event. Constraints: o min: 0 o max: 12000</param>
+    /// <param name="EventData">A short description of the event. Constraints: • min: 0 • max: 12000</param>
     /// <param name="EventTime">The timestamp for when the event occurred.</param>
-    /// <param name="EventType">The type of event. You can create timeline events of type Custom Event and Note . To make a Note-type event appear on the Incident notes panel in the console, specify eventType as Note and enter the Amazon Resource Name (ARN) of the incident as the value for eventReference . Constraints: o min: 0 o max: 100</param>
-    /// <param name="IncidentRecordArn">The Amazon Resource Name (ARN) of the incident record that the ac- tion adds the incident to. Constraints: o min: 0 o max: 1000 o pattern: ^arn:aws(-cn|-us-gov)?:[a-z0-9-]*:[a-z0-9-]*:([0-9]{12})?:.+$</param>
+    /// <param name="EventType">The type of event. You can create timeline events of type Custom Event and Note . To make a Note-type event appear on the Incident notes panel in the console, specify eventType as Note and enter the Amazon Resource Name (ARN) of the incident as the value for eventReference . Constraints: • min: 0 • max: 100</param>
+    /// <param name="IncidentRecordArn">The Amazon Resource Name (ARN) of the incident record that the action adds the incident to. Constraints: • min: 0 • max: 1000 • pattern: ^arn:aws(-cn|-us-gov)?:[a-z0-9-]*:[a-z0-9-]*:([0-9]{12})?:.+$</param>
     public AwsSsmIncidentsCreateTimelineEventOptions(
         string EventData,
         string EventTime,
@@ -69,7 +70,7 @@ public record AwsSsmIncidentsCreateTimelineEventOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A short description of the event. Constraints: o min: 0 o max: 12000
+    /// A short description of the event. Constraints: • min: 0 • max: 12000
     /// </summary>
     [CliOption("--event-data")]
     public string? EventData { get; private init; }
@@ -81,26 +82,26 @@ public record AwsSsmIncidentsCreateTimelineEventOptions : AwsOptions, IValidatab
     public string? EventTime { get; private init; }
 
     /// <summary>
-    /// The type of event. You can create timeline events of type Custom Event and Note . To make a Note-type event appear on the Incident notes panel in the console, specify eventType as Note and enter the Amazon Resource Name (ARN) of the incident as the value for eventReference . Constraints: o min: 0 o max: 100
+    /// The type of event. You can create timeline events of type Custom Event and Note . To make a Note-type event appear on the Incident notes panel in the console, specify eventType as Note and enter the Amazon Resource Name (ARN) of the incident as the value for eventReference . Constraints: • min: 0 • max: 100
     /// </summary>
     [CliOption("--event-type")]
     public string? EventType { get; private init; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the incident record that the ac- tion adds the incident to. Constraints: o min: 0 o max: 1000 o pattern: ^arn:aws(-cn|-us-gov)?:[a-z0-9-]*:[a-z0-9-]*:([0-9]{12})?:.+$
+    /// The Amazon Resource Name (ARN) of the incident record that the action adds the incident to. Constraints: • min: 0 • max: 1000 • pattern: ^arn:aws(-cn|-us-gov)?:[a-z0-9-]*:[a-z0-9-]*:([0-9]{12})?:.+$
     /// </summary>
     [CliOption("--incident-record-arn")]
     public string? IncidentRecordArn { get; private init; }
 
     /// <summary>
-    /// A token that ensures that a client calls the action only once with the specified details. Constraints: o min: 0 o max: 128
+    /// A token that ensures that a client calls the action only once with the specified details. Constraints: • min: 0 • max: 128
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// Adds one or more references to the TimelineEvent . A reference is an Amazon Web Services resource involved or associated with the inci- dent. To specify a reference, enter its Amazon Resource Name (ARN). You can also specify a related item associated with a resource. For example, to specify an Amazon DynamoDB (DynamoDB) table as a re- source, use the table's ARN. You can also specify an Amazon Cloud- Watch metric associated with the DynamoDB table as a related item. Constraints: o min: 0 o max: 10 (tagged union structure) An item referenced in a TimelineEvent that is involved in or somehow associated with an incident. You can specify an Amazon Resource Name (ARN) for an Amazon Web Services resource or a Re- latedItem ID. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: relatedItemId, resource. relatedItemId -&gt; (string) The ID of a RelatedItem referenced in a TimelineEvent . Constraints: o min: 0 o max: 200 o pattern: ^related-item/(ANALYSIS|INCIDENT|METRIC|PARENT|AT- TACHMENT|OTHER|AUTOMATION|INVOLVED_RE- SOURCE|TASK)/([0-9]|[A-F]){32}$ resource -&gt; (string) The Amazon Resource Name (ARN) of an Amazon Web Services re- source referenced in a TimelineEvent . Constraints: o min: 0 o max: 1000 o pattern: ^arn:aws(-cn|-us-gov)?:[a-z0-9-]*:[a-z0-9-]*:([0-9]{12})?:.+$ Shorthand Syntax: relatedItemId=string,resource=string ... JSON Syntax: [ { "relatedItemId": "string", "resource": "string" } ... ]
+    /// Adds one or more references to the TimelineEvent . A reference is an Amazon Web Services resource involved or associated with the incident. To specify a reference, enter its Amazon Resource Name (ARN). You can also specify a related item associated with a resource. For example, to specify an Amazon DynamoDB (DynamoDB) table as a resource, use the table's ARN. You can also specify an Amazon CloudWatch metric associated with the DynamoDB table as a related item. Constraints: • min: 0 • max: 10 (tagged union structure) An item referenced in a TimelineEvent that is involved in or somehow associated with an incident. You can specify an Amazon Resource Name (ARN) for an Amazon Web Services resource or a RelatedItem ID. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: relatedItemId, resource. relatedItemId -&gt; (string) The ID of a RelatedItem referenced in a TimelineEvent . Constraints: • min: 0 • max: 200 • pattern: ^related-item/(ANALYSIS|INCIDENT|METRIC|PARENT|ATTACHMENT|OTHER|AUTOMATION|INVOLVED_RESOURCE|TASK)/([0-9]|[A-F]){32}$ resource -&gt; (string) The Amazon Resource Name (ARN) of an Amazon Web Services resource referenced in a TimelineEvent . Constraints: • min: 0 • max: 1000 • pattern: ^arn:aws(-cn|-us-gov)?:[a-z0-9-]*:[a-z0-9-]*:([0-9]{12})?:.+$ Shorthand Syntax: relatedItemId=string,resource=string ... JSON Syntax: [ { "relatedItemId": "string", "resource": "string" } ... ]
     /// </summary>
     [CliOption("--event-references", GroupValues = true)]
     public IEnumerable<string>? EventReferences { get; set; }
@@ -126,6 +127,15 @@ public record AwsSsmIncidentsCreateTimelineEventOptions : AwsOptions, IValidatab
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

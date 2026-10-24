@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsDevopsAgentDeleteTriggerOptions : AwsOptions, IValidatableObjec
     /// <summary>
     /// Deletes a Trigger from the specified agent space See also: AWS API Documentation
     /// </summary>
-    /// <param name="AgentSpaceId">The unique identifier for the agent space containing the Trigger Constraints: o min: 1 o max: 2048</param>
-    /// <param name="TriggerId">The unique identifier of the Trigger to delete Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_.-]+</param>
+    /// <param name="AgentSpaceId">The unique identifier for the agent space containing the Trigger Constraints: • min: 1 • max: 2048</param>
+    /// <param name="TriggerId">The unique identifier of the Trigger to delete Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9_.-]+</param>
     public AwsDevopsAgentDeleteTriggerOptions(
         string AgentSpaceId,
         string TriggerId
@@ -60,13 +61,13 @@ public record AwsDevopsAgentDeleteTriggerOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier for the agent space containing the Trigger Constraints: o min: 1 o max: 2048
+    /// The unique identifier for the agent space containing the Trigger Constraints: • min: 1 • max: 2048
     /// </summary>
     [CliOption("--agent-space-id")]
     public string? AgentSpaceId { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the Trigger to delete Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_.-]+
+    /// The unique identifier of the Trigger to delete Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9_.-]+
     /// </summary>
     [CliOption("--trigger-id")]
     public string? TriggerId { get; private init; }
@@ -92,6 +93,15 @@ public record AwsDevopsAgentDeleteTriggerOptions : AwsOptions, IValidatableObjec
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsDsRemoveTagsFromResourceOptions : AwsOptions, IValidatableObjec
     /// <summary>
     /// Removes tags from a directory. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceId">Identifier (ID) of the directory from which to remove the tag. Constraints: o pattern: ^[d]-[0-9a-f]{10}$</param>
-    /// <param name="TagKeys">The tag key (name) of the tag to be removed. (string) Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Syntax: "string" "string" ...</param>
+    /// <param name="ResourceId">Identifier (ID) of the directory from which to remove the tag. Constraints: • pattern: ^[d]-[0-9a-f]{10}$</param>
+    /// <param name="TagKeys">The tag key (name) of the tag to be removed. (string) Constraints: • min: 1 • max: 128 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Syntax: "string" "string" ...</param>
     public AwsDsRemoveTagsFromResourceOptions(
         string ResourceId,
         IEnumerable<string> TagKeys
@@ -71,13 +72,13 @@ public record AwsDsRemoveTagsFromResourceOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Identifier (ID) of the directory from which to remove the tag. Constraints: o pattern: ^[d]-[0-9a-f]{10}$
+    /// Identifier (ID) of the directory from which to remove the tag. Constraints: • pattern: ^[d]-[0-9a-f]{10}$
     /// </summary>
     [CliOption("--resource-id")]
     public string? ResourceId { get; private init; }
 
     /// <summary>
-    /// The tag key (name) of the tag to be removed. (string) Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Syntax: "string" "string" ...
+    /// The tag key (name) of the tag to be removed. (string) Constraints: • min: 1 • max: 128 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--tag-keys", GroupValues = true)]
     public IEnumerable<string>? TagKeys { get; private init; }
@@ -103,6 +104,15 @@ public record AwsDsRemoveTagsFromResourceOptions : AwsOptions, IValidatableObjec
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

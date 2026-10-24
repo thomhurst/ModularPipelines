@@ -15,7 +15,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves a subset of information about one or more findings. See also: AWS API Documentation list-findings is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: findingIds
+/// Retrieves a subset of information about one or more findings. See also: AWS API Documentation list-findings is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: findingIds
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -23,22 +23,19 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsMacie2ListFindingsOptions : AwsOptions
 {
     /// <summary>
-    /// The criteria to use to filter the results. criterion -&gt; (map) A condition that specifies the property, operator, and one or more values to use to filter the results. key -&gt; (string) value -&gt; (structure) Specifies the operator to use in a property-based condition that filters the results of a query for findings. For de- tailed information and examples of each operator, see Fundamentals of filtering findings in the Amazon Macie User Guide . eq -&gt; (list) The value for the property matches (equals) the specified value. If you specify multiple values, Macie uses OR logic to join the values. (string) eqExactMatch -&gt; (list) The value for the property exclusively matches (equals an exact match for) all the specified values. If you specify multiple values, Amazon Macie uses AND logic to join the values. You can use this operator with the following properties: customDataIdentifiers.detections.arn, customDataIdenti- fiers.detections.name, resourcesAf- fected.s3Bucket.tags.key, resourcesAf- fected.s3Bucket.tags.value, resourcesAffected.s3Ob- ject.tags.key, resourcesAffected.s3Object.tags.value, sensitiveData.category, and sensitiveData.detec- tions.type. (string) gt -&gt; (long) The value for the property is greater than the specified value. gte -&gt; (long) The value for the property is greater than or equal to the specified value. lt -&gt; (long) The value for the property is less than the specified value. lte -&gt; (long) The value for the property is less than or equal to the specified value. neq -&gt; (list) The value for the property doesn't match (doesn't equal) the specified value. If you specify multiple values, Ma- cie uses OR logic to join the values. (string) JSON Syntax: { "criterion": {"string": { "eq": ["string", ...], "eqExactMatch": ["string", ...], "gt": long, "gte": long, "lt": long, "lte": long, "neq": ["string", ...] } ...} }
+    /// The criteria to use to filter the results. criterion -&gt; (map) A condition that specifies the property, operator, and one or more values to use to filter the results. key -&gt; (string) value -&gt; (structure) Specifies the operator to use in a property-based condition that filters the results of a query for findings. For detailed information and examples of each operator, see Fundamentals of filtering findings in the Amazon Macie User Guide . eq -&gt; (list) The value for the property matches (equals) the specified value. If you specify multiple values, Macie uses OR logic to join the values. (string) eqExactMatch -&gt; (list) The value for the property exclusively matches (equals an exact match for) all the specified values. If you specify multiple values, Amazon Macie uses AND logic to join the values. You can use this operator with the following properties: customDataIdentifiers.detections.arn, customDataIdentifiers.detections.name, resourcesAffected.s3Bucket.tags.key, resourcesAffected.s3Bucket.tags.value, resourcesAffected.s3Object.tags.key, resourcesAffected.s3Object.tags.value, sensitiveData.category, and sensitiveData.detections.type. (string) gt -&gt; (long) The value for the property is greater than the specified value. gte -&gt; (long) The value for the property is greater than or equal to the specified value. lt -&gt; (long) The value for the property is less than the specified value. lte -&gt; (long) The value for the property is less than or equal to the specified value. neq -&gt; (list) The value for the property doesn't match (doesn't equal) the specified value. If you specify multiple values, Macie uses OR logic to join the values. (string) JSON Syntax: { "criterion": {"string": { "eq": ["string", ...], "eqExactMatch": ["string", ...], "gt": long, "gte": long, "lt": long, "lte": long, "neq": ["string", ...] } ...} }
     /// </summary>
     [CliOption("--finding-criteria")]
     public string? FindingCriteria { get; set; }
 
     /// <summary>
-    /// The criteria to use to sort the results. attributeName -&gt; (string) The name of the property to sort the results by. Valid values are: count, createdAt, policyDetails.action.apiCallDe- tails.firstSeen, policyDetails.action.apiCallDetails.lastSeen, resourcesAffected, severity.score, type, and updatedAt. orderBy -&gt; (string) The sort order to apply to the results, based on the value for the property specified by the attributeName property. Valid val- ues are: ASC, sort the results in ascending order; and, DESC, sort the results in descending order. Possible values: o ASC o DESC Shorthand Syntax: attributeName=string,orderBy=string JSON Syntax: { "attributeName": "string", "orderBy": "ASC"|"DESC" }
+    /// The criteria to use to sort the results. attributeName -&gt; (string) The name of the property to sort the results by. Valid values are: count, createdAt, policyDetails.action.apiCallDetails.firstSeen, policyDetails.action.apiCallDetails.lastSeen, resourcesAffected, severity.score, type, and updatedAt. orderBy -&gt; (string) The sort order to apply to the results, based on the value for the property specified by the attributeName property. Valid values are: ASC, sort the results in ascending order; and, DESC, sort the results in descending order. Possible values: • ASC • DESC Shorthand Syntax: attributeName=string,orderBy=string JSON Syntax: { "attributeName": "string", "orderBy": "ASC"|"DESC" }
     /// </summary>
     [CliOption("--sort-criteria")]
     public string? SortCriteria { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -48,15 +45,27 @@ public record AwsMacie2ListFindingsOptions : AwsOptions
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsDsDeleteConditionalForwarderOptions : AwsOptions, IValidatableO
     /// <summary>
     /// Deletes a conditional forwarder that has been set up for your Amazon Web Services directory. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DirectoryId">The directory ID for which you are deleting the conditional for- warder. Constraints: o pattern: ^d-[0-9a-f]{10}$</param>
-    /// <param name="RemoteDomainName">The fully qualified domain name (FQDN) of the remote domain with which you are deleting the conditional forwarder. Constraints: o max: 1024 o pattern: ^([a-zA-Z0-9]+[\\.-])+([a-zA-Z0-9])+[.]?$</param>
+    /// <param name="DirectoryId">The directory ID for which you are deleting the conditional forwarder. Constraints: • pattern: ^d-[0-9a-f]{10}$</param>
+    /// <param name="RemoteDomainName">The fully qualified domain name (FQDN) of the remote domain with which you are deleting the conditional forwarder. Constraints: • max: 1024 • pattern: ^([a-zA-Z0-9]+[\\.-])+([a-zA-Z0-9])+[.]?$</param>
     public AwsDsDeleteConditionalForwarderOptions(
         string DirectoryId,
         string RemoteDomainName
@@ -60,13 +61,13 @@ public record AwsDsDeleteConditionalForwarderOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The directory ID for which you are deleting the conditional for- warder. Constraints: o pattern: ^d-[0-9a-f]{10}$
+    /// The directory ID for which you are deleting the conditional forwarder. Constraints: • pattern: ^d-[0-9a-f]{10}$
     /// </summary>
     [CliOption("--directory-id")]
     public string? DirectoryId { get; private init; }
 
     /// <summary>
-    /// The fully qualified domain name (FQDN) of the remote domain with which you are deleting the conditional forwarder. Constraints: o max: 1024 o pattern: ^([a-zA-Z0-9]+[\\.-])+([a-zA-Z0-9])+[.]?$
+    /// The fully qualified domain name (FQDN) of the remote domain with which you are deleting the conditional forwarder. Constraints: • max: 1024 • pattern: ^([a-zA-Z0-9]+[\\.-])+([a-zA-Z0-9])+[.]?$
     /// </summary>
     [CliOption("--remote-domain-name")]
     public string? RemoteDomainName { get; private init; }
@@ -92,6 +93,15 @@ public record AwsDsDeleteConditionalForwarderOptions : AwsOptions, IValidatableO
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

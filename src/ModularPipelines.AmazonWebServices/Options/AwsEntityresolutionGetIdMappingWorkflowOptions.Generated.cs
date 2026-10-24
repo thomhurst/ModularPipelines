@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns the IdMappingWorkflow with a given name, if it exists. See also: AWS API Documentation get-id-mapping-workflow uses document type values. Document types fol- low the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be pro- vided as JSON. Shorthand syntax does not support document types.
+/// Returns the IdMappingWorkflow with a given name, if it exists. See also: AWS API Documentation get-id-mapping-workflow uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsEntityresolutionGetIdMappingWorkflowOptions : AwsOptions, IVali
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns the IdMappingWorkflow with a given name, if it exists. See also: AWS API Documentation get-id-mapping-workflow uses document type values. Document types fol- low the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be pro- vided as JSON. Shorthand syntax does not support document types.
+    /// Returns the IdMappingWorkflow with a given name, if it exists. See also: AWS API Documentation get-id-mapping-workflow uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
     /// </summary>
-    /// <param name="WorkflowName">The name of the workflow. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z_0-9-]*</param>
+    /// <param name="WorkflowName">The name of the workflow. Constraints: • min: 1 • max: 255 • pattern: [a-zA-Z_0-9-]*</param>
     public AwsEntityresolutionGetIdMappingWorkflowOptions(
         string WorkflowName
     )
@@ -56,7 +57,7 @@ public record AwsEntityresolutionGetIdMappingWorkflowOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the workflow. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z_0-9-]*
+    /// The name of the workflow. Constraints: • min: 1 • max: 255 • pattern: [a-zA-Z_0-9-]*
     /// </summary>
     [CliOption("--workflow-name")]
     public string? WorkflowName { get; private init; }
@@ -82,6 +83,15 @@ public record AwsEntityresolutionGetIdMappingWorkflowOptions : AwsOptions, IVali
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

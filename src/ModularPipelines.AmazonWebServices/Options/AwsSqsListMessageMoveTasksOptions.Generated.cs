@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Gets the most recent message movement tasks (up to 10) under a specific source queue. NOTE: o This action is currently limited to supporting message redrive from dead-letter queues (DLQs) only. In this context, the source queue is the dead-letter queue (DLQ), while the destination queue can be the original source queue (from which the messages were driven to the dead-letter-queue), or a custom destination queue. o Only one active message movement task is supported per queue at any given time. Se...
+/// Gets the most recent message movement tasks (up to 10) under a specific source queue. NOTE: • This action is currently limited to supporting message redrive from dead-letter queues (DLQs) only. In this context, the source queue is the dead-letter queue (DLQ), while the destination queue can be the original source queue (from which the messages were driven to the dead-letter-queue), or a custom destination queue. • Only one active message movement task is supported per queue at any given time. Se...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +26,7 @@ public record AwsSqsListMessageMoveTasksOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Gets the most recent message movement tasks (up to 10) under a specific source queue. NOTE: o This action is currently limited to supporting message redrive from dead-letter queues (DLQs) only. In this context, the source queue is the dead-letter queue (DLQ), while the destination queue can be the original source queue (from which the messages were driven to the dead-letter-queue), or a custom destination queue. o Only one active message movement task is supported per queue at any given time. Se...
+    /// Gets the most recent message movement tasks (up to 10) under a specific source queue. NOTE: • This action is currently limited to supporting message redrive from dead-letter queues (DLQs) only. In this context, the source queue is the dead-letter queue (DLQ), while the destination queue can be the original source queue (from which the messages were driven to the dead-letter-queue), or a custom destination queue. • Only one active message movement task is supported per queue at any given time. Se...
     /// </summary>
     /// <param name="SourceArn">The ARN of the queue whose message movement tasks are to be listed.</param>
     public AwsSqsListMessageMoveTasksOptions(
@@ -62,7 +63,7 @@ public record AwsSqsListMessageMoveTasksOptions : AwsOptions, IValidatableObject
     public string? SourceArn { get; private init; }
 
     /// <summary>
-    /// The maximum number of results to include in the response. The de- fault is 1, which provides the most recent message movement task. The upper limit is 10.
+    /// The maximum number of results to include in the response. The default is 1, which provides the most recent message movement task. The upper limit is 10.
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
@@ -88,6 +89,15 @@ public record AwsSqsListMessageMoveTasksOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

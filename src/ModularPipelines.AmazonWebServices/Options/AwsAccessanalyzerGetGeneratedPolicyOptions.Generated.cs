@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsAccessanalyzerGetGeneratedPolicyOptions : AwsOptions, IValidata
     /// <summary>
     /// Retrieves the policy that was generated using StartPolicyGeneration . See also: AWS API Documentation
     /// </summary>
-    /// <param name="JobId">The JobId that is returned by the StartPolicyGeneration operation. The JobId can be used with GetGeneratedPolicy to retrieve the gener- ated policies or used with CancelPolicyGeneration to cancel the pol- icy generation request.</param>
+    /// <param name="JobId">The JobId that is returned by the StartPolicyGeneration operation. The JobId can be used with GetGeneratedPolicy to retrieve the generated policies or used with CancelPolicyGeneration to cancel the policy generation request.</param>
     public AwsAccessanalyzerGetGeneratedPolicyOptions(
         string JobId
     )
@@ -56,7 +57,7 @@ public record AwsAccessanalyzerGetGeneratedPolicyOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The JobId that is returned by the StartPolicyGeneration operation. The JobId can be used with GetGeneratedPolicy to retrieve the gener- ated policies or used with CancelPolicyGeneration to cancel the pol- icy generation request.
+    /// The JobId that is returned by the StartPolicyGeneration operation. The JobId can be used with GetGeneratedPolicy to retrieve the generated policies or used with CancelPolicyGeneration to cancel the policy generation request.
     /// </summary>
     [CliOption("--job-id")]
     public string? JobId { get; private init; }
@@ -68,7 +69,7 @@ public record AwsAccessanalyzerGetGeneratedPolicyOptions : AwsOptions, IValidata
     public bool? IncludeResourcePlaceholders { get; set; }
 
     /// <summary>
-    /// The level of detail that you want to generate. You can specify whether to generate service-level policies. IAM Access Analyzer uses iam:servicelastaccessed to identify ser- vices that have been used recently to create this service-level tem- plate.
+    /// The level of detail that you want to generate. You can specify whether to generate service-level policies. IAM Access Analyzer uses iam:servicelastaccessed to identify services that have been used recently to create this service-level template.
     /// </summary>
     [CliFlag("--include-service-level-template", NegatedName = "--no-include-service-level-template")]
     public bool? IncludeServiceLevelTemplate { get; set; }
@@ -94,6 +95,15 @@ public record AwsAccessanalyzerGetGeneratedPolicyOptions : AwsOptions, IValidata
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

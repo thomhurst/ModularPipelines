@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,10 +29,10 @@ public record AwsBedrockCreateModelImportJobOptions : AwsOptions, IValidatableOb
     /// <summary>
     /// Creates a model import job to import model that you have customized in other environments, such as Amazon SageMaker. For more information, see Import a customized model See also: AWS API Documentation
     /// </summary>
-    /// <param name="JobName">The name of the import job. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9\+\-\.])*</param>
-    /// <param name="ImportedModelName">The name of the imported model. Constraints: o min: 1 o max: 63 o pattern: ([0-9a-zA-Z][_-]?)+</param>
-    /// <param name="RoleArn">The Amazon Resource Name (ARN) of the model import job. Constraints: o min: 0 o max: 2048 o pattern: arn:aws(-[^:]+)?:iam::([0-9]{12})?:role/.+</param>
-    /// <param name="ModelDataSource">The data source for the imported model. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: s3DataSource. s3DataSource -&gt; (structure) The Amazon S3 data source of the model to import. s3Uri -&gt; (string) [required] The URI of the Amazon S3 data source. Constraints: o min: 1 o max: 1024 o pattern: s3://[a-z0-9][-.a-z0-9]{1,61}[a-z0-9](?:/[-!_*'().a-z0-9A-Z]+(?:/[-!_*'().a-z0-9A-Z]+)*)?/? Shorthand Syntax: s3DataSource={s3Uri=string} JSON Syntax: { "s3DataSource": { "s3Uri": "string" } }</param>
+    /// <param name="JobName">The name of the import job. Constraints: • min: 1 • max: 63 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9\+\-\.])*</param>
+    /// <param name="ImportedModelName">The name of the imported model. Constraints: • min: 1 • max: 63 • pattern: ([0-9a-zA-Z][_-]?)+</param>
+    /// <param name="RoleArn">The Amazon Resource Name (ARN) of the model import job. Constraints: • min: 0 • max: 2048 • pattern: arn:aws(-[^:]+)?:iam::([0-9]{12})?:role/.+</param>
+    /// <param name="ModelDataSource">The data source for the imported model. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: s3DataSource. s3DataSource -&gt; (structure) The Amazon S3 data source of the model to import. s3Uri -&gt; (string) [required] The URI of the Amazon S3 data source. Constraints: • min: 1 • max: 1024 • pattern: s3://[a-z0-9][-.a-z0-9]{1,61}[a-z0-9](?:/[-!_*'().a-z0-9A-Z]+(?:/[-!_*'().a-z0-9A-Z]+)*)?/? Shorthand Syntax: s3DataSource={s3Uri=string} JSON Syntax: { "s3DataSource": { "s3Uri": "string" } }</param>
     public AwsBedrockCreateModelImportJobOptions(
         string JobName,
         string ImportedModelName,
@@ -69,56 +70,56 @@ public record AwsBedrockCreateModelImportJobOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the import job. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9\+\-\.])*
+    /// The name of the import job. Constraints: • min: 1 • max: 63 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9\+\-\.])*
     /// </summary>
     [CliOption("--job-name")]
     public string? JobName { get; private init; }
 
     /// <summary>
-    /// The name of the imported model. Constraints: o min: 1 o max: 63 o pattern: ([0-9a-zA-Z][_-]?)+
+    /// The name of the imported model. Constraints: • min: 1 • max: 63 • pattern: ([0-9a-zA-Z][_-]?)+
     /// </summary>
     [CliOption("--imported-model-name")]
     public string? ImportedModelName { get; private init; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the model import job. Constraints: o min: 0 o max: 2048 o pattern: arn:aws(-[^:]+)?:iam::([0-9]{12})?:role/.+
+    /// The Amazon Resource Name (ARN) of the model import job. Constraints: • min: 0 • max: 2048 • pattern: arn:aws(-[^:]+)?:iam::([0-9]{12})?:role/.+
     /// </summary>
     [CliOption("--role-arn")]
     public string? RoleArn { get; private init; }
 
     /// <summary>
-    /// The data source for the imported model. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: s3DataSource. s3DataSource -&gt; (structure) The Amazon S3 data source of the model to import. s3Uri -&gt; (string) [required] The URI of the Amazon S3 data source. Constraints: o min: 1 o max: 1024 o pattern: s3://[a-z0-9][-.a-z0-9]{1,61}[a-z0-9](?:/[-!_*'().a-z0-9A-Z]+(?:/[-!_*'().a-z0-9A-Z]+)*)?/? Shorthand Syntax: s3DataSource={s3Uri=string} JSON Syntax: { "s3DataSource": { "s3Uri": "string" } }
+    /// The data source for the imported model. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: s3DataSource. s3DataSource -&gt; (structure) The Amazon S3 data source of the model to import. s3Uri -&gt; (string) [required] The URI of the Amazon S3 data source. Constraints: • min: 1 • max: 1024 • pattern: s3://[a-z0-9][-.a-z0-9]{1,61}[a-z0-9](?:/[-!_*'().a-z0-9A-Z]+(?:/[-!_*'().a-z0-9A-Z]+)*)?/? Shorthand Syntax: s3DataSource={s3Uri=string} JSON Syntax: { "s3DataSource": { "s3Uri": "string" } }
     /// </summary>
     [CliOption("--model-data-source")]
     public string? ModelDataSource { get; private init; }
 
     /// <summary>
-    /// Tags to attach to this import job. Constraints: o min: 0 o max: 200 (structure) Definition of the key/value pair for a tag. key -&gt; (string) [required] Key for the tag. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9\s._:/=+@-]* value -&gt; (string) [required] Value for the tag. Constraints: o min: 0 o max: 256 o pattern: [a-zA-Z0-9\s._:/=+@-]* Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
+    /// Tags to attach to this import job. Constraints: • min: 0 • max: 200 (structure) Definition of the key/value pair for a tag. key -&gt; (string) [required] Key for the tag. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9\s._:/=+@-]* value -&gt; (string) [required] Value for the tag. Constraints: • min: 0 • max: 256 • pattern: [a-zA-Z0-9\s._:/=+@-]* Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
     /// </summary>
     [CliOption("--job-tags", GroupValues = true)]
     public IEnumerable<string>? JobTags { get; set; }
 
     /// <summary>
-    /// Tags to attach to the imported model. Constraints: o min: 0 o max: 200 (structure) Definition of the key/value pair for a tag. key -&gt; (string) [required] Key for the tag. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9\s._:/=+@-]* value -&gt; (string) [required] Value for the tag. Constraints: o min: 0 o max: 256 o pattern: [a-zA-Z0-9\s._:/=+@-]* Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
+    /// Tags to attach to the imported model. Constraints: • min: 0 • max: 200 (structure) Definition of the key/value pair for a tag. key -&gt; (string) [required] Key for the tag. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9\s._:/=+@-]* value -&gt; (string) [required] Value for the tag. Constraints: • min: 0 • max: 256 • pattern: [a-zA-Z0-9\s._:/=+@-]* Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
     /// </summary>
     [CliOption("--imported-model-tags", GroupValues = true)]
     public IEnumerable<string>? ImportedModelTags { get; set; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If this token matches a previous request, Amazon Bedrock ignores the request, but does not return an error. For more information, see Ensuring idempotency . Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9]([-a-zA-Z0-9]{0,254}[a-zA-Z0-9])?
+    /// A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If this token matches a previous request, Amazon Bedrock ignores the request, but does not return an error. For more information, see Ensuring idempotency . Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9]([-a-zA-Z0-9]{0,254}[a-zA-Z0-9])?
     /// </summary>
     [SecretValue]
     [CliOption("--client-request-token")]
     public string? ClientRequestToken { get; set; }
 
     /// <summary>
-    /// VPC configuration parameters for the private Virtual Private Cloud (VPC) that contains the resources you are using for the import job. subnetIds -&gt; (list) [required] An array of IDs for each subnet in the VPC to use. Constraints: o min: 1 o max: 16 (string) Constraints: o min: 0 o max: 32 o pattern: [-0-9a-zA-Z]+ securityGroupIds -&gt; (list) [required] An array of IDs for each security group in the VPC to use. Constraints: o min: 1 o max: 5 (string) Constraints: o min: 0 o max: 32 o pattern: [-0-9a-zA-Z]+ Shorthand Syntax: subnetIds=string,string,securityGroupIds=string,string JSON Syntax: { "subnetIds": ["string", ...], "securityGroupIds": ["string", ...] }
+    /// VPC configuration parameters for the private Virtual Private Cloud (VPC) that contains the resources you are using for the import job. subnetIds -&gt; (list) [required] An array of IDs for each subnet in the VPC to use. Constraints: • min: 1 • max: 16 (string) Constraints: • min: 0 • max: 32 • pattern: [-0-9a-zA-Z]+ securityGroupIds -&gt; (list) [required] An array of IDs for each security group in the VPC to use. Constraints: • min: 1 • max: 5 (string) Constraints: • min: 0 • max: 32 • pattern: [-0-9a-zA-Z]+ Shorthand Syntax: subnetIds=string,string,securityGroupIds=string,string JSON Syntax: { "subnetIds": ["string", ...], "securityGroupIds": ["string", ...] }
     /// </summary>
     [CliOption("--vpc-config")]
     public string? VpcConfig { get; set; }
 
     /// <summary>
-    /// The imported model is encrypted at rest using this key. Constraints: o min: 1 o max: 2048 o pattern: (arn:aws(-[^:]+)?:kms:[a-zA-Z0-9-]*:[0-9]{12}:((key/[a-zA-Z0-9-]{36})|(alias/[a-zA-Z0-9-_/]+)))|([a-zA-Z0-9-]{36})|(alias/[a-zA-Z0-9-_/]+)
+    /// The imported model is encrypted at rest using this key. Constraints: • min: 1 • max: 2048 • pattern: (arn:aws(-[^:]+)?:kms:[a-zA-Z0-9-]*:[0-9]{12}:((key/[a-zA-Z0-9-]{36})|(alias/[a-zA-Z0-9-_/]+)))|([a-zA-Z0-9-]{36})|(alias/[a-zA-Z0-9-_/]+)
     /// </summary>
     [CliOption("--imported-model-kms-key-id")]
     public string? ImportedModelKmsKeyId { get; set; }
@@ -144,6 +145,15 @@ public record AwsBedrockCreateModelImportJobOptions : AwsOptions, IValidatableOb
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Invokes the Apache Airflow REST API on the webserver with the specified inputs. To learn more, see Using the Apache Airflow REST API See also: AWS API Documentation invoke-rest-api uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested para- meters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
+/// Invokes the Apache Airflow REST API on the webserver with the specified inputs. To learn more, see Using the Apache Airflow REST API See also: AWS API Documentation invoke-rest-api uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,11 +27,11 @@ public record AwsMwaaInvokeRestApiOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Invokes the Apache Airflow REST API on the webserver with the specified inputs. To learn more, see Using the Apache Airflow REST API See also: AWS API Documentation invoke-rest-api uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested para- meters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
+    /// Invokes the Apache Airflow REST API on the webserver with the specified inputs. To learn more, see Using the Apache Airflow REST API See also: AWS API Documentation invoke-rest-api uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
     /// </summary>
-    /// <param name="Name">The name of the Amazon MWAA environment. For example, MyMWAAEnviron- ment . Constraints: o min: 1 o max: 80 o pattern: [a-zA-Z][0-9a-zA-Z-_]*</param>
-    /// <param name="Path">The Apache Airflow REST API endpoint path to be called. For example, /dags/123456/clearTaskInstances . For more information, see Apache Airflow API Constraints: o min: 1 o max: 64</param>
-    /// <param name="Method">The HTTP method used for making Airflow REST API calls. For example, POST . Possible values: o GET o PUT o POST o PATCH o DELETE</param>
+    /// <param name="Name">The name of the Amazon MWAA environment. For example, MyMWAAEnvironment . Constraints: • min: 1 • max: 80 • pattern: [a-zA-Z][0-9a-zA-Z-_]*</param>
+    /// <param name="Path">The Apache Airflow REST API endpoint path to be called. For example, /dags/123456/clearTaskInstances . For more information, see Apache Airflow API Constraints: • min: 1 • max: 64</param>
+    /// <param name="Method">The HTTP method used for making Airflow REST API calls. For example, POST . Possible values: • GET • PUT • POST • PATCH • DELETE</param>
     public AwsMwaaInvokeRestApiOptions(
         string Name,
         string Path,
@@ -64,19 +65,19 @@ public record AwsMwaaInvokeRestApiOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the Amazon MWAA environment. For example, MyMWAAEnviron- ment . Constraints: o min: 1 o max: 80 o pattern: [a-zA-Z][0-9a-zA-Z-_]*
+    /// The name of the Amazon MWAA environment. For example, MyMWAAEnvironment . Constraints: • min: 1 • max: 80 • pattern: [a-zA-Z][0-9a-zA-Z-_]*
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The Apache Airflow REST API endpoint path to be called. For example, /dags/123456/clearTaskInstances . For more information, see Apache Airflow API Constraints: o min: 1 o max: 64
+    /// The Apache Airflow REST API endpoint path to be called. For example, /dags/123456/clearTaskInstances . For more information, see Apache Airflow API Constraints: • min: 1 • max: 64
     /// </summary>
     [CliOption("--path")]
     public string? Path { get; private init; }
 
     /// <summary>
-    /// The HTTP method used for making Airflow REST API calls. For example, POST . Possible values: o GET o PUT o POST o PATCH o DELETE
+    /// The HTTP method used for making Airflow REST API calls. For example, POST . Possible values: • GET • PUT • POST • PATCH • DELETE
     /// </summary>
     [CliOption("--method")]
     public AwsMwaaInvokeRestApiMethod? Method { get; private init; }
@@ -114,6 +115,15 @@ public record AwsMwaaInvokeRestApiOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

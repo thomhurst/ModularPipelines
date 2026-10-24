@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates an ActiveMQ user. WARNING: Do not add personally identifiable information (PII) or other confi- dential or sensitive information in broker usernames. Broker user- names are accessible to other Amazon Web Services services, includ- ing CloudWatch Logs. Broker usernames are not intended to be used for private or sensitive data. See also: AWS API Documentation
+/// Creates an ActiveMQ user. WARNING: Do not add personally identifiable information (PII) or other confidential or sensitive information in broker usernames. Broker usernames are accessible to other Amazon Web Services services, including CloudWatch Logs. Broker usernames are not intended to be used for private or sensitive data. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,11 +27,11 @@ public record AwsMqCreateUserOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates an ActiveMQ user. WARNING: Do not add personally identifiable information (PII) or other confi- dential or sensitive information in broker usernames. Broker user- names are accessible to other Amazon Web Services services, includ- ing CloudWatch Logs. Broker usernames are not intended to be used for private or sensitive data. See also: AWS API Documentation
+    /// Creates an ActiveMQ user. WARNING: Do not add personally identifiable information (PII) or other confidential or sensitive information in broker usernames. Broker usernames are accessible to other Amazon Web Services services, including CloudWatch Logs. Broker usernames are not intended to be used for private or sensitive data. See also: AWS API Documentation
     /// </summary>
     /// <param name="BrokerId">The unique ID that Amazon MQ generates for the broker.</param>
     /// <param name="Password">Required. The password of the user. This value must be at least 12 characters long, must contain at least 4 unique characters, and must not contain commas, colons, or equal signs (,:=).</param>
-    /// <param name="Username">The username of the ActiveMQ user. This value can contain only al- phanumeric characters, dashes, periods, underscores, and tildes (- . _ ~). This value must be 2-100 characters long.</param>
+    /// <param name="Username">The username of the ActiveMQ user. This value can contain only alphanumeric characters, dashes, periods, underscores, and tildes (- . _ ~). This value must be 2-100 characters long.</param>
     public AwsMqCreateUserOptions(
         string BrokerId,
         string Password,
@@ -78,7 +79,7 @@ public record AwsMqCreateUserOptions : AwsOptions, IValidatableObject
     public string? Password { get; private init; }
 
     /// <summary>
-    /// The username of the ActiveMQ user. This value can contain only al- phanumeric characters, dashes, periods, underscores, and tildes (- . _ ~). This value must be 2-100 characters long.
+    /// The username of the ActiveMQ user. This value can contain only alphanumeric characters, dashes, periods, underscores, and tildes (- . _ ~). This value must be 2-100 characters long.
     /// </summary>
     [CliOption("--username")]
     public string? Username { get; private init; }
@@ -90,7 +91,7 @@ public record AwsMqCreateUserOptions : AwsOptions, IValidatableObject
     public bool? ConsoleAccess { get; set; }
 
     /// <summary>
-    /// The list of groups (20 maximum) to which the ActiveMQ user belongs. This value can contain only alphanumeric characters, dashes, peri- ods, underscores, and tildes (- . _ ~). This value must be 2-100 characters long. (string) Syntax: "string" "string" ...
+    /// The list of groups (20 maximum) to which the ActiveMQ user belongs. This value can contain only alphanumeric characters, dashes, periods, underscores, and tildes (- . _ ~). This value must be 2-100 characters long. (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--groups", GroupValues = true)]
     public IEnumerable<string>? Groups { get; set; }
@@ -122,6 +123,15 @@ public record AwsMqCreateUserOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

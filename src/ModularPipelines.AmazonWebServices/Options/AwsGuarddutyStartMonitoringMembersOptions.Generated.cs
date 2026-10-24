@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Turns on GuardDuty monitoring of the specified member accounts. Use this operation to restart monitoring of accounts that you stopped moni- toring with the StopMonitoringMembers operation. See also: AWS API Documentation
+/// Turns on GuardDuty monitoring of the specified member accounts. Use this operation to restart monitoring of accounts that you stopped monitoring with the StopMonitoringMembers operation. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsGuarddutyStartMonitoringMembersOptions : AwsOptions, IValidatab
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Turns on GuardDuty monitoring of the specified member accounts. Use this operation to restart monitoring of accounts that you stopped moni- toring with the StopMonitoringMembers operation. See also: AWS API Documentation
+    /// Turns on GuardDuty monitoring of the specified member accounts. Use this operation to restart monitoring of accounts that you stopped monitoring with the StopMonitoringMembers operation. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DetectorId">The unique ID of the detector of the GuardDuty administrator account associated with the member accounts to monitor. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the ListDetectors API. Constraints: o min: 1 o max: 300</param>
-    /// <param name="AccountIds">A list of account IDs of the GuardDuty member accounts to start mon- itoring. Constraints: o min: 1 o max: 50 (string) Constraints: o min: 12 o max: 12 Syntax: "string" "string" ...</param>
+    /// <param name="DetectorId">The unique ID of the detector of the GuardDuty administrator account associated with the member accounts to monitor. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the ListDetectors API. Constraints: • min: 1 • max: 300</param>
+    /// <param name="AccountIds">A list of account IDs of the GuardDuty member accounts to start monitoring. Constraints: • min: 1 • max: 50 (string) Constraints: • min: 12 • max: 12 Syntax: "string" "string" ...</param>
     public AwsGuarddutyStartMonitoringMembersOptions(
         string DetectorId,
         IEnumerable<string> AccountIds
@@ -71,13 +72,13 @@ public record AwsGuarddutyStartMonitoringMembersOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique ID of the detector of the GuardDuty administrator account associated with the member accounts to monitor. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the ListDetectors API. Constraints: o min: 1 o max: 300
+    /// The unique ID of the detector of the GuardDuty administrator account associated with the member accounts to monitor. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the ListDetectors API. Constraints: • min: 1 • max: 300
     /// </summary>
     [CliOption("--detector-id")]
     public string? DetectorId { get; private init; }
 
     /// <summary>
-    /// A list of account IDs of the GuardDuty member accounts to start mon- itoring. Constraints: o min: 1 o max: 50 (string) Constraints: o min: 12 o max: 12 Syntax: "string" "string" ...
+    /// A list of account IDs of the GuardDuty member accounts to start monitoring. Constraints: • min: 1 • max: 50 (string) Constraints: • min: 12 • max: 12 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--account-ids", GroupValues = true)]
     public IEnumerable<string>? AccountIds { get; private init; }
@@ -103,6 +104,15 @@ public record AwsGuarddutyStartMonitoringMembersOptions : AwsOptions, IValidatab
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

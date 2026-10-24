@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,9 +29,9 @@ public record AwsAppmeshUpdateVirtualRouterOptions : AwsOptions, IValidatableObj
     /// <summary>
     /// Updates an existing virtual router in a specified service mesh. See also: AWS API Documentation
     /// </summary>
-    /// <param name="MeshName">The name of the service mesh that the virtual router resides in. Constraints: o min: 1 o max: 255</param>
-    /// <param name="Spec">The new virtual router specification to apply. This overwrites the existing data. listeners -&gt; (list) The listeners that the virtual router is expected to receive in- bound traffic from. You can specify one listener. (structure) An object that represents a virtual router listener. portMapping -&gt; (structure) [required] An object that represents a port mapping. port -&gt; (integer) [required] The port used for the port mapping. Constraints: o min: 1 o max: 65535 protocol -&gt; (string) [required] The protocol used for the port mapping. Specify one protocol. Possible values: o http o tcp o http2 o grpc JSON Syntax: { "listeners": [ { "portMapping": { "port": integer, "protocol": "http"|"tcp"|"http2"|"grpc" } } ... ] }</param>
-    /// <param name="VirtualRouterName">The name of the virtual router to update. Constraints: o min: 1 o max: 255</param>
+    /// <param name="MeshName">The name of the service mesh that the virtual router resides in. Constraints: • min: 1 • max: 255</param>
+    /// <param name="Spec">The new virtual router specification to apply. This overwrites the existing data. listeners -&gt; (list) The listeners that the virtual router is expected to receive inbound traffic from. You can specify one listener. (structure) An object that represents a virtual router listener. portMapping -&gt; (structure) [required] An object that represents a port mapping. port -&gt; (integer) [required] The port used for the port mapping. Constraints: • min: 1 • max: 65535 protocol -&gt; (string) [required] The protocol used for the port mapping. Specify one protocol. Possible values: • http • tcp • http2 • grpc JSON Syntax: { "listeners": [ { "portMapping": { "port": integer, "protocol": "http"|"tcp"|"http2"|"grpc" } } ... ] }</param>
+    /// <param name="VirtualRouterName">The name of the virtual router to update. Constraints: • min: 1 • max: 255</param>
     public AwsAppmeshUpdateVirtualRouterOptions(
         string MeshName,
         string Spec,
@@ -65,19 +66,19 @@ public record AwsAppmeshUpdateVirtualRouterOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the service mesh that the virtual router resides in. Constraints: o min: 1 o max: 255
+    /// The name of the service mesh that the virtual router resides in. Constraints: • min: 1 • max: 255
     /// </summary>
     [CliOption("--mesh-name")]
     public string? MeshName { get; private init; }
 
     /// <summary>
-    /// The new virtual router specification to apply. This overwrites the existing data. listeners -&gt; (list) The listeners that the virtual router is expected to receive in- bound traffic from. You can specify one listener. (structure) An object that represents a virtual router listener. portMapping -&gt; (structure) [required] An object that represents a port mapping. port -&gt; (integer) [required] The port used for the port mapping. Constraints: o min: 1 o max: 65535 protocol -&gt; (string) [required] The protocol used for the port mapping. Specify one protocol. Possible values: o http o tcp o http2 o grpc JSON Syntax: { "listeners": [ { "portMapping": { "port": integer, "protocol": "http"|"tcp"|"http2"|"grpc" } } ... ] }
+    /// The new virtual router specification to apply. This overwrites the existing data. listeners -&gt; (list) The listeners that the virtual router is expected to receive inbound traffic from. You can specify one listener. (structure) An object that represents a virtual router listener. portMapping -&gt; (structure) [required] An object that represents a port mapping. port -&gt; (integer) [required] The port used for the port mapping. Constraints: • min: 1 • max: 65535 protocol -&gt; (string) [required] The protocol used for the port mapping. Specify one protocol. Possible values: • http • tcp • http2 • grpc JSON Syntax: { "listeners": [ { "portMapping": { "port": integer, "protocol": "http"|"tcp"|"http2"|"grpc" } } ... ] }
     /// </summary>
     [CliOption("--spec")]
     public string? Spec { get; private init; }
 
     /// <summary>
-    /// The name of the virtual router to update. Constraints: o min: 1 o max: 255
+    /// The name of the virtual router to update. Constraints: • min: 1 • max: 255
     /// </summary>
     [CliOption("--virtual-router-name")]
     public string? VirtualRouterName { get; private init; }
@@ -90,7 +91,7 @@ public record AwsAppmeshUpdateVirtualRouterOptions : AwsOptions, IValidatableObj
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// The Amazon Web Services IAM account ID of the service mesh owner. If the account ID is not your own, then it's the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes . Constraints: o min: 12 o max: 12
+    /// The Amazon Web Services IAM account ID of the service mesh owner. If the account ID is not your own, then it's the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes . Constraints: • min: 12 • max: 12
     /// </summary>
     [CliOption("--mesh-owner")]
     public string? MeshOwner { get; set; }
@@ -116,6 +117,15 @@ public record AwsAppmeshUpdateVirtualRouterOptions : AwsOptions, IValidatableObj
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

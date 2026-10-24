@@ -6,8 +6,8 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
+using ModularPipelines;
 using ModularPipelines.Context;
-using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
@@ -34,12 +34,12 @@ public class AwsDynamodb : IAwsDynamodb
     #region Sub-command Groups
 
     /// <summary>
-    /// aws wait sub-commands.
+    /// aws dynamodb wait sub-commands.
     /// </summary>
     public AwsDynamodbWait Wait => _wait ??= new AwsDynamodbWait(_command);
 
     /// <summary>
-    /// aws wizard sub-commands.
+    /// aws dynamodb wizard sub-commands.
     /// </summary>
     public AwsDynamodbWizard Wizard => _wizard ??= new AwsDynamodbWizard(_command);
 
@@ -48,7 +48,7 @@ public class AwsDynamodb : IAwsDynamodb
     #region Commands
 
     /// <summary>
-    /// This operation allows you to perform batch reads or writes on data stored in DynamoDB, using PartiQL. Each read statement in a BatchExe- cuteStatement must specify an equality condition on all key attributes. This enforces that each SELECT statement in a batch returns at most a single item. For more information, see Running batch operations with PartiQL for DynamoDB . NOTE: The entire batch must consist of either read statements or write statements, you cannot mix both in one batch. WARNING: A H...
+    /// This operation allows you to perform batch reads or writes on data stored in DynamoDB, using PartiQL. Each read statement in a BatchExecuteStatement must specify an equality condition on all key attributes. This enforces that each SELECT statement in a batch returns at most a single item. For more information, see Running batch operations with PartiQL for DynamoDB . NOTE: The entire batch must consist of either read statements or write statements, you cannot mix both in one batch. WARNING: A HTT...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -63,7 +63,7 @@ public class AwsDynamodb : IAwsDynamodb
     }
 
     /// <summary>
-    /// The BatchGetItem operation returns the attributes of one or more items from one or more tables. You identify requested items by primary key. A single operation can retrieve up to 16 MB of data, which can contain as many as 100 items. BatchGetItem returns a partial result if the re- sponse size limit is exceeded, the table's provisioned throughput is exceeded, more than 1MB per partition is requested, or an internal pro- cessing failure occurs. If a partial result is returned, the operation retur...
+    /// The BatchGetItem operation returns the attributes of one or more items from one or more tables. You identify requested items by primary key. A single operation can retrieve up to 16 MB of data, which can contain as many as 100 items. BatchGetItem returns a partial result if the response size limit is exceeded, the table's provisioned throughput is exceeded, more than 1MB per partition is requested, or an internal processing failure occurs. If a partial result is returned, the operation returns a...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -78,7 +78,7 @@ public class AwsDynamodb : IAwsDynamodb
     }
 
     /// <summary>
-    /// The BatchWriteItem operation puts or deletes multiple items in one or more tables. A single call to BatchWriteItem can transmit up to 16MB of data over the network, consisting of up to 25 item put or delete opera- tions. While individual items can be up to 400 KB once stored, it's im- portant to note that an item's representation might be greater than 400KB while being sent in DynamoDB's JSON format for the API call. For more details on this distinction, see Naming Rules and Data Types . NOTE: B...
+    /// The BatchWriteItem operation puts or deletes multiple items in one or more tables. A single call to BatchWriteItem can transmit up to 16MB of data over the network, consisting of up to 25 item put or delete operations. While individual items can be up to 400 KB once stored, it's important to note that an item's representation might be greater than 400KB while being sent in DynamoDB's JSON format for the API call. For more details on this distinction, see Naming Rules and Data Types . NOTE: Batch...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -108,7 +108,7 @@ public class AwsDynamodb : IAwsDynamodb
     }
 
     /// <summary>
-    /// Creates a global table from an existing table. A global table creates a replication relationship between two or more DynamoDB tables with the same table name in the provided Regions. WARNING: This documentation is for version 2017.11.29 (Legacy) of global ta- bles, which should be avoided for new global tables. Customers should use Global Tables version 2019.11.21 (Current) when possible, because it provides greater flexibility, higher efficiency, and con- sumes less write capacity than 2017.11....
+    /// Creates a global table from an existing table. A global table creates a replication relationship between two or more DynamoDB tables with the same table name in the provided Regions. WARNING: This documentation is for version 2017.11.29 (Legacy) of global tables, which should be avoided for new global tables. Customers should use Global Tables version 2019.11.21 (Current) when possible, because it provides greater flexibility, higher efficiency, and consumes less write capacity than 2017.11.29 (...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -123,7 +123,7 @@ public class AwsDynamodb : IAwsDynamodb
     }
 
     /// <summary>
-    /// The CreateTable operation adds a new table to your account. In an Ama- zon Web Services account, table names must be unique within each Re- gion. That is, you can have two tables with same name if you create the tables in different Regions. CreateTable is an asynchronous operation. Upon receiving a Cre- ateTable request, DynamoDB immediately returns a response with a Ta- bleStatus of CREATING . After the table is created, DynamoDB sets the TableStatus to ACTIVE . You can perform read and write o...
+    /// The CreateTable operation adds a new table to your account. In an Amazon Web Services account, table names must be unique within each Region. That is, you can have two tables with same name if you create the tables in different Regions. CreateTable is an asynchronous operation. Upon receiving a CreateTable request, DynamoDB immediately returns a response with a TableStatus of CREATING . After the table is created, DynamoDB sets the TableStatus to ACTIVE . You can perform read and write operation...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -153,7 +153,7 @@ public class AwsDynamodb : IAwsDynamodb
     }
 
     /// <summary>
-    /// Deletes a single item in a table by primary key. You can perform a con- ditional delete operation that deletes the item if it exists, or if it has an expected attribute value. In addition to deleting an item, you can also return the item's at- tribute values in the same operation, using the ReturnValues parameter. Unless you specify conditions, the DeleteItem is an idempotent opera- tion; running it multiple times on the same item or attribute does not result in an error response. Conditional de...
+    /// Deletes a single item in a table by primary key. You can perform a conditional delete operation that deletes the item if it exists, or if it has an expected attribute value. In addition to deleting an item, you can also return the item's attribute values in the same operation, using the ReturnValues parameter. Unless you specify conditions, the DeleteItem is an idempotent operation; running it multiple times on the same item or attribute does not result in an error response. Conditional deletes ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -168,7 +168,7 @@ public class AwsDynamodb : IAwsDynamodb
     }
 
     /// <summary>
-    /// Deletes the resource-based policy attached to the resource, which can be a table or stream. DeleteResourcePolicy is an idempotent operation; running it multiple times on the same resource doesn't result in an error response, un- less you specify an ExpectedRevisionId , which will then return a PolicyNotFoundException . WARNING: To make sure that you don't inadvertently lock yourself out of your own resources, the root principal in your Amazon Web Services ac- count can perform DeleteResourcePoli...
+    /// Deletes the resource-based policy attached to the resource, which can be a table or stream. DeleteResourcePolicy is an idempotent operation; running it multiple times on the same resource doesn't result in an error response, unless you specify an ExpectedRevisionId , which will then return a PolicyNotFoundException . WARNING: To make sure that you don't inadvertently lock yourself out of your own resources, the root principal in your Amazon Web Services account can perform DeleteResourcePolicy r...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -213,7 +213,7 @@ public class AwsDynamodb : IAwsDynamodb
     }
 
     /// <summary>
-    /// Checks the status of continuous backups and point in time recovery on the specified table. Continuous backups are ENABLED on all tables at table creation. If point in time recovery is enabled, PointInTimeRecov- eryStatus will be set to ENABLED. After continuous backups and point in time recovery are enabled, you can restore to any point in time within EarliestRestorableDateTime and LatestRestorableDateTime . LatestRestorableDateTime is typically 5 minutes before the current time. You can restore...
+    /// Checks the status of continuous backups and point in time recovery on the specified table. Continuous backups are ENABLED on all tables at table creation. If point in time recovery is enabled, PointInTimeRecoveryStatus will be set to ENABLED. After continuous backups and point in time recovery are enabled, you can restore to any point in time within EarliestRestorableDateTime and LatestRestorableDateTime . LatestRestorableDateTime is typically 5 minutes before the current time. You can restore y...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -243,7 +243,7 @@ public class AwsDynamodb : IAwsDynamodb
     }
 
     /// <summary>
-    /// Returns the regional endpoint information. For more information on pol- icy permissions, please see Internetwork traffic privacy . See also: AWS API Documentation
+    /// Returns the regional endpoint information. For more information on policy permissions, please see Internetwork traffic privacy . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -273,7 +273,7 @@ public class AwsDynamodb : IAwsDynamodb
     }
 
     /// <summary>
-    /// Returns information about the specified global table. WARNING: This documentation is for version 2017.11.29 (Legacy) of global ta- bles, which should be avoided for new global tables. Customers should use Global Tables version 2019.11.21 (Current) when possible, because it provides greater flexibility, higher efficiency, and con- sumes less write capacity than 2017.11.29 (Legacy). To determine which version you're using, see Determining the global table version you are using . To update existing...
+    /// Returns information about the specified global table. WARNING: This documentation is for version 2017.11.29 (Legacy) of global tables, which should be avoided for new global tables. Customers should use Global Tables version 2019.11.21 (Current) when possible, because it provides greater flexibility, higher efficiency, and consumes less write capacity than 2017.11.29 (Legacy). To determine which version you're using, see Determining the global table version you are using . To update existing glo...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -288,7 +288,7 @@ public class AwsDynamodb : IAwsDynamodb
     }
 
     /// <summary>
-    /// Describes Region-specific settings for a global table. WARNING: This documentation is for version 2017.11.29 (Legacy) of global ta- bles, which should be avoided for new global tables. Customers should use Global Tables version 2019.11.21 (Current) when possible, because it provides greater flexibility, higher efficiency, and con- sumes less write capacity than 2017.11.29 (Legacy). To determine which version you're using, see Determining the global table version you are using . To update existin...
+    /// Describes Region-specific settings for a global table. WARNING: This documentation is for version 2017.11.29 (Legacy) of global tables, which should be avoided for new global tables. Customers should use Global Tables version 2019.11.21 (Current) when possible, because it provides greater flexibility, higher efficiency, and consumes less write capacity than 2017.11.29 (Legacy). To determine which version you're using, see Determining the global table version you are using . To update existing gl...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -333,7 +333,7 @@ public class AwsDynamodb : IAwsDynamodb
     }
 
     /// <summary>
-    /// Returns the current provisioned-capacity quotas for your Amazon Web Services account in a Region, both for the Region as a whole and for any one DynamoDB table that you create there. When you establish an Amazon Web Services account, the account has ini- tial quotas on the maximum read capacity units and write capacity units that you can provision across all of your DynamoDB tables in a given Region. Also, there are per-table quotas that apply when you create a table there. For more information,...
+    /// Returns the current provisioned-capacity quotas for your Amazon Web Services account in a Region, both for the Region as a whole and for any one DynamoDB table that you create there. When you establish an Amazon Web Services account, the account has initial quotas on the maximum read capacity units and write capacity units that you can provision across all of your DynamoDB tables in a given Region. Also, there are per-table quotas that apply when you create a table there. For more information, s...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -423,7 +423,7 @@ public class AwsDynamodb : IAwsDynamodb
     }
 
     /// <summary>
-    /// This operation allows you to perform reads and singleton writes on data stored in DynamoDB, using PartiQL. For PartiQL reads (SELECT statement), if the total number of processed items exceeds the maximum dataset size limit of 1 MB, the read stops and results are returned to the user as a LastEvaluatedKey value to continue the read in a subsequent operation. If the filter criteria in WHERE clause does not match any data, the read will return an empty re- sult set. A single SELECT statement respon...
+    /// This operation allows you to perform reads and singleton writes on data stored in DynamoDB, using PartiQL. For PartiQL reads (SELECT statement), if the total number of processed items exceeds the maximum dataset size limit of 1 MB, the read stops and results are returned to the user as a LastEvaluatedKey value to continue the read in a subsequent operation. If the filter criteria in WHERE clause does not match any data, the read will return an empty result set. A single SELECT statement response...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -438,7 +438,7 @@ public class AwsDynamodb : IAwsDynamodb
     }
 
     /// <summary>
-    /// This operation allows you to perform transactional reads or writes on data stored in DynamoDB, using PartiQL. NOTE: The entire transaction must consist of either read statements or write statements, you cannot mix both in one transaction. The EXISTS function is an exception and can be used to check the condition of specific attributes of the item in a similar manner to Condi- tionCheck in the TransactWriteItems API. See also: AWS API Documentation
+    /// This operation allows you to perform transactional reads or writes on data stored in DynamoDB, using PartiQL. NOTE: The entire transaction must consist of either read statements or write statements, you cannot mix both in one transaction. The EXISTS function is an exception and can be used to check the condition of specific attributes of the item in a similar manner to ConditionCheck in the TransactWriteItems API. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -468,7 +468,7 @@ public class AwsDynamodb : IAwsDynamodb
     }
 
     /// <summary>
-    /// The GetItem operation returns a set of attributes for the item with the given primary key. If there is no matching item, GetItem does not re- turn any data and there will be no Item element in the response. GetItem provides an eventually consistent read by default. If your application requires a strongly consistent read, set ConsistentRead to true . Although a strongly consistent read might take more time than an eventually consistent read, it always returns the last up- dated value. See also: A...
+    /// The GetItem operation returns a set of attributes for the item with the given primary key. If there is no matching item, GetItem does not return any data and there will be no Item element in the response. GetItem provides an eventually consistent read by default. If your application requires a strongly consistent read, set ConsistentRead to true . Although a strongly consistent read might take more time than an eventually consistent read, it always returns the last updated value. See also: AWS A...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -483,7 +483,7 @@ public class AwsDynamodb : IAwsDynamodb
     }
 
     /// <summary>
-    /// Returns the resource-based policy document attached to the resource, which can be a table or stream, in JSON format. GetResourcePolicy follows an ` eventually consistent https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/HowItWorks.ReadConsistency.html`__ model. The following list describes the outcomes when you issue the GetResourcePolicy request immediately after issuing another request: o If you issue a GetResourcePolicy request immediately after a PutRe- sourcePolicy request, D...
+    /// Returns the resource-based policy document attached to the resource, which can be a table or stream, in JSON format. GetResourcePolicy follows an ` eventually consistent https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/HowItWorks.ReadConsistency.html`__ model. The following list describes the outcomes when you issue the GetResourcePolicy request immediately after issuing another request: • If you issue a GetResourcePolicy request immediately after a PutResourcePolicy request, Dyn...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -543,7 +543,7 @@ public class AwsDynamodb : IAwsDynamodb
     }
 
     /// <summary>
-    /// Lists completed exports within the past 90 days, in reverse alphanu- meric order of ExportArn . See also: AWS API Documentation
+    /// Lists completed exports within the past 90 days, in reverse alphanumeric order of ExportArn . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -558,7 +558,7 @@ public class AwsDynamodb : IAwsDynamodb
     }
 
     /// <summary>
-    /// Lists all global tables that have a replica in the specified Region. WARNING: This documentation is for version 2017.11.29 (Legacy) of global ta- bles, which should be avoided for new global tables. Customers should use Global Tables version 2019.11.21 (Current) when possible, because it provides greater flexibility, higher efficiency, and con- sumes less write capacity than 2017.11.29 (Legacy). To determine which version you're using, see Determining the global table version you are using . To ...
+    /// Lists all global tables that have a replica in the specified Region. WARNING: This documentation is for version 2017.11.29 (Legacy) of global tables, which should be avoided for new global tables. Customers should use Global Tables version 2019.11.21 (Current) when possible, because it provides greater flexibility, higher efficiency, and consumes less write capacity than 2017.11.29 (Legacy). To determine which version you're using, see Determining the global table version you are using . To upda...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -588,7 +588,7 @@ public class AwsDynamodb : IAwsDynamodb
     }
 
     /// <summary>
-    /// Returns an array of table names associated with the current account and endpoint. The output from ListTables is paginated, with each page re- turning a maximum of 100 table names. See also: AWS API Documentation list-tables is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argumen...
+    /// Returns an array of table names associated with the current account and endpoint. The output from ListTables is paginated, with each page returning a maximum of 100 table names. See also: AWS API Documentation list-tables is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument mu...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -603,7 +603,7 @@ public class AwsDynamodb : IAwsDynamodb
     }
 
     /// <summary>
-    /// List all tags on an Amazon DynamoDB resource. You can call ListTag- sOfResource up to 10 times per second, per account. For an overview on tagging DynamoDB resources, see Tagging for DynamoDB in the Amazon DynamoDB Developer Guide . See also: AWS API Documentation list-tags-of-resource is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the ...
+    /// List all tags on an Amazon DynamoDB resource. You can call ListTagsOfResource up to 10 times per second, per account. For an overview on tagging DynamoDB resources, see Tagging for DynamoDB in the Amazon DynamoDB Developer Guide . See also: AWS API Documentation list-tags-of-resource is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -633,7 +633,7 @@ public class AwsDynamodb : IAwsDynamodb
     }
 
     /// <summary>
-    /// Attaches a resource-based policy document to the resource, which can be a table or stream. When you attach a resource-based policy using this API, the policy application is ` eventually consistent https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/HowItWorks.ReadConsistency.html`__ . PutResourcePolicy is an idempotent operation; running it multiple times on the same resource using the same policy document will re- turn the same revision ID. If you specify an ExpectedRevisionId that...
+    /// Attaches a resource-based policy document to the resource, which can be a table or stream. When you attach a resource-based policy using this API, the policy application is ` eventually consistent https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/HowItWorks.ReadConsistency.html`__ . PutResourcePolicy is an idempotent operation; running it multiple times on the same resource using the same policy document will return the same revision ID. If you specify an ExpectedRevisionId that d...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -648,7 +648,7 @@ public class AwsDynamodb : IAwsDynamodb
     }
 
     /// <summary>
-    /// You must provide the name of the partition key attribute and a single value for that attribute. Query returns all items with that partition key value. Optionally, you can provide a sort key attribute and use a comparison operator to refine the search results. Use the KeyConditionExpression parameter to provide a specific value for the partition key. The Query operation will return all of the items from the table or index with that partition key value. You can option- ally narrow the scope of the...
+    /// You must provide the name of the partition key attribute and a single value for that attribute. Query returns all items with that partition key value. Optionally, you can provide a sort key attribute and use a comparison operator to refine the search results. Use the KeyConditionExpression parameter to provide a specific value for the partition key. The Query operation will return all of the items from the table or index with that partition key value. You can optionally narrow the scope of the Q...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -663,7 +663,7 @@ public class AwsDynamodb : IAwsDynamodb
     }
 
     /// <summary>
-    /// Creates a new table from an existing backup. Any number of users can execute up to 50 concurrent restores (any type of restore) in a given account. You can call RestoreTableFromBackup at a maximum rate of 10 times per second. You must manually set up the following on the restored table: o Auto scaling policies o IAM policies o Amazon CloudWatch metrics and alarms o Tags o Stream settings o Time to Live (TTL) settings See also: AWS API Documentation
+    /// Creates a new table from an existing backup. Any number of users can execute up to 50 concurrent restores (any type of restore) in a given account. You can call RestoreTableFromBackup at a maximum rate of 10 times per second. You must manually set up the following on the restored table: • Auto scaling policies • IAM policies • Amazon CloudWatch metrics and alarms • Tags • Stream settings • Time to Live (TTL) settings See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -678,7 +678,7 @@ public class AwsDynamodb : IAwsDynamodb
     }
 
     /// <summary>
-    /// Restores the specified table to the specified point in time within Ear- liestRestorableDateTime and LatestRestorableDateTime . You can restore your table to any point in time in the last 35 days. You can set the recovery period to any value between 1 and 35 days. Any number of users can execute up to 50 concurrent restores (any type of restore) in a given account. When you restore using point in time recovery, DynamoDB restores your table data to the state based on the selected date and time (da...
+    /// Restores the specified table to the specified point in time within EarliestRestorableDateTime and LatestRestorableDateTime . You can restore your table to any point in time in the last 35 days. You can set the recovery period to any value between 1 and 35 days. Any number of users can execute up to 50 concurrent restores (any type of restore) in a given account. When you restore using point in time recovery, DynamoDB restores your table data to the state based on the selected date and time (day:...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -693,7 +693,7 @@ public class AwsDynamodb : IAwsDynamodb
     }
 
     /// <summary>
-    /// The Scan operation returns one or more items and item attributes by ac- cessing every item in a table or a secondary index. To have DynamoDB return fewer items, you can provide a FilterExpression operation. If the total size of scanned items exceeds the maximum dataset size limit of 1 MB, the scan completes and results are returned to the user. The LastEvaluatedKey value is also returned and the requestor can use the LastEvaluatedKey to continue the scan in a subsequent operation. Each scan resp...
+    /// The Scan operation returns one or more items and item attributes by accessing every item in a table or a secondary index. To have DynamoDB return fewer items, you can provide a FilterExpression operation. If the total size of scanned items exceeds the maximum dataset size limit of 1 MB, the scan completes and results are returned to the user. The LastEvaluatedKey value is also returned and the requestor can use the LastEvaluatedKey to continue the scan in a subsequent operation. Each scan respon...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -708,7 +708,7 @@ public class AwsDynamodb : IAwsDynamodb
     }
 
     /// <summary>
-    /// Performs a vector similarity search on a vector index associated with an Amazon DynamoDB table, and returns the most similar items sorted by similarity score based on the distance function configured for the in- dex. Score interpretation depends on the distance function: o COSINE - Returns the items with the k smallest scores. Scores range from 0 (identical) to 2 (opposite). Lower scores indicate higher sim- ilarity. o EUCLIDEAN - Returns the items with the k smallest scores. Scores rep- resent ...
+    /// Performs a vector similarity search on a vector index associated with an Amazon DynamoDB table, and returns the most similar items sorted by similarity score based on the distance function configured for the index. Score interpretation depends on the distance function: • COSINE - Returns the items with the k smallest scores. Scores range from 0 (identical) to 2 (opposite). Lower scores indicate higher similarity. • EUCLIDEAN - Returns the items with the k smallest scores. Scores represent the Eu...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -723,7 +723,7 @@ public class AwsDynamodb : IAwsDynamodb
     }
 
     /// <summary>
-    /// Associate a set of tags with an Amazon DynamoDB resource. You can then activate these user-defined tags so that they appear on the Billing and Cost Management console for cost allocation tracking. You can call TagResource up to five times per second, per account. o TagResource is an asynchronous operation. If you issue a ListTag- sOfResource request immediately after a TagResource request, DynamoDB might return your previous tag set, if there was one, or an empty tag set. This is because ListTag...
+    /// Associate a set of tags with an Amazon DynamoDB resource. You can then activate these user-defined tags so that they appear on the Billing and Cost Management console for cost allocation tracking. You can call TagResource up to five times per second, per account. • TagResource is an asynchronous operation. If you issue a ListTagsOfResource request immediately after a TagResource request, DynamoDB might return your previous tag set, if there was one, or an empty tag set. This is because ListTagsO...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -738,7 +738,7 @@ public class AwsDynamodb : IAwsDynamodb
     }
 
     /// <summary>
-    /// TransactGetItems is a synchronous operation that atomically re- trieves multiple items from one or more tables (but not from in- dexes) in a single account and Region. A TransactGetItems call can contain up to 100 TransactGetItem objects, each of which contains a Get structure that specifies an item to retrieve from a table in the account and Region. A call to TransactGetItems cannot retrieve items from tables in more than one Amazon Web Services account or Region. The aggregate size of the item...
+    /// TransactGetItems is a synchronous operation that atomically retrieves multiple items from one or more tables (but not from indexes) in a single account and Region. A TransactGetItems call can contain up to 100 TransactGetItem objects, each of which contains a Get structure that specifies an item to retrieve from a table in the account and Region. A call to TransactGetItems cannot retrieve items from tables in more than one Amazon Web Services account or Region. The aggregate size of the items in...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -753,7 +753,7 @@ public class AwsDynamodb : IAwsDynamodb
     }
 
     /// <summary>
-    /// TransactWriteItems is a synchronous write operation that groups up to 100 action requests. These actions can target items in different tables, but not in different Amazon Web Services accounts or Re- gions, and no two actions can target the same item. For example, you cannot both ConditionCheck and Update the same item. The aggregate size of the items in the transaction cannot exceed 4 MB. The actions are completed atomically so that either all of them suc- ceed, or all of them fail. They are de...
+    /// TransactWriteItems is a synchronous write operation that groups up to 100 action requests. These actions can target items in different tables, but not in different Amazon Web Services accounts or Regions, and no two actions can target the same item. For example, you cannot both ConditionCheck and Update the same item. The aggregate size of the items in the transaction cannot exceed 4 MB. The actions are completed atomically so that either all of them succeed, or all of them fail. They are define...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -768,7 +768,7 @@ public class AwsDynamodb : IAwsDynamodb
     }
 
     /// <summary>
-    /// Removes the association of tags from an Amazon DynamoDB resource. You can call UntagResource up to five times per second, per account. o UntagResource is an asynchronous operation. If you issue a ListTag- sOfResource request immediately after an UntagResource request, Dy- namoDB might return your previous tag set, if there was one, or an empty tag set. This is because ListTagsOfResource uses an eventually consistent query, and the metadata for your tags or table might not be available at that mo...
+    /// Removes the association of tags from an Amazon DynamoDB resource. You can call UntagResource up to five times per second, per account. • UntagResource is an asynchronous operation. If you issue a ListTagsOfResource request immediately after an UntagResource request, DynamoDB might return your previous tag set, if there was one, or an empty tag set. This is because ListTagsOfResource uses an eventually consistent query, and the metadata for your tags or table might not be available at that moment...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -783,7 +783,7 @@ public class AwsDynamodb : IAwsDynamodb
     }
 
     /// <summary>
-    /// UpdateContinuousBackups enables or disables point in time recovery for the specified table. A successful UpdateContinuousBackups call returns the current ContinuousBackupsDescription . Continuous back- ups are ENABLED on all tables at table creation. If point in time recovery is enabled, PointInTimeRecoveryStatus will be set to EN- ABLED. Once continuous backups and point in time recovery are enabled, you can restore to any point in time within EarliestRestorableDateTime and Lat- estRestorableDa...
+    /// UpdateContinuousBackups enables or disables point in time recovery for the specified table. A successful UpdateContinuousBackups call returns the current ContinuousBackupsDescription . Continuous backups are ENABLED on all tables at table creation. If point in time recovery is enabled, PointInTimeRecoveryStatus will be set to ENABLED. Once continuous backups and point in time recovery are enabled, you can restore to any point in time within EarliestRestorableDateTime and LatestRestorableDateTime...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -798,7 +798,7 @@ public class AwsDynamodb : IAwsDynamodb
     }
 
     /// <summary>
-    /// Updates the status for contributor insights for a specific table or in- dex. CloudWatch Contributor Insights for DynamoDB graphs display the partition key and (if applicable) sort key of frequently accessed items and frequently throttled items in plaintext. If you require the use of Amazon Web Services Key Management Service (KMS) to encrypt this tables partition key and sort key data with an Amazon Web Services managed key or customer managed key, you should not enable CloudWatch Contributor In...
+    /// Updates the status for contributor insights for a specific table or index. CloudWatch Contributor Insights for DynamoDB graphs display the partition key and (if applicable) sort key of frequently accessed items and frequently throttled items in plaintext. If you require the use of Amazon Web Services Key Management Service (KMS) to encrypt this tables partition key and sort key data with an Amazon Web Services managed key or customer managed key, you should not enable CloudWatch Contributor Insi...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -813,7 +813,7 @@ public class AwsDynamodb : IAwsDynamodb
     }
 
     /// <summary>
-    /// Adds or removes replicas in the specified global table. The global ta- ble must already exist to be able to use this operation. Any replica to be added must be empty, have the same name as the global table, have the same key schema, have DynamoDB Streams enabled, and have the same provisioned and maximum write capacity units. WARNING: This documentation is for version 2017.11.29 (Legacy) of global ta- bles, which should be avoided for new global tables. Customers should use Global Tables version...
+    /// Adds or removes replicas in the specified global table. The global table must already exist to be able to use this operation. Any replica to be added must be empty, have the same name as the global table, have the same key schema, have DynamoDB Streams enabled, and have the same provisioned and maximum write capacity units. WARNING: This documentation is for version 2017.11.29 (Legacy) of global tables, which should be avoided for new global tables. Customers should use Global Tables version 201...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -828,7 +828,7 @@ public class AwsDynamodb : IAwsDynamodb
     }
 
     /// <summary>
-    /// Updates settings for a global table. WARNING: This documentation is for version 2017.11.29 (Legacy) of global ta- bles, which should be avoided for new global tables. Customers should use Global Tables version 2019.11.21 (Current) when possible, because it provides greater flexibility, higher efficiency, and con- sumes less write capacity than 2017.11.29 (Legacy). To determine which version you're using, see Determining the global table version you are using . To update existing global tables fr...
+    /// Updates settings for a global table. WARNING: This documentation is for version 2017.11.29 (Legacy) of global tables, which should be avoided for new global tables. Customers should use Global Tables version 2019.11.21 (Current) when possible, because it provides greater flexibility, higher efficiency, and consumes less write capacity than 2017.11.29 (Legacy). To determine which version you're using, see Determining the global table version you are using . To update existing global tables from v...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -843,7 +843,7 @@ public class AwsDynamodb : IAwsDynamodb
     }
 
     /// <summary>
-    /// Edits an existing item's attributes, or adds a new item to the table if it does not already exist. You can put, delete, or add attribute val- ues. You can also perform a conditional update on an existing item (in- sert a new attribute name-value pair if it doesn't exist, or replace an existing name-value pair if it has certain expected attribute values). You can also return the item's attribute values in the same UpdateItem operation using the ReturnValues parameter. See also: AWS API Documentat...
+    /// Edits an existing item's attributes, or adds a new item to the table if it does not already exist. You can put, delete, or add attribute values. You can also perform a conditional update on an existing item (insert a new attribute name-value pair if it doesn't exist, or replace an existing name-value pair if it has certain expected attribute values). You can also return the item's attribute values in the same UpdateItem operation using the ReturnValues parameter. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -873,7 +873,7 @@ public class AwsDynamodb : IAwsDynamodb
     }
 
     /// <summary>
-    /// Modifies the provisioned throughput settings, global secondary indexes, or DynamoDB Streams settings for a given table. You can only perform one of the following operations at once: o Modify the provisioned throughput settings of the table. o Remove a global secondary index from the table. o Create a new global secondary index on the table. After the index be- gins backfilling, you can use UpdateTable to perform other opera- tions. UpdateTable is an asynchronous operation; while it's executing, ...
+    /// Modifies the provisioned throughput settings, global secondary indexes, or DynamoDB Streams settings for a given table. You can only perform one of the following operations at once: • Modify the provisioned throughput settings of the table. • Remove a global secondary index from the table. • Create a new global secondary index on the table. After the index begins backfilling, you can use UpdateTable to perform other operations. UpdateTable is an asynchronous operation; while it's executing, the ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -903,7 +903,7 @@ public class AwsDynamodb : IAwsDynamodb
     }
 
     /// <summary>
-    /// The UpdateTimeToLive method enables or disables Time to Live (TTL) for the specified table. A successful UpdateTimeToLive call returns the current TimeToLiveSpecification . It can take up to one hour for the change to fully process. Any additional UpdateTimeToLive calls for the same table during this one hour duration result in a ValidationExcep- tion . TTL compares the current time in epoch time format to the time stored in the TTL attribute of an item. If the epoch time value stored in the att...
+    /// The UpdateTimeToLive method enables or disables Time to Live (TTL) for the specified table. A successful UpdateTimeToLive call returns the current TimeToLiveSpecification . It can take up to one hour for the change to fully process. Any additional UpdateTimeToLive calls for the same table during this one hour duration result in a ValidationException . TTL compares the current time in epoch time format to the time stored in the TTL attribute of an item. If the epoch time value stored in the attri...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

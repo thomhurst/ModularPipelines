@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// This API works with the following fleet types: EC2, Anywhere, Con- tainer Permanently removes a FlexMatch matchmaking configuration. To delete, specify the configuration name. A matchmaking configuration cannot be deleted if it is being used in any active matchmaking tickets. See also: AWS API Documentation
+/// This API works with the following fleet types: EC2, Anywhere, Container Permanently removes a FlexMatch matchmaking configuration. To delete, specify the configuration name. A matchmaking configuration cannot be deleted if it is being used in any active matchmaking tickets. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsGameliftDeleteMatchmakingConfigurationOptions : AwsOptions, IVa
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// This API works with the following fleet types: EC2, Anywhere, Con- tainer Permanently removes a FlexMatch matchmaking configuration. To delete, specify the configuration name. A matchmaking configuration cannot be deleted if it is being used in any active matchmaking tickets. See also: AWS API Documentation
+    /// This API works with the following fleet types: EC2, Anywhere, Container Permanently removes a FlexMatch matchmaking configuration. To delete, specify the configuration name. A matchmaking configuration cannot be deleted if it is being used in any active matchmaking tickets. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">A unique identifier for the matchmaking configuration. You can use either the configuration name or ARN value. Constraints: o min: 1 o max: 256 o pattern: ^([a-zA-Z0-9-\.]*|arn:.*:matchmakingconfigura- tion\/[a-zA-Z0-9-\.]*)$</param>
+    /// <param name="Name">A unique identifier for the matchmaking configuration. You can use either the configuration name or ARN value. Constraints: • min: 1 • max: 256 • pattern: ^([a-zA-Z0-9-\.]*|arn:.*:matchmakingconfiguration\/[a-zA-Z0-9-\.]*)$</param>
     public AwsGameliftDeleteMatchmakingConfigurationOptions(
         string Name
     )
@@ -56,7 +57,7 @@ public record AwsGameliftDeleteMatchmakingConfigurationOptions : AwsOptions, IVa
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A unique identifier for the matchmaking configuration. You can use either the configuration name or ARN value. Constraints: o min: 1 o max: 256 o pattern: ^([a-zA-Z0-9-\.]*|arn:.*:matchmakingconfigura- tion\/[a-zA-Z0-9-\.]*)$
+    /// A unique identifier for the matchmaking configuration. You can use either the configuration name or ARN value. Constraints: • min: 1 • max: 256 • pattern: ^([a-zA-Z0-9-\.]*|arn:.*:matchmakingconfiguration\/[a-zA-Z0-9-\.]*)$
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
@@ -82,6 +83,15 @@ public record AwsGameliftDeleteMatchmakingConfigurationOptions : AwsOptions, IVa
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

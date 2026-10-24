@@ -23,25 +23,25 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsCloudformationPublishTypeOptions : AwsOptions
 {
     /// <summary>
-    /// The type of the extension. Conditional: You must specify Arn , or TypeName and Type . Possible values: o RESOURCE o MODULE o HOOK
+    /// The type of the extension. Conditional: You must specify Arn , or TypeName and Type . Possible values: • RESOURCE • MODULE • HOOK
     /// </summary>
     [CliOption("--type")]
     public AwsCloudformationPublishTypeType? Type { get; set; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the extension. Conditional: You must specify Arn , or TypeName and Type . Constraints: o max: 1024 o pattern: arn:aws[A-Za-z0-9-]{0,64}:cloudforma- tion:[A-Za-z0-9-]{1,64}:[0-9]{12}:type/.+
+    /// The Amazon Resource Name (ARN) of the extension. Conditional: You must specify Arn , or TypeName and Type . Constraints: • max: 1024 • pattern: arn:aws[A-Za-z0-9-]{0,64}:cloudformation:[A-Za-z0-9-]{1,64}:[0-9]{12}:type/.+
     /// </summary>
     [CliOption("--arn")]
     public string? Arn { get; set; }
 
     /// <summary>
-    /// The name of the extension. Conditional: You must specify Arn , or TypeName and Type . Constraints: o min: 10 o max: 204 o pattern: [A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}(::MOD- ULE){0,1}
+    /// The name of the extension. Conditional: You must specify Arn , or TypeName and Type . Constraints: • min: 10 • max: 204 • pattern: [A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}(::MODULE){0,1}
     /// </summary>
     [CliOption("--type-name")]
     public string? TypeName { get; set; }
 
     /// <summary>
-    /// The version number to assign to this version of the extension. Use the following format, and adhere to semantic versioning when as- signing a version number to your extension: MAJOR.MINOR.PATCH For more information, see Semantic Versioning 2.0.0 . If you don't specify a version number, CloudFormation increments the version number by one minor version release. You cannot specify a version number the first time you publish a type. CloudFormation automatically sets the first version number to be 1.0.0 . Constraints: o min: 5 o pattern: ^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(.*)$
+    /// The version number to assign to this version of the extension. Use the following format, and adhere to semantic versioning when assigning a version number to your extension: MAJOR.MINOR.PATCH For more information, see Semantic Versioning 2.0.0 . If you don't specify a version number, CloudFormation increments the version number by one minor version release. You cannot specify a version number the first time you publish a type. CloudFormation automatically sets the first version number to be 1.0.0 . Constraints: • min: 5 • pattern: ^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(.*)$
     /// </summary>
     [CliOption("--public-version-number")]
     public string? PublicVersionNumber { get; set; }
@@ -51,5 +51,14 @@ public record AwsCloudformationPublishTypeOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

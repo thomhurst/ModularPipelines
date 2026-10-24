@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates a phone numbers metadata. WARNING: To verify the status of a previous UpdatePhoneNumberMetadata opera- tion, call the DescribePhoneNumber API. See also: AWS API Documentation
+/// Updates a phone numbers metadata. WARNING: To verify the status of a previous UpdatePhoneNumberMetadata operation, call the DescribePhoneNumber API. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,7 +27,7 @@ public record AwsConnectUpdatePhoneNumberMetadataOptions : AwsOptions, IValidata
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates a phone numbers metadata. WARNING: To verify the status of a previous UpdatePhoneNumberMetadata opera- tion, call the DescribePhoneNumber API. See also: AWS API Documentation
+    /// Updates a phone numbers metadata. WARNING: To verify the status of a previous UpdatePhoneNumberMetadata operation, call the DescribePhoneNumber API. See also: AWS API Documentation
     /// </summary>
     /// <param name="PhoneNumberId">The Amazon Resource Name (ARN) or resource ID of the phone number.</param>
     public AwsConnectUpdatePhoneNumberMetadataOptions(
@@ -63,13 +64,13 @@ public record AwsConnectUpdatePhoneNumberMetadataOptions : AwsOptions, IValidata
     public string? PhoneNumberId { get; private init; }
 
     /// <summary>
-    /// The description of the phone number. Constraints: o min: 0 o max: 500 o pattern: ^[\W\S_]*
+    /// The description of the phone number. Constraints: • min: 0 • max: 500 • pattern: ^[\W\S_]*
     /// </summary>
     [CliOption("--phone-number-description")]
     public string? PhoneNumberDescription { get; set; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs . Constraints: o max: 500
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs . Constraints: • max: 500
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
@@ -96,6 +97,15 @@ public record AwsConnectUpdatePhoneNumberMetadataOptions : AwsOptions, IValidata
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

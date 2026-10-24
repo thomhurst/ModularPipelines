@@ -6,8 +6,8 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
+using ModularPipelines;
 using ModularPipelines.Context;
-using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
@@ -32,7 +32,7 @@ public class AwsAutoscaling : IAwsAutoscaling
     #region Commands
 
     /// <summary>
-    /// Attaches one or more EC2 instances to the specified Auto Scaling group. When you attach instances, Amazon EC2 Auto Scaling increases the de- sired capacity of the group by the number of instances being attached. If the number of instances being attached plus the desired capacity of the group exceeds the maximum size of the group, the operation fails. If there is a Classic Load Balancer attached to your Auto Scaling group, the instances are also registered with the load balancer. If there are tar...
+    /// Attaches one or more EC2 instances to the specified Auto Scaling group. When you attach instances, Amazon EC2 Auto Scaling increases the desired capacity of the group by the number of instances being attached. If the number of instances being attached plus the desired capacity of the group exceeds the maximum size of the group, the operation fails. If there is a Classic Load Balancer attached to your Auto Scaling group, the instances are also registered with the load balancer. If there are targe...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -47,22 +47,7 @@ public class AwsAutoscaling : IAwsAutoscaling
     }
 
     /// <summary>
-    /// NOTE: This API operation is superseded by AttachTrafficSources , which can attach multiple traffic sources types. We recommend using Attach- TrafficSources to simplify how you manage traffic sources. However, we continue to support AttachLoadBalancers . You can use both the original AttachLoadBalancers API operation and AttachTrafficSources on the same Auto Scaling group. Attaches one or more Classic Load Balancers to the specified Auto Scal- ing group. Amazon EC2 Auto Scaling registers the runn...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> AttachLoadBalancersAsync(
-        AwsAutoscalingAttachLoadBalancersOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
-    /// NOTE: This API operation is superseded by AttachTrafficSources , which can attach multiple traffic sources types. We recommend using Attach- TrafficSources to simplify how you manage traffic sources. However, we continue to support AttachLoadBalancerTargetGroups . You can use both the original AttachLoadBalancerTargetGroups API operation and AttachTrafficSources on the same Auto Scaling group. Attaches one or more target groups to the specified Auto Scaling group. This operation is used with the...
+    /// NOTE: This API operation is superseded by AttachTrafficSources , which can attach multiple traffic sources types. We recommend using AttachTrafficSources to simplify how you manage traffic sources. However, we continue to support AttachLoadBalancerTargetGroups . You can use both the original AttachLoadBalancerTargetGroups API operation and AttachTrafficSources on the same Auto Scaling group. Attaches one or more target groups to the specified Auto Scaling group. This operation is used with the f...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -77,7 +62,22 @@ public class AwsAutoscaling : IAwsAutoscaling
     }
 
     /// <summary>
-    /// Attaches one or more traffic sources to the specified Auto Scaling group. You can use any of the following as traffic sources for an Auto Scaling group: o Application Load Balancer o Classic Load Balancer o Gateway Load Balancer o Network Load Balancer o VPC Lattice This operation is additive and does not detach existing traffic sources from the Auto Scaling group. After the operation completes, use the DescribeTrafficSources API to return details about the state of the attachments between traff...
+    /// NOTE: This API operation is superseded by AttachTrafficSources , which can attach multiple traffic sources types. We recommend using AttachTrafficSources to simplify how you manage traffic sources. However, we continue to support AttachLoadBalancers . You can use both the original AttachLoadBalancers API operation and AttachTrafficSources on the same Auto Scaling group. Attaches one or more Classic Load Balancers to the specified Auto Scaling group. Amazon EC2 Auto Scaling registers the running ...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> AttachLoadBalancersAsync(
+        AwsAutoscalingAttachLoadBalancersOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Attaches one or more traffic sources to the specified Auto Scaling group. You can use any of the following as traffic sources for an Auto Scaling group: • Application Load Balancer • Classic Load Balancer • Gateway Load Balancer • Network Load Balancer • VPC Lattice This operation is additive and does not detach existing traffic sources from the Auto Scaling group. After the operation completes, use the DescribeTrafficSources API to return details about the state of the attachments between traff...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -122,7 +122,7 @@ public class AwsAutoscaling : IAwsAutoscaling
     }
 
     /// <summary>
-    /// Cancels an instance refresh or rollback that is in progress. If an in- stance refresh or rollback is not in progress, an ActiveInstanceRe- freshNotFound error occurs. This operation is part of the instance refresh feature in Amazon EC2 Auto Scaling, which helps you update instances in your Auto Scaling group after you make configuration changes. When you cancel an instance refresh, this does not roll back any changes that it made. Use the RollbackInstanceRefresh API to roll back instead. See als...
+    /// Cancels an instance refresh or rollback that is in progress. If an instance refresh or rollback is not in progress, an ActiveInstanceRefreshNotFound error occurs. This operation is part of the instance refresh feature in Amazon EC2 Auto Scaling, which helps you update instances in your Auto Scaling group after you make configuration changes. When you cancel an instance refresh, this does not roll back any changes that it made. Use the RollbackInstanceRefresh API to roll back instead. See also: A...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -137,7 +137,7 @@ public class AwsAutoscaling : IAwsAutoscaling
     }
 
     /// <summary>
-    /// Completes the lifecycle action for the specified token or instance with the specified result. This step is a part of the procedure for adding a lifecycle hook to an Auto Scaling group: o (Optional) Create a launch template or launch configuration with a user data script that runs while an instance is in a wait state due to a lifecycle hook. o (Optional) Create a Lambda function and a rule that allows Amazon EventBridge to invoke your Lambda function when an instance is put into a wait state due ...
+    /// Completes the lifecycle action for the specified token or instance with the specified result. This step is a part of the procedure for adding a lifecycle hook to an Auto Scaling group: • (Optional) Create a launch template or launch configuration with a user data script that runs while an instance is in a wait state due to a lifecycle hook. • (Optional) Create a Lambda function and a rule that allows Amazon EventBridge to invoke your Lambda function when an instance is put into a wait state due ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -152,7 +152,7 @@ public class AwsAutoscaling : IAwsAutoscaling
     }
 
     /// <summary>
-    /// We strongly recommend using a launch template when calling this op- eration to ensure full functionality for Amazon EC2 Auto Scaling and Amazon EC2. Creates an Auto Scaling group with the specified name and attributes. If you exceed your maximum limit of Auto Scaling groups, the call fails. To query this limit, call the DescribeAccountLimits API. For in- formation about updating this limit, see Quotas for Amazon EC2 Auto Scaling in the Amazon EC2 Auto Scaling User Guide . If you're new to Amazon...
+    /// We strongly recommend using a launch template when calling this operation to ensure full functionality for Amazon EC2 Auto Scaling and Amazon EC2. Creates an Auto Scaling group with the specified name and attributes. If you exceed your maximum limit of Auto Scaling groups, the call fails. To query this limit, call the DescribeAccountLimits API. For information about updating this limit, see Quotas for Amazon EC2 Auto Scaling in the Amazon EC2 Auto Scaling User Guide . If you're new to Amazon EC2...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -167,7 +167,7 @@ public class AwsAutoscaling : IAwsAutoscaling
     }
 
     /// <summary>
-    /// Creates a launch configuration. If you exceed your maximum limit of launch configurations, the call fails. To query this limit, call the DescribeAccountLimits API. For in- formation about updating this limit, see Quotas for Amazon EC2 Auto Scaling in the Amazon EC2 Auto Scaling User Guide . For more information, see Launch configurations in the Amazon EC2 Auto Scaling User Guide . NOTE: Amazon EC2 Auto Scaling configures instances launched as part of an Auto Scaling group using either a launch t...
+    /// Creates a launch configuration. If you exceed your maximum limit of launch configurations, the call fails. To query this limit, call the DescribeAccountLimits API. For information about updating this limit, see Quotas for Amazon EC2 Auto Scaling in the Amazon EC2 Auto Scaling User Guide . For more information, see Launch configurations in the Amazon EC2 Auto Scaling User Guide . NOTE: Amazon EC2 Auto Scaling configures instances launched as part of an Auto Scaling group using either a launch tem...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -212,7 +212,7 @@ public class AwsAutoscaling : IAwsAutoscaling
     }
 
     /// <summary>
-    /// Deletes the specified launch configuration. The launch configuration must not be attached to an Auto Scaling group. When this call completes, the launch configuration is no longer avail- able for use. See also: AWS API Documentation
+    /// Deletes the specified launch configuration. The launch configuration must not be attached to an Auto Scaling group. When this call completes, the launch configuration is no longer available for use. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -227,7 +227,7 @@ public class AwsAutoscaling : IAwsAutoscaling
     }
 
     /// <summary>
-    /// Deletes the specified lifecycle hook. If there are any outstanding lifecycle actions, they are completed first (ABANDON for launching instances, CONTINUE for terminating in- stances). See also: AWS API Documentation
+    /// Deletes the specified lifecycle hook. If there are any outstanding lifecycle actions, they are completed first (ABANDON for launching instances, CONTINUE for terminating instances). See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -317,7 +317,7 @@ public class AwsAutoscaling : IAwsAutoscaling
     }
 
     /// <summary>
-    /// Describes the current Amazon EC2 Auto Scaling resource quotas for your account. When you establish an Amazon Web Services account, the account has ini- tial quotas on the maximum number of Auto Scaling groups and launch configurations that you can create in a given Region. For more informa- tion, see Quotas for Amazon EC2 Auto Scaling in the Amazon EC2 Auto Scaling User Guide . See also: AWS API Documentation
+    /// Describes the current Amazon EC2 Auto Scaling resource quotas for your account. When you establish an Amazon Web Services account, the account has initial quotas on the maximum number of Auto Scaling groups and launch configurations that you can create in a given Region. For more information, see Quotas for Amazon EC2 Auto Scaling in the Amazon EC2 Auto Scaling User Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -332,7 +332,7 @@ public class AwsAutoscaling : IAwsAutoscaling
     }
 
     /// <summary>
-    /// Describes the available adjustment types for step scaling and simple scaling policies. The following adjustment types are supported: o ChangeInCapacity o ExactCapacity o PercentChangeInCapacity See also: AWS API Documentation
+    /// Describes the available adjustment types for step scaling and simple scaling policies. The following adjustment types are supported: • ChangeInCapacity • ExactCapacity • PercentChangeInCapacity See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -347,7 +347,7 @@ public class AwsAutoscaling : IAwsAutoscaling
     }
 
     /// <summary>
-    /// Gets information about the Auto Scaling groups in the account and Re- gion. If you specify Auto Scaling group names, the output includes informa- tion for only the specified Auto Scaling groups. If you specify fil- ters, the output includes information for only those Auto Scaling groups that meet the filter criteria. If you do not specify group names or filters, the output includes information for all Auto Scaling groups. This operation also returns information about instances in Auto Scaling gr...
+    /// Gets information about the Auto Scaling groups in the account and Region. If you specify Auto Scaling group names, the output includes information for only the specified Auto Scaling groups. If you specify filters, the output includes information for only those Auto Scaling groups that meet the filter criteria. If you do not specify group names or filters, the output includes information for all Auto Scaling groups. This operation also returns information about instances in Auto Scaling groups. ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -362,7 +362,7 @@ public class AwsAutoscaling : IAwsAutoscaling
     }
 
     /// <summary>
-    /// Gets information about the Auto Scaling instances in the account and Region. See also: AWS API Documentation describe-auto-scaling-instances is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: AutoScal...
+    /// Gets information about the Auto Scaling instances in the account and Region. See also: AWS API Documentation describe-auto-scaling-instances is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: AutoScalingI...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -392,7 +392,7 @@ public class AwsAutoscaling : IAwsAutoscaling
     }
 
     /// <summary>
-    /// Gets information about the instance refreshes for the specified Auto Scaling group from the previous six weeks. This operation is part of the instance refresh feature in Amazon EC2 Auto Scaling, which helps you update instances in your Auto Scaling group after you make configuration changes. To help you determine the status of an instance refresh, Amazon EC2 Auto Scaling returns information about the instance refreshes you pre- viously initiated, including their status, start time, end time, the...
+    /// Gets information about the instance refreshes for the specified Auto Scaling group from the previous six weeks. This operation is part of the instance refresh feature in Amazon EC2 Auto Scaling, which helps you update instances in your Auto Scaling group after you make configuration changes. To help you determine the status of an instance refresh, Amazon EC2 Auto Scaling returns information about the instance refreshes you previously initiated, including their status, start time, end time, the p...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -407,7 +407,7 @@ public class AwsAutoscaling : IAwsAutoscaling
     }
 
     /// <summary>
-    /// Gets information about the launch configurations in the account and Re- gion. See also: AWS API Documentation describe-launch-configurations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: LaunchCo...
+    /// Gets information about the launch configurations in the account and Region. See also: AWS API Documentation describe-launch-configurations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: LaunchConfigur...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -422,22 +422,7 @@ public class AwsAutoscaling : IAwsAutoscaling
     }
 
     /// <summary>
-    /// Gets information about the lifecycle hooks for the specified Auto Scal- ing group. See also: AWS API Documentation
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> DescribeLifecycleHooksAsync(
-        AwsAutoscalingDescribeLifecycleHooksOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
-    /// Describes the available types of lifecycle hooks. The following hook types are supported: o autoscaling:EC2_INSTANCE_LAUNCHING o autoscaling:EC2_INSTANCE_TERMINATING See also: AWS API Documentation
+    /// Describes the available types of lifecycle hooks. The following hook types are supported: • autoscaling:EC2_INSTANCE_LAUNCHING • autoscaling:EC2_INSTANCE_TERMINATING See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -452,14 +437,14 @@ public class AwsAutoscaling : IAwsAutoscaling
     }
 
     /// <summary>
-    /// NOTE: This API operation is superseded by DescribeTrafficSources , which can describe multiple traffic sources types. We recommend using De- scribeTrafficSources to simplify how you manage traffic sources. However, we continue to support DescribeLoadBalancers . You can use both the original DescribeLoadBalancers API operation and Describe- TrafficSources on the same Auto Scaling group. Gets information about the load balancers for the specified Auto Scal- ing group. This operation describes only...
+    /// Gets information about the lifecycle hooks for the specified Auto Scaling group. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> DescribeLoadBalancersAsync(
-        AwsAutoscalingDescribeLoadBalancersOptions options,
+    public virtual async Task<CommandResult> DescribeLifecycleHooksAsync(
+        AwsAutoscalingDescribeLifecycleHooksOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
@@ -467,7 +452,7 @@ public class AwsAutoscaling : IAwsAutoscaling
     }
 
     /// <summary>
-    /// NOTE: This API operation is superseded by DescribeTrafficSources , which can describe multiple traffic sources types. We recommend using De- tachTrafficSources to simplify how you manage traffic sources. How- ever, we continue to support DescribeLoadBalancerTargetGroups . You can use both the original DescribeLoadBalancerTargetGroups API oper- ation and DescribeTrafficSources on the same Auto Scaling group. Gets information about the Elastic Load Balancing target groups for the specified Auto Sc...
+    /// NOTE: This API operation is superseded by DescribeTrafficSources , which can describe multiple traffic sources types. We recommend using DetachTrafficSources to simplify how you manage traffic sources. However, we continue to support DescribeLoadBalancerTargetGroups . You can use both the original DescribeLoadBalancerTargetGroups API operation and DescribeTrafficSources on the same Auto Scaling group. Gets information about the Elastic Load Balancing target groups for the specified Auto Scaling ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -475,6 +460,21 @@ public class AwsAutoscaling : IAwsAutoscaling
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DescribeLoadBalancerTargetGroupsAsync(
         AwsAutoscalingDescribeLoadBalancerTargetGroupsOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// NOTE: This API operation is superseded by DescribeTrafficSources , which can describe multiple traffic sources types. We recommend using DescribeTrafficSources to simplify how you manage traffic sources. However, we continue to support DescribeLoadBalancers . You can use both the original DescribeLoadBalancers API operation and DescribeTrafficSources on the same Auto Scaling group. Gets information about the load balancers for the specified Auto Scaling group. This operation describes only Class...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> DescribeLoadBalancersAsync(
+        AwsAutoscalingDescribeLoadBalancersOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
@@ -497,7 +497,7 @@ public class AwsAutoscaling : IAwsAutoscaling
     }
 
     /// <summary>
-    /// Gets information about the Amazon SNS notifications that are configured for one or more Auto Scaling groups. See also: AWS API Documentation describe-notification-configurations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the ...
+    /// Gets information about the Amazon SNS notifications that are configured for one or more Auto Scaling groups. See also: AWS API Documentation describe-notification-configurations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the foll...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -527,7 +527,7 @@ public class AwsAutoscaling : IAwsAutoscaling
     }
 
     /// <summary>
-    /// Gets information about the scaling activities in the account and Re- gion. When scaling events occur, you see a record of the scaling activity in the scaling activities. For more information, see Verify a scaling ac- tivity for an Auto Scaling group in the Amazon EC2 Auto Scaling User Guide . If the scaling event succeeds, the value of the StatusCode element in the response is Successful . If an attempt to launch instances failed, the StatusCode value is Failed or Cancelled and the StatusMessage...
+    /// Gets information about the scaling activities in the account and Region. When scaling events occur, you see a record of the scaling activity in the scaling activities. For more information, see Verify a scaling activity for an Auto Scaling group in the Amazon EC2 Auto Scaling User Guide . If the scaling event succeeds, the value of the StatusCode element in the response is Successful . If an attempt to launch instances failed, the StatusCode value is Failed or Cancelled and the StatusMessage ele...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -557,7 +557,7 @@ public class AwsAutoscaling : IAwsAutoscaling
     }
 
     /// <summary>
-    /// Gets information about the scheduled actions that haven't run or that have not reached their end time. To describe the scaling activities for scheduled actions that have al- ready run, call the DescribeScalingActivities API. See also: AWS API Documentation describe-scheduled-actions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --q...
+    /// Gets information about the scheduled actions that haven't run or that have not reached their end time. To describe the scaling activities for scheduled actions that have already run, call the DescribeScalingActivities API. See also: AWS API Documentation describe-scheduled-actions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --que...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -572,7 +572,7 @@ public class AwsAutoscaling : IAwsAutoscaling
     }
 
     /// <summary>
-    /// Describes the specified tags. You can use filters to limit the results. For example, you can query for the tags for a specific Auto Scaling group. You can specify multi- ple values for a filter. A tag must match at least one of the specified values for it to be included in the results. You can also specify multiple filters. The result includes information for a particular tag only if it matches all the filters. If there's no match, no special message is returned. For more information, see Tag Au...
+    /// Describes the specified tags. You can use filters to limit the results. For example, you can query for the tags for a specific Auto Scaling group. You can specify multiple values for a filter. A tag must match at least one of the specified values for it to be included in the results. You can also specify multiple filters. The result includes information for a particular tag only if it matches all the filters. If there's no match, no special message is returned. For more information, see Tag Auto...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -587,7 +587,7 @@ public class AwsAutoscaling : IAwsAutoscaling
     }
 
     /// <summary>
-    /// Describes the termination policies supported by Amazon EC2 Auto Scal- ing. For more information, see Configure termination policies for Amazon EC2 Auto Scaling in the Amazon EC2 Auto Scaling User Guide . See also: AWS API Documentation
+    /// Describes the termination policies supported by Amazon EC2 Auto Scaling. For more information, see Configure termination policies for Amazon EC2 Auto Scaling in the Amazon EC2 Auto Scaling User Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -602,7 +602,7 @@ public class AwsAutoscaling : IAwsAutoscaling
     }
 
     /// <summary>
-    /// Gets information about the traffic sources for the specified Auto Scal- ing group. You can optionally provide a traffic source type. If you provide a traffic source type, then the results only include that traffic source type. If you do not provide a traffic source type, then the results include all the traffic sources for the specified Auto Scaling group. See also: AWS API Documentation
+    /// Gets information about the traffic sources for the specified Auto Scaling group. You can optionally provide a traffic source type. If you provide a traffic source type, then the results only include that traffic source type. If you do not provide a traffic source type, then the results include all the traffic sources for the specified Auto Scaling group. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -647,22 +647,7 @@ public class AwsAutoscaling : IAwsAutoscaling
     }
 
     /// <summary>
-    /// NOTE: This API operation is superseded by DetachTrafficSources , which can detach multiple traffic sources types. We recommend using Detach- TrafficSources to simplify how you manage traffic sources. However, we continue to support DetachLoadBalancers . You can use both the original DetachLoadBalancers API operation and DetachTrafficSources on the same Auto Scaling group. Detaches one or more Classic Load Balancers from the specified Auto Scaling group. This operation detaches only Classic Load ...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> DetachLoadBalancersAsync(
-        AwsAutoscalingDetachLoadBalancersOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
-    /// NOTE: This API operation is superseded by DetachTrafficSources , which can detach multiple traffic sources types. We recommend using Detach- TrafficSources to simplify how you manage traffic sources. However, we continue to support DetachLoadBalancerTargetGroups . You can use both the original DetachLoadBalancerTargetGroups API operation and DetachTrafficSources on the same Auto Scaling group. Detaches one or more target groups from the specified Auto Scaling group. When you detach a target grou...
+    /// NOTE: This API operation is superseded by DetachTrafficSources , which can detach multiple traffic sources types. We recommend using DetachTrafficSources to simplify how you manage traffic sources. However, we continue to support DetachLoadBalancerTargetGroups . You can use both the original DetachLoadBalancerTargetGroups API operation and DetachTrafficSources on the same Auto Scaling group. Detaches one or more target groups from the specified Auto Scaling group. When you detach a target group,...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -677,7 +662,22 @@ public class AwsAutoscaling : IAwsAutoscaling
     }
 
     /// <summary>
-    /// Detaches one or more traffic sources from the specified Auto Scaling group. When you detach a traffic source, it enters the Removing state while deregistering the instances in the group. When all instances are dereg- istered, then you can no longer describe the traffic source using the DescribeTrafficSources API call. The instances continue to run. See also: AWS API Documentation
+    /// NOTE: This API operation is superseded by DetachTrafficSources , which can detach multiple traffic sources types. We recommend using DetachTrafficSources to simplify how you manage traffic sources. However, we continue to support DetachLoadBalancers . You can use both the original DetachLoadBalancers API operation and DetachTrafficSources on the same Auto Scaling group. Detaches one or more Classic Load Balancers from the specified Auto Scaling group. This operation detaches only Classic Load Ba...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> DetachLoadBalancersAsync(
+        AwsAutoscalingDetachLoadBalancersOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Detaches one or more traffic sources from the specified Auto Scaling group. When you detach a traffic source, it enters the Removing state while deregistering the instances in the group. When all instances are deregistered, then you can no longer describe the traffic source using the DescribeTrafficSources API call. The instances continue to run. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -707,7 +707,7 @@ public class AwsAutoscaling : IAwsAutoscaling
     }
 
     /// <summary>
-    /// Enables group metrics collection for the specified Auto Scaling group. You can use these metrics to track changes in an Auto Scaling group and to set alarms on threshold values. You can view group metrics using the Amazon EC2 Auto Scaling console or the CloudWatch console. For more in- formation, see Monitor CloudWatch metrics for your Auto Scaling groups and instances in the Amazon EC2 Auto Scaling User Guide . See also: AWS API Documentation
+    /// Enables group metrics collection for the specified Auto Scaling group. You can use these metrics to track changes in an Auto Scaling group and to set alarms on threshold values. You can view group metrics using the Amazon EC2 Auto Scaling console or the CloudWatch console. For more information, see Monitor CloudWatch metrics for your Auto Scaling groups and instances in the Amazon EC2 Auto Scaling User Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -722,7 +722,7 @@ public class AwsAutoscaling : IAwsAutoscaling
     }
 
     /// <summary>
-    /// Moves the specified instances into the standby state. If you choose to decrement the desired capacity of the Auto Scaling group, the instances can enter standby as long as the desired capacity of the Auto Scaling group after the instances are placed into standby is equal to or greater than the minimum capacity of the group. If you choose not to decrement the desired capacity of the Auto Scaling group, the Auto Scaling group launches new instances to replace the in- stances on standby. For more i...
+    /// Moves the specified instances into the standby state. If you choose to decrement the desired capacity of the Auto Scaling group, the instances can enter standby as long as the desired capacity of the Auto Scaling group after the instances are placed into standby is equal to or greater than the minimum capacity of the group. If you choose not to decrement the desired capacity of the Auto Scaling group, the Auto Scaling group launches new instances to replace the instances on standby. For more inf...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -737,7 +737,7 @@ public class AwsAutoscaling : IAwsAutoscaling
     }
 
     /// <summary>
-    /// Executes the specified policy. This can be useful for testing the de- sign of your scaling policy. See also: AWS API Documentation
+    /// Executes the specified policy. This can be useful for testing the design of your scaling policy. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -767,7 +767,7 @@ public class AwsAutoscaling : IAwsAutoscaling
     }
 
     /// <summary>
-    /// Retrieves the forecast data for a predictive scaling policy. Load forecasts are predictions of the hourly load values using histori- cal load data from CloudWatch and an analysis of historical trends. Ca- pacity forecasts are represented as predicted values for the minimum capacity that is needed on an hourly basis, based on the hourly load forecast. A minimum of 24 hours of data is required to create the initial fore- casts. However, having a full 14 days of historical data results in more accu...
+    /// Retrieves the forecast data for a predictive scaling policy. Load forecasts are predictions of the hourly load values using historical load data from CloudWatch and an analysis of historical trends. Capacity forecasts are represented as predicted values for the minimum capacity that is needed on an hourly basis, based on the hourly load forecast. A minimum of 24 hours of data is required to create the initial forecasts. However, having a full 14 days of historical data results in more accurate f...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -782,7 +782,7 @@ public class AwsAutoscaling : IAwsAutoscaling
     }
 
     /// <summary>
-    /// Launches a specified number of instances in an Auto Scaling group. Re- turns instance IDs and other details if launch is successful or error details if launch is unsuccessful. See also: AWS API Documentation
+    /// Launches a specified number of instances in an Auto Scaling group. Returns instance IDs and other details if launch is successful or error details if launch is unsuccessful. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -797,7 +797,7 @@ public class AwsAutoscaling : IAwsAutoscaling
     }
 
     /// <summary>
-    /// Creates or updates a lifecycle hook for the specified Auto Scaling group. Lifecycle hooks let you create solutions that are aware of events in the Auto Scaling instance lifecycle, and then perform a custom action on instances when the corresponding lifecycle event occurs. This step is a part of the procedure for adding a lifecycle hook to an Auto Scaling group: o (Optional) Create a launch template or launch configuration with a user data script that runs while an instance is in a wait state due...
+    /// Creates or updates a lifecycle hook for the specified Auto Scaling group. Lifecycle hooks let you create solutions that are aware of events in the Auto Scaling instance lifecycle, and then perform a custom action on instances when the corresponding lifecycle event occurs. This step is a part of the procedure for adding a lifecycle hook to an Auto Scaling group: • (Optional) Create a launch template or launch configuration with a user data script that runs while an instance is in a wait state due...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -842,7 +842,7 @@ public class AwsAutoscaling : IAwsAutoscaling
     }
 
     /// <summary>
-    /// Creates or updates a scheduled scaling action for an Auto Scaling group. For more information, see Scheduled scaling in the Amazon EC2 Auto Scaling User Guide . You can view the scheduled actions for an Auto Scaling group using the DescribeScheduledActions API call. If you are no longer using a sched- uled action, you can delete it by calling the DeleteScheduledAction API. If you try to schedule your action in the past, Amazon EC2 Auto Scaling returns an error message. See also: AWS API Document...
+    /// Creates or updates a scheduled scaling action for an Auto Scaling group. For more information, see Scheduled scaling in the Amazon EC2 Auto Scaling User Guide . You can view the scheduled actions for an Auto Scaling group using the DescribeScheduledActions API call. If you are no longer using a scheduled action, you can delete it by calling the DeleteScheduledAction API. If you try to schedule your action in the past, Amazon EC2 Auto Scaling returns an error message. See also: AWS API Documentat...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -857,7 +857,7 @@ public class AwsAutoscaling : IAwsAutoscaling
     }
 
     /// <summary>
-    /// Creates or updates a warm pool for the specified Auto Scaling group. A warm pool is a pool of pre-initialized EC2 instances that sits along- side the Auto Scaling group. Whenever your application needs to scale out, the Auto Scaling group can draw on the warm pool to meet its new desired capacity. This operation must be called from the Region in which the Auto Scaling group was created. You can view the instances in the warm pool using the DescribeWarmPool API call. If you are no longer using a ...
+    /// Creates or updates a warm pool for the specified Auto Scaling group. A warm pool is a pool of pre-initialized EC2 instances that sits alongside the Auto Scaling group. Whenever your application needs to scale out, the Auto Scaling group can draw on the warm pool to meet its new desired capacity. This operation must be called from the Region in which the Auto Scaling group was created. You can view the instances in the warm pool using the DescribeWarmPool API call. If you are no longer using a wa...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -872,7 +872,7 @@ public class AwsAutoscaling : IAwsAutoscaling
     }
 
     /// <summary>
-    /// Records a heartbeat for the lifecycle action associated with the speci- fied token or instance. This extends the timeout by the length of time defined using the PutLifecycleHook API call. This step is a part of the procedure for adding a lifecycle hook to an Auto Scaling group: o (Optional) Create a launch template or launch configuration with a user data script that runs while an instance is in a wait state due to a lifecycle hook. o (Optional) Create a Lambda function and a rule that allows Am...
+    /// Records a heartbeat for the lifecycle action associated with the specified token or instance. This extends the timeout by the length of time defined using the PutLifecycleHook API call. This step is a part of the procedure for adding a lifecycle hook to an Auto Scaling group: • (Optional) Create a launch template or launch configuration with a user data script that runs while an instance is in a wait state due to a lifecycle hook. • (Optional) Create a Lambda function and a rule that allows Amaz...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -887,7 +887,7 @@ public class AwsAutoscaling : IAwsAutoscaling
     }
 
     /// <summary>
-    /// Resumes the specified suspended auto scaling processes, or all sus- pended process, for the specified Auto Scaling group. For more information, see Suspend and resume Amazon EC2 Auto Scaling processes in the Amazon EC2 Auto Scaling User Guide . See also: AWS API Documentation
+    /// Resumes the specified suspended auto scaling processes, or all suspended process, for the specified Auto Scaling group. For more information, see Suspend and resume Amazon EC2 Auto Scaling processes in the Amazon EC2 Auto Scaling User Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -917,7 +917,7 @@ public class AwsAutoscaling : IAwsAutoscaling
     }
 
     /// <summary>
-    /// Sets the size of the specified Auto Scaling group. If a scale-in activity occurs as a result of a new DesiredCapacity value that is lower than the current size of the group, the Auto Scal- ing group uses its termination policy to determine which instances to terminate. For more information, see Manual scaling in the Amazon EC2 Auto Scaling User Guide . See also: AWS API Documentation
+    /// Sets the size of the specified Auto Scaling group. If a scale-in activity occurs as a result of a new DesiredCapacity value that is lower than the current size of the group, the Auto Scaling group uses its termination policy to determine which instances to terminate. For more information, see Manual scaling in the Amazon EC2 Auto Scaling User Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -947,7 +947,7 @@ public class AwsAutoscaling : IAwsAutoscaling
     }
 
     /// <summary>
-    /// Updates the instance protection settings of the specified instances. This operation cannot be called on instances in a warm pool. For more information, see Use instance scale-in protection in the Ama- zon EC2 Auto Scaling User Guide . If you exceed your maximum limit of instance IDs, which is 50 per Auto Scaling group, the call fails. See also: AWS API Documentation
+    /// Updates the instance protection settings of the specified instances. This operation cannot be called on instances in a warm pool. For more information, see Use instance scale-in protection in the Amazon EC2 Auto Scaling User Guide . If you exceed your maximum limit of instance IDs, which is 50 per Auto Scaling group, the call fails. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -977,7 +977,7 @@ public class AwsAutoscaling : IAwsAutoscaling
     }
 
     /// <summary>
-    /// Suspends the specified auto scaling processes, or all processes, for the specified Auto Scaling group. If you suspend either the Launch or Terminate process types, it can prevent other process types from functioning properly. For more infor- mation, see Suspend and resume Amazon EC2 Auto Scaling processes in the Amazon EC2 Auto Scaling User Guide . To resume processes that have been suspended, call the ResumeProcesses API. See also: AWS API Documentation
+    /// Suspends the specified auto scaling processes, or all processes, for the specified Auto Scaling group. If you suspend either the Launch or Terminate process types, it can prevent other process types from functioning properly. For more information, see Suspend and resume Amazon EC2 Auto Scaling processes in the Amazon EC2 Auto Scaling User Guide . To resume processes that have been suspended, call the ResumeProcesses API. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -992,7 +992,7 @@ public class AwsAutoscaling : IAwsAutoscaling
     }
 
     /// <summary>
-    /// Terminates the specified instance and optionally adjusts the desired group size. This operation cannot be called on instances in a warm pool. This call simply makes a termination request. The instances are not terminated immediately. When an instance is terminated, the instance status changes to terminated . You can't connect to or start an in- stance after you've terminated it. If you do not specify the option to decrement the desired capacity, Amazon EC2 Auto Scaling launches instances to repl...
+    /// Terminates the specified instance and optionally adjusts the desired group size. This operation cannot be called on instances in a warm pool. This call simply makes a termination request. The instances are not terminated immediately. When an instance is terminated, the instance status changes to terminated . You can't connect to or start an instance after you've terminated it. If you do not specify the option to decrement the desired capacity, Amazon EC2 Auto Scaling launches instances to replac...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1007,7 +1007,7 @@ public class AwsAutoscaling : IAwsAutoscaling
     }
 
     /// <summary>
-    /// We strongly recommend that all Auto Scaling groups use launch tem- plates to ensure full functionality for Amazon EC2 Auto Scaling and Amazon EC2. Updates the configuration for the specified Auto Scaling group. To update an Auto Scaling group, specify the name of the group and the property that you want to change. Any properties that you don't specify are not changed by this update request. The new settings take effect on any scaling activities after this call returns. If you associate a new lau...
+    /// We strongly recommend that all Auto Scaling groups use launch templates to ensure full functionality for Amazon EC2 Auto Scaling and Amazon EC2. Updates the configuration for the specified Auto Scaling group. To update an Auto Scaling group, specify the name of the group and the property that you want to change. Any properties that you don't specify are not changed by this update request. The new settings take effect on any scaling activities after this call returns. If you associate a new launc...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

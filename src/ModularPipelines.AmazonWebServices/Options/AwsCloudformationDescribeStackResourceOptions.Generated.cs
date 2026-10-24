@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsCloudformationDescribeStackResourceOptions : AwsOptions, IValid
     /// <summary>
     /// Returns a description of the specified resource in the specified stack. For deleted stacks, DescribeStackResource returns resource information for up to 90 days after the stack has been deleted. See also: AWS API Documentation
     /// </summary>
-    /// <param name="StackName">The name or the unique stack ID that's associated with the stack, which aren't always interchangeable: o Running stacks: You can specify either the stack's name or its unique stack ID. o Deleted stacks: You must specify the unique stack ID.</param>
+    /// <param name="StackName">The name or the unique stack ID that's associated with the stack, which aren't always interchangeable: • Running stacks: You can specify either the stack's name or its unique stack ID. • Deleted stacks: You must specify the unique stack ID.</param>
     /// <param name="LogicalResourceId">The logical name of the resource as specified in the template.</param>
     public AwsCloudformationDescribeStackResourceOptions(
         string StackName,
@@ -60,7 +61,7 @@ public record AwsCloudformationDescribeStackResourceOptions : AwsOptions, IValid
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name or the unique stack ID that's associated with the stack, which aren't always interchangeable: o Running stacks: You can specify either the stack's name or its unique stack ID. o Deleted stacks: You must specify the unique stack ID.
+    /// The name or the unique stack ID that's associated with the stack, which aren't always interchangeable: • Running stacks: You can specify either the stack's name or its unique stack ID. • Deleted stacks: You must specify the unique stack ID.
     /// </summary>
     [CliOption("--stack-name")]
     public string? StackName { get; private init; }
@@ -92,6 +93,15 @@ public record AwsCloudformationDescribeStackResourceOptions : AwsOptions, IValid
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

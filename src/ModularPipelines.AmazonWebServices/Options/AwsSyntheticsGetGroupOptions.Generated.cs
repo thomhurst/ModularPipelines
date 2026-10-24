@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsSyntheticsGetGroupOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Returns information about one group. Groups are a global resource, so you can use this operation from any Region. See also: AWS API Documentation
     /// </summary>
-    /// <param name="GroupIdentifier">Specifies the group to return information for. You can specify the group name, the ARN, or the group ID as the GroupIdentifier . Constraints: o min: 1 o max: 128</param>
+    /// <param name="GroupIdentifier">Specifies the group to return information for. You can specify the group name, the ARN, or the group ID as the GroupIdentifier . Constraints: • min: 1 • max: 128</param>
     public AwsSyntheticsGetGroupOptions(
         string GroupIdentifier
     )
@@ -56,7 +57,7 @@ public record AwsSyntheticsGetGroupOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Specifies the group to return information for. You can specify the group name, the ARN, or the group ID as the GroupIdentifier . Constraints: o min: 1 o max: 128
+    /// Specifies the group to return information for. You can specify the group name, the ARN, or the group ID as the GroupIdentifier . Constraints: • min: 1 • max: 128
     /// </summary>
     [CliOption("--group-identifier")]
     public string? GroupIdentifier { get; private init; }
@@ -82,6 +83,15 @@ public record AwsSyntheticsGetGroupOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

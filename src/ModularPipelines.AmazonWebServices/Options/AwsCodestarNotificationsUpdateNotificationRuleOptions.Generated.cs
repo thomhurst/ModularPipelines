@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates a notification rule for a resource. You can change the events that trigger the notification rule, the status of the rule, and the targets that receive the notifications. NOTE: To add or remove tags for a notification rule, you must use TagRe- source and UntagResource . See also: AWS API Documentation
+/// Updates a notification rule for a resource. You can change the events that trigger the notification rule, the status of the rule, and the targets that receive the notifications. NOTE: To add or remove tags for a notification rule, you must use TagResource and UntagResource . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +27,9 @@ public record AwsCodestarNotificationsUpdateNotificationRuleOptions : AwsOptions
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates a notification rule for a resource. You can change the events that trigger the notification rule, the status of the rule, and the targets that receive the notifications. NOTE: To add or remove tags for a notification rule, you must use TagRe- source and UntagResource . See also: AWS API Documentation
+    /// Updates a notification rule for a resource. You can change the events that trigger the notification rule, the status of the rule, and the targets that receive the notifications. NOTE: To add or remove tags for a notification rule, you must use TagResource and UntagResource . See also: AWS API Documentation
     /// </summary>
-    /// <param name="Arn">The Amazon Resource Name (ARN) of the notification rule. Constraints: o pattern: ^arn:aws[^:\s]*:codestar-notifications:[^:\s]+:\d{12}:no- tificationrule\/(.*\S)?$</param>
+    /// <param name="Arn">The Amazon Resource Name (ARN) of the notification rule. Constraints: • pattern: ^arn:aws[^:\s]*:codestar-notifications:[^:\s]+:\d{12}:notificationrule\/(.*\S)?$</param>
     public AwsCodestarNotificationsUpdateNotificationRuleOptions(
         string Arn
     )
@@ -57,37 +58,37 @@ public record AwsCodestarNotificationsUpdateNotificationRuleOptions : AwsOptions
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the notification rule. Constraints: o pattern: ^arn:aws[^:\s]*:codestar-notifications:[^:\s]+:\d{12}:no- tificationrule\/(.*\S)?$
+    /// The Amazon Resource Name (ARN) of the notification rule. Constraints: • pattern: ^arn:aws[^:\s]*:codestar-notifications:[^:\s]+:\d{12}:notificationrule\/(.*\S)?$
     /// </summary>
     [CliOption("--arn")]
     public string? Arn { get; private init; }
 
     /// <summary>
-    /// The name of the notification rule. Constraints: o min: 1 o max: 64 o pattern: [A-Za-z0-9\-_ ]+$
+    /// The name of the notification rule. Constraints: • min: 1 • max: 64 • pattern: [A-Za-z0-9\-_ ]+$
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
 
     /// <summary>
-    /// The status of the notification rule. Valid statuses include enabled (sending notifications) or disabled (not sending notifications). Possible values: o ENABLED o DISABLED
+    /// The status of the notification rule. Valid statuses include enabled (sending notifications) or disabled (not sending notifications). Possible values: • ENABLED • DISABLED
     /// </summary>
     [CliOption("--status")]
     public AwsCodestarNotificationsUpdateNotificationRuleStatus? Status { get; set; }
 
     /// <summary>
-    /// A list of event types associated with this notification rule. For a complete list of event types and IDs, see Notification concepts in the Developer Tools Console User Guide . (string) Constraints: o min: 1 o max: 200 Syntax: "string" "string" ...
+    /// A list of event types associated with this notification rule. For a complete list of event types and IDs, see Notification concepts in the Developer Tools Console User Guide . (string) Constraints: • min: 1 • max: 200 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--event-type-ids", GroupValues = true)]
     public IEnumerable<string>? EventTypeIds { get; set; }
 
     /// <summary>
-    /// The address and type of the targets to receive notifications from this notification rule. Constraints: o max: 10 (structure) Information about the Amazon Q Developer in chat applications topics or Amazon Q Developer in chat applications clients asso- ciated with a notification rule. TargetType -&gt; (string) The target type. Can be an Amazon Q Developer in chat appli- cations topic or Amazon Q Developer in chat applications client. o Amazon Q Developer in chat applications topics are speci- fied as SNS . o Amazon Q Developer in chat applications clients are speci- fied as AWSChatbotSlack . Constraints: o pattern: ^[A-Za-z]+$ TargetAddress -&gt; (string) The Amazon Resource Name (ARN) of the Amazon Q Developer in chat applications topic or Amazon Q Developer in chat appli- cations client. Constraints: o min: 1 o max: 320 Shorthand Syntax: TargetType=string,TargetAddress=string ... JSON Syntax: [ { "TargetType": "string", "TargetAddress": "string" } ... ]
+    /// The address and type of the targets to receive notifications from this notification rule. Constraints: • max: 10 (structure) Information about the Amazon Q Developer in chat applications topics or Amazon Q Developer in chat applications clients associated with a notification rule. TargetType -&gt; (string) The target type. Can be an Amazon Q Developer in chat applications topic or Amazon Q Developer in chat applications client. • Amazon Q Developer in chat applications topics are specified as SNS . • Amazon Q Developer in chat applications clients are specified as AWSChatbotSlack . Constraints: • pattern: ^[A-Za-z]+$ TargetAddress -&gt; (string) The Amazon Resource Name (ARN) of the Amazon Q Developer in chat applications topic or Amazon Q Developer in chat applications client. Constraints: • min: 1 • max: 320 Shorthand Syntax: TargetType=string,TargetAddress=string ... JSON Syntax: [ { "TargetType": "string", "TargetAddress": "string" } ... ]
     /// </summary>
     [CliOption("--targets", GroupValues = true)]
     public IEnumerable<string>? Targets { get; set; }
 
     /// <summary>
-    /// The level of detail to include in the notifications for this re- source. BASIC will include only the contents of the event as it would appear in Amazon CloudWatch. FULL will include any supplemen- tal information provided by CodeStar Notifications and/or the ser- vice for the resource for which the notification is created. Possible values: o BASIC o FULL
+    /// The level of detail to include in the notifications for this resource. BASIC will include only the contents of the event as it would appear in Amazon CloudWatch. FULL will include any supplemental information provided by CodeStar Notifications and/or the service for the resource for which the notification is created. Possible values: • BASIC • FULL
     /// </summary>
     [CliOption("--detail-type")]
     public AwsCodestarNotificationsUpdateNotificationRuleDetailType? DetailType { get; set; }
@@ -113,6 +114,15 @@ public record AwsCodestarNotificationsUpdateNotificationRuleOptions : AwsOptions
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes the metadata tags from the Amazon RDS Performance Insights re- source. See also: AWS API Documentation
+/// Deletes the metadata tags from the Amazon RDS Performance Insights resource. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,11 +27,11 @@ public record AwsPiUntagResourceOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes the metadata tags from the Amazon RDS Performance Insights re- source. See also: AWS API Documentation
+    /// Deletes the metadata tags from the Amazon RDS Performance Insights resource. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ServiceType">List the tags for the Amazon Web Services service for which Perfor- mance Insights returns metrics. Valid value is RDS . Possible values: o RDS o DOCDB</param>
-    /// <param name="ResourceArn">The Amazon RDS Performance Insights resource that the tags are added to. This value is an Amazon Resource Name (ARN). For information about creating an ARN, see Constructing an RDS Amazon Resource Name (ARN) . Constraints: o min: 1 o max: 1011 o pattern: ^arn:.*:pi:.*$</param>
-    /// <param name="TagKeys">The metadata assigned to an Amazon RDS Performance Insights resource consisting of a key-value pair. Constraints: o min: 0 o max: 200 (string) Constraints: o min: 1 o max: 128 o pattern: ^.*$ Syntax: "string" "string" ...</param>
+    /// <param name="ServiceType">List the tags for the Amazon Web Services service for which Performance Insights returns metrics. Valid value is RDS . Possible values: • RDS • DOCDB</param>
+    /// <param name="ResourceArn">The Amazon RDS Performance Insights resource that the tags are added to. This value is an Amazon Resource Name (ARN). For information about creating an ARN, see Constructing an RDS Amazon Resource Name (ARN) . Constraints: • min: 1 • max: 1011 • pattern: ^arn:.*:pi:.*$</param>
+    /// <param name="TagKeys">The metadata assigned to an Amazon RDS Performance Insights resource consisting of a key-value pair. Constraints: • min: 0 • max: 200 (string) Constraints: • min: 1 • max: 128 • pattern: ^.*$ Syntax: "string" "string" ...</param>
     public AwsPiUntagResourceOptions(
         AwsPiUntagResourceServiceType ServiceType,
         string ResourceArn,
@@ -75,19 +76,19 @@ public record AwsPiUntagResourceOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// List the tags for the Amazon Web Services service for which Perfor- mance Insights returns metrics. Valid value is RDS . Possible values: o RDS o DOCDB
+    /// List the tags for the Amazon Web Services service for which Performance Insights returns metrics. Valid value is RDS . Possible values: • RDS • DOCDB
     /// </summary>
     [CliOption("--service-type")]
     public AwsPiUntagResourceServiceType? ServiceType { get; private init; }
 
     /// <summary>
-    /// The Amazon RDS Performance Insights resource that the tags are added to. This value is an Amazon Resource Name (ARN). For information about creating an ARN, see Constructing an RDS Amazon Resource Name (ARN) . Constraints: o min: 1 o max: 1011 o pattern: ^arn:.*:pi:.*$
+    /// The Amazon RDS Performance Insights resource that the tags are added to. This value is an Amazon Resource Name (ARN). For information about creating an ARN, see Constructing an RDS Amazon Resource Name (ARN) . Constraints: • min: 1 • max: 1011 • pattern: ^arn:.*:pi:.*$
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
 
     /// <summary>
-    /// The metadata assigned to an Amazon RDS Performance Insights resource consisting of a key-value pair. Constraints: o min: 0 o max: 200 (string) Constraints: o min: 1 o max: 128 o pattern: ^.*$ Syntax: "string" "string" ...
+    /// The metadata assigned to an Amazon RDS Performance Insights resource consisting of a key-value pair. Constraints: • min: 0 • max: 200 (string) Constraints: • min: 1 • max: 128 • pattern: ^.*$ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--tag-keys", GroupValues = true)]
     public IEnumerable<string>? TagKeys { get; private init; }
@@ -113,6 +114,15 @@ public record AwsPiUntagResourceOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

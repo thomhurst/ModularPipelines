@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsRoute53RecoveryControlConfigUpdateControlPanelOptions : AwsOpti
     /// <summary>
     /// Updates a control panel. The only update you can make to a control panel is to change the name of the control panel. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ControlPanelArn">The Amazon Resource Name (ARN) of the control panel. Constraints: o min: 1 o max: 256 o pattern: ^[A-Za-z0-9:\/_-]*$</param>
-    /// <param name="ControlPanelName">The name of the control panel. Constraints: o min: 1 o max: 64 o pattern: ^\S+$</param>
+    /// <param name="ControlPanelArn">The Amazon Resource Name (ARN) of the control panel. Constraints: • min: 1 • max: 256 • pattern: ^[A-Za-z0-9:\/_-]*$</param>
+    /// <param name="ControlPanelName">The name of the control panel. Constraints: • min: 1 • max: 64 • pattern: ^\S+$</param>
     public AwsRoute53RecoveryControlConfigUpdateControlPanelOptions(
         string ControlPanelArn,
         string ControlPanelName
@@ -60,13 +61,13 @@ public record AwsRoute53RecoveryControlConfigUpdateControlPanelOptions : AwsOpti
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the control panel. Constraints: o min: 1 o max: 256 o pattern: ^[A-Za-z0-9:\/_-]*$
+    /// The Amazon Resource Name (ARN) of the control panel. Constraints: • min: 1 • max: 256 • pattern: ^[A-Za-z0-9:\/_-]*$
     /// </summary>
     [CliOption("--control-panel-arn")]
     public string? ControlPanelArn { get; private init; }
 
     /// <summary>
-    /// The name of the control panel. Constraints: o min: 1 o max: 64 o pattern: ^\S+$
+    /// The name of the control panel. Constraints: • min: 1 • max: 64 • pattern: ^\S+$
     /// </summary>
     [CliOption("--control-panel-name")]
     public string? ControlPanelName { get; private init; }
@@ -92,6 +93,15 @@ public record AwsRoute53RecoveryControlConfigUpdateControlPanelOptions : AwsOpti
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

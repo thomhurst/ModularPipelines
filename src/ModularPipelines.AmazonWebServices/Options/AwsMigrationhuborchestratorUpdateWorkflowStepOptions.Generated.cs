@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,9 +29,9 @@ public record AwsMigrationhuborchestratorUpdateWorkflowStepOptions : AwsOptions,
     /// <summary>
     /// Update a step in a migration workflow. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Id">The ID of the step. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z0-9-]+</param>
-    /// <param name="StepGroupId">The ID of the step group. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z0-9-]+</param>
-    /// <param name="WorkflowId">The ID of the migration workflow. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z0-9-]+</param>
+    /// <param name="Id">The ID of the step. Constraints: • min: 1 • max: 100 • pattern: [a-zA-Z0-9-]+</param>
+    /// <param name="StepGroupId">The ID of the step group. Constraints: • min: 1 • max: 100 • pattern: [a-zA-Z0-9-]+</param>
+    /// <param name="WorkflowId">The ID of the migration workflow. Constraints: • min: 1 • max: 100 • pattern: [a-zA-Z0-9-]+</param>
     public AwsMigrationhuborchestratorUpdateWorkflowStepOptions(
         string Id,
         string StepGroupId,
@@ -65,73 +66,73 @@ public record AwsMigrationhuborchestratorUpdateWorkflowStepOptions : AwsOptions,
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the step. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z0-9-]+
+    /// The ID of the step. Constraints: • min: 1 • max: 100 • pattern: [a-zA-Z0-9-]+
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; private init; }
 
     /// <summary>
-    /// The ID of the step group. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z0-9-]+
+    /// The ID of the step group. Constraints: • min: 1 • max: 100 • pattern: [a-zA-Z0-9-]+
     /// </summary>
     [CliOption("--step-group-id")]
     public string? StepGroupId { get; private init; }
 
     /// <summary>
-    /// The ID of the migration workflow. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z0-9-]+
+    /// The ID of the migration workflow. Constraints: • min: 1 • max: 100 • pattern: [a-zA-Z0-9-]+
     /// </summary>
     [CliOption("--workflow-id")]
     public string? WorkflowId { get; private init; }
 
     /// <summary>
-    /// The name of the step. Constraints: o min: 1 o max: 100 o pattern: [-a-zA-Z0-9_.+]+[-a-zA-Z0-9_.+ ]*
+    /// The name of the step. Constraints: • min: 1 • max: 100 • pattern: [-a-zA-Z0-9_.+]+[-a-zA-Z0-9_.+ ]*
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
 
     /// <summary>
-    /// The description of the step. Constraints: o min: 0 o max: 500 o pattern: [-a-zA-Z0-9_.+, ]*
+    /// The description of the step. Constraints: • min: 0 • max: 500 • pattern: [-a-zA-Z0-9_.+, ]*
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The action type of the step. You must run and update the status of a manual step for the workflow to continue after the completion of the step. Possible values: o MANUAL o AUTOMATED
+    /// The action type of the step. You must run and update the status of a manual step for the workflow to continue after the completion of the step. Possible values: • MANUAL • AUTOMATED
     /// </summary>
     [CliOption("--step-action-type")]
     public AwsMigrationhuborchestratorUpdateWorkflowStepStepActionType? StepActionType { get; set; }
 
     /// <summary>
-    /// The custom script to run tests on the source and target environ- ments. scriptLocationS3Bucket -&gt; (string) The Amazon S3 bucket where the script is located. Constraints: o min: 0 o max: 63 o pattern: [0-9a-z]+[0-9a-z\.\-]*[0-9a-z]+ scriptLocationS3Key -&gt; (structure) The Amazon S3 key for the script location. linux -&gt; (string) The script location for Linux. Constraints: o min: 0 o max: 1024 windows -&gt; (string) The script location for Windows. Constraints: o min: 0 o max: 1024 command -&gt; (structure) The command required to run the script. linux -&gt; (string) Command for Linux. windows -&gt; (string) Command for Windows. runEnvironment -&gt; (string) The source or target environment. Possible values: o AWS o ONPREMISE targetType -&gt; (string) The servers on which to run the script. Possible values: o SINGLE o ALL o NONE Shorthand Syntax: scriptLocationS3Bucket=string,scriptLocationS3Key={linux=string,windows=string},command={linux=string,windows=string},runEnvironment=string,targetType=string JSON Syntax: { "scriptLocationS3Bucket": "string", "scriptLocationS3Key": { "linux": "string", "windows": "string" }, "command": { "linux": "string", "windows": "string" }, "runEnvironment": "AWS"|"ONPREMISE", "targetType": "SINGLE"|"ALL"|"NONE" }
+    /// The custom script to run tests on the source and target environments. scriptLocationS3Bucket -&gt; (string) The Amazon S3 bucket where the script is located. Constraints: • min: 0 • max: 63 • pattern: [0-9a-z]+[0-9a-z\.\-]*[0-9a-z]+ scriptLocationS3Key -&gt; (structure) The Amazon S3 key for the script location. linux -&gt; (string) The script location for Linux. Constraints: • min: 0 • max: 1024 windows -&gt; (string) The script location for Windows. Constraints: • min: 0 • max: 1024 command -&gt; (structure) The command required to run the script. linux -&gt; (string) Command for Linux. windows -&gt; (string) Command for Windows. runEnvironment -&gt; (string) The source or target environment. Possible values: • AWS • ONPREMISE targetType -&gt; (string) The servers on which to run the script. Possible values: • SINGLE • ALL • NONE Shorthand Syntax: scriptLocationS3Bucket=string,scriptLocationS3Key={linux=string,windows=string},command={linux=string,windows=string},runEnvironment=string,targetType=string JSON Syntax: { "scriptLocationS3Bucket": "string", "scriptLocationS3Key": { "linux": "string", "windows": "string" }, "command": { "linux": "string", "windows": "string" }, "runEnvironment": "AWS"|"ONPREMISE", "targetType": "SINGLE"|"ALL"|"NONE" }
     /// </summary>
     [CliOption("--workflow-step-automation-configuration")]
     public string? WorkflowStepAutomationConfiguration { get; set; }
 
     /// <summary>
-    /// The servers on which a step will be run. (string) Constraints: o min: 0 o max: 500 Syntax: "string" "string" ...
+    /// The servers on which a step will be run. (string) Constraints: • min: 0 • max: 500 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--step-target", GroupValues = true)]
     public IEnumerable<string>? StepTarget { get; set; }
 
     /// <summary>
-    /// The outputs of a step. (structure) The output of a step. name -&gt; (string) The name of the step. Constraints: o min: 1 o max: 100 o pattern: [-a-zA-Z0-9_.+]+[-a-zA-Z0-9_.+ ]* dataType -&gt; (string) The data type of the output. Possible values: o STRING o INTEGER o STRINGLIST o STRINGMAP required -&gt; (boolean) Determine if an output is required from a step. value -&gt; (tagged union structure) The value of the output. NOTE: This is a Tagged Union structure. Only one of the follow- ing top level keys can be set: integerValue, stringValue, listOfStringValue. integerValue -&gt; (integer) The integer value. stringValue -&gt; (string) The string value. Constraints: o min: 0 o max: 2048 listOfStringValue -&gt; (list) The list of string value. (string) Constraints: o min: 0 o max: 2048 Shorthand Syntax: name=string,dataType=string,required=boolean,value={integerValue=integer,stringValue=string,listOfStringValue=[string,string]} ... JSON Syntax: [ { "name": "string", "dataType": "STRING"|"INTEGER"|"STRINGLIST"|"STRINGMAP", "required": true|false, "value": { "integerValue": integer, "stringValue": "string", "listOfStringValue": ["string", ...] } } ... ]
+    /// The outputs of a step. (structure) The output of a step. name -&gt; (string) The name of the step. Constraints: • min: 1 • max: 100 • pattern: [-a-zA-Z0-9_.+]+[-a-zA-Z0-9_.+ ]* dataType -&gt; (string) The data type of the output. Possible values: • STRING • INTEGER • STRINGLIST • STRINGMAP required -&gt; (boolean) Determine if an output is required from a step. value -&gt; (tagged union structure) The value of the output. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: integerValue, stringValue, listOfStringValue. integerValue -&gt; (integer) The integer value. stringValue -&gt; (string) The string value. Constraints: • min: 0 • max: 2048 listOfStringValue -&gt; (list) The list of string value. (string) Constraints: • min: 0 • max: 2048 Shorthand Syntax: name=string,dataType=string,required=boolean,value={integerValue=integer,stringValue=string,listOfStringValue=[string,string]} ... JSON Syntax: [ { "name": "string", "dataType": "STRING"|"INTEGER"|"STRINGLIST"|"STRINGMAP", "required": true|false, "value": { "integerValue": integer, "stringValue": "string", "listOfStringValue": ["string", ...] } } ... ]
     /// </summary>
     [CliOption("--outputs", GroupValues = true)]
     public IEnumerable<string>? Outputs { get; set; }
 
     /// <summary>
-    /// The previous step. (string) Constraints: o min: 0 o max: 500 Syntax: "string" "string" ...
+    /// The previous step. (string) Constraints: • min: 0 • max: 500 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--previous", GroupValues = true)]
     public IEnumerable<string>? Previous { get; set; }
 
     /// <summary>
-    /// The next step. (string) Constraints: o min: 0 o max: 500 Syntax: "string" "string" ...
+    /// The next step. (string) Constraints: • min: 0 • max: 500 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--next", GroupValues = true)]
     public IEnumerable<string>? Next { get; set; }
 
     /// <summary>
-    /// The status of the step. Possible values: o AWAITING_DEPENDENCIES o SKIPPED o READY o IN_PROGRESS o COMPLETED o FAILED o PAUSED o USER_ATTENTION_REQUIRED
+    /// The status of the step. Possible values: • AWAITING_DEPENDENCIES • SKIPPED • READY • IN_PROGRESS • COMPLETED • FAILED • PAUSED • USER_ATTENTION_REQUIRED
     /// </summary>
     [CliOption("--status")]
     public AwsMigrationhuborchestratorUpdateWorkflowStepStatus? Status { get; set; }
@@ -157,6 +158,15 @@ public record AwsMigrationhuborchestratorUpdateWorkflowStepOptions : AwsOptions,
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

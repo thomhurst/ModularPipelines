@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// NOTE: This operation is not supported by directory buckets. Associates an access control policy with the specified Multi-Region Ac- cess Point. Each Multi-Region Access Point can have only one policy, so a request made to this action replaces any existing policy that is as- sociated with the specified Multi-Region Access Point. This action will always be routed to the US West (Oregon) Region. For more information about the restrictions around working with Multi-Re- gion Access Points, see Multi-...
+/// NOTE: This operation is not supported by directory buckets. Associates an access control policy with the specified Multi-Region Access Point. Each Multi-Region Access Point can have only one policy, so a request made to this action replaces any existing policy that is associated with the specified Multi-Region Access Point. This action will always be routed to the US West (Oregon) Region. For more information about the restrictions around working with Multi-Region Access Points, see Multi-Region...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +27,10 @@ public record AwsS3controlPutMultiRegionAccessPointPolicyOptions : AwsOptions, I
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// NOTE: This operation is not supported by directory buckets. Associates an access control policy with the specified Multi-Region Ac- cess Point. Each Multi-Region Access Point can have only one policy, so a request made to this action replaces any existing policy that is as- sociated with the specified Multi-Region Access Point. This action will always be routed to the US West (Oregon) Region. For more information about the restrictions around working with Multi-Re- gion Access Points, see Multi-...
+    /// NOTE: This operation is not supported by directory buckets. Associates an access control policy with the specified Multi-Region Access Point. Each Multi-Region Access Point can have only one policy, so a request made to this action replaces any existing policy that is associated with the specified Multi-Region Access Point. This action will always be routed to the US West (Oregon) Region. For more information about the restrictions around working with Multi-Region Access Points, see Multi-Region...
     /// </summary>
-    /// <param name="AccountId">The Amazon Web Services account ID for the owner of the Multi-Region Access Point. Constraints: o max: 64 o pattern: ^\d{12}$</param>
-    /// <param name="Details">A container element containing the details of the policy for the Multi-Region Access Point. Name -&gt; (string) [required] The name of the Multi-Region Access Point associated with the request. Constraints: o max: 50 o pattern: ^[a-z0-9][-a-z0-9]{1,48}[a-z0-9]$ Policy -&gt; (string) [required] The policy details for the PutMultiRegionAccessPoint request. Shorthand Syntax: Name=string,Policy=string JSON Syntax: { "Name": "string", "Policy": "string" }</param>
+    /// <param name="AccountId">The Amazon Web Services account ID for the owner of the Multi-Region Access Point. Constraints: • max: 64 • pattern: ^\d{12}$</param>
+    /// <param name="Details">A container element containing the details of the policy for the Multi-Region Access Point. Name -&gt; (string) [required] The name of the Multi-Region Access Point associated with the request. Constraints: • max: 50 • pattern: ^[a-z0-9][-a-z0-9]{1,48}[a-z0-9]$ Policy -&gt; (string) [required] The policy details for the PutMultiRegionAccessPoint request. Shorthand Syntax: Name=string,Policy=string JSON Syntax: { "Name": "string", "Policy": "string" }</param>
     public AwsS3controlPutMultiRegionAccessPointPolicyOptions(
         string AccountId,
         string Details
@@ -61,19 +62,19 @@ public record AwsS3controlPutMultiRegionAccessPointPolicyOptions : AwsOptions, I
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Web Services account ID for the owner of the Multi-Region Access Point. Constraints: o max: 64 o pattern: ^\d{12}$
+    /// The Amazon Web Services account ID for the owner of the Multi-Region Access Point. Constraints: • max: 64 • pattern: ^\d{12}$
     /// </summary>
     [CliOption("--account-id")]
     public string? AccountId { get; private init; }
 
     /// <summary>
-    /// A container element containing the details of the policy for the Multi-Region Access Point. Name -&gt; (string) [required] The name of the Multi-Region Access Point associated with the request. Constraints: o max: 50 o pattern: ^[a-z0-9][-a-z0-9]{1,48}[a-z0-9]$ Policy -&gt; (string) [required] The policy details for the PutMultiRegionAccessPoint request. Shorthand Syntax: Name=string,Policy=string JSON Syntax: { "Name": "string", "Policy": "string" }
+    /// A container element containing the details of the policy for the Multi-Region Access Point. Name -&gt; (string) [required] The name of the Multi-Region Access Point associated with the request. Constraints: • max: 50 • pattern: ^[a-z0-9][-a-z0-9]{1,48}[a-z0-9]$ Policy -&gt; (string) [required] The policy details for the PutMultiRegionAccessPoint request. Shorthand Syntax: Name=string,Policy=string JSON Syntax: { "Name": "string", "Policy": "string" }
     /// </summary>
     [CliOption("--details")]
     public string? Details { get; private init; }
 
     /// <summary>
-    /// An idempotency token used to identify the request and guarantee that requests are unique. Constraints: o max: 64 o pattern: \S+
+    /// An idempotency token used to identify the request and guarantee that requests are unique. Constraints: • max: 64 • pattern: \S+
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
@@ -100,6 +101,15 @@ public record AwsS3controlPutMultiRegionAccessPointPolicyOptions : AwsOptions, I
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

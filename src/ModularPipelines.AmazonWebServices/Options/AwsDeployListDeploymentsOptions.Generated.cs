@@ -15,7 +15,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Lists the deployments in a deployment group for an application regis- tered with the user or Amazon Web Services account. See also: AWS API Documentation list-deployments is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following q...
+/// Lists the deployments in a deployment group for an application registered with the user or Amazon Web Services account. See also: AWS API Documentation list-deployments is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following que...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -23,13 +23,13 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsDeployListDeploymentsOptions : AwsOptions
 {
     /// <summary>
-    /// The name of an CodeDeploy application associated with the user or Amazon Web Services account. NOTE: If applicationName is specified, then deploymentGroupName must be specified. If it is not specified, then deploymentGroupName must not be specified. Constraints: o min: 1 o max: 100 o pattern: [A-Za-z0-9+=,.@_-]*
+    /// The name of an CodeDeploy application associated with the user or Amazon Web Services account. NOTE: If applicationName is specified, then deploymentGroupName must be specified. If it is not specified, then deploymentGroupName must not be specified. Constraints: • min: 1 • max: 100 • pattern: [A-Za-z0-9+=,.@_-]*
     /// </summary>
     [CliOption("--application-name")]
     public string? ApplicationName { get; set; }
 
     /// <summary>
-    /// The name of a deployment group for the specified application. NOTE: If deploymentGroupName is specified, then applicationName must be specified. If it is not specified, then applicationName must not be specified. Constraints: o min: 1 o max: 100 o pattern: [A-Za-z0-9+=,.@_-]*
+    /// The name of a deployment group for the specified application. NOTE: If deploymentGroupName is specified, then applicationName must be specified. If it is not specified, then applicationName must not be specified. Constraints: • min: 1 • max: 100 • pattern: [A-Za-z0-9+=,.@_-]*
     /// </summary>
     [CliOption("--deployment-group-name")]
     public string? DeploymentGroupName { get; set; }
@@ -41,7 +41,7 @@ public record AwsDeployListDeploymentsOptions : AwsOptions
     public string? ExternalId { get; set; }
 
     /// <summary>
-    /// A subset of deployments to list by status: o Created : Include created deployments in the resulting list. o Queued : Include queued deployments in the resulting list. o In Progress : Include in-progress deployments in the resulting list. o Succeeded : Include successful deployments in the resulting list. o Failed : Include failed deployments in the resulting list. o Stopped : Include stopped deployments in the resulting list. (string) Possible values: o Created o Queued o InProgress o Baking o Succeeded o Failed o Stopped o Ready Syntax: "string" "string" ...
+    /// A subset of deployments to list by status: • Created : Include created deployments in the resulting list. • Queued : Include queued deployments in the resulting list. • In Progress : Include in-progress deployments in the resulting list. • Succeeded : Include successful deployments in the resulting list. • Failed : Include failed deployments in the resulting list. • Stopped : Include stopped deployments in the resulting list. (string) Possible values: • Created • Queued • InProgress • Baking • Succeeded • Failed • Stopped • Ready Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--include-only-statuses", GroupValues = true)]
     public IEnumerable<string>? IncludeOnlyStatuses { get; set; }
@@ -55,9 +55,6 @@ public record AwsDeployListDeploymentsOptions : AwsOptions
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
-
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
@@ -66,9 +63,21 @@ public record AwsDeployListDeploymentsOptions : AwsOptions
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

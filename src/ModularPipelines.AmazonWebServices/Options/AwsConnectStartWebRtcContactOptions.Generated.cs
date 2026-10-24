@@ -11,13 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Places an inbound in-app, web, or video call to a contact, and then initiates the flow. It performs the actions in the flow that are speci- fied (in ContactFlowId) and present in the Connect Customer instance (specified as InstanceId). See also: AWS API Documentation
+/// Places an inbound in-app, web, or video call to a contact, and then initiates the flow. It performs the actions in the flow that are specified (in ContactFlowId) and present in the Connect Customer instance (specified as InstanceId). See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,11 +27,11 @@ public record AwsConnectStartWebRtcContactOptions : AwsOptions, IValidatableObje
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Places an inbound in-app, web, or video call to a contact, and then initiates the flow. It performs the actions in the flow that are speci- fied (in ContactFlowId) and present in the Connect Customer instance (specified as InstanceId). See also: AWS API Documentation
+    /// Places an inbound in-app, web, or video call to a contact, and then initiates the flow. It performs the actions in the flow that are specified (in ContactFlowId) and present in the Connect Customer instance (specified as InstanceId). See also: AWS API Documentation
     /// </summary>
-    /// <param name="ContactFlowId">The identifier of the flow for the call. To see the ContactFlowId in the Connect Customer admin website, on the navigation menu go to Routing , Flows . Choose the flow. On the flow page, under the name of the flow, choose Show additional flow information . The Contact- FlowId is the last part of the ARN, shown here in bold: arn:aws:connect:us-west-2:xxxxxxxxxxxx:in- stance/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/con- tact-flow/846ec553-a005-41c0-8341-xxxxxxxxxxxx Constraints: o max: 500</param>
-    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100</param>
-    /// <param name="ParticipantDetails">The details of the participant, including their display name. DisplayName -&gt; (string) [required] Display name of the participant. Constraints: o min: 1 o max: 256 Shorthand Syntax: DisplayName=string JSON Syntax: { "DisplayName": "string" }</param>
+    /// <param name="ContactFlowId">The identifier of the flow for the call. To see the ContactFlowId in the Connect Customer admin website, on the navigation menu go to Routing , Flows . Choose the flow. On the flow page, under the name of the flow, choose Show additional flow information . The ContactFlowId is the last part of the ARN, shown here in bold: arn:aws:connect:us-west-2:xxxxxxxxxxxx:instance/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/contact-flow/846ec553-a005-41c0-8341-xxxxxxxxxxxx Constraints: • max: 500</param>
+    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: • min: 1 • max: 100</param>
+    /// <param name="ParticipantDetails">The details of the participant, including their display name. DisplayName -&gt; (string) [required] Display name of the participant. Constraints: • min: 1 • max: 256 Shorthand Syntax: DisplayName=string JSON Syntax: { "DisplayName": "string" }</param>
     public AwsConnectStartWebRtcContactOptions(
         string ContactFlowId,
         string InstanceId,
@@ -66,62 +66,62 @@ public record AwsConnectStartWebRtcContactOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the flow for the call. To see the ContactFlowId in the Connect Customer admin website, on the navigation menu go to Routing , Flows . Choose the flow. On the flow page, under the name of the flow, choose Show additional flow information . The Contact- FlowId is the last part of the ARN, shown here in bold: arn:aws:connect:us-west-2:xxxxxxxxxxxx:in- stance/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/con- tact-flow/846ec553-a005-41c0-8341-xxxxxxxxxxxx Constraints: o max: 500
+    /// The identifier of the flow for the call. To see the ContactFlowId in the Connect Customer admin website, on the navigation menu go to Routing , Flows . Choose the flow. On the flow page, under the name of the flow, choose Show additional flow information . The ContactFlowId is the last part of the ARN, shown here in bold: arn:aws:connect:us-west-2:xxxxxxxxxxxx:instance/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/contact-flow/846ec553-a005-41c0-8341-xxxxxxxxxxxx Constraints: • max: 500
     /// </summary>
     [CliOption("--contact-flow-id")]
     public string? ContactFlowId { get; private init; }
 
     /// <summary>
-    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100
+    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--instance-id")]
     public string? InstanceId { get; private init; }
 
     /// <summary>
-    /// The details of the participant, including their display name. DisplayName -&gt; (string) [required] Display name of the participant. Constraints: o min: 1 o max: 256 Shorthand Syntax: DisplayName=string JSON Syntax: { "DisplayName": "string" }
+    /// The details of the participant, including their display name. DisplayName -&gt; (string) [required] Display name of the participant. Constraints: • min: 1 • max: 256 Shorthand Syntax: DisplayName=string JSON Syntax: { "DisplayName": "string" }
     /// </summary>
     [CliOption("--participant-details")]
     public string? ParticipantDetails { get; private init; }
 
     /// <summary>
-    /// A custom key-value pair using an attribute map. The attributes are standard Connect Customer attributes, and can be accessed in flows just like any other contact attributes. There can be up to 32,768 UTF-8 bytes across all key-value pairs per contact. Attribute keys can include only alphanumeric, -, and _ characters. key -&gt; (string) Constraints: o min: 1 o max: 32767 value -&gt; (string) Constraints: o min: 0 o max: 32767 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// A custom key-value pair using an attribute map. The attributes are standard Connect Customer attributes, and can be accessed in flows just like any other contact attributes. There can be up to 32,768 UTF-8 bytes across all key-value pairs per contact. Attribute keys can include only alphanumeric, -, and _ characters. key -&gt; (string) Constraints: • min: 1 • max: 32767 value -&gt; (string) Constraints: • min: 0 • max: 32767 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--attributes", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Attributes { get; set; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs . The token is valid for 7 days after creation. If a contact is al- ready started, the contact ID is returned. Constraints: o max: 500
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs . The token is valid for 7 days after creation. If a contact is already started, the contact ID is returned. Constraints: • max: 500
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// Information about the video sharing capabilities of the participants (customer, agent). Customer -&gt; (structure) Information about the customer's video sharing capabilities. Video -&gt; (string) The configuration having the video and screen sharing capa- bilities for participants over the call. Possible values: o SEND ScreenShare -&gt; (string) The screen sharing capability that is enabled for the partic- ipant. SEND indicates the participant can share their screen. Possible values: o SEND Agent -&gt; (structure) Information about the agent's video sharing capabilities. Video -&gt; (string) The configuration having the video and screen sharing capa- bilities for participants over the call. Possible values: o SEND ScreenShare -&gt; (string) The screen sharing capability that is enabled for the partic- ipant. SEND indicates the participant can share their screen. Possible values: o SEND Shorthand Syntax: Customer={Video=string,ScreenShare=string},Agent={Video=string,ScreenShare=string} JSON Syntax: { "Customer": { "Video": "SEND", "ScreenShare": "SEND" }, "Agent": { "Video": "SEND", "ScreenShare": "SEND" } }
+    /// Information about the video sharing capabilities of the participants (customer, agent). Customer -&gt; (structure) Information about the customer's video sharing capabilities. Video -&gt; (string) The configuration having the video and screen sharing capabilities for participants over the call. Possible values: • SEND ScreenShare -&gt; (string) The screen sharing capability that is enabled for the participant. SEND indicates the participant can share their screen. Possible values: • SEND Agent -&gt; (structure) Information about the agent's video sharing capabilities. Video -&gt; (string) The configuration having the video and screen sharing capabilities for participants over the call. Possible values: • SEND ScreenShare -&gt; (string) The screen sharing capability that is enabled for the participant. SEND indicates the participant can share their screen. Possible values: • SEND Shorthand Syntax: Customer={Video=string,ScreenShare=string},Agent={Video=string,ScreenShare=string} JSON Syntax: { "Customer": { "Video": "SEND", "ScreenShare": "SEND" }, "Agent": { "Video": "SEND", "ScreenShare": "SEND" } }
     /// </summary>
     [CliOption("--allowed-capabilities")]
     public string? AllowedCapabilities { get; set; }
 
     /// <summary>
-    /// The unique identifier for an Connect Customer contact. This identi- fier is related to the contact starting. Constraints: o min: 1 o max: 256
+    /// The unique identifier for an Connect Customer contact. This identifier is related to the contact starting. Constraints: • min: 1 • max: 256
     /// </summary>
     [CliOption("--related-contact-id")]
     public string? RelatedContactId { get; set; }
 
     /// <summary>
-    /// A formatted URL that is shown to an agent in the Contact Control Panel (CCP). Tasks can have the following reference types at the time of creation: URL | NUMBER | STRING | DATE | EMAIL . ATTACHMENT is not a supported reference type during task creation. key -&gt; (string) Constraints: o min: 1 o max: 4096 value -&gt; (structure) Well-formed data on a contact, used by agents to complete a con- tact request. You can have up to 4,096 UTF-8 bytes across all references for a contact. Value -&gt; (string) A valid value for the reference. For example, for a URL ref- erence, a formatted URL that is displayed to an agent in the Contact Control Panel (CCP). Constraints: o min: 0 o max: 4096 Type -&gt; (string) [required] The type of the reference. DATE must be of type Epoch time- stamp. Possible values: o URL o ATTACHMENT o CONTACT_ANALYSIS o NUMBER o STRING o DATE o EMAIL o EMAIL_MESSAGE o EMAIL_MESSAGE_PLAIN_TEXT o EMAIL_MESSAGE_PLAIN_TEXT_REDACTED o EMAIL_MESSAGE_REDACTED Status -&gt; (string) Status of the attachment reference type. Possible values: o AVAILABLE o DELETED o APPROVED o REJECTED o PROCESSING o FAILED Arn -&gt; (string) The Amazon Resource Name (ARN) of the reference Constraints: o min: 20 o max: 256 o pattern: ^[-:/A-Za-z0-9]+ StatusReason -&gt; (string) Relevant details why the reference was not successfully cre- ated. Constraints: o min: 0 o max: 100 Shorthand Syntax: KeyName1={Value=string,Type=string,Status=string,Arn=string,StatusReason=string},KeyName2={Value=string,Type=string,Status=string,Arn=string,StatusReason=string} JSON Syntax: {"string": { "Value": "string", "Type": "URL"|"ATTACHMENT"|"CONTACT_ANALYSIS"|"NUMBER"|"STRING"|"DATE"|"EMAIL"|"EMAIL_MESSAGE"|"EMAIL_MESSAGE_PLAIN_TEXT"|"EMAIL_MESSAGE_PLAIN_TEXT_REDACTED"|"EMAIL_MESSAGE_REDACTED", "Status": "AVAILABLE"|"DELETED"|"APPROVED"|"REJECTED"|"PROCESSING"|"FAILED", "Arn": "string", "StatusReason": "string" } ...}
+    /// A formatted URL that is shown to an agent in the Contact Control Panel (CCP). Tasks can have the following reference types at the time of creation: URL | NUMBER | STRING | DATE | EMAIL . ATTACHMENT is not a supported reference type during task creation. key -&gt; (string) Constraints: • min: 1 • max: 4096 value -&gt; (structure) Well-formed data on a contact, used by agents to complete a contact request. You can have up to 4,096 UTF-8 bytes across all references for a contact. Value -&gt; (string) A valid value for the reference. For example, for a URL reference, a formatted URL that is displayed to an agent in the Contact Control Panel (CCP). Constraints: • min: 0 • max: 4096 Type -&gt; (string) [required] The type of the reference. DATE must be of type Epoch timestamp. Possible values: • URL • ATTACHMENT • CONTACT_ANALYSIS • NUMBER • STRING • DATE • EMAIL • EMAIL_MESSAGE • EMAIL_MESSAGE_PLAIN_TEXT • EMAIL_MESSAGE_PLAIN_TEXT_REDACTED • EMAIL_MESSAGE_REDACTED Status -&gt; (string) Status of the attachment reference type. Possible values: • AVAILABLE • DELETED • APPROVED • REJECTED • PROCESSING • FAILED Arn -&gt; (string) The Amazon Resource Name (ARN) of the reference Constraints: • min: 20 • max: 256 • pattern: ^[-:/A-Za-z0-9]+ StatusReason -&gt; (string) Relevant details why the reference was not successfully created. Constraints: • min: 0 • max: 100 Shorthand Syntax: KeyName1={Value=string,Type=string,Status=string,Arn=string,StatusReason=string},KeyName2={Value=string,Type=string,Status=string,Arn=string,StatusReason=string} JSON Syntax: {"string": { "Value": "string", "Type": "URL"|"ATTACHMENT"|"CONTACT_ANALYSIS"|"NUMBER"|"STRING"|"DATE"|"EMAIL"|"EMAIL_MESSAGE"|"EMAIL_MESSAGE_PLAIN_TEXT"|"EMAIL_MESSAGE_PLAIN_TEXT_REDACTED"|"EMAIL_MESSAGE_REDACTED", "Status": "AVAILABLE"|"DELETED"|"APPROVED"|"REJECTED"|"PROCESSING"|"FAILED", "Arn": "string", "StatusReason": "string" } ...}
     /// </summary>
     [CliOption("--references", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? References { get; set; }
 
     /// <summary>
-    /// A description of the task that is shown to an agent in the Contact Control Panel (CCP). Constraints: o min: 0 o max: 4096
+    /// A description of the task that is shown to an agent in the Contact Control Panel (CCP). Constraints: • min: 0 • max: 4096
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// A map of system-defined attributes for the WebRTC contact segment. Use the connect:Subtype attribute to specify the channel subtype, such as connect:WebRTC . key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (structure) A value for a segment attribute. This is structured as a map where the key is valueString and the value is a string. ValueString -&gt; (string) The value of a segment attribute. Constraints: o min: 0 o max: 1024 ValueMap -&gt; (map) The value of a segment attribute. key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (structure) A value for a segment attribute. This is structured as a map where the key is valueString and the value is a string. ValueString -&gt; (string) The value of a segment attribute. Constraints: o min: 0 o max: 1024 ValueMap -&gt; (map) The value of a segment attribute. key -&gt; (string) Constraints: o min: 1 o max: 128 ( ... recursive ... ) ValueInteger -&gt; (integer) The value of a segment attribute. ValueList -&gt; (list) The value of a segment attribute. This is only sup- ported for system-defined attributes, not for user-de- fined attributes. ( ... recursive ... ) ValueArn -&gt; (string) The value of a segment attribute that has to be a valid ARN. This is only supported for system-defined attributes, not for user-defined attributes. Constraints: o min: 0 o max: 1024 ValueInteger -&gt; (integer) The value of a segment attribute. ValueList -&gt; (list) The value of a segment attribute. This is only supported for system-defined attributes, not for user-defined attributes. (structure) A value for a segment attribute. This is structured as a map where the key is valueString and the value is a string. ValueString -&gt; (string) The value of a segment attribute. Constraints: o min: 0 o max: 1024 ValueMap -&gt; (map) The value of a segment attribute. key -&gt; (string) Constraints: o min: 1 o max: 128 ( ... recursive ... ) ValueInteger -&gt; (integer) The value of a segment attribute. ValueList -&gt; (list) The value of a segment attribute. This is only sup- ported for system-defined attributes, not for user-de- fined attributes. ( ... recursive ... ) ValueArn -&gt; (string) The value of a segment attribute that has to be a valid ARN. This is only supported for system-defined attributes, not for user-defined attributes. Constraints: o min: 0 o max: 1024 ValueArn -&gt; (string) The value of a segment attribute that has to be a valid ARN. This is only supported for system-defined attributes, not for user-defined attributes. Constraints: o min: 0 o max: 1024 JSON Syntax: {"string": { "ValueString": "string", "ValueMap": {"string": { "ValueString": "string", "ValueMap": {"string": { ... recursive ... } ...}, "ValueInteger": integer, "ValueList": [ { ... recursive ... } ... ], "ValueArn": "string" } ...}, "ValueInteger": integer, "ValueList": [ { "ValueString": "string", "ValueMap": {"string": { ... recursive ... } ...}, "ValueInteger": integer, "ValueList": [ { ... recursive ... } ... ], "ValueArn": "string" } ... ], "ValueArn": "string" } ...}
+    /// A map of system-defined attributes for the WebRTC contact segment. Use the connect:Subtype attribute to specify the channel subtype, such as connect:WebRTC . key -&gt; (string) Constraints: • min: 1 • max: 128 value -&gt; (structure) A value for a segment attribute. This is structured as a map where the key is valueString and the value is a string. ValueString -&gt; (string) The value of a segment attribute. Constraints: • min: 0 • max: 1024 ValueMap -&gt; (map) The value of a segment attribute. key -&gt; (string) Constraints: • min: 1 • max: 128 value -&gt; (structure) A value for a segment attribute. This is structured as a map where the key is valueString and the value is a string. ValueString -&gt; (string) The value of a segment attribute. Constraints: • min: 0 • max: 1024 ValueMap -&gt; (map) The value of a segment attribute. key -&gt; (string) Constraints: • min: 1 • max: 128 ( ... recursive ... ) ValueInteger -&gt; (integer) The value of a segment attribute. ValueList -&gt; (list) The value of a segment attribute. This is only supported for system-defined attributes, not for user-defined attributes. ( ... recursive ... ) ValueArn -&gt; (string) The value of a segment attribute that has to be a valid ARN. This is only supported for system-defined attributes, not for user-defined attributes. Constraints: • min: 0 • max: 1024 ValueInteger -&gt; (integer) The value of a segment attribute. ValueList -&gt; (list) The value of a segment attribute. This is only supported for system-defined attributes, not for user-defined attributes. (structure) A value for a segment attribute. This is structured as a map where the key is valueString and the value is a string. ValueString -&gt; (string) The value of a segment attribute. Constraints: • min: 0 • max: 1024 ValueMap -&gt; (map) The value of a segment attribute. key -&gt; (string) Constraints: • min: 1 • max: 128 ( ... recursive ... ) ValueInteger -&gt; (integer) The value of a segment attribute. ValueList -&gt; (list) The value of a segment attribute. This is only supported for system-defined attributes, not for user-defined attributes. ( ... recursive ... ) ValueArn -&gt; (string) The value of a segment attribute that has to be a valid ARN. This is only supported for system-defined attributes, not for user-defined attributes. Constraints: • min: 0 • max: 1024 ValueArn -&gt; (string) The value of a segment attribute that has to be a valid ARN. This is only supported for system-defined attributes, not for user-defined attributes. Constraints: • min: 0 • max: 1024 JSON Syntax: {"string": { "ValueString": "string", "ValueMap": {"string": { "ValueString": "string", "ValueMap": {"string": { ... recursive ... } ...}, "ValueInteger": integer, "ValueList": [ { ... recursive ... } ... ], "ValueArn": "string" } ...}, "ValueInteger": integer, "ValueList": [ { "ValueString": "string", "ValueMap": {"string": { ... recursive ... } ...}, "ValueInteger": integer, "ValueList": [ { ... recursive ... } ... ], "ValueArn": "string" } ... ], "ValueArn": "string" } ...}
     /// </summary>
     [CliOption("--segment-attributes", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? SegmentAttributes { get; set; }
@@ -147,6 +147,15 @@ public record AwsConnectStartWebRtcContactOptions : AwsOptions, IValidatableObje
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

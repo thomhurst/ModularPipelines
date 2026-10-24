@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieve a list of event destinations that are associated with a con- figuration set. In Amazon Pinpoint, events include message sends, deliveries, opens, clicks, bounces, and complaints. Event destinations are places that you can send information about these events to. For example, you can send event data to Amazon SNS to receive notifications when you receive bounces or complaints, or you can use Amazon Kinesis Data Firehose to stream data to Amazon S3 for long-term storage. See also: AWS API ...
+/// Retrieve a list of event destinations that are associated with a configuration set. In Amazon Pinpoint, events include message sends, deliveries, opens, clicks, bounces, and complaints. Event destinations are places that you can send information about these events to. For example, you can send event data to Amazon SNS to receive notifications when you receive bounces or complaints, or you can use Amazon Kinesis Data Firehose to stream data to Amazon S3 for long-term storage. See also: AWS API Do...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsPinpointEmailGetConfigurationSetEventDestinationsOptions : AwsO
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Retrieve a list of event destinations that are associated with a con- figuration set. In Amazon Pinpoint, events include message sends, deliveries, opens, clicks, bounces, and complaints. Event destinations are places that you can send information about these events to. For example, you can send event data to Amazon SNS to receive notifications when you receive bounces or complaints, or you can use Amazon Kinesis Data Firehose to stream data to Amazon S3 for long-term storage. See also: AWS API ...
+    /// Retrieve a list of event destinations that are associated with a configuration set. In Amazon Pinpoint, events include message sends, deliveries, opens, clicks, bounces, and complaints. Event destinations are places that you can send information about these events to. For example, you can send event data to Amazon SNS to receive notifications when you receive bounces or complaints, or you can use Amazon Kinesis Data Firehose to stream data to Amazon S3 for long-term storage. See also: AWS API Do...
     /// </summary>
-    /// <param name="ConfigurationSetName">The name of the configuration set that contains the event destina- tion.</param>
+    /// <param name="ConfigurationSetName">The name of the configuration set that contains the event destination.</param>
     public AwsPinpointEmailGetConfigurationSetEventDestinationsOptions(
         string ConfigurationSetName
     )
@@ -56,7 +57,7 @@ public record AwsPinpointEmailGetConfigurationSetEventDestinationsOptions : AwsO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the configuration set that contains the event destina- tion.
+    /// The name of the configuration set that contains the event destination.
     /// </summary>
     [CliOption("--configuration-set-name")]
     public string? ConfigurationSetName { get; private init; }
@@ -82,6 +83,15 @@ public record AwsPinpointEmailGetConfigurationSetEventDestinationsOptions : AwsO
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

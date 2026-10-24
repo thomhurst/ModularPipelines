@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsNeptuneGraphWaitExportTaskCancelledOptions : AwsOptions, IValid
     /// <summary>
     /// Wait until Export Task is Cancelled It will poll every 60 seconds until a successful state has been reached. This will exit with a return code of 255 after 60 failed checks. See also: AWS API Documentation
     /// </summary>
-    /// <param name="TaskIdentifier">The unique identifier of the export task. Constraints: o pattern: t-[a-z0-9]{10}</param>
+    /// <param name="TaskIdentifier">The unique identifier of the export task. Constraints: • pattern: t-[a-z0-9]{10}</param>
     public AwsNeptuneGraphWaitExportTaskCancelledOptions(
         string TaskIdentifier
     )
@@ -56,7 +57,7 @@ public record AwsNeptuneGraphWaitExportTaskCancelledOptions : AwsOptions, IValid
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the export task. Constraints: o pattern: t-[a-z0-9]{10}
+    /// The unique identifier of the export task. Constraints: • pattern: t-[a-z0-9]{10}
     /// </summary>
     [CliOption("--task-identifier")]
     public string? TaskIdentifier { get; private init; }
@@ -82,6 +83,15 @@ public record AwsNeptuneGraphWaitExportTaskCancelledOptions : AwsOptions, IValid
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

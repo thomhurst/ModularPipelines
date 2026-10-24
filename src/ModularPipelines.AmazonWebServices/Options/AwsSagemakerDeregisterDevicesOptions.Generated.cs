@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsSagemakerDeregisterDevicesOptions : AwsOptions, IValidatableObj
     /// <summary>
     /// Deregisters the specified devices. After you deregister a device, you will need to re-register the devices. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DeviceFleetName">The name of the fleet the devices belong to. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}</param>
-    /// <param name="DeviceNames">The unique IDs of the devices. (string) Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62} Syntax: "string" "string" ...</param>
+    /// <param name="DeviceFleetName">The name of the fleet the devices belong to. Constraints: • min: 1 • max: 63 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}</param>
+    /// <param name="DeviceNames">The unique IDs of the devices. (string) Constraints: • min: 1 • max: 63 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62} Syntax: "string" "string" ...</param>
     public AwsSagemakerDeregisterDevicesOptions(
         string DeviceFleetName,
         IEnumerable<string> DeviceNames
@@ -71,13 +72,13 @@ public record AwsSagemakerDeregisterDevicesOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the fleet the devices belong to. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}
+    /// The name of the fleet the devices belong to. Constraints: • min: 1 • max: 63 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}
     /// </summary>
     [CliOption("--device-fleet-name")]
     public string? DeviceFleetName { get; private init; }
 
     /// <summary>
-    /// The unique IDs of the devices. (string) Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62} Syntax: "string" "string" ...
+    /// The unique IDs of the devices. (string) Constraints: • min: 1 • max: 63 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62} Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--device-names", GroupValues = true)]
     public IEnumerable<string>? DeviceNames { get; private init; }
@@ -103,6 +104,15 @@ public record AwsSagemakerDeregisterDevicesOptions : AwsOptions, IValidatableObj
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

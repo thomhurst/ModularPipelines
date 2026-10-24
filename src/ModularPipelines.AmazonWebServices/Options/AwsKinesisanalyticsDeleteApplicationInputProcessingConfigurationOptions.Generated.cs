@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// NOTE: This documentation is for version 1 of the Amazon Kinesis Data Ana- lytics API, which only supports SQL applications. Version 2 of the API supports SQL and Java applications. For more information about version 2, see Amazon Kinesis Data Analytics API V2 Documentation . Deletes an InputProcessingConfiguration from an input. See also: AWS API Documentation
+/// NOTE: This documentation is for version 1 of the Amazon Kinesis Data Analytics API, which only supports SQL applications. Version 2 of the API supports SQL and Java applications. For more information about version 2, see Amazon Kinesis Data Analytics API V2 Documentation . Deletes an InputProcessingConfiguration from an input. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,14 +26,14 @@ public record AwsKinesisanalyticsDeleteApplicationInputProcessingConfigurationOp
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// NOTE: This documentation is for version 1 of the Amazon Kinesis Data Ana- lytics API, which only supports SQL applications. Version 2 of the API supports SQL and Java applications. For more information about version 2, see Amazon Kinesis Data Analytics API V2 Documentation . Deletes an InputProcessingConfiguration from an input. See also: AWS API Documentation
+    /// NOTE: This documentation is for version 1 of the Amazon Kinesis Data Analytics API, which only supports SQL applications. Version 2 of the API supports SQL and Java applications. For more information about version 2, see Amazon Kinesis Data Analytics API V2 Documentation . Deletes an InputProcessingConfiguration from an input. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ApplicationName">The Kinesis Analytics application name. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_.-]+</param>
-    /// <param name="CurrentApplicationVersionId">The version ID of the Kinesis Analytics application. Constraints: o min: 1 o max: 999999999</param>
-    /// <param name="InputId">The ID of the input configuration from which to delete the input processing configuration. You can get a list of the input IDs for an application by using the DescribeApplication operation. Constraints: o min: 1 o max: 50 o pattern: [a-zA-Z0-9_.-]+</param>
+    /// <param name="ApplicationName">The Kinesis Analytics application name. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9_.-]+</param>
+    /// <param name="CurrentApplicationVersionId">The version ID of the Kinesis Analytics application. Constraints: • min: 1 • max: 999999999</param>
+    /// <param name="InputId">The ID of the input configuration from which to delete the input processing configuration. You can get a list of the input IDs for an application by using the DescribeApplication operation. Constraints: • min: 1 • max: 50 • pattern: [a-zA-Z0-9_.-]+</param>
     public AwsKinesisanalyticsDeleteApplicationInputProcessingConfigurationOptions(
         string ApplicationName,
-        int CurrentApplicationVersionId,
+        long CurrentApplicationVersionId,
         string InputId
     )
     {
@@ -63,19 +64,19 @@ public record AwsKinesisanalyticsDeleteApplicationInputProcessingConfigurationOp
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Kinesis Analytics application name. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_.-]+
+    /// The Kinesis Analytics application name. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9_.-]+
     /// </summary>
     [CliOption("--application-name")]
     public string? ApplicationName { get; private init; }
 
     /// <summary>
-    /// The version ID of the Kinesis Analytics application. Constraints: o min: 1 o max: 999999999
+    /// The version ID of the Kinesis Analytics application. Constraints: • min: 1 • max: 999999999
     /// </summary>
     [CliOption("--current-application-version-id")]
-    public int? CurrentApplicationVersionId { get; private init; }
+    public long? CurrentApplicationVersionId { get; private init; }
 
     /// <summary>
-    /// The ID of the input configuration from which to delete the input processing configuration. You can get a list of the input IDs for an application by using the DescribeApplication operation. Constraints: o min: 1 o max: 50 o pattern: [a-zA-Z0-9_.-]+
+    /// The ID of the input configuration from which to delete the input processing configuration. You can get a list of the input IDs for an application by using the DescribeApplication operation. Constraints: • min: 1 • max: 50 • pattern: [a-zA-Z0-9_.-]+
     /// </summary>
     [CliOption("--input-id")]
     public string? InputId { get; private init; }
@@ -101,6 +102,15 @@ public record AwsKinesisanalyticsDeleteApplicationInputProcessingConfigurationOp
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Disassociates one or more specified tags from the specified WorkSpaces Applications resource. To list the current tags for your resources, use ListTagsForResource . For more information about tags, see Tagging Your Resources in the Ama- zon WorkSpaces Applications Administration Guide . See also: AWS API Documentation
+/// Disassociates one or more specified tags from the specified WorkSpaces Applications resource. To list the current tags for your resources, use ListTagsForResource . For more information about tags, see Tagging Your Resources in the Amazon WorkSpaces Applications Administration Guide . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsAppstreamUntagResourceOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Disassociates one or more specified tags from the specified WorkSpaces Applications resource. To list the current tags for your resources, use ListTagsForResource . For more information about tags, see Tagging Your Resources in the Ama- zon WorkSpaces Applications Administration Guide . See also: AWS API Documentation
+    /// Disassociates one or more specified tags from the specified WorkSpaces Applications resource. To list the current tags for your resources, use ListTagsForResource . For more information about tags, see Tagging Your Resources in the Amazon WorkSpaces Applications Administration Guide . See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the resource. Constraints: o pattern: ^arn:aws(?:\-cn|\-iso\-b|\-iso|\-us\-gov)?:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.\\-]{0,1023}$</param>
-    /// <param name="TagKeys">The tag keys for the tags to disassociate. Constraints: o min: 1 o max: 50 (string) Constraints: o min: 1 o max: 128 o pattern: ^(^(?!aws:).[\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Syntax: "string" "string" ...</param>
+    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the resource. Constraints: • pattern: ^arn:aws(?:\-cn|\-iso\-b|\-iso|\-us\-gov)?:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.\\-]{0,1023}$</param>
+    /// <param name="TagKeys">The tag keys for the tags to disassociate. Constraints: • min: 1 • max: 50 (string) Constraints: • min: 1 • max: 128 • pattern: ^(^(?!aws:).[\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Syntax: "string" "string" ...</param>
     public AwsAppstreamUntagResourceOptions(
         string ResourceArn,
         IEnumerable<string> TagKeys
@@ -71,13 +72,13 @@ public record AwsAppstreamUntagResourceOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the resource. Constraints: o pattern: ^arn:aws(?:\-cn|\-iso\-b|\-iso|\-us\-gov)?:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.\\-]{0,1023}$
+    /// The Amazon Resource Name (ARN) of the resource. Constraints: • pattern: ^arn:aws(?:\-cn|\-iso\-b|\-iso|\-us\-gov)?:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.\\-]{0,1023}$
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
 
     /// <summary>
-    /// The tag keys for the tags to disassociate. Constraints: o min: 1 o max: 50 (string) Constraints: o min: 1 o max: 128 o pattern: ^(^(?!aws:).[\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Syntax: "string" "string" ...
+    /// The tag keys for the tags to disassociate. Constraints: • min: 1 • max: 50 (string) Constraints: • min: 1 • max: 128 • pattern: ^(^(?!aws:).[\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--tag-keys", GroupValues = true)]
     public IEnumerable<string>? TagKeys { get; private init; }
@@ -103,6 +104,15 @@ public record AwsAppstreamUntagResourceOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

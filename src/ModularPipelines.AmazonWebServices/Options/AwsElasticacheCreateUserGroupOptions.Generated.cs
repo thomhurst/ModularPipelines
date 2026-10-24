@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +29,7 @@ public record AwsElasticacheCreateUserGroupOptions : AwsOptions, IValidatableObj
     /// For Valkey engine version 7.2 onwards and Redis OSS 6.0 to 7.1: Creates a user group. For more information, see Using Role Based Access Control (RBAC) See also: AWS API Documentation
     /// </summary>
     /// <param name="UserGroupId">The ID of the user group. This value is stored as a lowercase string.</param>
-    /// <param name="Engine">Sets the engine listed in a user group. The options are valkey or redis. Constraints: o pattern: [a-zA-Z]*</param>
+    /// <param name="Engine">Sets the engine listed in a user group. The options are valkey or redis. Constraints: • pattern: [a-zA-Z]*</param>
     public AwsElasticacheCreateUserGroupOptions(
         string UserGroupId,
         string Engine
@@ -66,13 +67,13 @@ public record AwsElasticacheCreateUserGroupOptions : AwsOptions, IValidatableObj
     public string? UserGroupId { get; private init; }
 
     /// <summary>
-    /// Sets the engine listed in a user group. The options are valkey or redis. Constraints: o pattern: [a-zA-Z]*
+    /// Sets the engine listed in a user group. The options are valkey or redis. Constraints: • pattern: [a-zA-Z]*
     /// </summary>
     [CliOption("--engine")]
     public string? Engine { get; private init; }
 
     /// <summary>
-    /// The list of user IDs that belong to the user group. Constraints: o min: 1 (string) Constraints: o min: 1 o pattern: [a-zA-Z][a-zA-Z0-9\-]* Syntax: "string" "string" ...
+    /// The list of user IDs that belong to the user group. Constraints: • min: 1 (string) Constraints: • min: 1 • pattern: [a-zA-Z][a-zA-Z0-9\-]* Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--user-ids", GroupValues = true)]
     public IEnumerable<string>? UserIds { get; set; }
@@ -104,6 +105,15 @@ public record AwsElasticacheCreateUserGroupOptions : AwsOptions, IValidatableObj
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

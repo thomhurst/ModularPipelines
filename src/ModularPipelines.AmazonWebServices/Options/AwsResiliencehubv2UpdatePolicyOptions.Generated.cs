@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsResiliencehubv2UpdatePolicyOptions : AwsOptions, IValidatableOb
     /// <summary>
     /// Updates an existing resilience policy. See also: AWS API Documentation
     /// </summary>
-    /// <param name="PolicyArn">ARN identifier. Constraints: o min: 31 o pattern: arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:([a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]):[0-9]{12}:[A-Za-z0-9/][A-Za-z0-9:_/+.-]{0,1023}</param>
+    /// <param name="PolicyArn">ARN identifier. Constraints: • min: 31 • pattern: arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:([a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]):[0-9]{12}:[A-Za-z0-9/][A-Za-z0-9:_/+.-]{0,1023}</param>
     public AwsResiliencehubv2UpdatePolicyOptions(
         string PolicyArn
     )
@@ -56,37 +57,37 @@ public record AwsResiliencehubv2UpdatePolicyOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// ARN identifier. Constraints: o min: 31 o pattern: arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:([a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]):[0-9]{12}:[A-Za-z0-9/][A-Za-z0-9:_/+.-]{0,1023}
+    /// ARN identifier. Constraints: • min: 31 • pattern: arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:([a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]):[0-9]{12}:[A-Za-z0-9/][A-Za-z0-9:_/+.-]{0,1023}
     /// </summary>
     [CliOption("--policy-arn")]
     public string? PolicyArn { get; private init; }
 
     /// <summary>
-    /// Resource description for services and policies. Constraints: o min: 0 o max: 615
+    /// Resource description for services and policies. Constraints: • min: 0 • max: 615
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The updated availability SLO for the policy. target -&gt; (double) The target availability percentage, expressed as a value between 0 and 100. Constraints: o min: 0 o max: 100 Shorthand Syntax: target=double JSON Syntax: { "target": double }
+    /// The updated availability SLO for the policy. target -&gt; (double) The target availability percentage, expressed as a value between 0 and 100. Constraints: • min: 0 • max: 100 Shorthand Syntax: target=double JSON Syntax: { "target": double }
     /// </summary>
     [CliOption("--availability-slo")]
     public string? AvailabilitySlo { get; set; }
 
     /// <summary>
-    /// The updated multi-AZ disaster recovery targets for the policy. rtoInMinutes -&gt; (integer) The recovery time objective (RTO) target for multi-AZ, in min- utes. Constraints: o min: 0 rpoInMinutes -&gt; (integer) The recovery point objective (RPO) target for multi-AZ, in min- utes. Constraints: o min: 0 disasterRecoveryApproach -&gt; (string) The disaster recovery approach for multi-AZ. Possible values: o ACTIVE_ACTIVE o HOT_STANDBY o WARM_STANDBY o PILOT_LIGHT o BACKUP_AND_RESTORE Shorthand Syntax: rtoInMinutes=integer,rpoInMinutes=integer,disasterRecoveryApproach=string JSON Syntax: { "rtoInMinutes": integer, "rpoInMinutes": integer, "disasterRecoveryApproach": "ACTIVE_ACTIVE"|"HOT_STANDBY"|"WARM_STANDBY"|"PILOT_LIGHT"|"BACKUP_AND_RESTORE" }
+    /// The updated multi-AZ disaster recovery targets for the policy. rtoInMinutes -&gt; (integer) The recovery time objective (RTO) target for multi-AZ, in minutes. Constraints: • min: 0 rpoInMinutes -&gt; (integer) The recovery point objective (RPO) target for multi-AZ, in minutes. Constraints: • min: 0 disasterRecoveryApproach -&gt; (string) The disaster recovery approach for multi-AZ. Possible values: • ACTIVE_ACTIVE • HOT_STANDBY • WARM_STANDBY • PILOT_LIGHT • BACKUP_AND_RESTORE Shorthand Syntax: rtoInMinutes=integer,rpoInMinutes=integer,disasterRecoveryApproach=string JSON Syntax: { "rtoInMinutes": integer, "rpoInMinutes": integer, "disasterRecoveryApproach": "ACTIVE_ACTIVE"|"HOT_STANDBY"|"WARM_STANDBY"|"PILOT_LIGHT"|"BACKUP_AND_RESTORE" }
     /// </summary>
     [CliOption("--multi-az")]
     public string? MultiAz { get; set; }
 
     /// <summary>
-    /// The updated multi-Region disaster recovery targets for the policy. rtoInMinutes -&gt; (integer) The recovery time objective (RTO) target for multi-Region, in minutes. Constraints: o min: 0 rpoInMinutes -&gt; (integer) The recovery point objective (RPO) target for multi-Region, in minutes. Constraints: o min: 0 disasterRecoveryApproach -&gt; (string) The disaster recovery approach for multi-Region. Possible values: o ACTIVE_ACTIVE o HOT_STANDBY o WARM_STANDBY o PILOT_LIGHT o BACKUP_AND_RESTORE Shorthand Syntax: rtoInMinutes=integer,rpoInMinutes=integer,disasterRecoveryApproach=string JSON Syntax: { "rtoInMinutes": integer, "rpoInMinutes": integer, "disasterRecoveryApproach": "ACTIVE_ACTIVE"|"HOT_STANDBY"|"WARM_STANDBY"|"PILOT_LIGHT"|"BACKUP_AND_RESTORE" }
+    /// The updated multi-Region disaster recovery targets for the policy. rtoInMinutes -&gt; (integer) The recovery time objective (RTO) target for multi-Region, in minutes. Constraints: • min: 0 rpoInMinutes -&gt; (integer) The recovery point objective (RPO) target for multi-Region, in minutes. Constraints: • min: 0 disasterRecoveryApproach -&gt; (string) The disaster recovery approach for multi-Region. Possible values: • ACTIVE_ACTIVE • HOT_STANDBY • WARM_STANDBY • PILOT_LIGHT • BACKUP_AND_RESTORE Shorthand Syntax: rtoInMinutes=integer,rpoInMinutes=integer,disasterRecoveryApproach=string JSON Syntax: { "rtoInMinutes": integer, "rpoInMinutes": integer, "disasterRecoveryApproach": "ACTIVE_ACTIVE"|"HOT_STANDBY"|"WARM_STANDBY"|"PILOT_LIGHT"|"BACKUP_AND_RESTORE" }
     /// </summary>
     [CliOption("--multi-region")]
     public string? MultiRegion { get; set; }
 
     /// <summary>
-    /// The updated data recovery targets for the policy. timeBetweenBackupsInMinutes -&gt; (integer) The target time between backups, in minutes. Constraints: o min: 0 Shorthand Syntax: timeBetweenBackupsInMinutes=integer JSON Syntax: { "timeBetweenBackupsInMinutes": integer }
+    /// The updated data recovery targets for the policy. timeBetweenBackupsInMinutes -&gt; (integer) The target time between backups, in minutes. Constraints: • min: 0 Shorthand Syntax: timeBetweenBackupsInMinutes=integer JSON Syntax: { "timeBetweenBackupsInMinutes": integer }
     /// </summary>
     [CliOption("--data-recovery")]
     public string? DataRecovery { get; set; }
@@ -118,6 +119,15 @@ public record AwsResiliencehubv2UpdatePolicyOptions : AwsOptions, IValidatableOb
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Ends a transfer. A transfer is an arrangement between two management accounts where one account designates the other with specified respon- sibilities for their organization. When a transfer ends, Organizations publishes a ResponsibilityTransfer- Terminated service event to CloudTrail. Each affected account receives this event, including upstream participants such as distributors in a chained transfer. For an example log entry, see Example log entries: TerminateResponsibilityTransfer in the Orga...
+/// Ends a transfer. A transfer is an arrangement between two management accounts where one account designates the other with specified responsibilities for their organization. When a transfer ends, Organizations publishes a ResponsibilityTransferTerminated service event to CloudTrail. Each affected account receives this event, including upstream participants such as distributors in a chained transfer. For an example log entry, see Example log entries: TerminateResponsibilityTransfer in the Organiza...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsOrganizationsTerminateResponsibilityTransferOptions : AwsOption
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Ends a transfer. A transfer is an arrangement between two management accounts where one account designates the other with specified respon- sibilities for their organization. When a transfer ends, Organizations publishes a ResponsibilityTransfer- Terminated service event to CloudTrail. Each affected account receives this event, including upstream participants such as distributors in a chained transfer. For an example log entry, see Example log entries: TerminateResponsibilityTransfer in the Orga...
+    /// Ends a transfer. A transfer is an arrangement between two management accounts where one account designates the other with specified responsibilities for their organization. When a transfer ends, Organizations publishes a ResponsibilityTransferTerminated service event to CloudTrail. Each affected account receives this event, including upstream participants such as distributors in a chained transfer. For an example log entry, see Example log entries: TerminateResponsibilityTransfer in the Organiza...
     /// </summary>
-    /// <param name="Id">ID for the transfer. Constraints: o pattern: ^rt-[0-9a-z]{8,32}$</param>
+    /// <param name="Id">ID for the transfer. Constraints: • pattern: ^rt-[0-9a-z]{8,32}$</param>
     public AwsOrganizationsTerminateResponsibilityTransferOptions(
         string Id
     )
@@ -56,7 +57,7 @@ public record AwsOrganizationsTerminateResponsibilityTransferOptions : AwsOption
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// ID for the transfer. Constraints: o pattern: ^rt-[0-9a-z]{8,32}$
+    /// ID for the transfer. Constraints: • pattern: ^rt-[0-9a-z]{8,32}$
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; private init; }
@@ -88,6 +89,15 @@ public record AwsOrganizationsTerminateResponsibilityTransferOptions : AwsOption
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

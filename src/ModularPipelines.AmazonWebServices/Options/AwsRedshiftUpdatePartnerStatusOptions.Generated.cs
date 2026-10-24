@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,11 +29,11 @@ public record AwsRedshiftUpdatePartnerStatusOptions : AwsOptions, IValidatableOb
     /// <summary>
     /// Updates the status of a partner integration. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AccountId">The Amazon Web Services account ID that owns the cluster. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]+$</param>
-    /// <param name="ClusterIdentifier">The cluster identifier of the cluster whose partner integration sta- tus is being updated. Constraints: o max: 63 o pattern: ^[a-zA-Z0-9\-]+$</param>
-    /// <param name="DatabaseName">The name of the database whose partner integration status is being updated. Constraints: o max: 127 o pattern: ^[\p{L}_][\p{L}\p{N}@$#_]+$</param>
-    /// <param name="PartnerName">The name of the partner whose integration status is being updated. Constraints: o max: 255 o pattern: ^[a-zA-Z0-9\-_]+$</param>
-    /// <param name="Status">The value of the updated status. Possible values: o Active o Inactive o RuntimeFailure o ConnectionFailure</param>
+    /// <param name="AccountId">The Amazon Web Services account ID that owns the cluster. Constraints: • min: 12 • max: 12 • pattern: ^[0-9]+$</param>
+    /// <param name="ClusterIdentifier">The cluster identifier of the cluster whose partner integration status is being updated. Constraints: • max: 63 • pattern: ^[a-zA-Z0-9\-]+$</param>
+    /// <param name="DatabaseName">The name of the database whose partner integration status is being updated. Constraints: • max: 127 • pattern: ^[\p{L}_][\p{L}\p{N}@$#_]+$</param>
+    /// <param name="PartnerName">The name of the partner whose integration status is being updated. Constraints: • max: 255 • pattern: ^[a-zA-Z0-9\-_]+$</param>
+    /// <param name="Status">The value of the updated status. Possible values: • Active • Inactive • RuntimeFailure • ConnectionFailure</param>
     public AwsRedshiftUpdatePartnerStatusOptions(
         string AccountId,
         string ClusterIdentifier,
@@ -72,37 +73,37 @@ public record AwsRedshiftUpdatePartnerStatusOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Web Services account ID that owns the cluster. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]+$
+    /// The Amazon Web Services account ID that owns the cluster. Constraints: • min: 12 • max: 12 • pattern: ^[0-9]+$
     /// </summary>
     [CliOption("--account-id")]
     public string? AccountId { get; private init; }
 
     /// <summary>
-    /// The cluster identifier of the cluster whose partner integration sta- tus is being updated. Constraints: o max: 63 o pattern: ^[a-zA-Z0-9\-]+$
+    /// The cluster identifier of the cluster whose partner integration status is being updated. Constraints: • max: 63 • pattern: ^[a-zA-Z0-9\-]+$
     /// </summary>
     [CliOption("--cluster-identifier")]
     public string? ClusterIdentifier { get; private init; }
 
     /// <summary>
-    /// The name of the database whose partner integration status is being updated. Constraints: o max: 127 o pattern: ^[\p{L}_][\p{L}\p{N}@$#_]+$
+    /// The name of the database whose partner integration status is being updated. Constraints: • max: 127 • pattern: ^[\p{L}_][\p{L}\p{N}@$#_]+$
     /// </summary>
     [CliOption("--database-name")]
     public string? DatabaseName { get; private init; }
 
     /// <summary>
-    /// The name of the partner whose integration status is being updated. Constraints: o max: 255 o pattern: ^[a-zA-Z0-9\-_]+$
+    /// The name of the partner whose integration status is being updated. Constraints: • max: 255 • pattern: ^[a-zA-Z0-9\-_]+$
     /// </summary>
     [CliOption("--partner-name")]
     public string? PartnerName { get; private init; }
 
     /// <summary>
-    /// The value of the updated status. Possible values: o Active o Inactive o RuntimeFailure o ConnectionFailure
+    /// The value of the updated status. Possible values: • Active • Inactive • RuntimeFailure • ConnectionFailure
     /// </summary>
     [CliOption("--status")]
     public AwsRedshiftUpdatePartnerStatusStatus? Status { get; private init; }
 
     /// <summary>
-    /// The status message provided by the partner. Constraints: o max: 262144 o pattern: ^[\x20-\x7E]+$
+    /// The status message provided by the partner. Constraints: • max: 262144 • pattern: ^[\x20-\x7E]+$
     /// </summary>
     [CliOption("--status-message")]
     public string? StatusMessage { get; set; }
@@ -128,6 +129,15 @@ public record AwsRedshiftUpdatePartnerStatusOptions : AwsOptions, IValidatableOb
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

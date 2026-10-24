@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// NOTE: This operation is not supported for directory buckets. Retrieves OwnershipControls for an Amazon S3 bucket. To use this opera- tion, you must have the s3:GetBucketOwnershipControls permission. For more information about Amazon S3 permissions, see Specifying permis- sions in a policy . NOTE: A bucket doesn't have OwnershipControls settings in the following cases: o The bucket was created before the BucketOwnerEnforced ownership setting was introduced and you've never explicitly applied this...
+/// NOTE: This operation is not supported for directory buckets. Retrieves OwnershipControls for an Amazon S3 bucket. To use this operation, you must have the s3:GetBucketOwnershipControls permission. For more information about Amazon S3 permissions, see Specifying permissions in a policy . NOTE: A bucket doesn't have OwnershipControls settings in the following cases: • The bucket was created before the BucketOwnerEnforced ownership setting was introduced and you've never explicitly applied this val...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +26,7 @@ public record AwsS3apiGetBucketOwnershipControlsOptions : AwsOptions, IValidatab
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// NOTE: This operation is not supported for directory buckets. Retrieves OwnershipControls for an Amazon S3 bucket. To use this opera- tion, you must have the s3:GetBucketOwnershipControls permission. For more information about Amazon S3 permissions, see Specifying permis- sions in a policy . NOTE: A bucket doesn't have OwnershipControls settings in the following cases: o The bucket was created before the BucketOwnerEnforced ownership setting was introduced and you've never explicitly applied this...
+    /// NOTE: This operation is not supported for directory buckets. Retrieves OwnershipControls for an Amazon S3 bucket. To use this operation, you must have the s3:GetBucketOwnershipControls permission. For more information about Amazon S3 permissions, see Specifying permissions in a policy . NOTE: A bucket doesn't have OwnershipControls settings in the following cases: • The bucket was created before the BucketOwnerEnforced ownership setting was introduced and you've never explicitly applied this val...
     /// </summary>
     /// <param name="Bucket">The name of the Amazon S3 bucket whose OwnershipControls you want to retrieve.</param>
     public AwsS3apiGetBucketOwnershipControlsOptions(
@@ -62,7 +63,7 @@ public record AwsS3apiGetBucketOwnershipControlsOptions : AwsOptions, IValidatab
     public string? Bucket { get; private init; }
 
     /// <summary>
-    /// The account ID of the expected bucket owner. If the account ID that you provide does not match the actual owner of the bucket, the re- quest fails with the HTTP status code 403 Forbidden (access denied).
+    /// The account ID of the expected bucket owner. If the account ID that you provide does not match the actual owner of the bucket, the request fails with the HTTP status code 403 Forbidden (access denied).
     /// </summary>
     [CliOption("--expected-bucket-owner")]
     public string? ExpectedBucketOwner { get; set; }
@@ -88,6 +89,15 @@ public record AwsS3apiGetBucketOwnershipControlsOptions : AwsOptions, IValidatab
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

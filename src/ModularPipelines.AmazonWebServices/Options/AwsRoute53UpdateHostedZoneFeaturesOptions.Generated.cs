@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsRoute53UpdateHostedZoneFeaturesOptions : AwsOptions, IValidatab
     /// <summary>
     /// Updates the features configuration for a hosted zone. This operation allows you to enable or disable specific features for your hosted zone, such as accelerated recovery. Accelerated recovery enables you to update DNS records in your public hosted zone even when the us-east-1 region is unavailable. See also: AWS API Documentation
     /// </summary>
-    /// <param name="HostedZoneId">The ID of the hosted zone for which you want to update features. This is the unique identifier for your hosted zone. Constraints: o max: 32</param>
+    /// <param name="HostedZoneId">The ID of the hosted zone for which you want to update features. This is the unique identifier for your hosted zone. Constraints: • max: 32</param>
     public AwsRoute53UpdateHostedZoneFeaturesOptions(
         string HostedZoneId
     )
@@ -56,13 +57,13 @@ public record AwsRoute53UpdateHostedZoneFeaturesOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the hosted zone for which you want to update features. This is the unique identifier for your hosted zone. Constraints: o max: 32
+    /// The ID of the hosted zone for which you want to update features. This is the unique identifier for your hosted zone. Constraints: • max: 32
     /// </summary>
     [CliOption("--hosted-zone-id")]
     public string? HostedZoneId { get; private init; }
 
     /// <summary>
-    /// Specifies whether to enable accelerated recovery for the hosted zone. Set to true to enable accelerated recovery, or false to dis- able it.
+    /// Specifies whether to enable accelerated recovery for the hosted zone. Set to true to enable accelerated recovery, or false to disable it.
     /// </summary>
     [CliFlag("--enable-accelerated-recovery", NegatedName = "--no-enable-accelerated-recovery")]
     public bool? EnableAcceleratedRecovery { get; set; }
@@ -88,6 +89,15 @@ public record AwsRoute53UpdateHostedZoneFeaturesOptions : AwsOptions, IValidatab
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -63,19 +64,19 @@ public record AwsEc2ModifyFpgaImageAttributeOptions : AwsOptions, IValidatableOb
     public string? FpgaImageId { get; private init; }
 
     /// <summary>
-    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation . Otherwise, it is UnauthorizedOperation .
     /// </summary>
     [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     /// <summary>
-    /// The name of the attribute. Possible values: o description o name o loadPermission o productCodes
+    /// The name of the attribute. Possible values: • description • name • loadPermission • productCodes
     /// </summary>
     [CliOption("--attribute")]
     public AwsEc2ModifyFpgaImageAttributeAttribute? Attribute { get; set; }
 
     /// <summary>
-    /// The operation type. Possible values: o add o remove
+    /// The operation type. Possible values: • add • remove
     /// </summary>
     [CliOption("--operation-type")]
     public AwsEc2ModifyFpgaImageAttributeOperationType? OperationType { get; set; }
@@ -93,13 +94,13 @@ public record AwsEc2ModifyFpgaImageAttributeOptions : AwsOptions, IValidatableOb
     public IEnumerable<string>? UserGroups { get; set; }
 
     /// <summary>
-    /// The product codes. After you add a product code to an AFI, it can't be removed. This parameter is valid only when modifying the product- Codes attribute. (string) Syntax: "string" "string" ...
+    /// The product codes. After you add a product code to an AFI, it can't be removed. This parameter is valid only when modifying the productCodes attribute. (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--product-codes", GroupValues = true)]
     public IEnumerable<string>? ProductCodes { get; set; }
 
     /// <summary>
-    /// The load permission for the AFI. Add -&gt; (list) The load permissions to add. (structure) Describes a load permission. Group -&gt; (string) The name of the group. Possible values: o all UserId -&gt; (string) The Amazon Web Services account ID. Remove -&gt; (list) The load permissions to remove. (structure) Describes a load permission. Group -&gt; (string) The name of the group. Possible values: o all UserId -&gt; (string) The Amazon Web Services account ID. Shorthand Syntax: Add=[{Group=string,UserId=string},{Group=string,UserId=string}],Remove=[{Group=string,UserId=string},{Group=string,UserId=string}] JSON Syntax: { "Add": [ { "Group": "all", "UserId": "string" } ... ], "Remove": [ { "Group": "all", "UserId": "string" } ... ] }
+    /// The load permission for the AFI. Add -&gt; (list) The load permissions to add. (structure) Describes a load permission. Group -&gt; (string) The name of the group. Possible values: • all UserId -&gt; (string) The Amazon Web Services account ID. Remove -&gt; (list) The load permissions to remove. (structure) Describes a load permission. Group -&gt; (string) The name of the group. Possible values: • all UserId -&gt; (string) The Amazon Web Services account ID. Shorthand Syntax: Add=[{Group=string,UserId=string},{Group=string,UserId=string}],Remove=[{Group=string,UserId=string},{Group=string,UserId=string}] JSON Syntax: { "Add": [ { "Group": "all", "UserId": "string" } ... ], "Remove": [ { "Group": "all", "UserId": "string" } ... ] }
     /// </summary>
     [CliOption("--load-permission")]
     public string? LoadPermission { get; set; }
@@ -137,6 +138,15 @@ public record AwsEc2ModifyFpgaImageAttributeOptions : AwsOptions, IValidatableOb
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

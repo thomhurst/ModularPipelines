@@ -6,8 +6,8 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
+using ModularPipelines;
 using ModularPipelines.Context;
-using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
@@ -77,7 +77,7 @@ public class AwsBilling : IAwsBilling
     }
 
     /// <summary>
-    /// Removes the association between one or more source billing views and an existing billing view. This allows modifying the composition of aggre- gate billing views. See also: AWS API Documentation
+    /// Removes the association between one or more source billing views and an existing billing view. This allows modifying the composition of aggregate billing views. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -92,7 +92,7 @@ public class AwsBilling : IAwsBilling
     }
 
     /// <summary>
-    /// Retrieves billing preferences for the specified feature. Each feature controls a distinct billing capability: which accounts can share Re- served Instances or credits, whether billing alerts are enabled, the historical record of sharing changes, and per-credit options. See also: AWS API Documentation
+    /// Retrieves billing preferences for the specified feature. Each feature controls a distinct billing capability: which accounts can share Reserved Instances or credits, whether billing alerts are enabled, the historical record of sharing changes, and per-credit options. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -122,7 +122,7 @@ public class AwsBilling : IAwsBilling
     }
 
     /// <summary>
-    /// Returns the per-billing-month allocation history for credits applied to an Amazon Web Services account's bills. Traverses the consolidated billing family to capture cross-account credit applications. Supports pagination and optional filtering to a single credit. See also: AWS API Documentation get-credit-allocation-history is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate arg...
+    /// Returns the per-billing-month allocation history for credits applied to an Amazon Web Services account's bills. Traverses the consolidated billing family to capture cross-account credit applications. Supports pagination and optional filtering to a single credit. See also: AWS API Documentation get-credit-allocation-history is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argum...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -137,7 +137,7 @@ public class AwsBilling : IAwsBilling
     }
 
     /// <summary>
-    /// Returns the list of Amazon Web Services account credits for the speci- fied account. Each credit includes its identifier, type, monetary amounts, applicable products, expiration, sharing configuration, and current enabled status. When the caller is the management account of a consolidated billing family and payerAccountFlag is true , the response aggregates credits across the entire family. Otherwise, the response includes only credits owned by the account specified in accountId . See also: AWS ...
+    /// Returns the list of Amazon Web Services account credits for the specified account. Each credit includes its identifier, type, monetary amounts, applicable products, expiration, sharing configuration, and current enabled status. When the caller is the management account of a consolidated billing family and payerAccountFlag is true , the response aggregates credits across the entire family. Otherwise, the response includes only credits owned by the account specified in accountId . See also: AWS AP...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -152,7 +152,7 @@ public class AwsBilling : IAwsBilling
     }
 
     /// <summary>
-    /// Returns a summary of Enterprise Support data aggregated across all ac- counts in the Enterprise Support profile. See also: AWS API Documentation
+    /// Returns a summary of Enterprise Support data aggregated across all accounts in the Enterprise Support profile. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -212,7 +212,7 @@ public class AwsBilling : IAwsBilling
     }
 
     /// <summary>
-    /// Lists the billing views available for a given time period. Every Amazon Web Services account has a unique PRIMARY billing view that represents the billing data available by default. Accounts that use Billing Conductor also have BILLING_GROUP billing views represent- ing pro forma costs associated with each created billing group. See also: AWS API Documentation list-billing-views is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You ca...
+    /// Lists the billing views available for a given time period. Every Amazon Web Services account has a unique PRIMARY billing view that represents the billing data available by default. Accounts that use Billing Conductor also have BILLING_GROUP billing views representing pro forma costs associated with each created billing group. See also: AWS API Documentation list-billing-views is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -227,7 +227,7 @@ public class AwsBilling : IAwsBilling
     }
 
     /// <summary>
-    /// Returns Business Support charges broken down at the linked account level for a given billing month. See also: AWS API Documentation list-business-support-account-charges is a paginated operation. Multi- ple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate ar- gument. When using --output text and the --query argument on a pagi- nated response, the --query argument must extract data from the results of the follow...
+    /// Returns Business Support charges broken down at the linked account level for a given billing month. See also: AWS API Documentation list-business-support-account-charges is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following qu...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -242,7 +242,7 @@ public class AwsBilling : IAwsBilling
     }
 
     /// <summary>
-    /// Returns the history of Business Support subscription contracts across accounts. See also: AWS API Documentation list-business-support-subscription-history is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-pagi- nate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the re- sults of the following query express...
+    /// Returns the history of Business Support subscription contracts across accounts. See also: AWS API Documentation list-business-support-subscription-history is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -257,7 +257,7 @@ public class AwsBilling : IAwsBilling
     }
 
     /// <summary>
-    /// Returns Support-eligible spend broken down at linked account level. See also: AWS API Documentation list-enterprise-support-linked-account-charges is a paginated opera- tion. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argu- ment on a paginated response, the --query argument must extract data from the results of the following query expressions: li...
+    /// Returns Support-eligible spend broken down at linked account level. See also: AWS API Documentation list-enterprise-support-linked-account-charges is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: linked...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -272,7 +272,7 @@ public class AwsBilling : IAwsBilling
     }
 
     /// <summary>
-    /// Lists the source views (managed Amazon Web Services billing views) as- sociated with the billing view. See also: AWS API Documentation list-source-views-for-billing-view is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the followin...
+    /// Lists the source views (managed Amazon Web Services billing views) associated with the billing view. See also: AWS API Documentation list-source-views-for-billing-view is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following quer...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -317,7 +317,7 @@ public class AwsBilling : IAwsBilling
     }
 
     /// <summary>
-    /// An API operation for adding one or more tags (key-value pairs) to a re- source. See also: AWS API Documentation
+    /// An API operation for adding one or more tags (key-value pairs) to a resource. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -347,7 +347,7 @@ public class AwsBilling : IAwsBilling
     }
 
     /// <summary>
-    /// Updates billing preferences for the specified feature. Each feature targets a distinct billing capability and has its own set of supported keys. The action sets the value for each provided key; keys not present in the request are unchanged. Sharing keys (RI_SHARING , CREDIT_SHARING , CREDIT_LEVEL_SHARING , and sharing keys under CREDIT_PREFERENCE_OPTIONS ) may only be set by the management account of a consolidated billing family. The credit/{credi- tId}/status key may be set by member accounts ...
+    /// Updates billing preferences for the specified feature. Each feature targets a distinct billing capability and has its own set of supported keys. The action sets the value for each provided key; keys not present in the request are unchanged. Sharing keys (RI_SHARING , CREDIT_SHARING , CREDIT_LEVEL_SHARING , and sharing keys under CREDIT_PREFERENCE_OPTIONS ) may only be set by the management account of a consolidated billing family. The credit/{creditId}/status key may be set by member accounts fo...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns a list of the fields that are included in log events in the specified log group. Includes the percentage of log events that contain each field. The search is limited to a time period that you specify. This operation is used for discovering fields within log group events. For discovering fields across data sources, use the GetLogFields opera- tion. You can specify the log group to search by using either logGroupIdenti- fier or logGroupName . You must specify one of these parameters, but y...
+/// Returns a list of the fields that are included in log events in the specified log group. Includes the percentage of log events that contain each field. The search is limited to a time period that you specify. This operation is used for discovering fields within log group events. For discovering fields across data sources, use the GetLogFields operation. You can specify the log group to search by using either logGroupIdentifier or logGroupName . You must specify one of these parameters, but you c...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -22,19 +22,19 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsLogsGetLogGroupFieldsOptions : AwsOptions
 {
     /// <summary>
-    /// The name of the log group to search. NOTE: You must include either logGroupIdentifier or logGroupName , but not both. Constraints: o min: 1 o max: 512 o pattern: [\.\-_/#A-Za-z0-9]+
+    /// The name of the log group to search. NOTE: You must include either logGroupIdentifier or logGroupName , but not both. Constraints: • min: 1 • max: 512 • pattern: [\.\-_/#A-Za-z0-9]+
     /// </summary>
     [CliOption("--log-group-name")]
     public string? LogGroupName { get; set; }
 
     /// <summary>
-    /// The time to set as the center of the query. If you specify time , the 8 minutes before and 8 minutes after this time are searched. If you omit time , the most recent 15 minutes up to the current time are searched. The time value is specified as epoch time, which is the number of seconds since January 1, 1970, 00:00:00 UTC . Constraints: o min: 0
+    /// The time to set as the center of the query. If you specify time , the 8 minutes before and 8 minutes after this time are searched. If you omit time , the most recent 15 minutes up to the current time are searched. The time value is specified as epoch time, which is the number of seconds since January 1, 1970, 00:00:00 UTC . Constraints: • min: 0
     /// </summary>
     [CliOption("--time")]
-    public int? Time { get; set; }
+    public long? Time { get; set; }
 
     /// <summary>
-    /// Specify either the name or ARN of the log group to view. If the log group is in a source account and you are using a monitoring account, you must specify the ARN. NOTE: You must include either logGroupIdentifier or logGroupName , but not both. Constraints: o min: 1 o max: 2048 o pattern: [\w#+=/:,.@-]*
+    /// Specify either the name or ARN of the log group to view. If the log group is in a source account and you are using a monitoring account, you must specify the ARN. NOTE: You must include either logGroupIdentifier or logGroupName , but not both. Constraints: • min: 1 • max: 2048 • pattern: [\w#+=/:,.@-]*
     /// </summary>
     [CliOption("--log-group-identifier")]
     public string? LogGroupIdentifier { get; set; }
@@ -44,5 +44,14 @@ public record AwsLogsGetLogGroupFieldsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

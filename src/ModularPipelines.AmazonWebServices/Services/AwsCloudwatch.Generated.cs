@@ -6,8 +6,8 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
+using ModularPipelines;
 using ModularPipelines.Context;
-using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
@@ -33,7 +33,7 @@ public class AwsCloudwatch : IAwsCloudwatch
     #region Sub-command Groups
 
     /// <summary>
-    /// aws wait sub-commands.
+    /// aws cloudwatch wait sub-commands.
     /// </summary>
     public AwsCloudwatchWait Wait => _wait ??= new AwsCloudwatchWait(_command);
 
@@ -42,7 +42,7 @@ public class AwsCloudwatch : IAwsCloudwatch
     #region Commands
 
     /// <summary>
-    /// Associates an Amazon Web Services Key Management Service (Amazon Web Services KMS) customer managed key with the specified dataset. After this operation completes, all data published to the dataset is en- crypted at rest using the specified KMS key. Callers must have kms:De- crypt permission on the key to read the encrypted data. Only the default dataset is supported. The default dataset is implicit for every account in every Region you do not need to create it before calling this operation. You...
+    /// Associates an Amazon Web Services Key Management Service (Amazon Web Services KMS) customer managed key with the specified dataset. After this operation completes, all data published to the dataset is encrypted at rest using the specified KMS key. Callers must have kms:Decrypt permission on the key to read the encrypted data. Only the default dataset is supported. The default dataset is implicit for every account in every Region you do not need to create it before calling this operation. You can...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -57,7 +57,7 @@ public class AwsCloudwatch : IAwsCloudwatch
     }
 
     /// <summary>
-    /// Creates a resource metrics configuration for an Amazon Web Services re- source. After you create a configuration, Amazon CloudWatch collects detailed metrics for that resource. Each Amazon Web Services resource can have only one resource metrics configuration. If a configuration already exists for the specified re- source ARN, this operation returns a ConflictException . To modify an existing configuration, use UpdateResourceMetricsConfiguration . If the Amazon Web Services resource that you spe...
+    /// Creates a resource metrics configuration for an Amazon Web Services resource. After you create a configuration, Amazon CloudWatch collects detailed metrics for that resource. Each Amazon Web Services resource can have only one resource metrics configuration. If a configuration already exists for the specified resource ARN, this operation returns a ConflictException . To modify an existing configuration, use UpdateResourceMetricsConfiguration . If the Amazon Web Services resource that you specify...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -72,7 +72,7 @@ public class AwsCloudwatch : IAwsCloudwatch
     }
 
     /// <summary>
-    /// Deletes a specific alarm mute rule. When you delete a mute rule, any alarms that are currently being muted by that rule are immediately unmuted. If those alarms are in an ALARM state, their configured actions will trigger. This operation is idempotent. If you delete a mute rule that does not exist, the operation succeeds without returning an error. Permissions To delete a mute rule, you need the cloudwatch:DeleteAlarmMuteRule per- mission on the alarm mute rule resource. See also: AWS API Docume...
+    /// Deletes a specific alarm mute rule. When you delete a mute rule, any alarms that are currently being muted by that rule are immediately unmuted. If those alarms are in an ALARM state, their configured actions will trigger. This operation is idempotent. If you delete a mute rule that does not exist, the operation succeeds without returning an error. Permissions To delete a mute rule, you need the cloudwatch:DeleteAlarmMuteRule permission on the alarm mute rule resource. See also: AWS API Document...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -117,7 +117,7 @@ public class AwsCloudwatch : IAwsCloudwatch
     }
 
     /// <summary>
-    /// Deletes all dashboards that you specify. You can specify up to 100 dashboards to delete. If there is an error during this call, the opera- tion attempts to delete as many dashboards as possible. See also: AWS API Documentation
+    /// Deletes all dashboards that you specify. You can specify up to 100 dashboards to delete. If there is an error during this call, the operation attempts to delete as many dashboards as possible. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -162,7 +162,7 @@ public class AwsCloudwatch : IAwsCloudwatch
     }
 
     /// <summary>
-    /// Deletes the resource metrics configuration for an Amazon Web Services resource. After you delete the configuration, Amazon CloudWatch stops collecting detailed metrics for the resource. Metric data that Amazon CloudWatch already collected for the resource is not deleted. This operation returns a ResourceNotFoundException if no resource met- rics configuration exists for the specified resource ARN. Verify that the resource ARN is correct. To delete a resource metrics configuration, you must have ...
+    /// Deletes the resource metrics configuration for an Amazon Web Services resource. After you delete the configuration, Amazon CloudWatch stops collecting detailed metrics for the resource. Metric data that Amazon CloudWatch already collected for the resource is not deleted. This operation returns a ResourceNotFoundException if no resource metrics configuration exists for the specified resource ARN. Verify that the resource ARN is correct. To delete a resource metrics configuration, you must have th...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -192,7 +192,7 @@ public class AwsCloudwatch : IAwsCloudwatch
     }
 
     /// <summary>
-    /// Retrieves the history for the specified alarm. You can filter the re- sults by date range or item type. If an alarm name is not specified, the histories for either all metric alarms or all composite alarms are returned. CloudWatch retains the history of an alarm even if you delete the alarm. To use this operation and return information about a composite alarm, you must be signed on with the cloudwatch:DescribeAlarmHistory permis- sion that is scoped to * . You can't return information about comp...
+    /// Retrieves the history for the specified alarm. You can filter the results by date range or item type. If an alarm name is not specified, the histories for either all metric alarms or all composite alarms are returned. CloudWatch retains the history of an alarm even if you delete the alarm. To use this operation and return information about a composite alarm, you must be signed on with the cloudwatch:DescribeAlarmHistory permission that is scoped to * . You can't return information about composit...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -207,7 +207,7 @@ public class AwsCloudwatch : IAwsCloudwatch
     }
 
     /// <summary>
-    /// Retrieves the alarms for the specified metric. To filter the results, specify a statistic, period, or unit. This operation retrieves only standard alarms that are based on the specified metric. It does not return alarms based on math expressions that use the specified metric, or composite alarms that use the speci- fied metric. See also: AWS API Documentation
+    /// Retrieves the alarms for the specified metric. To filter the results, specify a statistic, period, or unit. This operation retrieves only standard alarms that are based on the specified metric. It does not return alarms based on math expressions that use the specified metric, or composite alarms that use the specified metric. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -222,7 +222,7 @@ public class AwsCloudwatch : IAwsCloudwatch
     }
 
     /// <summary>
-    /// Retrieves the specified alarms. You can filter the results by specify- ing a prefix for the alarm name, the alarm state, or a prefix for any action. To use this operation and return information about composite alarms, you must be signed on with the cloudwatch:DescribeAlarms permission that is scoped to * . You can't return information about composite alarms if your cloudwatch:DescribeAlarms permission has a narrower scope. See also: AWS API Documentation describe-alarms is a paginated operation....
+    /// Retrieves the specified alarms. You can filter the results by specifying a prefix for the alarm name, the alarm state, or a prefix for any action. To use this operation and return information about composite alarms, you must be signed on with the cloudwatch:DescribeAlarms permission that is scoped to * . You can't return information about composite alarms if your cloudwatch:DescribeAlarms permission has a narrower scope. See also: AWS API Documentation describe-alarms is a paginated operation. M...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -237,7 +237,7 @@ public class AwsCloudwatch : IAwsCloudwatch
     }
 
     /// <summary>
-    /// Lists the anomaly detection models that you have created in your ac- count. For single metric anomaly detectors, you can list all of the models in your account or filter the results to only the models that are related to a certain namespace, metric name, or metric dimension. For metric math anomaly detectors, you can list them by adding MET- RIC_MATH to the AnomalyDetectorTypes array. This will return all metric math anomaly detectors in your account. See also: AWS API Documentation describe-ano...
+    /// Lists the anomaly detection models that you have created in your account. For single metric anomaly detectors, you can list all of the models in your account or filter the results to only the models that are related to a certain namespace, metric name, or metric dimension. For metric math anomaly detectors, you can list them by adding METRIC_MATH to the AnomalyDetectorTypes array. This will return all metric math anomaly detectors in your account. See also: AWS API Documentation describe-anomaly...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -282,7 +282,7 @@ public class AwsCloudwatch : IAwsCloudwatch
     }
 
     /// <summary>
-    /// Disables the specified Contributor Insights rules. When rules are dis- abled, they do not analyze log groups and do not incur costs. See also: AWS API Documentation
+    /// Disables the specified Contributor Insights rules. When rules are disabled, they do not analyze log groups and do not incur costs. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -327,7 +327,7 @@ public class AwsCloudwatch : IAwsCloudwatch
     }
 
     /// <summary>
-    /// Enables the specified Contributor Insights rules. When rules are en- abled, they immediately begin analyzing log data. See also: AWS API Documentation
+    /// Enables the specified Contributor Insights rules. When rules are enabled, they immediately begin analyzing log data. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -342,7 +342,7 @@ public class AwsCloudwatch : IAwsCloudwatch
     }
 
     /// <summary>
-    /// Retrieves details for a specific alarm mute rule. This operation returns complete information about the mute rule, in- cluding its configuration, status, targeted alarms, and metadata. The returned status indicates the current state of the mute rule: o SCHEDULED : The mute rule is configured and will become active in the future o ACTIVE : The mute rule is currently muting alarm actions o EXPIRED : The mute rule has passed its expiration date and will no longer become active Permissions To retrie...
+    /// Retrieves details for a specific alarm mute rule. This operation returns complete information about the mute rule, including its configuration, status, targeted alarms, and metadata. The returned status indicates the current state of the mute rule: • SCHEDULED : The mute rule is configured and will become active in the future • ACTIVE : The mute rule is currently muting alarm actions • EXPIRED : The mute rule has passed its expiration date and will no longer become active Permissions To retrieve...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -357,7 +357,7 @@ public class AwsCloudwatch : IAwsCloudwatch
     }
 
     /// <summary>
-    /// Displays the details of the dashboard that you specify. To copy an existing dashboard, use GetDashboard , and then use the data returned within DashboardBody as the template for the new dashboard when you call PutDashboard to create the copy. You might have recently enabled an opt-in Region (Region that is dis- abled by default) for your account. In that Region, GetDashboard can return an access denied error for up to 24 hours after you enable the Region. This delay occurs while dashboard data p...
+    /// Displays the details of the dashboard that you specify. To copy an existing dashboard, use GetDashboard , and then use the data returned within DashboardBody as the template for the new dashboard when you call PutDashboard to create the copy. You might have recently enabled an opt-in Region (Region that is disabled by default) for your account. In that Region, GetDashboard can return an access denied error for up to 24 hours after you enable the Region. This delay occurs while dashboard data pro...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -372,7 +372,7 @@ public class AwsCloudwatch : IAwsCloudwatch
     }
 
     /// <summary>
-    /// Returns information about the specified dataset. This includes its identifier, Amazon Resource Name (ARN), and any customer managed Amazon Web Services Key Management Service (Amazon Web Services KMS) key that is currently associated with it. Only the default dataset is supported. The default dataset is implicit for every account in every Region you can call GetDataset for it with- out first creating it. If no customer managed KMS key has been associ- ated with the dataset, the response omits th...
+    /// Returns information about the specified dataset. This includes its identifier, Amazon Resource Name (ARN), and any customer managed Amazon Web Services Key Management Service (Amazon Web Services KMS) key that is currently associated with it. Only the default dataset is supported. The default dataset is implicit for every account in every Region you can call GetDataset for it without first creating it. If no customer managed KMS key has been associated with the dataset, the response omits the Km...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -387,7 +387,7 @@ public class AwsCloudwatch : IAwsCloudwatch
     }
 
     /// <summary>
-    /// This operation returns the time series data collected by a Contributor Insights rule. The data includes the identity and number of contribu- tors to the log group. You can also optionally return one or more statistics about each data point in the time series. These statistics can include the following: o UniqueContributors -- the number of unique contributors for each data point. o MaxContributorValue -- the value of the top contributor for each data point. The identity of the contributor might ...
+    /// This operation returns the time series data collected by a Contributor Insights rule. The data includes the identity and number of contributors to the log group. You can also optionally return one or more statistics about each data point in the time series. These statistics can include the following: • UniqueContributors -- the number of unique contributors for each data point. • MaxContributorValue -- the value of the top contributor for each data point. The identity of the contributor might ch...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -417,7 +417,7 @@ public class AwsCloudwatch : IAwsCloudwatch
     }
 
     /// <summary>
-    /// Gets statistics for the specified metric. The maximum number of data points returned from a single call is 1,440. If you request more than 1,440 data points, CloudWatch returns an er- ror. To reduce the number of data points, you can narrow the specified time range and make multiple requests across adjacent time ranges, or you can increase the specified period. Data points are not returned in chronological order. CloudWatch aggregates data points based on the length of the period that you specif...
+    /// Gets statistics for the specified metric. The maximum number of data points returned from a single call is 1,440. If you request more than 1,440 data points, CloudWatch returns an error. To reduce the number of data points, you can narrow the specified time range and make multiple requests across adjacent time ranges, or you can increase the specified period. Data points are not returned in chronological order. CloudWatch aggregates data points based on the length of the period that you specify....
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -447,7 +447,7 @@ public class AwsCloudwatch : IAwsCloudwatch
     }
 
     /// <summary>
-    /// You can use the GetMetricWidgetImage API to retrieve a snapshot graph of one or more Amazon CloudWatch metrics as a bitmap image. You can then embed this image into your services and products, such as wiki pages, reports, and documents. You could also retrieve images regu- larly, such as every minute, and create your own custom live dashboard. The graph you retrieve can include all CloudWatch metric graph fea- tures, including metric math and horizontal and vertical annotations. There is a limit...
+    /// You can use the GetMetricWidgetImage API to retrieve a snapshot graph of one or more Amazon CloudWatch metrics as a bitmap image. You can then embed this image into your services and products, such as wiki pages, reports, and documents. You could also retrieve images regularly, such as every minute, and create your own custom live dashboard. The graph you retrieve can include all CloudWatch metric graph features, including metric math and horizontal and vertical annotations. There is a limit of ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -477,7 +477,7 @@ public class AwsCloudwatch : IAwsCloudwatch
     }
 
     /// <summary>
-    /// Retrieves the current resource metrics configuration for an Amazon Web Services resource. The response includes the resource ARN, any metric selections, and the times at which the configuration was created and last updated. This operation returns a ResourceNotFoundException if no resource met- rics configuration exists for the specified resource ARN. To create a configuration, use CreateResourceMetricsConfiguration . To retrieve a resource metrics configuration, you must have the cloud- watch:Ge...
+    /// Retrieves the current resource metrics configuration for an Amazon Web Services resource. The response includes the resource ARN, any metric selections, and the times at which the configuration was created and last updated. This operation returns a ResourceNotFoundException if no resource metrics configuration exists for the specified resource ARN. To create a configuration, use CreateResourceMetricsConfiguration . To retrieve a resource metrics configuration, you must have the cloudwatch:GetRes...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -492,7 +492,7 @@ public class AwsCloudwatch : IAwsCloudwatch
     }
 
     /// <summary>
-    /// Lists alarm mute rules in your Amazon Web Services account and region. You can filter the results by alarm name to find all mute rules target- ing a specific alarm, or by status to find rules that are scheduled, active, or expired. This operation supports pagination for accounts with many mute rules. Use the MaxRecords and NextToken parameters to retrieve results in mul- tiple calls. Permissions To list mute rules, you need the cloudwatch:ListAlarmMuteRules permis- sion. See also: AWS API Docume...
+    /// Lists alarm mute rules in your Amazon Web Services account and region. You can filter the results by alarm name to find all mute rules targeting a specific alarm, or by status to find rules that are scheduled, active, or expired. This operation supports pagination for accounts with many mute rules. Use the MaxRecords and NextToken parameters to retrieve results in multiple calls. Permissions To list mute rules, you need the cloudwatch:ListAlarmMuteRules permission. See also: AWS API Documentatio...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -507,7 +507,7 @@ public class AwsCloudwatch : IAwsCloudwatch
     }
 
     /// <summary>
-    /// Returns a list of the dashboards for your account. If you include Dash- boardNamePrefix , only those dashboards with names starting with the prefix are listed. Otherwise, all dashboards in your account are listed. ListDashboards returns up to 1000 results on one page. If there are more than 1000 dashboards, you can call ListDashboards again and in- clude the value you received for NextToken in the first call, to re- ceive the next 1000 results. You might have recently enabled an opt-in Region (R...
+    /// Returns a list of the dashboards for your account. If you include DashboardNamePrefix , only those dashboards with names starting with the prefix are listed. Otherwise, all dashboards in your account are listed. ListDashboards returns up to 1000 results on one page. If there are more than 1000 dashboards, you can call ListDashboards again and include the value you received for NextToken in the first call, to receive the next 1000 results. You might have recently enabled an opt-in Region (Region ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -537,21 +537,6 @@ public class AwsCloudwatch : IAwsCloudwatch
     }
 
     /// <summary>
-    /// List the specified metrics. You can use the returned metrics with GetMetricData or GetMetricStatistics to get statistical data. Up to 500 results are returned for any one call. To retrieve additional results, use the returned token with subsequent calls. After you create a metric, allow up to 15 minutes for the metric to ap- pear. To see metric statistics sooner, use GetMetricData or GetMetricStatistics . If you are using CloudWatch cross-account observability, you can use this operation in a mo...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListMetricsAsync(
-        AwsCloudwatchListMetricsOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsCloudwatchListMetricsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
     /// Returns a list of metric streams in this account. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -567,7 +552,22 @@ public class AwsCloudwatch : IAwsCloudwatch
     }
 
     /// <summary>
-    /// Displays the tags associated with a CloudWatch resource. Currently, alarms, dashboards, metric streams and Contributor Insights rules sup- port tagging. See also: AWS API Documentation
+    /// List the specified metrics. You can use the returned metrics with GetMetricData or GetMetricStatistics to get statistical data. Up to 500 results are returned for any one call. To retrieve additional results, use the returned token with subsequent calls. After you create a metric, allow up to 15 minutes for the metric to appear. To see metric statistics sooner, use GetMetricData or GetMetricStatistics . If you are using CloudWatch cross-account observability, you can use this operation in a moni...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListMetricsAsync(
+        AwsCloudwatchListMetricsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsCloudwatchListMetricsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Displays the tags associated with a CloudWatch resource. Currently, alarms, dashboards, metric streams and Contributor Insights rules support tagging. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -582,7 +582,7 @@ public class AwsCloudwatch : IAwsCloudwatch
     }
 
     /// <summary>
-    /// Creates or updates an alarm mute rule. Alarm mute rules automatically mute alarm actions during predefined time windows. When a mute rule is active, targeted alarms continue to evaluate metrics and transition between states, but their configured actions (such as Amazon SNS notifications or Auto Scaling actions) are muted. You can create mute rules with recurring schedules using cron expres- sions or one-time mute windows using at expressions. Each mute rule can target up to 100 specific alarms b...
+    /// Creates or updates an alarm mute rule. Alarm mute rules automatically mute alarm actions during predefined time windows. When a mute rule is active, targeted alarms continue to evaluate metrics and transition between states, but their configured actions (such as Amazon SNS notifications or Auto Scaling actions) are muted. You can create mute rules with recurring schedules using cron expressions or one-time mute windows using at expressions. Each mute rule can target up to 100 specific alarms by ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -597,7 +597,7 @@ public class AwsCloudwatch : IAwsCloudwatch
     }
 
     /// <summary>
-    /// Creates an anomaly detection model for a CloudWatch metric. You can use the model to display a band of expected normal values when the metric is graphed. If you have enabled unified cross-account observability, and this ac- count is a monitoring account, the metric can be in the same account or a source account. You can specify the account ID in the object you specify in the SingleMetricAnomalyDetector parameter. For more information, see CloudWatch Anomaly Detection . See also: AWS API Document...
+    /// Creates an anomaly detection model for a CloudWatch metric. You can use the model to display a band of expected normal values when the metric is graphed. If you have enabled unified cross-account observability, and this account is a monitoring account, the metric can be in the same account or a source account. You can specify the account ID in the object you specify in the SingleMetricAnomalyDetector parameter. For more information, see CloudWatch Anomaly Detection . See also: AWS API Documentat...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -612,7 +612,7 @@ public class AwsCloudwatch : IAwsCloudwatch
     }
 
     /// <summary>
-    /// Creates or updates a composite alarm . When you create a composite alarm, you specify a rule expression for the alarm that takes into ac- count the alarm states of other alarms that you have created. The com- posite alarm goes into ALARM state only if all conditions of the rule are met. The alarms specified in a composite alarm's rule expression can include metric alarms and other composite alarms. The rule expression of a com- posite alarm can include as many as 100 underlying alarms. Any singl...
+    /// Creates or updates a composite alarm . When you create a composite alarm, you specify a rule expression for the alarm that takes into account the alarm states of other alarms that you have created. The composite alarm goes into ALARM state only if all conditions of the rule are met. The alarms specified in a composite alarm's rule expression can include metric alarms and other composite alarms. The rule expression of a composite alarm can include as many as 100 underlying alarms. Any single alar...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -627,7 +627,7 @@ public class AwsCloudwatch : IAwsCloudwatch
     }
 
     /// <summary>
-    /// Creates a dashboard if it does not already exist, or updates an exist- ing dashboard. If you update a dashboard, the entire contents are re- placed with what you specify here. All dashboards in your account are global, not region-specific. A simple way to create a dashboard using PutDashboard is to copy an ex- isting dashboard. To copy an existing dashboard using the console, you can load the dashboard and then use the View/edit source command in the Actions menu to display the JSON block for th...
+    /// Creates a dashboard if it does not already exist, or updates an existing dashboard. If you update a dashboard, the entire contents are replaced with what you specify here. All dashboards in your account are global, not region-specific. A simple way to create a dashboard using PutDashboard is to copy an existing dashboard. To copy an existing dashboard using the console, you can load the dashboard and then use the View/edit source command in the Actions menu to display the JSON block for that das...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -642,7 +642,7 @@ public class AwsCloudwatch : IAwsCloudwatch
     }
 
     /// <summary>
-    /// Creates a Contributor Insights rule. Rules evaluate log events in a CloudWatch Logs log group, enabling you to find contributor data for the log events in that log group. For more information, see Using Con- tributor Insights to Analyze High-Cardinality Data . If you create a rule, delete it, and then re-create it with the same name, historical data from the first time the rule was created might not be available. See also: AWS API Documentation
+    /// Creates a Contributor Insights rule. Rules evaluate log events in a CloudWatch Logs log group, enabling you to find contributor data for the log events in that log group. For more information, see Using Contributor Insights to Analyze High-Cardinality Data . If you create a rule, delete it, and then re-create it with the same name, historical data from the first time the rule was created might not be available. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -672,7 +672,7 @@ public class AwsCloudwatch : IAwsCloudwatch
     }
 
     /// <summary>
-    /// Creates a managed Contributor Insights rule for a specified Amazon Web Services resource. When you enable a managed rule, you create a Con- tributor Insights rule that collects data from Amazon Web Services ser- vices. You cannot edit these rules with PutInsightRule . The rules can be enabled, disabled, and deleted using EnableInsightRules , DisableIn- sightRules , and DeleteInsightRules . If a previously created managed rule is currently disabled, a subsequent call to this API will re-en- able ...
+    /// Creates a managed Contributor Insights rule for a specified Amazon Web Services resource. When you enable a managed rule, you create a Contributor Insights rule that collects data from Amazon Web Services services. You cannot edit these rules with PutInsightRule . The rules can be enabled, disabled, and deleted using EnableInsightRules , DisableInsightRules , and DeleteInsightRules . If a previously created managed rule is currently disabled, a subsequent call to this API will re-enable it. Use ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -687,7 +687,7 @@ public class AwsCloudwatch : IAwsCloudwatch
     }
 
     /// <summary>
-    /// Creates or updates an alarm and associates it with the specified met- ric, metric math expression, anomaly detection model, Metrics Insights query, or PromQL query. For more information about using a Metrics In- sights query for an alarm, see Create alarms on Metrics Insights queries . Alarms based on anomaly detection models cannot have Auto Scaling ac- tions. When this operation creates an alarm, the alarm state is immediately set to INSUFFICIENT_DATA . For PromQL alarms, the alarm state is in...
+    /// Creates or updates an alarm and associates it with the specified metric, metric math expression, anomaly detection model, Metrics Insights query, or PromQL query. For more information about using a Metrics Insights query for an alarm, see Create alarms on Metrics Insights queries . Alarms based on anomaly detection models cannot have Auto Scaling actions. When this operation creates an alarm, the alarm state is immediately set to INSUFFICIENT_DATA . For PromQL alarms, the alarm state is instead ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -717,7 +717,7 @@ public class AwsCloudwatch : IAwsCloudwatch
     }
 
     /// <summary>
-    /// Creates or updates a metric stream. Metric streams can automatically stream CloudWatch metrics to Amazon Web Services destinations, includ- ing Amazon S3, and to many third-party solutions. For more information, see Using Metric Streams . To create a metric stream, you must be signed in to an account that has the iam:PassRole permission and either the CloudWatchFullAccess policy or the cloudwatch:PutMetricStream permission. When you create or update a metric stream, you choose one of the fol- lo...
+    /// Creates or updates a metric stream. Metric streams can automatically stream CloudWatch metrics to Amazon Web Services destinations, including Amazon S3, and to many third-party solutions. For more information, see Using Metric Streams . To create a metric stream, you must be signed in to an account that has the iam:PassRole permission and either the CloudWatchFullAccess policy or the cloudwatch:PutMetricStream permission. When you create or update a metric stream, you choose one of the following...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -732,7 +732,7 @@ public class AwsCloudwatch : IAwsCloudwatch
     }
 
     /// <summary>
-    /// Temporarily sets the state of an alarm for testing purposes. When the updated state differs from the previous value, the action configured for the appropriate state is invoked. For example, if your alarm is configured to send an Amazon SNS message when an alarm is triggered, temporarily changing the alarm state to ALARM sends an SNS message. Metric alarms returns to their actual state quickly, often within sec- onds. Because the metric alarm state change happens quickly, it is typ- ically only v...
+    /// Temporarily sets the state of an alarm for testing purposes. When the updated state differs from the previous value, the action configured for the appropriate state is invoked. For example, if your alarm is configured to send an Amazon SNS message when an alarm is triggered, temporarily changing the alarm state to ALARM sends an SNS message. Metric alarms returns to their actual state quickly, often within seconds. Because the metric alarm state change happens quickly, it is typically only visib...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -762,7 +762,7 @@ public class AwsCloudwatch : IAwsCloudwatch
     }
 
     /// <summary>
-    /// Enables enrichment and PromQL access for CloudWatch vended metrics for supported Amazon Web Services resources in the account. Once enabled, metrics that contain a resource identifier dimension (for example, EC2 CPUUtilization with an InstanceId dimension) are enriched with resource ARN and resource tag labels and become queryable using PromQL. Before calling this operation, you must enable resource tags on teleme- try for your account. For more information, see Enable resource tags on telemetry...
+    /// Enables enrichment and PromQL access for CloudWatch vended metrics for supported Amazon Web Services resources in the account. Once enabled, metrics that contain a resource identifier dimension (for example, EC2 CPUUtilization with an InstanceId dimension) are enriched with resource ARN and resource tag labels and become queryable using PromQL. Before calling this operation, you must enable resource tags on telemetry for your account. For more information, see Enable resource tags on telemetry ....
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -792,7 +792,7 @@ public class AwsCloudwatch : IAwsCloudwatch
     }
 
     /// <summary>
-    /// Disables enrichment and PromQL access for CloudWatch vended metrics for supported Amazon Web Services resources in the account. After dis- abling, these metrics are no longer enriched with resource ARN and re- source tag labels, and cannot be queried using PromQL. See also: AWS API Documentation
+    /// Disables enrichment and PromQL access for CloudWatch vended metrics for supported Amazon Web Services resources in the account. After disabling, these metrics are no longer enriched with resource ARN and resource tag labels, and cannot be queried using PromQL. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -807,7 +807,7 @@ public class AwsCloudwatch : IAwsCloudwatch
     }
 
     /// <summary>
-    /// Assigns one or more tags (key-value pairs) to the specified CloudWatch resource. Currently, the only CloudWatch resources that can be tagged are alarms, dashboards, metric streams and Contributor Insights rules. Tags can help you organize and categorize your resources. You can also use them to scope user permissions by granting a user permission to ac- cess or change only resources with certain tag values. Tags don't have any semantic meaning to Amazon Web Services and are in- terpreted strictly...
+    /// Assigns one or more tags (key-value pairs) to the specified CloudWatch resource. Currently, the only CloudWatch resources that can be tagged are alarms, dashboards, metric streams and Contributor Insights rules. Tags can help you organize and categorize your resources. You can also use them to scope user permissions by granting a user permission to access or change only resources with certain tag values. Tags don't have any semantic meaning to Amazon Web Services and are interpreted strictly as ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -822,7 +822,7 @@ public class AwsCloudwatch : IAwsCloudwatch
     }
 
     /// <summary>
-    /// Removes one or more tags from the specified resource. Currently, alarms, dashboards, metric streams and Contributor Insights rules sup- port tagging. See also: AWS API Documentation
+    /// Removes one or more tags from the specified resource. Currently, alarms, dashboards, metric streams and Contributor Insights rules support tagging. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -837,7 +837,7 @@ public class AwsCloudwatch : IAwsCloudwatch
     }
 
     /// <summary>
-    /// Replaces the filters that determine which CloudWatch vended metrics are enriched with resource ARN and resource tag labels for the account. En- richment must already be running for the account. If it is not, this operation returns a ResourceNotFoundException . To start enrichment, use StartOTelEnrichment . The filters in the request completely replace the stored filters; they are not merged with them. IncludeFilters and ExcludeFilters are re- placed as a pair, so a request that specifies only In...
+    /// Replaces the filters that determine which CloudWatch vended metrics are enriched with resource ARN and resource tag labels for the account. Enrichment must already be running for the account. If it is not, this operation returns a ResourceNotFoundException . To start enrichment, use StartOTelEnrichment . The filters in the request completely replace the stored filters; they are not merged with them. IncludeFilters and ExcludeFilters are replaced as a pair, so a request that specifies only Includ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -852,7 +852,7 @@ public class AwsCloudwatch : IAwsCloudwatch
     }
 
     /// <summary>
-    /// Updates the resource metrics configuration for an Amazon Web Services resource. The MetricSelections value that you provide replaces any ex- isting metric selections for the resource; it is not merged with them. If you omit MetricSelections , Amazon CloudWatch removes any existing metric selection filter and collects all available detailed metrics for the resource. This operation returns a ResourceNotFoundException if no resource met- rics configuration exists for the specified resource ARN. To ...
+    /// Updates the resource metrics configuration for an Amazon Web Services resource. The MetricSelections value that you provide replaces any existing metric selections for the resource; it is not merged with them. If you omit MetricSelections , Amazon CloudWatch removes any existing metric selection filter and collects all available detailed metrics for the resource. This operation returns a ResourceNotFoundException if no resource metrics configuration exists for the specified resource ARN. To crea...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Describes an existing snapshot job. Poll job descriptions after a job starts to know the status of the job. For information on available status codes, see JobStatus . Registered user support This API can be called as before to get status of a job started by the same Quick Sight user. Possible error scenarios Request will fail with an Access Denied error in the following scenar- ios: o The credentials have expired. o Job has been started by a different user. o Impersonated Quick Sight user doesn'...
+/// Describes an existing snapshot job. Poll job descriptions after a job starts to know the status of the job. For information on available status codes, see JobStatus . Registered user support This API can be called as before to get status of a job started by the same Quick Sight user. Possible error scenarios Request will fail with an Access Denied error in the following scenarios: • The credentials have expired. • Job has been started by a different user. • Impersonated Quick Sight user doesn't ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,11 +26,11 @@ public record AwsQuicksightDescribeDashboardSnapshotJobOptions : AwsOptions, IVa
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Describes an existing snapshot job. Poll job descriptions after a job starts to know the status of the job. For information on available status codes, see JobStatus . Registered user support This API can be called as before to get status of a job started by the same Quick Sight user. Possible error scenarios Request will fail with an Access Denied error in the following scenar- ios: o The credentials have expired. o Job has been started by a different user. o Impersonated Quick Sight user doesn'...
+    /// Describes an existing snapshot job. Poll job descriptions after a job starts to know the status of the job. For information on available status codes, see JobStatus . Registered user support This API can be called as before to get status of a job started by the same Quick Sight user. Possible error scenarios Request will fail with an Access Denied error in the following scenarios: • The credentials have expired. • Job has been started by a different user. • Impersonated Quick Sight user doesn't ...
     /// </summary>
-    /// <param name="AwsAccountId">The ID of the Amazon Web Services account that the dashboard snap- shot job is executed in. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$</param>
-    /// <param name="DashboardId">The ID of the dashboard that you have started a snapshot job for. Constraints: o min: 1 o max: 512 o pattern: [\w\-]+</param>
-    /// <param name="SnapshotJobId">The ID of the job to be described. The job ID is set when you start a new job with a StartDashboardSnapshotJob API call. Constraints: o min: 1 o max: 512 o pattern: [\w\-]+</param>
+    /// <param name="AwsAccountId">The ID of the Amazon Web Services account that the dashboard snapshot job is executed in. Constraints: • min: 12 • max: 12 • pattern: ^[0-9]{12}$</param>
+    /// <param name="DashboardId">The ID of the dashboard that you have started a snapshot job for. Constraints: • min: 1 • max: 512 • pattern: [\w\-]+</param>
+    /// <param name="SnapshotJobId">The ID of the job to be described. The job ID is set when you start a new job with a StartDashboardSnapshotJob API call. Constraints: • min: 1 • max: 512 • pattern: [\w\-]+</param>
     public AwsQuicksightDescribeDashboardSnapshotJobOptions(
         string AwsAccountId,
         string DashboardId,
@@ -64,19 +65,19 @@ public record AwsQuicksightDescribeDashboardSnapshotJobOptions : AwsOptions, IVa
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the Amazon Web Services account that the dashboard snap- shot job is executed in. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$
+    /// The ID of the Amazon Web Services account that the dashboard snapshot job is executed in. Constraints: • min: 12 • max: 12 • pattern: ^[0-9]{12}$
     /// </summary>
     [CliOption("--aws-account-id")]
     public string? AwsAccountId { get; private init; }
 
     /// <summary>
-    /// The ID of the dashboard that you have started a snapshot job for. Constraints: o min: 1 o max: 512 o pattern: [\w\-]+
+    /// The ID of the dashboard that you have started a snapshot job for. Constraints: • min: 1 • max: 512 • pattern: [\w\-]+
     /// </summary>
     [CliOption("--dashboard-id")]
     public string? DashboardId { get; private init; }
 
     /// <summary>
-    /// The ID of the job to be described. The job ID is set when you start a new job with a StartDashboardSnapshotJob API call. Constraints: o min: 1 o max: 512 o pattern: [\w\-]+
+    /// The ID of the job to be described. The job ID is set when you start a new job with a StartDashboardSnapshotJob API call. Constraints: • min: 1 • max: 512 • pattern: [\w\-]+
     /// </summary>
     [CliOption("--snapshot-job-id")]
     public string? SnapshotJobId { get; private init; }
@@ -102,6 +103,15 @@ public record AwsQuicksightDescribeDashboardSnapshotJobOptions : AwsOptions, IVa
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

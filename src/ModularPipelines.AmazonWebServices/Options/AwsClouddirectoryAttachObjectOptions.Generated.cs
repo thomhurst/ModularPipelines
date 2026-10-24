@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Attaches an existing object to another object. An object can be ac- cessed in two ways: o Using the path o Using ObjectIdentifier See also: AWS API Documentation
+/// Attaches an existing object to another object. An object can be accessed in two ways: • Using the path • Using ObjectIdentifier See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,12 +26,12 @@ public record AwsClouddirectoryAttachObjectOptions : AwsOptions, IValidatableObj
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Attaches an existing object to another object. An object can be ac- cessed in two ways: o Using the path o Using ObjectIdentifier See also: AWS API Documentation
+    /// Attaches an existing object to another object. An object can be accessed in two ways: • Using the path • Using ObjectIdentifier See also: AWS API Documentation
     /// </summary>
     /// <param name="DirectoryArn">Amazon Resource Name (ARN) that is associated with the Directory where both objects reside. For more information, see arns .</param>
-    /// <param name="ParentReference">The parent object reference. Selector -&gt; (string) A path selector supports easy selection of an object by the par- ent/child links leading to it from the directory root. Use the link names from each parent/child link to construct the path. Path selectors start with a slash (/) and link names are sepa- rated by slashes. For more information about paths, see Access Objects . You can identify an object in one of the following ways: o $ObjectIdentifier - An object identifier is an opaque string provided by Amazon Cloud Directory. When creating objects, the system will provide you with the identifier of the created ob- ject. An objects identifier is immutable and no two objects will ever share the same object identifier. To identify an ob- ject with ObjectIdentifier, the ObjectIdentifier must be wrapped in double quotes. o /some/path - Identifies the object based on path o #SomeBatchReference - Identifies the object in a batch call Shorthand Syntax: Selector=string JSON Syntax: { "Selector": "string" }</param>
-    /// <param name="ChildReference">The child object reference to be attached to the object. Selector -&gt; (string) A path selector supports easy selection of an object by the par- ent/child links leading to it from the directory root. Use the link names from each parent/child link to construct the path. Path selectors start with a slash (/) and link names are sepa- rated by slashes. For more information about paths, see Access Objects . You can identify an object in one of the following ways: o $ObjectIdentifier - An object identifier is an opaque string provided by Amazon Cloud Directory. When creating objects, the system will provide you with the identifier of the created ob- ject. An objects identifier is immutable and no two objects will ever share the same object identifier. To identify an ob- ject with ObjectIdentifier, the ObjectIdentifier must be wrapped in double quotes. o /some/path - Identifies the object based on path o #SomeBatchReference - Identifies the object in a batch call Shorthand Syntax: Selector=string JSON Syntax: { "Selector": "string" }</param>
-    /// <param name="LinkName">The link name with which the child object is attached to the parent. Constraints: o min: 1 o max: 64 o pattern: [^\/\[\]\(\):\{\}#@!?\s\\;]+</param>
+    /// <param name="ParentReference">The parent object reference. Selector -&gt; (string) A path selector supports easy selection of an object by the parent/child links leading to it from the directory root. Use the link names from each parent/child link to construct the path. Path selectors start with a slash (/) and link names are separated by slashes. For more information about paths, see Access Objects . You can identify an object in one of the following ways: • $ObjectIdentifier - An object identifier is an opaque string provided by Amazon Cloud Directory. When creating objects, the system will provide you with the identifier of the created object. An objects identifier is immutable and no two objects will ever share the same object identifier. To identify an object with ObjectIdentifier, the ObjectIdentifier must be wrapped in double quotes. • /some/path - Identifies the object based on path • #SomeBatchReference - Identifies the object in a batch call Shorthand Syntax: Selector=string JSON Syntax: { "Selector": "string" }</param>
+    /// <param name="ChildReference">The child object reference to be attached to the object. Selector -&gt; (string) A path selector supports easy selection of an object by the parent/child links leading to it from the directory root. Use the link names from each parent/child link to construct the path. Path selectors start with a slash (/) and link names are separated by slashes. For more information about paths, see Access Objects . You can identify an object in one of the following ways: • $ObjectIdentifier - An object identifier is an opaque string provided by Amazon Cloud Directory. When creating objects, the system will provide you with the identifier of the created object. An objects identifier is immutable and no two objects will ever share the same object identifier. To identify an object with ObjectIdentifier, the ObjectIdentifier must be wrapped in double quotes. • /some/path - Identifies the object based on path • #SomeBatchReference - Identifies the object in a batch call Shorthand Syntax: Selector=string JSON Syntax: { "Selector": "string" }</param>
+    /// <param name="LinkName">The link name with which the child object is attached to the parent. Constraints: • min: 1 • max: 64 • pattern: [^\/\[\]\(\):\{\}#@!?\s\\;]+</param>
     public AwsClouddirectoryAttachObjectOptions(
         string DirectoryArn,
         string ParentReference,
@@ -74,19 +75,19 @@ public record AwsClouddirectoryAttachObjectOptions : AwsOptions, IValidatableObj
     public string? DirectoryArn { get; private init; }
 
     /// <summary>
-    /// The parent object reference. Selector -&gt; (string) A path selector supports easy selection of an object by the par- ent/child links leading to it from the directory root. Use the link names from each parent/child link to construct the path. Path selectors start with a slash (/) and link names are sepa- rated by slashes. For more information about paths, see Access Objects . You can identify an object in one of the following ways: o $ObjectIdentifier - An object identifier is an opaque string provided by Amazon Cloud Directory. When creating objects, the system will provide you with the identifier of the created ob- ject. An objects identifier is immutable and no two objects will ever share the same object identifier. To identify an ob- ject with ObjectIdentifier, the ObjectIdentifier must be wrapped in double quotes. o /some/path - Identifies the object based on path o #SomeBatchReference - Identifies the object in a batch call Shorthand Syntax: Selector=string JSON Syntax: { "Selector": "string" }
+    /// The parent object reference. Selector -&gt; (string) A path selector supports easy selection of an object by the parent/child links leading to it from the directory root. Use the link names from each parent/child link to construct the path. Path selectors start with a slash (/) and link names are separated by slashes. For more information about paths, see Access Objects . You can identify an object in one of the following ways: • $ObjectIdentifier - An object identifier is an opaque string provided by Amazon Cloud Directory. When creating objects, the system will provide you with the identifier of the created object. An objects identifier is immutable and no two objects will ever share the same object identifier. To identify an object with ObjectIdentifier, the ObjectIdentifier must be wrapped in double quotes. • /some/path - Identifies the object based on path • #SomeBatchReference - Identifies the object in a batch call Shorthand Syntax: Selector=string JSON Syntax: { "Selector": "string" }
     /// </summary>
     [CliOption("--parent-reference")]
     public string? ParentReference { get; private init; }
 
     /// <summary>
-    /// The child object reference to be attached to the object. Selector -&gt; (string) A path selector supports easy selection of an object by the par- ent/child links leading to it from the directory root. Use the link names from each parent/child link to construct the path. Path selectors start with a slash (/) and link names are sepa- rated by slashes. For more information about paths, see Access Objects . You can identify an object in one of the following ways: o $ObjectIdentifier - An object identifier is an opaque string provided by Amazon Cloud Directory. When creating objects, the system will provide you with the identifier of the created ob- ject. An objects identifier is immutable and no two objects will ever share the same object identifier. To identify an ob- ject with ObjectIdentifier, the ObjectIdentifier must be wrapped in double quotes. o /some/path - Identifies the object based on path o #SomeBatchReference - Identifies the object in a batch call Shorthand Syntax: Selector=string JSON Syntax: { "Selector": "string" }
+    /// The child object reference to be attached to the object. Selector -&gt; (string) A path selector supports easy selection of an object by the parent/child links leading to it from the directory root. Use the link names from each parent/child link to construct the path. Path selectors start with a slash (/) and link names are separated by slashes. For more information about paths, see Access Objects . You can identify an object in one of the following ways: • $ObjectIdentifier - An object identifier is an opaque string provided by Amazon Cloud Directory. When creating objects, the system will provide you with the identifier of the created object. An objects identifier is immutable and no two objects will ever share the same object identifier. To identify an object with ObjectIdentifier, the ObjectIdentifier must be wrapped in double quotes. • /some/path - Identifies the object based on path • #SomeBatchReference - Identifies the object in a batch call Shorthand Syntax: Selector=string JSON Syntax: { "Selector": "string" }
     /// </summary>
     [CliOption("--child-reference")]
     public string? ChildReference { get; private init; }
 
     /// <summary>
-    /// The link name with which the child object is attached to the parent. Constraints: o min: 1 o max: 64 o pattern: [^\/\[\]\(\):\{\}#@!?\s\\;]+
+    /// The link name with which the child object is attached to the parent. Constraints: • min: 1 • max: 64 • pattern: [^\/\[\]\(\):\{\}#@!?\s\\;]+
     /// </summary>
     [CliOption("--link-name")]
     public string? LinkName { get; private init; }
@@ -112,6 +113,15 @@ public record AwsClouddirectoryAttachObjectOptions : AwsOptions, IValidatableObj
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

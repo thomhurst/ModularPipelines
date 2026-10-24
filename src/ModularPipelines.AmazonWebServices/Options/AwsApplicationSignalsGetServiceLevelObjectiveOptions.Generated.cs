@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsApplicationSignalsGetServiceLevelObjectiveOptions : AwsOptions,
     /// <summary>
     /// Returns information about one SLO created in the account. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Id">The ARN or name of the SLO that you want to retrieve information about. You can find the ARNs of SLOs by using the ListServiceLevelObjectives operation. Constraints: o pattern: [0-9A-Za-z][-._0-9A-Za-z ]{0,126}[0-9A-Za-z]$|^arn:(aws|aws-us-gov):application-sig- nals:[^:]*:[^:]*:slo/[0-9A-Za-z][-._0-9A-Za-z ]{0,126}[0-9A-Za-z]</param>
+    /// <param name="Id">The ARN or name of the SLO that you want to retrieve information about. You can find the ARNs of SLOs by using the ListServiceLevelObjectives operation. Constraints: • pattern: [0-9A-Za-z][-._0-9A-Za-z ]{0,126}[0-9A-Za-z]$|^arn:(aws|aws-us-gov):application-signals:[^:]*:[^:]*:slo/[0-9A-Za-z][-._0-9A-Za-z ]{0,126}[0-9A-Za-z]</param>
     public AwsApplicationSignalsGetServiceLevelObjectiveOptions(
         string Id
     )
@@ -56,7 +57,7 @@ public record AwsApplicationSignalsGetServiceLevelObjectiveOptions : AwsOptions,
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN or name of the SLO that you want to retrieve information about. You can find the ARNs of SLOs by using the ListServiceLevelObjectives operation. Constraints: o pattern: [0-9A-Za-z][-._0-9A-Za-z ]{0,126}[0-9A-Za-z]$|^arn:(aws|aws-us-gov):application-sig- nals:[^:]*:[^:]*:slo/[0-9A-Za-z][-._0-9A-Za-z ]{0,126}[0-9A-Za-z]
+    /// The ARN or name of the SLO that you want to retrieve information about. You can find the ARNs of SLOs by using the ListServiceLevelObjectives operation. Constraints: • pattern: [0-9A-Za-z][-._0-9A-Za-z ]{0,126}[0-9A-Za-z]$|^arn:(aws|aws-us-gov):application-signals:[^:]*:[^:]*:slo/[0-9A-Za-z][-._0-9A-Za-z ]{0,126}[0-9A-Za-z]
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; private init; }
@@ -82,6 +83,15 @@ public record AwsApplicationSignalsGetServiceLevelObjectiveOptions : AwsOptions,
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

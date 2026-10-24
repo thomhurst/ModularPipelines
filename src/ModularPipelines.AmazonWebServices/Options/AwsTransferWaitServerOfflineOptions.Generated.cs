@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsTransferWaitServerOfflineOptions : AwsOptions, IValidatableObje
     /// <summary>
     /// Wait until JMESPath query Server.State returns OFFLINE when polling with describe-server. It will poll every 30 seconds until a successful state has been reached. This will exit with a return code of 255 after 120 failed checks. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ServerId">A system-assigned unique identifier for a server. Constraints: o min: 19 o max: 19 o pattern: s-([0-9a-f]{17})</param>
+    /// <param name="ServerId">A system-assigned unique identifier for a server. Constraints: • min: 19 • max: 19 • pattern: s-([0-9a-f]{17})</param>
     public AwsTransferWaitServerOfflineOptions(
         string ServerId
     )
@@ -56,7 +57,7 @@ public record AwsTransferWaitServerOfflineOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A system-assigned unique identifier for a server. Constraints: o min: 19 o max: 19 o pattern: s-([0-9a-f]{17})
+    /// A system-assigned unique identifier for a server. Constraints: • min: 19 • max: 19 • pattern: s-([0-9a-f]{17})
     /// </summary>
     [CliOption("--server-id")]
     public string? ServerId { get; private init; }
@@ -82,6 +83,15 @@ public record AwsTransferWaitServerOfflineOptions : AwsOptions, IValidatableObje
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +29,7 @@ public record AwsSignerRevokeSignatureOptions : AwsOptions, IValidatableObject
     /// Changes the state of a signing job to REVOKED . This indicates that the signature is no longer valid. See also: AWS API Documentation
     /// </summary>
     /// <param name="JobId">ID of the signing job to be revoked.</param>
-    /// <param name="Reason">The reason for revoking the signing job. Constraints: o min: 1 o max: 500</param>
+    /// <param name="Reason">The reason for revoking the signing job. Constraints: • min: 1 • max: 500</param>
     public AwsSignerRevokeSignatureOptions(
         string JobId,
         string Reason
@@ -66,13 +67,13 @@ public record AwsSignerRevokeSignatureOptions : AwsOptions, IValidatableObject
     public string? JobId { get; private init; }
 
     /// <summary>
-    /// The reason for revoking the signing job. Constraints: o min: 1 o max: 500
+    /// The reason for revoking the signing job. Constraints: • min: 1 • max: 500
     /// </summary>
     [CliOption("--reason")]
     public string? Reason { get; private init; }
 
     /// <summary>
-    /// AWS account ID of the job owner. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$
+    /// AWS account ID of the job owner. Constraints: • min: 12 • max: 12 • pattern: ^[0-9]{12}$
     /// </summary>
     [CliOption("--job-owner")]
     public string? JobOwner { get; set; }
@@ -98,6 +99,15 @@ public record AwsSignerRevokeSignatureOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

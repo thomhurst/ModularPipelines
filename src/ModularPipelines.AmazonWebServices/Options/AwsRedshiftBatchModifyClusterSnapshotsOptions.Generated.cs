@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsRedshiftBatchModifyClusterSnapshotsOptions : AwsOptions, IValid
     /// <summary>
     /// Modifies the settings for a set of cluster snapshots. See also: AWS API Documentation
     /// </summary>
-    /// <param name="SnapshotIdentifierList">A list of snapshot identifiers you want to modify. (string) Constraints: o max: 2147483647 Syntax: "string" "string" ...</param>
+    /// <param name="SnapshotIdentifierList">A list of snapshot identifiers you want to modify. (string) Constraints: • max: 2147483647 Syntax: "string" "string" ...</param>
     public AwsRedshiftBatchModifyClusterSnapshotsOptions(
         IEnumerable<string> SnapshotIdentifierList
     )
@@ -67,13 +68,13 @@ public record AwsRedshiftBatchModifyClusterSnapshotsOptions : AwsOptions, IValid
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A list of snapshot identifiers you want to modify. (string) Constraints: o max: 2147483647 Syntax: "string" "string" ...
+    /// A list of snapshot identifiers you want to modify. (string) Constraints: • max: 2147483647 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--snapshot-identifier-list", GroupValues = true)]
     public IEnumerable<string>? SnapshotIdentifierList { get; private init; }
 
     /// <summary>
-    /// The number of days that a manual snapshot is retained. If you spec- ify the value -1, the manual snapshot is retained indefinitely. The number must be either -1 or an integer between 1 and 3,653. If you decrease the manual snapshot retention period from its cur- rent value, existing manual snapshots that fall outside of the new retention period will return an error. If you want to suppress the errors and delete the snapshots, use the force option.
+    /// The number of days that a manual snapshot is retained. If you specify the value -1, the manual snapshot is retained indefinitely. The number must be either -1 or an integer between 1 and 3,653. If you decrease the manual snapshot retention period from its current value, existing manual snapshots that fall outside of the new retention period will return an error. If you want to suppress the errors and delete the snapshots, use the force option.
     /// </summary>
     [CliOption("--manual-snapshot-retention-period")]
     public int? ManualSnapshotRetentionPeriod { get; set; }
@@ -105,6 +106,15 @@ public record AwsRedshiftBatchModifyClusterSnapshotsOptions : AwsOptions, IValid
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

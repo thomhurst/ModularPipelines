@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsSecurityhubDeleteAggregatorV2Options : AwsOptions, IValidatable
     /// <summary>
     /// Deletes the Aggregator V2. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AggregatorV2Arn">The ARN of the Aggregator V2. Constraints: o pattern: .*\S.*</param>
+    /// <param name="AggregatorV2Arn">The ARN of the Aggregator V2. Constraints: • pattern: .*\S.*</param>
     public AwsSecurityhubDeleteAggregatorV2Options(
         string AggregatorV2Arn
     )
@@ -56,7 +57,7 @@ public record AwsSecurityhubDeleteAggregatorV2Options : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the Aggregator V2. Constraints: o pattern: .*\S.*
+    /// The ARN of the Aggregator V2. Constraints: • pattern: .*\S.*
     /// </summary>
     [CliOption("--aggregator-v2-arn")]
     public string? AggregatorV2Arn { get; private init; }
@@ -82,6 +83,15 @@ public record AwsSecurityhubDeleteAggregatorV2Options : AwsOptions, IValidatable
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -6,14 +6,14 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using ModularPipelines.Models;
+using ModularPipelines;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
 namespace ModularPipelines.AmazonWebServices.Services;
 
 /// <summary>
-/// aws redshiftdata commands.
+/// aws redshift-data commands.
 /// </summary>
 /// <remarks>
 /// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
@@ -22,14 +22,13 @@ namespace ModularPipelines.AmazonWebServices.Services;
 public interface IAwsRedshiftData
 {
     /// <summary>
-    /// Runs one or more SQL statements, which can be data manipulation lan- guage (DML) or data definition language (DDL). Depending on the autho- rization method, use one of the following combinations of request para- meters: o Secrets Manager - when connecting to a cluster, provide the se- cret-arn of a secret stored in Secrets Manager which has username and password . The specified secret contains credentials to connect to the database you specify. When you are connecting to a cluster, you also supp...
+    /// Runs one or more SQL statements, which can be data manipulation language (DML) or data definition language (DDL). Depending on the authorization method, use one of the following combinations of request parameters: • Secrets Manager - when connecting to a cluster, provide the secret-arn of a secret stored in Secrets Manager which has username and password . The specified secret contains credentials to connect to the database you specify. When you are connecting to a cluster, you also supply the d...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> BatchExecuteStatementAsync(AwsRedshiftDataBatchExecuteStatementOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> BatchExecuteStatementAsync(AwsRedshiftDataBatchExecuteStatementOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Cancels a running query. To be canceled, a query must be running. For more information about the Amazon Redshift Data API and CLI usage examples, see Using the Amazon Redshift Data API in the Amazon Redshift Management Guide . See also: AWS API Documentation
@@ -38,107 +37,96 @@ public interface IAwsRedshiftData
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CancelStatementAsync(AwsRedshiftDataCancelStatementOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CancelStatementAsync(AwsRedshiftDataCancelStatementOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Describes the details about a specific instance when a query was run by the Amazon Redshift Data API. The information includes when the query started, when it finished, the query status, the number of rows re- turned, and the SQL statement. For more information about the Amazon Redshift Data API and CLI usage examples, see Using the Amazon Redshift Data API in the Amazon Redshift Management Guide . See also: AWS API Documentation
+    /// Describes the details about a specific instance when a query was run by the Amazon Redshift Data API. The information includes when the query started, when it finished, the query status, the number of rows returned, and the SQL statement. For more information about the Amazon Redshift Data API and CLI usage examples, see Using the Amazon Redshift Data API in the Amazon Redshift Management Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeStatementAsync(AwsRedshiftDataDescribeStatementOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeStatementAsync(AwsRedshiftDataDescribeStatementOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Describes the detailed information about a table from metadata in the cluster. The information includes its columns. A token is returned to page through the column list. Depending on the authorization method, use one of the following combinations of request parameters: o Secrets Manager - when connecting to a cluster, provide the se- cret-arn of a secret stored in Secrets Manager which has username and password . The specified secret contains credentials to connect to the database you specify. W...
+    /// Describes the detailed information about a table from metadata in the cluster. The information includes its columns. A token is returned to page through the column list. Depending on the authorization method, use one of the following combinations of request parameters: • Secrets Manager - when connecting to a cluster, provide the secret-arn of a secret stored in Secrets Manager which has username and password . The specified secret contains credentials to connect to the database you specify. Whe...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeTableAsync(AwsRedshiftDataDescribeTableOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeTableAsync(AwsRedshiftDataDescribeTableOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Runs an SQL statement, which can be data manipulation language (DML) or data definition language (DDL). This statement must be a single SQL statement. Depending on the authorization method, use one of the fol- lowing combinations of request parameters: o Secrets Manager - when connecting to a cluster, provide the se- cret-arn of a secret stored in Secrets Manager which has username and password . The specified secret contains credentials to connect to the database you specify. When you are conne...
+    /// Runs an SQL statement, which can be data manipulation language (DML) or data definition language (DDL). This statement must be a single SQL statement. Depending on the authorization method, use one of the following combinations of request parameters: • Secrets Manager - when connecting to a cluster, provide the secret-arn of a secret stored in Secrets Manager which has username and password . The specified secret contains credentials to connect to the database you specify. When you are connectin...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ExecuteStatementAsync(AwsRedshiftDataExecuteStatementOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ExecuteStatementAsync(AwsRedshiftDataExecuteStatementOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Fetches the temporarily cached result of an SQL statement in JSON for- mat. The ExecuteStatement or BatchExecuteStatement operation that ran the SQL statement must have specified ResultFormat as JSON , or let the format default to JSON. A token is returned to page through the state- ment results. For more information about the Amazon Redshift Data API and CLI usage examples, see Using the Amazon Redshift Data API in the Amazon Redshift Management Guide . See also: AWS API Documentation get-state...
+    /// Fetches the temporarily cached result of an SQL statement in JSON format. The ExecuteStatement or BatchExecuteStatement operation that ran the SQL statement must have specified ResultFormat as JSON , or let the format default to JSON. A token is returned to page through the statement results. For more information about the Amazon Redshift Data API and CLI usage examples, see Using the Amazon Redshift Data API in the Amazon Redshift Management Guide . See also: AWS API Documentation get-statement...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetStatementResultAsync(AwsRedshiftDataGetStatementResultOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetStatementResultAsync(AwsRedshiftDataGetStatementResultOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Fetches the temporarily cached result of an SQL statement in CSV for- mat. The ExecuteStatement or BatchExecuteStatement operation that ran the SQL statement must have specified ResultFormat as CSV . A token is returned to page through the statement results. For more information about the Amazon Redshift Data API and CLI usage examples, see Using the Amazon Redshift Data API in the Amazon Redshift Management Guide . See also: AWS API Documentation get-statement-result-v2 is a paginated operation...
+    /// Fetches the temporarily cached result of an SQL statement in CSV format. The ExecuteStatement or BatchExecuteStatement operation that ran the SQL statement must have specified ResultFormat as CSV . A token is returned to page through the statement results. For more information about the Amazon Redshift Data API and CLI usage examples, see Using the Amazon Redshift Data API in the Amazon Redshift Management Guide . See also: AWS API Documentation get-statement-result-v2 is a paginated operation. ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetStatementResultV2Async(AwsRedshiftDataGetStatementResultV2Options options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetStatementResultV2Async(AwsRedshiftDataGetStatementResultV2Options options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// List the databases in a cluster. A token is returned to page through the database list. Depending on the authorization method, use one of the following combinations of request parameters: o Secrets Manager - when connecting to a cluster, provide the se- cret-arn of a secret stored in Secrets Manager which has username and password . The specified secret contains credentials to connect to the database you specify. When you are connecting to a cluster, you also supply the database name, If you pro...
+    /// List the databases in a cluster. A token is returned to page through the database list. Depending on the authorization method, use one of the following combinations of request parameters: • Secrets Manager - when connecting to a cluster, provide the secret-arn of a secret stored in Secrets Manager which has username and password . The specified secret contains credentials to connect to the database you specify. When you are connecting to a cluster, you also supply the database name, If you provi...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListDatabasesAsync(AwsRedshiftDataListDatabasesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListDatabasesAsync(AwsRedshiftDataListDatabasesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Lists the schemas in a database. A token is returned to page through the schema list. Depending on the authorization method, use one of the following combinations of request parameters: o Secrets Manager - when connecting to a cluster, provide the se- cret-arn of a secret stored in Secrets Manager which has username and password . The specified secret contains credentials to connect to the database you specify. When you are connecting to a cluster, you also supply the database name, If you provi...
+    /// Lists the schemas in a database. A token is returned to page through the schema list. Depending on the authorization method, use one of the following combinations of request parameters: • Secrets Manager - when connecting to a cluster, provide the secret-arn of a secret stored in Secrets Manager which has username and password . The specified secret contains credentials to connect to the database you specify. When you are connecting to a cluster, you also supply the database name, If you provide...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListSchemasAsync(AwsRedshiftDataListSchemasOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListSchemasAsync(AwsRedshiftDataListSchemasOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Lists the sessions that the caller created in the last 24 hours. By de- fault, only sessions with a status of AVAILABLE or BUSY are returned. You can filter the results by session status, compute target (cluster or serverless workgroup), or database. To retrieve the metadata for a single session, provide the SessionId parameter. Use NextToken to page through the session list. Returns only the sessions that the caller created. When identity-en- hanced role sessions are used, you must provide eith...
+    /// Lists the sessions that the caller created in the last 24 hours. By default, only sessions with a status of AVAILABLE or BUSY are returned. You can filter the results by session status, compute target (cluster or serverless workgroup), or database. To retrieve the metadata for a single session, provide the SessionId parameter. Use NextToken to page through the session list. Returns only the sessions that the caller created. When identity-enhanced role sessions are used, you must provide either t...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListSessionsAsync(AwsRedshiftDataListSessionsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListSessionsAsync(AwsRedshiftDataListSessionsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// List of SQL statements. By default, only finished statements are shown. A token is returned to page through the statement list. When you use identity-enhanced role sessions to list statements, you must provide either the cluster-identifier or workgroup-name parameter. This ensures that the IdC user can only access the Amazon Redshift IdC applications they are assigned. For more information, see Trusted iden- tity propagation overview . For more information about the Amazon Redshift Data API and ...
+    /// List of SQL statements. By default, only finished statements are shown. A token is returned to page through the statement list. When you use identity-enhanced role sessions to list statements, you must provide either the cluster-identifier or workgroup-name parameter. This ensures that the IdC user can only access the Amazon Redshift IdC applications they are assigned. For more information, see Trusted identity propagation overview . For more information about the Amazon Redshift Data API and CL...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListStatementsAsync(AwsRedshiftDataListStatementsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListStatementsAsync(AwsRedshiftDataListStatementsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// List the tables in a database. If neither SchemaPattern nor TablePat- tern are specified, then all tables in the database are returned. A to- ken is returned to page through the table list. Depending on the autho- rization method, use one of the following combinations of request para- meters: o Secrets Manager - when connecting to a cluster, provide the se- cret-arn of a secret stored in Secrets Manager which has username and password . The specified secret contains credentials to connect to the...
+    /// List the tables in a database. If neither SchemaPattern nor TablePattern are specified, then all tables in the database are returned. A token is returned to page through the table list. Depending on the authorization method, use one of the following combinations of request parameters: • Secrets Manager - when connecting to a cluster, provide the secret-arn of a secret stored in Secrets Manager which has username and password . The specified secret contains credentials to connect to the database ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTablesAsync(AwsRedshiftDataListTablesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListTablesAsync(AwsRedshiftDataListTablesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

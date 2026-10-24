@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Initiates an asynchronous analysis of your bot configuration using AI-powered analysis to identify potential issues and recommend improve- ments based on AWS best practices. The analysis examines your bot's configuration, including intents, ut- terances, slots, and conversation flows, to provide actionable recom- mendations for optimization. See also: AWS API Documentation
+/// Initiates an asynchronous analysis of your bot configuration using AI-powered analysis to identify potential issues and recommend improvements based on AWS best practices. The analysis examines your bot's configuration, including intents, utterances, slots, and conversation flows, to provide actionable recommendations for optimization. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsLexv2ModelsStartBotAnalyzerOptions : AwsOptions, IValidatableOb
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Initiates an asynchronous analysis of your bot configuration using AI-powered analysis to identify potential issues and recommend improve- ments based on AWS best practices. The analysis examines your bot's configuration, including intents, ut- terances, slots, and conversation flows, to provide actionable recom- mendations for optimization. See also: AWS API Documentation
+    /// Initiates an asynchronous analysis of your bot configuration using AI-powered analysis to identify potential issues and recommend improvements based on AWS best practices. The analysis examines your bot's configuration, including intents, utterances, slots, and conversation flows, to provide actionable recommendations for optimization. See also: AWS API Documentation
     /// </summary>
-    /// <param name="BotId">The unique identifier of the bot to analyze. Constraints: o min: 10 o max: 10 o pattern: ^[0-9a-zA-Z]+$</param>
-    /// <param name="AnalysisScope">The scope of analysis to perform. Currently only BotLocale scope is supported. Valid Values: BotLocale Possible values: o BotLocale</param>
+    /// <param name="BotId">The unique identifier of the bot to analyze. Constraints: • min: 10 • max: 10 • pattern: ^[0-9a-zA-Z]+$</param>
+    /// <param name="AnalysisScope">The scope of analysis to perform. Currently only BotLocale scope is supported. Valid Values: BotLocale Possible values: • BotLocale</param>
     public AwsLexv2ModelsStartBotAnalyzerOptions(
         string BotId,
         string AnalysisScope
@@ -60,13 +61,13 @@ public record AwsLexv2ModelsStartBotAnalyzerOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the bot to analyze. Constraints: o min: 10 o max: 10 o pattern: ^[0-9a-zA-Z]+$
+    /// The unique identifier of the bot to analyze. Constraints: • min: 10 • max: 10 • pattern: ^[0-9a-zA-Z]+$
     /// </summary>
     [CliOption("--bot-id")]
     public string? BotId { get; private init; }
 
     /// <summary>
-    /// The scope of analysis to perform. Currently only BotLocale scope is supported. Valid Values: BotLocale Possible values: o BotLocale
+    /// The scope of analysis to perform. Currently only BotLocale scope is supported. Valid Values: BotLocale Possible values: • BotLocale
     /// </summary>
     [CliOption("--analysis-scope")]
     public string? AnalysisScope { get; private init; }
@@ -78,7 +79,7 @@ public record AwsLexv2ModelsStartBotAnalyzerOptions : AwsOptions, IValidatableOb
     public string? LocaleId { get; set; }
 
     /// <summary>
-    /// The version of the bot to analyze. Defaults to DRAFT if not speci- fied. Constraints: o min: 5 o max: 5 o pattern: ^DRAFT$
+    /// The version of the bot to analyze. Defaults to DRAFT if not specified. Constraints: • min: 5 • max: 5 • pattern: ^DRAFT$
     /// </summary>
     [CliOption("--bot-version")]
     public string? BotVersion { get; set; }
@@ -104,6 +105,15 @@ public record AwsLexv2ModelsStartBotAnalyzerOptions : AwsOptions, IValidatableOb
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

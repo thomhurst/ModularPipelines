@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Provides the details of the GuardDuty administrator account associated with the current GuardDuty member account. Based on the type of account that runs this API, the following list shows how the API behavior varies: o When the GuardDuty administrator account runs this API, it will re- turn success (HTTP 200 ) but no content. o When a member account runs this API, it will return the details of the GuardDuty administrator account that is associated with this calling member account. o When an indi...
+/// Provides the details of the GuardDuty administrator account associated with the current GuardDuty member account. Based on the type of account that runs this API, the following list shows how the API behavior varies: • When the GuardDuty administrator account runs this API, it will return success (HTTP 200 ) but no content. • When a member account runs this API, it will return the details of the GuardDuty administrator account that is associated with this calling member account. • When an indivi...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsGuarddutyGetAdministratorAccountOptions : AwsOptions, IValidata
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Provides the details of the GuardDuty administrator account associated with the current GuardDuty member account. Based on the type of account that runs this API, the following list shows how the API behavior varies: o When the GuardDuty administrator account runs this API, it will re- turn success (HTTP 200 ) but no content. o When a member account runs this API, it will return the details of the GuardDuty administrator account that is associated with this calling member account. o When an indi...
+    /// Provides the details of the GuardDuty administrator account associated with the current GuardDuty member account. Based on the type of account that runs this API, the following list shows how the API behavior varies: • When the GuardDuty administrator account runs this API, it will return success (HTTP 200 ) but no content. • When a member account runs this API, it will return the details of the GuardDuty administrator account that is associated with this calling member account. • When an indivi...
     /// </summary>
-    /// <param name="DetectorId">The unique ID of the detector of the GuardDuty member account. Constraints: o min: 1 o max: 300</param>
+    /// <param name="DetectorId">The unique ID of the detector of the GuardDuty member account. Constraints: • min: 1 • max: 300</param>
     public AwsGuarddutyGetAdministratorAccountOptions(
         string DetectorId
     )
@@ -56,7 +57,7 @@ public record AwsGuarddutyGetAdministratorAccountOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique ID of the detector of the GuardDuty member account. Constraints: o min: 1 o max: 300
+    /// The unique ID of the detector of the GuardDuty member account. Constraints: • min: 1 • max: 300
     /// </summary>
     [CliOption("--detector-id")]
     public string? DetectorId { get; private init; }
@@ -82,6 +83,15 @@ public record AwsGuarddutyGetAdministratorAccountOptions : AwsOptions, IValidata
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

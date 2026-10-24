@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Searches for and retrieves memory records from an AgentCore Memory re- source based on specified search criteria. We recommend using pagina- tion to ensure that the operation returns quickly and successfully. To use this operation, you must have the bedrock-agentcore:RetrieveMem- oryRecords permission. See also: AWS API Documentation retrieve-memory-records is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination b...
+/// Searches for and retrieves memory records from an AgentCore Memory resource based on specified search criteria. We recommend using pagination to ensure that the operation returns quickly and successfully. To use this operation, you must have the bedrock-agentcore:RetrieveMemoryRecords permission. See also: AWS API Documentation retrieve-memory-records is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by prov...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +27,10 @@ public record AwsBedrockAgentcoreRetrieveMemoryRecordsOptions : AwsOptions, IVal
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Searches for and retrieves memory records from an AgentCore Memory re- source based on specified search criteria. We recommend using pagina- tion to ensure that the operation returns quickly and successfully. To use this operation, you must have the bedrock-agentcore:RetrieveMem- oryRecords permission. See also: AWS API Documentation retrieve-memory-records is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination b...
+    /// Searches for and retrieves memory records from an AgentCore Memory resource based on specified search criteria. We recommend using pagination to ensure that the operation returns quickly and successfully. To use this operation, you must have the bedrock-agentcore:RetrieveMemoryRecords permission. See also: AWS API Documentation retrieve-memory-records is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by prov...
     /// </summary>
-    /// <param name="MemoryId">The identifier of the AgentCore Memory resource from which to re- trieve memory records. Constraints: o min: 12 o pattern: (arn:(aws|aws-cn|aws-us-gov):bedrock-agent- core:[a-z0-9-]+:[0-9]{12}:mem- ory/)?[a-zA-Z][a-zA-Z0-9-_]{0,99}-[a-zA-Z0-9]{10}</param>
-    /// <param name="SearchCriteria">The search criteria to use for finding relevant memory records. This includes the search query, memory strategy ID, and other search pa- rameters. searchQuery -&gt; (string) [required] The search query to use for finding relevant memory records. Constraints: o min: 1 o max: 10000 memoryStrategyId -&gt; (string) The memory strategy identifier to filter memory records by. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z0-9][a-zA-Z0-9-_]* topK -&gt; (integer) The maximum number of top-scoring memory records to return. This value is used for semantic search ranking. Constraints: o min: 1 o max: 100 metadataFilters -&gt; (list) Filters to apply to metadata associated with a memory. Constraints: o min: 1 o max: 5 (structure) Filters to apply to metadata associated with a memory. Spec- ify the metadata key and value in the left and right fields and use the operator field to define the relationship to match. left -&gt; (tagged union structure) [required] The metadata key to evaluate. NOTE: This is a Tagged Union structure. Only one of the fol- lowing top level keys can be set: metadataKey. metadataKey -&gt; (string) The metadata key to filter on. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9\s._:/=+@-]* operator -&gt; (string) [required] The relationship between the metadata key and value to match when applying the metadata filter. Possible values: o EQUALS_TO o EXISTS o NOT_EXISTS o BEFORE o AFTER o CONTAINS o GREATER_THAN o GREATER_THAN_OR_EQUALS o LESS_THAN o LESS_THAN_OR_EQUALS right -&gt; (tagged union structure) The value to compare against. Required for all operators except EXISTS and NOT_EXISTS. NOTE: This is a Tagged Union structure. Only one of the fol- lowing top level keys can be set: metadataValue. metadataValue -&gt; (tagged union structure) The metadata value to compare against. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: stringValue, stringListValue, numberValue, dateTimeValue. stringValue -&gt; (string) A string value. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9\s._:/=+@-]* stringListValue -&gt; (list) A list of string values. Constraints: o min: 1 o max: 5 (string) Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9\s._:/=+@-]* numberValue -&gt; (double) A numeric value. dateTimeValue -&gt; (timestamp) A timestamp value in ISO 8601 UTC format. JSON Syntax: { "searchQuery": "string", "memoryStrategyId": "string", "topK": integer, "metadataFilters": [ { "left": { "metadataKey": "string" }, "operator": "EQUALS_TO"|"EXISTS"|"NOT_EXISTS"|"BEFORE"|"AFTER"|"CONTAINS"|"GREATER_THAN"|"GREATER_THAN_OR_EQUALS"|"LESS_THAN"|"LESS_THAN_OR_EQUALS", "right": { "metadataValue": { "stringValue": "string", "stringListValue": ["string", ...], "numberValue": double, "dateTimeValue": timestamp } } } ... ] }</param>
+    /// <param name="MemoryId">The identifier of the AgentCore Memory resource from which to retrieve memory records. Constraints: • min: 12 • pattern: (arn:(aws|aws-cn|aws-us-gov):bedrock-agentcore:[a-z0-9-]+:[0-9]{12}:memory/)?[a-zA-Z][a-zA-Z0-9-_]{0,99}-[a-zA-Z0-9]{10}</param>
+    /// <param name="SearchCriteria">The search criteria to use for finding relevant memory records. This includes the search query, memory strategy ID, and other search parameters. searchQuery -&gt; (string) [required] The search query to use for finding relevant memory records. Constraints: • min: 1 • max: 10000 memoryStrategyId -&gt; (string) The memory strategy identifier to filter memory records by. Constraints: • min: 1 • max: 100 • pattern: [a-zA-Z0-9][a-zA-Z0-9-_]* topK -&gt; (integer) The maximum number of top-scoring memory records to return. This value is used for semantic search ranking. Constraints: • min: 1 • max: 100 metadataFilters -&gt; (list) Filters to apply to metadata associated with a memory. Constraints: • min: 1 • max: 5 (structure) Filters to apply to metadata associated with a memory. Specify the metadata key and value in the left and right fields and use the operator field to define the relationship to match. left -&gt; (tagged union structure) [required] The metadata key to evaluate. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: metadataKey. metadataKey -&gt; (string) The metadata key to filter on. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9\s._:/=+@-]* operator -&gt; (string) [required] The relationship between the metadata key and value to match when applying the metadata filter. Possible values: • EQUALS_TO • EXISTS • NOT_EXISTS • BEFORE • AFTER • CONTAINS • GREATER_THAN • GREATER_THAN_OR_EQUALS • LESS_THAN • LESS_THAN_OR_EQUALS right -&gt; (tagged union structure) The value to compare against. Required for all operators except EXISTS and NOT_EXISTS. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: metadataValue. metadataValue -&gt; (tagged union structure) The metadata value to compare against. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: stringValue, stringListValue, numberValue, dateTimeValue. stringValue -&gt; (string) A string value. Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9\s._:/=+@-]* stringListValue -&gt; (list) A list of string values. Constraints: • min: 1 • max: 5 (string) Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9\s._:/=+@-]* numberValue -&gt; (double) A numeric value. dateTimeValue -&gt; (timestamp) A timestamp value in ISO 8601 UTC format. JSON Syntax: { "searchQuery": "string", "memoryStrategyId": "string", "topK": integer, "metadataFilters": [ { "left": { "metadataKey": "string" }, "operator": "EQUALS_TO"|"EXISTS"|"NOT_EXISTS"|"BEFORE"|"AFTER"|"CONTAINS"|"GREATER_THAN"|"GREATER_THAN_OR_EQUALS"|"LESS_THAN"|"LESS_THAN_OR_EQUALS", "right": { "metadataValue": { "stringValue": "string", "stringListValue": ["string", ...], "numberValue": double, "dateTimeValue": timestamp } } } ... ] }</param>
     public AwsBedrockAgentcoreRetrieveMemoryRecordsOptions(
         string MemoryId,
         string SearchCriteria
@@ -61,34 +62,31 @@ public record AwsBedrockAgentcoreRetrieveMemoryRecordsOptions : AwsOptions, IVal
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the AgentCore Memory resource from which to re- trieve memory records. Constraints: o min: 12 o pattern: (arn:(aws|aws-cn|aws-us-gov):bedrock-agent- core:[a-z0-9-]+:[0-9]{12}:mem- ory/)?[a-zA-Z][a-zA-Z0-9-_]{0,99}-[a-zA-Z0-9]{10}
+    /// The identifier of the AgentCore Memory resource from which to retrieve memory records. Constraints: • min: 12 • pattern: (arn:(aws|aws-cn|aws-us-gov):bedrock-agentcore:[a-z0-9-]+:[0-9]{12}:memory/)?[a-zA-Z][a-zA-Z0-9-_]{0,99}-[a-zA-Z0-9]{10}
     /// </summary>
     [CliOption("--memory-id")]
     public string? MemoryId { get; private init; }
 
     /// <summary>
-    /// The search criteria to use for finding relevant memory records. This includes the search query, memory strategy ID, and other search pa- rameters. searchQuery -&gt; (string) [required] The search query to use for finding relevant memory records. Constraints: o min: 1 o max: 10000 memoryStrategyId -&gt; (string) The memory strategy identifier to filter memory records by. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z0-9][a-zA-Z0-9-_]* topK -&gt; (integer) The maximum number of top-scoring memory records to return. This value is used for semantic search ranking. Constraints: o min: 1 o max: 100 metadataFilters -&gt; (list) Filters to apply to metadata associated with a memory. Constraints: o min: 1 o max: 5 (structure) Filters to apply to metadata associated with a memory. Spec- ify the metadata key and value in the left and right fields and use the operator field to define the relationship to match. left -&gt; (tagged union structure) [required] The metadata key to evaluate. NOTE: This is a Tagged Union structure. Only one of the fol- lowing top level keys can be set: metadataKey. metadataKey -&gt; (string) The metadata key to filter on. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9\s._:/=+@-]* operator -&gt; (string) [required] The relationship between the metadata key and value to match when applying the metadata filter. Possible values: o EQUALS_TO o EXISTS o NOT_EXISTS o BEFORE o AFTER o CONTAINS o GREATER_THAN o GREATER_THAN_OR_EQUALS o LESS_THAN o LESS_THAN_OR_EQUALS right -&gt; (tagged union structure) The value to compare against. Required for all operators except EXISTS and NOT_EXISTS. NOTE: This is a Tagged Union structure. Only one of the fol- lowing top level keys can be set: metadataValue. metadataValue -&gt; (tagged union structure) The metadata value to compare against. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: stringValue, stringListValue, numberValue, dateTimeValue. stringValue -&gt; (string) A string value. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9\s._:/=+@-]* stringListValue -&gt; (list) A list of string values. Constraints: o min: 1 o max: 5 (string) Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9\s._:/=+@-]* numberValue -&gt; (double) A numeric value. dateTimeValue -&gt; (timestamp) A timestamp value in ISO 8601 UTC format. JSON Syntax: { "searchQuery": "string", "memoryStrategyId": "string", "topK": integer, "metadataFilters": [ { "left": { "metadataKey": "string" }, "operator": "EQUALS_TO"|"EXISTS"|"NOT_EXISTS"|"BEFORE"|"AFTER"|"CONTAINS"|"GREATER_THAN"|"GREATER_THAN_OR_EQUALS"|"LESS_THAN"|"LESS_THAN_OR_EQUALS", "right": { "metadataValue": { "stringValue": "string", "stringListValue": ["string", ...], "numberValue": double, "dateTimeValue": timestamp } } } ... ] }
+    /// The search criteria to use for finding relevant memory records. This includes the search query, memory strategy ID, and other search parameters. searchQuery -&gt; (string) [required] The search query to use for finding relevant memory records. Constraints: • min: 1 • max: 10000 memoryStrategyId -&gt; (string) The memory strategy identifier to filter memory records by. Constraints: • min: 1 • max: 100 • pattern: [a-zA-Z0-9][a-zA-Z0-9-_]* topK -&gt; (integer) The maximum number of top-scoring memory records to return. This value is used for semantic search ranking. Constraints: • min: 1 • max: 100 metadataFilters -&gt; (list) Filters to apply to metadata associated with a memory. Constraints: • min: 1 • max: 5 (structure) Filters to apply to metadata associated with a memory. Specify the metadata key and value in the left and right fields and use the operator field to define the relationship to match. left -&gt; (tagged union structure) [required] The metadata key to evaluate. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: metadataKey. metadataKey -&gt; (string) The metadata key to filter on. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9\s._:/=+@-]* operator -&gt; (string) [required] The relationship between the metadata key and value to match when applying the metadata filter. Possible values: • EQUALS_TO • EXISTS • NOT_EXISTS • BEFORE • AFTER • CONTAINS • GREATER_THAN • GREATER_THAN_OR_EQUALS • LESS_THAN • LESS_THAN_OR_EQUALS right -&gt; (tagged union structure) The value to compare against. Required for all operators except EXISTS and NOT_EXISTS. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: metadataValue. metadataValue -&gt; (tagged union structure) The metadata value to compare against. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: stringValue, stringListValue, numberValue, dateTimeValue. stringValue -&gt; (string) A string value. Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9\s._:/=+@-]* stringListValue -&gt; (list) A list of string values. Constraints: • min: 1 • max: 5 (string) Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9\s._:/=+@-]* numberValue -&gt; (double) A numeric value. dateTimeValue -&gt; (timestamp) A timestamp value in ISO 8601 UTC format. JSON Syntax: { "searchQuery": "string", "memoryStrategyId": "string", "topK": integer, "metadataFilters": [ { "left": { "metadataKey": "string" }, "operator": "EQUALS_TO"|"EXISTS"|"NOT_EXISTS"|"BEFORE"|"AFTER"|"CONTAINS"|"GREATER_THAN"|"GREATER_THAN_OR_EQUALS"|"LESS_THAN"|"LESS_THAN_OR_EQUALS", "right": { "metadataValue": { "stringValue": "string", "stringListValue": ["string", ...], "numberValue": double, "dateTimeValue": timestamp } } } ... ] }
     /// </summary>
     [CliOption("--search-criteria")]
     public string? SearchCriteria { get; private init; }
 
     /// <summary>
-    /// The namespace prefix to filter memory records by. Searches for mem- ory records in namespaces that start with the provided prefix. Ei- ther namespace or namespacePath is required. Constraints: o min: 1 o max: 1024 o pattern: [a-zA-Z0-9/*][a-zA-Z0-9-_/*]*(?::[a-zA-Z0-9-_/*]+)*[a-zA-Z0-9-_/*]*
+    /// The namespace prefix to filter memory records by. Searches for memory records in namespaces that start with the provided prefix. Either namespace or namespacePath is required. Constraints: • min: 1 • max: 1024 • pattern: [a-zA-Z0-9/*][a-zA-Z0-9-_/*]*(?::[a-zA-Z0-9-_/*]+)*[a-zA-Z0-9-_/*]*
     /// </summary>
     [CliOption("--namespace")]
     public string? Namespace { get; set; }
 
     /// <summary>
-    /// Use namespacePath for hierarchical retrievals. Return all memory records where namespace falls under the same parent hierarchy. Ei- ther namespace or namespacePath is required. Constraints: o min: 1 o max: 1024 o pattern: [a-zA-Z0-9/*][a-zA-Z0-9-_/*]*(?::[a-zA-Z0-9-_/*]+)*[a-zA-Z0-9-_/*]*
+    /// Use namespacePath for hierarchical retrievals. Return all memory records where namespace falls under the same parent hierarchy. Either namespace or namespacePath is required. Constraints: • min: 1 • max: 1024 • pattern: [a-zA-Z0-9/*][a-zA-Z0-9-_/*]*(?::[a-zA-Z0-9-_/*]+)*[a-zA-Z0-9-_/*]*
     /// </summary>
     [CliOption("--namespace-path")]
     public string? NamespacePath { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -98,16 +96,19 @@ public record AwsBedrockAgentcoreRetrieveMemoryRecordsOptions : AwsOptions, IVal
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 100
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
@@ -124,6 +125,15 @@ public record AwsBedrockAgentcoreRetrieveMemoryRecordsOptions : AwsOptions, IVal
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

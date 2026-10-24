@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +29,7 @@ public record AwsEsAssociatePackageOptions : AwsOptions, IValidatableObject
     /// Associates a package with an Amazon ES domain. See also: AWS API Documentation
     /// </summary>
     /// <param name="PackageId">Internal ID of the package that you want to associate with a domain. Use DescribePackages to find this value.</param>
-    /// <param name="DomainName">Name of the domain that you want to associate the package with. Constraints: o min: 3 o max: 28 o pattern: [a-z][a-z0-9\-]+</param>
+    /// <param name="DomainName">Name of the domain that you want to associate the package with. Constraints: • min: 3 • max: 28 • pattern: [a-z][a-z0-9\-]+</param>
     public AwsEsAssociatePackageOptions(
         string PackageId,
         string DomainName
@@ -66,7 +67,7 @@ public record AwsEsAssociatePackageOptions : AwsOptions, IValidatableObject
     public string? PackageId { get; private init; }
 
     /// <summary>
-    /// Name of the domain that you want to associate the package with. Constraints: o min: 3 o max: 28 o pattern: [a-z][a-z0-9\-]+
+    /// Name of the domain that you want to associate the package with. Constraints: • min: 3 • max: 28 • pattern: [a-z][a-z0-9\-]+
     /// </summary>
     [CliOption("--domain-name")]
     public string? DomainName { get; private init; }
@@ -92,6 +93,15 @@ public record AwsEsAssociatePackageOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// NOTE: We recommend that you use the ListDomainConflicts API operation to check for domain conflicts, as it supports both standard distribu- tions and distribution tenants. ListConflictingAliases performs sim- ilar checks but only supports standard distributions. Lists existing domain associations that conflict with the domain that you specify. You can use this API operation to identify potential domain conflicts when moving domains between standard distributions and/or distribution tenants. Doma...
+/// NOTE: We recommend that you use the ListDomainConflicts API operation to check for domain conflicts, as it supports both standard distributions and distribution tenants. ListConflictingAliases performs similar checks but only supports standard distributions. Lists existing domain associations that conflict with the domain that you specify. You can use this API operation to identify potential domain conflicts when moving domains between standard distributions and/or distribution tenants. Domain c...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +27,10 @@ public record AwsCloudfrontListDomainConflictsOptions : AwsOptions, IValidatable
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// NOTE: We recommend that you use the ListDomainConflicts API operation to check for domain conflicts, as it supports both standard distribu- tions and distribution tenants. ListConflictingAliases performs sim- ilar checks but only supports standard distributions. Lists existing domain associations that conflict with the domain that you specify. You can use this API operation to identify potential domain conflicts when moving domains between standard distributions and/or distribution tenants. Doma...
+    /// NOTE: We recommend that you use the ListDomainConflicts API operation to check for domain conflicts, as it supports both standard distributions and distribution tenants. ListConflictingAliases performs similar checks but only supports standard distributions. Lists existing domain associations that conflict with the domain that you specify. You can use this API operation to identify potential domain conflicts when moving domains between standard distributions and/or distribution tenants. Domain c...
     /// </summary>
     /// <param name="Domain">The domain to check for conflicts.</param>
-    /// <param name="DomainControlValidationResource">The distribution resource identifier. This can be the standard dis- tribution or distribution tenant that has a valid certificate, which covers the domain that you specify. DistributionId -&gt; (string) The ID of the multi-tenant distribution. DistributionTenantId -&gt; (string) The ID of the distribution tenant. Shorthand Syntax: DistributionId=string,DistributionTenantId=string JSON Syntax: { "DistributionId": "string", "DistributionTenantId": "string" }</param>
+    /// <param name="DomainControlValidationResource">The distribution resource identifier. This can be the standard distribution or distribution tenant that has a valid certificate, which covers the domain that you specify. DistributionId -&gt; (string) The ID of the multi-tenant distribution. DistributionTenantId -&gt; (string) The ID of the distribution tenant. Shorthand Syntax: DistributionId=string,DistributionTenantId=string JSON Syntax: { "DistributionId": "string", "DistributionTenantId": "string" }</param>
     public AwsCloudfrontListDomainConflictsOptions(
         string Domain,
         string DomainControlValidationResource
@@ -67,22 +68,19 @@ public record AwsCloudfrontListDomainConflictsOptions : AwsOptions, IValidatable
     public string? Domain { get; private init; }
 
     /// <summary>
-    /// The distribution resource identifier. This can be the standard dis- tribution or distribution tenant that has a valid certificate, which covers the domain that you specify. DistributionId -&gt; (string) The ID of the multi-tenant distribution. DistributionTenantId -&gt; (string) The ID of the distribution tenant. Shorthand Syntax: DistributionId=string,DistributionTenantId=string JSON Syntax: { "DistributionId": "string", "DistributionTenantId": "string" }
+    /// The distribution resource identifier. This can be the standard distribution or distribution tenant that has a valid certificate, which covers the domain that you specify. DistributionId -&gt; (string) The ID of the multi-tenant distribution. DistributionTenantId -&gt; (string) The ID of the distribution tenant. Shorthand Syntax: DistributionId=string,DistributionTenantId=string JSON Syntax: { "DistributionId": "string", "DistributionTenantId": "string" }
     /// </summary>
     [CliOption("--domain-control-validation-resource")]
     public string? DomainControlValidationResource { get; private init; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -92,10 +90,13 @@ public record AwsCloudfrontListDomainConflictsOptions : AwsOptions, IValidatable
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
@@ -112,6 +113,15 @@ public record AwsCloudfrontListDomainConflictsOptions : AwsOptions, IValidatable
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

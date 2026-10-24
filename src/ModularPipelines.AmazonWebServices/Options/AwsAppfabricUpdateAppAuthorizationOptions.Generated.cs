@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates an app authorization within an app bundle, which allows AppFab- ric to connect to an application. If the app authorization was in a connected state, updating the app au- thorization will set it back to a PendingConnect state. See also: AWS API Documentation
+/// Updates an app authorization within an app bundle, which allows AppFabric to connect to an application. If the app authorization was in a connected state, updating the app authorization will set it back to a PendingConnect state. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +27,10 @@ public record AwsAppfabricUpdateAppAuthorizationOptions : AwsOptions, IValidatab
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates an app authorization within an app bundle, which allows AppFab- ric to connect to an application. If the app authorization was in a connected state, updating the app au- thorization will set it back to a PendingConnect state. See also: AWS API Documentation
+    /// Updates an app authorization within an app bundle, which allows AppFabric to connect to an application. If the app authorization was in a connected state, updating the app authorization will set it back to a PendingConnect state. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AppBundleIdentifier">The Amazon Resource Name (ARN) or Universal Unique Identifier (UUID) of the app bundle to use for the request. Constraints: o min: 1 o max: 1011 o pattern: arn:.+$|^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}</param>
-    /// <param name="AppAuthorizationIdentifier">The Amazon Resource Name (ARN) or Universal Unique Identifier (UUID) of the app authorization to use for the request. Constraints: o min: 1 o max: 1011 o pattern: arn:.+$|^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}</param>
+    /// <param name="AppBundleIdentifier">The Amazon Resource Name (ARN) or Universal Unique Identifier (UUID) of the app bundle to use for the request. Constraints: • min: 1 • max: 1011 • pattern: arn:.+$|^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}</param>
+    /// <param name="AppAuthorizationIdentifier">The Amazon Resource Name (ARN) or Universal Unique Identifier (UUID) of the app authorization to use for the request. Constraints: • min: 1 • max: 1011 • pattern: arn:.+$|^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}</param>
     public AwsAppfabricUpdateAppAuthorizationOptions(
         string AppBundleIdentifier,
         string AppAuthorizationIdentifier
@@ -61,26 +62,26 @@ public record AwsAppfabricUpdateAppAuthorizationOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) or Universal Unique Identifier (UUID) of the app bundle to use for the request. Constraints: o min: 1 o max: 1011 o pattern: arn:.+$|^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}
+    /// The Amazon Resource Name (ARN) or Universal Unique Identifier (UUID) of the app bundle to use for the request. Constraints: • min: 1 • max: 1011 • pattern: arn:.+$|^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}
     /// </summary>
     [CliOption("--app-bundle-identifier")]
     public string? AppBundleIdentifier { get; private init; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) or Universal Unique Identifier (UUID) of the app authorization to use for the request. Constraints: o min: 1 o max: 1011 o pattern: arn:.+$|^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}
+    /// The Amazon Resource Name (ARN) or Universal Unique Identifier (UUID) of the app authorization to use for the request. Constraints: • min: 1 • max: 1011 • pattern: arn:.+$|^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}
     /// </summary>
     [CliOption("--app-authorization-identifier")]
     public string? AppAuthorizationIdentifier { get; private init; }
 
     /// <summary>
-    /// Contains credentials for the application, such as an API key or OAuth2 client ID and secret. Specify credentials that match the authorization type of the app au- thorization to update. For example, if the authorization type of the app authorization is OAuth2 (oauth2 ), then you should provide only the OAuth2 credentials. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: oauth2Credential, apiKeyCredential. oauth2Credential -&gt; (structure) Contains OAuth2 client credential information. clientId -&gt; (string) [required] The client ID of the client application. Constraints: o min: 1 o max: 2048 clientSecret -&gt; (string) [required] The client secret of the client application. Constraints: o min: 1 o max: 2048 apiKeyCredential -&gt; (structure) Contains API key credential information. apiKey -&gt; (string) [required] An API key for an application. Constraints: o min: 1 o max: 2048 Shorthand Syntax: oauth2Credential={clientId=string,clientSecret=string},apiKeyCredential={apiKey=string} JSON Syntax: { "oauth2Credential": { "clientId": "string", "clientSecret": "string" }, "apiKeyCredential": { "apiKey": "string" } }
+    /// Contains credentials for the application, such as an API key or OAuth2 client ID and secret. Specify credentials that match the authorization type of the app authorization to update. For example, if the authorization type of the app authorization is OAuth2 (oauth2 ), then you should provide only the OAuth2 credentials. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: oauth2Credential, apiKeyCredential. oauth2Credential -&gt; (structure) Contains OAuth2 client credential information. clientId -&gt; (string) [required] The client ID of the client application. Constraints: • min: 1 • max: 2048 clientSecret -&gt; (string) [required] The client secret of the client application. Constraints: • min: 1 • max: 2048 apiKeyCredential -&gt; (structure) Contains API key credential information. apiKey -&gt; (string) [required] An API key for an application. Constraints: • min: 1 • max: 2048 Shorthand Syntax: oauth2Credential={clientId=string,clientSecret=string},apiKeyCredential={apiKey=string} JSON Syntax: { "oauth2Credential": { "clientId": "string", "clientSecret": "string" }, "apiKeyCredential": { "apiKey": "string" } }
     /// </summary>
     [SecretValue]
     [CliOption("--credential")]
     public string? Credential { get; set; }
 
     /// <summary>
-    /// Contains information about an application tenant, such as the appli- cation display name and identifier. tenantIdentifier -&gt; (string) [required] The ID of the application tenant. Constraints: o min: 1 o max: 1024 tenantDisplayName -&gt; (string) [required] The display name of the tenant. Constraints: o min: 1 o max: 2048 Shorthand Syntax: tenantIdentifier=string,tenantDisplayName=string JSON Syntax: { "tenantIdentifier": "string", "tenantDisplayName": "string" }
+    /// Contains information about an application tenant, such as the application display name and identifier. tenantIdentifier -&gt; (string) [required] The ID of the application tenant. Constraints: • min: 1 • max: 1024 tenantDisplayName -&gt; (string) [required] The display name of the tenant. Constraints: • min: 1 • max: 2048 Shorthand Syntax: tenantIdentifier=string,tenantDisplayName=string JSON Syntax: { "tenantIdentifier": "string", "tenantDisplayName": "string" }
     /// </summary>
     [CliOption("--tenant")]
     public string? Tenant { get; set; }
@@ -106,6 +107,15 @@ public record AwsAppfabricUpdateAppAuthorizationOptions : AwsOptions, IValidatab
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

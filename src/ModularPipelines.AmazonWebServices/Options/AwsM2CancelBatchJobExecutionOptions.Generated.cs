@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsM2CancelBatchJobExecutionOptions : AwsOptions, IValidatableObje
     /// <summary>
     /// Cancels the running of a specific batch job execution. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ApplicationId">The unique identifier of the application. Constraints: o pattern: ^\S{1,80}$</param>
-    /// <param name="ExecutionId">The unique identifier of the batch job execution. Constraints: o pattern: ^\S{1,80}$</param>
+    /// <param name="ApplicationId">The unique identifier of the application. Constraints: • pattern: ^\S{1,80}$</param>
+    /// <param name="ExecutionId">The unique identifier of the batch job execution. Constraints: • pattern: ^\S{1,80}$</param>
     public AwsM2CancelBatchJobExecutionOptions(
         string ApplicationId,
         string ExecutionId
@@ -60,19 +61,19 @@ public record AwsM2CancelBatchJobExecutionOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the application. Constraints: o pattern: ^\S{1,80}$
+    /// The unique identifier of the application. Constraints: • pattern: ^\S{1,80}$
     /// </summary>
     [CliOption("--application-id")]
     public string? ApplicationId { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the batch job execution. Constraints: o pattern: ^\S{1,80}$
+    /// The unique identifier of the batch job execution. Constraints: • pattern: ^\S{1,80}$
     /// </summary>
     [CliOption("--execution-id")]
     public string? ExecutionId { get; private init; }
 
     /// <summary>
-    /// The Amazon Web Services Secrets Manager containing user's creden- tials for authentication and authorization for Cancel Batch Job Exe- cution operation. Constraints: o min: 20 o max: 2048
+    /// The Amazon Web Services Secrets Manager containing user's credentials for authentication and authorization for Cancel Batch Job Execution operation. Constraints: • min: 20 • max: 2048
     /// </summary>
     [CliOption("--auth-secrets-manager-arn")]
     public string? AuthSecretsManagerArn { get; set; }
@@ -98,6 +99,15 @@ public record AwsM2CancelBatchJobExecutionOptions : AwsOptions, IValidatableObje
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

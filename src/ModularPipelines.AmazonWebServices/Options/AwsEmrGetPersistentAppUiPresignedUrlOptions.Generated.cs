@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// The presigned URL properties for the cluster's application user inter- face. See also: AWS API Documentation
+/// The presigned URL properties for the cluster's application user interface. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +27,9 @@ public record AwsEmrGetPersistentAppUiPresignedUrlOptions : AwsOptions, IValidat
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// The presigned URL properties for the cluster's application user inter- face. See also: AWS API Documentation
+    /// The presigned URL properties for the cluster's application user interface. See also: AWS API Documentation
     /// </summary>
-    /// <param name="PersistentAppUiId">The persistent application user interface ID associated with the presigned URL. Constraints: o min: 0 o max: 256 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*</param>
+    /// <param name="PersistentAppUiId">The persistent application user interface ID associated with the presigned URL. Constraints: • min: 0 • max: 256 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*</param>
     public AwsEmrGetPersistentAppUiPresignedUrlOptions(
         string PersistentAppUiId
     )
@@ -57,19 +58,19 @@ public record AwsEmrGetPersistentAppUiPresignedUrlOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The persistent application user interface ID associated with the presigned URL. Constraints: o min: 0 o max: 256 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*
+    /// The persistent application user interface ID associated with the presigned URL. Constraints: • min: 0 • max: 256 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*
     /// </summary>
     [CliOption("--persistent-app-ui-id")]
     public string? PersistentAppUiId { get; private init; }
 
     /// <summary>
-    /// The persistent application user interface type associated with the presigned URL. Possible values: o SHS o TEZ o YTS
+    /// The persistent application user interface type associated with the presigned URL. Possible values: • SHS • TEZ • YTS
     /// </summary>
     [CliOption("--persistent-app-ui-type")]
     public AwsEmrGetPersistentAppUiPresignedUrlPersistentAppUiType? PersistentAppUiType { get; set; }
 
     /// <summary>
-    /// The application ID associated with the presigned URL. Constraints: o min: 0 o max: 256 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*
+    /// The application ID associated with the presigned URL. Constraints: • min: 0 • max: 256 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*
     /// </summary>
     [CliOption("--application-id")]
     public string? ApplicationId { get; set; }
@@ -81,7 +82,7 @@ public record AwsEmrGetPersistentAppUiPresignedUrlOptions : AwsOptions, IValidat
     public bool? AuthProxyCall { get; set; }
 
     /// <summary>
-    /// The execution role ARN associated with the presigned URL. Constraints: o min: 20 o max: 2048
+    /// The execution role ARN associated with the presigned URL. Constraints: • min: 20 • max: 2048
     /// </summary>
     [CliOption("--execution-role-arn")]
     public string? ExecutionRoleArn { get; set; }
@@ -107,6 +108,15 @@ public record AwsEmrGetPersistentAppUiPresignedUrlOptions : AwsOptions, IValidat
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

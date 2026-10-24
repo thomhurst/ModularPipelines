@@ -10,7 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +28,7 @@ public record AwsCognitoIdentityGetOpenIdTokenOptions : AwsOptions, IValidatable
     /// <summary>
     /// Gets an OpenID token, using a known Cognito ID. This known Cognito ID is returned by GetId . You can optionally add additional logins for the identity. Supplying multiple logins creates an implicit link. The OpenID token is valid for 10 minutes. This is a public API. You do not need any credentials to call this API. See also: AWS API Documentation
     /// </summary>
-    /// <param name="IdentityId">A unique identifier in the format REGION:GUID. Constraints: o min: 1 o max: 55 o pattern: [\w-]+:[0-9a-f-]+</param>
+    /// <param name="IdentityId">A unique identifier in the format REGION:GUID. Constraints: • min: 1 • max: 55 • pattern: [\w-]+:[0-9a-f-]+</param>
     public AwsCognitoIdentityGetOpenIdTokenOptions(
         string IdentityId
     )
@@ -57,13 +57,13 @@ public record AwsCognitoIdentityGetOpenIdTokenOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A unique identifier in the format REGION:GUID. Constraints: o min: 1 o max: 55 o pattern: [\w-]+:[0-9a-f-]+
+    /// A unique identifier in the format REGION:GUID. Constraints: • min: 1 • max: 55 • pattern: [\w-]+:[0-9a-f-]+
     /// </summary>
     [CliOption("--identity-id")]
     public string? IdentityId { get; private init; }
 
     /// <summary>
-    /// A set of optional name-value pairs that map provider names to provider tokens. When using graph.facebook.com and www.amazon.com, supply the access_token returned from the provider's authflow. For accounts.google.com, an Amazon Cognito user pool provider, or any other OpenID Connect provider, always include the id_token . Constraints: o max: 10 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 1 o max: 50000 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// A set of optional name-value pairs that map provider names to provider tokens. When using graph.facebook.com and www.amazon.com, supply the access_token returned from the provider's authflow. For accounts.google.com, an Amazon Cognito user pool provider, or any other OpenID Connect provider, always include the id_token . Constraints: • max: 10 key -&gt; (string) Constraints: • min: 1 • max: 128 value -&gt; (string) Constraints: • min: 1 • max: 50000 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--logins", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Logins { get; set; }
@@ -89,6 +89,15 @@ public record AwsCognitoIdentityGetOpenIdTokenOptions : AwsOptions, IValidatable
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

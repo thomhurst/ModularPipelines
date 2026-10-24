@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Activates an archived read set and returns its metadata in a JSON for- matted output. Amazon Web Services HealthOmics automatically archives unused read sets after 30 days. To monitor the status of your read set activation job, use the GetReadSetActivationJob operation. To learn more, see Activating read sets in the Amazon Web Services HealthOmics User Guide . See also: AWS API Documentation
+/// Activates an archived read set and returns its metadata in a JSON formatted output. Amazon Web Services HealthOmics automatically archives unused read sets after 30 days. To monitor the status of your read set activation job, use the GetReadSetActivationJob operation. To learn more, see Activating read sets in the Amazon Web Services HealthOmics User Guide . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +27,10 @@ public record AwsOmicsStartReadSetActivationJobOptions : AwsOptions, IValidatabl
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Activates an archived read set and returns its metadata in a JSON for- matted output. Amazon Web Services HealthOmics automatically archives unused read sets after 30 days. To monitor the status of your read set activation job, use the GetReadSetActivationJob operation. To learn more, see Activating read sets in the Amazon Web Services HealthOmics User Guide . See also: AWS API Documentation
+    /// Activates an archived read set and returns its metadata in a JSON formatted output. Amazon Web Services HealthOmics automatically archives unused read sets after 30 days. To monitor the status of your read set activation job, use the GetReadSetActivationJob operation. To learn more, see Activating read sets in the Amazon Web Services HealthOmics User Guide . See also: AWS API Documentation
     /// </summary>
-    /// <param name="SequenceStoreId">The read set's sequence store ID. Constraints: o min: 10 o max: 36 o pattern: [0-9]+</param>
-    /// <param name="Sources">The job's source files. Constraints: o min: 1 o max: 20 (structure) A source for a read set activation job. readSetId -&gt; (string) [required] The source's read set ID. Constraints: o min: 10 o max: 36 o pattern: [0-9]+ Shorthand Syntax: readSetId=string ... JSON Syntax: [ { "readSetId": "string" } ... ]</param>
+    /// <param name="SequenceStoreId">The read set's sequence store ID. Constraints: • min: 10 • max: 36 • pattern: [0-9]+</param>
+    /// <param name="Sources">The job's source files. Constraints: • min: 1 • max: 20 (structure) A source for a read set activation job. readSetId -&gt; (string) [required] The source's read set ID. Constraints: • min: 10 • max: 36 • pattern: [0-9]+ Shorthand Syntax: readSetId=string ... JSON Syntax: [ { "readSetId": "string" } ... ]</param>
     public AwsOmicsStartReadSetActivationJobOptions(
         string SequenceStoreId,
         IEnumerable<string> Sources
@@ -72,19 +73,19 @@ public record AwsOmicsStartReadSetActivationJobOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The read set's sequence store ID. Constraints: o min: 10 o max: 36 o pattern: [0-9]+
+    /// The read set's sequence store ID. Constraints: • min: 10 • max: 36 • pattern: [0-9]+
     /// </summary>
     [CliOption("--sequence-store-id")]
     public string? SequenceStoreId { get; private init; }
 
     /// <summary>
-    /// The job's source files. Constraints: o min: 1 o max: 20 (structure) A source for a read set activation job. readSetId -&gt; (string) [required] The source's read set ID. Constraints: o min: 10 o max: 36 o pattern: [0-9]+ Shorthand Syntax: readSetId=string ... JSON Syntax: [ { "readSetId": "string" } ... ]
+    /// The job's source files. Constraints: • min: 1 • max: 20 (structure) A source for a read set activation job. readSetId -&gt; (string) [required] The source's read set ID. Constraints: • min: 10 • max: 36 • pattern: [0-9]+ Shorthand Syntax: readSetId=string ... JSON Syntax: [ { "readSetId": "string" } ... ]
     /// </summary>
     [CliOption("--sources", GroupValues = true)]
     public IEnumerable<string>? Sources { get; private init; }
 
     /// <summary>
-    /// To ensure that jobs don't run multiple times, specify a unique token for each job. Constraints: o min: 1 o max: 127 o pattern: [\p{L}||\p{M}||\p{Z}||\p{S}||\p{N}||\p{P}]+
+    /// To ensure that jobs don't run multiple times, specify a unique token for each job. Constraints: • min: 1 • max: 127 • pattern: [\p{L}||\p{M}||\p{Z}||\p{S}||\p{N}||\p{P}]+
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
@@ -111,6 +112,15 @@ public record AwsOmicsStartReadSetActivationJobOptions : AwsOptions, IValidatabl
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,10 +29,10 @@ public record AwsElasticacheCreateUserOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// For Valkey engine version 7.2 onwards and Redis OSS 6.0 to 7.1: Creates a user. For more information, see Using Role Based Access Control (RBAC) . See also: AWS API Documentation
     /// </summary>
-    /// <param name="UserId">The ID of the user. This value is stored as a lowercase string. Constraints: o min: 1 o pattern: [a-zA-Z][a-zA-Z0-9\-]*</param>
-    /// <param name="UserName">The username of the user. Constraints: o min: 1</param>
-    /// <param name="Engine">The options are valkey or redis. Constraints: o pattern: [a-zA-Z]*</param>
-    /// <param name="AccessString">Access permissions string used for this user. Constraints: o pattern: .*\S.*</param>
+    /// <param name="UserId">The ID of the user. This value is stored as a lowercase string. Constraints: • min: 1 • pattern: [a-zA-Z][a-zA-Z0-9\-]*</param>
+    /// <param name="UserName">The username of the user. Constraints: • min: 1</param>
+    /// <param name="Engine">The options are valkey or redis. Constraints: • pattern: [a-zA-Z]*</param>
+    /// <param name="AccessString">Access permissions string used for this user. Constraints: • pattern: .*\S.*</param>
     public AwsElasticacheCreateUserOptions(
         string UserId,
         string UserName,
@@ -69,31 +70,31 @@ public record AwsElasticacheCreateUserOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the user. This value is stored as a lowercase string. Constraints: o min: 1 o pattern: [a-zA-Z][a-zA-Z0-9\-]*
+    /// The ID of the user. This value is stored as a lowercase string. Constraints: • min: 1 • pattern: [a-zA-Z][a-zA-Z0-9\-]*
     /// </summary>
     [CliOption("--user-id")]
     public string? UserId { get; private init; }
 
     /// <summary>
-    /// The username of the user. Constraints: o min: 1
+    /// The username of the user. Constraints: • min: 1
     /// </summary>
     [CliOption("--user-name")]
     public string? UserName { get; private init; }
 
     /// <summary>
-    /// The options are valkey or redis. Constraints: o pattern: [a-zA-Z]*
+    /// The options are valkey or redis. Constraints: • pattern: [a-zA-Z]*
     /// </summary>
     [CliOption("--engine")]
     public string? Engine { get; private init; }
 
     /// <summary>
-    /// Access permissions string used for this user. Constraints: o pattern: .*\S.*
+    /// Access permissions string used for this user. Constraints: • pattern: .*\S.*
     /// </summary>
     [CliOption("--access-string")]
     public string? AccessString { get; private init; }
 
     /// <summary>
-    /// Passwords used for this user. You can create up to two passwords for each user. Constraints: o min: 1 (string) Syntax: "string" "string" ...
+    /// Passwords used for this user. You can create up to two passwords for each user. Constraints: • min: 1 (string) Syntax: "string" "string" ...
     /// </summary>
     [SecretValue]
     [CliOption("--passwords", GroupValues = true)]
@@ -112,7 +113,7 @@ public record AwsElasticacheCreateUserOptions : AwsOptions, IValidatableObject
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
-    /// Specifies how to authenticate the user. Type -&gt; (string) Specifies the authentication type. Possible options are IAM au- thentication, password and no password. Possible values: o password o no-password-required o iam Passwords -&gt; (list) Specifies the passwords to use for authentication if Type is set to password . Constraints: o min: 1 (string) Shorthand Syntax: Type=string,Passwords=string,string JSON Syntax: { "Type": "password"|"no-password-required"|"iam", "Passwords": ["string", ...] }
+    /// Specifies how to authenticate the user. Type -&gt; (string) Specifies the authentication type. Possible options are IAM authentication, password and no password. Possible values: • password • no-password-required • iam Passwords -&gt; (list) Specifies the passwords to use for authentication if Type is set to password . Constraints: • min: 1 (string) Shorthand Syntax: Type=string,Passwords=string,string JSON Syntax: { "Type": "password"|"no-password-required"|"iam", "Passwords": ["string", ...] }
     /// </summary>
     [CliOption("--authentication-mode")]
     public string? AuthenticationMode { get; set; }
@@ -138,6 +139,15 @@ public record AwsElasticacheCreateUserOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -73,25 +74,25 @@ public record AwsSchemasUpdateSchemaOptions : AwsOptions, IValidatableObject
     public string? SchemaName { get; private init; }
 
     /// <summary>
-    /// The ID of the client token. Constraints: o min: 0 o max: 36
+    /// The ID of the client token. Constraints: • min: 0 • max: 36
     /// </summary>
     [CliOption("--client-token-id")]
     public string? ClientTokenId { get; set; }
 
     /// <summary>
-    /// The source of the schema definition. Constraints: o min: 1 o max: 100000
+    /// The source of the schema definition. Constraints: • min: 1 • max: 100000
     /// </summary>
     [CliOption("--content")]
     public string? Content { get; set; }
 
     /// <summary>
-    /// The description of the schema. Constraints: o min: 0 o max: 256
+    /// The description of the schema. Constraints: • min: 0 • max: 256
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The schema type for the events schema. Possible values: o OpenApi3 o JSONSchemaDraft4
+    /// The schema type for the events schema. Possible values: • OpenApi3 • JSONSchemaDraft4
     /// </summary>
     [CliOption("--type")]
     public AwsSchemasUpdateSchemaType? Type { get; set; }
@@ -117,6 +118,15 @@ public record AwsSchemasUpdateSchemaOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsRedshiftModifyEndpointAccessOptions : AwsOptions, IValidatableO
     /// <summary>
     /// Modifies a Redshift-managed VPC endpoint. See also: AWS API Documentation
     /// </summary>
-    /// <param name="EndpointName">The endpoint to be modified. Constraints: o max: 2147483647</param>
+    /// <param name="EndpointName">The endpoint to be modified. Constraints: • max: 2147483647</param>
     public AwsRedshiftModifyEndpointAccessOptions(
         string EndpointName
     )
@@ -56,13 +57,13 @@ public record AwsRedshiftModifyEndpointAccessOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The endpoint to be modified. Constraints: o max: 2147483647
+    /// The endpoint to be modified. Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--endpoint-name")]
     public string? EndpointName { get; private init; }
 
     /// <summary>
-    /// The complete list of VPC security groups associated with the end- point after the endpoint is modified. (string) Constraints: o max: 2147483647 Syntax: "string" "string" ...
+    /// The complete list of VPC security groups associated with the endpoint after the endpoint is modified. (string) Constraints: • max: 2147483647 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--vpc-security-group-ids", GroupValues = true)]
     public IEnumerable<string>? VpcSecurityGroupIds { get; set; }
@@ -88,6 +89,15 @@ public record AwsRedshiftModifyEndpointAccessOptions : AwsOptions, IValidatableO
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

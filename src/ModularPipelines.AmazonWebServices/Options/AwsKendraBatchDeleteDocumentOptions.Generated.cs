@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Removes one or more documents from an index. The documents must have been added with the BatchPutDocument API. The documents are deleted asynchronously. You can see the progress of the deletion by using Amazon Web Services CloudWatch. Any error mes- sages related to the processing of the batch are sent to your Amazon Web Services CloudWatch log. You can also use the BatchGetDocumentSta- tus API to monitor the progress of deleting your documents. Deleting documents from an index using BatchDelete...
+/// Removes one or more documents from an index. The documents must have been added with the BatchPutDocument API. The documents are deleted asynchronously. You can see the progress of the deletion by using Amazon Web Services CloudWatch. Any error messages related to the processing of the batch are sent to your Amazon Web Services CloudWatch log. You can also use the BatchGetDocumentStatus API to monitor the progress of deleting your documents. Deleting documents from an index using BatchDeleteDocu...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsKendraBatchDeleteDocumentOptions : AwsOptions, IValidatableObje
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Removes one or more documents from an index. The documents must have been added with the BatchPutDocument API. The documents are deleted asynchronously. You can see the progress of the deletion by using Amazon Web Services CloudWatch. Any error mes- sages related to the processing of the batch are sent to your Amazon Web Services CloudWatch log. You can also use the BatchGetDocumentSta- tus API to monitor the progress of deleting your documents. Deleting documents from an index using BatchDelete...
+    /// Removes one or more documents from an index. The documents must have been added with the BatchPutDocument API. The documents are deleted asynchronously. You can see the progress of the deletion by using Amazon Web Services CloudWatch. Any error messages related to the processing of the batch are sent to your Amazon Web Services CloudWatch log. You can also use the BatchGetDocumentStatus API to monitor the progress of deleting your documents. Deleting documents from an index using BatchDeleteDocu...
     /// </summary>
-    /// <param name="IndexId">The identifier of the index that contains the documents to delete. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]*</param>
-    /// <param name="DocumentIdList">One or more identifiers for documents to delete from the index. Constraints: o min: 1 o max: 10 (string) Constraints: o min: 1 o max: 2048 Syntax: "string" "string" ...</param>
+    /// <param name="IndexId">The identifier of the index that contains the documents to delete. Constraints: • min: 36 • max: 36 • pattern: [a-zA-Z0-9][a-zA-Z0-9-]*</param>
+    /// <param name="DocumentIdList">One or more identifiers for documents to delete from the index. Constraints: • min: 1 • max: 10 (string) Constraints: • min: 1 • max: 2048 Syntax: "string" "string" ...</param>
     public AwsKendraBatchDeleteDocumentOptions(
         string IndexId,
         IEnumerable<string> DocumentIdList
@@ -71,19 +72,19 @@ public record AwsKendraBatchDeleteDocumentOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the index that contains the documents to delete. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]*
+    /// The identifier of the index that contains the documents to delete. Constraints: • min: 36 • max: 36 • pattern: [a-zA-Z0-9][a-zA-Z0-9-]*
     /// </summary>
     [CliOption("--index-id")]
     public string? IndexId { get; private init; }
 
     /// <summary>
-    /// One or more identifiers for documents to delete from the index. Constraints: o min: 1 o max: 10 (string) Constraints: o min: 1 o max: 2048 Syntax: "string" "string" ...
+    /// One or more identifiers for documents to delete from the index. Constraints: • min: 1 • max: 10 (string) Constraints: • min: 1 • max: 2048 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--document-id-list", GroupValues = true)]
     public IEnumerable<string>? DocumentIdList { get; private init; }
 
     /// <summary>
-    /// Maps a particular data source sync job to a particular data source. DataSourceId -&gt; (string) [required] The ID of the data source that is running the sync job. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z0-9][a-zA-Z0-9_-]* DataSourceSyncJobId -&gt; (string) The ID of the sync job that is running on the data source. If the ID of a sync job is not provided and there is a sync job running, then the ID of this sync job is used and metrics are generated for this sync job. If the ID of a sync job is not provided and there is no sync job running, then no metrics are generated and documents are in- dexed/deleted at the index level without sync job metrics in- cluded. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z0-9][a-zA-Z0-9_-]* Shorthand Syntax: DataSourceId=string,DataSourceSyncJobId=string JSON Syntax: { "DataSourceId": "string", "DataSourceSyncJobId": "string" }
+    /// Maps a particular data source sync job to a particular data source. DataSourceId -&gt; (string) [required] The ID of the data source that is running the sync job. Constraints: • min: 1 • max: 100 • pattern: [a-zA-Z0-9][a-zA-Z0-9_-]* DataSourceSyncJobId -&gt; (string) The ID of the sync job that is running on the data source. If the ID of a sync job is not provided and there is a sync job running, then the ID of this sync job is used and metrics are generated for this sync job. If the ID of a sync job is not provided and there is no sync job running, then no metrics are generated and documents are indexed/deleted at the index level without sync job metrics included. Constraints: • min: 1 • max: 100 • pattern: [a-zA-Z0-9][a-zA-Z0-9_-]* Shorthand Syntax: DataSourceId=string,DataSourceSyncJobId=string JSON Syntax: { "DataSourceId": "string", "DataSourceSyncJobId": "string" }
     /// </summary>
     [CliOption("--data-source-sync-job-metric-target")]
     public string? DataSourceSyncJobMetricTarget { get; set; }
@@ -109,6 +110,15 @@ public record AwsKendraBatchDeleteDocumentOptions : AwsOptions, IValidatableObje
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -23,25 +23,25 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsIotdeviceadvisorGetEndpointOptions : AwsOptions
 {
     /// <summary>
-    /// The thing ARN of the device. This is an optional parameter. Constraints: o min: 20 o max: 2048
+    /// The thing ARN of the device. This is an optional parameter. Constraints: • min: 20 • max: 2048
     /// </summary>
     [CliOption("--thing-arn")]
     public string? ThingArn { get; set; }
 
     /// <summary>
-    /// The certificate ARN of the device. This is an optional parameter. Constraints: o min: 20 o max: 2048
+    /// The certificate ARN of the device. This is an optional parameter. Constraints: • min: 20 • max: 2048
     /// </summary>
     [CliOption("--certificate-arn")]
     public string? CertificateArn { get; set; }
 
     /// <summary>
-    /// The device role ARN of the device. This is an optional parameter. Constraints: o min: 20 o max: 2048
+    /// The device role ARN of the device. This is an optional parameter. Constraints: • min: 20 • max: 2048
     /// </summary>
     [CliOption("--device-role-arn")]
     public string? DeviceRoleArn { get; set; }
 
     /// <summary>
-    /// The authentication method used during the device connection. Possible values: o X509ClientCertificate o SignatureVersion4
+    /// The authentication method used during the device connection. Possible values: • X509ClientCertificate • SignatureVersion4
     /// </summary>
     [CliOption("--authentication-method")]
     public AwsIotdeviceadvisorGetEndpointAuthenticationMethod? AuthenticationMethod { get; set; }
@@ -51,5 +51,14 @@ public record AwsIotdeviceadvisorGetEndpointOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

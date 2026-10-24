@@ -6,8 +6,8 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
+using ModularPipelines;
 using ModularPipelines.Context;
-using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
@@ -32,7 +32,7 @@ public class AwsImagebuilder : IAwsImagebuilder
     #region Commands
 
     /// <summary>
-    /// Cancels the creation of an image. This operation can only be used on images in a non-terminal state. Cancellation is asynchronous: the re- quest returns immediately, then Image Builder stops the running build and moves the image to the CANCELLED state. Output resources that the build already created, such as AMIs and snapshots, aren't removed. See also: AWS API Documentation
+    /// Cancels the creation of an image. This operation can only be used on images in a non-terminal state. Cancellation is asynchronous: the request returns immediately, then Image Builder stops the running build and moves the image to the CANCELLED state. Output resources that the build already created, such as AMIs and snapshots, aren't removed. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -47,7 +47,7 @@ public class AwsImagebuilder : IAwsImagebuilder
     }
 
     /// <summary>
-    /// Cancels a lifecycle execution a single run of lifecycle actions that a lifecycle policy or a StartResourceStateUpdate request started. You can only cancel an execution that hasn't reached a terminal state. Can- cellation is asynchronous and doesn't undo completed lifecycle actions. See also: AWS API Documentation
+    /// Cancels a lifecycle execution a single run of lifecycle actions that a lifecycle policy or a StartResourceStateUpdate request started. You can only cancel an execution that hasn't reached a terminal state. Cancellation is asynchronous and doesn't undo completed lifecycle actions. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -62,7 +62,7 @@ public class AwsImagebuilder : IAwsImagebuilder
     }
 
     /// <summary>
-    /// Creates a new component that can be used to build, validate, test, and assess your image. The component is based on a YAML document that you specify using exactly one of the following methods: o Inline, using the data property in the request body. o A URL that points to a YAML document file stored in Amazon S3, using the uri property in the request body. Image Builder determines the component type from the document. If the document contains a single phase named test , the component type is TEST ...
+    /// Creates a new component that can be used to build, validate, test, and assess your image. The component is based on a YAML document that you specify using exactly one of the following methods: • Inline, using the data property in the request body. • A URL that points to a YAML document file stored in Amazon S3, using the uri property in the request body. Image Builder determines the component type from the document. If the document contains a single phase named test , the component type is TEST ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -107,7 +107,7 @@ public class AwsImagebuilder : IAwsImagebuilder
     }
 
     /// <summary>
-    /// Creates a new image along with all configured output resources defined in the distribution configuration. You must specify exactly one recipe for your image, using either a containerRecipeArn or an imageRecipeArn . The response returns as soon as Image Builder creates the new image re- source. The image build process runs asynchronously. To check its progress, call GetImage and check the image status. See also: AWS API Documentation
+    /// Creates a new image along with all configured output resources defined in the distribution configuration. You must specify exactly one recipe for your image, using either a containerRecipeArn or an imageRecipeArn . The response returns as soon as Image Builder creates the new image resource. The image build process runs asynchronously. To check its progress, call GetImage and check the image status. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -122,7 +122,7 @@ public class AwsImagebuilder : IAwsImagebuilder
     }
 
     /// <summary>
-    /// Creates a new image pipeline. Use image pipelines to automate the cre- ation and distribution of images. You must specify exactly one recipe for the pipeline, using either a containerRecipeArn or an imageReci- peArn . See also: AWS API Documentation
+    /// Creates a new image pipeline. Use image pipelines to automate the creation and distribution of images. You must specify exactly one recipe for the pipeline, using either a containerRecipeArn or an imageRecipeArn . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -137,7 +137,7 @@ public class AwsImagebuilder : IAwsImagebuilder
     }
 
     /// <summary>
-    /// Creates a new image recipe. Image recipes define how images are config- ured, tested, and assessed. See also: AWS API Documentation
+    /// Creates a new image recipe. Image recipes define how images are configured, tested, and assessed. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -152,7 +152,7 @@ public class AwsImagebuilder : IAwsImagebuilder
     }
 
     /// <summary>
-    /// Creates a new infrastructure configuration. An infrastructure configu- ration defines the environment in which your image will be built and tested. See also: AWS API Documentation
+    /// Creates a new infrastructure configuration. An infrastructure configuration defines the environment in which your image will be built and tested. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -197,7 +197,7 @@ public class AwsImagebuilder : IAwsImagebuilder
     }
 
     /// <summary>
-    /// Deletes a component build version. The request fails with ResourceDe- pendencyException if an image recipe or container recipe references this component version. It also fails if the component build version is shared with other accounts. See also: AWS API Documentation
+    /// Deletes a component build version. The request fails with ResourceDependencyException if an image recipe or container recipe references this component version. It also fails if the component build version is shared with other accounts. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -212,7 +212,7 @@ public class AwsImagebuilder : IAwsImagebuilder
     }
 
     /// <summary>
-    /// Deletes a container recipe. The request fails with ResourceDependen- cyException if the recipe is shared with other accounts, or if an image pipeline references it. See also: AWS API Documentation
+    /// Deletes a container recipe. The request fails with ResourceDependencyException if the recipe is shared with other accounts, or if an image pipeline references it. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -227,7 +227,7 @@ public class AwsImagebuilder : IAwsImagebuilder
     }
 
     /// <summary>
-    /// Deletes a distribution configuration. You can't delete a configuration that an image pipeline still references. The request fails with Re- sourceDependencyException . Update or delete the referencing pipelines first. See also: AWS API Documentation
+    /// Deletes a distribution configuration. You can't delete a configuration that an image pipeline still references. The request fails with ResourceDependencyException . Update or delete the referencing pipelines first. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -242,7 +242,7 @@ public class AwsImagebuilder : IAwsImagebuilder
     }
 
     /// <summary>
-    /// Deletes an Image Builder image resource. This does not delete any EC2 AMIs or ECR container images that are created during the image build process. You must clean those up separately, using the appropriate Ama- zon EC2 or Amazon ECR console actions, or API or CLI commands. The request fails with ResourceDependencyException if the image is shared with other accounts, or if other resources depend on it. It also fails while the image build is still running. Cancel an in-progress build with CancelIm...
+    /// Deletes an Image Builder image resource. This does not delete any EC2 AMIs or ECR container images that are created during the image build process. You must clean those up separately, using the appropriate Amazon EC2 or Amazon ECR console actions, or API or CLI commands. The request fails with ResourceDependencyException if the image is shared with other accounts, or if other resources depend on it. It also fails while the image build is still running. Cancel an in-progress build with CancelImag...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -257,7 +257,7 @@ public class AwsImagebuilder : IAwsImagebuilder
     }
 
     /// <summary>
-    /// Deletes an image pipeline. Images that the pipeline created aren't deleted - remove those separately with DeleteImage . You can delete a pipeline while a build that it started is still running. The build con- tinues independently. See also: AWS API Documentation
+    /// Deletes an image pipeline. Images that the pipeline created aren't deleted - remove those separately with DeleteImage . You can delete a pipeline while a build that it started is still running. The build continues independently. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -287,7 +287,7 @@ public class AwsImagebuilder : IAwsImagebuilder
     }
 
     /// <summary>
-    /// Deletes an infrastructure configuration. You can't delete a configura- tion that an image pipeline still references. The request fails with ResourceDependencyException . Update or delete the referencing pipelines first. See also: AWS API Documentation
+    /// Deletes an infrastructure configuration. You can't delete a configuration that an image pipeline still references. The request fails with ResourceDependencyException . Update or delete the referencing pipelines first. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -302,7 +302,7 @@ public class AwsImagebuilder : IAwsImagebuilder
     }
 
     /// <summary>
-    /// Deletes the specified lifecycle policy resource. Deleting the policy removes its schedule, so no further lifecycle runs occur for that pol- icy. If a lifecycle execution is in progress for the policy, Image Builder cancels it. Deletion doesn't revert actions that the policy al- ready applied to your resources. See also: AWS API Documentation
+    /// Deletes the specified lifecycle policy resource. Deleting the policy removes its schedule, so no further lifecycle runs occur for that policy. If a lifecycle execution is in progress for the policy, Image Builder cancels it. Deletion doesn't revert actions that the policy already applied to your resources. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -332,7 +332,7 @@ public class AwsImagebuilder : IAwsImagebuilder
     }
 
     /// <summary>
-    /// Distributes an existing AMI to target Regions and accounts without run- ning the full image build process. This operation only runs the distri- bution phase on an image that has already been built. See also: AWS API Documentation
+    /// Distributes an existing AMI to target Regions and accounts without running the full image build process. This operation only runs the distribution phase on an image that has already been built. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -512,7 +512,7 @@ public class AwsImagebuilder : IAwsImagebuilder
     }
 
     /// <summary>
-    /// Retrieves runtime information for a lifecycle execution a single run of lifecycle actions that a lifecycle policy or a StartResourceState- Update request started. See also: AWS API Documentation
+    /// Retrieves runtime information for a lifecycle execution a single run of lifecycle actions that a lifecycle policy or a StartResourceStateUpdate request started. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -542,7 +542,7 @@ public class AwsImagebuilder : IAwsImagebuilder
     }
 
     /// <summary>
-    /// Verifies the subscription and performs resource dependency checks on the requested Amazon Web Services Marketplace resource. The caller must be entitled to the resource. For Amazon Web Services Marketplace compo- nents, the response contains fields to download the components and their artifacts. See also: AWS API Documentation
+    /// Verifies the subscription and performs resource dependency checks on the requested Amazon Web Services Marketplace resource. The caller must be entitled to the resource. For Amazon Web Services Marketplace components, the response contains fields to download the components and their artifacts. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -617,7 +617,7 @@ public class AwsImagebuilder : IAwsImagebuilder
     }
 
     /// <summary>
-    /// Imports a Windows operating system image from a verified Microsoft ISO disk file. The following disk images are supported: o Windows 11 Enterprise The response returns as soon as Image Builder creates the new image re- source in the PENDING state. The conversion from ISO file to AMI then runs asynchronously on an EC2 instance that Image Builder launches with the specified infrastructure configuration. See also: AWS API Documentation
+    /// Imports a Windows operating system image from a verified Microsoft ISO disk file. The following disk images are supported: • Windows 11 Enterprise The response returns as soon as Image Builder creates the new image resource in the PENDING state. The conversion from ISO file to AMI then runs asynchronously on an EC2 instance that Image Builder launches with the specified infrastructure configuration. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -647,7 +647,7 @@ public class AwsImagebuilder : IAwsImagebuilder
     }
 
     /// <summary>
-    /// Returns a list of component build versions for the specified component version ARN. You can only list build versions for components that your account owns. Deprecated build versions aren't included in the results. See also: AWS API Documentation list-component-build-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query...
+    /// Returns a list of component build versions for the specified component version ARN. You can only list build versions for components that your account owns. Deprecated build versions aren't included in the results. See also: AWS API Documentation list-component-build-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query arg...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -662,7 +662,7 @@ public class AwsImagebuilder : IAwsImagebuilder
     }
 
     /// <summary>
-    /// Returns the list of components that you have access to. By default, the response doesn't include components in the DEPRECATED state. To list deprecated components, use the status filter with the value DEPRECATED . NOTE: The semantic version has four nodes: &lt;major&gt;.&lt;mi- nor&gt;.&lt;patch&gt;/&lt;build&gt;. You can assign values for the first three, and can filter on all of them. Filtering: You can use wildcards (x) to specify the most recent versions or nodes when selecting the base image or components for your...
+    /// Returns the list of components that you have access to. By default, the response doesn't include components in the DEPRECATED state. To list deprecated components, use the status filter with the value DEPRECATED . NOTE: The semantic version has four nodes: &lt;major&gt;.&lt;minor&gt;.&lt;patch&gt;/&lt;build&gt;. You can assign values for the first three, and can filter on all of them. Filtering: You can use wildcards (x) to specify the most recent versions or nodes when selecting the base image or components for your r...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -692,7 +692,7 @@ public class AwsImagebuilder : IAwsImagebuilder
     }
 
     /// <summary>
-    /// Returns a list of distribution configurations. See also: AWS API Documentation list-distribution-configurations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: distributionConfigurationSummaryList
+    /// Returns a list of distribution configurations. See also: AWS API Documentation list-distribution-configurations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: distributionConfigurationSummaryList
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -707,7 +707,7 @@ public class AwsImagebuilder : IAwsImagebuilder
     }
 
     /// <summary>
-    /// Returns a list of image build versions. See also: AWS API Documentation list-image-build-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: imageSummaryList
+    /// Returns a list of image build versions. See also: AWS API Documentation list-image-build-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: imageSummaryList
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -737,7 +737,7 @@ public class AwsImagebuilder : IAwsImagebuilder
     }
 
     /// <summary>
-    /// Returns a list of images created by the specified pipeline. See also: AWS API Documentation list-image-pipeline-images is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: imageSummaryList
+    /// Returns a list of images created by the specified pipeline. See also: AWS API Documentation list-image-pipeline-images is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: imageSummaryList
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -782,7 +782,7 @@ public class AwsImagebuilder : IAwsImagebuilder
     }
 
     /// <summary>
-    /// Returns a list of image scan aggregations for your account. You can filter by the type of key that Image Builder uses to group results. For example, if you want to get a list of findings by severity level for one of your pipelines, you might specify your pipeline with the im- agePipelineArn filter. If you don't specify a filter, Image Builder re- turns an aggregation for your account. To streamline results, you can use the following filters in your re- quest: o imageBuildVersionArn o imagePipeli...
+    /// Returns a list of image scan aggregations for your account. You can filter by the type of key that Image Builder uses to group results. For example, if you want to get a list of findings by severity level for one of your pipelines, you might specify your pipeline with the imagePipelineArn filter. If you don't specify a filter, Image Builder returns an aggregation for your account. To streamline results, you can use the following filters in your request: • imageBuildVersionArn • imagePipelineArn ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -797,7 +797,7 @@ public class AwsImagebuilder : IAwsImagebuilder
     }
 
     /// <summary>
-    /// Returns a list of image scan findings for your account. Amazon Inspec- tor generates the findings when it scans images that have scanning en- abled. See also: AWS API Documentation list-image-scan-findings is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data ...
+    /// Returns a list of image scan findings for your account. Amazon Inspector generates the findings when it scans images that have scanning enabled. See also: AWS API Documentation list-image-scan-findings is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -812,7 +812,7 @@ public class AwsImagebuilder : IAwsImagebuilder
     }
 
     /// <summary>
-    /// Returns the list of images that you have access to. See also: AWS API Documentation list-images is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex- pressions: imageVersionList
+    /// Returns the list of images that you have access to. See also: AWS API Documentation list-images is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: imageVersionList
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -827,7 +827,7 @@ public class AwsImagebuilder : IAwsImagebuilder
     }
 
     /// <summary>
-    /// Returns a list of infrastructure configurations. See also: AWS API Documentation list-infrastructure-configurations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: infrastructureConfigurationSummar...
+    /// Returns a list of infrastructure configurations. See also: AWS API Documentation list-infrastructure-configurations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: infrastructureConfigurationSummaryLis...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -842,7 +842,7 @@ public class AwsImagebuilder : IAwsImagebuilder
     }
 
     /// <summary>
-    /// Lists resources that the runtime instance of the image lifecycle iden- tified for lifecycle actions. See also: AWS API Documentation list-lifecycle-execution-resources is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following ...
+    /// Lists resources that the runtime instance of the image lifecycle identified for lifecycle actions. See also: AWS API Documentation list-lifecycle-execution-resources is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -857,7 +857,7 @@ public class AwsImagebuilder : IAwsImagebuilder
     }
 
     /// <summary>
-    /// Retrieves the lifecycle runtime history for the specified resource. See also: AWS API Documentation list-lifecycle-executions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: lifecycleExecutions
+    /// Retrieves the lifecycle runtime history for the specified resource. See also: AWS API Documentation list-lifecycle-executions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: lifecycleExecutions
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -872,7 +872,7 @@ public class AwsImagebuilder : IAwsImagebuilder
     }
 
     /// <summary>
-    /// Retrieves a list of lifecycle policies in your Amazon Web Services ac- count. See also: AWS API Documentation list-lifecycle-policies is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: lifecyclePolicySu...
+    /// Retrieves a list of lifecycle policies in your Amazon Web Services account. See also: AWS API Documentation list-lifecycle-policies is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: lifecyclePolicySummar...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -902,7 +902,7 @@ public class AwsImagebuilder : IAwsImagebuilder
     }
 
     /// <summary>
-    /// Lists the workflow steps in your Amazon Web Services account that have paused at a WaitForAction step, and are waiting for you to respond. To send a response, call SendWorkflowStepAction . See also: AWS API Documentation list-waiting-workflow-steps is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated re...
+    /// Lists the workflow steps in your Amazon Web Services account that have paused at a WaitForAction step, and are waiting for you to respond. To send a response, call SendWorkflowStepAction . See also: AWS API Documentation list-waiting-workflow-steps is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated respon...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -917,7 +917,7 @@ public class AwsImagebuilder : IAwsImagebuilder
     }
 
     /// <summary>
-    /// Returns a list of build versions for a specific workflow resource. See also: AWS API Documentation list-workflow-build-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: workflowSummaryList
+    /// Returns a list of build versions for a specific workflow resource. See also: AWS API Documentation list-workflow-build-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: workflowSummaryList
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -932,7 +932,7 @@ public class AwsImagebuilder : IAwsImagebuilder
     }
 
     /// <summary>
-    /// Returns a list of workflow runtime instance metadata objects for a spe- cific image build version. See also: AWS API Documentation list-workflow-executions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressi...
+    /// Returns a list of workflow runtime instance metadata objects for a specific image build version. See also: AWS API Documentation list-workflow-executions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions:...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -947,22 +947,7 @@ public class AwsImagebuilder : IAwsImagebuilder
     }
 
     /// <summary>
-    /// Lists workflow versions based on filtering parameters. To list the build versions of a specific workflow version, call ListWorkflowBuild- Versions . See also: AWS API Documentation list-workflows is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from t...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListWorkflowsAsync(
-        AwsImagebuilderListWorkflowsOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsImagebuilderListWorkflowsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
-    /// Returns runtime data for each step in a runtime instance of the work- flow that you specify in the request. See also: AWS API Documentation list-workflow-step-executions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the followin...
+    /// Returns runtime data for each step in a runtime instance of the workflow that you specify in the request. See also: AWS API Documentation list-workflow-step-executions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following quer...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -977,7 +962,22 @@ public class AwsImagebuilder : IAwsImagebuilder
     }
 
     /// <summary>
-    /// Applies a policy to a component. The preferred way to share resources is with the RAM API CreateResourceShare . If you use the PutComponent- Policy operation instead, you must also call the RAM API PromoteResourceShareCreatedFromPolicy . Otherwise, the resource isn't visible to the principals that it's shared with. See also: AWS API Documentation
+    /// Lists workflow versions based on filtering parameters. To list the build versions of a specific workflow version, call ListWorkflowBuildVersions . See also: AWS API Documentation list-workflows is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the res...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListWorkflowsAsync(
+        AwsImagebuilderListWorkflowsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsImagebuilderListWorkflowsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Applies a policy to a component. The preferred way to share resources is with the RAM API CreateResourceShare . If you use the PutComponentPolicy operation instead, you must also call the RAM API PromoteResourceShareCreatedFromPolicy . Otherwise, the resource isn't visible to the principals that it's shared with. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -992,7 +992,7 @@ public class AwsImagebuilder : IAwsImagebuilder
     }
 
     /// <summary>
-    /// Applies a policy to a container recipe. The preferred way to share re- sources is with the RAM API CreateResourceShare . If you use the Put- ContainerRecipePolicy operation instead, you must also call the RAM API PromoteResourceShareCreatedFromPolicy . Otherwise, the resource isn't visible to the principals that it's shared with. See also: AWS API Documentation
+    /// Applies a policy to a container recipe. The preferred way to share resources is with the RAM API CreateResourceShare . If you use the PutContainerRecipePolicy operation instead, you must also call the RAM API PromoteResourceShareCreatedFromPolicy . Otherwise, the resource isn't visible to the principals that it's shared with. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1022,7 +1022,7 @@ public class AwsImagebuilder : IAwsImagebuilder
     }
 
     /// <summary>
-    /// Applies a policy to an image recipe. The preferred way to share re- sources is with the RAM API CreateResourceShare . If you use the PutIm- ageRecipePolicy operation instead, you must also call the RAM API PromoteResourceShareCreatedFromPolicy . Otherwise, the resource isn't visible to the principals that it's shared with. See also: AWS API Documentation
+    /// Applies a policy to an image recipe. The preferred way to share resources is with the RAM API CreateResourceShare . If you use the PutImageRecipePolicy operation instead, you must also call the RAM API PromoteResourceShareCreatedFromPolicy . Otherwise, the resource isn't visible to the principals that it's shared with. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1067,7 +1067,7 @@ public class AwsImagebuilder : IAwsImagebuilder
     }
 
     /// <summary>
-    /// Manually triggers a pipeline to create an image. You can start a build this way whether the pipeline is enabled or disabled. The response re- turns as soon as Image Builder creates the new image resource and queues the build. Use the returned imageBuildVersionArn with GetImage to track build progress. See also: AWS API Documentation
+    /// Manually triggers a pipeline to create an image. You can start a build this way whether the pipeline is enabled or disabled. The response returns as soon as Image Builder creates the new image resource and queues the build. Use the returned imageBuildVersionArn with GetImage to track build progress. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1082,7 +1082,7 @@ public class AwsImagebuilder : IAwsImagebuilder
     }
 
     /// <summary>
-    /// Begins an ad-hoc state change for the specified image build version. This is a one-time operation - if you schedule the update, it runs only once. If the request includes underlying resources, or schedules the update far enough in the future, Image Builder runs the update as an asynchronous lifecycle execution and returns its identifier. Otherwise, for target states other than DELETED , the state change applies immedi- ately. If a request that starts a lifecycle execution arrives while the image...
+    /// Begins an ad-hoc state change for the specified image build version. This is a one-time operation - if you schedule the update, it runs only once. If the request includes underlying resources, or schedules the update far enough in the future, Image Builder runs the update as an asynchronous lifecycle execution and returns its identifier. Otherwise, for target states other than DELETED , the state change applies immediately. If a request that starts a lifecycle execution arrives while the image a...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1127,7 +1127,7 @@ public class AwsImagebuilder : IAwsImagebuilder
     }
 
     /// <summary>
-    /// Updates a distribution configuration. Distribution configurations de- fine and configure the outputs for your images, including the target Regions, accounts, and settings for each Region. NOTE: This operation doesn't support selective updates. The request re- places the stored configuration, so include every setting that you want to keep. See also: AWS API Documentation
+    /// Updates a distribution configuration. Distribution configurations define and configure the outputs for your images, including the target Regions, accounts, and settings for each Region. NOTE: This operation doesn't support selective updates. The request replaces the stored configuration, so include every setting that you want to keep. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1142,7 +1142,7 @@ public class AwsImagebuilder : IAwsImagebuilder
     }
 
     /// <summary>
-    /// Updates an image pipeline. Use image pipelines to automate the creation and distribution of images. You must specify exactly one recipe for your image, using either a containerRecipeArn or an imageRecipeArn . The recipe must be the same type, image or container, as the pipeline's current recipe. NOTE: UpdateImagePipeline does not support selective updates. The request replaces the pipeline's entire configuration, so include every set- ting that you want to keep. Any optional property that you om...
+    /// Updates an image pipeline. Use image pipelines to automate the creation and distribution of images. You must specify exactly one recipe for your image, using either a containerRecipeArn or an imageRecipeArn . The recipe must be the same type, image or container, as the pipeline's current recipe. NOTE: UpdateImagePipeline does not support selective updates. The request replaces the pipeline's entire configuration, so include every setting that you want to keep. Any optional property that you omit...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1157,7 +1157,7 @@ public class AwsImagebuilder : IAwsImagebuilder
     }
 
     /// <summary>
-    /// Updates an infrastructure configuration. An infrastructure configura- tion defines the environment in which Image Builder builds and tests your image. NOTE: This operation doesn't support selective updates. The request re- places the configuration, so include every setting that you want to keep. Omitted optional properties are cleared. See also: AWS API Documentation
+    /// Updates an infrastructure configuration. An infrastructure configuration defines the environment in which Image Builder builds and tests your image. NOTE: This operation doesn't support selective updates. The request replaces the configuration, so include every setting that you want to keep. Omitted optional properties are cleared. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1172,7 +1172,7 @@ public class AwsImagebuilder : IAwsImagebuilder
     }
 
     /// <summary>
-    /// Updates the specified lifecycle policy. The request replaces the exist- ing policy configuration rather than merging changes, so re-specify every setting that you want to keep. The resourceType must match the existing policy's value. See also: AWS API Documentation
+    /// Updates the specified lifecycle policy. The request replaces the existing policy configuration rather than merging changes, so re-specify every setting that you want to keep. The resourceType must match the existing policy's value. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

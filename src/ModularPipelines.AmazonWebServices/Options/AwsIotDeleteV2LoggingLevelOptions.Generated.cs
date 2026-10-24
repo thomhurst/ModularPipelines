@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,7 +29,7 @@ public record AwsIotDeleteV2LoggingLevelOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Deletes a logging level. Requires permission to access the DeleteV2LoggingLevel action. See also: AWS API Documentation
     /// </summary>
-    /// <param name="TargetType">The type of resource for which you are configuring logging. Must be DEFAULT , THING_GROUP , CLIENT_ID , SOURCE_IP , or PRINCIPAL_ID . Possible values: o DEFAULT o THING_GROUP o CLIENT_ID o SOURCE_IP o PRINCIPAL_ID</param>
+    /// <param name="TargetType">The type of resource for which you are configuring logging. Must be DEFAULT , THING_GROUP , CLIENT_ID , SOURCE_IP , or PRINCIPAL_ID . Possible values: • DEFAULT • THING_GROUP • CLIENT_ID • SOURCE_IP • PRINCIPAL_ID</param>
     /// <param name="TargetName">The name of the resource for which you are configuring logging.</param>
     public AwsIotDeleteV2LoggingLevelOptions(
         AwsIotDeleteV2LoggingLevelTargetType TargetType,
@@ -60,7 +61,7 @@ public record AwsIotDeleteV2LoggingLevelOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The type of resource for which you are configuring logging. Must be DEFAULT , THING_GROUP , CLIENT_ID , SOURCE_IP , or PRINCIPAL_ID . Possible values: o DEFAULT o THING_GROUP o CLIENT_ID o SOURCE_IP o PRINCIPAL_ID
+    /// The type of resource for which you are configuring logging. Must be DEFAULT , THING_GROUP , CLIENT_ID , SOURCE_IP , or PRINCIPAL_ID . Possible values: • DEFAULT • THING_GROUP • CLIENT_ID • SOURCE_IP • PRINCIPAL_ID
     /// </summary>
     [CliOption("--target-type")]
     public AwsIotDeleteV2LoggingLevelTargetType? TargetType { get; private init; }
@@ -92,6 +93,15 @@ public record AwsIotDeleteV2LoggingLevelOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

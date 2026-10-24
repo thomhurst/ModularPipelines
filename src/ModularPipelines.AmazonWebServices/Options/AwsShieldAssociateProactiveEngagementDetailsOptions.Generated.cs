@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Initializes proactive engagement and sets the list of contacts for the Shield Response Team (SRT) to use. You must provide at least one phone number in the emergency contact list. After you have initialized proactive engagement using this call, to disable or enable proactive engagement, use the calls DisableProac- tiveEngagement and EnableProactiveEngagement . NOTE: This call defines the list of email addresses and phone numbers that the SRT can use to contact you for escalations to the SRT and ...
+/// Initializes proactive engagement and sets the list of contacts for the Shield Response Team (SRT) to use. You must provide at least one phone number in the emergency contact list. After you have initialized proactive engagement using this call, to disable or enable proactive engagement, use the calls DisableProactiveEngagement and EnableProactiveEngagement . NOTE: This call defines the list of email addresses and phone numbers that the SRT can use to contact you for escalations to the SRT and to...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsShieldAssociateProactiveEngagementDetailsOptions : AwsOptions, 
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Initializes proactive engagement and sets the list of contacts for the Shield Response Team (SRT) to use. You must provide at least one phone number in the emergency contact list. After you have initialized proactive engagement using this call, to disable or enable proactive engagement, use the calls DisableProac- tiveEngagement and EnableProactiveEngagement . NOTE: This call defines the list of email addresses and phone numbers that the SRT can use to contact you for escalations to the SRT and ...
+    /// Initializes proactive engagement and sets the list of contacts for the Shield Response Team (SRT) to use. You must provide at least one phone number in the emergency contact list. After you have initialized proactive engagement using this call, to disable or enable proactive engagement, use the calls DisableProactiveEngagement and EnableProactiveEngagement . NOTE: This call defines the list of email addresses and phone numbers that the SRT can use to contact you for escalations to the SRT and to...
     /// </summary>
-    /// <param name="EmergencyContactList">A list of email addresses and phone numbers that the Shield Response Team (SRT) can use to contact you for escalations to the SRT and to initiate proactive customer support. To enable proactive engagement, the contact list must include at least one phone number. NOTE: The contacts that you provide here replace any contacts that were already defined. If you already have contacts defined and want to use them, retrieve the list using DescribeEmergencyCon- tactSettings and then provide it here. Constraints: o min: 0 o max: 10 (structure) Contact information that the SRT can use to contact you if you have proactive engagement enabled, for escalations to the SRT and to initiate proactive customer support. EmailAddress -&gt; (string) [required] The email address for the contact. Constraints: o min: 1 o max: 150 o pattern: ^\S+@\S+\.\S+$ PhoneNumber -&gt; (string) The phone number for the contact. Constraints: o min: 1 o max: 16 o pattern: ^\+[1-9]\d{1,14}$ ContactNotes -&gt; (string) Additional notes regarding the contact. Constraints: o min: 1 o max: 1024 o pattern: ^[\w\s\.\-,:/()+@]*$ Shorthand Syntax: EmailAddress=string,PhoneNumber=string,ContactNotes=string ... JSON Syntax: [ { "EmailAddress": "string", "PhoneNumber": "string", "ContactNotes": "string" } ... ]</param>
+    /// <param name="EmergencyContactList">A list of email addresses and phone numbers that the Shield Response Team (SRT) can use to contact you for escalations to the SRT and to initiate proactive customer support. To enable proactive engagement, the contact list must include at least one phone number. NOTE: The contacts that you provide here replace any contacts that were already defined. If you already have contacts defined and want to use them, retrieve the list using DescribeEmergencyContactSettings and then provide it here. Constraints: • min: 0 • max: 10 (structure) Contact information that the SRT can use to contact you if you have proactive engagement enabled, for escalations to the SRT and to initiate proactive customer support. EmailAddress -&gt; (string) [required] The email address for the contact. Constraints: • min: 1 • max: 150 • pattern: ^\S+@\S+\.\S+$ PhoneNumber -&gt; (string) The phone number for the contact. Constraints: • min: 1 • max: 16 • pattern: ^\+[1-9]\d{1,14}$ ContactNotes -&gt; (string) Additional notes regarding the contact. Constraints: • min: 1 • max: 1024 • pattern: ^[\w\s\.\-,:/()+@]*$ Shorthand Syntax: EmailAddress=string,PhoneNumber=string,ContactNotes=string ... JSON Syntax: [ { "EmailAddress": "string", "PhoneNumber": "string", "ContactNotes": "string" } ... ]</param>
     public AwsShieldAssociateProactiveEngagementDetailsOptions(
         IEnumerable<string> EmergencyContactList
     )
@@ -67,7 +68,7 @@ public record AwsShieldAssociateProactiveEngagementDetailsOptions : AwsOptions, 
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A list of email addresses and phone numbers that the Shield Response Team (SRT) can use to contact you for escalations to the SRT and to initiate proactive customer support. To enable proactive engagement, the contact list must include at least one phone number. NOTE: The contacts that you provide here replace any contacts that were already defined. If you already have contacts defined and want to use them, retrieve the list using DescribeEmergencyCon- tactSettings and then provide it here. Constraints: o min: 0 o max: 10 (structure) Contact information that the SRT can use to contact you if you have proactive engagement enabled, for escalations to the SRT and to initiate proactive customer support. EmailAddress -&gt; (string) [required] The email address for the contact. Constraints: o min: 1 o max: 150 o pattern: ^\S+@\S+\.\S+$ PhoneNumber -&gt; (string) The phone number for the contact. Constraints: o min: 1 o max: 16 o pattern: ^\+[1-9]\d{1,14}$ ContactNotes -&gt; (string) Additional notes regarding the contact. Constraints: o min: 1 o max: 1024 o pattern: ^[\w\s\.\-,:/()+@]*$ Shorthand Syntax: EmailAddress=string,PhoneNumber=string,ContactNotes=string ... JSON Syntax: [ { "EmailAddress": "string", "PhoneNumber": "string", "ContactNotes": "string" } ... ]
+    /// A list of email addresses and phone numbers that the Shield Response Team (SRT) can use to contact you for escalations to the SRT and to initiate proactive customer support. To enable proactive engagement, the contact list must include at least one phone number. NOTE: The contacts that you provide here replace any contacts that were already defined. If you already have contacts defined and want to use them, retrieve the list using DescribeEmergencyContactSettings and then provide it here. Constraints: • min: 0 • max: 10 (structure) Contact information that the SRT can use to contact you if you have proactive engagement enabled, for escalations to the SRT and to initiate proactive customer support. EmailAddress -&gt; (string) [required] The email address for the contact. Constraints: • min: 1 • max: 150 • pattern: ^\S+@\S+\.\S+$ PhoneNumber -&gt; (string) The phone number for the contact. Constraints: • min: 1 • max: 16 • pattern: ^\+[1-9]\d{1,14}$ ContactNotes -&gt; (string) Additional notes regarding the contact. Constraints: • min: 1 • max: 1024 • pattern: ^[\w\s\.\-,:/()+@]*$ Shorthand Syntax: EmailAddress=string,PhoneNumber=string,ContactNotes=string ... JSON Syntax: [ { "EmailAddress": "string", "PhoneNumber": "string", "ContactNotes": "string" } ... ]
     /// </summary>
     [CliOption("--emergency-contact-list", GroupValues = true)]
     public IEnumerable<string>? EmergencyContactList { get; private init; }
@@ -93,6 +94,15 @@ public record AwsShieldAssociateProactiveEngagementDetailsOptions : AwsOptions, 
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

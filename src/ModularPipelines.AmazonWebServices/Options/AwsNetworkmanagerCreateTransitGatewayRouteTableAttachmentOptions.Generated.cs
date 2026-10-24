@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,8 +29,8 @@ public record AwsNetworkmanagerCreateTransitGatewayRouteTableAttachmentOptions :
     /// <summary>
     /// Creates a transit gateway route table attachment. See also: AWS API Documentation
     /// </summary>
-    /// <param name="PeeringId">The ID of the peer for the Constraints: o min: 0 o max: 50 o pattern: ^peering-([0-9a-f]{8,17})$</param>
-    /// <param name="TransitGatewayRouteTableArn">The ARN of the transit gateway route table for the attachment re- quest. For example, "TransitGatewayRouteTableArn": "arn:aws:ec2:us-west-2:123456789012:transit-gateway-route-ta- ble/tgw-rtb-9876543210123456" . Constraints: o min: 0 o max: 500 o pattern: [\s\S]*</param>
+    /// <param name="PeeringId">The ID of the peer for the Constraints: • min: 0 • max: 50 • pattern: ^peering-([0-9a-f]{8,17})$</param>
+    /// <param name="TransitGatewayRouteTableArn">The ARN of the transit gateway route table for the attachment request. For example, "TransitGatewayRouteTableArn": "arn:aws:ec2:us-west-2:123456789012:transit-gateway-route-table/tgw-rtb-9876543210123456" . Constraints: • min: 0 • max: 500 • pattern: [\s\S]*</param>
     public AwsNetworkmanagerCreateTransitGatewayRouteTableAttachmentOptions(
         string PeeringId,
         string TransitGatewayRouteTableArn
@@ -61,31 +62,31 @@ public record AwsNetworkmanagerCreateTransitGatewayRouteTableAttachmentOptions :
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the peer for the Constraints: o min: 0 o max: 50 o pattern: ^peering-([0-9a-f]{8,17})$
+    /// The ID of the peer for the Constraints: • min: 0 • max: 50 • pattern: ^peering-([0-9a-f]{8,17})$
     /// </summary>
     [CliOption("--peering-id")]
     public string? PeeringId { get; private init; }
 
     /// <summary>
-    /// The ARN of the transit gateway route table for the attachment re- quest. For example, "TransitGatewayRouteTableArn": "arn:aws:ec2:us-west-2:123456789012:transit-gateway-route-ta- ble/tgw-rtb-9876543210123456" . Constraints: o min: 0 o max: 500 o pattern: [\s\S]*
+    /// The ARN of the transit gateway route table for the attachment request. For example, "TransitGatewayRouteTableArn": "arn:aws:ec2:us-west-2:123456789012:transit-gateway-route-table/tgw-rtb-9876543210123456" . Constraints: • min: 0 • max: 500 • pattern: [\s\S]*
     /// </summary>
     [CliOption("--transit-gateway-route-table-arn")]
     public string? TransitGatewayRouteTableArn { get; private init; }
 
     /// <summary>
-    /// The routing policy label to apply to the Transit Gateway route table attachment for traffic routing decisions. Constraints: o min: 0 o max: 256 o pattern: [\s\S]*
+    /// The routing policy label to apply to the Transit Gateway route table attachment for traffic routing decisions. Constraints: • min: 0 • max: 256 • pattern: [\s\S]*
     /// </summary>
     [CliOption("--routing-policy-label")]
     public string? RoutingPolicyLabel { get; set; }
 
     /// <summary>
-    /// The list of key-value tags associated with the request. (structure) Describes a tag. Key -&gt; (string) The tag key. Constraints: Maximum length of 128 characters. Constraints: o min: 0 o max: 10000000 o pattern: [\s\S]* Value -&gt; (string) The tag value. Constraints: Maximum length of 256 characters. Constraints: o min: 0 o max: 10000000 o pattern: [\s\S]* Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// The list of key-value tags associated with the request. (structure) Describes a tag. Key -&gt; (string) The tag key. Constraints: Maximum length of 128 characters. Constraints: • min: 0 • max: 10000000 • pattern: [\s\S]* Value -&gt; (string) The tag value. Constraints: Maximum length of 256 characters. Constraints: • min: 0 • max: 10000000 • pattern: [\s\S]* Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
-    /// The client token associated with the request. Constraints: o min: 0 o max: 256 o pattern: [\s\S]*
+    /// The client token associated with the request. Constraints: • min: 0 • max: 256 • pattern: [\s\S]*
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
@@ -112,6 +113,15 @@ public record AwsNetworkmanagerCreateTransitGatewayRouteTableAttachmentOptions :
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

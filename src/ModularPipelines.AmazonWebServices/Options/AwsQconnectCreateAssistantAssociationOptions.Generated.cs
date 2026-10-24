@@ -11,14 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates an association between an Amazon Q in Connect assistant and an- other resource. Currently, the only supported association is with a knowledge base. An assistant can have only a single association. See also: AWS API Documentation
+/// Creates an association between an Amazon Q in Connect assistant and another resource. Currently, the only supported association is with a knowledge base. An assistant can have only a single association. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -28,11 +28,11 @@ public record AwsQconnectCreateAssistantAssociationOptions : AwsOptions, IValida
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates an association between an Amazon Q in Connect assistant and an- other resource. Currently, the only supported association is with a knowledge base. An assistant can have only a single association. See also: AWS API Documentation
+    /// Creates an association between an Amazon Q in Connect assistant and another resource. Currently, the only supported association is with a knowledge base. An assistant can have only a single association. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AssistantId">The identifier of the Amazon Q in Connect assistant. Can be either the ID or the ARN. URLs cannot contain the ARN. Constraints: o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$|^arn:[a-z-]*?:wis- dom:[a-z0-9-]*?:[0-9]{12}:[a-z-]*?/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(?:/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}){0,2}</param>
-    /// <param name="AssociationType">The type of association. Possible values: o KNOWLEDGE_BASE o EXTERNAL_BEDROCK_KNOWLEDGE_BASE</param>
-    /// <param name="Association">The identifier of the associated resource. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: knowledgeBaseId, externalBedrockKnowl- edgeBaseConfig. knowledgeBaseId -&gt; (string) The identifier of the knowledge base. This should not be a QUICK_RESPONSES type knowledge base. Constraints: o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12} externalBedrockKnowledgeBaseConfig -&gt; (structure) The configuration for an external Bedrock knowledge base associ- ation. bedrockKnowledgeBaseArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the external Bedrock knowl- edge base. Constraints: o min: 47 o max: 128 o pattern: arn:aws(|-cn|-us-gov):bedrock:[a-zA-Z0-9-]*:[0-9]{12}:knowl- edge-base/[0-9a-zA-Z]+ accessRoleArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the IAM role used to access the external Bedrock knowledge base. Constraints: o min: 32 o max: 2048 o pattern: arn:aws:iam::[0-9]{12}:role/(?:ser- vice-role/)?[a-zA-Z0-9_+=,.@-]{1,64} Shorthand Syntax: knowledgeBaseId=string,externalBedrockKnowledgeBaseConfig={bedrockKnowledgeBaseArn=string,accessRoleArn=string} JSON Syntax: { "knowledgeBaseId": "string", "externalBedrockKnowledgeBaseConfig": { "bedrockKnowledgeBaseArn": "string", "accessRoleArn": "string" } }</param>
+    /// <param name="AssistantId">The identifier of the Amazon Q in Connect assistant. Can be either the ID or the ARN. URLs cannot contain the ARN. Constraints: • pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$|^arn:[a-z-]*?:wisdom:[a-z0-9-]*?:[0-9]{12}:[a-z-]*?/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(?:/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}){0,2}</param>
+    /// <param name="AssociationType">The type of association. Possible values: • KNOWLEDGE_BASE • EXTERNAL_BEDROCK_KNOWLEDGE_BASE</param>
+    /// <param name="Association">The identifier of the associated resource. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: knowledgeBaseId, externalBedrockKnowledgeBaseConfig. knowledgeBaseId -&gt; (string) The identifier of the knowledge base. This should not be a QUICK_RESPONSES type knowledge base. Constraints: • pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12} externalBedrockKnowledgeBaseConfig -&gt; (structure) The configuration for an external Bedrock knowledge base association. bedrockKnowledgeBaseArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the external Bedrock knowledge base. Constraints: • min: 47 • max: 128 • pattern: arn:aws(|-cn|-us-gov):bedrock:[a-zA-Z0-9-]*:[0-9]{12}:knowledge-base/[0-9a-zA-Z]+ accessRoleArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the IAM role used to access the external Bedrock knowledge base. Constraints: • min: 32 • max: 2048 • pattern: arn:aws:iam::[0-9]{12}:role/(?:service-role/)?[a-zA-Z0-9_+=,.@-]{1,64} Shorthand Syntax: knowledgeBaseId=string,externalBedrockKnowledgeBaseConfig={bedrockKnowledgeBaseArn=string,accessRoleArn=string} JSON Syntax: { "knowledgeBaseId": "string", "externalBedrockKnowledgeBaseConfig": { "bedrockKnowledgeBaseArn": "string", "accessRoleArn": "string" } }</param>
     public AwsQconnectCreateAssistantAssociationOptions(
         string AssistantId,
         AwsQconnectCreateAssistantAssociationAssociationType AssociationType,
@@ -66,32 +66,32 @@ public record AwsQconnectCreateAssistantAssociationOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the Amazon Q in Connect assistant. Can be either the ID or the ARN. URLs cannot contain the ARN. Constraints: o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$|^arn:[a-z-]*?:wis- dom:[a-z0-9-]*?:[0-9]{12}:[a-z-]*?/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(?:/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}){0,2}
+    /// The identifier of the Amazon Q in Connect assistant. Can be either the ID or the ARN. URLs cannot contain the ARN. Constraints: • pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$|^arn:[a-z-]*?:wisdom:[a-z0-9-]*?:[0-9]{12}:[a-z-]*?/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(?:/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}){0,2}
     /// </summary>
     [CliOption("--assistant-id")]
     public string? AssistantId { get; private init; }
 
     /// <summary>
-    /// The type of association. Possible values: o KNOWLEDGE_BASE o EXTERNAL_BEDROCK_KNOWLEDGE_BASE
+    /// The type of association. Possible values: • KNOWLEDGE_BASE • EXTERNAL_BEDROCK_KNOWLEDGE_BASE
     /// </summary>
     [CliOption("--association-type")]
     public AwsQconnectCreateAssistantAssociationAssociationType? AssociationType { get; private init; }
 
     /// <summary>
-    /// The identifier of the associated resource. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: knowledgeBaseId, externalBedrockKnowl- edgeBaseConfig. knowledgeBaseId -&gt; (string) The identifier of the knowledge base. This should not be a QUICK_RESPONSES type knowledge base. Constraints: o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12} externalBedrockKnowledgeBaseConfig -&gt; (structure) The configuration for an external Bedrock knowledge base associ- ation. bedrockKnowledgeBaseArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the external Bedrock knowl- edge base. Constraints: o min: 47 o max: 128 o pattern: arn:aws(|-cn|-us-gov):bedrock:[a-zA-Z0-9-]*:[0-9]{12}:knowl- edge-base/[0-9a-zA-Z]+ accessRoleArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the IAM role used to access the external Bedrock knowledge base. Constraints: o min: 32 o max: 2048 o pattern: arn:aws:iam::[0-9]{12}:role/(?:ser- vice-role/)?[a-zA-Z0-9_+=,.@-]{1,64} Shorthand Syntax: knowledgeBaseId=string,externalBedrockKnowledgeBaseConfig={bedrockKnowledgeBaseArn=string,accessRoleArn=string} JSON Syntax: { "knowledgeBaseId": "string", "externalBedrockKnowledgeBaseConfig": { "bedrockKnowledgeBaseArn": "string", "accessRoleArn": "string" } }
+    /// The identifier of the associated resource. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: knowledgeBaseId, externalBedrockKnowledgeBaseConfig. knowledgeBaseId -&gt; (string) The identifier of the knowledge base. This should not be a QUICK_RESPONSES type knowledge base. Constraints: • pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12} externalBedrockKnowledgeBaseConfig -&gt; (structure) The configuration for an external Bedrock knowledge base association. bedrockKnowledgeBaseArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the external Bedrock knowledge base. Constraints: • min: 47 • max: 128 • pattern: arn:aws(|-cn|-us-gov):bedrock:[a-zA-Z0-9-]*:[0-9]{12}:knowledge-base/[0-9a-zA-Z]+ accessRoleArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the IAM role used to access the external Bedrock knowledge base. Constraints: • min: 32 • max: 2048 • pattern: arn:aws:iam::[0-9]{12}:role/(?:service-role/)?[a-zA-Z0-9_+=,.@-]{1,64} Shorthand Syntax: knowledgeBaseId=string,externalBedrockKnowledgeBaseConfig={bedrockKnowledgeBaseArn=string,accessRoleArn=string} JSON Syntax: { "knowledgeBaseId": "string", "externalBedrockKnowledgeBaseConfig": { "bedrockKnowledgeBaseArn": "string", "accessRoleArn": "string" } }
     /// </summary>
     [CliOption("--association")]
     public string? Association { get; private init; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs . Constraints: o min: 1 o max: 4096
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs . Constraints: • min: 1 • max: 4096
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// The tags used to organize, track, or control access for this re- source. key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: (?!aws:)[a-zA-Z+-=._:/]+ value -&gt; (string) Constraints: o min: 1 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The tags used to organize, track, or control access for this resource. key -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: (?!aws:)[a-zA-Z+-=._:/]+ value -&gt; (string) Constraints: • min: 1 • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
@@ -117,6 +117,15 @@ public record AwsQconnectCreateAssistantAssociationOptions : AwsOptions, IValida
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

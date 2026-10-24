@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsDsEnableDirectoryDataAccessOptions : AwsOptions, IValidatableOb
     /// <summary>
     /// Enables access to directory data via the Directory Service Data API for the specified directory. For more information, see Directory Service Data API Reference . See also: AWS API Documentation
     /// </summary>
-    /// <param name="DirectoryId">The directory identifier. Constraints: o pattern: ^d-[0-9a-f]{10}$</param>
+    /// <param name="DirectoryId">The directory identifier. Constraints: • pattern: ^d-[0-9a-f]{10}$</param>
     public AwsDsEnableDirectoryDataAccessOptions(
         string DirectoryId
     )
@@ -56,7 +57,7 @@ public record AwsDsEnableDirectoryDataAccessOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The directory identifier. Constraints: o pattern: ^d-[0-9a-f]{10}$
+    /// The directory identifier. Constraints: • pattern: ^d-[0-9a-f]{10}$
     /// </summary>
     [CliOption("--directory-id")]
     public string? DirectoryId { get; private init; }
@@ -82,6 +83,15 @@ public record AwsDsEnableDirectoryDataAccessOptions : AwsOptions, IValidatableOb
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Specify the Amazon EC2 instance (destination) IP addresses and ports for a VPC subnet endpoint that cannot receive traffic for a custom routing accelerator. You can deny traffic to all destinations in the VPC endpoint, or deny traffic to a specified list of destination IP ad- dresses and ports. Note that you cannot specify IP addresses or ports outside of the range that you configured for the endpoint group. After you make changes, you can verify that the updates are complete by checking the sta...
+/// Specify the Amazon EC2 instance (destination) IP addresses and ports for a VPC subnet endpoint that cannot receive traffic for a custom routing accelerator. You can deny traffic to all destinations in the VPC endpoint, or deny traffic to a specified list of destination IP addresses and ports. Note that you cannot specify IP addresses or ports outside of the range that you configured for the endpoint group. After you make changes, you can verify that the updates are complete by checking the statu...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsGlobalacceleratorDenyCustomRoutingTrafficOptions : AwsOptions, 
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Specify the Amazon EC2 instance (destination) IP addresses and ports for a VPC subnet endpoint that cannot receive traffic for a custom routing accelerator. You can deny traffic to all destinations in the VPC endpoint, or deny traffic to a specified list of destination IP ad- dresses and ports. Note that you cannot specify IP addresses or ports outside of the range that you configured for the endpoint group. After you make changes, you can verify that the updates are complete by checking the sta...
+    /// Specify the Amazon EC2 instance (destination) IP addresses and ports for a VPC subnet endpoint that cannot receive traffic for a custom routing accelerator. You can deny traffic to all destinations in the VPC endpoint, or deny traffic to a specified list of destination IP addresses and ports. Note that you cannot specify IP addresses or ports outside of the range that you configured for the endpoint group. After you make changes, you can verify that the updates are complete by checking the statu...
     /// </summary>
-    /// <param name="EndpointGroupArn">The Amazon Resource Name (ARN) of the endpoint group. Constraints: o max: 255</param>
-    /// <param name="EndpointId">An ID for the endpoint. For custom routing accelerators, this is the virtual private cloud (VPC) subnet ID. Constraints: o max: 255</param>
+    /// <param name="EndpointGroupArn">The Amazon Resource Name (ARN) of the endpoint group. Constraints: • max: 255</param>
+    /// <param name="EndpointId">An ID for the endpoint. For custom routing accelerators, this is the virtual private cloud (VPC) subnet ID. Constraints: • max: 255</param>
     public AwsGlobalacceleratorDenyCustomRoutingTrafficOptions(
         string EndpointGroupArn,
         string EndpointId
@@ -60,31 +61,31 @@ public record AwsGlobalacceleratorDenyCustomRoutingTrafficOptions : AwsOptions, 
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the endpoint group. Constraints: o max: 255
+    /// The Amazon Resource Name (ARN) of the endpoint group. Constraints: • max: 255
     /// </summary>
     [CliOption("--endpoint-group-arn")]
     public string? EndpointGroupArn { get; private init; }
 
     /// <summary>
-    /// An ID for the endpoint. For custom routing accelerators, this is the virtual private cloud (VPC) subnet ID. Constraints: o max: 255
+    /// An ID for the endpoint. For custom routing accelerators, this is the virtual private cloud (VPC) subnet ID. Constraints: • max: 255
     /// </summary>
     [CliOption("--endpoint-id")]
     public string? EndpointId { get; private init; }
 
     /// <summary>
-    /// A list of specific Amazon EC2 instance IP addresses (destination ad- dresses) in a subnet that you want to prevent from receiving traf- fic. The IP addresses must be a subset of the IP addresses allowed for the VPC subnet associated with the endpoint group. Constraints: o max: 100 (string) Constraints: o max: 45 Syntax: "string" "string" ...
+    /// A list of specific Amazon EC2 instance IP addresses (destination addresses) in a subnet that you want to prevent from receiving traffic. The IP addresses must be a subset of the IP addresses allowed for the VPC subnet associated with the endpoint group. Constraints: • max: 100 (string) Constraints: • max: 45 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--destination-addresses", GroupValues = true)]
     public IEnumerable<string>? DestinationAddresses { get; set; }
 
     /// <summary>
-    /// A list of specific Amazon EC2 instance ports (destination ports) in a subnet endpoint that you want to prevent from receiving traffic. Constraints: o max: 100 (integer) Constraints: o min: 1 o max: 65535 Syntax: integer integer ...
+    /// A list of specific Amazon EC2 instance ports (destination ports) in a subnet endpoint that you want to prevent from receiving traffic. Constraints: • max: 100 (integer) Constraints: • min: 1 • max: 65535 Syntax: integer integer ...
     /// </summary>
     [CliOption("--destination-ports", GroupValues = true)]
     public IEnumerable<string>? DestinationPorts { get; set; }
 
     /// <summary>
-    /// Indicates whether all destination IP addresses and ports for a spec- ified VPC subnet endpoint cannot receive traffic from a custom rout- ing accelerator. The value is TRUE or FALSE. When set to TRUE, no destinations in the custom routing VPC subnet can receive traffic. Note that you cannot specify destination IP ad- dresses and ports when the value is set to TRUE. When set to FALSE (or not specified), you must specify a list of destination IP addresses that cannot receive traffic. A list of ports is optional. If you don't specify a list of ports, the ports that can accept traffic is the same as the ports configured for the endpoint group. The default value is FALSE.
+    /// Indicates whether all destination IP addresses and ports for a specified VPC subnet endpoint cannot receive traffic from a custom routing accelerator. The value is TRUE or FALSE. When set to TRUE, no destinations in the custom routing VPC subnet can receive traffic. Note that you cannot specify destination IP addresses and ports when the value is set to TRUE. When set to FALSE (or not specified), you must specify a list of destination IP addresses that cannot receive traffic. A list of ports is optional. If you don't specify a list of ports, the ports that can accept traffic is the same as the ports configured for the endpoint group. The default value is FALSE.
     /// </summary>
     [CliFlag("--deny-all-traffic-to-endpoint", NegatedName = "--no-deny-all-traffic-to-endpoint")]
     public bool? DenyAllTrafficToEndpoint { get; set; }
@@ -110,6 +111,15 @@ public record AwsGlobalacceleratorDenyCustomRoutingTrafficOptions : AwsOptions, 
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

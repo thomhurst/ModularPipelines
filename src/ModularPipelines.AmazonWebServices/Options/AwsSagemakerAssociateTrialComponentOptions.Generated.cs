@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Associates a trial component with a trial. A trial component can be as- sociated with multiple trials. To disassociate a trial component from a trial, call the DisassociateTrialComponent API. See also: AWS API Documentation
+/// Associates a trial component with a trial. A trial component can be associated with multiple trials. To disassociate a trial component from a trial, call the DisassociateTrialComponent API. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsSagemakerAssociateTrialComponentOptions : AwsOptions, IValidata
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Associates a trial component with a trial. A trial component can be as- sociated with multiple trials. To disassociate a trial component from a trial, call the DisassociateTrialComponent API. See also: AWS API Documentation
+    /// Associates a trial component with a trial. A trial component can be associated with multiple trials. To disassociate a trial component from a trial, call the DisassociateTrialComponent API. See also: AWS API Documentation
     /// </summary>
-    /// <param name="TrialComponentName">The name of the component to associated with the trial. Constraints: o min: 1 o max: 120 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,119}</param>
-    /// <param name="TrialName">The name of the trial to associate with. Constraints: o min: 1 o max: 120 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,119}</param>
+    /// <param name="TrialComponentName">The name of the component to associated with the trial. Constraints: • min: 1 • max: 120 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,119}</param>
+    /// <param name="TrialName">The name of the trial to associate with. Constraints: • min: 1 • max: 120 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,119}</param>
     public AwsSagemakerAssociateTrialComponentOptions(
         string TrialComponentName,
         string TrialName
@@ -60,13 +61,13 @@ public record AwsSagemakerAssociateTrialComponentOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the component to associated with the trial. Constraints: o min: 1 o max: 120 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,119}
+    /// The name of the component to associated with the trial. Constraints: • min: 1 • max: 120 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,119}
     /// </summary>
     [CliOption("--trial-component-name")]
     public string? TrialComponentName { get; private init; }
 
     /// <summary>
-    /// The name of the trial to associate with. Constraints: o min: 1 o max: 120 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,119}
+    /// The name of the trial to associate with. Constraints: • min: 1 • max: 120 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,119}
     /// </summary>
     [CliOption("--trial-name")]
     public string? TrialName { get; private init; }
@@ -92,6 +93,15 @@ public record AwsSagemakerAssociateTrialComponentOptions : AwsOptions, IValidata
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

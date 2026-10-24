@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns information about the specified workflow execution including its type and some statistics. NOTE: This operation is eventually consistent. The results are best effort and may not exactly reflect recent updates and changes. Access Control You can use IAM policies to control this action's access to Amazon SWF resources as follows: o Use a Resource element with the domain name to limit the action to only specified domains. o Use an Action element to allow or deny permission to call this ac- ...
+/// Returns information about the specified workflow execution including its type and some statistics. NOTE: This operation is eventually consistent. The results are best effort and may not exactly reflect recent updates and changes. Access Control You can use IAM policies to control this action's access to Amazon SWF resources as follows: • Use a Resource element with the domain name to limit the action to only specified domains. • Use an Action element to allow or deny permission to call this acti...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsSwfDescribeWorkflowExecutionOptions : AwsOptions, IValidatableO
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns information about the specified workflow execution including its type and some statistics. NOTE: This operation is eventually consistent. The results are best effort and may not exactly reflect recent updates and changes. Access Control You can use IAM policies to control this action's access to Amazon SWF resources as follows: o Use a Resource element with the domain name to limit the action to only specified domains. o Use an Action element to allow or deny permission to call this ac- ...
+    /// Returns information about the specified workflow execution including its type and some statistics. NOTE: This operation is eventually consistent. The results are best effort and may not exactly reflect recent updates and changes. Access Control You can use IAM policies to control this action's access to Amazon SWF resources as follows: • Use a Resource element with the domain name to limit the action to only specified domains. • Use an Action element to allow or deny permission to call this acti...
     /// </summary>
-    /// <param name="Domain">The name of the domain containing the workflow execution. Constraints: o min: 1 o max: 256</param>
-    /// <param name="Execution">The workflow execution to describe. workflowId -&gt; (string) [required] The user defined identifier associated with the workflow execu- tion. Constraints: o min: 1 o max: 256 runId -&gt; (string) [required] A system-generated unique identifier for the workflow execution. Constraints: o min: 1 o max: 64 Shorthand Syntax: workflowId=string,runId=string JSON Syntax: { "workflowId": "string", "runId": "string" }</param>
+    /// <param name="Domain">The name of the domain containing the workflow execution. Constraints: • min: 1 • max: 256</param>
+    /// <param name="Execution">The workflow execution to describe. workflowId -&gt; (string) [required] The user defined identifier associated with the workflow execution. Constraints: • min: 1 • max: 256 runId -&gt; (string) [required] A system-generated unique identifier for the workflow execution. Constraints: • min: 1 • max: 64 Shorthand Syntax: workflowId=string,runId=string JSON Syntax: { "workflowId": "string", "runId": "string" }</param>
     public AwsSwfDescribeWorkflowExecutionOptions(
         string Domain,
         string Execution
@@ -60,13 +61,13 @@ public record AwsSwfDescribeWorkflowExecutionOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the domain containing the workflow execution. Constraints: o min: 1 o max: 256
+    /// The name of the domain containing the workflow execution. Constraints: • min: 1 • max: 256
     /// </summary>
     [CliOption("--domain")]
     public string? Domain { get; private init; }
 
     /// <summary>
-    /// The workflow execution to describe. workflowId -&gt; (string) [required] The user defined identifier associated with the workflow execu- tion. Constraints: o min: 1 o max: 256 runId -&gt; (string) [required] A system-generated unique identifier for the workflow execution. Constraints: o min: 1 o max: 64 Shorthand Syntax: workflowId=string,runId=string JSON Syntax: { "workflowId": "string", "runId": "string" }
+    /// The workflow execution to describe. workflowId -&gt; (string) [required] The user defined identifier associated with the workflow execution. Constraints: • min: 1 • max: 256 runId -&gt; (string) [required] A system-generated unique identifier for the workflow execution. Constraints: • min: 1 • max: 64 Shorthand Syntax: workflowId=string,runId=string JSON Syntax: { "workflowId": "string", "runId": "string" }
     /// </summary>
     [CliOption("--execution")]
     public string? Execution { get; private init; }
@@ -92,6 +93,15 @@ public record AwsSwfDescribeWorkflowExecutionOptions : AwsOptions, IValidatableO
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

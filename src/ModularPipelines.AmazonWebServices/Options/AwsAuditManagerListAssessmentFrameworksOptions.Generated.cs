@@ -11,13 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns a list of the frameworks that are available in the Audit Man- ager framework library. See also: AWS API Documentation
+/// Returns a list of the frameworks that are available in the Audit Manager framework library. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,9 +28,9 @@ public record AwsAuditManagerListAssessmentFrameworksOptions : AwsOptions, IVali
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns a list of the frameworks that are available in the Audit Man- ager framework library. See also: AWS API Documentation
+    /// Returns a list of the frameworks that are available in the Audit Manager framework library. See also: AWS API Documentation
     /// </summary>
-    /// <param name="FrameworkType">The type of framework, such as a standard framework or a custom framework. Possible values: o Standard o Custom</param>
+    /// <param name="FrameworkType">The type of framework, such as a standard framework or a custom framework. Possible values: • Standard • Custom</param>
     public AwsAuditManagerListAssessmentFrameworksOptions(
         AwsAuditManagerListAssessmentFrameworksFrameworkType FrameworkType
     )
@@ -57,20 +58,20 @@ public record AwsAuditManagerListAssessmentFrameworksOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The type of framework, such as a standard framework or a custom framework. Possible values: o Standard o Custom
+    /// The type of framework, such as a standard framework or a custom framework. Possible values: • Standard • Custom
     /// </summary>
     [CliOption("--framework-type")]
     public AwsAuditManagerListAssessmentFrameworksFrameworkType? FrameworkType { get; private init; }
 
     /// <summary>
-    /// The pagination token that's used to fetch the next set of results. Constraints: o min: 1 o max: 1000 o pattern: ^[A-Za-z0-9+\/=]*$
+    /// The pagination token that's used to fetch the next set of results. Constraints: • min: 1 • max: 1000 • pattern: ^[A-Za-z0-9+\/=]*$
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// Represents the maximum number of results on a page or for an API re- quest call. Constraints: o min: 1 o max: 1000
+    /// Represents the maximum number of results on a page or for an API request call. Constraints: • min: 1 • max: 1000
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
@@ -96,6 +97,15 @@ public record AwsAuditManagerListAssessmentFrameworksOptions : AwsOptions, IVali
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

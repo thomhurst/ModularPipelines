@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Associates an S/MIME certificate with an email identity. After the cer- tificate is active, Amazon SES API v2 can add an S/MIME signature to messages that you send from the associated address when signing is en- abled on the configuration set used to send the message. The certificate is an X.509 certificate that you manage in Certificate Manager (ACM). You identify it by its Amazon Resource Name (ARN). o If the email identity is a domain, you must specify a FromAddress that belongs to that domai...
+/// Associates an S/MIME certificate with an email identity. After the certificate is active, Amazon SES API v2 can add an S/MIME signature to messages that you send from the associated address when signing is enabled on the configuration set used to send the message. The certificate is an X.509 certificate that you manage in Certificate Manager (ACM). You identify it by its Amazon Resource Name (ARN). • If the email identity is a domain, you must specify a FromAddress that belongs to that domain or...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsSesv2AssociateEmailIdentityCertificateOptions : AwsOptions, IVa
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Associates an S/MIME certificate with an email identity. After the cer- tificate is active, Amazon SES API v2 can add an S/MIME signature to messages that you send from the associated address when signing is en- abled on the configuration set used to send the message. The certificate is an X.509 certificate that you manage in Certificate Manager (ACM). You identify it by its Amazon Resource Name (ARN). o If the email identity is a domain, you must specify a FromAddress that belongs to that domai...
+    /// Associates an S/MIME certificate with an email identity. After the certificate is active, Amazon SES API v2 can add an S/MIME signature to messages that you send from the associated address when signing is enabled on the configuration set used to send the message. The certificate is an X.509 certificate that you manage in Certificate Manager (ACM). You identify it by its Amazon Resource Name (ARN). • If the email identity is a domain, you must specify a FromAddress that belongs to that domain or...
     /// </summary>
-    /// <param name="EmailIdentity">The email identity, either an email address or a domain, to asso- ciate the certificate with. Constraints: o min: 1</param>
-    /// <param name="CertificateArn">The Amazon Resource Name (ARN) of the Certificate Manager (ACM) cer- tificate to associate with the email identity. Constraints: o min: 20 o max: 2048 o pattern: arn:[\w+=/,.@-]+:[\w+=/,.@-]+:[\w+=/,.@-]*:[0-9]+:cer- tificate/[\w+=,.@-]+</param>
+    /// <param name="EmailIdentity">The email identity, either an email address or a domain, to associate the certificate with. Constraints: • min: 1</param>
+    /// <param name="CertificateArn">The Amazon Resource Name (ARN) of the Certificate Manager (ACM) certificate to associate with the email identity. Constraints: • min: 20 • max: 2048 • pattern: arn:[\w+=/,.@-]+:[\w+=/,.@-]+:[\w+=/,.@-]*:[0-9]+:certificate/[\w+=,.@-]+</param>
     public AwsSesv2AssociateEmailIdentityCertificateOptions(
         string EmailIdentity,
         string CertificateArn
@@ -60,19 +61,19 @@ public record AwsSesv2AssociateEmailIdentityCertificateOptions : AwsOptions, IVa
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The email identity, either an email address or a domain, to asso- ciate the certificate with. Constraints: o min: 1
+    /// The email identity, either an email address or a domain, to associate the certificate with. Constraints: • min: 1
     /// </summary>
     [CliOption("--email-identity")]
     public string? EmailIdentity { get; private init; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the Certificate Manager (ACM) cer- tificate to associate with the email identity. Constraints: o min: 20 o max: 2048 o pattern: arn:[\w+=/,.@-]+:[\w+=/,.@-]+:[\w+=/,.@-]*:[0-9]+:cer- tificate/[\w+=,.@-]+
+    /// The Amazon Resource Name (ARN) of the Certificate Manager (ACM) certificate to associate with the email identity. Constraints: • min: 20 • max: 2048 • pattern: arn:[\w+=/,.@-]+:[\w+=/,.@-]+:[\w+=/,.@-]*:[0-9]+:certificate/[\w+=,.@-]+
     /// </summary>
     [CliOption("--certificate-arn")]
     public string? CertificateArn { get; private init; }
 
     /// <summary>
-    /// The email address that the certificate applies to. This value is re- quired when the email identity is a domain, and the address must be- long to that domain or one of its subdomains. When the email iden- tity is an email address, this value is optional. If you specify it, it must exactly match the email identity.
+    /// The email address that the certificate applies to. This value is required when the email identity is a domain, and the address must belong to that domain or one of its subdomains. When the email identity is an email address, this value is optional. If you specify it, it must exactly match the email identity.
     /// </summary>
     [CliOption("--from-address")]
     public string? FromAddress { get; set; }
@@ -98,6 +99,15 @@ public record AwsSesv2AssociateEmailIdentityCertificateOptions : AwsOptions, IVa
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

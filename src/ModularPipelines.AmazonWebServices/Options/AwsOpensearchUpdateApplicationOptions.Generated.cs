@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates the configuration and settings of an existing OpenSearch appli- cation. See also: AWS API Documentation
+/// Updates the configuration and settings of an existing OpenSearch application. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsOpensearchUpdateApplicationOptions : AwsOptions, IValidatableOb
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates the configuration and settings of an existing OpenSearch appli- cation. See also: AWS API Documentation
+    /// Updates the configuration and settings of an existing OpenSearch application. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Id">The unique identifier for the OpenSearch application to be updated. Constraints: o pattern: [a-z0-9]{3,30}</param>
+    /// <param name="Id">The unique identifier for the OpenSearch application to be updated. Constraints: • pattern: [a-z0-9]{3,30}</param>
     public AwsOpensearchUpdateApplicationOptions(
         string Id
     )
@@ -56,25 +57,25 @@ public record AwsOpensearchUpdateApplicationOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier for the OpenSearch application to be updated. Constraints: o pattern: [a-z0-9]{3,30}
+    /// The unique identifier for the OpenSearch application to be updated. Constraints: • pattern: [a-z0-9]{3,30}
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; private init; }
 
     /// <summary>
-    /// The data sources to associate with the OpenSearch application. (structure) Data sources that are associated with an OpenSearch application. dataSourceArn -&gt; (string) The Amazon Resource Name (ARN) of the domain. See Identifiers for IAM Entities in Using Amazon Web Services Identity and Access Management for more information. Constraints: o min: 20 o max: 2048 o pattern: .* dataSourceDescription -&gt; (string) Detailed description of a data source. Constraints: o max: 1000 o pattern: ^([a-zA-Z0-9_])*[\\a-zA-Z0-9_@#%*+=:?./!\s-]*$ iamRoleForDataSourceArn -&gt; (string) The ARN of the IAM role to be used for cross account/region data source association. Constraints: o min: 20 o max: 2048 o pattern: arn:(aws|aws\-cn|aws\-us\-gov|aws\-iso|aws\-iso\-b):iam::[0-9]+:role\/.* Shorthand Syntax: dataSourceArn=string,dataSourceDescription=string,iamRoleForDataSourceArn=string ... JSON Syntax: [ { "dataSourceArn": "string", "dataSourceDescription": "string", "iamRoleForDataSourceArn": "string" } ... ]
+    /// The data sources to associate with the OpenSearch application. (structure) Data sources that are associated with an OpenSearch application. dataSourceArn -&gt; (string) The Amazon Resource Name (ARN) of the domain. See Identifiers for IAM Entities in Using Amazon Web Services Identity and Access Management for more information. Constraints: • min: 20 • max: 2048 • pattern: .* dataSourceDescription -&gt; (string) Detailed description of a data source. Constraints: • max: 1000 • pattern: ^([a-zA-Z0-9_])*[\\a-zA-Z0-9_@#%*+=:?./!\s-]*$ iamRoleForDataSourceArn -&gt; (string) The ARN of the IAM role to be used for cross account/region data source association. Constraints: • min: 20 • max: 2048 • pattern: arn:(aws|aws\-cn|aws\-us\-gov|aws\-iso|aws\-iso\-b):iam::[0-9]+:role\/.* Shorthand Syntax: dataSourceArn=string,dataSourceDescription=string,iamRoleForDataSourceArn=string ... JSON Syntax: [ { "dataSourceArn": "string", "dataSourceDescription": "string", "iamRoleForDataSourceArn": "string" } ... ]
     /// </summary>
     [CliOption("--data-sources", GroupValues = true)]
     public IEnumerable<string>? DataSources { get; set; }
 
     /// <summary>
-    /// The configuration settings to modify for the OpenSearch application. Constraints: o max: 200 (structure) Configuration settings for an OpenSearch application. For more information, see Using the OpenSearch user interface in Amazon OpenSearch Service . key -&gt; (string) The configuration item to set, such as the admin role for the OpenSearch application. Possible values: o opensearchDashboards.dashboardAdmin.users o opensearchDashboards.dashboardAdmin.groups value -&gt; (string) The value assigned to the configuration key, such as an IAM user ARN. Constraints: o min: 1 o max: 4096 Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "opensearchDashboards.dashboardAdmin.users"|"opensearchDashboards.dashboardAdmin.groups", "value": "string" } ... ]
+    /// The configuration settings to modify for the OpenSearch application. Constraints: • max: 200 (structure) Configuration settings for an OpenSearch application. For more information, see Using the OpenSearch user interface in Amazon OpenSearch Service . key -&gt; (string) The configuration item to set, such as the admin role for the OpenSearch application. Possible values: • opensearchDashboards.dashboardAdmin.users • opensearchDashboards.dashboardAdmin.groups value -&gt; (string) The value assigned to the configuration key, such as an IAM user ARN. Constraints: • min: 1 • max: 4096 Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "opensearchDashboards.dashboardAdmin.users"|"opensearchDashboards.dashboardAdmin.groups", "value": "string" } ... ]
     /// </summary>
     [CliOption("--app-configs", GroupValues = true)]
     public IEnumerable<string>? AppConfigs { get; set; }
 
     /// <summary>
-    /// Configuration settings for integrating IAM Identity Center with the OpenSearch application. enabled -&gt; (boolean) Specifies whether IAM Identity Center is enabled or disabled. iamIdentityCenterInstanceArn -&gt; (string) The Amazon Resource Name (ARN) of the domain. See Identifiers for IAM Entities in Using Amazon Web Services Identity and Ac- cess Management for more information. Constraints: o min: 20 o max: 2048 o pattern: .* iamRoleForIdentityCenterApplicationArn -&gt; (string) The ARN of the IAM role associated with the IAM Identity Center application. Constraints: o min: 20 o max: 2048 o pattern: arn:(aws|aws\-cn|aws\-us\-gov|aws\-iso|aws\-iso\-b):iam::[0-9]+:role\/.* Shorthand Syntax: enabled=boolean,iamIdentityCenterInstanceArn=string,iamRoleForIdentityCenterApplicationArn=string JSON Syntax: { "enabled": true|false, "iamIdentityCenterInstanceArn": "string", "iamRoleForIdentityCenterApplicationArn": "string" }
+    /// Configuration settings for integrating IAM Identity Center with the OpenSearch application. enabled -&gt; (boolean) Specifies whether IAM Identity Center is enabled or disabled. iamIdentityCenterInstanceArn -&gt; (string) The Amazon Resource Name (ARN) of the domain. See Identifiers for IAM Entities in Using Amazon Web Services Identity and Access Management for more information. Constraints: • min: 20 • max: 2048 • pattern: .* iamRoleForIdentityCenterApplicationArn -&gt; (string) The ARN of the IAM role associated with the IAM Identity Center application. Constraints: • min: 20 • max: 2048 • pattern: arn:(aws|aws\-cn|aws\-us\-gov|aws\-iso|aws\-iso\-b):iam::[0-9]+:role\/.* Shorthand Syntax: enabled=boolean,iamIdentityCenterInstanceArn=string,iamRoleForIdentityCenterApplicationArn=string JSON Syntax: { "enabled": true|false, "iamIdentityCenterInstanceArn": "string", "iamRoleForIdentityCenterApplicationArn": "string" }
     /// </summary>
     [CliOption("--iam-identity-center-options")]
     public string? IamIdentityCenterOptions { get; set; }
@@ -100,6 +101,15 @@ public record AwsOpensearchUpdateApplicationOptions : AwsOptions, IValidatableOb
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

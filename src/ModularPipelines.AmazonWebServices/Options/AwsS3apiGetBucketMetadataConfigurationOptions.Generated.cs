@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves the S3 Metadata configuration for a general purpose bucket. For more information, see Accelerating data discovery with S3 Metadata in the Amazon S3 User Guide . NOTE: You can use the V2 GetBucketMetadataConfiguration API operation with V1 or V2 metadata configurations. However, if you try to use the V1 GetBucketMetadataTableConfiguration API operation with V2 configura- tions, you will receive an HTTP 405 Method Not Allowed error. Permissions To use this operation, you must have the s3...
+/// Retrieves the S3 Metadata configuration for a general purpose bucket. For more information, see Accelerating data discovery with S3 Metadata in the Amazon S3 User Guide . NOTE: You can use the V2 GetBucketMetadataConfiguration API operation with V1 or V2 metadata configurations. However, if you try to use the V1 GetBucketMetadataTableConfiguration API operation with V2 configurations, you will receive an HTTP 405 Method Not Allowed error. Permissions To use this operation, you must have the s3:G...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsS3apiGetBucketMetadataConfigurationOptions : AwsOptions, IValid
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Retrieves the S3 Metadata configuration for a general purpose bucket. For more information, see Accelerating data discovery with S3 Metadata in the Amazon S3 User Guide . NOTE: You can use the V2 GetBucketMetadataConfiguration API operation with V1 or V2 metadata configurations. However, if you try to use the V1 GetBucketMetadataTableConfiguration API operation with V2 configura- tions, you will receive an HTTP 405 Method Not Allowed error. Permissions To use this operation, you must have the s3...
+    /// Retrieves the S3 Metadata configuration for a general purpose bucket. For more information, see Accelerating data discovery with S3 Metadata in the Amazon S3 User Guide . NOTE: You can use the V2 GetBucketMetadataConfiguration API operation with V1 or V2 metadata configurations. However, if you try to use the V1 GetBucketMetadataTableConfiguration API operation with V2 configurations, you will receive an HTTP 405 Method Not Allowed error. Permissions To use this operation, you must have the s3:G...
     /// </summary>
-    /// <param name="Bucket">The general purpose bucket that corresponds to the metadata configu- ration that you want to retrieve.</param>
+    /// <param name="Bucket">The general purpose bucket that corresponds to the metadata configuration that you want to retrieve.</param>
     public AwsS3apiGetBucketMetadataConfigurationOptions(
         string Bucket
     )
@@ -56,7 +57,7 @@ public record AwsS3apiGetBucketMetadataConfigurationOptions : AwsOptions, IValid
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The general purpose bucket that corresponds to the metadata configu- ration that you want to retrieve.
+    /// The general purpose bucket that corresponds to the metadata configuration that you want to retrieve.
     /// </summary>
     [CliOption("--bucket")]
     public string? Bucket { get; private init; }
@@ -88,6 +89,15 @@ public record AwsS3apiGetBucketMetadataConfigurationOptions : AwsOptions, IValid
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

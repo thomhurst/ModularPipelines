@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsPinpointSmsVoiceV2SubmitRegistrationVersionOptions : AwsOptions
     /// <summary>
     /// Submit the specified registration for review and approval. See also: AWS API Documentation
     /// </summary>
-    /// <param name="RegistrationId">The unique identifier for the registration. Constraints: o min: 1 o max: 256 o pattern: [A-Za-z0-9_:/-]+</param>
+    /// <param name="RegistrationId">The unique identifier for the registration. Constraints: • min: 1 • max: 256 • pattern: [A-Za-z0-9_:/-]+</param>
     public AwsPinpointSmsVoiceV2SubmitRegistrationVersionOptions(
         string RegistrationId
     )
@@ -56,13 +57,13 @@ public record AwsPinpointSmsVoiceV2SubmitRegistrationVersionOptions : AwsOptions
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier for the registration. Constraints: o min: 1 o max: 256 o pattern: [A-Za-z0-9_:/-]+
+    /// The unique identifier for the registration. Constraints: • min: 1 • max: 256 • pattern: [A-Za-z0-9_:/-]+
     /// </summary>
     [CliOption("--registration-id")]
     public string? RegistrationId { get; private init; }
 
     /// <summary>
-    /// Set to true to request AWS review of the registration. When enabled, AWS will perform additional validation and review of the registra- tion submission before processing.
+    /// Set to true to request AWS review of the registration. When enabled, AWS will perform additional validation and review of the registration submission before processing.
     /// </summary>
     [CliFlag("--aws-review", NegatedName = "--no-aws-review")]
     public bool? AwsReview { get; set; }
@@ -88,6 +89,15 @@ public record AwsPinpointSmsVoiceV2SubmitRegistrationVersionOptions : AwsOptions
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

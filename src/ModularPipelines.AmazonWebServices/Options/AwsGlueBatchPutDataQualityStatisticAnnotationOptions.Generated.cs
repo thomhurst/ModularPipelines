@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Annotate datapoints over time for a specific data quality statistic. The API requires both profileID and statisticID as part of the Inclu- sionAnnotation input. The API only works for a single statisticId across multiple profiles. See also: AWS API Documentation
+/// Annotate datapoints over time for a specific data quality statistic. The API requires both profileID and statisticID as part of the InclusionAnnotation input. The API only works for a single statisticId across multiple profiles. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +27,9 @@ public record AwsGlueBatchPutDataQualityStatisticAnnotationOptions : AwsOptions,
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Annotate datapoints over time for a specific data quality statistic. The API requires both profileID and statisticID as part of the Inclu- sionAnnotation input. The API only works for a single statisticId across multiple profiles. See also: AWS API Documentation
+    /// Annotate datapoints over time for a specific data quality statistic. The API requires both profileID and statisticID as part of the InclusionAnnotation input. The API only works for a single statisticId across multiple profiles. See also: AWS API Documentation
     /// </summary>
-    /// <param name="InclusionAnnotations">A list of DatapointInclusionAnnotation 's. The InclusionAnnotations must contain a profileId and statisticId. If there are multiple In- clusionAnnotations, the list must refer to a single statisticId across multiple profileIds. (structure) An Inclusion Annotation. ProfileId -&gt; (string) The ID of the data quality profile the statistic belongs to. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* StatisticId -&gt; (string) The Statistic ID. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* InclusionAnnotation -&gt; (string) The inclusion annotation value to apply to the statistic. Possible values: o INCLUDE o EXCLUDE Shorthand Syntax: ProfileId=string,StatisticId=string,InclusionAnnotation=string ... JSON Syntax: [ { "ProfileId": "string", "StatisticId": "string", "InclusionAnnotation": "INCLUDE"|"EXCLUDE" } ... ]</param>
+    /// <param name="InclusionAnnotations">A list of DatapointInclusionAnnotation 's. The InclusionAnnotations must contain a profileId and statisticId. If there are multiple InclusionAnnotations, the list must refer to a single statisticId across multiple profileIds. (structure) An Inclusion Annotation. ProfileId -&gt; (string) The ID of the data quality profile the statistic belongs to. Constraints: • min: 1 • max: 255 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* StatisticId -&gt; (string) The Statistic ID. Constraints: • min: 1 • max: 255 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* InclusionAnnotation -&gt; (string) The inclusion annotation value to apply to the statistic. Possible values: • INCLUDE • EXCLUDE Shorthand Syntax: ProfileId=string,StatisticId=string,InclusionAnnotation=string ... JSON Syntax: [ { "ProfileId": "string", "StatisticId": "string", "InclusionAnnotation": "INCLUDE"|"EXCLUDE" } ... ]</param>
     public AwsGlueBatchPutDataQualityStatisticAnnotationOptions(
         IEnumerable<string> InclusionAnnotations
     )
@@ -68,13 +69,13 @@ public record AwsGlueBatchPutDataQualityStatisticAnnotationOptions : AwsOptions,
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A list of DatapointInclusionAnnotation 's. The InclusionAnnotations must contain a profileId and statisticId. If there are multiple In- clusionAnnotations, the list must refer to a single statisticId across multiple profileIds. (structure) An Inclusion Annotation. ProfileId -&gt; (string) The ID of the data quality profile the statistic belongs to. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* StatisticId -&gt; (string) The Statistic ID. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* InclusionAnnotation -&gt; (string) The inclusion annotation value to apply to the statistic. Possible values: o INCLUDE o EXCLUDE Shorthand Syntax: ProfileId=string,StatisticId=string,InclusionAnnotation=string ... JSON Syntax: [ { "ProfileId": "string", "StatisticId": "string", "InclusionAnnotation": "INCLUDE"|"EXCLUDE" } ... ]
+    /// A list of DatapointInclusionAnnotation 's. The InclusionAnnotations must contain a profileId and statisticId. If there are multiple InclusionAnnotations, the list must refer to a single statisticId across multiple profileIds. (structure) An Inclusion Annotation. ProfileId -&gt; (string) The ID of the data quality profile the statistic belongs to. Constraints: • min: 1 • max: 255 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* StatisticId -&gt; (string) The Statistic ID. Constraints: • min: 1 • max: 255 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* InclusionAnnotation -&gt; (string) The inclusion annotation value to apply to the statistic. Possible values: • INCLUDE • EXCLUDE Shorthand Syntax: ProfileId=string,StatisticId=string,InclusionAnnotation=string ... JSON Syntax: [ { "ProfileId": "string", "StatisticId": "string", "InclusionAnnotation": "INCLUDE"|"EXCLUDE" } ... ]
     /// </summary>
     [CliOption("--inclusion-annotations", GroupValues = true)]
     public IEnumerable<string>? InclusionAnnotations { get; private init; }
 
     /// <summary>
-    /// Client Token. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
+    /// Client Token. Constraints: • min: 1 • max: 255 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
@@ -101,6 +102,15 @@ public record AwsGlueBatchPutDataQualityStatisticAnnotationOptions : AwsOptions,
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

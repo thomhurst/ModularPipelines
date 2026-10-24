@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Imports resources to Resilience Hub application draft version from dif- ferent input sources. For more information about the input sources sup- ported by Resilience Hub, see Discover the structure and describe your Resilience Hub application . See also: AWS API Documentation
+/// Imports resources to Resilience Hub application draft version from different input sources. For more information about the input sources supported by Resilience Hub, see Discover the structure and describe your Resilience Hub application . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +27,9 @@ public record AwsResiliencehubImportResourcesToDraftAppVersionOptions : AwsOptio
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Imports resources to Resilience Hub application draft version from dif- ferent input sources. For more information about the input sources sup- ported by Resilience Hub, see Discover the structure and describe your Resilience Hub application . See also: AWS API Documentation
+    /// Imports resources to Resilience Hub application draft version from different input sources. For more information about the input sources supported by Resilience Hub, see Discover the structure and describe your Resilience Hub application . See also: AWS API Documentation
     /// </summary>
-    /// <param name="AppArn">Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition :resiliencehub:region :account :app/app-id . For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference guide. Constraints: o pattern: ^arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:([a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]):[0-9]{12}:[A-Za-z0-9/][A-Za-z0-9:_/+.-]{0,1023}$</param>
+    /// <param name="AppArn">Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition :resiliencehub:region :account :app/app-id . For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference guide. Constraints: • pattern: ^arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:([a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]):[0-9]{12}:[A-Za-z0-9/][A-Za-z0-9:_/+.-]{0,1023}$</param>
     public AwsResiliencehubImportResourcesToDraftAppVersionOptions(
         string AppArn
     )
@@ -57,31 +58,31 @@ public record AwsResiliencehubImportResourcesToDraftAppVersionOptions : AwsOptio
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition :resiliencehub:region :account :app/app-id . For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference guide. Constraints: o pattern: ^arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:([a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]):[0-9]{12}:[A-Za-z0-9/][A-Za-z0-9:_/+.-]{0,1023}$
+    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition :resiliencehub:region :account :app/app-id . For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference guide. Constraints: • pattern: ^arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:([a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]):[0-9]{12}:[A-Za-z0-9/][A-Za-z0-9:_/+.-]{0,1023}$
     /// </summary>
     [CliOption("--app-arn")]
     public string? AppArn { get; private init; }
 
     /// <summary>
-    /// The input sources of the Amazon Elastic Kubernetes Service resources you need to import. (structure) The input source of the Amazon Elastic Kubernetes Service clus- ter. eksClusterArn -&gt; (string) [required] Amazon Resource Name (ARN) of the Amazon Elastic Kubernetes Service cluster. The format for this ARN is: arn:aws :eks:re- gion :account-id :cluster/cluster-name . For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference guide. Constraints: o pattern: ^arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:([a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]):[0-9]{12}:[A-Za-z0-9/][A-Za-z0-9:_/+.-]{0,1023}$ namespaces -&gt; (list) [required] The list of namespaces located on your Amazon Elastic Kuber- netes Service cluster. (string) Constraints: o min: 1 o max: 63 o pattern: ^[a-z0-9]([-a-z0-9]*[a-z0-9])?$ Shorthand Syntax: eksClusterArn=string,namespaces=string,string ... JSON Syntax: [ { "eksClusterArn": "string", "namespaces": ["string", ...] } ... ]
+    /// The input sources of the Amazon Elastic Kubernetes Service resources you need to import. (structure) The input source of the Amazon Elastic Kubernetes Service cluster. eksClusterArn -&gt; (string) [required] Amazon Resource Name (ARN) of the Amazon Elastic Kubernetes Service cluster. The format for this ARN is: arn:aws :eks:region :account-id :cluster/cluster-name . For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference guide. Constraints: • pattern: ^arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:([a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]):[0-9]{12}:[A-Za-z0-9/][A-Za-z0-9:_/+.-]{0,1023}$ namespaces -&gt; (list) [required] The list of namespaces located on your Amazon Elastic Kubernetes Service cluster. (string) Constraints: • min: 1 • max: 63 • pattern: ^[a-z0-9]([-a-z0-9]*[a-z0-9])?$ Shorthand Syntax: eksClusterArn=string,namespaces=string,string ... JSON Syntax: [ { "eksClusterArn": "string", "namespaces": ["string", ...] } ... ]
     /// </summary>
     [CliOption("--eks-sources", GroupValues = true)]
     public IEnumerable<string>? EksSources { get; set; }
 
     /// <summary>
-    /// The import strategy you would like to set to import resources into Resilience Hub application. Possible values: o AddOnly o ReplaceAll
+    /// The import strategy you would like to set to import resources into Resilience Hub application. Possible values: • AddOnly • ReplaceAll
     /// </summary>
     [CliOption("--import-strategy")]
     public AwsResiliencehubImportResourcesToDraftAppVersionImportStrategy? ImportStrategy { get; set; }
 
     /// <summary>
-    /// The Amazon Resource Names (ARNs) for the resources. (string) Constraints: o pattern: ^arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:([a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]):[0-9]{12}:[A-Za-z0-9/][A-Za-z0-9:_/+.-]{0,1023}$ Syntax: "string" "string" ...
+    /// The Amazon Resource Names (ARNs) for the resources. (string) Constraints: • pattern: ^arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:([a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]):[0-9]{12}:[A-Za-z0-9/][A-Za-z0-9:_/+.-]{0,1023}$ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--source-arns", GroupValues = true)]
     public IEnumerable<string>? SourceArns { get; set; }
 
     /// <summary>
-    /// A list of terraform file s3 URLs you need to import. (structure) The Terraform s3 state file you need to import. s3StateFileUrl -&gt; (string) [required] The URL of the Terraform s3 state file you need to import. Constraints: o min: 0 o max: 2000 o pattern: ^((https://([^/]+)\.s3((-|\.)[^/]+)?\.amazon- aws\.com(.cn)?)|(s3://([^/]+)))/\S{1,2000}$ Shorthand Syntax: s3StateFileUrl=string ... JSON Syntax: [ { "s3StateFileUrl": "string" } ... ]
+    /// A list of terraform file s3 URLs you need to import. (structure) The Terraform s3 state file you need to import. s3StateFileUrl -&gt; (string) [required] The URL of the Terraform s3 state file you need to import. Constraints: • min: 0 • max: 2000 • pattern: ^((https://([^/]+)\.s3((-|\.)[^/]+)?\.amazonaws\.com(.cn)?)|(s3://([^/]+)))/\S{1,2000}$ Shorthand Syntax: s3StateFileUrl=string ... JSON Syntax: [ { "s3StateFileUrl": "string" } ... ]
     /// </summary>
     [CliOption("--terraform-sources", GroupValues = true)]
     public IEnumerable<string>? TerraformSources { get; set; }
@@ -107,6 +108,15 @@ public record AwsResiliencehubImportResourcesToDraftAppVersionOptions : AwsOptio
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

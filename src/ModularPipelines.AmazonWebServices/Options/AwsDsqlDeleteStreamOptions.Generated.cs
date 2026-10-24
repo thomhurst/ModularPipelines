@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,8 +29,8 @@ public record AwsDsqlDeleteStreamOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Deletes a stream from a cluster. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ClusterIdentifier">The ID of the cluster containing the stream to delete. Constraints: o pattern: [a-z0-9]{26}</param>
-    /// <param name="StreamIdentifier">The ID of the stream to delete. Constraints: o pattern: [a-z0-9]{26}</param>
+    /// <param name="ClusterIdentifier">The ID of the cluster containing the stream to delete. Constraints: • pattern: [a-z0-9]{26}</param>
+    /// <param name="StreamIdentifier">The ID of the stream to delete. Constraints: • pattern: [a-z0-9]{26}</param>
     public AwsDsqlDeleteStreamOptions(
         string ClusterIdentifier,
         string StreamIdentifier
@@ -61,19 +62,19 @@ public record AwsDsqlDeleteStreamOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the cluster containing the stream to delete. Constraints: o pattern: [a-z0-9]{26}
+    /// The ID of the cluster containing the stream to delete. Constraints: • pattern: [a-z0-9]{26}
     /// </summary>
     [CliOption("--cluster-identifier")]
     public string? ClusterIdentifier { get; private init; }
 
     /// <summary>
-    /// The ID of the stream to delete. Constraints: o pattern: [a-z0-9]{26}
+    /// The ID of the stream to delete. Constraints: • pattern: [a-z0-9]{26}
     /// </summary>
     [CliOption("--stream-identifier")]
     public string? StreamIdentifier { get; private init; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original re- quest completes successfully, the subsequent retries with the same client token return the result from the original successful request and they have no additional effect. If you don't specify a client token, the Amazon Web Services SDK au- tomatically generates one. Constraints: o min: 1 o max: 128 o pattern: [!-~]+
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully, the subsequent retries with the same client token return the result from the original successful request and they have no additional effect. If you don't specify a client token, the Amazon Web Services SDK automatically generates one. Constraints: • min: 1 • max: 128 • pattern: [!-~]+
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
@@ -100,6 +101,15 @@ public record AwsDsqlDeleteStreamOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

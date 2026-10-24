@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsIotwirelessDeleteWirelessGatewayTaskOptions : AwsOptions, IVali
     /// <summary>
     /// Deletes a wireless gateway task. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Id">The ID of the resource to delete. Constraints: o max: 256</param>
+    /// <param name="Id">The ID of the resource to delete. Constraints: • max: 256</param>
     public AwsIotwirelessDeleteWirelessGatewayTaskOptions(
         string Id
     )
@@ -56,7 +57,7 @@ public record AwsIotwirelessDeleteWirelessGatewayTaskOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the resource to delete. Constraints: o max: 256
+    /// The ID of the resource to delete. Constraints: • max: 256
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; private init; }
@@ -82,6 +83,15 @@ public record AwsIotwirelessDeleteWirelessGatewayTaskOptions : AwsOptions, IVali
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

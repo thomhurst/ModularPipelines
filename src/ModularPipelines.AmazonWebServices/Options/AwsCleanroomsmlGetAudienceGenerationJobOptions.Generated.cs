@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsCleanroomsmlGetAudienceGenerationJobOptions : AwsOptions, IVali
     /// <summary>
     /// Returns information about an audience generation job. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AudienceGenerationJobArn">The Amazon Resource Name (ARN) of the audience generation job that you are interested in. Constraints: o min: 20 o max: 2048 o pattern: arn:aws[-a-z]*:cleanrooms-ml:[-a-z0-9]+:[0-9]{12}:audi- ence-generation-job/[-a-zA-Z0-9_/.]+</param>
+    /// <param name="AudienceGenerationJobArn">The Amazon Resource Name (ARN) of the audience generation job that you are interested in. Constraints: • min: 20 • max: 2048 • pattern: arn:aws[-a-z]*:cleanrooms-ml:[-a-z0-9]+:[0-9]{12}:audience-generation-job/[-a-zA-Z0-9_/.]+</param>
     public AwsCleanroomsmlGetAudienceGenerationJobOptions(
         string AudienceGenerationJobArn
     )
@@ -56,7 +57,7 @@ public record AwsCleanroomsmlGetAudienceGenerationJobOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the audience generation job that you are interested in. Constraints: o min: 20 o max: 2048 o pattern: arn:aws[-a-z]*:cleanrooms-ml:[-a-z0-9]+:[0-9]{12}:audi- ence-generation-job/[-a-zA-Z0-9_/.]+
+    /// The Amazon Resource Name (ARN) of the audience generation job that you are interested in. Constraints: • min: 20 • max: 2048 • pattern: arn:aws[-a-z]*:cleanrooms-ml:[-a-z0-9]+:[0-9]{12}:audience-generation-job/[-a-zA-Z0-9_/.]+
     /// </summary>
     [CliOption("--audience-generation-job-arn")]
     public string? AudienceGenerationJobArn { get; private init; }
@@ -82,6 +83,15 @@ public record AwsCleanroomsmlGetAudienceGenerationJobOptions : AwsOptions, IVali
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

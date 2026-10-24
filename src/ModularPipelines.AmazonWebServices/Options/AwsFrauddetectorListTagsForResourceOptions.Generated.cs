@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Lists all tags associated with the resource. This is a paginated API. To get the next page results, provide the pagination token from the re- sponse as part of your request. A null pagination token fetches the records from the beginning. See also: AWS API Documentation
+/// Lists all tags associated with the resource. This is a paginated API. To get the next page results, provide the pagination token from the response as part of your request. A null pagination token fetches the records from the beginning. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +27,9 @@ public record AwsFrauddetectorListTagsForResourceOptions : AwsOptions, IValidata
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Lists all tags associated with the resource. This is a paginated API. To get the next page results, provide the pagination token from the re- sponse as part of your request. A null pagination token fetches the records from the beginning. See also: AWS API Documentation
+    /// Lists all tags associated with the resource. This is a paginated API. To get the next page results, provide the pagination token from the response as part of your request. A null pagination token fetches the records from the beginning. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The ARN that specifies the resource whose tags you want to list. Constraints: o min: 1 o max: 256 o pattern: ^arn\:aws[a-z-]{0,15}\:frauddetec- tor\:[a-z0-9-]{3,20}\:[0-9]{12}\:[^\s]{2,128}$</param>
+    /// <param name="ResourceArn">The ARN that specifies the resource whose tags you want to list. Constraints: • min: 1 • max: 256 • pattern: ^arn\:aws[a-z-]{0,15}\:frauddetector\:[a-z0-9-]{3,20}\:[0-9]{12}\:[^\s]{2,128}$</param>
     public AwsFrauddetectorListTagsForResourceOptions(
         string ResourceArn
     )
@@ -57,7 +58,7 @@ public record AwsFrauddetectorListTagsForResourceOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN that specifies the resource whose tags you want to list. Constraints: o min: 1 o max: 256 o pattern: ^arn\:aws[a-z-]{0,15}\:frauddetec- tor\:[a-z0-9-]{3,20}\:[0-9]{12}\:[^\s]{2,128}$
+    /// The ARN that specifies the resource whose tags you want to list. Constraints: • min: 1 • max: 256 • pattern: ^arn\:aws[a-z-]{0,15}\:frauddetector\:[a-z0-9-]{3,20}\:[0-9]{12}\:[^\s]{2,128}$
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
@@ -70,7 +71,7 @@ public record AwsFrauddetectorListTagsForResourceOptions : AwsOptions, IValidata
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// The maximum number of objects to return for the request. Constraints: o min: 50 o max: 50
+    /// The maximum number of objects to return for the request. Constraints: • min: 50 • max: 50
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
@@ -96,6 +97,15 @@ public record AwsFrauddetectorListTagsForResourceOptions : AwsOptions, IValidata
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

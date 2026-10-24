@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates the configuration for a Slack channel, such as case update no- tifications. See also: AWS API Documentation
+/// Updates the configuration for a Slack channel, such as case update notifications. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +27,10 @@ public record AwsSupportAppUpdateSlackChannelConfigurationOptions : AwsOptions, 
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates the configuration for a Slack channel, such as case update no- tifications. See also: AWS API Documentation
+    /// Updates the configuration for a Slack channel, such as case update notifications. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ChannelId">The channel ID in Slack. This ID identifies a channel within a Slack workspace. Constraints: o min: 1 o max: 256 o pattern: ^\S+$</param>
-    /// <param name="TeamId">The team ID in Slack. This ID uniquely identifies a Slack workspace, such as T012ABCDEFG . Constraints: o min: 1 o max: 256 o pattern: ^\S+$</param>
+    /// <param name="ChannelId">The channel ID in Slack. This ID identifies a channel within a Slack workspace. Constraints: • min: 1 • max: 256 • pattern: ^\S+$</param>
+    /// <param name="TeamId">The team ID in Slack. This ID uniquely identifies a Slack workspace, such as T012ABCDEFG . Constraints: • min: 1 • max: 256 • pattern: ^\S+$</param>
     public AwsSupportAppUpdateSlackChannelConfigurationOptions(
         string ChannelId,
         string TeamId
@@ -61,43 +62,43 @@ public record AwsSupportAppUpdateSlackChannelConfigurationOptions : AwsOptions, 
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The channel ID in Slack. This ID identifies a channel within a Slack workspace. Constraints: o min: 1 o max: 256 o pattern: ^\S+$
+    /// The channel ID in Slack. This ID identifies a channel within a Slack workspace. Constraints: • min: 1 • max: 256 • pattern: ^\S+$
     /// </summary>
     [CliOption("--channel-id")]
     public string? ChannelId { get; private init; }
 
     /// <summary>
-    /// The team ID in Slack. This ID uniquely identifies a Slack workspace, such as T012ABCDEFG . Constraints: o min: 1 o max: 256 o pattern: ^\S+$
+    /// The team ID in Slack. This ID uniquely identifies a Slack workspace, such as T012ABCDEFG . Constraints: • min: 1 • max: 256 • pattern: ^\S+$
     /// </summary>
     [CliOption("--team-id")]
     public string? TeamId { get; private init; }
 
     /// <summary>
-    /// The Slack channel name that you want to update. Constraints: o min: 1 o max: 256 o pattern: ^.+$
+    /// The Slack channel name that you want to update. Constraints: • min: 1 • max: 256 • pattern: ^.+$
     /// </summary>
     [CliOption("--channel-name")]
     public string? ChannelName { get; set; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of an IAM role that you want to use to perform operations on Amazon Web Services. For more information, see Managing access to the Amazon Web Services Support App in the Amazon Web Services Support User Guide . Constraints: o min: 31 o max: 2048 o pattern: ^arn:aws:iam::[0-9]{12}:role/(.+)$
+    /// The Amazon Resource Name (ARN) of an IAM role that you want to use to perform operations on Amazon Web Services. For more information, see Managing access to the Amazon Web Services Support App in the Amazon Web Services Support User Guide . Constraints: • min: 31 • max: 2048 • pattern: ^arn:aws:iam::[0-9]{12}:role/(.+)$
     /// </summary>
     [CliOption("--channel-role-arn")]
     public string? ChannelRoleArn { get; set; }
 
     /// <summary>
-    /// dence-to-case (boolean) Whether you want to get notified when a support case has a new cor- respondence.
+    /// Whether you want to get notified when a support case has a new correspondence.
     /// </summary>
     [CliFlag("--notify-on-add-correspondence-to-case", NegatedName = "--no-notify-on-add-correspondence-to-case")]
     public bool? NotifyOnAddCorrespondenceToCase { get; set; }
 
     /// <summary>
-    /// The case severity for a support case that you want to receive noti- fications. If you specify high or all , at least one of the following parame- ters must be true : o notifyOnAddCorrespondenceToCase o notifyOnCreateOrReopenCase o notifyOnResolveCase If you specify none , any of the following parameters that you spec- ify in your request must be false : o notifyOnAddCorrespondenceToCase o notifyOnCreateOrReopenCase o notifyOnResolveCase NOTE: If you don't specify these parameters in your request, the Ama- zon Web Services Support App uses the current values by default. Possible values: o none o all o high
+    /// The case severity for a support case that you want to receive notifications. If you specify high or all , at least one of the following parameters must be true : • notifyOnAddCorrespondenceToCase • notifyOnCreateOrReopenCase • notifyOnResolveCase If you specify none , any of the following parameters that you specify in your request must be false : • notifyOnAddCorrespondenceToCase • notifyOnCreateOrReopenCase • notifyOnResolveCase NOTE: If you don't specify these parameters in your request, the Amazon Web Services Support App uses the current values by default. Possible values: • none • all • high
     /// </summary>
     [CliOption("--notify-on-case-severity")]
     public AwsSupportAppUpdateSlackChannelConfigurationNotifyOnCaseSeverity? NotifyOnCaseSeverity { get; set; }
 
     /// <summary>
-    /// open-case (boolean) Whether you want to get notified when a support case is created or reopened.
+    /// Whether you want to get notified when a support case is created or reopened.
     /// </summary>
     [CliFlag("--notify-on-create-or-reopen-case", NegatedName = "--no-notify-on-create-or-reopen-case")]
     public bool? NotifyOnCreateOrReopenCase { get; set; }
@@ -129,6 +130,15 @@ public record AwsSupportAppUpdateSlackChannelConfigurationOptions : AwsOptions, 
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

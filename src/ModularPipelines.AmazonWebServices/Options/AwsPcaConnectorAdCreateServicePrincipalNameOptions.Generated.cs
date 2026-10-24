@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a service principal name (SPN) for the service account in Ac- tive Directory. Kerberos authentication uses SPNs to associate a ser- vice instance with a service sign-in account. See also: AWS API Documentation
+/// Creates a service principal name (SPN) for the service account in Active Directory. Kerberos authentication uses SPNs to associate a service instance with a service sign-in account. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +27,10 @@ public record AwsPcaConnectorAdCreateServicePrincipalNameOptions : AwsOptions, I
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a service principal name (SPN) for the service account in Ac- tive Directory. Kerberos authentication uses SPNs to associate a ser- vice instance with a service sign-in account. See also: AWS API Documentation
+    /// Creates a service principal name (SPN) for the service account in Active Directory. Kerberos authentication uses SPNs to associate a service instance with a service sign-in account. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ConnectorArn">The Amazon Resource Name (ARN) that was returned when you called CreateConnector . Constraints: o min: 5 o max: 200 o pattern: ^arn:[\w-]+:pca-connector-ad:[\w-]+:[0-9]+:connec- tor\/[0-9a-f]{8}(-[0-9a-f]{4}){3}-[0-9a-f]{12}$</param>
-    /// <param name="DirectoryRegistrationArn">The Amazon Resource Name (ARN) that was returned when you called CreateDirectoryRegistration . Constraints: o min: 5 o max: 200 o pattern: ^arn:[\w-]+:pca-connector-ad:[\w-]+:[0-9]+:directory-reg- istration\/d-[0-9a-f]{10}$</param>
+    /// <param name="ConnectorArn">The Amazon Resource Name (ARN) that was returned when you called CreateConnector . Constraints: • min: 5 • max: 200 • pattern: ^arn:[\w-]+:pca-connector-ad:[\w-]+:[0-9]+:connector\/[0-9a-f]{8}(-[0-9a-f]{4}){3}-[0-9a-f]{12}$</param>
+    /// <param name="DirectoryRegistrationArn">The Amazon Resource Name (ARN) that was returned when you called CreateDirectoryRegistration . Constraints: • min: 5 • max: 200 • pattern: ^arn:[\w-]+:pca-connector-ad:[\w-]+:[0-9]+:directory-registration\/d-[0-9a-f]{10}$</param>
     public AwsPcaConnectorAdCreateServicePrincipalNameOptions(
         string ConnectorArn,
         string DirectoryRegistrationArn
@@ -61,19 +62,19 @@ public record AwsPcaConnectorAdCreateServicePrincipalNameOptions : AwsOptions, I
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) that was returned when you called CreateConnector . Constraints: o min: 5 o max: 200 o pattern: ^arn:[\w-]+:pca-connector-ad:[\w-]+:[0-9]+:connec- tor\/[0-9a-f]{8}(-[0-9a-f]{4}){3}-[0-9a-f]{12}$
+    /// The Amazon Resource Name (ARN) that was returned when you called CreateConnector . Constraints: • min: 5 • max: 200 • pattern: ^arn:[\w-]+:pca-connector-ad:[\w-]+:[0-9]+:connector\/[0-9a-f]{8}(-[0-9a-f]{4}){3}-[0-9a-f]{12}$
     /// </summary>
     [CliOption("--connector-arn")]
     public string? ConnectorArn { get; private init; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) that was returned when you called CreateDirectoryRegistration . Constraints: o min: 5 o max: 200 o pattern: ^arn:[\w-]+:pca-connector-ad:[\w-]+:[0-9]+:directory-reg- istration\/d-[0-9a-f]{10}$
+    /// The Amazon Resource Name (ARN) that was returned when you called CreateDirectoryRegistration . Constraints: • min: 5 • max: 200 • pattern: ^arn:[\w-]+:pca-connector-ad:[\w-]+:[0-9]+:directory-registration\/d-[0-9a-f]{10}$
     /// </summary>
     [CliOption("--directory-registration-arn")]
     public string? DirectoryRegistrationArn { get; private init; }
 
     /// <summary>
-    /// Idempotency token. Constraints: o min: 1 o max: 64 o pattern: ^[!-~]+$
+    /// Idempotency token. Constraints: • min: 1 • max: 64 • pattern: ^[!-~]+$
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
@@ -100,6 +101,15 @@ public record AwsPcaConnectorAdCreateServicePrincipalNameOptions : AwsOptions, I
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

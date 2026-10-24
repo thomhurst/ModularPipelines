@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsRdsRemoveOptionFromOptionGroupOptions : AwsOptions, IValidatabl
     /// <summary>
     /// Modifies an existing option group. See also: AWS API Documentation
     /// </summary>
-    /// <param name="OptionGroupName">The name of the option group to be modified. Permanent options, such as the TDE option for Oracle Advanced Secu- rity TDE, can't be removed from an option group, and that option group can't be removed from a DB instance once it is associated with a DB instance</param>
+    /// <param name="OptionGroupName">The name of the option group to be modified. Permanent options, such as the TDE option for Oracle Advanced Security TDE, can't be removed from an option group, and that option group can't be removed from a DB instance once it is associated with a DB instance</param>
     public AwsRdsRemoveOptionFromOptionGroupOptions(
         string OptionGroupName
     )
@@ -56,7 +57,7 @@ public record AwsRdsRemoveOptionFromOptionGroupOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the option group to be modified. Permanent options, such as the TDE option for Oracle Advanced Secu- rity TDE, can't be removed from an option group, and that option group can't be removed from a DB instance once it is associated with a DB instance
+    /// The name of the option group to be modified. Permanent options, such as the TDE option for Oracle Advanced Security TDE, can't be removed from an option group, and that option group can't be removed from a DB instance once it is associated with a DB instance
     /// </summary>
     [CliOption("--option-group-name")]
     public string? OptionGroupName { get; private init; }
@@ -94,6 +95,15 @@ public record AwsRdsRemoveOptionFromOptionGroupOptions : AwsOptions, IValidatabl
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

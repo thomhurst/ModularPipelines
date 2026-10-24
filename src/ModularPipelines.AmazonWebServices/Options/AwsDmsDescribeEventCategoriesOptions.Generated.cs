@@ -28,7 +28,7 @@ public record AwsDmsDescribeEventCategoriesOptions : AwsOptions
     public string? SourceType { get; set; }
 
     /// <summary>
-    /// Filters applied to the event categories. (structure) Identifies the name and value of a filter object. This filter is used to limit the number and type of DMS objects that are re- turned for a particular Describe* call or similar operation. Filters are used as an optional parameter for certain API opera- tions. Name -&gt; (string) [required] The name of the filter as specified for a Describe* or simi- lar operation. Values -&gt; (list) [required] The filter value, which can specify one or more values used to narrow the returned results. (string) Shorthand Syntax: Name=string,Values=string,string ... JSON Syntax: [ { "Name": "string", "Values": ["string", ...] } ... ]
+    /// Filters applied to the event categories. (structure) Identifies the name and value of a filter object. This filter is used to limit the number and type of DMS objects that are returned for a particular Describe* call or similar operation. Filters are used as an optional parameter for certain API operations. Name -&gt; (string) [required] The name of the filter as specified for a Describe* or similar operation. Values -&gt; (list) [required] The filter value, which can specify one or more values used to narrow the returned results. (string) Shorthand Syntax: Name=string,Values=string,string ... JSON Syntax: [ { "Name": "string", "Values": ["string", ...] } ... ]
     /// </summary>
     [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
@@ -38,5 +38,14 @@ public record AwsDmsDescribeEventCategoriesOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

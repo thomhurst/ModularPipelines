@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsFrauddetectorDeleteRuleOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Deletes the rule. You cannot delete a rule if it is used by an ACTIVE or INACTIVE detector version. When you delete a rule, Amazon Fraud Detector permanently deletes that rule and the data is no longer stored in Amazon Fraud Detector. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Rule">A rule. detectorId -&gt; (string) [required] The detector for which the rule is associated. Constraints: o min: 1 o max: 64 o pattern: ^[0-9a-z_-]+$ ruleId -&gt; (string) [required] The rule ID. Constraints: o min: 1 o max: 64 o pattern: ^[0-9a-z_-]+$ ruleVersion -&gt; (string) [required] The rule version. Constraints: o min: 1 o max: 5 o pattern: ^([1-9][0-9]*)$ Shorthand Syntax: detectorId=string,ruleId=string,ruleVersion=string JSON Syntax: { "detectorId": "string", "ruleId": "string", "ruleVersion": "string" }</param>
+    /// <param name="Rule">A rule. detectorId -&gt; (string) [required] The detector for which the rule is associated. Constraints: • min: 1 • max: 64 • pattern: ^[0-9a-z_-]+$ ruleId -&gt; (string) [required] The rule ID. Constraints: • min: 1 • max: 64 • pattern: ^[0-9a-z_-]+$ ruleVersion -&gt; (string) [required] The rule version. Constraints: • min: 1 • max: 5 • pattern: ^([1-9][0-9]*)$ Shorthand Syntax: detectorId=string,ruleId=string,ruleVersion=string JSON Syntax: { "detectorId": "string", "ruleId": "string", "ruleVersion": "string" }</param>
     public AwsFrauddetectorDeleteRuleOptions(
         string Rule
     )
@@ -56,7 +57,7 @@ public record AwsFrauddetectorDeleteRuleOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A rule. detectorId -&gt; (string) [required] The detector for which the rule is associated. Constraints: o min: 1 o max: 64 o pattern: ^[0-9a-z_-]+$ ruleId -&gt; (string) [required] The rule ID. Constraints: o min: 1 o max: 64 o pattern: ^[0-9a-z_-]+$ ruleVersion -&gt; (string) [required] The rule version. Constraints: o min: 1 o max: 5 o pattern: ^([1-9][0-9]*)$ Shorthand Syntax: detectorId=string,ruleId=string,ruleVersion=string JSON Syntax: { "detectorId": "string", "ruleId": "string", "ruleVersion": "string" }
+    /// A rule. detectorId -&gt; (string) [required] The detector for which the rule is associated. Constraints: • min: 1 • max: 64 • pattern: ^[0-9a-z_-]+$ ruleId -&gt; (string) [required] The rule ID. Constraints: • min: 1 • max: 64 • pattern: ^[0-9a-z_-]+$ ruleVersion -&gt; (string) [required] The rule version. Constraints: • min: 1 • max: 5 • pattern: ^([1-9][0-9]*)$ Shorthand Syntax: detectorId=string,ruleId=string,ruleVersion=string JSON Syntax: { "detectorId": "string", "ruleId": "string", "ruleVersion": "string" }
     /// </summary>
     [CliOption("--rule")]
     public string? Rule { get; private init; }
@@ -82,6 +83,15 @@ public record AwsFrauddetectorDeleteRuleOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

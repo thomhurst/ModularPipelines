@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +29,7 @@ public record AwsOpensearchGetUpgradeHistoryOptions : AwsOptions, IValidatableOb
     /// <summary>
     /// Retrieves the complete history of the last 10 upgrades performed on an Amazon OpenSearch Service domain. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DomainName">The name of an existing domain. Constraints: o min: 3 o max: 28 o pattern: [a-z][a-z0-9\-]+</param>
+    /// <param name="DomainName">The name of an existing domain. Constraints: • min: 3 • max: 28 • pattern: [a-z][a-z0-9\-]+</param>
     public AwsOpensearchGetUpgradeHistoryOptions(
         string DomainName
     )
@@ -57,19 +58,19 @@ public record AwsOpensearchGetUpgradeHistoryOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of an existing domain. Constraints: o min: 3 o max: 28 o pattern: [a-z][a-z0-9\-]+
+    /// The name of an existing domain. Constraints: • min: 3 • max: 28 • pattern: [a-z][a-z0-9\-]+
     /// </summary>
     [CliOption("--domain-name")]
     public string? DomainName { get; private init; }
 
     /// <summary>
-    /// An optional parameter that specifies the maximum number of results to return. You can use nextToken to get the next page of results. Constraints: o max: 100
+    /// An optional parameter that specifies the maximum number of results to return. You can use nextToken to get the next page of results. Constraints: • max: 100
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
     /// <summary>
-    /// If your initial GetUpgradeHistory operation returns a nextToken , you can include the returned nextToken in subsequent GetUpgradeHis- tory operations, which returns results in the next page.
+    /// If your initial GetUpgradeHistory operation returns a nextToken , you can include the returned nextToken in subsequent GetUpgradeHistory operations, which returns results in the next page.
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
@@ -96,6 +97,15 @@ public record AwsOpensearchGetUpgradeHistoryOptions : AwsOptions, IValidatableOb
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsChimeSdkVoiceUpdatePhoneNumberSettingsOptions : AwsOptions, IVa
     /// <summary>
     /// Updates the phone number settings for the administrator's AWS account, such as the default outbound calling name. You can update the default outbound calling name once every seven days. Outbound calling names can take up to 72 hours to update. See also: AWS API Documentation
     /// </summary>
-    /// <param name="CallingName">The default outbound calling name for the account. Constraints: o pattern: ^$|^[a-zA-Z0-9 ]{2,15}$</param>
+    /// <param name="CallingName">The default outbound calling name for the account. Constraints: • pattern: ^$|^[a-zA-Z0-9 ]{2,15}$</param>
     public AwsChimeSdkVoiceUpdatePhoneNumberSettingsOptions(
         string CallingName
     )
@@ -56,7 +57,7 @@ public record AwsChimeSdkVoiceUpdatePhoneNumberSettingsOptions : AwsOptions, IVa
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The default outbound calling name for the account. Constraints: o pattern: ^$|^[a-zA-Z0-9 ]{2,15}$
+    /// The default outbound calling name for the account. Constraints: • pattern: ^$|^[a-zA-Z0-9 ]{2,15}$
     /// </summary>
     [CliOption("--calling-name")]
     public string? CallingName { get; private init; }
@@ -82,6 +83,15 @@ public record AwsChimeSdkVoiceUpdatePhoneNumberSettingsOptions : AwsOptions, IVa
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

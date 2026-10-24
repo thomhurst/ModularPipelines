@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a new database from an existing database snapshot in Amazon Lightsail. You can create a new database from a snapshot in if something goes wrong with your original database, or to change it to a different plan, such as a high availability or standard plan. The create relational database from snapshot operation supports tag-based access control via request tags and resource tags applied to the resource identified by relationalDatabaseSnapshotName. For more in- formation, see the Amazon Lig...
+/// Creates a new database from an existing database snapshot in Amazon Lightsail. You can create a new database from a snapshot in if something goes wrong with your original database, or to change it to a different plan, such as a high availability or standard plan. The create relational database from snapshot operation supports tag-based access control via request tags and resource tags applied to the resource identified by relationalDatabaseSnapshotName. For more information, see the Amazon Light...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsLightsailCreateRelationalDatabaseFromSnapshotOptions : AwsOptio
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a new database from an existing database snapshot in Amazon Lightsail. You can create a new database from a snapshot in if something goes wrong with your original database, or to change it to a different plan, such as a high availability or standard plan. The create relational database from snapshot operation supports tag-based access control via request tags and resource tags applied to the resource identified by relationalDatabaseSnapshotName. For more in- formation, see the Amazon Lig...
+    /// Creates a new database from an existing database snapshot in Amazon Lightsail. You can create a new database from a snapshot in if something goes wrong with your original database, or to change it to a different plan, such as a high availability or standard plan. The create relational database from snapshot operation supports tag-based access control via request tags and resource tags applied to the resource identified by relationalDatabaseSnapshotName. For more information, see the Amazon Light...
     /// </summary>
-    /// <param name="RelationalDatabaseName">The name to use for your new Lightsail database resource. Constraints: o Must contain from 2 to 255 alphanumeric characters, or hyphens. o The first and last character must be a letter or number. Constraints: o pattern: \w[\w\-]*\w</param>
+    /// <param name="RelationalDatabaseName">The name to use for your new Lightsail database resource. Constraints: • Must contain from 2 to 255 alphanumeric characters, or hyphens. • The first and last character must be a letter or number. Constraints: • pattern: \w[\w\-]*\w</param>
     public AwsLightsailCreateRelationalDatabaseFromSnapshotOptions(
         string RelationalDatabaseName
     )
@@ -56,43 +57,43 @@ public record AwsLightsailCreateRelationalDatabaseFromSnapshotOptions : AwsOptio
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name to use for your new Lightsail database resource. Constraints: o Must contain from 2 to 255 alphanumeric characters, or hyphens. o The first and last character must be a letter or number. Constraints: o pattern: \w[\w\-]*\w
+    /// The name to use for your new Lightsail database resource. Constraints: • Must contain from 2 to 255 alphanumeric characters, or hyphens. • The first and last character must be a letter or number. Constraints: • pattern: \w[\w\-]*\w
     /// </summary>
     [CliOption("--relational-database-name")]
     public string? RelationalDatabaseName { get; private init; }
 
     /// <summary>
-    /// The Availability Zone in which to create your new database. Use the us-east-2a case-sensitive format. You can get a list of Availability Zones by using the get regions operation. Be sure to add the include relational database Availabil- ity Zones parameter to your request.
+    /// The Availability Zone in which to create your new database. Use the us-east-2a case-sensitive format. You can get a list of Availability Zones by using the get regions operation. Be sure to add the include relational database Availability Zones parameter to your request.
     /// </summary>
     [CliOption("--availability-zone")]
     public string? AvailabilityZone { get; set; }
 
     /// <summary>
-    /// Specifies the accessibility options for your new database. A value of true specifies a database that is available to resources outside of your Lightsail account. A value of false specifies a database that is available only to your Lightsail resources in the same re- gion as your database.
+    /// Specifies the accessibility options for your new database. A value of true specifies a database that is available to resources outside of your Lightsail account. A value of false specifies a database that is available only to your Lightsail resources in the same region as your database.
     /// </summary>
     [CliFlag("--publicly-accessible", NegatedName = "--no-publicly-accessible")]
     public bool? PubliclyAccessible { get; set; }
 
     /// <summary>
-    /// The name of the database snapshot from which to create your new database. Constraints: o pattern: \w[\w\-]*\w
+    /// The name of the database snapshot from which to create your new database. Constraints: • pattern: \w[\w\-]*\w
     /// </summary>
     [CliOption("--relational-database-snapshot-name")]
     public string? RelationalDatabaseSnapshotName { get; set; }
 
     /// <summary>
-    /// The bundle ID for your new database. A bundle describes the perfor- mance specifications for your database. You can get a list of database bundle IDs by using the get rela- tional database bundles operation. When creating a new database from a snapshot, you cannot choose a bundle that is smaller than the bundle of the source database.
+    /// The bundle ID for your new database. A bundle describes the performance specifications for your database. You can get a list of database bundle IDs by using the get relational database bundles operation. When creating a new database from a snapshot, you cannot choose a bundle that is smaller than the bundle of the source database.
     /// </summary>
     [CliOption("--relational-database-bundle-id")]
     public string? RelationalDatabaseBundleId { get; set; }
 
     /// <summary>
-    /// The name of the source database. Constraints: o pattern: \w[\w\-]*\w
+    /// The name of the source database. Constraints: • pattern: \w[\w\-]*\w
     /// </summary>
     [CliOption("--source-relational-database-name")]
     public string? SourceRelationalDatabaseName { get; set; }
 
     /// <summary>
-    /// The date and time to restore your database from. Constraints: o Must be before the latest restorable time for the database. o Cannot be specified if the use latest restorable time parameter is true . o Specified in Coordinated Universal Time (UTC). o Specified in the Unix time format. For example, if you wish to use a restore time of October 1, 2018, at 8 PM UTC, then you input 1538424000 as the restore time.
+    /// The date and time to restore your database from. Constraints: • Must be before the latest restorable time for the database. • Cannot be specified if the use latest restorable time parameter is true . • Specified in Coordinated Universal Time (UTC). • Specified in the Unix time format. For example, if you wish to use a restore time of October 1, 2018, at 8 PM UTC, then you input 1538424000 as the restore time.
     /// </summary>
     [CliOption("--restore-time")]
     public string? RestoreTime { get; set; }
@@ -104,7 +105,7 @@ public record AwsLightsailCreateRelationalDatabaseFromSnapshotOptions : AwsOptio
     public bool? UseLatestRestorableTime { get; set; }
 
     /// <summary>
-    /// The tag keys and optional values to add to the resource during cre- ate. Use the TagResource action to tag a resource after it's created. (structure) Describes a tag key and optional value assigned to an Amazon Lightsail resource. For more information about tags in Lightsail, see the Amazon Lightsail Developer Guide . key -&gt; (string) The key of the tag. Constraints: Tag keys accept a maximum of 128 letters, num- bers, spaces in UTF-8, or the following characters: + - = . _ : / @ value -&gt; (string) The value of the tag. Constraints: Tag values accept a maximum of 256 letters, num- bers, spaces in UTF-8, or the following characters: + - = . _ : / @ Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
+    /// The tag keys and optional values to add to the resource during create. Use the TagResource action to tag a resource after it's created. (structure) Describes a tag key and optional value assigned to an Amazon Lightsail resource. For more information about tags in Lightsail, see the Amazon Lightsail Developer Guide . key -&gt; (string) The key of the tag. Constraints: Tag keys accept a maximum of 128 letters, numbers, spaces in UTF-8, or the following characters: + - = . _ : / @ value -&gt; (string) The value of the tag. Constraints: Tag values accept a maximum of 256 letters, numbers, spaces in UTF-8, or the following characters: + - = . _ : / @ Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
@@ -130,6 +131,15 @@ public record AwsLightsailCreateRelationalDatabaseFromSnapshotOptions : AwsOptio
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

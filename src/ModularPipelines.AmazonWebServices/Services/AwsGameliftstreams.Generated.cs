@@ -6,8 +6,8 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
+using ModularPipelines;
 using ModularPipelines.Context;
-using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
@@ -33,7 +33,7 @@ public class AwsGameliftstreams : IAwsGameliftstreams
     #region Sub-command Groups
 
     /// <summary>
-    /// aws wait sub-commands.
+    /// aws gameliftstreams wait sub-commands.
     /// </summary>
     public AwsGameliftstreamsWait Wait => _wait ??= new AwsGameliftstreamsWait(_command);
 
@@ -57,7 +57,7 @@ public class AwsGameliftstreams : IAwsGameliftstreams
     }
 
     /// <summary>
-    /// When you associate, or link, an application with a stream group, then Amazon GameLift Streams can launch the application using the stream group's allocated compute resources. The stream group must be in ACTIVE status. You can reverse this action by using DisassociateApplications . If a stream group does not already have a linked application, Amazon GameLift Streams will automatically assign the first application pro- vided in ApplicationIdentifiers as the default. See also: AWS API Documentation
+    /// When you associate, or link, an application with a stream group, then Amazon GameLift Streams can launch the application using the stream group's allocated compute resources. The stream group must be in ACTIVE status. You can reverse this action by using DisassociateApplications . If a stream group does not already have a linked application, Amazon GameLift Streams will automatically assign the first application provided in ApplicationIdentifiers as the default. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -72,7 +72,7 @@ public class AwsGameliftstreams : IAwsGameliftstreams
     }
 
     /// <summary>
-    /// Creates an application resource in Amazon GameLift Streams, which spec- ifies the application content you want to stream, such as a game build or other software, and configures the settings to run it. Before you create an application, upload your application content files to an Amazon Simple Storage Service (Amazon S3) bucket. For more infor- mation, see Getting Started in the Amazon GameLift Streams Developer Guide. WARNING: Make sure that your files in the Amazon S3 bucket are the correct vers...
+    /// Creates an application resource in Amazon GameLift Streams, which specifies the application content you want to stream, such as a game build or other software, and configures the settings to run it. Before you create an application, upload your application content files to an Amazon Simple Storage Service (Amazon S3) bucket. For more information, see Getting Started in the Amazon GameLift Streams Developer Guide. WARNING: Make sure that your files in the Amazon S3 bucket are the correct version ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -87,7 +87,7 @@ public class AwsGameliftstreams : IAwsGameliftstreams
     }
 
     /// <summary>
-    /// Stream groups manage how Amazon GameLift Streams allocates resources and handles concurrent streams, allowing you to effectively manage ca- pacity and costs. Within a stream group, you specify an application to stream, streaming locations and their capacity, and the stream class you want to use when streaming applications to your end-users. A stream class defines the hardware configuration of the compute resources that Amazon GameLift Streams will use when streaming, such as the CPU, GPU, and me...
+    /// Stream groups manage how Amazon GameLift Streams allocates resources and handles concurrent streams, allowing you to effectively manage capacity and costs. Within a stream group, you specify an application to stream, streaming locations and their capacity, and the stream class you want to use when streaming applications to your end-users. A stream class defines the hardware configuration of the compute resources that Amazon GameLift Streams will use when streaming, such as the CPU, GPU, and memo...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -117,7 +117,7 @@ public class AwsGameliftstreams : IAwsGameliftstreams
     }
 
     /// <summary>
-    /// Enables clients to reconnect to a stream session while preserving all session state and data in the disconnected session. This reconnection process can be initiated when a stream session is in either PEND- ING_CLIENT_RECONNECTION or ACTIVE status. The process works as follows: o Initial disconnect: o When a client disconnects or loses connection, the stream session transitions from CONNECTED to PENDING_CLIENT_RECONNECTION o Reconnection time window: o Clients have ConnectionTimeoutSeconds (defin...
+    /// Enables clients to reconnect to a stream session while preserving all session state and data in the disconnected session. This reconnection process can be initiated when a stream session is in either PENDING_CLIENT_RECONNECTION or ACTIVE status. The process works as follows: • Initial disconnect: • When a client disconnects or loses connection, the stream session transitions from CONNECTED to PENDING_CLIENT_RECONNECTION • Reconnection time window: • Clients have ConnectionTimeoutSeconds (defined...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -132,7 +132,7 @@ public class AwsGameliftstreams : IAwsGameliftstreams
     }
 
     /// <summary>
-    /// Creates a stream URL that grants temporary access to a stream session in a web browser without requiring an Amazon Web Services account or client integration. You can use the stream URL to start a stream session up to the number of times set by UsageLimit , until it expires after UrlExpiresAfterMin- utes . Each successful use starts a new stream session. To make the request idempotent, provide a ClientToken . See also: AWS API Documentation
+    /// Creates a stream URL that grants temporary access to a stream session in a web browser without requiring an Amazon Web Services account or client integration. You can use the stream URL to start a stream session up to the number of times set by UsageLimit , until it expires after UrlExpiresAfterMinutes . Each successful use starts a new stream session. To make the request idempotent, provide a ClientToken . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -147,7 +147,7 @@ public class AwsGameliftstreams : IAwsGameliftstreams
     }
 
     /// <summary>
-    /// Permanently deletes an Amazon GameLift Streams application resource. This also deletes the application content files stored with Amazon GameLift Streams. However, this does not delete the original files that you uploaded to your Amazon S3 bucket; you can delete these any time after Amazon GameLift Streams creates an application, which is the only time Amazon GameLift Streams accesses your Amazon S3 bucket. You can only delete an application that meets the following conditions: o The application ...
+    /// Permanently deletes an Amazon GameLift Streams application resource. This also deletes the application content files stored with Amazon GameLift Streams. However, this does not delete the original files that you uploaded to your Amazon S3 bucket; you can delete these any time after Amazon GameLift Streams creates an application, which is the only time Amazon GameLift Streams accesses your Amazon S3 bucket. You can only delete an application that meets the following conditions: • The application ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -162,7 +162,7 @@ public class AwsGameliftstreams : IAwsGameliftstreams
     }
 
     /// <summary>
-    /// Permanently deletes all compute resources and information related to a stream group. To delete a stream group, specify the unique stream group identifier. During the deletion process, the stream group's status is DELETING . This operation stops streams in progress and prevents new streams from starting. As a best practice, before deleting the stream group, call ListStreamSessions to check for streams in progress and take action to stop them. When you delete a stream group, any applica- tion asso...
+    /// Permanently deletes all compute resources and information related to a stream group. To delete a stream group, specify the unique stream group identifier. During the deletion process, the stream group's status is DELETING . This operation stops streams in progress and prevents new streams from starting. As a best practice, before deleting the stream group, call ListStreamSessions to check for streams in progress and take action to stop them. When you delete a stream group, any application associ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -192,7 +192,7 @@ public class AwsGameliftstreams : IAwsGameliftstreams
     }
 
     /// <summary>
-    /// Export the files that your application modifies or generates in a stream session, which can help you debug or verify your application. When your application runs, it generates output files such as logs, di- agnostic information, crash dumps, save files, user data, screenshots, and so on. The files can be defined by the engine or frameworks that your application uses, or information that you've programmed your ap- plication to output. You can only call this action on a stream session that is in p...
+    /// Export the files that your application modifies or generates in a stream session, which can help you debug or verify your application. When your application runs, it generates output files such as logs, diagnostic information, crash dumps, save files, user data, screenshots, and so on. The files can be defined by the engine or frameworks that your application uses, or information that you've programmed your application to output. You can only call this action on a stream session that is in progr...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -207,7 +207,7 @@ public class AwsGameliftstreams : IAwsGameliftstreams
     }
 
     /// <summary>
-    /// Retrieves properties for an Amazon GameLift Streams application re- source. Specify the ID of the application that you want to retrieve. If the operation is successful, it returns properties for the requested application. See also: AWS API Documentation
+    /// Retrieves properties for an Amazon GameLift Streams application resource. Specify the ID of the application that you want to retrieve. If the operation is successful, it returns properties for the requested application. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -222,7 +222,7 @@ public class AwsGameliftstreams : IAwsGameliftstreams
     }
 
     /// <summary>
-    /// Retrieves properties for a Amazon GameLift Streams stream group re- source. Specify the ID of the stream group that you want to retrieve. If the operation is successful, it returns properties for the requested stream group. See also: AWS API Documentation
+    /// Retrieves properties for a Amazon GameLift Streams stream group resource. Specify the ID of the stream group that you want to retrieve. If the operation is successful, it returns properties for the requested stream group. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -237,7 +237,7 @@ public class AwsGameliftstreams : IAwsGameliftstreams
     }
 
     /// <summary>
-    /// Retrieves properties for a Amazon GameLift Streams stream session re- source. Specify the Amazon Resource Name (ARN) of the stream session that you want to retrieve and its stream group ARN. If the operation is successful, it returns properties for the requested resource. See also: AWS API Documentation
+    /// Retrieves properties for a Amazon GameLift Streams stream session resource. Specify the Amazon Resource Name (ARN) of the stream session that you want to retrieve and its stream group ARN. If the operation is successful, it returns properties for the requested resource. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -267,7 +267,7 @@ public class AwsGameliftstreams : IAwsGameliftstreams
     }
 
     /// <summary>
-    /// Lists the shader caches associated with an Amazon GameLift Streams ap- plication. Each shader cache entry includes its status, associated stream groups, and size in bytes. Returns shader caches associated with the specified Amazon GameLift Streams application in all statuses. See also: AWS API Documentation
+    /// Lists the shader caches associated with an Amazon GameLift Streams application. Each shader cache entry includes its status, associated stream groups, and size in bytes. Returns shader caches associated with the specified Amazon GameLift Streams application in all statuses. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -312,7 +312,7 @@ public class AwsGameliftstreams : IAwsGameliftstreams
     }
 
     /// <summary>
-    /// Retrieves a list of Amazon GameLift Streams stream sessions that this user account has access to. In the returned list of stream sessions, the ExportFilesMetadata prop- erty only shows the Status value. To get the OutpurUri and StatusReason values, use GetStreamSession . We don't recommend using this operation to regularly check stream ses- sion statuses because it's costly. Instead, to check status updates for a specific stream session, use GetStreamSession . See also: AWS API Documentation lis...
+    /// Retrieves a list of Amazon GameLift Streams stream sessions that this user account has access to. In the returned list of stream sessions, the ExportFilesMetadata property only shows the Status value. To get the OutpurUri and StatusReason values, use GetStreamSession . We don't recommend using this operation to regularly check stream session statuses because it's costly. Instead, to check status updates for a specific stream session, use GetStreamSession . See also: AWS API Documentation list-st...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -372,7 +372,7 @@ public class AwsGameliftstreams : IAwsGameliftstreams
     }
 
     /// <summary>
-    /// Removes a set of remote locations from this stream group. To remove a location, the stream group must be in ACTIVE status. When you remove a location, Amazon GameLift Streams releases allocated compute resources in that location. Stream sessions can no longer start from removed lo- cations in a stream group. Amazon GameLift Streams also deletes the content files of all associated applications that were in Amazon GameLift Streams's internal Amazon S3 bucket at this location. You cannot remove the...
+    /// Removes a set of remote locations from this stream group. To remove a location, the stream group must be in ACTIVE status. When you remove a location, Amazon GameLift Streams releases allocated compute resources in that location. Stream sessions can no longer start from removed locations in a stream group. Amazon GameLift Streams also deletes the content files of all associated applications that were in Amazon GameLift Streams's internal Amazon S3 bucket at this location. You cannot remove the A...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -387,7 +387,7 @@ public class AwsGameliftstreams : IAwsGameliftstreams
     }
 
     /// <summary>
-    /// Revokes a stream URL so that it can no longer start new stream ses- sions. By default, stream sessions that are already running continue until they end on their own. To also end running sessions, set Revoca- tionMode to REVOKE_AND_TERMINATE_SESSIONS . Revoking a stream URL is permanent. The status of the stream URL changes to REVOKED . See also: AWS API Documentation
+    /// Revokes a stream URL so that it can no longer start new stream sessions. By default, stream sessions that are already running continue until they end on their own. To also end running sessions, set RevocationMode to REVOKE_AND_TERMINATE_SESSIONS . Revoking a stream URL is permanent. The status of the stream URL changes to REVOKED . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -402,7 +402,7 @@ public class AwsGameliftstreams : IAwsGameliftstreams
     }
 
     /// <summary>
-    /// This action initiates a new stream session and outputs connection in- formation that clients can use to access the stream. A stream session refers to an instance of a stream that Amazon GameLift Streams trans- mits from the server to the end-user. A stream session runs on a com- pute resource that a stream group has allocated. The start stream ses- sion process works as follows: o Prerequisites: o You must have a stream group in ACTIVE status o You must have idle or on-demand capacity in a strea...
+    /// This action initiates a new stream session and outputs connection information that clients can use to access the stream. A stream session refers to an instance of a stream that Amazon GameLift Streams transmits from the server to the end-user. A stream session runs on a compute resource that a stream group has allocated. The start stream session process works as follows: • Prerequisites: • You must have a stream group in ACTIVE status • You must have idle or on-demand capacity in a stream group ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -417,7 +417,7 @@ public class AwsGameliftstreams : IAwsGameliftstreams
     }
 
     /// <summary>
-    /// Assigns one or more tags to a Amazon GameLift Streams resource. Use tags to organize Amazon Web Services resources for a range of purposes. You can assign tags to the following Amazon GameLift Streams resource types: o Application o StreamGroup Learn more Tagging Amazon Web Services Resources in the Amazon Web Services General Reference Amazon Web Services Tagging Strategies See also: AWS API Documentation
+    /// Assigns one or more tags to a Amazon GameLift Streams resource. Use tags to organize Amazon Web Services resources for a range of purposes. You can assign tags to the following Amazon GameLift Streams resource types: • Application • StreamGroup Learn more Tagging Amazon Web Services Resources in the Amazon Web Services General Reference Amazon Web Services Tagging Strategies See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -462,7 +462,7 @@ public class AwsGameliftstreams : IAwsGameliftstreams
     }
 
     /// <summary>
-    /// Updates the mutable configuration settings for a Amazon GameLift Streams application resource. You can change the Description , Applica- tionLogOutputUri , and ApplicationLogPaths . To update application settings, specify the application ID and provide the new values. If the operation is successful, it returns the complete updated set of settings for the application. See also: AWS API Documentation
+    /// Updates the mutable configuration settings for a Amazon GameLift Streams application resource. You can change the Description , ApplicationLogOutputUri , and ApplicationLogPaths . To update application settings, specify the application ID and provide the new values. If the operation is successful, it returns the complete updated set of settings for the application. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsSocialmessagingGetLinkedWhatsappBusinessAccountPhoneNumberOptio
     /// <summary>
     /// Retrieve the WABA account id and phone number details of a WhatsApp business account phone number. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Id">The unique identifier of the phone number. Phone number identifiers are formatted as phone-number-id-01234567890123456789012345678901 . Use GetLinkedWhatsAppBusinessAccount to find a phone number's id. Constraints: o min: 1 o max: 115 o pattern: .*(^phone-number-id-.*$)|(^arn:.*:phone-num- ber-id/[0-9a-zA-Z]+$).*</param>
+    /// <param name="Id">The unique identifier of the phone number. Phone number identifiers are formatted as phone-number-id-01234567890123456789012345678901 . Use GetLinkedWhatsAppBusinessAccount to find a phone number's id. Constraints: • min: 1 • max: 115 • pattern: .*(^phone-number-id-.*$)|(^arn:.*:phone-number-id/[0-9a-zA-Z]+$).*</param>
     public AwsSocialmessagingGetLinkedWhatsappBusinessAccountPhoneNumberOptions(
         string Id
     )
@@ -56,7 +57,7 @@ public record AwsSocialmessagingGetLinkedWhatsappBusinessAccountPhoneNumberOptio
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the phone number. Phone number identifiers are formatted as phone-number-id-01234567890123456789012345678901 . Use GetLinkedWhatsAppBusinessAccount to find a phone number's id. Constraints: o min: 1 o max: 115 o pattern: .*(^phone-number-id-.*$)|(^arn:.*:phone-num- ber-id/[0-9a-zA-Z]+$).*
+    /// The unique identifier of the phone number. Phone number identifiers are formatted as phone-number-id-01234567890123456789012345678901 . Use GetLinkedWhatsAppBusinessAccount to find a phone number's id. Constraints: • min: 1 • max: 115 • pattern: .*(^phone-number-id-.*$)|(^arn:.*:phone-number-id/[0-9a-zA-Z]+$).*
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; private init; }
@@ -82,6 +83,15 @@ public record AwsSocialmessagingGetLinkedWhatsappBusinessAccountPhoneNumberOptio
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

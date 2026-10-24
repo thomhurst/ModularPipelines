@@ -10,13 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a platform application object for one of the supported push no- tification services, such as APNS and GCM (Firebase Cloud Messaging), to which devices and mobile apps may register. You must specify Plat- formPrincipal and PlatformCredential attributes when using the Cre- atePlatformApplication action. PlatformPrincipal and PlatformCredential are received from the noti- fication service. o For ADM, PlatformPrincipal is client id and PlatformCredential is client secret . o For APNS and APN...
+/// Creates a platform application object for one of the supported push notification services, such as APNS and GCM (Firebase Cloud Messaging), to which devices and mobile apps may register. You must specify PlatformPrincipal and PlatformCredential attributes when using the CreatePlatformApplication action. PlatformPrincipal and PlatformCredential are received from the notification service. • For ADM, PlatformPrincipal is client id and PlatformCredential is client secret . • For APNS and APNS_SANDBO...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +26,10 @@ public record AwsSnsCreatePlatformApplicationOptions : AwsOptions, IValidatableO
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a platform application object for one of the supported push no- tification services, such as APNS and GCM (Firebase Cloud Messaging), to which devices and mobile apps may register. You must specify Plat- formPrincipal and PlatformCredential attributes when using the Cre- atePlatformApplication action. PlatformPrincipal and PlatformCredential are received from the noti- fication service. o For ADM, PlatformPrincipal is client id and PlatformCredential is client secret . o For APNS and APN...
+    /// Creates a platform application object for one of the supported push notification services, such as APNS and GCM (Firebase Cloud Messaging), to which devices and mobile apps may register. You must specify PlatformPrincipal and PlatformCredential attributes when using the CreatePlatformApplication action. PlatformPrincipal and PlatformCredential are received from the notification service. • For ADM, PlatformPrincipal is client id and PlatformCredential is client secret . • For APNS and APNS_SANDBO...
     /// </summary>
     /// <param name="Name">Application names must be made up of only uppercase and lowercase ASCII letters, numbers, underscores, hyphens, and periods, and must be between 1 and 256 characters long.</param>
-    /// <param name="Platform">The following platforms are supported: ADM (Amazon Device Messag- ing), APNS (Apple Push Notification Service), APNS_SANDBOX, and GCM (Firebase Cloud Messaging).</param>
+    /// <param name="Platform">The following platforms are supported: ADM (Amazon Device Messaging), APNS (Apple Push Notification Service), APNS_SANDBOX, and GCM (Firebase Cloud Messaging).</param>
     /// <param name="Attributes">For a list of attributes, see ` SetPlatformApplicationAttributes https://docs.aws.amazon.com/sns/latest/api/API_SetPlatformApplicationAttributes.html`__ . key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}</param>
     public AwsSnsCreatePlatformApplicationOptions(
         string Name,
@@ -82,7 +82,7 @@ public record AwsSnsCreatePlatformApplicationOptions : AwsOptions, IValidatableO
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The following platforms are supported: ADM (Amazon Device Messag- ing), APNS (Apple Push Notification Service), APNS_SANDBOX, and GCM (Firebase Cloud Messaging).
+    /// The following platforms are supported: ADM (Amazon Device Messaging), APNS (Apple Push Notification Service), APNS_SANDBOX, and GCM (Firebase Cloud Messaging).
     /// </summary>
     [CliOption("--platform")]
     public string? Platform { get; private init; }
@@ -114,6 +114,15 @@ public record AwsSnsCreatePlatformApplicationOptions : AwsOptions, IValidatableO
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

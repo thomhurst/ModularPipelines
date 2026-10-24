@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Modifies the specified event window. You can define either a set of time ranges or a cron expression when modifying the event window, but not both. To modify the targets associated with the event window, use the Asso- ciateInstanceEventWindow and DisassociateInstanceEventWindow API. If Amazon Web Services has already scheduled an event, modifying an event window won't change the time of the scheduled event. For more information, see Define event windows for scheduled events in the Amazon EC2 Use...
+/// Modifies the specified event window. You can define either a set of time ranges or a cron expression when modifying the event window, but not both. To modify the targets associated with the event window, use the AssociateInstanceEventWindow and DisassociateInstanceEventWindow API. If Amazon Web Services has already scheduled an event, modifying an event window won't change the time of the scheduled event. For more information, see Define event windows for scheduled events in the Amazon EC2 User ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +26,7 @@ public record AwsEc2ModifyInstanceEventWindowOptions : AwsOptions, IValidatableO
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Modifies the specified event window. You can define either a set of time ranges or a cron expression when modifying the event window, but not both. To modify the targets associated with the event window, use the Asso- ciateInstanceEventWindow and DisassociateInstanceEventWindow API. If Amazon Web Services has already scheduled an event, modifying an event window won't change the time of the scheduled event. For more information, see Define event windows for scheduled events in the Amazon EC2 Use...
+    /// Modifies the specified event window. You can define either a set of time ranges or a cron expression when modifying the event window, but not both. To modify the targets associated with the event window, use the AssociateInstanceEventWindow and DisassociateInstanceEventWindow API. If Amazon Web Services has already scheduled an event, modifying an event window won't change the time of the scheduled event. For more information, see Define event windows for scheduled events in the Amazon EC2 User ...
     /// </summary>
     /// <param name="InstanceEventWindowId">The ID of the event window.</param>
     public AwsEc2ModifyInstanceEventWindowOptions(
@@ -62,7 +63,7 @@ public record AwsEc2ModifyInstanceEventWindowOptions : AwsOptions, IValidatableO
     public string? InstanceEventWindowId { get; private init; }
 
     /// <summary>
-    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation . Otherwise, it is UnauthorizedOperation .
     /// </summary>
     [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
@@ -74,13 +75,13 @@ public record AwsEc2ModifyInstanceEventWindowOptions : AwsOptions, IValidatableO
     public string? Name { get; set; }
 
     /// <summary>
-    /// The time ranges of the event window. (structure) The start day and time and the end day and time of the time range, in UTC. StartWeekDay -&gt; (string) The day on which the time range begins. Possible values: o sunday o monday o tuesday o wednesday o thursday o friday o saturday StartHour -&gt; (integer) The hour when the time range begins. Constraints: o min: 0 o max: 23 EndWeekDay -&gt; (string) The day on which the time range ends. Possible values: o sunday o monday o tuesday o wednesday o thursday o friday o saturday EndHour -&gt; (integer) The hour when the time range ends. Constraints: o min: 0 o max: 23 Shorthand Syntax: StartWeekDay=string,StartHour=integer,EndWeekDay=string,EndHour=integer ... JSON Syntax: [ { "StartWeekDay": "sunday"|"monday"|"tuesday"|"wednesday"|"thursday"|"friday"|"saturday", "StartHour": integer, "EndWeekDay": "sunday"|"monday"|"tuesday"|"wednesday"|"thursday"|"friday"|"saturday", "EndHour": integer } ... ]
+    /// The time ranges of the event window. (structure) The start day and time and the end day and time of the time range, in UTC. StartWeekDay -&gt; (string) The day on which the time range begins. Possible values: • sunday • monday • tuesday • wednesday • thursday • friday • saturday StartHour -&gt; (integer) The hour when the time range begins. Constraints: • min: 0 • max: 23 EndWeekDay -&gt; (string) The day on which the time range ends. Possible values: • sunday • monday • tuesday • wednesday • thursday • friday • saturday EndHour -&gt; (integer) The hour when the time range ends. Constraints: • min: 0 • max: 23 Shorthand Syntax: StartWeekDay=string,StartHour=integer,EndWeekDay=string,EndHour=integer ... JSON Syntax: [ { "StartWeekDay": "sunday"|"monday"|"tuesday"|"wednesday"|"thursday"|"friday"|"saturday", "StartHour": integer, "EndWeekDay": "sunday"|"monday"|"tuesday"|"wednesday"|"thursday"|"friday"|"saturday", "EndHour": integer } ... ]
     /// </summary>
     [CliOption("--time-ranges", GroupValues = true)]
     public IEnumerable<string>? TimeRanges { get; set; }
 
     /// <summary>
-    /// The cron expression of the event window, for example, * 0-4,20-23 * * 1,5 . Constraints: o Only hour and day of the week values are supported. o For day of the week values, you can specify either integers 0 through 6 , or alternative single values SUN through SAT . o The minute, month, and year must be specified by * . o The hour value must be one or a multiple range, for example, 0-4 or 0-4,20-23 . o Each hour range must be &gt;= 2 hours, for example, 0-2 or 20-23 . o The event window must be &gt;= 4 hours. The combined total time ranges in the event window must be &gt;= 4 hours. For more information about cron expressions, see cron on the Wikipedia website .
+    /// The cron expression of the event window, for example, * 0-4,20-23 * * 1,5 . Constraints: • Only hour and day of the week values are supported. • For day of the week values, you can specify either integers 0 through 6 , or alternative single values SUN through SAT . • The minute, month, and year must be specified by * . • The hour value must be one or a multiple range, for example, 0-4 or 0-4,20-23 . • Each hour range must be &gt;= 2 hours, for example, 0-2 or 20-23 . • The event window must be &gt;= 4 hours. The combined total time ranges in the event window must be &gt;= 4 hours. For more information about cron expressions, see cron on the Wikipedia website .
     /// </summary>
     [CliOption("--cron-expression")]
     public string? CronExpression { get; set; }
@@ -106,6 +107,15 @@ public record AwsEc2ModifyInstanceEventWindowOptions : AwsOptions, IValidatableO
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

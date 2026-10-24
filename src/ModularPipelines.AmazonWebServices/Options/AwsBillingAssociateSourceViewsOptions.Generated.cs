@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsBillingAssociateSourceViewsOptions : AwsOptions, IValidatableOb
     /// <summary>
     /// Associates one or more source billing views with an existing billing view. This allows creating aggregate billing views that combine data from multiple sources. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Arn">The Amazon Resource Name (ARN) of the billing view to associate source views with. Constraints: o pattern: arn:aws[a-z-]*:(billing)::[0-9]{12}:billingview/[a-zA-Z0-9/:_\+=\.\-@]{0,75}[a-zA-Z0-9]</param>
-    /// <param name="SourceViews">A list of ARNs of the source billing views to associate. Constraints: o min: 1 o max: 10 (string) Constraints: o pattern: arn:aws[a-z-]*:(billing)::[0-9]{12}:billingview/[a-zA-Z0-9/:_\+=\.\-@]{0,75}[a-zA-Z0-9] Syntax: "string" "string" ...</param>
+    /// <param name="Arn">The Amazon Resource Name (ARN) of the billing view to associate source views with. Constraints: • pattern: arn:aws[a-z-]*:(billing)::[0-9]{12}:billingview/[a-zA-Z0-9/:_\+=\.\-@]{0,75}[a-zA-Z0-9]</param>
+    /// <param name="SourceViews">A list of ARNs of the source billing views to associate. Constraints: • min: 1 • max: 10 (string) Constraints: • pattern: arn:aws[a-z-]*:(billing)::[0-9]{12}:billingview/[a-zA-Z0-9/:_\+=\.\-@]{0,75}[a-zA-Z0-9] Syntax: "string" "string" ...</param>
     public AwsBillingAssociateSourceViewsOptions(
         string Arn,
         IEnumerable<string> SourceViews
@@ -71,13 +72,13 @@ public record AwsBillingAssociateSourceViewsOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the billing view to associate source views with. Constraints: o pattern: arn:aws[a-z-]*:(billing)::[0-9]{12}:billingview/[a-zA-Z0-9/:_\+=\.\-@]{0,75}[a-zA-Z0-9]
+    /// The Amazon Resource Name (ARN) of the billing view to associate source views with. Constraints: • pattern: arn:aws[a-z-]*:(billing)::[0-9]{12}:billingview/[a-zA-Z0-9/:_\+=\.\-@]{0,75}[a-zA-Z0-9]
     /// </summary>
     [CliOption("--arn")]
     public string? Arn { get; private init; }
 
     /// <summary>
-    /// A list of ARNs of the source billing views to associate. Constraints: o min: 1 o max: 10 (string) Constraints: o pattern: arn:aws[a-z-]*:(billing)::[0-9]{12}:billingview/[a-zA-Z0-9/:_\+=\.\-@]{0,75}[a-zA-Z0-9] Syntax: "string" "string" ...
+    /// A list of ARNs of the source billing views to associate. Constraints: • min: 1 • max: 10 (string) Constraints: • pattern: arn:aws[a-z-]*:(billing)::[0-9]{12}:billingview/[a-zA-Z0-9/:_\+=\.\-@]{0,75}[a-zA-Z0-9] Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--source-views", GroupValues = true)]
     public IEnumerable<string>? SourceViews { get; private init; }
@@ -103,6 +104,15 @@ public record AwsBillingAssociateSourceViewsOptions : AwsOptions, IValidatableOb
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

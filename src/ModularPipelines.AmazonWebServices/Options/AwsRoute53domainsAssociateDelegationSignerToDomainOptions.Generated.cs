@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a delegation signer (DS) record in the registry zone for this domain name. Note that creating DS record at the registry impacts DNSSEC validation of your DNS records. This action may render your domain name unavail- able on the internet if the steps are completed in the wrong order, or with incorrect timing. For more information about DNSSEC signing, see Configuring DNSSEC signing in the Route 53 developer guide . See also: AWS API Documentation
+/// Creates a delegation signer (DS) record in the registry zone for this domain name. Note that creating DS record at the registry impacts DNSSEC validation of your DNS records. This action may render your domain name unavailable on the internet if the steps are completed in the wrong order, or with incorrect timing. For more information about DNSSEC signing, see Configuring DNSSEC signing in the Route 53 developer guide . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsRoute53domainsAssociateDelegationSignerToDomainOptions : AwsOpt
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a delegation signer (DS) record in the registry zone for this domain name. Note that creating DS record at the registry impacts DNSSEC validation of your DNS records. This action may render your domain name unavail- able on the internet if the steps are completed in the wrong order, or with incorrect timing. For more information about DNSSEC signing, see Configuring DNSSEC signing in the Route 53 developer guide . See also: AWS API Documentation
+    /// Creates a delegation signer (DS) record in the registry zone for this domain name. Note that creating DS record at the registry impacts DNSSEC validation of your DNS records. This action may render your domain name unavailable on the internet if the steps are completed in the wrong order, or with incorrect timing. For more information about DNSSEC signing, see Configuring DNSSEC signing in the Route 53 developer guide . See also: AWS API Documentation
     /// </summary>
-    /// <param name="DomainName">The name of the domain. Constraints: o max: 255</param>
-    /// <param name="SigningAttributes">The information about a key, including the algorithm, public key-value, and flags. Algorithm -&gt; (integer) Algorithm which was used to generate the digest from the public key. Flags -&gt; (integer) Defines the type of key. It can be either a KSK (key-sign- ing-key, value 257) or ZSK (zone-signing-key, value 256). Using KSK is always encouraged. Only use ZSK if your DNS provider isn't Route 53 and you dont have KSK available. If you have KSK and ZSK keys, always use KSK to create a delega- tions signer (DS) record. If you have ZSK keys only use ZSK to create a DS record. PublicKey -&gt; (string) The base64-encoded public key part of the key pair that is passed to the registry. Constraints: o max: 32768 Shorthand Syntax: Algorithm=integer,Flags=integer,PublicKey=string JSON Syntax: { "Algorithm": integer, "Flags": integer, "PublicKey": "string" }</param>
+    /// <param name="DomainName">The name of the domain. Constraints: • max: 255</param>
+    /// <param name="SigningAttributes">The information about a key, including the algorithm, public key-value, and flags. Algorithm -&gt; (integer) Algorithm which was used to generate the digest from the public key. Flags -&gt; (integer) Defines the type of key. It can be either a KSK (key-signing-key, value 257) or ZSK (zone-signing-key, value 256). Using KSK is always encouraged. Only use ZSK if your DNS provider isn't Route 53 and you dont have KSK available. If you have KSK and ZSK keys, always use KSK to create a delegations signer (DS) record. If you have ZSK keys only use ZSK to create a DS record. PublicKey -&gt; (string) The base64-encoded public key part of the key pair that is passed to the registry. Constraints: • max: 32768 Shorthand Syntax: Algorithm=integer,Flags=integer,PublicKey=string JSON Syntax: { "Algorithm": integer, "Flags": integer, "PublicKey": "string" }</param>
     public AwsRoute53domainsAssociateDelegationSignerToDomainOptions(
         string DomainName,
         string SigningAttributes
@@ -60,13 +61,13 @@ public record AwsRoute53domainsAssociateDelegationSignerToDomainOptions : AwsOpt
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the domain. Constraints: o max: 255
+    /// The name of the domain. Constraints: • max: 255
     /// </summary>
     [CliOption("--domain-name")]
     public string? DomainName { get; private init; }
 
     /// <summary>
-    /// The information about a key, including the algorithm, public key-value, and flags. Algorithm -&gt; (integer) Algorithm which was used to generate the digest from the public key. Flags -&gt; (integer) Defines the type of key. It can be either a KSK (key-sign- ing-key, value 257) or ZSK (zone-signing-key, value 256). Using KSK is always encouraged. Only use ZSK if your DNS provider isn't Route 53 and you dont have KSK available. If you have KSK and ZSK keys, always use KSK to create a delega- tions signer (DS) record. If you have ZSK keys only use ZSK to create a DS record. PublicKey -&gt; (string) The base64-encoded public key part of the key pair that is passed to the registry. Constraints: o max: 32768 Shorthand Syntax: Algorithm=integer,Flags=integer,PublicKey=string JSON Syntax: { "Algorithm": integer, "Flags": integer, "PublicKey": "string" }
+    /// The information about a key, including the algorithm, public key-value, and flags. Algorithm -&gt; (integer) Algorithm which was used to generate the digest from the public key. Flags -&gt; (integer) Defines the type of key. It can be either a KSK (key-signing-key, value 257) or ZSK (zone-signing-key, value 256). Using KSK is always encouraged. Only use ZSK if your DNS provider isn't Route 53 and you dont have KSK available. If you have KSK and ZSK keys, always use KSK to create a delegations signer (DS) record. If you have ZSK keys only use ZSK to create a DS record. PublicKey -&gt; (string) The base64-encoded public key part of the key pair that is passed to the registry. Constraints: • max: 32768 Shorthand Syntax: Algorithm=integer,Flags=integer,PublicKey=string JSON Syntax: { "Algorithm": integer, "Flags": integer, "PublicKey": "string" }
     /// </summary>
     [CliOption("--signing-attributes")]
     public string? SigningAttributes { get; private init; }
@@ -92,6 +93,15 @@ public record AwsRoute53domainsAssociateDelegationSignerToDomainOptions : AwsOpt
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

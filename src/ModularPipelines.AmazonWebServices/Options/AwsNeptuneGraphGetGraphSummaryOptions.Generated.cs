@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,7 +29,7 @@ public record AwsNeptuneGraphGetGraphSummaryOptions : AwsOptions, IValidatableOb
     /// <summary>
     /// Gets a graph summary for a property graph. See also: AWS API Documentation
     /// </summary>
-    /// <param name="GraphIdentifier">The unique identifier of the Neptune Analytics graph. Constraints: o pattern: g-[a-z0-9]{10}</param>
+    /// <param name="GraphIdentifier">The unique identifier of the Neptune Analytics graph. Constraints: • pattern: g-[a-z0-9]{10}</param>
     public AwsNeptuneGraphGetGraphSummaryOptions(
         string GraphIdentifier
     )
@@ -57,13 +58,13 @@ public record AwsNeptuneGraphGetGraphSummaryOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the Neptune Analytics graph. Constraints: o pattern: g-[a-z0-9]{10}
+    /// The unique identifier of the Neptune Analytics graph. Constraints: • pattern: g-[a-z0-9]{10}
     /// </summary>
     [CliOption("--graph-identifier")]
     public string? GraphIdentifier { get; private init; }
 
     /// <summary>
-    /// The summary mode can take one of two values: basic (the default), and detailed . Possible values: o BASIC o DETAILED
+    /// The summary mode can take one of two values: basic (the default), and detailed . Possible values: • BASIC • DETAILED
     /// </summary>
     [CliOption("--mode")]
     public AwsNeptuneGraphGetGraphSummaryMode? Mode { get; set; }
@@ -89,6 +90,15 @@ public record AwsNeptuneGraphGetGraphSummaryOptions : AwsOptions, IValidatableOb
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

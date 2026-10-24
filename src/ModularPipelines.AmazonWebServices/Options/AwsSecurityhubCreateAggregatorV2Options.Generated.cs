@@ -11,7 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -29,7 +29,7 @@ public record AwsSecurityhubCreateAggregatorV2Options : AwsOptions, IValidatable
     /// <summary>
     /// Enables aggregation across Amazon Web Services Regions. See also: AWS API Documentation
     /// </summary>
-    /// <param name="RegionLinkingMode">Determines how Regions are linked to an Aggregator V2. Constraints: o pattern: .*\S.*</param>
+    /// <param name="RegionLinkingMode">Determines how Regions are linked to an Aggregator V2. Constraints: • pattern: .*\S.*</param>
     public AwsSecurityhubCreateAggregatorV2Options(
         string RegionLinkingMode
     )
@@ -58,25 +58,25 @@ public record AwsSecurityhubCreateAggregatorV2Options : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Determines how Regions are linked to an Aggregator V2. Constraints: o pattern: .*\S.*
+    /// Determines how Regions are linked to an Aggregator V2. Constraints: • pattern: .*\S.*
     /// </summary>
     [CliOption("--region-linking-mode")]
     public string? RegionLinkingMode { get; private init; }
 
     /// <summary>
-    /// The list of Regions that are linked to the aggregation Region. (string) Constraints: o pattern: .*\S.* Syntax: "string" "string" ...
+    /// The list of Regions that are linked to the aggregation Region. (string) Constraints: • pattern: .*\S.* Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--linked-regions", GroupValues = true)]
     public IEnumerable<string>? LinkedRegions { get; set; }
 
     /// <summary>
-    /// A list of key-value pairs to be applied to the AggregatorV2. Constraints: o min: 1 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^(?!aws:)[a-zA-Z+-=._:/]+$ value -&gt; (string) Constraints: o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// A list of key-value pairs to be applied to the AggregatorV2. Constraints: • min: 1 • max: 50 key -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: ^(?!aws:)[a-zA-Z+-=._:/]+$ value -&gt; (string) Constraints: • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>
-    /// A unique identifier used to ensure idempotency. Constraints: o min: 1 o max: 63 o pattern: ^[\x21-\x7E]{1,64}$
+    /// A unique identifier used to ensure idempotency. Constraints: • min: 1 • max: 63 • pattern: ^[\x21-\x7E]{1,64}$
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
@@ -103,6 +103,15 @@ public record AwsSecurityhubCreateAggregatorV2Options : AwsOptions, IValidatable
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,7 +29,7 @@ public record AwsEc2DescribeVolumeAttributeOptions : AwsOptions, IValidatableObj
     /// <summary>
     /// Describes the specified attribute of the specified volume. You can specify only one attribute at a time. For more information about EBS volumes, see Amazon EBS volumes in the Amazon EBS User Guide . See also: AWS API Documentation
     /// </summary>
-    /// <param name="Attribute">The attribute of the volume. This parameter is required. Possible values: o autoEnableIO o productCodes</param>
+    /// <param name="Attribute">The attribute of the volume. This parameter is required. Possible values: • autoEnableIO • productCodes</param>
     /// <param name="VolumeId">The ID of the volume.</param>
     public AwsEc2DescribeVolumeAttributeOptions(
         AwsEc2DescribeVolumeAttributeAttribute Attribute,
@@ -60,7 +61,7 @@ public record AwsEc2DescribeVolumeAttributeOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The attribute of the volume. This parameter is required. Possible values: o autoEnableIO o productCodes
+    /// The attribute of the volume. This parameter is required. Possible values: • autoEnableIO • productCodes
     /// </summary>
     [CliOption("--attribute")]
     public AwsEc2DescribeVolumeAttributeAttribute? Attribute { get; private init; }
@@ -72,7 +73,7 @@ public record AwsEc2DescribeVolumeAttributeOptions : AwsOptions, IValidatableObj
     public string? VolumeId { get; private init; }
 
     /// <summary>
-    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation . Otherwise, it is UnauthorizedOperation .
     /// </summary>
     [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
@@ -98,6 +99,15 @@ public record AwsEc2DescribeVolumeAttributeOptions : AwsOptions, IValidatableObj
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes an Directory Service directory. Before you call DeleteDirectory , ensure that all of the required per- missions have been explicitly granted through a policy. For details about what permissions are required to run the DeleteDirectory opera- tion, see Directory Service API Permissions: Actions, Resources, and Conditions Reference . See also: AWS API Documentation
+/// Deletes an Directory Service directory. Before you call DeleteDirectory , ensure that all of the required permissions have been explicitly granted through a policy. For details about what permissions are required to run the DeleteDirectory operation, see Directory Service API Permissions: Actions, Resources, and Conditions Reference . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsDsDeleteDirectoryOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes an Directory Service directory. Before you call DeleteDirectory , ensure that all of the required per- missions have been explicitly granted through a policy. For details about what permissions are required to run the DeleteDirectory opera- tion, see Directory Service API Permissions: Actions, Resources, and Conditions Reference . See also: AWS API Documentation
+    /// Deletes an Directory Service directory. Before you call DeleteDirectory , ensure that all of the required permissions have been explicitly granted through a policy. For details about what permissions are required to run the DeleteDirectory operation, see Directory Service API Permissions: Actions, Resources, and Conditions Reference . See also: AWS API Documentation
     /// </summary>
-    /// <param name="DirectoryId">The identifier of the directory to delete. Constraints: o pattern: ^d-[0-9a-f]{10}$</param>
+    /// <param name="DirectoryId">The identifier of the directory to delete. Constraints: • pattern: ^d-[0-9a-f]{10}$</param>
     public AwsDsDeleteDirectoryOptions(
         string DirectoryId
     )
@@ -56,7 +57,7 @@ public record AwsDsDeleteDirectoryOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the directory to delete. Constraints: o pattern: ^d-[0-9a-f]{10}$
+    /// The identifier of the directory to delete. Constraints: • pattern: ^d-[0-9a-f]{10}$
     /// </summary>
     [CliOption("--directory-id")]
     public string? DirectoryId { get; private init; }
@@ -82,6 +83,15 @@ public record AwsDsDeleteDirectoryOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

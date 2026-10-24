@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Requests a reboot of the specified instances. This operation is asyn- chronous; it only queues a request to reboot the specified instances. The operation succeeds if the instances are valid and belong to you. Requests to reboot terminated instances are ignored. If an instance does not cleanly shut down within a few minutes, Amazon EC2 performs a hard reboot. For more information about troubleshooting, see Troubleshoot an un- reachable instance in the Amazon EC2 User Guide . See also: AWS API Doc...
+/// Requests a reboot of the specified instances. This operation is asynchronous; it only queues a request to reboot the specified instances. The operation succeeds if the instances are valid and belong to you. Requests to reboot terminated instances are ignored. If an instance does not cleanly shut down within a few minutes, Amazon EC2 performs a hard reboot. For more information about troubleshooting, see Troubleshoot an unreachable instance in the Amazon EC2 User Guide . See also: AWS API Documen...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +26,7 @@ public record AwsEc2RebootInstancesOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Requests a reboot of the specified instances. This operation is asyn- chronous; it only queues a request to reboot the specified instances. The operation succeeds if the instances are valid and belong to you. Requests to reboot terminated instances are ignored. If an instance does not cleanly shut down within a few minutes, Amazon EC2 performs a hard reboot. For more information about troubleshooting, see Troubleshoot an un- reachable instance in the Amazon EC2 User Guide . See also: AWS API Doc...
+    /// Requests a reboot of the specified instances. This operation is asynchronous; it only queues a request to reboot the specified instances. The operation succeeds if the instances are valid and belong to you. Requests to reboot terminated instances are ignored. If an instance does not cleanly shut down within a few minutes, Amazon EC2 performs a hard reboot. For more information about troubleshooting, see Troubleshoot an unreachable instance in the Amazon EC2 User Guide . See also: AWS API Documen...
     /// </summary>
     /// <param name="InstanceIds">The instance IDs. (string) Syntax: "string" "string" ...</param>
     public AwsEc2RebootInstancesOptions(
@@ -73,7 +74,7 @@ public record AwsEc2RebootInstancesOptions : AwsOptions, IValidatableObject
     public IEnumerable<string>? InstanceIds { get; private init; }
 
     /// <summary>
-    /// Checks whether you have the required permissions for the operation, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// Checks whether you have the required permissions for the operation, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation . Otherwise, it is UnauthorizedOperation .
     /// </summary>
     [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
@@ -99,6 +100,15 @@ public record AwsEc2RebootInstancesOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

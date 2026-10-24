@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,9 +28,9 @@ public record AwsQbusinessPutFeedbackOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Enables your end user to provide feedback on their Amazon Q Business generated chat responses. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ApplicationId">The identifier of the application associated with the feedback. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]{35}</param>
-    /// <param name="ConversationId">The identifier of the conversation the feedback is attached to. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]{35}</param>
-    /// <param name="MessageId">The identifier of the chat message that the feedback was given for. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]{35}</param>
+    /// <param name="ApplicationId">The identifier of the application associated with the feedback. Constraints: • min: 36 • max: 36 • pattern: [a-zA-Z0-9][a-zA-Z0-9-]{35}</param>
+    /// <param name="ConversationId">The identifier of the conversation the feedback is attached to. Constraints: • min: 36 • max: 36 • pattern: [a-zA-Z0-9][a-zA-Z0-9-]{35}</param>
+    /// <param name="MessageId">The identifier of the chat message that the feedback was given for. Constraints: • min: 36 • max: 36 • pattern: [a-zA-Z0-9][a-zA-Z0-9-]{35}</param>
     public AwsQbusinessPutFeedbackOptions(
         string ApplicationId,
         string ConversationId,
@@ -64,25 +65,25 @@ public record AwsQbusinessPutFeedbackOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the application associated with the feedback. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]{35}
+    /// The identifier of the application associated with the feedback. Constraints: • min: 36 • max: 36 • pattern: [a-zA-Z0-9][a-zA-Z0-9-]{35}
     /// </summary>
     [CliOption("--application-id")]
     public string? ApplicationId { get; private init; }
 
     /// <summary>
-    /// The identifier of the conversation the feedback is attached to. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]{35}
+    /// The identifier of the conversation the feedback is attached to. Constraints: • min: 36 • max: 36 • pattern: [a-zA-Z0-9][a-zA-Z0-9-]{35}
     /// </summary>
     [CliOption("--conversation-id")]
     public string? ConversationId { get; private init; }
 
     /// <summary>
-    /// The identifier of the chat message that the feedback was given for. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]{35}
+    /// The identifier of the chat message that the feedback was given for. Constraints: • min: 36 • max: 36 • pattern: [a-zA-Z0-9][a-zA-Z0-9-]{35}
     /// </summary>
     [CliOption("--message-id")]
     public string? MessageId { get; private init; }
 
     /// <summary>
-    /// The identifier of the user giving the feedback. Constraints: o min: 1 o max: 1024 o pattern: \P{C}*
+    /// The identifier of the user giving the feedback. Constraints: • min: 1 • max: 1024 • pattern: \P{C}*
     /// </summary>
     [CliOption("--user-id")]
     public string? UserId { get; set; }
@@ -94,7 +95,7 @@ public record AwsQbusinessPutFeedbackOptions : AwsOptions, IValidatableObject
     public string? MessageCopiedAt { get; set; }
 
     /// <summary>
-    /// The feedback usefulness value given by the user to the chat message. usefulness -&gt; (string) [required] The usefulness value assigned by an end user to a message. Possible values: o USEFUL o NOT_USEFUL reason -&gt; (string) The reason for a usefulness rating. Possible values: o NOT_FACTUALLY_CORRECT o HARMFUL_OR_UNSAFE o INCORRECT_OR_MISSING_SOURCES o NOT_HELPFUL o FACTUALLY_CORRECT o COMPLETE o RELEVANT_SOURCES o HELPFUL o NOT_BASED_ON_DOCUMENTS o NOT_COMPLETE o NOT_CONCISE o OTHER comment -&gt; (string) A comment given by an end user on the usefulness of an AI-gener- ated chat message. Constraints: o min: 0 o max: 1000 o pattern: \P{C}* submittedAt -&gt; (timestamp) [required] The timestamp for when the feedback was submitted. Shorthand Syntax: usefulness=string,reason=string,comment=string,submittedAt=timestamp JSON Syntax: { "usefulness": "USEFUL"|"NOT_USEFUL", "reason": "NOT_FACTUALLY_CORRECT"|"HARMFUL_OR_UNSAFE"|"INCORRECT_OR_MISSING_SOURCES"|"NOT_HELPFUL"|"FACTUALLY_CORRECT"|"COMPLETE"|"RELEVANT_SOURCES"|"HELPFUL"|"NOT_BASED_ON_DOCUMENTS"|"NOT_COMPLETE"|"NOT_CONCISE"|"OTHER", "comment": "string", "submittedAt": timestamp }
+    /// The feedback usefulness value given by the user to the chat message. usefulness -&gt; (string) [required] The usefulness value assigned by an end user to a message. Possible values: • USEFUL • NOT_USEFUL reason -&gt; (string) The reason for a usefulness rating. Possible values: • NOT_FACTUALLY_CORRECT • HARMFUL_OR_UNSAFE • INCORRECT_OR_MISSING_SOURCES • NOT_HELPFUL • FACTUALLY_CORRECT • COMPLETE • RELEVANT_SOURCES • HELPFUL • NOT_BASED_ON_DOCUMENTS • NOT_COMPLETE • NOT_CONCISE • OTHER comment -&gt; (string) A comment given by an end user on the usefulness of an AI-generated chat message. Constraints: • min: 0 • max: 1000 • pattern: \P{C}* submittedAt -&gt; (timestamp) [required] The timestamp for when the feedback was submitted. Shorthand Syntax: usefulness=string,reason=string,comment=string,submittedAt=timestamp JSON Syntax: { "usefulness": "USEFUL"|"NOT_USEFUL", "reason": "NOT_FACTUALLY_CORRECT"|"HARMFUL_OR_UNSAFE"|"INCORRECT_OR_MISSING_SOURCES"|"NOT_HELPFUL"|"FACTUALLY_CORRECT"|"COMPLETE"|"RELEVANT_SOURCES"|"HELPFUL"|"NOT_BASED_ON_DOCUMENTS"|"NOT_COMPLETE"|"NOT_CONCISE"|"OTHER", "comment": "string", "submittedAt": timestamp }
     /// </summary>
     [CliOption("--message-usefulness")]
     public string? MessageUsefulness { get; set; }
@@ -120,6 +121,15 @@ public record AwsQbusinessPutFeedbackOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsOpensearchListTagsOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Returns all resource tags for an Amazon OpenSearch Service domain, data source, or application. For more information, see Tagging Amazon OpenSearch Service resources . See also: AWS API Documentation
     /// </summary>
-    /// <param name="Arn">Amazon Resource Name (ARN) for the domain, data source, or applica- tion to view tags for. Constraints: o min: 20 o max: 2048 o pattern: .*</param>
+    /// <param name="Arn">Amazon Resource Name (ARN) for the domain, data source, or application to view tags for. Constraints: • min: 20 • max: 2048 • pattern: .*</param>
     public AwsOpensearchListTagsOptions(
         string Arn
     )
@@ -56,7 +57,7 @@ public record AwsOpensearchListTagsOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Amazon Resource Name (ARN) for the domain, data source, or applica- tion to view tags for. Constraints: o min: 20 o max: 2048 o pattern: .*
+    /// Amazon Resource Name (ARN) for the domain, data source, or application to view tags for. Constraints: • min: 20 • max: 2048 • pattern: .*
     /// </summary>
     [CliOption("--arn")]
     public string? Arn { get; private init; }
@@ -82,6 +83,15 @@ public record AwsOpensearchListTagsOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -11,13 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates an Amazon Kendra index. Index creation is an asynchronous API. To determine if index creation has completed, check the Status field returned from a call to DescribeIndex . The Status field is set to AC- TIVE when the index is ready to use. Once the index is active, you can index your documents using the Batch- PutDocument API or using one of the supported data sources . For an example of creating an index and data source using the Python SDK, see Getting started with Python SDK . For an ...
+/// Creates an Amazon Kendra index. Index creation is an asynchronous API. To determine if index creation has completed, check the Status field returned from a call to DescribeIndex . The Status field is set to ACTIVE when the index is ready to use. Once the index is active, you can index your documents using the BatchPutDocument API or using one of the supported data sources . For an example of creating an index and data source using the Python SDK, see Getting started with Python SDK . For an exam...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,10 +28,10 @@ public record AwsKendraCreateIndexOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates an Amazon Kendra index. Index creation is an asynchronous API. To determine if index creation has completed, check the Status field returned from a call to DescribeIndex . The Status field is set to AC- TIVE when the index is ready to use. Once the index is active, you can index your documents using the Batch- PutDocument API or using one of the supported data sources . For an example of creating an index and data source using the Python SDK, see Getting started with Python SDK . For an ...
+    /// Creates an Amazon Kendra index. Index creation is an asynchronous API. To determine if index creation has completed, check the Status field returned from a call to DescribeIndex . The Status field is set to ACTIVE when the index is ready to use. Once the index is active, you can index your documents using the BatchPutDocument API or using one of the supported data sources . For an example of creating an index and data source using the Python SDK, see Getting started with Python SDK . For an exam...
     /// </summary>
-    /// <param name="Name">A name for the index. Constraints: o min: 1 o max: 1000 o pattern: [a-zA-Z0-9][a-zA-Z0-9_-]*</param>
-    /// <param name="RoleArn">The Amazon Resource Name (ARN) of an IAM role with permission to ac- cess your Amazon CloudWatch logs and metrics. For more information, see IAM access roles for Amazon Kendra . Constraints: o min: 0 o max: 1284 o pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}</param>
+    /// <param name="Name">A name for the index. Constraints: • min: 1 • max: 1000 • pattern: [a-zA-Z0-9][a-zA-Z0-9_-]*</param>
+    /// <param name="RoleArn">The Amazon Resource Name (ARN) of an IAM role with permission to access your Amazon CloudWatch logs and metrics. For more information, see IAM access roles for Amazon Kendra . Constraints: • min: 0 • max: 1284 • pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}</param>
     public AwsKendraCreateIndexOptions(
         string Name,
         string RoleArn
@@ -62,63 +63,63 @@ public record AwsKendraCreateIndexOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A name for the index. Constraints: o min: 1 o max: 1000 o pattern: [a-zA-Z0-9][a-zA-Z0-9_-]*
+    /// A name for the index. Constraints: • min: 1 • max: 1000 • pattern: [a-zA-Z0-9][a-zA-Z0-9_-]*
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of an IAM role with permission to ac- cess your Amazon CloudWatch logs and metrics. For more information, see IAM access roles for Amazon Kendra . Constraints: o min: 0 o max: 1284 o pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}
+    /// The Amazon Resource Name (ARN) of an IAM role with permission to access your Amazon CloudWatch logs and metrics. For more information, see IAM access roles for Amazon Kendra . Constraints: • min: 0 • max: 1284 • pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}
     /// </summary>
     [CliOption("--role-arn")]
     public string? RoleArn { get; private init; }
 
     /// <summary>
-    /// The Amazon Kendra edition to use for the index. Choose DEVEL- OPER_EDITION for indexes intended for development, testing, or proof of concept. Use ENTERPRISE_EDITION for production. Use GEN_AI_ENTER- PRISE_EDITION for creating generative AI applications. Once you set the edition for an index, it can't be changed. The Edition parameter is optional. If you don't supply a value, the default is ENTERPRISE_EDITION . For more information on quota limits for Gen AI Enterprise Edition, Enterprise Edition, and Developer Edition indices, see Quotas . Possible values: o DEVELOPER_EDITION o ENTERPRISE_EDITION o GEN_AI_ENTERPRISE_EDITION
+    /// The Amazon Kendra edition to use for the index. Choose DEVELOPER_EDITION for indexes intended for development, testing, or proof of concept. Use ENTERPRISE_EDITION for production. Use GEN_AI_ENTERPRISE_EDITION for creating generative AI applications. Once you set the edition for an index, it can't be changed. The Edition parameter is optional. If you don't supply a value, the default is ENTERPRISE_EDITION . For more information on quota limits for Gen AI Enterprise Edition, Enterprise Edition, and Developer Edition indices, see Quotas . Possible values: • DEVELOPER_EDITION • ENTERPRISE_EDITION • GEN_AI_ENTERPRISE_EDITION
     /// </summary>
     [CliOption("--edition")]
     public AwsKendraCreateIndexEdition? Edition { get; set; }
 
     /// <summary>
-    /// The identifier of the KMS customer managed key (CMK) that's used to encrypt data indexed by Amazon Kendra. Amazon Kendra doesn't support asymmetric CMKs. KmsKeyId -&gt; (string) The identifier of the KMS key. Amazon Kendra doesn't support asymmetric keys. Constraints: o min: 1 o max: 2048 Shorthand Syntax: KmsKeyId=string JSON Syntax: { "KmsKeyId": "string" }
+    /// The identifier of the KMS customer managed key (CMK) that's used to encrypt data indexed by Amazon Kendra. Amazon Kendra doesn't support asymmetric CMKs. KmsKeyId -&gt; (string) The identifier of the KMS key. Amazon Kendra doesn't support asymmetric keys. Constraints: • min: 1 • max: 2048 Shorthand Syntax: KmsKeyId=string JSON Syntax: { "KmsKeyId": "string" }
     /// </summary>
     [CliOption("--server-side-encryption-configuration")]
     public string? ServerSideEncryptionConfiguration { get; set; }
 
     /// <summary>
-    /// A description for the index. Constraints: o min: 0 o max: 1000 o pattern: ^\P{C}*$
+    /// A description for the index. Constraints: • min: 0 • max: 1000 • pattern: ^\P{C}*$
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// A token that you provide to identify the request to create an index. Multiple calls to the CreateIndex API with the same client token will create only one index. Constraints: o min: 1 o max: 100
+    /// A token that you provide to identify the request to create an index. Multiple calls to the CreateIndex API with the same client token will create only one index. Constraints: • min: 1 • max: 100
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// A list of key-value pairs that identify or categorize the index. You can also use tags to help control access to the index. Tag keys and values can consist of Unicode letters, digits, white space, and any of the following symbols: _ . : / = + - @. Constraints: o min: 0 o max: 200 (structure) A key-value pair that identifies or categorizes an index, FAQ, data source, or other resource. TA tag key and value can consist of Unicode letters, digits, white space, and any of the follow- ing symbols: _ . : / = + - @. Key -&gt; (string) [required] The key for the tag. Keys are not case sensitive and must be unique for the index, FAQ, data source, or other resource. Constraints: o min: 1 o max: 128 Value -&gt; (string) [required] The value associated with the tag. The value may be an empty string but it can't be null. Constraints: o min: 0 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// A list of key-value pairs that identify or categorize the index. You can also use tags to help control access to the index. Tag keys and values can consist of Unicode letters, digits, white space, and any of the following symbols: _ . : / = + - @. Constraints: • min: 0 • max: 200 (structure) A key-value pair that identifies or categorizes an index, FAQ, data source, or other resource. TA tag key and value can consist of Unicode letters, digits, white space, and any of the following symbols: _ . : / = + - @. Key -&gt; (string) [required] The key for the tag. Keys are not case sensitive and must be unique for the index, FAQ, data source, or other resource. Constraints: • min: 1 • max: 128 Value -&gt; (string) [required] The value associated with the tag. The value may be an empty string but it can't be null. Constraints: • min: 0 • max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
-    /// The user token configuration. WARNING: If you're using an Amazon Kendra Gen AI Enterprise Edition index and you try to use UserTokenConfigurations to configure user context policy, Amazon Kendra returns a ValidationException er- ror. Constraints: o max: 1 (structure) Provides the configuration information for a token. WARNING: If you're using an Amazon Kendra Gen AI Enterprise Edition index and you try to use UserTokenConfigurations to configure user context policy, Amazon Kendra returns a ValidationExcep- tion error. JwtTokenTypeConfiguration -&gt; (structure) Information about the JWT token type configuration. KeyLocation -&gt; (string) [required] The location of the key. Possible values: o URL o SECRET_MANAGER URL -&gt; (string) The signing key URL. Constraints: o min: 1 o max: 2048 o pattern: ^(https?|ftp|file):\/\/([^\s]*) SecretManagerArn -&gt; (string) The Amazon Resource Name (arn) of the secret. Constraints: o min: 0 o max: 1284 o pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023} UserNameAttributeField -&gt; (string) The user name attribute field. Constraints: o min: 1 o max: 100 o pattern: ^\P{C}*$ GroupAttributeField -&gt; (string) The group attribute field. Constraints: o min: 1 o max: 100 o pattern: ^\P{C}*$ Issuer -&gt; (string) The issuer of the token. Constraints: o min: 1 o max: 65 o pattern: ^\P{C}*$ ClaimRegex -&gt; (string) The regular expression that identifies the claim. Constraints: o min: 1 o max: 100 o pattern: ^\P{C}*$ JsonTokenTypeConfiguration -&gt; (structure) Information about the JSON token type configuration. UserNameAttributeField -&gt; (string) [required] The user name attribute field. Constraints: o min: 1 o max: 2048 GroupAttributeField -&gt; (string) [required] The group attribute field. Constraints: o min: 1 o max: 2048 Shorthand Syntax: JwtTokenTypeConfiguration={KeyLocation=string,URL=string,SecretManagerArn=string,UserNameAttributeField=string,GroupAttributeField=string,Issuer=string,ClaimRegex=string},JsonTokenTypeConfiguration={UserNameAttributeField=string,GroupAttributeField=string} ... JSON Syntax: [ { "JwtTokenTypeConfiguration": { "KeyLocation": "URL"|"SECRET_MANAGER", "URL": "string", "SecretManagerArn": "string", "UserNameAttributeField": "string", "GroupAttributeField": "string", "Issuer": "string", "ClaimRegex": "string" }, "JsonTokenTypeConfiguration": { "UserNameAttributeField": "string", "GroupAttributeField": "string" } } ... ]
+    /// The user token configuration. WARNING: If you're using an Amazon Kendra Gen AI Enterprise Edition index and you try to use UserTokenConfigurations to configure user context policy, Amazon Kendra returns a ValidationException error. Constraints: • max: 1 (structure) Provides the configuration information for a token. WARNING: If you're using an Amazon Kendra Gen AI Enterprise Edition index and you try to use UserTokenConfigurations to configure user context policy, Amazon Kendra returns a ValidationException error. JwtTokenTypeConfiguration -&gt; (structure) Information about the JWT token type configuration. KeyLocation -&gt; (string) [required] The location of the key. Possible values: • URL • SECRET_MANAGER URL -&gt; (string) The signing key URL. Constraints: • min: 1 • max: 2048 • pattern: ^(https?|ftp|file):\/\/([^\s]*) SecretManagerArn -&gt; (string) The Amazon Resource Name (arn) of the secret. Constraints: • min: 0 • max: 1284 • pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023} UserNameAttributeField -&gt; (string) The user name attribute field. Constraints: • min: 1 • max: 100 • pattern: ^\P{C}*$ GroupAttributeField -&gt; (string) The group attribute field. Constraints: • min: 1 • max: 100 • pattern: ^\P{C}*$ Issuer -&gt; (string) The issuer of the token. Constraints: • min: 1 • max: 65 • pattern: ^\P{C}*$ ClaimRegex -&gt; (string) The regular expression that identifies the claim. Constraints: • min: 1 • max: 100 • pattern: ^\P{C}*$ JsonTokenTypeConfiguration -&gt; (structure) Information about the JSON token type configuration. UserNameAttributeField -&gt; (string) [required] The user name attribute field. Constraints: • min: 1 • max: 2048 GroupAttributeField -&gt; (string) [required] The group attribute field. Constraints: • min: 1 • max: 2048 Shorthand Syntax: JwtTokenTypeConfiguration={KeyLocation=string,URL=string,SecretManagerArn=string,UserNameAttributeField=string,GroupAttributeField=string,Issuer=string,ClaimRegex=string},JsonTokenTypeConfiguration={UserNameAttributeField=string,GroupAttributeField=string} ... JSON Syntax: [ { "JwtTokenTypeConfiguration": { "KeyLocation": "URL"|"SECRET_MANAGER", "URL": "string", "SecretManagerArn": "string", "UserNameAttributeField": "string", "GroupAttributeField": "string", "Issuer": "string", "ClaimRegex": "string" }, "JsonTokenTypeConfiguration": { "UserNameAttributeField": "string", "GroupAttributeField": "string" } } ... ]
     /// </summary>
     [SecretValue]
     [CliOption("--user-token-configurations", GroupValues = true)]
     public IEnumerable<string>? UserTokenConfigurations { get; set; }
 
     /// <summary>
-    /// The user context policy. WARNING: If you're using an Amazon Kendra Gen AI Enterprise Edition in- dex, you can only use ATTRIBUTE_FILTER to filter search results by user context. If you're using an Amazon Kendra Gen AI Enter- prise Edition index and you try to use USER_TOKEN to configure user context policy, Amazon Kendra returns a ValidationException error. ATTRIBUTE_FILTER All indexed content is searchable and displayable for all users. If you want to filter search results on user context, you can use the attribute filters of _user_id and _group_ids or you can provide user and group information in UserContext . USER_TOKEN Enables token-based user access control to filter search results on user context. All documents with no access control and all documents accessible to the user will be searchable and displayable. Possible values: o ATTRIBUTE_FILTER o USER_TOKEN
+    /// The user context policy. WARNING: If you're using an Amazon Kendra Gen AI Enterprise Edition index, you can only use ATTRIBUTE_FILTER to filter search results by user context. If you're using an Amazon Kendra Gen AI Enterprise Edition index and you try to use USER_TOKEN to configure user context policy, Amazon Kendra returns a ValidationException error. ATTRIBUTE_FILTER All indexed content is searchable and displayable for all users. If you want to filter search results on user context, you can use the attribute filters of _user_id and _group_ids or you can provide user and group information in UserContext . USER_TOKEN Enables token-based user access control to filter search results on user context. All documents with no access control and all documents accessible to the user will be searchable and displayable. Possible values: • ATTRIBUTE_FILTER • USER_TOKEN
     /// </summary>
     [CliOption("--user-context-policy")]
     public AwsKendraCreateIndexUserContextPolicy? UserContextPolicy { get; set; }
 
     /// <summary>
-    /// Gets users and groups from IAM Identity Center identity source. To configure this, see UserGroupResolutionConfiguration . This is use- ful for user context filtering, where search results are filtered based on the user or their group access to documents. WARNING: If you're using an Amazon Kendra Gen AI Enterprise Edition in- dex, UserGroupResolutionConfiguration isn't supported. UserGroupResolutionMode -&gt; (string) [required] The identity store provider (mode) you want to use to get users and groups. IAM Identity Center is currently the only available mode. Your users and groups must exist in an IAM Identity Center identity source in order to use this mode. Possible values: o AWS_SSO o NONE Shorthand Syntax: UserGroupResolutionMode=string JSON Syntax: { "UserGroupResolutionMode": "AWS_SSO"|"NONE" }
+    /// Gets users and groups from IAM Identity Center identity source. To configure this, see UserGroupResolutionConfiguration . This is useful for user context filtering, where search results are filtered based on the user or their group access to documents. WARNING: If you're using an Amazon Kendra Gen AI Enterprise Edition index, UserGroupResolutionConfiguration isn't supported. UserGroupResolutionMode -&gt; (string) [required] The identity store provider (mode) you want to use to get users and groups. IAM Identity Center is currently the only available mode. Your users and groups must exist in an IAM Identity Center identity source in order to use this mode. Possible values: • AWS_SSO • NONE Shorthand Syntax: UserGroupResolutionMode=string JSON Syntax: { "UserGroupResolutionMode": "AWS_SSO"|"NONE" }
     /// </summary>
     [CliOption("--user-group-resolution-configuration")]
     public string? UserGroupResolutionConfiguration { get; set; }
@@ -144,6 +145,15 @@ public record AwsKendraCreateIndexOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

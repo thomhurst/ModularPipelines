@@ -15,7 +15,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Describes recommendation export jobs created in the last seven days. Use the ExportAutoScalingGroupRecommendations or ExportEC2InstanceRe- commendations actions to request an export of your recommendations. Then use the DescribeRecommendationExportJobs action to view your ex- port jobs. See also: AWS API Documentation describe-recommendation-export-jobs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by ...
+/// Describes recommendation export jobs created in the last seven days. Use the ExportAutoScalingGroupRecommendations or ExportEC2InstanceRecommendations actions to request an export of your recommendations. Then use the DescribeRecommendationExportJobs action to view your export jobs. See also: AWS API Documentation describe-recommendation-export-jobs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by provid...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -23,22 +23,19 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsComputeOptimizerDescribeRecommendationExportJobsOptions : AwsOptions
 {
     /// <summary>
-    /// The identification numbers of the export jobs to return. An export job ID is returned when you create an export using the ExportAutoScalingGroupRecommendations or ExportEC2InstanceRecommen- dations actions. All export jobs created in the last seven days are returned if this parameter is omitted. (string) Syntax: "string" "string" ...
+    /// The identification numbers of the export jobs to return. An export job ID is returned when you create an export using the ExportAutoScalingGroupRecommendations or ExportEC2InstanceRecommendations actions. All export jobs created in the last seven days are returned if this parameter is omitted. (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--job-ids", GroupValues = true)]
     public IEnumerable<string>? JobIds { get; set; }
 
     /// <summary>
-    /// An array of objects to specify a filter that returns a more specific list of export jobs. (structure) Describes a filter that returns a more specific list of recom- mendation export jobs. Use this filter with the DescribeRecom- mendationExportJobs action. You can use EBSFilter with the GetEBSVolumeRecommendations ac- tion, LambdaFunctionRecommendationFilter with the GetLambda- FunctionRecommendations action, and Filter with the GetAu- toScalingGroupRecommendations and GetEC2InstanceRecommendations actions. name -&gt; (string) The name of the filter. Specify ResourceType to return export jobs of a specific re- source type (for example, Ec2Instance ). Specify JobStatus to return export jobs with a specific sta- tus (e.g, Complete ). Possible values: o ResourceType o JobStatus values -&gt; (list) The value of the filter. The valid values for this parameter are as follows, depending on what you specify for the name parameter: o Specify Ec2Instance or AutoScalingGroup if you specify the name parameter as ResourceType . There is no filter for EBS volumes because volume recommendations cannot be exported at this time. o Specify Queued , InProgress , Complete , or Failed if you specify the name parameter as JobStatus . (string) Shorthand Syntax: name=string,values=string,string ... JSON Syntax: [ { "name": "ResourceType"|"JobStatus", "values": ["string", ...] } ... ]
+    /// An array of objects to specify a filter that returns a more specific list of export jobs. (structure) Describes a filter that returns a more specific list of recommendation export jobs. Use this filter with the DescribeRecommendationExportJobs action. You can use EBSFilter with the GetEBSVolumeRecommendations action, LambdaFunctionRecommendationFilter with the GetLambdaFunctionRecommendations action, and Filter with the GetAutoScalingGroupRecommendations and GetEC2InstanceRecommendations actions. name -&gt; (string) The name of the filter. Specify ResourceType to return export jobs of a specific resource type (for example, Ec2Instance ). Specify JobStatus to return export jobs with a specific status (e.g, Complete ). Possible values: • ResourceType • JobStatus values -&gt; (list) The value of the filter. The valid values for this parameter are as follows, depending on what you specify for the name parameter: • Specify Ec2Instance or AutoScalingGroup if you specify the name parameter as ResourceType . There is no filter for EBS volumes because volume recommendations cannot be exported at this time. • Specify Queued , InProgress , Complete , or Failed if you specify the name parameter as JobStatus . (string) Shorthand Syntax: name=string,values=string,string ... JSON Syntax: [ { "name": "ResourceType"|"JobStatus", "values": ["string", ...] } ... ]
     /// </summary>
     [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -48,15 +45,27 @@ public record AwsComputeOptimizerDescribeRecommendationExportJobsOptions : AwsOp
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 0 o max: 1000
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 0 • max: 1000
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

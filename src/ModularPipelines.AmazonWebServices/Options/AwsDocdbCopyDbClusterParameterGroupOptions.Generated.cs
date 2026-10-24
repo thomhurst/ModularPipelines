@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsDocdbCopyDbClusterParameterGroupOptions : AwsOptions, IValidata
     /// <summary>
     /// Copies the specified cluster parameter group. See also: AWS API Documentation
     /// </summary>
-    /// <param name="SourceDbClusterParameterGroupIdentifier">The identifier or Amazon Resource Name (ARN) for the source cluster parameter group. Constraints: o Must specify a valid cluster parameter group. o If the source cluster parameter group is in the same Amazon Web Services Region as the copy, specify a valid parameter group iden- tifier; for example, my-db-cluster-param-group , or a valid ARN. o If the source parameter group is in a different Amazon Web Ser- vices Region than the copy, specify a valid cluster parameter group ARN; for example, arn:aws:rds:us-east-1:123456789012:sam- ple-cluster:sample-parameter-group .</param>
-    /// <param name="TargetDbClusterParameterGroupIdentifier">The identifier for the copied cluster parameter group. Constraints: o Cannot be null, empty, or blank. o Must contain from 1 to 255 letters, numbers, or hyphens. o The first character must be a letter. o Cannot end with a hyphen or contain two consecutive hyphens. Example: my-cluster-param-group1</param>
+    /// <param name="SourceDbClusterParameterGroupIdentifier">The identifier or Amazon Resource Name (ARN) for the source cluster parameter group. Constraints: • Must specify a valid cluster parameter group. • If the source cluster parameter group is in the same Amazon Web Services Region as the copy, specify a valid parameter group identifier; for example, my-db-cluster-param-group , or a valid ARN. • If the source parameter group is in a different Amazon Web Services Region than the copy, specify a valid cluster parameter group ARN; for example, arn:aws:rds:us-east-1:123456789012:sample-cluster:sample-parameter-group .</param>
+    /// <param name="TargetDbClusterParameterGroupIdentifier">The identifier for the copied cluster parameter group. Constraints: • Cannot be null, empty, or blank. • Must contain from 1 to 255 letters, numbers, or hyphens. • The first character must be a letter. • Cannot end with a hyphen or contain two consecutive hyphens. Example: my-cluster-param-group1</param>
     /// <param name="TargetDbClusterParameterGroupDescription">A description for the copied cluster parameter group.</param>
     public AwsDocdbCopyDbClusterParameterGroupOptions(
         string SourceDbClusterParameterGroupIdentifier,
@@ -64,13 +65,13 @@ public record AwsDocdbCopyDbClusterParameterGroupOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier or Amazon Resource Name (ARN) for the source cluster parameter group. Constraints: o Must specify a valid cluster parameter group. o If the source cluster parameter group is in the same Amazon Web Services Region as the copy, specify a valid parameter group iden- tifier; for example, my-db-cluster-param-group , or a valid ARN. o If the source parameter group is in a different Amazon Web Ser- vices Region than the copy, specify a valid cluster parameter group ARN; for example, arn:aws:rds:us-east-1:123456789012:sam- ple-cluster:sample-parameter-group .
+    /// The identifier or Amazon Resource Name (ARN) for the source cluster parameter group. Constraints: • Must specify a valid cluster parameter group. • If the source cluster parameter group is in the same Amazon Web Services Region as the copy, specify a valid parameter group identifier; for example, my-db-cluster-param-group , or a valid ARN. • If the source parameter group is in a different Amazon Web Services Region than the copy, specify a valid cluster parameter group ARN; for example, arn:aws:rds:us-east-1:123456789012:sample-cluster:sample-parameter-group .
     /// </summary>
     [CliOption("--source-db-cluster-parameter-group-identifier")]
     public string? SourceDbClusterParameterGroupIdentifier { get; private init; }
 
     /// <summary>
-    /// The identifier for the copied cluster parameter group. Constraints: o Cannot be null, empty, or blank. o Must contain from 1 to 255 letters, numbers, or hyphens. o The first character must be a letter. o Cannot end with a hyphen or contain two consecutive hyphens. Example: my-cluster-param-group1
+    /// The identifier for the copied cluster parameter group. Constraints: • Cannot be null, empty, or blank. • Must contain from 1 to 255 letters, numbers, or hyphens. • The first character must be a letter. • Cannot end with a hyphen or contain two consecutive hyphens. Example: my-cluster-param-group1
     /// </summary>
     [CliOption("--target-db-cluster-parameter-group-identifier")]
     public string? TargetDbClusterParameterGroupIdentifier { get; private init; }
@@ -108,6 +109,15 @@ public record AwsDocdbCopyDbClusterParameterGroupOptions : AwsOptions, IValidata
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns the account identifier for the specified access key ID. Access keys consist of two parts: an access key ID (for example, AKI- AIOSFODNN7EXAMPLE ) and a secret access key (for example, wJalrXUtn- FEMI/K7MDENG/bPxRfiCYEXAMPLEKEY ). For more information about access keys, see Managing Access Keys for IAM Users in the IAM User Guide . When you pass an access key ID to this operation, it returns the ID of the Amazon Web Services account to which the keys belong. Access key IDs beginning with ...
+/// Returns the account identifier for the specified access key ID. Access keys consist of two parts: an access key ID (for example, AKIAIOSFODNN7EXAMPLE ) and a secret access key (for example, wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY ). For more information about access keys, see Managing Access Keys for IAM Users in the IAM User Guide . When you pass an access key ID to this operation, it returns the ID of the Amazon Web Services account to which the keys belong. Access key IDs beginning with AKIA...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsStsGetAccessKeyInfoOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns the account identifier for the specified access key ID. Access keys consist of two parts: an access key ID (for example, AKI- AIOSFODNN7EXAMPLE ) and a secret access key (for example, wJalrXUtn- FEMI/K7MDENG/bPxRfiCYEXAMPLEKEY ). For more information about access keys, see Managing Access Keys for IAM Users in the IAM User Guide . When you pass an access key ID to this operation, it returns the ID of the Amazon Web Services account to which the keys belong. Access key IDs beginning with ...
+    /// Returns the account identifier for the specified access key ID. Access keys consist of two parts: an access key ID (for example, AKIAIOSFODNN7EXAMPLE ) and a secret access key (for example, wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY ). For more information about access keys, see Managing Access Keys for IAM Users in the IAM User Guide . When you pass an access key ID to this operation, it returns the ID of the Amazon Web Services account to which the keys belong. Access key IDs beginning with AKIA...
     /// </summary>
-    /// <param name="AccessKeyId">The identifier of an access key. This parameter allows (through its regex pattern) a string of char- acters that can consist of any upper- or lowercase letter or digit. Constraints: o min: 16 o max: 128 o pattern: [\w]*</param>
+    /// <param name="AccessKeyId">The identifier of an access key. This parameter allows (through its regex pattern) a string of characters that can consist of any upper- or lowercase letter or digit. Constraints: • min: 16 • max: 128 • pattern: [\w]*</param>
     public AwsStsGetAccessKeyInfoOptions(
         string AccessKeyId
     )
@@ -56,7 +57,7 @@ public record AwsStsGetAccessKeyInfoOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of an access key. This parameter allows (through its regex pattern) a string of char- acters that can consist of any upper- or lowercase letter or digit. Constraints: o min: 16 o max: 128 o pattern: [\w]*
+    /// The identifier of an access key. This parameter allows (through its regex pattern) a string of characters that can consist of any upper- or lowercase letter or digit. Constraints: • min: 16 • max: 128 • pattern: [\w]*
     /// </summary>
     [CliOption("--access-key-id")]
     public string? AccessKeyId { get; private init; }
@@ -82,6 +83,15 @@ public record AwsStsGetAccessKeyInfoOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

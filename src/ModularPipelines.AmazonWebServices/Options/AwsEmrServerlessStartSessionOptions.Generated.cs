@@ -11,13 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates and starts a new session on the specified application. The ap- plication must be in the STARTED state or have AutoStart enabled, and have interactive sessions enabled. This operation is supported for EMR release 7.13.0 and later. See also: AWS API Documentation
+/// Creates and starts a new session on the specified application. The application must be in the STARTED state or have AutoStart enabled, and have interactive sessions enabled. This operation is supported for EMR release 7.13.0 and later. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,10 +27,10 @@ public record AwsEmrServerlessStartSessionOptions : AwsOptions, IValidatableObje
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates and starts a new session on the specified application. The ap- plication must be in the STARTED state or have AutoStart enabled, and have interactive sessions enabled. This operation is supported for EMR release 7.13.0 and later. See also: AWS API Documentation
+    /// Creates and starts a new session on the specified application. The application must be in the STARTED state or have AutoStart enabled, and have interactive sessions enabled. This operation is supported for EMR release 7.13.0 and later. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ApplicationId">The ID of the application on which to start the session. Constraints: o min: 1 o max: 64 o pattern: [0-9a-z]+</param>
-    /// <param name="ExecutionRoleArn">The execution role ARN for the session. Amazon EMR Serverless uses this role to access Amazon Web Services resources on your behalf during session execution. Constraints: o min: 20 o max: 2048 o pattern: arn:(aws[a-zA-Z0-9-]*):iam::([0-9]{12}):(role((\u002F)|(\u002F[\u0021-\u007F]+\u002F))[\w+=,.@-]+)</param>
+    /// <param name="ApplicationId">The ID of the application on which to start the session. Constraints: • min: 1 • max: 64 • pattern: [0-9a-z]+</param>
+    /// <param name="ExecutionRoleArn">The execution role ARN for the session. Amazon EMR Serverless uses this role to access Amazon Web Services resources on your behalf during session execution. Constraints: • min: 20 • max: 2048 • pattern: arn:(aws[a-zA-Z0-9-]*):iam::([0-9]{12}):(role((\u002F)|(\u002F[\u0021-\u007F]+\u002F))[\w+=,.@-]+)</param>
     public AwsEmrServerlessStartSessionOptions(
         string ApplicationId,
         string ExecutionRoleArn
@@ -62,44 +62,44 @@ public record AwsEmrServerlessStartSessionOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the application on which to start the session. Constraints: o min: 1 o max: 64 o pattern: [0-9a-z]+
+    /// The ID of the application on which to start the session. Constraints: • min: 1 • max: 64 • pattern: [0-9a-z]+
     /// </summary>
     [CliOption("--application-id")]
     public string? ApplicationId { get; private init; }
 
     /// <summary>
-    /// The execution role ARN for the session. Amazon EMR Serverless uses this role to access Amazon Web Services resources on your behalf during session execution. Constraints: o min: 20 o max: 2048 o pattern: arn:(aws[a-zA-Z0-9-]*):iam::([0-9]{12}):(role((\u002F)|(\u002F[\u0021-\u007F]+\u002F))[\w+=,.@-]+)
+    /// The execution role ARN for the session. Amazon EMR Serverless uses this role to access Amazon Web Services resources on your behalf during session execution. Constraints: • min: 20 • max: 2048 • pattern: arn:(aws[a-zA-Z0-9-]*):iam::([0-9]{12}):(role((\u002F)|(\u002F[\u0021-\u007F]+\u002F))[\w+=,.@-]+)
     /// </summary>
     [CliOption("--execution-role-arn")]
     public string? ExecutionRoleArn { get; private init; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you retry a request that completed successfully using the same client token, the server returns the successful response without performing the operation again. Constraints: o min: 1 o max: 64 o pattern: [A-Za-z0-9._-]+
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you retry a request that completed successfully using the same client token, the server returns the successful response without performing the operation again. Constraints: • min: 1 • max: 64 • pattern: [A-Za-z0-9._-]+
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// The configuration overrides for the session. Only runtime configura- tion overrides are supported. runtimeConfiguration -&gt; (list) The runtime configuration for the session. Contains Spark con- figuration properties specified at session creation time. Constraints: o min: 0 o max: 100 (structure) A configuration specification to be used when provisioning an application. A configuration consists of a classification, properties, and optional nested configurations. A classifica- tion refers to an application-specific configuration file. Properties are the settings you want to change in that file. classification -&gt; (string) [required] The classification within a configuration. Constraints: o min: 1 o max: 1024 o pattern: .*\S.* properties -&gt; (map) A set of properties specified within a configuration classification. Constraints: o min: 0 o max: 100 key -&gt; (string) Constraints: o min: 1 o max: 1024 o pattern: .*\S.* value -&gt; (string) Constraints: o min: 0 o max: 1024 o pattern: .*\S.* configurations -&gt; (list) A list of additional configurations to apply within a configuration object. Constraints: o min: 0 o max: 100 (structure) A configuration specification to be used when provi- sioning an application. A configuration consists of a classification, properties, and optional nested con- figurations. A classification refers to an applica- tion-specific configuration file. Properties are the settings you want to change in that file. classification -&gt; (string) [required] The classification within a configuration. Constraints: o min: 1 o max: 1024 o pattern: .*\S.* properties -&gt; (map) A set of properties specified within a configura- tion classification. Constraints: o min: 0 o max: 100 key -&gt; (string) Constraints: o min: 1 o max: 1024 o pattern: .*\S.* value -&gt; (string) Constraints: o min: 0 o max: 1024 o pattern: .*\S.* JSON Syntax: { "runtimeConfiguration": [ { "classification": "string", "properties": {"string": "string" ...}, "configurations": [ { "classification": "string", "properties": {"string": "string" ...}, "configurations": } ... ] } ... ] }
+    /// The configuration overrides for the session. Only runtime configuration overrides are supported. runtimeConfiguration -&gt; (list) The runtime configuration for the session. Contains Spark configuration properties specified at session creation time. Constraints: • min: 0 • max: 100 (structure) A configuration specification to be used when provisioning an application. A configuration consists of a classification, properties, and optional nested configurations. A classification refers to an application-specific configuration file. Properties are the settings you want to change in that file. classification -&gt; (string) [required] The classification within a configuration. Constraints: • min: 1 • max: 1024 • pattern: .*\S.* properties -&gt; (map) A set of properties specified within a configuration classification. Constraints: • min: 0 • max: 100 key -&gt; (string) Constraints: • min: 1 • max: 1024 • pattern: .*\S.* value -&gt; (string) Constraints: • min: 0 • max: 1024 • pattern: .*\S.* configurations -&gt; (list) A list of additional configurations to apply within a configuration object. Constraints: • min: 0 • max: 100 (structure) A configuration specification to be used when provisioning an application. A configuration consists of a classification, properties, and optional nested configurations. A classification refers to an application-specific configuration file. Properties are the settings you want to change in that file. classification -&gt; (string) [required] The classification within a configuration. Constraints: • min: 1 • max: 1024 • pattern: .*\S.* properties -&gt; (map) A set of properties specified within a configuration classification. Constraints: • min: 0 • max: 100 key -&gt; (string) Constraints: • min: 1 • max: 1024 • pattern: .*\S.* value -&gt; (string) Constraints: • min: 0 • max: 1024 • pattern: .*\S.* JSON Syntax: { "runtimeConfiguration": [ { "classification": "string", "properties": {"string": "string" ...}, "configurations": [ { "classification": "string", "properties": {"string": "string" ...}, "configurations": } ... ] } ... ] }
     /// </summary>
     [CliOption("--configuration-overrides")]
     public string? ConfigurationOverrides { get; set; }
 
     /// <summary>
-    /// The tags to assign to the session. Constraints: o min: 0 o max: 200 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: [A-Za-z0-9 /_.:=+@-]+ value -&gt; (string) Constraints: o min: 0 o max: 256 o pattern: [A-Za-z0-9 /_.:=+@-]* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The tags to assign to the session. Constraints: • min: 0 • max: 200 key -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: [A-Za-z0-9 /_.:=+@-]+ value -&gt; (string) Constraints: • min: 0 • max: 256 • pattern: [A-Za-z0-9 /_.:=+@-]* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>
-    /// The idle timeout in minutes for the session. After the session re- mains idle for this duration, Amazon EMR Serverless automatically terminates it. Constraints: o min: 0 o max: 1000000
+    /// The idle timeout in minutes for the session. After the session remains idle for this duration, Amazon EMR Serverless automatically terminates it. Constraints: • min: 0 • max: 1000000
     /// </summary>
     [CliOption("--idle-timeout-minutes")]
-    public int? IdleTimeoutMinutes { get; set; }
+    public long? IdleTimeoutMinutes { get; set; }
 
     /// <summary>
-    /// The optional name for the session. Constraints: o min: 1 o max: 256 o pattern: .*\S.*
+    /// The optional name for the session. Constraints: • min: 1 • max: 256 • pattern: .*\S.*
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
@@ -125,6 +125,15 @@ public record AwsEmrServerlessStartSessionOptions : AwsOptions, IValidatableObje
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Adds one or more tags to the specified resource. You use tags to add metadata to resources, which you can use to categorize these resources. For example, you can categorize resources by purpose, owner, environ- ment, or team. Each tag consists of a key and a value, which you de- fine. You can add tags to the following Storage Gateway resources: o Storage gateways of all types o Storage volumes o Virtual tapes o NFS and SMB file shares o File System associations You can create a maximum of 50 tag...
+/// Adds one or more tags to the specified resource. You use tags to add metadata to resources, which you can use to categorize these resources. For example, you can categorize resources by purpose, owner, environment, or team. Each tag consists of a key and a value, which you define. You can add tags to the following Storage Gateway resources: • Storage gateways of all types • Storage volumes • Virtual tapes • NFS and SMB file shares • File System associations You can create a maximum of 50 tags fo...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsStoragegatewayAddTagsToResourceOptions : AwsOptions, IValidatab
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Adds one or more tags to the specified resource. You use tags to add metadata to resources, which you can use to categorize these resources. For example, you can categorize resources by purpose, owner, environ- ment, or team. Each tag consists of a key and a value, which you de- fine. You can add tags to the following Storage Gateway resources: o Storage gateways of all types o Storage volumes o Virtual tapes o NFS and SMB file shares o File System associations You can create a maximum of 50 tag...
+    /// Adds one or more tags to the specified resource. You use tags to add metadata to resources, which you can use to categorize these resources. For example, you can categorize resources by purpose, owner, environment, or team. Each tag consists of a key and a value, which you define. You can add tags to the following Storage Gateway resources: • Storage gateways of all types • Storage volumes • Virtual tapes • NFS and SMB file shares • File System associations You can create a maximum of 50 tags fo...
     /// </summary>
-    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the resource you want to add tags to. Constraints: o min: 50 o max: 500</param>
-    /// <param name="Tags">The key-value pair that represents the tag you want to add to the resource. The value can be an empty string. NOTE: Valid characters for key and value are letters, spaces, and num- bers representable in UTF-8 format, and the following special characters: + - = . _ : / @. The maximum length of a tag's key is 128 characters, and the maximum length for a tag's value is 256. (structure) A key-value pair that helps you manage, filter, and search for your resource. Allowed characters: letters, white space, and numbers, representable in UTF-8, and the following characters: + - = . _ : /. Key -&gt; (string) [required] Tag key. The key can't start with aws:. Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Value -&gt; (string) [required] Value of the tag key. Constraints: o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]</param>
+    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the resource you want to add tags to. Constraints: • min: 50 • max: 500</param>
+    /// <param name="Tags">The key-value pair that represents the tag you want to add to the resource. The value can be an empty string. NOTE: Valid characters for key and value are letters, spaces, and numbers representable in UTF-8 format, and the following special characters: + - = . _ : / @. The maximum length of a tag's key is 128 characters, and the maximum length for a tag's value is 256. (structure) A key-value pair that helps you manage, filter, and search for your resource. Allowed characters: letters, white space, and numbers, representable in UTF-8, and the following characters: + - = . _ : /. Key -&gt; (string) [required] Tag key. The key can't start with aws:. Constraints: • min: 1 • max: 128 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Value -&gt; (string) [required] Value of the tag key. Constraints: • max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]</param>
     public AwsStoragegatewayAddTagsToResourceOptions(
         string ResourceArn,
         IEnumerable<string> Tags
@@ -71,13 +72,13 @@ public record AwsStoragegatewayAddTagsToResourceOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the resource you want to add tags to. Constraints: o min: 50 o max: 500
+    /// The Amazon Resource Name (ARN) of the resource you want to add tags to. Constraints: • min: 50 • max: 500
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
 
     /// <summary>
-    /// The key-value pair that represents the tag you want to add to the resource. The value can be an empty string. NOTE: Valid characters for key and value are letters, spaces, and num- bers representable in UTF-8 format, and the following special characters: + - = . _ : / @. The maximum length of a tag's key is 128 characters, and the maximum length for a tag's value is 256. (structure) A key-value pair that helps you manage, filter, and search for your resource. Allowed characters: letters, white space, and numbers, representable in UTF-8, and the following characters: + - = . _ : /. Key -&gt; (string) [required] Tag key. The key can't start with aws:. Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Value -&gt; (string) [required] Value of the tag key. Constraints: o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// The key-value pair that represents the tag you want to add to the resource. The value can be an empty string. NOTE: Valid characters for key and value are letters, spaces, and numbers representable in UTF-8 format, and the following special characters: + - = . _ : / @. The maximum length of a tag's key is 128 characters, and the maximum length for a tag's value is 256. (structure) A key-value pair that helps you manage, filter, and search for your resource. Allowed characters: letters, white space, and numbers, representable in UTF-8, and the following characters: + - = . _ : /. Key -&gt; (string) [required] Tag key. The key can't start with aws:. Constraints: • min: 1 • max: 128 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Value -&gt; (string) [required] Value of the tag key. Constraints: • max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; private init; }
@@ -103,6 +104,15 @@ public record AwsStoragegatewayAddTagsToResourceOptions : AwsOptions, IValidatab
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

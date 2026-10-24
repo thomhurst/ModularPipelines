@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,9 +29,9 @@ public record AwsMturkCreateQualificationTypeOptions : AwsOptions, IValidatableO
     /// <summary>
     /// The CreateQualificationType operation creates a new Qualification type, which is represented by a QualificationType data structure. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">The name you give to the Qualification type. The type name is used to represent the Qualification to Workers, and to find the type us- ing a Qualification type search. It must be unique across all of your Qualification types.</param>
-    /// <param name="Description">A long description for the Qualification type. On the Amazon Mechan- ical Turk website, the long description is displayed when a Worker examines a Qualification type.</param>
-    /// <param name="QualificationTypeStatus">The initial status of the Qualification type. Constraints: Valid values are: Active | Inactive Possible values: o Active o Inactive</param>
+    /// <param name="Name">The name you give to the Qualification type. The type name is used to represent the Qualification to Workers, and to find the type using a Qualification type search. It must be unique across all of your Qualification types.</param>
+    /// <param name="Description">A long description for the Qualification type. On the Amazon Mechanical Turk website, the long description is displayed when a Worker examines a Qualification type.</param>
+    /// <param name="QualificationTypeStatus">The initial status of the Qualification type. Constraints: Valid values are: Active | Inactive Possible values: • Active • Inactive</param>
     public AwsMturkCreateQualificationTypeOptions(
         string Name,
         string Description,
@@ -64,19 +65,19 @@ public record AwsMturkCreateQualificationTypeOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name you give to the Qualification type. The type name is used to represent the Qualification to Workers, and to find the type us- ing a Qualification type search. It must be unique across all of your Qualification types.
+    /// The name you give to the Qualification type. The type name is used to represent the Qualification to Workers, and to find the type using a Qualification type search. It must be unique across all of your Qualification types.
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// A long description for the Qualification type. On the Amazon Mechan- ical Turk website, the long description is displayed when a Worker examines a Qualification type.
+    /// A long description for the Qualification type. On the Amazon Mechanical Turk website, the long description is displayed when a Worker examines a Qualification type.
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; private init; }
 
     /// <summary>
-    /// The initial status of the Qualification type. Constraints: Valid values are: Active | Inactive Possible values: o Active o Inactive
+    /// The initial status of the Qualification type. Constraints: Valid values are: Active | Inactive Possible values: • Active • Inactive
     /// </summary>
     [CliOption("--qualification-type-status")]
     public AwsMturkCreateQualificationTypeQualificationTypeStatus? QualificationTypeStatus { get; private init; }
@@ -88,19 +89,19 @@ public record AwsMturkCreateQualificationTypeOptions : AwsOptions, IValidatableO
     public string? Keywords { get; set; }
 
     /// <summary>
-    /// The number of seconds that a Worker must wait after requesting a Qualification of the Qualification type before the worker can retry the Qualification request. Constraints: None. If not specified, retries are disabled and Work- ers can request a Qualification of this type only once, even if the Worker has not been granted the Qualification. It is not possible to disable retries for a Qualification type after it has been created with retries enabled. If you want to disable retries, you must delete existing retry-enabled Qualification type and then create a new Qualification type with retries disabled.
+    /// The number of seconds that a Worker must wait after requesting a Qualification of the Qualification type before the worker can retry the Qualification request. Constraints: None. If not specified, retries are disabled and Workers can request a Qualification of this type only once, even if the Worker has not been granted the Qualification. It is not possible to disable retries for a Qualification type after it has been created with retries enabled. If you want to disable retries, you must delete existing retry-enabled Qualification type and then create a new Qualification type with retries disabled.
     /// </summary>
     [CliOption("--retry-delay-in-seconds")]
-    public int? RetryDelayInSeconds { get; set; }
+    public long? RetryDelayInSeconds { get; set; }
 
     /// <summary>
-    /// The questions for the Qualification test a Worker must answer cor- rectly to obtain a Qualification of this type. If this parameter is specified, TestDurationInSeconds must also be specified. Constraints: Must not be longer than 65535 bytes. Must be a Ques- tionForm data structure. This parameter cannot be specified if Auto- Granted is true. Constraints: None. If not specified, the Worker may request the Qualification without answering any questions.
+    /// The questions for the Qualification test a Worker must answer correctly to obtain a Qualification of this type. If this parameter is specified, TestDurationInSeconds must also be specified. Constraints: Must not be longer than 65535 bytes. Must be a QuestionForm data structure. This parameter cannot be specified if AutoGranted is true. Constraints: None. If not specified, the Worker may request the Qualification without answering any questions.
     /// </summary>
     [CliOption("--test")]
     public string? Test { get; set; }
 
     /// <summary>
-    /// The answers to the Qualification test specified in the Test parame- ter, in the form of an AnswerKey data structure. Constraints: Must not be longer than 65535 bytes. Constraints: None. If not specified, you must process Qualification requests manually.
+    /// The answers to the Qualification test specified in the Test parameter, in the form of an AnswerKey data structure. Constraints: Must not be longer than 65535 bytes. Constraints: None. If not specified, you must process Qualification requests manually.
     /// </summary>
     [CliOption("--answer-key")]
     public string? AnswerKey { get; set; }
@@ -109,16 +110,16 @@ public record AwsMturkCreateQualificationTypeOptions : AwsOptions, IValidatableO
     /// The number of seconds the Worker has to complete the Qualification test, starting from the time the Worker requests the Qualification.
     /// </summary>
     [CliOption("--test-duration-in-seconds")]
-    public int? TestDurationInSeconds { get; set; }
+    public long? TestDurationInSeconds { get; set; }
 
     /// <summary>
-    /// Specifies whether requests for the Qualification type are granted immediately, without prompting the Worker with a Qualification test. Constraints: If the Test parameter is specified, this parameter can- not be true.
+    /// Specifies whether requests for the Qualification type are granted immediately, without prompting the Worker with a Qualification test. Constraints: If the Test parameter is specified, this parameter cannot be true.
     /// </summary>
     [CliFlag("--auto-granted", NegatedName = "--no-auto-granted")]
     public bool? AutoGranted { get; set; }
 
     /// <summary>
-    /// The Qualification value to use for automatically granted Qualifica- tions. This parameter is used only if the AutoGranted parameter is true.
+    /// The Qualification value to use for automatically granted Qualifications. This parameter is used only if the AutoGranted parameter is true.
     /// </summary>
     [CliOption("--auto-granted-value")]
     public int? AutoGrantedValue { get; set; }
@@ -144,6 +145,15 @@ public record AwsMturkCreateQualificationTypeOptions : AwsOptions, IValidatableO
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

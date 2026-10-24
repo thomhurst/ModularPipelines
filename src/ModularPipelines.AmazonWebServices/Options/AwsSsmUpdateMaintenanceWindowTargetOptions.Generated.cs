@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Modifies the target of an existing maintenance window. You can change the following: o Name o Description o Owner o IDs for an ID target o Tags for a Tag target o From any supported tag type to another. The three supported tag types are ID target, Tag target, and resource group. For more information, see Target . NOTE: If a parameter is null, then the corresponding field isn't modified. See also: AWS API Documentation
+/// Modifies the target of an existing maintenance window. You can change the following: • Name • Description • Owner • IDs for an ID target • Tags for a Tag target • From any supported tag type to another. The three supported tag types are ID target, Tag target, and resource group. For more information, see Target . NOTE: If a parameter is null, then the corresponding field isn't modified. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsSsmUpdateMaintenanceWindowTargetOptions : AwsOptions, IValidata
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Modifies the target of an existing maintenance window. You can change the following: o Name o Description o Owner o IDs for an ID target o Tags for a Tag target o From any supported tag type to another. The three supported tag types are ID target, Tag target, and resource group. For more information, see Target . NOTE: If a parameter is null, then the corresponding field isn't modified. See also: AWS API Documentation
+    /// Modifies the target of an existing maintenance window. You can change the following: • Name • Description • Owner • IDs for an ID target • Tags for a Tag target • From any supported tag type to another. The three supported tag types are ID target, Tag target, and resource group. For more information, see Target . NOTE: If a parameter is null, then the corresponding field isn't modified. See also: AWS API Documentation
     /// </summary>
-    /// <param name="WindowId">The maintenance window ID with which to modify the target. Constraints: o min: 20 o max: 20 o pattern: ^mw-[0-9a-f]{17}$</param>
-    /// <param name="WindowTargetId">The target ID to modify. Constraints: o min: 36 o max: 36 o pattern: ^[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}$</param>
+    /// <param name="WindowId">The maintenance window ID with which to modify the target. Constraints: • min: 20 • max: 20 • pattern: ^mw-[0-9a-f]{17}$</param>
+    /// <param name="WindowTargetId">The target ID to modify. Constraints: • min: 36 • max: 36 • pattern: ^[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}$</param>
     public AwsSsmUpdateMaintenanceWindowTargetOptions(
         string WindowId,
         string WindowTargetId
@@ -60,43 +61,43 @@ public record AwsSsmUpdateMaintenanceWindowTargetOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The maintenance window ID with which to modify the target. Constraints: o min: 20 o max: 20 o pattern: ^mw-[0-9a-f]{17}$
+    /// The maintenance window ID with which to modify the target. Constraints: • min: 20 • max: 20 • pattern: ^mw-[0-9a-f]{17}$
     /// </summary>
     [CliOption("--window-id")]
     public string? WindowId { get; private init; }
 
     /// <summary>
-    /// The target ID to modify. Constraints: o min: 36 o max: 36 o pattern: ^[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}$
+    /// The target ID to modify. Constraints: • min: 36 • max: 36 • pattern: ^[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}$
     /// </summary>
     [CliOption("--window-target-id")]
     public string? WindowTargetId { get; private init; }
 
     /// <summary>
-    /// The targets to add or replace. Constraints: o min: 0 o max: 5 (structure) An array of search criteria that targets managed nodes using a key-value pair that you specify. NOTE: One or more targets must be specified for maintenance window Run Command-type tasks. Depending on the task, targets are optional for other maintenance window task types (Automation, Lambda, and Step Functions). For more information about run- ning tasks that don't specify targets, see Registering main- tenance window tasks without targets in the Amazon Web Ser- vices Systems Manager User Guide . Supported formats include the following. For all Systems Manager tools: o Key=tag-key,Values=tag-value-1,tag-value-2 For Automation and Change Manager: o Key=tag:tag-key,Values=tag-value o Key=ResourceGroup,Values=resource-group-name o Key=ParameterValues,Values=value-1,value-2,value-3 o To target all instances in the Amazon Web Services Region: o Key=AWS::EC2::Instance,Values=* o Key=InstanceIds,Values=* For Run Command and Maintenance Windows: o Key=InstanceIds,Values=instance-id-1,instance-id-2,in- stance-id-3 o Key=tag:tag-key,Values=tag-value-1,tag-value-2 o Key=resource-groups:Name,Values=resource-group-name o Additionally, Maintenance Windows support targeting resource types: o Key=resource-groups:ResourceTypeFilters,Values=re- source-type-1,resource-type-2 For State Manager: o Key=InstanceIds,Values=instance-id-1,instance-id-2,in- stance-id-3 o Key=tag:tag-key,Values=tag-value-1,tag-value-2 o To target all instances in the Amazon Web Services Region: o Key=InstanceIds,Values=* For more information about how to send commands that target man- aged nodes using Key,Value parameters, see Targeting multiple managed nodes in the Amazon Web Services Systems Manager User Guide . Key -&gt; (string) User-defined criteria for sending commands that target man- aged nodes that meet the criteria. Constraints: o min: 1 o max: 163 o pattern: ^[\p{L}\p{Z}\p{N}_.:/=\-@]*$|resource-groups:Re- sourceTypeFilters|resource-groups:Name Values -&gt; (list) User-defined criteria that maps to Key . For example, if you specified tag:ServerRole , you could specify value:WebServer to run a command on instances that include EC2 tags of ServerRole,WebServer . Depending on the type of target, the maximum number of values for a key might be lower than the global maximum of 50. Constraints: o min: 0 o max: 50 (string) Shorthand Syntax: Key=string,Values=string,string ... JSON Syntax: [ { "Key": "string", "Values": ["string", ...] } ... ]
+    /// The targets to add or replace. Constraints: • min: 0 • max: 5 (structure) An array of search criteria that targets managed nodes using a key-value pair that you specify. NOTE: One or more targets must be specified for maintenance window Run Command-type tasks. Depending on the task, targets are optional for other maintenance window task types (Automation, Lambda, and Step Functions). For more information about running tasks that don't specify targets, see Registering maintenance window tasks without targets in the Amazon Web Services Systems Manager User Guide . Supported formats include the following. For all Systems Manager tools: • Key=tag-key,Values=tag-value-1,tag-value-2 For Automation and Change Manager: • Key=tag:tag-key,Values=tag-value • Key=ResourceGroup,Values=resource-group-name • Key=ParameterValues,Values=value-1,value-2,value-3 • To target all instances in the Amazon Web Services Region: • Key=AWS::EC2::Instance,Values=* • Key=InstanceIds,Values=* For Run Command and Maintenance Windows: • Key=InstanceIds,Values=instance-id-1,instance-id-2,instance-id-3 • Key=tag:tag-key,Values=tag-value-1,tag-value-2 • Key=resource-groups:Name,Values=resource-group-name • Additionally, Maintenance Windows support targeting resource types: • Key=resource-groups:ResourceTypeFilters,Values=resource-type-1,resource-type-2 For State Manager: • Key=InstanceIds,Values=instance-id-1,instance-id-2,instance-id-3 • Key=tag:tag-key,Values=tag-value-1,tag-value-2 • To target all instances in the Amazon Web Services Region: • Key=InstanceIds,Values=* For more information about how to send commands that target managed nodes using Key,Value parameters, see Targeting multiple managed nodes in the Amazon Web Services Systems Manager User Guide . Key -&gt; (string) User-defined criteria for sending commands that target managed nodes that meet the criteria. Constraints: • min: 1 • max: 163 • pattern: ^[\p{L}\p{Z}\p{N}_.:/=\-@]*$|resource-groups:ResourceTypeFilters|resource-groups:Name Values -&gt; (list) User-defined criteria that maps to Key . For example, if you specified tag:ServerRole , you could specify value:WebServer to run a command on instances that include EC2 tags of ServerRole,WebServer . Depending on the type of target, the maximum number of values for a key might be lower than the global maximum of 50. Constraints: • min: 0 • max: 50 (string) Shorthand Syntax: Key=string,Values=string,string ... JSON Syntax: [ { "Key": "string", "Values": ["string", ...] } ... ]
     /// </summary>
     [CliOption("--targets", GroupValues = true)]
     public IEnumerable<string>? Targets { get; set; }
 
     /// <summary>
-    /// User-provided value that will be included in any Amazon CloudWatch Events events raised while running tasks for these targets in this maintenance window. Constraints: o min: 1 o max: 128
+    /// User-provided value that will be included in any Amazon CloudWatch Events events raised while running tasks for these targets in this maintenance window. Constraints: • min: 1 • max: 128
     /// </summary>
     [CliOption("--owner-information")]
     public string? OwnerInformation { get; set; }
 
     /// <summary>
-    /// A name for the update. Constraints: o min: 3 o max: 128 o pattern: ^[a-zA-Z0-9_\-.]{3,128}$
+    /// A name for the update. Constraints: • min: 3 • max: 128 • pattern: ^[a-zA-Z0-9_\-.]{3,128}$
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
 
     /// <summary>
-    /// An optional description for the update. Constraints: o min: 1 o max: 128
+    /// An optional description for the update. Constraints: • min: 1 • max: 128
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// If True , then all fields that are required by the RegisterTar- getWithMaintenanceWindow operation are also required for this API request. Optional fields that aren't specified are set to null.
+    /// If True , then all fields that are required by the RegisterTargetWithMaintenanceWindow operation are also required for this API request. Optional fields that aren't specified are set to null.
     /// </summary>
     [CliFlag("--replace", NegatedName = "--no-replace")]
     public bool? Replace { get; set; }
@@ -122,6 +123,15 @@ public record AwsSsmUpdateMaintenanceWindowTargetOptions : AwsOptions, IValidata
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

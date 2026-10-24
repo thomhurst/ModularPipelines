@@ -11,13 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates an EKS Pod Identity association between a service account in an Amazon EKS cluster and an IAM role with EKS Pod Identity . Use EKS Pod Identity to give temporary IAM credentials to Pods and the credentials are rotated automatically. Amazon EKS Pod Identity associations provide the ability to manage cre- dentials for your applications, similar to the way that Amazon EC2 in- stance profiles provide credentials to Amazon EC2 instances. If a Pod uses a service account that has an association...
+/// Creates an EKS Pod Identity association between a service account in an Amazon EKS cluster and an IAM role with EKS Pod Identity . Use EKS Pod Identity to give temporary IAM credentials to Pods and the credentials are rotated automatically. Amazon EKS Pod Identity associations provide the ability to manage credentials for your applications, similar to the way that Amazon EC2 instance profiles provide credentials to Amazon EC2 instances. If a Pod uses a service account that has an association, Am...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,11 +27,11 @@ public record AwsEksCreatePodIdentityAssociationOptions : AwsOptions, IValidatab
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates an EKS Pod Identity association between a service account in an Amazon EKS cluster and an IAM role with EKS Pod Identity . Use EKS Pod Identity to give temporary IAM credentials to Pods and the credentials are rotated automatically. Amazon EKS Pod Identity associations provide the ability to manage cre- dentials for your applications, similar to the way that Amazon EC2 in- stance profiles provide credentials to Amazon EC2 instances. If a Pod uses a service account that has an association...
+    /// Creates an EKS Pod Identity association between a service account in an Amazon EKS cluster and an IAM role with EKS Pod Identity . Use EKS Pod Identity to give temporary IAM credentials to Pods and the credentials are rotated automatically. Amazon EKS Pod Identity associations provide the ability to manage credentials for your applications, similar to the way that Amazon EC2 instance profiles provide credentials to Amazon EC2 instances. If a Pod uses a service account that has an association, Am...
     /// </summary>
     /// <param name="ClusterName">The name of the cluster to create the EKS Pod Identity association in.</param>
     /// <param name="Namespace">The name of the Kubernetes namespace inside the cluster to create the EKS Pod Identity association in. The service account and the Pods that use the service account must be in this namespace.</param>
-    /// <param name="ServiceAccount">The name of the Kubernetes service account inside the cluster to as- sociate the IAM credentials with.</param>
+    /// <param name="ServiceAccount">The name of the Kubernetes service account inside the cluster to associate the IAM credentials with.</param>
     /// <param name="RoleArn">The Amazon Resource Name (ARN) of the IAM role to associate with the service account. The EKS Pod Identity agent manages credentials to assume this role for applications in the containers in the Pods that use this service account.</param>
     public AwsEksCreatePodIdentityAssociationOptions(
         string ClusterName,
@@ -82,7 +82,7 @@ public record AwsEksCreatePodIdentityAssociationOptions : AwsOptions, IValidatab
     public string? Namespace { get; private init; }
 
     /// <summary>
-    /// The name of the Kubernetes service account inside the cluster to as- sociate the IAM credentials with.
+    /// The name of the Kubernetes service account inside the cluster to associate the IAM credentials with.
     /// </summary>
     [CliOption("--service-account")]
     public string? ServiceAccount { get; private init; }
@@ -101,25 +101,25 @@ public record AwsEksCreatePodIdentityAssociationOptions : AwsOptions, IValidatab
     public string? ClientRequestToken { get; set; }
 
     /// <summary>
-    /// Metadata that assists with categorization and organization. Each tag consists of a key and an optional value. You define both. Tags don't propagate to any other cluster or Amazon Web Services resources. The following basic restrictions apply to tags: o Maximum number of tags per resource 50 o For each resource, each tag key must be unique, and each tag key can have only one value. o Maximum key length 128 Unicode characters in UTF-8 o Maximum value length 256 Unicode characters in UTF-8 o If your tagging schema is used across multiple services and re- sources, remember that other services may have restrictions on al- lowed characters. Generally allowed characters are: letters, num- bers, and spaces representable in UTF-8, and the following charac- ters: + - = . _ : / @. o Tag keys and values are case-sensitive. o Do not use aws: , AWS: , or any upper or lowercase combination of such as a prefix for either keys or values as it is reserved for Amazon Web Services use. You cannot edit or delete tag keys or values with this prefix. Tags with this prefix do not count against your tags per resource limit. Constraints: o min: 1 o max: 50 key -&gt; (string) One part of a key-value pair that make up a tag. A key is a gen- eral label that acts like a category for more specific tag val- ues. Constraints: o min: 1 o max: 128 value -&gt; (string) The optional part of a key-value pair that make up a tag. A value acts as a descriptor within a tag category (key). Constraints: o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// Metadata that assists with categorization and organization. Each tag consists of a key and an optional value. You define both. Tags don't propagate to any other cluster or Amazon Web Services resources. The following basic restrictions apply to tags: • Maximum number of tags per resource 50 • For each resource, each tag key must be unique, and each tag key can have only one value. • Maximum key length 128 Unicode characters in UTF-8 • Maximum value length 256 Unicode characters in UTF-8 • If your tagging schema is used across multiple services and resources, remember that other services may have restrictions on allowed characters. Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following characters: + - = . _ : / @. • Tag keys and values are case-sensitive. • Do not use aws: , AWS: , or any upper or lowercase combination of such as a prefix for either keys or values as it is reserved for Amazon Web Services use. You cannot edit or delete tag keys or values with this prefix. Tags with this prefix do not count against your tags per resource limit. Constraints: • min: 1 • max: 50 key -&gt; (string) One part of a key-value pair that make up a tag. A key is a general label that acts like a category for more specific tag values. Constraints: • min: 1 • max: 128 value -&gt; (string) The optional part of a key-value pair that make up a tag. A value acts as a descriptor within a tag category (key). Constraints: • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>
-    /// Disable the automatic sessions tags that are appended by EKS Pod Identity. EKS Pod Identity adds a pre-defined set of session tags when it as- sumes the role. You can use these tags to author a single role that can work across resources by allowing access to Amazon Web Services resources based on matching tags. By default, EKS Pod Identity at- taches six tags, including tags for cluster name, namespace, and service account name. For the list of tags added by EKS Pod Iden- tity, see List of session tags added by EKS Pod Identity in the Ama- zon EKS User Guide . Amazon Web Services compresses inline session policies, managed pol- icy ARNs, and session tags into a packed binary format that has a separate limit. If you receive a PackedPolicyTooLarge error indicat- ing the packed binary format has exceeded the size limit, you can attempt to reduce the size by disabling the session tags added by EKS Pod Identity.
+    /// Disable the automatic sessions tags that are appended by EKS Pod Identity. EKS Pod Identity adds a pre-defined set of session tags when it assumes the role. You can use these tags to author a single role that can work across resources by allowing access to Amazon Web Services resources based on matching tags. By default, EKS Pod Identity attaches six tags, including tags for cluster name, namespace, and service account name. For the list of tags added by EKS Pod Identity, see List of session tags added by EKS Pod Identity in the Amazon EKS User Guide . Amazon Web Services compresses inline session policies, managed policy ARNs, and session tags into a packed binary format that has a separate limit. If you receive a PackedPolicyTooLarge error indicating the packed binary format has exceeded the size limit, you can attempt to reduce the size by disabling the session tags added by EKS Pod Identity.
     /// </summary>
     [CliFlag("--disable-session-tags", NegatedName = "--no-disable-session-tags")]
     public bool? DisableSessionTags { get; set; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the target IAM role to associate with the service account. This role is assumed by using the EKS Pod Identity association role, then the credentials for this role are injected into the Pod. When you run applications on Amazon EKS, your application might need to access Amazon Web Services resources from a different role that exists in the same or different Amazon Web Services account. For ex- ample, your application running in Account A might need to access resources, such as Amazon S3 buckets in Account B or within Account A itself. You can create a association to access Amazon Web Services resources in Account B by creating two IAM roles: a role in Account A and a role in Account B (which can be the same or different ac- count), each with the necessary trust and permission policies. After you provide these roles in the IAM role and Target IAM role fields, EKS will perform role chaining to ensure your application gets the required permissions. This means Role A will assume Role B, allowing your Pods to securely access resources like S3 buckets in the target account.
+    /// The Amazon Resource Name (ARN) of the target IAM role to associate with the service account. This role is assumed by using the EKS Pod Identity association role, then the credentials for this role are injected into the Pod. When you run applications on Amazon EKS, your application might need to access Amazon Web Services resources from a different role that exists in the same or different Amazon Web Services account. For example, your application running in Account A might need to access resources, such as Amazon S3 buckets in Account B or within Account A itself. You can create a association to access Amazon Web Services resources in Account B by creating two IAM roles: a role in Account A and a role in Account B (which can be the same or different account), each with the necessary trust and permission policies. After you provide these roles in the IAM role and Target IAM role fields, EKS will perform role chaining to ensure your application gets the required permissions. This means Role A will assume Role B, allowing your Pods to securely access resources like S3 buckets in the target account.
     /// </summary>
     [CliOption("--target-role-arn")]
     public string? TargetRoleArn { get; set; }
 
     /// <summary>
-    /// An optional IAM policy in JSON format (as an escaped string) that applies additional restrictions to this pod identity association be- yond the IAM policies attached to the IAM role. This policy is ap- plied as the intersection of the role's policies and this policy, allowing you to reduce the permissions that applications in the pods can use. Use this policy to enforce least privilege access while still leveraging a shared IAM role across multiple applications. Important considerations o Session tags: When using this policy, disableSessionTags must be set to true . o Target role permissions: If you specify both a TargetRoleArn and a policy, the policy restrictions apply only to the target role's permissions, not to the initial role used for assuming the target role.
+    /// An optional IAM policy in JSON format (as an escaped string) that applies additional restrictions to this pod identity association beyond the IAM policies attached to the IAM role. This policy is applied as the intersection of the role's policies and this policy, allowing you to reduce the permissions that applications in the pods can use. Use this policy to enforce least privilege access while still leveraging a shared IAM role across multiple applications. Important considerations • Session tags: When using this policy, disableSessionTags must be set to true . • Target role permissions: If you specify both a TargetRoleArn and a policy, the policy restrictions apply only to the target role's permissions, not to the initial role used for assuming the target role.
     /// </summary>
     [CliOption("--policy")]
     public string? Policy { get; set; }
@@ -145,6 +145,15 @@ public record AwsEksCreatePodIdentityAssociationOptions : AwsOptions, IValidatab
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

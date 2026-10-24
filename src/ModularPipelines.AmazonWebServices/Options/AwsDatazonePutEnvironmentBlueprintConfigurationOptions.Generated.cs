@@ -10,7 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,9 +28,9 @@ public record AwsDatazonePutEnvironmentBlueprintConfigurationOptions : AwsOption
     /// <summary>
     /// Writes the configuration for the specified environment blueprint in Amazon DataZone. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DomainIdentifier">The identifier of the Amazon DataZone domain. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}</param>
-    /// <param name="EnvironmentBlueprintIdentifier">The identifier of the environment blueprint. Constraints: o pattern: [a-zA-Z0-9_-]{1,36}</param>
-    /// <param name="EnabledRegions">Specifies the enabled Amazon Web Services Regions. Constraints: o min: 0 (string) Constraints: o min: 4 o max: 16 o pattern: [a-z]{2}-?(iso|gov)?-{1}[a-z]*-{1}[0-9] Syntax: "string" "string" ...</param>
+    /// <param name="DomainIdentifier">The identifier of the Amazon DataZone domain. Constraints: • pattern: dzd[-_][a-zA-Z0-9_-]{1,36}</param>
+    /// <param name="EnvironmentBlueprintIdentifier">The identifier of the environment blueprint. Constraints: • pattern: [a-zA-Z0-9_-]{1,36}</param>
+    /// <param name="EnabledRegions">Specifies the enabled Amazon Web Services Regions. Constraints: • min: 0 (string) Constraints: • min: 4 • max: 16 • pattern: [a-z]{2}-?(iso|gov)?-{1}[a-z]*-{1}[0-9] Syntax: "string" "string" ...</param>
     public AwsDatazonePutEnvironmentBlueprintConfigurationOptions(
         string DomainIdentifier,
         string EnvironmentBlueprintIdentifier,
@@ -76,55 +76,55 @@ public record AwsDatazonePutEnvironmentBlueprintConfigurationOptions : AwsOption
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the Amazon DataZone domain. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}
+    /// The identifier of the Amazon DataZone domain. Constraints: • pattern: dzd[-_][a-zA-Z0-9_-]{1,36}
     /// </summary>
     [CliOption("--domain-identifier")]
     public string? DomainIdentifier { get; private init; }
 
     /// <summary>
-    /// The identifier of the environment blueprint. Constraints: o pattern: [a-zA-Z0-9_-]{1,36}
+    /// The identifier of the environment blueprint. Constraints: • pattern: [a-zA-Z0-9_-]{1,36}
     /// </summary>
     [CliOption("--environment-blueprint-identifier")]
     public string? EnvironmentBlueprintIdentifier { get; private init; }
 
     /// <summary>
-    /// Specifies the enabled Amazon Web Services Regions. Constraints: o min: 0 (string) Constraints: o min: 4 o max: 16 o pattern: [a-z]{2}-?(iso|gov)?-{1}[a-z]*-{1}[0-9] Syntax: "string" "string" ...
+    /// Specifies the enabled Amazon Web Services Regions. Constraints: • min: 0 (string) Constraints: • min: 4 • max: 16 • pattern: [a-z]{2}-?(iso|gov)?-{1}[a-z]*-{1}[0-9] Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--enabled-regions", GroupValues = true)]
     public IEnumerable<string>? EnabledRegions { get; private init; }
 
     /// <summary>
-    /// The ARN of the provisioning role. Constraints: o pattern: arn:aws[^:]*:iam::\d{12}:role(/[a-zA-Z0-9+=,.@_-]+)*/[a-zA-Z0-9+=,.@_-]+
+    /// The ARN of the provisioning role. Constraints: • pattern: arn:aws[^:]*:iam::\d{12}:role(/[a-zA-Z0-9+=,.@_-]+)*/[a-zA-Z0-9+=,.@_-]+
     /// </summary>
     [CliOption("--provisioning-role-arn")]
     public string? ProvisioningRoleArn { get; set; }
 
     /// <summary>
-    /// The ARN of the manage access role. Constraints: o pattern: arn:aws[^:]*:iam::\d{12}:role(/[a-zA-Z0-9+=,.@_-]+)*/[a-zA-Z0-9+=,.@_-]+
+    /// The ARN of the manage access role. Constraints: • pattern: arn:aws[^:]*:iam::\d{12}:role(/[a-zA-Z0-9+=,.@_-]+)*/[a-zA-Z0-9+=,.@_-]+
     /// </summary>
     [CliOption("--manage-access-role-arn")]
     public string? ManageAccessRoleArn { get; set; }
 
     /// <summary>
-    /// The environment role permissions boundary. Constraints: o pattern: arn:aws[^:]*:iam::(aws|\d{12}):policy/[\w+=,.@-]*
+    /// The environment role permissions boundary. Constraints: • pattern: arn:aws[^:]*:iam::(aws|\d{12}):policy/[\w+=,.@-]*
     /// </summary>
     [CliOption("--environment-role-permission-boundary")]
     public string? EnvironmentRolePermissionBoundary { get; set; }
 
     /// <summary>
-    /// The regional parameters in the environment blueprint. key -&gt; (string) Constraints: o min: 4 o max: 16 o pattern: [a-z]{2}-?(iso|gov)?-{1}[a-z]*-{1}[0-9] value -&gt; (map) key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1={KeyName1=string,KeyName2=string},KeyName2={KeyName1=string,KeyName2=string} JSON Syntax: {"string": {"string": "string" ...} ...}
+    /// The regional parameters in the environment blueprint. key -&gt; (string) Constraints: • min: 4 • max: 16 • pattern: [a-z]{2}-?(iso|gov)?-{1}[a-z]*-{1}[0-9] value -&gt; (map) key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1={KeyName1=string,KeyName2=string},KeyName2={KeyName1=string,KeyName2=string} JSON Syntax: {"string": {"string": "string" ...} ...}
     /// </summary>
     [CliOption("--regional-parameters", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? RegionalParameters { get; set; }
 
     /// <summary>
-    /// The resource configurations of the environment blueprint. Constraints: o min: 0 o max: 10 (structure) The resource configuration that is used to configure the envi- ronment blueprint. name -&gt; (string) [required] The name of the resource configuration. Constraints: o min: 1 o max: 64 description -&gt; (string) The description of the resource configuration. region -&gt; (string) [required] The Amazon Web Services Region of the resource configuration. Constraints: o min: 4 o max: 16 o pattern: [a-z]{2}-?(iso|gov)?-{1}[a-z]*-{1}[0-9] parameters -&gt; (map) [required] The parameters of the resource configuration. key -&gt; (string) value -&gt; (string) Shorthand Syntax: name=string,description=string,region=string,parameters={KeyName1=string,KeyName2=string} ... JSON Syntax: [ { "name": "string", "description": "string", "region": "string", "parameters": {"string": "string" ...} } ... ]
+    /// The resource configurations of the environment blueprint. Constraints: • min: 0 • max: 10 (structure) The resource configuration that is used to configure the environment blueprint. name -&gt; (string) [required] The name of the resource configuration. Constraints: • min: 1 • max: 64 description -&gt; (string) The description of the resource configuration. region -&gt; (string) [required] The Amazon Web Services Region of the resource configuration. Constraints: • min: 4 • max: 16 • pattern: [a-z]{2}-?(iso|gov)?-{1}[a-z]*-{1}[0-9] parameters -&gt; (map) [required] The parameters of the resource configuration. key -&gt; (string) value -&gt; (string) Shorthand Syntax: name=string,description=string,region=string,parameters={KeyName1=string,KeyName2=string} ... JSON Syntax: [ { "name": "string", "description": "string", "region": "string", "parameters": {"string": "string" ...} } ... ]
     /// </summary>
     [CliOption("--resource-configurations", GroupValues = true)]
     public IEnumerable<string>? ResourceConfigurations { get; set; }
 
     /// <summary>
-    /// urations (boolean) Specifies whether user-provided resource configurations are allowed for the environment blueprint.
+    /// Specifies whether user-provided resource configurations are allowed for the environment blueprint.
     /// </summary>
     [CliFlag("--allow-user-provided-configurations", NegatedName = "--no-allow-user-provided-configurations")]
     public bool? AllowUserProvidedConfigurations { get; set; }
@@ -136,7 +136,7 @@ public record AwsDatazonePutEnvironmentBlueprintConfigurationOptions : AwsOption
     public IReadOnlyList<KeyValue>? GlobalParameters { get; set; }
 
     /// <summary>
-    /// The provisioning configuration of a blueprint. (tagged union structure) The provisioning configuration of the blueprint. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: lakeFormationConfiguration. lakeFormationConfiguration -&gt; (structure) The Lake Formation configuration of the Data Lake blueprint. locationRegistrationRole -&gt; (string) The role that is used to manage read/write access to the chosen Amazon S3 bucket(s) for Data Lake using Amazon Web Services Lake Formation hybrid access mode. Constraints: o pattern: arn:aws[^:]*:iam::\d{12}:role(/[a-zA-Z0-9+=,.@_-]+)*/[a-zA-Z0-9+=,.@_-]+ locationRegistrationExcludeS3Locations -&gt; (list) Specifies certain Amazon S3 locations if you do not want Amazon DataZone to automatically register them in hybrid mode. Constraints: o min: 0 o max: 20 (string) Constraints: o min: 1 o max: 1024 o pattern: s3://.+ Shorthand Syntax: lakeFormationConfiguration={locationRegistrationRole=string,locationRegistrationExcludeS3Locations=[string,string]} ... JSON Syntax: [ { "lakeFormationConfiguration": { "locationRegistrationRole": "string", "locationRegistrationExcludeS3Locations": ["string", ...] } } ... ]
+    /// The provisioning configuration of a blueprint. (tagged union structure) The provisioning configuration of the blueprint. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: lakeFormationConfiguration. lakeFormationConfiguration -&gt; (structure) The Lake Formation configuration of the Data Lake blueprint. locationRegistrationRole -&gt; (string) The role that is used to manage read/write access to the chosen Amazon S3 bucket(s) for Data Lake using Amazon Web Services Lake Formation hybrid access mode. Constraints: • pattern: arn:aws[^:]*:iam::\d{12}:role(/[a-zA-Z0-9+=,.@_-]+)*/[a-zA-Z0-9+=,.@_-]+ locationRegistrationExcludeS3Locations -&gt; (list) Specifies certain Amazon S3 locations if you do not want Amazon DataZone to automatically register them in hybrid mode. Constraints: • min: 0 • max: 20 (string) Constraints: • min: 1 • max: 1024 • pattern: s3://.+ Shorthand Syntax: lakeFormationConfiguration={locationRegistrationRole=string,locationRegistrationExcludeS3Locations=[string,string]} ... JSON Syntax: [ { "lakeFormationConfiguration": { "locationRegistrationRole": "string", "locationRegistrationExcludeS3Locations": ["string", ...] } } ... ]
     /// </summary>
     [CliOption("--provisioning-configurations", GroupValues = true)]
     public IEnumerable<string>? ProvisioningConfigurations { get; set; }
@@ -162,6 +162,15 @@ public record AwsDatazonePutEnvironmentBlueprintConfigurationOptions : AwsOption
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

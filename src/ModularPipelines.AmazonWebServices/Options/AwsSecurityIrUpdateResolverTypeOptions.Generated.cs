@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,8 +29,8 @@ public record AwsSecurityIrUpdateResolverTypeOptions : AwsOptions, IValidatableO
     /// <summary>
     /// Updates the resolver type for a case. WARNING: This is a one-way action and cannot be reversed. See also: AWS API Documentation
     /// </summary>
-    /// <param name="CaseId">Required element for UpdateResolverType to identify the case to up- date. Constraints: o min: 10 o max: 32 o pattern: \d{10,32}.*</param>
-    /// <param name="ResolverType">Required element for UpdateResolverType to identify the new re- solver. Possible values: o AWS o Self</param>
+    /// <param name="CaseId">Required element for UpdateResolverType to identify the case to update. Constraints: • min: 10 • max: 32 • pattern: \d{10,32}.*</param>
+    /// <param name="ResolverType">Required element for UpdateResolverType to identify the new resolver. Possible values: • AWS • Self</param>
     public AwsSecurityIrUpdateResolverTypeOptions(
         string CaseId,
         AwsSecurityIrUpdateResolverTypeResolverType ResolverType
@@ -60,13 +61,13 @@ public record AwsSecurityIrUpdateResolverTypeOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Required element for UpdateResolverType to identify the case to up- date. Constraints: o min: 10 o max: 32 o pattern: \d{10,32}.*
+    /// Required element for UpdateResolverType to identify the case to update. Constraints: • min: 10 • max: 32 • pattern: \d{10,32}.*
     /// </summary>
     [CliOption("--case-id")]
     public string? CaseId { get; private init; }
 
     /// <summary>
-    /// Required element for UpdateResolverType to identify the new re- solver. Possible values: o AWS o Self
+    /// Required element for UpdateResolverType to identify the new resolver. Possible values: • AWS • Self
     /// </summary>
     [CliOption("--resolver-type")]
     public AwsSecurityIrUpdateResolverTypeResolverType? ResolverType { get; private init; }
@@ -92,6 +93,15 @@ public record AwsSecurityIrUpdateResolverTypeOptions : AwsOptions, IValidatableO
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +29,7 @@ public record AwsS3apiListBucketInventoryConfigurationsOptions : AwsOptions, IVa
     /// <summary>
     /// Returns a list of S3 Inventory configurations for the bucket. You can have up to 1,000 inventory configurations per bucket. This action supports list pagination and does not return more than 100 configurations at a time. Always check the IsTruncated element in the response. If there are no more configurations to list, IsTruncated is set to false. If there are more configurations to list, IsTruncated is set to true, and there is a value in NextContinuationToken . You use the NextContinuationToken...
     /// </summary>
-    /// <param name="Bucket">The name of the bucket containing the inventory configurations to retrieve. Directory buckets - When you use this operation with a directory bucket, you must use path-style requests in the format https://s3express-control.*region-code* .amazon- aws.com/*bucket-name* `` . Virtual-hosted-style requests aren't supported. Directory bucket names must be unique in the chosen Zone (Availability Zone or Local Zone). Bucket names must also follow the format `` *bucket-base-name* --*zone-id* --x-s3 (for example, `` DOC-EXAMPLE-BUCKET --usw2-az1 --x-s3`` ). For infor- mation about bucket naming restrictions, see Directory bucket naming rules in the Amazon S3 User Guide</param>
+    /// <param name="Bucket">The name of the bucket containing the inventory configurations to retrieve. Directory buckets - When you use this operation with a directory bucket, you must use path-style requests in the format https://s3express-control.*region-code* .amazonaws.com/*bucket-name* `` . Virtual-hosted-style requests aren't supported. Directory bucket names must be unique in the chosen Zone (Availability Zone or Local Zone). Bucket names must also follow the format `` *bucket-base-name* --*zone-id* --x-s3 (for example, `` DOC-EXAMPLE-BUCKET --usw2-az1 --x-s3`` ). For information about bucket naming restrictions, see Directory bucket naming rules in the Amazon S3 User Guide</param>
     public AwsS3apiListBucketInventoryConfigurationsOptions(
         string Bucket
     )
@@ -57,7 +58,7 @@ public record AwsS3apiListBucketInventoryConfigurationsOptions : AwsOptions, IVa
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the bucket containing the inventory configurations to retrieve. Directory buckets - When you use this operation with a directory bucket, you must use path-style requests in the format https://s3express-control.*region-code* .amazon- aws.com/*bucket-name* `` . Virtual-hosted-style requests aren't supported. Directory bucket names must be unique in the chosen Zone (Availability Zone or Local Zone). Bucket names must also follow the format `` *bucket-base-name* --*zone-id* --x-s3 (for example, `` DOC-EXAMPLE-BUCKET --usw2-az1 --x-s3`` ). For infor- mation about bucket naming restrictions, see Directory bucket naming rules in the Amazon S3 User Guide
+    /// The name of the bucket containing the inventory configurations to retrieve. Directory buckets - When you use this operation with a directory bucket, you must use path-style requests in the format https://s3express-control.*region-code* .amazonaws.com/*bucket-name* `` . Virtual-hosted-style requests aren't supported. Directory bucket names must be unique in the chosen Zone (Availability Zone or Local Zone). Bucket names must also follow the format `` *bucket-base-name* --*zone-id* --x-s3 (for example, `` DOC-EXAMPLE-BUCKET --usw2-az1 --x-s3`` ). For information about bucket naming restrictions, see Directory bucket naming rules in the Amazon S3 User Guide
     /// </summary>
     [CliOption("--bucket")]
     public string? Bucket { get; private init; }
@@ -70,7 +71,7 @@ public record AwsS3apiListBucketInventoryConfigurationsOptions : AwsOptions, IVa
     public string? ContinuationToken { get; set; }
 
     /// <summary>
-    /// The account ID of the expected bucket owner. If the account ID that you provide does not match the actual owner of the bucket, the re- quest fails with the HTTP status code 403 Forbidden (access denied). NOTE: For directory buckets, this header is not supported in this API operation. If you specify this header, the request fails with the HTTP status code 501 Not Implemented .
+    /// The account ID of the expected bucket owner. If the account ID that you provide does not match the actual owner of the bucket, the request fails with the HTTP status code 403 Forbidden (access denied). NOTE: For directory buckets, this header is not supported in this API operation. If you specify this header, the request fails with the HTTP status code 501 Not Implemented .
     /// </summary>
     [CliOption("--expected-bucket-owner")]
     public string? ExpectedBucketOwner { get; set; }
@@ -96,6 +97,15 @@ public record AwsS3apiListBucketInventoryConfigurationsOptions : AwsOptions, IVa
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

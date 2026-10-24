@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Wait until a Policy is active It will poll every 5 seconds until a suc- cessful state has been reached. This will exit with a return code of 255 after 24 failed checks. See also: AWS API Documentation
+/// Wait until a Policy is active It will poll every 5 seconds until a successful state has been reached. This will exit with a return code of 255 after 24 failed checks. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsBedrockAgentcoreControlWaitPolicyActiveOptions : AwsOptions, IV
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Wait until a Policy is active It will poll every 5 seconds until a suc- cessful state has been reached. This will exit with a return code of 255 after 24 failed checks. See also: AWS API Documentation
+    /// Wait until a Policy is active It will poll every 5 seconds until a successful state has been reached. This will exit with a return code of 255 after 24 failed checks. See also: AWS API Documentation
     /// </summary>
-    /// <param name="PolicyEngineId">The identifier of the policy engine that manages the policy to be retrieved. Constraints: o min: 12 o max: 59 o pattern: [A-Za-z][A-Za-z0-9_]*-[a-z0-9_]{10}</param>
-    /// <param name="PolicyId">The unique identifier of the policy to be retrieved. This must be a valid policy ID that exists within the specified policy engine. Constraints: o min: 12 o max: 59 o pattern: [A-Za-z][A-Za-z0-9_]*-[a-z0-9_]{10}</param>
+    /// <param name="PolicyEngineId">The identifier of the policy engine that manages the policy to be retrieved. Constraints: • min: 12 • max: 59 • pattern: [A-Za-z][A-Za-z0-9_]*-[a-z0-9_]{10}</param>
+    /// <param name="PolicyId">The unique identifier of the policy to be retrieved. This must be a valid policy ID that exists within the specified policy engine. Constraints: • min: 12 • max: 59 • pattern: [A-Za-z][A-Za-z0-9_]*-[a-z0-9_]{10}</param>
     public AwsBedrockAgentcoreControlWaitPolicyActiveOptions(
         string PolicyEngineId,
         string PolicyId
@@ -60,13 +61,13 @@ public record AwsBedrockAgentcoreControlWaitPolicyActiveOptions : AwsOptions, IV
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the policy engine that manages the policy to be retrieved. Constraints: o min: 12 o max: 59 o pattern: [A-Za-z][A-Za-z0-9_]*-[a-z0-9_]{10}
+    /// The identifier of the policy engine that manages the policy to be retrieved. Constraints: • min: 12 • max: 59 • pattern: [A-Za-z][A-Za-z0-9_]*-[a-z0-9_]{10}
     /// </summary>
     [CliOption("--policy-engine-id")]
     public string? PolicyEngineId { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the policy to be retrieved. This must be a valid policy ID that exists within the specified policy engine. Constraints: o min: 12 o max: 59 o pattern: [A-Za-z][A-Za-z0-9_]*-[a-z0-9_]{10}
+    /// The unique identifier of the policy to be retrieved. This must be a valid policy ID that exists within the specified policy engine. Constraints: • min: 12 • max: 59 • pattern: [A-Za-z][A-Za-z0-9_]*-[a-z0-9_]{10}
     /// </summary>
     [CliOption("--policy-id")]
     public string? PolicyId { get; private init; }
@@ -92,6 +93,15 @@ public record AwsBedrockAgentcoreControlWaitPolicyActiveOptions : AwsOptions, IV
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

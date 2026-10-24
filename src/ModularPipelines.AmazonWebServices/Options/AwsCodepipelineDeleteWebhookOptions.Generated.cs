@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes a previously created webhook by name. Deleting the webhook stops CodePipeline from starting a pipeline every time an external event occurs. The API returns successfully when trying to delete a web- hook that is already deleted. If a deleted webhook is re-created by calling PutWebhook with the same name, it will have a different URL. See also: AWS API Documentation
+/// Deletes a previously created webhook by name. Deleting the webhook stops CodePipeline from starting a pipeline every time an external event occurs. The API returns successfully when trying to delete a webhook that is already deleted. If a deleted webhook is re-created by calling PutWebhook with the same name, it will have a different URL. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsCodepipelineDeleteWebhookOptions : AwsOptions, IValidatableObje
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes a previously created webhook by name. Deleting the webhook stops CodePipeline from starting a pipeline every time an external event occurs. The API returns successfully when trying to delete a web- hook that is already deleted. If a deleted webhook is re-created by calling PutWebhook with the same name, it will have a different URL. See also: AWS API Documentation
+    /// Deletes a previously created webhook by name. Deleting the webhook stops CodePipeline from starting a pipeline every time an external event occurs. The API returns successfully when trying to delete a webhook that is already deleted. If a deleted webhook is re-created by calling PutWebhook with the same name, it will have a different URL. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">The name of the webhook you want to delete. Constraints: o min: 1 o max: 100 o pattern: [A-Za-z0-9.@\-_]+</param>
+    /// <param name="Name">The name of the webhook you want to delete. Constraints: • min: 1 • max: 100 • pattern: [A-Za-z0-9.@\-_]+</param>
     public AwsCodepipelineDeleteWebhookOptions(
         string Name
     )
@@ -56,7 +57,7 @@ public record AwsCodepipelineDeleteWebhookOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the webhook you want to delete. Constraints: o min: 1 o max: 100 o pattern: [A-Za-z0-9.@\-_]+
+    /// The name of the webhook you want to delete. Constraints: • min: 1 • max: 100 • pattern: [A-Za-z0-9.@\-_]+
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
@@ -82,6 +83,15 @@ public record AwsCodepipelineDeleteWebhookOptions : AwsOptions, IValidatableObje
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

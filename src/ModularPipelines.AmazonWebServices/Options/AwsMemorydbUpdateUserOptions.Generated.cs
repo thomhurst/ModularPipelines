@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsMemorydbUpdateUserOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Changes user password(s) and/or access string. See also: AWS API Documentation
     /// </summary>
-    /// <param name="UserName">The name of the user Constraints: o min: 1 o pattern: [a-zA-Z][a-zA-Z0-9\-]*</param>
+    /// <param name="UserName">The name of the user Constraints: • min: 1 • pattern: [a-zA-Z][a-zA-Z0-9\-]*</param>
     public AwsMemorydbUpdateUserOptions(
         string UserName
     )
@@ -56,19 +57,19 @@ public record AwsMemorydbUpdateUserOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the user Constraints: o min: 1 o pattern: [a-zA-Z][a-zA-Z0-9\-]*
+    /// The name of the user Constraints: • min: 1 • pattern: [a-zA-Z][a-zA-Z0-9\-]*
     /// </summary>
     [CliOption("--user-name")]
     public string? UserName { get; private init; }
 
     /// <summary>
-    /// Denotes the user's authentication properties, such as whether it re- quires a password to authenticate. Type -&gt; (string) Indicates whether the user requires a password to authenticate. All newly-created users require a password. Possible values: o password o iam Passwords -&gt; (list) The password(s) used for authentication Constraints: o min: 1 (string) Shorthand Syntax: Type=string,Passwords=string,string JSON Syntax: { "Type": "password"|"iam", "Passwords": ["string", ...] }
+    /// Denotes the user's authentication properties, such as whether it requires a password to authenticate. Type -&gt; (string) Indicates whether the user requires a password to authenticate. All newly-created users require a password. Possible values: • password • iam Passwords -&gt; (list) The password(s) used for authentication Constraints: • min: 1 (string) Shorthand Syntax: Type=string,Passwords=string,string JSON Syntax: { "Type": "password"|"iam", "Passwords": ["string", ...] }
     /// </summary>
     [CliOption("--authentication-mode")]
     public string? AuthenticationMode { get; set; }
 
     /// <summary>
-    /// Access permissions string used for this user. Constraints: o pattern: .*\S.*
+    /// Access permissions string used for this user. Constraints: • pattern: .*\S.*
     /// </summary>
     [CliOption("--access-string")]
     public string? AccessString { get; set; }
@@ -94,6 +95,15 @@ public record AwsMemorydbUpdateUserOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

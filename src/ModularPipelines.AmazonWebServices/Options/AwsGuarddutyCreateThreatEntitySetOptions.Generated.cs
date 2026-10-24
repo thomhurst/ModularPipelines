@@ -11,14 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a new threat entity set. In a threat entity set, you can pro- vide known malicious threat entities for your Amazon Web Services envi- ronment. GuardDuty generates findings based on the entries in the threat entity sets. Only users of the administrator account can manage entity sets, which automatically apply to member accounts. See also: AWS API Documentation
+/// Creates a new threat entity set. In a threat entity set, you can provide known malicious threat entities for your Amazon Web Services environment. GuardDuty generates findings based on the entries in the threat entity sets. Only users of the administrator account can manage entity sets, which automatically apply to member accounts. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -28,12 +28,12 @@ public record AwsGuarddutyCreateThreatEntitySetOptions : AwsOptions, IValidatabl
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a new threat entity set. In a threat entity set, you can pro- vide known malicious threat entities for your Amazon Web Services envi- ronment. GuardDuty generates findings based on the entries in the threat entity sets. Only users of the administrator account can manage entity sets, which automatically apply to member accounts. See also: AWS API Documentation
+    /// Creates a new threat entity set. In a threat entity set, you can provide known malicious threat entities for your Amazon Web Services environment. GuardDuty generates findings based on the entries in the threat entity sets. Only users of the administrator account can manage entity sets, which automatically apply to member accounts. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DetectorId">The unique ID of the detector of the GuardDuty account for which you want to create a threat entity set. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the ListDetectors API. Constraints: o min: 1 o max: 300</param>
-    /// <param name="Name">A user-friendly name to identify the threat entity set. The name of your list can include lowercase letters, uppercase let- ters, numbers, dash (-), and underscore (_). Constraints: o min: 1 o max: 300</param>
-    /// <param name="Format">The format of the file that contains the threat entity set. Possible values: o TXT o STIX o OTX_CSV o ALIEN_VAULT o PROOF_POINT o FIRE_EYE Constraints: o min: 1 o max: 300</param>
-    /// <param name="Location">The URI of the file that contains the threat entity set. The format of the Location URL must be a valid Amazon S3 URL format. Invalid URL formats will result in an error, regardless of whether you acti- vate the entity set or not. For more information about format of the location URLs, see Format of location URL under Step 2: Adding trusted or threat intelligence data in the Amazon GuardDuty User Guide . Constraints: o min: 1 o max: 300</param>
+    /// <param name="DetectorId">The unique ID of the detector of the GuardDuty account for which you want to create a threat entity set. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the ListDetectors API. Constraints: • min: 1 • max: 300</param>
+    /// <param name="Name">A user-friendly name to identify the threat entity set. The name of your list can include lowercase letters, uppercase letters, numbers, dash (-), and underscore (_). Constraints: • min: 1 • max: 300</param>
+    /// <param name="Format">The format of the file that contains the threat entity set. Possible values: • TXT • STIX • OTX_CSV • ALIEN_VAULT • PROOF_POINT • FIRE_EYE Constraints: • min: 1 • max: 300</param>
+    /// <param name="Location">The URI of the file that contains the threat entity set. The format of the Location URL must be a valid Amazon S3 URL format. Invalid URL formats will result in an error, regardless of whether you activate the entity set or not. For more information about format of the location URLs, see Format of location URL under Step 2: Adding trusted or threat intelligence data in the Amazon GuardDuty User Guide . Constraints: • min: 1 • max: 300</param>
     /// <param name="Activate">A boolean value that indicates whether GuardDuty should start using the uploaded threat entity set to generate findings.</param>
     public AwsGuarddutyCreateThreatEntitySetOptions(
         string DetectorId,
@@ -73,25 +73,25 @@ public record AwsGuarddutyCreateThreatEntitySetOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique ID of the detector of the GuardDuty account for which you want to create a threat entity set. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the ListDetectors API. Constraints: o min: 1 o max: 300
+    /// The unique ID of the detector of the GuardDuty account for which you want to create a threat entity set. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the ListDetectors API. Constraints: • min: 1 • max: 300
     /// </summary>
     [CliOption("--detector-id")]
     public string? DetectorId { get; private init; }
 
     /// <summary>
-    /// A user-friendly name to identify the threat entity set. The name of your list can include lowercase letters, uppercase let- ters, numbers, dash (-), and underscore (_). Constraints: o min: 1 o max: 300
+    /// A user-friendly name to identify the threat entity set. The name of your list can include lowercase letters, uppercase letters, numbers, dash (-), and underscore (_). Constraints: • min: 1 • max: 300
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The format of the file that contains the threat entity set. Possible values: o TXT o STIX o OTX_CSV o ALIEN_VAULT o PROOF_POINT o FIRE_EYE Constraints: o min: 1 o max: 300
+    /// The format of the file that contains the threat entity set. Possible values: • TXT • STIX • OTX_CSV • ALIEN_VAULT • PROOF_POINT • FIRE_EYE Constraints: • min: 1 • max: 300
     /// </summary>
     [CliOption("--format")]
     public AwsGuarddutyCreateThreatEntitySetFormat? Format { get; private init; }
 
     /// <summary>
-    /// The URI of the file that contains the threat entity set. The format of the Location URL must be a valid Amazon S3 URL format. Invalid URL formats will result in an error, regardless of whether you acti- vate the entity set or not. For more information about format of the location URLs, see Format of location URL under Step 2: Adding trusted or threat intelligence data in the Amazon GuardDuty User Guide . Constraints: o min: 1 o max: 300
+    /// The URI of the file that contains the threat entity set. The format of the Location URL must be a valid Amazon S3 URL format. Invalid URL formats will result in an error, regardless of whether you activate the entity set or not. For more information about format of the location URLs, see Format of location URL under Step 2: Adding trusted or threat intelligence data in the Amazon GuardDuty User Guide . Constraints: • min: 1 • max: 300
     /// </summary>
     [CliOption("--location")]
     public string? Location { get; private init; }
@@ -103,20 +103,20 @@ public record AwsGuarddutyCreateThreatEntitySetOptions : AwsOptions, IValidatabl
     public bool? Activate { get; private init; }
 
     /// <summary>
-    /// The Amazon Web Services account ID that owns the Amazon S3 bucket specified in the location parameter. Constraints: o min: 12 o max: 12 o pattern: [0-9]+
+    /// The Amazon Web Services account ID that owns the Amazon S3 bucket specified in the location parameter. Constraints: • min: 12 • max: 12 • pattern: [0-9]+
     /// </summary>
     [CliOption("--expected-bucket-owner")]
     public string? ExpectedBucketOwner { get; set; }
 
     /// <summary>
-    /// The idempotency token for the create request. Constraints: o min: 0 o max: 64
+    /// The idempotency token for the create request. Constraints: • min: 0 • max: 64
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// The tags to be added to a new threat entity set resource. Constraints: o min: 1 o max: 200 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: (?!aws:)[a-zA-Z+-=._:/]+ value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The tags to be added to a new threat entity set resource. Constraints: • min: 1 • max: 200 key -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: (?!aws:)[a-zA-Z+-=._:/]+ value -&gt; (string) Constraints: • min: 0 • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
@@ -142,6 +142,15 @@ public record AwsGuarddutyCreateThreatEntitySetOptions : AwsOptions, IValidatabl
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

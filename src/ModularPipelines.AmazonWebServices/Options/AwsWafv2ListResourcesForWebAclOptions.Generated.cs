@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves an array of the Amazon Resource Names (ARNs) for the re- sources that are associated with the specified web ACL. For Amazon CloudFront, don't use this call. Instead, use the CloudFront call ListDistributionsByWebACLId . For information, see ListDistributionsByWebACLId in the Amazon CloudFront API Reference . Required permissions for customer-managed IAM policies This call requires permissions that are specific to the protected re- source type. For details, see Permissions for ListResou...
+/// Retrieves an array of the Amazon Resource Names (ARNs) for the resources that are associated with the specified web ACL. For Amazon CloudFront, don't use this call. Instead, use the CloudFront call ListDistributionsByWebACLId . For information, see ListDistributionsByWebACLId in the Amazon CloudFront API Reference . Required permissions for customer-managed IAM policies This call requires permissions that are specific to the protected resource type. For details, see Permissions for ListResources...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +27,9 @@ public record AwsWafv2ListResourcesForWebAclOptions : AwsOptions, IValidatableOb
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Retrieves an array of the Amazon Resource Names (ARNs) for the re- sources that are associated with the specified web ACL. For Amazon CloudFront, don't use this call. Instead, use the CloudFront call ListDistributionsByWebACLId . For information, see ListDistributionsByWebACLId in the Amazon CloudFront API Reference . Required permissions for customer-managed IAM policies This call requires permissions that are specific to the protected re- source type. For details, see Permissions for ListResou...
+    /// Retrieves an array of the Amazon Resource Names (ARNs) for the resources that are associated with the specified web ACL. For Amazon CloudFront, don't use this call. Instead, use the CloudFront call ListDistributionsByWebACLId . For information, see ListDistributionsByWebACLId in the Amazon CloudFront API Reference . Required permissions for customer-managed IAM policies This call requires permissions that are specific to the protected resource type. For details, see Permissions for ListResources...
     /// </summary>
-    /// <param name="WebAclArn">The Amazon Resource Name (ARN) of the web ACL. Constraints: o min: 20 o max: 2048 o pattern: .*\S.*</param>
+    /// <param name="WebAclArn">The Amazon Resource Name (ARN) of the web ACL. Constraints: • min: 20 • max: 2048 • pattern: .*\S.*</param>
     public AwsWafv2ListResourcesForWebAclOptions(
         string WebAclArn
     )
@@ -57,13 +58,13 @@ public record AwsWafv2ListResourcesForWebAclOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the web ACL. Constraints: o min: 20 o max: 2048 o pattern: .*\S.*
+    /// The Amazon Resource Name (ARN) of the web ACL. Constraints: • min: 20 • max: 2048 • pattern: .*\S.*
     /// </summary>
     [CliOption("--web-acl-arn")]
     public string? WebAclArn { get; private init; }
 
     /// <summary>
-    /// Retrieves the web ACLs that are used by the specified resource type. For Amazon CloudFront, don't use this call. Instead, use the Cloud- Front call ListDistributionsByWebACLId . For information, see ListDistributionsByWebACLId in the Amazon CloudFront API Reference . NOTE: If you don't provide a resource type, the call uses the resource type APPLICATION_LOAD_BALANCER . Default: APPLICATION_LOAD_BALANCER Possible values: o APPLICATION_LOAD_BALANCER o API_GATEWAY o APPSYNC o COGNITO_USER_POOL o APP_RUNNER_SERVICE o VERIFIED_ACCESS_INSTANCE o AMPLIFY o AGENTCORE_GATEWAY
+    /// Retrieves the web ACLs that are used by the specified resource type. For Amazon CloudFront, don't use this call. Instead, use the CloudFront call ListDistributionsByWebACLId . For information, see ListDistributionsByWebACLId in the Amazon CloudFront API Reference . NOTE: If you don't provide a resource type, the call uses the resource type APPLICATION_LOAD_BALANCER . Default: APPLICATION_LOAD_BALANCER Possible values: • APPLICATION_LOAD_BALANCER • API_GATEWAY • APPSYNC • COGNITO_USER_POOL • APP_RUNNER_SERVICE • VERIFIED_ACCESS_INSTANCE • AMPLIFY • AGENTCORE_GATEWAY
     /// </summary>
     [CliOption("--resource-type")]
     public AwsWafv2ListResourcesForWebAclResourceType? ResourceType { get; set; }
@@ -89,6 +90,15 @@ public record AwsWafv2ListResourcesForWebAclOptions : AwsOptions, IValidatableOb
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

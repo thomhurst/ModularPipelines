@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves and caches an AWS IAM Identity Center access token to ex- change for AWS credentials. To login, the requested profile must have first been setup using aws configure sso. Each time the login command is called, a new SSO access token will be retrieved. Please note that only one login session can be active for a given SSO Session and creat- ing multiple profiles does not allow for multiple users to be authenti- cated against the same SSO Session.
+/// Retrieves and caches an AWS IAM Identity Center access token to exchange for AWS credentials. To login, the requested profile must have first been setup using aws configure sso. Each time the login command is called, a new SSO access token will be retrieved. Please note that only one login session can be active for a given SSO Session and creating multiple profiles does not allow for multiple users to be authenticated against the same SSO Session.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -32,5 +32,14 @@ public record AwsSsoLoginOptions : AwsOptions
 
     [CliOption("--sso-session")]
     public string? SsoSession { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

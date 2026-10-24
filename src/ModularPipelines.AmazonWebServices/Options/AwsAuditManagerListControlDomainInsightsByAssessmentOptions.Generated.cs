@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Lists analytics data for control domains within a specified active as- sessment. Audit Manager supports the control domains that are provided by Amazon Web Services Control Catalog. For information about how to find a list of available control domains, see ` ListDomains https://docs.aws.amazon.com/controlcatalog/latest/APIReference/API_ListDomains.html`__ in the Amazon Web Services Control Catalog API Reference. NOTE: A control domain is listed only if at least one of the controls within that do...
+/// Lists analytics data for control domains within a specified active assessment. Audit Manager supports the control domains that are provided by Amazon Web Services Control Catalog. For information about how to find a list of available control domains, see ` ListDomains https://docs.aws.amazon.com/controlcatalog/latest/APIReference/API_ListDomains.html`__ in the Amazon Web Services Control Catalog API Reference. NOTE: A control domain is listed only if at least one of the controls within that doma...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +27,9 @@ public record AwsAuditManagerListControlDomainInsightsByAssessmentOptions : AwsO
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Lists analytics data for control domains within a specified active as- sessment. Audit Manager supports the control domains that are provided by Amazon Web Services Control Catalog. For information about how to find a list of available control domains, see ` ListDomains https://docs.aws.amazon.com/controlcatalog/latest/APIReference/API_ListDomains.html`__ in the Amazon Web Services Control Catalog API Reference. NOTE: A control domain is listed only if at least one of the controls within that do...
+    /// Lists analytics data for control domains within a specified active assessment. Audit Manager supports the control domains that are provided by Amazon Web Services Control Catalog. For information about how to find a list of available control domains, see ` ListDomains https://docs.aws.amazon.com/controlcatalog/latest/APIReference/API_ListDomains.html`__ in the Amazon Web Services Control Catalog API Reference. NOTE: A control domain is listed only if at least one of the controls within that doma...
     /// </summary>
-    /// <param name="AssessmentId">The unique identifier for the active assessment. Constraints: o min: 36 o max: 36 o pattern: ^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$</param>
+    /// <param name="AssessmentId">The unique identifier for the active assessment. Constraints: • min: 36 • max: 36 • pattern: ^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$</param>
     public AwsAuditManagerListControlDomainInsightsByAssessmentOptions(
         string AssessmentId
     )
@@ -57,20 +58,20 @@ public record AwsAuditManagerListControlDomainInsightsByAssessmentOptions : AwsO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier for the active assessment. Constraints: o min: 36 o max: 36 o pattern: ^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$
+    /// The unique identifier for the active assessment. Constraints: • min: 36 • max: 36 • pattern: ^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$
     /// </summary>
     [CliOption("--assessment-id")]
     public string? AssessmentId { get; private init; }
 
     /// <summary>
-    /// The pagination token that's used to fetch the next set of results. Constraints: o min: 1 o max: 1000 o pattern: ^[A-Za-z0-9+\/=]*$
+    /// The pagination token that's used to fetch the next set of results. Constraints: • min: 1 • max: 1000 • pattern: ^[A-Za-z0-9+\/=]*$
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// Represents the maximum number of results on a page or for an API re- quest call. Constraints: o min: 1 o max: 1000
+    /// Represents the maximum number of results on a page or for an API request call. Constraints: • min: 1 • max: 1000
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
@@ -96,6 +97,15 @@ public record AwsAuditManagerListControlDomainInsightsByAssessmentOptions : AwsO
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

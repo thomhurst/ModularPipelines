@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Lists the root or organizational units (OUs) that serve as the immedi- ate parent of the specified child OU or account. This operation, along with ListChildren enables you to traverse the tree structure that makes up this root. NOTE: When calling List* operations, always check the NextToken response parameter value, even if you receive an empty result set. These op- erations can occasionally return an empty set of results even when more results are available. Continue making requests until NextT...
+/// Lists the root or organizational units (OUs) that serve as the immediate parent of the specified child OU or account. This operation, along with ListChildren enables you to traverse the tree structure that makes up this root. NOTE: When calling List* operations, always check the NextToken response parameter value, even if you receive an empty result set. These operations can occasionally return an empty set of results even when more results are available. Continue making requests until NextToken...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +27,9 @@ public record AwsOrganizationsListParentsOptions : AwsOptions, IValidatableObjec
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Lists the root or organizational units (OUs) that serve as the immedi- ate parent of the specified child OU or account. This operation, along with ListChildren enables you to traverse the tree structure that makes up this root. NOTE: When calling List* operations, always check the NextToken response parameter value, even if you receive an empty result set. These op- erations can occasionally return an empty set of results even when more results are available. Continue making requests until NextT...
+    /// Lists the root or organizational units (OUs) that serve as the immediate parent of the specified child OU or account. This operation, along with ListChildren enables you to traverse the tree structure that makes up this root. NOTE: When calling List* operations, always check the NextToken response parameter value, even if you receive an empty result set. These operations can occasionally return an empty set of results even when more results are available. Continue making requests until NextToken...
     /// </summary>
-    /// <param name="ChildId">ID for the OU or account whose parent containers you want to list. Don't specify a root. The regex pattern for a child ID string requires one of the follow- ing: o Account - A string that consists of exactly 12 digits. o Organizational unit (OU) - A string that begins with "ou-" fol- lowed by from 4 to 32 lowercase letters or digits (the ID of the root that contains the OU). This string is followed by a second "-" dash and from 8 to 32 additional lowercase letters or digits. Constraints: o max: 100 o pattern: ^(\d{12})|(ou-[0-9a-z]{4,32}-[a-z0-9]{8,32})$</param>
+    /// <param name="ChildId">ID for the OU or account whose parent containers you want to list. Don't specify a root. The regex pattern for a child ID string requires one of the following: • Account - A string that consists of exactly 12 digits. • Organizational unit (OU) - A string that begins with "ou-" followed by from 4 to 32 lowercase letters or digits (the ID of the root that contains the OU). This string is followed by a second "-" dash and from 8 to 32 additional lowercase letters or digits. Constraints: • max: 100 • pattern: ^(\d{12})|(ou-[0-9a-z]{4,32}-[a-z0-9]{8,32})$</param>
     public AwsOrganizationsListParentsOptions(
         string ChildId
     )
@@ -57,16 +58,13 @@ public record AwsOrganizationsListParentsOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// ID for the OU or account whose parent containers you want to list. Don't specify a root. The regex pattern for a child ID string requires one of the follow- ing: o Account - A string that consists of exactly 12 digits. o Organizational unit (OU) - A string that begins with "ou-" fol- lowed by from 4 to 32 lowercase letters or digits (the ID of the root that contains the OU). This string is followed by a second "-" dash and from 8 to 32 additional lowercase letters or digits. Constraints: o max: 100 o pattern: ^(\d{12})|(ou-[0-9a-z]{4,32}-[a-z0-9]{8,32})$
+    /// ID for the OU or account whose parent containers you want to list. Don't specify a root. The regex pattern for a child ID string requires one of the following: • Account - A string that consists of exactly 12 digits. • Organizational unit (OU) - A string that begins with "ou-" followed by from 4 to 32 lowercase letters or digits (the ID of the root that contains the OU). This string is followed by a second "-" dash and from 8 to 32 additional lowercase letters or digits. Constraints: • max: 100 • pattern: ^(\d{12})|(ou-[0-9a-z]{4,32}-[a-z0-9]{8,32})$
     /// </summary>
     [CliOption("--child-id")]
     public string? ChildId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -76,16 +74,19 @@ public record AwsOrganizationsListParentsOptions : AwsOptions, IValidatableObjec
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 20
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 20
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
@@ -102,6 +103,15 @@ public record AwsOrganizationsListParentsOptions : AwsOptions, IValidatableObjec
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,9 +28,9 @@ public record AwsEsCreateOutboundCrossClusterSearchConnectionOptions : AwsOption
     /// <summary>
     /// Creates a new cross-cluster search connection from a source domain to a destination domain. See also: AWS API Documentation
     /// </summary>
-    /// <param name="SourceDomainInfo">Specifies the `` DomainInformation`` for the source Elasticsearch domain. OwnerId -&gt; (string) Constraints: o min: 12 o max: 12 DomainName -&gt; (string) [required] The name of an Elasticsearch domain. Domain names are unique across the domains owned by an account within an AWS region. Do- main names start with a letter or number and can contain the following characters: a-z (lowercase), 0-9, and - (hyphen). Constraints: o min: 3 o max: 28 o pattern: [a-z][a-z0-9\-]+ Region -&gt; (string) Shorthand Syntax: OwnerId=string,DomainName=string,Region=string JSON Syntax: { "OwnerId": "string", "DomainName": "string", "Region": "string" }</param>
-    /// <param name="DestinationDomainInfo">Specifies the `` DomainInformation`` for the destination Elastic- search domain. OwnerId -&gt; (string) Constraints: o min: 12 o max: 12 DomainName -&gt; (string) [required] The name of an Elasticsearch domain. Domain names are unique across the domains owned by an account within an AWS region. Do- main names start with a letter or number and can contain the following characters: a-z (lowercase), 0-9, and - (hyphen). Constraints: o min: 3 o max: 28 o pattern: [a-z][a-z0-9\-]+ Region -&gt; (string) Shorthand Syntax: OwnerId=string,DomainName=string,Region=string JSON Syntax: { "OwnerId": "string", "DomainName": "string", "Region": "string" }</param>
-    /// <param name="ConnectionAlias">Specifies the connection alias that will be used by the customer for this connection. Constraints: o max: 20</param>
+    /// <param name="SourceDomainInfo">Specifies the `` DomainInformation`` for the source Elasticsearch domain. OwnerId -&gt; (string) Constraints: • min: 12 • max: 12 DomainName -&gt; (string) [required] The name of an Elasticsearch domain. Domain names are unique across the domains owned by an account within an AWS region. Domain names start with a letter or number and can contain the following characters: a-z (lowercase), 0-9, and - (hyphen). Constraints: • min: 3 • max: 28 • pattern: [a-z][a-z0-9\-]+ Region -&gt; (string) Shorthand Syntax: OwnerId=string,DomainName=string,Region=string JSON Syntax: { "OwnerId": "string", "DomainName": "string", "Region": "string" }</param>
+    /// <param name="DestinationDomainInfo">Specifies the `` DomainInformation`` for the destination Elasticsearch domain. OwnerId -&gt; (string) Constraints: • min: 12 • max: 12 DomainName -&gt; (string) [required] The name of an Elasticsearch domain. Domain names are unique across the domains owned by an account within an AWS region. Domain names start with a letter or number and can contain the following characters: a-z (lowercase), 0-9, and - (hyphen). Constraints: • min: 3 • max: 28 • pattern: [a-z][a-z0-9\-]+ Region -&gt; (string) Shorthand Syntax: OwnerId=string,DomainName=string,Region=string JSON Syntax: { "OwnerId": "string", "DomainName": "string", "Region": "string" }</param>
+    /// <param name="ConnectionAlias">Specifies the connection alias that will be used by the customer for this connection. Constraints: • max: 20</param>
     public AwsEsCreateOutboundCrossClusterSearchConnectionOptions(
         string SourceDomainInfo,
         string DestinationDomainInfo,
@@ -64,19 +65,19 @@ public record AwsEsCreateOutboundCrossClusterSearchConnectionOptions : AwsOption
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Specifies the `` DomainInformation`` for the source Elasticsearch domain. OwnerId -&gt; (string) Constraints: o min: 12 o max: 12 DomainName -&gt; (string) [required] The name of an Elasticsearch domain. Domain names are unique across the domains owned by an account within an AWS region. Do- main names start with a letter or number and can contain the following characters: a-z (lowercase), 0-9, and - (hyphen). Constraints: o min: 3 o max: 28 o pattern: [a-z][a-z0-9\-]+ Region -&gt; (string) Shorthand Syntax: OwnerId=string,DomainName=string,Region=string JSON Syntax: { "OwnerId": "string", "DomainName": "string", "Region": "string" }
+    /// Specifies the `` DomainInformation`` for the source Elasticsearch domain. OwnerId -&gt; (string) Constraints: • min: 12 • max: 12 DomainName -&gt; (string) [required] The name of an Elasticsearch domain. Domain names are unique across the domains owned by an account within an AWS region. Domain names start with a letter or number and can contain the following characters: a-z (lowercase), 0-9, and - (hyphen). Constraints: • min: 3 • max: 28 • pattern: [a-z][a-z0-9\-]+ Region -&gt; (string) Shorthand Syntax: OwnerId=string,DomainName=string,Region=string JSON Syntax: { "OwnerId": "string", "DomainName": "string", "Region": "string" }
     /// </summary>
     [CliOption("--source-domain-info")]
     public string? SourceDomainInfo { get; private init; }
 
     /// <summary>
-    /// Specifies the `` DomainInformation`` for the destination Elastic- search domain. OwnerId -&gt; (string) Constraints: o min: 12 o max: 12 DomainName -&gt; (string) [required] The name of an Elasticsearch domain. Domain names are unique across the domains owned by an account within an AWS region. Do- main names start with a letter or number and can contain the following characters: a-z (lowercase), 0-9, and - (hyphen). Constraints: o min: 3 o max: 28 o pattern: [a-z][a-z0-9\-]+ Region -&gt; (string) Shorthand Syntax: OwnerId=string,DomainName=string,Region=string JSON Syntax: { "OwnerId": "string", "DomainName": "string", "Region": "string" }
+    /// Specifies the `` DomainInformation`` for the destination Elasticsearch domain. OwnerId -&gt; (string) Constraints: • min: 12 • max: 12 DomainName -&gt; (string) [required] The name of an Elasticsearch domain. Domain names are unique across the domains owned by an account within an AWS region. Domain names start with a letter or number and can contain the following characters: a-z (lowercase), 0-9, and - (hyphen). Constraints: • min: 3 • max: 28 • pattern: [a-z][a-z0-9\-]+ Region -&gt; (string) Shorthand Syntax: OwnerId=string,DomainName=string,Region=string JSON Syntax: { "OwnerId": "string", "DomainName": "string", "Region": "string" }
     /// </summary>
     [CliOption("--destination-domain-info")]
     public string? DestinationDomainInfo { get; private init; }
 
     /// <summary>
-    /// Specifies the connection alias that will be used by the customer for this connection. Constraints: o max: 20
+    /// Specifies the connection alias that will be used by the customer for this connection. Constraints: • max: 20
     /// </summary>
     [CliOption("--connection-alias")]
     public string? ConnectionAlias { get; private init; }
@@ -102,6 +103,15 @@ public record AwsEsCreateOutboundCrossClusterSearchConnectionOptions : AwsOption
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

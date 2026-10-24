@@ -11,13 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a virtual cluster. Virtual cluster is a managed entity on Ama- zon EMR on EKS. You can create, update, describe, list and delete vir- tual clusters. They do not consume any additional resource in your sys- tem. A single virtual cluster maps to a single Kubernetes namespace. Given this relationship, you can model virtual clusters the same way you model Kubernetes namespaces to meet your requirements. See also: AWS API Documentation
+/// Creates a virtual cluster. Virtual cluster is a managed entity on Amazon EMR on EKS. You can create, update, describe, list and delete virtual clusters. They do not consume any additional resource in your system. A single virtual cluster maps to a single Kubernetes namespace. Given this relationship, you can model virtual clusters the same way you model Kubernetes namespaces to meet your requirements. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,10 +27,10 @@ public record AwsEmrContainersCreateVirtualClusterOptions : AwsOptions, IValidat
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a virtual cluster. Virtual cluster is a managed entity on Ama- zon EMR on EKS. You can create, update, describe, list and delete vir- tual clusters. They do not consume any additional resource in your sys- tem. A single virtual cluster maps to a single Kubernetes namespace. Given this relationship, you can model virtual clusters the same way you model Kubernetes namespaces to meet your requirements. See also: AWS API Documentation
+    /// Creates a virtual cluster. Virtual cluster is a managed entity on Amazon EMR on EKS. You can create, update, describe, list and delete virtual clusters. They do not consume any additional resource in your system. A single virtual cluster maps to a single Kubernetes namespace. Given this relationship, you can model virtual clusters the same way you model Kubernetes namespaces to meet your requirements. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">The specified name of the virtual cluster. Constraints: o min: 1 o max: 64 o pattern: [\.\-_/#A-Za-z0-9]+</param>
-    /// <param name="ContainerProvider">The container provider of the virtual cluster. type -&gt; (string) [required] The type of the container provider. Amazon EKS is the only sup- ported type as of now. Possible values: o EKS id -&gt; (string) [required] The ID of the container cluster. Constraints: o min: 1 o max: 100 o pattern: ^[0-9A-Za-z][A-Za-z0-9\-_]* info -&gt; (tagged union structure) The information about the container cluster. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: eksInfo. eksInfo -&gt; (structure) The information about the Amazon EKS cluster. namespace -&gt; (string) The namespaces of the Amazon EKS cluster. Constraints: o min: 1 o max: 63 o pattern: [a-z0-9]([-a-z0-9]*[a-z0-9])? nodeLabel -&gt; (string) The nodeLabel of the nodes where the resources of this virtual cluster can get scheduled. It requires relevant scaling and policy engine addons. Constraints: o min: 1 o max: 64 o pattern: ^[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$ Shorthand Syntax: type=string,id=string,info={eksInfo={namespace=string,nodeLabel=string}} JSON Syntax: { "type": "EKS", "id": "string", "info": { "eksInfo": { "namespace": "string", "nodeLabel": "string" } } }</param>
+    /// <param name="Name">The specified name of the virtual cluster. Constraints: • min: 1 • max: 64 • pattern: [\.\-_/#A-Za-z0-9]+</param>
+    /// <param name="ContainerProvider">The container provider of the virtual cluster. type -&gt; (string) [required] The type of the container provider. Amazon EKS is the only supported type as of now. Possible values: • EKS id -&gt; (string) [required] The ID of the container cluster. Constraints: • min: 1 • max: 100 • pattern: ^[0-9A-Za-z][A-Za-z0-9\-_]* info -&gt; (tagged union structure) The information about the container cluster. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: eksInfo. eksInfo -&gt; (structure) The information about the Amazon EKS cluster. namespace -&gt; (string) The namespaces of the Amazon EKS cluster. Constraints: • min: 1 • max: 63 • pattern: [a-z0-9]([-a-z0-9]*[a-z0-9])? nodeLabel -&gt; (string) The nodeLabel of the nodes where the resources of this virtual cluster can get scheduled. It requires relevant scaling and policy engine addons. Constraints: • min: 1 • max: 64 • pattern: ^[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$ Shorthand Syntax: type=string,id=string,info={eksInfo={namespace=string,nodeLabel=string}} JSON Syntax: { "type": "EKS", "id": "string", "info": { "eksInfo": { "namespace": "string", "nodeLabel": "string" } } }</param>
     public AwsEmrContainersCreateVirtualClusterOptions(
         string Name,
         string ContainerProvider
@@ -62,32 +62,32 @@ public record AwsEmrContainersCreateVirtualClusterOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The specified name of the virtual cluster. Constraints: o min: 1 o max: 64 o pattern: [\.\-_/#A-Za-z0-9]+
+    /// The specified name of the virtual cluster. Constraints: • min: 1 • max: 64 • pattern: [\.\-_/#A-Za-z0-9]+
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The container provider of the virtual cluster. type -&gt; (string) [required] The type of the container provider. Amazon EKS is the only sup- ported type as of now. Possible values: o EKS id -&gt; (string) [required] The ID of the container cluster. Constraints: o min: 1 o max: 100 o pattern: ^[0-9A-Za-z][A-Za-z0-9\-_]* info -&gt; (tagged union structure) The information about the container cluster. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: eksInfo. eksInfo -&gt; (structure) The information about the Amazon EKS cluster. namespace -&gt; (string) The namespaces of the Amazon EKS cluster. Constraints: o min: 1 o max: 63 o pattern: [a-z0-9]([-a-z0-9]*[a-z0-9])? nodeLabel -&gt; (string) The nodeLabel of the nodes where the resources of this virtual cluster can get scheduled. It requires relevant scaling and policy engine addons. Constraints: o min: 1 o max: 64 o pattern: ^[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$ Shorthand Syntax: type=string,id=string,info={eksInfo={namespace=string,nodeLabel=string}} JSON Syntax: { "type": "EKS", "id": "string", "info": { "eksInfo": { "namespace": "string", "nodeLabel": "string" } } }
+    /// The container provider of the virtual cluster. type -&gt; (string) [required] The type of the container provider. Amazon EKS is the only supported type as of now. Possible values: • EKS id -&gt; (string) [required] The ID of the container cluster. Constraints: • min: 1 • max: 100 • pattern: ^[0-9A-Za-z][A-Za-z0-9\-_]* info -&gt; (tagged union structure) The information about the container cluster. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: eksInfo. eksInfo -&gt; (structure) The information about the Amazon EKS cluster. namespace -&gt; (string) The namespaces of the Amazon EKS cluster. Constraints: • min: 1 • max: 63 • pattern: [a-z0-9]([-a-z0-9]*[a-z0-9])? nodeLabel -&gt; (string) The nodeLabel of the nodes where the resources of this virtual cluster can get scheduled. It requires relevant scaling and policy engine addons. Constraints: • min: 1 • max: 64 • pattern: ^[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$ Shorthand Syntax: type=string,id=string,info={eksInfo={namespace=string,nodeLabel=string}} JSON Syntax: { "type": "EKS", "id": "string", "info": { "eksInfo": { "namespace": "string", "nodeLabel": "string" } } }
     /// </summary>
     [CliOption("--container-provider")]
     public string? ContainerProvider { get; private init; }
 
     /// <summary>
-    /// The client token of the virtual cluster. Constraints: o min: 1 o max: 64 o pattern: .*\S.*
+    /// The client token of the virtual cluster. Constraints: • min: 1 • max: 64 • pattern: .*\S.*
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// The tags assigned to the virtual cluster. Constraints: o min: 0 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: .*\S.* value -&gt; (string) Constraints: o min: 0 o max: 256 o pattern: .*\S.* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The tags assigned to the virtual cluster. Constraints: • min: 0 • max: 50 key -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: .*\S.* value -&gt; (string) Constraints: • min: 0 • max: 256 • pattern: .*\S.* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>
-    /// The ID of the security configuration. Constraints: o min: 1 o max: 64 o pattern: [0-9a-z]+
+    /// The ID of the security configuration. Constraints: • min: 1 • max: 64 • pattern: [0-9a-z]+
     /// </summary>
     [CliOption("--security-configuration-id")]
     public string? SecurityConfigurationId { get; set; }
@@ -99,7 +99,7 @@ public record AwsEmrContainersCreateVirtualClusterOptions : AwsOptions, IValidat
     public bool? SessionEnabled { get; set; }
 
     /// <summary>
-    /// The scheduler configuration (concurrency and queue limits) to apply to the virtual cluster at creation time. When omitted, no limits are applied. maxInQueueJobRuns -&gt; (integer) The maximum number of job runs that can be in the PENDING or SUBMITTED state at any time for the virtual cluster. When the queue is full, the service rejects StartJobRun requests with a ValidationException . If you omit this field, the service ap- plies no queue-depth limit. Constraints: o min: 100 o max: 10000 maxConcurrentJobRuns -&gt; (integer) The maximum number of job runs that can be in the RUNNING state at any time for the virtual cluster. As running slots free up, queued job runs start automatically. If you omit this field, the service applies no concurrency limit. Constraints: o min: 1 o max: 10000 Shorthand Syntax: maxInQueueJobRuns=integer,maxConcurrentJobRuns=integer JSON Syntax: { "maxInQueueJobRuns": integer, "maxConcurrentJobRuns": integer }
+    /// The scheduler configuration (concurrency and queue limits) to apply to the virtual cluster at creation time. When omitted, no limits are applied. maxInQueueJobRuns -&gt; (integer) The maximum number of job runs that can be in the PENDING or SUBMITTED state at any time for the virtual cluster. When the queue is full, the service rejects StartJobRun requests with a ValidationException . If you omit this field, the service applies no queue-depth limit. Constraints: • min: 100 • max: 10000 maxConcurrentJobRuns -&gt; (integer) The maximum number of job runs that can be in the RUNNING state at any time for the virtual cluster. As running slots free up, queued job runs start automatically. If you omit this field, the service applies no concurrency limit. Constraints: • min: 1 • max: 10000 Shorthand Syntax: maxInQueueJobRuns=integer,maxConcurrentJobRuns=integer JSON Syntax: { "maxInQueueJobRuns": integer, "maxConcurrentJobRuns": integer }
     /// </summary>
     [CliOption("--scheduler-configuration")]
     public string? SchedulerConfiguration { get; set; }
@@ -125,6 +125,15 @@ public record AwsEmrContainersCreateVirtualClusterOptions : AwsOptions, IValidat
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

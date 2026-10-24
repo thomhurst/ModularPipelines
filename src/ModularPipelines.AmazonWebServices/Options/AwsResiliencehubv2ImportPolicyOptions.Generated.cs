@@ -11,7 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -30,7 +30,7 @@ public record AwsResiliencehubv2ImportPolicyOptions : AwsOptions, IValidatableOb
     /// <summary>
     /// Imports a V1 policy into V2, mapping RTO/RPO values from V1 scenarios. See also: AWS API Documentation
     /// </summary>
-    /// <param name="V1PolicyArn">ARN identifier. Constraints: o min: 31 o pattern: arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:([a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]):[0-9]{12}:[A-Za-z0-9/][A-Za-z0-9:_/+.-]{0,1023}</param>
+    /// <param name="V1PolicyArn">ARN identifier. Constraints: • min: 31 • pattern: arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:([a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]):[0-9]{12}:[A-Za-z0-9/][A-Za-z0-9:_/+.-]{0,1023}</param>
     public AwsResiliencehubv2ImportPolicyOptions(
         string V1PolicyArn
     )
@@ -59,43 +59,43 @@ public record AwsResiliencehubv2ImportPolicyOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// ARN identifier. Constraints: o min: 31 o pattern: arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:([a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]):[0-9]{12}:[A-Za-z0-9/][A-Za-z0-9:_/+.-]{0,1023}
+    /// ARN identifier. Constraints: • min: 31 • pattern: arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:([a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]):[0-9]{12}:[A-Za-z0-9/][A-Za-z0-9:_/+.-]{0,1023}
     /// </summary>
     [CliOption("--v1-policy-arn")]
     public string? V1PolicyArn { get; private init; }
 
     /// <summary>
-    /// KMS key identifier accepts key ID, key ARN, alias name, or alias ARN. Constraints: o min: 1 o max: 2048
+    /// KMS key identifier accepts key ID, key ARN, alias name, or alias ARN. Constraints: • min: 1 • max: 2048
     /// </summary>
     [CliOption("--kms-key-id")]
     public string? KmsKeyId { get; set; }
 
     /// <summary>
-    /// The availability SLO to set on the imported policy. target -&gt; (double) The target availability percentage, expressed as a value between 0 and 100. Constraints: o min: 0 o max: 100 Shorthand Syntax: target=double JSON Syntax: { "target": double }
+    /// The availability SLO to set on the imported policy. target -&gt; (double) The target availability percentage, expressed as a value between 0 and 100. Constraints: • min: 0 • max: 100 Shorthand Syntax: target=double JSON Syntax: { "target": double }
     /// </summary>
     [CliOption("--availability-slo")]
     public string? AvailabilitySlo { get; set; }
 
     /// <summary>
-    /// The multi-AZ disaster recovery approach for the imported policy. Possible values: o ACTIVE_ACTIVE o HOT_STANDBY o WARM_STANDBY o PILOT_LIGHT o BACKUP_AND_RESTORE
+    /// The multi-AZ disaster recovery approach for the imported policy. Possible values: • ACTIVE_ACTIVE • HOT_STANDBY • WARM_STANDBY • PILOT_LIGHT • BACKUP_AND_RESTORE
     /// </summary>
     [CliOption("--multi-az-disaster-recovery-approach")]
     public AwsResiliencehubv2ImportPolicyMultiAzDisasterRecoveryApproach? MultiAzDisasterRecoveryApproach { get; set; }
 
     /// <summary>
-    /// The multi-Region disaster recovery approach for the imported policy. Possible values: o ACTIVE_ACTIVE o HOT_STANDBY o WARM_STANDBY o PILOT_LIGHT o BACKUP_AND_RESTORE
+    /// The multi-Region disaster recovery approach for the imported policy. Possible values: • ACTIVE_ACTIVE • HOT_STANDBY • WARM_STANDBY • PILOT_LIGHT • BACKUP_AND_RESTORE
     /// </summary>
     [CliOption("--multi-region-disaster-recovery-approach")]
     public AwsResiliencehubv2ImportPolicyMultiRegionDisasterRecoveryApproach? MultiRegionDisasterRecoveryApproach { get; set; }
 
     /// <summary>
-    /// Resource tags. Constraints: o min: 1 o max: 50 key -&gt; (string) Tag key. Constraints: o min: 1 o max: 128 o pattern: [^\x00-\x1f\x22]+ value -&gt; (string) Tag value. Constraints: o min: 0 o max: 256 o pattern: [^\x00-\x1f\x22]* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// Resource tags. Constraints: • min: 1 • max: 50 key -&gt; (string) Tag key. Constraints: • min: 1 • max: 128 • pattern: [^\x00-\x1f\x22]+ value -&gt; (string) Tag value. Constraints: • min: 0 • max: 256 • pattern: [^\x00-\x1f\x22]* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>
-    /// Idempotency token. Constraints: o min: 1 o max: 63 o pattern: [A-Za-z0-9_.-]{0,63}
+    /// Idempotency token. Constraints: • min: 1 • max: 63 • pattern: [A-Za-z0-9_.-]{0,63}
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
@@ -122,6 +122,15 @@ public record AwsResiliencehubv2ImportPolicyOptions : AwsOptions, IValidatableOb
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

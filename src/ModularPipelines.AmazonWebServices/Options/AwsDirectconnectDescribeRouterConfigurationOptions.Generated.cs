@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -62,7 +63,7 @@ public record AwsDirectconnectDescribeRouterConfigurationOptions : AwsOptions, I
     public string? VirtualInterfaceId { get; private init; }
 
     /// <summary>
-    /// Identifies the router by a combination of vendor, platform, and software version. For example, CiscoSystemsInc-2900Series- Routers-IOS124 .
+    /// Identifies the router by a combination of vendor, platform, and software version. For example, CiscoSystemsInc-2900SeriesRouters-IOS124 .
     /// </summary>
     [CliOption("--router-type-identifier")]
     public string? RouterTypeIdentifier { get; set; }
@@ -88,6 +89,15 @@ public record AwsDirectconnectDescribeRouterConfigurationOptions : AwsOptions, I
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

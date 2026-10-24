@@ -6,15 +6,15 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
+using ModularPipelines;
 using ModularPipelines.Context;
-using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
 namespace ModularPipelines.AmazonWebServices.Services;
 
 /// <summary>
-/// aws wait commands.
+/// aws kinesis wait commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AwsKinesisWait
@@ -32,7 +32,7 @@ public class AwsKinesisWait
     #region Commands
 
     /// <summary>
-    /// Wait until JMESPath query ChannelDescription.ChannelStatus returns AC- TIVE when polling with describe-channel. It will poll every 10 seconds until a successful state has been reached. This will exit with a return code of 255 after 18 failed checks. See also: AWS API Documentation
+    /// Wait until JMESPath query ChannelDescription.ChannelStatus returns ACTIVE when polling with describe-channel. It will poll every 10 seconds until a successful state has been reached. This will exit with a return code of 255 after 18 failed checks. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -47,7 +47,7 @@ public class AwsKinesisWait
     }
 
     /// <summary>
-    /// Wait until JMESPath query StreamDescription.StreamStatus returns ACTIVE when polling with describe-stream. It will poll every 10 seconds until a successful state has been reached. This will exit with a return code of 255 after 18 failed checks. See also: AWS API Documentation stream-exists is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text ...
+    /// Wait until JMESPath query StreamDescription.StreamStatus returns ACTIVE when polling with describe-stream. It will poll every 10 seconds until a successful state has been reached. This will exit with a return code of 255 after 18 failed checks. See also: AWS API Documentation stream-exists is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -62,7 +62,7 @@ public class AwsKinesisWait
     }
 
     /// <summary>
-    /// Wait until ResourceNotFoundException is thrown when polling with de- scribe-stream. It will poll every 10 seconds until a successful state has been reached. This will exit with a return code of 255 after 18 failed checks. See also: AWS API Documentation stream-not-exists is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argumen...
+    /// Wait until ResourceNotFoundException is thrown when polling with describe-stream. It will poll every 10 seconds until a successful state has been reached. This will exit with a return code of 255 after 18 failed checks. See also: AWS API Documentation stream-not-exists is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

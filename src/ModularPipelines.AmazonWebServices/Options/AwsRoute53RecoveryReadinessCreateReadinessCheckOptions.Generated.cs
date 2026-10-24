@@ -10,13 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a readiness check in an account. A readiness check monitors a resource set in your application, such as a set of Amazon Aurora in- stances, that Application Recovery Controller is auditing recovery readiness for. The audits run once every minute on every resource that's associated with a readiness check. See also: AWS API Documentation
+/// Creates a readiness check in an account. A readiness check monitors a resource set in your application, such as a set of Amazon Aurora instances, that Application Recovery Controller is auditing recovery readiness for. The audits run once every minute on every resource that's associated with a readiness check. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,7 +26,7 @@ public record AwsRoute53RecoveryReadinessCreateReadinessCheckOptions : AwsOption
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a readiness check in an account. A readiness check monitors a resource set in your application, such as a set of Amazon Aurora in- stances, that Application Recovery Controller is auditing recovery readiness for. The audits run once every minute on every resource that's associated with a readiness check. See also: AWS API Documentation
+    /// Creates a readiness check in an account. A readiness check monitors a resource set in your application, such as a set of Amazon Aurora instances, that Application Recovery Controller is auditing recovery readiness for. The audits run once every minute on every resource that's associated with a readiness check. See also: AWS API Documentation
     /// </summary>
     /// <param name="ReadinessCheckName">The name of the readiness check to create.</param>
     /// <param name="ResourceSetName">The name of the resource set to check.</param>
@@ -99,6 +99,15 @@ public record AwsRoute53RecoveryReadinessCreateReadinessCheckOptions : AwsOption
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

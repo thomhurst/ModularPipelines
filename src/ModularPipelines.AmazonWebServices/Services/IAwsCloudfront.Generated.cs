@@ -6,7 +6,7 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using ModularPipelines.Models;
+using ModularPipelines;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
@@ -22,19 +22,18 @@ namespace ModularPipelines.AmazonWebServices.Services;
 public interface IAwsCloudfront
 {
     /// <summary>
-    /// aws wait sub-commands.
+    /// aws cloudfront wait sub-commands.
     /// </summary>
-    AwsCloudfrontWait Wait => throw new System.NotSupportedException();
+    AwsCloudfrontWait Wait { get; }
 
     /// <summary>
-    /// NOTE: The AssociateAlias API operation only supports standard distribu- tions. To move domains between distribution tenants and/or standard distributions, we recommend that you use the UpdateDomainAssociation API operation instead. Associates an alias with a CloudFront standard distribution. An alias is commonly known as a custom domain or vanity domain. It can also be called a CNAME or alternate domain name. With this operation, you can move an alias that's already used for a standard distribut...
+    /// NOTE: The AssociateAlias API operation only supports standard distributions. To move domains between distribution tenants and/or standard distributions, we recommend that you use the UpdateDomainAssociation API operation instead. Associates an alias with a CloudFront standard distribution. An alias is commonly known as a custom domain or vanity domain. It can also be called a CNAME or alternate domain name. With this operation, you can move an alias that's already used for a standard distributio...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AssociateAliasAsync(AwsCloudfrontAssociateAliasOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AssociateAliasAsync(AwsCloudfrontAssociateAliasOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Associates the WAF web ACL with a distribution tenant. See also: AWS API Documentation
@@ -43,8 +42,7 @@ public interface IAwsCloudfront
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AssociateDistributionTenantWebAclAsync(AwsCloudfrontAssociateDistributionTenantWebAclOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AssociateDistributionTenantWebAclAsync(AwsCloudfrontAssociateDistributionTenantWebAclOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Associates the WAF web ACL with a distribution. See also: AWS API Documentation
@@ -53,8 +51,7 @@ public interface IAwsCloudfront
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AssociateDistributionWebAclAsync(AwsCloudfrontAssociateDistributionWebAclOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AssociateDistributionWebAclAsync(AwsCloudfrontAssociateDistributionWebAclOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a staging distribution using the configuration of the provided primary distribution. A staging distribution is a copy of an existing distribution (called the primary distribution) that you can use in a continuous deployment workflow. After you create a staging distribution, you can use UpdateDistribution to modify the staging distribution's configuration. Then you can use CreateContinuousDeploymentPolicy to incrementally move traffic to the staging distribution. This API operation requir...
@@ -63,8 +60,7 @@ public interface IAwsCloudfront
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CopyDistributionAsync(AwsCloudfrontCopyDistributionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CopyDistributionAsync(AwsCloudfrontCopyDistributionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates an Anycast static IP list. See also: AWS API Documentation
@@ -73,18 +69,16 @@ public interface IAwsCloudfront
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateAnycastIpListAsync(AwsCloudfrontCreateAnycastIpListOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateAnycastIpListAsync(AwsCloudfrontCreateAnycastIpListOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Creates a cache policy. After you create a cache policy, you can attach it to one or more cache behaviors. When it's attached to a cache behavior, the cache policy de- termines the following: o The values that CloudFront includes in the cache key . These values can include HTTP headers, cookies, and URL query strings. CloudFront uses the cache key to find an object in its cache that it can return to the viewer. o The default, minimum, and maximum time to live (TTL) values that you want objects t...
+    /// Creates a cache policy. After you create a cache policy, you can attach it to one or more cache behaviors. When it's attached to a cache behavior, the cache policy determines the following: • The values that CloudFront includes in the cache key . These values can include HTTP headers, cookies, and URL query strings. CloudFront uses the cache key to find an object in its cache that it can return to the viewer. • The default, minimum, and maximum time to live (TTL) values that you want objects to ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateCachePolicyAsync(AwsCloudfrontCreateCachePolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateCachePolicyAsync(AwsCloudfrontCreateCachePolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a new origin access identity. If you're using Amazon S3 for your origin, you can use an origin access identity to require users to access your content using a CloudFront URL instead of the Amazon S3 URL. For more information about how to use origin access identities, see Serving Private Content through CloudFront in the Amazon CloudFront Developer Guide . See also: AWS API Documentation
@@ -93,8 +87,7 @@ public interface IAwsCloudfront
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateCloudFrontOriginAccessIdentityAsync(AwsCloudfrontCreateCloudFrontOriginAccessIdentityOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateCloudFrontOriginAccessIdentityAsync(AwsCloudfrontCreateCloudFrontOriginAccessIdentityOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a connection function. See also: AWS API Documentation
@@ -103,8 +96,7 @@ public interface IAwsCloudfront
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateConnectionFunctionAsync(AwsCloudfrontCreateConnectionFunctionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateConnectionFunctionAsync(AwsCloudfrontCreateConnectionFunctionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a connection group. See also: AWS API Documentation
@@ -113,18 +105,16 @@ public interface IAwsCloudfront
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateConnectionGroupAsync(AwsCloudfrontCreateConnectionGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateConnectionGroupAsync(AwsCloudfrontCreateConnectionGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Creates a continuous deployment policy that distributes traffic for a custom domain name to two different CloudFront distributions. To use a continuous deployment policy, first use CopyDistribution to create a staging distribution, then use UpdateDistribution to modify the staging distribution's configuration. After you create and update a staging distribution, you can use a con- tinuous deployment policy to incrementally move traffic to the staging distribution. This workflow enables you to tes...
+    /// Creates a continuous deployment policy that distributes traffic for a custom domain name to two different CloudFront distributions. To use a continuous deployment policy, first use CopyDistribution to create a staging distribution, then use UpdateDistribution to modify the staging distribution's configuration. After you create and update a staging distribution, you can use a continuous deployment policy to incrementally move traffic to the staging distribution. This workflow enables you to test ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateContinuousDeploymentPolicyAsync(AwsCloudfrontCreateContinuousDeploymentPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateContinuousDeploymentPolicyAsync(AwsCloudfrontCreateContinuousDeploymentPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a CloudFront distribution. See also: AWS API Documentation
@@ -133,8 +123,7 @@ public interface IAwsCloudfront
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateDistributionAsync(AwsCloudfrontCreateDistributionOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateDistributionAsync(AwsCloudfrontCreateDistributionOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a distribution tenant. See also: AWS API Documentation
@@ -143,18 +132,16 @@ public interface IAwsCloudfront
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateDistributionTenantAsync(AwsCloudfrontCreateDistributionTenantOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateDistributionTenantAsync(AwsCloudfrontCreateDistributionTenantOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Create a new distribution with tags. This API operation requires the following IAM permissions: o CreateDistribution o TagResource See also: AWS API Documentation
+    /// Create a new distribution with tags. This API operation requires the following IAM permissions: • CreateDistribution • TagResource See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateDistributionWithTagsAsync(AwsCloudfrontCreateDistributionWithTagsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateDistributionWithTagsAsync(AwsCloudfrontCreateDistributionWithTagsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Create a new field-level encryption configuration. See also: AWS API Documentation
@@ -163,8 +150,7 @@ public interface IAwsCloudfront
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateFieldLevelEncryptionConfigAsync(AwsCloudfrontCreateFieldLevelEncryptionConfigOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateFieldLevelEncryptionConfigAsync(AwsCloudfrontCreateFieldLevelEncryptionConfigOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Create a field-level encryption profile. See also: AWS API Documentation
@@ -173,28 +159,25 @@ public interface IAwsCloudfront
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateFieldLevelEncryptionProfileAsync(AwsCloudfrontCreateFieldLevelEncryptionProfileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateFieldLevelEncryptionProfileAsync(AwsCloudfrontCreateFieldLevelEncryptionProfileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Creates a CloudFront function. To create a function, you provide the function code and some configura- tion information about the function. The response contains an Amazon Resource Name (ARN) that uniquely identifies the function. When you create a function, it's in the DEVELOPMENT stage. In this stage, you can test the function with TestFunction , and update it with UpdateFunction . When you're ready to use your function with a CloudFront distribution, use PublishFunction to copy the function f...
+    /// Creates a CloudFront function. To create a function, you provide the function code and some configuration information about the function. The response contains an Amazon Resource Name (ARN) that uniquely identifies the function. When you create a function, it's in the DEVELOPMENT stage. In this stage, you can test the function with TestFunction , and update it with UpdateFunction . When you're ready to use your function with a CloudFront distribution, use PublishFunction to copy the function fro...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateFunctionAsync(AwsCloudfrontCreateFunctionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateFunctionAsync(AwsCloudfrontCreateFunctionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Creates an invalidation for a distribution tenant. For more informa- tion, see Invalidating files in the Amazon CloudFront Developer Guide . See also: AWS API Documentation
+    /// Creates an invalidation for a distribution tenant. For more information, see Invalidating files in the Amazon CloudFront Developer Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateInvalidationForDistributionTenantAsync(AwsCloudfrontCreateInvalidationForDistributionTenantOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateInvalidationForDistributionTenantAsync(AwsCloudfrontCreateInvalidationForDistributionTenantOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Create a new invalidation. For more information, see Invalidating files in the Amazon CloudFront Developer Guide . See also: AWS API Documentation
@@ -203,18 +186,16 @@ public interface IAwsCloudfront
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateInvalidationAsync(AwsCloudfrontCreateInvalidationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateInvalidationAsync(AwsCloudfrontCreateInvalidationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Creates a key group that you can use with CloudFront signed URLs and signed cookies . To create a key group, you must specify at least one public key for the key group. After you create a key group, you can reference it from one or more cache behaviors. When you reference a key group in a cache be- havior, CloudFront requires signed URLs or signed cookies for all re- quests that match the cache behavior. The URLs or cookies must be signed with a private key whose corresponding public key is in t...
+    /// Creates a key group that you can use with CloudFront signed URLs and signed cookies . To create a key group, you must specify at least one public key for the key group. After you create a key group, you can reference it from one or more cache behaviors. When you reference a key group in a cache behavior, CloudFront requires signed URLs or signed cookies for all requests that match the cache behavior. The URLs or cookies must be signed with a private key whose corresponding public key is in the k...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateKeyGroupAsync(AwsCloudfrontCreateKeyGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateKeyGroupAsync(AwsCloudfrontCreateKeyGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Specifies the key value store resource to add to your account. In your account, the key value store names must be unique. You can also import key value store data in JSON format from an S3 bucket by providing a valid ImportSource that you own. See also: AWS API Documentation
@@ -223,38 +204,34 @@ public interface IAwsCloudfront
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateKeyValueStoreAsync(AwsCloudfrontCreateKeyValueStoreOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateKeyValueStoreAsync(AwsCloudfrontCreateKeyValueStoreOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Enables or disables additional Amazon CloudWatch metrics for the speci- fied CloudFront distribution. The additional metrics incur an addi- tional cost. For more information, see Viewing additional CloudFront distribution metrics in the Amazon CloudFront Developer Guide . See also: AWS API Documentation
+    /// Enables or disables additional Amazon CloudWatch metrics for the specified CloudFront distribution. The additional metrics incur an additional cost. For more information, see Viewing additional CloudFront distribution metrics in the Amazon CloudFront Developer Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateMonitoringSubscriptionAsync(AwsCloudfrontCreateMonitoringSubscriptionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateMonitoringSubscriptionAsync(AwsCloudfrontCreateMonitoringSubscriptionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Creates a new origin access control in CloudFront. After you create an origin access control, you can add it to an origin in a CloudFront dis- tribution so that CloudFront sends authenticated (signed) requests to the origin. This makes it possible to block public access to the origin, allowing viewers (users) to access the origin's content only through CloudFront. For more information about using a CloudFront origin access control, see Restricting access to an Amazon Web Services origin in the A...
+    /// Creates a new origin access control in CloudFront. After you create an origin access control, you can add it to an origin in a CloudFront distribution so that CloudFront sends authenticated (signed) requests to the origin. This makes it possible to block public access to the origin, allowing viewers (users) to access the origin's content only through CloudFront. For more information about using a CloudFront origin access control, see Restricting access to an Amazon Web Services origin in the Ama...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateOriginAccessControlAsync(AwsCloudfrontCreateOriginAccessControlOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateOriginAccessControlAsync(AwsCloudfrontCreateOriginAccessControlOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Creates an origin request policy. After you create an origin request policy, you can attach it to one or more cache behaviors. When it's attached to a cache behavior, the ori- gin request policy determines the values that CloudFront includes in requests that it sends to the origin. Each request that CloudFront sends to the origin includes the following: o The request body and the URL path (without the domain name) from the viewer request. o The headers that CloudFront automatically includes in e...
+    /// Creates an origin request policy. After you create an origin request policy, you can attach it to one or more cache behaviors. When it's attached to a cache behavior, the origin request policy determines the values that CloudFront includes in requests that it sends to the origin. Each request that CloudFront sends to the origin includes the following: • The request body and the URL path (without the domain name) from the viewer request. • The headers that CloudFront automatically includes in eve...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateOriginRequestPolicyAsync(AwsCloudfrontCreateOriginRequestPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateOriginRequestPolicyAsync(AwsCloudfrontCreateOriginRequestPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Uploads a public key to CloudFront that you can use with signed URLs and signed cookies , or with field-level encryption . See also: AWS API Documentation
@@ -263,8 +240,7 @@ public interface IAwsCloudfront
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreatePublicKeyAsync(AwsCloudfrontCreatePublicKeyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreatePublicKeyAsync(AwsCloudfrontCreatePublicKeyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a real-time log configuration. After you create a real-time log configuration, you can attach it to one or more cache behaviors to send real-time log data to the specified Amazon Kinesis data stream. For more information about real-time log configurations, see Real-time logs in the Amazon CloudFront Developer Guide . See also: AWS API Documentation
@@ -273,38 +249,34 @@ public interface IAwsCloudfront
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateRealtimeLogConfigAsync(AwsCloudfrontCreateRealtimeLogConfigOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateRealtimeLogConfigAsync(AwsCloudfrontCreateRealtimeLogConfigOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Creates a response headers policy. A response headers policy contains information about a set of HTTP headers. To create a response headers policy, you provide some metadata about the policy and a set of configurations that specify the headers. After you create a response headers policy, you can use its ID to at- tach it to one or more cache behaviors in a CloudFront distribution. When it's attached to a cache behavior, the response headers policy af- fects the HTTP headers that CloudFront inclu...
+    /// Creates a response headers policy. A response headers policy contains information about a set of HTTP headers. To create a response headers policy, you provide some metadata about the policy and a set of configurations that specify the headers. After you create a response headers policy, you can use its ID to attach it to one or more cache behaviors in a CloudFront distribution. When it's attached to a cache behavior, the response headers policy affects the HTTP headers that CloudFront includes ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateResponseHeadersPolicyAsync(AwsCloudfrontCreateResponseHeadersPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateResponseHeadersPolicyAsync(AwsCloudfrontCreateResponseHeadersPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// This API is deprecated. Amazon CloudFront is deprecating real-time mes- saging protocol (RTMP) distributions on December 31, 2020. For more in- formation, read the announcement on the Amazon CloudFront discussion forum. See also: AWS API Documentation
+    /// This API is deprecated. Amazon CloudFront is deprecating real-time messaging protocol (RTMP) distributions on December 31, 2020. For more information, read the announcement on the Amazon CloudFront discussion forum. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateStreamingDistributionAsync(AwsCloudfrontCreateStreamingDistributionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateStreamingDistributionAsync(AwsCloudfrontCreateStreamingDistributionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// This API is deprecated. Amazon CloudFront is deprecating real-time mes- saging protocol (RTMP) distributions on December 31, 2020. For more in- formation, read the announcement on the Amazon CloudFront discussion forum. See also: AWS API Documentation
+    /// This API is deprecated. Amazon CloudFront is deprecating real-time messaging protocol (RTMP) distributions on December 31, 2020. For more information, read the announcement on the Amazon CloudFront discussion forum. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateStreamingDistributionWithTagsAsync(AwsCloudfrontCreateStreamingDistributionWithTagsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateStreamingDistributionWithTagsAsync(AwsCloudfrontCreateStreamingDistributionWithTagsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a trust store. See also: AWS API Documentation
@@ -313,8 +285,7 @@ public interface IAwsCloudfront
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateTrustStoreAsync(AwsCloudfrontCreateTrustStoreOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateTrustStoreAsync(AwsCloudfrontCreateTrustStoreOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Create an Amazon CloudFront VPC origin. See also: AWS API Documentation
@@ -323,8 +294,7 @@ public interface IAwsCloudfront
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateVpcOriginAsync(AwsCloudfrontCreateVpcOriginOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateVpcOriginAsync(AwsCloudfrontCreateVpcOriginOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes an Anycast static IP list. See also: AWS API Documentation
@@ -333,18 +303,16 @@ public interface IAwsCloudfront
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteAnycastIpListAsync(AwsCloudfrontDeleteAnycastIpListOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteAnycastIpListAsync(AwsCloudfrontDeleteAnycastIpListOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Deletes a cache policy. You cannot delete a cache policy if it's attached to a cache behavior. First update your distributions to remove the cache policy from all cache behaviors, then delete the cache policy. To delete a cache policy, you must provide the policy's identifier and version. To get these values, you can use ListCachePolicies or Get- CachePolicy . See also: AWS API Documentation
+    /// Deletes a cache policy. You cannot delete a cache policy if it's attached to a cache behavior. First update your distributions to remove the cache policy from all cache behaviors, then delete the cache policy. To delete a cache policy, you must provide the policy's identifier and version. To get these values, you can use ListCachePolicies or GetCachePolicy . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteCachePolicyAsync(AwsCloudfrontDeleteCachePolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteCachePolicyAsync(AwsCloudfrontDeleteCachePolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Delete an origin access identity. See also: AWS API Documentation
@@ -353,8 +321,7 @@ public interface IAwsCloudfront
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteCloudFrontOriginAccessIdentityAsync(AwsCloudfrontDeleteCloudFrontOriginAccessIdentityOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteCloudFrontOriginAccessIdentityAsync(AwsCloudfrontDeleteCloudFrontOriginAccessIdentityOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a connection function. See also: AWS API Documentation
@@ -363,8 +330,7 @@ public interface IAwsCloudfront
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteConnectionFunctionAsync(AwsCloudfrontDeleteConnectionFunctionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteConnectionFunctionAsync(AwsCloudfrontDeleteConnectionFunctionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a connection group. See also: AWS API Documentation
@@ -373,38 +339,34 @@ public interface IAwsCloudfront
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteConnectionGroupAsync(AwsCloudfrontDeleteConnectionGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteConnectionGroupAsync(AwsCloudfrontDeleteConnectionGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Deletes a continuous deployment policy. You cannot delete a continuous deployment policy that's attached to a primary distribution. First update your distribution to remove the con- tinuous deployment policy, then you can delete the policy. See also: AWS API Documentation
+    /// Deletes a continuous deployment policy. You cannot delete a continuous deployment policy that's attached to a primary distribution. First update your distribution to remove the continuous deployment policy, then you can delete the policy. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteContinuousDeploymentPolicyAsync(AwsCloudfrontDeleteContinuousDeploymentPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteContinuousDeploymentPolicyAsync(AwsCloudfrontDeleteContinuousDeploymentPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Delete a distribution. WARNING: Before you can delete a distribution, you must disable it, which re- quires permission to update the distribution. Once deleted, a dis- tribution cannot be recovered. See also: AWS API Documentation
+    /// Delete a distribution. WARNING: Before you can delete a distribution, you must disable it, which requires permission to update the distribution. Once deleted, a distribution cannot be recovered. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteDistributionAsync(AwsCloudfrontDeleteDistributionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteDistributionAsync(AwsCloudfrontDeleteDistributionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Deletes a distribution tenant. If you use this API operation to delete a distribution tenant that is currently enabled, the request will fail. To delete a distribution tenant, you must first disable the distribu- tion tenant by using the UpdateDistributionTenant API operation. See also: AWS API Documentation
+    /// Deletes a distribution tenant. If you use this API operation to delete a distribution tenant that is currently enabled, the request will fail. To delete a distribution tenant, you must first disable the distribution tenant by using the UpdateDistributionTenant API operation. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteDistributionTenantAsync(AwsCloudfrontDeleteDistributionTenantOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteDistributionTenantAsync(AwsCloudfrontDeleteDistributionTenantOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Remove a field-level encryption configuration. See also: AWS API Documentation
@@ -413,8 +375,7 @@ public interface IAwsCloudfront
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteFieldLevelEncryptionConfigAsync(AwsCloudfrontDeleteFieldLevelEncryptionConfigOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteFieldLevelEncryptionConfigAsync(AwsCloudfrontDeleteFieldLevelEncryptionConfigOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Remove a field-level encryption profile. See also: AWS API Documentation
@@ -423,18 +384,16 @@ public interface IAwsCloudfront
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteFieldLevelEncryptionProfileAsync(AwsCloudfrontDeleteFieldLevelEncryptionProfileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteFieldLevelEncryptionProfileAsync(AwsCloudfrontDeleteFieldLevelEncryptionProfileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Deletes a CloudFront function. You cannot delete a function if it's associated with a cache behavior. First, update your distributions to remove the function association from all cache behaviors, then delete the function. To delete a function, you must provide the function's name and version (ETag value). To get these values, you can use ListFunctions and De- scribeFunction . See also: AWS API Documentation
+    /// Deletes a CloudFront function. You cannot delete a function if it's associated with a cache behavior. First, update your distributions to remove the function association from all cache behaviors, then delete the function. To delete a function, you must provide the function's name and version (ETag value). To get these values, you can use ListFunctions and DescribeFunction . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteFunctionAsync(AwsCloudfrontDeleteFunctionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteFunctionAsync(AwsCloudfrontDeleteFunctionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a key group. You cannot delete a key group that is referenced in a cache behavior. First update your distributions to remove the key group from all cache behaviors, then delete the key group. To delete a key group, you must provide the key group's identifier and version. To get these values, use ListKeyGroups followed by GetKeyGroup or GetKeyGroupConfig . See also: AWS API Documentation
@@ -443,8 +402,7 @@ public interface IAwsCloudfront
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteKeyGroupAsync(AwsCloudfrontDeleteKeyGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteKeyGroupAsync(AwsCloudfrontDeleteKeyGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Specifies the key value store to delete. See also: AWS API Documentation
@@ -453,8 +411,7 @@ public interface IAwsCloudfront
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteKeyValueStoreAsync(AwsCloudfrontDeleteKeyValueStoreOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteKeyValueStoreAsync(AwsCloudfrontDeleteKeyValueStoreOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Disables additional CloudWatch metrics for the specified CloudFront distribution. See also: AWS API Documentation
@@ -463,28 +420,25 @@ public interface IAwsCloudfront
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteMonitoringSubscriptionAsync(AwsCloudfrontDeleteMonitoringSubscriptionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteMonitoringSubscriptionAsync(AwsCloudfrontDeleteMonitoringSubscriptionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Deletes a CloudFront origin access control. You cannot delete an origin access control if it's in use. First, up- date all distributions to remove the origin access control from all origins, then delete the origin access control. See also: AWS API Documentation
+    /// Deletes a CloudFront origin access control. You cannot delete an origin access control if it's in use. First, update all distributions to remove the origin access control from all origins, then delete the origin access control. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteOriginAccessControlAsync(AwsCloudfrontDeleteOriginAccessControlOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteOriginAccessControlAsync(AwsCloudfrontDeleteOriginAccessControlOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Deletes an origin request policy. You cannot delete an origin request policy if it's attached to any cache behaviors. First update your distributions to remove the origin request policy from all cache behaviors, then delete the origin request policy. To delete an origin request policy, you must provide the policy's iden- tifier and version. To get the identifier, you can use ListOriginRe- questPolicies or GetOriginRequestPolicy . See also: AWS API Documentation
+    /// Deletes an origin request policy. You cannot delete an origin request policy if it's attached to any cache behaviors. First update your distributions to remove the origin request policy from all cache behaviors, then delete the origin request policy. To delete an origin request policy, you must provide the policy's identifier and version. To get the identifier, you can use ListOriginRequestPolicies or GetOriginRequestPolicy . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteOriginRequestPolicyAsync(AwsCloudfrontDeleteOriginRequestPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteOriginRequestPolicyAsync(AwsCloudfrontDeleteOriginRequestPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Remove a public key you previously added to CloudFront. See also: AWS API Documentation
@@ -493,18 +447,16 @@ public interface IAwsCloudfront
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeletePublicKeyAsync(AwsCloudfrontDeletePublicKeyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeletePublicKeyAsync(AwsCloudfrontDeletePublicKeyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Deletes a real-time log configuration. You cannot delete a real-time log configuration if it's attached to a cache behavior. First update your distributions to remove the real-time log configuration from all cache behaviors, then delete the real-time log configuration. To delete a real-time log configuration, you can provide the configura- tion's name or its Amazon Resource Name (ARN). You must provide at least one. If you provide both, CloudFront uses the name to identify the real-time log conf...
+    /// Deletes a real-time log configuration. You cannot delete a real-time log configuration if it's attached to a cache behavior. First update your distributions to remove the real-time log configuration from all cache behaviors, then delete the real-time log configuration. To delete a real-time log configuration, you can provide the configuration's name or its Amazon Resource Name (ARN). You must provide at least one. If you provide both, CloudFront uses the name to identify the real-time log config...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteRealtimeLogConfigAsync(AwsCloudfrontDeleteRealtimeLogConfigOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteRealtimeLogConfigAsync(AwsCloudfrontDeleteRealtimeLogConfigOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the resource policy attached to the CloudFront resource. See also: AWS API Documentation
@@ -513,28 +465,25 @@ public interface IAwsCloudfront
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteResourcePolicyAsync(AwsCloudfrontDeleteResourcePolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteResourcePolicyAsync(AwsCloudfrontDeleteResourcePolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Deletes a response headers policy. You cannot delete a response headers policy if it's attached to a cache behavior. First update your distributions to remove the response head- ers policy from all cache behaviors, then delete the response headers policy. To delete a response headers policy, you must provide the policy's identifier and version. To get these values, you can use ListResponse- HeadersPolicies or GetResponseHeadersPolicy . See also: AWS API Documentation
+    /// Deletes a response headers policy. You cannot delete a response headers policy if it's attached to a cache behavior. First update your distributions to remove the response headers policy from all cache behaviors, then delete the response headers policy. To delete a response headers policy, you must provide the policy's identifier and version. To get these values, you can use ListResponseHeadersPolicies or GetResponseHeadersPolicy . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteResponseHeadersPolicyAsync(AwsCloudfrontDeleteResponseHeadersPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteResponseHeadersPolicyAsync(AwsCloudfrontDeleteResponseHeadersPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Delete a streaming distribution. To delete an RTMP distribution using the CloudFront API, perform the following steps. To delete an RTMP distribution using the CloudFront API : o Disable the RTMP distribution. o Submit a GET Streaming Distribution Config request to get the current configuration and the Etag header for the distribution. o Update the XML document that was returned in the response to your GET Streaming Distribution Config request to change the value of Enabled to false . o Submit a...
+    /// Delete a streaming distribution. To delete an RTMP distribution using the CloudFront API, perform the following steps. To delete an RTMP distribution using the CloudFront API : • Disable the RTMP distribution. • Submit a GET Streaming Distribution Config request to get the current configuration and the Etag header for the distribution. • Update the XML document that was returned in the response to your GET Streaming Distribution Config request to change the value of Enabled to false . • Submit a...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteStreamingDistributionAsync(AwsCloudfrontDeleteStreamingDistributionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteStreamingDistributionAsync(AwsCloudfrontDeleteStreamingDistributionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a trust store. See also: AWS API Documentation
@@ -543,8 +492,7 @@ public interface IAwsCloudfront
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteTrustStoreAsync(AwsCloudfrontDeleteTrustStoreOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteTrustStoreAsync(AwsCloudfrontDeleteTrustStoreOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Delete an Amazon CloudFront VPC origin. See also: AWS API Documentation
@@ -553,8 +501,7 @@ public interface IAwsCloudfront
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteVpcOriginAsync(AwsCloudfrontDeleteVpcOriginOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteVpcOriginAsync(AwsCloudfrontDeleteVpcOriginOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes a connection function. See also: AWS API Documentation
@@ -563,18 +510,16 @@ public interface IAwsCloudfront
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeConnectionFunctionAsync(AwsCloudfrontDescribeConnectionFunctionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeConnectionFunctionAsync(AwsCloudfrontDescribeConnectionFunctionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Gets configuration information and metadata about a CloudFront func- tion, but not the function's code. To get a function's code, use Get- Function . To get configuration information and metadata about a function, you must provide the function's name and stage. To get these values, you can use ListFunctions . See also: AWS API Documentation
+    /// Gets configuration information and metadata about a CloudFront function, but not the function's code. To get a function's code, use GetFunction . To get configuration information and metadata about a function, you must provide the function's name and stage. To get these values, you can use ListFunctions . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeFunctionAsync(AwsCloudfrontDescribeFunctionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeFunctionAsync(AwsCloudfrontDescribeFunctionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Specifies the key value store and its configuration. See also: AWS API Documentation
@@ -583,8 +528,7 @@ public interface IAwsCloudfront
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeKeyValueStoreAsync(AwsCloudfrontDescribeKeyValueStoreOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeKeyValueStoreAsync(AwsCloudfrontDescribeKeyValueStoreOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Disassociates a distribution tenant from the WAF web ACL. See also: AWS API Documentation
@@ -593,8 +537,7 @@ public interface IAwsCloudfront
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DisassociateDistributionTenantWebAclAsync(AwsCloudfrontDisassociateDistributionTenantWebAclOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DisassociateDistributionTenantWebAclAsync(AwsCloudfrontDisassociateDistributionTenantWebAclOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Disassociates a distribution from the WAF web ACL. See also: AWS API Documentation
@@ -603,8 +546,7 @@ public interface IAwsCloudfront
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DisassociateDistributionWebAclAsync(AwsCloudfrontDisassociateDistributionWebAclOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DisassociateDistributionWebAclAsync(AwsCloudfrontDisassociateDistributionWebAclOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets an Anycast static IP list. See also: AWS API Documentation
@@ -613,28 +555,25 @@ public interface IAwsCloudfront
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetAnycastIpListAsync(AwsCloudfrontGetAnycastIpListOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetAnycastIpListAsync(AwsCloudfrontGetAnycastIpListOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Gets a cache policy configuration. To get a cache policy configuration, you must provide the policy's identifier. If the cache policy is attached to a distribution's cache behavior, you can get the policy's identifier using ListDistributions or GetDistribution . If the cache policy is not attached to a cache be- havior, you can get the identifier using ListCachePolicies . See also: AWS API Documentation
+    /// Gets a cache policy configuration. To get a cache policy configuration, you must provide the policy's identifier. If the cache policy is attached to a distribution's cache behavior, you can get the policy's identifier using ListDistributions or GetDistribution . If the cache policy is not attached to a cache behavior, you can get the identifier using ListCachePolicies . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetCachePolicyConfigAsync(AwsCloudfrontGetCachePolicyConfigOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetCachePolicyConfigAsync(AwsCloudfrontGetCachePolicyConfigOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Gets a cache policy, including the following metadata: o The policy's identifier. o The date and time when the policy was last modified. To get a cache policy, you must provide the policy's identifier. If the cache policy is attached to a distribution's cache behavior, you can get the policy's identifier using ListDistributions or GetDistribution . If the cache policy is not attached to a cache behavior, you can get the identifier using ListCachePolicies . See also: AWS API Documentation
+    /// Gets a cache policy, including the following metadata: • The policy's identifier. • The date and time when the policy was last modified. To get a cache policy, you must provide the policy's identifier. If the cache policy is attached to a distribution's cache behavior, you can get the policy's identifier using ListDistributions or GetDistribution . If the cache policy is not attached to a cache behavior, you can get the identifier using ListCachePolicies . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetCachePolicyAsync(AwsCloudfrontGetCachePolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetCachePolicyAsync(AwsCloudfrontGetCachePolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get the configuration information about an origin access identity. See also: AWS API Documentation
@@ -643,8 +582,7 @@ public interface IAwsCloudfront
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetCloudFrontOriginAccessIdentityConfigAsync(AwsCloudfrontGetCloudFrontOriginAccessIdentityConfigOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetCloudFrontOriginAccessIdentityConfigAsync(AwsCloudfrontGetCloudFrontOriginAccessIdentityConfigOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get the information about an origin access identity. See also: AWS API Documentation
@@ -653,8 +591,7 @@ public interface IAwsCloudfront
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetCloudFrontOriginAccessIdentityAsync(AwsCloudfrontGetCloudFrontOriginAccessIdentityOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetCloudFrontOriginAccessIdentityAsync(AwsCloudfrontGetCloudFrontOriginAccessIdentityOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets a connection function. See also: AWS API Documentation
@@ -663,8 +600,7 @@ public interface IAwsCloudfront
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetConnectionFunctionAsync(AwsCloudfrontGetConnectionFunctionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetConnectionFunctionAsync(AwsCloudfrontGetConnectionFunctionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets information about a connection group by using the endpoint that you specify. See also: AWS API Documentation
@@ -673,8 +609,7 @@ public interface IAwsCloudfront
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetConnectionGroupByRoutingEndpointAsync(AwsCloudfrontGetConnectionGroupByRoutingEndpointOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetConnectionGroupByRoutingEndpointAsync(AwsCloudfrontGetConnectionGroupByRoutingEndpointOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets information about a connection group. See also: AWS API Documentation
@@ -683,8 +618,7 @@ public interface IAwsCloudfront
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetConnectionGroupAsync(AwsCloudfrontGetConnectionGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetConnectionGroupAsync(AwsCloudfrontGetConnectionGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets configuration information about a continuous deployment policy. See also: AWS API Documentation
@@ -693,8 +627,7 @@ public interface IAwsCloudfront
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetContinuousDeploymentPolicyConfigAsync(AwsCloudfrontGetContinuousDeploymentPolicyConfigOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetContinuousDeploymentPolicyConfigAsync(AwsCloudfrontGetContinuousDeploymentPolicyConfigOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets a continuous deployment policy, including metadata (the policy's identifier and the date and time when the policy was last modified). See also: AWS API Documentation
@@ -703,8 +636,7 @@ public interface IAwsCloudfront
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetContinuousDeploymentPolicyAsync(AwsCloudfrontGetContinuousDeploymentPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetContinuousDeploymentPolicyAsync(AwsCloudfrontGetContinuousDeploymentPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get the configuration information about a distribution. See also: AWS API Documentation
@@ -713,8 +645,7 @@ public interface IAwsCloudfront
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetDistributionConfigAsync(AwsCloudfrontGetDistributionConfigOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetDistributionConfigAsync(AwsCloudfrontGetDistributionConfigOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get the information about a distribution. See also: AWS API Documentation
@@ -723,8 +654,7 @@ public interface IAwsCloudfront
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetDistributionAsync(AwsCloudfrontGetDistributionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetDistributionAsync(AwsCloudfrontGetDistributionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets information about a distribution tenant by the associated domain. See also: AWS API Documentation
@@ -733,8 +663,7 @@ public interface IAwsCloudfront
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetDistributionTenantByDomainAsync(AwsCloudfrontGetDistributionTenantByDomainOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetDistributionTenantByDomainAsync(AwsCloudfrontGetDistributionTenantByDomainOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets information about a distribution tenant. See also: AWS API Documentation
@@ -743,8 +672,7 @@ public interface IAwsCloudfront
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetDistributionTenantAsync(AwsCloudfrontGetDistributionTenantOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetDistributionTenantAsync(AwsCloudfrontGetDistributionTenantOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get the field-level encryption configuration information. See also: AWS API Documentation
@@ -753,8 +681,7 @@ public interface IAwsCloudfront
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetFieldLevelEncryptionConfigAsync(AwsCloudfrontGetFieldLevelEncryptionConfigOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetFieldLevelEncryptionConfigAsync(AwsCloudfrontGetFieldLevelEncryptionConfigOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get the field-level encryption configuration information. See also: AWS API Documentation
@@ -763,8 +690,7 @@ public interface IAwsCloudfront
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetFieldLevelEncryptionAsync(AwsCloudfrontGetFieldLevelEncryptionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetFieldLevelEncryptionAsync(AwsCloudfrontGetFieldLevelEncryptionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get the field-level encryption profile configuration information. See also: AWS API Documentation
@@ -773,8 +699,7 @@ public interface IAwsCloudfront
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetFieldLevelEncryptionProfileConfigAsync(AwsCloudfrontGetFieldLevelEncryptionProfileConfigOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetFieldLevelEncryptionProfileConfigAsync(AwsCloudfrontGetFieldLevelEncryptionProfileConfigOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get the field-level encryption profile information. See also: AWS API Documentation
@@ -783,28 +708,25 @@ public interface IAwsCloudfront
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetFieldLevelEncryptionProfileAsync(AwsCloudfrontGetFieldLevelEncryptionProfileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetFieldLevelEncryptionProfileAsync(AwsCloudfrontGetFieldLevelEncryptionProfileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Gets the code of a CloudFront function. To get configuration informa- tion and metadata about a function, use DescribeFunction . To get a function's code, you must provide the function's name and stage. To get these values, you can use ListFunctions . See also: AWS API Documentation
+    /// Gets the code of a CloudFront function. To get configuration information and metadata about a function, use DescribeFunction . To get a function's code, you must provide the function's name and stage. To get these values, you can use ListFunctions . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetFunctionAsync(AwsCloudfrontGetFunctionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetFunctionAsync(AwsCloudfrontGetFunctionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Gets information about a specific invalidation for a distribution ten- ant. See also: AWS API Documentation
+    /// Gets information about a specific invalidation for a distribution tenant. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetInvalidationForDistributionTenantAsync(AwsCloudfrontGetInvalidationForDistributionTenantOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetInvalidationForDistributionTenantAsync(AwsCloudfrontGetInvalidationForDistributionTenantOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get the information about an invalidation. See also: AWS API Documentation
@@ -813,18 +735,16 @@ public interface IAwsCloudfront
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetInvalidationAsync(AwsCloudfrontGetInvalidationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetInvalidationAsync(AwsCloudfrontGetInvalidationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Gets a key group configuration. To get a key group configuration, you must provide the key group's identifier. If the key group is referenced in a distribution's cache behavior, you can get the key group's identifier using ListDistribu- tions or GetDistribution . If the key group is not referenced in a cache behavior, you can get the identifier using ListKeyGroups . See also: AWS API Documentation
+    /// Gets a key group configuration. To get a key group configuration, you must provide the key group's identifier. If the key group is referenced in a distribution's cache behavior, you can get the key group's identifier using ListDistributions or GetDistribution . If the key group is not referenced in a cache behavior, you can get the identifier using ListKeyGroups . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetKeyGroupConfigAsync(AwsCloudfrontGetKeyGroupConfigOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetKeyGroupConfigAsync(AwsCloudfrontGetKeyGroupConfigOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets a key group, including the date and time when the key group was last modified. To get a key group, you must provide the key group's identifier. If the key group is referenced in a distribution's cache behavior, you can get the key group's identifier using ListDistributions or GetDistribution . If the key group is not referenced in a cache behavior, you can get the identifier using ListKeyGroups . See also: AWS API Documentation
@@ -833,8 +753,7 @@ public interface IAwsCloudfront
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetKeyGroupAsync(AwsCloudfrontGetKeyGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetKeyGroupAsync(AwsCloudfrontGetKeyGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets details about the CloudFront managed ACM certificate. See also: AWS API Documentation
@@ -843,18 +762,16 @@ public interface IAwsCloudfront
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetManagedCertificateDetailsAsync(AwsCloudfrontGetManagedCertificateDetailsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetManagedCertificateDetailsAsync(AwsCloudfrontGetManagedCertificateDetailsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Gets information about whether additional CloudWatch metrics are en- abled for the specified CloudFront distribution. See also: AWS API Documentation
+    /// Gets information about whether additional CloudWatch metrics are enabled for the specified CloudFront distribution. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetMonitoringSubscriptionAsync(AwsCloudfrontGetMonitoringSubscriptionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetMonitoringSubscriptionAsync(AwsCloudfrontGetMonitoringSubscriptionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets a CloudFront origin access control configuration. See also: AWS API Documentation
@@ -863,38 +780,34 @@ public interface IAwsCloudfront
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetOriginAccessControlConfigAsync(AwsCloudfrontGetOriginAccessControlConfigOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetOriginAccessControlConfigAsync(AwsCloudfrontGetOriginAccessControlConfigOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Gets a CloudFront origin access control, including its unique identi- fier. See also: AWS API Documentation
+    /// Gets a CloudFront origin access control, including its unique identifier. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetOriginAccessControlAsync(AwsCloudfrontGetOriginAccessControlOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetOriginAccessControlAsync(AwsCloudfrontGetOriginAccessControlOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Gets an origin request policy configuration. To get an origin request policy configuration, you must provide the policy's identifier. If the origin request policy is attached to a dis- tribution's cache behavior, you can get the policy's identifier using ListDistributions or GetDistribution . If the origin request policy is not attached to a cache behavior, you can get the identifier using Lis- tOriginRequestPolicies . See also: AWS API Documentation
+    /// Gets an origin request policy configuration. To get an origin request policy configuration, you must provide the policy's identifier. If the origin request policy is attached to a distribution's cache behavior, you can get the policy's identifier using ListDistributions or GetDistribution . If the origin request policy is not attached to a cache behavior, you can get the identifier using ListOriginRequestPolicies . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetOriginRequestPolicyConfigAsync(AwsCloudfrontGetOriginRequestPolicyConfigOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetOriginRequestPolicyConfigAsync(AwsCloudfrontGetOriginRequestPolicyConfigOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Gets an origin request policy, including the following metadata: o The policy's identifier. o The date and time when the policy was last modified. To get an origin request policy, you must provide the policy's identi- fier. If the origin request policy is attached to a distribution's cache behavior, you can get the policy's identifier using ListDistribu- tions or GetDistribution . If the origin request policy is not attached to a cache behavior, you can get the identifier using ListOriginRe- que...
+    /// Gets an origin request policy, including the following metadata: • The policy's identifier. • The date and time when the policy was last modified. To get an origin request policy, you must provide the policy's identifier. If the origin request policy is attached to a distribution's cache behavior, you can get the policy's identifier using ListDistributions or GetDistribution . If the origin request policy is not attached to a cache behavior, you can get the identifier using ListOriginRequestPoli...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetOriginRequestPolicyAsync(AwsCloudfrontGetOriginRequestPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetOriginRequestPolicyAsync(AwsCloudfrontGetOriginRequestPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets a public key configuration. See also: AWS API Documentation
@@ -903,8 +816,7 @@ public interface IAwsCloudfront
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetPublicKeyConfigAsync(AwsCloudfrontGetPublicKeyConfigOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetPublicKeyConfigAsync(AwsCloudfrontGetPublicKeyConfigOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets a public key. See also: AWS API Documentation
@@ -913,18 +825,16 @@ public interface IAwsCloudfront
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetPublicKeyAsync(AwsCloudfrontGetPublicKeyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetPublicKeyAsync(AwsCloudfrontGetPublicKeyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Gets a real-time log configuration. To get a real-time log configuration, you can provide the configura- tion's name or its Amazon Resource Name (ARN). You must provide at least one. If you provide both, CloudFront uses the name to identify the real-time log configuration to get. See also: AWS API Documentation
+    /// Gets a real-time log configuration. To get a real-time log configuration, you can provide the configuration's name or its Amazon Resource Name (ARN). You must provide at least one. If you provide both, CloudFront uses the name to identify the real-time log configuration to get. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetRealtimeLogConfigAsync(AwsCloudfrontGetRealtimeLogConfigOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetRealtimeLogConfigAsync(AwsCloudfrontGetRealtimeLogConfigOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the resource policy for the specified CloudFront resource that you own and have shared. See also: AWS API Documentation
@@ -933,28 +843,25 @@ public interface IAwsCloudfront
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetResourcePolicyAsync(AwsCloudfrontGetResourcePolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetResourcePolicyAsync(AwsCloudfrontGetResourcePolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Gets a response headers policy configuration. To get a response headers policy configuration, you must provide the policy's identifier. If the response headers policy is attached to a distribution's cache behavior, you can get the policy's identifier us- ing ListDistributions or GetDistribution . If the response headers pol- icy is not attached to a cache behavior, you can get the identifier us- ing ListResponseHeadersPolicies . See also: AWS API Documentation
+    /// Gets a response headers policy configuration. To get a response headers policy configuration, you must provide the policy's identifier. If the response headers policy is attached to a distribution's cache behavior, you can get the policy's identifier using ListDistributions or GetDistribution . If the response headers policy is not attached to a cache behavior, you can get the identifier using ListResponseHeadersPolicies . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetResponseHeadersPolicyConfigAsync(AwsCloudfrontGetResponseHeadersPolicyConfigOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetResponseHeadersPolicyConfigAsync(AwsCloudfrontGetResponseHeadersPolicyConfigOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Gets a response headers policy, including metadata (the policy's iden- tifier and the date and time when the policy was last modified). To get a response headers policy, you must provide the policy's identi- fier. If the response headers policy is attached to a distribution's cache behavior, you can get the policy's identifier using ListDistribu- tions or GetDistribution . If the response headers policy is not at- tached to a cache behavior, you can get the identifier using ListRe- sponseHeaders...
+    /// Gets a response headers policy, including metadata (the policy's identifier and the date and time when the policy was last modified). To get a response headers policy, you must provide the policy's identifier. If the response headers policy is attached to a distribution's cache behavior, you can get the policy's identifier using ListDistributions or GetDistribution . If the response headers policy is not attached to a cache behavior, you can get the identifier using ListResponseHeadersPolicies ....
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetResponseHeadersPolicyAsync(AwsCloudfrontGetResponseHeadersPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetResponseHeadersPolicyAsync(AwsCloudfrontGetResponseHeadersPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get the configuration information about a streaming distribution. See also: AWS API Documentation
@@ -963,8 +870,7 @@ public interface IAwsCloudfront
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetStreamingDistributionConfigAsync(AwsCloudfrontGetStreamingDistributionConfigOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetStreamingDistributionConfigAsync(AwsCloudfrontGetStreamingDistributionConfigOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets information about a specified RTMP distribution, including the distribution configuration. See also: AWS API Documentation
@@ -973,8 +879,7 @@ public interface IAwsCloudfront
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetStreamingDistributionAsync(AwsCloudfrontGetStreamingDistributionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetStreamingDistributionAsync(AwsCloudfrontGetStreamingDistributionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets a trust store. See also: AWS API Documentation
@@ -983,8 +888,7 @@ public interface IAwsCloudfront
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetTrustStoreAsync(AwsCloudfrontGetTrustStoreOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetTrustStoreAsync(AwsCloudfrontGetTrustStoreOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get the details of an Amazon CloudFront VPC origin. See also: AWS API Documentation
@@ -993,8 +897,7 @@ public interface IAwsCloudfront
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetVpcOriginAsync(AwsCloudfrontGetVpcOriginOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetVpcOriginAsync(AwsCloudfrontGetVpcOriginOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists your Anycast static IP lists. See also: AWS API Documentation
@@ -1003,48 +906,43 @@ public interface IAwsCloudfront
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListAnycastIpListsAsync(AwsCloudfrontListAnycastIpListsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListAnycastIpListsAsync(AwsCloudfrontListAnycastIpListsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Gets a list of cache policies. You can optionally apply a filter to return only the managed policies created by Amazon Web Services, or only the custom policies created in your Amazon Web Services account. You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the max- imum that you specify, or the default maximum, the response is pagi- nated. To get the next page of items, send a subsequent request that specifies the N...
+    /// Gets a list of cache policies. You can optionally apply a filter to return only the managed policies created by Amazon Web Services, or only the custom policies created in your Amazon Web Services account. You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the NextM...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListCachePoliciesAsync(AwsCloudfrontListCachePoliciesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListCachePoliciesAsync(AwsCloudfrontListCachePoliciesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Lists origin access identities. See also: AWS API Documentation list-cloud-front-origin-access-identities is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-pagi- nate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the re- sults of the following query expressions: CloudFrontOriginAccessIden- tityList.Items
+    /// Lists origin access identities. See also: AWS API Documentation list-cloud-front-origin-access-identities is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: CloudFrontOriginAccessIdentityList.Items
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListCloudFrontOriginAccessIdentitiesAsync(AwsCloudfrontListCloudFrontOriginAccessIdentitiesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListCloudFrontOriginAccessIdentitiesAsync(AwsCloudfrontListCloudFrontOriginAccessIdentitiesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// NOTE: The ListConflictingAliases API operation only supports standard dis- tributions. To list domain conflicts for both standard distributions and distribution tenants, we recommend that you use the ListDomainConflicts API operation instead. Gets a list of aliases that conflict or overlap with the provided alias, and the associated CloudFront standard distribution and Amazon Web Services accounts for each conflicting alias. An alias is commonly known as a custom domain or vanity domain. It can ...
+    /// NOTE: The ListConflictingAliases API operation only supports standard distributions. To list domain conflicts for both standard distributions and distribution tenants, we recommend that you use the ListDomainConflicts API operation instead. Gets a list of aliases that conflict or overlap with the provided alias, and the associated CloudFront standard distribution and Amazon Web Services accounts for each conflicting alias. An alias is commonly known as a custom domain or vanity domain. It can al...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListConflictingAliasesAsync(AwsCloudfrontListConflictingAliasesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListConflictingAliasesAsync(AwsCloudfrontListConflictingAliasesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Lists connection functions. See also: AWS API Documentation list-connection-functions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: ConnectionFunctions
+    /// Lists connection functions. See also: AWS API Documentation list-connection-functions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: ConnectionFunctions
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListConnectionFunctionsAsync(AwsCloudfrontListConnectionFunctionsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListConnectionFunctionsAsync(AwsCloudfrontListConnectionFunctionsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the connection groups in your Amazon Web Services account. See also: AWS API Documentation list-connection-groups is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: ConnectionGroups
@@ -1053,18 +951,34 @@ public interface IAwsCloudfront
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListConnectionGroupsAsync(AwsCloudfrontListConnectionGroupsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListConnectionGroupsAsync(AwsCloudfrontListConnectionGroupsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Gets a list of the continuous deployment policies in your Amazon Web Services account. You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the max- imum that you specify, or the default maximum, the response is pagi- nated. To get the next page of items, send a subsequent request that specifies the NextMarker value from the current response as the Marker value in the subsequent request. See also: AWS API Documentatio...
+    /// Gets a list of the continuous deployment policies in your Amazon Web Services account. You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the NextMarker value from the current response as the Marker value in the subsequent request. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListContinuousDeploymentPoliciesAsync(AwsCloudfrontListContinuousDeploymentPoliciesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListContinuousDeploymentPoliciesAsync(AwsCloudfrontListContinuousDeploymentPoliciesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Lists distribution tenants by the customization that you specify. You must specify either the CertificateArn parameter or WebACLArn parameter, but not both in the same request. See also: AWS API Documentation list-distribution-tenants-by-customization is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated res...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> ListDistributionTenantsByCustomizationAsync(AwsCloudfrontListDistributionTenantsByCustomizationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Lists the distribution tenants in your Amazon Web Services account. See also: AWS API Documentation list-distribution-tenants is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: DistributionTenantList
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> ListDistributionTenantsAsync(AwsCloudfrontListDistributionTenantsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the distributions in your account that are associated with the specified AnycastIpListId . See also: AWS API Documentation
@@ -1073,98 +987,88 @@ public interface IAwsCloudfront
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListDistributionsByAnycastIpListIdAsync(AwsCloudfrontListDistributionsByAnycastIpListIdOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListDistributionsByAnycastIpListIdAsync(AwsCloudfrontListDistributionsByAnycastIpListIdOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Gets a list of distribution IDs for distributions that have a cache be- havior that's associated with the specified cache policy. You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the max- imum that you specify, or the default maximum, the response is pagi- nated. To get the next page of items, send a subsequent request that specifies the NextMarker value from the current response as the Marker value in the subsequ...
+    /// Gets a list of distribution IDs for distributions that have a cache behavior that's associated with the specified cache policy. You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the NextMarker value from the current response as the Marker value in the subsequent re...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListDistributionsByCachePolicyIdAsync(AwsCloudfrontListDistributionsByCachePolicyIdOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListDistributionsByCachePolicyIdAsync(AwsCloudfrontListDistributionsByCachePolicyIdOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Lists distributions by connection function. See also: AWS API Documentation list-distributions-by-connection-function is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-pagi- nate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the re- sults of the following query expressions: DistributionList.Items
+    /// Lists distributions by connection function. See also: AWS API Documentation list-distributions-by-connection-function is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: DistributionList.Items
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListDistributionsByConnectionFunctionAsync(AwsCloudfrontListDistributionsByConnectionFunctionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListDistributionsByConnectionFunctionAsync(AwsCloudfrontListDistributionsByConnectionFunctionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Lists the distributions by the connection mode that you specify. See also: AWS API Documentation list-distributions-by-connection-mode is a paginated operation. Multi- ple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate ar- gument. When using --output text and the --query argument on a pagi- nated response, the --query argument must extract data from the results of the following query expressions: Distribution...
+    /// Lists the distributions by the connection mode that you specify. See also: AWS API Documentation list-distributions-by-connection-mode is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: DistributionList.I...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListDistributionsByConnectionModeAsync(AwsCloudfrontListDistributionsByConnectionModeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListDistributionsByConnectionModeAsync(AwsCloudfrontListDistributionsByConnectionModeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Gets a list of distribution IDs for distributions that have a cache be- havior that references the specified key group. You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the max- imum that you specify, or the default maximum, the response is pagi- nated. To get the next page of items, send a subsequent request that specifies the NextMarker value from the current response as the Marker value in the subsequent reques...
+    /// Gets a list of distribution IDs for distributions that have a cache behavior that references the specified key group. You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the NextMarker value from the current response as the Marker value in the subsequent request. See...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListDistributionsByKeyGroupAsync(AwsCloudfrontListDistributionsByKeyGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListDistributionsByKeyGroupAsync(AwsCloudfrontListDistributionsByKeyGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Gets a list of distribution IDs for distributions that have a cache be- havior that's associated with the specified origin request policy. You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the max- imum that you specify, or the default maximum, the response is pagi- nated. To get the next page of items, send a subsequent request that specifies the NextMarker value from the current response as the Marker value in th...
+    /// Gets a list of distribution IDs for distributions that have a cache behavior that's associated with the specified origin request policy. You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the NextMarker value from the current response as the Marker value in the subs...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListDistributionsByOriginRequestPolicyIdAsync(AwsCloudfrontListDistributionsByOriginRequestPolicyIdOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListDistributionsByOriginRequestPolicyIdAsync(AwsCloudfrontListDistributionsByOriginRequestPolicyIdOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Lists the CloudFront distributions that are associated with the speci- fied resource that you own. See also: AWS API Documentation
+    /// Lists the CloudFront distributions that are associated with the specified resource that you own. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListDistributionsByOwnedResourceAsync(AwsCloudfrontListDistributionsByOwnedResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListDistributionsByOwnedResourceAsync(AwsCloudfrontListDistributionsByOwnedResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Gets a list of distributions that have a cache behavior that's associ- ated with the specified real-time log configuration. You can specify the real-time log configuration by its name or its Ama- zon Resource Name (ARN). You must provide at least one. If you provide both, CloudFront uses the name to identify the real-time log configura- tion to list distributions for. You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list excee...
+    /// Gets a list of distributions that have a cache behavior that's associated with the specified real-time log configuration. You can specify the real-time log configuration by its name or its Amazon Resource Name (ARN). You must provide at least one. If you provide both, CloudFront uses the name to identify the real-time log configuration to list distributions for. You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListDistributionsByRealtimeLogConfigAsync(AwsCloudfrontListDistributionsByRealtimeLogConfigOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListDistributionsByRealtimeLogConfigAsync(AwsCloudfrontListDistributionsByRealtimeLogConfigOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Gets a list of distribution IDs for distributions that have a cache be- havior that's associated with the specified response headers policy. You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the max- imum that you specify, or the default maximum, the response is pagi- nated. To get the next page of items, send a subsequent request that specifies the NextMarker value from the current response as the Marker value in ...
+    /// Gets a list of distribution IDs for distributions that have a cache behavior that's associated with the specified response headers policy. You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the NextMarker value from the current response as the Marker value in the su...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListDistributionsByResponseHeadersPolicyIdAsync(AwsCloudfrontListDistributionsByResponseHeadersPolicyIdOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListDistributionsByResponseHeadersPolicyIdAsync(AwsCloudfrontListDistributionsByResponseHeadersPolicyIdOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Lists distributions by trust store. See also: AWS API Documentation list-distributions-by-trust-store is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: DistributionList.Items
+    /// Lists distributions by trust store. See also: AWS API Documentation list-distributions-by-trust-store is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: DistributionList.Items
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListDistributionsByTrustStoreAsync(AwsCloudfrontListDistributionsByTrustStoreOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListDistributionsByTrustStoreAsync(AwsCloudfrontListDistributionsByTrustStoreOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// List CloudFront distributions by their VPC origin ID. See also: AWS API Documentation
@@ -1173,8 +1077,7 @@ public interface IAwsCloudfront
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListDistributionsByVpcOriginIdAsync(AwsCloudfrontListDistributionsByVpcOriginIdOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListDistributionsByVpcOriginIdAsync(AwsCloudfrontListDistributionsByVpcOriginIdOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// List the distributions that are associated with a specified WAF web ACL. See also: AWS API Documentation
@@ -1183,8 +1086,7 @@ public interface IAwsCloudfront
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListDistributionsByWebAclIdAsync(AwsCloudfrontListDistributionsByWebAclIdOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListDistributionsByWebAclIdAsync(AwsCloudfrontListDistributionsByWebAclIdOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// List CloudFront distributions. See also: AWS API Documentation list-distributions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: DistributionList.Items
@@ -1193,38 +1095,16 @@ public interface IAwsCloudfront
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListDistributionsAsync(AwsCloudfrontListDistributionsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListDistributionsAsync(AwsCloudfrontListDistributionsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Lists distribution tenants by the customization that you specify. You must specify either the CertificateArn parameter or WebACLArn para- meter, but not both in the same request. See also: AWS API Documentation list-distribution-tenants-by-customization is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-pagi- nate argument. When using --output text and the --query argument on a paginated...
+    /// NOTE: We recommend that you use the ListDomainConflicts API operation to check for domain conflicts, as it supports both standard distributions and distribution tenants. ListConflictingAliases performs similar checks but only supports standard distributions. Lists existing domain associations that conflict with the domain that you specify. You can use this API operation to identify potential domain conflicts when moving domains between standard distributions and/or distribution tenants. Domain c...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListDistributionTenantsByCustomizationAsync(AwsCloudfrontListDistributionTenantsByCustomizationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
-
-    /// <summary>
-    /// Lists the distribution tenants in your Amazon Web Services account. See also: AWS API Documentation list-distribution-tenants is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: DistributionTenantList
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public Task<CommandResult> ListDistributionTenantsAsync(AwsCloudfrontListDistributionTenantsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
-
-    /// <summary>
-    /// NOTE: We recommend that you use the ListDomainConflicts API operation to check for domain conflicts, as it supports both standard distribu- tions and distribution tenants. ListConflictingAliases performs sim- ilar checks but only supports standard distributions. Lists existing domain associations that conflict with the domain that you specify. You can use this API operation to identify potential domain conflicts when moving domains between standard distributions and/or distribution tenants. Doma...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public Task<CommandResult> ListDomainConflictsAsync(AwsCloudfrontListDomainConflictsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListDomainConflictsAsync(AwsCloudfrontListDomainConflictsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// List all field-level encryption configurations that have been created in CloudFront for this account. See also: AWS API Documentation
@@ -1233,38 +1113,34 @@ public interface IAwsCloudfront
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListFieldLevelEncryptionConfigsAsync(AwsCloudfrontListFieldLevelEncryptionConfigsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListFieldLevelEncryptionConfigsAsync(AwsCloudfrontListFieldLevelEncryptionConfigsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Request a list of field-level encryption profiles that have been cre- ated in CloudFront for this account. See also: AWS API Documentation
+    /// Request a list of field-level encryption profiles that have been created in CloudFront for this account. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListFieldLevelEncryptionProfilesAsync(AwsCloudfrontListFieldLevelEncryptionProfilesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListFieldLevelEncryptionProfilesAsync(AwsCloudfrontListFieldLevelEncryptionProfilesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Gets a list of all CloudFront functions in your Amazon Web Services ac- count. You can optionally apply a filter to return only the functions that are in the specified stage, either DEVELOPMENT or LIVE . You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the max- imum that you specify, or the default maximum, the response is pagi- nated. To get the next page of items, send a subsequent request that specifies the Nex...
+    /// Gets a list of all CloudFront functions in your Amazon Web Services account. You can optionally apply a filter to return only the functions that are in the specified stage, either DEVELOPMENT or LIVE . You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the NextMarke...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListFunctionsAsync(AwsCloudfrontListFunctionsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListFunctionsAsync(AwsCloudfrontListFunctionsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Lists the invalidations for a distribution tenant. See also: AWS API Documentation list-invalidations-for-distribution-tenant is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-pagi- nate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the re- sults of the following query expressions: InvalidationList.Items
+    /// Lists the invalidations for a distribution tenant. See also: AWS API Documentation list-invalidations-for-distribution-tenant is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: InvalidationList.Items
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListInvalidationsForDistributionTenantAsync(AwsCloudfrontListInvalidationsForDistributionTenantOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListInvalidationsForDistributionTenantAsync(AwsCloudfrontListInvalidationsForDistributionTenantOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists invalidation batches. See also: AWS API Documentation list-invalidations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: InvalidationList.Items
@@ -1273,18 +1149,16 @@ public interface IAwsCloudfront
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListInvalidationsAsync(AwsCloudfrontListInvalidationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListInvalidationsAsync(AwsCloudfrontListInvalidationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Gets a list of key groups. You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the max- imum that you specify, or the default maximum, the response is pagi- nated. To get the next page of items, send a subsequent request that specifies the NextMarker value from the current response as the Marker value in the subsequent request. See also: AWS API Documentation
+    /// Gets a list of key groups. You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the NextMarker value from the current response as the Marker value in the subsequent request. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListKeyGroupsAsync(AwsCloudfrontListKeyGroupsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListKeyGroupsAsync(AwsCloudfrontListKeyGroupsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Specifies the key value stores to list. See also: AWS API Documentation list-key-value-stores is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: KeyValueStoreList.Items
@@ -1293,68 +1167,61 @@ public interface IAwsCloudfront
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListKeyValueStoresAsync(AwsCloudfrontListKeyValueStoresOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListKeyValueStoresAsync(AwsCloudfrontListKeyValueStoresOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Gets the list of CloudFront origin access controls (OACs) in this Ama- zon Web Services account. You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the max- imum that you specify, or the default maximum, the response is pagi- nated. To get the next page of items, send another request that speci- fies the NextMarker value from the current response as the Marker value in the next request. NOTE: If you're not using ori...
+    /// Gets the list of CloudFront origin access controls (OACs) in this Amazon Web Services account. You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send another request that specifies the NextMarker value from the current response as the Marker value in the next request. NOTE: If you're not using origin acce...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListOriginAccessControlsAsync(AwsCloudfrontListOriginAccessControlsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListOriginAccessControlsAsync(AwsCloudfrontListOriginAccessControlsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Gets a list of origin request policies. You can optionally apply a filter to return only the managed policies created by Amazon Web Services, or only the custom policies created in your Amazon Web Services account. You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the max- imum that you specify, or the default maximum, the response is pagi- nated. To get the next page of items, send a subsequent request that specif...
+    /// Gets a list of origin request policies. You can optionally apply a filter to return only the managed policies created by Amazon Web Services, or only the custom policies created in your Amazon Web Services account. You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListOriginRequestPoliciesAsync(AwsCloudfrontListOriginRequestPoliciesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListOriginRequestPoliciesAsync(AwsCloudfrontListOriginRequestPoliciesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// List all public keys that have been added to CloudFront for this ac- count. See also: AWS API Documentation list-public-keys is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: PublicKeyList.Items
+    /// List all public keys that have been added to CloudFront for this account. See also: AWS API Documentation list-public-keys is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: PublicKeyList.Items
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListPublicKeysAsync(AwsCloudfrontListPublicKeysOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListPublicKeysAsync(AwsCloudfrontListPublicKeysOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Gets a list of real-time log configurations. You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the max- imum that you specify, or the default maximum, the response is pagi- nated. To get the next page of items, send a subsequent request that specifies the NextMarker value from the current response as the Marker value in the subsequent request. See also: AWS API Documentation
+    /// Gets a list of real-time log configurations. You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the NextMarker value from the current response as the Marker value in the subsequent request. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListRealtimeLogConfigsAsync(AwsCloudfrontListRealtimeLogConfigsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListRealtimeLogConfigsAsync(AwsCloudfrontListRealtimeLogConfigsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Gets a list of response headers policies. You can optionally apply a filter to get only the managed policies cre- ated by Amazon Web Services, or only the custom policies created in your Amazon Web Services account. You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the max- imum that you specify, or the default maximum, the response is pagi- nated. To get the next page of items, send a subsequent request that speci...
+    /// Gets a list of response headers policies. You can optionally apply a filter to get only the managed policies created by Amazon Web Services, or only the custom policies created in your Amazon Web Services account. You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies t...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListResponseHeadersPoliciesAsync(AwsCloudfrontListResponseHeadersPoliciesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListResponseHeadersPoliciesAsync(AwsCloudfrontListResponseHeadersPoliciesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// List streaming distributions. See also: AWS API Documentation list-streaming-distributions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: StreamingDistributionList.Items
+    /// List streaming distributions. See also: AWS API Documentation list-streaming-distributions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: StreamingDistributionList.Items
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListStreamingDistributionsAsync(AwsCloudfrontListStreamingDistributionsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListStreamingDistributionsAsync(AwsCloudfrontListStreamingDistributionsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// List tags for a CloudFront resource. For more information, see Tagging a distribution in the Amazon CloudFront Developer Guide . See also: AWS API Documentation
@@ -1363,8 +1230,7 @@ public interface IAwsCloudfront
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTagsForResourceAsync(AwsCloudfrontListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListTagsForResourceAsync(AwsCloudfrontListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists trust stores. See also: AWS API Documentation list-trust-stores is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: TrustStoreList
@@ -1373,8 +1239,7 @@ public interface IAwsCloudfront
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTrustStoresAsync(AwsCloudfrontListTrustStoresOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListTrustStoresAsync(AwsCloudfrontListTrustStoresOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// List the CloudFront VPC origins in your account. See also: AWS API Documentation
@@ -1383,8 +1248,7 @@ public interface IAwsCloudfront
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListVpcOriginsAsync(AwsCloudfrontListVpcOriginsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListVpcOriginsAsync(AwsCloudfrontListVpcOriginsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Publishes a connection function. See also: AWS API Documentation
@@ -1393,18 +1257,16 @@ public interface IAwsCloudfront
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PublishConnectionFunctionAsync(AwsCloudfrontPublishConnectionFunctionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PublishConnectionFunctionAsync(AwsCloudfrontPublishConnectionFunctionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Publishes a CloudFront function by copying the function code from the DEVELOPMENT stage to LIVE . This automatically updates all cache behav- iors that are using this function to use the newly published copy in the LIVE stage. When a function is published to the LIVE stage, you can attach the function to a distribution's cache behavior, using the function's Ama- zon Resource Name (ARN). To publish a function, you must provide the function's name and version (ETag value). To get these values, you...
+    /// Publishes a CloudFront function by copying the function code from the DEVELOPMENT stage to LIVE . This automatically updates all cache behaviors that are using this function to use the newly published copy in the LIVE stage. When a function is published to the LIVE stage, you can attach the function to a distribution's cache behavior, using the function's Amazon Resource Name (ARN). To publish a function, you must provide the function's name and version (ETag value). To get these values, you can...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PublishFunctionAsync(AwsCloudfrontPublishFunctionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PublishFunctionAsync(AwsCloudfrontPublishFunctionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a resource control policy for a given CloudFront resource. See also: AWS API Documentation
@@ -1413,8 +1275,7 @@ public interface IAwsCloudfront
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutResourcePolicyAsync(AwsCloudfrontPutResourcePolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutResourcePolicyAsync(AwsCloudfrontPutResourcePolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Sign a given url.
@@ -1423,8 +1284,7 @@ public interface IAwsCloudfront
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> SignAsync(AwsCloudfrontSignOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> SignAsync(AwsCloudfrontSignOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Add tags to a CloudFront resource. For more information, see Tagging a distribution in the Amazon CloudFront Developer Guide . See also: AWS API Documentation
@@ -1433,8 +1293,7 @@ public interface IAwsCloudfront
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> TagResourceAsync(AwsCloudfrontTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> TagResourceAsync(AwsCloudfrontTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Tests a connection function. See also: AWS API Documentation
@@ -1443,8 +1302,7 @@ public interface IAwsCloudfront
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> TestConnectionFunctionAsync(AwsCloudfrontTestConnectionFunctionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> TestConnectionFunctionAsync(AwsCloudfrontTestConnectionFunctionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Tests a CloudFront function. To test a function, you provide an event object that represents an HTTP request or response that your CloudFront distribution could receive in production. CloudFront runs the function, passing it the event object that you provided, and returns the function's result (the modified event object) in the response. The response also contains function logs and error messages, if any exist. For more information about testing functions, see Testing functions in the Amazon Clo...
@@ -1453,8 +1311,7 @@ public interface IAwsCloudfront
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> TestFunctionAsync(AwsCloudfrontTestFunctionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> TestFunctionAsync(AwsCloudfrontTestFunctionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Remove tags from a CloudFront resource. For more information, see Tagging a distribution in the Amazon CloudFront Developer Guide . See also: AWS API Documentation
@@ -1463,8 +1320,7 @@ public interface IAwsCloudfront
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UntagResourceAsync(AwsCloudfrontUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UntagResourceAsync(AwsCloudfrontUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates an Anycast static IP list. See also: AWS API Documentation
@@ -1473,18 +1329,16 @@ public interface IAwsCloudfront
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateAnycastIpListAsync(AwsCloudfrontUpdateAnycastIpListOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateAnycastIpListAsync(AwsCloudfrontUpdateAnycastIpListOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Updates a cache policy configuration. When you update a cache policy configuration, all the fields are up- dated with the values provided in the request. You cannot update some fields independent of others. To update a cache policy configuration: o Use GetCachePolicyConfig to get the current configuration. o Locally modify the fields in the cache policy configuration that you want to update. o Call UpdateCachePolicy by providing the entire cache policy configu- ration, including the fields that ...
+    /// Updates a cache policy configuration. When you update a cache policy configuration, all the fields are updated with the values provided in the request. You cannot update some fields independent of others. To update a cache policy configuration: • Use GetCachePolicyConfig to get the current configuration. • Locally modify the fields in the cache policy configuration that you want to update. • Call UpdateCachePolicy by providing the entire cache policy configuration, including the fields that you ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateCachePolicyAsync(AwsCloudfrontUpdateCachePolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateCachePolicyAsync(AwsCloudfrontUpdateCachePolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Update an origin access identity. See also: AWS API Documentation
@@ -1493,8 +1347,7 @@ public interface IAwsCloudfront
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateCloudFrontOriginAccessIdentityAsync(AwsCloudfrontUpdateCloudFrontOriginAccessIdentityOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateCloudFrontOriginAccessIdentityAsync(AwsCloudfrontUpdateCloudFrontOriginAccessIdentityOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates a connection function. See also: AWS API Documentation
@@ -1503,8 +1356,7 @@ public interface IAwsCloudfront
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateConnectionFunctionAsync(AwsCloudfrontUpdateConnectionFunctionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateConnectionFunctionAsync(AwsCloudfrontUpdateConnectionFunctionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates a connection group. See also: AWS API Documentation
@@ -1513,28 +1365,25 @@ public interface IAwsCloudfront
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateConnectionGroupAsync(AwsCloudfrontUpdateConnectionGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateConnectionGroupAsync(AwsCloudfrontUpdateConnectionGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Updates a continuous deployment policy. You can update a continuous de- ployment policy to enable or disable it, to change the percentage of traffic that it sends to the staging distribution, or to change the staging distribution that it sends traffic to. When you update a continuous deployment policy configuration, all the fields are updated with the values that are provided in the request. You cannot update some fields independent of others. To update a con- tinuous deployment policy configura...
+    /// Updates a continuous deployment policy. You can update a continuous deployment policy to enable or disable it, to change the percentage of traffic that it sends to the staging distribution, or to change the staging distribution that it sends traffic to. When you update a continuous deployment policy configuration, all the fields are updated with the values that are provided in the request. You cannot update some fields independent of others. To update a continuous deployment policy configuration...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateContinuousDeploymentPolicyAsync(AwsCloudfrontUpdateContinuousDeploymentPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateContinuousDeploymentPolicyAsync(AwsCloudfrontUpdateContinuousDeploymentPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Updates the configuration for a CloudFront distribution. The update process includes getting the current distribution configura- tion, updating it to make your changes, and then submitting an Update- Distribution request to make the updates. To update a web distribution using the CloudFront API o Use GetDistributionConfig to get the current configuration, including the version identifier (ETag ). o Update the distribution configuration that was returned in the re- sponse. Note the following impo...
+    /// Updates the configuration for a CloudFront distribution. The update process includes getting the current distribution configuration, updating it to make your changes, and then submitting an UpdateDistribution request to make the updates. To update a web distribution using the CloudFront API • Use GetDistributionConfig to get the current configuration, including the version identifier (ETag ). • Update the distribution configuration that was returned in the response. Note the following important ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateDistributionAsync(AwsCloudfrontUpdateDistributionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateDistributionAsync(AwsCloudfrontUpdateDistributionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates a distribution tenant. See also: AWS API Documentation
@@ -1543,28 +1392,25 @@ public interface IAwsCloudfront
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateDistributionTenantAsync(AwsCloudfrontUpdateDistributionTenantOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateDistributionTenantAsync(AwsCloudfrontUpdateDistributionTenantOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Copies the staging distribution's configuration to its corresponding primary distribution. The primary distribution retains its Aliases (also known as alternate domain names or CNAMEs) and ContinuousDeploy- mentPolicyId value, but otherwise its configuration is overwritten to match the staging distribution. You can use this operation in a continuous deployment workflow after you have tested configuration changes on the staging distribution. Af- ter using a continuous deployment policy to move a ...
+    /// Copies the staging distribution's configuration to its corresponding primary distribution. The primary distribution retains its Aliases (also known as alternate domain names or CNAMEs) and ContinuousDeploymentPolicyId value, but otherwise its configuration is overwritten to match the staging distribution. You can use this operation in a continuous deployment workflow after you have tested configuration changes on the staging distribution. After using a continuous deployment policy to move a port...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateDistributionWithStagingConfigAsync(AwsCloudfrontUpdateDistributionWithStagingConfigOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateDistributionWithStagingConfigAsync(AwsCloudfrontUpdateDistributionWithStagingConfigOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// NOTE: We recommend that you use the UpdateDomainAssociation API operation to move a domain association, as it supports both standard distribu- tions and distribution tenants. AssociateAlias performs similar checks but only supports standard distributions. Moves a domain from its current standard distribution or distribution tenant to another one. You must first disable the source distribution (standard distribution or distribution tenant) and then separately call this operation to move the domai...
+    /// NOTE: We recommend that you use the UpdateDomainAssociation API operation to move a domain association, as it supports both standard distributions and distribution tenants. AssociateAlias performs similar checks but only supports standard distributions. Moves a domain from its current standard distribution or distribution tenant to another one. You must first disable the source distribution (standard distribution or distribution tenant) and then separately call this operation to move the domain ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateDomainAssociationAsync(AwsCloudfrontUpdateDomainAssociationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateDomainAssociationAsync(AwsCloudfrontUpdateDomainAssociationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Update a field-level encryption configuration. See also: AWS API Documentation
@@ -1573,8 +1419,7 @@ public interface IAwsCloudfront
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateFieldLevelEncryptionConfigAsync(AwsCloudfrontUpdateFieldLevelEncryptionConfigOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateFieldLevelEncryptionConfigAsync(AwsCloudfrontUpdateFieldLevelEncryptionConfigOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Update a field-level encryption profile. See also: AWS API Documentation
@@ -1583,28 +1428,25 @@ public interface IAwsCloudfront
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateFieldLevelEncryptionProfileAsync(AwsCloudfrontUpdateFieldLevelEncryptionProfileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateFieldLevelEncryptionProfileAsync(AwsCloudfrontUpdateFieldLevelEncryptionProfileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Updates a CloudFront function. You can update a function's code or the comment that describes the function. You cannot update a function's name. To update a function, you provide the function's name and version (ETag value) along with the updated function code. To get the name and ver- sion, you can use ListFunctions and DescribeFunction . See also: AWS API Documentation
+    /// Updates a CloudFront function. You can update a function's code or the comment that describes the function. You cannot update a function's name. To update a function, you provide the function's name and version (ETag value) along with the updated function code. To get the name and version, you can use ListFunctions and DescribeFunction . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateFunctionAsync(AwsCloudfrontUpdateFunctionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateFunctionAsync(AwsCloudfrontUpdateFunctionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Updates a key group. When you update a key group, all the fields are updated with the values provided in the request. You cannot update some fields independent of others. To update a key group: o Get the current key group with GetKeyGroup or GetKeyGroupConfig . o Locally modify the fields in the key group that you want to update. For example, add or remove public key IDs. o Call UpdateKeyGroup with the entire key group object, including the fields that you modified and those that you didn't. See...
+    /// Updates a key group. When you update a key group, all the fields are updated with the values provided in the request. You cannot update some fields independent of others. To update a key group: • Get the current key group with GetKeyGroup or GetKeyGroupConfig . • Locally modify the fields in the key group that you want to update. For example, add or remove public key IDs. • Call UpdateKeyGroup with the entire key group object, including the fields that you modified and those that you didn't. See...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateKeyGroupAsync(AwsCloudfrontUpdateKeyGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateKeyGroupAsync(AwsCloudfrontUpdateKeyGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Specifies the key value store to update. See also: AWS API Documentation
@@ -1613,8 +1455,7 @@ public interface IAwsCloudfront
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateKeyValueStoreAsync(AwsCloudfrontUpdateKeyValueStoreOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateKeyValueStoreAsync(AwsCloudfrontUpdateKeyValueStoreOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates a CloudFront origin access control. See also: AWS API Documentation
@@ -1623,18 +1464,16 @@ public interface IAwsCloudfront
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateOriginAccessControlAsync(AwsCloudfrontUpdateOriginAccessControlOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateOriginAccessControlAsync(AwsCloudfrontUpdateOriginAccessControlOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Updates an origin request policy configuration. When you update an origin request policy configuration, all the fields are updated with the values provided in the request. You cannot update some fields independent of others. To update an origin request policy configuration: o Use GetOriginRequestPolicyConfig to get the current configuration. o Locally modify the fields in the origin request policy configuration that you want to update. o Call UpdateOriginRequestPolicy by providing the entire ori...
+    /// Updates an origin request policy configuration. When you update an origin request policy configuration, all the fields are updated with the values provided in the request. You cannot update some fields independent of others. To update an origin request policy configuration: • Use GetOriginRequestPolicyConfig to get the current configuration. • Locally modify the fields in the origin request policy configuration that you want to update. • Call UpdateOriginRequestPolicy by providing the entire ori...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateOriginRequestPolicyAsync(AwsCloudfrontUpdateOriginRequestPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateOriginRequestPolicyAsync(AwsCloudfrontUpdateOriginRequestPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Update public key information. Note that the only value you can change is the comment. See also: AWS API Documentation
@@ -1643,28 +1482,25 @@ public interface IAwsCloudfront
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdatePublicKeyAsync(AwsCloudfrontUpdatePublicKeyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdatePublicKeyAsync(AwsCloudfrontUpdatePublicKeyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Updates a real-time log configuration. When you update a real-time log configuration, all the parameters are updated with the values provided in the request. You cannot update some parameters independent of others. To update a real-time log configura- tion: o Call GetRealtimeLogConfig to get the current real-time log configura- tion. o Locally modify the parameters in the real-time log configuration that you want to update. o Call this API (UpdateRealtimeLogConfig ) by providing the entire real-...
+    /// Updates a real-time log configuration. When you update a real-time log configuration, all the parameters are updated with the values provided in the request. You cannot update some parameters independent of others. To update a real-time log configuration: • Call GetRealtimeLogConfig to get the current real-time log configuration. • Locally modify the parameters in the real-time log configuration that you want to update. • Call this API (UpdateRealtimeLogConfig ) by providing the entire real-time...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateRealtimeLogConfigAsync(AwsCloudfrontUpdateRealtimeLogConfigOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateRealtimeLogConfigAsync(AwsCloudfrontUpdateRealtimeLogConfigOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Updates a response headers policy. When you update a response headers policy, the entire policy is re- placed. You cannot update some policy fields independent of others. To update a response headers policy configuration: o Use GetResponseHeadersPolicyConfig to get the current policy's con- figuration. o Modify the fields in the response headers policy configuration that you want to update. o Call UpdateResponseHeadersPolicy , providing the entire response headers policy configuration, including...
+    /// Updates a response headers policy. When you update a response headers policy, the entire policy is replaced. You cannot update some policy fields independent of others. To update a response headers policy configuration: • Use GetResponseHeadersPolicyConfig to get the current policy's configuration. • Modify the fields in the response headers policy configuration that you want to update. • Call UpdateResponseHeadersPolicy , providing the entire response headers policy configuration, including the...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateResponseHeadersPolicyAsync(AwsCloudfrontUpdateResponseHeadersPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateResponseHeadersPolicyAsync(AwsCloudfrontUpdateResponseHeadersPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Update a streaming distribution. See also: AWS API Documentation
@@ -1673,8 +1509,7 @@ public interface IAwsCloudfront
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateStreamingDistributionAsync(AwsCloudfrontUpdateStreamingDistributionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateStreamingDistributionAsync(AwsCloudfrontUpdateStreamingDistributionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates a trust store. See also: AWS API Documentation
@@ -1683,8 +1518,7 @@ public interface IAwsCloudfront
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateTrustStoreAsync(AwsCloudfrontUpdateTrustStoreOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateTrustStoreAsync(AwsCloudfrontUpdateTrustStoreOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Update an Amazon CloudFront VPC origin in your account. See also: AWS API Documentation
@@ -1693,8 +1527,7 @@ public interface IAwsCloudfront
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateVpcOriginAsync(AwsCloudfrontUpdateVpcOriginOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateVpcOriginAsync(AwsCloudfrontUpdateVpcOriginOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Verify the DNS configuration for your domain names. This API operation checks whether your domain name points to the correct routing endpoint of the connection group, such as d111111abcdef8.cloudfront.net. You can use this API operation to troubleshoot and resolve DNS configuration issues. See also: AWS API Documentation
@@ -1703,7 +1536,6 @@ public interface IAwsCloudfront
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> VerifyDnsConfigurationAsync(AwsCloudfrontVerifyDnsConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> VerifyDnsConfigurationAsync(AwsCloudfrontVerifyDnsConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

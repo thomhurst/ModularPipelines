@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Removes the specified account from the organization. The removed account becomes a standalone account that isn't a member of any organization. It's no longer subject to any policies and is respon- sible for its own bill payments. The organization's management account is no longer charged for any expenses accrued by the member account af- ter it's removed from the organization. You can only call this operation from the management account. Member accounts can remove themselves with LeaveOrganizati...
+/// Removes the specified account from the organization. The removed account becomes a standalone account that isn't a member of any organization. It's no longer subject to any policies and is responsible for its own bill payments. The organization's management account is no longer charged for any expenses accrued by the member account after it's removed from the organization. You can only call this operation from the management account. Member accounts can remove themselves with LeaveOrganization i...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsOrganizationsRemoveAccountFromOrganizationOptions : AwsOptions,
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Removes the specified account from the organization. The removed account becomes a standalone account that isn't a member of any organization. It's no longer subject to any policies and is respon- sible for its own bill payments. The organization's management account is no longer charged for any expenses accrued by the member account af- ter it's removed from the organization. You can only call this operation from the management account. Member accounts can remove themselves with LeaveOrganizati...
+    /// Removes the specified account from the organization. The removed account becomes a standalone account that isn't a member of any organization. It's no longer subject to any policies and is responsible for its own bill payments. The organization's management account is no longer charged for any expenses accrued by the member account after it's removed from the organization. You can only call this operation from the management account. Member accounts can remove themselves with LeaveOrganization i...
     /// </summary>
-    /// <param name="AccountId">ID for the member account that you want to remove from the organiza- tion. The regex pattern for an account ID string requires exactly 12 dig- its. Constraints: o max: 12 o pattern: ^\d{12}$</param>
+    /// <param name="AccountId">ID for the member account that you want to remove from the organization. The regex pattern for an account ID string requires exactly 12 digits. Constraints: • max: 12 • pattern: ^\d{12}$</param>
     public AwsOrganizationsRemoveAccountFromOrganizationOptions(
         string AccountId
     )
@@ -56,7 +57,7 @@ public record AwsOrganizationsRemoveAccountFromOrganizationOptions : AwsOptions,
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// ID for the member account that you want to remove from the organiza- tion. The regex pattern for an account ID string requires exactly 12 dig- its. Constraints: o max: 12 o pattern: ^\d{12}$
+    /// ID for the member account that you want to remove from the organization. The regex pattern for an account ID string requires exactly 12 digits. Constraints: • max: 12 • pattern: ^\d{12}$
     /// </summary>
     [CliOption("--account-id")]
     public string? AccountId { get; private init; }
@@ -82,6 +83,15 @@ public record AwsOrganizationsRemoveAccountFromOrganizationOptions : AwsOptions,
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

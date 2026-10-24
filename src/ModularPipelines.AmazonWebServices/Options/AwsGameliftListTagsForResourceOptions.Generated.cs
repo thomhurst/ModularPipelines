@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// This API works with the following fleet types: EC2, Anywhere, Con- tainer Retrieves all tags assigned to a Amazon GameLift Servers resource. Use resource tags to organize Amazon Web Services resources for a range of purposes. This operation handles the permissions necessary to manage tags for Amazon GameLift Servers resources that support tagging. To list tags for a resource, specify the unique ARN value for the re- source. Learn more Tagging Amazon Web Services Resources in the Amazon Web Servi...
+/// This API works with the following fleet types: EC2, Anywhere, Container Retrieves all tags assigned to a Amazon GameLift Servers resource. Use resource tags to organize Amazon Web Services resources for a range of purposes. This operation handles the permissions necessary to manage tags for Amazon GameLift Servers resources that support tagging. To list tags for a resource, specify the unique ARN value for the resource. Learn more Tagging Amazon Web Services Resources in the Amazon Web Services ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsGameliftListTagsForResourceOptions : AwsOptions, IValidatableOb
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// This API works with the following fleet types: EC2, Anywhere, Con- tainer Retrieves all tags assigned to a Amazon GameLift Servers resource. Use resource tags to organize Amazon Web Services resources for a range of purposes. This operation handles the permissions necessary to manage tags for Amazon GameLift Servers resources that support tagging. To list tags for a resource, specify the unique ARN value for the re- source. Learn more Tagging Amazon Web Services Resources in the Amazon Web Servi...
+    /// This API works with the following fleet types: EC2, Anywhere, Container Retrieves all tags assigned to a Amazon GameLift Servers resource. Use resource tags to organize Amazon Web Services resources for a range of purposes. This operation handles the permissions necessary to manage tags for Amazon GameLift Servers resources that support tagging. To list tags for a resource, specify the unique ARN value for the resource. Learn more Tagging Amazon Web Services Resources in the Amazon Web Services ...
     /// </summary>
-    /// <param name="ResourceArn">The Amazon Resource Name (ARN ) that uniquely identifies the Amazon GameLift Servers resource that you want to retrieve tags for. Amazon GameLift Servers includes resource ARNs in the data object for the resource. You can retrieve the ARN by calling a List or Describe op- eration for the resource type. Constraints: o min: 1 o max: 1011</param>
+    /// <param name="ResourceArn">The Amazon Resource Name (ARN ) that uniquely identifies the Amazon GameLift Servers resource that you want to retrieve tags for. Amazon GameLift Servers includes resource ARNs in the data object for the resource. You can retrieve the ARN by calling a List or Describe operation for the resource type. Constraints: • min: 1 • max: 1011</param>
     public AwsGameliftListTagsForResourceOptions(
         string ResourceArn
     )
@@ -56,7 +57,7 @@ public record AwsGameliftListTagsForResourceOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN ) that uniquely identifies the Amazon GameLift Servers resource that you want to retrieve tags for. Amazon GameLift Servers includes resource ARNs in the data object for the resource. You can retrieve the ARN by calling a List or Describe op- eration for the resource type. Constraints: o min: 1 o max: 1011
+    /// The Amazon Resource Name (ARN ) that uniquely identifies the Amazon GameLift Servers resource that you want to retrieve tags for. Amazon GameLift Servers includes resource ARNs in the data object for the resource. You can retrieve the ARN by calling a List or Describe operation for the resource type. Constraints: • min: 1 • max: 1011
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
@@ -82,6 +83,15 @@ public record AwsGameliftListTagsForResourceOptions : AwsOptions, IValidatableOb
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Generates batch recommendations based on a list of items or users stored in Amazon S3 and exports the recommendations to an Amazon S3 bucket. To generate batch recommendations, specify the ARN of a solution ver- sion and an Amazon S3 URI for the input and output data. For user per- sonalization, popular items, and personalized ranking solutions, the batch inference job generates a list of recommended items for each user ID in the input file. For related items solutions, the job generates a list ...
+/// Generates batch recommendations based on a list of items or users stored in Amazon S3 and exports the recommendations to an Amazon S3 bucket. To generate batch recommendations, specify the ARN of a solution version and an Amazon S3 URI for the input and output data. For user personalization, popular items, and personalized ranking solutions, the batch inference job generates a list of recommended items for each user ID in the input file. For related items solutions, the job generates a list of r...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,13 +27,13 @@ public record AwsPersonalizeCreateBatchInferenceJobOptions : AwsOptions, IValida
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Generates batch recommendations based on a list of items or users stored in Amazon S3 and exports the recommendations to an Amazon S3 bucket. To generate batch recommendations, specify the ARN of a solution ver- sion and an Amazon S3 URI for the input and output data. For user per- sonalization, popular items, and personalized ranking solutions, the batch inference job generates a list of recommended items for each user ID in the input file. For related items solutions, the job generates a list ...
+    /// Generates batch recommendations based on a list of items or users stored in Amazon S3 and exports the recommendations to an Amazon S3 bucket. To generate batch recommendations, specify the ARN of a solution version and an Amazon S3 URI for the input and output data. For user personalization, popular items, and personalized ranking solutions, the batch inference job generates a list of recommended items for each user ID in the input file. For related items solutions, the job generates a list of r...
     /// </summary>
-    /// <param name="JobName">The name of the batch inference job to create. Constraints: o min: 1 o max: 63 o pattern: ^[a-zA-Z0-9][a-zA-Z0-9\-_]*</param>
-    /// <param name="SolutionVersionArn">The Amazon Resource Name (ARN) of the solution version that will be used to generate the batch inference recommendations. Constraints: o max: 256 o pattern: arn:([a-z\d-]+):personalize:.*:.*:.+</param>
-    /// <param name="JobInput">The Amazon S3 path that leads to the input file to base your recom- mendations on. The input material must be in JSON format. s3DataSource -&gt; (structure) [required] The URI of the Amazon S3 location that contains your input data. The Amazon S3 bucket must be in the same region as the API end- point you are calling. path -&gt; (string) [required] The file path of the Amazon S3 bucket. Constraints: o max: 256 o pattern: (s3|http|https)://.+ kmsKeyArn -&gt; (string) The Amazon Resource Name (ARN) of the Key Management Service (KMS) key that Amazon Personalize uses to encrypt or decrypt the input and output files. Constraints: o max: 2048 o pattern: arn:aws.*:kms:.*:[0-9]{12}:key/.* Shorthand Syntax: s3DataSource={path=string,kmsKeyArn=string} JSON Syntax: { "s3DataSource": { "path": "string", "kmsKeyArn": "string" } }</param>
-    /// <param name="JobOutput">The path to the Amazon S3 bucket where the job's output will be stored. s3DataDestination -&gt; (structure) [required] Information on the Amazon S3 bucket in which the batch inference job's output is stored. path -&gt; (string) [required] The file path of the Amazon S3 bucket. Constraints: o max: 256 o pattern: (s3|http|https)://.+ kmsKeyArn -&gt; (string) The Amazon Resource Name (ARN) of the Key Management Service (KMS) key that Amazon Personalize uses to encrypt or decrypt the input and output files. Constraints: o max: 2048 o pattern: arn:aws.*:kms:.*:[0-9]{12}:key/.* Shorthand Syntax: s3DataDestination={path=string,kmsKeyArn=string} JSON Syntax: { "s3DataDestination": { "path": "string", "kmsKeyArn": "string" } }</param>
-    /// <param name="RoleArn">The ARN of the Amazon Identity and Access Management role that has permissions to read and write to your input and output Amazon S3 buckets respectively. Constraints: o max: 256 o pattern: arn:([a-z\d-]+):iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+</param>
+    /// <param name="JobName">The name of the batch inference job to create. Constraints: • min: 1 • max: 63 • pattern: ^[a-zA-Z0-9][a-zA-Z0-9\-_]*</param>
+    /// <param name="SolutionVersionArn">The Amazon Resource Name (ARN) of the solution version that will be used to generate the batch inference recommendations. Constraints: • max: 256 • pattern: arn:([a-z\d-]+):personalize:.*:.*:.+</param>
+    /// <param name="JobInput">The Amazon S3 path that leads to the input file to base your recommendations on. The input material must be in JSON format. s3DataSource -&gt; (structure) [required] The URI of the Amazon S3 location that contains your input data. The Amazon S3 bucket must be in the same region as the API endpoint you are calling. path -&gt; (string) [required] The file path of the Amazon S3 bucket. Constraints: • max: 256 • pattern: (s3|http|https)://.+ kmsKeyArn -&gt; (string) The Amazon Resource Name (ARN) of the Key Management Service (KMS) key that Amazon Personalize uses to encrypt or decrypt the input and output files. Constraints: • max: 2048 • pattern: arn:aws.*:kms:.*:[0-9]{12}:key/.* Shorthand Syntax: s3DataSource={path=string,kmsKeyArn=string} JSON Syntax: { "s3DataSource": { "path": "string", "kmsKeyArn": "string" } }</param>
+    /// <param name="JobOutput">The path to the Amazon S3 bucket where the job's output will be stored. s3DataDestination -&gt; (structure) [required] Information on the Amazon S3 bucket in which the batch inference job's output is stored. path -&gt; (string) [required] The file path of the Amazon S3 bucket. Constraints: • max: 256 • pattern: (s3|http|https)://.+ kmsKeyArn -&gt; (string) The Amazon Resource Name (ARN) of the Key Management Service (KMS) key that Amazon Personalize uses to encrypt or decrypt the input and output files. Constraints: • max: 2048 • pattern: arn:aws.*:kms:.*:[0-9]{12}:key/.* Shorthand Syntax: s3DataDestination={path=string,kmsKeyArn=string} JSON Syntax: { "s3DataDestination": { "path": "string", "kmsKeyArn": "string" } }</param>
+    /// <param name="RoleArn">The ARN of the Amazon Identity and Access Management role that has permissions to read and write to your input and output Amazon S3 buckets respectively. Constraints: • max: 256 • pattern: arn:([a-z\d-]+):iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+</param>
     public AwsPersonalizeCreateBatchInferenceJobOptions(
         string JobName,
         string SolutionVersionArn,
@@ -73,37 +74,37 @@ public record AwsPersonalizeCreateBatchInferenceJobOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the batch inference job to create. Constraints: o min: 1 o max: 63 o pattern: ^[a-zA-Z0-9][a-zA-Z0-9\-_]*
+    /// The name of the batch inference job to create. Constraints: • min: 1 • max: 63 • pattern: ^[a-zA-Z0-9][a-zA-Z0-9\-_]*
     /// </summary>
     [CliOption("--job-name")]
     public string? JobName { get; private init; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the solution version that will be used to generate the batch inference recommendations. Constraints: o max: 256 o pattern: arn:([a-z\d-]+):personalize:.*:.*:.+
+    /// The Amazon Resource Name (ARN) of the solution version that will be used to generate the batch inference recommendations. Constraints: • max: 256 • pattern: arn:([a-z\d-]+):personalize:.*:.*:.+
     /// </summary>
     [CliOption("--solution-version-arn")]
     public string? SolutionVersionArn { get; private init; }
 
     /// <summary>
-    /// The Amazon S3 path that leads to the input file to base your recom- mendations on. The input material must be in JSON format. s3DataSource -&gt; (structure) [required] The URI of the Amazon S3 location that contains your input data. The Amazon S3 bucket must be in the same region as the API end- point you are calling. path -&gt; (string) [required] The file path of the Amazon S3 bucket. Constraints: o max: 256 o pattern: (s3|http|https)://.+ kmsKeyArn -&gt; (string) The Amazon Resource Name (ARN) of the Key Management Service (KMS) key that Amazon Personalize uses to encrypt or decrypt the input and output files. Constraints: o max: 2048 o pattern: arn:aws.*:kms:.*:[0-9]{12}:key/.* Shorthand Syntax: s3DataSource={path=string,kmsKeyArn=string} JSON Syntax: { "s3DataSource": { "path": "string", "kmsKeyArn": "string" } }
+    /// The Amazon S3 path that leads to the input file to base your recommendations on. The input material must be in JSON format. s3DataSource -&gt; (structure) [required] The URI of the Amazon S3 location that contains your input data. The Amazon S3 bucket must be in the same region as the API endpoint you are calling. path -&gt; (string) [required] The file path of the Amazon S3 bucket. Constraints: • max: 256 • pattern: (s3|http|https)://.+ kmsKeyArn -&gt; (string) The Amazon Resource Name (ARN) of the Key Management Service (KMS) key that Amazon Personalize uses to encrypt or decrypt the input and output files. Constraints: • max: 2048 • pattern: arn:aws.*:kms:.*:[0-9]{12}:key/.* Shorthand Syntax: s3DataSource={path=string,kmsKeyArn=string} JSON Syntax: { "s3DataSource": { "path": "string", "kmsKeyArn": "string" } }
     /// </summary>
     [CliOption("--job-input")]
     public string? JobInput { get; private init; }
 
     /// <summary>
-    /// The path to the Amazon S3 bucket where the job's output will be stored. s3DataDestination -&gt; (structure) [required] Information on the Amazon S3 bucket in which the batch inference job's output is stored. path -&gt; (string) [required] The file path of the Amazon S3 bucket. Constraints: o max: 256 o pattern: (s3|http|https)://.+ kmsKeyArn -&gt; (string) The Amazon Resource Name (ARN) of the Key Management Service (KMS) key that Amazon Personalize uses to encrypt or decrypt the input and output files. Constraints: o max: 2048 o pattern: arn:aws.*:kms:.*:[0-9]{12}:key/.* Shorthand Syntax: s3DataDestination={path=string,kmsKeyArn=string} JSON Syntax: { "s3DataDestination": { "path": "string", "kmsKeyArn": "string" } }
+    /// The path to the Amazon S3 bucket where the job's output will be stored. s3DataDestination -&gt; (structure) [required] Information on the Amazon S3 bucket in which the batch inference job's output is stored. path -&gt; (string) [required] The file path of the Amazon S3 bucket. Constraints: • max: 256 • pattern: (s3|http|https)://.+ kmsKeyArn -&gt; (string) The Amazon Resource Name (ARN) of the Key Management Service (KMS) key that Amazon Personalize uses to encrypt or decrypt the input and output files. Constraints: • max: 2048 • pattern: arn:aws.*:kms:.*:[0-9]{12}:key/.* Shorthand Syntax: s3DataDestination={path=string,kmsKeyArn=string} JSON Syntax: { "s3DataDestination": { "path": "string", "kmsKeyArn": "string" } }
     /// </summary>
     [CliOption("--job-output")]
     public string? JobOutput { get; private init; }
 
     /// <summary>
-    /// The ARN of the Amazon Identity and Access Management role that has permissions to read and write to your input and output Amazon S3 buckets respectively. Constraints: o max: 256 o pattern: arn:([a-z\d-]+):iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+
+    /// The ARN of the Amazon Identity and Access Management role that has permissions to read and write to your input and output Amazon S3 buckets respectively. Constraints: • max: 256 • pattern: arn:([a-z\d-]+):iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+
     /// </summary>
     [CliOption("--role-arn")]
     public string? RoleArn { get; private init; }
 
     /// <summary>
-    /// The ARN of the filter to apply to the batch inference job. For more information on using filters, see Filtering batch recommendations . Constraints: o max: 256 o pattern: arn:([a-z\d-]+):personalize:.*:.*:.+
+    /// The ARN of the filter to apply to the batch inference job. For more information on using filters, see Filtering batch recommendations . Constraints: • max: 256 • pattern: arn:([a-z\d-]+):personalize:.*:.*:.+
     /// </summary>
     [CliOption("--filter-arn")]
     public string? FilterArn { get; set; }
@@ -115,25 +116,25 @@ public record AwsPersonalizeCreateBatchInferenceJobOptions : AwsOptions, IValida
     public int? NumResults { get; set; }
 
     /// <summary>
-    /// The configuration details of a batch inference job. itemExplorationConfig -&gt; (map) A string to string map specifying the exploration configuration hyperparameters, including explorationWeight and explo- rationItemAgeCutOff , you want to use to configure the amount of item exploration Amazon Personalize uses when recommending items. See User-Personalization . Constraints: o max: 100 key -&gt; (string) Constraints: o max: 256 value -&gt; (string) Constraints: o max: 1000 rankingInfluence -&gt; (map) A map of ranking influence values for POPULARITY and FRESHNESS. For each key, specify a numerical value between 0.0 and 1.0 that determines how much influence that ranking factor has on the fi- nal recommendations. A value closer to 1.0 gives more weight to the factor, while a value closer to 0.0 reduces its influence. key -&gt; (string) Possible values: o POPULARITY o FRESHNESS value -&gt; (double) Constraints: o min: 0 o max: 1 Shorthand Syntax: itemExplorationConfig={KeyName1=string,KeyName2=string},rankingInfluence={KeyName1=double,KeyName2=double} JSON Syntax: { "itemExplorationConfig": {"string": "string" ...}, "rankingInfluence": {"POPULARITY"|"FRESHNESS": double ...} }
+    /// The configuration details of a batch inference job. itemExplorationConfig -&gt; (map) A string to string map specifying the exploration configuration hyperparameters, including explorationWeight and explorationItemAgeCutOff , you want to use to configure the amount of item exploration Amazon Personalize uses when recommending items. See User-Personalization . Constraints: • max: 100 key -&gt; (string) Constraints: • max: 256 value -&gt; (string) Constraints: • max: 1000 rankingInfluence -&gt; (map) A map of ranking influence values for POPULARITY and FRESHNESS. For each key, specify a numerical value between 0.0 and 1.0 that determines how much influence that ranking factor has on the final recommendations. A value closer to 1.0 gives more weight to the factor, while a value closer to 0.0 reduces its influence. key -&gt; (string) Possible values: • POPULARITY • FRESHNESS value -&gt; (double) Constraints: • min: 0 • max: 1 Shorthand Syntax: itemExplorationConfig={KeyName1=string,KeyName2=string},rankingInfluence={KeyName1=double,KeyName2=double} JSON Syntax: { "itemExplorationConfig": {"string": "string" ...}, "rankingInfluence": {"POPULARITY"|"FRESHNESS": double ...} }
     /// </summary>
     [CliOption("--batch-inference-job-config")]
     public string? BatchInferenceJobConfig { get; set; }
 
     /// <summary>
-    /// A list of tags to apply to the batch inference job. Constraints: o min: 0 o max: 200 (structure) The optional metadata that you apply to resources to help you categorize and organize them. Each tag consists of a key and an optional value, both of which you define. For more information see Tagging Amazon Personalize resources . tagKey -&gt; (string) [required] One part of a key-value pair that makes up a tag. A key is a general label that acts like a category for more specific tag values. Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ tagValue -&gt; (string) [required] The optional part of a key-value pair that makes up a tag. A value acts as a descriptor within a tag category (key). Constraints: o min: 0 o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: tagKey=string,tagValue=string ... JSON Syntax: [ { "tagKey": "string", "tagValue": "string" } ... ]
+    /// A list of tags to apply to the batch inference job. Constraints: • min: 0 • max: 200 (structure) The optional metadata that you apply to resources to help you categorize and organize them. Each tag consists of a key and an optional value, both of which you define. For more information see Tagging Amazon Personalize resources . tagKey -&gt; (string) [required] One part of a key-value pair that makes up a tag. A key is a general label that acts like a category for more specific tag values. Constraints: • min: 1 • max: 128 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ tagValue -&gt; (string) [required] The optional part of a key-value pair that makes up a tag. A value acts as a descriptor within a tag category (key). Constraints: • min: 0 • max: 256 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: tagKey=string,tagValue=string ... JSON Syntax: [ { "tagKey": "string", "tagValue": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
-    /// The mode of the batch inference job. To generate descriptive themes for groups of similar items, set the job mode to THEME_GENERATION . If you don't want to generate themes, use the default BATCH_INFER- ENCE . When you get batch recommendations with themes, you will incur addi- tional costs. For more information, see Amazon Personalize pricing . Possible values: o BATCH_INFERENCE o THEME_GENERATION
+    /// The mode of the batch inference job. To generate descriptive themes for groups of similar items, set the job mode to THEME_GENERATION . If you don't want to generate themes, use the default BATCH_INFERENCE . When you get batch recommendations with themes, you will incur additional costs. For more information, see Amazon Personalize pricing . Possible values: • BATCH_INFERENCE • THEME_GENERATION
     /// </summary>
     [CliOption("--batch-inference-job-mode")]
     public AwsPersonalizeCreateBatchInferenceJobBatchInferenceJobMode? BatchInferenceJobMode { get; set; }
 
     /// <summary>
-    /// For theme generation jobs, specify the name of the column in your Items dataset that contains each item's name. fieldsForThemeGeneration -&gt; (structure) [required] Fields used to generate descriptive themes for a batch inference job. itemName -&gt; (string) [required] The name of the Items dataset column that stores the name of each item in the dataset. Constraints: o max: 150 o pattern: [A-Za-z_][A-Za-z\d_]* Shorthand Syntax: fieldsForThemeGeneration={itemName=string} JSON Syntax: { "fieldsForThemeGeneration": { "itemName": "string" } }
+    /// For theme generation jobs, specify the name of the column in your Items dataset that contains each item's name. fieldsForThemeGeneration -&gt; (structure) [required] Fields used to generate descriptive themes for a batch inference job. itemName -&gt; (string) [required] The name of the Items dataset column that stores the name of each item in the dataset. Constraints: • max: 150 • pattern: [A-Za-z_][A-Za-z\d_]* Shorthand Syntax: fieldsForThemeGeneration={itemName=string} JSON Syntax: { "fieldsForThemeGeneration": { "itemName": "string" } }
     /// </summary>
     [CliOption("--theme-generation-config")]
     public string? ThemeGenerationConfig { get; set; }
@@ -159,6 +160,15 @@ public record AwsPersonalizeCreateBatchInferenceJobOptions : AwsOptions, IValida
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

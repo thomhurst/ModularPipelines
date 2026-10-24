@@ -6,7 +6,7 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using ModularPipelines.Models;
+using ModularPipelines;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
@@ -28,18 +28,16 @@ public interface IAwsCe
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateAnomalyMonitorAsync(AwsCeCreateAnomalyMonitorOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateAnomalyMonitorAsync(AwsCeCreateAnomalyMonitorOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Adds an alert subscription to a cost anomaly detection monitor. You can use each subscription to define subscribers with email or SNS notifica- tions. Email subscribers can set an absolute or percentage threshold and a time frequency for receiving notifications. See also: AWS API Documentation
+    /// Adds an alert subscription to a cost anomaly detection monitor. You can use each subscription to define subscribers with email or SNS notifications. Email subscribers can set an absolute or percentage threshold and a time frequency for receiving notifications. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateAnomalySubscriptionAsync(AwsCeCreateAnomalySubscriptionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateAnomalySubscriptionAsync(AwsCeCreateAnomalySubscriptionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a new cost category with the requested name and rules. See also: AWS API Documentation
@@ -48,8 +46,7 @@ public interface IAwsCe
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateCostCategoryDefinitionAsync(AwsCeCreateCostCategoryDefinitionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateCostCategoryDefinitionAsync(AwsCeCreateCostCategoryDefinitionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a cost anomaly monitor. See also: AWS API Documentation
@@ -58,8 +55,7 @@ public interface IAwsCe
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteAnomalyMonitorAsync(AwsCeDeleteAnomalyMonitorOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteAnomalyMonitorAsync(AwsCeDeleteAnomalyMonitorOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a cost anomaly subscription. See also: AWS API Documentation
@@ -68,8 +64,7 @@ public interface IAwsCe
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteAnomalySubscriptionAsync(AwsCeDeleteAnomalySubscriptionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteAnomalySubscriptionAsync(AwsCeDeleteAnomalySubscriptionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a cost category. Expenses from this month going forward will no longer be categorized with this cost category. See also: AWS API Documentation
@@ -78,8 +73,7 @@ public interface IAwsCe
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteCostCategoryDefinitionAsync(AwsCeDeleteCostCategoryDefinitionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteCostCategoryDefinitionAsync(AwsCeDeleteCostCategoryDefinitionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns the name, Amazon Resource Name (ARN), rules, definition, and effective dates of a cost category that's defined in the account. You have the option to use EffectiveOn to return a cost category that's active on a specific date. If there's no EffectiveOn specified, you see a Cost Category that's effective on the current date. If cost category is still effective, EffectiveEnd is omitted in the response. See also: AWS API Documentation
@@ -88,18 +82,16 @@ public interface IAwsCe
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeCostCategoryDefinitionAsync(AwsCeDescribeCostCategoryDefinitionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeCostCategoryDefinitionAsync(AwsCeDescribeCostCategoryDefinitionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Retrieves all of the cost anomalies detected on your account during the time period that's specified by the DateInterval object. Anomalies are available for up to 90 days. See also: AWS API Documentation get-anomalies is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument mu...
+    /// Retrieves all of the cost anomalies detected on your account during the time period that's specified by the DateInterval object. Anomalies are available for up to 90 days. See also: AWS API Documentation get-anomalies is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must e...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetAnomaliesAsync(AwsCeGetAnomaliesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetAnomaliesAsync(AwsCeGetAnomaliesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the cost anomaly monitor definitions for your account. You can filter using a list of cost anomaly monitor Amazon Resource Names (ARNs). See also: AWS API Documentation get-anomaly-monitors is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from t...
@@ -108,8 +100,7 @@ public interface IAwsCe
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetAnomalyMonitorsAsync(AwsCeGetAnomalyMonitorsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetAnomalyMonitorsAsync(AwsCeGetAnomalyMonitorsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the cost anomaly subscription objects for your account. You can filter using a list of cost anomaly monitor Amazon Resource Names (ARNs). See also: AWS API Documentation get-anomaly-subscriptions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data ...
@@ -118,18 +109,16 @@ public interface IAwsCe
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetAnomalySubscriptionsAsync(AwsCeGetAnomalySubscriptionsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetAnomalySubscriptionsAsync(AwsCeGetAnomalySubscriptionsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Retrieves estimated usage records for hourly granularity or re- source-level data at daily granularity. See also: AWS API Documentation
+    /// Retrieves estimated usage records for hourly granularity or resource-level data at daily granularity. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetApproximateUsageRecordsAsync(AwsCeGetApproximateUsageRecordsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetApproximateUsageRecordsAsync(AwsCeGetApproximateUsageRecordsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves a commitment purchase analysis result based on the AnalysisId . See also: AWS API Documentation
@@ -138,38 +127,34 @@ public interface IAwsCe
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetCommitmentPurchaseAnalysisAsync(AwsCeGetCommitmentPurchaseAnalysisOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetCommitmentPurchaseAnalysisAsync(AwsCeGetCommitmentPurchaseAnalysisOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Retrieves cost and usage comparisons for your account between two peri- ods within the last 13 months. If you have enabled multi-year data at monthly granularity, you can go back up to 38 months. See also: AWS API Documentation get-cost-and-usage-comparisons is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a pa...
+    /// Retrieves cost and usage comparisons for your account between two periods within the last 13 months. If you have enabled multi-year data at monthly granularity, you can go back up to 38 months. See also: AWS API Documentation get-cost-and-usage-comparisons is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginate...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetCostAndUsageComparisonsAsync(AwsCeGetCostAndUsageComparisonsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetCostAndUsageComparisonsAsync(AwsCeGetCostAndUsageComparisonsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Retrieves cost and usage metrics for your account. You can specify which cost and usage-related metric that you want the request to re- turn. For example, you can specify BlendedCosts or UsageQuantity . You can also filter and group your data by various dimensions, such as SER- VICE or AZ , in a specific time range. For a complete list of valid di- mensions, see the GetDimensionValues operation. Management account in an organization in Organizations have access to all member accounts. For inform...
+    /// Retrieves cost and usage metrics for your account. You can specify which cost and usage-related metric that you want the request to return. For example, you can specify BlendedCosts or UsageQuantity . You can also filter and group your data by various dimensions, such as SERVICE or AZ , in a specific time range. For a complete list of valid dimensions, see the GetDimensionValues operation. Management account in an organization in Organizations have access to all member accounts. For information ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetCostAndUsageAsync(AwsCeGetCostAndUsageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetCostAndUsageAsync(AwsCeGetCostAndUsageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Retrieves cost and usage metrics with resources for your account. You can specify which cost and usage-related metric, such as BlendedCosts or UsageQuantity , that you want the request to return. You can also filter and group your data by various dimensions, such as SERVICE or AZ , in a specific time range. For a complete list of valid dimensions, see the GetDimensionValues operation. Management account in an organi- zation in Organizations have access to all member accounts. Hourly granularity ...
+    /// Retrieves cost and usage metrics with resources for your account. You can specify which cost and usage-related metric, such as BlendedCosts or UsageQuantity , that you want the request to return. You can also filter and group your data by various dimensions, such as SERVICE or AZ , in a specific time range. For a complete list of valid dimensions, see the GetDimensionValues operation. Management account in an organization in Organizations have access to all member accounts. Hourly granularity is...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetCostAndUsageWithResourcesAsync(AwsCeGetCostAndUsageWithResourcesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetCostAndUsageWithResourcesAsync(AwsCeGetCostAndUsageWithResourcesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves an array of cost category names and values incurred cost. NOTE: If some cost category names and values are not associated with any cost, they will not be returned by this API. See also: AWS API Documentation
@@ -178,18 +163,16 @@ public interface IAwsCe
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetCostCategoriesAsync(AwsCeGetCostCategoriesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetCostCategoriesAsync(AwsCeGetCostCategoriesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Retrieves key factors driving cost changes between two time periods within the last 13 months, such as usage changes, discount changes, and commitment-based savings. If you have enabled multi-year data at monthly granularity, you can go back up to 38 months. See also: AWS API Documentation get-cost-comparison-drivers is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- men...
+    /// Retrieves key factors driving cost changes between two time periods within the last 13 months, such as usage changes, discount changes, and commitment-based savings. If you have enabled multi-year data at monthly granularity, you can go back up to 38 months. See also: AWS API Documentation get-cost-comparison-drivers is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. W...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetCostComparisonDriversAsync(AwsCeGetCostComparisonDriversOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetCostComparisonDriversAsync(AwsCeGetCostComparisonDriversOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves a forecast for how much Amazon Web Services predicts that you will spend over the forecast time period that you select, based on your past costs. See also: AWS API Documentation
@@ -198,58 +181,52 @@ public interface IAwsCe
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetCostForecastAsync(AwsCeGetCostForecastOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetCostForecastAsync(AwsCeGetCostForecastOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Retrieves all available filter values for a specified filter over a pe- riod of time. You can search the dimension values for an arbitrary string. See also: AWS API Documentation
+    /// Retrieves all available filter values for a specified filter over a period of time. You can search the dimension values for an arbitrary string. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetDimensionValuesAsync(AwsCeGetDimensionValuesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetDimensionValuesAsync(AwsCeGetDimensionValuesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Retrieves the reservation coverage for your account, which you can use to see how much of your Amazon Elastic Compute Cloud, Amazon Elasti- Cache, Amazon Relational Database Service, or Amazon Redshift usage is covered by a reservation. An organization's management account can see the coverage of the associated member accounts. This supports dimen- sions, cost categories, and nested expressions. For any time period, you can filter data about reservation usage by the following dimen- sions: o AZ ...
+    /// Retrieves the reservation coverage for your account, which you can use to see how much of your Amazon Elastic Compute Cloud, Amazon ElastiCache, Amazon Relational Database Service, or Amazon Redshift usage is covered by a reservation. An organization's management account can see the coverage of the associated member accounts. This supports dimensions, cost categories, and nested expressions. For any time period, you can filter data about reservation usage by the following dimensions: • AZ • CACH...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetReservationCoverageAsync(AwsCeGetReservationCoverageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetReservationCoverageAsync(AwsCeGetReservationCoverageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Gets recommendations for reservation purchases. These recommendations might help you to reduce your costs. Reservations provide a discounted hourly rate (up to 75%) compared to On-Demand pricing. Amazon Web Services generates your recommendations by identifying your On-Demand usage during a specific time period and collecting your usage into categories that are eligible for a reservation. After Amazon Web Services has these categories, it simulates every combination of reser- vations in each cat...
+    /// Gets recommendations for reservation purchases. These recommendations might help you to reduce your costs. Reservations provide a discounted hourly rate (up to 75%) compared to On-Demand pricing. Amazon Web Services generates your recommendations by identifying your On-Demand usage during a specific time period and collecting your usage into categories that are eligible for a reservation. After Amazon Web Services has these categories, it simulates every combination of reservations in each categ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetReservationPurchaseRecommendationAsync(AwsCeGetReservationPurchaseRecommendationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetReservationPurchaseRecommendationAsync(AwsCeGetReservationPurchaseRecommendationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Retrieves the reservation utilization for your account. Management ac- count in an organization have access to member accounts. You can filter data by dimensions in a time period. You can use GetDimensionValues to determine the possible dimension values. Currently, you can group only by SUBSCRIPTION_ID . See also: AWS API Documentation
+    /// Retrieves the reservation utilization for your account. Management account in an organization have access to member accounts. You can filter data by dimensions in a time period. You can use GetDimensionValues to determine the possible dimension values. Currently, you can group only by SUBSCRIPTION_ID . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetReservationUtilizationAsync(AwsCeGetReservationUtilizationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetReservationUtilizationAsync(AwsCeGetReservationUtilizationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Creates recommendations that help you save cost by identifying idle and underutilized Amazon EC2 instances. Recommendations are generated to either downsize or terminate in- stances, along with providing savings detail and metrics. For more in- formation about calculation and function, see Optimizing Your Cost with Rightsizing Recommendations in the Billing and Cost Management User Guide . See also: AWS API Documentation get-rightsizing-recommendation is a paginated operation. Multiple API calls...
+    /// Creates recommendations that help you save cost by identifying idle and underutilized Amazon EC2 instances. Recommendations are generated to either downsize or terminate instances, along with providing savings detail and metrics. For more information about calculation and function, see Optimizing Your Cost with Rightsizing Recommendations in the Billing and Cost Management User Guide . See also: AWS API Documentation get-rightsizing-recommendation is a paginated operation. Multiple API calls may...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetRightsizingRecommendationAsync(AwsCeGetRightsizingRecommendationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetRightsizingRecommendationAsync(AwsCeGetRightsizingRecommendationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the details for a Savings Plan recommendation. These details include the hourly data-points that construct the cost, coverage, and utilization charts. See also: AWS API Documentation
@@ -258,18 +235,16 @@ public interface IAwsCe
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetSavingsPlanPurchaseRecommendationDetailsAsync(AwsCeGetSavingsPlanPurchaseRecommendationDetailsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetSavingsPlanPurchaseRecommendationDetailsAsync(AwsCeGetSavingsPlanPurchaseRecommendationDetailsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Retrieves the Savings Plans covered for your account. This enables you to see how much of your cost is covered by a Savings Plan. An organiza- tions management account can see the coverage of the associated member accounts. This supports dimensions, cost categories, and nested expres- sions. For any time period, you can filter data for Savings Plans usage with the following dimensions: o LINKED_ACCOUNT o REGION o SERVICE o INSTANCE_FAMILY To determine valid values for a dimension, use the GetDim...
+    /// Retrieves the Savings Plans covered for your account. This enables you to see how much of your cost is covered by a Savings Plan. An organizations management account can see the coverage of the associated member accounts. This supports dimensions, cost categories, and nested expressions. For any time period, you can filter data for Savings Plans usage with the following dimensions: • LINKED_ACCOUNT • REGION • SERVICE • INSTANCE_FAMILY To determine valid values for a dimension, use the GetDimensi...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetSavingsPlansCoverageAsync(AwsCeGetSavingsPlansCoverageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetSavingsPlansCoverageAsync(AwsCeGetSavingsPlansCoverageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the Savings Plans recommendations for your account. First use StartSavingsPlansPurchaseRecommendationGeneration to generate a new set of recommendations, and then use GetSavingsPlansPurchaseRecommendation to retrieve them. See also: AWS API Documentation
@@ -278,28 +253,25 @@ public interface IAwsCe
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetSavingsPlansPurchaseRecommendationAsync(AwsCeGetSavingsPlansPurchaseRecommendationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetSavingsPlansPurchaseRecommendationAsync(AwsCeGetSavingsPlansPurchaseRecommendationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Retrieves attribute data along with aggregate utilization and savings data for a given time period. This doesn't support granular or grouped data (daily/monthly) in response. You can't retrieve data by dates in a single response similar to GetSavingsPlanUtilization , but you have the option to make multiple calls to GetSavingsPlanUtilizationDetails by providing individual dates. You can use GetDimensionValues in SAV- INGS_PLANS to determine the possible dimension values. NOTE: GetSavingsPlanUtil...
+    /// Retrieves attribute data along with aggregate utilization and savings data for a given time period. This doesn't support granular or grouped data (daily/monthly) in response. You can't retrieve data by dates in a single response similar to GetSavingsPlanUtilization , but you have the option to make multiple calls to GetSavingsPlanUtilizationDetails by providing individual dates. You can use GetDimensionValues in SAVINGS_PLANS to determine the possible dimension values. NOTE: GetSavingsPlanUtiliz...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetSavingsPlansUtilizationDetailsAsync(AwsCeGetSavingsPlansUtilizationDetailsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetSavingsPlansUtilizationDetailsAsync(AwsCeGetSavingsPlansUtilizationDetailsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Retrieves the Savings Plans utilization for your account across date ranges with daily or monthly granularity. Management account in an or- ganization have access to member accounts. You can use GetDimensionVal- ues in SAVINGS_PLANS to determine the possible dimension values. NOTE: You can't group by any dimension values for GetSavingsPlansUtiliza- tion . See also: AWS API Documentation
+    /// Retrieves the Savings Plans utilization for your account across date ranges with daily or monthly granularity. Management account in an organization have access to member accounts. You can use GetDimensionValues in SAVINGS_PLANS to determine the possible dimension values. NOTE: You can't group by any dimension values for GetSavingsPlansUtilization . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetSavingsPlansUtilizationAsync(AwsCeGetSavingsPlansUtilizationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetSavingsPlansUtilizationAsync(AwsCeGetSavingsPlansUtilizationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Queries for available tag keys and tag values for a specified period. You can search the tag values for an arbitrary string. See also: AWS API Documentation
@@ -308,8 +280,7 @@ public interface IAwsCe
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetTagsAsync(AwsCeGetTagsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetTagsAsync(AwsCeGetTagsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves a forecast for how much Amazon Web Services predicts that you will use over the forecast time period that you select, based on your past usage. See also: AWS API Documentation
@@ -318,68 +289,61 @@ public interface IAwsCe
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetUsageForecastAsync(AwsCeGetUsageForecastOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetUsageForecastAsync(AwsCeGetUsageForecastOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Lists the commitment purchase analyses for your account. See also: AWS API Documentation list-commitment-purchase-analyses is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: AnalysisSummaryList
+    /// Lists the commitment purchase analyses for your account. See also: AWS API Documentation list-commitment-purchase-analyses is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: AnalysisSummaryList
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListCommitmentPurchaseAnalysesAsync(AwsCeListCommitmentPurchaseAnalysesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListCommitmentPurchaseAnalysesAsync(AwsCeListCommitmentPurchaseAnalysesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Retrieves a list of your historical cost allocation tag backfill re- quests. See also: AWS API Documentation list-cost-allocation-tag-backfill-history is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-pagi- nate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the re- sults of the following query expressions...
+    /// Retrieves a list of your historical cost allocation tag backfill requests. See also: AWS API Documentation list-cost-allocation-tag-backfill-history is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Back...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListCostAllocationTagBackfillHistoryAsync(AwsCeListCostAllocationTagBackfillHistoryOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListCostAllocationTagBackfillHistoryAsync(AwsCeListCostAllocationTagBackfillHistoryOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Get a list of cost allocation tags. All inputs in the API are optional and serve as filters. By default, all cost allocation tags are re- turned. See also: AWS API Documentation list-cost-allocation-tags is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data fr...
+    /// Get a list of cost allocation tags. All inputs in the API are optional and serve as filters. By default, all cost allocation tags are returned. See also: AWS API Documentation list-cost-allocation-tags is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListCostAllocationTagsAsync(AwsCeListCostAllocationTagsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListCostAllocationTagsAsync(AwsCeListCostAllocationTagsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Returns the name, Amazon Resource Name (ARN), NumberOfRules and effec- tive dates of all cost categories defined in the account. You have the option to use EffectiveOn and SupportedResourceTypes to return a list of cost categories that were active on a specific date. If there is no EffectiveOn specified, youll see cost categories that are effective on the current date. If cost category is still effective, EffectiveEnd is omitted in the response. ListCostCategoryDefinitions supports pagina- tion....
+    /// Returns the name, Amazon Resource Name (ARN), NumberOfRules and effective dates of all cost categories defined in the account. You have the option to use EffectiveOn and SupportedResourceTypes to return a list of cost categories that were active on a specific date. If there is no EffectiveOn specified, youll see cost categories that are effective on the current date. If cost category is still effective, EffectiveEnd is omitted in the response. ListCostCategoryDefinitions supports pagination. The...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListCostCategoryDefinitionsAsync(AwsCeListCostCategoryDefinitionsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListCostCategoryDefinitionsAsync(AwsCeListCostCategoryDefinitionsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Returns resource associations of all cost categories defined in the ac- count. You have the option to use CostCategoryArn to get the associa- tion for a specific cost category. ListCostCategoryResourceAssociations supports pagination. The request can have a MaxResults range up to 100. See also: AWS API Documentation list-cost-category-resource-associations is a paginated operation. Mul- tiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination ...
+    /// Returns resource associations of all cost categories defined in the account. You have the option to use CostCategoryArn to get the association for a specific cost category. ListCostCategoryResourceAssociations supports pagination. The request can have a MaxResults range up to 100. See also: AWS API Documentation list-cost-category-resource-associations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by pro...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListCostCategoryResourceAssociationsAsync(AwsCeListCostCategoryResourceAssociationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListCostCategoryResourceAssociationsAsync(AwsCeListCostCategoryResourceAssociationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Retrieves a list of your historical recommendation generations within the past 30 days. See also: AWS API Documentation list-savings-plans-purchase-recommendation-generation is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argu- ment on a paginated response, the --query argument must extract data from the results of the follow...
+    /// Retrieves a list of your historical recommendation generations within the past 30 days. See also: AWS API Documentation list-savings-plans-purchase-recommendation-generation is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the followin...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListSavingsPlansPurchaseRecommendationGenerationAsync(AwsCeListSavingsPlansPurchaseRecommendationGenerationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListSavingsPlansPurchaseRecommendationGenerationAsync(AwsCeListSavingsPlansPurchaseRecommendationGenerationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a list of resource tags associated with the resource specified by the Amazon Resource Name (ARN). See also: AWS API Documentation
@@ -388,8 +352,7 @@ public interface IAwsCe
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTagsForResourceAsync(AwsCeListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListTagsForResourceAsync(AwsCeListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Modifies the feedback property of a given cost anomaly. See also: AWS API Documentation
@@ -398,8 +361,7 @@ public interface IAwsCe
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ProvideAnomalyFeedbackAsync(AwsCeProvideAnomalyFeedbackOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ProvideAnomalyFeedbackAsync(AwsCeProvideAnomalyFeedbackOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Specifies the parameters of a planned commitment purchase and starts the generation of the analysis. This enables you to estimate the cost, coverage, and utilization impact of your planned commitment purchases. See also: AWS API Documentation
@@ -408,38 +370,34 @@ public interface IAwsCe
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartCommitmentPurchaseAnalysisAsync(AwsCeStartCommitmentPurchaseAnalysisOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartCommitmentPurchaseAnalysisAsync(AwsCeStartCommitmentPurchaseAnalysisOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Request a cost allocation tag backfill. This will backfill the activa- tion status (either active or inactive ) for all tag keys from para:BackfillFrom up to the time this request is made. You can request a backfill once every 24 hours. See also: AWS API Documentation
+    /// Request a cost allocation tag backfill. This will backfill the activation status (either active or inactive ) for all tag keys from para:BackfillFrom up to the time this request is made. You can request a backfill once every 24 hours. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartCostAllocationTagBackfillAsync(AwsCeStartCostAllocationTagBackfillOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartCostAllocationTagBackfillAsync(AwsCeStartCostAllocationTagBackfillOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Requests a Savings Plans recommendation generation. This enables you to calculate a fresh set of Savings Plans recommendations that takes your latest usage data and current Savings Plans inventory into account. You can refresh Savings Plans recommendations up to three times daily for a consolidated billing family. NOTE: StartSavingsPlansPurchaseRecommendationGeneration has no request syntax because no input parameters are needed to support this opera- tion. See also: AWS API Documentation
+    /// Requests a Savings Plans recommendation generation. This enables you to calculate a fresh set of Savings Plans recommendations that takes your latest usage data and current Savings Plans inventory into account. You can refresh Savings Plans recommendations up to three times daily for a consolidated billing family. NOTE: StartSavingsPlansPurchaseRecommendationGeneration has no request syntax because no input parameters are needed to support this operation. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartSavingsPlansPurchaseRecommendationGenerationAsync(AwsCeStartSavingsPlansPurchaseRecommendationGenerationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartSavingsPlansPurchaseRecommendationGenerationAsync(AwsCeStartSavingsPlansPurchaseRecommendationGenerationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// An API operation for adding one or more tags (key-value pairs) to a re- source. You can use the TagResource operation with a resource that already has tags. If you specify a new tag key for the resource, this tag is ap- pended to the list of tags associated with the resource. If you specify a tag key that is already associated with the resource, the new tag value you specify replaces the previous value for that tag. Although the maximum number of array members is 200, user-tag maximum is 50. The...
+    /// An API operation for adding one or more tags (key-value pairs) to a resource. You can use the TagResource operation with a resource that already has tags. If you specify a new tag key for the resource, this tag is appended to the list of tags associated with the resource. If you specify a tag key that is already associated with the resource, the new tag value you specify replaces the previous value for that tag. Although the maximum number of array members is 200, user-tag maximum is 50. The rem...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> TagResourceAsync(AwsCeTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> TagResourceAsync(AwsCeTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Removes one or more tags from a resource. Specify only tag keys in your request. Don't specify the value. See also: AWS API Documentation
@@ -448,8 +406,7 @@ public interface IAwsCe
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UntagResourceAsync(AwsCeUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UntagResourceAsync(AwsCeUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates an existing cost anomaly monitor. The changes made are applied going forward, and doesn't change anomalies detected in the past. See also: AWS API Documentation
@@ -458,28 +415,25 @@ public interface IAwsCe
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateAnomalyMonitorAsync(AwsCeUpdateAnomalyMonitorOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateAnomalyMonitorAsync(AwsCeUpdateAnomalyMonitorOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Updates an existing cost anomaly subscription. Specify the fields that you want to update. Omitted fields are unchanged. NOTE: The JSON below describes the generic construct for each type. See Request Parameters for possible values as they apply to AnomalySub- scription . See also: AWS API Documentation
+    /// Updates an existing cost anomaly subscription. Specify the fields that you want to update. Omitted fields are unchanged. NOTE: The JSON below describes the generic construct for each type. See Request Parameters for possible values as they apply to AnomalySubscription . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateAnomalySubscriptionAsync(AwsCeUpdateAnomalySubscriptionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateAnomalySubscriptionAsync(AwsCeUpdateAnomalySubscriptionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Updates status for cost allocation tags in bulk, with maximum batch size of 20. If the tag status that's updated is the same as the exist- ing tag status, the request doesn't fail. Instead, it doesn't have any effect on the tag status (for example, activating the active tag). See also: AWS API Documentation
+    /// Updates status for cost allocation tags in bulk, with maximum batch size of 20. If the tag status that's updated is the same as the existing tag status, the request doesn't fail. Instead, it doesn't have any effect on the tag status (for example, activating the active tag). See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateCostAllocationTagsStatusAsync(AwsCeUpdateCostAllocationTagsStatusOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateCostAllocationTagsStatusAsync(AwsCeUpdateCostAllocationTagsStatusOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates an existing cost category. Changes made to the cost category rules will be used to categorize the current months expenses and future expenses. This wont change categorization for the previous months. See also: AWS API Documentation
@@ -488,7 +442,6 @@ public interface IAwsCe
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateCostCategoryDefinitionAsync(AwsCeUpdateCostCategoryDefinitionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateCostCategoryDefinitionAsync(AwsCeUpdateCostCategoryDefinitionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

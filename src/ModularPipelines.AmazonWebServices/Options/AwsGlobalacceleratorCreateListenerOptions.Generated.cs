@@ -11,13 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Create a listener to process inbound connections from clients to an ac- celerator. Connections arrive to assigned static IP addresses on a port, port range, or list of port ranges that you specify. See also: AWS API Documentation
+/// Create a listener to process inbound connections from clients to an accelerator. Connections arrive to assigned static IP addresses on a port, port range, or list of port ranges that you specify. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,11 +28,11 @@ public record AwsGlobalacceleratorCreateListenerOptions : AwsOptions, IValidatab
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Create a listener to process inbound connections from clients to an ac- celerator. Connections arrive to assigned static IP addresses on a port, port range, or list of port ranges that you specify. See also: AWS API Documentation
+    /// Create a listener to process inbound connections from clients to an accelerator. Connections arrive to assigned static IP addresses on a port, port range, or list of port ranges that you specify. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AcceleratorArn">The Amazon Resource Name (ARN) of your accelerator. Constraints: o max: 255</param>
-    /// <param name="PortRanges">The list of port ranges to support for connections from clients to your accelerator. Constraints: o min: 1 o max: 10 (structure) A complex type for a range of ports for a listener. FromPort -&gt; (integer) The first port in the range of ports, inclusive. Constraints: o min: 1 o max: 65535 ToPort -&gt; (integer) The last port in the range of ports, inclusive. Constraints: o min: 1 o max: 65535 Shorthand Syntax: FromPort=integer,ToPort=integer ... JSON Syntax: [ { "FromPort": integer, "ToPort": integer } ... ]</param>
-    /// <param name="Protocol">The protocol for connections from clients to your accelerator. Possible values: o TCP o UDP</param>
+    /// <param name="AcceleratorArn">The Amazon Resource Name (ARN) of your accelerator. Constraints: • max: 255</param>
+    /// <param name="PortRanges">The list of port ranges to support for connections from clients to your accelerator. Constraints: • min: 1 • max: 10 (structure) A complex type for a range of ports for a listener. FromPort -&gt; (integer) The first port in the range of ports, inclusive. Constraints: • min: 1 • max: 65535 ToPort -&gt; (integer) The last port in the range of ports, inclusive. Constraints: • min: 1 • max: 65535 Shorthand Syntax: FromPort=integer,ToPort=integer ... JSON Syntax: [ { "FromPort": integer, "ToPort": integer } ... ]</param>
+    /// <param name="Protocol">The protocol for connections from clients to your accelerator. Possible values: • TCP • UDP</param>
     public AwsGlobalacceleratorCreateListenerOptions(
         string AcceleratorArn,
         IEnumerable<string> PortRanges,
@@ -76,31 +77,31 @@ public record AwsGlobalacceleratorCreateListenerOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of your accelerator. Constraints: o max: 255
+    /// The Amazon Resource Name (ARN) of your accelerator. Constraints: • max: 255
     /// </summary>
     [CliOption("--accelerator-arn")]
     public string? AcceleratorArn { get; private init; }
 
     /// <summary>
-    /// The list of port ranges to support for connections from clients to your accelerator. Constraints: o min: 1 o max: 10 (structure) A complex type for a range of ports for a listener. FromPort -&gt; (integer) The first port in the range of ports, inclusive. Constraints: o min: 1 o max: 65535 ToPort -&gt; (integer) The last port in the range of ports, inclusive. Constraints: o min: 1 o max: 65535 Shorthand Syntax: FromPort=integer,ToPort=integer ... JSON Syntax: [ { "FromPort": integer, "ToPort": integer } ... ]
+    /// The list of port ranges to support for connections from clients to your accelerator. Constraints: • min: 1 • max: 10 (structure) A complex type for a range of ports for a listener. FromPort -&gt; (integer) The first port in the range of ports, inclusive. Constraints: • min: 1 • max: 65535 ToPort -&gt; (integer) The last port in the range of ports, inclusive. Constraints: • min: 1 • max: 65535 Shorthand Syntax: FromPort=integer,ToPort=integer ... JSON Syntax: [ { "FromPort": integer, "ToPort": integer } ... ]
     /// </summary>
     [CliOption("--port-ranges", GroupValues = true)]
     public IEnumerable<string>? PortRanges { get; private init; }
 
     /// <summary>
-    /// The protocol for connections from clients to your accelerator. Possible values: o TCP o UDP
+    /// The protocol for connections from clients to your accelerator. Possible values: • TCP • UDP
     /// </summary>
     [CliOption("--protocol")]
     public AwsGlobalacceleratorCreateListenerProtocol? Protocol { get; private init; }
 
     /// <summary>
-    /// Client affinity lets you direct all requests from a user to the same endpoint, if you have stateful applications, regardless of the port and protocol of the client request. Client affinity gives you con- trol over whether to always route each client to the same specific endpoint. Global Accelerator uses a consistent-flow hashing algorithm to choose the optimal endpoint for a connection. If client affinity is NONE , Global Accelerator uses the "five-tuple" (5-tuple) proper- tiessource IP address, source port, destination IP address, destina- tion port, and protocolto select the hash value, and then chooses the best endpoint. However, with this setting, if someone uses dif- ferent ports to connect to Global Accelerator, their connections might not be always routed to the same endpoint because the hash value changes. If you want a given client to always be routed to the same endpoint, set client affinity to SOURCE_IP instead. When you use the SOURCE_IP setting, Global Accelerator uses the "two-tuple" (2-tuple) proper- ties source (client) IP address and destination IP addressto select the hash value. The default value is NONE . Possible values: o NONE o SOURCE_IP
+    /// Client affinity lets you direct all requests from a user to the same endpoint, if you have stateful applications, regardless of the port and protocol of the client request. Client affinity gives you control over whether to always route each client to the same specific endpoint. Global Accelerator uses a consistent-flow hashing algorithm to choose the optimal endpoint for a connection. If client affinity is NONE , Global Accelerator uses the "five-tuple" (5-tuple) propertiessource IP address, source port, destination IP address, destination port, and protocolto select the hash value, and then chooses the best endpoint. However, with this setting, if someone uses different ports to connect to Global Accelerator, their connections might not be always routed to the same endpoint because the hash value changes. If you want a given client to always be routed to the same endpoint, set client affinity to SOURCE_IP instead. When you use the SOURCE_IP setting, Global Accelerator uses the "two-tuple" (2-tuple) properties source (client) IP address and destination IP addressto select the hash value. The default value is NONE . Possible values: • NONE • SOURCE_IP
     /// </summary>
     [CliOption("--client-affinity")]
     public AwsGlobalacceleratorCreateListenerClientAffinity? ClientAffinity { get; set; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier that you provide to ensure the idempotencythat is, the uniquenessof the request. Constraints: o max: 255
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotencythat is, the uniquenessof the request. Constraints: • max: 255
     /// </summary>
     [SecretValue]
     [CliOption("--idempotency-token")]
@@ -127,6 +128,15 @@ public record AwsGlobalacceleratorCreateListenerOptions : AwsOptions, IValidatab
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

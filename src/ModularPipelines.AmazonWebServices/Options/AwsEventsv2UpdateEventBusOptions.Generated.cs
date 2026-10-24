@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates an event bus. The update is asynchronous: the bus moves to UP- DATING and returns to ACTIVE when the change is applied. Fields omitted from the request are left unchanged. See also: AWS API Documentation
+/// Updates an event bus. The update is asynchronous: the bus moves to UPDATING and returns to ACTIVE when the change is applied. Fields omitted from the request are left unchanged. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsEventsv2UpdateEventBusOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates an event bus. The update is asynchronous: the bus moves to UP- DATING and returns to ACTIVE when the change is applied. Fields omitted from the request are left unchanged. See also: AWS API Documentation
+    /// Updates an event bus. The update is asynchronous: the bus moves to UPDATING and returns to ACTIVE when the change is applied. Fields omitted from the request are left unchanged. See also: AWS API Documentation
     /// </summary>
-    /// <param name="EventBusArn">The Amazon Resource Name (ARN) that uniquely identifies an event bus. Constraints: o min: 1 o max: 1011 o pattern: arn:aws(-[a-z0-9]+)*:events:[a-z][a-z0-9]*(-[a-z0-9]+)*:([0-9]{12}):event-busv2\/[A-Za-z0-9][\.\-_A-Za-z0-9]{0,255}\/[a-z0-9]{25}</param>
+    /// <param name="EventBusArn">The Amazon Resource Name (ARN) that uniquely identifies an event bus. Constraints: • min: 1 • max: 1011 • pattern: arn:aws(-[a-z0-9]+)*:events:[a-z][a-z0-9]*(-[a-z0-9]+)*:([0-9]{12}):event-busv2\/[A-Za-z0-9][\.\-_A-Za-z0-9]{0,255}\/[a-z0-9]{25}</param>
     public AwsEventsv2UpdateEventBusOptions(
         string EventBusArn
     )
@@ -56,25 +57,25 @@ public record AwsEventsv2UpdateEventBusOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) that uniquely identifies an event bus. Constraints: o min: 1 o max: 1011 o pattern: arn:aws(-[a-z0-9]+)*:events:[a-z][a-z0-9]*(-[a-z0-9]+)*:([0-9]{12}):event-busv2\/[A-Za-z0-9][\.\-_A-Za-z0-9]{0,255}\/[a-z0-9]{25}
+    /// The Amazon Resource Name (ARN) that uniquely identifies an event bus. Constraints: • min: 1 • max: 1011 • pattern: arn:aws(-[a-z0-9]+)*:events:[a-z][a-z0-9]*(-[a-z0-9]+)*:([0-9]{12}):event-busv2\/[A-Za-z0-9][\.\-_A-Za-z0-9]{0,255}\/[a-z0-9]{25}
     /// </summary>
     [CliOption("--event-bus-arn")]
     public string? EventBusArn { get; private init; }
 
     /// <summary>
-    /// Free-text description. Used by every resource type that has one: event buses, subscribers, and event sources. Constraints: o min: 0 o max: 512 o pattern: [^\u0000-\u001F\u007F-\u009F\u2028\u2029]*(?![\s\S]).*
+    /// Free-text description. Used by every resource type that has one: event buses, subscribers, and event sources. Constraints: • min: 0 • max: 512 • pattern: [^\u0000-\u001F\u007F-\u009F\u2028\u2029]*(?![\s\S]).*
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// Encryption configuration for an event bus. KmsKeyIdentifier -&gt; (string) Identifier of the AWS KMS customer managed key used to encrypt events: a key ID, key ARN, alias name, or alias ARN. When ab- sent, events are encrypted with an AWS owned key. Constraints: o min: 0 o max: 2048 o pattern: [a-zA-Z0-9_\-/:]* Shorthand Syntax: KmsKeyIdentifier=string JSON Syntax: { "KmsKeyIdentifier": "string" }
+    /// Encryption configuration for an event bus. KmsKeyIdentifier -&gt; (string) Identifier of the AWS KMS customer managed key used to encrypt events: a key ID, key ARN, alias name, or alias ARN. When absent, events are encrypted with an AWS owned key. Constraints: • min: 0 • max: 2048 • pattern: [a-zA-Z0-9_\-/:]* Shorthand Syntax: KmsKeyIdentifier=string JSON Syntax: { "KmsKeyIdentifier": "string" }
     /// </summary>
     [CliOption("--encryption-configuration")]
     public string? EncryptionConfiguration { get; set; }
 
     /// <summary>
-    /// Event storage configuration for an event bus. RetentionPeriodInDays -&gt; (integer) Number of days events are retained on the event bus. Constraints: o min: 1 o max: 365 Shorthand Syntax: RetentionPeriodInDays=integer JSON Syntax: { "RetentionPeriodInDays": integer }
+    /// Event storage configuration for an event bus. RetentionPeriodInDays -&gt; (integer) Number of days events are retained on the event bus. Constraints: • min: 1 • max: 365 Shorthand Syntax: RetentionPeriodInDays=integer JSON Syntax: { "RetentionPeriodInDays": integer }
     /// </summary>
     [CliOption("--storage-configuration")]
     public string? StorageConfiguration { get; set; }
@@ -100,6 +101,15 @@ public record AwsEventsv2UpdateEventBusOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

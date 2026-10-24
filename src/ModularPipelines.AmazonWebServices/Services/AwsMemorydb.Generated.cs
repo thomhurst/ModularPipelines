@@ -6,8 +6,8 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
+using ModularPipelines;
 using ModularPipelines.Context;
-using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
@@ -32,7 +32,7 @@ public class AwsMemorydb : IAwsMemorydb
     #region Commands
 
     /// <summary>
-    /// Apply the service update to a list of clusters supplied. For more in- formation on service updates and applying them, see Applying the ser- vice updates . See also: AWS API Documentation
+    /// Apply the service update to a list of clusters supplied. For more information on service updates and applying them, see Applying the service updates . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -77,7 +77,7 @@ public class AwsMemorydb : IAwsMemorydb
     }
 
     /// <summary>
-    /// Creates a cluster. All nodes in the cluster run the same protocol-com- pliant engine software. See also: AWS API Documentation
+    /// Creates a cluster. All nodes in the cluster run the same protocol-compliant engine software. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -107,7 +107,7 @@ public class AwsMemorydb : IAwsMemorydb
     }
 
     /// <summary>
-    /// Creates a new MemoryDB parameter group. A parameter group is a collec- tion of parameters and their values that are applied to all of the nodes in any cluster. For more information, see Configuring engine pa- rameters using parameter groups . See also: AWS API Documentation
+    /// Creates a new MemoryDB parameter group. A parameter group is a collection of parameters and their values that are applied to all of the nodes in any cluster. For more information, see Configuring engine parameters using parameter groups . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -137,7 +137,7 @@ public class AwsMemorydb : IAwsMemorydb
     }
 
     /// <summary>
-    /// Creates a subnet group. A subnet group is a collection of subnets (typ- ically private) that you can designate for your clusters running in an Amazon Virtual Private Cloud (VPC) environment. When you create a clus- ter in an Amazon VPC, you must specify a subnet group. MemoryDB uses that subnet group to choose a subnet and IP addresses within that sub- net to associate with your nodes. For more information, see Subnets and subnet groups . See also: AWS API Documentation
+    /// Creates a subnet group. A subnet group is a collection of subnets (typically private) that you can designate for your clusters running in an Amazon Virtual Private Cloud (VPC) environment. When you create a cluster in an Amazon VPC, you must specify a subnet group. MemoryDB uses that subnet group to choose a subnet and IP addresses within that subnet to associate with your nodes. For more information, see Subnets and subnet groups . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -182,7 +182,7 @@ public class AwsMemorydb : IAwsMemorydb
     }
 
     /// <summary>
-    /// Deletes a cluster. It also deletes all associated nodes and node end- points. NOTE: CreateSnapshot permission is required to create a final snapshot. Without this permission, the API call will fail with an Access De- nied exception. See also: AWS API Documentation
+    /// Deletes a cluster. It also deletes all associated nodes and node endpoints. NOTE: CreateSnapshot permission is required to create a final snapshot. Without this permission, the API call will fail with an Access Denied exception. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -212,7 +212,7 @@ public class AwsMemorydb : IAwsMemorydb
     }
 
     /// <summary>
-    /// Deletes the specified parameter group. You cannot delete a parameter group if it is associated with any clusters. You cannot delete the de- fault parameter groups in your account. See also: AWS API Documentation
+    /// Deletes the specified parameter group. You cannot delete a parameter group if it is associated with any clusters. You cannot delete the default parameter groups in your account. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -257,7 +257,7 @@ public class AwsMemorydb : IAwsMemorydb
     }
 
     /// <summary>
-    /// Deletes a user. The user will be removed from all ACLs and in turn re- moved from all clusters. See also: AWS API Documentation
+    /// Deletes a user. The user will be removed from all ACLs and in turn removed from all clusters. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -272,7 +272,7 @@ public class AwsMemorydb : IAwsMemorydb
     }
 
     /// <summary>
-    /// Returns a list of ACLs. See also: AWS API Documentation describe-acls is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: ACLs
+    /// Returns a list of ACLs. See also: AWS API Documentation describe-acls is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: ACLs
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -287,7 +287,7 @@ public class AwsMemorydb : IAwsMemorydb
     }
 
     /// <summary>
-    /// Returns information about all provisioned clusters if no cluster iden- tifier is specified, or about a specific cluster if a cluster name is supplied. See also: AWS API Documentation describe-clusters is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from ...
+    /// Returns information about all provisioned clusters if no cluster identifier is specified, or about a specific cluster if a cluster name is supplied. See also: AWS API Documentation describe-clusters is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from th...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -302,7 +302,7 @@ public class AwsMemorydb : IAwsMemorydb
     }
 
     /// <summary>
-    /// Returns a list of the available Redis OSS engine versions. See also: AWS API Documentation describe-engine-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: EngineVersions
+    /// Returns a list of the available Redis OSS engine versions. See also: AWS API Documentation describe-engine-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: EngineVersions
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -317,7 +317,7 @@ public class AwsMemorydb : IAwsMemorydb
     }
 
     /// <summary>
-    /// Returns events related to clusters, security groups, and parameter groups. You can obtain events specific to a particular cluster, secu- rity group, or parameter group by providing the name as a parameter. By default, only the events occurring within the last hour are returned; however, you can retrieve up to 14 days' worth of events if necessary. See also: AWS API Documentation describe-events is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set ...
+    /// Returns events related to clusters, security groups, and parameter groups. You can obtain events specific to a particular cluster, security group, or parameter group by providing the name as a parameter. By default, only the events occurring within the last hour are returned; however, you can retrieve up to 14 days' worth of events if necessary. See also: AWS API Documentation describe-events is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of r...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -332,7 +332,7 @@ public class AwsMemorydb : IAwsMemorydb
     }
 
     /// <summary>
-    /// Returns details about one or more multi-Region clusters. See also: AWS API Documentation describe-multi-region-clusters is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: MultiRegionClusters
+    /// Returns details about one or more multi-Region clusters. See also: AWS API Documentation describe-multi-region-clusters is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: MultiRegionClusters
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -362,7 +362,7 @@ public class AwsMemorydb : IAwsMemorydb
     }
 
     /// <summary>
-    /// Returns the detailed parameter list for a particular multi-region para- meter group. See also: AWS API Documentation
+    /// Returns the detailed parameter list for a particular multi-region parameter group. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -407,7 +407,7 @@ public class AwsMemorydb : IAwsMemorydb
     }
 
     /// <summary>
-    /// Lists available reserved node offerings. See also: AWS API Documentation describe-reserved-nodes-offerings is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: ReservedNodesOfferings
+    /// Lists available reserved node offerings. See also: AWS API Documentation describe-reserved-nodes-offerings is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: ReservedNodesOfferings
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -422,7 +422,7 @@ public class AwsMemorydb : IAwsMemorydb
     }
 
     /// <summary>
-    /// Returns information about reserved nodes for this account, or about a specified reserved node. See also: AWS API Documentation describe-reserved-nodes is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: ...
+    /// Returns information about reserved nodes for this account, or about a specified reserved node. See also: AWS API Documentation describe-reserved-nodes is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Re...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -437,7 +437,7 @@ public class AwsMemorydb : IAwsMemorydb
     }
 
     /// <summary>
-    /// Returns details of the service updates. See also: AWS API Documentation describe-service-updates is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: ServiceUpdates
+    /// Returns details of the service updates. See also: AWS API Documentation describe-service-updates is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: ServiceUpdates
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -452,7 +452,7 @@ public class AwsMemorydb : IAwsMemorydb
     }
 
     /// <summary>
-    /// Returns information about cluster snapshots. By default, DescribeSnap- shots lists all of your snapshots; it can optionally describe a single snapshot, or just the snapshots associated with a particular cluster. See also: AWS API Documentation describe-snapshots is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a pa...
+    /// Returns information about cluster snapshots. By default, DescribeSnapshots lists all of your snapshots; it can optionally describe a single snapshot, or just the snapshots associated with a particular cluster. See also: AWS API Documentation describe-snapshots is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a pagi...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -482,7 +482,7 @@ public class AwsMemorydb : IAwsMemorydb
     }
 
     /// <summary>
-    /// Returns a list of users. See also: AWS API Documentation describe-users is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Users
+    /// Returns a list of users. See also: AWS API Documentation describe-users is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Users
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -497,7 +497,7 @@ public class AwsMemorydb : IAwsMemorydb
     }
 
     /// <summary>
-    /// Used to failover a shard. This API is designed for testing the behavior of your application in case of MemoryDB failover. It is not designed to be used as a production-level tool for initiating a failover to over- come a problem you may have with the cluster. Moreover, in certain con- ditions such as large scale operational events, Amazon may block this API. See also: AWS API Documentation
+    /// Used to failover a shard. This API is designed for testing the behavior of your application in case of MemoryDB failover. It is not designed to be used as a production-level tool for initiating a failover to overcome a problem you may have with the cluster. Moreover, in certain conditions such as large scale operational events, Amazon may block this API. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -527,7 +527,7 @@ public class AwsMemorydb : IAwsMemorydb
     }
 
     /// <summary>
-    /// Lists all available node types that you can scale to from your clus- ter's current node type. When you use the UpdateCluster operation to scale your cluster, the value of the NodeType parameter must be one of the node types returned by this operation. See also: AWS API Documentation
+    /// Lists all available node types that you can scale to from your cluster's current node type. When you use the UpdateCluster operation to scale your cluster, the value of the NodeType parameter must be one of the node types returned by this operation. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -542,7 +542,7 @@ public class AwsMemorydb : IAwsMemorydb
     }
 
     /// <summary>
-    /// Lists all tags currently on a named resource. A tag is a key-value pair where the key and value are case-sensitive. You can use tags to catego- rize and track your MemoryDB resources. For more information, see Tagging your MemoryDB resources . When you add or remove tags from multi region clusters, you might not immediately see the latest effective tags in the ListTags API response due to it being eventually consistent specifically for multi region clusters. For more information, see Tagging you...
+    /// Lists all tags currently on a named resource. A tag is a key-value pair where the key and value are case-sensitive. You can use tags to categorize and track your MemoryDB resources. For more information, see Tagging your MemoryDB resources . When you add or remove tags from multi region clusters, you might not immediately see the latest effective tags in the ListTags API response due to it being eventually consistent specifically for multi region clusters. For more information, see Tagging your ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -587,7 +587,7 @@ public class AwsMemorydb : IAwsMemorydb
     }
 
     /// <summary>
-    /// Use this operation to add tags to a resource. A tag is a key-value pair where the key and value are case-sensitive. You can use tags to catego- rize and track all your MemoryDB resources. For more information, see Tagging your MemoryDB resources . When you add tags to multi region clusters, you might not immediately see the latest effective tags in the ListTags API response due to it being eventually consistent specifically for multi region clusters. For more information, see Tagging your Memory...
+    /// Use this operation to add tags to a resource. A tag is a key-value pair where the key and value are case-sensitive. You can use tags to categorize and track all your MemoryDB resources. For more information, see Tagging your MemoryDB resources . When you add tags to multi region clusters, you might not immediately see the latest effective tags in the ListTags API response due to it being eventually consistent specifically for multi region clusters. For more information, see Tagging your MemoryDB...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -602,7 +602,7 @@ public class AwsMemorydb : IAwsMemorydb
     }
 
     /// <summary>
-    /// Use this operation to remove tags on a resource. A tag is a key-value pair where the key and value are case-sensitive. You can use tags to categorize and track all your MemoryDB resources. For more information, see Tagging your MemoryDB resources . When you remove tags from multi region clusters, you might not immedi- ately see the latest effective tags in the ListTags API response due to it being eventually consistent specifically for multi region clusters. For more information, see Tagging you...
+    /// Use this operation to remove tags on a resource. A tag is a key-value pair where the key and value are case-sensitive. You can use tags to categorize and track all your MemoryDB resources. For more information, see Tagging your MemoryDB resources . When you remove tags from multi region clusters, you might not immediately see the latest effective tags in the ListTags API response due to it being eventually consistent specifically for multi region clusters. For more information, see Tagging your ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

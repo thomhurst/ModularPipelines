@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates an existing code security integration. After calling the CreateCodeSecurityIntegration operation, you complete authentication and authorization with your provider. Next you call the UpdateCodeSecurityIntegration operation to provide the details to com- plete the integration setup See also: AWS API Documentation
+/// Updates an existing code security integration. After calling the CreateCodeSecurityIntegration operation, you complete authentication and authorization with your provider. Next you call the UpdateCodeSecurityIntegration operation to provide the details to complete the integration setup See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsInspector2UpdateCodeSecurityIntegrationOptions : AwsOptions, IV
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates an existing code security integration. After calling the CreateCodeSecurityIntegration operation, you complete authentication and authorization with your provider. Next you call the UpdateCodeSecurityIntegration operation to provide the details to com- plete the integration setup See also: AWS API Documentation
+    /// Updates an existing code security integration. After calling the CreateCodeSecurityIntegration operation, you complete authentication and authorization with your provider. Next you call the UpdateCodeSecurityIntegration operation to provide the details to complete the integration setup See also: AWS API Documentation
     /// </summary>
-    /// <param name="IntegrationArn">The Amazon Resource Name (ARN) of the code security integration to update. Constraints: o pattern: arn:(aws[a-zA-Z-]*)?:inspec- tor2:[a-z]{2}(-gov)?-[a-z]+-\d{1}:\d{12}:codesecurity-integra- tion/[a-f0-9-]{36}</param>
-    /// <param name="Details">The updated integration details specific to the repository provider type. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: gitlabSelfManaged, github. gitlabSelfManaged -&gt; (structure) Details specific to updating an integration with a self-managed GitLab instance. authCode -&gt; (string) [required] The authorization code received from the self-managed GitLab instance to update the integration. Constraints: o min: 1 o max: 1024 github -&gt; (structure) Details specific to updating an integration with GitHub. code -&gt; (string) [required] The authorization code received from GitHub to update the in- tegration. Constraints: o min: 1 o max: 1024 installationId -&gt; (string) [required] The installation ID of the GitHub App associated with the in- tegration. Constraints: o min: 1 o max: 1024 Shorthand Syntax: gitlabSelfManaged={authCode=string},github={code=string,installationId=string} JSON Syntax: { "gitlabSelfManaged": { "authCode": "string" }, "github": { "code": "string", "installationId": "string" } }</param>
+    /// <param name="IntegrationArn">The Amazon Resource Name (ARN) of the code security integration to update. Constraints: • pattern: arn:(aws[a-zA-Z-]*)?:inspector2:[a-z]{2}(-gov)?-[a-z]+-\d{1}:\d{12}:codesecurity-integration/[a-f0-9-]{36}</param>
+    /// <param name="Details">The updated integration details specific to the repository provider type. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: gitlabSelfManaged, github. gitlabSelfManaged -&gt; (structure) Details specific to updating an integration with a self-managed GitLab instance. authCode -&gt; (string) [required] The authorization code received from the self-managed GitLab instance to update the integration. Constraints: • min: 1 • max: 1024 github -&gt; (structure) Details specific to updating an integration with GitHub. code -&gt; (string) [required] The authorization code received from GitHub to update the integration. Constraints: • min: 1 • max: 1024 installationId -&gt; (string) [required] The installation ID of the GitHub App associated with the integration. Constraints: • min: 1 • max: 1024 Shorthand Syntax: gitlabSelfManaged={authCode=string},github={code=string,installationId=string} JSON Syntax: { "gitlabSelfManaged": { "authCode": "string" }, "github": { "code": "string", "installationId": "string" } }</param>
     public AwsInspector2UpdateCodeSecurityIntegrationOptions(
         string IntegrationArn,
         string Details
@@ -60,13 +61,13 @@ public record AwsInspector2UpdateCodeSecurityIntegrationOptions : AwsOptions, IV
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the code security integration to update. Constraints: o pattern: arn:(aws[a-zA-Z-]*)?:inspec- tor2:[a-z]{2}(-gov)?-[a-z]+-\d{1}:\d{12}:codesecurity-integra- tion/[a-f0-9-]{36}
+    /// The Amazon Resource Name (ARN) of the code security integration to update. Constraints: • pattern: arn:(aws[a-zA-Z-]*)?:inspector2:[a-z]{2}(-gov)?-[a-z]+-\d{1}:\d{12}:codesecurity-integration/[a-f0-9-]{36}
     /// </summary>
     [CliOption("--integration-arn")]
     public string? IntegrationArn { get; private init; }
 
     /// <summary>
-    /// The updated integration details specific to the repository provider type. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: gitlabSelfManaged, github. gitlabSelfManaged -&gt; (structure) Details specific to updating an integration with a self-managed GitLab instance. authCode -&gt; (string) [required] The authorization code received from the self-managed GitLab instance to update the integration. Constraints: o min: 1 o max: 1024 github -&gt; (structure) Details specific to updating an integration with GitHub. code -&gt; (string) [required] The authorization code received from GitHub to update the in- tegration. Constraints: o min: 1 o max: 1024 installationId -&gt; (string) [required] The installation ID of the GitHub App associated with the in- tegration. Constraints: o min: 1 o max: 1024 Shorthand Syntax: gitlabSelfManaged={authCode=string},github={code=string,installationId=string} JSON Syntax: { "gitlabSelfManaged": { "authCode": "string" }, "github": { "code": "string", "installationId": "string" } }
+    /// The updated integration details specific to the repository provider type. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: gitlabSelfManaged, github. gitlabSelfManaged -&gt; (structure) Details specific to updating an integration with a self-managed GitLab instance. authCode -&gt; (string) [required] The authorization code received from the self-managed GitLab instance to update the integration. Constraints: • min: 1 • max: 1024 github -&gt; (structure) Details specific to updating an integration with GitHub. code -&gt; (string) [required] The authorization code received from GitHub to update the integration. Constraints: • min: 1 • max: 1024 installationId -&gt; (string) [required] The installation ID of the GitHub App associated with the integration. Constraints: • min: 1 • max: 1024 Shorthand Syntax: gitlabSelfManaged={authCode=string},github={code=string,installationId=string} JSON Syntax: { "gitlabSelfManaged": { "authCode": "string" }, "github": { "code": "string", "installationId": "string" } }
     /// </summary>
     [CliOption("--details")]
     public string? Details { get; private init; }
@@ -92,6 +93,15 @@ public record AwsInspector2UpdateCodeSecurityIntegrationOptions : AwsOptions, IV
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

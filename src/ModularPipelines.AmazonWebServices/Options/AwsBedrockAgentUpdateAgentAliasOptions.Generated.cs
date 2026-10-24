@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,9 +29,9 @@ public record AwsBedrockAgentUpdateAgentAliasOptions : AwsOptions, IValidatableO
     /// <summary>
     /// Updates configurations for an alias of an agent. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AgentId">The unique identifier of the agent. Constraints: o pattern: [0-9a-zA-Z]{10}</param>
-    /// <param name="AgentAliasId">The unique identifier of the alias. Constraints: o min: 10 o max: 10 o pattern: (\bTSTALIASID\b|[0-9a-zA-Z]+)</param>
-    /// <param name="AgentAliasName">Specifies a new name for the alias. Constraints: o pattern: ([0-9a-zA-Z][_-]?){1,100}</param>
+    /// <param name="AgentId">The unique identifier of the agent. Constraints: • pattern: [0-9a-zA-Z]{10}</param>
+    /// <param name="AgentAliasId">The unique identifier of the alias. Constraints: • min: 10 • max: 10 • pattern: (\bTSTALIASID\b|[0-9a-zA-Z]+)</param>
+    /// <param name="AgentAliasName">Specifies a new name for the alias. Constraints: • pattern: ([0-9a-zA-Z][_-]?){1,100}</param>
     public AwsBedrockAgentUpdateAgentAliasOptions(
         string AgentId,
         string AgentAliasId,
@@ -65,37 +66,37 @@ public record AwsBedrockAgentUpdateAgentAliasOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the agent. Constraints: o pattern: [0-9a-zA-Z]{10}
+    /// The unique identifier of the agent. Constraints: • pattern: [0-9a-zA-Z]{10}
     /// </summary>
     [CliOption("--agent-id")]
     public string? AgentId { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the alias. Constraints: o min: 10 o max: 10 o pattern: (\bTSTALIASID\b|[0-9a-zA-Z]+)
+    /// The unique identifier of the alias. Constraints: • min: 10 • max: 10 • pattern: (\bTSTALIASID\b|[0-9a-zA-Z]+)
     /// </summary>
     [CliOption("--agent-alias-id")]
     public string? AgentAliasId { get; private init; }
 
     /// <summary>
-    /// Specifies a new name for the alias. Constraints: o pattern: ([0-9a-zA-Z][_-]?){1,100}
+    /// Specifies a new name for the alias. Constraints: • pattern: ([0-9a-zA-Z][_-]?){1,100}
     /// </summary>
     [CliOption("--agent-alias-name")]
     public string? AgentAliasName { get; private init; }
 
     /// <summary>
-    /// Specifies a new description for the alias. Constraints: o min: 1 o max: 200
+    /// Specifies a new description for the alias. Constraints: • min: 1 • max: 200
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// Contains details about the routing configuration of the alias. Constraints: o min: 0 o max: 1 (structure) Contains details about the routing configuration of the alias. agentVersion -&gt; (string) The version of the agent with which the alias is associated. Constraints: o min: 1 o max: 5 o pattern: (DRAFT|[0-9]{0,4}[1-9][0-9]{0,4}) provisionedThroughput -&gt; (string) Information on the Provisioned Throughput assigned to an agent alias. Constraints: o min: 1 o max: 2048 o pattern: ((([0-9a-zA-Z][_-]?){1,63})|(arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:pro- visioned-model/[a-z0-9]{12})) Shorthand Syntax: agentVersion=string,provisionedThroughput=string ... JSON Syntax: [ { "agentVersion": "string", "provisionedThroughput": "string" } ... ]
+    /// Contains details about the routing configuration of the alias. Constraints: • min: 0 • max: 1 (structure) Contains details about the routing configuration of the alias. agentVersion -&gt; (string) The version of the agent with which the alias is associated. Constraints: • min: 1 • max: 5 • pattern: (DRAFT|[0-9]{0,4}[1-9][0-9]{0,4}) provisionedThroughput -&gt; (string) Information on the Provisioned Throughput assigned to an agent alias. Constraints: • min: 1 • max: 2048 • pattern: ((([0-9a-zA-Z][_-]?){1,63})|(arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:provisioned-model/[a-z0-9]{12})) Shorthand Syntax: agentVersion=string,provisionedThroughput=string ... JSON Syntax: [ { "agentVersion": "string", "provisionedThroughput": "string" } ... ]
     /// </summary>
     [CliOption("--routing-configuration", GroupValues = true)]
     public IEnumerable<string>? RoutingConfiguration { get; set; }
 
     /// <summary>
-    /// The invocation state for the agent alias. To pause the agent alias, set the value to REJECT_INVOCATIONS . To start the agent alias run- ning again, set the value to ACCEPT_INVOCATIONS . Use the GetAgen- tAlias , or ListAgentAliases , operation to get the invocation state of an agent alias. Possible values: o ACCEPT_INVOCATIONS o REJECT_INVOCATIONS
+    /// The invocation state for the agent alias. To pause the agent alias, set the value to REJECT_INVOCATIONS . To start the agent alias running again, set the value to ACCEPT_INVOCATIONS . Use the GetAgentAlias , or ListAgentAliases , operation to get the invocation state of an agent alias. Possible values: • ACCEPT_INVOCATIONS • REJECT_INVOCATIONS
     /// </summary>
     [CliOption("--alias-invocation-state")]
     public AwsBedrockAgentUpdateAgentAliasAliasInvocationState? AliasInvocationState { get; set; }
@@ -121,6 +122,15 @@ public record AwsBedrockAgentUpdateAgentAliasOptions : AwsOptions, IValidatableO
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

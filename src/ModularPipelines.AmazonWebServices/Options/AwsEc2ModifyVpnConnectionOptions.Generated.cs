@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Modifies the customer gateway or the target gateway of an Amazon Web Services Site-to-Site VPN connection. To modify the target gateway, the following migration options are available: o An existing virtual private gateway to a new virtual private gateway o An existing virtual private gateway to a transit gateway o An existing transit gateway to a new transit gateway o An existing transit gateway to a virtual private gateway Before you perform the migration to the new gateway, you must configure ...
+/// Modifies the customer gateway or the target gateway of an Amazon Web Services Site-to-Site VPN connection. To modify the target gateway, the following migration options are available: • An existing virtual private gateway to a new virtual private gateway • An existing virtual private gateway to a transit gateway • An existing transit gateway to a new transit gateway • An existing transit gateway to a virtual private gateway Before you perform the migration to the new gateway, you must configure ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +26,7 @@ public record AwsEc2ModifyVpnConnectionOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Modifies the customer gateway or the target gateway of an Amazon Web Services Site-to-Site VPN connection. To modify the target gateway, the following migration options are available: o An existing virtual private gateway to a new virtual private gateway o An existing virtual private gateway to a transit gateway o An existing transit gateway to a new transit gateway o An existing transit gateway to a virtual private gateway Before you perform the migration to the new gateway, you must configure ...
+    /// Modifies the customer gateway or the target gateway of an Amazon Web Services Site-to-Site VPN connection. To modify the target gateway, the following migration options are available: • An existing virtual private gateway to a new virtual private gateway • An existing virtual private gateway to a transit gateway • An existing transit gateway to a new transit gateway • An existing transit gateway to a virtual private gateway Before you perform the migration to the new gateway, you must configure ...
     /// </summary>
     /// <param name="VpnConnectionId">The ID of the VPN connection.</param>
     public AwsEc2ModifyVpnConnectionOptions(
@@ -80,7 +81,7 @@ public record AwsEc2ModifyVpnConnectionOptions : AwsOptions, IValidatableObject
     public string? VpnGatewayId { get; set; }
 
     /// <summary>
-    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation . Otherwise, it is UnauthorizedOperation .
     /// </summary>
     [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
@@ -106,6 +107,15 @@ public record AwsEc2ModifyVpnConnectionOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

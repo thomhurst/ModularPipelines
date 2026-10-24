@@ -6,8 +6,8 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
+using ModularPipelines;
 using ModularPipelines.Context;
-using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
@@ -33,7 +33,7 @@ public class AwsLocation : IAwsLocation
     #region Sub-command Groups
 
     /// <summary>
-    /// aws wait sub-commands.
+    /// aws location wait sub-commands.
     /// </summary>
     public AwsLocationWait Wait => _wait ??= new AwsLocationWait(_command);
 
@@ -42,7 +42,7 @@ public class AwsLocation : IAwsLocation
     #region Commands
 
     /// <summary>
-    /// Creates an association between a geofence collection and a tracker re- source. This allows the tracker resource to communicate location data to the linked geofence collection. You can associate up to five geofence collections to each tracker re- source. NOTE: Currently not supported Cross-account configurations, such as cre- ating associations between a tracker resource in one account and a geofence collection in another account. See also: AWS API Documentation
+    /// Creates an association between a geofence collection and a tracker resource. This allows the tracker resource to communicate location data to the linked geofence collection. You can associate up to five geofence collections to each tracker resource. NOTE: Currently not supported Cross-account configurations, such as creating associations between a tracker resource in one account and a geofence collection in another account. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -57,7 +57,7 @@ public class AwsLocation : IAwsLocation
     }
 
     /// <summary>
-    /// Deletes the position history of one or more devices from a tracker re- source. See also: AWS API Documentation
+    /// Deletes the position history of one or more devices from a tracker resource. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -87,7 +87,7 @@ public class AwsLocation : IAwsLocation
     }
 
     /// <summary>
-    /// Evaluates device positions against the geofence geometries from a given geofence collection. This operation always returns an empty response because geofences are asynchronously evaluated. The evaluation determines if the device has entered or exited a geofenced area, and then publishes one of the fol- lowing events to Amazon EventBridge: o ENTER if Amazon Location determines that the tracked device has en- tered a geofenced area. o EXIT if Amazon Location determines that the tracked device has ...
+    /// Evaluates device positions against the geofence geometries from a given geofence collection. This operation always returns an empty response because geofences are asynchronously evaluated. The evaluation determines if the device has entered or exited a geofenced area, and then publishes one of the following events to Amazon EventBridge: • ENTER if Amazon Location determines that the tracked device has entered a geofenced area. • EXIT if Amazon Location determines that the tracked device has exit...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -117,7 +117,7 @@ public class AwsLocation : IAwsLocation
     }
 
     /// <summary>
-    /// A batch request for storing geofence geometries into a given geofence collection, or updates the geometry of an existing geofence if a ge- ofence ID is included in the request. See also: AWS API Documentation
+    /// A batch request for storing geofence geometries into a given geofence collection, or updates the geometry of an existing geofence if a geofence ID is included in the request. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -132,7 +132,7 @@ public class AwsLocation : IAwsLocation
     }
 
     /// <summary>
-    /// Uploads position update data for one or more devices to a tracker re- source (up to 10 devices per batch). Amazon Location uses the data when it reports the last known device position and position history. Amazon Location retains location data for 30 days. NOTE: Position updates are handled based on the PositionFiltering property of the tracker. When PositionFiltering is set to TimeBased , updates are evaluated against linked geofence collections, and location data is stored at a maximum of one ...
+    /// Uploads position update data for one or more devices to a tracker resource (up to 10 devices per batch). Amazon Location uses the data when it reports the last known device position and position history. Amazon Location retains location data for 30 days. NOTE: Position updates are handled based on the PositionFiltering property of the tracker. When PositionFiltering is set to TimeBased , updates are evaluated against linked geofence collections, and location data is stored at a maximum of one po...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -147,7 +147,7 @@ public class AwsLocation : IAwsLocation
     }
 
     /// <summary>
-    /// WARNING: This operation is no longer current and may be deprecated in the future. We recommend you upgrade to the V2 ``CalculateRouteM- atrix` /location/latest/APIReference/API_CalculateRouteM- atrix.html`__ unless you require Grab data. o This version of CalculateRouteMatrix is part of a previous Amazon Location Service Routes API (version 1) which has been superseded by a more intuitive, powerful, and complete API (version 2). o The version 2 CalculateRouteMatrix operation gives better re- sul...
+    /// WARNING: This operation is no longer current and may be deprecated in the future. We recommend you upgrade to the V2 ``CalculateRouteMatrix` /location/latest/APIReference/API_CalculateRouteMatrix.html`__ unless you require Grab data. • This version of CalculateRouteMatrix is part of a previous Amazon Location Service Routes API (version 1) which has been superseded by a more intuitive, powerful, and complete API (version 2). • The version 2 CalculateRouteMatrix operation gives better results for...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -162,7 +162,7 @@ public class AwsLocation : IAwsLocation
     }
 
     /// <summary>
-    /// WARNING: This operation is no longer current and may be deprecated in the future. We recommend you upgrade to ` CalculateRoutes /loca- tion/latest/APIReference/API_CalculateRoutes.html`__ or ` Calcu- lateIsolines /location/latest/APIReference/API_CalculateIso- lines.html`__ unless you require Grab data. o CalculateRoute is part of a previous Amazon Location Service Routes API (version 1) which has been superseded by a more in- tuitive, powerful, and complete API (version 2). o The version 2 Calc...
+    /// WARNING: This operation is no longer current and may be deprecated in the future. We recommend you upgrade to ` CalculateRoutes /location/latest/APIReference/API_CalculateRoutes.html`__ or ` CalculateIsolines /location/latest/APIReference/API_CalculateIsolines.html`__ unless you require Grab data. • CalculateRoute is part of a previous Amazon Location Service Routes API (version 1) which has been superseded by a more intuitive, powerful, and complete API (version 2). • The version 2 CalculateRou...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -177,7 +177,7 @@ public class AwsLocation : IAwsLocation
     }
 
     /// <summary>
-    /// CancelJob cancels a job that is currently running or pending. If the job is already in a terminal state (Completed , Failed , or Can- celled ), the operation returns successfully with the current sta- tus. For more information, see Job concepts in the Amazon Location Service Developer Guide . See also: AWS API Documentation
+    /// CancelJob cancels a job that is currently running or pending. If the job is already in a terminal state (Completed , Failed , or Cancelled ), the operation returns successfully with the current status. For more information, see Job concepts in the Amazon Location Service Developer Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -222,7 +222,7 @@ public class AwsLocation : IAwsLocation
     }
 
     /// <summary>
-    /// WARNING: This operation is no longer current and may be deprecated in the fu- ture. We recommend upgrading to the Maps API V2 unless you require Grab data. o CreateMap is part of a previous Amazon Location Service Maps API (version 1) which has been superseded by a more intuitive, power- ful, and complete API (version 2). o The Maps API version 2 has a simplified interface that can be used without creating or managing map resources. o If you are using an AWS SDK or the AWS CLI, note that the Map...
+    /// WARNING: This operation is no longer current and may be deprecated in the future. We recommend upgrading to the Maps API V2 unless you require Grab data. • CreateMap is part of a previous Amazon Location Service Maps API (version 1) which has been superseded by a more intuitive, powerful, and complete API (version 2). • The Maps API version 2 has a simplified interface that can be used without creating or managing map resources. • If you are using an AWS SDK or the AWS CLI, note that the Maps AP...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -237,7 +237,7 @@ public class AwsLocation : IAwsLocation
     }
 
     /// <summary>
-    /// WARNING: This operation is no longer current and may be deprecated in the fu- ture. We recommend you upgrade to the Places API V2 unless you re- quire Grab data. o CreatePlaceIndex is part of a previous Amazon Location Service Places API (version 1) which has been superseded by a more intu- itive, powerful, and complete API (version 2). o The Places API version 2 has a simplified interface that can be used without creating or managing place index resources. o If you are using an Amazon Web Servi...
+    /// WARNING: This operation is no longer current and may be deprecated in the future. We recommend you upgrade to the Places API V2 unless you require Grab data. • CreatePlaceIndex is part of a previous Amazon Location Service Places API (version 1) which has been superseded by a more intuitive, powerful, and complete API (version 2). • The Places API version 2 has a simplified interface that can be used without creating or managing place index resources. • If you are using an Amazon Web Services SD...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -252,7 +252,7 @@ public class AwsLocation : IAwsLocation
     }
 
     /// <summary>
-    /// WARNING: This operation is no longer current and may be deprecated in the fu- ture. We recommend you upgrade to the Routes API V2 unless you re- quire Grab data. o CreateRouteCalculator is part of a previous Amazon Location Ser- vice Routes API (version 1) which has been superseded by a more intuitive, powerful, and complete API (version 2). o The Routes API version 2 has a simplified interface that can be used without creating or managing route calculator resources. o If you are using an Amazon...
+    /// WARNING: This operation is no longer current and may be deprecated in the future. We recommend you upgrade to the Routes API V2 unless you require Grab data. • CreateRouteCalculator is part of a previous Amazon Location Service Routes API (version 1) which has been superseded by a more intuitive, powerful, and complete API (version 2). • The Routes API version 2 has a simplified interface that can be used without creating or managing route calculator resources. • If you are using an Amazon Web S...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -312,7 +312,7 @@ public class AwsLocation : IAwsLocation
     }
 
     /// <summary>
-    /// WARNING: This operation is no longer current and may be deprecated in the fu- ture. We recommend upgrading to the Maps API V2 unless you require Grab data. o DeleteMap is part of a previous Amazon Location Service Maps API (version 1) which has been superseded by a more intuitive, power- ful, and complete API (version 2). o The Maps API version 2 has a simplified interface that can be used without creating or managing map resources. o If you are using an AWS SDK or the AWS CLI, note that the Map...
+    /// WARNING: This operation is no longer current and may be deprecated in the future. We recommend upgrading to the Maps API V2 unless you require Grab data. • DeleteMap is part of a previous Amazon Location Service Maps API (version 1) which has been superseded by a more intuitive, powerful, and complete API (version 2). • The Maps API version 2 has a simplified interface that can be used without creating or managing map resources. • If you are using an AWS SDK or the AWS CLI, note that the Maps AP...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -327,7 +327,7 @@ public class AwsLocation : IAwsLocation
     }
 
     /// <summary>
-    /// WARNING: This operation is no longer current and may be deprecated in the fu- ture. We recommend you upgrade to the Places API V2 unless you re- quire Grab data. o DeletePlaceIndex is part of a previous Amazon Location Service Places API (version 1) which has been superseded by a more intu- itive, powerful, and complete API (version 2). o The Places API version 2 has a simplified interface that can be used without creating or managing place index resources. o If you are using an Amazon Web Servi...
+    /// WARNING: This operation is no longer current and may be deprecated in the future. We recommend you upgrade to the Places API V2 unless you require Grab data. • DeletePlaceIndex is part of a previous Amazon Location Service Places API (version 1) which has been superseded by a more intuitive, powerful, and complete API (version 2). • The Places API version 2 has a simplified interface that can be used without creating or managing place index resources. • If you are using an Amazon Web Services SD...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -342,7 +342,7 @@ public class AwsLocation : IAwsLocation
     }
 
     /// <summary>
-    /// WARNING: This operation is no longer current and may be deprecated in the fu- ture. We recommend you upgrade to the Routes API V2 unless you re- quire Grab data. o DeleteRouteCalculator is part of a previous Amazon Location Ser- vice Routes API (version 1) which has been superseded by a more intuitive, powerful, and complete API (version 2). o The Routes API version 2 has a simplified interface that can be used without creating or managing route calculator resources. o If you are using an Amazon...
+    /// WARNING: This operation is no longer current and may be deprecated in the future. We recommend you upgrade to the Routes API V2 unless you require Grab data. • DeleteRouteCalculator is part of a previous Amazon Location Service Routes API (version 1) which has been superseded by a more intuitive, powerful, and complete API (version 2). • The Routes API version 2 has a simplified interface that can be used without creating or managing route calculator resources. • If you are using an Amazon Web S...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -357,7 +357,7 @@ public class AwsLocation : IAwsLocation
     }
 
     /// <summary>
-    /// Deletes a tracker resource from your Amazon Web Services account. NOTE: This operation deletes the resource permanently. If the tracker re- source is in use, you may encounter an error. Make sure that the target resource isn't a dependency for your applications. See also: AWS API Documentation
+    /// Deletes a tracker resource from your Amazon Web Services account. NOTE: This operation deletes the resource permanently. If the tracker resource is in use, you may encounter an error. Make sure that the target resource isn't a dependency for your applications. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -402,7 +402,7 @@ public class AwsLocation : IAwsLocation
     }
 
     /// <summary>
-    /// WARNING: This operation is no longer current and may be deprecated in the fu- ture. We recommend upgrading to the Maps API V2 unless you require Grab data. o DescribeMap is part of a previous Amazon Location Service Maps API (version 1) which has been superseded by a more intuitive, power- ful, and complete API (version 2). o The Maps API version 2 has a simplified interface that can be used without creating or managing map resources. o If you are using an AWS SDK or the AWS CLI, note that the M...
+    /// WARNING: This operation is no longer current and may be deprecated in the future. We recommend upgrading to the Maps API V2 unless you require Grab data. • DescribeMap is part of a previous Amazon Location Service Maps API (version 1) which has been superseded by a more intuitive, powerful, and complete API (version 2). • The Maps API version 2 has a simplified interface that can be used without creating or managing map resources. • If you are using an AWS SDK or the AWS CLI, note that the Maps ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -417,7 +417,7 @@ public class AwsLocation : IAwsLocation
     }
 
     /// <summary>
-    /// WARNING: This operation is no longer current and may be deprecated in the fu- ture. We recommend you upgrade to the Places API V2 unless you re- quire Grab data. o DescribePlaceIndex is part of a previous Amazon Location Service Places API (version 1) which has been superseded by a more intu- itive, powerful, and complete API (version 2). o The Places API version 2 has a simplified interface that can be used without creating or managing place index resources. o If you are using an Amazon Web Ser...
+    /// WARNING: This operation is no longer current and may be deprecated in the future. We recommend you upgrade to the Places API V2 unless you require Grab data. • DescribePlaceIndex is part of a previous Amazon Location Service Places API (version 1) which has been superseded by a more intuitive, powerful, and complete API (version 2). • The Places API version 2 has a simplified interface that can be used without creating or managing place index resources. • If you are using an Amazon Web Services ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -432,7 +432,7 @@ public class AwsLocation : IAwsLocation
     }
 
     /// <summary>
-    /// WARNING: This operation is no longer current and may be deprecated in the fu- ture. We recommend you upgrade to the Routes API V2 unless you re- quire Grab data. o DescribeRouteCalculator is part of a previous Amazon Location Ser- vice Routes API (version 1) which has been superseded by a more intuitive, powerful, and complete API (version 2). o The Routes API version 2 has a simplified interface that can be used without creating or managing route calculator resources. o If you are using an Amaz...
+    /// WARNING: This operation is no longer current and may be deprecated in the future. We recommend you upgrade to the Routes API V2 unless you require Grab data. • DescribeRouteCalculator is part of a previous Amazon Location Service Routes API (version 1) which has been superseded by a more intuitive, powerful, and complete API (version 2). • The Routes API version 2 has a simplified interface that can be used without creating or managing route calculator resources. • If you are using an Amazon Web...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -462,7 +462,7 @@ public class AwsLocation : IAwsLocation
     }
 
     /// <summary>
-    /// Removes the association between a tracker resource and a geofence col- lection. NOTE: Once you unlink a tracker resource from a geofence collection, the tracker positions will no longer be automatically evaluated against geofences. See also: AWS API Documentation
+    /// Removes the association between a tracker resource and a geofence collection. NOTE: Once you unlink a tracker resource from a geofence collection, the tracker positions will no longer be automatically evaluated against geofences. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -492,7 +492,7 @@ public class AwsLocation : IAwsLocation
     }
 
     /// <summary>
-    /// Retrieves the device position history from a tracker resource within a specified range of time. NOTE: Device positions are deleted after 30 days. See also: AWS API Documentation get-device-position-history is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract d...
+    /// Retrieves the device position history from a tracker resource within a specified range of time. NOTE: Device positions are deleted after 30 days. See also: AWS API Documentation get-device-position-history is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -537,7 +537,7 @@ public class AwsLocation : IAwsLocation
     }
 
     /// <summary>
-    /// GetJob retrieves detailed information about a specific job, includ- ing its current status, configuration, and error information if the job failed. For more information, see Job concepts in the Amazon Location Service Developer Guide . See also: AWS API Documentation
+    /// GetJob retrieves detailed information about a specific job, including its current status, configuration, and error information if the job failed. For more information, see Job concepts in the Amazon Location Service Developer Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -552,7 +552,7 @@ public class AwsLocation : IAwsLocation
     }
 
     /// <summary>
-    /// WARNING: This operation is no longer current and may be deprecated in the fu- ture. We recommend upgrading to ` GetGlyphs https://docs.aws.amazon.com/location/latest/APIReference/API_geomaps_GetGlyphs.html`__ unless you require Grab data. o GetMapGlyphs is part of a previous Amazon Location Service Maps API (version 1) which has been superseded by a more intuitive, powerful, and complete API (version 2). o The version 2 GetGlyphs operation gives a better user experience and is compatible with th...
+    /// WARNING: This operation is no longer current and may be deprecated in the future. We recommend upgrading to ` GetGlyphs https://docs.aws.amazon.com/location/latest/APIReference/API_geomaps_GetGlyphs.html`__ unless you require Grab data. • GetMapGlyphs is part of a previous Amazon Location Service Maps API (version 1) which has been superseded by a more intuitive, powerful, and complete API (version 2). • The version 2 GetGlyphs operation gives a better user experience and is compatible with the ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -567,7 +567,7 @@ public class AwsLocation : IAwsLocation
     }
 
     /// <summary>
-    /// WARNING: This operation is no longer current and may be deprecated in the fu- ture. We recommend upgrading to ` GetSprites https://docs.aws.amazon.com/location/latest/APIReference/API_geomaps_GetSprites.html`__ unless you require Grab data. o GetMapSprites is part of a previous Amazon Location Service Maps API (version 1) which has been superseded by a more intuitive, powerful, and complete API (version 2). o The version 2 GetSprites operation gives a better user experience and is compatible wit...
+    /// WARNING: This operation is no longer current and may be deprecated in the future. We recommend upgrading to ` GetSprites https://docs.aws.amazon.com/location/latest/APIReference/API_geomaps_GetSprites.html`__ unless you require Grab data. • GetMapSprites is part of a previous Amazon Location Service Maps API (version 1) which has been superseded by a more intuitive, powerful, and complete API (version 2). • The version 2 GetSprites operation gives a better user experience and is compatible with ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -582,7 +582,7 @@ public class AwsLocation : IAwsLocation
     }
 
     /// <summary>
-    /// WARNING: This operation is no longer current and may be deprecated in the fu- ture. We recommend upgrading to ` GetStyleDescriptor https://docs.aws.amazon.com/location/latest/APIReference/API_geomaps_GetStyleDescriptor.html`__ unless you require Grab data. o GetMapStyleDescriptor is part of a previous Amazon Location Ser- vice Maps API (version 1) which has been superseded by a more in- tuitive, powerful, and complete API (version 2). o The version 2 GetStyleDescriptor operation gives a better u...
+    /// WARNING: This operation is no longer current and may be deprecated in the future. We recommend upgrading to ` GetStyleDescriptor https://docs.aws.amazon.com/location/latest/APIReference/API_geomaps_GetStyleDescriptor.html`__ unless you require Grab data. • GetMapStyleDescriptor is part of a previous Amazon Location Service Maps API (version 1) which has been superseded by a more intuitive, powerful, and complete API (version 2). • The version 2 GetStyleDescriptor operation gives a better user ex...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -597,7 +597,7 @@ public class AwsLocation : IAwsLocation
     }
 
     /// <summary>
-    /// WARNING: This operation is no longer current and may be deprecated in the fu- ture. We recommend upgrading to ` GetTile https://docs.aws.amazon.com/location/latest/APIReference/API_geomaps_GetTile.html`__ unless you require Grab data. o GetMapTile is part of a previous Amazon Location Service Maps API (version 1) which has been superseded by a more intuitive, power- ful, and complete API (version 2). o The version 2 GetTile operation gives a better user experience and is compatible with the rema...
+    /// WARNING: This operation is no longer current and may be deprecated in the future. We recommend upgrading to ` GetTile https://docs.aws.amazon.com/location/latest/APIReference/API_geomaps_GetTile.html`__ unless you require Grab data. • GetMapTile is part of a previous Amazon Location Service Maps API (version 1) which has been superseded by a more intuitive, powerful, and complete API (version 2). • The version 2 GetTile operation gives a better user experience and is compatible with the remainde...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -612,7 +612,7 @@ public class AwsLocation : IAwsLocation
     }
 
     /// <summary>
-    /// WARNING: This operation is no longer current and may be deprecated in the fu- ture. We recommend you upgrade to the V2 ``GetPlace` /location/lat- est/APIReference/API_geoplaces_GetPlace.html`__ operation unless you require Grab data. o This version of GetPlace is part of a previous Amazon Location Service Places API (version 1) which has been superseded by a more intuitive, powerful, and complete API (version 2). o Version 2 of the GetPlace operation interoperates with the rest of the Places V2 ...
+    /// WARNING: This operation is no longer current and may be deprecated in the future. We recommend you upgrade to the V2 ``GetPlace` /location/latest/APIReference/API_geoplaces_GetPlace.html`__ operation unless you require Grab data. • This version of GetPlace is part of a previous Amazon Location Service Places API (version 1) which has been superseded by a more intuitive, powerful, and complete API (version 2). • Version 2 of the GetPlace operation interoperates with the rest of the Places V2 API,...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -642,7 +642,7 @@ public class AwsLocation : IAwsLocation
     }
 
     /// <summary>
-    /// Lists geofence collections in your Amazon Web Services account. See also: AWS API Documentation list-geofence-collections is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: Entries
+    /// Lists geofence collections in your Amazon Web Services account. See also: AWS API Documentation list-geofence-collections is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Entries
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -657,7 +657,7 @@ public class AwsLocation : IAwsLocation
     }
 
     /// <summary>
-    /// Lists geofences stored in a given geofence collection. See also: AWS API Documentation list-geofences is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Entries
+    /// Lists geofences stored in a given geofence collection. See also: AWS API Documentation list-geofences is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Entries
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -672,7 +672,7 @@ public class AwsLocation : IAwsLocation
     }
 
     /// <summary>
-    /// ListJobs retrieves a list of jobs with optional filtering and pagi- nation support. For more information, see Job concepts in the Amazon Location Service Developer Guide . See also: AWS API Documentation list-jobs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagi- nation by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query ar- gument must e...
+    /// ListJobs retrieves a list of jobs with optional filtering and pagination support. For more information, see Job concepts in the Amazon Location Service Developer Guide . See also: AWS API Documentation list-jobs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -687,7 +687,7 @@ public class AwsLocation : IAwsLocation
     }
 
     /// <summary>
-    /// Lists API key resources in your Amazon Web Services account. For more information, see Use API keys to authenticate in the Amazon Location Service Developer Guide . See also: AWS API Documentation list-keys is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagi- nation by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query ar- gument must extract ...
+    /// Lists API key resources in your Amazon Web Services account. For more information, see Use API keys to authenticate in the Amazon Location Service Developer Guide . See also: AWS API Documentation list-keys is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -702,7 +702,7 @@ public class AwsLocation : IAwsLocation
     }
 
     /// <summary>
-    /// WARNING: This operation is no longer current and may be deprecated in the fu- ture. We recommend upgrading to the Maps API V2 unless you require Grab data. o ListMaps is part of a previous Amazon Location Service Maps API (version 1) which has been superseded by a more intuitive, power- ful, and complete API (version 2). o The Maps API version 2 has a simplified interface that can be used without creating or managing map resources. o If you are using an AWS SDK or the AWS CLI, note that the Maps...
+    /// WARNING: This operation is no longer current and may be deprecated in the future. We recommend upgrading to the Maps API V2 unless you require Grab data. • ListMaps is part of a previous Amazon Location Service Maps API (version 1) which has been superseded by a more intuitive, powerful, and complete API (version 2). • The Maps API version 2 has a simplified interface that can be used without creating or managing map resources. • If you are using an AWS SDK or the AWS CLI, note that the Maps API...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -717,7 +717,7 @@ public class AwsLocation : IAwsLocation
     }
 
     /// <summary>
-    /// WARNING: This operation is no longer current and may be deprecated in the fu- ture. We recommend you upgrade to the Places API V2 unless you re- quire Grab data. o ListPlaceIndexes is part of a previous Amazon Location Service Places API (version 1) which has been superseded by a more intu- itive, powerful, and complete API (version 2). o The Places API version 2 has a simplified interface that can be used without creating or managing place index resources. o If you are using an Amazon Web Servi...
+    /// WARNING: This operation is no longer current and may be deprecated in the future. We recommend you upgrade to the Places API V2 unless you require Grab data. • ListPlaceIndexes is part of a previous Amazon Location Service Places API (version 1) which has been superseded by a more intuitive, powerful, and complete API (version 2). • The Places API version 2 has a simplified interface that can be used without creating or managing place index resources. • If you are using an Amazon Web Services SD...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -732,7 +732,7 @@ public class AwsLocation : IAwsLocation
     }
 
     /// <summary>
-    /// WARNING: This operation is no longer current and may be deprecated in the fu- ture. We recommend you upgrade to the Routes API V2 unless you re- quire Grab data. o ListRouteCalculators is part of a previous Amazon Location Service Routes API (version 1) which has been superseded by a more intu- itive, powerful, and complete API (version 2). o The Routes API version 2 has a simplified interface that can be used without creating or managing route calculator resources. o If you are using an Amazon ...
+    /// WARNING: This operation is no longer current and may be deprecated in the future. We recommend you upgrade to the Routes API V2 unless you require Grab data. • ListRouteCalculators is part of a previous Amazon Location Service Routes API (version 1) which has been superseded by a more intuitive, powerful, and complete API (version 2). • The Routes API version 2 has a simplified interface that can be used without creating or managing route calculator resources. • If you are using an Amazon Web Se...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -747,7 +747,7 @@ public class AwsLocation : IAwsLocation
     }
 
     /// <summary>
-    /// Returns a list of tags that are applied to the specified Amazon Loca- tion resource. See also: AWS API Documentation
+    /// Returns a list of tags that are applied to the specified Amazon Location resource. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -777,7 +777,7 @@ public class AwsLocation : IAwsLocation
     }
 
     /// <summary>
-    /// Lists tracker resources in your Amazon Web Services account. See also: AWS API Documentation list-trackers is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Entries
+    /// Lists tracker resources in your Amazon Web Services account. See also: AWS API Documentation list-trackers is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Entries
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -807,7 +807,7 @@ public class AwsLocation : IAwsLocation
     }
 
     /// <summary>
-    /// WARNING: This operation is no longer current and may be deprecated in the fu- ture. We recommend you upgrade to ` ReverseGeocode /location/lat- est/APIReference/API_geoplaces_ReverseGeocode.html`__ or ` SearchN- earby /location/latest/APIReference/API_geoplaces_SearchN- earby.html`__ unless you require Grab data. o SearchPlaceIndexForPosition is part of a previous Amazon Location Service Places API (version 1) which has been superseded by a more intuitive, powerful, and complete API (version 2)....
+    /// WARNING: This operation is no longer current and may be deprecated in the future. We recommend you upgrade to ` ReverseGeocode /location/latest/APIReference/API_geoplaces_ReverseGeocode.html`__ or ` SearchNearby /location/latest/APIReference/API_geoplaces_SearchNearby.html`__ unless you require Grab data. • SearchPlaceIndexForPosition is part of a previous Amazon Location Service Places API (version 1) which has been superseded by a more intuitive, powerful, and complete API (version 2). • The v...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -822,7 +822,7 @@ public class AwsLocation : IAwsLocation
     }
 
     /// <summary>
-    /// WARNING: This operation is no longer current and may be deprecated in the fu- ture. We recommend you upgrade to ` Suggest /location/latest/APIRef- erence/API_geoplaces_Suggest.html`__ or ` Autocomplete /loca- tion/latest/APIReference/API_geoplaces_Autocomplete.html`__ unless you require Grab data. o SearchPlaceIndexForSuggestions is part of a previous Amazon Loca- tion Service Places API (version 1) which has been superseded by a more intuitive, powerful, and complete API (version 2). o The vers...
+    /// WARNING: This operation is no longer current and may be deprecated in the future. We recommend you upgrade to ` Suggest /location/latest/APIReference/API_geoplaces_Suggest.html`__ or ` Autocomplete /location/latest/APIReference/API_geoplaces_Autocomplete.html`__ unless you require Grab data. • SearchPlaceIndexForSuggestions is part of a previous Amazon Location Service Places API (version 1) which has been superseded by a more intuitive, powerful, and complete API (version 2). • The version 2 Su...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -837,7 +837,7 @@ public class AwsLocation : IAwsLocation
     }
 
     /// <summary>
-    /// WARNING: This operation is no longer current and may be deprecated in the fu- ture. We recommend you upgrade to ` Geocode /location/latest/APIRef- erence/API_geoplaces_Geocode.html`__ or ` SearchText /location/lat- est/APIReference/API_geoplaces_SearchText.html`__ unless you require Grab data. o SearchPlaceIndexForText is part of a previous Amazon Location Ser- vice Places API (version 1) which has been superseded by a more intuitive, powerful, and complete API (version 2). o The version 2 Geoco...
+    /// WARNING: This operation is no longer current and may be deprecated in the future. We recommend you upgrade to ` Geocode /location/latest/APIReference/API_geoplaces_Geocode.html`__ or ` SearchText /location/latest/APIReference/API_geoplaces_SearchText.html`__ unless you require Grab data. • SearchPlaceIndexForText is part of a previous Amazon Location Service Places API (version 1) which has been superseded by a more intuitive, powerful, and complete API (version 2). • The version 2 Geocode opera...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -867,7 +867,7 @@ public class AwsLocation : IAwsLocation
     }
 
     /// <summary>
-    /// Assigns one or more tags (key-value pairs) to the specified Amazon Lo- cation Service resource. Tags can help you organize and categorize your resources. You can also use them to scope user permissions, by granting a user permission to access or change only resources with certain tag values. You can use the TagResource operation with an Amazon Location Service resource that already has tags. If you specify a new tag key for the resource, this tag is appended to the tags already associated with t...
+    /// Assigns one or more tags (key-value pairs) to the specified Amazon Location Service resource. Tags can help you organize and categorize your resources. You can also use them to scope user permissions, by granting a user permission to access or change only resources with certain tag values. You can use the TagResource operation with an Amazon Location Service resource that already has tags. If you specify a new tag key for the resource, this tag is appended to the tags already associated with the...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -927,7 +927,7 @@ public class AwsLocation : IAwsLocation
     }
 
     /// <summary>
-    /// WARNING: This operation is no longer current and may be deprecated in the fu- ture. We recommend upgrading to the Maps API V2 unless you require Grab data. o UpdateMap is part of a previous Amazon Location Service Maps API (version 1) which has been superseded by a more intuitive, power- ful, and complete API (version 2). o The Maps API version 2 has a simplified interface that can be used without creating or managing map resources. o If you are using an AWS SDK or the AWS CLI, note that the Map...
+    /// WARNING: This operation is no longer current and may be deprecated in the future. We recommend upgrading to the Maps API V2 unless you require Grab data. • UpdateMap is part of a previous Amazon Location Service Maps API (version 1) which has been superseded by a more intuitive, powerful, and complete API (version 2). • The Maps API version 2 has a simplified interface that can be used without creating or managing map resources. • If you are using an AWS SDK or the AWS CLI, note that the Maps AP...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -942,7 +942,7 @@ public class AwsLocation : IAwsLocation
     }
 
     /// <summary>
-    /// WARNING: This operation is no longer current and may be deprecated in the fu- ture. We recommend you upgrade to the Places API V2 unless you re- quire Grab data. o UpdatePlaceIndex is part of a previous Amazon Location Service Places API (version 1) which has been superseded by a more intu- itive, powerful, and complete API (version 2). o The Places API version 2 has a simplified interface that can be used without creating or managing place index resources. o If you are using an Amazon Web Servi...
+    /// WARNING: This operation is no longer current and may be deprecated in the future. We recommend you upgrade to the Places API V2 unless you require Grab data. • UpdatePlaceIndex is part of a previous Amazon Location Service Places API (version 1) which has been superseded by a more intuitive, powerful, and complete API (version 2). • The Places API version 2 has a simplified interface that can be used without creating or managing place index resources. • If you are using an Amazon Web Services SD...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -957,7 +957,7 @@ public class AwsLocation : IAwsLocation
     }
 
     /// <summary>
-    /// WARNING: This operation is no longer current and may be deprecated in the fu- ture. We recommend you upgrade to the Routes API V2 unless you re- quire Grab data. o UpdateRouteCalculator is part of a previous Amazon Location Ser- vice Routes API (version 1) which has been superseded by a more intuitive, powerful, and complete API (version 2). o The Routes API version 2 has a simplified interface that can be used without creating or managing route calculator resources. o If you are using an Amazon...
+    /// WARNING: This operation is no longer current and may be deprecated in the future. We recommend you upgrade to the Routes API V2 unless you require Grab data. • UpdateRouteCalculator is part of a previous Amazon Location Service Routes API (version 1) which has been superseded by a more intuitive, powerful, and complete API (version 2). • The Routes API version 2 has a simplified interface that can be used without creating or managing route calculator resources. • If you are using an Amazon Web S...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -987,7 +987,7 @@ public class AwsLocation : IAwsLocation
     }
 
     /// <summary>
-    /// Verifies the integrity of the device's position by determining if it was reported behind a proxy, and by comparing it to an inferred posi- tion estimated based on the device's state. NOTE: The Location Integrity SDK provides enhanced features related to de- vice verification, and it is available for use by request. To get access to the SDK, contact Sales Support . See also: AWS API Documentation
+    /// Verifies the integrity of the device's position by determining if it was reported behind a proxy, and by comparing it to an inferred position estimated based on the device's state. NOTE: The Location Integrity SDK provides enhanced features related to device verification, and it is available for use by request. To get access to the SDK, contact Sales Support . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

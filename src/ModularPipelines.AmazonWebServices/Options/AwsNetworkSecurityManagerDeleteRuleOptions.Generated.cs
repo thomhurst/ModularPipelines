@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsNetworkSecurityManagerDeleteRuleOptions : AwsOptions, IValidata
     /// <summary>
     /// Deletes the specified rule. See also: AWS API Documentation
     /// </summary>
-    /// <param name="RuleIdentifier">The identifier of the rule. This is the rule's Amazon Resource Name (ARN). Constraints: o min: 1 o max: 1010</param>
+    /// <param name="RuleIdentifier">The identifier of the rule. This is the rule's Amazon Resource Name (ARN). Constraints: • min: 1 • max: 1010</param>
     public AwsNetworkSecurityManagerDeleteRuleOptions(
         string RuleIdentifier
     )
@@ -56,7 +57,7 @@ public record AwsNetworkSecurityManagerDeleteRuleOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the rule. This is the rule's Amazon Resource Name (ARN). Constraints: o min: 1 o max: 1010
+    /// The identifier of the rule. This is the rule's Amazon Resource Name (ARN). Constraints: • min: 1 • max: 1010
     /// </summary>
     [CliOption("--rule-identifier")]
     public string? RuleIdentifier { get; private init; }
@@ -82,6 +83,15 @@ public record AwsNetworkSecurityManagerDeleteRuleOptions : AwsOptions, IValidata
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

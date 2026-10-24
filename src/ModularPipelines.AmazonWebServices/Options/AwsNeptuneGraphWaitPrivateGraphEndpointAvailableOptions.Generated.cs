@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Wait until PrivateGraphEndpoint is Available It will poll every 10 sec- onds until a successful state has been reached. This will exit with a return code of 255 after 180 failed checks. See also: AWS API Documentation
+/// Wait until PrivateGraphEndpoint is Available It will poll every 10 seconds until a successful state has been reached. This will exit with a return code of 255 after 180 failed checks. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsNeptuneGraphWaitPrivateGraphEndpointAvailableOptions : AwsOptio
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Wait until PrivateGraphEndpoint is Available It will poll every 10 sec- onds until a successful state has been reached. This will exit with a return code of 255 after 180 failed checks. See also: AWS API Documentation
+    /// Wait until PrivateGraphEndpoint is Available It will poll every 10 seconds until a successful state has been reached. This will exit with a return code of 255 after 180 failed checks. See also: AWS API Documentation
     /// </summary>
-    /// <param name="GraphIdentifier">The unique identifier of the Neptune Analytics graph. Constraints: o pattern: g-[a-z0-9]{10}</param>
-    /// <param name="VpcId">The ID of the VPC where the private endpoint is located. Constraints: o pattern: vpc-[a-z0-9]+</param>
+    /// <param name="GraphIdentifier">The unique identifier of the Neptune Analytics graph. Constraints: • pattern: g-[a-z0-9]{10}</param>
+    /// <param name="VpcId">The ID of the VPC where the private endpoint is located. Constraints: • pattern: vpc-[a-z0-9]+</param>
     public AwsNeptuneGraphWaitPrivateGraphEndpointAvailableOptions(
         string GraphIdentifier,
         string VpcId
@@ -60,13 +61,13 @@ public record AwsNeptuneGraphWaitPrivateGraphEndpointAvailableOptions : AwsOptio
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the Neptune Analytics graph. Constraints: o pattern: g-[a-z0-9]{10}
+    /// The unique identifier of the Neptune Analytics graph. Constraints: • pattern: g-[a-z0-9]{10}
     /// </summary>
     [CliOption("--graph-identifier")]
     public string? GraphIdentifier { get; private init; }
 
     /// <summary>
-    /// The ID of the VPC where the private endpoint is located. Constraints: o pattern: vpc-[a-z0-9]+
+    /// The ID of the VPC where the private endpoint is located. Constraints: • pattern: vpc-[a-z0-9]+
     /// </summary>
     [CliOption("--vpc-id")]
     public string? VpcId { get; private init; }
@@ -92,6 +93,15 @@ public record AwsNeptuneGraphWaitPrivateGraphEndpointAvailableOptions : AwsOptio
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

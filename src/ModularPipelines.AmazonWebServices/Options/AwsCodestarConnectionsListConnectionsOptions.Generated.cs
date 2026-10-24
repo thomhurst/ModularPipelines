@@ -24,25 +24,25 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsCodestarConnectionsListConnectionsOptions : AwsOptions
 {
     /// <summary>
-    /// Filters the list of connections to those associated with a specified provider, such as Bitbucket. Possible values: o Bitbucket o GitHub o GitHubEnterpriseServer o GitLab o GitLabSelfManaged
+    /// Filters the list of connections to those associated with a specified provider, such as Bitbucket. Possible values: • Bitbucket • GitHub • GitHubEnterpriseServer • GitLab • GitLabSelfManaged
     /// </summary>
     [CliOption("--provider-type-filter")]
     public AwsCodestarConnectionsListConnectionsProviderTypeFilter? ProviderTypeFilter { get; set; }
 
     /// <summary>
-    /// Filters the list of connections to those associated with a specified host. Constraints: o min: 0 o max: 256 o pattern: arn:aws(-[\w]+)*:codestar-connec- tions:.+:[0-9]{12}:host\/.+
+    /// Filters the list of connections to those associated with a specified host. Constraints: • min: 0 • max: 256 • pattern: arn:aws(-[\w]+)*:codestar-connections:.+:[0-9]{12}:host\/.+
     /// </summary>
     [CliOption("--host-arn-filter")]
     public string? HostArnFilter { get; set; }
 
     /// <summary>
-    /// The maximum number of results to return in a single call. To re- trieve the remaining results, make another call with the returned nextToken value. Constraints: o min: 0 o max: 100
+    /// The maximum number of results to return in a single call. To retrieve the remaining results, make another call with the returned nextToken value. Constraints: • min: 0 • max: 100
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
     /// <summary>
-    /// The token that was returned from the previous ListConnections call, which can be used to return the next set of connections in the list. Constraints: o min: 1 o max: 1024 o pattern: ^.*$
+    /// The token that was returned from the previous ListConnections call, which can be used to return the next set of connections in the list. Constraints: • min: 1 • max: 1024 • pattern: ^.*$
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
@@ -53,5 +53,14 @@ public record AwsCodestarConnectionsListConnectionsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

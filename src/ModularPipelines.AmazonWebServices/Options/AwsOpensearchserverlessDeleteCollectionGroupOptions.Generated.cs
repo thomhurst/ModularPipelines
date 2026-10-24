@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +29,7 @@ public record AwsOpensearchserverlessDeleteCollectionGroupOptions : AwsOptions, 
     /// <summary>
     /// Deletes a collection group. You can only delete empty collection groups that contain no collections. For more information, see Creating and managing Amazon OpenSearch Serverless collections . See also: AWS API Documentation
     /// </summary>
-    /// <param name="Id">The unique identifier of the collection group to delete. Constraints: o min: 3 o max: 40 o pattern: [a-z0-9]{3,40}</param>
+    /// <param name="Id">The unique identifier of the collection group to delete. Constraints: • min: 3 • max: 40 • pattern: [a-z0-9]{3,40}</param>
     public AwsOpensearchserverlessDeleteCollectionGroupOptions(
         string Id
     )
@@ -57,13 +58,13 @@ public record AwsOpensearchserverlessDeleteCollectionGroupOptions : AwsOptions, 
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the collection group to delete. Constraints: o min: 3 o max: 40 o pattern: [a-z0-9]{3,40}
+    /// The unique identifier of the collection group to delete. Constraints: • min: 3 • max: 40 • pattern: [a-z0-9]{3,40}
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; private init; }
 
     /// <summary>
-    /// Unique, case-sensitive identifier to ensure idempotency of the re- quest. Constraints: o min: 1 o max: 512
+    /// Unique, case-sensitive identifier to ensure idempotency of the request. Constraints: • min: 1 • max: 512
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
@@ -90,6 +91,15 @@ public record AwsOpensearchserverlessDeleteCollectionGroupOptions : AwsOptions, 
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

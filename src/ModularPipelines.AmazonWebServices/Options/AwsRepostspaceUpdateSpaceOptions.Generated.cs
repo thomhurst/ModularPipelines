@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -63,25 +64,25 @@ public record AwsRepostspaceUpdateSpaceOptions : AwsOptions, IValidatableObject
     public string? SpaceId { get; private init; }
 
     /// <summary>
-    /// A description for the private re:Post. This is used only to help you identify this private re:Post. Constraints: o min: 1 o max: 255
+    /// A description for the private re:Post. This is used only to help you identify this private re:Post. Constraints: • min: 1 • max: 255
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The pricing tier of this private re:Post. Possible values: o BASIC o STANDARD
+    /// The pricing tier of this private re:Post. Possible values: • BASIC • STANDARD
     /// </summary>
     [CliOption("--tier")]
     public AwsRepostspaceUpdateSpaceTier? Tier { get; set; }
 
     /// <summary>
-    /// The IAM role that grants permissions to the private re:Post to con- vert unanswered questions into AWS support tickets. Constraints: o min: 20 o max: 2048
+    /// The IAM role that grants permissions to the private re:Post to convert unanswered questions into AWS support tickets. Constraints: • min: 20 • max: 2048
     /// </summary>
     [CliOption("--role-arn")]
     public string? RoleArn { get; set; }
 
     /// <summary>
-    /// enabled -&gt; (string) Possible values: o ENABLED o DISABLED allowedDomains -&gt; (list) Constraints: o min: 1 o max: 10 (string) Constraints: o min: 1 o max: 255 Shorthand Syntax: enabled=string,allowedDomains=string,string JSON Syntax: { "enabled": "ENABLED"|"DISABLED", "allowedDomains": ["string", ...] }
+    /// enabled -&gt; (string) Possible values: • ENABLED • DISABLED allowedDomains -&gt; (list) Constraints: • min: 1 • max: 10 (string) Constraints: • min: 1 • max: 255 Shorthand Syntax: enabled=string,allowedDomains=string,string JSON Syntax: { "enabled": "ENABLED"|"DISABLED", "allowedDomains": ["string", ...] }
     /// </summary>
     [CliOption("--supported-email-domains")]
     public string? SupportedEmailDomains { get; set; }
@@ -107,6 +108,15 @@ public record AwsRepostspaceUpdateSpaceOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

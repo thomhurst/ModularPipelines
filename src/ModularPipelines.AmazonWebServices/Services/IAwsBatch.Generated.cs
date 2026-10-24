@@ -6,7 +6,7 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using ModularPipelines.Models;
+using ModularPipelines;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
@@ -22,34 +22,31 @@ namespace ModularPipelines.AmazonWebServices.Services;
 public interface IAwsBatch
 {
     /// <summary>
-    /// Cancels a job in an Batch job queue. Jobs that are in a SUBMITTED , PENDING , or RUNNABLE state are cancelled and the job status is updated to FAILED . NOTE: A PENDING job is cancelled after all dependency jobs are completed. Therefore, it might take longer than expected to cancel a job in PENDING status. When you try to cancel an array parent job in PENDING , Batch at- tempts to cancel all child jobs. The array parent job is cancelled when all child jobs are completed. Jobs that progressed to t...
+    /// Cancels a job in an Batch job queue. Jobs that are in a SUBMITTED , PENDING , or RUNNABLE state are cancelled and the job status is updated to FAILED . NOTE: A PENDING job is cancelled after all dependency jobs are completed. Therefore, it might take longer than expected to cancel a job in PENDING status. When you try to cancel an array parent job in PENDING , Batch attempts to cancel all child jobs. The array parent job is cancelled when all child jobs are completed. Jobs that progressed to the...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CancelJobAsync(AwsBatchCancelJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CancelJobAsync(AwsBatchCancelJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Cancels up to 50 jobs in an Batch job queue. This is a bulk version of CancelJob . Jobs that are in a SUBMITTED , PENDING , or RUNNABLE state are cancelled and the job status is updated to FAILED . NOTE: A PENDING job is cancelled after all dependency jobs are completed. Therefore, it might take longer than expected to cancel a job in PENDING status. When you try to cancel an array parent job in PENDING , Batch at- tempts to cancel all child jobs. The array parent job is cancelled when all child...
+    /// Cancels up to 50 jobs in an Batch job queue. This is a bulk version of CancelJob . Jobs that are in a SUBMITTED , PENDING , or RUNNABLE state are cancelled and the job status is updated to FAILED . NOTE: A PENDING job is cancelled after all dependency jobs are completed. Therefore, it might take longer than expected to cancel a job in PENDING status. When you try to cancel an array parent job in PENDING , Batch attempts to cancel all child jobs. The array parent job is cancelled when all child j...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CancelJobsAsync(AwsBatchCancelJobsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CancelJobsAsync(AwsBatchCancelJobsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Creates an Batch compute environment. You can create MANAGED or UNMAN- AGED compute environments. MANAGED compute environments can use Amazon EC2 or Fargate resources. UNMANAGED compute environments can only use EC2 resources. In a managed compute environment, Batch manages the capacity and in- stance types of the compute resources within the environment. This is based on the compute resource specification that you define or the launch template that you specify when you create the compute enviro...
+    /// Creates an Batch compute environment. You can create MANAGED or UNMANAGED compute environments. MANAGED compute environments can use Amazon EC2 or Fargate resources. UNMANAGED compute environments can only use EC2 resources. In a managed compute environment, Batch manages the capacity and instance types of the compute resources within the environment. This is based on the compute resource specification that you define or the launch template that you specify when you create the compute environmen...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateComputeEnvironmentAsync(AwsBatchCreateComputeEnvironmentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateComputeEnvironmentAsync(AwsBatchCreateComputeEnvironmentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates an Batch consumable resource. See also: AWS API Documentation
@@ -58,18 +55,16 @@ public interface IAwsBatch
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateConsumableResourceAsync(AwsBatchCreateConsumableResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateConsumableResourceAsync(AwsBatchCreateConsumableResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Creates an Batch job queue. When you create a job queue, you associate one or more compute environments to the queue and assign an order of preference for the compute environments. You also set a priority to the job queue that determines the order that the Batch scheduler places jobs onto its associated compute environ- ments. For example, if a compute environment is associated with more than one job queue, the job queue with a higher priority is given pref- erence for scheduling jobs to that co...
+    /// Creates an Batch job queue. When you create a job queue, you associate one or more compute environments to the queue and assign an order of preference for the compute environments. You also set a priority to the job queue that determines the order that the Batch scheduler places jobs onto its associated compute environments. For example, if a compute environment is associated with more than one job queue, the job queue with a higher priority is given preference for scheduling jobs to that comput...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateJobQueueAsync(AwsBatchCreateJobQueueOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateJobQueueAsync(AwsBatchCreateJobQueueOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates an Batch quota share. Each quota share operates as a virtual queue with a configured compute capacity, resource sharing strategy, and borrow limits. See also: AWS API Documentation
@@ -78,8 +73,7 @@ public interface IAwsBatch
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateQuotaShareAsync(AwsBatchCreateQuotaShareOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateQuotaShareAsync(AwsBatchCreateQuotaShareOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates an Batch scheduling policy. See also: AWS API Documentation
@@ -88,28 +82,25 @@ public interface IAwsBatch
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateSchedulingPolicyAsync(AwsBatchCreateSchedulingPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateSchedulingPolicyAsync(AwsBatchCreateSchedulingPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Creates a service environment for running service jobs. Service envi- ronments define capacity limits for specific service types such as SageMaker Training jobs. See also: AWS API Documentation
+    /// Creates a service environment for running service jobs. Service environments define capacity limits for specific service types such as SageMaker Training jobs. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateServiceEnvironmentAsync(AwsBatchCreateServiceEnvironmentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateServiceEnvironmentAsync(AwsBatchCreateServiceEnvironmentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Deletes an Batch compute environment. Before you can delete a compute environment, you must set its state to DISABLED with the UpdateComputeEnvironment API operation and disasso- ciate it from any job queues with the UpdateJobQueue API operation. Compute environments that use Fargate resources must terminate all ac- tive jobs on that compute environment before deleting the compute envi- ronment. If this isn't done, the compute environment enters an invalid state. See also: AWS API Documentation
+    /// Deletes an Batch compute environment. Before you can delete a compute environment, you must set its state to DISABLED with the UpdateComputeEnvironment API operation and disassociate it from any job queues with the UpdateJobQueue API operation. Compute environments that use Fargate resources must terminate all active jobs on that compute environment before deleting the compute environment. If this isn't done, the compute environment enters an invalid state. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteComputeEnvironmentAsync(AwsBatchDeleteComputeEnvironmentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteComputeEnvironmentAsync(AwsBatchDeleteComputeEnvironmentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the specified consumable resource. See also: AWS API Documentation
@@ -118,8 +109,7 @@ public interface IAwsBatch
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteConsumableResourceAsync(AwsBatchDeleteConsumableResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteConsumableResourceAsync(AwsBatchDeleteConsumableResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the specified job queue. You must first disable submissions for a queue with the UpdateJobQueue operation. All jobs in the queue are eventually terminated when you delete a job queue. It's not necessary to disassociate compute environments from a queue before submitting a DeleteJobQueue request. See also: AWS API Documentation
@@ -128,18 +118,16 @@ public interface IAwsBatch
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteJobQueueAsync(AwsBatchDeleteJobQueueOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteJobQueueAsync(AwsBatchDeleteJobQueueOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Deletes the specified quota share. You must first disable submissions for the share by updating the state to DISABLED using the UpdateQuo- taShare operation. All jobs in the share are eventually terminated when you delete a quota share. See also: AWS API Documentation
+    /// Deletes the specified quota share. You must first disable submissions for the share by updating the state to DISABLED using the UpdateQuotaShare operation. All jobs in the share are eventually terminated when you delete a quota share. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteQuotaShareAsync(AwsBatchDeleteQuotaShareOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteQuotaShareAsync(AwsBatchDeleteQuotaShareOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the specified scheduling policy. You can't delete a scheduling policy that's used in any job queues. See also: AWS API Documentation
@@ -148,18 +136,16 @@ public interface IAwsBatch
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteSchedulingPolicyAsync(AwsBatchDeleteSchedulingPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteSchedulingPolicyAsync(AwsBatchDeleteSchedulingPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Deletes a Service environment. Before you can delete a service environ- ment, you must first set its state to DISABLED with the UpdateSer- viceEnvironment API operation and disassociate it from any job queues with the UpdateJobQueue API operation. See also: AWS API Documentation
+    /// Deletes a Service environment. Before you can delete a service environment, you must first set its state to DISABLED with the UpdateServiceEnvironment API operation and disassociate it from any job queues with the UpdateJobQueue API operation. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteServiceEnvironmentAsync(AwsBatchDeleteServiceEnvironmentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteServiceEnvironmentAsync(AwsBatchDeleteServiceEnvironmentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deregisters an Batch job definition. Job definitions are permanently deleted after 180 days. See also: AWS API Documentation
@@ -168,18 +154,16 @@ public interface IAwsBatch
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeregisterJobDefinitionAsync(AwsBatchDeregisterJobDefinitionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeregisterJobDefinitionAsync(AwsBatchDeregisterJobDefinitionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Describes one or more of your compute environments. If you're using an unmanaged compute environment, you can use the De- scribeComputeEnvironment operation to determine the ecsClusterArn that you launch your Amazon ECS container instances into. See also: AWS API Documentation describe-compute-environments is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When usi...
+    /// Describes one or more of your compute environments. If you're using an unmanaged compute environment, you can use the DescribeComputeEnvironment operation to determine the ecsClusterArn that you launch your Amazon ECS container instances into. See also: AWS API Documentation describe-compute-environments is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --o...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeComputeEnvironmentsAsync(AwsBatchDescribeComputeEnvironmentsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeComputeEnvironmentsAsync(AwsBatchDescribeComputeEnvironmentsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a description of the specified consumable resource. See also: AWS API Documentation
@@ -188,8 +172,7 @@ public interface IAwsBatch
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeConsumableResourceAsync(AwsBatchDescribeConsumableResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeConsumableResourceAsync(AwsBatchDescribeConsumableResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes a list of job definitions. You can specify a status (such as ACTIVE ) to only return job definitions that match that status. See also: AWS API Documentation describe-job-definitions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the resul...
@@ -198,8 +181,7 @@ public interface IAwsBatch
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeJobDefinitionsAsync(AwsBatchDescribeJobDefinitionsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeJobDefinitionsAsync(AwsBatchDescribeJobDefinitionsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes one or more of your job queues. See also: AWS API Documentation describe-job-queues is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: jobQueues
@@ -208,8 +190,7 @@ public interface IAwsBatch
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeJobQueuesAsync(AwsBatchDescribeJobQueuesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeJobQueuesAsync(AwsBatchDescribeJobQueuesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes a list of Batch jobs. See also: AWS API Documentation
@@ -218,8 +199,7 @@ public interface IAwsBatch
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeJobsAsync(AwsBatchDescribeJobsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeJobsAsync(AwsBatchDescribeJobsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a description of the specified quota share. See also: AWS API Documentation
@@ -228,8 +208,7 @@ public interface IAwsBatch
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeQuotaShareAsync(AwsBatchDescribeQuotaShareOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeQuotaShareAsync(AwsBatchDescribeQuotaShareOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes one or more of your scheduling policies. See also: AWS API Documentation
@@ -238,18 +217,16 @@ public interface IAwsBatch
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeSchedulingPoliciesAsync(AwsBatchDescribeSchedulingPoliciesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeSchedulingPoliciesAsync(AwsBatchDescribeSchedulingPoliciesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Describes one or more of your service environments. See also: AWS API Documentation describe-service-environments is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: serviceEnvironments
+    /// Describes one or more of your service environments. See also: AWS API Documentation describe-service-environments is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: serviceEnvironments
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeServiceEnvironmentsAsync(AwsBatchDescribeServiceEnvironmentsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeServiceEnvironmentsAsync(AwsBatchDescribeServiceEnvironmentsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// The details of a service job. See also: AWS API Documentation
@@ -258,48 +235,43 @@ public interface IAwsBatch
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeServiceJobAsync(AwsBatchDescribeServiceJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeServiceJobAsync(AwsBatchDescribeServiceJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Provides a snapshot of job queue state, including ordering of RUNNABLE jobs, as well as capacity utilization for already dispatched jobs. The first 100 RUNNABLE jobs in the job queue are listed in order of dis- patch. For job queues with an attached quota-share policy, the first RUNNABLE job in each quota share is also listed. Capacity utilization for the job queue is provided, as well as break downs by share for job queues with attached fair-share or quota-share scheduling policies. See also: A...
+    /// Provides a snapshot of job queue state, including ordering of RUNNABLE jobs, as well as capacity utilization for already dispatched jobs. The first 100 RUNNABLE jobs in the job queue are listed in order of dispatch. For job queues with an attached quota-share policy, the first RUNNABLE job in each quota share is also listed. Capacity utilization for the job queue is provided, as well as break downs by share for job queues with attached fair-share or quota-share scheduling policies. See also: AWS...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetJobQueueSnapshotAsync(AwsBatchGetJobQueueSnapshotOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetJobQueueSnapshotAsync(AwsBatchGetJobQueueSnapshotOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Returns a list of Batch consumable resources. See also: AWS API Documentation list-consumable-resources is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: consumableResources
+    /// Returns a list of Batch consumable resources. See also: AWS API Documentation list-consumable-resources is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: consumableResources
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListConsumableResourcesAsync(AwsBatchListConsumableResourcesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListConsumableResourcesAsync(AwsBatchListConsumableResourcesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Returns a list of Batch jobs that require a specific consumable re- source. See also: AWS API Documentation list-jobs-by-consumable-resource is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: jobs
+    /// Returns a list of Batch jobs that require a specific consumable resource. See also: AWS API Documentation list-jobs-by-consumable-resource is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: jobs
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListJobsByConsumableResourceAsync(AwsBatchListJobsByConsumableResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListJobsByConsumableResourceAsync(AwsBatchListJobsByConsumableResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Returns a list of Batch jobs. You must specify only one of the following items: o A job queue ID to return a list of jobs in that job queue o A multi-node parallel job ID to return a list of nodes for that job o An array job ID to return a list of the children for that job See also: AWS API Documentation list-jobs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagi- nation by providing the --no-paginate argument. Wh...
+    /// Returns a list of Batch jobs. You must specify only one of the following items: • A job queue ID to return a list of jobs in that job queue • A multi-node parallel job ID to return a list of nodes for that job • An array job ID to return a list of the children for that job See also: AWS API Documentation list-jobs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListJobsAsync(AwsBatchListJobsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListJobsAsync(AwsBatchListJobsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a list of Batch quota shares associated with a job queue. See also: AWS API Documentation list-quota-shares is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: quotaShares
@@ -308,18 +280,16 @@ public interface IAwsBatch
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListQuotaSharesAsync(AwsBatchListQuotaSharesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListQuotaSharesAsync(AwsBatchListQuotaSharesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Returns a list of Batch scheduling policies. See also: AWS API Documentation list-scheduling-policies is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: schedulingPolicies
+    /// Returns a list of Batch scheduling policies. See also: AWS API Documentation list-scheduling-policies is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: schedulingPolicies
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListSchedulingPoliciesAsync(AwsBatchListSchedulingPoliciesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListSchedulingPoliciesAsync(AwsBatchListSchedulingPoliciesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a list of service jobs for a specified job queue. See also: AWS API Documentation list-service-jobs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: jobSummaryList
@@ -328,18 +298,16 @@ public interface IAwsBatch
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListServiceJobsAsync(AwsBatchListServiceJobsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListServiceJobsAsync(AwsBatchListServiceJobsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Lists the tags for an Batch resource. Batch resources that support tags are compute environments, jobs, job definitions, job queues, and sched- uling policies. ARNs for child jobs of array and multi-node parallel (MNP) jobs aren't supported. See also: AWS API Documentation
+    /// Lists the tags for an Batch resource. Batch resources that support tags are compute environments, jobs, job definitions, job queues, and scheduling policies. ARNs for child jobs of array and multi-node parallel (MNP) jobs aren't supported. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTagsForResourceAsync(AwsBatchListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListTagsForResourceAsync(AwsBatchListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Registers an Batch job definition. See also: AWS API Documentation
@@ -348,18 +316,16 @@ public interface IAwsBatch
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RegisterJobDefinitionAsync(AwsBatchRegisterJobDefinitionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> RegisterJobDefinitionAsync(AwsBatchRegisterJobDefinitionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Submits an Batch job from a job definition. Parameters that are speci- fied during SubmitJob override parameters defined in the job defini- tion. vCPU and memory requirements that are specified in the re- sourceRequirements objects in the job definition are the exception. They can't be overridden this way using the memory and vcpus parame- ters. Rather, you must specify updates to job definition parameters in a resourceRequirements object that's included in the containerOverrides parameter. NOTE...
+    /// Submits an Batch job from a job definition. Parameters that are specified during SubmitJob override parameters defined in the job definition. vCPU and memory requirements that are specified in the resourceRequirements objects in the job definition are the exception. They can't be overridden this way using the memory and vcpus parameters. Rather, you must specify updates to job definition parameters in a resourceRequirements object that's included in the containerOverrides parameter. NOTE: Job qu...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> SubmitJobAsync(AwsBatchSubmitJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> SubmitJobAsync(AwsBatchSubmitJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Submits a service job to a specified job queue to run on SageMaker AI. A service job is a unit of work that you submit to Batch for execution on SageMaker AI. See also: AWS API Documentation
@@ -368,38 +334,34 @@ public interface IAwsBatch
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> SubmitServiceJobAsync(AwsBatchSubmitServiceJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> SubmitServiceJobAsync(AwsBatchSubmitServiceJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Associates the specified tags to a resource with the specified re- sourceArn . If existing tags on a resource aren't specified in the re- quest parameters, they aren't changed. When a resource is deleted, the tags that are associated with that resource are deleted as well. Batch resources that support tags are compute environments, jobs, job defini- tions, job queues, and scheduling policies. ARNs for child jobs of ar- ray and multi-node parallel (MNP) jobs aren't supported. See also: AWS API Do...
+    /// Associates the specified tags to a resource with the specified resourceArn . If existing tags on a resource aren't specified in the request parameters, they aren't changed. When a resource is deleted, the tags that are associated with that resource are deleted as well. Batch resources that support tags are compute environments, jobs, job definitions, job queues, and scheduling policies. ARNs for child jobs of array and multi-node parallel (MNP) jobs aren't supported. See also: AWS API Documentat...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> TagResourceAsync(AwsBatchTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> TagResourceAsync(AwsBatchTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Terminates a job in a job queue. Jobs that are in the STARTING or RUN- NING state are terminated, which causes them to transition to FAILED . Jobs that have not progressed to the STARTING state are cancelled. See also: AWS API Documentation
+    /// Terminates a job in a job queue. Jobs that are in the STARTING or RUNNING state are terminated, which causes them to transition to FAILED . Jobs that have not progressed to the STARTING state are cancelled. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> TerminateJobAsync(AwsBatchTerminateJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> TerminateJobAsync(AwsBatchTerminateJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Terminates up to 50 jobs in a job queue. This is a bulk version of TerminateJob . Jobs that are in the STARTING or RUNNING state are ter- minated, which causes them to transition to FAILED . Jobs that have not progressed to the STARTING state are cancelled. Batch reports the result for each job individually in the response. Jobs that were processed successfully are reported in the successful list. Jobs that encountered errors are reported in the errors list. The response returns an HTTP status c...
+    /// Terminates up to 50 jobs in a job queue. This is a bulk version of TerminateJob . Jobs that are in the STARTING or RUNNING state are terminated, which causes them to transition to FAILED . Jobs that have not progressed to the STARTING state are cancelled. Batch reports the result for each job individually in the response. Jobs that were processed successfully are reported in the successful list. Jobs that encountered errors are reported in the errors list. The response returns an HTTP status cod...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> TerminateJobsAsync(AwsBatchTerminateJobsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> TerminateJobsAsync(AwsBatchTerminateJobsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Terminates a service job in a job queue. See also: AWS API Documentation
@@ -408,18 +370,16 @@ public interface IAwsBatch
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> TerminateServiceJobAsync(AwsBatchTerminateServiceJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> TerminateServiceJobAsync(AwsBatchTerminateServiceJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Terminates up to 50 service jobs in a job queue. This is a bulk version of TerminateServiceJob . Batch reports the result for each service job individually in the re- sponse. Service jobs that were processed successfully are reported in the successful list. Service jobs that encountered errors are reported in the errors list. The response returns an HTTP status code of 200 even when some service jobs encountered errors, so check the errors list. Service jobs that can't be found are treated as su...
+    /// Terminates up to 50 service jobs in a job queue. This is a bulk version of TerminateServiceJob . Batch reports the result for each service job individually in the response. Service jobs that were processed successfully are reported in the successful list. Service jobs that encountered errors are reported in the errors list. The response returns an HTTP status code of 200 even when some service jobs encountered errors, so check the errors list. Service jobs that can't be found are treated as succ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> TerminateServiceJobsAsync(AwsBatchTerminateServiceJobsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> TerminateServiceJobsAsync(AwsBatchTerminateServiceJobsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes specified tags from an Batch resource. See also: AWS API Documentation
@@ -428,8 +388,7 @@ public interface IAwsBatch
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UntagResourceAsync(AwsBatchUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UntagResourceAsync(AwsBatchUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates an Batch compute environment. See also: AWS API Documentation
@@ -438,8 +397,7 @@ public interface IAwsBatch
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateComputeEnvironmentAsync(AwsBatchUpdateComputeEnvironmentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateComputeEnvironmentAsync(AwsBatchUpdateComputeEnvironmentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates a consumable resource. See also: AWS API Documentation
@@ -448,8 +406,7 @@ public interface IAwsBatch
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateConsumableResourceAsync(AwsBatchUpdateConsumableResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateConsumableResourceAsync(AwsBatchUpdateConsumableResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates a job queue. See also: AWS API Documentation
@@ -458,8 +415,7 @@ public interface IAwsBatch
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateJobQueueAsync(AwsBatchUpdateJobQueueOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateJobQueueAsync(AwsBatchUpdateJobQueueOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates a quota share. See also: AWS API Documentation
@@ -468,8 +424,7 @@ public interface IAwsBatch
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateQuotaShareAsync(AwsBatchUpdateQuotaShareOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateQuotaShareAsync(AwsBatchUpdateQuotaShareOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates a scheduling policy. See also: AWS API Documentation
@@ -478,8 +433,7 @@ public interface IAwsBatch
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateSchedulingPolicyAsync(AwsBatchUpdateSchedulingPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateSchedulingPolicyAsync(AwsBatchUpdateSchedulingPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates a service environment. You can update the state of a service environment from ENABLED to DISABLED to prevent new service jobs from being placed in the service environment. See also: AWS API Documentation
@@ -488,8 +442,7 @@ public interface IAwsBatch
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateServiceEnvironmentAsync(AwsBatchUpdateServiceEnvironmentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateServiceEnvironmentAsync(AwsBatchUpdateServiceEnvironmentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the priority of a specified service job in an Batch job queue. See also: AWS API Documentation
@@ -498,7 +451,6 @@ public interface IAwsBatch
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateServiceJobAsync(AwsBatchUpdateServiceJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateServiceJobAsync(AwsBatchUpdateServiceJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

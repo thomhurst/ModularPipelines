@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// A tag is a key-value pair where the key and value are case-sensitive. You can use tags to categorize and track all your ElastiCache re- sources. When you add or remove tags on replication groups, those ac- tions will be replicated to all nodes in the replication group. For more information, see Resource-level permissions . For example, you can use cost-allocation tags to your ElastiCache re- sources, Amazon generates a cost allocation report as a comma-separated value (CSV) file with your usage ...
+/// A tag is a key-value pair where the key and value are case-sensitive. You can use tags to categorize and track all your ElastiCache resources. When you add or remove tags on replication groups, those actions will be replicated to all nodes in the replication group. For more information, see Resource-level permissions . For example, you can use cost-allocation tags to your ElastiCache resources, Amazon generates a cost allocation report as a comma-separated value (CSV) file with your usage and co...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsElasticacheAddTagsToResourceOptions : AwsOptions, IValidatableO
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// A tag is a key-value pair where the key and value are case-sensitive. You can use tags to categorize and track all your ElastiCache re- sources. When you add or remove tags on replication groups, those ac- tions will be replicated to all nodes in the replication group. For more information, see Resource-level permissions . For example, you can use cost-allocation tags to your ElastiCache re- sources, Amazon generates a cost allocation report as a comma-separated value (CSV) file with your usage ...
+    /// A tag is a key-value pair where the key and value are case-sensitive. You can use tags to categorize and track all your ElastiCache resources. When you add or remove tags on replication groups, those actions will be replicated to all nodes in the replication group. For more information, see Resource-level permissions . For example, you can use cost-allocation tags to your ElastiCache resources, Amazon generates a cost allocation report as a comma-separated value (CSV) file with your usage and co...
     /// </summary>
-    /// <param name="ResourceName">The Amazon Resource Name (ARN) of the resource to which the tags are to be added, for example arn:aws:elasti- cache:us-west-2:0123456789:cluster:myCluster or arn:aws:elasti- cache:us-west-2:0123456789:snapshot:mySnapshot . ElastiCache re- sources are cluster and snapshot . For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Service Namespaces .</param>
+    /// <param name="ResourceName">The Amazon Resource Name (ARN) of the resource to which the tags are to be added, for example arn:aws:elasticache:us-west-2:0123456789:cluster:myCluster or arn:aws:elasticache:us-west-2:0123456789:snapshot:mySnapshot . ElastiCache resources are cluster and snapshot . For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Service Namespaces .</param>
     /// <param name="Tags">A list of tags to be added to this resource. A tag is a key-value pair. A tag key must be accompanied by a tag value, although null is accepted. (structure) A tag that can be added to an ElastiCache cluster or replication group. Tags are composed of a Key/Value pair. You can use tags to categorize and track all your ElastiCache resources. When you add or remove tags on replication groups, those actions will be replicated to all nodes in the replication group. A tag with a null Value is permitted. Key -&gt; (string) The key for the tag. May not be null. Value -&gt; (string) The tag's value. May be null. Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]</param>
     public AwsElasticacheAddTagsToResourceOptions(
         string ResourceName,
@@ -71,7 +72,7 @@ public record AwsElasticacheAddTagsToResourceOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the resource to which the tags are to be added, for example arn:aws:elasti- cache:us-west-2:0123456789:cluster:myCluster or arn:aws:elasti- cache:us-west-2:0123456789:snapshot:mySnapshot . ElastiCache re- sources are cluster and snapshot . For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Service Namespaces .
+    /// The Amazon Resource Name (ARN) of the resource to which the tags are to be added, for example arn:aws:elasticache:us-west-2:0123456789:cluster:myCluster or arn:aws:elasticache:us-west-2:0123456789:snapshot:mySnapshot . ElastiCache resources are cluster and snapshot . For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Service Namespaces .
     /// </summary>
     [CliOption("--resource-name")]
     public string? ResourceName { get; private init; }
@@ -103,6 +104,15 @@ public record AwsElasticacheAddTagsToResourceOptions : AwsOptions, IValidatableO
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

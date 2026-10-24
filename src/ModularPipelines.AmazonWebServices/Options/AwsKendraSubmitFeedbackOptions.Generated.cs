@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Enables you to provide feedback to Amazon Kendra to improve the perfor- mance of your index. SubmitFeedback is currently not supported in the Amazon Web Services GovCloud (US-West) region. See also: AWS API Documentation
+/// Enables you to provide feedback to Amazon Kendra to improve the performance of your index. SubmitFeedback is currently not supported in the Amazon Web Services GovCloud (US-West) region. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsKendraSubmitFeedbackOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Enables you to provide feedback to Amazon Kendra to improve the perfor- mance of your index. SubmitFeedback is currently not supported in the Amazon Web Services GovCloud (US-West) region. See also: AWS API Documentation
+    /// Enables you to provide feedback to Amazon Kendra to improve the performance of your index. SubmitFeedback is currently not supported in the Amazon Web Services GovCloud (US-West) region. See also: AWS API Documentation
     /// </summary>
-    /// <param name="IndexId">The identifier of the index that was queried. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]*</param>
-    /// <param name="QueryId">The identifier of the specific query for which you are submitting feedback. The query ID is returned in the response to the Query API. Constraints: o min: 1 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]*</param>
+    /// <param name="IndexId">The identifier of the index that was queried. Constraints: • min: 36 • max: 36 • pattern: [a-zA-Z0-9][a-zA-Z0-9-]*</param>
+    /// <param name="QueryId">The identifier of the specific query for which you are submitting feedback. The query ID is returned in the response to the Query API. Constraints: • min: 1 • max: 36 • pattern: [a-zA-Z0-9][a-zA-Z0-9-]*</param>
     public AwsKendraSubmitFeedbackOptions(
         string IndexId,
         string QueryId
@@ -60,25 +61,25 @@ public record AwsKendraSubmitFeedbackOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the index that was queried. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]*
+    /// The identifier of the index that was queried. Constraints: • min: 36 • max: 36 • pattern: [a-zA-Z0-9][a-zA-Z0-9-]*
     /// </summary>
     [CliOption("--index-id")]
     public string? IndexId { get; private init; }
 
     /// <summary>
-    /// The identifier of the specific query for which you are submitting feedback. The query ID is returned in the response to the Query API. Constraints: o min: 1 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]*
+    /// The identifier of the specific query for which you are submitting feedback. The query ID is returned in the response to the Query API. Constraints: • min: 1 • max: 36 • pattern: [a-zA-Z0-9][a-zA-Z0-9-]*
     /// </summary>
     [CliOption("--query-id")]
     public string? QueryId { get; private init; }
 
     /// <summary>
-    /// Tells Amazon Kendra that a particular search result link was chosen by the user. (structure) Gathers information about when a particular result was clicked by a user. Your application uses the SubmitFeedback API to pro- vide click information. ResultId -&gt; (string) [required] The identifier of the search result that was clicked. Constraints: o min: 1 o max: 73 ClickTime -&gt; (timestamp) [required] The Unix timestamp when the result was clicked. Shorthand Syntax: ResultId=string,ClickTime=timestamp ... JSON Syntax: [ { "ResultId": "string", "ClickTime": timestamp } ... ]
+    /// Tells Amazon Kendra that a particular search result link was chosen by the user. (structure) Gathers information about when a particular result was clicked by a user. Your application uses the SubmitFeedback API to provide click information. ResultId -&gt; (string) [required] The identifier of the search result that was clicked. Constraints: • min: 1 • max: 73 ClickTime -&gt; (timestamp) [required] The Unix timestamp when the result was clicked. Shorthand Syntax: ResultId=string,ClickTime=timestamp ... JSON Syntax: [ { "ResultId": "string", "ClickTime": timestamp } ... ]
     /// </summary>
     [CliOption("--click-feedback-items", GroupValues = true)]
     public IEnumerable<string>? ClickFeedbackItems { get; set; }
 
     /// <summary>
-    /// Provides Amazon Kendra with relevant or not relevant feedback for whether a particular item was relevant to the search. (structure) Provides feedback on how relevant a document is to a search. Your application uses the SubmitFeedback API to provide rele- vance information. ResultId -&gt; (string) [required] The identifier of the search result that the user provided relevance feedback for. Constraints: o min: 1 o max: 73 RelevanceValue -&gt; (string) [required] Whether the document was relevant or not relevant to the search. Possible values: o RELEVANT o NOT_RELEVANT Shorthand Syntax: ResultId=string,RelevanceValue=string ... JSON Syntax: [ { "ResultId": "string", "RelevanceValue": "RELEVANT"|"NOT_RELEVANT" } ... ]
+    /// Provides Amazon Kendra with relevant or not relevant feedback for whether a particular item was relevant to the search. (structure) Provides feedback on how relevant a document is to a search. Your application uses the SubmitFeedback API to provide relevance information. ResultId -&gt; (string) [required] The identifier of the search result that the user provided relevance feedback for. Constraints: • min: 1 • max: 73 RelevanceValue -&gt; (string) [required] Whether the document was relevant or not relevant to the search. Possible values: • RELEVANT • NOT_RELEVANT Shorthand Syntax: ResultId=string,RelevanceValue=string ... JSON Syntax: [ { "ResultId": "string", "RelevanceValue": "RELEVANT"|"NOT_RELEVANT" } ... ]
     /// </summary>
     [CliOption("--relevance-feedback-items", GroupValues = true)]
     public IEnumerable<string>? RelevanceFeedbackItems { get; set; }
@@ -104,6 +105,15 @@ public record AwsKendraSubmitFeedbackOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

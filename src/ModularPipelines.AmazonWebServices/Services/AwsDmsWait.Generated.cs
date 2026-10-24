@@ -6,15 +6,15 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
+using ModularPipelines;
 using ModularPipelines.Context;
-using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
 namespace ModularPipelines.AmazonWebServices.Services;
 
 /// <summary>
-/// aws wait commands.
+/// aws dms wait commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AwsDmsWait
@@ -47,7 +47,7 @@ public class AwsDmsWait
     }
 
     /// <summary>
-    /// Wait until DMS extension pack is associated. It will poll every 10 sec- onds until a successful state has been reached. This will exit with a return code of 255 after 60 failed checks. See also: AWS API Documentation
+    /// Wait until DMS extension pack is associated. It will poll every 10 seconds until a successful state has been reached. This will exit with a return code of 255 after 60 failed checks. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -62,7 +62,7 @@ public class AwsDmsWait
     }
 
     /// <summary>
-    /// Wait until DMS metadata model is assessed. It will poll every 30 sec- onds until a successful state has been reached. This will exit with a return code of 255 after 360 failed checks. See also: AWS API Documentation
+    /// Wait until DMS metadata model is assessed. It will poll every 30 seconds until a successful state has been reached. This will exit with a return code of 255 after 360 failed checks. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -92,7 +92,7 @@ public class AwsDmsWait
     }
 
     /// <summary>
-    /// Wait until DMS metadata model is converted. It will poll every 30 sec- onds until a successful state has been reached. This will exit with a return code of 255 after 240 failed checks. See also: AWS API Documentation
+    /// Wait until DMS metadata model is converted. It will poll every 30 seconds until a successful state has been reached. This will exit with a return code of 255 after 240 failed checks. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -122,7 +122,7 @@ public class AwsDmsWait
     }
 
     /// <summary>
-    /// Wait until DMS metadata model creation is cancelled. It will poll every 10 seconds until a successful state has been reached. This will exit with a return code of 255 after 180 failed checks. See also: AWS API Documentation metadata-model-creation-cancelled is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a pag...
+    /// Wait until DMS metadata model creation is cancelled. It will poll every 10 seconds until a successful state has been reached. This will exit with a return code of 255 after 180 failed checks. See also: AWS API Documentation metadata-model-creation-cancelled is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginat...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -167,7 +167,7 @@ public class AwsDmsWait
     }
 
     /// <summary>
-    /// Wait until DMS metadata model is imported. It will poll every 60 sec- onds until a successful state has been reached. This will exit with a return code of 255 after 30 failed checks. See also: AWS API Documentation
+    /// Wait until DMS metadata model is imported. It will poll every 60 seconds until a successful state has been reached. This will exit with a return code of 255 after 30 failed checks. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -182,7 +182,7 @@ public class AwsDmsWait
     }
 
     /// <summary>
-    /// Wait until DMS replication instance is available. It will poll every 60 seconds until a successful state has been reached. This will exit with a return code of 255 after 60 failed checks. See also: AWS API Documentation replication-instance-available is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated ...
+    /// Wait until DMS replication instance is available. It will poll every 60 seconds until a successful state has been reached. This will exit with a return code of 255 after 60 failed checks. See also: AWS API Documentation replication-instance-available is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated resp...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -197,7 +197,7 @@ public class AwsDmsWait
     }
 
     /// <summary>
-    /// Wait until DMS replication instance is deleted. It will poll every 15 seconds until a successful state has been reached. This will exit with a return code of 255 after 60 failed checks. See also: AWS API Documentation replication-instance-deleted is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated resp...
+    /// Wait until DMS replication instance is deleted. It will poll every 15 seconds until a successful state has been reached. This will exit with a return code of 255 after 60 failed checks. See also: AWS API Documentation replication-instance-deleted is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -212,7 +212,7 @@ public class AwsDmsWait
     }
 
     /// <summary>
-    /// Wait until DMS replication task is deleted. It will poll every 15 sec- onds until a successful state has been reached. This will exit with a return code of 255 after 60 failed checks. See also: AWS API Documentation replication-task-deleted is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the ...
+    /// Wait until DMS replication task is deleted. It will poll every 15 seconds until a successful state has been reached. This will exit with a return code of 255 after 60 failed checks. See also: AWS API Documentation replication-task-deleted is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -242,7 +242,7 @@ public class AwsDmsWait
     }
 
     /// <summary>
-    /// Wait until DMS replication task is running. It will poll every 15 sec- onds until a successful state has been reached. This will exit with a return code of 255 after 60 failed checks. See also: AWS API Documentation replication-task-running is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the ...
+    /// Wait until DMS replication task is running. It will poll every 15 seconds until a successful state has been reached. This will exit with a return code of 255 after 60 failed checks. See also: AWS API Documentation replication-task-running is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -257,7 +257,7 @@ public class AwsDmsWait
     }
 
     /// <summary>
-    /// Wait until DMS replication task is stopped. It will poll every 15 sec- onds until a successful state has been reached. This will exit with a return code of 255 after 60 failed checks. See also: AWS API Documentation replication-task-stopped is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the ...
+    /// Wait until DMS replication task is stopped. It will poll every 15 seconds until a successful state has been reached. This will exit with a return code of 255 after 60 failed checks. See also: AWS API Documentation replication-task-stopped is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

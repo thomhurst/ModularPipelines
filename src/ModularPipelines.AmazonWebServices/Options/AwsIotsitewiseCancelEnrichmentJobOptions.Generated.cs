@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Cancels a running or pending enrichment job. This is an idempotent op- erationcalling it multiple times with the same jobId is safe and re- turns the current status. Behavior o Jobs in PENDING or RUNNING status transition to CANCELLED o Jobs in RUNNING state may not be cancellable once they have pro- gressed to certain processing stages o Jobs already in terminal states (COMPLETED, FAILED, TIMED_OUT) cannot be cancelled; the operation returns a ConflictingOperationException o Cancelling an alrea...
+/// Cancels a running or pending enrichment job. This is an idempotent operationcalling it multiple times with the same jobId is safe and returns the current status. Behavior • Jobs in PENDING or RUNNING status transition to CANCELLED • Jobs in RUNNING state may not be cancellable once they have progressed to certain processing stages • Jobs already in terminal states (COMPLETED, FAILED, TIMED_OUT) cannot be cancelled; the operation returns a ConflictingOperationException • Cancelling an already-CAN...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsIotsitewiseCancelEnrichmentJobOptions : AwsOptions, IValidatabl
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Cancels a running or pending enrichment job. This is an idempotent op- erationcalling it multiple times with the same jobId is safe and re- turns the current status. Behavior o Jobs in PENDING or RUNNING status transition to CANCELLED o Jobs in RUNNING state may not be cancellable once they have pro- gressed to certain processing stages o Jobs already in terminal states (COMPLETED, FAILED, TIMED_OUT) cannot be cancelled; the operation returns a ConflictingOperationException o Cancelling an alrea...
+    /// Cancels a running or pending enrichment job. This is an idempotent operationcalling it multiple times with the same jobId is safe and returns the current status. Behavior • Jobs in PENDING or RUNNING status transition to CANCELLED • Jobs in RUNNING state may not be cancellable once they have progressed to certain processing stages • Jobs already in terminal states (COMPLETED, FAILED, TIMED_OUT) cannot be cancelled; the operation returns a ConflictingOperationException • Cancelling an already-CAN...
     /// </summary>
-    /// <param name="WorkspaceName">The name of the IoT SiteWise workspace containing the enrichment job to cancel. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$</param>
-    /// <param name="JobId">The unique identifier of the enrichment job to cancel. This is the jobId returned by CreateEnrichmentJob. Constraints: o min: 36 o max: 36 o pattern: ^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$</param>
+    /// <param name="WorkspaceName">The name of the IoT SiteWise workspace containing the enrichment job to cancel. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9_-]+$</param>
+    /// <param name="JobId">The unique identifier of the enrichment job to cancel. This is the jobId returned by CreateEnrichmentJob. Constraints: • min: 36 • max: 36 • pattern: ^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$</param>
     public AwsIotsitewiseCancelEnrichmentJobOptions(
         string WorkspaceName,
         string JobId
@@ -60,13 +61,13 @@ public record AwsIotsitewiseCancelEnrichmentJobOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the IoT SiteWise workspace containing the enrichment job to cancel. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$
+    /// The name of the IoT SiteWise workspace containing the enrichment job to cancel. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9_-]+$
     /// </summary>
     [CliOption("--workspace-name")]
     public string? WorkspaceName { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the enrichment job to cancel. This is the jobId returned by CreateEnrichmentJob. Constraints: o min: 36 o max: 36 o pattern: ^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$
+    /// The unique identifier of the enrichment job to cancel. This is the jobId returned by CreateEnrichmentJob. Constraints: • min: 36 • max: 36 • pattern: ^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$
     /// </summary>
     [CliOption("--job-id")]
     public string? JobId { get; private init; }
@@ -92,6 +93,15 @@ public record AwsIotsitewiseCancelEnrichmentJobOptions : AwsOptions, IValidatabl
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

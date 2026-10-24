@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Cancels the specified Spot Fleet requests. After you cancel a Spot Fleet request, the Spot Fleet launches no new instances. You must also specify whether a canceled Spot Fleet request should ter- minate its instances. If you choose to terminate the instances, the Spot Fleet request enters the cancelled_terminating state. Otherwise, the Spot Fleet request enters the cancelled_running state and the in- stances continue to run until they are interrupted or you terminate them manually. WARNING: Term...
+/// Cancels the specified Spot Fleet requests. After you cancel a Spot Fleet request, the Spot Fleet launches no new instances. You must also specify whether a canceled Spot Fleet request should terminate its instances. If you choose to terminate the instances, the Spot Fleet request enters the cancelled_terminating state. Otherwise, the Spot Fleet request enters the cancelled_running state and the instances continue to run until they are interrupted or you terminate them manually. WARNING: Terminat...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsEc2CancelSpotFleetRequestsOptions : AwsOptions, IValidatableObj
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Cancels the specified Spot Fleet requests. After you cancel a Spot Fleet request, the Spot Fleet launches no new instances. You must also specify whether a canceled Spot Fleet request should ter- minate its instances. If you choose to terminate the instances, the Spot Fleet request enters the cancelled_terminating state. Otherwise, the Spot Fleet request enters the cancelled_running state and the in- stances continue to run until they are interrupted or you terminate them manually. WARNING: Term...
+    /// Cancels the specified Spot Fleet requests. After you cancel a Spot Fleet request, the Spot Fleet launches no new instances. You must also specify whether a canceled Spot Fleet request should terminate its instances. If you choose to terminate the instances, the Spot Fleet request enters the cancelled_terminating state. Otherwise, the Spot Fleet request enters the cancelled_running state and the instances continue to run until they are interrupted or you terminate them manually. WARNING: Terminat...
     /// </summary>
     /// <param name="SpotFleetRequestIds">The IDs of the Spot Fleet requests. Constraint: You can specify up to 100 IDs in a single request. (string) Syntax: "string" "string" ...</param>
-    /// <param name="TerminateInstances">Indicates whether to terminate the associated instances when the Spot Fleet request is canceled. The default is to terminate the in- stances. To let the instances continue to run after the Spot Fleet request is canceled, specify no-terminate-instances .</param>
+    /// <param name="TerminateInstances">Indicates whether to terminate the associated instances when the Spot Fleet request is canceled. The default is to terminate the instances. To let the instances continue to run after the Spot Fleet request is canceled, specify no-terminate-instances .</param>
     public AwsEc2CancelSpotFleetRequestsOptions(
         IEnumerable<string> SpotFleetRequestIds,
         bool TerminateInstances
@@ -76,13 +77,13 @@ public record AwsEc2CancelSpotFleetRequestsOptions : AwsOptions, IValidatableObj
     public IEnumerable<string>? SpotFleetRequestIds { get; private init; }
 
     /// <summary>
-    /// Indicates whether to terminate the associated instances when the Spot Fleet request is canceled. The default is to terminate the in- stances. To let the instances continue to run after the Spot Fleet request is canceled, specify no-terminate-instances .
+    /// Indicates whether to terminate the associated instances when the Spot Fleet request is canceled. The default is to terminate the instances. To let the instances continue to run after the Spot Fleet request is canceled, specify no-terminate-instances .
     /// </summary>
     [CliFlag("--terminate-instances", NegatedName = "--no-terminate-instances")]
     public bool? TerminateInstances { get; private init; }
 
     /// <summary>
-    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation . Otherwise, it is UnauthorizedOperation .
     /// </summary>
     [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
@@ -108,6 +109,15 @@ public record AwsEc2CancelSpotFleetRequestsOptions : AwsOptions, IValidatableObj
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

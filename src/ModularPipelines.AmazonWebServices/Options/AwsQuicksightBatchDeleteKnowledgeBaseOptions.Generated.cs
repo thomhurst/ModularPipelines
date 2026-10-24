@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsQuicksightBatchDeleteKnowledgeBaseOptions : AwsOptions, IValida
     /// <summary>
     /// Deletes one or more knowledge bases. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AwsAccountId">The ID of the Amazon Web Services account that contains the knowl- edge base. Constraints: o min: 12 o max: 12 o pattern: [0-9]*</param>
-    /// <param name="KnowledgeBaseIds">A list of knowledge base identifiers to delete. Constraints: o min: 1 o max: 10 (string) Constraints: o min: 1 o max: 1024 o pattern: [0-9a-zA-Z-_=.+]+ Syntax: "string" "string" ...</param>
+    /// <param name="AwsAccountId">The ID of the Amazon Web Services account that contains the knowledge base. Constraints: • min: 12 • max: 12 • pattern: [0-9]*</param>
+    /// <param name="KnowledgeBaseIds">A list of knowledge base identifiers to delete. Constraints: • min: 1 • max: 10 (string) Constraints: • min: 1 • max: 1024 • pattern: [0-9a-zA-Z-_=.+]+ Syntax: "string" "string" ...</param>
     public AwsQuicksightBatchDeleteKnowledgeBaseOptions(
         string AwsAccountId,
         IEnumerable<string> KnowledgeBaseIds
@@ -71,13 +72,13 @@ public record AwsQuicksightBatchDeleteKnowledgeBaseOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the Amazon Web Services account that contains the knowl- edge base. Constraints: o min: 12 o max: 12 o pattern: [0-9]*
+    /// The ID of the Amazon Web Services account that contains the knowledge base. Constraints: • min: 12 • max: 12 • pattern: [0-9]*
     /// </summary>
     [CliOption("--aws-account-id")]
     public string? AwsAccountId { get; private init; }
 
     /// <summary>
-    /// A list of knowledge base identifiers to delete. Constraints: o min: 1 o max: 10 (string) Constraints: o min: 1 o max: 1024 o pattern: [0-9a-zA-Z-_=.+]+ Syntax: "string" "string" ...
+    /// A list of knowledge base identifiers to delete. Constraints: • min: 1 • max: 10 (string) Constraints: • min: 1 • max: 1024 • pattern: [0-9a-zA-Z-_=.+]+ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--knowledge-base-ids", GroupValues = true)]
     public IEnumerable<string>? KnowledgeBaseIds { get; private init; }
@@ -103,6 +104,15 @@ public record AwsQuicksightBatchDeleteKnowledgeBaseOptions : AwsOptions, IValida
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

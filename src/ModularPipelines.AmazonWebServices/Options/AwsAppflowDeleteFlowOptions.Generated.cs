@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsAppflowDeleteFlowOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Enables your application to delete an existing flow. Before deleting the flow, Amazon AppFlow validates the request by checking the flow configuration and status. You can delete flows one at a time. See also: AWS API Documentation
     /// </summary>
-    /// <param name="FlowName">The specified name of the flow. Spaces are not allowed. Use under- scores (_) or hyphens (-) only. Constraints: o max: 256 o pattern: [a-zA-Z0-9][\w!@#.-]+</param>
+    /// <param name="FlowName">The specified name of the flow. Spaces are not allowed. Use underscores (_) or hyphens (-) only. Constraints: • max: 256 • pattern: [a-zA-Z0-9][\w!@#.-]+</param>
     public AwsAppflowDeleteFlowOptions(
         string FlowName
     )
@@ -56,7 +57,7 @@ public record AwsAppflowDeleteFlowOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The specified name of the flow. Spaces are not allowed. Use under- scores (_) or hyphens (-) only. Constraints: o max: 256 o pattern: [a-zA-Z0-9][\w!@#.-]+
+    /// The specified name of the flow. Spaces are not allowed. Use underscores (_) or hyphens (-) only. Constraints: • max: 256 • pattern: [a-zA-Z0-9][\w!@#.-]+
     /// </summary>
     [CliOption("--flow-name")]
     public string? FlowName { get; private init; }
@@ -88,6 +89,15 @@ public record AwsAppflowDeleteFlowOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

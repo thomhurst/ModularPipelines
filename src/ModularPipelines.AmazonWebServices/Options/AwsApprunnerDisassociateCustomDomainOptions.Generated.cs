@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Disassociate a custom domain name from an App Runner service. Certificates tracking domain validity are associated with a custom do- main and are stored in AWS Certificate Manager (ACM) . These certifi- cates aren't deleted as part of this action. App Runner delays certifi- cate deletion for 30 days after a domain is disassociated from your service. See also: AWS API Documentation
+/// Disassociate a custom domain name from an App Runner service. Certificates tracking domain validity are associated with a custom domain and are stored in AWS Certificate Manager (ACM) . These certificates aren't deleted as part of this action. App Runner delays certificate deletion for 30 days after a domain is disassociated from your service. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsApprunnerDisassociateCustomDomainOptions : AwsOptions, IValidat
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Disassociate a custom domain name from an App Runner service. Certificates tracking domain validity are associated with a custom do- main and are stored in AWS Certificate Manager (ACM) . These certifi- cates aren't deleted as part of this action. App Runner delays certifi- cate deletion for 30 days after a domain is disassociated from your service. See also: AWS API Documentation
+    /// Disassociate a custom domain name from an App Runner service. Certificates tracking domain validity are associated with a custom domain and are stored in AWS Certificate Manager (ACM) . These certificates aren't deleted as part of this action. App Runner delays certificate deletion for 30 days after a domain is disassociated from your service. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ServiceArn">The Amazon Resource Name (ARN) of the App Runner service that you want to disassociate a custom domain name from. Constraints: o min: 1 o max: 1011 o pattern: arn:aws(-[\w]+)*:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[0-9]{12}:(\w|\/|-){1,1011}</param>
-    /// <param name="DomainName">The domain name that you want to disassociate from the App Runner service. Constraints: o min: 1 o max: 255 o pattern: [A-Za-z0-9*.-]{1,255}</param>
+    /// <param name="ServiceArn">The Amazon Resource Name (ARN) of the App Runner service that you want to disassociate a custom domain name from. Constraints: • min: 1 • max: 1011 • pattern: arn:aws(-[\w]+)*:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[0-9]{12}:(\w|\/|-){1,1011}</param>
+    /// <param name="DomainName">The domain name that you want to disassociate from the App Runner service. Constraints: • min: 1 • max: 255 • pattern: [A-Za-z0-9*.-]{1,255}</param>
     public AwsApprunnerDisassociateCustomDomainOptions(
         string ServiceArn,
         string DomainName
@@ -60,13 +61,13 @@ public record AwsApprunnerDisassociateCustomDomainOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the App Runner service that you want to disassociate a custom domain name from. Constraints: o min: 1 o max: 1011 o pattern: arn:aws(-[\w]+)*:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[0-9]{12}:(\w|\/|-){1,1011}
+    /// The Amazon Resource Name (ARN) of the App Runner service that you want to disassociate a custom domain name from. Constraints: • min: 1 • max: 1011 • pattern: arn:aws(-[\w]+)*:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[0-9]{12}:(\w|\/|-){1,1011}
     /// </summary>
     [CliOption("--service-arn")]
     public string? ServiceArn { get; private init; }
 
     /// <summary>
-    /// The domain name that you want to disassociate from the App Runner service. Constraints: o min: 1 o max: 255 o pattern: [A-Za-z0-9*.-]{1,255}
+    /// The domain name that you want to disassociate from the App Runner service. Constraints: • min: 1 • max: 255 • pattern: [A-Za-z0-9*.-]{1,255}
     /// </summary>
     [CliOption("--domain-name")]
     public string? DomainName { get; private init; }
@@ -92,6 +93,15 @@ public record AwsApprunnerDisassociateCustomDomainOptions : AwsOptions, IValidat
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

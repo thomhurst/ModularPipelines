@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsDataexchangeAcceptDataGrantOptions : AwsOptions, IValidatableOb
     /// <summary>
     /// This operation accepts a data grant. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DataGrantArn">The Amazon Resource Name (ARN) of the data grant to accept. Constraints: o pattern: arn:aws:dataex- change:[\-a-z0-9]*:(\d{12}):data-grants\/[a-zA-Z0-9]{30,40}</param>
+    /// <param name="DataGrantArn">The Amazon Resource Name (ARN) of the data grant to accept. Constraints: • pattern: arn:aws:dataexchange:[\-a-z0-9]*:(\d{12}):data-grants\/[a-zA-Z0-9]{30,40}</param>
     public AwsDataexchangeAcceptDataGrantOptions(
         string DataGrantArn
     )
@@ -56,7 +57,7 @@ public record AwsDataexchangeAcceptDataGrantOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the data grant to accept. Constraints: o pattern: arn:aws:dataex- change:[\-a-z0-9]*:(\d{12}):data-grants\/[a-zA-Z0-9]{30,40}
+    /// The Amazon Resource Name (ARN) of the data grant to accept. Constraints: • pattern: arn:aws:dataexchange:[\-a-z0-9]*:(\d{12}):data-grants\/[a-zA-Z0-9]{30,40}
     /// </summary>
     [CliOption("--data-grant-arn")]
     public string? DataGrantArn { get; private init; }
@@ -82,6 +83,15 @@ public record AwsDataexchangeAcceptDataGrantOptions : AwsOptions, IValidatableOb
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

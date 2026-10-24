@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves information about a specific delegation request. If a delegation request has no owner or owner account, GetDelegationRe- quest for that delegation request can be called by any account. If the owner account is assigned but there is no owner id, only identities within that owner account can call GetDelegationRequest for the delega- tion request. Once the delegation request is fully owned, the owner of the request gets a default permission to get that delegation request. For more details,...
+/// Retrieves information about a specific delegation request. If a delegation request has no owner or owner account, GetDelegationRequest for that delegation request can be called by any account. If the owner account is assigned but there is no owner id, only identities within that owner account can call GetDelegationRequest for the delegation request. Once the delegation request is fully owned, the owner of the request gets a default permission to get that delegation request. For more details, see...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsIamGetDelegationRequestOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Retrieves information about a specific delegation request. If a delegation request has no owner or owner account, GetDelegationRe- quest for that delegation request can be called by any account. If the owner account is assigned but there is no owner id, only identities within that owner account can call GetDelegationRequest for the delega- tion request. Once the delegation request is fully owned, the owner of the request gets a default permission to get that delegation request. For more details,...
+    /// Retrieves information about a specific delegation request. If a delegation request has no owner or owner account, GetDelegationRequest for that delegation request can be called by any account. If the owner account is assigned but there is no owner id, only identities within that owner account can call GetDelegationRequest for the delegation request. Once the delegation request is fully owned, the owner of the request gets a default permission to get that delegation request. For more details, see...
     /// </summary>
-    /// <param name="DelegationRequestId">The unique identifier of the delegation request to retrieve. Constraints: o min: 16 o max: 128 o pattern: [\w-]+</param>
+    /// <param name="DelegationRequestId">The unique identifier of the delegation request to retrieve. Constraints: • min: 16 • max: 128 • pattern: [\w-]+</param>
     public AwsIamGetDelegationRequestOptions(
         string DelegationRequestId
     )
@@ -56,13 +57,13 @@ public record AwsIamGetDelegationRequestOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the delegation request to retrieve. Constraints: o min: 16 o max: 128 o pattern: [\w-]+
+    /// The unique identifier of the delegation request to retrieve. Constraints: • min: 16 • max: 128 • pattern: [\w-]+
     /// </summary>
     [CliOption("--delegation-request-id")]
     public string? DelegationRequestId { get; private init; }
 
     /// <summary>
-    /// Specifies whether to perform a permission check for the delegation request. If set to true, the GetDelegationRequest API call will start a per- mission check process. This process calculates whether the caller has sufficient permissions to cover the asks from this delegation request. Setting this parameter to true does not guarantee an answer in the response. See the PermissionCheckStatus and the PermissionCheckRe- sult response attributes for further details.
+    /// Specifies whether to perform a permission check for the delegation request. If set to true, the GetDelegationRequest API call will start a permission check process. This process calculates whether the caller has sufficient permissions to cover the asks from this delegation request. Setting this parameter to true does not guarantee an answer in the response. See the PermissionCheckStatus and the PermissionCheckResult response attributes for further details.
     /// </summary>
     [CliFlag("--delegation-permission-check", NegatedName = "--no-delegation-permission-check")]
     public bool? DelegationPermissionCheck { get; set; }
@@ -88,6 +89,15 @@ public record AwsIamGetDelegationRequestOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

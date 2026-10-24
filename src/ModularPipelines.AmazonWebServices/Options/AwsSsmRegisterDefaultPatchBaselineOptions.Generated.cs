@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Defines the default patch baseline for the relevant operating system. To reset the Amazon Web Services-predefined patch baseline as the de- fault, specify the full patch baseline Amazon Resource Name (ARN) as the baseline ID value. For example, for CentOS, specify arn:aws:ssm:us-east-2:733109147000:patchbaseline/pb-0574b43a65ea646ed instead of pb-0574b43a65ea646ed . See also: AWS API Documentation
+/// Defines the default patch baseline for the relevant operating system. To reset the Amazon Web Services-predefined patch baseline as the default, specify the full patch baseline Amazon Resource Name (ARN) as the baseline ID value. For example, for CentOS, specify arn:aws:ssm:us-east-2:733109147000:patchbaseline/pb-0574b43a65ea646ed instead of pb-0574b43a65ea646ed . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsSsmRegisterDefaultPatchBaselineOptions : AwsOptions, IValidatab
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Defines the default patch baseline for the relevant operating system. To reset the Amazon Web Services-predefined patch baseline as the de- fault, specify the full patch baseline Amazon Resource Name (ARN) as the baseline ID value. For example, for CentOS, specify arn:aws:ssm:us-east-2:733109147000:patchbaseline/pb-0574b43a65ea646ed instead of pb-0574b43a65ea646ed . See also: AWS API Documentation
+    /// Defines the default patch baseline for the relevant operating system. To reset the Amazon Web Services-predefined patch baseline as the default, specify the full patch baseline Amazon Resource Name (ARN) as the baseline ID value. For example, for CentOS, specify arn:aws:ssm:us-east-2:733109147000:patchbaseline/pb-0574b43a65ea646ed instead of pb-0574b43a65ea646ed . See also: AWS API Documentation
     /// </summary>
-    /// <param name="BaselineId">The ID of the patch baseline that should be the default patch base- line. Constraints: o min: 20 o max: 128 o pattern: ^[a-zA-Z0-9_\-:/]{20,128}$</param>
+    /// <param name="BaselineId">The ID of the patch baseline that should be the default patch baseline. Constraints: • min: 20 • max: 128 • pattern: ^[a-zA-Z0-9_\-:/]{20,128}$</param>
     public AwsSsmRegisterDefaultPatchBaselineOptions(
         string BaselineId
     )
@@ -56,7 +57,7 @@ public record AwsSsmRegisterDefaultPatchBaselineOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the patch baseline that should be the default patch base- line. Constraints: o min: 20 o max: 128 o pattern: ^[a-zA-Z0-9_\-:/]{20,128}$
+    /// The ID of the patch baseline that should be the default patch baseline. Constraints: • min: 20 • max: 128 • pattern: ^[a-zA-Z0-9_\-:/]{20,128}$
     /// </summary>
     [CliOption("--baseline-id")]
     public string? BaselineId { get; private init; }
@@ -82,6 +83,15 @@ public record AwsSsmRegisterDefaultPatchBaselineOptions : AwsOptions, IValidatab
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

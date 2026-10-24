@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Cancels a deployment. This operation cancels the deployment for devices that haven't yet received it. If a device already received the deploy- ment, this operation doesn't change anything for that device. See also: AWS API Documentation
+/// Cancels a deployment. This operation cancels the deployment for devices that haven't yet received it. If a device already received the deployment, this operation doesn't change anything for that device. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsGreengrassv2CancelDeploymentOptions : AwsOptions, IValidatableO
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Cancels a deployment. This operation cancels the deployment for devices that haven't yet received it. If a device already received the deploy- ment, this operation doesn't change anything for that device. See also: AWS API Documentation
+    /// Cancels a deployment. This operation cancels the deployment for devices that haven't yet received it. If a device already received the deployment, this operation doesn't change anything for that device. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DeploymentId">The ID of the deployment. Constraints: o min: 1</param>
+    /// <param name="DeploymentId">The ID of the deployment. Constraints: • min: 1</param>
     public AwsGreengrassv2CancelDeploymentOptions(
         string DeploymentId
     )
@@ -56,7 +57,7 @@ public record AwsGreengrassv2CancelDeploymentOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the deployment. Constraints: o min: 1
+    /// The ID of the deployment. Constraints: • min: 1
     /// </summary>
     [CliOption("--deployment-id")]
     public string? DeploymentId { get; private init; }
@@ -82,6 +83,15 @@ public record AwsGreengrassv2CancelDeploymentOptions : AwsOptions, IValidatableO
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

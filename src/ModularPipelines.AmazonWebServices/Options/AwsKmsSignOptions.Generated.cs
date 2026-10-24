@@ -11,13 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a digital signature for a message or message digest by using the private key in an asymmetric signing KMS key. To verify the signa- ture, use the Verify operation, or use the public key in the same asymmetric KMS key outside of KMS. For information about asymmetric KMS keys, see Asymmetric KMS keys in the Key Management Service Developer Guide . Digital signatures are generated and verified by using asymmetric key pair, such as an RSA, ECC, or ML-DSA pair that is represented by an asymme...
+/// Creates a digital signature for a message or message digest by using the private key in an asymmetric signing KMS key. To verify the signature, use the Verify operation, or use the public key in the same asymmetric KMS key outside of KMS. For information about asymmetric KMS keys, see Asymmetric KMS keys in the Key Management Service Developer Guide . Digital signatures are generated and verified by using asymmetric key pair, such as an RSA, ECC, or ML-DSA pair that is represented by an asymmetr...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,11 +28,11 @@ public record AwsKmsSignOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a digital signature for a message or message digest by using the private key in an asymmetric signing KMS key. To verify the signa- ture, use the Verify operation, or use the public key in the same asymmetric KMS key outside of KMS. For information about asymmetric KMS keys, see Asymmetric KMS keys in the Key Management Service Developer Guide . Digital signatures are generated and verified by using asymmetric key pair, such as an RSA, ECC, or ML-DSA pair that is represented by an asymme...
+    /// Creates a digital signature for a message or message digest by using the private key in an asymmetric signing KMS key. To verify the signature, use the Verify operation, or use the public key in the same asymmetric KMS key outside of KMS. For information about asymmetric KMS keys, see Asymmetric KMS keys in the Key Management Service Developer Guide . Digital signatures are generated and verified by using asymmetric key pair, such as an RSA, ECC, or ML-DSA pair that is represented by an asymmetr...
     /// </summary>
-    /// <param name="KeyId">Identifies an asymmetric KMS key. KMS uses the private key in the asymmetric KMS key to sign the message. The KeyUsage type of the KMS key must be SIGN_VERIFY . To find the KeyUsage of a KMS key, use the DescribeKey operation. To specify a KMS key, use its key ID, key ARN, alias name, or alias ARN. When using an alias name, prefix it with "alias/" . To specify a KMS key in a different Amazon Web Services account, you must use the key ARN or alias ARN. For example: o Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab o Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab o Alias name: alias/ExampleAlias o Alias ARN: arn:aws:kms:us-east-2:111122223333:alias/ExampleAlias To get the key ID and key ARN for a KMS key, use ListKeys or De- scribeKey . To get the alias name and alias ARN, use ListAliases . Constraints: o min: 1 o max: 2048</param>
-    /// <param name="Message">Specifies the message or message digest to sign. Messages can be 0-4096 bytes. To sign a larger message, provide a message digest. If you provide a message digest, use the DIGEST value of MessageType to prevent the digest from being hashed again while signing. Constraints: o min: 1 o max: 4096</param>
-    /// <param name="SigningAlgorithm">Specifies the signing algorithm to use when signing the message. Choose an algorithm that is compatible with the type and size of the specified asymmetric KMS key. When signing with RSA key pairs, RSASSA-PSS algorithms are preferred. We include RSASSA-PKCS1-v1_5 algorithms for compatibility with existing applications. Possible values: o RSASSA_PSS_SHA_256 o RSASSA_PSS_SHA_384 o RSASSA_PSS_SHA_512 o RSASSA_PKCS1_V1_5_SHA_256 o RSASSA_PKCS1_V1_5_SHA_384 o RSASSA_PKCS1_V1_5_SHA_512 o ECDSA_SHA_256 o ECDSA_SHA_384 o ECDSA_SHA_512 o SM2DSA o ML_DSA_SHAKE_256 o ED25519_SHA_512 o ED25519_PH_SHA_512</param>
+    /// <param name="KeyId">Identifies an asymmetric KMS key. KMS uses the private key in the asymmetric KMS key to sign the message. The KeyUsage type of the KMS key must be SIGN_VERIFY . To find the KeyUsage of a KMS key, use the DescribeKey operation. To specify a KMS key, use its key ID, key ARN, alias name, or alias ARN. When using an alias name, prefix it with "alias/" . To specify a KMS key in a different Amazon Web Services account, you must use the key ARN or alias ARN. For example: • Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab • Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab • Alias name: alias/ExampleAlias • Alias ARN: arn:aws:kms:us-east-2:111122223333:alias/ExampleAlias To get the key ID and key ARN for a KMS key, use ListKeys or DescribeKey . To get the alias name and alias ARN, use ListAliases . Constraints: • min: 1 • max: 2048</param>
+    /// <param name="Message">Specifies the message or message digest to sign. Messages can be 0-4096 bytes. To sign a larger message, provide a message digest. If you provide a message digest, use the DIGEST value of MessageType to prevent the digest from being hashed again while signing. Constraints: • min: 1 • max: 4096</param>
+    /// <param name="SigningAlgorithm">Specifies the signing algorithm to use when signing the message. Choose an algorithm that is compatible with the type and size of the specified asymmetric KMS key. When signing with RSA key pairs, RSASSA-PSS algorithms are preferred. We include RSASSA-PKCS1-v1_5 algorithms for compatibility with existing applications. Possible values: • RSASSA_PSS_SHA_256 • RSASSA_PSS_SHA_384 • RSASSA_PSS_SHA_512 • RSASSA_PKCS1_V1_5_SHA_256 • RSASSA_PKCS1_V1_5_SHA_384 • RSASSA_PKCS1_V1_5_SHA_512 • ECDSA_SHA_256 • ECDSA_SHA_384 • ECDSA_SHA_512 • SM2DSA • ML_DSA_SHAKE_256 • ED25519_SHA_512 • ED25519_PH_SHA_512</param>
     public AwsKmsSignOptions(
         string KeyId,
         string Message,
@@ -65,38 +66,38 @@ public record AwsKmsSignOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Identifies an asymmetric KMS key. KMS uses the private key in the asymmetric KMS key to sign the message. The KeyUsage type of the KMS key must be SIGN_VERIFY . To find the KeyUsage of a KMS key, use the DescribeKey operation. To specify a KMS key, use its key ID, key ARN, alias name, or alias ARN. When using an alias name, prefix it with "alias/" . To specify a KMS key in a different Amazon Web Services account, you must use the key ARN or alias ARN. For example: o Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab o Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab o Alias name: alias/ExampleAlias o Alias ARN: arn:aws:kms:us-east-2:111122223333:alias/ExampleAlias To get the key ID and key ARN for a KMS key, use ListKeys or De- scribeKey . To get the alias name and alias ARN, use ListAliases . Constraints: o min: 1 o max: 2048
+    /// Identifies an asymmetric KMS key. KMS uses the private key in the asymmetric KMS key to sign the message. The KeyUsage type of the KMS key must be SIGN_VERIFY . To find the KeyUsage of a KMS key, use the DescribeKey operation. To specify a KMS key, use its key ID, key ARN, alias name, or alias ARN. When using an alias name, prefix it with "alias/" . To specify a KMS key in a different Amazon Web Services account, you must use the key ARN or alias ARN. For example: • Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab • Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab • Alias name: alias/ExampleAlias • Alias ARN: arn:aws:kms:us-east-2:111122223333:alias/ExampleAlias To get the key ID and key ARN for a KMS key, use ListKeys or DescribeKey . To get the alias name and alias ARN, use ListAliases . Constraints: • min: 1 • max: 2048
     /// </summary>
     [CliOption("--key-id")]
     public string? KeyId { get; private init; }
 
     /// <summary>
-    /// Specifies the message or message digest to sign. Messages can be 0-4096 bytes. To sign a larger message, provide a message digest. If you provide a message digest, use the DIGEST value of MessageType to prevent the digest from being hashed again while signing. Constraints: o min: 1 o max: 4096
+    /// Specifies the message or message digest to sign. Messages can be 0-4096 bytes. To sign a larger message, provide a message digest. If you provide a message digest, use the DIGEST value of MessageType to prevent the digest from being hashed again while signing. Constraints: • min: 1 • max: 4096
     /// </summary>
     [CliOption("--message")]
     public string? Message { get; private init; }
 
     /// <summary>
-    /// Specifies the signing algorithm to use when signing the message. Choose an algorithm that is compatible with the type and size of the specified asymmetric KMS key. When signing with RSA key pairs, RSASSA-PSS algorithms are preferred. We include RSASSA-PKCS1-v1_5 algorithms for compatibility with existing applications. Possible values: o RSASSA_PSS_SHA_256 o RSASSA_PSS_SHA_384 o RSASSA_PSS_SHA_512 o RSASSA_PKCS1_V1_5_SHA_256 o RSASSA_PKCS1_V1_5_SHA_384 o RSASSA_PKCS1_V1_5_SHA_512 o ECDSA_SHA_256 o ECDSA_SHA_384 o ECDSA_SHA_512 o SM2DSA o ML_DSA_SHAKE_256 o ED25519_SHA_512 o ED25519_PH_SHA_512
+    /// Specifies the signing algorithm to use when signing the message. Choose an algorithm that is compatible with the type and size of the specified asymmetric KMS key. When signing with RSA key pairs, RSASSA-PSS algorithms are preferred. We include RSASSA-PKCS1-v1_5 algorithms for compatibility with existing applications. Possible values: • RSASSA_PSS_SHA_256 • RSASSA_PSS_SHA_384 • RSASSA_PSS_SHA_512 • RSASSA_PKCS1_V1_5_SHA_256 • RSASSA_PKCS1_V1_5_SHA_384 • RSASSA_PKCS1_V1_5_SHA_512 • ECDSA_SHA_256 • ECDSA_SHA_384 • ECDSA_SHA_512 • SM2DSA • ML_DSA_SHAKE_256 • ED25519_SHA_512 • ED25519_PH_SHA_512
     /// </summary>
     [CliOption("--signing-algorithm")]
     public AwsKmsSignSigningAlgorithm? SigningAlgorithm { get; private init; }
 
     /// <summary>
-    /// Tells KMS whether the value of the Message parameter should be hashed as part of the signing algorithm. Use RAW for unhashed mes- sages; use DIGEST for message digests, which are already hashed; use EXTERNAL_MU for 64-byte representative used in ML-DSA signing as defined in NIST FIPS 204 Section 6.2. When the value of MessageType is RAW , KMS uses the standard signing algorithm, which begins with a hash function. When the value is DI- GEST , KMS skips the hashing step in the signing algorithm. When the value is EXTERNAL_MU KMS skips the concatenated hashing of the pub- lic key hash and the message done in the ML-DSA signing algorithm. WARNING: Use the DIGEST or EXTERNAL_MU value only when the value of the Message parameter is a message digest. If you use the DIGEST value with an unhashed message, the security of the signing op- eration can be compromised. When using ECC_NIST_EDWARDS25519 KMS keys: o ED25519_SHA_512 signing algorithm requires KMS MessageType:RAW o ED25519_PH_SHA_512 signing algorithm requires KMS MessageType:DI- GEST WARNING: When you specify the ED25519_PH_SHA_512 signing algorithm with MessageType:DIGEST , KMS still performs the SHA-512 prehash de- scribed in Step 1 of Section 7.8.1 in FIPS 186-5 . This means the input is hashed twice: once by you and once by KMS. When the value of MessageType is DIGEST , the length of the Message value must match the length of hashed messages for the specified signing algorithm. When the value of MessageType is EXTERNAL_MU the length of the Mes- sage value must be 64 bytes. You can submit a message digest and omit the MessageType or specify RAW so the digest is hashed again while signing. However, this can cause verification failures when verifying with a system that as- sumes a single hash. The hashing algorithm that Sign uses is based on the SigningAlgo- rithm value. o Signing algorithms that end in SHA_256 use the SHA_256 hashing al- gorithm. o Signing algorithms that end in SHA_384 use the SHA_384 hashing al- gorithm. o Signing algorithms that end in SHA_512 use the SHA_512 hashing al- gorithm. o Signing algorithms that end in SHAKE_256 use the SHAKE_256 hashing algorithm. o SM2DSA uses the SM3 hashing algorithm. For details, see Offline verification with SM2 key pairs . Possible values: o RAW o DIGEST o EXTERNAL_MU
+    /// Tells KMS whether the value of the Message parameter should be hashed as part of the signing algorithm. Use RAW for unhashed messages; use DIGEST for message digests, which are already hashed; use EXTERNAL_MU for 64-byte representative used in ML-DSA signing as defined in NIST FIPS 204 Section 6.2. When the value of MessageType is RAW , KMS uses the standard signing algorithm, which begins with a hash function. When the value is DIGEST , KMS skips the hashing step in the signing algorithm. When the value is EXTERNAL_MU KMS skips the concatenated hashing of the public key hash and the message done in the ML-DSA signing algorithm. WARNING: Use the DIGEST or EXTERNAL_MU value only when the value of the Message parameter is a message digest. If you use the DIGEST value with an unhashed message, the security of the signing operation can be compromised. When using ECC_NIST_EDWARDS25519 KMS keys: • ED25519_SHA_512 signing algorithm requires KMS MessageType:RAW • ED25519_PH_SHA_512 signing algorithm requires KMS MessageType:DIGEST WARNING: When you specify the ED25519_PH_SHA_512 signing algorithm with MessageType:DIGEST , KMS still performs the SHA-512 prehash described in Step 1 of Section 7.8.1 in FIPS 186-5 . This means the input is hashed twice: once by you and once by KMS. When the value of MessageType is DIGEST , the length of the Message value must match the length of hashed messages for the specified signing algorithm. When the value of MessageType is EXTERNAL_MU the length of the Message value must be 64 bytes. You can submit a message digest and omit the MessageType or specify RAW so the digest is hashed again while signing. However, this can cause verification failures when verifying with a system that assumes a single hash. The hashing algorithm that Sign uses is based on the SigningAlgorithm value. • Signing algorithms that end in SHA_256 use the SHA_256 hashing algorithm. • Signing algorithms that end in SHA_384 use the SHA_384 hashing algorithm. • Signing algorithms that end in SHA_512 use the SHA_512 hashing algorithm. • Signing algorithms that end in SHAKE_256 use the SHAKE_256 hashing algorithm. • SM2DSA uses the SM3 hashing algorithm. For details, see Offline verification with SM2 key pairs . Possible values: • RAW • DIGEST • EXTERNAL_MU
     /// </summary>
     [CliOption("--message-type")]
     public AwsKmsSignMessageType? MessageType { get; set; }
 
     /// <summary>
-    /// A list of grant tokens. Use a grant token when your permission to call this operation comes from a new grant that has not yet achieved eventual consistency . For more information, see Grant token and Using a grant token in the Key Management Service Developer Guide . Constraints: o min: 0 o max: 10 (string) Constraints: o min: 1 o max: 8192 Syntax: "string" "string" ...
+    /// A list of grant tokens. Use a grant token when your permission to call this operation comes from a new grant that has not yet achieved eventual consistency . For more information, see Grant token and Using a grant token in the Key Management Service Developer Guide . Constraints: • min: 0 • max: 10 (string) Constraints: • min: 1 • max: 8192 Syntax: "string" "string" ...
     /// </summary>
     [SecretValue]
     [CliOption("--grant-tokens", GroupValues = true)]
     public IEnumerable<string>? GrantTokens { get; set; }
 
     /// <summary>
-    /// Checks if your request will succeed. DryRun is an optional parame- ter. To learn more about how to use this parameter, see Testing your per- missions in the Key Management Service Developer Guide .
+    /// Checks if your request will succeed. DryRun is an optional parameter. To learn more about how to use this parameter, see Testing your permissions in the Key Management Service Developer Guide .
     /// </summary>
     [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
@@ -122,6 +123,15 @@ public record AwsKmsSignOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

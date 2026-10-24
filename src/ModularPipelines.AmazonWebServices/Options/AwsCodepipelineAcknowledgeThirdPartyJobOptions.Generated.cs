@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,9 +29,9 @@ public record AwsCodepipelineAcknowledgeThirdPartyJobOptions : AwsOptions, IVali
     /// <summary>
     /// Confirms a job worker has received the specified job. Used for partner actions only. See also: AWS API Documentation
     /// </summary>
-    /// <param name="JobId">The unique system-generated ID of the job. Constraints: o min: 1 o max: 512</param>
-    /// <param name="Nonce">A system-generated random number that CodePipeline uses to ensure that the job is being worked on by only one job worker. Get this number from the response to a GetThirdPartyJobDetails request. Constraints: o min: 1 o max: 50</param>
-    /// <param name="ClientToken">The clientToken portion of the clientId and clientToken pair used to verify that the calling entity is allowed access to the job and its details. Constraints: o min: 1 o max: 256</param>
+    /// <param name="JobId">The unique system-generated ID of the job. Constraints: • min: 1 • max: 512</param>
+    /// <param name="Nonce">A system-generated random number that CodePipeline uses to ensure that the job is being worked on by only one job worker. Get this number from the response to a GetThirdPartyJobDetails request. Constraints: • min: 1 • max: 50</param>
+    /// <param name="ClientToken">The clientToken portion of the clientId and clientToken pair used to verify that the calling entity is allowed access to the job and its details. Constraints: • min: 1 • max: 256</param>
     public AwsCodepipelineAcknowledgeThirdPartyJobOptions(
         string JobId,
         string Nonce,
@@ -65,19 +66,19 @@ public record AwsCodepipelineAcknowledgeThirdPartyJobOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique system-generated ID of the job. Constraints: o min: 1 o max: 512
+    /// The unique system-generated ID of the job. Constraints: • min: 1 • max: 512
     /// </summary>
     [CliOption("--job-id")]
     public string? JobId { get; private init; }
 
     /// <summary>
-    /// A system-generated random number that CodePipeline uses to ensure that the job is being worked on by only one job worker. Get this number from the response to a GetThirdPartyJobDetails request. Constraints: o min: 1 o max: 50
+    /// A system-generated random number that CodePipeline uses to ensure that the job is being worked on by only one job worker. Get this number from the response to a GetThirdPartyJobDetails request. Constraints: • min: 1 • max: 50
     /// </summary>
     [CliOption("--nonce")]
     public string? Nonce { get; private init; }
 
     /// <summary>
-    /// The clientToken portion of the clientId and clientToken pair used to verify that the calling entity is allowed access to the job and its details. Constraints: o min: 1 o max: 256
+    /// The clientToken portion of the clientId and clientToken pair used to verify that the calling entity is allowed access to the job and its details. Constraints: • min: 1 • max: 256
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
@@ -104,6 +105,15 @@ public record AwsCodepipelineAcknowledgeThirdPartyJobOptions : AwsOptions, IVali
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Operation to delete a Harness. See also: AWS API Documentation delete-harness uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested para- meters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
+/// Operation to delete a Harness. See also: AWS API Documentation delete-harness uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +27,9 @@ public record AwsBedrockAgentcoreControlDeleteHarnessOptions : AwsOptions, IVali
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Operation to delete a Harness. See also: AWS API Documentation delete-harness uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested para- meters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
+    /// Operation to delete a Harness. See also: AWS API Documentation delete-harness uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
     /// </summary>
-    /// <param name="HarnessId">The ID of the harness to delete. Constraints: o pattern: [a-zA-Z][a-zA-Z0-9_]{0,39}-[a-zA-Z0-9]{10}</param>
+    /// <param name="HarnessId">The ID of the harness to delete. Constraints: • pattern: [a-zA-Z][a-zA-Z0-9_]{0,39}-[a-zA-Z0-9]{10}</param>
     public AwsBedrockAgentcoreControlDeleteHarnessOptions(
         string HarnessId
     )
@@ -57,13 +58,13 @@ public record AwsBedrockAgentcoreControlDeleteHarnessOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the harness to delete. Constraints: o pattern: [a-zA-Z][a-zA-Z0-9_]{0,39}-[a-zA-Z0-9]{10}
+    /// The ID of the harness to delete. Constraints: • pattern: [a-zA-Z][a-zA-Z0-9_]{0,39}-[a-zA-Z0-9]{10}
     /// </summary>
     [CliOption("--harness-id")]
     public string? HarnessId { get; private init; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier to ensure idempotency of the re- quest. Constraints: o min: 33 o max: 256 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,256}
+    /// A unique, case-sensitive identifier to ensure idempotency of the request. Constraints: • min: 33 • max: 256 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,256}
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
@@ -96,6 +97,15 @@ public record AwsBedrockAgentcoreControlDeleteHarnessOptions : AwsOptions, IVali
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,9 +28,9 @@ public record AwsMigrationHubRefactorSpacesDeleteServiceOptions : AwsOptions, IV
     /// <summary>
     /// Deletes an Amazon Web Services Migration Hub Refactor Spaces service. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ApplicationIdentifier">Deletes a Refactor Spaces service. NOTE: The RefactorSpacesSecurityGroup security group must be removed from all Amazon Web Services resources in the virtual private cloud (VPC) prior to deleting a service with a URL endpoint in a VPC. Constraints: o min: 14 o max: 14 o pattern: ^app-[0-9A-Za-z]{10}$</param>
-    /// <param name="EnvironmentIdentifier">The ID of the environment that the service is in. Constraints: o min: 14 o max: 14 o pattern: ^env-[0-9A-Za-z]{10}$</param>
-    /// <param name="ServiceIdentifier">The ID of the service to delete. Constraints: o min: 14 o max: 14 o pattern: ^svc-[0-9A-Za-z]{10}$</param>
+    /// <param name="ApplicationIdentifier">Deletes a Refactor Spaces service. NOTE: The RefactorSpacesSecurityGroup security group must be removed from all Amazon Web Services resources in the virtual private cloud (VPC) prior to deleting a service with a URL endpoint in a VPC. Constraints: • min: 14 • max: 14 • pattern: ^app-[0-9A-Za-z]{10}$</param>
+    /// <param name="EnvironmentIdentifier">The ID of the environment that the service is in. Constraints: • min: 14 • max: 14 • pattern: ^env-[0-9A-Za-z]{10}$</param>
+    /// <param name="ServiceIdentifier">The ID of the service to delete. Constraints: • min: 14 • max: 14 • pattern: ^svc-[0-9A-Za-z]{10}$</param>
     public AwsMigrationHubRefactorSpacesDeleteServiceOptions(
         string ApplicationIdentifier,
         string EnvironmentIdentifier,
@@ -64,19 +65,19 @@ public record AwsMigrationHubRefactorSpacesDeleteServiceOptions : AwsOptions, IV
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Deletes a Refactor Spaces service. NOTE: The RefactorSpacesSecurityGroup security group must be removed from all Amazon Web Services resources in the virtual private cloud (VPC) prior to deleting a service with a URL endpoint in a VPC. Constraints: o min: 14 o max: 14 o pattern: ^app-[0-9A-Za-z]{10}$
+    /// Deletes a Refactor Spaces service. NOTE: The RefactorSpacesSecurityGroup security group must be removed from all Amazon Web Services resources in the virtual private cloud (VPC) prior to deleting a service with a URL endpoint in a VPC. Constraints: • min: 14 • max: 14 • pattern: ^app-[0-9A-Za-z]{10}$
     /// </summary>
     [CliOption("--application-identifier")]
     public string? ApplicationIdentifier { get; private init; }
 
     /// <summary>
-    /// The ID of the environment that the service is in. Constraints: o min: 14 o max: 14 o pattern: ^env-[0-9A-Za-z]{10}$
+    /// The ID of the environment that the service is in. Constraints: • min: 14 • max: 14 • pattern: ^env-[0-9A-Za-z]{10}$
     /// </summary>
     [CliOption("--environment-identifier")]
     public string? EnvironmentIdentifier { get; private init; }
 
     /// <summary>
-    /// The ID of the service to delete. Constraints: o min: 14 o max: 14 o pattern: ^svc-[0-9A-Za-z]{10}$
+    /// The ID of the service to delete. Constraints: • min: 14 • max: 14 • pattern: ^svc-[0-9A-Za-z]{10}$
     /// </summary>
     [CliOption("--service-identifier")]
     public string? ServiceIdentifier { get; private init; }
@@ -102,6 +103,15 @@ public record AwsMigrationHubRefactorSpacesDeleteServiceOptions : AwsOptions, IV
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

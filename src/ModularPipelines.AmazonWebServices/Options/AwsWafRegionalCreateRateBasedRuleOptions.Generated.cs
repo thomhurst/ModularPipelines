@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,16 +29,16 @@ public record AwsWafRegionalCreateRateBasedRuleOptions : AwsOptions, IValidatabl
     /// <summary>
     /// NOTE: This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the developer guide. For the latest version of AWS WAF , use the AWS WAFV2 API and see the AWS WAF Developer Guide . With the latest version, AWS WAF has a single set of endpoints for regional and global use. Creates a RateBasedRule . The RateBasedRule contains a RateLimit , which specifies the maximum number of requests that AWS WAF allows from a specified IP address in a five-minute period. The RateBasedR...
     /// </summary>
-    /// <param name="Name">A friendly name or description of the RateBasedRule . You can't change the name of a RateBasedRule after you create it. Constraints: o min: 1 o max: 128 o pattern: .*\S.*</param>
-    /// <param name="MetricName">A friendly name or description for the metrics for this RateBase- dRule . The name can contain only alphanumeric characters (A-Z, a-z, 0-9), with maximum length 128 and minimum length one. It can't con- tain whitespace or metric names reserved for AWS WAF, including "All" and "Default_Action." You can't change the name of the metric after you create the RateBasedRule . Constraints: o min: 1 o max: 128 o pattern: .*\S.*</param>
-    /// <param name="RateKey">The field that AWS WAF uses to determine if requests are likely ar- riving from a single source and thus subject to rate monitoring. The only valid value for RateKey is IP . IP indicates that requests that arrive from the same IP address are subject to the RateLimit that is specified in the RateBasedRule . Possible values: o IP</param>
-    /// <param name="RateLimit">The maximum number of requests, which have an identical value in the field that is specified by RateKey , allowed in a five-minute pe- riod. If the number of requests exceeds the RateLimit and the other predicates specified in the rule are also met, AWS WAF triggers the action that is specified for this rule. Constraints: o min: 100 o max: 2000000000</param>
-    /// <param name="ChangeToken">The ChangeToken that you used to submit the CreateRateBasedRule re- quest. You can also use this value to query the status of the re- quest. For more information, see GetChangeTokenStatus . Constraints: o min: 1 o max: 128 o pattern: .*\S.*</param>
+    /// <param name="Name">A friendly name or description of the RateBasedRule . You can't change the name of a RateBasedRule after you create it. Constraints: • min: 1 • max: 128 • pattern: .*\S.*</param>
+    /// <param name="MetricName">A friendly name or description for the metrics for this RateBasedRule . The name can contain only alphanumeric characters (A-Z, a-z, 0-9), with maximum length 128 and minimum length one. It can't contain whitespace or metric names reserved for AWS WAF, including "All" and "Default_Action." You can't change the name of the metric after you create the RateBasedRule . Constraints: • min: 1 • max: 128 • pattern: .*\S.*</param>
+    /// <param name="RateKey">The field that AWS WAF uses to determine if requests are likely arriving from a single source and thus subject to rate monitoring. The only valid value for RateKey is IP . IP indicates that requests that arrive from the same IP address are subject to the RateLimit that is specified in the RateBasedRule . Possible values: • IP</param>
+    /// <param name="RateLimit">The maximum number of requests, which have an identical value in the field that is specified by RateKey , allowed in a five-minute period. If the number of requests exceeds the RateLimit and the other predicates specified in the rule are also met, AWS WAF triggers the action that is specified for this rule. Constraints: • min: 100 • max: 2000000000</param>
+    /// <param name="ChangeToken">The ChangeToken that you used to submit the CreateRateBasedRule request. You can also use this value to query the status of the request. For more information, see GetChangeTokenStatus . Constraints: • min: 1 • max: 128 • pattern: .*\S.*</param>
     public AwsWafRegionalCreateRateBasedRuleOptions(
         string Name,
         string MetricName,
         string RateKey,
-        int RateLimit,
+        long RateLimit,
         string ChangeToken
     )
     {
@@ -72,38 +73,38 @@ public record AwsWafRegionalCreateRateBasedRuleOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A friendly name or description of the RateBasedRule . You can't change the name of a RateBasedRule after you create it. Constraints: o min: 1 o max: 128 o pattern: .*\S.*
+    /// A friendly name or description of the RateBasedRule . You can't change the name of a RateBasedRule after you create it. Constraints: • min: 1 • max: 128 • pattern: .*\S.*
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// A friendly name or description for the metrics for this RateBase- dRule . The name can contain only alphanumeric characters (A-Z, a-z, 0-9), with maximum length 128 and minimum length one. It can't con- tain whitespace or metric names reserved for AWS WAF, including "All" and "Default_Action." You can't change the name of the metric after you create the RateBasedRule . Constraints: o min: 1 o max: 128 o pattern: .*\S.*
+    /// A friendly name or description for the metrics for this RateBasedRule . The name can contain only alphanumeric characters (A-Z, a-z, 0-9), with maximum length 128 and minimum length one. It can't contain whitespace or metric names reserved for AWS WAF, including "All" and "Default_Action." You can't change the name of the metric after you create the RateBasedRule . Constraints: • min: 1 • max: 128 • pattern: .*\S.*
     /// </summary>
     [CliOption("--metric-name")]
     public string? MetricName { get; private init; }
 
     /// <summary>
-    /// The field that AWS WAF uses to determine if requests are likely ar- riving from a single source and thus subject to rate monitoring. The only valid value for RateKey is IP . IP indicates that requests that arrive from the same IP address are subject to the RateLimit that is specified in the RateBasedRule . Possible values: o IP
+    /// The field that AWS WAF uses to determine if requests are likely arriving from a single source and thus subject to rate monitoring. The only valid value for RateKey is IP . IP indicates that requests that arrive from the same IP address are subject to the RateLimit that is specified in the RateBasedRule . Possible values: • IP
     /// </summary>
     [CliOption("--rate-key")]
     public string? RateKey { get; private init; }
 
     /// <summary>
-    /// The maximum number of requests, which have an identical value in the field that is specified by RateKey , allowed in a five-minute pe- riod. If the number of requests exceeds the RateLimit and the other predicates specified in the rule are also met, AWS WAF triggers the action that is specified for this rule. Constraints: o min: 100 o max: 2000000000
+    /// The maximum number of requests, which have an identical value in the field that is specified by RateKey , allowed in a five-minute period. If the number of requests exceeds the RateLimit and the other predicates specified in the rule are also met, AWS WAF triggers the action that is specified for this rule. Constraints: • min: 100 • max: 2000000000
     /// </summary>
     [CliOption("--rate-limit")]
-    public int? RateLimit { get; private init; }
+    public long? RateLimit { get; private init; }
 
     /// <summary>
-    /// The ChangeToken that you used to submit the CreateRateBasedRule re- quest. You can also use this value to query the status of the re- quest. For more information, see GetChangeTokenStatus . Constraints: o min: 1 o max: 128 o pattern: .*\S.*
+    /// The ChangeToken that you used to submit the CreateRateBasedRule request. You can also use this value to query the status of the request. For more information, see GetChangeTokenStatus . Constraints: • min: 1 • max: 128 • pattern: .*\S.*
     /// </summary>
     [SecretValue]
     [CliOption("--change-token")]
     public string? ChangeToken { get; private init; }
 
     /// <summary>
-    /// Constraints: o min: 1 (structure) NOTE: This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the developer guide. For the latest version of AWS WAF , use the AWS WAFV2 API and see the AWS WAF Developer Guide . With the latest version, AWS WAF has a single set of endpoints for re- gional and global use. A tag associated with an AWS resource. Tags are key:value pairs that you can use to categorize and manage your resources, for purposes like billing. For example, you might set the tag key to "customer" and the value to the customer name or ID. You can specify one or more tags to add to each AWS resource, up to 50 tags for a resource. Tagging is only available through the API, SDKs, and CLI. You can't manage or view tags through the AWS WAF Classic console. You can tag the AWS resources that you manage through AWS WAF Classic: web ACLs, rule groups, and rules. Key -&gt; (string) [required] Constraints: o min: 1 o max: 128 o pattern: .*\S.* Value -&gt; (string) [required] Constraints: o min: 0 o max: 256 o pattern: .* Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// Constraints: • min: 1 (structure) NOTE: This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the developer guide. For the latest version of AWS WAF , use the AWS WAFV2 API and see the AWS WAF Developer Guide . With the latest version, AWS WAF has a single set of endpoints for regional and global use. A tag associated with an AWS resource. Tags are key:value pairs that you can use to categorize and manage your resources, for purposes like billing. For example, you might set the tag key to "customer" and the value to the customer name or ID. You can specify one or more tags to add to each AWS resource, up to 50 tags for a resource. Tagging is only available through the API, SDKs, and CLI. You can't manage or view tags through the AWS WAF Classic console. You can tag the AWS resources that you manage through AWS WAF Classic: web ACLs, rule groups, and rules. Key -&gt; (string) [required] Constraints: • min: 1 • max: 128 • pattern: .*\S.* Value -&gt; (string) [required] Constraints: • min: 0 • max: 256 • pattern: .* Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
@@ -129,6 +130,15 @@ public record AwsWafRegionalCreateRateBasedRuleOptions : AwsOptions, IValidatabl
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

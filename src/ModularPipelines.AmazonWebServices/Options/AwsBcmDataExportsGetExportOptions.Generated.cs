@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsBcmDataExportsGetExportOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Views the definition of an existing data export. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ExportArn">The Amazon Resource Name (ARN) for this export. Constraints: o min: 20 o max: 2048 o pattern: arn:aws[-a-z0-9]*:(bcm-data-ex- ports):[-a-z0-9]*:[0-9]{12}:[-a-zA-Z0-9/:_]+</param>
+    /// <param name="ExportArn">The Amazon Resource Name (ARN) for this export. Constraints: • min: 20 • max: 2048 • pattern: arn:aws[-a-z0-9]*:(bcm-data-exports):[-a-z0-9]*:[0-9]{12}:[-a-zA-Z0-9/:_]+</param>
     public AwsBcmDataExportsGetExportOptions(
         string ExportArn
     )
@@ -56,7 +57,7 @@ public record AwsBcmDataExportsGetExportOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) for this export. Constraints: o min: 20 o max: 2048 o pattern: arn:aws[-a-z0-9]*:(bcm-data-ex- ports):[-a-z0-9]*:[0-9]{12}:[-a-zA-Z0-9/:_]+
+    /// The Amazon Resource Name (ARN) for this export. Constraints: • min: 20 • max: 2048 • pattern: arn:aws[-a-z0-9]*:(bcm-data-exports):[-a-z0-9]*:[0-9]{12}:[-a-zA-Z0-9/:_]+
     /// </summary>
     [CliOption("--export-arn")]
     public string? ExportArn { get; private init; }
@@ -82,6 +83,15 @@ public record AwsBcmDataExportsGetExportOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

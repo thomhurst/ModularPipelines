@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes an event bus. Deletion is asynchronous: the bus moves to DELET- ING and disappears when complete (see the EventBusDeleted waiter). A bus with subscribers or event sources cannot be deleted. See also: AWS API Documentation
+/// Deletes an event bus. Deletion is asynchronous: the bus moves to DELETING and disappears when complete (see the EventBusDeleted waiter). A bus with subscribers or event sources cannot be deleted. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsEventsv2DeleteEventBusOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes an event bus. Deletion is asynchronous: the bus moves to DELET- ING and disappears when complete (see the EventBusDeleted waiter). A bus with subscribers or event sources cannot be deleted. See also: AWS API Documentation
+    /// Deletes an event bus. Deletion is asynchronous: the bus moves to DELETING and disappears when complete (see the EventBusDeleted waiter). A bus with subscribers or event sources cannot be deleted. See also: AWS API Documentation
     /// </summary>
-    /// <param name="EventBusArn">The Amazon Resource Name (ARN) that uniquely identifies an event bus. Constraints: o min: 1 o max: 1011 o pattern: arn:aws(-[a-z0-9]+)*:events:[a-z][a-z0-9]*(-[a-z0-9]+)*:([0-9]{12}):event-busv2\/[A-Za-z0-9][\.\-_A-Za-z0-9]{0,255}\/[a-z0-9]{25}</param>
+    /// <param name="EventBusArn">The Amazon Resource Name (ARN) that uniquely identifies an event bus. Constraints: • min: 1 • max: 1011 • pattern: arn:aws(-[a-z0-9]+)*:events:[a-z][a-z0-9]*(-[a-z0-9]+)*:([0-9]{12}):event-busv2\/[A-Za-z0-9][\.\-_A-Za-z0-9]{0,255}\/[a-z0-9]{25}</param>
     public AwsEventsv2DeleteEventBusOptions(
         string EventBusArn
     )
@@ -56,7 +57,7 @@ public record AwsEventsv2DeleteEventBusOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) that uniquely identifies an event bus. Constraints: o min: 1 o max: 1011 o pattern: arn:aws(-[a-z0-9]+)*:events:[a-z][a-z0-9]*(-[a-z0-9]+)*:([0-9]{12}):event-busv2\/[A-Za-z0-9][\.\-_A-Za-z0-9]{0,255}\/[a-z0-9]{25}
+    /// The Amazon Resource Name (ARN) that uniquely identifies an event bus. Constraints: • min: 1 • max: 1011 • pattern: arn:aws(-[a-z0-9]+)*:events:[a-z][a-z0-9]*(-[a-z0-9]+)*:([0-9]{12}):event-busv2\/[A-Za-z0-9][\.\-_A-Za-z0-9]{0,255}\/[a-z0-9]{25}
     /// </summary>
     [CliOption("--event-bus-arn")]
     public string? EventBusArn { get; private init; }
@@ -82,6 +83,15 @@ public record AwsEventsv2DeleteEventBusOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

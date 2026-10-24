@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deploys a new task definition to the specified ECS service. Only ser- vices that use CodeDeploy for deployments are supported. This command will register a new task definition, update the CodeDeploy appspec with the new task definition revision, create a CodeDeploy deployment, and wait for the deployment to successfully complete. This command will exit with a return code of 255 if the deployment does not succeed within 30 minutes by default or up to 10 minutes more than your deploy- ment group's...
+/// Deploys a new task definition to the specified ECS service. Only services that use CodeDeploy for deployments are supported. This command will register a new task definition, update the CodeDeploy appspec with the new task definition revision, create a CodeDeploy deployment, and wait for the deployment to successfully complete. This command will exit with a return code of 255 if the deployment does not succeed within 30 minutes by default or up to 10 minutes more than your deployment group's con...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -22,7 +22,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsEcsDeployOptions : AwsOptions
 {
     /// <summary>
-    /// Deploys a new task definition to the specified ECS service. Only ser- vices that use CodeDeploy for deployments are supported. This command will register a new task definition, update the CodeDeploy appspec with the new task definition revision, create a CodeDeploy deployment, and wait for the deployment to successfully complete. This command will exit with a return code of 255 if the deployment does not succeed within 30 minutes by default or up to 10 minutes more than your deploy- ment group's...
+    /// Deploys a new task definition to the specified ECS service. Only services that use CodeDeploy for deployments are supported. This command will register a new task definition, update the CodeDeploy appspec with the new task definition revision, create a CodeDeploy deployment, and wait for the deployment to successfully complete. This command will exit with a return code of 255 if the deployment does not succeed within 30 minutes by default or up to 10 minutes more than your deployment group's con...
     /// </summary>
     /// <param name="Service"></param>
     /// <param name="TaskDefinition"></param>
@@ -65,5 +65,14 @@ public record AwsEcsDeployOptions : AwsOptions
 
     [CliOption("--codedeploy-deployment-group")]
     public string? CodedeployDeploymentGroup { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

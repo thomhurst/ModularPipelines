@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,7 +29,7 @@ public record AwsLambdaUpdateFunctionUrlConfigOptions : AwsOptions, IValidatable
     /// <summary>
     /// Updates the configuration for a Lambda function URL. See also: AWS API Documentation
     /// </summary>
-    /// <param name="FunctionName">The name or ARN of the Lambda function. Name formats o Function name my-function . o Function ARN arn:aws:lambda:us-west-2:123456789012:func- tion:my-function . o Partial ARN 123456789012:function:my-function . The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length. Constraints: o min: 1 o max: 140 o pattern: (arn:(aws[a-zA-Z-]*)?:lambda:)?((eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\d{1}:)?(\d{12}:)?(func- tion:)?([a-zA-Z0-9-_]{1,64})(:((?!\d+$)[0-9a-zA-Z-_]+))?</param>
+    /// <param name="FunctionName">The name or ARN of the Lambda function. Name formats • Function name my-function . • Function ARN arn:aws:lambda:us-west-2:123456789012:function:my-function . • Partial ARN 123456789012:function:my-function . The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length. Constraints: • min: 1 • max: 140 • pattern: (arn:(aws[a-zA-Z-]*)?:lambda:)?((eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\d{1}:)?(\d{12}:)?(function:)?([a-zA-Z0-9-_]{1,64})(:((?!\d+$)[0-9a-zA-Z-_]+))?</param>
     public AwsLambdaUpdateFunctionUrlConfigOptions(
         string FunctionName
     )
@@ -57,31 +58,31 @@ public record AwsLambdaUpdateFunctionUrlConfigOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name or ARN of the Lambda function. Name formats o Function name my-function . o Function ARN arn:aws:lambda:us-west-2:123456789012:func- tion:my-function . o Partial ARN 123456789012:function:my-function . The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length. Constraints: o min: 1 o max: 140 o pattern: (arn:(aws[a-zA-Z-]*)?:lambda:)?((eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\d{1}:)?(\d{12}:)?(func- tion:)?([a-zA-Z0-9-_]{1,64})(:((?!\d+$)[0-9a-zA-Z-_]+))?
+    /// The name or ARN of the Lambda function. Name formats • Function name my-function . • Function ARN arn:aws:lambda:us-west-2:123456789012:function:my-function . • Partial ARN 123456789012:function:my-function . The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length. Constraints: • min: 1 • max: 140 • pattern: (arn:(aws[a-zA-Z-]*)?:lambda:)?((eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\d{1}:)?(\d{12}:)?(function:)?([a-zA-Z0-9-_]{1,64})(:((?!\d+$)[0-9a-zA-Z-_]+))?
     /// </summary>
     [CliOption("--function-name")]
     public string? FunctionName { get; private init; }
 
     /// <summary>
-    /// The alias name. Constraints: o min: 1 o max: 128 o pattern: ((?!^\d+$)^[0-9a-zA-Z-_]+$)
+    /// The alias name. Constraints: • min: 1 • max: 128 • pattern: ((?!^\d+$)^[0-9a-zA-Z-_]+$)
     /// </summary>
     [CliOption("--qualifier")]
     public string? Qualifier { get; set; }
 
     /// <summary>
-    /// The type of authentication that your function URL uses. Set to AWS_IAM if you want to restrict access to authenticated users only. Set to NONE if you want to bypass IAM authentication to create a public endpoint. For more information, see Control access to Lambda function URLs . Possible values: o NONE o AWS_IAM
+    /// The type of authentication that your function URL uses. Set to AWS_IAM if you want to restrict access to authenticated users only. Set to NONE if you want to bypass IAM authentication to create a public endpoint. For more information, see Control access to Lambda function URLs . Possible values: • NONE • AWS_IAM
     /// </summary>
     [CliOption("--auth-type")]
     public AwsLambdaUpdateFunctionUrlConfigAuthType? AuthType { get; set; }
 
     /// <summary>
-    /// The cross-origin resource sharing (CORS) settings for your function URL. AllowCredentials -&gt; (boolean) Whether to allow cookies or other credentials in requests to your function URL. The default is false . AllowHeaders -&gt; (list) The HTTP headers that origins can include in requests to your function URL. For example: Date , Keep-Alive , X-Custom-Header . Constraints: o min: 0 o max: 100 (string) Constraints: o min: 0 o max: 1024 o pattern: .* AllowMethods -&gt; (list) The HTTP methods that are allowed when calling your function URL. For example: GET , POST , DELETE , or the wildcard charac- ter (* ). Constraints: o min: 0 o max: 6 (string) Constraints: o min: 0 o max: 6 o pattern: .* AllowOrigins -&gt; (list) The origins that can access your function URL. You can list any number of specific origins, separated by a comma. For example: https://www.example.com , http://localhost:60905 . Alternatively, you can grant access to all origins using the wildcard character (* ). Constraints: o min: 0 o max: 100 (string) Constraints: o min: 1 o max: 253 o pattern: .* ExposeHeaders -&gt; (list) The HTTP headers in your function response that you want to ex- pose to origins that call your function URL. For example: Date , Keep-Alive , X-Custom-Header . Constraints: o min: 0 o max: 100 (string) Constraints: o min: 0 o max: 1024 o pattern: .* MaxAge -&gt; (integer) The maximum amount of time, in seconds, that web browsers can cache results of a preflight request. By default, this is set to 0 , which means that the browser doesn't cache results. Constraints: o min: 0 o max: 86400 Shorthand Syntax: AllowCredentials=boolean,AllowHeaders=string,string,AllowMethods=string,string,AllowOrigins=string,string,ExposeHeaders=string,string,MaxAge=integer JSON Syntax: { "AllowCredentials": true|false, "AllowHeaders": ["string", ...], "AllowMethods": ["string", ...], "AllowOrigins": ["string", ...], "ExposeHeaders": ["string", ...], "MaxAge": integer }
+    /// The cross-origin resource sharing (CORS) settings for your function URL. AllowCredentials -&gt; (boolean) Whether to allow cookies or other credentials in requests to your function URL. The default is false . AllowHeaders -&gt; (list) The HTTP headers that origins can include in requests to your function URL. For example: Date , Keep-Alive , X-Custom-Header . Constraints: • min: 0 • max: 100 (string) Constraints: • min: 0 • max: 1024 • pattern: .* AllowMethods -&gt; (list) The HTTP methods that are allowed when calling your function URL. For example: GET , POST , DELETE , or the wildcard character (* ). Constraints: • min: 0 • max: 6 (string) Constraints: • min: 0 • max: 6 • pattern: .* AllowOrigins -&gt; (list) The origins that can access your function URL. You can list any number of specific origins, separated by a comma. For example: https://www.example.com , http://localhost:60905 . Alternatively, you can grant access to all origins using the wildcard character (* ). Constraints: • min: 0 • max: 100 (string) Constraints: • min: 1 • max: 253 • pattern: .* ExposeHeaders -&gt; (list) The HTTP headers in your function response that you want to expose to origins that call your function URL. For example: Date , Keep-Alive , X-Custom-Header . Constraints: • min: 0 • max: 100 (string) Constraints: • min: 0 • max: 1024 • pattern: .* MaxAge -&gt; (integer) The maximum amount of time, in seconds, that web browsers can cache results of a preflight request. By default, this is set to 0 , which means that the browser doesn't cache results. Constraints: • min: 0 • max: 86400 Shorthand Syntax: AllowCredentials=boolean,AllowHeaders=string,string,AllowMethods=string,string,AllowOrigins=string,string,ExposeHeaders=string,string,MaxAge=integer JSON Syntax: { "AllowCredentials": true|false, "AllowHeaders": ["string", ...], "AllowMethods": ["string", ...], "AllowOrigins": ["string", ...], "ExposeHeaders": ["string", ...], "MaxAge": integer }
     /// </summary>
     [CliOption("--cors")]
     public string? Cors { get; set; }
 
     /// <summary>
-    /// Use one of the following options: o BUFFERED This is the default option. Lambda invokes your function using the Invoke API operation. Invocation results are available when the payload is complete. The maximum payload size is 6 MB. o RESPONSE_STREAM Your function streams payload results as they be- come available. Lambda invokes your function using the InvokeWith- ResponseStream API operation. The maximum response payload size is 200 MB. Possible values: o BUFFERED o RESPONSE_STREAM
+    /// Use one of the following options: • BUFFERED This is the default option. Lambda invokes your function using the Invoke API operation. Invocation results are available when the payload is complete. The maximum payload size is 6 MB. • RESPONSE_STREAM Your function streams payload results as they become available. Lambda invokes your function using the InvokeWithResponseStream API operation. The maximum response payload size is 200 MB. Possible values: • BUFFERED • RESPONSE_STREAM
     /// </summary>
     [CliOption("--invoke-mode")]
     public AwsLambdaUpdateFunctionUrlConfigInvokeMode? InvokeMode { get; set; }
@@ -107,6 +108,15 @@ public record AwsLambdaUpdateFunctionUrlConfigOptions : AwsOptions, IValidatable
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

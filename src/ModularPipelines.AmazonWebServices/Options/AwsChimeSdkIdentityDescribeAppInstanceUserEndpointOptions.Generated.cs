@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsChimeSdkIdentityDescribeAppInstanceUserEndpointOptions : AwsOpt
     /// <summary>
     /// Returns the full details of an AppInstanceUserEndpoint . See also: AWS API Documentation
     /// </summary>
-    /// <param name="AppInstanceUserArn">The ARN of the AppInstanceUser . Constraints: o min: 0 o max: 1600 o pattern: .*</param>
-    /// <param name="EndpointId">The unique identifier of the AppInstanceUserEndpoint . Constraints: o min: 0 o max: 64 o pattern: .*</param>
+    /// <param name="AppInstanceUserArn">The ARN of the AppInstanceUser . Constraints: • min: 0 • max: 1600 • pattern: .*</param>
+    /// <param name="EndpointId">The unique identifier of the AppInstanceUserEndpoint . Constraints: • min: 0 • max: 64 • pattern: .*</param>
     public AwsChimeSdkIdentityDescribeAppInstanceUserEndpointOptions(
         string AppInstanceUserArn,
         string EndpointId
@@ -60,13 +61,13 @@ public record AwsChimeSdkIdentityDescribeAppInstanceUserEndpointOptions : AwsOpt
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the AppInstanceUser . Constraints: o min: 0 o max: 1600 o pattern: .*
+    /// The ARN of the AppInstanceUser . Constraints: • min: 0 • max: 1600 • pattern: .*
     /// </summary>
     [CliOption("--app-instance-user-arn")]
     public string? AppInstanceUserArn { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the AppInstanceUserEndpoint . Constraints: o min: 0 o max: 64 o pattern: .*
+    /// The unique identifier of the AppInstanceUserEndpoint . Constraints: • min: 0 • max: 64 • pattern: .*
     /// </summary>
     [CliOption("--endpoint-id")]
     public string? EndpointId { get; private init; }
@@ -92,6 +93,15 @@ public record AwsChimeSdkIdentityDescribeAppInstanceUserEndpointOptions : AwsOpt
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

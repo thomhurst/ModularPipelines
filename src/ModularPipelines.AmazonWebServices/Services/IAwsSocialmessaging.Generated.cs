@@ -6,7 +6,7 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using ModularPipelines.Models;
+using ModularPipelines;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
@@ -28,8 +28,7 @@ public interface IAwsSocialmessaging
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AssociateWhatsappBusinessAccountAsync(AwsSocialmessagingAssociateWhatsappBusinessAccountOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AssociateWhatsappBusinessAccountAsync(AwsSocialmessagingAssociateWhatsappBusinessAccountOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a Meta Conversions API dataset for a WhatsApp Business Account. See also: AWS API Documentation
@@ -38,18 +37,16 @@ public interface IAwsSocialmessaging
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateWhatsappDataSetAsync(AwsSocialmessagingCreateWhatsappDataSetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateWhatsappDataSetAsync(AwsSocialmessagingCreateWhatsappDataSetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Creates a new WhatsApp Flow. Flows enable businesses to create rich, interactive forms and experiences that users can complete without leav- ing WhatsApp. The Flow is created in DRAFT status. If publish is set to true and a valid flowJson is provided, the Flow is published immedi- ately. See also: AWS API Documentation
+    /// Creates a new WhatsApp Flow. Flows enable businesses to create rich, interactive forms and experiences that users can complete without leaving WhatsApp. The Flow is created in DRAFT status. If publish is set to true and a valid flowJson is provided, the Flow is published immediately. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateWhatsappFlowAsync(AwsSocialmessagingCreateWhatsappFlowOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateWhatsappFlowAsync(AwsSocialmessagingCreateWhatsappFlowOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a new WhatsApp message template using a template from Meta's template library. See also: AWS API Documentation
@@ -58,8 +55,7 @@ public interface IAwsSocialmessaging
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateWhatsappMessageTemplateFromLibraryAsync(AwsSocialmessagingCreateWhatsappMessageTemplateFromLibraryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateWhatsappMessageTemplateFromLibraryAsync(AwsSocialmessagingCreateWhatsappMessageTemplateFromLibraryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Uploads media for use in a WhatsApp message template. See also: AWS API Documentation
@@ -68,8 +64,7 @@ public interface IAwsSocialmessaging
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateWhatsappMessageTemplateMediaAsync(AwsSocialmessagingCreateWhatsappMessageTemplateMediaOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateWhatsappMessageTemplateMediaAsync(AwsSocialmessagingCreateWhatsappMessageTemplateMediaOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a new WhatsApp message template from a custom definition. NOTE: Amazon Web Services End User Messaging Social does not store any WhatsApp message template content. See also: AWS API Documentation
@@ -78,8 +73,7 @@ public interface IAwsSocialmessaging
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateWhatsappMessageTemplateAsync(AwsSocialmessagingCreateWhatsappMessageTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateWhatsappMessageTemplateAsync(AwsSocialmessagingCreateWhatsappMessageTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a WhatsApp Flow permanently. Only Flows in DRAFT status can be deleted. Published or deprecated Flows cannot be deleted. See also: AWS API Documentation
@@ -88,8 +82,7 @@ public interface IAwsSocialmessaging
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteWhatsappFlowAsync(AwsSocialmessagingDeleteWhatsappFlowOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteWhatsappFlowAsync(AwsSocialmessagingDeleteWhatsappFlowOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Delete a media object from the WhatsApp service. If the object is still in an Amazon S3 bucket you should delete it from there too. See also: AWS API Documentation
@@ -98,8 +91,7 @@ public interface IAwsSocialmessaging
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteWhatsappMessageMediaAsync(AwsSocialmessagingDeleteWhatsappMessageMediaOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteWhatsappMessageMediaAsync(AwsSocialmessagingDeleteWhatsappMessageMediaOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a WhatsApp message template. See also: AWS API Documentation
@@ -108,18 +100,16 @@ public interface IAwsSocialmessaging
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteWhatsappMessageTemplateAsync(AwsSocialmessagingDeleteWhatsappMessageTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteWhatsappMessageTemplateAsync(AwsSocialmessagingDeleteWhatsappMessageTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Deprecates a published WhatsApp Flow, marking it as no longer recom- mended for use. The Flow must be in PUBLISHED status. This is an irre- versible operation. See also: AWS API Documentation
+    /// Deprecates a published WhatsApp Flow, marking it as no longer recommended for use. The Flow must be in PUBLISHED status. This is an irreversible operation. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeprecateWhatsappFlowAsync(AwsSocialmessagingDeprecateWhatsappFlowOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeprecateWhatsappFlowAsync(AwsSocialmessagingDeprecateWhatsappFlowOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Disassociate a WhatsApp Business Account (WABA) from your Amazon Web Services account. See also: AWS API Documentation
@@ -128,8 +118,7 @@ public interface IAwsSocialmessaging
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DisassociateWhatsappBusinessAccountAsync(AwsSocialmessagingDisassociateWhatsappBusinessAccountOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DisassociateWhatsappBusinessAccountAsync(AwsSocialmessagingDisassociateWhatsappBusinessAccountOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get the details of your linked WhatsApp Business Account. See also: AWS API Documentation
@@ -138,8 +127,7 @@ public interface IAwsSocialmessaging
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetLinkedWhatsappBusinessAccountAsync(AwsSocialmessagingGetLinkedWhatsappBusinessAccountOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetLinkedWhatsappBusinessAccountAsync(AwsSocialmessagingGetLinkedWhatsappBusinessAccountOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieve the WABA account id and phone number details of a WhatsApp business account phone number. See also: AWS API Documentation
@@ -148,8 +136,7 @@ public interface IAwsSocialmessaging
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetLinkedWhatsappBusinessAccountPhoneNumberAsync(AwsSocialmessagingGetLinkedWhatsappBusinessAccountPhoneNumberOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetLinkedWhatsappBusinessAccountPhoneNumberAsync(AwsSocialmessagingGetLinkedWhatsappBusinessAccountPhoneNumberOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the business public key for a phone number and its signature status. See also: AWS API Documentation
@@ -158,8 +145,7 @@ public interface IAwsSocialmessaging
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetWhatsappBusinessPublicKeyAsync(AwsSocialmessagingGetWhatsappBusinessPublicKeyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetWhatsappBusinessPublicKeyAsync(AwsSocialmessagingGetWhatsappBusinessPublicKeyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the current calling permission for a WhatsApp end user, along with the calling actions the business is allowed to take with that user. Provide the destination phone number or the business-scoped user ID to identify the end user. See also: AWS API Documentation
@@ -168,38 +154,34 @@ public interface IAwsSocialmessaging
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetWhatsappCallPermissionAsync(AwsSocialmessagingGetWhatsappCallPermissionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetWhatsappCallPermissionAsync(AwsSocialmessagingGetWhatsappCallPermissionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Retrieves the metadata and status of a WhatsApp Flow, including valida- tion errors, preview information, and health status. See also: AWS API Documentation
+    /// Retrieves the metadata and status of a WhatsApp Flow, including validation errors, preview information, and health status. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetWhatsappFlowAsync(AwsSocialmessagingGetWhatsappFlowOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetWhatsappFlowAsync(AwsSocialmessagingGetWhatsappFlowOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Generates a web preview URL for testing a WhatsApp Flow before publish- ing. Preview URLs expire in 30 days and can be shared with stakeholders for review. See also: AWS API Documentation
+    /// Generates a web preview URL for testing a WhatsApp Flow before publishing. Preview URLs expire in 30 days and can be shared with stakeholders for review. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetWhatsappFlowPreviewAsync(AwsSocialmessagingGetWhatsappFlowPreviewOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetWhatsappFlowPreviewAsync(AwsSocialmessagingGetWhatsappFlowPreviewOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Get a media file from the WhatsApp service. On successful completion the media file is retrieved from Meta and stored in the specified Ama- zon S3 bucket. Use either destinationS3File or destinationS3Presigne- dUrl for the destination. If both are used then an InvalidParameterEx- ception is returned. See also: AWS API Documentation
+    /// Get a media file from the WhatsApp service. On successful completion the media file is retrieved from Meta and stored in the specified Amazon S3 bucket. Use either destinationS3File or destinationS3PresignedUrl for the destination. If both are used then an InvalidParameterException is returned. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetWhatsappMessageMediaAsync(AwsSocialmessagingGetWhatsappMessageMediaOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetWhatsappMessageMediaAsync(AwsSocialmessagingGetWhatsappMessageMediaOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves a specific WhatsApp message template. See also: AWS API Documentation
@@ -208,18 +190,16 @@ public interface IAwsSocialmessaging
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetWhatsappMessageTemplateAsync(AwsSocialmessagingGetWhatsappMessageTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetWhatsappMessageTemplateAsync(AwsSocialmessagingGetWhatsappMessageTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// List all WhatsApp Business Accounts linked to your Amazon Web Services account. See also: AWS API Documentation list-linked-whatsapp-business-accounts is a paginated operation. Multi- ple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate ar- gument. When using --output text and the --query argument on a pagi- nated response, the --query argument must extract data from the results of the following query expressio...
+    /// List all WhatsApp Business Accounts linked to your Amazon Web Services account. See also: AWS API Documentation list-linked-whatsapp-business-accounts is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: li...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListLinkedWhatsappBusinessAccountsAsync(AwsSocialmessagingListLinkedWhatsappBusinessAccountsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListLinkedWhatsappBusinessAccountsAsync(AwsSocialmessagingListLinkedWhatsappBusinessAccountsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// List all tags associated with a resource, such as a phone number or WABA. See also: AWS API Documentation
@@ -228,78 +208,70 @@ public interface IAwsSocialmessaging
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTagsForResourceAsync(AwsSocialmessagingListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListTagsForResourceAsync(AwsSocialmessagingListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Lists the assets (Flow JSON definition) of a WhatsApp Flow with pre- signed download URLs. Download URLs are generated by Meta and expire after a short period. See also: AWS API Documentation list-whatsapp-flow-assets is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must e...
+    /// Lists the assets (Flow JSON definition) of a WhatsApp Flow with presigned download URLs. Download URLs are generated by Meta and expire after a short period. See also: AWS API Documentation list-whatsapp-flow-assets is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must ext...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListWhatsappFlowAssetsAsync(AwsSocialmessagingListWhatsappFlowAssetsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListWhatsappFlowAssetsAsync(AwsSocialmessagingListWhatsappFlowAssetsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Lists all WhatsApp Flows for a WhatsApp Business Account. Returns sum- mary information including Flow ID, name, status, and categories. See also: AWS API Documentation list-whatsapp-flows is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results ...
+    /// Lists all WhatsApp Flows for a WhatsApp Business Account. Returns summary information including Flow ID, name, status, and categories. See also: AWS API Documentation list-whatsapp-flows is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListWhatsappFlowsAsync(AwsSocialmessagingListWhatsappFlowsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListWhatsappFlowsAsync(AwsSocialmessagingListWhatsappFlowsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Lists WhatsApp message templates for a specific WhatsApp Business Ac- count. See also: AWS API Documentation list-whatsapp-message-templates is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: template...
+    /// Lists WhatsApp message templates for a specific WhatsApp Business Account. See also: AWS API Documentation list-whatsapp-message-templates is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: templates
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListWhatsappMessageTemplatesAsync(AwsSocialmessagingListWhatsappMessageTemplatesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListWhatsappMessageTemplatesAsync(AwsSocialmessagingListWhatsappMessageTemplatesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Lists templates available in Meta's template library for WhatsApp mes- saging. See also: AWS API Documentation list-whatsapp-template-library is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: metaLib...
+    /// Lists templates available in Meta's template library for WhatsApp messaging. See also: AWS API Documentation list-whatsapp-template-library is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: metaLibraryTe...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListWhatsappTemplateLibraryAsync(AwsSocialmessagingListWhatsappTemplateLibraryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListWhatsappTemplateLibraryAsync(AwsSocialmessagingListWhatsappTemplateLibraryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Upload a media file to the WhatsApp service. Only the specified origi- nationPhoneNumberId has the permissions to send the media file when us- ing SendWhatsAppMessage . You must use either sourceS3File or sourceS3PresignedUrl for the source. If both or neither are specified then an InvalidParameterException is returned. See also: AWS API Documentation
+    /// Upload a media file to the WhatsApp service. Only the specified originationPhoneNumberId has the permissions to send the media file when using SendWhatsAppMessage . You must use either sourceS3File or sourceS3PresignedUrl for the source. If both or neither are specified then an InvalidParameterException is returned. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PostWhatsappMessageMediaAsync(AwsSocialmessagingPostWhatsappMessageMediaOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PostWhatsappMessageMediaAsync(AwsSocialmessagingPostWhatsappMessageMediaOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Publishes a WhatsApp Flow, making it available for use in template mes- sages. The Flow must be in DRAFT status with valid Flow JSON that passes Meta's validation. This is an irreversible operation. See also: AWS API Documentation
+    /// Publishes a WhatsApp Flow, making it available for use in template messages. The Flow must be in DRAFT status with valid Flow JSON that passes Meta's validation. This is an irreversible operation. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PublishWhatsappFlowAsync(AwsSocialmessagingPublishWhatsappFlowOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PublishWhatsappFlowAsync(AwsSocialmessagingPublishWhatsappFlowOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Add an event destination to log event data from WhatsApp for a WhatsApp Business Account (WABA). A WABA can only have one event destination at a time. All resources associated with the WABA use the same event des- tination. See also: AWS API Documentation
+    /// Add an event destination to log event data from WhatsApp for a WhatsApp Business Account (WABA). A WABA can only have one event destination at a time. All resources associated with the WABA use the same event destination. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutWhatsappBusinessAccountEventDestinationsAsync(AwsSocialmessagingPutWhatsappBusinessAccountEventDestinationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutWhatsappBusinessAccountEventDestinationsAsync(AwsSocialmessagingPutWhatsappBusinessAccountEventDestinationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Sets the business public key used to encrypt the data exchanged with the endpoint of a data exchange Flow. See also: AWS API Documentation
@@ -308,18 +280,16 @@ public interface IAwsSocialmessaging
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutWhatsappBusinessPublicKeyAsync(AwsSocialmessagingPutWhatsappBusinessPublicKeyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutWhatsappBusinessPublicKeyAsync(AwsSocialmessagingPutWhatsappBusinessPublicKeyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Sends a WhatsApp calling event, such as connecting or terminating a call, for a business phone number. This operation passes the event through to Meta. To use this operation, the origination phone number must belong to a WhatsApp Business Account that is linked to your Ama- zon Web Services account. See also: AWS API Documentation
+    /// Sends a WhatsApp calling event, such as connecting or terminating a call, for a business phone number. This operation passes the event through to Meta. To use this operation, the origination phone number must belong to a WhatsApp Business Account that is linked to your Amazon Web Services account. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> SendWhatsappCallEventAsync(AwsSocialmessagingSendWhatsappCallEventOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> SendWhatsappCallEventAsync(AwsSocialmessagingSendWhatsappCallEventOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Sends a conversion event to Meta's Conversions API for the specified WhatsApp Business Account dataset. See also: AWS API Documentation
@@ -328,18 +298,16 @@ public interface IAwsSocialmessaging
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> SendWhatsappConversionEventAsync(AwsSocialmessagingSendWhatsappConversionEventOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> SendWhatsappConversionEventAsync(AwsSocialmessagingSendWhatsappConversionEventOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Send a WhatsApp message. For examples of sending a message using the Amazon Web Services CLI, see Sending messages in the * Amazon Web Ser- vices End User Messaging Social User Guide * . See also: AWS API Documentation
+    /// Send a WhatsApp message. For examples of sending a message using the Amazon Web Services CLI, see Sending messages in the * Amazon Web Services End User Messaging Social User Guide * . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> SendWhatsappMessageAsync(AwsSocialmessagingSendWhatsappMessageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> SendWhatsappMessageAsync(AwsSocialmessagingSendWhatsappMessageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Adds or overwrites only the specified tags for the specified resource. When you specify an existing tag key, the value is overwritten with the new value. See also: AWS API Documentation
@@ -348,8 +316,7 @@ public interface IAwsSocialmessaging
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> TagResourceAsync(AwsSocialmessagingTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> TagResourceAsync(AwsSocialmessagingTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Removes the specified tags from a resource. See also: AWS API Documentation
@@ -358,38 +325,34 @@ public interface IAwsSocialmessaging
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UntagResourceAsync(AwsSocialmessagingUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UntagResourceAsync(AwsSocialmessagingUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Updates the calling settings for a linked WhatsApp business phone num- ber, such as whether calling is enabled and the hours during which the business accepts calls. See also: AWS API Documentation
+    /// Updates the calling settings for a linked WhatsApp business phone number, such as whether calling is enabled and the hours during which the business accepts calls. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateLinkedWhatsappBusinessAccountPhoneNumberAsync(AwsSocialmessagingUpdateLinkedWhatsappBusinessAccountPhoneNumberOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateLinkedWhatsappBusinessAccountPhoneNumberAsync(AwsSocialmessagingUpdateLinkedWhatsappBusinessAccountPhoneNumberOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Updates the Flow JSON definition (assets) of a WhatsApp Flow. Updating a published Flow's assets reverts it to DRAFT status, requiring re-pub- lishing. See also: AWS API Documentation
+    /// Updates the Flow JSON definition (assets) of a WhatsApp Flow. Updating a published Flow's assets reverts it to DRAFT status, requiring re-publishing. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateWhatsappFlowAssetsAsync(AwsSocialmessagingUpdateWhatsappFlowAssetsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateWhatsappFlowAssetsAsync(AwsSocialmessagingUpdateWhatsappFlowAssetsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Updates the metadata of a WhatsApp Flow, such as its name or cate- gories. This does not update the Flow JSON definition. Use UpdateWhatsAppFlowAssets to update the Flow JSON. See also: AWS API Documentation
+    /// Updates the metadata of a WhatsApp Flow, such as its name or categories. This does not update the Flow JSON definition. Use UpdateWhatsAppFlowAssets to update the Flow JSON. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateWhatsappFlowAsync(AwsSocialmessagingUpdateWhatsappFlowOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateWhatsappFlowAsync(AwsSocialmessagingUpdateWhatsappFlowOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates an existing WhatsApp message template. See also: AWS API Documentation
@@ -398,7 +361,6 @@ public interface IAwsSocialmessaging
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateWhatsappMessageTemplateAsync(AwsSocialmessagingUpdateWhatsappMessageTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateWhatsappMessageTemplateAsync(AwsSocialmessagingUpdateWhatsappMessageTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

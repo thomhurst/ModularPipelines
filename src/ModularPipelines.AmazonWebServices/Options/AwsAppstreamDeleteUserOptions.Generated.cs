@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,8 +29,8 @@ public record AwsAppstreamDeleteUserOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Deletes a user from the user pool. See also: AWS API Documentation
     /// </summary>
-    /// <param name="UserName">The email address of the user. NOTE: Users' email addresses are case-sensitive. Constraints: o min: 1 o max: 128 o pattern: [\p{L}\p{M}\p{S}\p{N}\p{P}]+</param>
-    /// <param name="AuthenticationType">The authentication type for the user. You must specify USERPOOL. Possible values: o API o SAML o USERPOOL o AWS_AD</param>
+    /// <param name="UserName">The email address of the user. NOTE: Users' email addresses are case-sensitive. Constraints: • min: 1 • max: 128 • pattern: [\p{L}\p{M}\p{S}\p{N}\p{P}]+</param>
+    /// <param name="AuthenticationType">The authentication type for the user. You must specify USERPOOL. Possible values: • API • SAML • USERPOOL • AWS_AD</param>
     public AwsAppstreamDeleteUserOptions(
         string UserName,
         AwsAppstreamDeleteUserAuthenticationType AuthenticationType
@@ -60,13 +61,13 @@ public record AwsAppstreamDeleteUserOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The email address of the user. NOTE: Users' email addresses are case-sensitive. Constraints: o min: 1 o max: 128 o pattern: [\p{L}\p{M}\p{S}\p{N}\p{P}]+
+    /// The email address of the user. NOTE: Users' email addresses are case-sensitive. Constraints: • min: 1 • max: 128 • pattern: [\p{L}\p{M}\p{S}\p{N}\p{P}]+
     /// </summary>
     [CliOption("--user-name")]
     public string? UserName { get; private init; }
 
     /// <summary>
-    /// The authentication type for the user. You must specify USERPOOL. Possible values: o API o SAML o USERPOOL o AWS_AD
+    /// The authentication type for the user. You must specify USERPOOL. Possible values: • API • SAML • USERPOOL • AWS_AD
     /// </summary>
     [CliOption("--authentication-type")]
     public AwsAppstreamDeleteUserAuthenticationType? AuthenticationType { get; private init; }
@@ -92,6 +93,15 @@ public record AwsAppstreamDeleteUserOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

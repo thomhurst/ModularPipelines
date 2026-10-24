@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Enable the Shield Advanced automatic application layer DDoS mitigation for the protected resource. NOTE: This feature is available for Amazon CloudFront distributions and Application Load Balancers only. This causes Shield Advanced to create, verify, and apply WAF rules for DDoS attacks that it detects for the resource. Shield Advanced applies the rules in a Shield rule group inside the web ACL that you've associ- ated with the resource. For information about how automatic mitigation works and t...
+/// Enable the Shield Advanced automatic application layer DDoS mitigation for the protected resource. NOTE: This feature is available for Amazon CloudFront distributions and Application Load Balancers only. This causes Shield Advanced to create, verify, and apply WAF rules for DDoS attacks that it detects for the resource. Shield Advanced applies the rules in a Shield rule group inside the web ACL that you've associated with the resource. For information about how automatic mitigation works and the...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsShieldEnableApplicationLayerAutomaticResponseOptions : AwsOptio
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Enable the Shield Advanced automatic application layer DDoS mitigation for the protected resource. NOTE: This feature is available for Amazon CloudFront distributions and Application Load Balancers only. This causes Shield Advanced to create, verify, and apply WAF rules for DDoS attacks that it detects for the resource. Shield Advanced applies the rules in a Shield rule group inside the web ACL that you've associ- ated with the resource. For information about how automatic mitigation works and t...
+    /// Enable the Shield Advanced automatic application layer DDoS mitigation for the protected resource. NOTE: This feature is available for Amazon CloudFront distributions and Application Load Balancers only. This causes Shield Advanced to create, verify, and apply WAF rules for DDoS attacks that it detects for the resource. Shield Advanced applies the rules in a Shield rule group inside the web ACL that you've associated with the resource. For information about how automatic mitigation works and the...
     /// </summary>
-    /// <param name="ResourceArn">The ARN (Amazon Resource Name) of the protected resource. Constraints: o min: 1 o max: 2048 o pattern: ^arn:aws.*</param>
-    /// <param name="Action">Specifies the action setting that Shield Advanced should use in the WAF rules that it creates on behalf of the protected resource in re- sponse to DDoS attacks. You specify this as part of the configura- tion for the automatic application layer DDoS mitigation feature, when you enable or update automatic mitigation. Shield Advanced cre- ates the WAF rules in a Shield Advanced-managed rule group, inside the web ACL that you have associated with the resource. Block -&gt; (structure) Specifies that Shield Advanced should configure its WAF rules with the WAF Block action. You must specify exactly one action, either Block or Count . Count -&gt; (structure) Specifies that Shield Advanced should configure its WAF rules with the WAF Count action. You must specify exactly one action, either Block or Count . Shorthand Syntax: Block={},Count={} JSON Syntax: { "Block": { }, "Count": { } }</param>
+    /// <param name="ResourceArn">The ARN (Amazon Resource Name) of the protected resource. Constraints: • min: 1 • max: 2048 • pattern: ^arn:aws.*</param>
+    /// <param name="Action">Specifies the action setting that Shield Advanced should use in the WAF rules that it creates on behalf of the protected resource in response to DDoS attacks. You specify this as part of the configuration for the automatic application layer DDoS mitigation feature, when you enable or update automatic mitigation. Shield Advanced creates the WAF rules in a Shield Advanced-managed rule group, inside the web ACL that you have associated with the resource. Block -&gt; (structure) Specifies that Shield Advanced should configure its WAF rules with the WAF Block action. You must specify exactly one action, either Block or Count . Count -&gt; (structure) Specifies that Shield Advanced should configure its WAF rules with the WAF Count action. You must specify exactly one action, either Block or Count . Shorthand Syntax: Block={},Count={} JSON Syntax: { "Block": { }, "Count": { } }</param>
     public AwsShieldEnableApplicationLayerAutomaticResponseOptions(
         string ResourceArn,
         string Action
@@ -60,13 +61,13 @@ public record AwsShieldEnableApplicationLayerAutomaticResponseOptions : AwsOptio
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN (Amazon Resource Name) of the protected resource. Constraints: o min: 1 o max: 2048 o pattern: ^arn:aws.*
+    /// The ARN (Amazon Resource Name) of the protected resource. Constraints: • min: 1 • max: 2048 • pattern: ^arn:aws.*
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
 
     /// <summary>
-    /// Specifies the action setting that Shield Advanced should use in the WAF rules that it creates on behalf of the protected resource in re- sponse to DDoS attacks. You specify this as part of the configura- tion for the automatic application layer DDoS mitigation feature, when you enable or update automatic mitigation. Shield Advanced cre- ates the WAF rules in a Shield Advanced-managed rule group, inside the web ACL that you have associated with the resource. Block -&gt; (structure) Specifies that Shield Advanced should configure its WAF rules with the WAF Block action. You must specify exactly one action, either Block or Count . Count -&gt; (structure) Specifies that Shield Advanced should configure its WAF rules with the WAF Count action. You must specify exactly one action, either Block or Count . Shorthand Syntax: Block={},Count={} JSON Syntax: { "Block": { }, "Count": { } }
+    /// Specifies the action setting that Shield Advanced should use in the WAF rules that it creates on behalf of the protected resource in response to DDoS attacks. You specify this as part of the configuration for the automatic application layer DDoS mitigation feature, when you enable or update automatic mitigation. Shield Advanced creates the WAF rules in a Shield Advanced-managed rule group, inside the web ACL that you have associated with the resource. Block -&gt; (structure) Specifies that Shield Advanced should configure its WAF rules with the WAF Block action. You must specify exactly one action, either Block or Count . Count -&gt; (structure) Specifies that Shield Advanced should configure its WAF rules with the WAF Count action. You must specify exactly one action, either Block or Count . Shorthand Syntax: Block={},Count={} JSON Syntax: { "Block": { }, "Count": { } }
     /// </summary>
     [CliOption("--action")]
     public string? Action { get; private init; }
@@ -92,6 +93,15 @@ public record AwsShieldEnableApplicationLayerAutomaticResponseOptions : AwsOptio
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

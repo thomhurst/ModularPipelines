@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -29,9 +30,9 @@ public record AwsGuarddutyGetUsageStatisticsOptions : AwsOptions, IValidatableOb
     /// <summary>
     /// Lists Amazon GuardDuty usage statistics over the last 30 days for the specified detector ID. For newly enabled detectors or data sources, the cost returned will include only the usage so far under 30 days. This may differ from the cost metrics in the console, which project usage over 30 days to provide a monthly cost estimate. For more information, see Understanding How Usage Costs are Calculated . See also: AWS API Documentation
     /// </summary>
-    /// <param name="DetectorId">The ID of the detector that specifies the GuardDuty service whose usage statistics you want to retrieve. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the ListDetectors API. Constraints: o min: 1 o max: 300</param>
-    /// <param name="UsageStatisticType">The type of usage statistics to retrieve. Possible values: o SUM_BY_ACCOUNT o SUM_BY_DATA_SOURCE o SUM_BY_RESOURCE o TOP_RESOURCES o SUM_BY_FEATURES o TOP_ACCOUNTS_BY_FEATURE</param>
-    /// <param name="UsageCriteria">Represents the criteria used for querying usage. AccountIds -&gt; (list) The account IDs to aggregate usage statistics from. Constraints: o min: 1 o max: 50 (string) Constraints: o min: 12 o max: 12 DataSources -&gt; (list) The data sources to aggregate usage statistics from. (string) Possible values: o FLOW_LOGS o CLOUD_TRAIL o DNS_LOGS o S3_LOGS o KUBERNETES_AUDIT_LOGS o EC2_MALWARE_SCAN Resources -&gt; (list) The resources to aggregate usage statistics from. Only accepts exact resource names. (string) Features -&gt; (list) The features to aggregate usage statistics from. (string) Possible values: o FLOW_LOGS o CLOUD_TRAIL o DNS_LOGS o S3_DATA_EVENTS o EKS_AUDIT_LOGS o EBS_MALWARE_PROTECTION o RDS_LOGIN_EVENTS o LAMBDA_NETWORK_LOGS o EKS_RUNTIME_MONITORING o EC2_RUNTIME_MONITORING o FARGATE_RUNTIME_MONITORING o RDS_DBI_PROTECTION_PROVISIONED o RDS_DBI_PROTECTION_SERVERLESS o AI_PROTECTION Shorthand Syntax: AccountIds=string,string,DataSources=string,string,Resources=string,string,Features=string,string JSON Syntax: { "AccountIds": ["string", ...], "DataSources": ["FLOW_LOGS"|"CLOUD_TRAIL"|"DNS_LOGS"|"S3_LOGS"|"KUBERNETES_AUDIT_LOGS"|"EC2_MALWARE_SCAN", ...], "Resources": ["string", ...], "Features": ["FLOW_LOGS"|"CLOUD_TRAIL"|"DNS_LOGS"|"S3_DATA_EVENTS"|"EKS_AUDIT_LOGS"|"EBS_MALWARE_PROTECTION"|"RDS_LOGIN_EVENTS"|"LAMBDA_NETWORK_LOGS"|"EKS_RUNTIME_MONITORING"|"EC2_RUNTIME_MONITORING"|"FARGATE_RUNTIME_MONITORING"|"RDS_DBI_PROTECTION_PROVISIONED"|"RDS_DBI_PROTECTION_SERVERLESS"|"AI_PROTECTION", ...] }</param>
+    /// <param name="DetectorId">The ID of the detector that specifies the GuardDuty service whose usage statistics you want to retrieve. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the ListDetectors API. Constraints: • min: 1 • max: 300</param>
+    /// <param name="UsageStatisticType">The type of usage statistics to retrieve. Possible values: • SUM_BY_ACCOUNT • SUM_BY_DATA_SOURCE • SUM_BY_RESOURCE • TOP_RESOURCES • SUM_BY_FEATURES • TOP_ACCOUNTS_BY_FEATURE</param>
+    /// <param name="UsageCriteria">Represents the criteria used for querying usage. AccountIds -&gt; (list) The account IDs to aggregate usage statistics from. Constraints: • min: 1 • max: 50 (string) Constraints: • min: 12 • max: 12 DataSources -&gt; (list) The data sources to aggregate usage statistics from. (string) Possible values: • FLOW_LOGS • CLOUD_TRAIL • DNS_LOGS • S3_LOGS • KUBERNETES_AUDIT_LOGS • EC2_MALWARE_SCAN Resources -&gt; (list) The resources to aggregate usage statistics from. Only accepts exact resource names. (string) Features -&gt; (list) The features to aggregate usage statistics from. (string) Possible values: • FLOW_LOGS • CLOUD_TRAIL • DNS_LOGS • S3_DATA_EVENTS • EKS_AUDIT_LOGS • EBS_MALWARE_PROTECTION • RDS_LOGIN_EVENTS • LAMBDA_NETWORK_LOGS • EKS_RUNTIME_MONITORING • EC2_RUNTIME_MONITORING • FARGATE_RUNTIME_MONITORING • RDS_DBI_PROTECTION_PROVISIONED • RDS_DBI_PROTECTION_SERVERLESS • RDS_DBI_PROTECTION_LIMITLESS • RDS_DATA_ACTIVITY_DBI_PROTECTION_PROVISIONED • RDS_DATA_ACTIVITY_DBI_PROTECTION_SERVERLESS • RDS_DATA_ACTIVITY_DBI_PROTECTION_LIMITLESS • AI_PROTECTION Shorthand Syntax: AccountIds=string,string,DataSources=string,string,Resources=string,string,Features=string,string JSON Syntax: { "AccountIds": ["string", ...], "DataSources": ["FLOW_LOGS"|"CLOUD_TRAIL"|"DNS_LOGS"|"S3_LOGS"|"KUBERNETES_AUDIT_LOGS"|"EC2_MALWARE_SCAN", ...], "Resources": ["string", ...], "Features": ["FLOW_LOGS"|"CLOUD_TRAIL"|"DNS_LOGS"|"S3_DATA_EVENTS"|"EKS_AUDIT_LOGS"|"EBS_MALWARE_PROTECTION"|"RDS_LOGIN_EVENTS"|"LAMBDA_NETWORK_LOGS"|"EKS_RUNTIME_MONITORING"|"EC2_RUNTIME_MONITORING"|"FARGATE_RUNTIME_MONITORING"|"RDS_DBI_PROTECTION_PROVISIONED"|"RDS_DBI_PROTECTION_SERVERLESS"|"RDS_DBI_PROTECTION_LIMITLESS"|"RDS_DATA_ACTIVITY_DBI_PROTECTION_PROVISIONED"|"RDS_DATA_ACTIVITY_DBI_PROTECTION_SERVERLESS"|"RDS_DATA_ACTIVITY_DBI_PROTECTION_LIMITLESS"|"AI_PROTECTION", ...] }</param>
     public AwsGuarddutyGetUsageStatisticsOptions(
         string DetectorId,
         AwsGuarddutyGetUsageStatisticsUsageStatisticType UsageStatisticType,
@@ -65,19 +66,19 @@ public record AwsGuarddutyGetUsageStatisticsOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the detector that specifies the GuardDuty service whose usage statistics you want to retrieve. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the ListDetectors API. Constraints: o min: 1 o max: 300
+    /// The ID of the detector that specifies the GuardDuty service whose usage statistics you want to retrieve. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the ListDetectors API. Constraints: • min: 1 • max: 300
     /// </summary>
     [CliOption("--detector-id")]
     public string? DetectorId { get; private init; }
 
     /// <summary>
-    /// The type of usage statistics to retrieve. Possible values: o SUM_BY_ACCOUNT o SUM_BY_DATA_SOURCE o SUM_BY_RESOURCE o TOP_RESOURCES o SUM_BY_FEATURES o TOP_ACCOUNTS_BY_FEATURE
+    /// The type of usage statistics to retrieve. Possible values: • SUM_BY_ACCOUNT • SUM_BY_DATA_SOURCE • SUM_BY_RESOURCE • TOP_RESOURCES • SUM_BY_FEATURES • TOP_ACCOUNTS_BY_FEATURE
     /// </summary>
     [CliOption("--usage-statistic-type")]
     public AwsGuarddutyGetUsageStatisticsUsageStatisticType? UsageStatisticType { get; private init; }
 
     /// <summary>
-    /// Represents the criteria used for querying usage. AccountIds -&gt; (list) The account IDs to aggregate usage statistics from. Constraints: o min: 1 o max: 50 (string) Constraints: o min: 12 o max: 12 DataSources -&gt; (list) The data sources to aggregate usage statistics from. (string) Possible values: o FLOW_LOGS o CLOUD_TRAIL o DNS_LOGS o S3_LOGS o KUBERNETES_AUDIT_LOGS o EC2_MALWARE_SCAN Resources -&gt; (list) The resources to aggregate usage statistics from. Only accepts exact resource names. (string) Features -&gt; (list) The features to aggregate usage statistics from. (string) Possible values: o FLOW_LOGS o CLOUD_TRAIL o DNS_LOGS o S3_DATA_EVENTS o EKS_AUDIT_LOGS o EBS_MALWARE_PROTECTION o RDS_LOGIN_EVENTS o LAMBDA_NETWORK_LOGS o EKS_RUNTIME_MONITORING o EC2_RUNTIME_MONITORING o FARGATE_RUNTIME_MONITORING o RDS_DBI_PROTECTION_PROVISIONED o RDS_DBI_PROTECTION_SERVERLESS o AI_PROTECTION Shorthand Syntax: AccountIds=string,string,DataSources=string,string,Resources=string,string,Features=string,string JSON Syntax: { "AccountIds": ["string", ...], "DataSources": ["FLOW_LOGS"|"CLOUD_TRAIL"|"DNS_LOGS"|"S3_LOGS"|"KUBERNETES_AUDIT_LOGS"|"EC2_MALWARE_SCAN", ...], "Resources": ["string", ...], "Features": ["FLOW_LOGS"|"CLOUD_TRAIL"|"DNS_LOGS"|"S3_DATA_EVENTS"|"EKS_AUDIT_LOGS"|"EBS_MALWARE_PROTECTION"|"RDS_LOGIN_EVENTS"|"LAMBDA_NETWORK_LOGS"|"EKS_RUNTIME_MONITORING"|"EC2_RUNTIME_MONITORING"|"FARGATE_RUNTIME_MONITORING"|"RDS_DBI_PROTECTION_PROVISIONED"|"RDS_DBI_PROTECTION_SERVERLESS"|"AI_PROTECTION", ...] }
+    /// Represents the criteria used for querying usage. AccountIds -&gt; (list) The account IDs to aggregate usage statistics from. Constraints: • min: 1 • max: 50 (string) Constraints: • min: 12 • max: 12 DataSources -&gt; (list) The data sources to aggregate usage statistics from. (string) Possible values: • FLOW_LOGS • CLOUD_TRAIL • DNS_LOGS • S3_LOGS • KUBERNETES_AUDIT_LOGS • EC2_MALWARE_SCAN Resources -&gt; (list) The resources to aggregate usage statistics from. Only accepts exact resource names. (string) Features -&gt; (list) The features to aggregate usage statistics from. (string) Possible values: • FLOW_LOGS • CLOUD_TRAIL • DNS_LOGS • S3_DATA_EVENTS • EKS_AUDIT_LOGS • EBS_MALWARE_PROTECTION • RDS_LOGIN_EVENTS • LAMBDA_NETWORK_LOGS • EKS_RUNTIME_MONITORING • EC2_RUNTIME_MONITORING • FARGATE_RUNTIME_MONITORING • RDS_DBI_PROTECTION_PROVISIONED • RDS_DBI_PROTECTION_SERVERLESS • RDS_DBI_PROTECTION_LIMITLESS • RDS_DATA_ACTIVITY_DBI_PROTECTION_PROVISIONED • RDS_DATA_ACTIVITY_DBI_PROTECTION_SERVERLESS • RDS_DATA_ACTIVITY_DBI_PROTECTION_LIMITLESS • AI_PROTECTION Shorthand Syntax: AccountIds=string,string,DataSources=string,string,Resources=string,string,Features=string,string JSON Syntax: { "AccountIds": ["string", ...], "DataSources": ["FLOW_LOGS"|"CLOUD_TRAIL"|"DNS_LOGS"|"S3_LOGS"|"KUBERNETES_AUDIT_LOGS"|"EC2_MALWARE_SCAN", ...], "Resources": ["string", ...], "Features": ["FLOW_LOGS"|"CLOUD_TRAIL"|"DNS_LOGS"|"S3_DATA_EVENTS"|"EKS_AUDIT_LOGS"|"EBS_MALWARE_PROTECTION"|"RDS_LOGIN_EVENTS"|"LAMBDA_NETWORK_LOGS"|"EKS_RUNTIME_MONITORING"|"EC2_RUNTIME_MONITORING"|"FARGATE_RUNTIME_MONITORING"|"RDS_DBI_PROTECTION_PROVISIONED"|"RDS_DBI_PROTECTION_SERVERLESS"|"RDS_DBI_PROTECTION_LIMITLESS"|"RDS_DATA_ACTIVITY_DBI_PROTECTION_PROVISIONED"|"RDS_DATA_ACTIVITY_DBI_PROTECTION_SERVERLESS"|"RDS_DATA_ACTIVITY_DBI_PROTECTION_LIMITLESS"|"AI_PROTECTION", ...] }
     /// </summary>
     [CliOption("--usage-criteria")]
     public string? UsageCriteria { get; private init; }
@@ -89,13 +90,13 @@ public record AwsGuarddutyGetUsageStatisticsOptions : AwsOptions, IValidatableOb
     public string? Unit { get; set; }
 
     /// <summary>
-    /// The maximum number of results to return in the response. Constraints: o min: 1 o max: 50
+    /// The maximum number of results to return in the response. Constraints: • min: 1 • max: 50
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
     /// <summary>
-    /// A token to use for paginating results that are returned in the re- sponse. Set the value of this parameter to null for the first re- quest to a list action. For subsequent calls, use the NextToken value returned from the previous request to continue listing results after the first page.
+    /// A token to use for paginating results that are returned in the response. Set the value of this parameter to null for the first request to a list action. For subsequent calls, use the NextToken value returned from the previous request to continue listing results after the first page.
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
@@ -122,6 +123,15 @@ public record AwsGuarddutyGetUsageStatisticsOptions : AwsOptions, IValidatableOb
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

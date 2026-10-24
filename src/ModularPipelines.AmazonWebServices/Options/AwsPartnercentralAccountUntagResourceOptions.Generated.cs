@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsPartnercentralAccountUntagResourceOptions : AwsOptions, IValida
     /// <summary>
     /// Removes specified tags from an AWS Partner Central Account resource. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the resource to remove tags from. Constraints: o min: 1 o max: 200 o pattern: arn:[a-z-]+:partner- central:[a-z0-9-]+:[0-9]{12}:[A-Za-z0-9._:/-]+</param>
-    /// <param name="TagKeys">A list of tag keys to remove from the specified resource. Constraints: o min: 0 o max: 50 (string) Constraints: o min: 1 o max: 128 Syntax: "string" "string" ...</param>
+    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the resource to remove tags from. Constraints: • min: 1 • max: 200 • pattern: arn:[a-z-]+:partnercentral:[a-z0-9-]+:[0-9]{12}:[A-Za-z0-9._:/-]+</param>
+    /// <param name="TagKeys">A list of tag keys to remove from the specified resource. Constraints: • min: 0 • max: 50 (string) Constraints: • min: 1 • max: 128 Syntax: "string" "string" ...</param>
     public AwsPartnercentralAccountUntagResourceOptions(
         string ResourceArn,
         IEnumerable<string> TagKeys
@@ -71,13 +72,13 @@ public record AwsPartnercentralAccountUntagResourceOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the resource to remove tags from. Constraints: o min: 1 o max: 200 o pattern: arn:[a-z-]+:partner- central:[a-z0-9-]+:[0-9]{12}:[A-Za-z0-9._:/-]+
+    /// The Amazon Resource Name (ARN) of the resource to remove tags from. Constraints: • min: 1 • max: 200 • pattern: arn:[a-z-]+:partnercentral:[a-z0-9-]+:[0-9]{12}:[A-Za-z0-9._:/-]+
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
 
     /// <summary>
-    /// A list of tag keys to remove from the specified resource. Constraints: o min: 0 o max: 50 (string) Constraints: o min: 1 o max: 128 Syntax: "string" "string" ...
+    /// A list of tag keys to remove from the specified resource. Constraints: • min: 0 • max: 50 (string) Constraints: • min: 1 • max: 128 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--tag-keys", GroupValues = true)]
     public IEnumerable<string>? TagKeys { get; private init; }
@@ -103,6 +104,15 @@ public record AwsPartnercentralAccountUntagResourceOptions : AwsOptions, IValida
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

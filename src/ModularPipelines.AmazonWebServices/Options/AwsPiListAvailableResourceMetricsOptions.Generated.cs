@@ -11,13 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieve metrics of the specified types that can be queried for a spec- ified DB instance. See also: AWS API Documentation
+/// Retrieve metrics of the specified types that can be queried for a specified DB instance. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,11 +28,11 @@ public record AwsPiListAvailableResourceMetricsOptions : AwsOptions, IValidatabl
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Retrieve metrics of the specified types that can be queried for a spec- ified DB instance. See also: AWS API Documentation
+    /// Retrieve metrics of the specified types that can be queried for a specified DB instance. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ServiceType">The Amazon Web Services service for which Performance Insights re- turns metrics. Possible values: o RDS o DOCDB</param>
-    /// <param name="Identifier">An immutable identifier for a data source that is unique within an Amazon Web Services Region. Performance Insights gathers metrics from this data source. To use an Amazon RDS DB instance as a data source, specify its DbiResourceId value. For example, specify db-ABCDEFGHIJKLMNOPQRSTU1VWZ . Constraints: o min: 0 o max: 256 o pattern: ^[a-zA-Z0-9-]+$</param>
-    /// <param name="MetricTypes">The types of metrics to return in the response. Valid values in the array include the following: o os (OS counter metrics) - All engines o db (DB load metrics) - All engines except for Amazon DocumentDB o db.sql.stats (per-SQL metrics) - All engines except for Amazon DocumentDB o db.sql_tokenized.stats (per-SQL digest metrics) - All engines ex- cept for Amazon DocumentDB (string) A generic string type that forbids characters that could expose our service (or services downstream) to security risks around injections. Constraints: o min: 0 o max: 256 o pattern: ^[a-zA-Z0-9-_\.:/*)( ]+$ Syntax: "string" "string" ...</param>
+    /// <param name="ServiceType">The Amazon Web Services service for which Performance Insights returns metrics. Possible values: • RDS • DOCDB</param>
+    /// <param name="Identifier">An immutable identifier for a data source that is unique within an Amazon Web Services Region. Performance Insights gathers metrics from this data source. To use an Amazon RDS DB instance as a data source, specify its DbiResourceId value. For example, specify db-ABCDEFGHIJKLMNOPQRSTU1VWZ . Constraints: • min: 0 • max: 256 • pattern: ^[a-zA-Z0-9-]+$</param>
+    /// <param name="MetricTypes">The types of metrics to return in the response. Valid values in the array include the following: • os (OS counter metrics) - All engines • db (DB load metrics) - All engines except for Amazon DocumentDB • db.sql.stats (per-SQL metrics) - All engines except for Amazon DocumentDB • db.sql_tokenized.stats (per-SQL digest metrics) - All engines except for Amazon DocumentDB (string) A generic string type that forbids characters that could expose our service (or services downstream) to security risks around injections. Constraints: • min: 0 • max: 256 • pattern: ^[a-zA-Z0-9-_\.:/*)( ]+$ Syntax: "string" "string" ...</param>
     public AwsPiListAvailableResourceMetricsOptions(
         AwsPiListAvailableResourceMetricsServiceType ServiceType,
         string Identifier,
@@ -76,32 +77,32 @@ public record AwsPiListAvailableResourceMetricsOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Web Services service for which Performance Insights re- turns metrics. Possible values: o RDS o DOCDB
+    /// The Amazon Web Services service for which Performance Insights returns metrics. Possible values: • RDS • DOCDB
     /// </summary>
     [CliOption("--service-type")]
     public AwsPiListAvailableResourceMetricsServiceType? ServiceType { get; private init; }
 
     /// <summary>
-    /// An immutable identifier for a data source that is unique within an Amazon Web Services Region. Performance Insights gathers metrics from this data source. To use an Amazon RDS DB instance as a data source, specify its DbiResourceId value. For example, specify db-ABCDEFGHIJKLMNOPQRSTU1VWZ . Constraints: o min: 0 o max: 256 o pattern: ^[a-zA-Z0-9-]+$
+    /// An immutable identifier for a data source that is unique within an Amazon Web Services Region. Performance Insights gathers metrics from this data source. To use an Amazon RDS DB instance as a data source, specify its DbiResourceId value. For example, specify db-ABCDEFGHIJKLMNOPQRSTU1VWZ . Constraints: • min: 0 • max: 256 • pattern: ^[a-zA-Z0-9-]+$
     /// </summary>
     [CliOption("--identifier")]
     public string? Identifier { get; private init; }
 
     /// <summary>
-    /// The types of metrics to return in the response. Valid values in the array include the following: o os (OS counter metrics) - All engines o db (DB load metrics) - All engines except for Amazon DocumentDB o db.sql.stats (per-SQL metrics) - All engines except for Amazon DocumentDB o db.sql_tokenized.stats (per-SQL digest metrics) - All engines ex- cept for Amazon DocumentDB (string) A generic string type that forbids characters that could expose our service (or services downstream) to security risks around injections. Constraints: o min: 0 o max: 256 o pattern: ^[a-zA-Z0-9-_\.:/*)( ]+$ Syntax: "string" "string" ...
+    /// The types of metrics to return in the response. Valid values in the array include the following: • os (OS counter metrics) - All engines • db (DB load metrics) - All engines except for Amazon DocumentDB • db.sql.stats (per-SQL metrics) - All engines except for Amazon DocumentDB • db.sql_tokenized.stats (per-SQL digest metrics) - All engines except for Amazon DocumentDB (string) A generic string type that forbids characters that could expose our service (or services downstream) to security risks around injections. Constraints: • min: 0 • max: 256 • pattern: ^[a-zA-Z0-9-_\.:/*)( ]+$ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--metric-types", GroupValues = true)]
     public IEnumerable<string>? MetricTypes { get; private init; }
 
     /// <summary>
-    /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the token, up to the value specified by MaxRecords . Constraints: o min: 1 o max: 8192 o pattern: ^[a-zA-Z0-9_=-]+$
+    /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the token, up to the value specified by MaxRecords . Constraints: • min: 1 • max: 8192 • pattern: ^[a-zA-Z0-9_=-]+$
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// The maximum number of items to return. If the MaxRecords value is less than the number of existing items, the response includes a pag- ination token. Constraints: o min: 0 o max: 25
+    /// The maximum number of items to return. If the MaxRecords value is less than the number of existing items, the response includes a pagination token. Constraints: • min: 0 • max: 25
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
@@ -127,6 +128,15 @@ public record AwsPiListAvailableResourceMetricsOptions : AwsOptions, IValidatabl
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

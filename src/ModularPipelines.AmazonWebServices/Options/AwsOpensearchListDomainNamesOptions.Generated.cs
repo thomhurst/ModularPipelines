@@ -23,7 +23,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsOpensearchListDomainNamesOptions : AwsOptions
 {
     /// <summary>
-    /// Filters the output by domain engine type. Possible values: o OpenSearch o Elasticsearch
+    /// Filters the output by domain engine type. Possible values: • OpenSearch • Elasticsearch
     /// </summary>
     [CliOption("--engine-type")]
     public AwsOpensearchListDomainNamesEngineType? EngineType { get; set; }
@@ -33,5 +33,14 @@ public record AwsOpensearchListDomainNamesOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

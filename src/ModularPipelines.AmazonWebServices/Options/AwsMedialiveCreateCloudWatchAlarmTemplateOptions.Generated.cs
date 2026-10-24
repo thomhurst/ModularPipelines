@@ -10,7 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -47,7 +47,7 @@ public record AwsMedialiveCreateCloudWatchAlarmTemplateOptions : AwsOptions, IVa
         int Period,
         string Statistic,
         string TargetResourceType,
-        int Threshold,
+        double Threshold,
         string TreatMissingData
     )
     {
@@ -114,7 +114,7 @@ public record AwsMedialiveCreateCloudWatchAlarmTemplateOptions : AwsOptions, IVa
     public string? TargetResourceType { get; private init; }
 
     [CliOption("--threshold")]
-    public int? Threshold { get; private init; }
+    public double? Threshold { get; private init; }
 
     [CliOption("--treat-missing-data")]
     public string? TreatMissingData { get; private init; }
@@ -152,6 +152,15 @@ public record AwsMedialiveCreateCloudWatchAlarmTemplateOptions : AwsOptions, IVa
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

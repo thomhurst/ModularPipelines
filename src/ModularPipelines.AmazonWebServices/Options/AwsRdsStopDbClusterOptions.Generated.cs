@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Stops an Amazon Aurora DB cluster. When you stop a DB cluster, Aurora retains the DB cluster's metadata, including its endpoints and DB para- meter groups. Aurora also retains the transaction logs so you can do a point-in-time restore if necessary. For more information, see Stopping and Starting an Aurora Cluster in the Amazon Aurora User Guide . NOTE: This operation only applies to Aurora DB clusters. See also: AWS API Documentation
+/// Stops an Amazon Aurora DB cluster. When you stop a DB cluster, Aurora retains the DB cluster's metadata, including its endpoints and DB parameter groups. Aurora also retains the transaction logs so you can do a point-in-time restore if necessary. For more information, see Stopping and Starting an Aurora Cluster in the Amazon Aurora User Guide . NOTE: This operation only applies to Aurora DB clusters. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +26,7 @@ public record AwsRdsStopDbClusterOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Stops an Amazon Aurora DB cluster. When you stop a DB cluster, Aurora retains the DB cluster's metadata, including its endpoints and DB para- meter groups. Aurora also retains the transaction logs so you can do a point-in-time restore if necessary. For more information, see Stopping and Starting an Aurora Cluster in the Amazon Aurora User Guide . NOTE: This operation only applies to Aurora DB clusters. See also: AWS API Documentation
+    /// Stops an Amazon Aurora DB cluster. When you stop a DB cluster, Aurora retains the DB cluster's metadata, including its endpoints and DB parameter groups. Aurora also retains the transaction logs so you can do a point-in-time restore if necessary. For more information, see Stopping and Starting an Aurora Cluster in the Amazon Aurora User Guide . NOTE: This operation only applies to Aurora DB clusters. See also: AWS API Documentation
     /// </summary>
     /// <param name="DbClusterIdentifier">The DB cluster identifier of the Amazon Aurora DB cluster to be stopped. This parameter is stored as a lowercase string.</param>
     public AwsRdsStopDbClusterOptions(
@@ -82,6 +83,15 @@ public record AwsRdsStopDbClusterOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

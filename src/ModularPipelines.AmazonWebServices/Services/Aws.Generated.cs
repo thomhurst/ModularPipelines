@@ -6,8 +6,8 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
+using ModularPipelines;
 using ModularPipelines.Context;
-using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
@@ -47,9 +47,9 @@ internal partial class Aws : IAws
         IAwsAppflow appflow,
         IAwsAppintegrations appintegrations,
         IAwsApplicationAutoscaling applicationAutoscaling,
-        IAwsApplicationcostprofiler applicationcostprofiler,
         IAwsApplicationInsights applicationInsights,
         IAwsApplicationSignals applicationSignals,
+        IAwsApplicationcostprofiler applicationcostprofiler,
         IAwsAppmesh appmesh,
         IAwsApprunner apprunner,
         IAwsAppstream appstream,
@@ -72,9 +72,9 @@ internal partial class Aws : IAws
         IAwsBcmRecommendedActions bcmRecommendedActions,
         IAwsBedrock bedrock,
         IAwsBedrockAgent bedrockAgent,
+        IAwsBedrockAgentRuntime bedrockAgentRuntime,
         IAwsBedrockAgentcore bedrockAgentcore,
         IAwsBedrockAgentcoreControl bedrockAgentcoreControl,
-        IAwsBedrockAgentRuntime bedrockAgentRuntime,
         IAwsBedrockDataAutomation bedrockDataAutomation,
         IAwsBedrockDataAutomationRuntime bedrockDataAutomationRuntime,
         IAwsBedrockRuntime bedrockRuntime,
@@ -110,9 +110,9 @@ internal partial class Aws : IAws
         IAwsCodecatalyst codecatalyst,
         IAwsCodecommit codecommit,
         IAwsCodeconnections codeconnections,
-        IAwsCodeguruprofiler codeguruprofiler,
         IAwsCodeguruReviewer codeguruReviewer,
         IAwsCodeguruSecurity codeguruSecurity,
+        IAwsCodeguruprofiler codeguruprofiler,
         IAwsCodepipeline codepipeline,
         IAwsCodestarConnections codestarConnections,
         IAwsCodestarNotifications codestarNotifications,
@@ -125,10 +125,10 @@ internal partial class Aws : IAws
         IAwsComputeOptimizerAutomation computeOptimizerAutomation,
         IAwsConfigservice configservice,
         IAwsConnect connect,
+        IAwsConnectContactLens connectContactLens,
         IAwsConnectcampaigns connectcampaigns,
         IAwsConnectcampaignsv2 connectcampaignsv2,
         IAwsConnectcases connectcases,
-        IAwsConnectContactLens connectContactLens,
         IAwsConnecthealth connecthealth,
         IAwsConnectparticipant connectparticipant,
         IAwsControlcatalog controlcatalog,
@@ -178,6 +178,7 @@ internal partial class Aws : IAws
         IAwsEmr emr,
         IAwsEmrContainers emrContainers,
         IAwsEmrServerless emrServerless,
+        IAwsEndusermessaging endusermessaging,
         IAwsEntityresolution entityresolution,
         IAwsEs es,
         IAwsEvents events,
@@ -220,17 +221,17 @@ internal partial class Aws : IAws
         IAwsInvoicing invoicing,
         IAwsIot iot,
         IAwsIotData iotData,
-        IAwsIotdeviceadvisor iotdeviceadvisor,
-        IAwsIotfleetwise iotfleetwise,
         IAwsIotJobsData iotJobsData,
         IAwsIotManagedIntegrations iotManagedIntegrations,
+        IAwsIotdeviceadvisor iotdeviceadvisor,
+        IAwsIotfleetwise iotfleetwise,
         IAwsIotsecuretunneling iotsecuretunneling,
         IAwsIotsitewise iotsitewise,
         IAwsIottwinmaker iottwinmaker,
         IAwsIotwireless iotwireless,
         IAwsIvs ivs,
-        IAwsIvschat ivschat,
         IAwsIvsRealtime ivsRealtime,
+        IAwsIvschat ivschat,
         IAwsKafka kafka,
         IAwsKafkaconnect kafkaconnect,
         IAwsKendra kendra,
@@ -238,18 +239,19 @@ internal partial class Aws : IAws
         IAwsKeyspaces keyspaces,
         IAwsKeyspacesstreams keyspacesstreams,
         IAwsKinesis kinesis,
-        IAwsKinesisanalytics kinesisanalytics,
-        IAwsKinesisanalyticsv2 kinesisanalyticsv2,
-        IAwsKinesisvideo kinesisvideo,
         IAwsKinesisVideoArchivedMedia kinesisVideoArchivedMedia,
         IAwsKinesisVideoMedia kinesisVideoMedia,
         IAwsKinesisVideoSignaling kinesisVideoSignaling,
         IAwsKinesisVideoWebrtcStorage kinesisVideoWebrtcStorage,
+        IAwsKinesisanalytics kinesisanalytics,
+        IAwsKinesisanalyticsv2 kinesisanalyticsv2,
+        IAwsKinesisvideo kinesisvideo,
         IAwsKms kms,
         IAwsLakeformation lakeformation,
         IAwsLambda lambda,
         IAwsLambdaCore lambdaCore,
         IAwsLambdaMicrovms lambdaMicrovms,
+        IAwsLambdaWeb lambdaWeb,
         IAwsLaunchWizard launchWizard,
         IAwsLexRuntime lexRuntime,
         IAwsLexv2Models lexv2Models,
@@ -271,17 +273,17 @@ internal partial class Aws : IAws
         IAwsManagedblockchainQuery managedblockchainQuery,
         IAwsMarketplaceAgreement marketplaceAgreement,
         IAwsMarketplaceCatalog marketplaceCatalog,
-        IAwsMarketplacecommerceanalytics marketplacecommerceanalytics,
         IAwsMarketplaceDeployment marketplaceDeployment,
         IAwsMarketplaceDiscovery marketplaceDiscovery,
         IAwsMarketplaceEntitlement marketplaceEntitlement,
         IAwsMarketplaceReporting marketplaceReporting,
+        IAwsMarketplacecommerceanalytics marketplacecommerceanalytics,
         IAwsMediaconnect mediaconnect,
         IAwsMediaconvert mediaconvert,
         IAwsMedialive medialive,
         IAwsMediapackage mediapackage,
-        IAwsMediapackagev2 mediapackagev2,
         IAwsMediapackageVod mediapackageVod,
+        IAwsMediapackagev2 mediapackagev2,
         IAwsMediastore mediastore,
         IAwsMediastoreData mediastoreData,
         IAwsMediatailor mediatailor,
@@ -290,9 +292,9 @@ internal partial class Aws : IAws
         IAwsMeteringmarketplace meteringmarketplace,
         IAwsMgh mgh,
         IAwsMgn mgn,
+        IAwsMigrationHubRefactorSpaces migrationHubRefactorSpaces,
         IAwsMigrationhubConfig migrationhubConfig,
         IAwsMigrationhuborchestrator migrationhuborchestrator,
-        IAwsMigrationHubRefactorSpaces migrationHubRefactorSpaces,
         IAwsMigrationhubstrategy migrationhubstrategy,
         IAwsMpa mpa,
         IAwsMq mq,
@@ -300,13 +302,13 @@ internal partial class Aws : IAws
         IAwsMwaa mwaa,
         IAwsMwaaServerless mwaaServerless,
         IAwsNeptune neptune,
-        IAwsNeptunedata neptunedata,
         IAwsNeptuneGraph neptuneGraph,
+        IAwsNeptunedata neptunedata,
         IAwsNetworkFirewall networkFirewall,
+        IAwsNetworkSecurityManager networkSecurityManager,
         IAwsNetworkflowmonitor networkflowmonitor,
         IAwsNetworkmanager networkmanager,
         IAwsNetworkmonitor networkmonitor,
-        IAwsNetworkSecurityManager networkSecurityManager,
         IAwsNotifications notifications,
         IAwsNotificationscontacts notificationscontacts,
         IAwsNovaAct novaAct,
@@ -341,6 +343,7 @@ internal partial class Aws : IAws
         IAwsPolly polly,
         IAwsPricing pricing,
         IAwsPricingPlanManager pricingPlanManager,
+        IAwsProton proton,
         IAwsQapps qapps,
         IAwsQbusiness qbusiness,
         IAwsQconnect qconnect,
@@ -382,23 +385,24 @@ internal partial class Aws : IAws
         IAwsSagemakerEdge sagemakerEdge,
         IAwsSagemakerFeaturestoreRuntime sagemakerFeaturestoreRuntime,
         IAwsSagemakerGeospatial sagemakerGeospatial,
-        IAwsSagemakerjobruntime sagemakerjobruntime,
         IAwsSagemakerMetrics sagemakerMetrics,
         IAwsSagemakerRuntime sagemakerRuntime,
+        IAwsSagemakerjobruntime sagemakerjobruntime,
+        IAwsSagemakertrainingsessionruntime sagemakertrainingsessionruntime,
         IAwsSavingsplans savingsplans,
         IAwsScheduler scheduler,
         IAwsSchemas schemas,
         IAwsSdb sdb,
         IAwsSecretsmanager secretsmanager,
+        IAwsSecurityIr securityIr,
         IAwsSecurityagent securityagent,
         IAwsSecurityhub securityhub,
-        IAwsSecurityIr securityIr,
         IAwsSecuritylake securitylake,
         IAwsServerlessrepo serverlessrepo,
+        IAwsServiceQuotas serviceQuotas,
         IAwsServicecatalog servicecatalog,
         IAwsServicecatalogAppregistry servicecatalogAppregistry,
         IAwsServicediscovery servicediscovery,
-        IAwsServiceQuotas serviceQuotas,
         IAwsSes ses,
         IAwsSesv2 sesv2,
         IAwsShield shield,
@@ -406,8 +410,8 @@ internal partial class Aws : IAws
         IAwsSignerData signerData,
         IAwsSignin signin,
         IAwsSimpledbv2 simpledbv2,
-        IAwsSnowball snowball,
         IAwsSnowDeviceManagement snowDeviceManagement,
+        IAwsSnowball snowball,
         IAwsSns sns,
         IAwsSocialmessaging socialmessaging,
         IAwsSqs sqs,
@@ -484,9 +488,9 @@ internal partial class Aws : IAws
         Appflow = appflow;
         Appintegrations = appintegrations;
         ApplicationAutoscaling = applicationAutoscaling;
-        Applicationcostprofiler = applicationcostprofiler;
         ApplicationInsights = applicationInsights;
         ApplicationSignals = applicationSignals;
+        Applicationcostprofiler = applicationcostprofiler;
         Appmesh = appmesh;
         Apprunner = apprunner;
         Appstream = appstream;
@@ -509,9 +513,9 @@ internal partial class Aws : IAws
         BcmRecommendedActions = bcmRecommendedActions;
         Bedrock = bedrock;
         BedrockAgent = bedrockAgent;
+        BedrockAgentRuntime = bedrockAgentRuntime;
         BedrockAgentcore = bedrockAgentcore;
         BedrockAgentcoreControl = bedrockAgentcoreControl;
-        BedrockAgentRuntime = bedrockAgentRuntime;
         BedrockDataAutomation = bedrockDataAutomation;
         BedrockDataAutomationRuntime = bedrockDataAutomationRuntime;
         BedrockRuntime = bedrockRuntime;
@@ -547,9 +551,9 @@ internal partial class Aws : IAws
         Codecatalyst = codecatalyst;
         Codecommit = codecommit;
         Codeconnections = codeconnections;
-        Codeguruprofiler = codeguruprofiler;
         CodeguruReviewer = codeguruReviewer;
         CodeguruSecurity = codeguruSecurity;
+        Codeguruprofiler = codeguruprofiler;
         Codepipeline = codepipeline;
         CodestarConnections = codestarConnections;
         CodestarNotifications = codestarNotifications;
@@ -562,10 +566,10 @@ internal partial class Aws : IAws
         ComputeOptimizerAutomation = computeOptimizerAutomation;
         Configservice = configservice;
         Connect = connect;
+        ConnectContactLens = connectContactLens;
         Connectcampaigns = connectcampaigns;
         Connectcampaignsv2 = connectcampaignsv2;
         Connectcases = connectcases;
-        ConnectContactLens = connectContactLens;
         Connecthealth = connecthealth;
         Connectparticipant = connectparticipant;
         Controlcatalog = controlcatalog;
@@ -615,6 +619,7 @@ internal partial class Aws : IAws
         Emr = emr;
         EmrContainers = emrContainers;
         EmrServerless = emrServerless;
+        Endusermessaging = endusermessaging;
         Entityresolution = entityresolution;
         Es = es;
         Events = events;
@@ -657,17 +662,17 @@ internal partial class Aws : IAws
         Invoicing = invoicing;
         Iot = iot;
         IotData = iotData;
-        Iotdeviceadvisor = iotdeviceadvisor;
-        Iotfleetwise = iotfleetwise;
         IotJobsData = iotJobsData;
         IotManagedIntegrations = iotManagedIntegrations;
+        Iotdeviceadvisor = iotdeviceadvisor;
+        Iotfleetwise = iotfleetwise;
         Iotsecuretunneling = iotsecuretunneling;
         Iotsitewise = iotsitewise;
         Iottwinmaker = iottwinmaker;
         Iotwireless = iotwireless;
         Ivs = ivs;
-        Ivschat = ivschat;
         IvsRealtime = ivsRealtime;
+        Ivschat = ivschat;
         Kafka = kafka;
         Kafkaconnect = kafkaconnect;
         Kendra = kendra;
@@ -675,18 +680,19 @@ internal partial class Aws : IAws
         Keyspaces = keyspaces;
         Keyspacesstreams = keyspacesstreams;
         Kinesis = kinesis;
-        Kinesisanalytics = kinesisanalytics;
-        Kinesisanalyticsv2 = kinesisanalyticsv2;
-        Kinesisvideo = kinesisvideo;
         KinesisVideoArchivedMedia = kinesisVideoArchivedMedia;
         KinesisVideoMedia = kinesisVideoMedia;
         KinesisVideoSignaling = kinesisVideoSignaling;
         KinesisVideoWebrtcStorage = kinesisVideoWebrtcStorage;
+        Kinesisanalytics = kinesisanalytics;
+        Kinesisanalyticsv2 = kinesisanalyticsv2;
+        Kinesisvideo = kinesisvideo;
         Kms = kms;
         Lakeformation = lakeformation;
         Lambda = lambda;
         LambdaCore = lambdaCore;
         LambdaMicrovms = lambdaMicrovms;
+        LambdaWeb = lambdaWeb;
         LaunchWizard = launchWizard;
         LexRuntime = lexRuntime;
         Lexv2Models = lexv2Models;
@@ -708,17 +714,17 @@ internal partial class Aws : IAws
         ManagedblockchainQuery = managedblockchainQuery;
         MarketplaceAgreement = marketplaceAgreement;
         MarketplaceCatalog = marketplaceCatalog;
-        Marketplacecommerceanalytics = marketplacecommerceanalytics;
         MarketplaceDeployment = marketplaceDeployment;
         MarketplaceDiscovery = marketplaceDiscovery;
         MarketplaceEntitlement = marketplaceEntitlement;
         MarketplaceReporting = marketplaceReporting;
+        Marketplacecommerceanalytics = marketplacecommerceanalytics;
         Mediaconnect = mediaconnect;
         Mediaconvert = mediaconvert;
         Medialive = medialive;
         Mediapackage = mediapackage;
-        Mediapackagev2 = mediapackagev2;
         MediapackageVod = mediapackageVod;
+        Mediapackagev2 = mediapackagev2;
         Mediastore = mediastore;
         MediastoreData = mediastoreData;
         Mediatailor = mediatailor;
@@ -727,9 +733,9 @@ internal partial class Aws : IAws
         Meteringmarketplace = meteringmarketplace;
         Mgh = mgh;
         Mgn = mgn;
+        MigrationHubRefactorSpaces = migrationHubRefactorSpaces;
         MigrationhubConfig = migrationhubConfig;
         Migrationhuborchestrator = migrationhuborchestrator;
-        MigrationHubRefactorSpaces = migrationHubRefactorSpaces;
         Migrationhubstrategy = migrationhubstrategy;
         Mpa = mpa;
         Mq = mq;
@@ -737,13 +743,13 @@ internal partial class Aws : IAws
         Mwaa = mwaa;
         MwaaServerless = mwaaServerless;
         Neptune = neptune;
-        Neptunedata = neptunedata;
         NeptuneGraph = neptuneGraph;
+        Neptunedata = neptunedata;
         NetworkFirewall = networkFirewall;
+        NetworkSecurityManager = networkSecurityManager;
         Networkflowmonitor = networkflowmonitor;
         Networkmanager = networkmanager;
         Networkmonitor = networkmonitor;
-        NetworkSecurityManager = networkSecurityManager;
         Notifications = notifications;
         Notificationscontacts = notificationscontacts;
         NovaAct = novaAct;
@@ -778,6 +784,7 @@ internal partial class Aws : IAws
         Polly = polly;
         Pricing = pricing;
         PricingPlanManager = pricingPlanManager;
+        Proton = proton;
         Qapps = qapps;
         Qbusiness = qbusiness;
         Qconnect = qconnect;
@@ -819,23 +826,24 @@ internal partial class Aws : IAws
         SagemakerEdge = sagemakerEdge;
         SagemakerFeaturestoreRuntime = sagemakerFeaturestoreRuntime;
         SagemakerGeospatial = sagemakerGeospatial;
-        Sagemakerjobruntime = sagemakerjobruntime;
         SagemakerMetrics = sagemakerMetrics;
         SagemakerRuntime = sagemakerRuntime;
+        Sagemakerjobruntime = sagemakerjobruntime;
+        Sagemakertrainingsessionruntime = sagemakertrainingsessionruntime;
         Savingsplans = savingsplans;
         Scheduler = scheduler;
         Schemas = schemas;
         Sdb = sdb;
         Secretsmanager = secretsmanager;
+        SecurityIr = securityIr;
         Securityagent = securityagent;
         Securityhub = securityhub;
-        SecurityIr = securityIr;
         Securitylake = securitylake;
         Serverlessrepo = serverlessrepo;
+        ServiceQuotas = serviceQuotas;
         Servicecatalog = servicecatalog;
         ServicecatalogAppregistry = servicecatalogAppregistry;
         Servicediscovery = servicediscovery;
-        ServiceQuotas = serviceQuotas;
         Ses = ses;
         Sesv2 = sesv2;
         Shield = shield;
@@ -843,8 +851,8 @@ internal partial class Aws : IAws
         SignerData = signerData;
         Signin = signin;
         Simpledbv2 = simpledbv2;
-        Snowball = snowball;
         SnowDeviceManagement = snowDeviceManagement;
+        Snowball = snowball;
         Sns = sns;
         Socialmessaging = socialmessaging;
         Sqs = sqs;
@@ -968,13 +976,13 @@ internal partial class Aws : IAws
     public IAwsApplicationAutoscaling ApplicationAutoscaling { get; }
 
     /// <inheritdoc />
-    public IAwsApplicationcostprofiler Applicationcostprofiler { get; }
-
-    /// <inheritdoc />
     public IAwsApplicationInsights ApplicationInsights { get; }
 
     /// <inheritdoc />
     public IAwsApplicationSignals ApplicationSignals { get; }
+
+    /// <inheritdoc />
+    public IAwsApplicationcostprofiler Applicationcostprofiler { get; }
 
     /// <inheritdoc />
     public IAwsAppmesh Appmesh { get; }
@@ -1043,13 +1051,13 @@ internal partial class Aws : IAws
     public IAwsBedrockAgent BedrockAgent { get; }
 
     /// <inheritdoc />
+    public IAwsBedrockAgentRuntime BedrockAgentRuntime { get; }
+
+    /// <inheritdoc />
     public IAwsBedrockAgentcore BedrockAgentcore { get; }
 
     /// <inheritdoc />
     public IAwsBedrockAgentcoreControl BedrockAgentcoreControl { get; }
-
-    /// <inheritdoc />
-    public IAwsBedrockAgentRuntime BedrockAgentRuntime { get; }
 
     /// <inheritdoc />
     public IAwsBedrockDataAutomation BedrockDataAutomation { get; }
@@ -1157,13 +1165,13 @@ internal partial class Aws : IAws
     public IAwsCodeconnections Codeconnections { get; }
 
     /// <inheritdoc />
-    public IAwsCodeguruprofiler Codeguruprofiler { get; }
-
-    /// <inheritdoc />
     public IAwsCodeguruReviewer CodeguruReviewer { get; }
 
     /// <inheritdoc />
     public IAwsCodeguruSecurity CodeguruSecurity { get; }
+
+    /// <inheritdoc />
+    public IAwsCodeguruprofiler Codeguruprofiler { get; }
 
     /// <inheritdoc />
     public IAwsCodepipeline Codepipeline { get; }
@@ -1202,6 +1210,9 @@ internal partial class Aws : IAws
     public IAwsConnect Connect { get; }
 
     /// <inheritdoc />
+    public IAwsConnectContactLens ConnectContactLens { get; }
+
+    /// <inheritdoc />
     public IAwsConnectcampaigns Connectcampaigns { get; }
 
     /// <inheritdoc />
@@ -1209,9 +1220,6 @@ internal partial class Aws : IAws
 
     /// <inheritdoc />
     public IAwsConnectcases Connectcases { get; }
-
-    /// <inheritdoc />
-    public IAwsConnectContactLens ConnectContactLens { get; }
 
     /// <inheritdoc />
     public IAwsConnecthealth Connecthealth { get; }
@@ -1361,6 +1369,9 @@ internal partial class Aws : IAws
     public IAwsEmrServerless EmrServerless { get; }
 
     /// <inheritdoc />
+    public IAwsEndusermessaging Endusermessaging { get; }
+
+    /// <inheritdoc />
     public IAwsEntityresolution Entityresolution { get; }
 
     /// <inheritdoc />
@@ -1487,16 +1498,16 @@ internal partial class Aws : IAws
     public IAwsIotData IotData { get; }
 
     /// <inheritdoc />
-    public IAwsIotdeviceadvisor Iotdeviceadvisor { get; }
-
-    /// <inheritdoc />
-    public IAwsIotfleetwise Iotfleetwise { get; }
-
-    /// <inheritdoc />
     public IAwsIotJobsData IotJobsData { get; }
 
     /// <inheritdoc />
     public IAwsIotManagedIntegrations IotManagedIntegrations { get; }
+
+    /// <inheritdoc />
+    public IAwsIotdeviceadvisor Iotdeviceadvisor { get; }
+
+    /// <inheritdoc />
+    public IAwsIotfleetwise Iotfleetwise { get; }
 
     /// <inheritdoc />
     public IAwsIotsecuretunneling Iotsecuretunneling { get; }
@@ -1514,10 +1525,10 @@ internal partial class Aws : IAws
     public IAwsIvs Ivs { get; }
 
     /// <inheritdoc />
-    public IAwsIvschat Ivschat { get; }
+    public IAwsIvsRealtime IvsRealtime { get; }
 
     /// <inheritdoc />
-    public IAwsIvsRealtime IvsRealtime { get; }
+    public IAwsIvschat Ivschat { get; }
 
     /// <inheritdoc />
     public IAwsKafka Kafka { get; }
@@ -1541,15 +1552,6 @@ internal partial class Aws : IAws
     public IAwsKinesis Kinesis { get; }
 
     /// <inheritdoc />
-    public IAwsKinesisanalytics Kinesisanalytics { get; }
-
-    /// <inheritdoc />
-    public IAwsKinesisanalyticsv2 Kinesisanalyticsv2 { get; }
-
-    /// <inheritdoc />
-    public IAwsKinesisvideo Kinesisvideo { get; }
-
-    /// <inheritdoc />
     public IAwsKinesisVideoArchivedMedia KinesisVideoArchivedMedia { get; }
 
     /// <inheritdoc />
@@ -1560,6 +1562,15 @@ internal partial class Aws : IAws
 
     /// <inheritdoc />
     public IAwsKinesisVideoWebrtcStorage KinesisVideoWebrtcStorage { get; }
+
+    /// <inheritdoc />
+    public IAwsKinesisanalytics Kinesisanalytics { get; }
+
+    /// <inheritdoc />
+    public IAwsKinesisanalyticsv2 Kinesisanalyticsv2 { get; }
+
+    /// <inheritdoc />
+    public IAwsKinesisvideo Kinesisvideo { get; }
 
     /// <inheritdoc />
     public IAwsKms Kms { get; }
@@ -1575,6 +1586,9 @@ internal partial class Aws : IAws
 
     /// <inheritdoc />
     public IAwsLambdaMicrovms LambdaMicrovms { get; }
+
+    /// <inheritdoc />
+    public IAwsLambdaWeb LambdaWeb { get; }
 
     /// <inheritdoc />
     public IAwsLaunchWizard LaunchWizard { get; }
@@ -1640,9 +1654,6 @@ internal partial class Aws : IAws
     public IAwsMarketplaceCatalog MarketplaceCatalog { get; }
 
     /// <inheritdoc />
-    public IAwsMarketplacecommerceanalytics Marketplacecommerceanalytics { get; }
-
-    /// <inheritdoc />
     public IAwsMarketplaceDeployment MarketplaceDeployment { get; }
 
     /// <inheritdoc />
@@ -1653,6 +1664,9 @@ internal partial class Aws : IAws
 
     /// <inheritdoc />
     public IAwsMarketplaceReporting MarketplaceReporting { get; }
+
+    /// <inheritdoc />
+    public IAwsMarketplacecommerceanalytics Marketplacecommerceanalytics { get; }
 
     /// <inheritdoc />
     public IAwsMediaconnect Mediaconnect { get; }
@@ -1667,10 +1681,10 @@ internal partial class Aws : IAws
     public IAwsMediapackage Mediapackage { get; }
 
     /// <inheritdoc />
-    public IAwsMediapackagev2 Mediapackagev2 { get; }
+    public IAwsMediapackageVod MediapackageVod { get; }
 
     /// <inheritdoc />
-    public IAwsMediapackageVod MediapackageVod { get; }
+    public IAwsMediapackagev2 Mediapackagev2 { get; }
 
     /// <inheritdoc />
     public IAwsMediastore Mediastore { get; }
@@ -1697,13 +1711,13 @@ internal partial class Aws : IAws
     public IAwsMgn Mgn { get; }
 
     /// <inheritdoc />
+    public IAwsMigrationHubRefactorSpaces MigrationHubRefactorSpaces { get; }
+
+    /// <inheritdoc />
     public IAwsMigrationhubConfig MigrationhubConfig { get; }
 
     /// <inheritdoc />
     public IAwsMigrationhuborchestrator Migrationhuborchestrator { get; }
-
-    /// <inheritdoc />
-    public IAwsMigrationHubRefactorSpaces MigrationHubRefactorSpaces { get; }
 
     /// <inheritdoc />
     public IAwsMigrationhubstrategy Migrationhubstrategy { get; }
@@ -1727,13 +1741,16 @@ internal partial class Aws : IAws
     public IAwsNeptune Neptune { get; }
 
     /// <inheritdoc />
-    public IAwsNeptunedata Neptunedata { get; }
-
-    /// <inheritdoc />
     public IAwsNeptuneGraph NeptuneGraph { get; }
 
     /// <inheritdoc />
+    public IAwsNeptunedata Neptunedata { get; }
+
+    /// <inheritdoc />
     public IAwsNetworkFirewall NetworkFirewall { get; }
+
+    /// <inheritdoc />
+    public IAwsNetworkSecurityManager NetworkSecurityManager { get; }
 
     /// <inheritdoc />
     public IAwsNetworkflowmonitor Networkflowmonitor { get; }
@@ -1743,9 +1760,6 @@ internal partial class Aws : IAws
 
     /// <inheritdoc />
     public IAwsNetworkmonitor Networkmonitor { get; }
-
-    /// <inheritdoc />
-    public IAwsNetworkSecurityManager NetworkSecurityManager { get; }
 
     /// <inheritdoc />
     public IAwsNotifications Notifications { get; }
@@ -1848,6 +1862,9 @@ internal partial class Aws : IAws
 
     /// <inheritdoc />
     public IAwsPricingPlanManager PricingPlanManager { get; }
+
+    /// <inheritdoc />
+    public IAwsProton Proton { get; }
 
     /// <inheritdoc />
     public IAwsQapps Qapps { get; }
@@ -1973,13 +1990,16 @@ internal partial class Aws : IAws
     public IAwsSagemakerGeospatial SagemakerGeospatial { get; }
 
     /// <inheritdoc />
-    public IAwsSagemakerjobruntime Sagemakerjobruntime { get; }
-
-    /// <inheritdoc />
     public IAwsSagemakerMetrics SagemakerMetrics { get; }
 
     /// <inheritdoc />
     public IAwsSagemakerRuntime SagemakerRuntime { get; }
+
+    /// <inheritdoc />
+    public IAwsSagemakerjobruntime Sagemakerjobruntime { get; }
+
+    /// <inheritdoc />
+    public IAwsSagemakertrainingsessionruntime Sagemakertrainingsessionruntime { get; }
 
     /// <inheritdoc />
     public IAwsSavingsplans Savingsplans { get; }
@@ -1997,19 +2017,22 @@ internal partial class Aws : IAws
     public IAwsSecretsmanager Secretsmanager { get; }
 
     /// <inheritdoc />
+    public IAwsSecurityIr SecurityIr { get; }
+
+    /// <inheritdoc />
     public IAwsSecurityagent Securityagent { get; }
 
     /// <inheritdoc />
     public IAwsSecurityhub Securityhub { get; }
 
     /// <inheritdoc />
-    public IAwsSecurityIr SecurityIr { get; }
-
-    /// <inheritdoc />
     public IAwsSecuritylake Securitylake { get; }
 
     /// <inheritdoc />
     public IAwsServerlessrepo Serverlessrepo { get; }
+
+    /// <inheritdoc />
+    public IAwsServiceQuotas ServiceQuotas { get; }
 
     /// <inheritdoc />
     public IAwsServicecatalog Servicecatalog { get; }
@@ -2019,9 +2042,6 @@ internal partial class Aws : IAws
 
     /// <inheritdoc />
     public IAwsServicediscovery Servicediscovery { get; }
-
-    /// <inheritdoc />
-    public IAwsServiceQuotas ServiceQuotas { get; }
 
     /// <inheritdoc />
     public IAwsSes Ses { get; }
@@ -2045,10 +2065,10 @@ internal partial class Aws : IAws
     public IAwsSimpledbv2 Simpledbv2 { get; }
 
     /// <inheritdoc />
-    public IAwsSnowball Snowball { get; }
+    public IAwsSnowDeviceManagement SnowDeviceManagement { get; }
 
     /// <inheritdoc />
-    public IAwsSnowDeviceManagement SnowDeviceManagement { get; }
+    public IAwsSnowball Snowball { get; }
 
     /// <inheritdoc />
     public IAwsSns Sns { get; }

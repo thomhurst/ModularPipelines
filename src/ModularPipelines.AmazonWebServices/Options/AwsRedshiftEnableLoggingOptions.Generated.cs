@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,7 +29,7 @@ public record AwsRedshiftEnableLoggingOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Starts logging information, such as queries and connection attempts, for the specified Amazon Redshift cluster. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ClusterIdentifier">The identifier of the cluster on which logging is to be started. Example: examplecluster Constraints: o max: 2147483647</param>
+    /// <param name="ClusterIdentifier">The identifier of the cluster on which logging is to be started. Example: examplecluster Constraints: • max: 2147483647</param>
     public AwsRedshiftEnableLoggingOptions(
         string ClusterIdentifier
     )
@@ -57,43 +58,43 @@ public record AwsRedshiftEnableLoggingOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the cluster on which logging is to be started. Example: examplecluster Constraints: o max: 2147483647
+    /// The identifier of the cluster on which logging is to be started. Example: examplecluster Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--cluster-identifier")]
     public string? ClusterIdentifier { get; private init; }
 
     /// <summary>
-    /// The name of an existing S3 bucket where the log files are to be stored. Constraints: o Must be in the same region as the cluster o The cluster must have read bucket and put object permissions Constraints: o max: 2147483647
+    /// The name of an existing S3 bucket where the log files are to be stored. Constraints: • Must be in the same region as the cluster • The cluster must have read bucket and put object permissions Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--bucket-name")]
     public string? BucketName { get; set; }
 
     /// <summary>
-    /// The prefix applied to the log file names. Valid characters are any letter from any language, any whitespace character, any numeric character, and the following characters: un- derscore (_ ), period (. ), colon (: ), slash (/ ), equal (= ), plus (+ ), backslash (\ ), hyphen (- ), at symbol (@ ). Constraints: o max: 256 o pattern: [\p{L}\p{Z}\p{N}_.:/=+\-@]*
+    /// The prefix applied to the log file names. Valid characters are any letter from any language, any whitespace character, any numeric character, and the following characters: underscore (_ ), period (. ), colon (: ), slash (/ ), equal (= ), plus (+ ), backslash (\ ), hyphen (- ), at symbol (@ ). Constraints: • max: 256 • pattern: [\p{L}\p{Z}\p{N}_.:/=+\-@]*
     /// </summary>
     [CliOption("--s3-key-prefix")]
     public string? S3KeyPrefix { get; set; }
 
     /// <summary>
-    /// The log destination type. An enum with possible values of s3 , cloudwatch , and s3table . Possible values: o s3 o cloudwatch o s3table
+    /// The log destination type. An enum with possible values of s3 , cloudwatch , and s3table . Possible values: • s3 • cloudwatch • s3table
     /// </summary>
     [CliOption("--log-destination-type")]
     public AwsRedshiftEnableLoggingLogDestinationType? LogDestinationType { get; set; }
 
     /// <summary>
-    /// The collection of exported log types. When LogDestinationType is s3 or cloudwatch , possible values are connectionlog , useractivitylog , and userlog . When LogDestinationType is s3table , the values are the names of the system tables to publish. Omitting this parameter, passing an empty list, or including the value all publishes all cur- rent and future system tables. (string) Constraints: o max: 2147483647 Syntax: "string" "string" ...
+    /// The collection of exported log types. When LogDestinationType is s3 or cloudwatch , possible values are connectionlog , useractivitylog , and userlog . When LogDestinationType is s3table , the values are the names of the system tables to publish. Omitting this parameter, passing an empty list, or including the value all publishes all current and future system tables. (string) Constraints: • max: 2147483647 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--log-exports", GroupValues = true)]
     public IEnumerable<string>? LogExports { get; set; }
 
     /// <summary>
-    /// The identifier of a customer managed KMS key used to encrypt the S3 tables. This parameter is valid only when LogDestinationType is s3table . Constraints: o max: 2147483647
+    /// The identifier of a customer managed KMS key used to encrypt the S3 tables. This parameter is valid only when LogDestinationType is s3table . Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--s3-table-kms-key-id")]
     public string? S3TableKmsKeyId { get; set; }
 
     /// <summary>
-    /// The scope of system table publishing. Valid values are cluster and account . A value of cluster scopes publishing to the individual cluster. A value of account scopes publishing to the Amazon Web Ser- vices account. This parameter is valid only when LogDestinationType is s3table . Constraints: o max: 2147483647
+    /// The scope of system table publishing. Valid values are cluster and account . A value of cluster scopes publishing to the individual cluster. A value of account scopes publishing to the Amazon Web Services account. This parameter is valid only when LogDestinationType is s3table . Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--s3-table-granularity")]
     public string? S3TableGranularity { get; set; }
@@ -119,6 +120,15 @@ public record AwsRedshiftEnableLoggingOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

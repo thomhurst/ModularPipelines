@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsEventsCreateEventBusOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Creates a new event bus within your account. This can be a custom event bus which you can use to receive events from your custom applications and services, or it can be a partner event bus which can be matched to a partner event source. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">The name of the new event bus. Custom event bus names can't contain the / character, but you can use the / character in partner event bus names. In addition, for partner event buses, the name must exactly match the name of the partner event source that this event bus is matched to. You can't use the name default for a custom event bus, as this name is already used for your account's default event bus. Constraints: o min: 1 o max: 256 o pattern: [/\.\-_A-Za-z0-9]+</param>
+    /// <param name="Name">The name of the new event bus. Custom event bus names can't contain the / character, but you can use the / character in partner event bus names. In addition, for partner event buses, the name must exactly match the name of the partner event source that this event bus is matched to. You can't use the name default for a custom event bus, as this name is already used for your account's default event bus. Constraints: • min: 1 • max: 256 • pattern: [/\.\-_A-Za-z0-9]+</param>
     public AwsEventsCreateEventBusOptions(
         string Name
     )
@@ -56,43 +57,43 @@ public record AwsEventsCreateEventBusOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the new event bus. Custom event bus names can't contain the / character, but you can use the / character in partner event bus names. In addition, for partner event buses, the name must exactly match the name of the partner event source that this event bus is matched to. You can't use the name default for a custom event bus, as this name is already used for your account's default event bus. Constraints: o min: 1 o max: 256 o pattern: [/\.\-_A-Za-z0-9]+
+    /// The name of the new event bus. Custom event bus names can't contain the / character, but you can use the / character in partner event bus names. In addition, for partner event buses, the name must exactly match the name of the partner event source that this event bus is matched to. You can't use the name default for a custom event bus, as this name is already used for your account's default event bus. Constraints: • min: 1 • max: 256 • pattern: [/\.\-_A-Za-z0-9]+
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// If you are creating a partner event bus, this specifies the partner event source that the new event bus will be matched with. Constraints: o min: 1 o max: 256 o pattern: aws\.partner(/[\.\-_A-Za-z0-9]+){2,}
+    /// If you are creating a partner event bus, this specifies the partner event source that the new event bus will be matched with. Constraints: • min: 1 • max: 256 • pattern: aws\.partner(/[\.\-_A-Za-z0-9]+){2,}
     /// </summary>
     [CliOption("--event-source-name")]
     public string? EventSourceName { get; set; }
 
     /// <summary>
-    /// The event bus description. Constraints: o max: 512
+    /// The event bus description. Constraints: • max: 512
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The identifier of the KMS customer managed key for EventBridge to use, if you choose to use a customer managed key to encrypt events on this event bus. The identifier can be the key Amazon Resource Name (ARN), KeyId, key alias, or key alias ARN. If you do not specify a customer managed key identifier, EventBridge uses an Amazon Web Services owned key to encrypt events on the event bus. For more information, see Identify and view keys in the Key Manage- ment Service Developer Guide . NOTE: Schema discovery is not supported for event buses encrypted us- ing a customer managed key. EventBridge returns an error if: o You call `` CreateDiscoverer `` on an event bus set to use a customer managed key for encryption. o You call `` UpdatedEventBus `` to set a customer managed key on an event bus with schema discovery enabled. To enable schema discovery on an event bus, choose to use an Amazon Web Services owned key. For more information, see Encrypting events in the Amazon EventBridge User Guide . WARNING: If you have specified that EventBridge use a customer managed key for encrypting the source event bus, we strongly recommend you also specify a customer managed key for any archives for the event bus as well. For more information, see Encrypting archives in the Amazon EventBridge User Guide . Constraints: o max: 2048 o pattern: ^[a-zA-Z0-9_\-/:]*$
+    /// The identifier of the KMS customer managed key for EventBridge to use, if you choose to use a customer managed key to encrypt events on this event bus. The identifier can be the key Amazon Resource Name (ARN), KeyId, key alias, or key alias ARN. If you do not specify a customer managed key identifier, EventBridge uses an Amazon Web Services owned key to encrypt events on the event bus. For more information, see Identify and view keys in the Key Management Service Developer Guide . NOTE: Schema discovery is not supported for event buses encrypted using a customer managed key. EventBridge returns an error if: • You call `` CreateDiscoverer `` on an event bus set to use a customer managed key for encryption. • You call `` UpdatedEventBus `` to set a customer managed key on an event bus with schema discovery enabled. To enable schema discovery on an event bus, choose to use an Amazon Web Services owned key. For more information, see Encrypting events in the Amazon EventBridge User Guide . WARNING: If you have specified that EventBridge use a customer managed key for encrypting the source event bus, we strongly recommend you also specify a customer managed key for any archives for the event bus as well. For more information, see Encrypting archives in the Amazon EventBridge User Guide . Constraints: • max: 2048 • pattern: ^[a-zA-Z0-9_\-/:]*$
     /// </summary>
     [CliOption("--kms-key-identifier")]
     public string? KmsKeyIdentifier { get; set; }
 
     /// <summary>
-    /// Configuration details of the Amazon SQS queue for EventBridge to use as a dead-letter queue (DLQ). For more information, see Using dead-letter queues to process unde- livered events in the EventBridge User Guide . Arn -&gt; (string) The ARN of the SQS queue specified as the target for the dead-letter queue. Constraints: o min: 1 o max: 1600 Shorthand Syntax: Arn=string JSON Syntax: { "Arn": "string" }
+    /// Configuration details of the Amazon SQS queue for EventBridge to use as a dead-letter queue (DLQ). For more information, see Using dead-letter queues to process undelivered events in the EventBridge User Guide . Arn -&gt; (string) The ARN of the SQS queue specified as the target for the dead-letter queue. Constraints: • min: 1 • max: 1600 Shorthand Syntax: Arn=string JSON Syntax: { "Arn": "string" }
     /// </summary>
     [CliOption("--dead-letter-config")]
     public string? DeadLetterConfig { get; set; }
 
     /// <summary>
-    /// The logging configuration settings for the event bus. For more information, see Configuring logs for event buses in the EventBridge User Guide . IncludeDetail -&gt; (string) Whether EventBridge include detailed event information in the records it generates. Detailed data can be useful for trou- bleshooting and debugging. This information includes details of the event itself, as well as target details. For more information, see Including detail data in event bus logs in the EventBridge User Guide . Possible values: o NONE o FULL Level -&gt; (string) The level of logging detail to include. This applies to all log destinations for the event bus. For more information, see Specifying event bus log level in the EventBridge User Guide . Possible values: o OFF o ERROR o INFO o TRACE Shorthand Syntax: IncludeDetail=string,Level=string JSON Syntax: { "IncludeDetail": "NONE"|"FULL", "Level": "OFF"|"ERROR"|"INFO"|"TRACE" }
+    /// The logging configuration settings for the event bus. For more information, see Configuring logs for event buses in the EventBridge User Guide . IncludeDetail -&gt; (string) Whether EventBridge include detailed event information in the records it generates. Detailed data can be useful for troubleshooting and debugging. This information includes details of the event itself, as well as target details. For more information, see Including detail data in event bus logs in the EventBridge User Guide . Possible values: • NONE • FULL Level -&gt; (string) The level of logging detail to include. This applies to all log destinations for the event bus. For more information, see Specifying event bus log level in the EventBridge User Guide . Possible values: • OFF • ERROR • INFO • TRACE Shorthand Syntax: IncludeDetail=string,Level=string JSON Syntax: { "IncludeDetail": "NONE"|"FULL", "Level": "OFF"|"ERROR"|"INFO"|"TRACE" }
     /// </summary>
     [CliOption("--log-config")]
     public string? LogConfig { get; set; }
 
     /// <summary>
-    /// Tags to associate with the event bus. (structure) A key-value pair associated with an Amazon Web Services re- source. In EventBridge, rules and event buses support tagging. Key -&gt; (string) [required] A string you can use to assign a value. The combination of tag keys and values can help you organize and categorize your resources. Constraints: o min: 1 o max: 128 Value -&gt; (string) [required] The value for the specified tag key. Constraints: o min: 0 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// Tags to associate with the event bus. (structure) A key-value pair associated with an Amazon Web Services resource. In EventBridge, rules and event buses support tagging. Key -&gt; (string) [required] A string you can use to assign a value. The combination of tag keys and values can help you organize and categorize your resources. Constraints: • min: 1 • max: 128 Value -&gt; (string) [required] The value for the specified tag key. Constraints: • min: 0 • max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
@@ -118,6 +119,15 @@ public record AwsEventsCreateEventBusOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Enable or disable the automatic warm-up feature for dedicated IP ad- dresses. See also: AWS API Documentation
+/// Enable or disable the automatic warm-up feature for dedicated IP addresses. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -22,7 +22,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsSesv2PutAccountDedicatedIpWarmupAttributesOptions : AwsOptions
 {
     /// <summary>
-    /// Enables or disables the automatic warm-up feature for dedicated IP addresses that are associated with your Amazon SES account in the current Amazon Web Services Region. Set to true to enable the auto- matic warm-up feature, or set to false to disable it.
+    /// Enables or disables the automatic warm-up feature for dedicated IP addresses that are associated with your Amazon SES account in the current Amazon Web Services Region. Set to true to enable the automatic warm-up feature, or set to false to disable it.
     /// </summary>
     [CliFlag("--auto-warmup-enabled", NegatedName = "--no-auto-warmup-enabled")]
     public bool? AutoWarmupEnabled { get; set; }
@@ -32,5 +32,14 @@ public record AwsSesv2PutAccountDedicatedIpWarmupAttributesOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

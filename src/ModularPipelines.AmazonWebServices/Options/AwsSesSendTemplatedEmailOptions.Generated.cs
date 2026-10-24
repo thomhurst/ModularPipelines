@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Composes an email message using an email template and immediately queues it for sending. To send email using this operation, your call must meet the following requirements: o The call must refer to an existing email template. You can create email templates using the CreateTemplate operation. o The message must be sent from a verified email address or domain. o If your account is still in the Amazon SES sandbox, you may only send to verified addresses or domains, or to email addresses associated ...
+/// Composes an email message using an email template and immediately queues it for sending. To send email using this operation, your call must meet the following requirements: • The call must refer to an existing email template. You can create email templates using the CreateTemplate operation. • The message must be sent from a verified email address or domain. • If your account is still in the Amazon SES sandbox, you may only send to verified addresses or domains, or to email addresses associated ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,12 +26,12 @@ public record AwsSesSendTemplatedEmailOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Composes an email message using an email template and immediately queues it for sending. To send email using this operation, your call must meet the following requirements: o The call must refer to an existing email template. You can create email templates using the CreateTemplate operation. o The message must be sent from a verified email address or domain. o If your account is still in the Amazon SES sandbox, you may only send to verified addresses or domains, or to email addresses associated ...
+    /// Composes an email message using an email template and immediately queues it for sending. To send email using this operation, your call must meet the following requirements: • The call must refer to an existing email template. You can create email templates using the CreateTemplate operation. • The message must be sent from a verified email address or domain. • If your account is still in the Amazon SES sandbox, you may only send to verified addresses or domains, or to email addresses associated ...
     /// </summary>
-    /// <param name="Source">The email address that is sending the email. This email address must be either individually verified with Amazon SES, or from a domain that has been verified with Amazon SES. For information about veri- fying identities, see the Amazon SES Developer Guide . If you are sending on behalf of another user and have been permitted to do so by a sending authorization policy, then you must also spec- ify the SourceArn parameter. For more information about sending au- thorization, see the Amazon SES Developer Guide . NOTE: Amazon SES does not support the SMTPUTF8 extension, as described in RFC6531 . for this reason, The email address string must be 7-bit ASCII. If you want to send to or from email addresses that contain Unicode characters in the domain part of an address, you must encode the domain using Punycode. Punycode is not permitted in the local part of the email address (the part before the @ sign) nor in the "friendly from" name. If you want to use Uni- code characters in the "friendly from" name, you must encode the "friendly from" name using MIME encoded-word syntax, as de- scribed in Sending raw email using the Amazon SES API . For more information about Punycode, see RFC 3492 .</param>
+    /// <param name="Source">The email address that is sending the email. This email address must be either individually verified with Amazon SES, or from a domain that has been verified with Amazon SES. For information about verifying identities, see the Amazon SES Developer Guide . If you are sending on behalf of another user and have been permitted to do so by a sending authorization policy, then you must also specify the SourceArn parameter. For more information about sending authorization, see the Amazon SES Developer Guide . NOTE: Amazon SES does not support the SMTPUTF8 extension, as described in RFC6531 . for this reason, The email address string must be 7-bit ASCII. If you want to send to or from email addresses that contain Unicode characters in the domain part of an address, you must encode the domain using Punycode. Punycode is not permitted in the local part of the email address (the part before the @ sign) nor in the "friendly from" name. If you want to use Unicode characters in the "friendly from" name, you must encode the "friendly from" name using MIME encoded-word syntax, as described in Sending raw email using the Amazon SES API . For more information about Punycode, see RFC 3492 .</param>
     /// <param name="Destination">The destination for this email, composed of To:, CC:, and BCC: fields. A Destination can include up to 50 recipients across these three fields. ToAddresses -&gt; (list) The recipients to place on the To: line of the message. (string) CcAddresses -&gt; (list) The recipients to place on the CC: line of the message. (string) BccAddresses -&gt; (list) The recipients to place on the BCC: line of the message. (string) Shorthand Syntax: ToAddresses=string,string,CcAddresses=string,string,BccAddresses=string,string JSON Syntax: { "ToAddresses": ["string", ...], "CcAddresses": ["string", ...], "BccAddresses": ["string", ...] }</param>
     /// <param name="Template">The template to use when sending this email.</param>
-    /// <param name="TemplateData">A list of replacement values to apply to the template. This parame- ter is a JSON object, typically consisting of key-value pairs in which the keys correspond to replacement tags in the email template. Constraints: o max: 262144</param>
+    /// <param name="TemplateData">A list of replacement values to apply to the template. This parameter is a JSON object, typically consisting of key-value pairs in which the keys correspond to replacement tags in the email template. Constraints: • max: 262144</param>
     public AwsSesSendTemplatedEmailOptions(
         string Source,
         string Destination,
@@ -68,7 +69,7 @@ public record AwsSesSendTemplatedEmailOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The email address that is sending the email. This email address must be either individually verified with Amazon SES, or from a domain that has been verified with Amazon SES. For information about veri- fying identities, see the Amazon SES Developer Guide . If you are sending on behalf of another user and have been permitted to do so by a sending authorization policy, then you must also spec- ify the SourceArn parameter. For more information about sending au- thorization, see the Amazon SES Developer Guide . NOTE: Amazon SES does not support the SMTPUTF8 extension, as described in RFC6531 . for this reason, The email address string must be 7-bit ASCII. If you want to send to or from email addresses that contain Unicode characters in the domain part of an address, you must encode the domain using Punycode. Punycode is not permitted in the local part of the email address (the part before the @ sign) nor in the "friendly from" name. If you want to use Uni- code characters in the "friendly from" name, you must encode the "friendly from" name using MIME encoded-word syntax, as de- scribed in Sending raw email using the Amazon SES API . For more information about Punycode, see RFC 3492 .
+    /// The email address that is sending the email. This email address must be either individually verified with Amazon SES, or from a domain that has been verified with Amazon SES. For information about verifying identities, see the Amazon SES Developer Guide . If you are sending on behalf of another user and have been permitted to do so by a sending authorization policy, then you must also specify the SourceArn parameter. For more information about sending authorization, see the Amazon SES Developer Guide . NOTE: Amazon SES does not support the SMTPUTF8 extension, as described in RFC6531 . for this reason, The email address string must be 7-bit ASCII. If you want to send to or from email addresses that contain Unicode characters in the domain part of an address, you must encode the domain using Punycode. Punycode is not permitted in the local part of the email address (the part before the @ sign) nor in the "friendly from" name. If you want to use Unicode characters in the "friendly from" name, you must encode the "friendly from" name using MIME encoded-word syntax, as described in Sending raw email using the Amazon SES API . For more information about Punycode, see RFC 3492 .
     /// </summary>
     [CliOption("--source")]
     public string? Source { get; private init; }
@@ -86,7 +87,7 @@ public record AwsSesSendTemplatedEmailOptions : AwsOptions, IValidatableObject
     public string? Template { get; private init; }
 
     /// <summary>
-    /// A list of replacement values to apply to the template. This parame- ter is a JSON object, typically consisting of key-value pairs in which the keys correspond to replacement tags in the email template. Constraints: o max: 262144
+    /// A list of replacement values to apply to the template. This parameter is a JSON object, typically consisting of key-value pairs in which the keys correspond to replacement tags in the email template. Constraints: • max: 262144
     /// </summary>
     [CliOption("--template-data")]
     public string? TemplateData { get; private init; }
@@ -98,7 +99,7 @@ public record AwsSesSendTemplatedEmailOptions : AwsOptions, IValidatableObject
     public IEnumerable<string>? ReplyToAddresses { get; set; }
 
     /// <summary>
-    /// The email address that bounces and complaints are forwarded to when feedback forwarding is enabled. If the message cannot be delivered to the recipient, then an error message is returned from the recipi- ent's ISP; this message is forwarded to the email address specified by the ReturnPath parameter. The ReturnPath parameter is never over- written. This email address must be either individually verified with Amazon SES, or from a domain that has been verified with Amazon SES.
+    /// The email address that bounces and complaints are forwarded to when feedback forwarding is enabled. If the message cannot be delivered to the recipient, then an error message is returned from the recipient's ISP; this message is forwarded to the email address specified by the ReturnPath parameter. The ReturnPath parameter is never overwritten. This email address must be either individually verified with Amazon SES, or from a domain that has been verified with Amazon SES.
     /// </summary>
     [CliOption("--return-path")]
     public string? ReturnPath { get; set; }
@@ -116,13 +117,13 @@ public record AwsSesSendTemplatedEmailOptions : AwsOptions, IValidatableObject
     public string? ReturnPathArn { get; set; }
 
     /// <summary>
-    /// A list of tags, in the form of name/value pairs, to apply to an email that you send using SendTemplatedEmail . Tags correspond to characteristics of the email that you define, so that you can pub- lish email sending events. (structure) Contains the name and value of a tag that you can provide to SendEmail or SendRawEmail to apply to an email. Message tags, which you use with configuration sets, enable you to publish email sending events. For information about using configuration sets, see the Amazon SES Developer Guide . Name -&gt; (string) [required] The name of the tag. The name must meet the following re- quirements: o Contain only ASCII letters (a-z, A-Z), numbers (0-9), un- derscores (_), or dashes (-). o Contain 256 characters or fewer. Value -&gt; (string) [required] The value of the tag. The value must meet the following re- quirements: o Contain only ASCII letters (a-z, A-Z), numbers (0-9), un- derscores (_), or dashes (-). o Contain 256 characters or fewer. Shorthand Syntax: Name=string,Value=string ... JSON Syntax: [ { "Name": "string", "Value": "string" } ... ]
+    /// A list of tags, in the form of name/value pairs, to apply to an email that you send using SendTemplatedEmail . Tags correspond to characteristics of the email that you define, so that you can publish email sending events. (structure) Contains the name and value of a tag that you can provide to SendEmail or SendRawEmail to apply to an email. Message tags, which you use with configuration sets, enable you to publish email sending events. For information about using configuration sets, see the Amazon SES Developer Guide . Name -&gt; (string) [required] The name of the tag. The name must meet the following requirements: • Contain only ASCII letters (a-z, A-Z), numbers (0-9), underscores (_), or dashes (-). • Contain 256 characters or fewer. Value -&gt; (string) [required] The value of the tag. The value must meet the following requirements: • Contain only ASCII letters (a-z, A-Z), numbers (0-9), underscores (_), or dashes (-). • Contain 256 characters or fewer. Shorthand Syntax: Name=string,Value=string ... JSON Syntax: [ { "Name": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
-    /// The name of the configuration set to use when you send an email us- ing SendTemplatedEmail .
+    /// The name of the configuration set to use when you send an email using SendTemplatedEmail .
     /// </summary>
     [CliOption("--configuration-set-name")]
     public string? ConfigurationSetName { get; set; }
@@ -154,6 +155,15 @@ public record AwsSesSendTemplatedEmailOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

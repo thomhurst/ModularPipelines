@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes a library item for an Amazon Q App, removing it from the li- brary so it can no longer be discovered or used by other users. See also: AWS API Documentation
+/// Deletes a library item for an Amazon Q App, removing it from the library so it can no longer be discovered or used by other users. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsQappsDeleteLibraryItemOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes a library item for an Amazon Q App, removing it from the li- brary so it can no longer be discovered or used by other users. See also: AWS API Documentation
+    /// Deletes a library item for an Amazon Q App, removing it from the library so it can no longer be discovered or used by other users. See also: AWS API Documentation
     /// </summary>
-    /// <param name="InstanceId">The unique identifier of the Amazon Q Business application environ- ment instance.</param>
-    /// <param name="LibraryItemId">The unique identifier of the library item to delete. Constraints: o pattern: [\da-f]{8}-[\da-f]{4}-[45][\da-f]{3}-[89ABab][\da-f]{3}-[\da-f]{12}</param>
+    /// <param name="InstanceId">The unique identifier of the Amazon Q Business application environment instance.</param>
+    /// <param name="LibraryItemId">The unique identifier of the library item to delete. Constraints: • pattern: [\da-f]{8}-[\da-f]{4}-[45][\da-f]{3}-[89ABab][\da-f]{3}-[\da-f]{12}</param>
     public AwsQappsDeleteLibraryItemOptions(
         string InstanceId,
         string LibraryItemId
@@ -60,13 +61,13 @@ public record AwsQappsDeleteLibraryItemOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the Amazon Q Business application environ- ment instance.
+    /// The unique identifier of the Amazon Q Business application environment instance.
     /// </summary>
     [CliOption("--instance-id")]
     public string? InstanceId { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the library item to delete. Constraints: o pattern: [\da-f]{8}-[\da-f]{4}-[45][\da-f]{3}-[89ABab][\da-f]{3}-[\da-f]{12}
+    /// The unique identifier of the library item to delete. Constraints: • pattern: [\da-f]{8}-[\da-f]{4}-[45][\da-f]{3}-[89ABab][\da-f]{3}-[\da-f]{12}
     /// </summary>
     [CliOption("--library-item-id")]
     public string? LibraryItemId { get; private init; }
@@ -92,6 +93,15 @@ public record AwsQappsDeleteLibraryItemOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Accepts a transit gateway attachment request for Network Firewall. When you accept the attachment request, Network Firewall creates the neces- sary routing components to enable traffic flow between the transit gateway and firewall endpoints. You must accept a transit gateway attachment to complete the creation of a transit gateway-attached firewall, unless auto-accept is enabled on the transit gateway. After acceptance, use DescribeFirewall to ver- ify the firewall status. To reject an attachmen...
+/// Accepts a transit gateway attachment request for Network Firewall. When you accept the attachment request, Network Firewall creates the necessary routing components to enable traffic flow between the transit gateway and firewall endpoints. You must accept a transit gateway attachment to complete the creation of a transit gateway-attached firewall, unless auto-accept is enabled on the transit gateway. After acceptance, use DescribeFirewall to verify the firewall status. To reject an attachment in...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsNetworkFirewallAcceptNetworkFirewallTransitGatewayAttachmentOpt
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Accepts a transit gateway attachment request for Network Firewall. When you accept the attachment request, Network Firewall creates the neces- sary routing components to enable traffic flow between the transit gateway and firewall endpoints. You must accept a transit gateway attachment to complete the creation of a transit gateway-attached firewall, unless auto-accept is enabled on the transit gateway. After acceptance, use DescribeFirewall to ver- ify the firewall status. To reject an attachmen...
+    /// Accepts a transit gateway attachment request for Network Firewall. When you accept the attachment request, Network Firewall creates the necessary routing components to enable traffic flow between the transit gateway and firewall endpoints. You must accept a transit gateway attachment to complete the creation of a transit gateway-attached firewall, unless auto-accept is enabled on the transit gateway. After acceptance, use DescribeFirewall to verify the firewall status. To reject an attachment in...
     /// </summary>
-    /// <param name="TransitGatewayAttachmentId">Required. The unique identifier of the transit gateway attachment to accept. This ID is returned in the response when creating a transit gateway-attached firewall. Constraints: o min: 1 o max: 128 o pattern: ^tgw-attach-[0-9a-z]+$</param>
+    /// <param name="TransitGatewayAttachmentId">Required. The unique identifier of the transit gateway attachment to accept. This ID is returned in the response when creating a transit gateway-attached firewall. Constraints: • min: 1 • max: 128 • pattern: ^tgw-attach-[0-9a-z]+$</param>
     public AwsNetworkFirewallAcceptNetworkFirewallTransitGatewayAttachmentOptions(
         string TransitGatewayAttachmentId
     )
@@ -56,7 +57,7 @@ public record AwsNetworkFirewallAcceptNetworkFirewallTransitGatewayAttachmentOpt
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Required. The unique identifier of the transit gateway attachment to accept. This ID is returned in the response when creating a transit gateway-attached firewall. Constraints: o min: 1 o max: 128 o pattern: ^tgw-attach-[0-9a-z]+$
+    /// Required. The unique identifier of the transit gateway attachment to accept. This ID is returned in the response when creating a transit gateway-attached firewall. Constraints: • min: 1 • max: 128 • pattern: ^tgw-attach-[0-9a-z]+$
     /// </summary>
     [CliOption("--transit-gateway-attachment-id")]
     public string? TransitGatewayAttachmentId { get; private init; }
@@ -82,6 +83,15 @@ public record AwsNetworkFirewallAcceptNetworkFirewallTransitGatewayAttachmentOpt
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,7 +29,7 @@ public record AwsDatasyncUpdateLocationEfsOptions : AwsOptions, IValidatableObje
     /// <summary>
     /// Modifies the following configuration parameters of the Amazon EFS transfer location that you're using with DataSync. For more information, see Configuring DataSync transfers with Amazon EFS . See also: AWS API Documentation
     /// </summary>
-    /// <param name="LocationArn">Specifies the Amazon Resource Name (ARN) of the Amazon EFS transfer location that you're updating. Constraints: o max: 128 o pattern: ^arn:(aws|aws-cn|aws-us-gov|aws-eusc|aws-iso|aws-iso-b):data- sync:[a-z\-0-9]+:[0-9]{12}:location/loc-[0-9a-z]{17}$</param>
+    /// <param name="LocationArn">Specifies the Amazon Resource Name (ARN) of the Amazon EFS transfer location that you're updating. Constraints: • max: 128 • pattern: ^arn:(aws|aws-cn|aws-us-gov|aws-eusc|aws-iso|aws-iso-b):datasync:[a-z\-0-9]+:[0-9]{12}:location/loc-[0-9a-z]{17}$</param>
     public AwsDatasyncUpdateLocationEfsOptions(
         string LocationArn
     )
@@ -57,31 +58,31 @@ public record AwsDatasyncUpdateLocationEfsOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Specifies the Amazon Resource Name (ARN) of the Amazon EFS transfer location that you're updating. Constraints: o max: 128 o pattern: ^arn:(aws|aws-cn|aws-us-gov|aws-eusc|aws-iso|aws-iso-b):data- sync:[a-z\-0-9]+:[0-9]{12}:location/loc-[0-9a-z]{17}$
+    /// Specifies the Amazon Resource Name (ARN) of the Amazon EFS transfer location that you're updating. Constraints: • max: 128 • pattern: ^arn:(aws|aws-cn|aws-us-gov|aws-eusc|aws-iso|aws-iso-b):datasync:[a-z\-0-9]+:[0-9]{12}:location/loc-[0-9a-z]{17}$
     /// </summary>
     [CliOption("--location-arn")]
     public string? LocationArn { get; private init; }
 
     /// <summary>
-    /// Specifies a mount path for your Amazon EFS file system. This is where DataSync reads or writes data on your file system (depending on if this is a source or destination location). By default, DataSync uses the root directory (or access point if you provide one by using AccessPointArn ). You can also include subdi- rectories using forward slashes (for example, /path/to/folder ). Constraints: o max: 4096 o pattern: ^[a-zA-Z0-9_\-\+\./\(\)\p{Zs}]*$
+    /// Specifies a mount path for your Amazon EFS file system. This is where DataSync reads or writes data on your file system (depending on if this is a source or destination location). By default, DataSync uses the root directory (or access point if you provide one by using AccessPointArn ). You can also include subdirectories using forward slashes (for example, /path/to/folder ). Constraints: • max: 4096 • pattern: ^[a-zA-Z0-9_\-\+\./\(\)\p{Zs}]*$
     /// </summary>
     [CliOption("--subdirectory")]
     public string? Subdirectory { get; set; }
 
     /// <summary>
-    /// Specifies the Amazon Resource Name (ARN) of the access point that DataSync uses to mount your Amazon EFS file system. For more information, see Accessing restricted Amazon EFS file sys- tems . Constraints: o max: 128 o pattern: (^arn:(aws|aws-cn|aws-us-gov|aws-eusc|aws-iso|aws-iso-b):elastic- filesystem:[a-z\-0-9]+:[0-9]{12}:ac- cess-point/fsap-[0-9a-f]{8,40}$)|(^$)
+    /// Specifies the Amazon Resource Name (ARN) of the access point that DataSync uses to mount your Amazon EFS file system. For more information, see Accessing restricted Amazon EFS file systems . Constraints: • max: 128 • pattern: (^arn:(aws|aws-cn|aws-us-gov|aws-eusc|aws-iso|aws-iso-b):elasticfilesystem:[a-z\-0-9]+:[0-9]{12}:access-point/fsap-[0-9a-f]{8,40}$)|(^$)
     /// </summary>
     [CliOption("--access-point-arn")]
     public string? AccessPointArn { get; set; }
 
     /// <summary>
-    /// Specifies an Identity and Access Management (IAM) role that allows DataSync to access your Amazon EFS file system. For information on creating this role, see Creating a DataSync IAM role for Amazon EFS file system access . Constraints: o max: 2048 o pattern: (^arn:(aws|aws-cn|aws-us-gov|aws-eusc|aws-iso|aws-iso-b):iam::[0-9]{12}:role/.*$)|(^$)
+    /// Specifies an Identity and Access Management (IAM) role that allows DataSync to access your Amazon EFS file system. For information on creating this role, see Creating a DataSync IAM role for Amazon EFS file system access . Constraints: • max: 2048 • pattern: (^arn:(aws|aws-cn|aws-us-gov|aws-eusc|aws-iso|aws-iso-b):iam::[0-9]{12}:role/.*$)|(^$)
     /// </summary>
     [CliOption("--file-system-access-role-arn")]
     public string? FileSystemAccessRoleArn { get; set; }
 
     /// <summary>
-    /// Specifies whether you want DataSync to use Transport Layer Security (TLS) 1.2 encryption when it transfers data to or from your Amazon EFS file system. If you specify an access point using AccessPointArn or an IAM role using FileSystemAccessRoleArn , you must set this parameter to TLS1_2 . Possible values: o NONE o TLS1_2
+    /// Specifies whether you want DataSync to use Transport Layer Security (TLS) 1.2 encryption when it transfers data to or from your Amazon EFS file system. If you specify an access point using AccessPointArn or an IAM role using FileSystemAccessRoleArn , you must set this parameter to TLS1_2 . Possible values: • NONE • TLS1_2
     /// </summary>
     [CliOption("--in-transit-encryption")]
     public AwsDatasyncUpdateLocationEfsInTransitEncryption? InTransitEncryption { get; set; }
@@ -107,6 +108,15 @@ public record AwsDatasyncUpdateLocationEfsOptions : AwsOptions, IValidatableObje
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

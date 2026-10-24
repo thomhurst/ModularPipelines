@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Associate a virtual private cloud (VPC) subnet endpoint with your cus- tom routing accelerator. The listener port range must be large enough to support the number of IP addresses that can be specified in your subnet. The number of ports required is: subnet size times the number of ports per destination EC2 instances. For example, a subnet defined as /24 requires a listener port range of at least 255 ports. Note: You must have enough remaining listener ports available to map to the subnet ports, ...
+/// Associate a virtual private cloud (VPC) subnet endpoint with your custom routing accelerator. The listener port range must be large enough to support the number of IP addresses that can be specified in your subnet. The number of ports required is: subnet size times the number of ports per destination EC2 instances. For example, a subnet defined as /24 requires a listener port range of at least 255 ports. Note: You must have enough remaining listener ports available to map to the subnet ports, or...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsGlobalacceleratorAddCustomRoutingEndpointsOptions : AwsOptions,
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Associate a virtual private cloud (VPC) subnet endpoint with your cus- tom routing accelerator. The listener port range must be large enough to support the number of IP addresses that can be specified in your subnet. The number of ports required is: subnet size times the number of ports per destination EC2 instances. For example, a subnet defined as /24 requires a listener port range of at least 255 ports. Note: You must have enough remaining listener ports available to map to the subnet ports, ...
+    /// Associate a virtual private cloud (VPC) subnet endpoint with your custom routing accelerator. The listener port range must be large enough to support the number of IP addresses that can be specified in your subnet. The number of ports required is: subnet size times the number of ports per destination EC2 instances. For example, a subnet defined as /24 requires a listener port range of at least 255 ports. Note: You must have enough remaining listener ports available to map to the subnet ports, or...
     /// </summary>
-    /// <param name="EndpointConfigurations">The list of endpoint objects to add to a custom routing accelerator. Constraints: o min: 1 o max: 20 (structure) The list of endpoint objects. For custom routing, this is a list of virtual private cloud (VPC) subnet IDs. EndpointId -&gt; (string) An ID for the endpoint. For custom routing accelerators, this is the virtual private cloud (VPC) subnet ID. Constraints: o max: 255 AttachmentArn -&gt; (string) The Amazon Resource Name (ARN) of the cross-account attach- ment that specifies the endpoints (resources) that can be added to accelerators and principals that have permission to add the endpoints. Constraints: o max: 255 Shorthand Syntax: EndpointId=string,AttachmentArn=string ... JSON Syntax: [ { "EndpointId": "string", "AttachmentArn": "string" } ... ]</param>
-    /// <param name="EndpointGroupArn">The Amazon Resource Name (ARN) of the endpoint group for the custom routing endpoint. Constraints: o max: 255</param>
+    /// <param name="EndpointConfigurations">The list of endpoint objects to add to a custom routing accelerator. Constraints: • min: 1 • max: 20 (structure) The list of endpoint objects. For custom routing, this is a list of virtual private cloud (VPC) subnet IDs. EndpointId -&gt; (string) An ID for the endpoint. For custom routing accelerators, this is the virtual private cloud (VPC) subnet ID. Constraints: • max: 255 AttachmentArn -&gt; (string) The Amazon Resource Name (ARN) of the cross-account attachment that specifies the endpoints (resources) that can be added to accelerators and principals that have permission to add the endpoints. Constraints: • max: 255 Shorthand Syntax: EndpointId=string,AttachmentArn=string ... JSON Syntax: [ { "EndpointId": "string", "AttachmentArn": "string" } ... ]</param>
+    /// <param name="EndpointGroupArn">The Amazon Resource Name (ARN) of the endpoint group for the custom routing endpoint. Constraints: • max: 255</param>
     public AwsGlobalacceleratorAddCustomRoutingEndpointsOptions(
         IEnumerable<string> EndpointConfigurations,
         string EndpointGroupArn
@@ -71,13 +72,13 @@ public record AwsGlobalacceleratorAddCustomRoutingEndpointsOptions : AwsOptions,
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The list of endpoint objects to add to a custom routing accelerator. Constraints: o min: 1 o max: 20 (structure) The list of endpoint objects. For custom routing, this is a list of virtual private cloud (VPC) subnet IDs. EndpointId -&gt; (string) An ID for the endpoint. For custom routing accelerators, this is the virtual private cloud (VPC) subnet ID. Constraints: o max: 255 AttachmentArn -&gt; (string) The Amazon Resource Name (ARN) of the cross-account attach- ment that specifies the endpoints (resources) that can be added to accelerators and principals that have permission to add the endpoints. Constraints: o max: 255 Shorthand Syntax: EndpointId=string,AttachmentArn=string ... JSON Syntax: [ { "EndpointId": "string", "AttachmentArn": "string" } ... ]
+    /// The list of endpoint objects to add to a custom routing accelerator. Constraints: • min: 1 • max: 20 (structure) The list of endpoint objects. For custom routing, this is a list of virtual private cloud (VPC) subnet IDs. EndpointId -&gt; (string) An ID for the endpoint. For custom routing accelerators, this is the virtual private cloud (VPC) subnet ID. Constraints: • max: 255 AttachmentArn -&gt; (string) The Amazon Resource Name (ARN) of the cross-account attachment that specifies the endpoints (resources) that can be added to accelerators and principals that have permission to add the endpoints. Constraints: • max: 255 Shorthand Syntax: EndpointId=string,AttachmentArn=string ... JSON Syntax: [ { "EndpointId": "string", "AttachmentArn": "string" } ... ]
     /// </summary>
     [CliOption("--endpoint-configurations", GroupValues = true)]
     public IEnumerable<string>? EndpointConfigurations { get; private init; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the endpoint group for the custom routing endpoint. Constraints: o max: 255
+    /// The Amazon Resource Name (ARN) of the endpoint group for the custom routing endpoint. Constraints: • max: 255
     /// </summary>
     [CliOption("--endpoint-group-arn")]
     public string? EndpointGroupArn { get; private init; }
@@ -103,6 +104,15 @@ public record AwsGlobalacceleratorAddCustomRoutingEndpointsOptions : AwsOptions,
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

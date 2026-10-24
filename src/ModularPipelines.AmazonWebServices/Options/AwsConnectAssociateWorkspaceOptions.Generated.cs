@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Associates a workspace with one or more users or routing profiles, al- lowing them to access the workspace's configured views and pages. See also: AWS API Documentation
+/// Associates a workspace with one or more users or routing profiles, allowing them to access the workspace's configured views and pages. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,11 +26,11 @@ public record AwsConnectAssociateWorkspaceOptions : AwsOptions, IValidatableObje
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Associates a workspace with one or more users or routing profiles, al- lowing them to access the workspace's configured views and pages. See also: AWS API Documentation
+    /// Associates a workspace with one or more users or routing profiles, allowing them to access the workspace's configured views and pages. See also: AWS API Documentation
     /// </summary>
-    /// <param name="InstanceId">The identifier of the Amazon Connect instance. You can find the in- stance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100</param>
-    /// <param name="WorkspaceId">The identifier of the workspace. Constraints: o min: 1 o max: 256</param>
-    /// <param name="ResourceArns">The Amazon Resource Names (ARNs) of the resources to associate with the workspace. Valid resource types are users and routing profiles. Constraints: o min: 1 o max: 25 (string) Syntax: "string" "string" ...</param>
+    /// <param name="InstanceId">The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: • min: 1 • max: 100</param>
+    /// <param name="WorkspaceId">The identifier of the workspace. Constraints: • min: 1 • max: 256</param>
+    /// <param name="ResourceArns">The Amazon Resource Names (ARNs) of the resources to associate with the workspace. Valid resource types are users and routing profiles. Constraints: • min: 1 • max: 25 (string) Syntax: "string" "string" ...</param>
     public AwsConnectAssociateWorkspaceOptions(
         string InstanceId,
         string WorkspaceId,
@@ -75,19 +76,19 @@ public record AwsConnectAssociateWorkspaceOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the Amazon Connect instance. You can find the in- stance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100
+    /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--instance-id")]
     public string? InstanceId { get; private init; }
 
     /// <summary>
-    /// The identifier of the workspace. Constraints: o min: 1 o max: 256
+    /// The identifier of the workspace. Constraints: • min: 1 • max: 256
     /// </summary>
     [CliOption("--workspace-id")]
     public string? WorkspaceId { get; private init; }
 
     /// <summary>
-    /// The Amazon Resource Names (ARNs) of the resources to associate with the workspace. Valid resource types are users and routing profiles. Constraints: o min: 1 o max: 25 (string) Syntax: "string" "string" ...
+    /// The Amazon Resource Names (ARNs) of the resources to associate with the workspace. Valid resource types are users and routing profiles. Constraints: • min: 1 • max: 25 (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--resource-arns", GroupValues = true)]
     public IEnumerable<string>? ResourceArns { get; private init; }
@@ -113,6 +114,15 @@ public record AwsConnectAssociateWorkspaceOptions : AwsOptions, IValidatableObje
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

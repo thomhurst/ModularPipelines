@@ -24,8 +24,8 @@ public record AwsAppConfigGetHostedConfigurationVersionOptions : AwsOptions
     /// <summary>
     /// Retrieves information about a specific configuration version. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ApplicationId">The application ID. Constraints: o min: 1 o max: 64</param>
-    /// <param name="ConfigurationProfileId">The configuration profile ID. Constraints: o min: 1 o max: 128</param>
+    /// <param name="ApplicationId">The application ID. Constraints: • min: 1 • max: 64</param>
+    /// <param name="ConfigurationProfileId">The configuration profile ID. Constraints: • min: 1 • max: 128</param>
     /// <param name="VersionNumber">The version. outfile (string) [required] Filename where the content will be saved</param>
     /// <param name="Outfile">The &lt;outfile&gt; operand.</param>
     public AwsAppConfigGetHostedConfigurationVersionOptions(
@@ -53,13 +53,13 @@ public record AwsAppConfigGetHostedConfigurationVersionOptions : AwsOptions
     }
 
     /// <summary>
-    /// The application ID. Constraints: o min: 1 o max: 64
+    /// The application ID. Constraints: • min: 1 • max: 64
     /// </summary>
     [CliOption("--application-id")]
     public string ApplicationId { get; private init; }
 
     /// <summary>
-    /// The configuration profile ID. Constraints: o min: 1 o max: 128
+    /// The configuration profile ID. Constraints: • min: 1 • max: 128
     /// </summary>
     [CliOption("--configuration-profile-id")]
     public string ConfigurationProfileId { get; private init; }
@@ -75,5 +75,14 @@ public record AwsAppConfigGetHostedConfigurationVersionOptions : AwsOptions
     /// </summary>
     [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
     public string Outfile { get; private init; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

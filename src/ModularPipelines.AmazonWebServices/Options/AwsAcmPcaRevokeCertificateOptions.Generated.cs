@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Revokes a certificate that was issued inside Amazon Web Services Pri- vate CA. If you enable a certificate revocation list (CRL) when you create or update your private CA, information about the revoked cer- tificates will be included in the CRL. Amazon Web Services Private CA writes the CRL to an S3 bucket that you specify. A CRL is typically up- dated approximately 30 minutes after a certificate is revoked. If for any reason the CRL update fails, Amazon Web Services Private CA at- tempts makes ...
+/// Revokes a certificate that was issued inside Amazon Web Services Private CA. If you enable a certificate revocation list (CRL) when you create or update your private CA, information about the revoked certificates will be included in the CRL. Amazon Web Services Private CA writes the CRL to an S3 bucket that you specify. A CRL is typically updated approximately 30 minutes after a certificate is revoked. If for any reason the CRL update fails, Amazon Web Services Private CA attempts makes further ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,11 +27,11 @@ public record AwsAcmPcaRevokeCertificateOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Revokes a certificate that was issued inside Amazon Web Services Pri- vate CA. If you enable a certificate revocation list (CRL) when you create or update your private CA, information about the revoked cer- tificates will be included in the CRL. Amazon Web Services Private CA writes the CRL to an S3 bucket that you specify. A CRL is typically up- dated approximately 30 minutes after a certificate is revoked. If for any reason the CRL update fails, Amazon Web Services Private CA at- tempts makes ...
+    /// Revokes a certificate that was issued inside Amazon Web Services Private CA. If you enable a certificate revocation list (CRL) when you create or update your private CA, information about the revoked certificates will be included in the CRL. Amazon Web Services Private CA writes the CRL to an S3 bucket that you specify. A CRL is typically updated approximately 30 minutes after a certificate is revoked. If for any reason the CRL update fails, Amazon Web Services Private CA attempts makes further ...
     /// </summary>
-    /// <param name="CertificateAuthorityArn">Amazon Resource Name (ARN) of the private CA that issued the cer- tificate to be revoked. This must be of the form: `` arn:aws:acm-pca:region :account :certificate-author- ity/12345678-1234-1234-1234-123456789012 `` System Message: WARNING/2 (&lt;string&gt;:, line 98) Inline literal start-string without end-string. Constraints: o min: 5 o max: 200 o pattern: arn:[\w+=/,.@-]+:acm-pca:[\w+=/,.@-]*:[0-9]*:[\w+=,.@-]+(/[\w+=,.@-]+)*</param>
-    /// <param name="CertificateSerial">Serial number of the certificate to be revoked. This must be in hexadecimal format. You can retrieve the serial number by calling GetCertificate with the Amazon Resource Name (ARN) of the certifi- cate you want and the ARN of your private CA. The GetCertificate ac- tion retrieves the certificate in the PEM format. You can use the following OpenSSL command to list the certificate in text format and copy the hexadecimal serial number. openssl x509 -in *file_path* -text -noout You can also copy the serial number from the console or use the DescribeCertificate action in the Certificate Manager API Reference . Constraints: o min: 0 o max: 128</param>
-    /// <param name="RevocationReason">Specifies why you revoked the certificate. Possible values: o UNSPECIFIED o KEY_COMPROMISE o CERTIFICATE_AUTHORITY_COMPROMISE o AFFILIATION_CHANGED o SUPERSEDED o CESSATION_OF_OPERATION o PRIVILEGE_WITHDRAWN o A_A_COMPROMISE</param>
+    /// <param name="CertificateAuthorityArn">Amazon Resource Name (ARN) of the private CA that issued the certificate to be revoked. This must be of the form: `` arn:aws:acm-pca:region :account :certificate-authority/12345678-1234-1234-1234-123456789012 `` System Message: WARNING/2 (&lt;string&gt;:, line 98) Inline literal start-string without end-string. Constraints: • min: 5 • max: 200 • pattern: arn:[\w+=/,.@-]+:acm-pca:[\w+=/,.@-]*:[0-9]*:[\w+=,.@-]+(/[\w+=,.@-]+)*</param>
+    /// <param name="CertificateSerial">Serial number of the certificate to be revoked. This must be in hexadecimal format. You can retrieve the serial number by calling GetCertificate with the Amazon Resource Name (ARN) of the certificate you want and the ARN of your private CA. The GetCertificate action retrieves the certificate in the PEM format. You can use the following OpenSSL command to list the certificate in text format and copy the hexadecimal serial number. openssl x509 -in *file_path* -text -noout You can also copy the serial number from the console or use the DescribeCertificate action in the Certificate Manager API Reference . Constraints: • min: 0 • max: 128</param>
+    /// <param name="RevocationReason">Specifies why you revoked the certificate. Possible values: • UNSPECIFIED • KEY_COMPROMISE • CERTIFICATE_AUTHORITY_COMPROMISE • AFFILIATION_CHANGED • SUPERSEDED • CESSATION_OF_OPERATION • PRIVILEGE_WITHDRAWN • A_A_COMPROMISE</param>
     public AwsAcmPcaRevokeCertificateOptions(
         string CertificateAuthorityArn,
         string CertificateSerial,
@@ -64,19 +65,19 @@ public record AwsAcmPcaRevokeCertificateOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Amazon Resource Name (ARN) of the private CA that issued the cer- tificate to be revoked. This must be of the form: `` arn:aws:acm-pca:region :account :certificate-author- ity/12345678-1234-1234-1234-123456789012 `` System Message: WARNING/2 (&lt;string&gt;:, line 98) Inline literal start-string without end-string. Constraints: o min: 5 o max: 200 o pattern: arn:[\w+=/,.@-]+:acm-pca:[\w+=/,.@-]*:[0-9]*:[\w+=,.@-]+(/[\w+=,.@-]+)*
+    /// Amazon Resource Name (ARN) of the private CA that issued the certificate to be revoked. This must be of the form: `` arn:aws:acm-pca:region :account :certificate-authority/12345678-1234-1234-1234-123456789012 `` System Message: WARNING/2 (&lt;string&gt;:, line 98) Inline literal start-string without end-string. Constraints: • min: 5 • max: 200 • pattern: arn:[\w+=/,.@-]+:acm-pca:[\w+=/,.@-]*:[0-9]*:[\w+=,.@-]+(/[\w+=,.@-]+)*
     /// </summary>
     [CliOption("--certificate-authority-arn")]
     public string? CertificateAuthorityArn { get; private init; }
 
     /// <summary>
-    /// Serial number of the certificate to be revoked. This must be in hexadecimal format. You can retrieve the serial number by calling GetCertificate with the Amazon Resource Name (ARN) of the certifi- cate you want and the ARN of your private CA. The GetCertificate ac- tion retrieves the certificate in the PEM format. You can use the following OpenSSL command to list the certificate in text format and copy the hexadecimal serial number. openssl x509 -in *file_path* -text -noout You can also copy the serial number from the console or use the DescribeCertificate action in the Certificate Manager API Reference . Constraints: o min: 0 o max: 128
+    /// Serial number of the certificate to be revoked. This must be in hexadecimal format. You can retrieve the serial number by calling GetCertificate with the Amazon Resource Name (ARN) of the certificate you want and the ARN of your private CA. The GetCertificate action retrieves the certificate in the PEM format. You can use the following OpenSSL command to list the certificate in text format and copy the hexadecimal serial number. openssl x509 -in *file_path* -text -noout You can also copy the serial number from the console or use the DescribeCertificate action in the Certificate Manager API Reference . Constraints: • min: 0 • max: 128
     /// </summary>
     [CliOption("--certificate-serial")]
     public string? CertificateSerial { get; private init; }
 
     /// <summary>
-    /// Specifies why you revoked the certificate. Possible values: o UNSPECIFIED o KEY_COMPROMISE o CERTIFICATE_AUTHORITY_COMPROMISE o AFFILIATION_CHANGED o SUPERSEDED o CESSATION_OF_OPERATION o PRIVILEGE_WITHDRAWN o A_A_COMPROMISE
+    /// Specifies why you revoked the certificate. Possible values: • UNSPECIFIED • KEY_COMPROMISE • CERTIFICATE_AUTHORITY_COMPROMISE • AFFILIATION_CHANGED • SUPERSEDED • CESSATION_OF_OPERATION • PRIVILEGE_WITHDRAWN • A_A_COMPROMISE
     /// </summary>
     [CliOption("--revocation-reason")]
     public AwsAcmPcaRevokeCertificateRevocationReason? RevocationReason { get; private init; }
@@ -102,6 +103,15 @@ public record AwsAcmPcaRevokeCertificateOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

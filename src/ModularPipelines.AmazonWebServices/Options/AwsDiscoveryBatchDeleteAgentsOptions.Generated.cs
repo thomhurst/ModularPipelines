@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsDiscoveryBatchDeleteAgentsOptions : AwsOptions, IValidatableObj
     /// <summary>
     /// Deletes one or more agents or collectors as specified by ID. Deleting an agent or collector does not delete the previously discovered data. To delete the data collected, use StartBatchDeleteConfigurationTask . See also: AWS API Documentation
     /// </summary>
-    /// <param name="DeleteAgents">The list of agents to delete. Constraints: o min: 1 o max: 50 (structure) An object representing the agent or data collector to be deleted along with the optional configurations for error handling. agentId -&gt; (string) [required] The ID of the agent or data collector to delete. Constraints: o min: 10 o max: 20 o pattern: \S+ force -&gt; (boolean) Optional flag used to force delete an agent or data collec- tor. It is needed to delete any agent in HEALTHY/UN- HEALTHY/RUNNING status. Note that deleting an agent that is actively reporting health causes it to be re-registered with a different agent ID after data collector re-connects with Amazon Web Services. Shorthand Syntax: agentId=string,force=boolean ... JSON Syntax: [ { "agentId": "string", "force": true|false } ... ]</param>
+    /// <param name="DeleteAgents">The list of agents to delete. Constraints: • min: 1 • max: 50 (structure) An object representing the agent or data collector to be deleted along with the optional configurations for error handling. agentId -&gt; (string) [required] The ID of the agent or data collector to delete. Constraints: • min: 10 • max: 20 • pattern: \S+ force -&gt; (boolean) Optional flag used to force delete an agent or data collector. It is needed to delete any agent in HEALTHY/UNHEALTHY/RUNNING status. Note that deleting an agent that is actively reporting health causes it to be re-registered with a different agent ID after data collector re-connects with Amazon Web Services. Shorthand Syntax: agentId=string,force=boolean ... JSON Syntax: [ { "agentId": "string", "force": true|false } ... ]</param>
     public AwsDiscoveryBatchDeleteAgentsOptions(
         IEnumerable<string> DeleteAgents
     )
@@ -67,7 +68,7 @@ public record AwsDiscoveryBatchDeleteAgentsOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The list of agents to delete. Constraints: o min: 1 o max: 50 (structure) An object representing the agent or data collector to be deleted along with the optional configurations for error handling. agentId -&gt; (string) [required] The ID of the agent or data collector to delete. Constraints: o min: 10 o max: 20 o pattern: \S+ force -&gt; (boolean) Optional flag used to force delete an agent or data collec- tor. It is needed to delete any agent in HEALTHY/UN- HEALTHY/RUNNING status. Note that deleting an agent that is actively reporting health causes it to be re-registered with a different agent ID after data collector re-connects with Amazon Web Services. Shorthand Syntax: agentId=string,force=boolean ... JSON Syntax: [ { "agentId": "string", "force": true|false } ... ]
+    /// The list of agents to delete. Constraints: • min: 1 • max: 50 (structure) An object representing the agent or data collector to be deleted along with the optional configurations for error handling. agentId -&gt; (string) [required] The ID of the agent or data collector to delete. Constraints: • min: 10 • max: 20 • pattern: \S+ force -&gt; (boolean) Optional flag used to force delete an agent or data collector. It is needed to delete any agent in HEALTHY/UNHEALTHY/RUNNING status. Note that deleting an agent that is actively reporting health causes it to be re-registered with a different agent ID after data collector re-connects with Amazon Web Services. Shorthand Syntax: agentId=string,force=boolean ... JSON Syntax: [ { "agentId": "string", "force": true|false } ... ]
     /// </summary>
     [CliOption("--delete-agents", GroupValues = true)]
     public IEnumerable<string>? DeleteAgents { get; private init; }
@@ -93,6 +94,15 @@ public record AwsDiscoveryBatchDeleteAgentsOptions : AwsOptions, IValidatableObj
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

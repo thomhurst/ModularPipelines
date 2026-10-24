@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsKinesisDisableEnhancedMonitoringOptions : AwsOptions, IValidata
     /// <summary>
     /// Disables enhanced monitoring. NOTE: When invoking this API, you must use either the StreamARN or the StreamName parameter, or both. It is recommended that you use the StreamARN input parameter when you invoke this API. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ShardLevelMetrics">List of shard-level metrics to disable. The following are the valid shard-level metrics. The value "ALL " disables every metric. o IncomingBytes o IncomingRecords o OutgoingBytes o OutgoingRecords o WriteProvisionedThroughputExceeded o ReadProvisionedThroughputExceeded o IteratorAgeMilliseconds o ALL For more information, see Monitoring the Amazon Kinesis Data Streams Service with Amazon CloudWatch in the Amazon Kinesis Data Streams Developer Guide . Constraints: o min: 1 o max: 7 (string) Possible values: o IncomingBytes o IncomingRecords o OutgoingBytes o OutgoingRecords o WriteProvisionedThroughputExceeded o ReadProvisionedThroughputExceeded o IteratorAgeMilliseconds o ALL Syntax: "string" "string" ...</param>
+    /// <param name="ShardLevelMetrics">List of shard-level metrics to disable. The following are the valid shard-level metrics. The value "ALL " disables every metric. • IncomingBytes • IncomingRecords • OutgoingBytes • OutgoingRecords • WriteProvisionedThroughputExceeded • ReadProvisionedThroughputExceeded • IteratorAgeMilliseconds • ALL For more information, see Monitoring the Amazon Kinesis Data Streams Service with Amazon CloudWatch in the Amazon Kinesis Data Streams Developer Guide . Constraints: • min: 1 • max: 7 (string) Possible values: • IncomingBytes • IncomingRecords • OutgoingBytes • OutgoingRecords • WriteProvisionedThroughputExceeded • ReadProvisionedThroughputExceeded • IteratorAgeMilliseconds • ALL Syntax: "string" "string" ...</param>
     public AwsKinesisDisableEnhancedMonitoringOptions(
         IEnumerable<string> ShardLevelMetrics
     )
@@ -67,25 +68,25 @@ public record AwsKinesisDisableEnhancedMonitoringOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// List of shard-level metrics to disable. The following are the valid shard-level metrics. The value "ALL " disables every metric. o IncomingBytes o IncomingRecords o OutgoingBytes o OutgoingRecords o WriteProvisionedThroughputExceeded o ReadProvisionedThroughputExceeded o IteratorAgeMilliseconds o ALL For more information, see Monitoring the Amazon Kinesis Data Streams Service with Amazon CloudWatch in the Amazon Kinesis Data Streams Developer Guide . Constraints: o min: 1 o max: 7 (string) Possible values: o IncomingBytes o IncomingRecords o OutgoingBytes o OutgoingRecords o WriteProvisionedThroughputExceeded o ReadProvisionedThroughputExceeded o IteratorAgeMilliseconds o ALL Syntax: "string" "string" ...
+    /// List of shard-level metrics to disable. The following are the valid shard-level metrics. The value "ALL " disables every metric. • IncomingBytes • IncomingRecords • OutgoingBytes • OutgoingRecords • WriteProvisionedThroughputExceeded • ReadProvisionedThroughputExceeded • IteratorAgeMilliseconds • ALL For more information, see Monitoring the Amazon Kinesis Data Streams Service with Amazon CloudWatch in the Amazon Kinesis Data Streams Developer Guide . Constraints: • min: 1 • max: 7 (string) Possible values: • IncomingBytes • IncomingRecords • OutgoingBytes • OutgoingRecords • WriteProvisionedThroughputExceeded • ReadProvisionedThroughputExceeded • IteratorAgeMilliseconds • ALL Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--shard-level-metrics", GroupValues = true)]
     public IEnumerable<string>? ShardLevelMetrics { get; private init; }
 
     /// <summary>
-    /// The name of the Kinesis data stream for which to disable enhanced monitoring. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_.-]+
+    /// The name of the Kinesis data stream for which to disable enhanced monitoring. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9_.-]+
     /// </summary>
     [CliOption("--stream-name")]
     public string? StreamName { get; set; }
 
     /// <summary>
-    /// The ARN of the stream. Constraints: o min: 1 o max: 2048 o pattern: arn:aws.*:kinesis:.*:\d{12}:stream/\S+
+    /// The ARN of the stream. Constraints: • min: 1 • max: 2048 • pattern: arn:aws.*:kinesis:.*:\d{12}:stream/\S+
     /// </summary>
     [CliOption("--stream-arn")]
     public string? StreamArn { get; set; }
 
     /// <summary>
-    /// Not Implemented. Reserved for future use. Constraints: o min: 1 o max: 24 o pattern: [a-z0-9]{20}-[a-z0-9]{3}
+    /// Not Implemented. Reserved for future use. Constraints: • min: 1 • max: 24 • pattern: [a-z0-9]{20}-[a-z0-9]{3}
     /// </summary>
     [CliOption("--stream-id")]
     public string? StreamId { get; set; }
@@ -111,6 +112,15 @@ public record AwsKinesisDisableEnhancedMonitoringOptions : AwsOptions, IValidata
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

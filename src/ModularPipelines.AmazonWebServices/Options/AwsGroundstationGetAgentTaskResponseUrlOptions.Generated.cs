@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// NOTE: For use by AWS Ground Station Agent and shouldn't be called di- rectly. Gets a presigned URL for uploading agent task response logs. See also: AWS API Documentation
+/// NOTE: For use by AWS Ground Station Agent and shouldn't be called directly. Gets a presigned URL for uploading agent task response logs. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsGroundstationGetAgentTaskResponseUrlOptions : AwsOptions, IVali
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// NOTE: For use by AWS Ground Station Agent and shouldn't be called di- rectly. Gets a presigned URL for uploading agent task response logs. See also: AWS API Documentation
+    /// NOTE: For use by AWS Ground Station Agent and shouldn't be called directly. Gets a presigned URL for uploading agent task response logs. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AgentId">UUID of agent requesting the response URL. Constraints: o min: 36 o max: 36 o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}</param>
-    /// <param name="TaskId">GUID of the agent task for which the response URL is being re- quested. Constraints: o min: 36 o max: 36 o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}</param>
+    /// <param name="AgentId">UUID of agent requesting the response URL. Constraints: • min: 36 • max: 36 • pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}</param>
+    /// <param name="TaskId">GUID of the agent task for which the response URL is being requested. Constraints: • min: 36 • max: 36 • pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}</param>
     public AwsGroundstationGetAgentTaskResponseUrlOptions(
         string AgentId,
         string TaskId
@@ -60,13 +61,13 @@ public record AwsGroundstationGetAgentTaskResponseUrlOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// UUID of agent requesting the response URL. Constraints: o min: 36 o max: 36 o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}
+    /// UUID of agent requesting the response URL. Constraints: • min: 36 • max: 36 • pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}
     /// </summary>
     [CliOption("--agent-id")]
     public string? AgentId { get; private init; }
 
     /// <summary>
-    /// GUID of the agent task for which the response URL is being re- quested. Constraints: o min: 36 o max: 36 o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}
+    /// GUID of the agent task for which the response URL is being requested. Constraints: • min: 36 • max: 36 • pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}
     /// </summary>
     [CliOption("--task-id")]
     public string? TaskId { get; private init; }
@@ -92,6 +93,15 @@ public record AwsGroundstationGetAgentTaskResponseUrlOptions : AwsOptions, IVali
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

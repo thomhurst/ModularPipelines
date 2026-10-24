@@ -15,7 +15,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns the list of available instance images, or blueprints . You can use a blueprint to create a new instance already running a specific op- erating system, as well as a preinstalled app or development stack. The software each instance is running depends on the blueprint image you choose. NOTE: Use active blueprints when creating new instances. Inactive blue- prints are listed to support customers with existing instances and are not necessarily available to create new instances. Blueprints are...
+/// Returns the list of available instance images, or blueprints . You can use a blueprint to create a new instance already running a specific operating system, as well as a preinstalled app or development stack. The software each instance is running depends on the blueprint image you choose. NOTE: Use active blueprints when creating new instances. Inactive blueprints are listed to support customers with existing instances and are not necessarily available to create new instances. Blueprints are mar...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -23,22 +23,19 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsLightsailGetBlueprintsOptions : AwsOptions
 {
     /// <summary>
-    /// A Boolean value that indicates whether to include inactive (unavail- able) blueprints in the response of your request.
+    /// A Boolean value that indicates whether to include inactive (unavailable) blueprints in the response of your request.
     /// </summary>
     [CliFlag("--include-inactive", NegatedName = "--no-include-inactive")]
     public bool? IncludeInactive { get; set; }
 
     /// <summary>
-    /// Returns a list of blueprints that are specific to Lightsail for Re- search. WARNING: You must use this parameter to view Lightsail for Research blue- prints. Possible values: o LfR
+    /// Returns a list of blueprints that are specific to Lightsail for Research. WARNING: You must use this parameter to view Lightsail for Research blueprints. Possible values: • LfR
     /// </summary>
     [CliOption("--app-category")]
     public string? AppCategory { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -48,9 +45,21 @@ public record AwsLightsailGetBlueprintsOptions : AwsOptions
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

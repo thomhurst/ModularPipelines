@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Terminates a web-based Amazon DCV session thats used to access a vir- tual computers operating system or application. The session will close and any unsaved data will be lost. See also: AWS API Documentation
+/// Terminates a web-based Amazon DCV session thats used to access a virtual computers operating system or application. The session will close and any unsaved data will be lost. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsLightsailStopGuiSessionOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Terminates a web-based Amazon DCV session thats used to access a vir- tual computers operating system or application. The session will close and any unsaved data will be lost. See also: AWS API Documentation
+    /// Terminates a web-based Amazon DCV session thats used to access a virtual computers operating system or application. The session will close and any unsaved data will be lost. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceName">The resource name. Constraints: o pattern: \w[\w\-]*\w</param>
+    /// <param name="ResourceName">The resource name. Constraints: • pattern: \w[\w\-]*\w</param>
     public AwsLightsailStopGuiSessionOptions(
         string ResourceName
     )
@@ -56,7 +57,7 @@ public record AwsLightsailStopGuiSessionOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The resource name. Constraints: o pattern: \w[\w\-]*\w
+    /// The resource name. Constraints: • pattern: \w[\w\-]*\w
     /// </summary>
     [CliOption("--resource-name")]
     public string? ResourceName { get; private init; }
@@ -82,6 +83,15 @@ public record AwsLightsailStopGuiSessionOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

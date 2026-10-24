@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +29,7 @@ public record AwsChimeSdkIdentityCreateAppInstanceOptions : AwsOptions, IValidat
     /// <summary>
     /// Creates an Amazon Chime SDK messaging AppInstance under an AWS account. Only SDK messaging customers use this API. CreateAppInstance supports idempotency behavior as described in the AWS API Standard. identity See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">The name of the AppInstance . Constraints: o min: 1 o max: 256 o pattern: [\u0009\u000A\u000D\u0020-\u007E\u0085\u00A0-\uD7FF\uE000-\uFFFD\u10000-\u10FFFF]*</param>
+    /// <param name="Name">The name of the AppInstance . Constraints: • min: 1 • max: 256 • pattern: [\u0009\u000A\u000D\u0020-\u007E\u0085\u00A0-\uD7FF\uE000-\uFFFD\u10000-\u10FFFF]*</param>
     public AwsChimeSdkIdentityCreateAppInstanceOptions(
         string Name
     )
@@ -57,26 +58,26 @@ public record AwsChimeSdkIdentityCreateAppInstanceOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the AppInstance . Constraints: o min: 1 o max: 256 o pattern: [\u0009\u000A\u000D\u0020-\u007E\u0085\u00A0-\uD7FF\uE000-\uFFFD\u10000-\u10FFFF]*
+    /// The name of the AppInstance . Constraints: • min: 1 • max: 256 • pattern: [\u0009\u000A\u000D\u0020-\u007E\u0085\u00A0-\uD7FF\uE000-\uFFFD\u10000-\u10FFFF]*
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The metadata of the AppInstance . Limited to a 1KB string in UTF-8. Constraints: o min: 0 o max: 1024 o pattern: .*
+    /// The metadata of the AppInstance . Limited to a 1KB string in UTF-8. Constraints: • min: 0 • max: 1024 • pattern: .*
     /// </summary>
     [CliOption("--metadata")]
     public string? Metadata { get; set; }
 
     /// <summary>
-    /// The unique ID of the request. Use different tokens to create differ- ent AppInstances . Constraints: o min: 2 o max: 64 o pattern: [-_a-zA-Z0-9]*
+    /// The unique ID of the request. Use different tokens to create different AppInstances . Constraints: • min: 2 • max: 64 • pattern: [-_a-zA-Z0-9]*
     /// </summary>
     [SecretValue]
     [CliOption("--client-request-token")]
     public string? ClientRequestToken { get; set; }
 
     /// <summary>
-    /// Tags assigned to the AppInstance . Constraints: o min: 1 o max: 50 (structure) A tag object containing a key-value pair. Key -&gt; (string) [required] The key in a tag. Constraints: o min: 1 o max: 128 Value -&gt; (string) [required] The value in a tag. Constraints: o min: 1 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// Tags assigned to the AppInstance . Constraints: • min: 1 • max: 50 (structure) A tag object containing a key-value pair. Key -&gt; (string) [required] The key in a tag. Constraints: • min: 1 • max: 128 Value -&gt; (string) [required] The value in a tag. Constraints: • min: 1 • max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
@@ -102,6 +103,15 @@ public record AwsChimeSdkIdentityCreateAppInstanceOptions : AwsOptions, IValidat
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,9 +29,9 @@ public record AwsPartnercentralChannelDeleteRelationshipOptions : AwsOptions, IV
     /// <summary>
     /// Deletes a partner relationship. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Catalog">The catalog identifier for the relationship. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z]*</param>
-    /// <param name="Identifier">The unique identifier of the relationship to delete. Constraints: o min: 16 o max: 1011 o pattern: (arn:[a-z-]+:partnercentral:[a-z0-9-]+:[0-9]{12}:cata- log/[a-zA-Z]+/program-management-account/pma-[a-z0-9]{13}/rela- tionship/)?rs-[a-z0-9]{13}</param>
-    /// <param name="ProgramManagementAccountIdentifier">The identifier of the program management account associated with the relationship. Constraints: o min: 17 o max: 1011 o pattern: (arn:[a-z-]+:partnercentral:[a-z0-9-]+:[0-9]{12}:cata- log/[a-zA-Z]+/program-management-account/)?pma-[a-z0-9]{13}</param>
+    /// <param name="Catalog">The catalog identifier for the relationship. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z]*</param>
+    /// <param name="Identifier">The unique identifier of the relationship to delete. Constraints: • min: 16 • max: 1011 • pattern: (arn:[a-z-]+:partnercentral:[a-z0-9-]+:[0-9]{12}:catalog/[a-zA-Z]+/program-management-account/pma-[a-z0-9]{13}/relationship/)?rs-[a-z0-9]{13}</param>
+    /// <param name="ProgramManagementAccountIdentifier">The identifier of the program management account associated with the relationship. Constraints: • min: 17 • max: 1011 • pattern: (arn:[a-z-]+:partnercentral:[a-z0-9-]+:[0-9]{12}:catalog/[a-zA-Z]+/program-management-account/)?pma-[a-z0-9]{13}</param>
     public AwsPartnercentralChannelDeleteRelationshipOptions(
         string Catalog,
         string Identifier,
@@ -65,25 +66,25 @@ public record AwsPartnercentralChannelDeleteRelationshipOptions : AwsOptions, IV
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The catalog identifier for the relationship. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z]*
+    /// The catalog identifier for the relationship. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z]*
     /// </summary>
     [CliOption("--catalog")]
     public string? Catalog { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the relationship to delete. Constraints: o min: 16 o max: 1011 o pattern: (arn:[a-z-]+:partnercentral:[a-z0-9-]+:[0-9]{12}:cata- log/[a-zA-Z]+/program-management-account/pma-[a-z0-9]{13}/rela- tionship/)?rs-[a-z0-9]{13}
+    /// The unique identifier of the relationship to delete. Constraints: • min: 16 • max: 1011 • pattern: (arn:[a-z-]+:partnercentral:[a-z0-9-]+:[0-9]{12}:catalog/[a-zA-Z]+/program-management-account/pma-[a-z0-9]{13}/relationship/)?rs-[a-z0-9]{13}
     /// </summary>
     [CliOption("--identifier")]
     public string? Identifier { get; private init; }
 
     /// <summary>
-    /// The identifier of the program management account associated with the relationship. Constraints: o min: 17 o max: 1011 o pattern: (arn:[a-z-]+:partnercentral:[a-z0-9-]+:[0-9]{12}:cata- log/[a-zA-Z]+/program-management-account/)?pma-[a-z0-9]{13}
+    /// The identifier of the program management account associated with the relationship. Constraints: • min: 17 • max: 1011 • pattern: (arn:[a-z-]+:partnercentral:[a-z0-9-]+:[0-9]{12}:catalog/[a-zA-Z]+/program-management-account/)?pma-[a-z0-9]{13}
     /// </summary>
     [CliOption("--program-management-account-identifier")]
     public string? ProgramManagementAccountIdentifier { get; private init; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier to ensure idempotency of the re- quest. Constraints: o min: 1 o max: 64 o pattern: [!-~]*
+    /// A unique, case-sensitive identifier to ensure idempotency of the request. Constraints: • min: 1 • max: 64 • pattern: [!-~]*
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
@@ -110,6 +111,15 @@ public record AwsPartnercentralChannelDeleteRelationshipOptions : AwsOptions, IV
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

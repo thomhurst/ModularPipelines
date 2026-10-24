@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsServicediscoveryUpdateHttpNamespaceOptions : AwsOptions, IValid
     /// <summary>
     /// Updates an HTTP namespace. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Id">The ID or Amazon Resource Name (ARN) of the namespace that you want to update. Constraints: o max: 255</param>
-    /// <param name="Namespace">Updated properties for the the HTTP namespace. Description -&gt; (string) [required] An updated description for the HTTP namespace. Constraints: o max: 1024 Shorthand Syntax: Description=string JSON Syntax: { "Description": "string" }</param>
+    /// <param name="Id">The ID or Amazon Resource Name (ARN) of the namespace that you want to update. Constraints: • max: 255</param>
+    /// <param name="Namespace">Updated properties for the the HTTP namespace. Description -&gt; (string) [required] An updated description for the HTTP namespace. Constraints: • max: 1024 Shorthand Syntax: Description=string JSON Syntax: { "Description": "string" }</param>
     public AwsServicediscoveryUpdateHttpNamespaceOptions(
         string Id,
         string Namespace
@@ -60,19 +61,19 @@ public record AwsServicediscoveryUpdateHttpNamespaceOptions : AwsOptions, IValid
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID or Amazon Resource Name (ARN) of the namespace that you want to update. Constraints: o max: 255
+    /// The ID or Amazon Resource Name (ARN) of the namespace that you want to update. Constraints: • max: 255
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; private init; }
 
     /// <summary>
-    /// Updated properties for the the HTTP namespace. Description -&gt; (string) [required] An updated description for the HTTP namespace. Constraints: o max: 1024 Shorthand Syntax: Description=string JSON Syntax: { "Description": "string" }
+    /// Updated properties for the the HTTP namespace. Description -&gt; (string) [required] An updated description for the HTTP namespace. Constraints: • max: 1024 Shorthand Syntax: Description=string JSON Syntax: { "Description": "string" }
     /// </summary>
     [CliOption("--namespace")]
     public string? Namespace { get; private init; }
 
     /// <summary>
-    /// A unique string that identifies the request and that allows failed UpdateHttpNamespace requests to be retried without the risk of run- ning the operation twice. UpdaterRequestId can be any unique string (for example, a date/timestamp). Constraints: o max: 64
+    /// A unique string that identifies the request and that allows failed UpdateHttpNamespace requests to be retried without the risk of running the operation twice. UpdaterRequestId can be any unique string (for example, a date/timestamp). Constraints: • max: 64
     /// </summary>
     [CliOption("--updater-request-id")]
     public string? UpdaterRequestId { get; set; }
@@ -98,6 +99,15 @@ public record AwsServicediscoveryUpdateHttpNamespaceOptions : AwsOptions, IValid
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

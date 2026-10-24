@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsRedshiftModifyAuthenticationProfileOptions : AwsOptions, IValid
     /// <summary>
     /// Modifies an authentication profile. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AuthenticationProfileName">The name of the authentication profile to replace. Constraints: o max: 63 o pattern: ^[a-zA-Z0-9\-]+$</param>
-    /// <param name="AuthenticationProfileContent">The new content of the authentication profile in JSON format. The maximum length of the JSON string is determined by a quota for your account. Constraints: o max: 2147483647</param>
+    /// <param name="AuthenticationProfileName">The name of the authentication profile to replace. Constraints: • max: 63 • pattern: ^[a-zA-Z0-9\-]+$</param>
+    /// <param name="AuthenticationProfileContent">The new content of the authentication profile in JSON format. The maximum length of the JSON string is determined by a quota for your account. Constraints: • max: 2147483647</param>
     public AwsRedshiftModifyAuthenticationProfileOptions(
         string AuthenticationProfileName,
         string AuthenticationProfileContent
@@ -60,13 +61,13 @@ public record AwsRedshiftModifyAuthenticationProfileOptions : AwsOptions, IValid
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the authentication profile to replace. Constraints: o max: 63 o pattern: ^[a-zA-Z0-9\-]+$
+    /// The name of the authentication profile to replace. Constraints: • max: 63 • pattern: ^[a-zA-Z0-9\-]+$
     /// </summary>
     [CliOption("--authentication-profile-name")]
     public string? AuthenticationProfileName { get; private init; }
 
     /// <summary>
-    /// The new content of the authentication profile in JSON format. The maximum length of the JSON string is determined by a quota for your account. Constraints: o max: 2147483647
+    /// The new content of the authentication profile in JSON format. The maximum length of the JSON string is determined by a quota for your account. Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--authentication-profile-content")]
     public string? AuthenticationProfileContent { get; private init; }
@@ -92,6 +93,15 @@ public record AwsRedshiftModifyAuthenticationProfileOptions : AwsOptions, IValid
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

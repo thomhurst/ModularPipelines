@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Relays third-party device events for a connector such as a new device or a device state change event. See also: AWS API Documentation send-connector-event uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested para- meters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
+/// Relays third-party device events for a connector such as a new device or a device state change event. See also: AWS API Documentation send-connector-event uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +27,10 @@ public record AwsIotManagedIntegrationsSendConnectorEventOptions : AwsOptions, I
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Relays third-party device events for a connector such as a new device or a device state change event. See also: AWS API Documentation send-connector-event uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested para- meters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
+    /// Relays third-party device events for a connector such as a new device or a device state change event. See also: AWS API Documentation send-connector-event uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
     /// </summary>
-    /// <param name="ConnectorId">The id of the connector between the third-party cloud provider and IoT managed integrations. Constraints: o min: 1 o max: 64 o pattern: [A-Za-z0-9-_]+</param>
-    /// <param name="Operation">The Open Connectivity Foundation (OCF) operation requested to be performed on the managed thing. NOTE: The field op can have a value of "I" or "U". The field "cn" will contain the capability types. Possible values: o DEVICE_COMMAND_RESPONSE o DEVICE_DISCOVERY o DEVICE_EVENT o DEVICE_COMMAND_REQUEST</param>
+    /// <param name="ConnectorId">The id of the connector between the third-party cloud provider and IoT managed integrations. Constraints: • min: 1 • max: 64 • pattern: [A-Za-z0-9-_]+</param>
+    /// <param name="Operation">The Open Connectivity Foundation (OCF) operation requested to be performed on the managed thing. NOTE: The field op can have a value of "I" or "U". The field "cn" will contain the capability types. Possible values: • DEVICE_COMMAND_RESPONSE • DEVICE_DISCOVERY • DEVICE_EVENT • DEVICE_COMMAND_REQUEST</param>
     public AwsIotManagedIntegrationsSendConnectorEventOptions(
         string ConnectorId,
         AwsIotManagedIntegrationsSendConnectorEventOperation Operation
@@ -60,67 +61,67 @@ public record AwsIotManagedIntegrationsSendConnectorEventOptions : AwsOptions, I
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The id of the connector between the third-party cloud provider and IoT managed integrations. Constraints: o min: 1 o max: 64 o pattern: [A-Za-z0-9-_]+
+    /// The id of the connector between the third-party cloud provider and IoT managed integrations. Constraints: • min: 1 • max: 64 • pattern: [A-Za-z0-9-_]+
     /// </summary>
     [CliOption("--connector-id")]
     public string? ConnectorId { get; private init; }
 
     /// <summary>
-    /// The Open Connectivity Foundation (OCF) operation requested to be performed on the managed thing. NOTE: The field op can have a value of "I" or "U". The field "cn" will contain the capability types. Possible values: o DEVICE_COMMAND_RESPONSE o DEVICE_DISCOVERY o DEVICE_EVENT o DEVICE_COMMAND_REQUEST
+    /// The Open Connectivity Foundation (OCF) operation requested to be performed on the managed thing. NOTE: The field op can have a value of "I" or "U". The field "cn" will contain the capability types. Possible values: • DEVICE_COMMAND_RESPONSE • DEVICE_DISCOVERY • DEVICE_EVENT • DEVICE_COMMAND_REQUEST
     /// </summary>
     [CliOption("--operation")]
     public AwsIotManagedIntegrationsSendConnectorEventOperation? Operation { get; private init; }
 
     /// <summary>
-    /// The id of the third-party cloud provider. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_.,@-]+
+    /// The id of the third-party cloud provider. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9_.,@-]+
     /// </summary>
     [CliOption("--user-id")]
     public string? UserId { get; set; }
 
     /// <summary>
-    /// The Open Connectivity Foundation (OCF) security specification ver- sion for the operation being requested on the managed thing. For more information, see OCF Security Specification . Constraints: o min: 1 o max: 6 o pattern: [0-9.]+
+    /// The Open Connectivity Foundation (OCF) security specification version for the operation being requested on the managed thing. For more information, see OCF Security Specification . Constraints: • min: 1 • max: 6 • pattern: [0-9.]+
     /// </summary>
     [CliOption("--operation-version")]
     public string? OperationVersion { get; set; }
 
     /// <summary>
-    /// The status code of the Open Connectivity Foundation (OCF) operation being performed on the managed thing. Constraints: o min: 100 o max: 550
+    /// The status code of the Open Connectivity Foundation (OCF) operation being performed on the managed thing. Constraints: • min: 100 • max: 550
     /// </summary>
     [CliOption("--status-code")]
     public int? StatusCode { get; set; }
 
     /// <summary>
-    /// The device state change event payload. This parameter will include the following three fields: o uri : schema auc://&lt;PARTNER-DEVICE-ID&gt;/ResourcePath (The Resour- cepath corresponds to an OCF resource.) o op : For device state changes, this field must populate as n+d . o cn : The content depends on the OCF resource referenced in Resour- cePath . Constraints: o min: 1 o max: 256 o pattern: [\sa-zA-Z0-9_.,@-]+
+    /// The device state change event payload. This parameter will include the following three fields: • uri : schema auc://&lt;PARTNER-DEVICE-ID&gt;/ResourcePath (The Resourcepath corresponds to an OCF resource.) • op : For device state changes, this field must populate as n+d . • cn : The content depends on the OCF resource referenced in ResourcePath . Constraints: • min: 1 • max: 256 • pattern: [\sa-zA-Z0-9_.,@-]+
     /// </summary>
     [CliOption("--message")]
     public string? Message { get; set; }
 
     /// <summary>
-    /// The id for the device discovery job. Constraints: o min: 1 o max: 200 o pattern: [A-Za-z0-9]+
+    /// The id for the device discovery job. Constraints: • min: 1 • max: 200 • pattern: [A-Za-z0-9]+
     /// </summary>
     [CliOption("--device-discovery-id")]
     public string? DeviceDiscoveryId { get; set; }
 
     /// <summary>
-    /// The third-party device id as defined by the connector. This device id must not contain personal identifiable information (PII). NOTE: This parameter is used for cloud-to-cloud devices only. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9_.,@-]+
+    /// The third-party device id as defined by the connector. This device id must not contain personal identifiable information (PII). NOTE: This parameter is used for cloud-to-cloud devices only. Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9_.,@-]+
     /// </summary>
     [CliOption("--connector-device-id")]
     public string? ConnectorDeviceId { get; set; }
 
     /// <summary>
-    /// The trace request identifier. This is generated by IoT managed inte- grations and can be used to trace this command and its related oper- ations in CloudWatch. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9:=_-]+
+    /// The trace request identifier. This is generated by IoT managed integrations and can be used to trace this command and its related operations in CloudWatch. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9:=_-]+
     /// </summary>
     [CliOption("--trace-id")]
     public string? TraceId { get; set; }
 
     /// <summary>
-    /// The list of devices. (structure) Describe the device using the relevant metadata and supported clusters for device discovery. ConnectorDeviceId -&gt; (string) [required] The device id as defined by the connector. NOTE: This parameter is used for cloud-to-cloud devices only. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9_.,@-]+ ConnectorDeviceName -&gt; (string) The name of the device as defined by the connector. Constraints: o min: 1 o max: 256 o pattern: [\p{L}\p{N} ._-]+ CapabilityReport -&gt; (structure) [required] The capability report for the device. version -&gt; (string) [required] The version of the capability report. Constraints: o min: 1 o max: 10 o pattern: 1\.0\.0 nodeId -&gt; (string) The numeric identifier of the node. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9=_.,@\+\-/]+ endpoints -&gt; (list) [required] The endpoints used in the capability report. Constraints: o min: 0 o max: 50 (structure) Matter endpoint used in capability report. id -&gt; (string) [required] The id of the Amazon Web Services Matter capabil- ity report endpoint. Constraints: o min: 1 o max: 64 o pattern: [0-9a-zA-Z]+ deviceTypes -&gt; (list) [required] The type of device. Constraints: o min: 0 o max: 50 (string) Constraints: o min: 0 o max: 256 o pattern: [a-zA-Z0-9=_. ,@\+\-/]+ clusters -&gt; (list) [required] Matter clusters used in capability report. Constraints: o min: 0 o max: 50 (structure) Capability used in Matter capability report. id -&gt; (string) [required] The id of the Amazon Web Services Matter capability report cluster. Constraints: o min: 1 o max: 24 o pattern: 0[xX][0-9a-fA-F]+$|^[0-9]+ revision -&gt; (integer) [required] The id of the revision for the Amazon Web Services Matter capability report. Constraints: o min: 1 o max: 10 publicId -&gt; (string) The id of the schema version. Constraints: o min: 7 o max: 128 o pattern: [a-zA-Z0-9.]+@(\d+\.\d+(\.\d+)?|\$latest) name -&gt; (string) The capability name used in the Amazon Web Services Matter capability report. Constraints: o min: 1 o max: 128 o pattern: [/a-zA-Z0-9\._ -]+ specVersion -&gt; (string) The spec version used in the Amazon Web Services Matter capability report. Constraints: o min: 1 o max: 64 o pattern: \d+\.\d+ attributes -&gt; (list) The attributes of the Amazon Web Services Matter capability report. Constraints: o min: 0 o max: 100 (structure) Matter attribute used in capability re- port. id -&gt; (string) The id of the Matter attribute. Constraints: o min: 1 o max: 24 o pattern: 0[xX][0-9a-fA-F]+$|^[0-9]+ name -&gt; (string) Name for the Amazon Web Services Matter capability report attribute. Constraints: o min: 1 o max: 128 o pattern: [/a-zA-Z0-9\._ -]+ value -&gt; (document) Value for the Amazon Web Services Matter capability report attribute. commands -&gt; (list) The commands used with the Amazon Web Ser- vices Matter capability report. Constraints: o min: 0 o max: 100 (string) Constraints: o min: 1 o max: 24 o pattern: 0[xX][0-9a-fA-F]+$|^[0-9]+ events -&gt; (list) The events used with the Amazon Web Ser- vices Matter capability report. Constraints: o min: 0 o max: 100 (string) Constraints: o min: 1 o max: 24 o pattern: 0[xX][0-9a-fA-F]+$|^[0-9]+ featureMap -&gt; (long) 32 bit-map used to indicate which features a cluster supports. Constraints: o min: 0 o max: 4294967295 generatedCommands -&gt; (list) Matter clusters used in capability report. Constraints: o min: 0 o max: 50 (string) Constraints: o min: 1 o max: 24 o pattern: 0[xX][0-9a-fA-F]+$|^[0-9]+ fabricIndex -&gt; (integer) The fabric index for the Amazon Web Ser- vices Matter capability report. Constraints: o min: 0 o max: 4096 parts -&gt; (list) Heirachy of child endpoints contained in the given endpoint. Constraints: o min: 0 o max: 32 (string) Constraints: o min: 1 o max: 64 o pattern: [0-9a-zA-Z]+ semanticTags -&gt; (list) Semantic information related to endpoint. Constraints: o min: 0 o max: 32 (string) Constraints: o min: 1 o max: 128 o pattern: [0-9a-zA-Z._-]+ clientClusters -&gt; (list) Semantic information related to endpoint. Constraints: o min: 0 o max: 32 (string) Constraints: o min: 1 o max: 24 o pattern: 0[xX][0-9a-fA-F]+$|^[0-9]+ CapabilitySchemas -&gt; (list) Report of all capabilities supported by the device. Constraints: o min: 0 o max: 40 (structure) Structure representing a capability schema item that de- fines the functionality and features supported by a man- aged thing. Format -&gt; (string) [required] The format of the capability schema, which defines how the schema is structured and interpreted. Possible values: o AWS o ZCL o CONNECTOR CapabilityId -&gt; (string) [required] The unique identifier of the capability defined in the schema. Constraints: o min: 7 o max: 128 o pattern: [a-zA-Z0-9.]+@(\d+\.\d+(\.\d+)?|\$latest) ExtrinsicId -&gt; (string) [required] The external identifier for the capability, used when referencing the capability outside of the AWS ecosys- tem. Constraints: o min: 1 o max: 10 o pattern: 0[xX][0-9a-fA-F]+$|^[0-9]+ ExtrinsicVersion -&gt; (integer) [required] The version of the external capability definition, used to track compatibility with external systems. Constraints: o min: 1 o max: 10 Schema -&gt; (document) [required] The actual schema definition that describes the capa- bility's properties, actions, and events. DeviceMetadata -&gt; (document) The metadata attributes for a device. JSON Syntax: [ { "ConnectorDeviceId": "string", "ConnectorDeviceName": "string", "CapabilityReport": { "version": "string", "nodeId": "string", "endpoints": [ { "id": "string", "deviceTypes": ["string", ...], "clusters": [ { "id": "string", "revision": integer, "publicId": "string", "name": "string", "specVersion": "string", "attributes": [ { "id": "string", "name": "string", "value": {...} } ... ], "commands": ["string", ...], "events": ["string", ...], "featureMap": long, "generatedCommands": ["string", ...], "fabricIndex": integer } ... ], "parts": ["string", ...], "semanticTags": ["string", ...], "clientClusters": ["string", ...] } ... ] }, "CapabilitySchemas": [ { "Format": "AWS"|"ZCL"|"CONNECTOR", "CapabilityId": "string", "ExtrinsicId": "string", "ExtrinsicVersion": integer, "Schema": {...} } ... ], "DeviceMetadata": {...} } ... ]
+    /// The list of devices. (structure) Describe the device using the relevant metadata and supported clusters for device discovery. ConnectorDeviceId -&gt; (string) [required] The device id as defined by the connector. NOTE: This parameter is used for cloud-to-cloud devices only. Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9_.,@-]+ ConnectorDeviceName -&gt; (string) The name of the device as defined by the connector. Constraints: • min: 1 • max: 256 • pattern: [\p{L}\p{N} ._-]+ CapabilityReport -&gt; (structure) [required] The capability report for the device. version -&gt; (string) [required] The version of the capability report. Constraints: • min: 1 • max: 10 • pattern: 1\.0\.0 nodeId -&gt; (string) The numeric identifier of the node. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9=_.,@\+\-/]+ endpoints -&gt; (list) [required] The endpoints used in the capability report. Constraints: • min: 0 • max: 50 (structure) Matter endpoint used in capability report. id -&gt; (string) [required] The id of the Amazon Web Services Matter capability report endpoint. Constraints: • min: 1 • max: 64 • pattern: [0-9a-zA-Z]+ deviceTypes -&gt; (list) [required] The type of device. Constraints: • min: 0 • max: 50 (string) Constraints: • min: 0 • max: 256 • pattern: [a-zA-Z0-9=_. ,@\+\-/]+ clusters -&gt; (list) [required] Matter clusters used in capability report. Constraints: • min: 0 • max: 50 (structure) Capability used in Matter capability report. id -&gt; (string) [required] The id of the Amazon Web Services Matter capability report cluster. Constraints: • min: 1 • max: 24 • pattern: 0[xX][0-9a-fA-F]+$|^[0-9]+ revision -&gt; (integer) [required] The id of the revision for the Amazon Web Services Matter capability report. Constraints: • min: 1 • max: 10 publicId -&gt; (string) The id of the schema version. Constraints: • min: 7 • max: 128 • pattern: [a-zA-Z0-9.]+@(\d+\.\d+(\.\d+)?|\$latest) name -&gt; (string) The capability name used in the Amazon Web Services Matter capability report. Constraints: • min: 1 • max: 128 • pattern: [/a-zA-Z0-9\._ -]+ specVersion -&gt; (string) The spec version used in the Amazon Web Services Matter capability report. Constraints: • min: 1 • max: 64 • pattern: \d+\.\d+ attributes -&gt; (list) The attributes of the Amazon Web Services Matter capability report. Constraints: • min: 0 • max: 100 (structure) Matter attribute used in capability report. id -&gt; (string) The id of the Matter attribute. Constraints: • min: 1 • max: 24 • pattern: 0[xX][0-9a-fA-F]+$|^[0-9]+ name -&gt; (string) Name for the Amazon Web Services Matter capability report attribute. Constraints: • min: 1 • max: 128 • pattern: [/a-zA-Z0-9\._ -]+ value -&gt; (document) Value for the Amazon Web Services Matter capability report attribute. commands -&gt; (list) The commands used with the Amazon Web Services Matter capability report. Constraints: • min: 0 • max: 100 (string) Constraints: • min: 1 • max: 24 • pattern: 0[xX][0-9a-fA-F]+$|^[0-9]+ events -&gt; (list) The events used with the Amazon Web Services Matter capability report. Constraints: • min: 0 • max: 100 (string) Constraints: • min: 1 • max: 24 • pattern: 0[xX][0-9a-fA-F]+$|^[0-9]+ featureMap -&gt; (long) 32 bit-map used to indicate which features a cluster supports. Constraints: • min: 0 • max: 4294967295 generatedCommands -&gt; (list) Matter clusters used in capability report. Constraints: • min: 0 • max: 50 (string) Constraints: • min: 1 • max: 24 • pattern: 0[xX][0-9a-fA-F]+$|^[0-9]+ fabricIndex -&gt; (integer) The fabric index for the Amazon Web Services Matter capability report. Constraints: • min: 0 • max: 4096 parts -&gt; (list) Heirachy of child endpoints contained in the given endpoint. Constraints: • min: 0 • max: 32 (string) Constraints: • min: 1 • max: 64 • pattern: [0-9a-zA-Z]+ semanticTags -&gt; (list) Semantic information related to endpoint. Constraints: • min: 0 • max: 32 (string) Constraints: • min: 1 • max: 128 • pattern: [0-9a-zA-Z._-]+ clientClusters -&gt; (list) Semantic information related to endpoint. Constraints: • min: 0 • max: 32 (string) Constraints: • min: 1 • max: 24 • pattern: 0[xX][0-9a-fA-F]+$|^[0-9]+ CapabilitySchemas -&gt; (list) Report of all capabilities supported by the device. Constraints: • min: 0 • max: 40 (structure) Structure representing a capability schema item that defines the functionality and features supported by a managed thing. Format -&gt; (string) [required] The format of the capability schema, which defines how the schema is structured and interpreted. Possible values: • AWS • ZCL • CONNECTOR CapabilityId -&gt; (string) [required] The unique identifier of the capability defined in the schema. Constraints: • min: 7 • max: 128 • pattern: [a-zA-Z0-9.]+@(\d+\.\d+(\.\d+)?|\$latest) ExtrinsicId -&gt; (string) [required] The external identifier for the capability, used when referencing the capability outside of the AWS ecosystem. Constraints: • min: 1 • max: 10 • pattern: 0[xX][0-9a-fA-F]+$|^[0-9]+ ExtrinsicVersion -&gt; (integer) [required] The version of the external capability definition, used to track compatibility with external systems. Constraints: • min: 1 • max: 10 Schema -&gt; (document) [required] The actual schema definition that describes the capability's properties, actions, and events. DeviceMetadata -&gt; (document) The metadata attributes for a device. JSON Syntax: [ { "ConnectorDeviceId": "string", "ConnectorDeviceName": "string", "CapabilityReport": { "version": "string", "nodeId": "string", "endpoints": [ { "id": "string", "deviceTypes": ["string", ...], "clusters": [ { "id": "string", "revision": integer, "publicId": "string", "name": "string", "specVersion": "string", "attributes": [ { "id": "string", "name": "string", "value": {...} } ... ], "commands": ["string", ...], "events": ["string", ...], "featureMap": long, "generatedCommands": ["string", ...], "fabricIndex": integer } ... ], "parts": ["string", ...], "semanticTags": ["string", ...], "clientClusters": ["string", ...] } ... ] }, "CapabilitySchemas": [ { "Format": "AWS"|"ZCL"|"CONNECTOR", "CapabilityId": "string", "ExtrinsicId": "string", "ExtrinsicVersion": integer, "Schema": {...} } ... ], "DeviceMetadata": {...} } ... ]
     /// </summary>
     [CliOption("--devices", GroupValues = true)]
     public IEnumerable<string>? Devices { get; set; }
 
     /// <summary>
-    /// The device endpoint. id -&gt; (string) The Matter endpoint id. Constraints: o min: 1 o max: 64 o pattern: [0-9a-zA-Z]+ clusters -&gt; (list) A list of Matter clusters for a managed thing. Constraints: o min: 1 o max: 5 (structure) Describe a Matter cluster with an id, and the relevant at- tributes, commands, and events. id -&gt; (string) The cluster id. Constraints: o min: 1 o max: 24 o pattern: 0[xX][0-9a-fA-F]+$|^[0-9]+ attributes -&gt; (document) The Matter attributes. commands -&gt; (map) Describe the Matter commands with the Matter command identifier mapped to the command fields. Constraints: o min: 1 o max: 5 key -&gt; (string) Constraints: o min: 1 o max: 24 o pattern: 0[xX][0-9a-fA-F]+$|^[0-9]+ value -&gt; (document) events -&gt; (map) Describe the Matter events with the Matter event identi- fier mapped to the event fields. Constraints: o min: 1 o max: 5 key -&gt; (string) Constraints: o min: 1 o max: 24 o pattern: 0[xX][0-9a-fA-F]+$|^[0-9]+ value -&gt; (document) Shorthand Syntax: id=string,clusters=[{id=string},{id=string}] JSON Syntax: { "id": "string", "clusters": [ { "id": "string", "attributes": {...}, "commands": {"string": {...} ...}, "events": {"string": {...} ...} } ... ] }
+    /// The device endpoint. id -&gt; (string) The Matter endpoint id. Constraints: • min: 1 • max: 64 • pattern: [0-9a-zA-Z]+ clusters -&gt; (list) A list of Matter clusters for a managed thing. Constraints: • min: 1 • max: 5 (structure) Describe a Matter cluster with an id, and the relevant attributes, commands, and events. id -&gt; (string) The cluster id. Constraints: • min: 1 • max: 24 • pattern: 0[xX][0-9a-fA-F]+$|^[0-9]+ attributes -&gt; (document) The Matter attributes. commands -&gt; (map) Describe the Matter commands with the Matter command identifier mapped to the command fields. Constraints: • min: 1 • max: 5 key -&gt; (string) Constraints: • min: 1 • max: 24 • pattern: 0[xX][0-9a-fA-F]+$|^[0-9]+ value -&gt; (document) events -&gt; (map) Describe the Matter events with the Matter event identifier mapped to the event fields. Constraints: • min: 1 • max: 5 key -&gt; (string) Constraints: • min: 1 • max: 24 • pattern: 0[xX][0-9a-fA-F]+$|^[0-9]+ value -&gt; (document) Shorthand Syntax: id=string,clusters=[{id=string},{id=string}] JSON Syntax: { "id": "string", "clusters": [ { "id": "string", "attributes": {...}, "commands": {"string": {...} ...}, "events": {"string": {...} ...} } ... ] }
     /// </summary>
     [CliOption("--matter-endpoint")]
     public string? MatterEndpoint { get; set; }
@@ -146,6 +147,15 @@ public record AwsIotManagedIntegrationsSendConnectorEventOptions : AwsOptions, I
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

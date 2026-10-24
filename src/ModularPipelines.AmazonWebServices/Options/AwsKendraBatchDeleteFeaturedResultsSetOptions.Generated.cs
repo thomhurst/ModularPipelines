@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsKendraBatchDeleteFeaturedResultsSetOptions : AwsOptions, IValid
     /// <summary>
     /// Removes one or more sets of featured results. Features results are placed above all other results for certain queries. If there's an exact match of a query, then one or more specific documents are featured in the search results. See also: AWS API Documentation
     /// </summary>
-    /// <param name="IndexId">The identifier of the index used for featuring results. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]*</param>
-    /// <param name="FeaturedResultsSetIds">The identifiers of the featured results sets that you want to delete. Constraints: o min: 1 o max: 50 (string) Constraints: o min: 36 o max: 36 o pattern: ^[a-zA-Z-0-9]* Syntax: "string" "string" ...</param>
+    /// <param name="IndexId">The identifier of the index used for featuring results. Constraints: • min: 36 • max: 36 • pattern: [a-zA-Z0-9][a-zA-Z0-9-]*</param>
+    /// <param name="FeaturedResultsSetIds">The identifiers of the featured results sets that you want to delete. Constraints: • min: 1 • max: 50 (string) Constraints: • min: 36 • max: 36 • pattern: ^[a-zA-Z-0-9]* Syntax: "string" "string" ...</param>
     public AwsKendraBatchDeleteFeaturedResultsSetOptions(
         string IndexId,
         IEnumerable<string> FeaturedResultsSetIds
@@ -71,13 +72,13 @@ public record AwsKendraBatchDeleteFeaturedResultsSetOptions : AwsOptions, IValid
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the index used for featuring results. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]*
+    /// The identifier of the index used for featuring results. Constraints: • min: 36 • max: 36 • pattern: [a-zA-Z0-9][a-zA-Z0-9-]*
     /// </summary>
     [CliOption("--index-id")]
     public string? IndexId { get; private init; }
 
     /// <summary>
-    /// The identifiers of the featured results sets that you want to delete. Constraints: o min: 1 o max: 50 (string) Constraints: o min: 36 o max: 36 o pattern: ^[a-zA-Z-0-9]* Syntax: "string" "string" ...
+    /// The identifiers of the featured results sets that you want to delete. Constraints: • min: 1 • max: 50 (string) Constraints: • min: 36 • max: 36 • pattern: ^[a-zA-Z-0-9]* Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--featured-results-set-ids", GroupValues = true)]
     public IEnumerable<string>? FeaturedResultsSetIds { get; private init; }
@@ -103,6 +104,15 @@ public record AwsKendraBatchDeleteFeaturedResultsSetOptions : AwsOptions, IValid
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

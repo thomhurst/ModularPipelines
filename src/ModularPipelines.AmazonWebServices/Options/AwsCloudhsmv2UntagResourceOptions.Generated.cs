@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsCloudhsmv2UntagResourceOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Removes the specified tag or tags from the specified CloudHSM cluster. Cross-account use: No. You cannot perform this operation on an CloudHSM resource in a different Amazon Web Services account. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceId">The cluster identifier (ID) for the cluster whose tags you are re- moving. To find the cluster ID, use DescribeClusters . Constraints: o pattern: (?:cluster|backup)-[2-7a-zA-Z]{11,16}</param>
-    /// <param name="TagKeyList">A list of one or more tag keys for the tags that you are removing. Specify only the tag keys, not the tag values. Constraints: o min: 1 o max: 50 (string) Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Syntax: "string" "string" ...</param>
+    /// <param name="ResourceId">The cluster identifier (ID) for the cluster whose tags you are removing. To find the cluster ID, use DescribeClusters . Constraints: • pattern: (?:cluster|backup)-[2-7a-zA-Z]{11,16}</param>
+    /// <param name="TagKeyList">A list of one or more tag keys for the tags that you are removing. Specify only the tag keys, not the tag values. Constraints: • min: 1 • max: 50 (string) Constraints: • min: 1 • max: 128 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Syntax: "string" "string" ...</param>
     public AwsCloudhsmv2UntagResourceOptions(
         string ResourceId,
         IEnumerable<string> TagKeyList
@@ -71,13 +72,13 @@ public record AwsCloudhsmv2UntagResourceOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The cluster identifier (ID) for the cluster whose tags you are re- moving. To find the cluster ID, use DescribeClusters . Constraints: o pattern: (?:cluster|backup)-[2-7a-zA-Z]{11,16}
+    /// The cluster identifier (ID) for the cluster whose tags you are removing. To find the cluster ID, use DescribeClusters . Constraints: • pattern: (?:cluster|backup)-[2-7a-zA-Z]{11,16}
     /// </summary>
     [CliOption("--resource-id")]
     public string? ResourceId { get; private init; }
 
     /// <summary>
-    /// A list of one or more tag keys for the tags that you are removing. Specify only the tag keys, not the tag values. Constraints: o min: 1 o max: 50 (string) Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Syntax: "string" "string" ...
+    /// A list of one or more tag keys for the tags that you are removing. Specify only the tag keys, not the tag values. Constraints: • min: 1 • max: 50 (string) Constraints: • min: 1 • max: 128 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--tag-key-list", GroupValues = true)]
     public IEnumerable<string>? TagKeyList { get; private init; }
@@ -103,6 +104,15 @@ public record AwsCloudhsmv2UntagResourceOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

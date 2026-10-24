@@ -10,7 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +28,7 @@ public record AwsSagemakerUpdateContextOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Updates a context. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ContextName">The name of the context to update. Constraints: o min: 1 o max: 120 o pattern: [a-zA-Z0-9]([-_]*[a-zA-Z0-9]){0,119}</param>
+    /// <param name="ContextName">The name of the context to update. Constraints: • min: 1 • max: 120 • pattern: [a-zA-Z0-9]([-_]*[a-zA-Z0-9]){0,119}</param>
     public AwsSagemakerUpdateContextOptions(
         string ContextName
     )
@@ -57,25 +57,25 @@ public record AwsSagemakerUpdateContextOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the context to update. Constraints: o min: 1 o max: 120 o pattern: [a-zA-Z0-9]([-_]*[a-zA-Z0-9]){0,119}
+    /// The name of the context to update. Constraints: • min: 1 • max: 120 • pattern: [a-zA-Z0-9]([-_]*[a-zA-Z0-9]){0,119}
     /// </summary>
     [CliOption("--context-name")]
     public string? ContextName { get; private init; }
 
     /// <summary>
-    /// The new description for the context. Constraints: o min: 0 o max: 3072 o pattern: .*
+    /// The new description for the context. Constraints: • min: 0 • max: 3072 • pattern: .*
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The new list of properties. Overwrites the current property list. Constraints: o min: 0 o max: 30 key -&gt; (string) Constraints: o min: 0 o max: 2500 o pattern: .* value -&gt; (string) Constraints: o min: 0 o max: 2500 o pattern: .* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The new list of properties. Overwrites the current property list. Constraints: • min: 0 • max: 30 key -&gt; (string) Constraints: • min: 0 • max: 2500 • pattern: .* value -&gt; (string) Constraints: • min: 0 • max: 2500 • pattern: .* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--properties", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Properties { get; set; }
 
     /// <summary>
-    /// A list of properties to remove. (string) Constraints: o min: 0 o max: 2500 o pattern: .* Syntax: "string" "string" ...
+    /// A list of properties to remove. (string) Constraints: • min: 0 • max: 2500 • pattern: .* Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--properties-to-remove", GroupValues = true)]
     public IEnumerable<string>? PropertiesToRemove { get; set; }
@@ -101,6 +101,15 @@ public record AwsSagemakerUpdateContextOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

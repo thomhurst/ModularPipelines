@@ -11,7 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -29,9 +29,9 @@ public record AwsConnectStartChatContactOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Initiates a flow to start a new chat for the customer. Response of this API provides a token required to obtain credentials from the CreateParticipantConnection API in the Connect Customer Participant Service. When a new chat contact is successfully created, clients must subscribe to the participants connection for the created chat within 5 minutes. This is achieved by invoking CreateParticipantConnection with WEBSOCKET and CONNECTION_CREDENTIALS. To receive connection information directly in th...
     /// </summary>
-    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100</param>
-    /// <param name="ContactFlowId">The identifier of the flow for initiating the chat. To see the Con- tactFlowId in the Connect Customer admin website, on the navigation menu go to Routing , Flows . Choose the flow. On the flow page, un- der the name of the flow, choose Show additional flow information . The ContactFlowId is the last part of the ARN, shown here in bold: arn:aws:connect:us-west-2:xxxxxxxxxxxx:in- stance/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/con- tact-flow/846ec553-a005-41c0-8341-xxxxxxxxxxxx Constraints: o max: 500</param>
-    /// <param name="ParticipantDetails">Information identifying the participant. DisplayName -&gt; (string) [required] Display name of the participant. Constraints: o min: 1 o max: 256 Shorthand Syntax: DisplayName=string JSON Syntax: { "DisplayName": "string" }</param>
+    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: • min: 1 • max: 100</param>
+    /// <param name="ContactFlowId">The identifier of the flow for initiating the chat. To see the ContactFlowId in the Connect Customer admin website, on the navigation menu go to Routing , Flows . Choose the flow. On the flow page, under the name of the flow, choose Show additional flow information . The ContactFlowId is the last part of the ARN, shown here in bold: arn:aws:connect:us-west-2:xxxxxxxxxxxx:instance/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/contact-flow/846ec553-a005-41c0-8341-xxxxxxxxxxxx Constraints: • max: 500</param>
+    /// <param name="ParticipantDetails">Information identifying the participant. DisplayName -&gt; (string) [required] Display name of the participant. Constraints: • min: 1 • max: 256 Shorthand Syntax: DisplayName=string JSON Syntax: { "DisplayName": "string" }</param>
     public AwsConnectStartChatContactOptions(
         string InstanceId,
         string ContactFlowId,
@@ -66,98 +66,98 @@ public record AwsConnectStartChatContactOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100
+    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--instance-id")]
     public string? InstanceId { get; private init; }
 
     /// <summary>
-    /// The identifier of the flow for initiating the chat. To see the Con- tactFlowId in the Connect Customer admin website, on the navigation menu go to Routing , Flows . Choose the flow. On the flow page, un- der the name of the flow, choose Show additional flow information . The ContactFlowId is the last part of the ARN, shown here in bold: arn:aws:connect:us-west-2:xxxxxxxxxxxx:in- stance/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/con- tact-flow/846ec553-a005-41c0-8341-xxxxxxxxxxxx Constraints: o max: 500
+    /// The identifier of the flow for initiating the chat. To see the ContactFlowId in the Connect Customer admin website, on the navigation menu go to Routing , Flows . Choose the flow. On the flow page, under the name of the flow, choose Show additional flow information . The ContactFlowId is the last part of the ARN, shown here in bold: arn:aws:connect:us-west-2:xxxxxxxxxxxx:instance/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/contact-flow/846ec553-a005-41c0-8341-xxxxxxxxxxxx Constraints: • max: 500
     /// </summary>
     [CliOption("--contact-flow-id")]
     public string? ContactFlowId { get; private init; }
 
     /// <summary>
-    /// Information identifying the participant. DisplayName -&gt; (string) [required] Display name of the participant. Constraints: o min: 1 o max: 256 Shorthand Syntax: DisplayName=string JSON Syntax: { "DisplayName": "string" }
+    /// Information identifying the participant. DisplayName -&gt; (string) [required] Display name of the participant. Constraints: • min: 1 • max: 256 Shorthand Syntax: DisplayName=string JSON Syntax: { "DisplayName": "string" }
     /// </summary>
     [CliOption("--participant-details")]
     public string? ParticipantDetails { get; private init; }
 
     /// <summary>
-    /// A custom key-value pair using an attribute map. The attributes are standard Connect Customer attributes. They can be accessed in flows just like any other contact attributes. There can be up to 32,768 UTF-8 bytes across all key-value pairs per contact. Attribute keys can include only alphanumeric, dash, and un- derscore characters. key -&gt; (string) Constraints: o min: 1 o max: 32767 value -&gt; (string) Constraints: o min: 0 o max: 32767 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// A custom key-value pair using an attribute map. The attributes are standard Connect Customer attributes. They can be accessed in flows just like any other contact attributes. There can be up to 32,768 UTF-8 bytes across all key-value pairs per contact. Attribute keys can include only alphanumeric, dash, and underscore characters. key -&gt; (string) Constraints: • min: 1 • max: 32767 value -&gt; (string) Constraints: • min: 0 • max: 32767 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--attributes", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Attributes { get; set; }
 
     /// <summary>
-    /// The configuration of the participant. ResponseMode -&gt; (string) The mode in which responses should be sent to the participant. Possible values: o INCREMENTAL o COMPLETE Shorthand Syntax: ResponseMode=string JSON Syntax: { "ResponseMode": "INCREMENTAL"|"COMPLETE" }
+    /// The configuration of the participant. ResponseMode -&gt; (string) The mode in which responses should be sent to the participant. Possible values: • INCREMENTAL • COMPLETE Shorthand Syntax: ResponseMode=string JSON Syntax: { "ResponseMode": "INCREMENTAL"|"COMPLETE" }
     /// </summary>
     [CliOption("--participant-configuration")]
     public string? ParticipantConfiguration { get; set; }
 
     /// <summary>
-    /// The initial message to be sent to the newly created chat. ContentType -&gt; (string) [required] The type of the content. Supported types are text/plain , text/markdown , application/json , and application/vnd.amazon- aws.connect.message.interactive.response . Constraints: o min: 1 o max: 100 Content -&gt; (string) [required] The content of the chat message. Maximum of 16,384 bytes for all content types (text/plain , text/markdown , application/json , and application/vnd.amazonaws.connect.message.interactive.re- sponse ). Some messaging channels enforce lower limits. For channel-spe- cific message size limits, see Chat message size limits by chan- nel in the Amazon Connect Customer Administrator Guide . Constraints: o min: 1 o max: 16384 Shorthand Syntax: ContentType=string,Content=string JSON Syntax: { "ContentType": "string", "Content": "string" }
+    /// The initial message to be sent to the newly created chat. ContentType -&gt; (string) [required] The type of the content. Supported types are text/plain , text/markdown , application/json , and application/vnd.amazonaws.connect.message.interactive.response . Constraints: • min: 1 • max: 100 Content -&gt; (string) [required] The content of the chat message. Maximum of 16,384 bytes for all content types (text/plain , text/markdown , application/json , and application/vnd.amazonaws.connect.message.interactive.response ). Some messaging channels enforce lower limits. For channel-specific message size limits, see Chat message size limits by channel in the Amazon Connect Customer Administrator Guide . Constraints: • min: 1 • max: 16384 Shorthand Syntax: ContentType=string,Content=string JSON Syntax: { "ContentType": "string", "Content": "string" }
     /// </summary>
     [CliOption("--initial-message")]
     public string? InitialMessage { get; set; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs . Constraints: o max: 500
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs . Constraints: • max: 500
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// The total duration of the newly started chat session. If not speci- fied, the chat session duration defaults to 25 hour. The minimum configurable time is 60 minutes. The maximum configurable time is 10,080 minutes (7 days). Constraints: o min: 60 o max: 10080
+    /// The total duration of the newly started chat session. If not specified, the chat session duration defaults to 25 hour. The minimum configurable time is 60 minutes. The maximum configurable time is 10,080 minutes (7 days). Constraints: • min: 60 • max: 10080
     /// </summary>
     [CliOption("--chat-duration-in-minutes")]
     public int? ChatDurationInMinutes { get; set; }
 
     /// <summary>
-    /// The supported chat message content types. Supported types are text/plain , text/markdown , application/json , application/vnd.ama- zonaws.connect.message.interactive , and application/vnd.amazon- aws.connect.message.interactive.response . Content types must always contain text/plain . You can then put any other supported type in the list. For example, all the following lists are valid because they contain text/plain : [text/plain, text/markdown, application/json] , [text/markdown, text/plain] , [text/plain, application/json, application/vnd.amazonaws.con- nect.message.interactive.response] . NOTE: The type application/vnd.amazonaws.connect.message.interactive is required to use the Show view flow block. (string) Constraints: o min: 1 o max: 100 Syntax: "string" "string" ...
+    /// The supported chat message content types. Supported types are text/plain , text/markdown , application/json , application/vnd.amazonaws.connect.message.interactive , and application/vnd.amazonaws.connect.message.interactive.response . Content types must always contain text/plain . You can then put any other supported type in the list. For example, all the following lists are valid because they contain text/plain : [text/plain, text/markdown, application/json] , [text/markdown, text/plain] , [text/plain, application/json, application/vnd.amazonaws.connect.message.interactive.response] . NOTE: The type application/vnd.amazonaws.connect.message.interactive is required to use the Show view flow block. (string) Constraints: • min: 1 • max: 100 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--supported-messaging-content-types", GroupValues = true)]
     public IEnumerable<string>? SupportedMessagingContentTypes { get; set; }
 
     /// <summary>
-    /// Enable persistent chats. For more information about enabling persis- tent chat, and for example use cases and how to configure for them, see Enable persistent chat . RehydrationType -&gt; (string) The contactId that is used for rehydration depends on the rehy- dration type. RehydrationType is required for persistent chat. o ENTIRE_PAST_SESSION : Rehydrates a chat from the most recently terminated past chat contact of the specified past ended chat session. To use this type, provide the initialContactId of the past ended chat session in the sourceContactId field. In this type, Connect Customer determines the most recent chat contact on the specified chat session that has ended, and uses it to start a persistent chat. o FROM_SEGMENT : Rehydrates a chat from the past chat contact that is specified in the sourceContactId field. The actual contactId used for rehydration is provided in the re- sponse of this API. Possible values: o ENTIRE_PAST_SESSION o FROM_SEGMENT SourceContactId -&gt; (string) The contactId from which a persistent chat session must be started. Constraints: o min: 1 o max: 256 Shorthand Syntax: RehydrationType=string,SourceContactId=string JSON Syntax: { "RehydrationType": "ENTIRE_PAST_SESSION"|"FROM_SEGMENT", "SourceContactId": "string" }
+    /// Enable persistent chats. For more information about enabling persistent chat, and for example use cases and how to configure for them, see Enable persistent chat . RehydrationType -&gt; (string) The contactId that is used for rehydration depends on the rehydration type. RehydrationType is required for persistent chat. • ENTIRE_PAST_SESSION : Rehydrates a chat from the most recently terminated past chat contact of the specified past ended chat session. To use this type, provide the initialContactId of the past ended chat session in the sourceContactId field. In this type, Connect Customer determines the most recent chat contact on the specified chat session that has ended, and uses it to start a persistent chat. • FROM_SEGMENT : Rehydrates a chat from the past chat contact that is specified in the sourceContactId field. The actual contactId used for rehydration is provided in the response of this API. Possible values: • ENTIRE_PAST_SESSION • FROM_SEGMENT SourceContactId -&gt; (string) The contactId from which a persistent chat session must be started. Constraints: • min: 1 • max: 256 Shorthand Syntax: RehydrationType=string,SourceContactId=string JSON Syntax: { "RehydrationType": "ENTIRE_PAST_SESSION"|"FROM_SEGMENT", "SourceContactId": "string" }
     /// </summary>
     [CliOption("--persistent-chat")]
     public string? PersistentChat { get; set; }
 
     /// <summary>
-    /// The unique identifier for an Connect Customer contact. This identi- fier is related to the chat starting. NOTE: You cannot provide data for both RelatedContactId and Persis- tentChat. Constraints: o min: 1 o max: 256
+    /// The unique identifier for an Connect Customer contact. This identifier is related to the chat starting. NOTE: You cannot provide data for both RelatedContactId and PersistentChat. Constraints: • min: 1 • max: 256
     /// </summary>
     [CliOption("--related-contact-id")]
     public string? RelatedContactId { get; set; }
 
     /// <summary>
-    /// A set of system defined key-value pairs stored on individual contact segments using an attribute map. The attributes are standard Connect Customer attributes. They can be accessed in flows. Attribute keys can include only alphanumeric, -, and _. This field can be used to show channel subtype, such as con- nect:Guide . NOTE: The types application/vnd.amazonaws.connect.message.interactive and application/vnd.amazonaws.connect.message.interactive.re- sponse must be present in the SupportedMessagingContentTypes field of this API in order to set SegmentAttributes as {"con- nect:Subtype": {"valueString" : "connect:Guide" }} . key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (structure) A value for a segment attribute. This is structured as a map where the key is valueString and the value is a string. ValueString -&gt; (string) The value of a segment attribute. Constraints: o min: 0 o max: 1024 ValueMap -&gt; (map) The value of a segment attribute. key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (structure) A value for a segment attribute. This is structured as a map where the key is valueString and the value is a string. ValueString -&gt; (string) The value of a segment attribute. Constraints: o min: 0 o max: 1024 ValueMap -&gt; (map) The value of a segment attribute. key -&gt; (string) Constraints: o min: 1 o max: 128 ( ... recursive ... ) ValueInteger -&gt; (integer) The value of a segment attribute. ValueList -&gt; (list) The value of a segment attribute. This is only sup- ported for system-defined attributes, not for user-de- fined attributes. ( ... recursive ... ) ValueArn -&gt; (string) The value of a segment attribute that has to be a valid ARN. This is only supported for system-defined attributes, not for user-defined attributes. Constraints: o min: 0 o max: 1024 ValueInteger -&gt; (integer) The value of a segment attribute. ValueList -&gt; (list) The value of a segment attribute. This is only supported for system-defined attributes, not for user-defined attributes. (structure) A value for a segment attribute. This is structured as a map where the key is valueString and the value is a string. ValueString -&gt; (string) The value of a segment attribute. Constraints: o min: 0 o max: 1024 ValueMap -&gt; (map) The value of a segment attribute. key -&gt; (string) Constraints: o min: 1 o max: 128 ( ... recursive ... ) ValueInteger -&gt; (integer) The value of a segment attribute. ValueList -&gt; (list) The value of a segment attribute. This is only sup- ported for system-defined attributes, not for user-de- fined attributes. ( ... recursive ... ) ValueArn -&gt; (string) The value of a segment attribute that has to be a valid ARN. This is only supported for system-defined attributes, not for user-defined attributes. Constraints: o min: 0 o max: 1024 ValueArn -&gt; (string) The value of a segment attribute that has to be a valid ARN. This is only supported for system-defined attributes, not for user-defined attributes. Constraints: o min: 0 o max: 1024 JSON Syntax: {"string": { "ValueString": "string", "ValueMap": {"string": { "ValueString": "string", "ValueMap": {"string": { ... recursive ... } ...}, "ValueInteger": integer, "ValueList": [ { ... recursive ... } ... ], "ValueArn": "string" } ...}, "ValueInteger": integer, "ValueList": [ { "ValueString": "string", "ValueMap": {"string": { ... recursive ... } ...}, "ValueInteger": integer, "ValueList": [ { ... recursive ... } ... ], "ValueArn": "string" } ... ], "ValueArn": "string" } ...}
+    /// A set of system defined key-value pairs stored on individual contact segments using an attribute map. The attributes are standard Connect Customer attributes. They can be accessed in flows. Attribute keys can include only alphanumeric, -, and _. This field can be used to show channel subtype, such as connect:Guide . NOTE: The types application/vnd.amazonaws.connect.message.interactive and application/vnd.amazonaws.connect.message.interactive.response must be present in the SupportedMessagingContentTypes field of this API in order to set SegmentAttributes as {"connect:Subtype": {"valueString" : "connect:Guide" }} . key -&gt; (string) Constraints: • min: 1 • max: 128 value -&gt; (structure) A value for a segment attribute. This is structured as a map where the key is valueString and the value is a string. ValueString -&gt; (string) The value of a segment attribute. Constraints: • min: 0 • max: 1024 ValueMap -&gt; (map) The value of a segment attribute. key -&gt; (string) Constraints: • min: 1 • max: 128 value -&gt; (structure) A value for a segment attribute. This is structured as a map where the key is valueString and the value is a string. ValueString -&gt; (string) The value of a segment attribute. Constraints: • min: 0 • max: 1024 ValueMap -&gt; (map) The value of a segment attribute. key -&gt; (string) Constraints: • min: 1 • max: 128 ( ... recursive ... ) ValueInteger -&gt; (integer) The value of a segment attribute. ValueList -&gt; (list) The value of a segment attribute. This is only supported for system-defined attributes, not for user-defined attributes. ( ... recursive ... ) ValueArn -&gt; (string) The value of a segment attribute that has to be a valid ARN. This is only supported for system-defined attributes, not for user-defined attributes. Constraints: • min: 0 • max: 1024 ValueInteger -&gt; (integer) The value of a segment attribute. ValueList -&gt; (list) The value of a segment attribute. This is only supported for system-defined attributes, not for user-defined attributes. (structure) A value for a segment attribute. This is structured as a map where the key is valueString and the value is a string. ValueString -&gt; (string) The value of a segment attribute. Constraints: • min: 0 • max: 1024 ValueMap -&gt; (map) The value of a segment attribute. key -&gt; (string) Constraints: • min: 1 • max: 128 ( ... recursive ... ) ValueInteger -&gt; (integer) The value of a segment attribute. ValueList -&gt; (list) The value of a segment attribute. This is only supported for system-defined attributes, not for user-defined attributes. ( ... recursive ... ) ValueArn -&gt; (string) The value of a segment attribute that has to be a valid ARN. This is only supported for system-defined attributes, not for user-defined attributes. Constraints: • min: 0 • max: 1024 ValueArn -&gt; (string) The value of a segment attribute that has to be a valid ARN. This is only supported for system-defined attributes, not for user-defined attributes. Constraints: • min: 0 • max: 1024 JSON Syntax: {"string": { "ValueString": "string", "ValueMap": {"string": { "ValueString": "string", "ValueMap": {"string": { ... recursive ... } ...}, "ValueInteger": integer, "ValueList": [ { ... recursive ... } ... ], "ValueArn": "string" } ...}, "ValueInteger": integer, "ValueList": [ { "ValueString": "string", "ValueMap": {"string": { ... recursive ... } ...}, "ValueInteger": integer, "ValueList": [ { ... recursive ... } ... ], "ValueArn": "string" } ... ], "ValueArn": "string" } ...}
     /// </summary>
     [CliOption("--segment-attributes", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? SegmentAttributes { get; set; }
 
     /// <summary>
-    /// The customer's identification number. For example, the CustomerId may be a customer number from your CRM. Constraints: o min: 1 o max: 128
+    /// The customer's identification number. For example, the CustomerId may be a customer number from your CRM. Constraints: • min: 1 • max: 128
     /// </summary>
     [CliOption("--customer-id")]
     public string? CustomerId { get; set; }
 
     /// <summary>
-    /// A list of participant types to automatically disconnect when the end customer ends the chat session, allowing them to continue through disconnect flows such as surveys or feedback forms. Constraints: o min: 1 o max: 1 (string) Possible values: o AGENT Syntax: "string" "string" ...
+    /// A list of participant types to automatically disconnect when the end customer ends the chat session, allowing them to continue through disconnect flows such as surveys or feedback forms. Constraints: • min: 1 • max: 1 (string) Possible values: • AGENT Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--disconnect-on-customer-exit", GroupValues = true)]
     public IEnumerable<string>? DisconnectOnCustomerExit { get; set; }
 
     /// <summary>
-    /// The types of connection information to return in the response. This parameter is optional. To receive connection information, specify one or both of the fol- lowing values: o CONNECTION_CREDENTIALS : Returns a connection token. o WEBSOCKET : Returns a websocket URL. WEBSOCKET and CONNECTION_CREDENTIALS are the values this opera- tion acts on. No other value returns connection information. Request WEBSOCKET to get a URL the participant connects to directly. You do not need to call CreateParticipantConnection for it. Request CONNECTION_CREDENTIALS on its own and the response returns a connec- tion token but no websocket URL. If you omit this parameter, the response has no connection informa- tion. NOTE: When you start a new chat contact and the information you re- quest cannot be returned, StartChatContact returns an error rather than a response that omits it. When you retry a request with the same ClientToken , the response repeats the original contact and can omit a websocket URL if the chat has already ended. Constraints: o min: 1 o max: 2 (string) Possible values: o WEBSOCKET o CONNECTION_CREDENTIALS o AUTHENTICATION_SESSION o WEBRTC_CONNECTION Syntax: "string" "string" ...
+    /// The types of connection information to return in the response. This parameter is optional. To receive connection information, specify one or both of the following values: • CONNECTION_CREDENTIALS : Returns a connection token. • WEBSOCKET : Returns a websocket URL. WEBSOCKET and CONNECTION_CREDENTIALS are the values this operation acts on. No other value returns connection information. Request WEBSOCKET to get a URL the participant connects to directly. You do not need to call CreateParticipantConnection for it. Request CONNECTION_CREDENTIALS on its own and the response returns a connection token but no websocket URL. If you omit this parameter, the response has no connection information. NOTE: When you start a new chat contact and the information you request cannot be returned, StartChatContact returns an error rather than a response that omits it. When you retry a request with the same ClientToken , the response repeats the original contact and can omit a websocket URL if the chat has already ended. Constraints: • min: 1 • max: 2 (string) Possible values: • WEBSOCKET • CONNECTION_CREDENTIALS • AUTHENTICATION_SESSION • WEBRTC_CONNECTION Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--connection-types", GroupValues = true)]
     public IEnumerable<string>? ConnectionTypes { get; set; }
 
     /// <summary>
-    /// The streaming configuration, such as the Amazon SNS streaming end- point. Use it to initiate real-time message streaming when the chat is created. This parameter is optional. Setting this parameter returns a StreamingId in the response, and you do not need to call StartContactStreaming . NOTE: This parameter starts message streaming only. The response does not include connection information, and setting this parameter does not remove the need to call CreateParticipantConnection . StreamingEndpointArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the standard Amazon SNS topic. The Amazon Resource Name (ARN) of the streaming endpoint that is used to publish real-time message streaming for chat conversa- tions. Constraints: o min: 1 o max: 350 Shorthand Syntax: StreamingEndpointArn=string JSON Syntax: { "StreamingEndpointArn": "string" }
+    /// The streaming configuration, such as the Amazon SNS streaming endpoint. Use it to initiate real-time message streaming when the chat is created. This parameter is optional. Setting this parameter returns a StreamingId in the response, and you do not need to call StartContactStreaming . NOTE: This parameter starts message streaming only. The response does not include connection information, and setting this parameter does not remove the need to call CreateParticipantConnection . StreamingEndpointArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the standard Amazon SNS topic. The Amazon Resource Name (ARN) of the streaming endpoint that is used to publish real-time message streaming for chat conversations. Constraints: • min: 1 • max: 350 Shorthand Syntax: StreamingEndpointArn=string JSON Syntax: { "StreamingEndpointArn": "string" }
     /// </summary>
     [CliOption("--chat-streaming-configuration")]
     public string? ChatStreamingConfiguration { get; set; }
@@ -183,6 +183,15 @@ public record AwsConnectStartChatContactOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

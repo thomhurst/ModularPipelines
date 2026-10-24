@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsLocationBatchGetDevicePositionOptions : AwsOptions, IValidatabl
     /// <summary>
     /// Lists the latest device positions for requested devices. See also: AWS API Documentation
     /// </summary>
-    /// <param name="TrackerName">The tracker resource retrieving the device position. Constraints: o min: 1 o pattern: [-._\w]+</param>
-    /// <param name="DeviceIds">Devices whose position you want to retrieve. o For example, for two devices: device-ids=DeviceId1&amp;device-ids=De- viceId2 Constraints: o min: 1 o max: 10 (string) Constraints: o min: 1 o max: 100 o pattern: [-._\p{L}\p{N}]+ Syntax: "string" "string" ...</param>
+    /// <param name="TrackerName">The tracker resource retrieving the device position. Constraints: • min: 1 • pattern: [-._\w]+</param>
+    /// <param name="DeviceIds">Devices whose position you want to retrieve. • For example, for two devices: device-ids=DeviceId1&amp;device-ids=DeviceId2 Constraints: • min: 1 • max: 10 (string) Constraints: • min: 1 • max: 100 • pattern: [-._\p{L}\p{N}]+ Syntax: "string" "string" ...</param>
     public AwsLocationBatchGetDevicePositionOptions(
         string TrackerName,
         IEnumerable<string> DeviceIds
@@ -71,13 +72,13 @@ public record AwsLocationBatchGetDevicePositionOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The tracker resource retrieving the device position. Constraints: o min: 1 o pattern: [-._\w]+
+    /// The tracker resource retrieving the device position. Constraints: • min: 1 • pattern: [-._\w]+
     /// </summary>
     [CliOption("--tracker-name")]
     public string? TrackerName { get; private init; }
 
     /// <summary>
-    /// Devices whose position you want to retrieve. o For example, for two devices: device-ids=DeviceId1&amp;device-ids=De- viceId2 Constraints: o min: 1 o max: 10 (string) Constraints: o min: 1 o max: 100 o pattern: [-._\p{L}\p{N}]+ Syntax: "string" "string" ...
+    /// Devices whose position you want to retrieve. • For example, for two devices: device-ids=DeviceId1&amp;device-ids=DeviceId2 Constraints: • min: 1 • max: 10 (string) Constraints: • min: 1 • max: 100 • pattern: [-._\p{L}\p{N}]+ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--device-ids", GroupValues = true)]
     public IEnumerable<string>? DeviceIds { get; private init; }
@@ -103,6 +104,15 @@ public record AwsLocationBatchGetDevicePositionOptions : AwsOptions, IValidatabl
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

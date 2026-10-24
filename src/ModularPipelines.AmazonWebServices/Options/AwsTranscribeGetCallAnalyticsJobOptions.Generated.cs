@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Provides information about the specified Call Analytics job. To view the job's status, refer to CallAnalyticsJobStatus . If the sta- tus is COMPLETED , the job is finished. You can find your completed transcript at the URI specified in TranscriptFileUri . If the status is FAILED , FailureReason provides details on why your transcription job failed. If you enabled personally identifiable information (PII) redaction, the redacted transcript appears at the location specified in RedactedTran- script...
+/// Provides information about the specified Call Analytics job. To view the job's status, refer to CallAnalyticsJobStatus . If the status is COMPLETED , the job is finished. You can find your completed transcript at the URI specified in TranscriptFileUri . If the status is FAILED , FailureReason provides details on why your transcription job failed. If you enabled personally identifiable information (PII) redaction, the redacted transcript appears at the location specified in RedactedTranscriptFile...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsTranscribeGetCallAnalyticsJobOptions : AwsOptions, IValidatable
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Provides information about the specified Call Analytics job. To view the job's status, refer to CallAnalyticsJobStatus . If the sta- tus is COMPLETED , the job is finished. You can find your completed transcript at the URI specified in TranscriptFileUri . If the status is FAILED , FailureReason provides details on why your transcription job failed. If you enabled personally identifiable information (PII) redaction, the redacted transcript appears at the location specified in RedactedTran- script...
+    /// Provides information about the specified Call Analytics job. To view the job's status, refer to CallAnalyticsJobStatus . If the status is COMPLETED , the job is finished. You can find your completed transcript at the URI specified in TranscriptFileUri . If the status is FAILED , FailureReason provides details on why your transcription job failed. If you enabled personally identifiable information (PII) redaction, the redacted transcript appears at the location specified in RedactedTranscriptFile...
     /// </summary>
-    /// <param name="CallAnalyticsJobName">The name of the Call Analytics job you want information about. Job names are case sensitive. Constraints: o min: 1 o max: 200 o pattern: ^[0-9a-zA-Z._-]+</param>
+    /// <param name="CallAnalyticsJobName">The name of the Call Analytics job you want information about. Job names are case sensitive. Constraints: • min: 1 • max: 200 • pattern: ^[0-9a-zA-Z._-]+</param>
     public AwsTranscribeGetCallAnalyticsJobOptions(
         string CallAnalyticsJobName
     )
@@ -56,7 +57,7 @@ public record AwsTranscribeGetCallAnalyticsJobOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the Call Analytics job you want information about. Job names are case sensitive. Constraints: o min: 1 o max: 200 o pattern: ^[0-9a-zA-Z._-]+
+    /// The name of the Call Analytics job you want information about. Job names are case sensitive. Constraints: • min: 1 • max: 200 • pattern: ^[0-9a-zA-Z._-]+
     /// </summary>
     [CliOption("--call-analytics-job-name")]
     public string? CallAnalyticsJobName { get; private init; }
@@ -82,6 +83,15 @@ public record AwsTranscribeGetCallAnalyticsJobOptions : AwsOptions, IValidatable
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

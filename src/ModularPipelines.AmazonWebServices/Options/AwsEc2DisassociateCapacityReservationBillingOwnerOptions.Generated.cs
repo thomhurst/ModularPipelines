@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +29,7 @@ public record AwsEc2DisassociateCapacityReservationBillingOwnerOptions : AwsOpti
     /// Cancels a pending request to assign billing of the unused capacity of a Capacity Reservation to a consumer account, or revokes a request that has already been accepted. For more information, see Billing assignment for shared Amazon EC2 Capacity Reservations . See also: AWS API Documentation
     /// </summary>
     /// <param name="CapacityReservationId">The ID of the Capacity Reservation.</param>
-    /// <param name="UnusedReservationBillingOwnerId">The ID of the consumer account to which the request was sent. Constraints: o min: 12 o max: 12 o pattern: [0-9]{12}</param>
+    /// <param name="UnusedReservationBillingOwnerId">The ID of the consumer account to which the request was sent. Constraints: • min: 12 • max: 12 • pattern: [0-9]{12}</param>
     public AwsEc2DisassociateCapacityReservationBillingOwnerOptions(
         string CapacityReservationId,
         string UnusedReservationBillingOwnerId
@@ -66,13 +67,13 @@ public record AwsEc2DisassociateCapacityReservationBillingOwnerOptions : AwsOpti
     public string? CapacityReservationId { get; private init; }
 
     /// <summary>
-    /// The ID of the consumer account to which the request was sent. Constraints: o min: 12 o max: 12 o pattern: [0-9]{12}
+    /// The ID of the consumer account to which the request was sent. Constraints: • min: 12 • max: 12 • pattern: [0-9]{12}
     /// </summary>
     [CliOption("--unused-reservation-billing-owner-id")]
     public string? UnusedReservationBillingOwnerId { get; private init; }
 
     /// <summary>
-    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation . Otherwise, it is UnauthorizedOperation .
     /// </summary>
     [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
@@ -98,6 +99,15 @@ public record AwsEc2DisassociateCapacityReservationBillingOwnerOptions : AwsOpti
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

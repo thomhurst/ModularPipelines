@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -73,7 +74,7 @@ public record AwsServerlessrepoCreateCloudFormationChangeSetOptions : AwsOptions
     public string? StackName { get; private init; }
 
     /// <summary>
-    /// A list of values that you must specify before you can deploy certain applications. Some applications might include resources that can af- fect permissions in your AWS account, for example, by creating new AWS Identity and Access Management (IAM) users. For those applica- tions, you must explicitly acknowledge their capabilities by speci- fying this parameter. The only valid values are CAPABILITY_IAM, CAPABILITY_NAMED_IAM, CA- PABILITY_RESOURCE_POLICY, and CAPABILITY_AUTO_EXPAND. The following resources require you to specify CAPABILITY_IAM or CA- PABILITY_NAMED_IAM: AWS::IAM::Group , AWS::IAM::InstanceProfile , AWS::IAM::Policy , and AWS::IAM::Role . If the application contains IAM resources, you can specify either CAPABILITY_IAM or CAPABIL- ITY_NAMED_IAM. If the application contains IAM resources with custom names, you must specify CAPABILITY_NAMED_IAM. The following resources require you to specify CAPABILITY_RE- SOURCE_POLICY: AWS::Lambda::Permission , AWS::IAM:Policy , AWS::ApplicationAutoScaling::ScalingPolicy , AWS::S3::BucketPolicy , AWS::SQS::QueuePolicy , and AWS::SNS:TopicPolicy . Applications that contain one or more nested applications require you to specify CAPABILITY_AUTO_EXPAND. If your application template contains any of the above resources, we recommend that you review all permissions associated with the appli- cation before deploying. If you don't specify this parameter for an application that requires capabilities, the call will fail. (string) Syntax: "string" "string" ...
+    /// A list of values that you must specify before you can deploy certain applications. Some applications might include resources that can affect permissions in your AWS account, for example, by creating new AWS Identity and Access Management (IAM) users. For those applications, you must explicitly acknowledge their capabilities by specifying this parameter. The only valid values are CAPABILITY_IAM, CAPABILITY_NAMED_IAM, CAPABILITY_RESOURCE_POLICY, and CAPABILITY_AUTO_EXPAND. The following resources require you to specify CAPABILITY_IAM or CAPABILITY_NAMED_IAM: AWS::IAM::Group , AWS::IAM::InstanceProfile , AWS::IAM::Policy , and AWS::IAM::Role . If the application contains IAM resources, you can specify either CAPABILITY_IAM or CAPABILITY_NAMED_IAM. If the application contains IAM resources with custom names, you must specify CAPABILITY_NAMED_IAM. The following resources require you to specify CAPABILITY_RESOURCE_POLICY: AWS::Lambda::Permission , AWS::IAM:Policy , AWS::ApplicationAutoScaling::ScalingPolicy , AWS::S3::BucketPolicy , AWS::SQS::QueuePolicy , and AWS::SNS:TopicPolicy . Applications that contain one or more nested applications require you to specify CAPABILITY_AUTO_EXPAND. If your application template contains any of the above resources, we recommend that you review all permissions associated with the application before deploying. If you don't specify this parameter for an application that requires capabilities, the call will fail. (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--capabilities", GroupValues = true)]
     public IEnumerable<string>? Capabilities { get; set; }
@@ -160,6 +161,15 @@ public record AwsServerlessrepoCreateCloudFormationChangeSetOptions : AwsOptions
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

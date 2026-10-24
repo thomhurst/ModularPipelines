@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,7 +29,7 @@ public record AwsTimestreamInfluxdbUpdateDbInstanceOptions : AwsOptions, IValida
     /// <summary>
     /// Updates a Timestream for InfluxDB DB instance. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Identifier">The id of the DB instance. Constraints: o min: 3 o max: 64 o pattern: [a-zA-Z0-9]+</param>
+    /// <param name="Identifier">The id of the DB instance. Constraints: • min: 3 • max: 64 • pattern: [a-zA-Z0-9]+</param>
     public AwsTimestreamInfluxdbUpdateDbInstanceOptions(
         string Identifier
     )
@@ -57,61 +58,61 @@ public record AwsTimestreamInfluxdbUpdateDbInstanceOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The id of the DB instance. Constraints: o min: 3 o max: 64 o pattern: [a-zA-Z0-9]+
+    /// The id of the DB instance. Constraints: • min: 3 • max: 64 • pattern: [a-zA-Z0-9]+
     /// </summary>
     [CliOption("--identifier")]
     public string? Identifier { get; private init; }
 
     /// <summary>
-    /// Configuration for sending InfluxDB engine logs to send to specified S3 bucket. s3Configuration -&gt; (structure) [required] Configuration for S3 bucket log delivery. bucketName -&gt; (string) [required] The name of the S3 bucket to deliver logs to. Constraints: o min: 3 o max: 63 o pattern: [0-9a-z]+[0-9a-z\.\-]*[0-9a-z]+ enabled -&gt; (boolean) [required] Indicates whether log delivery to the S3 bucket is enabled. Shorthand Syntax: s3Configuration={bucketName=string,enabled=boolean} JSON Syntax: { "s3Configuration": { "bucketName": "string", "enabled": true|false } }
+    /// Configuration for sending InfluxDB engine logs to send to specified S3 bucket. s3Configuration -&gt; (structure) [required] Configuration for S3 bucket log delivery. bucketName -&gt; (string) [required] The name of the S3 bucket to deliver logs to. Constraints: • min: 3 • max: 63 • pattern: [0-9a-z]+[0-9a-z\.\-]*[0-9a-z]+ enabled -&gt; (boolean) [required] Indicates whether log delivery to the S3 bucket is enabled. Shorthand Syntax: s3Configuration={bucketName=string,enabled=boolean} JSON Syntax: { "s3Configuration": { "bucketName": "string", "enabled": true|false } }
     /// </summary>
     [CliOption("--log-delivery-configuration")]
     public string? LogDeliveryConfiguration { get; set; }
 
     /// <summary>
-    /// The id of the DB parameter group to assign to your DB instance. DB parameter groups specify how the database is configured. For exam- ple, DB parameter groups can specify the limit for query concur- rency. Constraints: o min: 3 o max: 64 o pattern: [a-zA-Z0-9]+
+    /// The id of the DB parameter group to assign to your DB instance. DB parameter groups specify how the database is configured. For example, DB parameter groups can specify the limit for query concurrency. Constraints: • min: 3 • max: 64 • pattern: [a-zA-Z0-9]+
     /// </summary>
     [CliOption("--db-parameter-group-identifier")]
     public string? DbParameterGroupIdentifier { get; set; }
 
     /// <summary>
-    /// The port number on which InfluxDB accepts connections. If you change the Port value, your database restarts immediately. Valid Values: 1024-65535 Default: 8086 Constraints: The value can't be 2375-2376, 7788-7799, 8090, or 51678-51680 Constraints: o min: 1024 o max: 65535
+    /// The port number on which InfluxDB accepts connections. If you change the Port value, your database restarts immediately. Valid Values: 1024-65535 Default: 8086 Constraints: The value can't be 2375-2376, 7788-7799, 8090, or 51678-51680 Constraints: • min: 1024 • max: 65535
     /// </summary>
     [CliOption("--port")]
     public int? Port { get; set; }
 
     /// <summary>
-    /// The Timestream for InfluxDB DB instance type to run InfluxDB on. Possible values: o db.influx.medium o db.influx.large o db.influx.xlarge o db.influx.2xlarge o db.influx.4xlarge o db.influx.8xlarge o db.influx.12xlarge o db.influx.16xlarge o db.influx.24xlarge
+    /// The Timestream for InfluxDB DB instance type to run InfluxDB on. Possible values: • db.influx.medium • db.influx.large • db.influx.xlarge • db.influx.2xlarge • db.influx.4xlarge • db.influx.8xlarge • db.influx.12xlarge • db.influx.16xlarge • db.influx.24xlarge
     /// </summary>
     [CliOption("--db-instance-type")]
     public AwsTimestreamInfluxdbUpdateDbInstanceDbInstanceType? DbInstanceType { get; set; }
 
     /// <summary>
-    /// Specifies whether the DB instance will be deployed as a standalone instance or with a Multi-AZ standby for high availability. Possible values: o SINGLE_AZ o WITH_MULTIAZ_STANDBY
+    /// Specifies whether the DB instance will be deployed as a standalone instance or with a Multi-AZ standby for high availability. Possible values: • SINGLE_AZ • WITH_MULTIAZ_STANDBY
     /// </summary>
     [CliOption("--deployment-type")]
     public AwsTimestreamInfluxdbUpdateDbInstanceDeploymentType? DeploymentType { get; set; }
 
     /// <summary>
-    /// The Timestream for InfluxDB DB storage type that InfluxDB stores data on. Possible values: o InfluxIOIncludedT1 o InfluxIOIncludedT2 o InfluxIOIncludedT3
+    /// The Timestream for InfluxDB DB storage type that InfluxDB stores data on. Possible values: • InfluxIOIncludedT1 • InfluxIOIncludedT2 • InfluxIOIncludedT3
     /// </summary>
     [CliOption("--db-storage-type")]
     public AwsTimestreamInfluxdbUpdateDbInstanceDbStorageType? DbStorageType { get; set; }
 
     /// <summary>
-    /// The amount of storage to allocate for your DB storage type (in gibibytes). Constraints: o min: 20 o max: 15360
+    /// The amount of storage to allocate for your DB storage type (in gibibytes). Constraints: • min: 20 • max: 15360
     /// </summary>
     [CliOption("--allocated-storage")]
     public int? AllocatedStorage { get; set; }
 
     /// <summary>
-    /// Specifies the maintenance schedule for the DB instance, including the preferred maintenance window and timezone. timezone -&gt; (string) [required] The IANA timezone identifier for the maintenance window. Format: Region/City or UTC. For example, America/New_York or UTC. Constraints: o min: 1 o max: 64 o pattern: (UTC|[A-Za-z_]+/[A-Za-z0-9_]+(/[A-Za-z0-9_]+)?) preferredMaintenanceWindow -&gt; (string) [required] The preferred maintenance window in the format ddd:HH:MM-ddd:HH:MM (UTC). Day must be one of: Mon, Tue, Wed, Thu, Fri, Sat, Sun. For example, Sun:02:00-Sun:06:00. Provide an empty string to let the system choose a window. Constraints: o min: 0 o max: 19 o pattern: $|^(Mon|Tue|Wed|Thu|Fri|Sat|Sun):([01]\d|2[0-3]):[0-5]\d-(Mon|Tue|Wed|Thu|Fri|Sat|Sun):([01]\d|2[0-3]):[0-5]\d Shorthand Syntax: timezone=string,preferredMaintenanceWindow=string JSON Syntax: { "timezone": "string", "preferredMaintenanceWindow": "string" }
+    /// Specifies the maintenance schedule for the DB instance, including the preferred maintenance window and timezone. timezone -&gt; (string) [required] The IANA timezone identifier for the maintenance window. Format: Region/City or UTC. For example, America/New_York or UTC. Constraints: • min: 1 • max: 64 • pattern: (UTC|[A-Za-z_]+/[A-Za-z0-9_]+(/[A-Za-z0-9_]+)?) preferredMaintenanceWindow -&gt; (string) [required] The preferred maintenance window in the format ddd:HH:MM-ddd:HH:MM (UTC). Day must be one of: Mon, Tue, Wed, Thu, Fri, Sat, Sun. For example, Sun:02:00-Sun:06:00. Provide an empty string to let the system choose a window. Constraints: • min: 0 • max: 19 • pattern: $|^(Mon|Tue|Wed|Thu|Fri|Sat|Sun):([01]\d|2[0-3]):[0-5]\d-(Mon|Tue|Wed|Thu|Fri|Sat|Sun):([01]\d|2[0-3]):[0-5]\d Shorthand Syntax: timezone=string,preferredMaintenanceWindow=string JSON Syntax: { "timezone": "string", "preferredMaintenanceWindow": "string" }
     /// </summary>
     [CliOption("--maintenance-schedule")]
     public string? MaintenanceSchedule { get; set; }
 
     /// <summary>
-    /// A list of backup configurations to update for the DB instance. Constraints: o min: 1 o max: 4 (structure) Specifies the configuration for an automated backup schedule. type -&gt; (string) [required] The type of automated backup schedule. Valid values are HOURLY, DAILY, WEEKLY, MONTHLY, CUSTOM_SCHEDULE, and CONTINU- OUS. Possible values: o HOURLY o DAILY o WEEKLY o MONTHLY o CUSTOM_SCHEDULE o CONTINUOUS retentionDays -&gt; (integer) [required] The number of days to retain automated backups. Valid values are 1 to 365. Constraints: o min: 1 o max: 365 enabled -&gt; (boolean) [required] Specifies whether this backup configuration is enabled. customSchedule -&gt; (string) A custom cron schedule expression for the backup. Required when type is CUSTOM_SCHEDULE. Constraints: o min: 9 o max: 256 o pattern: cron\(\S+ \S+ \S+ \S+ \S+ \S+\) Shorthand Syntax: type=string,retentionDays=integer,enabled=boolean,customSchedule=string ... JSON Syntax: [ { "type": "HOURLY"|"DAILY"|"WEEKLY"|"MONTHLY"|"CUSTOM_SCHEDULE"|"CONTINUOUS", "retentionDays": integer, "enabled": true|false, "customSchedule": "string" } ... ]
+    /// A list of backup configurations to update for the DB instance. Constraints: • min: 1 • max: 4 (structure) Specifies the configuration for an automated backup schedule. type -&gt; (string) [required] The type of automated backup schedule. Valid values are HOURLY, DAILY, WEEKLY, MONTHLY, CUSTOM_SCHEDULE, and CONTINUOUS. Possible values: • HOURLY • DAILY • WEEKLY • MONTHLY • CUSTOM_SCHEDULE • CONTINUOUS retentionDays -&gt; (integer) [required] The number of days to retain automated backups. Valid values are 1 to 365. Constraints: • min: 1 • max: 365 enabled -&gt; (boolean) [required] Specifies whether this backup configuration is enabled. customSchedule -&gt; (string) A custom cron schedule expression for the backup. Required when type is CUSTOM_SCHEDULE. Constraints: • min: 9 • max: 256 • pattern: cron\(\S+ \S+ \S+ \S+ \S+ \S+\) Shorthand Syntax: type=string,retentionDays=integer,enabled=boolean,customSchedule=string ... JSON Syntax: [ { "type": "HOURLY"|"DAILY"|"WEEKLY"|"MONTHLY"|"CUSTOM_SCHEDULE"|"CONTINUOUS", "retentionDays": integer, "enabled": true|false, "customSchedule": "string" } ... ]
     /// </summary>
     [CliOption("--db-backup-configurations", GroupValues = true)]
     public IEnumerable<string>? DbBackupConfigurations { get; set; }
@@ -137,6 +138,15 @@ public record AwsTimestreamInfluxdbUpdateDbInstanceOptions : AwsOptions, IValida
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

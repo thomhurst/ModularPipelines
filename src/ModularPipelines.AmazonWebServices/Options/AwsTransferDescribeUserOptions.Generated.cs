@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Describes the user assigned to the specific file transfer protocol-en- abled server, as identified by its ServerId property. The response from this call returns the properties of the user associ- ated with the ServerId value that was specified. See also: AWS API Documentation
+/// Describes the user assigned to the specific file transfer protocol-enabled server, as identified by its ServerId property. The response from this call returns the properties of the user associated with the ServerId value that was specified. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsTransferDescribeUserOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Describes the user assigned to the specific file transfer protocol-en- abled server, as identified by its ServerId property. The response from this call returns the properties of the user associ- ated with the ServerId value that was specified. See also: AWS API Documentation
+    /// Describes the user assigned to the specific file transfer protocol-enabled server, as identified by its ServerId property. The response from this call returns the properties of the user associated with the ServerId value that was specified. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ServerId">A system-assigned unique identifier for a server that has this user assigned. Constraints: o min: 19 o max: 19 o pattern: s-([0-9a-f]{17})</param>
-    /// <param name="UserName">The name of the user assigned to one or more servers. User names are part of the sign-in credentials to use the Transfer Family service and perform file transfer tasks. Constraints: o min: 3 o max: 100 o pattern: [\w][\w@.-]{2,99}</param>
+    /// <param name="ServerId">A system-assigned unique identifier for a server that has this user assigned. Constraints: • min: 19 • max: 19 • pattern: s-([0-9a-f]{17})</param>
+    /// <param name="UserName">The name of the user assigned to one or more servers. User names are part of the sign-in credentials to use the Transfer Family service and perform file transfer tasks. Constraints: • min: 3 • max: 100 • pattern: [\w][\w@.-]{2,99}</param>
     public AwsTransferDescribeUserOptions(
         string ServerId,
         string UserName
@@ -60,13 +61,13 @@ public record AwsTransferDescribeUserOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A system-assigned unique identifier for a server that has this user assigned. Constraints: o min: 19 o max: 19 o pattern: s-([0-9a-f]{17})
+    /// A system-assigned unique identifier for a server that has this user assigned. Constraints: • min: 19 • max: 19 • pattern: s-([0-9a-f]{17})
     /// </summary>
     [CliOption("--server-id")]
     public string? ServerId { get; private init; }
 
     /// <summary>
-    /// The name of the user assigned to one or more servers. User names are part of the sign-in credentials to use the Transfer Family service and perform file transfer tasks. Constraints: o min: 3 o max: 100 o pattern: [\w][\w@.-]{2,99}
+    /// The name of the user assigned to one or more servers. User names are part of the sign-in credentials to use the Transfer Family service and perform file transfer tasks. Constraints: • min: 3 • max: 100 • pattern: [\w][\w@.-]{2,99}
     /// </summary>
     [CliOption("--user-name")]
     public string? UserName { get; private init; }
@@ -92,6 +93,15 @@ public record AwsTransferDescribeUserOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

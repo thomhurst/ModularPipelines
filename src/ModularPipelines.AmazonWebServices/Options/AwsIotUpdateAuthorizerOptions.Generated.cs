@@ -11,7 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -30,7 +30,7 @@ public record AwsIotUpdateAuthorizerOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Updates an authorizer. Requires permission to access the UpdateAuthorizer action. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AuthorizerName">The authorizer name. Constraints: o min: 1 o max: 128 o pattern: [\w=,@-]+</param>
+    /// <param name="AuthorizerName">The authorizer name. Constraints: • min: 1 • max: 128 • pattern: [\w=,@-]+</param>
     public AwsIotUpdateAuthorizerOptions(
         string AuthorizerName
     )
@@ -59,32 +59,32 @@ public record AwsIotUpdateAuthorizerOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The authorizer name. Constraints: o min: 1 o max: 128 o pattern: [\w=,@-]+
+    /// The authorizer name. Constraints: • min: 1 • max: 128 • pattern: [\w=,@-]+
     /// </summary>
     [CliOption("--authorizer-name")]
     public string? AuthorizerName { get; private init; }
 
     /// <summary>
-    /// The ARN of the authorizer's Lambda function. Constraints: o max: 2048 o pattern: [\s\S]*
+    /// The ARN of the authorizer's Lambda function. Constraints: • max: 2048 • pattern: [\s\S]*
     /// </summary>
     [CliOption("--authorizer-function-arn")]
     public string? AuthorizerFunctionArn { get; set; }
 
     /// <summary>
-    /// The key used to extract the token from the HTTP headers. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_-]+
+    /// The key used to extract the token from the HTTP headers. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9_-]+
     /// </summary>
     [CliOption("--token-key-name")]
     public string? TokenKeyName { get; set; }
 
     /// <summary>
-    /// The public keys used to verify the token signature. key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9:_-]+ value -&gt; (string) Constraints: o max: 5120 o pattern: [\s\S]* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The public keys used to verify the token signature. key -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9:_-]+ value -&gt; (string) Constraints: • max: 5120 • pattern: [\s\S]* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [SecretValue]
     [CliOption("--token-signing-public-keys", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? TokenSigningPublicKeys { get; set; }
 
     /// <summary>
-    /// The status of the update authorizer request. Possible values: o ACTIVE o INACTIVE
+    /// The status of the update authorizer request. Possible values: • ACTIVE • INACTIVE
     /// </summary>
     [CliOption("--status")]
     public AwsIotUpdateAuthorizerStatus? Status { get; set; }
@@ -116,6 +116,15 @@ public record AwsIotUpdateAuthorizerOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

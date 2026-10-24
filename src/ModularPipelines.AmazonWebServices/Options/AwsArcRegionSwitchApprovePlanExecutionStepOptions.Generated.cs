@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Approves a step in a plan execution that requires manual approval. When you create a plan, you can include approval steps that require manual intervention before the execution can proceed. This operation allows you to provide that approval. You must specify the plan ARN, execution ID, step name, and approval status. You can also provide an optional comment explaining the ap- proval decision. See also: AWS API Documentation
+/// Approves a step in a plan execution that requires manual approval. When you create a plan, you can include approval steps that require manual intervention before the execution can proceed. This operation allows you to provide that approval. You must specify the plan ARN, execution ID, step name, and approval status. You can also provide an optional comment explaining the approval decision. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,12 +27,12 @@ public record AwsArcRegionSwitchApprovePlanExecutionStepOptions : AwsOptions, IV
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Approves a step in a plan execution that requires manual approval. When you create a plan, you can include approval steps that require manual intervention before the execution can proceed. This operation allows you to provide that approval. You must specify the plan ARN, execution ID, step name, and approval status. You can also provide an optional comment explaining the ap- proval decision. See also: AWS API Documentation
+    /// Approves a step in a plan execution that requires manual approval. When you create a plan, you can include approval steps that require manual intervention before the execution can proceed. This operation allows you to provide that approval. You must specify the plan ARN, execution ID, step name, and approval status. You can also provide an optional comment explaining the approval decision. See also: AWS API Documentation
     /// </summary>
-    /// <param name="PlanArn">The Amazon Resource Name (ARN) of the plan. Constraints: o pattern: arn:aws[a-zA-Z-]*:arc-re- gion-switch::[0-9]{12}:plan/([a-zA-Z0-9](?:[a-zA-Z0-9-]{0,30}[a-zA-Z0-9])?):([a-z0-9]{6})</param>
+    /// <param name="PlanArn">The Amazon Resource Name (ARN) of the plan. Constraints: • pattern: arn:aws[a-zA-Z-]*:arc-region-switch::[0-9]{12}:plan/([a-zA-Z0-9](?:[a-zA-Z0-9-]{0,30}[a-zA-Z0-9])?):([a-z0-9]{6})</param>
     /// <param name="ExecutionId">The execution identifier of a plan execution.</param>
     /// <param name="StepName">The name of a step in a plan execution.</param>
-    /// <param name="Approval">The status of approval for a plan execution step. Possible values: o approve o decline</param>
+    /// <param name="Approval">The status of approval for a plan execution step. Possible values: • approve • decline</param>
     public AwsArcRegionSwitchApprovePlanExecutionStepOptions(
         string PlanArn,
         string ExecutionId,
@@ -68,7 +69,7 @@ public record AwsArcRegionSwitchApprovePlanExecutionStepOptions : AwsOptions, IV
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the plan. Constraints: o pattern: arn:aws[a-zA-Z-]*:arc-re- gion-switch::[0-9]{12}:plan/([a-zA-Z0-9](?:[a-zA-Z0-9-]{0,30}[a-zA-Z0-9])?):([a-z0-9]{6})
+    /// The Amazon Resource Name (ARN) of the plan. Constraints: • pattern: arn:aws[a-zA-Z-]*:arc-region-switch::[0-9]{12}:plan/([a-zA-Z0-9](?:[a-zA-Z0-9-]{0,30}[a-zA-Z0-9])?):([a-z0-9]{6})
     /// </summary>
     [CliOption("--plan-arn")]
     public string? PlanArn { get; private init; }
@@ -86,13 +87,13 @@ public record AwsArcRegionSwitchApprovePlanExecutionStepOptions : AwsOptions, IV
     public string? StepName { get; private init; }
 
     /// <summary>
-    /// The status of approval for a plan execution step. Possible values: o approve o decline
+    /// The status of approval for a plan execution step. Possible values: • approve • decline
     /// </summary>
     [CliOption("--approval")]
     public AwsArcRegionSwitchApprovePlanExecutionStepApproval? Approval { get; private init; }
 
     /// <summary>
-    /// A comment that you can enter about a plan execution. Constraints: o min: 0 o max: 1024
+    /// A comment that you can enter about a plan execution. Constraints: • min: 0 • max: 1024
     /// </summary>
     [CliOption("--comment")]
     public string? Comment { get; set; }
@@ -118,6 +119,15 @@ public record AwsArcRegionSwitchApprovePlanExecutionStepOptions : AwsOptions, IV
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

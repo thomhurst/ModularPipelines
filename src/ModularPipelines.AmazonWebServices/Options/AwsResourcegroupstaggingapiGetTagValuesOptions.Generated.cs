@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns all tag values for the specified key that are used in the spec- ified Amazon Web Services Region for the calling account. This operation supports pagination, where the response can be sent in multiple pages. You should check the PaginationToken response parameter to determine if there are additional results available to return. Re- peat the query, passing the PaginationToken response parameter value as an input to the next request until you recieve a null value. A null value for Paginati...
+/// Returns all tag values for the specified key that are used in the specified Amazon Web Services Region for the calling account. This operation supports pagination, where the response can be sent in multiple pages. You should check the PaginationToken response parameter to determine if there are additional results available to return. Repeat the query, passing the PaginationToken response parameter value as an input to the next request until you recieve a null value. A null value for PaginationTo...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +27,9 @@ public record AwsResourcegroupstaggingapiGetTagValuesOptions : AwsOptions, IVali
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns all tag values for the specified key that are used in the spec- ified Amazon Web Services Region for the calling account. This operation supports pagination, where the response can be sent in multiple pages. You should check the PaginationToken response parameter to determine if there are additional results available to return. Re- peat the query, passing the PaginationToken response parameter value as an input to the next request until you recieve a null value. A null value for Paginati...
+    /// Returns all tag values for the specified key that are used in the specified Amazon Web Services Region for the calling account. This operation supports pagination, where the response can be sent in multiple pages. You should check the PaginationToken response parameter to determine if there are additional results available to return. Repeat the query, passing the PaginationToken response parameter value as an input to the next request until you recieve a null value. A null value for PaginationTo...
     /// </summary>
-    /// <param name="Key">Specifies the tag key for which you want to list all existing values that are currently used in the specified Amazon Web Services Region for the calling account. Constraints: o min: 1 o max: 128 o pattern: [\s\S]*</param>
+    /// <param name="Key">Specifies the tag key for which you want to list all existing values that are currently used in the specified Amazon Web Services Region for the calling account. Constraints: • min: 1 • max: 128 • pattern: [\s\S]*</param>
     public AwsResourcegroupstaggingapiGetTagValuesOptions(
         string Key
     )
@@ -57,16 +58,13 @@ public record AwsResourcegroupstaggingapiGetTagValuesOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Specifies the tag key for which you want to list all existing values that are currently used in the specified Amazon Web Services Region for the calling account. Constraints: o min: 1 o max: 128 o pattern: [\s\S]*
+    /// Specifies the tag key for which you want to list all existing values that are currently used in the specified Amazon Web Services Region for the calling account. Constraints: • min: 1 • max: 128 • pattern: [\s\S]*
     /// </summary>
     [CliOption("--key")]
     public string? Key { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -76,10 +74,13 @@ public record AwsResourcegroupstaggingapiGetTagValuesOptions : AwsOptions, IVali
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
@@ -96,6 +97,15 @@ public record AwsResourcegroupstaggingapiGetTagValuesOptions : AwsOptions, IVali
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

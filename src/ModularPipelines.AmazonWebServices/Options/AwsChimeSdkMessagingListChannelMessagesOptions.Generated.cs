@@ -11,13 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// List all the messages in a channel. Returns a paginated list of Chan- nelMessages . By default, sorted by creation timestamp in descending order. NOTE: Redacted messages appear in the results as empty, since they are only redacted, not deleted. Deleted messages do not appear in the results. This action always returns the latest version of an edited message. Also, the x-amz-chime-bearer request header is mandatory. Use the ARN of the AppInstanceUser or AppInstanceBot that makes the API call as th...
+/// List all the messages in a channel. Returns a paginated list of ChannelMessages . By default, sorted by creation timestamp in descending order. NOTE: Redacted messages appear in the results as empty, since they are only redacted, not deleted. Deleted messages do not appear in the results. This action always returns the latest version of an edited message. Also, the x-amz-chime-bearer request header is mandatory. Use the ARN of the AppInstanceUser or AppInstanceBot that makes the API call as the ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,10 +28,10 @@ public record AwsChimeSdkMessagingListChannelMessagesOptions : AwsOptions, IVali
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// List all the messages in a channel. Returns a paginated list of Chan- nelMessages . By default, sorted by creation timestamp in descending order. NOTE: Redacted messages appear in the results as empty, since they are only redacted, not deleted. Deleted messages do not appear in the results. This action always returns the latest version of an edited message. Also, the x-amz-chime-bearer request header is mandatory. Use the ARN of the AppInstanceUser or AppInstanceBot that makes the API call as th...
+    /// List all the messages in a channel. Returns a paginated list of ChannelMessages . By default, sorted by creation timestamp in descending order. NOTE: Redacted messages appear in the results as empty, since they are only redacted, not deleted. Deleted messages do not appear in the results. This action always returns the latest version of an edited message. Also, the x-amz-chime-bearer request header is mandatory. Use the ARN of the AppInstanceUser or AppInstanceBot that makes the API call as the ...
     /// </summary>
-    /// <param name="ChannelArn">The ARN of the channel. Constraints: o min: 5 o max: 1600 o pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}</param>
-    /// <param name="ChimeBearer">The ARN of the AppInstanceUser or AppInstanceBot that makes the API call. Constraints: o min: 5 o max: 1600 o pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}</param>
+    /// <param name="ChannelArn">The ARN of the channel. Constraints: • min: 5 • max: 1600 • pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}</param>
+    /// <param name="ChimeBearer">The ARN of the AppInstanceUser or AppInstanceBot that makes the API call. Constraints: • min: 5 • max: 1600 • pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}</param>
     public AwsChimeSdkMessagingListChannelMessagesOptions(
         string ChannelArn,
         string ChimeBearer
@@ -62,19 +63,19 @@ public record AwsChimeSdkMessagingListChannelMessagesOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the channel. Constraints: o min: 5 o max: 1600 o pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}
+    /// The ARN of the channel. Constraints: • min: 5 • max: 1600 • pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}
     /// </summary>
     [CliOption("--channel-arn")]
     public string? ChannelArn { get; private init; }
 
     /// <summary>
-    /// The ARN of the AppInstanceUser or AppInstanceBot that makes the API call. Constraints: o min: 5 o max: 1600 o pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}
+    /// The ARN of the AppInstanceUser or AppInstanceBot that makes the API call. Constraints: • min: 5 • max: 1600 • pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}
     /// </summary>
     [CliOption("--chime-bearer")]
     public string? ChimeBearer { get; private init; }
 
     /// <summary>
-    /// The order in which you want messages sorted. Default is Descending, based on time created. Possible values: o ASCENDING o DESCENDING
+    /// The order in which you want messages sorted. Default is Descending, based on time created. Possible values: • ASCENDING • DESCENDING
     /// </summary>
     [CliOption("--sort-order")]
     public AwsChimeSdkMessagingListChannelMessagesSortOrder? SortOrder { get; set; }
@@ -92,20 +93,20 @@ public record AwsChimeSdkMessagingListChannelMessagesOptions : AwsOptions, IVali
     public string? NotAfter { get; set; }
 
     /// <summary>
-    /// The maximum number of messages that you want returned. Constraints: o min: 1 o max: 50
+    /// The maximum number of messages that you want returned. Constraints: • min: 1 • max: 50
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
     /// <summary>
-    /// The token passed by previous API calls until all requested messages are returned. Constraints: o min: 0 o max: 2048 o pattern: .*
+    /// The token passed by previous API calls until all requested messages are returned. Constraints: • min: 0 • max: 2048 • pattern: .*
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// The ID of the SubChannel in the request. NOTE: Only required when listing the messages in a SubChannel that the user belongs to. Constraints: o min: 1 o max: 128 o pattern: [-_a-zA-Z0-9]*
+    /// The ID of the SubChannel in the request. NOTE: Only required when listing the messages in a SubChannel that the user belongs to. Constraints: • min: 1 • max: 128 • pattern: [-_a-zA-Z0-9]*
     /// </summary>
     [CliOption("--sub-channel-id")]
     public string? SubChannelId { get; set; }
@@ -131,6 +132,15 @@ public record AwsChimeSdkMessagingListChannelMessagesOptions : AwsOptions, IVali
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsCloudfrontUpdateKeyValueStoreOptions : AwsOptions, IValidatable
     /// <summary>
     /// Specifies the key value store to update. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">The name of the key value store to update. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9-_]{1,64}</param>
-    /// <param name="Comment">The comment of the key value store to update. Constraints: o min: 0 o max: 128</param>
+    /// <param name="Name">The name of the key value store to update. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9-_]{1,64}</param>
+    /// <param name="Comment">The comment of the key value store to update. Constraints: • min: 0 • max: 128</param>
     /// <param name="IfMatch">The key value store to update, if a match occurs.</param>
     public AwsCloudfrontUpdateKeyValueStoreOptions(
         string Name,
@@ -64,13 +65,13 @@ public record AwsCloudfrontUpdateKeyValueStoreOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the key value store to update. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9-_]{1,64}
+    /// The name of the key value store to update. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9-_]{1,64}
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The comment of the key value store to update. Constraints: o min: 0 o max: 128
+    /// The comment of the key value store to update. Constraints: • min: 0 • max: 128
     /// </summary>
     [CliOption("--comment")]
     public string? Comment { get; private init; }
@@ -102,6 +103,15 @@ public record AwsCloudfrontUpdateKeyValueStoreOptions : AwsOptions, IValidatable
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

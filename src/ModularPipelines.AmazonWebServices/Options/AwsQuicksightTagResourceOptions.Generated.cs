@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +29,7 @@ public record AwsQuicksightTagResourceOptions : AwsOptions, IValidatableObject
     /// Assigns one or more tags (key-value pairs) to the specified Amazon Quick Sight resource. Tags can help you organize and categorize your resources. You can also use them to scope user permissions, by granting a user permission to access or change only resources with certain tag values. You can use the TagResource operation with a resource that already has tags. If you specify a new tag key for the resource, this tag is appended to the list of tags associated with the resource. If you specify a ta...
     /// </summary>
     /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the resource that you want to tag.</param>
-    /// <param name="Tags">Contains a map of the key-value pairs for the resource tag or tags assigned to the resource. Constraints: o min: 1 o max: 200 (structure) The key or keys of the key-value pairs for the resource tag or tags assigned to the resource. Key -&gt; (string) [required] Tag key. Constraints: o min: 1 o max: 128 Value -&gt; (string) [required] Tag value. Constraints: o min: 1 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]</param>
+    /// <param name="Tags">Contains a map of the key-value pairs for the resource tag or tags assigned to the resource. Constraints: • min: 1 • max: 200 (structure) The key or keys of the key-value pairs for the resource tag or tags assigned to the resource. Key -&gt; (string) [required] Tag key. Constraints: • min: 1 • max: 128 Value -&gt; (string) [required] Tag value. Constraints: • min: 1 • max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]</param>
     public AwsQuicksightTagResourceOptions(
         string ResourceArn,
         IEnumerable<string> Tags
@@ -77,7 +78,7 @@ public record AwsQuicksightTagResourceOptions : AwsOptions, IValidatableObject
     public string? ResourceArn { get; private init; }
 
     /// <summary>
-    /// Contains a map of the key-value pairs for the resource tag or tags assigned to the resource. Constraints: o min: 1 o max: 200 (structure) The key or keys of the key-value pairs for the resource tag or tags assigned to the resource. Key -&gt; (string) [required] Tag key. Constraints: o min: 1 o max: 128 Value -&gt; (string) [required] Tag value. Constraints: o min: 1 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// Contains a map of the key-value pairs for the resource tag or tags assigned to the resource. Constraints: • min: 1 • max: 200 (structure) The key or keys of the key-value pairs for the resource tag or tags assigned to the resource. Key -&gt; (string) [required] Tag key. Constraints: • min: 1 • max: 128 Value -&gt; (string) [required] Tag value. Constraints: • min: 1 • max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; private init; }
@@ -103,6 +104,15 @@ public record AwsQuicksightTagResourceOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

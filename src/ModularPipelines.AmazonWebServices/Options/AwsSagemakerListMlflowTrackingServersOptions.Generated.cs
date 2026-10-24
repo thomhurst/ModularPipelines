@@ -16,7 +16,7 @@ using ModularPipelines.AmazonWebServices.Enums;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Lists all MLflow Tracking Servers. See also: AWS API Documentation list-mlflow-tracking-servers is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: TrackingServerSummaries
+/// Lists all MLflow Tracking Servers. See also: AWS API Documentation list-mlflow-tracking-servers is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: TrackingServerSummaries
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -24,46 +24,43 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsSagemakerListMlflowTrackingServersOptions : AwsOptions
 {
     /// <summary>
-    /// Use the CreatedAfter filter to only list tracking servers created after a specific date and time. Listed tracking servers are shown with a date and time such as "2024-03-16T01:46:56+00:00" . The Cre- atedAfter parameter takes in a Unix timestamp. To convert a date and time into a Unix timestamp, see EpochConverter .
+    /// Use the CreatedAfter filter to only list tracking servers created after a specific date and time. Listed tracking servers are shown with a date and time such as "2024-03-16T01:46:56+00:00" . The CreatedAfter parameter takes in a Unix timestamp. To convert a date and time into a Unix timestamp, see EpochConverter .
     /// </summary>
     [CliOption("--created-after")]
     public string? CreatedAfter { get; set; }
 
     /// <summary>
-    /// Use the CreatedBefore filter to only list tracking servers created before a specific date and time. Listed tracking servers are shown with a date and time such as "2024-03-16T01:46:56+00:00" . The Cre- atedBefore parameter takes in a Unix timestamp. To convert a date and time into a Unix timestamp, see EpochConverter .
+    /// Use the CreatedBefore filter to only list tracking servers created before a specific date and time. Listed tracking servers are shown with a date and time such as "2024-03-16T01:46:56+00:00" . The CreatedBefore parameter takes in a Unix timestamp. To convert a date and time into a Unix timestamp, see EpochConverter .
     /// </summary>
     [CliOption("--created-before")]
     public string? CreatedBefore { get; set; }
 
     /// <summary>
-    /// Filter for tracking servers with a specified creation status. Possible values: o Creating o Created o CreateFailed o Updating o Updated o UpdateFailed o Deleting o DeleteFailed o Stopping o Stopped o StopFailed o Starting o Started o StartFailed o MaintenanceInProgress o MaintenanceComplete o MaintenanceFailed
+    /// Filter for tracking servers with a specified creation status. Possible values: • Creating • Created • CreateFailed • Updating • Updated • UpdateFailed • Deleting • DeleteFailed • Stopping • Stopped • StopFailed • Starting • Started • StartFailed • MaintenanceInProgress • MaintenanceComplete • MaintenanceFailed
     /// </summary>
     [CliOption("--tracking-server-status")]
     public AwsSagemakerListMlflowTrackingServersTrackingServerStatus? TrackingServerStatus { get; set; }
 
     /// <summary>
-    /// Filter for tracking servers using the specified MLflow version. Constraints: o min: 0 o max: 16 o pattern: [0-9]*.[0-9]*.[0-9]*
+    /// Filter for tracking servers using the specified MLflow version. Constraints: • min: 0 • max: 16 • pattern: [0-9]*.[0-9]*.[0-9]*
     /// </summary>
     [CliOption("--mlflow-version")]
     public string? MlflowVersion { get; set; }
 
     /// <summary>
-    /// Filter for trackings servers sorting by name, creation time, or cre- ation status. Possible values: o Name o CreationTime o Status
+    /// Filter for trackings servers sorting by name, creation time, or creation status. Possible values: • Name • CreationTime • Status
     /// </summary>
     [CliOption("--sort-by")]
     public AwsSagemakerListMlflowTrackingServersSortBy? SortBy { get; set; }
 
     /// <summary>
-    /// Change the order of the listed tracking servers. By default, track- ing servers are listed in Descending order by creation time. To change the list order, you can specify SortOrder to be Ascending . Possible values: o Ascending o Descending
+    /// Change the order of the listed tracking servers. By default, tracking servers are listed in Descending order by creation time. To change the list order, you can specify SortOrder to be Ascending . Possible values: • Ascending • Descending
     /// </summary>
     [CliOption("--sort-order")]
     public AwsSagemakerListMlflowTrackingServersSortOrder? SortOrder { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -73,15 +70,27 @@ public record AwsSagemakerListMlflowTrackingServersOptions : AwsOptions
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 100
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

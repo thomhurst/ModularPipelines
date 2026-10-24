@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Delete an accelerator. Before you can delete an accelerator, you must disable it and remove all dependent resources (listeners and endpoint groups). To disable the accelerator, update the accelerator to set En- abled to false. WARNING: When you create an accelerator, by default, Global Accelerator pro- vides you with a set of two static IP addresses. Alternatively, you can bring your own IP address ranges to Global Accelerator and as- sign IP addresses from those ranges. The IP addresses are ass...
+/// Delete an accelerator. Before you can delete an accelerator, you must disable it and remove all dependent resources (listeners and endpoint groups). To disable the accelerator, update the accelerator to set Enabled to false. WARNING: When you create an accelerator, by default, Global Accelerator provides you with a set of two static IP addresses. Alternatively, you can bring your own IP address ranges to Global Accelerator and assign IP addresses from those ranges. The IP addresses are assigned ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsGlobalacceleratorDeleteAcceleratorOptions : AwsOptions, IValida
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Delete an accelerator. Before you can delete an accelerator, you must disable it and remove all dependent resources (listeners and endpoint groups). To disable the accelerator, update the accelerator to set En- abled to false. WARNING: When you create an accelerator, by default, Global Accelerator pro- vides you with a set of two static IP addresses. Alternatively, you can bring your own IP address ranges to Global Accelerator and as- sign IP addresses from those ranges. The IP addresses are ass...
+    /// Delete an accelerator. Before you can delete an accelerator, you must disable it and remove all dependent resources (listeners and endpoint groups). To disable the accelerator, update the accelerator to set Enabled to false. WARNING: When you create an accelerator, by default, Global Accelerator provides you with a set of two static IP addresses. Alternatively, you can bring your own IP address ranges to Global Accelerator and assign IP addresses from those ranges. The IP addresses are assigned ...
     /// </summary>
-    /// <param name="AcceleratorArn">The Amazon Resource Name (ARN) of an accelerator. Constraints: o max: 255</param>
+    /// <param name="AcceleratorArn">The Amazon Resource Name (ARN) of an accelerator. Constraints: • max: 255</param>
     public AwsGlobalacceleratorDeleteAcceleratorOptions(
         string AcceleratorArn
     )
@@ -56,7 +57,7 @@ public record AwsGlobalacceleratorDeleteAcceleratorOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of an accelerator. Constraints: o max: 255
+    /// The Amazon Resource Name (ARN) of an accelerator. Constraints: • max: 255
     /// </summary>
     [CliOption("--accelerator-arn")]
     public string? AcceleratorArn { get; private init; }
@@ -82,6 +83,15 @@ public record AwsGlobalacceleratorDeleteAcceleratorOptions : AwsOptions, IValida
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

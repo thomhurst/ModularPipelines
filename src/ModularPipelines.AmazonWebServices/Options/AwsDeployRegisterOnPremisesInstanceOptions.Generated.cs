@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -62,7 +63,7 @@ public record AwsDeployRegisterOnPremisesInstanceOptions : AwsOptions, IValidata
     public string? InstanceName { get; private init; }
 
     /// <summary>
-    /// The ARN of the IAM session to associate with the on-premises in- stance.
+    /// The ARN of the IAM session to associate with the on-premises instance.
     /// </summary>
     [CliOption("--iam-session-arn")]
     public string? IamSessionArn { get; set; }
@@ -94,6 +95,15 @@ public record AwsDeployRegisterOnPremisesInstanceOptions : AwsOptions, IValidata
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

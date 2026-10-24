@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes the policy of a specified bucket. NOTE: Directory buckets - For directory buckets, you must make re- quests for this API operation to the Regional endpoint. These endpoints support path-style requests in the format `` https://s3express-control.*region-code* .amazon- aws.com/bucket-name `` . Virtual-hosted-style requests aren't supported. For more information about endpoints in Availability Zones, see Regional and Zonal endpoints for directory buckets in Availability Zones in the Amazon S...
+/// Deletes the policy of a specified bucket. NOTE: Directory buckets - For directory buckets, you must make requests for this API operation to the Regional endpoint. These endpoints support path-style requests in the format `` https://s3express-control.*region-code* .amazonaws.com/bucket-name `` . Virtual-hosted-style requests aren't supported. For more information about endpoints in Availability Zones, see Regional and Zonal endpoints for directory buckets in Availability Zones in the Amazon S3 Us...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsS3apiDeleteBucketPolicyOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes the policy of a specified bucket. NOTE: Directory buckets - For directory buckets, you must make re- quests for this API operation to the Regional endpoint. These endpoints support path-style requests in the format `` https://s3express-control.*region-code* .amazon- aws.com/bucket-name `` . Virtual-hosted-style requests aren't supported. For more information about endpoints in Availability Zones, see Regional and Zonal endpoints for directory buckets in Availability Zones in the Amazon S...
+    /// Deletes the policy of a specified bucket. NOTE: Directory buckets - For directory buckets, you must make requests for this API operation to the Regional endpoint. These endpoints support path-style requests in the format `` https://s3express-control.*region-code* .amazonaws.com/bucket-name `` . Virtual-hosted-style requests aren't supported. For more information about endpoints in Availability Zones, see Regional and Zonal endpoints for directory buckets in Availability Zones in the Amazon S3 Us...
     /// </summary>
-    /// <param name="Bucket">The bucket name. Directory buckets - When you use this operation with a directory bucket, you must use path-style requests in the format https://s3express-control.*region-code* .amazon- aws.com/*bucket-name* `` . Virtual-hosted-style requests aren't supported. Directory bucket names must be unique in the chosen Zone (Availability Zone or Local Zone). Bucket names must also follow the format `` *bucket-base-name* --*zone-id* --x-s3 (for example, `` DOC-EXAMPLE-BUCKET --usw2-az1 --x-s3`` ). For infor- mation about bucket naming restrictions, see Directory bucket naming rules in the Amazon S3 User Guide</param>
+    /// <param name="Bucket">The bucket name. Directory buckets - When you use this operation with a directory bucket, you must use path-style requests in the format https://s3express-control.*region-code* .amazonaws.com/*bucket-name* `` . Virtual-hosted-style requests aren't supported. Directory bucket names must be unique in the chosen Zone (Availability Zone or Local Zone). Bucket names must also follow the format `` *bucket-base-name* --*zone-id* --x-s3 (for example, `` DOC-EXAMPLE-BUCKET --usw2-az1 --x-s3`` ). For information about bucket naming restrictions, see Directory bucket naming rules in the Amazon S3 User Guide</param>
     public AwsS3apiDeleteBucketPolicyOptions(
         string Bucket
     )
@@ -56,13 +57,13 @@ public record AwsS3apiDeleteBucketPolicyOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The bucket name. Directory buckets - When you use this operation with a directory bucket, you must use path-style requests in the format https://s3express-control.*region-code* .amazon- aws.com/*bucket-name* `` . Virtual-hosted-style requests aren't supported. Directory bucket names must be unique in the chosen Zone (Availability Zone or Local Zone). Bucket names must also follow the format `` *bucket-base-name* --*zone-id* --x-s3 (for example, `` DOC-EXAMPLE-BUCKET --usw2-az1 --x-s3`` ). For infor- mation about bucket naming restrictions, see Directory bucket naming rules in the Amazon S3 User Guide
+    /// The bucket name. Directory buckets - When you use this operation with a directory bucket, you must use path-style requests in the format https://s3express-control.*region-code* .amazonaws.com/*bucket-name* `` . Virtual-hosted-style requests aren't supported. Directory bucket names must be unique in the chosen Zone (Availability Zone or Local Zone). Bucket names must also follow the format `` *bucket-base-name* --*zone-id* --x-s3 (for example, `` DOC-EXAMPLE-BUCKET --usw2-az1 --x-s3`` ). For information about bucket naming restrictions, see Directory bucket naming rules in the Amazon S3 User Guide
     /// </summary>
     [CliOption("--bucket")]
     public string? Bucket { get; private init; }
 
     /// <summary>
-    /// The account ID of the expected bucket owner. If the account ID that you provide does not match the actual owner of the bucket, the re- quest fails with the HTTP status code 403 Forbidden (access denied). NOTE: For directory buckets, this header is not supported in this API operation. If you specify this header, the request fails with the HTTP status code 501 Not Implemented .
+    /// The account ID of the expected bucket owner. If the account ID that you provide does not match the actual owner of the bucket, the request fails with the HTTP status code 403 Forbidden (access denied). NOTE: For directory buckets, this header is not supported in this API operation. If you specify this header, the request fails with the HTTP status code 501 Not Implemented .
     /// </summary>
     [CliOption("--expected-bucket-owner")]
     public string? ExpectedBucketOwner { get; set; }
@@ -88,6 +89,15 @@ public record AwsS3apiDeleteBucketPolicyOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

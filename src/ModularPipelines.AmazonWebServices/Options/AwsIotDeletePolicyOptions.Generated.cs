@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes the specified policy. A policy cannot be deleted if it has non-default versions or it is at- tached to any certificate. To delete a policy, use the DeletePolicyVersion action to delete all non-default versions of the policy; use the DetachPolicy action to de- tach the policy from any certificate; and then use the DeletePolicy ac- tion to delete the policy. When a policy is deleted using DeletePolicy, its default version is deleted with it. NOTE: Because of the distributed nature of Amazo...
+/// Deletes the specified policy. A policy cannot be deleted if it has non-default versions or it is attached to any certificate. To delete a policy, use the DeletePolicyVersion action to delete all non-default versions of the policy; use the DetachPolicy action to detach the policy from any certificate; and then use the DeletePolicy action to delete the policy. When a policy is deleted using DeletePolicy, its default version is deleted with it. NOTE: Because of the distributed nature of Amazon Web ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsIotDeletePolicyOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes the specified policy. A policy cannot be deleted if it has non-default versions or it is at- tached to any certificate. To delete a policy, use the DeletePolicyVersion action to delete all non-default versions of the policy; use the DetachPolicy action to de- tach the policy from any certificate; and then use the DeletePolicy ac- tion to delete the policy. When a policy is deleted using DeletePolicy, its default version is deleted with it. NOTE: Because of the distributed nature of Amazo...
+    /// Deletes the specified policy. A policy cannot be deleted if it has non-default versions or it is attached to any certificate. To delete a policy, use the DeletePolicyVersion action to delete all non-default versions of the policy; use the DetachPolicy action to detach the policy from any certificate; and then use the DeletePolicy action to delete the policy. When a policy is deleted using DeletePolicy, its default version is deleted with it. NOTE: Because of the distributed nature of Amazon Web ...
     /// </summary>
-    /// <param name="PolicyName">The name of the policy to delete. Constraints: o min: 1 o max: 128 o pattern: [\w+=,.@-]+</param>
+    /// <param name="PolicyName">The name of the policy to delete. Constraints: • min: 1 • max: 128 • pattern: [\w+=,.@-]+</param>
     public AwsIotDeletePolicyOptions(
         string PolicyName
     )
@@ -56,7 +57,7 @@ public record AwsIotDeletePolicyOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the policy to delete. Constraints: o min: 1 o max: 128 o pattern: [\w+=,.@-]+
+    /// The name of the policy to delete. Constraints: • min: 1 • max: 128 • pattern: [\w+=,.@-]+
     /// </summary>
     [CliOption("--policy-name")]
     public string? PolicyName { get; private init; }
@@ -82,6 +83,15 @@ public record AwsIotDeletePolicyOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

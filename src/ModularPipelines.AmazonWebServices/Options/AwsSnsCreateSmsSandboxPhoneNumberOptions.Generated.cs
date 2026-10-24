@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Adds a destination phone number to an Amazon Web Services account in the SMS sandbox and sends a one-time password (OTP) to that phone num- ber. When you start using Amazon SNS to send SMS messages, your Amazon Web Services account is in the SMS sandbox . The SMS sandbox provides a safe environment for you to try Amazon SNS features without risking your reputation as an SMS sender. While your Amazon Web Services ac- count is in the SMS sandbox, you can use all of the features of Amazon SNS. Howe...
+/// Adds a destination phone number to an Amazon Web Services account in the SMS sandbox and sends a one-time password (OTP) to that phone number. When you start using Amazon SNS to send SMS messages, your Amazon Web Services account is in the SMS sandbox . The SMS sandbox provides a safe environment for you to try Amazon SNS features without risking your reputation as an SMS sender. While your Amazon Web Services account is in the SMS sandbox, you can use all of the features of Amazon SNS. However,...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +27,9 @@ public record AwsSnsCreateSmsSandboxPhoneNumberOptions : AwsOptions, IValidatabl
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Adds a destination phone number to an Amazon Web Services account in the SMS sandbox and sends a one-time password (OTP) to that phone num- ber. When you start using Amazon SNS to send SMS messages, your Amazon Web Services account is in the SMS sandbox . The SMS sandbox provides a safe environment for you to try Amazon SNS features without risking your reputation as an SMS sender. While your Amazon Web Services ac- count is in the SMS sandbox, you can use all of the features of Amazon SNS. Howe...
+    /// Adds a destination phone number to an Amazon Web Services account in the SMS sandbox and sends a one-time password (OTP) to that phone number. When you start using Amazon SNS to send SMS messages, your Amazon Web Services account is in the SMS sandbox . The SMS sandbox provides a safe environment for you to try Amazon SNS features without risking your reputation as an SMS sender. While your Amazon Web Services account is in the SMS sandbox, you can use all of the features of Amazon SNS. However,...
     /// </summary>
-    /// <param name="PhoneNumber">The destination phone number to verify. On verification, Amazon SNS adds this phone number to the list of verified phone numbers that you can send SMS messages to. Constraints: o max: 20 o pattern: ^(\+[0-9]{8,}|[0-9]{0,9})$</param>
+    /// <param name="PhoneNumber">The destination phone number to verify. On verification, Amazon SNS adds this phone number to the list of verified phone numbers that you can send SMS messages to. Constraints: • max: 20 • pattern: ^(\+[0-9]{8,}|[0-9]{0,9})$</param>
     public AwsSnsCreateSmsSandboxPhoneNumberOptions(
         string PhoneNumber
     )
@@ -57,13 +58,13 @@ public record AwsSnsCreateSmsSandboxPhoneNumberOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The destination phone number to verify. On verification, Amazon SNS adds this phone number to the list of verified phone numbers that you can send SMS messages to. Constraints: o max: 20 o pattern: ^(\+[0-9]{8,}|[0-9]{0,9})$
+    /// The destination phone number to verify. On verification, Amazon SNS adds this phone number to the list of verified phone numbers that you can send SMS messages to. Constraints: • max: 20 • pattern: ^(\+[0-9]{8,}|[0-9]{0,9})$
     /// </summary>
     [CliOption("--phone-number")]
     public string? PhoneNumber { get; private init; }
 
     /// <summary>
-    /// The language to use for sending the OTP. The default value is en-US . Possible values: o en-US o en-GB o es-419 o es-ES o de-DE o fr-CA o fr-FR o it-IT o ja-JP o pt-BR o kr-KR o zh-CN o zh-TW
+    /// The language to use for sending the OTP. The default value is en-US . Possible values: • en-US • en-GB • es-419 • es-ES • de-DE • fr-CA • fr-FR • it-IT • ja-JP • pt-BR • kr-KR • zh-CN • zh-TW
     /// </summary>
     [CliOption("--language-code")]
     public AwsSnsCreateSmsSandboxPhoneNumberLanguageCode? LanguageCode { get; set; }
@@ -89,6 +90,15 @@ public record AwsSnsCreateSmsSandboxPhoneNumberOptions : AwsOptions, IValidatabl
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

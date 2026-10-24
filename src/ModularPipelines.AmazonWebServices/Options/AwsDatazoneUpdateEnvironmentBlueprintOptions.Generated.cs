@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsDatazoneUpdateEnvironmentBlueprintOptions : AwsOptions, IValida
     /// <summary>
     /// Updates an environment blueprint in Amazon DataZone. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DomainIdentifier">The identifier of the Amazon DataZone domain in which an environment blueprint is to be updated. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}</param>
-    /// <param name="Identifier">The identifier of the environment blueprint to be updated. Constraints: o pattern: [a-zA-Z0-9_-]{1,36}</param>
+    /// <param name="DomainIdentifier">The identifier of the Amazon DataZone domain in which an environment blueprint is to be updated. Constraints: • pattern: dzd[-_][a-zA-Z0-9_-]{1,36}</param>
+    /// <param name="Identifier">The identifier of the environment blueprint to be updated. Constraints: • pattern: [a-zA-Z0-9_-]{1,36}</param>
     public AwsDatazoneUpdateEnvironmentBlueprintOptions(
         string DomainIdentifier,
         string Identifier
@@ -60,37 +61,37 @@ public record AwsDatazoneUpdateEnvironmentBlueprintOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the Amazon DataZone domain in which an environment blueprint is to be updated. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}
+    /// The identifier of the Amazon DataZone domain in which an environment blueprint is to be updated. Constraints: • pattern: dzd[-_][a-zA-Z0-9_-]{1,36}
     /// </summary>
     [CliOption("--domain-identifier")]
     public string? DomainIdentifier { get; private init; }
 
     /// <summary>
-    /// The identifier of the environment blueprint to be updated. Constraints: o pattern: [a-zA-Z0-9_-]{1,36}
+    /// The identifier of the environment blueprint to be updated. Constraints: • pattern: [a-zA-Z0-9_-]{1,36}
     /// </summary>
     [CliOption("--identifier")]
     public string? Identifier { get; private init; }
 
     /// <summary>
-    /// The description to be updated as part of the UpdateEnvironmentBlue- print action.
+    /// The description to be updated as part of the UpdateEnvironmentBlueprint action.
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The provisioning properties to be updated as part of the UpdateEnvi- ronmentBlueprint action. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: cloudFormation. cloudFormation -&gt; (structure) The cloud formation properties included as part of the provi- sioning properties of an environment blueprint. templateUrl -&gt; (string) [required] The template URL of the cloud formation provisioning proper- ties of the environment blueprint. Shorthand Syntax: cloudFormation={templateUrl=string} JSON Syntax: { "cloudFormation": { "templateUrl": "string" } }
+    /// The provisioning properties to be updated as part of the UpdateEnvironmentBlueprint action. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: cloudFormation. cloudFormation -&gt; (structure) The cloud formation properties included as part of the provisioning properties of an environment blueprint. templateUrl -&gt; (string) [required] The template URL of the cloud formation provisioning properties of the environment blueprint. Shorthand Syntax: cloudFormation={templateUrl=string} JSON Syntax: { "cloudFormation": { "templateUrl": "string" } }
     /// </summary>
     [CliOption("--provisioning-properties")]
     public string? ProvisioningProperties { get; set; }
 
     /// <summary>
-    /// The user parameters to be updated as part of the UpdateEnvironment- Blueprint action. (structure) The details of user parameters of an environment blueprint. keyName -&gt; (string) [required] The key name of the parameter. Constraints: o pattern: [a-zA-Z_][a-zA-Z0-9_]* description -&gt; (string) The description of the parameter. Constraints: o min: 0 o max: 2048 fieldType -&gt; (string) [required] The filed type of the parameter. defaultValue -&gt; (string) The default value of the parameter. isEditable -&gt; (boolean) Specifies whether the parameter is editable. isOptional -&gt; (boolean) Specifies whether the custom parameter is optional. isUpdateSupported -&gt; (boolean) Specifies whether a parameter value can be updated after cre- ation. Shorthand Syntax: keyName=string,description=string,fieldType=string,defaultValue=string,isEditable=boolean,isOptional=boolean,isUpdateSupported=boolean ... JSON Syntax: [ { "keyName": "string", "description": "string", "fieldType": "string", "defaultValue": "string", "isEditable": true|false, "isOptional": true|false, "isUpdateSupported": true|false } ... ]
+    /// The user parameters to be updated as part of the UpdateEnvironmentBlueprint action. (structure) The details of user parameters of an environment blueprint. keyName -&gt; (string) [required] The key name of the parameter. Constraints: • pattern: [a-zA-Z_][a-zA-Z0-9_]* description -&gt; (string) The description of the parameter. Constraints: • min: 0 • max: 2048 fieldType -&gt; (string) [required] The filed type of the parameter. defaultValue -&gt; (string) The default value of the parameter. isEditable -&gt; (boolean) Specifies whether the parameter is editable. isOptional -&gt; (boolean) Specifies whether the custom parameter is optional. isUpdateSupported -&gt; (boolean) Specifies whether a parameter value can be updated after creation. Shorthand Syntax: keyName=string,description=string,fieldType=string,defaultValue=string,isEditable=boolean,isOptional=boolean,isUpdateSupported=boolean ... JSON Syntax: [ { "keyName": "string", "description": "string", "fieldType": "string", "defaultValue": "string", "isEditable": true|false, "isOptional": true|false, "isUpdateSupported": true|false } ... ]
     /// </summary>
     [CliOption("--user-parameters", GroupValues = true)]
     public IEnumerable<string>? UserParameters { get; set; }
 
     /// <summary>
-    /// The category to update. The only valid value is TOOLING . Possible values: o TOOLING
+    /// The category to update. The only valid value is TOOLING . Possible values: • TOOLING
     /// </summary>
     [CliOption("--blueprint-category")]
     public string? BlueprintCategory { get; set; }
@@ -116,6 +117,15 @@ public record AwsDatazoneUpdateEnvironmentBlueprintOptions : AwsOptions, IValida
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

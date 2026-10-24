@@ -22,6 +22,12 @@ public enum AwsMediaconnectUpdateRouterInputTier
     [EnumValue("INPUT_20")]
     Input20,
 
+    [EnumValue("INPUT_250")]
+    Input250,
+
     [EnumValue("INPUT_50")]
-    Input50
+    Input50,
+
+    [EnumValue("INPUT_500")]
+    Input500
 }

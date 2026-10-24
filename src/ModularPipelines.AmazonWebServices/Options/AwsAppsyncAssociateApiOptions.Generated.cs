@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsAppsyncAssociateApiOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Maps an endpoint to your custom domain. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DomainName">The domain name. Constraints: o min: 1 o max: 253 o pattern: ^(\*[\w\d-]*\.)?([\w\d-]+\.)+[\w\d-]+$</param>
+    /// <param name="DomainName">The domain name. Constraints: • min: 1 • max: 253 • pattern: ^(\*[\w\d-]*\.)?([\w\d-]+\.)+[\w\d-]+$</param>
     /// <param name="ApiId">The API ID. Private APIs can not be associated with custom domains.</param>
     public AwsAppsyncAssociateApiOptions(
         string DomainName,
@@ -60,7 +61,7 @@ public record AwsAppsyncAssociateApiOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The domain name. Constraints: o min: 1 o max: 253 o pattern: ^(\*[\w\d-]*\.)?([\w\d-]+\.)+[\w\d-]+$
+    /// The domain name. Constraints: • min: 1 • max: 253 • pattern: ^(\*[\w\d-]*\.)?([\w\d-]+\.)+[\w\d-]+$
     /// </summary>
     [CliOption("--domain-name")]
     public string? DomainName { get; private init; }
@@ -92,6 +93,15 @@ public record AwsAppsyncAssociateApiOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

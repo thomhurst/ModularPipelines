@@ -22,7 +22,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsLightsailGetBucketBundlesOptions : AwsOptions
 {
     /// <summary>
-    /// A Boolean value that indicates whether to include inactive (unavail- able) bundles in the response of your request.
+    /// A Boolean value that indicates whether to include inactive (unavailable) bundles in the response of your request.
     /// </summary>
     [CliFlag("--include-inactive", NegatedName = "--no-include-inactive")]
     public bool? IncludeInactive { get; set; }
@@ -32,5 +32,14 @@ public record AwsLightsailGetBucketBundlesOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

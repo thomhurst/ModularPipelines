@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Wait until JMESPath query ChannelDescription.ChannelStatus returns AC- TIVE when polling with describe-channel. It will poll every 10 seconds until a successful state has been reached. This will exit with a return code of 255 after 18 failed checks. See also: AWS API Documentation
+/// Wait until JMESPath query ChannelDescription.ChannelStatus returns ACTIVE when polling with describe-channel. It will poll every 10 seconds until a successful state has been reached. This will exit with a return code of 255 after 18 failed checks. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsKinesisWaitChannelActiveOptions : AwsOptions, IValidatableObjec
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Wait until JMESPath query ChannelDescription.ChannelStatus returns AC- TIVE when polling with describe-channel. It will poll every 10 seconds until a successful state has been reached. This will exit with a return code of 255 after 18 failed checks. See also: AWS API Documentation
+    /// Wait until JMESPath query ChannelDescription.ChannelStatus returns ACTIVE when polling with describe-channel. It will poll every 10 seconds until a successful state has been reached. This will exit with a return code of 255 after 18 failed checks. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ChannelArn">The Amazon Resource Name (ARN) of the channel to describe. Constraints: o min: 1 o max: 2048 o pattern: arn:aws.*:kinesis:.*:\d{12}:channel/\S+</param>
+    /// <param name="ChannelArn">The Amazon Resource Name (ARN) of the channel to describe. Constraints: • min: 1 • max: 2048 • pattern: arn:aws.*:kinesis:.*:\d{12}:channel/\S+</param>
     public AwsKinesisWaitChannelActiveOptions(
         string ChannelArn
     )
@@ -56,7 +57,7 @@ public record AwsKinesisWaitChannelActiveOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the channel to describe. Constraints: o min: 1 o max: 2048 o pattern: arn:aws.*:kinesis:.*:\d{12}:channel/\S+
+    /// The Amazon Resource Name (ARN) of the channel to describe. Constraints: • min: 1 • max: 2048 • pattern: arn:aws.*:kinesis:.*:\d{12}:channel/\S+
     /// </summary>
     [CliOption("--channel-arn")]
     public string? ChannelArn { get; private init; }
@@ -82,6 +83,15 @@ public record AwsKinesisWaitChannelActiveOptions : AwsOptions, IValidatableObjec
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

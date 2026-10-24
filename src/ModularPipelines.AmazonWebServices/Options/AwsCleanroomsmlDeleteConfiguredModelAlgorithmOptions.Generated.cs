@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsCleanroomsmlDeleteConfiguredModelAlgorithmOptions : AwsOptions,
     /// <summary>
     /// Deletes a configured model algorithm. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ConfiguredModelAlgorithmArn">The Amazon Resource Name (ARN) of the configured model algorithm that you want to delete. Constraints: o min: 20 o max: 2048 o pattern: arn:aws[-a-z]*:cleanrooms-ml:[-a-z0-9]+:[0-9]{12}:config- ured-model-algorithm/[-a-zA-Z0-9_/.]+</param>
+    /// <param name="ConfiguredModelAlgorithmArn">The Amazon Resource Name (ARN) of the configured model algorithm that you want to delete. Constraints: • min: 20 • max: 2048 • pattern: arn:aws[-a-z]*:cleanrooms-ml:[-a-z0-9]+:[0-9]{12}:configured-model-algorithm/[-a-zA-Z0-9_/.]+</param>
     public AwsCleanroomsmlDeleteConfiguredModelAlgorithmOptions(
         string ConfiguredModelAlgorithmArn
     )
@@ -56,7 +57,7 @@ public record AwsCleanroomsmlDeleteConfiguredModelAlgorithmOptions : AwsOptions,
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the configured model algorithm that you want to delete. Constraints: o min: 20 o max: 2048 o pattern: arn:aws[-a-z]*:cleanrooms-ml:[-a-z0-9]+:[0-9]{12}:config- ured-model-algorithm/[-a-zA-Z0-9_/.]+
+    /// The Amazon Resource Name (ARN) of the configured model algorithm that you want to delete. Constraints: • min: 20 • max: 2048 • pattern: arn:aws[-a-z]*:cleanrooms-ml:[-a-z0-9]+:[0-9]{12}:configured-model-algorithm/[-a-zA-Z0-9_/.]+
     /// </summary>
     [CliOption("--configured-model-algorithm-arn")]
     public string? ConfiguredModelAlgorithmArn { get; private init; }
@@ -82,6 +83,15 @@ public record AwsCleanroomsmlDeleteConfiguredModelAlgorithmOptions : AwsOptions,
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

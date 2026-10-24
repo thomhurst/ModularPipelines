@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +29,7 @@ public record AwsMqDescribeUserOptions : AwsOptions, IValidatableObject
     /// Returns information about an ActiveMQ user. See also: AWS API Documentation
     /// </summary>
     /// <param name="BrokerId">The unique ID that Amazon MQ generates for the broker.</param>
-    /// <param name="Username">The username of the ActiveMQ user. This value can contain only al- phanumeric characters, dashes, periods, underscores, and tildes (- . _ ~). This value must be 2-100 characters long.</param>
+    /// <param name="Username">The username of the ActiveMQ user. This value can contain only alphanumeric characters, dashes, periods, underscores, and tildes (- . _ ~). This value must be 2-100 characters long.</param>
     public AwsMqDescribeUserOptions(
         string BrokerId,
         string Username
@@ -66,7 +67,7 @@ public record AwsMqDescribeUserOptions : AwsOptions, IValidatableObject
     public string? BrokerId { get; private init; }
 
     /// <summary>
-    /// The username of the ActiveMQ user. This value can contain only al- phanumeric characters, dashes, periods, underscores, and tildes (- . _ ~). This value must be 2-100 characters long.
+    /// The username of the ActiveMQ user. This value can contain only alphanumeric characters, dashes, periods, underscores, and tildes (- . _ ~). This value must be 2-100 characters long.
     /// </summary>
     [CliOption("--username")]
     public string? Username { get; private init; }
@@ -92,6 +93,15 @@ public record AwsMqDescribeUserOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

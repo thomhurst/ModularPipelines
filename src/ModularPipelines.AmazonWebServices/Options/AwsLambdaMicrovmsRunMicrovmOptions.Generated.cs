@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Runs a new MicroVM from the specified image. The MicroVM starts in PENDING state and transitions to RUNNING once provisioning completes. To connect, generate an authentication token using CreateMicrovmAuthTo- ken. See also: AWS API Documentation
+/// Runs a new MicroVM from the specified image. The MicroVM starts in PENDING state and transitions to RUNNING once provisioning completes. To connect, generate an authentication token using CreateMicrovmAuthToken. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +27,9 @@ public record AwsLambdaMicrovmsRunMicrovmOptions : AwsOptions, IValidatableObjec
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Runs a new MicroVM from the specified image. The MicroVM starts in PENDING state and transitions to RUNNING once provisioning completes. To connect, generate an authentication token using CreateMicrovmAuthTo- ken. See also: AWS API Documentation
+    /// Runs a new MicroVM from the specified image. The MicroVM starts in PENDING state and transitions to RUNNING once provisioning completes. To connect, generate an authentication token using CreateMicrovmAuthToken. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ImageIdentifier">The identifier (ARN or ID) of the MicroVM image to run. Constraints: o min: 1 o max: 256</param>
+    /// <param name="ImageIdentifier">The identifier (ARN or ID) of the MicroVM image to run. Constraints: • min: 1 • max: 256</param>
     public AwsLambdaMicrovmsRunMicrovmOptions(
         string ImageIdentifier
     )
@@ -57,61 +58,61 @@ public record AwsLambdaMicrovmsRunMicrovmOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier (ARN or ID) of the MicroVM image to run. Constraints: o min: 1 o max: 256
+    /// The identifier (ARN or ID) of the MicroVM image to run. Constraints: • min: 1 • max: 256
     /// </summary>
     [CliOption("--image-identifier")]
     public string? ImageIdentifier { get; private init; }
 
     /// <summary>
-    /// The list of ingress network connectors to configure for the MicroVM. Constraints: o min: 0 o max: 10 (string) Constraints: o min: 1 o max: 2048 Syntax: "string" "string" ...
+    /// The list of ingress network connectors to configure for the MicroVM. Constraints: • min: 0 • max: 10 (string) Constraints: • min: 1 • max: 2048 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--ingress-network-connectors", GroupValues = true)]
     public IEnumerable<string>? IngressNetworkConnectors { get; set; }
 
     /// <summary>
-    /// The list of egress network connectors to configure for the MicroVM. Constraints: o min: 0 o max: 10 (string) Constraints: o min: 1 o max: 2048 Syntax: "string" "string" ...
+    /// The list of egress network connectors to configure for the MicroVM. Constraints: • min: 0 • max: 10 (string) Constraints: • min: 1 • max: 2048 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--egress-network-connectors", GroupValues = true)]
     public IEnumerable<string>? EgressNetworkConnectors { get; set; }
 
     /// <summary>
-    /// The version of the MicroVM image to run. Constraints: o min: 1 o max: 2048 o pattern: [^\s]+
+    /// The version of the MicroVM image to run. Constraints: • min: 1 • max: 2048 • pattern: [^\s]+
     /// </summary>
     [CliOption("--image-version")]
     public string? ImageVersion { get; set; }
 
     /// <summary>
-    /// The ARN of the IAM role to be assumed by the MicroVM during execu- tion. Constraints: o min: 20 o max: 2048 o pattern: arn:aws[a-z\-]*:iam::[0-9]{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+
+    /// The ARN of the IAM role to be assumed by the MicroVM during execution. Constraints: • min: 20 • max: 2048 • pattern: arn:aws[a-z\-]*:iam::[0-9]{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+
     /// </summary>
     [CliOption("--execution-role-arn")]
     public string? ExecutionRoleArn { get; set; }
 
     /// <summary>
-    /// Configuration to control auto-suspend and auto-resume behavior. maxIdleDurationSeconds -&gt; (integer) [required] The maximum time in seconds that a MicroVM can remain idle be- fore it is automatically suspended. Constraints: o min: 60 suspendedDurationSeconds -&gt; (integer) [required] The maximum time in seconds that a MicroVM can remain suspended before it is automatically terminated. Constraints: o min: 0 autoResumeEnabled -&gt; (boolean) [required] Indicates whether the MicroVM automatically resumes when it re- ceives a request while suspended. Shorthand Syntax: maxIdleDurationSeconds=integer,suspendedDurationSeconds=integer,autoResumeEnabled=boolean JSON Syntax: { "maxIdleDurationSeconds": integer, "suspendedDurationSeconds": integer, "autoResumeEnabled": true|false }
+    /// Configuration to control auto-suspend and auto-resume behavior. maxIdleDurationSeconds -&gt; (integer) [required] The maximum time in seconds that a MicroVM can remain idle before it is automatically suspended. Constraints: • min: 60 suspendedDurationSeconds -&gt; (integer) [required] The maximum time in seconds that a MicroVM can remain suspended before it is automatically terminated. Constraints: • min: 0 autoResumeEnabled -&gt; (boolean) [required] Indicates whether the MicroVM automatically resumes when it receives a request while suspended. Shorthand Syntax: maxIdleDurationSeconds=integer,suspendedDurationSeconds=integer,autoResumeEnabled=boolean JSON Syntax: { "maxIdleDurationSeconds": integer, "suspendedDurationSeconds": integer, "autoResumeEnabled": true|false }
     /// </summary>
     [CliOption("--idle-policy")]
     public string? IdlePolicy { get; set; }
 
     /// <summary>
-    /// The logging configuration for this MicroVM instance. Specify {"cloudWatch": {"logGroup": "..."}} to stream application logs to a custom CloudWatch log group, or {"disabled": {}} to turn off log- ging. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: disabled, cloudWatch. disabled -&gt; (structure) Specifies that logging is disabled. cloudWatch -&gt; (structure) Configuration for sending logs to Amazon CloudWatch Logs. logGroup -&gt; (string) The name of the CloudWatch Logs log group to send logs to. Constraints: o min: 1 o max: 512 o pattern: [a-zA-Z0-9_\-/.#]+ logStream -&gt; (string) The name of the CloudWatch Logs log stream within the log group. Constraints: o min: 1 o max: 512 o pattern: [^:*]* Shorthand Syntax: disabled={},cloudWatch={logGroup=string,logStream=string} JSON Syntax: { "disabled": { }, "cloudWatch": { "logGroup": "string", "logStream": "string" } }
+    /// The logging configuration for this MicroVM instance. Specify {"cloudWatch": {"logGroup": "..."}} to stream application logs to a custom CloudWatch log group, or {"disabled": {}} to turn off logging. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: disabled, cloudWatch. disabled -&gt; (structure) Specifies that logging is disabled. cloudWatch -&gt; (structure) Configuration for sending logs to Amazon CloudWatch Logs. logGroup -&gt; (string) The name of the CloudWatch Logs log group to send logs to. Constraints: • min: 1 • max: 512 • pattern: [a-zA-Z0-9_\-/.#]+ logStream -&gt; (string) The name of the CloudWatch Logs log stream within the log group. Constraints: • min: 1 • max: 512 • pattern: [^:*]* Shorthand Syntax: disabled={},cloudWatch={logGroup=string,logStream=string} JSON Syntax: { "disabled": { }, "cloudWatch": { "logGroup": "string", "logStream": "string" } }
     /// </summary>
     [CliOption("--logging")]
     public string? Logging { get; set; }
 
     /// <summary>
-    /// Per-MicroVM initialization data delivered as the request body of the /run lifecycle hook. Use to pass tenant-specific configuration such as session IDs or secret references. Maximum: 16,384 bytes. Constraints: o min: 0 o max: 4096
+    /// Per-MicroVM initialization data delivered as the request body of the /run lifecycle hook. Use to pass tenant-specific configuration such as session IDs or secret references. Maximum: 16,384 bytes. Constraints: • min: 0 • max: 4096
     /// </summary>
     [CliOption("--run-hook-payload")]
     public string? RunHookPayload { get; set; }
 
     /// <summary>
-    /// The maximum duration in seconds that the MicroVM can exist before being terminated by the platform. Valid range: 128,800 (8 hours). Constraints: o min: 1 o max: 28800
+    /// The maximum duration in seconds that the MicroVM can exist before being terminated by the platform. Valid range: 128,800 (8 hours). Constraints: • min: 1 • max: 28800
     /// </summary>
     [CliOption("--maximum-duration-in-seconds")]
     public int? MaximumDurationInSeconds { get; set; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier you provide to ensure the idem- potency of the request. Constraints: o min: 1 o max: 128
+    /// A unique, case-sensitive identifier you provide to ensure the idempotency of the request. Constraints: • min: 1 • max: 128
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
@@ -138,6 +139,15 @@ public record AwsLambdaMicrovmsRunMicrovmOptions : AwsOptions, IValidatableObjec
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

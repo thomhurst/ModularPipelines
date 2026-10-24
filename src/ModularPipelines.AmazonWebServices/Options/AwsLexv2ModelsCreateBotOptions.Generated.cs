@@ -10,7 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -29,10 +29,10 @@ public record AwsLexv2ModelsCreateBotOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Creates an Amazon Lex conversational bot. See also: AWS API Documentation
     /// </summary>
-    /// <param name="BotName">The name of the bot. The bot name must be unique in the account that creates the bot. Constraints: o min: 1 o max: 100 o pattern: ^([0-9a-zA-Z][_-]?){1,100}$</param>
-    /// <param name="RoleArn">The Amazon Resource Name (ARN) of an IAM role that has permission to access the bot. Constraints: o min: 32 o max: 2048 o pattern: ^arn:aws:iam::[0-9]{12}:role/.*$</param>
-    /// <param name="DataPrivacy">Provides information on additional privacy protections Amazon Lex should use with the bot's data. childDirected -&gt; (boolean) [required] For each Amazon Lex bot created with the Amazon Lex Model Build- ing Service, you must specify whether your use of Amazon Lex is related to a website, program, or other application that is di- rected or targeted, in whole or in part, to children under age 13 and subject to the Children's Online Privacy Protection Act (COPPA) by specifying true or false in the childDirected field. By specifying true in the childDirected field, you confirm that your use of Amazon Lex is related to a website, program, or other application that is directed or targeted, in whole or in part, to children under age 13 and subject to COPPA. By specify- ing false in the childDirected field, you confirm that your use of Amazon Lex is not related to a website, program, or other ap- plication that is directed or targeted, in whole or in part, to children under age 13 and subject to COPPA. You may not specify a default value for the childDirected field that does not accu- rately reflect whether your use of Amazon Lex is related to a website, program, or other application that is directed or tar- geted, in whole or in part, to children under age 13 and subject to COPPA. If your use of Amazon Lex relates to a website, pro- gram, or other application that is directed in whole or in part, to children under age 13, you must obtain any required verifi- able parental consent under COPPA. For information regarding the use of Amazon Lex in connection with websites, programs, or other applications that are directed or targeted, in whole or in part, to children under age 13, see the Amazon Lex FAQ . Shorthand Syntax: childDirected=boolean JSON Syntax: { "childDirected": true|false }</param>
-    /// <param name="IdleSessionTtlInSeconds">The time, in seconds, that Amazon Lex should keep information about a user's conversation with the bot. A user interaction remains active for the amount of time specified. If no conversation occurs during this time, the session expires and Amazon Lex deletes any data provided before the timeout. You can specify between 60 (1 minute) and 86,400 (24 hours) seconds. Constraints: o min: 60 o max: 86400</param>
+    /// <param name="BotName">The name of the bot. The bot name must be unique in the account that creates the bot. Constraints: • min: 1 • max: 100 • pattern: ^([0-9a-zA-Z][_-]?){1,100}$</param>
+    /// <param name="RoleArn">The Amazon Resource Name (ARN) of an IAM role that has permission to access the bot. Constraints: • min: 32 • max: 2048 • pattern: ^arn:aws:iam::[0-9]{12}:role/.*$</param>
+    /// <param name="DataPrivacy">Provides information on additional privacy protections Amazon Lex should use with the bot's data. childDirected -&gt; (boolean) [required] For each Amazon Lex bot created with the Amazon Lex Model Building Service, you must specify whether your use of Amazon Lex is related to a website, program, or other application that is directed or targeted, in whole or in part, to children under age 13 and subject to the Children's Online Privacy Protection Act (COPPA) by specifying true or false in the childDirected field. By specifying true in the childDirected field, you confirm that your use of Amazon Lex is related to a website, program, or other application that is directed or targeted, in whole or in part, to children under age 13 and subject to COPPA. By specifying false in the childDirected field, you confirm that your use of Amazon Lex is not related to a website, program, or other application that is directed or targeted, in whole or in part, to children under age 13 and subject to COPPA. You may not specify a default value for the childDirected field that does not accurately reflect whether your use of Amazon Lex is related to a website, program, or other application that is directed or targeted, in whole or in part, to children under age 13 and subject to COPPA. If your use of Amazon Lex relates to a website, program, or other application that is directed in whole or in part, to children under age 13, you must obtain any required verifiable parental consent under COPPA. For information regarding the use of Amazon Lex in connection with websites, programs, or other applications that are directed or targeted, in whole or in part, to children under age 13, see the Amazon Lex FAQ . Shorthand Syntax: childDirected=boolean JSON Syntax: { "childDirected": true|false }</param>
+    /// <param name="IdleSessionTtlInSeconds">The time, in seconds, that Amazon Lex should keep information about a user's conversation with the bot. A user interaction remains active for the amount of time specified. If no conversation occurs during this time, the session expires and Amazon Lex deletes any data provided before the timeout. You can specify between 60 (1 minute) and 86,400 (24 hours) seconds. Constraints: • min: 60 • max: 86400</param>
     public AwsLexv2ModelsCreateBotOptions(
         string BotName,
         string RoleArn,
@@ -69,55 +69,55 @@ public record AwsLexv2ModelsCreateBotOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the bot. The bot name must be unique in the account that creates the bot. Constraints: o min: 1 o max: 100 o pattern: ^([0-9a-zA-Z][_-]?){1,100}$
+    /// The name of the bot. The bot name must be unique in the account that creates the bot. Constraints: • min: 1 • max: 100 • pattern: ^([0-9a-zA-Z][_-]?){1,100}$
     /// </summary>
     [CliOption("--bot-name")]
     public string? BotName { get; private init; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of an IAM role that has permission to access the bot. Constraints: o min: 32 o max: 2048 o pattern: ^arn:aws:iam::[0-9]{12}:role/.*$
+    /// The Amazon Resource Name (ARN) of an IAM role that has permission to access the bot. Constraints: • min: 32 • max: 2048 • pattern: ^arn:aws:iam::[0-9]{12}:role/.*$
     /// </summary>
     [CliOption("--role-arn")]
     public string? RoleArn { get; private init; }
 
     /// <summary>
-    /// Provides information on additional privacy protections Amazon Lex should use with the bot's data. childDirected -&gt; (boolean) [required] For each Amazon Lex bot created with the Amazon Lex Model Build- ing Service, you must specify whether your use of Amazon Lex is related to a website, program, or other application that is di- rected or targeted, in whole or in part, to children under age 13 and subject to the Children's Online Privacy Protection Act (COPPA) by specifying true or false in the childDirected field. By specifying true in the childDirected field, you confirm that your use of Amazon Lex is related to a website, program, or other application that is directed or targeted, in whole or in part, to children under age 13 and subject to COPPA. By specify- ing false in the childDirected field, you confirm that your use of Amazon Lex is not related to a website, program, or other ap- plication that is directed or targeted, in whole or in part, to children under age 13 and subject to COPPA. You may not specify a default value for the childDirected field that does not accu- rately reflect whether your use of Amazon Lex is related to a website, program, or other application that is directed or tar- geted, in whole or in part, to children under age 13 and subject to COPPA. If your use of Amazon Lex relates to a website, pro- gram, or other application that is directed in whole or in part, to children under age 13, you must obtain any required verifi- able parental consent under COPPA. For information regarding the use of Amazon Lex in connection with websites, programs, or other applications that are directed or targeted, in whole or in part, to children under age 13, see the Amazon Lex FAQ . Shorthand Syntax: childDirected=boolean JSON Syntax: { "childDirected": true|false }
+    /// Provides information on additional privacy protections Amazon Lex should use with the bot's data. childDirected -&gt; (boolean) [required] For each Amazon Lex bot created with the Amazon Lex Model Building Service, you must specify whether your use of Amazon Lex is related to a website, program, or other application that is directed or targeted, in whole or in part, to children under age 13 and subject to the Children's Online Privacy Protection Act (COPPA) by specifying true or false in the childDirected field. By specifying true in the childDirected field, you confirm that your use of Amazon Lex is related to a website, program, or other application that is directed or targeted, in whole or in part, to children under age 13 and subject to COPPA. By specifying false in the childDirected field, you confirm that your use of Amazon Lex is not related to a website, program, or other application that is directed or targeted, in whole or in part, to children under age 13 and subject to COPPA. You may not specify a default value for the childDirected field that does not accurately reflect whether your use of Amazon Lex is related to a website, program, or other application that is directed or targeted, in whole or in part, to children under age 13 and subject to COPPA. If your use of Amazon Lex relates to a website, program, or other application that is directed in whole or in part, to children under age 13, you must obtain any required verifiable parental consent under COPPA. For information regarding the use of Amazon Lex in connection with websites, programs, or other applications that are directed or targeted, in whole or in part, to children under age 13, see the Amazon Lex FAQ . Shorthand Syntax: childDirected=boolean JSON Syntax: { "childDirected": true|false }
     /// </summary>
     [CliOption("--data-privacy")]
     public string? DataPrivacy { get; private init; }
 
     /// <summary>
-    /// The time, in seconds, that Amazon Lex should keep information about a user's conversation with the bot. A user interaction remains active for the amount of time specified. If no conversation occurs during this time, the session expires and Amazon Lex deletes any data provided before the timeout. You can specify between 60 (1 minute) and 86,400 (24 hours) seconds. Constraints: o min: 60 o max: 86400
+    /// The time, in seconds, that Amazon Lex should keep information about a user's conversation with the bot. A user interaction remains active for the amount of time specified. If no conversation occurs during this time, the session expires and Amazon Lex deletes any data provided before the timeout. You can specify between 60 (1 minute) and 86,400 (24 hours) seconds. Constraints: • min: 60 • max: 86400
     /// </summary>
     [CliOption("--idle-session-ttl-in-seconds")]
     public int? IdleSessionTtlInSeconds { get; private init; }
 
     /// <summary>
-    /// A description of the bot. It appears in lists to help you identify a particular bot. Constraints: o min: 0 o max: 2000
+    /// A description of the bot. It appears in lists to help you identify a particular bot. Constraints: • min: 0 • max: 2000
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// A list of tags to add to the bot. You can only add tags when you create a bot. You can't use the UpdateBot operation to update tags. To update tags, use the TagResource operation. Constraints: o min: 0 o max: 200 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// A list of tags to add to the bot. You can only add tags when you create a bot. You can't use the UpdateBot operation to update tags. To update tags, use the TagResource operation. Constraints: • min: 0 • max: 200 key -&gt; (string) Constraints: • min: 1 • max: 128 value -&gt; (string) Constraints: • min: 0 • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--bot-tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? BotTags { get; set; }
 
     /// <summary>
-    /// A list of tags to add to the test alias for a bot. You can only add tags when you create a bot. You can't use the UpdateAlias operation to update tags. To update tags on the test alias, use the TagRe- source operation. Constraints: o min: 0 o max: 200 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// A list of tags to add to the test alias for a bot. You can only add tags when you create a bot. You can't use the UpdateAlias operation to update tags. To update tags on the test alias, use the TagResource operation. Constraints: • min: 0 • max: 200 key -&gt; (string) Constraints: • min: 1 • max: 128 value -&gt; (string) Constraints: • min: 0 • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--test-bot-alias-tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? TestBotAliasTags { get; set; }
 
     /// <summary>
-    /// The type of a bot to create. Possible values: o Bot o BotNetwork
+    /// The type of a bot to create. Possible values: • Bot • BotNetwork
     /// </summary>
     [CliOption("--bot-type")]
     public AwsLexv2ModelsCreateBotBotType? BotType { get; set; }
 
     /// <summary>
-    /// The list of bot members in a network to be created. Constraints: o min: 0 o max: 10 (structure) A bot that is a member of a network of bots. botMemberId -&gt; (string) [required] The unique ID of a bot that is a member of this network of bots. Constraints: o min: 10 o max: 10 o pattern: ^[0-9a-zA-Z]+$ botMemberName -&gt; (string) [required] The unique name of a bot that is a member of this network of bots. Constraints: o min: 1 o max: 100 o pattern: ^([0-9a-zA-Z][_-]?){1,100}$ botMemberAliasId -&gt; (string) [required] The alias ID of a bot that is a member of this network of bots. Constraints: o min: 10 o max: 10 o pattern: ^(\bTSTALIASID\b|[0-9a-zA-Z]+)$ botMemberAliasName -&gt; (string) [required] The alias name of a bot that is a member of this network of bots. Constraints: o min: 1 o max: 100 o pattern: ^(\bAmazonLexTestAlias\b|[0-9a-zA-Z][_-]?)+$ botMemberVersion -&gt; (string) [required] The version of a bot that is a member of this network of bots. Constraints: o min: 1 o max: 5 o pattern: ^(DRAFT|[0-9]+)$ Shorthand Syntax: botMemberId=string,botMemberName=string,botMemberAliasId=string,botMemberAliasName=string,botMemberVersion=string ... JSON Syntax: [ { "botMemberId": "string", "botMemberName": "string", "botMemberAliasId": "string", "botMemberAliasName": "string", "botMemberVersion": "string" } ... ]
+    /// The list of bot members in a network to be created. Constraints: • min: 0 • max: 10 (structure) A bot that is a member of a network of bots. botMemberId -&gt; (string) [required] The unique ID of a bot that is a member of this network of bots. Constraints: • min: 10 • max: 10 • pattern: ^[0-9a-zA-Z]+$ botMemberName -&gt; (string) [required] The unique name of a bot that is a member of this network of bots. Constraints: • min: 1 • max: 100 • pattern: ^([0-9a-zA-Z][_-]?){1,100}$ botMemberAliasId -&gt; (string) [required] The alias ID of a bot that is a member of this network of bots. Constraints: • min: 10 • max: 10 • pattern: ^(\bTSTALIASID\b|[0-9a-zA-Z]+)$ botMemberAliasName -&gt; (string) [required] The alias name of a bot that is a member of this network of bots. Constraints: • min: 1 • max: 100 • pattern: ^(\bAmazonLexTestAlias\b|[0-9a-zA-Z][_-]?)+$ botMemberVersion -&gt; (string) [required] The version of a bot that is a member of this network of bots. Constraints: • min: 1 • max: 5 • pattern: ^(DRAFT|[0-9]+)$ Shorthand Syntax: botMemberId=string,botMemberName=string,botMemberAliasId=string,botMemberAliasName=string,botMemberVersion=string ... JSON Syntax: [ { "botMemberId": "string", "botMemberName": "string", "botMemberAliasId": "string", "botMemberAliasName": "string", "botMemberVersion": "string" } ... ]
     /// </summary>
     [CliOption("--bot-members", GroupValues = true)]
     public IEnumerable<string>? BotMembers { get; set; }
@@ -149,6 +149,15 @@ public record AwsLexv2ModelsCreateBotOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Lists tags that are attached to the specified resource. You can attach tags to the following resources in Organizations. o Amazon Web Services account o Organization root o Organizational unit (OU) o Policy (any type) You can only call this operation from the management account or a mem- ber account that is a delegated administrator. See also: AWS API Documentation list-tags-for-resource is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of result...
+/// Lists tags that are attached to the specified resource. You can attach tags to the following resources in Organizations. • Amazon Web Services account • Organization root • Organizational unit (OU) • Policy (any type) You can only call this operation from the management account or a member account that is a delegated administrator. See also: AWS API Documentation list-tags-for-resource is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results....
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +27,9 @@ public record AwsOrganizationsListTagsForResourceOptions : AwsOptions, IValidata
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Lists tags that are attached to the specified resource. You can attach tags to the following resources in Organizations. o Amazon Web Services account o Organization root o Organizational unit (OU) o Policy (any type) You can only call this operation from the management account or a mem- ber account that is a delegated administrator. See also: AWS API Documentation list-tags-for-resource is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of result...
+    /// Lists tags that are attached to the specified resource. You can attach tags to the following resources in Organizations. • Amazon Web Services account • Organization root • Organizational unit (OU) • Policy (any type) You can only call this operation from the management account or a member account that is a delegated administrator. See also: AWS API Documentation list-tags-for-resource is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results....
     /// </summary>
-    /// <param name="ResourceId">The ID of the resource with the tags to list. You can specify any of the following taggable resources. o Amazon Web Services account specify the account ID number. o Organizational unit specify the OU ID that begins with ou- and looks similar to: `` ou-1a2b-34uvwxyz `` System Message: WARNING/2 (&lt;string&gt;:, line 105) Inline literal start-string without end-string. o Root specify the root ID that begins with r- and looks similar to: `` r-1a2b `` System Message: WARNING/2 (&lt;string&gt;:, line 107) Inline literal start-string without end-string. o Policy specify the policy ID that begins with p- andlooks similar to: `` p-12abcdefg3 `` System Message: WARNING/2 (&lt;string&gt;:, line 109) Inline literal start-string without end-string. Constraints: o max: 130 o pattern: ^(r-[0-9a-z]{4,32})|(\d{12})|(ou-[0-9a-z]{4,32}-[a-z0-9]{8,32})|(^p-[0-9a-zA-Z_]{8,128})|(^rp-[0-9a-zA-Z_]{4,128})|(^rt-[0-9a-zA-Z_]{8,32})$</param>
+    /// <param name="ResourceId">The ID of the resource with the tags to list. You can specify any of the following taggable resources. • Amazon Web Services account specify the account ID number. • Organizational unit specify the OU ID that begins with ou- and looks similar to: `` ou-1a2b-34uvwxyz `` System Message: WARNING/2 (&lt;string&gt;:, line 105) Inline literal start-string without end-string. • Root specify the root ID that begins with r- and looks similar to: `` r-1a2b `` System Message: WARNING/2 (&lt;string&gt;:, line 107) Inline literal start-string without end-string. • Policy specify the policy ID that begins with p- andlooks similar to: `` p-12abcdefg3 `` System Message: WARNING/2 (&lt;string&gt;:, line 109) Inline literal start-string without end-string. Constraints: • max: 130 • pattern: ^(r-[0-9a-z]{4,32})|(\d{12})|(ou-[0-9a-z]{4,32}-[a-z0-9]{8,32})|(^p-[0-9a-zA-Z_]{8,128})|(^rp-[0-9a-zA-Z_]{4,128})|(^rt-[0-9a-zA-Z_]{8,32})$</param>
     public AwsOrganizationsListTagsForResourceOptions(
         string ResourceId
     )
@@ -57,16 +58,13 @@ public record AwsOrganizationsListTagsForResourceOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the resource with the tags to list. You can specify any of the following taggable resources. o Amazon Web Services account specify the account ID number. o Organizational unit specify the OU ID that begins with ou- and looks similar to: `` ou-1a2b-34uvwxyz `` System Message: WARNING/2 (&lt;string&gt;:, line 105) Inline literal start-string without end-string. o Root specify the root ID that begins with r- and looks similar to: `` r-1a2b `` System Message: WARNING/2 (&lt;string&gt;:, line 107) Inline literal start-string without end-string. o Policy specify the policy ID that begins with p- andlooks similar to: `` p-12abcdefg3 `` System Message: WARNING/2 (&lt;string&gt;:, line 109) Inline literal start-string without end-string. Constraints: o max: 130 o pattern: ^(r-[0-9a-z]{4,32})|(\d{12})|(ou-[0-9a-z]{4,32}-[a-z0-9]{8,32})|(^p-[0-9a-zA-Z_]{8,128})|(^rp-[0-9a-zA-Z_]{4,128})|(^rt-[0-9a-zA-Z_]{8,32})$
+    /// The ID of the resource with the tags to list. You can specify any of the following taggable resources. • Amazon Web Services account specify the account ID number. • Organizational unit specify the OU ID that begins with ou- and looks similar to: `` ou-1a2b-34uvwxyz `` System Message: WARNING/2 (&lt;string&gt;:, line 105) Inline literal start-string without end-string. • Root specify the root ID that begins with r- and looks similar to: `` r-1a2b `` System Message: WARNING/2 (&lt;string&gt;:, line 107) Inline literal start-string without end-string. • Policy specify the policy ID that begins with p- andlooks similar to: `` p-12abcdefg3 `` System Message: WARNING/2 (&lt;string&gt;:, line 109) Inline literal start-string without end-string. Constraints: • max: 130 • pattern: ^(r-[0-9a-z]{4,32})|(\d{12})|(ou-[0-9a-z]{4,32}-[a-z0-9]{8,32})|(^p-[0-9a-zA-Z_]{8,128})|(^rp-[0-9a-zA-Z_]{4,128})|(^rt-[0-9a-zA-Z_]{8,32})$
     /// </summary>
     [CliOption("--resource-id")]
     public string? ResourceId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -76,10 +74,13 @@ public record AwsOrganizationsListTagsForResourceOptions : AwsOptions, IValidata
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
@@ -96,6 +97,15 @@ public record AwsOrganizationsListTagsForResourceOptions : AwsOptions, IValidata
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

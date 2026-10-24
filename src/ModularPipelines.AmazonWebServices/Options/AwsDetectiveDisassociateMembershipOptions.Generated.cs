@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Removes the member account from the specified behavior graph. This op- eration can only be called by an invited member account that has the ENABLED status. DisassociateMembership cannot be called by an organization account in the organization behavior graph. For the organization behavior graph, the Detective administrator account determines which organi- zation accounts to enable or disable as member accounts. See also: AWS API Documentation
+/// Removes the member account from the specified behavior graph. This operation can only be called by an invited member account that has the ENABLED status. DisassociateMembership cannot be called by an organization account in the organization behavior graph. For the organization behavior graph, the Detective administrator account determines which organization accounts to enable or disable as member accounts. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsDetectiveDisassociateMembershipOptions : AwsOptions, IValidatab
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Removes the member account from the specified behavior graph. This op- eration can only be called by an invited member account that has the ENABLED status. DisassociateMembership cannot be called by an organization account in the organization behavior graph. For the organization behavior graph, the Detective administrator account determines which organi- zation accounts to enable or disable as member accounts. See also: AWS API Documentation
+    /// Removes the member account from the specified behavior graph. This operation can only be called by an invited member account that has the ENABLED status. DisassociateMembership cannot be called by an organization account in the organization behavior graph. For the organization behavior graph, the Detective administrator account determines which organization accounts to enable or disable as member accounts. See also: AWS API Documentation
     /// </summary>
-    /// <param name="GraphArn">The ARN of the behavior graph to remove the member account from. The member account's member status in the behavior graph must be EN- ABLED . Constraints: o pattern: ^arn:aws[-\w]{0,10}?:detec- tive:[-\w]{2,20}?:\d{12}?:graph:[abcdef\d]{32}?$</param>
+    /// <param name="GraphArn">The ARN of the behavior graph to remove the member account from. The member account's member status in the behavior graph must be ENABLED . Constraints: • pattern: ^arn:aws[-\w]{0,10}?:detective:[-\w]{2,20}?:\d{12}?:graph:[abcdef\d]{32}?$</param>
     public AwsDetectiveDisassociateMembershipOptions(
         string GraphArn
     )
@@ -56,7 +57,7 @@ public record AwsDetectiveDisassociateMembershipOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the behavior graph to remove the member account from. The member account's member status in the behavior graph must be EN- ABLED . Constraints: o pattern: ^arn:aws[-\w]{0,10}?:detec- tive:[-\w]{2,20}?:\d{12}?:graph:[abcdef\d]{32}?$
+    /// The ARN of the behavior graph to remove the member account from. The member account's member status in the behavior graph must be ENABLED . Constraints: • pattern: ^arn:aws[-\w]{0,10}?:detective:[-\w]{2,20}?:\d{12}?:graph:[abcdef\d]{32}?$
     /// </summary>
     [CliOption("--graph-arn")]
     public string? GraphArn { get; private init; }
@@ -82,6 +83,15 @@ public record AwsDetectiveDisassociateMembershipOptions : AwsOptions, IValidatab
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

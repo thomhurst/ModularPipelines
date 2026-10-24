@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Generates an Admin authorization token used to connect to a DSQL data- base with IAM credentials.
+/// Generates an Admin authorization token used to connect to a DSQL database with IAM credentials.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -22,7 +22,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsDsqlGenerateDbConnectAdminAuthTokenOptions : AwsOptions
 {
     /// <summary>
-    /// Generates an Admin authorization token used to connect to a DSQL data- base with IAM credentials.
+    /// Generates an Admin authorization token used to connect to a DSQL database with IAM credentials.
     /// </summary>
     /// <param name="Hostname"></param>
     public AwsDsqlGenerateDbConnectAdminAuthTokenOptions(
@@ -43,5 +43,14 @@ public record AwsDsqlGenerateDbConnectAdminAuthTokenOptions : AwsOptions
 
     [CliOption("--expires-in")]
     public int? ExpiresIn { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

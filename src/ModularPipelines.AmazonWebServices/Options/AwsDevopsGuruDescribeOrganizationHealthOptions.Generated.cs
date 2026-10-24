@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns active insights, predictive insights, and resource hours ana- lyzed in last hour. See also: AWS API Documentation
+/// Returns active insights, predictive insights, and resource hours analyzed in last hour. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -22,13 +22,13 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsDevopsGuruDescribeOrganizationHealthOptions : AwsOptions
 {
     /// <summary>
-    /// The ID of the Amazon Web Services account. Constraints: o min: 0 o max: 5 (string) Constraints: o min: 12 o max: 12 o pattern: ^\d{12}$ Syntax: "string" "string" ...
+    /// The ID of the Amazon Web Services account. Constraints: • min: 0 • max: 5 (string) Constraints: • min: 12 • max: 12 • pattern: ^\d{12}$ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--account-ids", GroupValues = true)]
     public IEnumerable<string>? AccountIds { get; set; }
 
     /// <summary>
-    /// The ID of the organizational unit. Constraints: o min: 0 o max: 5 (string) Constraints: o max: 68 o pattern: ^ou-[0-9a-z]{4,32}-[a-z0-9]{8,32}$ Syntax: "string" "string" ...
+    /// The ID of the organizational unit. Constraints: • min: 0 • max: 5 (string) Constraints: • max: 68 • pattern: ^ou-[0-9a-z]{4,32}-[a-z0-9]{8,32}$ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--organizational-unit-ids", GroupValues = true)]
     public IEnumerable<string>? OrganizationalUnitIds { get; set; }
@@ -38,5 +38,14 @@ public record AwsDevopsGuruDescribeOrganizationHealthOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

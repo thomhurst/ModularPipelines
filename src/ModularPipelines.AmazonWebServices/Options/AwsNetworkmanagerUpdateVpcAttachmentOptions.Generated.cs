@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsNetworkmanagerUpdateVpcAttachmentOptions : AwsOptions, IValidat
     /// <summary>
     /// Updates a VPC attachment. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AttachmentId">The ID of the attachment. Constraints: o min: 0 o max: 50 o pattern: ^attachment-([0-9a-f]{8,17})$</param>
+    /// <param name="AttachmentId">The ID of the attachment. Constraints: • min: 0 • max: 50 • pattern: ^attachment-([0-9a-f]{8,17})$</param>
     public AwsNetworkmanagerUpdateVpcAttachmentOptions(
         string AttachmentId
     )
@@ -56,25 +57,25 @@ public record AwsNetworkmanagerUpdateVpcAttachmentOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the attachment. Constraints: o min: 0 o max: 50 o pattern: ^attachment-([0-9a-f]{8,17})$
+    /// The ID of the attachment. Constraints: • min: 0 • max: 50 • pattern: ^attachment-([0-9a-f]{8,17})$
     /// </summary>
     [CliOption("--attachment-id")]
     public string? AttachmentId { get; private init; }
 
     /// <summary>
-    /// Adds a subnet ARN to the VPC attachment. (string) Constraints: o min: 0 o max: 500 o pattern: ^arn:[^:]{1,63}:ec2:[^:]{0,63}:[^:]{0,63}:sub- net\/subnet-[0-9a-f]{8,17}$|^$ Syntax: "string" "string" ...
+    /// Adds a subnet ARN to the VPC attachment. (string) Constraints: • min: 0 • max: 500 • pattern: ^arn:[^:]{1,63}:ec2:[^:]{0,63}:[^:]{0,63}:subnet\/subnet-[0-9a-f]{8,17}$|^$ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--add-subnet-arns", GroupValues = true)]
     public IEnumerable<string>? AddSubnetArns { get; set; }
 
     /// <summary>
-    /// Removes a subnet ARN from the attachment. (string) Constraints: o min: 0 o max: 500 o pattern: ^arn:[^:]{1,63}:ec2:[^:]{0,63}:[^:]{0,63}:sub- net\/subnet-[0-9a-f]{8,17}$|^$ Syntax: "string" "string" ...
+    /// Removes a subnet ARN from the attachment. (string) Constraints: • min: 0 • max: 500 • pattern: ^arn:[^:]{1,63}:ec2:[^:]{0,63}:[^:]{0,63}:subnet\/subnet-[0-9a-f]{8,17}$|^$ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--remove-subnet-arns", GroupValues = true)]
     public IEnumerable<string>? RemoveSubnetArns { get; set; }
 
     /// <summary>
-    /// Additional options for updating the VPC attachment. Ipv6Support -&gt; (boolean) Indicates whether IPv6 is supported. ApplianceModeSupport -&gt; (boolean) Indicates whether appliance mode is supported. If enabled, traf- fic flow between a source and destination use the same Avail- ability Zone for the VPC attachment for the lifetime of that flow. The default value is false . DnsSupport -&gt; (boolean) Indicates whether DNS is supported. SecurityGroupReferencingSupport -&gt; (boolean) Indicates whether security group referencing is enabled for this VPC attachment. The default is true . However, at the core net- work policy-level the default is set to false . Shorthand Syntax: Ipv6Support=boolean,ApplianceModeSupport=boolean,DnsSupport=boolean,SecurityGroupReferencingSupport=boolean JSON Syntax: { "Ipv6Support": true|false, "ApplianceModeSupport": true|false, "DnsSupport": true|false, "SecurityGroupReferencingSupport": true|false }
+    /// Additional options for updating the VPC attachment. Ipv6Support -&gt; (boolean) Indicates whether IPv6 is supported. ApplianceModeSupport -&gt; (boolean) Indicates whether appliance mode is supported. If enabled, traffic flow between a source and destination use the same Availability Zone for the VPC attachment for the lifetime of that flow. The default value is false . DnsSupport -&gt; (boolean) Indicates whether DNS is supported. SecurityGroupReferencingSupport -&gt; (boolean) Indicates whether security group referencing is enabled for this VPC attachment. The default is true . However, at the core network policy-level the default is set to false . Shorthand Syntax: Ipv6Support=boolean,ApplianceModeSupport=boolean,DnsSupport=boolean,SecurityGroupReferencingSupport=boolean JSON Syntax: { "Ipv6Support": true|false, "ApplianceModeSupport": true|false, "DnsSupport": true|false, "SecurityGroupReferencingSupport": true|false }
     /// </summary>
     [CliOption("--options")]
     public string? Options { get; set; }
@@ -100,6 +101,15 @@ public record AwsNetworkmanagerUpdateVpcAttachmentOptions : AwsOptions, IValidat
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

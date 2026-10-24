@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,8 +29,8 @@ public record AwsOutpostsCreateOrderOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Creates an order for an Outpost. See also: AWS API Documentation
     /// </summary>
-    /// <param name="OutpostIdentifier">The ID or the Amazon Resource Name (ARN) of the Outpost. Constraints: o min: 1 o max: 180 o pattern: ^(arn:aws([a-z-]+)?:outposts:[a-z\d-]+:\d{12}:out- post/)?op-[a-f0-9]{17}$</param>
-    /// <param name="PaymentOption">The payment option. Possible values: o ALL_UPFRONT o NO_UPFRONT o PARTIAL_UPFRONT</param>
+    /// <param name="OutpostIdentifier">The ID or the Amazon Resource Name (ARN) of the Outpost. Constraints: • min: 1 • max: 180 • pattern: ^(arn:aws([a-z-]+)?:outposts:[a-z\d-]+:\d{12}:outpost/)?op-[a-f0-9]{17}$</param>
+    /// <param name="PaymentOption">The payment option. Possible values: • ALL_UPFRONT • NO_UPFRONT • PARTIAL_UPFRONT</param>
     public AwsOutpostsCreateOrderOptions(
         string OutpostIdentifier,
         AwsOutpostsCreateOrderPaymentOption PaymentOption
@@ -60,37 +61,37 @@ public record AwsOutpostsCreateOrderOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID or the Amazon Resource Name (ARN) of the Outpost. Constraints: o min: 1 o max: 180 o pattern: ^(arn:aws([a-z-]+)?:outposts:[a-z\d-]+:\d{12}:out- post/)?op-[a-f0-9]{17}$
+    /// The ID or the Amazon Resource Name (ARN) of the Outpost. Constraints: • min: 1 • max: 180 • pattern: ^(arn:aws([a-z-]+)?:outposts:[a-z\d-]+:\d{12}:outpost/)?op-[a-f0-9]{17}$
     /// </summary>
     [CliOption("--outpost-identifier")]
     public string? OutpostIdentifier { get; private init; }
 
     /// <summary>
-    /// The payment option. Possible values: o ALL_UPFRONT o NO_UPFRONT o PARTIAL_UPFRONT
+    /// The payment option. Possible values: • ALL_UPFRONT • NO_UPFRONT • PARTIAL_UPFRONT
     /// </summary>
     [CliOption("--payment-option")]
     public AwsOutpostsCreateOrderPaymentOption? PaymentOption { get; private init; }
 
     /// <summary>
-    /// The ID of the quote to use for the order. Constraints: o min: 1 o max: 255 o pattern: ^(arn:aws([a-z-]+)?:out- posts:[a-z\d-]+:\d{12}:quote/)?oq-[a-f0-9]{17}$
+    /// The ID of the quote to use for the order. Constraints: • min: 1 • max: 255 • pattern: ^(arn:aws([a-z-]+)?:outposts:[a-z\d-]+:\d{12}:quote/)?oq-[a-f0-9]{17}$
     /// </summary>
     [CliOption("--quote-identifier")]
     public string? QuoteIdentifier { get; set; }
 
     /// <summary>
-    /// The ID of the quote option to use for the order. Constraints: o min: 1 o max: 21 o pattern: ^oqo-[a-f0-9]{17}$
+    /// The ID of the quote option to use for the order. Constraints: • min: 1 • max: 21 • pattern: ^oqo-[a-f0-9]{17}$
     /// </summary>
     [CliOption("--quote-option-identifier")]
     public string? QuoteOptionIdentifier { get; set; }
 
     /// <summary>
-    /// The line items that make up the order. Constraints: o min: 1 o max: 20 (structure) Information about a line item request. CatalogItemId -&gt; (string) The ID of the catalog item. Constraints: o min: 1 o max: 10 o pattern: OR-[A-Z0-9]{7} Quantity -&gt; (integer) The quantity of a line item request. Constraints: o min: 1 Shorthand Syntax: CatalogItemId=string,Quantity=integer ... JSON Syntax: [ { "CatalogItemId": "string", "Quantity": integer } ... ]
+    /// The line items that make up the order. Constraints: • min: 1 • max: 20 (structure) Information about a line item request. CatalogItemId -&gt; (string) The ID of the catalog item. Constraints: • min: 1 • max: 10 • pattern: OR-[A-Z0-9]{7} Quantity -&gt; (integer) The quantity of a line item request. Constraints: • min: 1 Shorthand Syntax: CatalogItemId=string,Quantity=integer ... JSON Syntax: [ { "CatalogItemId": "string", "Quantity": integer } ... ]
     /// </summary>
     [CliOption("--line-items", GroupValues = true)]
     public IEnumerable<string>? LineItems { get; set; }
 
     /// <summary>
-    /// The payment terms. Possible values: o THREE_YEARS o ONE_YEAR o FIVE_YEARS
+    /// The payment terms. Possible values: • THREE_YEARS • ONE_YEAR • FIVE_YEARS
     /// </summary>
     [CliOption("--payment-term")]
     public AwsOutpostsCreateOrderPaymentTerm? PaymentTerm { get; set; }
@@ -116,6 +117,15 @@ public record AwsOutpostsCreateOrderOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

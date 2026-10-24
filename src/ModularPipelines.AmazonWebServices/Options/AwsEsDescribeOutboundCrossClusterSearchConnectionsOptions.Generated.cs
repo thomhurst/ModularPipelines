@@ -23,13 +23,13 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsEsDescribeOutboundCrossClusterSearchConnectionsOptions : AwsOptions
 {
     /// <summary>
-    /// A list of filters used to match properties for outbound cross-clus- ter search connection. Available `` Filter`` names for this opera- tion are: o cross-cluster-search-connection-id o destination-domain-info.domain-name o destination-domain-info.owner-id o destination-domain-info.region o source-domain-info.domain-name (structure) A filter used to limit results when describing inbound or out- bound cross-cluster search connections. Multiple values can be specified per filter. A cross-cluster search connection must match at least one of the specified values for it to be returned from an operation. Name -&gt; (string) Specifies the name of the filter. Constraints: o min: 1 Values -&gt; (list) Contains one or more values for the filter. Constraints: o min: 1 (string) Constraints: o min: 1 Shorthand Syntax: Name=string,Values=string,string ... JSON Syntax: [ { "Name": "string", "Values": ["string", ...] } ... ]
+    /// A list of filters used to match properties for outbound cross-cluster search connection. Available `` Filter`` names for this operation are: • cross-cluster-search-connection-id • destination-domain-info.domain-name • destination-domain-info.owner-id • destination-domain-info.region • source-domain-info.domain-name (structure) A filter used to limit results when describing inbound or outbound cross-cluster search connections. Multiple values can be specified per filter. A cross-cluster search connection must match at least one of the specified values for it to be returned from an operation. Name -&gt; (string) Specifies the name of the filter. Constraints: • min: 1 Values -&gt; (list) Contains one or more values for the filter. Constraints: • min: 1 (string) Constraints: • min: 1 Shorthand Syntax: Name=string,Values=string,string ... JSON Syntax: [ { "Name": "string", "Values": ["string", ...] } ... ]
     /// </summary>
     [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     /// <summary>
-    /// Set this value to limit the number of results returned. If not spec- ified, defaults to 100. Constraints: o max: 100
+    /// Set this value to limit the number of results returned. If not specified, defaults to 100. Constraints: • max: 100
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
@@ -46,5 +46,14 @@ public record AwsEsDescribeOutboundCrossClusterSearchConnectionsOptions : AwsOpt
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

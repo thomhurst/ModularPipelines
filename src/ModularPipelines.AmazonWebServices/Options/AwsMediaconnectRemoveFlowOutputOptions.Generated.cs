@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsMediaconnectRemoveFlowOutputOptions : AwsOptions, IValidatableO
     /// <summary>
     /// Removes an output from an existing flow. This request can be made only on an output that does not have an entitlement associated with it. If the output has an entitlement, you must revoke the entitlement instead. When an entitlement is revoked from a flow, the service automatically removes the associated output. See also: AWS API Documentation
     /// </summary>
-    /// <param name="FlowArn">The Amazon Resource Name (ARN) of the flow that you want to remove an output from. Constraints: o pattern: arn:.+:mediaconnect.+:flow:.+</param>
-    /// <param name="OutputArn">The ARN of the output that you want to remove. Constraints: o pattern: arn:.+:mediaconnect.+:output:.+</param>
+    /// <param name="FlowArn">The Amazon Resource Name (ARN) of the flow that you want to remove an output from. Constraints: • pattern: arn:.+:mediaconnect.+:flow:.+</param>
+    /// <param name="OutputArn">The ARN of the output that you want to remove. Constraints: • pattern: arn:.+:mediaconnect.+:output:.+</param>
     public AwsMediaconnectRemoveFlowOutputOptions(
         string FlowArn,
         string OutputArn
@@ -60,13 +61,13 @@ public record AwsMediaconnectRemoveFlowOutputOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the flow that you want to remove an output from. Constraints: o pattern: arn:.+:mediaconnect.+:flow:.+
+    /// The Amazon Resource Name (ARN) of the flow that you want to remove an output from. Constraints: • pattern: arn:.+:mediaconnect.+:flow:.+
     /// </summary>
     [CliOption("--flow-arn")]
     public string? FlowArn { get; private init; }
 
     /// <summary>
-    /// The ARN of the output that you want to remove. Constraints: o pattern: arn:.+:mediaconnect.+:output:.+
+    /// The ARN of the output that you want to remove. Constraints: • pattern: arn:.+:mediaconnect.+:output:.+
     /// </summary>
     [CliOption("--output-arn")]
     public string? OutputArn { get; private init; }
@@ -92,6 +93,15 @@ public record AwsMediaconnectRemoveFlowOutputOptions : AwsOptions, IValidatableO
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

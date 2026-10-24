@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsMgnUpdateApplicationOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Update application. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ApplicationId">Application ID. Constraints: o min: 21 o max: 21 o pattern: app-[0-9a-zA-Z]{17}</param>
+    /// <param name="ApplicationId">Application ID. Constraints: • min: 21 • max: 21 • pattern: app-[0-9a-zA-Z]{17}</param>
     public AwsMgnUpdateApplicationOptions(
         string ApplicationId
     )
@@ -56,25 +57,25 @@ public record AwsMgnUpdateApplicationOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Application ID. Constraints: o min: 21 o max: 21 o pattern: app-[0-9a-zA-Z]{17}
+    /// Application ID. Constraints: • min: 21 • max: 21 • pattern: app-[0-9a-zA-Z]{17}
     /// </summary>
     [CliOption("--application-id")]
     public string? ApplicationId { get; private init; }
 
     /// <summary>
-    /// Application name. Constraints: o min: 1 o max: 256 o pattern: [^\s\x00]( *[^\s\x00])*
+    /// Application name. Constraints: • min: 1 • max: 256 • pattern: [^\s\x00]( *[^\s\x00])*
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
 
     /// <summary>
-    /// Application description. Constraints: o min: 0 o max: 600 o pattern: [^\x00]*
+    /// Application description. Constraints: • min: 0 • max: 600 • pattern: [^\x00]*
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// Account ID. Constraints: o min: 12 o max: 12 o pattern: .*[0-9]{12,}.*
+    /// Account ID. Constraints: • min: 12 • max: 12 • pattern: .*[0-9]{12,}.*
     /// </summary>
     [CliOption("--account-id")]
     public string? AccountId { get; set; }
@@ -100,6 +101,15 @@ public record AwsMgnUpdateApplicationOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

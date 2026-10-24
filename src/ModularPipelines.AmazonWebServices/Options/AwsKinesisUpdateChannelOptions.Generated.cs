@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates the data freshness interval or the Amazon CloudWatch Logs con- figuration of an existing channel. You cannot change the destination, source stream, record format, schema, encryption configuration, or ser- vice execution role of an existing channel. To change any other set- ting, delete the channel and create a new one. Updating a channel is an asynchronous operation. Upon receiving the re- quest, Amazon Kinesis Data Streams sets the channel to the UPDATING state and returns immediately. ...
+/// Updates the data freshness interval or the Amazon CloudWatch Logs configuration of an existing channel. You cannot change the destination, source stream, record format, schema, encryption configuration, or service execution role of an existing channel. To change any other setting, delete the channel and create a new one. Updating a channel is an asynchronous operation. Upon receiving the request, Amazon Kinesis Data Streams sets the channel to the UPDATING state and returns immediately. After th...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsKinesisUpdateChannelOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates the data freshness interval or the Amazon CloudWatch Logs con- figuration of an existing channel. You cannot change the destination, source stream, record format, schema, encryption configuration, or ser- vice execution role of an existing channel. To change any other set- ting, delete the channel and create a new one. Updating a channel is an asynchronous operation. Upon receiving the re- quest, Amazon Kinesis Data Streams sets the channel to the UPDATING state and returns immediately. ...
+    /// Updates the data freshness interval or the Amazon CloudWatch Logs configuration of an existing channel. You cannot change the destination, source stream, record format, schema, encryption configuration, or service execution role of an existing channel. To change any other setting, delete the channel and create a new one. Updating a channel is an asynchronous operation. Upon receiving the request, Amazon Kinesis Data Streams sets the channel to the UPDATING state and returns immediately. After th...
     /// </summary>
-    /// <param name="ChannelArn">The Amazon Resource Name (ARN) of the channel to update. Constraints: o min: 1 o max: 2048 o pattern: arn:aws.*:kinesis:.*:\d{12}:channel/\S+</param>
+    /// <param name="ChannelArn">The Amazon Resource Name (ARN) of the channel to update. Constraints: • min: 1 • max: 2048 • pattern: arn:aws.*:kinesis:.*:\d{12}:channel/\S+</param>
     public AwsKinesisUpdateChannelOptions(
         string ChannelArn
     )
@@ -56,13 +57,13 @@ public record AwsKinesisUpdateChannelOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the channel to update. Constraints: o min: 1 o max: 2048 o pattern: arn:aws.*:kinesis:.*:\d{12}:channel/\S+
+    /// The Amazon Resource Name (ARN) of the channel to update. Constraints: • min: 1 • max: 2048 • pattern: arn:aws.*:kinesis:.*:\d{12}:channel/\S+
     /// </summary>
     [CliOption("--channel-arn")]
     public string? ChannelArn { get; private init; }
 
     /// <summary>
-    /// The updated configuration for a general purpose Amazon S3 destina- tion. Specify this parameter when the channel delivers to a general purpose Amazon S3 bucket. Only DataFreshnessInSeconds can be up- dated. DataFreshnessInSeconds -&gt; (integer) [required] The maximum age, in seconds, of undelivered data before the channel delivers it to the destination. Shorthand Syntax: DataFreshnessInSeconds=integer JSON Syntax: { "DataFreshnessInSeconds": integer }
+    /// The updated configuration for a general purpose Amazon S3 destination. Specify this parameter when the channel delivers to a general purpose Amazon S3 bucket. Only DataFreshnessInSeconds can be updated. DataFreshnessInSeconds -&gt; (integer) [required] The maximum age, in seconds, of undelivered data before the channel delivers it to the destination. Shorthand Syntax: DataFreshnessInSeconds=integer JSON Syntax: { "DataFreshnessInSeconds": integer }
     /// </summary>
     [CliOption("--s3-destination-configuration")]
     public string? S3DestinationConfiguration { get; set; }
@@ -74,7 +75,7 @@ public record AwsKinesisUpdateChannelOptions : AwsOptions, IValidatableObject
     public string? S3TablesDestinationConfiguration { get; set; }
 
     /// <summary>
-    /// The updated Amazon CloudWatch Logs configuration for the channel. CloudWatchLogs -&gt; (structure) [required] The updated Amazon CloudWatch Logs settings, including whether logging is enabled and the target log group and log stream. Enabled -&gt; (boolean) [required] Specifies whether logging to Amazon CloudWatch Logs is en- abled. LogGroupName -&gt; (string) The name of the Amazon CloudWatch Logs log group. Constraints: o min: 1 o max: 512 o pattern: [\.\-_/#A-Za-z0-9]+ LogStreamName -&gt; (string) The name of the Amazon CloudWatch Logs log stream. Constraints: o min: 1 o max: 512 o pattern: [^:*]* Shorthand Syntax: CloudWatchLogs={Enabled=boolean,LogGroupName=string,LogStreamName=string} JSON Syntax: { "CloudWatchLogs": { "Enabled": true|false, "LogGroupName": "string", "LogStreamName": "string" } }
+    /// The updated Amazon CloudWatch Logs configuration for the channel. CloudWatchLogs -&gt; (structure) [required] The updated Amazon CloudWatch Logs settings, including whether logging is enabled and the target log group and log stream. Enabled -&gt; (boolean) [required] Specifies whether logging to Amazon CloudWatch Logs is enabled. LogGroupName -&gt; (string) The name of the Amazon CloudWatch Logs log group. Constraints: • min: 1 • max: 512 • pattern: [\.\-_/#A-Za-z0-9]+ LogStreamName -&gt; (string) The name of the Amazon CloudWatch Logs log stream. Constraints: • min: 1 • max: 512 • pattern: [^:*]* Shorthand Syntax: CloudWatchLogs={Enabled=boolean,LogGroupName=string,LogStreamName=string} JSON Syntax: { "CloudWatchLogs": { "Enabled": true|false, "LogGroupName": "string", "LogStreamName": "string" } }
     /// </summary>
     [CliOption("--logging-configuration")]
     public string? LoggingConfiguration { get; set; }
@@ -100,6 +101,15 @@ public record AwsKinesisUpdateChannelOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

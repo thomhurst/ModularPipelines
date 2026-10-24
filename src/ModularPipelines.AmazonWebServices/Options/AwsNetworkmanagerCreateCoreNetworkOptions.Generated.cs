@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +29,7 @@ public record AwsNetworkmanagerCreateCoreNetworkOptions : AwsOptions, IValidatab
     /// <summary>
     /// Creates a core network as part of your global network, and optionally, with a core network policy. See also: AWS API Documentation
     /// </summary>
-    /// <param name="GlobalNetworkId">The ID of the global network that a core network will be a part of. Constraints: o min: 0 o max: 50 o pattern: [\s\S]*</param>
+    /// <param name="GlobalNetworkId">The ID of the global network that a core network will be a part of. Constraints: • min: 0 • max: 50 • pattern: [\s\S]*</param>
     public AwsNetworkmanagerCreateCoreNetworkOptions(
         string GlobalNetworkId
     )
@@ -57,31 +58,31 @@ public record AwsNetworkmanagerCreateCoreNetworkOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the global network that a core network will be a part of. Constraints: o min: 0 o max: 50 o pattern: [\s\S]*
+    /// The ID of the global network that a core network will be a part of. Constraints: • min: 0 • max: 50 • pattern: [\s\S]*
     /// </summary>
     [CliOption("--global-network-id")]
     public string? GlobalNetworkId { get; private init; }
 
     /// <summary>
-    /// The description of a core network. Constraints: o min: 0 o max: 256 o pattern: [\s\S]*
+    /// The description of a core network. Constraints: • min: 0 • max: 256 • pattern: [\s\S]*
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// Key-value tags associated with a core network request. (structure) Describes a tag. Key -&gt; (string) The tag key. Constraints: Maximum length of 128 characters. Constraints: o min: 0 o max: 10000000 o pattern: [\s\S]* Value -&gt; (string) The tag value. Constraints: Maximum length of 256 characters. Constraints: o min: 0 o max: 10000000 o pattern: [\s\S]* Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// Key-value tags associated with a core network request. (structure) Describes a tag. Key -&gt; (string) The tag key. Constraints: Maximum length of 128 characters. Constraints: • min: 0 • max: 10000000 • pattern: [\s\S]* Value -&gt; (string) The tag value. Constraints: Maximum length of 256 characters. Constraints: • min: 0 • max: 10000000 • pattern: [\s\S]* Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
-    /// The policy document for creating a core network. Constraints: o min: 0 o max: 10000000 o pattern: [\s\S]*
+    /// The policy document for creating a core network. Constraints: • min: 0 • max: 10000000 • pattern: [\s\S]*
     /// </summary>
     [CliOption("--policy-document")]
     public string? PolicyDocument { get; set; }
 
     /// <summary>
-    /// The client token associated with a core network request. Constraints: o min: 0 o max: 256 o pattern: [\s\S]*
+    /// The client token associated with a core network request. Constraints: • min: 0 • max: 256 • pattern: [\s\S]*
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
@@ -108,6 +109,15 @@ public record AwsNetworkmanagerCreateCoreNetworkOptions : AwsOptions, IValidatab
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

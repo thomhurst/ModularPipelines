@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Lists the available versions of the specified RAM permission. NOTE: Always check the NextToken response parameter for a null value when calling a paginated operation. These operations can occasionally re- turn an empty set of results even when there are more results avail- able. The NextToken response parameter value is null only when there are no more results to display. See also: AWS API Documentation
+/// Lists the available versions of the specified RAM permission. NOTE: Always check the NextToken response parameter for a null value when calling a paginated operation. These operations can occasionally return an empty set of results even when there are more results available. The NextToken response parameter value is null only when there are no more results to display. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +27,9 @@ public record AwsRamListPermissionVersionsOptions : AwsOptions, IValidatableObje
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Lists the available versions of the specified RAM permission. NOTE: Always check the NextToken response parameter for a null value when calling a paginated operation. These operations can occasionally re- turn an empty set of results even when there are more results avail- able. The NextToken response parameter value is null only when there are no more results to display. See also: AWS API Documentation
+    /// Lists the available versions of the specified RAM permission. NOTE: Always check the NextToken response parameter for a null value when calling a paginated operation. These operations can occasionally return an empty set of results even when there are more results available. The NextToken response parameter value is null only when there are no more results to display. See also: AWS API Documentation
     /// </summary>
-    /// <param name="PermissionArn">Specifies the Amazon Resource Name (ARN) of the RAM permission whose versions you want to list. You can use the permissionVersion parame- ter on the AssociateResourceSharePermission operation to specify a non-default version to attach.</param>
+    /// <param name="PermissionArn">Specifies the Amazon Resource Name (ARN) of the RAM permission whose versions you want to list. You can use the permissionVersion parameter on the AssociateResourceSharePermission operation to specify a non-default version to attach.</param>
     public AwsRamListPermissionVersionsOptions(
         string PermissionArn
     )
@@ -57,20 +58,20 @@ public record AwsRamListPermissionVersionsOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Specifies the Amazon Resource Name (ARN) of the RAM permission whose versions you want to list. You can use the permissionVersion parame- ter on the AssociateResourceSharePermission operation to specify a non-default version to attach.
+    /// Specifies the Amazon Resource Name (ARN) of the RAM permission whose versions you want to list. You can use the permissionVersion parameter on the AssociateResourceSharePermission operation to specify a non-default version to attach.
     /// </summary>
     [CliOption("--permission-arn")]
     public string? PermissionArn { get; private init; }
 
     /// <summary>
-    /// Specifies that you want to receive the next page of results. Valid only if you received a NextToken response in the previous request. If you did, it indicates that more output is available. Set this pa- rameter to the value provided by the previous call's NextToken re- sponse to request the next page of results.
+    /// Specifies that you want to receive the next page of results. Valid only if you received a NextToken response in the previous request. If you did, it indicates that more output is available. Set this parameter to the value provided by the previous call's NextToken response to request the next page of results.
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// Specifies the total number of results that you want included on each page of the response. If you do not include this parameter, it de- faults to a value that is specific to the operation. If additional items exist beyond the number you specify, the NextToken response element is returned with a value (not null). Include the specified value as the NextToken request parameter in the next call to the op- eration to get the next part of the results. Note that the service might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results. Constraints: o min: 1 o max: 500
+    /// Specifies the total number of results that you want included on each page of the response. If you do not include this parameter, it defaults to a value that is specific to the operation. If additional items exist beyond the number you specify, the NextToken response element is returned with a value (not null). Include the specified value as the NextToken request parameter in the next call to the operation to get the next part of the results. Note that the service might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results. Constraints: • min: 1 • max: 500
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
@@ -96,6 +97,15 @@ public record AwsRamListPermissionVersionsOptions : AwsOptions, IValidatableObje
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

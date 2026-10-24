@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Promotes the specified secondary DB cluster to be the primary DB clus- ter in the global database cluster to fail over or switch over a global database. Switchover operations were previously called "managed planned failovers." NOTE: Although this operation can be used either to fail over or to switch over a global database cluster, its intended use is for global data- base failover. To switch over a global database cluster, we recom- mend that you use the SwitchoverGlobalCluster operation instea...
+/// Promotes the specified secondary DB cluster to be the primary DB cluster in the global database cluster to fail over or switch over a global database. Switchover operations were previously called "managed planned failovers." NOTE: Although this operation can be used either to fail over or to switch over a global database cluster, its intended use is for global database failover. To switch over a global database cluster, we recommend that you use the SwitchoverGlobalCluster operation instead. How...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsRdsFailoverGlobalClusterOptions : AwsOptions, IValidatableObjec
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Promotes the specified secondary DB cluster to be the primary DB clus- ter in the global database cluster to fail over or switch over a global database. Switchover operations were previously called "managed planned failovers." NOTE: Although this operation can be used either to fail over or to switch over a global database cluster, its intended use is for global data- base failover. To switch over a global database cluster, we recom- mend that you use the SwitchoverGlobalCluster operation instea...
+    /// Promotes the specified secondary DB cluster to be the primary DB cluster in the global database cluster to fail over or switch over a global database. Switchover operations were previously called "managed planned failovers." NOTE: Although this operation can be used either to fail over or to switch over a global database cluster, its intended use is for global database failover. To switch over a global database cluster, we recommend that you use the SwitchoverGlobalCluster operation instead. How...
     /// </summary>
-    /// <param name="GlobalClusterIdentifier">The identifier of the global database cluster (Aurora global data- base) this operation should apply to. The identifier is the unique key assigned by the user when the Aurora global database is created. In other words, it's the name of the Aurora global database. Constraints: o Must match the identifier of an existing global database cluster. Constraints: o min: 1 o max: 255 o pattern: [A-Za-z][0-9A-Za-z-:._]*</param>
-    /// <param name="TargetDbClusterIdentifier">The identifier of the secondary Aurora DB cluster that you want to promote to the primary for the global database cluster. Use the Ama- zon Resource Name (ARN) for the identifier so that Aurora can locate the cluster in its Amazon Web Services Region. Constraints: o min: 1 o max: 255 o pattern: [A-Za-z][0-9A-Za-z-:._]*</param>
+    /// <param name="GlobalClusterIdentifier">The identifier of the global database cluster (Aurora global database) this operation should apply to. The identifier is the unique key assigned by the user when the Aurora global database is created. In other words, it's the name of the Aurora global database. Constraints: • Must match the identifier of an existing global database cluster. Constraints: • min: 1 • max: 255 • pattern: [A-Za-z][0-9A-Za-z-:._]*</param>
+    /// <param name="TargetDbClusterIdentifier">The identifier of the secondary Aurora DB cluster that you want to promote to the primary for the global database cluster. Use the Amazon Resource Name (ARN) for the identifier so that Aurora can locate the cluster in its Amazon Web Services Region. Constraints: • min: 1 • max: 255 • pattern: [A-Za-z][0-9A-Za-z-:._]*</param>
     public AwsRdsFailoverGlobalClusterOptions(
         string GlobalClusterIdentifier,
         string TargetDbClusterIdentifier
@@ -60,25 +61,25 @@ public record AwsRdsFailoverGlobalClusterOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the global database cluster (Aurora global data- base) this operation should apply to. The identifier is the unique key assigned by the user when the Aurora global database is created. In other words, it's the name of the Aurora global database. Constraints: o Must match the identifier of an existing global database cluster. Constraints: o min: 1 o max: 255 o pattern: [A-Za-z][0-9A-Za-z-:._]*
+    /// The identifier of the global database cluster (Aurora global database) this operation should apply to. The identifier is the unique key assigned by the user when the Aurora global database is created. In other words, it's the name of the Aurora global database. Constraints: • Must match the identifier of an existing global database cluster. Constraints: • min: 1 • max: 255 • pattern: [A-Za-z][0-9A-Za-z-:._]*
     /// </summary>
     [CliOption("--global-cluster-identifier")]
     public string? GlobalClusterIdentifier { get; private init; }
 
     /// <summary>
-    /// The identifier of the secondary Aurora DB cluster that you want to promote to the primary for the global database cluster. Use the Ama- zon Resource Name (ARN) for the identifier so that Aurora can locate the cluster in its Amazon Web Services Region. Constraints: o min: 1 o max: 255 o pattern: [A-Za-z][0-9A-Za-z-:._]*
+    /// The identifier of the secondary Aurora DB cluster that you want to promote to the primary for the global database cluster. Use the Amazon Resource Name (ARN) for the identifier so that Aurora can locate the cluster in its Amazon Web Services Region. Constraints: • min: 1 • max: 255 • pattern: [A-Za-z][0-9A-Za-z-:._]*
     /// </summary>
     [CliOption("--target-db-cluster-identifier")]
     public string? TargetDbClusterIdentifier { get; private init; }
 
     /// <summary>
-    /// Specifies whether to allow data loss for this global database clus- ter operation. Allowing data loss triggers a global failover opera- tion. If you don't specify AllowDataLoss , the global database cluster op- eration defaults to a switchover. Constraints: o Can't be specified together with the Switchover parameter.
+    /// Specifies whether to allow data loss for this global database cluster operation. Allowing data loss triggers a global failover operation. If you don't specify AllowDataLoss , the global database cluster operation defaults to a switchover. Constraints: • Can't be specified together with the Switchover parameter.
     /// </summary>
     [CliFlag("--allow-data-loss", NegatedName = "--no-allow-data-loss")]
     public bool? AllowDataLoss { get; set; }
 
     /// <summary>
-    /// Specifies whether to switch over this global database cluster. Constraints: o Can't be specified together with the AllowDataLoss parameter.
+    /// Specifies whether to switch over this global database cluster. Constraints: • Can't be specified together with the AllowDataLoss parameter.
     /// </summary>
     [CliFlag("--switchover", NegatedName = "--no-switchover")]
     public bool? Switchover { get; set; }
@@ -104,6 +105,15 @@ public record AwsRdsFailoverGlobalClusterOptions : AwsOptions, IValidatableObjec
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

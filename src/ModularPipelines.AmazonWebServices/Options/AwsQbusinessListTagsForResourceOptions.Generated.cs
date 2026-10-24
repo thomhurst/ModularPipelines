@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsQbusinessListTagsForResourceOptions : AwsOptions, IValidatableO
     /// <summary>
     /// Gets a list of tags associated with a specified resource. Amazon Q Business applications and data sources can have tags associated with them. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the Amazon Q Business application or data source to get a list of tags for. Constraints: o min: 1 o max: 1011</param>
+    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the Amazon Q Business application or data source to get a list of tags for. Constraints: • min: 1 • max: 1011</param>
     public AwsQbusinessListTagsForResourceOptions(
         string ResourceArn
     )
@@ -56,7 +57,7 @@ public record AwsQbusinessListTagsForResourceOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the Amazon Q Business application or data source to get a list of tags for. Constraints: o min: 1 o max: 1011
+    /// The Amazon Resource Name (ARN) of the Amazon Q Business application or data source to get a list of tags for. Constraints: • min: 1 • max: 1011
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
@@ -82,6 +83,15 @@ public record AwsQbusinessListTagsForResourceOptions : AwsOptions, IValidatableO
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

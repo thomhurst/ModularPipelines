@@ -11,13 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Cancels an existing connection between partners, terminating the part- nership relationship. See also: AWS API Documentation
+/// Cancels an existing connection between partners, terminating the partnership relationship. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,12 +28,12 @@ public record AwsPartnercentralAccountCancelConnectionOptions : AwsOptions, IVal
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Cancels an existing connection between partners, terminating the part- nership relationship. See also: AWS API Documentation
+    /// Cancels an existing connection between partners, terminating the partnership relationship. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Catalog">The catalog identifier where the connection exists. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9-]+</param>
-    /// <param name="Identifier">The unique identifier of the connection to cancel. Constraints: o pattern: pac-[A-Za-z0-9]{13}</param>
-    /// <param name="ConnectionType">The type of connection to cancel (e.g., reseller, distributor, tech- nology partner). Possible values: o OPPORTUNITY_COLLABORATION o SUBSIDIARY</param>
-    /// <param name="Reason">The reason for canceling the connection, providing context for the termination. Constraints: o min: 0 o max: 256</param>
+    /// <param name="Catalog">The catalog identifier where the connection exists. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9-]+</param>
+    /// <param name="Identifier">The unique identifier of the connection to cancel. Constraints: • pattern: pac-[A-Za-z0-9]{13}</param>
+    /// <param name="ConnectionType">The type of connection to cancel (e.g., reseller, distributor, technology partner). Possible values: • OPPORTUNITY_COLLABORATION • SUBSIDIARY</param>
+    /// <param name="Reason">The reason for canceling the connection, providing context for the termination. Constraints: • min: 0 • max: 256</param>
     public AwsPartnercentralAccountCancelConnectionOptions(
         string Catalog,
         string Identifier,
@@ -69,31 +70,31 @@ public record AwsPartnercentralAccountCancelConnectionOptions : AwsOptions, IVal
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The catalog identifier where the connection exists. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9-]+
+    /// The catalog identifier where the connection exists. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9-]+
     /// </summary>
     [CliOption("--catalog")]
     public string? Catalog { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the connection to cancel. Constraints: o pattern: pac-[A-Za-z0-9]{13}
+    /// The unique identifier of the connection to cancel. Constraints: • pattern: pac-[A-Za-z0-9]{13}
     /// </summary>
     [CliOption("--identifier")]
     public string? Identifier { get; private init; }
 
     /// <summary>
-    /// The type of connection to cancel (e.g., reseller, distributor, tech- nology partner). Possible values: o OPPORTUNITY_COLLABORATION o SUBSIDIARY
+    /// The type of connection to cancel (e.g., reseller, distributor, technology partner). Possible values: • OPPORTUNITY_COLLABORATION • SUBSIDIARY
     /// </summary>
     [CliOption("--connection-type")]
     public AwsPartnercentralAccountCancelConnectionConnectionType? ConnectionType { get; private init; }
 
     /// <summary>
-    /// The reason for canceling the connection, providing context for the termination. Constraints: o min: 0 o max: 256
+    /// The reason for canceling the connection, providing context for the termination. Constraints: • min: 0 • max: 256
     /// </summary>
     [CliOption("--reason")]
     public string? Reason { get; private init; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Constraints: o min: 1 o max: 64 o pattern: [A-Za-z0-9-_]+
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Constraints: • min: 1 • max: 64 • pattern: [A-Za-z0-9-_]+
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
@@ -120,6 +121,15 @@ public record AwsPartnercentralAccountCancelConnectionOptions : AwsOptions, IVal
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

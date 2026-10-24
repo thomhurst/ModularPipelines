@@ -10,7 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +28,7 @@ public record AwsMgnStartTestOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Launches a Test Instance for specific Source Servers. This command starts a LAUNCH job whose initiatedBy property is StartTest and changes the SourceServer.lifeCycle.state property to TESTING. See also: AWS API Documentation
     /// </summary>
-    /// <param name="SourceServerIds">Start Test for Source Server IDs. Constraints: o min: 1 o max: 200 (string) Constraints: o min: 19 o max: 19 o pattern: s-[0-9a-zA-Z]{17} Syntax: "string" "string" ...</param>
+    /// <param name="SourceServerIds">Start Test for Source Server IDs. Constraints: • min: 1 • max: 200 (string) Constraints: • min: 19 • max: 19 • pattern: s-[0-9a-zA-Z]{17} Syntax: "string" "string" ...</param>
     public AwsMgnStartTestOptions(
         IEnumerable<string> SourceServerIds
     )
@@ -68,19 +68,19 @@ public record AwsMgnStartTestOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Start Test for Source Server IDs. Constraints: o min: 1 o max: 200 (string) Constraints: o min: 19 o max: 19 o pattern: s-[0-9a-zA-Z]{17} Syntax: "string" "string" ...
+    /// Start Test for Source Server IDs. Constraints: • min: 1 • max: 200 (string) Constraints: • min: 19 • max: 19 • pattern: s-[0-9a-zA-Z]{17} Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--source-server-ids", GroupValues = true)]
     public IEnumerable<string>? SourceServerIds { get; private init; }
 
     /// <summary>
-    /// Start Test by Tags. Constraints: o min: 0 o max: 50 key -&gt; (string) Constraints: o min: 0 o max: 256 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// Start Test by Tags. Constraints: • min: 0 • max: 50 key -&gt; (string) Constraints: • min: 0 • max: 256 value -&gt; (string) Constraints: • min: 0 • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>
-    /// Start Test for Account ID. Constraints: o min: 12 o max: 12 o pattern: .*[0-9]{12,}.*
+    /// Start Test for Account ID. Constraints: • min: 12 • max: 12 • pattern: .*[0-9]{12,}.*
     /// </summary>
     [CliOption("--account-id")]
     public string? AccountId { get; set; }
@@ -106,6 +106,15 @@ public record AwsMgnStartTestOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

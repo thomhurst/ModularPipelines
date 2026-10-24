@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Removes the ability of the specified Amazon Web Services account to re- store the specified snapshot. If the account is currently restoring the snapshot, the restore will run to completion. For more information about working with snapshots, go to Amazon Red- shift Snapshots in the Amazon Redshift Cluster Management Guide . See also: AWS API Documentation
+/// Removes the ability of the specified Amazon Web Services account to restore the specified snapshot. If the account is currently restoring the snapshot, the restore will run to completion. For more information about working with snapshots, go to Amazon Redshift Snapshots in the Amazon Redshift Cluster Management Guide . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsRedshiftRevokeSnapshotAccessOptions : AwsOptions, IValidatableO
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Removes the ability of the specified Amazon Web Services account to re- store the specified snapshot. If the account is currently restoring the snapshot, the restore will run to completion. For more information about working with snapshots, go to Amazon Red- shift Snapshots in the Amazon Redshift Cluster Management Guide . See also: AWS API Documentation
+    /// Removes the ability of the specified Amazon Web Services account to restore the specified snapshot. If the account is currently restoring the snapshot, the restore will run to completion. For more information about working with snapshots, go to Amazon Redshift Snapshots in the Amazon Redshift Cluster Management Guide . See also: AWS API Documentation
     /// </summary>
-    /// <param name="AccountWithRestoreAccess">The identifier of the Amazon Web Services account that can no longer restore the specified snapshot. Constraints: o max: 2147483647</param>
+    /// <param name="AccountWithRestoreAccess">The identifier of the Amazon Web Services account that can no longer restore the specified snapshot. Constraints: • max: 2147483647</param>
     public AwsRedshiftRevokeSnapshotAccessOptions(
         string AccountWithRestoreAccess
     )
@@ -56,25 +57,25 @@ public record AwsRedshiftRevokeSnapshotAccessOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the Amazon Web Services account that can no longer restore the specified snapshot. Constraints: o max: 2147483647
+    /// The identifier of the Amazon Web Services account that can no longer restore the specified snapshot. Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--account-with-restore-access")]
     public string? AccountWithRestoreAccess { get; private init; }
 
     /// <summary>
-    /// The identifier of the snapshot that the account can no longer ac- cess. Constraints: o max: 2147483647
+    /// The identifier of the snapshot that the account can no longer access. Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--snapshot-identifier")]
     public string? SnapshotIdentifier { get; set; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the snapshot associated with the message to revoke access. Constraints: o max: 2147483647
+    /// The Amazon Resource Name (ARN) of the snapshot associated with the message to revoke access. Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--snapshot-arn")]
     public string? SnapshotArn { get; set; }
 
     /// <summary>
-    /// The identifier of the cluster the snapshot was created from. This parameter is required if your IAM user has a policy containing a snapshot resource element that specifies anything other than * for the cluster name. Constraints: o max: 2147483647
+    /// The identifier of the cluster the snapshot was created from. This parameter is required if your IAM user has a policy containing a snapshot resource element that specifies anything other than * for the cluster name. Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--snapshot-cluster-identifier")]
     public string? SnapshotClusterIdentifier { get; set; }
@@ -100,6 +101,15 @@ public record AwsRedshiftRevokeSnapshotAccessOptions : AwsOptions, IValidatableO
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

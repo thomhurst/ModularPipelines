@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes a repository. If a specified repository was already deleted, a null repository ID is returned. WARNING: Deleting a repository also deletes all associated objects and meta- data. After a repository is deleted, all future push calls to the deleted repository fail. See also: AWS API Documentation
+/// Deletes a repository. If a specified repository was already deleted, a null repository ID is returned. WARNING: Deleting a repository also deletes all associated objects and metadata. After a repository is deleted, all future push calls to the deleted repository fail. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsCodecommitDeleteRepositoryOptions : AwsOptions, IValidatableObj
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes a repository. If a specified repository was already deleted, a null repository ID is returned. WARNING: Deleting a repository also deletes all associated objects and meta- data. After a repository is deleted, all future push calls to the deleted repository fail. See also: AWS API Documentation
+    /// Deletes a repository. If a specified repository was already deleted, a null repository ID is returned. WARNING: Deleting a repository also deletes all associated objects and metadata. After a repository is deleted, all future push calls to the deleted repository fail. See also: AWS API Documentation
     /// </summary>
-    /// <param name="RepositoryName">The name of the repository to delete. Constraints: o min: 1 o max: 100 o pattern: [\w\.-]+</param>
+    /// <param name="RepositoryName">The name of the repository to delete. Constraints: • min: 1 • max: 100 • pattern: [\w\.-]+</param>
     public AwsCodecommitDeleteRepositoryOptions(
         string RepositoryName
     )
@@ -56,7 +57,7 @@ public record AwsCodecommitDeleteRepositoryOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the repository to delete. Constraints: o min: 1 o max: 100 o pattern: [\w\.-]+
+    /// The name of the repository to delete. Constraints: • min: 1 • max: 100 • pattern: [\w\.-]+
     /// </summary>
     [CliOption("--repository-name")]
     public string? RepositoryName { get; private init; }
@@ -82,6 +83,15 @@ public record AwsCodecommitDeleteRepositoryOptions : AwsOptions, IValidatableObj
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

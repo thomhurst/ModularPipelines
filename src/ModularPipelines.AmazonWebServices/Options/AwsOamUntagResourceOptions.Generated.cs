@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Removes one or more tags from the specified resource. WARNING: Unlike tagging permissions in other Amazon Web Services services, to tag or untag links and sinks you must have the oam:ResourceTag per- mission. The iam:TagResource permission does not allow you to tag and untag links and sinks. See also: AWS API Documentation
+/// Removes one or more tags from the specified resource. WARNING: Unlike tagging permissions in other Amazon Web Services services, to tag or untag links and sinks you must have the oam:ResourceTag permission. The iam:TagResource permission does not allow you to tag and untag links and sinks. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsOamUntagResourceOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Removes one or more tags from the specified resource. WARNING: Unlike tagging permissions in other Amazon Web Services services, to tag or untag links and sinks you must have the oam:ResourceTag per- mission. The iam:TagResource permission does not allow you to tag and untag links and sinks. See also: AWS API Documentation
+    /// Removes one or more tags from the specified resource. WARNING: Unlike tagging permissions in other Amazon Web Services services, to tag or untag links and sinks you must have the oam:ResourceTag permission. The iam:TagResource permission does not allow you to tag and untag links and sinks. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The ARN of the resource that you're removing tags from. The ARN format of a sink is `` arn:aws:oam:Region :account-id :sink/sink-id `` System Message: WARNING/2 (&lt;string&gt;:, line 83) Inline literal start-string without end-string. The ARN format of a link is `` arn:aws:oam:Region :account-id :link/link-id `` System Message: WARNING/2 (&lt;string&gt;:, line 87) Inline literal start-string without end-string. For more information about ARN format, see CloudWatch Logs resources and operations . Constraints: o pattern: ^arn:(\w|-)+:oam:.+:.+:.+</param>
-    /// <param name="TagKeys">The list of tag keys to remove from the resource. (string) Constraints: o min: 1 o max: 128 Syntax: "string" "string" ...</param>
+    /// <param name="ResourceArn">The ARN of the resource that you're removing tags from. The ARN format of a sink is `` arn:aws:oam:Region :account-id :sink/sink-id `` System Message: WARNING/2 (&lt;string&gt;:, line 83) Inline literal start-string without end-string. The ARN format of a link is `` arn:aws:oam:Region :account-id :link/link-id `` System Message: WARNING/2 (&lt;string&gt;:, line 87) Inline literal start-string without end-string. For more information about ARN format, see CloudWatch Logs resources and operations . Constraints: • pattern: ^arn:(\w|-)+:oam:.+:.+:.+</param>
+    /// <param name="TagKeys">The list of tag keys to remove from the resource. (string) Constraints: • min: 1 • max: 128 Syntax: "string" "string" ...</param>
     public AwsOamUntagResourceOptions(
         string ResourceArn,
         IEnumerable<string> TagKeys
@@ -71,13 +72,13 @@ public record AwsOamUntagResourceOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the resource that you're removing tags from. The ARN format of a sink is `` arn:aws:oam:Region :account-id :sink/sink-id `` System Message: WARNING/2 (&lt;string&gt;:, line 83) Inline literal start-string without end-string. The ARN format of a link is `` arn:aws:oam:Region :account-id :link/link-id `` System Message: WARNING/2 (&lt;string&gt;:, line 87) Inline literal start-string without end-string. For more information about ARN format, see CloudWatch Logs resources and operations . Constraints: o pattern: ^arn:(\w|-)+:oam:.+:.+:.+
+    /// The ARN of the resource that you're removing tags from. The ARN format of a sink is `` arn:aws:oam:Region :account-id :sink/sink-id `` System Message: WARNING/2 (&lt;string&gt;:, line 83) Inline literal start-string without end-string. The ARN format of a link is `` arn:aws:oam:Region :account-id :link/link-id `` System Message: WARNING/2 (&lt;string&gt;:, line 87) Inline literal start-string without end-string. For more information about ARN format, see CloudWatch Logs resources and operations . Constraints: • pattern: ^arn:(\w|-)+:oam:.+:.+:.+
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
 
     /// <summary>
-    /// The list of tag keys to remove from the resource. (string) Constraints: o min: 1 o max: 128 Syntax: "string" "string" ...
+    /// The list of tag keys to remove from the resource. (string) Constraints: • min: 1 • max: 128 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--tag-keys", GroupValues = true)]
     public IEnumerable<string>? TagKeys { get; private init; }
@@ -103,6 +104,15 @@ public record AwsOamUntagResourceOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

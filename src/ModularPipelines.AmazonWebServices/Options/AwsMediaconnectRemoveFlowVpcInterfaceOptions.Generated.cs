@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Removes a VPC Interface from an existing flow. This request can be made only on a VPC interface that does not have a Source or Output associ- ated with it. If the VPC interface is referenced by a Source or Output, you must first delete or update the Source or Output to no longer ref- erence the VPC interface. See also: AWS API Documentation
+/// Removes a VPC Interface from an existing flow. This request can be made only on a VPC interface that does not have a Source or Output associated with it. If the VPC interface is referenced by a Source or Output, you must first delete or update the Source or Output to no longer reference the VPC interface. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsMediaconnectRemoveFlowVpcInterfaceOptions : AwsOptions, IValida
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Removes a VPC Interface from an existing flow. This request can be made only on a VPC interface that does not have a Source or Output associ- ated with it. If the VPC interface is referenced by a Source or Output, you must first delete or update the Source or Output to no longer ref- erence the VPC interface. See also: AWS API Documentation
+    /// Removes a VPC Interface from an existing flow. This request can be made only on a VPC interface that does not have a Source or Output associated with it. If the VPC interface is referenced by a Source or Output, you must first delete or update the Source or Output to no longer reference the VPC interface. See also: AWS API Documentation
     /// </summary>
-    /// <param name="FlowArn">The Amazon Resource Name (ARN) of the flow that you want to remove a VPC interface from. Constraints: o pattern: arn:.+:mediaconnect.+:flow:.+</param>
+    /// <param name="FlowArn">The Amazon Resource Name (ARN) of the flow that you want to remove a VPC interface from. Constraints: • pattern: arn:.+:mediaconnect.+:flow:.+</param>
     /// <param name="VpcInterfaceName">The name of the VPC interface that you want to remove.</param>
     public AwsMediaconnectRemoveFlowVpcInterfaceOptions(
         string FlowArn,
@@ -60,7 +61,7 @@ public record AwsMediaconnectRemoveFlowVpcInterfaceOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the flow that you want to remove a VPC interface from. Constraints: o pattern: arn:.+:mediaconnect.+:flow:.+
+    /// The Amazon Resource Name (ARN) of the flow that you want to remove a VPC interface from. Constraints: • pattern: arn:.+:mediaconnect.+:flow:.+
     /// </summary>
     [CliOption("--flow-arn")]
     public string? FlowArn { get; private init; }
@@ -92,6 +93,15 @@ public record AwsMediaconnectRemoveFlowVpcInterfaceOptions : AwsOptions, IValida
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

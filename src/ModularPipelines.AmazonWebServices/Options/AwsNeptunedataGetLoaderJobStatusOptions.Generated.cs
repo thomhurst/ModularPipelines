@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Gets status information about a specified load job. Neptune keeps track of the most recent 1,024 bulk load jobs, and stores the last 10,000 er- ror details per job. See Neptune Loader Get-Status API for more information. When invoking this operation in a Neptune cluster that has IAM authen- tication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:GetLoaderJobStatus IAM ac- tion in that cluster.. See also: AWS API Documentation get-loader-jo...
+/// Gets status information about a specified load job. Neptune keeps track of the most recent 1,024 bulk load jobs, and stores the last 10,000 error details per job. See Neptune Loader Get-Status API for more information. When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:GetLoaderJobStatus IAM action in that cluster.. See also: AWS API Documentation get-loader-job-stat...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +26,7 @@ public record AwsNeptunedataGetLoaderJobStatusOptions : AwsOptions, IValidatable
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Gets status information about a specified load job. Neptune keeps track of the most recent 1,024 bulk load jobs, and stores the last 10,000 er- ror details per job. See Neptune Loader Get-Status API for more information. When invoking this operation in a Neptune cluster that has IAM authen- tication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:GetLoaderJobStatus IAM ac- tion in that cluster.. See also: AWS API Documentation get-loader-jo...
+    /// Gets status information about a specified load job. Neptune keeps track of the most recent 1,024 bulk load jobs, and stores the last 10,000 error details per job. See Neptune Loader Get-Status API for more information. When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:GetLoaderJobStatus IAM action in that cluster.. See also: AWS API Documentation get-loader-job-stat...
     /// </summary>
     /// <param name="LoadId">The load ID of the load job to get the status of.</param>
     public AwsNeptunedataGetLoaderJobStatusOptions(
@@ -68,19 +69,19 @@ public record AwsNeptunedataGetLoaderJobStatusOptions : AwsOptions, IValidatable
     public bool? Details { get; set; }
 
     /// <summary>
-    /// Flag indicating whether or not to include a list of errors encoun- tered (TRUE or FALSE ; the default is FALSE ). The list of errors is paged. The page and errorsPerPage parameters allow you to page through all the errors.
+    /// Flag indicating whether or not to include a list of errors encountered (TRUE or FALSE ; the default is FALSE ). The list of errors is paged. The page and errorsPerPage parameters allow you to page through all the errors.
     /// </summary>
     [CliFlag("--errors", NegatedName = "--no-errors")]
     public bool? Errors { get; set; }
 
     /// <summary>
-    /// The error page number (a positive integer; the default is 1 ). Only valid when the errors parameter is set to TRUE . Constraints: o min: 1
+    /// The error page number (a positive integer; the default is 1 ). Only valid when the errors parameter is set to TRUE . Constraints: • min: 1
     /// </summary>
     [CliOption("--page")]
     public int? Page { get; set; }
 
     /// <summary>
-    /// The number of errors returned in each page (a positive integer; the default is 10 ). Only valid when the errors parameter set to TRUE . Constraints: o min: 1
+    /// The number of errors returned in each page (a positive integer; the default is 10 ). Only valid when the errors parameter set to TRUE . Constraints: • min: 1
     /// </summary>
     [CliOption("--errors-per-page")]
     public int? ErrorsPerPage { get; set; }
@@ -106,6 +107,15 @@ public record AwsNeptunedataGetLoaderJobStatusOptions : AwsOptions, IValidatable
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

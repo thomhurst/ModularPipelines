@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a RegexPatternSet , which you reference in a RegexPatternSe- tReferenceStatement , to have WAF inspect a web request component for the specified patterns. See also: AWS API Documentation
+/// Creates a RegexPatternSet , which you reference in a RegexPatternSetReferenceStatement , to have WAF inspect a web request component for the specified patterns. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,11 +27,11 @@ public record AwsWafv2CreateRegexPatternSetOptions : AwsOptions, IValidatableObj
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a RegexPatternSet , which you reference in a RegexPatternSe- tReferenceStatement , to have WAF inspect a web request component for the specified patterns. See also: AWS API Documentation
+    /// Creates a RegexPatternSet , which you reference in a RegexPatternSetReferenceStatement , to have WAF inspect a web request component for the specified patterns. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">The name of the set. You cannot change the name after you create the set. Constraints: o min: 1 o max: 128 o pattern: ^[\w\-]+$</param>
-    /// <param name="Scope">Specifies whether this is for a global resource type, such as a Ama- zon CloudFront distribution. For an Amplify application, use CLOUD- FRONT . To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows: o CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1 . o API and SDKs - For all calls, use the Region endpoint us-east-1. Possible values: o CLOUDFRONT o REGIONAL</param>
-    /// <param name="RegularExpressionList">Array of regular expression strings. (structure) A single regular expression. This is used in a RegexPatternSet and also in the configuration for the Amazon Web Services Man- aged Rules rule group AWSManagedRulesAntiDDoSRuleSet . RegexString -&gt; (string) The string representing the regular expression. WAF enforces a quota on the maximum number of characters in a regex pat- tern. For the current limit, see WAF quotas in the WAF Devel- oper Guide . Constraints: o min: 1 o max: 512 o pattern: .* Shorthand Syntax: RegexString=string ... JSON Syntax: [ { "RegexString": "string" } ... ]</param>
+    /// <param name="Name">The name of the set. You cannot change the name after you create the set. Constraints: • min: 1 • max: 128 • pattern: ^[\w\-]+$</param>
+    /// <param name="Scope">Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. For an Amplify application, use CLOUDFRONT . To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows: • CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1 . • API and SDKs - For all calls, use the Region endpoint us-east-1. Possible values: • CLOUDFRONT • REGIONAL</param>
+    /// <param name="RegularExpressionList">Array of regular expression strings. (structure) A single regular expression. This is used in a RegexPatternSet and also in the configuration for the Amazon Web Services Managed Rules rule group AWSManagedRulesAntiDDoSRuleSet . RegexString -&gt; (string) The string representing the regular expression. WAF enforces a quota on the maximum number of characters in a regex pattern. For the current limit, see WAF quotas in the WAF Developer Guide . Constraints: • min: 1 • max: 512 • pattern: .* Shorthand Syntax: RegexString=string ... JSON Syntax: [ { "RegexString": "string" } ... ]</param>
     public AwsWafv2CreateRegexPatternSetOptions(
         string Name,
         AwsWafv2CreateRegexPatternSetScope Scope,
@@ -75,31 +76,31 @@ public record AwsWafv2CreateRegexPatternSetOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the set. You cannot change the name after you create the set. Constraints: o min: 1 o max: 128 o pattern: ^[\w\-]+$
+    /// The name of the set. You cannot change the name after you create the set. Constraints: • min: 1 • max: 128 • pattern: ^[\w\-]+$
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// Specifies whether this is for a global resource type, such as a Ama- zon CloudFront distribution. For an Amplify application, use CLOUD- FRONT . To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows: o CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1 . o API and SDKs - For all calls, use the Region endpoint us-east-1. Possible values: o CLOUDFRONT o REGIONAL
+    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. For an Amplify application, use CLOUDFRONT . To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows: • CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1 . • API and SDKs - For all calls, use the Region endpoint us-east-1. Possible values: • CLOUDFRONT • REGIONAL
     /// </summary>
     [CliOption("--scope")]
     public AwsWafv2CreateRegexPatternSetScope? Scope { get; private init; }
 
     /// <summary>
-    /// Array of regular expression strings. (structure) A single regular expression. This is used in a RegexPatternSet and also in the configuration for the Amazon Web Services Man- aged Rules rule group AWSManagedRulesAntiDDoSRuleSet . RegexString -&gt; (string) The string representing the regular expression. WAF enforces a quota on the maximum number of characters in a regex pat- tern. For the current limit, see WAF quotas in the WAF Devel- oper Guide . Constraints: o min: 1 o max: 512 o pattern: .* Shorthand Syntax: RegexString=string ... JSON Syntax: [ { "RegexString": "string" } ... ]
+    /// Array of regular expression strings. (structure) A single regular expression. This is used in a RegexPatternSet and also in the configuration for the Amazon Web Services Managed Rules rule group AWSManagedRulesAntiDDoSRuleSet . RegexString -&gt; (string) The string representing the regular expression. WAF enforces a quota on the maximum number of characters in a regex pattern. For the current limit, see WAF quotas in the WAF Developer Guide . Constraints: • min: 1 • max: 512 • pattern: .* Shorthand Syntax: RegexString=string ... JSON Syntax: [ { "RegexString": "string" } ... ]
     /// </summary>
     [CliOption("--regular-expression-list", GroupValues = true)]
     public IEnumerable<string>? RegularExpressionList { get; private init; }
 
     /// <summary>
-    /// A description of the set that helps with identification. Constraints: o min: 1 o max: 256 o pattern: ^[\w+=:#@/\-,\.][\w+=:#@/\-,\.\s]+[\w+=:#@/\-,\.]$
+    /// A description of the set that helps with identification. Constraints: • min: 1 • max: 256 • pattern: ^[\w+=:#@/\-,\.][\w+=:#@/\-,\.\s]+[\w+=:#@/\-,\.]$
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// An array of key:value pairs to associate with the resource. Constraints: o min: 1 (structure) A tag associated with an Amazon Web Services resource. Tags are key:value pairs that you can use to categorize and manage your resources, for purposes like billing or other management. Typi- cally, the tag key represents a category, such as "environment", and the tag value represents a specific value within that cate- gory, such as "test," "development," or "production". Or you might set the tag key to "customer" and the value to the cus- tomer name or ID. You can specify one or more tags to add to each Amazon Web Services resource, up to 50 tags for a resource. You can tag the Amazon Web Services resources that you manage through WAF: web ACLs, rule groups, IP sets, and regex pattern sets. You can't manage or view tags through the WAF console. Key -&gt; (string) [required] Part of the key:value pair that defines a tag. You can use a tag key to describe a category of information, such as "cus- tomer." Tag keys are case-sensitive. Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Value -&gt; (string) [required] Part of the key:value pair that defines a tag. You can use a tag value to describe a specific value within a category, such as "companyA" or "companyB." Tag values are case-sensi- tive. Constraints: o min: 0 o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// An array of key:value pairs to associate with the resource. Constraints: • min: 1 (structure) A tag associated with an Amazon Web Services resource. Tags are key:value pairs that you can use to categorize and manage your resources, for purposes like billing or other management. Typically, the tag key represents a category, such as "environment", and the tag value represents a specific value within that category, such as "test," "development," or "production". Or you might set the tag key to "customer" and the value to the customer name or ID. You can specify one or more tags to add to each Amazon Web Services resource, up to 50 tags for a resource. You can tag the Amazon Web Services resources that you manage through WAF: web ACLs, rule groups, IP sets, and regex pattern sets. You can't manage or view tags through the WAF console. Key -&gt; (string) [required] Part of the key:value pair that defines a tag. You can use a tag key to describe a category of information, such as "customer." Tag keys are case-sensitive. Constraints: • min: 1 • max: 128 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Value -&gt; (string) [required] Part of the key:value pair that defines a tag. You can use a tag value to describe a specific value within a category, such as "companyA" or "companyB." Tag values are case-sensitive. Constraints: • min: 0 • max: 256 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
@@ -125,6 +126,15 @@ public record AwsWafv2CreateRegexPatternSetOptions : AwsOptions, IValidatableObj
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

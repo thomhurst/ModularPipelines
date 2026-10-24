@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Removes the specified member accounts from the behavior graph. The re- moved accounts no longer contribute data to the behavior graph. This operation can only be called by the administrator account for the be- havior graph. For invited accounts, the removed accounts are deleted from the list of accounts in the behavior graph. To restore the account, the administra- tor account must send another invitation. For organization accounts in the organization behavior graph, the De- tective administrato...
+/// Removes the specified member accounts from the behavior graph. The removed accounts no longer contribute data to the behavior graph. This operation can only be called by the administrator account for the behavior graph. For invited accounts, the removed accounts are deleted from the list of accounts in the behavior graph. To restore the account, the administrator account must send another invitation. For organization accounts in the organization behavior graph, the Detective administrator accoun...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsDetectiveDeleteMembersOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Removes the specified member accounts from the behavior graph. The re- moved accounts no longer contribute data to the behavior graph. This operation can only be called by the administrator account for the be- havior graph. For invited accounts, the removed accounts are deleted from the list of accounts in the behavior graph. To restore the account, the administra- tor account must send another invitation. For organization accounts in the organization behavior graph, the De- tective administrato...
+    /// Removes the specified member accounts from the behavior graph. The removed accounts no longer contribute data to the behavior graph. This operation can only be called by the administrator account for the behavior graph. For invited accounts, the removed accounts are deleted from the list of accounts in the behavior graph. To restore the account, the administrator account must send another invitation. For organization accounts in the organization behavior graph, the Detective administrator accoun...
     /// </summary>
-    /// <param name="GraphArn">The ARN of the behavior graph to remove members from. Constraints: o pattern: ^arn:aws[-\w]{0,10}?:detec- tive:[-\w]{2,20}?:\d{12}?:graph:[abcdef\d]{32}?$</param>
-    /// <param name="AccountIds">The list of Amazon Web Services account identifiers for the member accounts to remove from the behavior graph. You can remove up to 50 member accounts at a time. Constraints: o min: 1 o max: 50 (string) Constraints: o min: 12 o max: 12 o pattern: ^[0-9]+$ Syntax: "string" "string" ...</param>
+    /// <param name="GraphArn">The ARN of the behavior graph to remove members from. Constraints: • pattern: ^arn:aws[-\w]{0,10}?:detective:[-\w]{2,20}?:\d{12}?:graph:[abcdef\d]{32}?$</param>
+    /// <param name="AccountIds">The list of Amazon Web Services account identifiers for the member accounts to remove from the behavior graph. You can remove up to 50 member accounts at a time. Constraints: • min: 1 • max: 50 (string) Constraints: • min: 12 • max: 12 • pattern: ^[0-9]+$ Syntax: "string" "string" ...</param>
     public AwsDetectiveDeleteMembersOptions(
         string GraphArn,
         IEnumerable<string> AccountIds
@@ -71,13 +72,13 @@ public record AwsDetectiveDeleteMembersOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the behavior graph to remove members from. Constraints: o pattern: ^arn:aws[-\w]{0,10}?:detec- tive:[-\w]{2,20}?:\d{12}?:graph:[abcdef\d]{32}?$
+    /// The ARN of the behavior graph to remove members from. Constraints: • pattern: ^arn:aws[-\w]{0,10}?:detective:[-\w]{2,20}?:\d{12}?:graph:[abcdef\d]{32}?$
     /// </summary>
     [CliOption("--graph-arn")]
     public string? GraphArn { get; private init; }
 
     /// <summary>
-    /// The list of Amazon Web Services account identifiers for the member accounts to remove from the behavior graph. You can remove up to 50 member accounts at a time. Constraints: o min: 1 o max: 50 (string) Constraints: o min: 12 o max: 12 o pattern: ^[0-9]+$ Syntax: "string" "string" ...
+    /// The list of Amazon Web Services account identifiers for the member accounts to remove from the behavior graph. You can remove up to 50 member accounts at a time. Constraints: • min: 1 • max: 50 (string) Constraints: • min: 12 • max: 12 • pattern: ^[0-9]+$ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--account-ids", GroupValues = true)]
     public IEnumerable<string>? AccountIds { get; private init; }
@@ -103,6 +104,15 @@ public record AwsDetectiveDeleteMembersOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Wait until a LicenseEndpoint is Ready. Use this after invoking Cre- ateLicenseEndpoint. It will poll every 10 seconds until a successful state has been reached. This will exit with a return code of 255 after 114 failed checks. See also: AWS API Documentation
+/// Wait until a LicenseEndpoint is Ready. Use this after invoking CreateLicenseEndpoint. It will poll every 10 seconds until a successful state has been reached. This will exit with a return code of 255 after 114 failed checks. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsDeadlineWaitLicenseEndpointValidOptions : AwsOptions, IValidata
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Wait until a LicenseEndpoint is Ready. Use this after invoking Cre- ateLicenseEndpoint. It will poll every 10 seconds until a successful state has been reached. This will exit with a return code of 255 after 114 failed checks. See also: AWS API Documentation
+    /// Wait until a LicenseEndpoint is Ready. Use this after invoking CreateLicenseEndpoint. It will poll every 10 seconds until a successful state has been reached. This will exit with a return code of 255 after 114 failed checks. See also: AWS API Documentation
     /// </summary>
-    /// <param name="LicenseEndpointId">The license endpoint ID. Constraints: o pattern: le-[0-9a-f]{32}</param>
+    /// <param name="LicenseEndpointId">The license endpoint ID. Constraints: • pattern: le-[0-9a-f]{32}</param>
     public AwsDeadlineWaitLicenseEndpointValidOptions(
         string LicenseEndpointId
     )
@@ -56,7 +57,7 @@ public record AwsDeadlineWaitLicenseEndpointValidOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The license endpoint ID. Constraints: o pattern: le-[0-9a-f]{32}
+    /// The license endpoint ID. Constraints: • pattern: le-[0-9a-f]{32}
     /// </summary>
     [CliOption("--license-endpoint-id")]
     public string? LicenseEndpointId { get; private init; }
@@ -82,6 +83,15 @@ public record AwsDeadlineWaitLicenseEndpointValidOptions : AwsOptions, IValidata
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

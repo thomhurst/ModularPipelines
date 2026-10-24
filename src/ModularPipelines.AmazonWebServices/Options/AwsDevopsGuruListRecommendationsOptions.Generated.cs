@@ -11,13 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns a list of a specified insight's recommendations. Each recommen- dation includes a list of related metrics and a list of related events. See also: AWS API Documentation list-recommendations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the ...
+/// Returns a list of a specified insight's recommendations. Each recommendation includes a list of related metrics and a list of related events. See also: AWS API Documentation list-recommendations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the re...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,9 +28,9 @@ public record AwsDevopsGuruListRecommendationsOptions : AwsOptions, IValidatable
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns a list of a specified insight's recommendations. Each recommen- dation includes a list of related metrics and a list of related events. See also: AWS API Documentation list-recommendations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the ...
+    /// Returns a list of a specified insight's recommendations. Each recommendation includes a list of related metrics and a list of related events. See also: AWS API Documentation list-recommendations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the re...
     /// </summary>
-    /// <param name="InsightId">The ID of the requested insight. Constraints: o min: 1 o max: 100 o pattern: ^[\w-]*$</param>
+    /// <param name="InsightId">The ID of the requested insight. Constraints: • min: 1 • max: 100 • pattern: ^[\w-]*$</param>
     public AwsDevopsGuruListRecommendationsOptions(
         string InsightId
     )
@@ -58,28 +59,25 @@ public record AwsDevopsGuruListRecommendationsOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the requested insight. Constraints: o min: 1 o max: 100 o pattern: ^[\w-]*$
+    /// The ID of the requested insight. Constraints: • min: 1 • max: 100 • pattern: ^[\w-]*$
     /// </summary>
     [CliOption("--insight-id")]
     public string? InsightId { get; private init; }
 
     /// <summary>
-    /// A locale that specifies the language to use for recommendations. Possible values: o DE_DE o EN_US o EN_GB o ES_ES o FR_FR o IT_IT o JA_JP o KO_KR o PT_BR o ZH_CN o ZH_TW
+    /// A locale that specifies the language to use for recommendations. Possible values: • DE_DE • EN_US • EN_GB • ES_ES • FR_FR • IT_IT • JA_JP • KO_KR • PT_BR • ZH_CN • ZH_TW
     /// </summary>
     [CliOption("--locale")]
     public AwsDevopsGuruListRecommendationsLocale? Locale { get; set; }
 
     /// <summary>
-    /// The ID of the Amazon Web Services account. Constraints: o min: 12 o max: 12 o pattern: ^\d{12}$
+    /// The ID of the Amazon Web Services account. Constraints: • min: 12 • max: 12 • pattern: ^\d{12}$
     /// </summary>
     [CliOption("--account-id")]
     public string? AccountId { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -89,10 +87,13 @@ public record AwsDevopsGuruListRecommendationsOptions : AwsOptions, IValidatable
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
@@ -109,6 +110,15 @@ public record AwsDevopsGuruListRecommendationsOptions : AwsOptions, IValidatable
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

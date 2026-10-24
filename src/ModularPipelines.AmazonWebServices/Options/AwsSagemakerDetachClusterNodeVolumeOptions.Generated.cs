@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Detaches your Amazon Elastic Block Store (Amazon EBS) volume from a node in your EKS orchestrated SageMaker HyperPod cluster. This API works with the Amazon Elastic Block Store (Amazon EBS) Con- tainer Storage Interface (CSI) driver to manage the lifecycle of per- sistent storage in your HyperPod EKS clusters. See also: AWS API Documentation
+/// Detaches your Amazon Elastic Block Store (Amazon EBS) volume from a node in your EKS orchestrated SageMaker HyperPod cluster. This API works with the Amazon Elastic Block Store (Amazon EBS) Container Storage Interface (CSI) driver to manage the lifecycle of persistent storage in your HyperPod EKS clusters. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,11 +26,11 @@ public record AwsSagemakerDetachClusterNodeVolumeOptions : AwsOptions, IValidata
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Detaches your Amazon Elastic Block Store (Amazon EBS) volume from a node in your EKS orchestrated SageMaker HyperPod cluster. This API works with the Amazon Elastic Block Store (Amazon EBS) Con- tainer Storage Interface (CSI) driver to manage the lifecycle of per- sistent storage in your HyperPod EKS clusters. See also: AWS API Documentation
+    /// Detaches your Amazon Elastic Block Store (Amazon EBS) volume from a node in your EKS orchestrated SageMaker HyperPod cluster. This API works with the Amazon Elastic Block Store (Amazon EBS) Container Storage Interface (CSI) driver to manage the lifecycle of persistent storage in your HyperPod EKS clusters. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ClusterArn">The Amazon Resource Name (ARN) of your SageMaker HyperPod cluster containing the target node. Your cluster must use EKS as the orches- tration and be in the InService state. Constraints: o min: 0 o max: 256 o pattern: arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:clus- ter/[a-z0-9]{12}</param>
-    /// <param name="NodeId">The unique identifier of the cluster node from which you want to de- tach the volume. Constraints: o min: 1 o max: 256 o pattern: i-[a-f0-9]{8}(?:[a-f0-9]{9})?</param>
-    /// <param name="VolumeId">The unique identifier of your EBS volume that you want to detach. Your volume must be currently attached to the specified node. Constraints: o min: 1 o max: 256 o pattern: vol-[a-f0-9]{8}(?:[a-f0-9]{9})?</param>
+    /// <param name="ClusterArn">The Amazon Resource Name (ARN) of your SageMaker HyperPod cluster containing the target node. Your cluster must use EKS as the orchestration and be in the InService state. Constraints: • min: 0 • max: 256 • pattern: arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:cluster/[a-z0-9]{12}</param>
+    /// <param name="NodeId">The unique identifier of the cluster node from which you want to detach the volume. Constraints: • min: 1 • max: 256 • pattern: i-[a-f0-9]{8}(?:[a-f0-9]{9})?</param>
+    /// <param name="VolumeId">The unique identifier of your EBS volume that you want to detach. Your volume must be currently attached to the specified node. Constraints: • min: 1 • max: 256 • pattern: vol-[a-f0-9]{8}(?:[a-f0-9]{9})?</param>
     public AwsSagemakerDetachClusterNodeVolumeOptions(
         string ClusterArn,
         string NodeId,
@@ -64,19 +65,19 @@ public record AwsSagemakerDetachClusterNodeVolumeOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of your SageMaker HyperPod cluster containing the target node. Your cluster must use EKS as the orches- tration and be in the InService state. Constraints: o min: 0 o max: 256 o pattern: arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:clus- ter/[a-z0-9]{12}
+    /// The Amazon Resource Name (ARN) of your SageMaker HyperPod cluster containing the target node. Your cluster must use EKS as the orchestration and be in the InService state. Constraints: • min: 0 • max: 256 • pattern: arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:cluster/[a-z0-9]{12}
     /// </summary>
     [CliOption("--cluster-arn")]
     public string? ClusterArn { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the cluster node from which you want to de- tach the volume. Constraints: o min: 1 o max: 256 o pattern: i-[a-f0-9]{8}(?:[a-f0-9]{9})?
+    /// The unique identifier of the cluster node from which you want to detach the volume. Constraints: • min: 1 • max: 256 • pattern: i-[a-f0-9]{8}(?:[a-f0-9]{9})?
     /// </summary>
     [CliOption("--node-id")]
     public string? NodeId { get; private init; }
 
     /// <summary>
-    /// The unique identifier of your EBS volume that you want to detach. Your volume must be currently attached to the specified node. Constraints: o min: 1 o max: 256 o pattern: vol-[a-f0-9]{8}(?:[a-f0-9]{9})?
+    /// The unique identifier of your EBS volume that you want to detach. Your volume must be currently attached to the specified node. Constraints: • min: 1 • max: 256 • pattern: vol-[a-f0-9]{8}(?:[a-f0-9]{9})?
     /// </summary>
     [CliOption("--volume-id")]
     public string? VolumeId { get; private init; }
@@ -102,6 +103,15 @@ public record AwsSagemakerDetachClusterNodeVolumeOptions : AwsOptions, IValidata
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

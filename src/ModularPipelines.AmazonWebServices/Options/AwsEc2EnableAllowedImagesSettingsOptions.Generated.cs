@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Enables Allowed AMIs for your account in the specified Amazon Web Ser- vices Region. Two values are accepted: o enabled : The image criteria in your Allowed AMIs settings are ap- plied. As a result, only AMIs matching these criteria are discover- able and can be used by your account to launch instances. o audit-mode : The image criteria in your Allowed AMIs settings are not applied. No restrictions are placed on AMI discoverability or usage. Users in your account can launch instances using any p...
+/// Enables Allowed AMIs for your account in the specified Amazon Web Services Region. Two values are accepted: • enabled : The image criteria in your Allowed AMIs settings are applied. As a result, only AMIs matching these criteria are discoverable and can be used by your account to launch instances. • audit-mode : The image criteria in your Allowed AMIs settings are not applied. No restrictions are placed on AMI discoverability or usage. Users in your account can launch instances using any public ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +27,9 @@ public record AwsEc2EnableAllowedImagesSettingsOptions : AwsOptions, IValidatabl
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Enables Allowed AMIs for your account in the specified Amazon Web Ser- vices Region. Two values are accepted: o enabled : The image criteria in your Allowed AMIs settings are ap- plied. As a result, only AMIs matching these criteria are discover- able and can be used by your account to launch instances. o audit-mode : The image criteria in your Allowed AMIs settings are not applied. No restrictions are placed on AMI discoverability or usage. Users in your account can launch instances using any p...
+    /// Enables Allowed AMIs for your account in the specified Amazon Web Services Region. Two values are accepted: • enabled : The image criteria in your Allowed AMIs settings are applied. As a result, only AMIs matching these criteria are discoverable and can be used by your account to launch instances. • audit-mode : The image criteria in your Allowed AMIs settings are not applied. No restrictions are placed on AMI discoverability or usage. Users in your account can launch instances using any public ...
     /// </summary>
-    /// <param name="AllowedImagesSettingsState">Specify enabled to apply the image criteria specified by the Allowed AMIs settings. Specify audit-mode so that you can check which AMIs will be allowed or not allowed by the image criteria. Possible values: o enabled o audit-mode</param>
+    /// <param name="AllowedImagesSettingsState">Specify enabled to apply the image criteria specified by the Allowed AMIs settings. Specify audit-mode so that you can check which AMIs will be allowed or not allowed by the image criteria. Possible values: • enabled • audit-mode</param>
     public AwsEc2EnableAllowedImagesSettingsOptions(
         AwsEc2EnableAllowedImagesSettingsAllowedImagesSettingsState AllowedImagesSettingsState
     )
@@ -56,13 +57,13 @@ public record AwsEc2EnableAllowedImagesSettingsOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Specify enabled to apply the image criteria specified by the Allowed AMIs settings. Specify audit-mode so that you can check which AMIs will be allowed or not allowed by the image criteria. Possible values: o enabled o audit-mode
+    /// Specify enabled to apply the image criteria specified by the Allowed AMIs settings. Specify audit-mode so that you can check which AMIs will be allowed or not allowed by the image criteria. Possible values: • enabled • audit-mode
     /// </summary>
     [CliOption("--allowed-images-settings-state")]
     public AwsEc2EnableAllowedImagesSettingsAllowedImagesSettingsState? AllowedImagesSettingsState { get; private init; }
 
     /// <summary>
-    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation . Otherwise, it is UnauthorizedOperation .
     /// </summary>
     [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
@@ -88,6 +89,15 @@ public record AwsEc2EnableAllowedImagesSettingsOptions : AwsOptions, IValidatabl
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

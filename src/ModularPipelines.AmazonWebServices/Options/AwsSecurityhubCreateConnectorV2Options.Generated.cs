@@ -11,7 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -29,8 +29,8 @@ public record AwsSecurityhubCreateConnectorV2Options : AwsOptions, IValidatableO
     /// <summary>
     /// Grants permission to create a connectorV2 based on input parameters. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">The unique name of the connectorV2. Constraints: o pattern: .*\S.*</param>
-    /// <param name="Provider">The third-party providers service configuration. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: JiraCloud, ServiceNow, Azure. JiraCloud -&gt; (structure) The configuration settings required to establish an integration with Jira Cloud. ProjectKey -&gt; (string) The project key for a JiraCloud instance. Constraints: o pattern: .*\S.* ServiceNow -&gt; (structure) The configuration settings required to establish an integration with ServiceNow ITSM. InstanceName -&gt; (string) [required] The instance name of ServiceNow ITSM. Constraints: o pattern: .*\S.* SecretArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the Amazon Web Services Se- crets Manager secret that contains the ServiceNow creden- tials. Constraints: o pattern: .*\S.* Azure -&gt; (structure) The configuration settings required to establish a CSPM integra- tion with Microsoft Azure. AWSConfigConnectorArn -&gt; (string) [required] The ARN of the multi-cloud configuration connector used to establish the connection to Azure. Constraints: o pattern: .*\S.* ScopeConfiguration -&gt; (structure) [required] The scope configuration that defines which Azure resources are monitored. ScopeType -&gt; (string) [required] The type of scope. Valid values are tenant and subscrip- tion . Possible values: o TENANT o SUBSCRIPTION ScopeValues -&gt; (list) The list of scope values, such as subscription IDs, when the scope type is subscription . Constraints: o min: 0 o max: 100 (string) Constraints: o pattern: .*\S.* AzureRegions -&gt; (list) [required] The list of Azure regions to monitor. Constraints: o min: 1 o max: 100 (string) Constraints: o pattern: .*\S.* JSON Syntax: { "JiraCloud": { "ProjectKey": "string" }, "ServiceNow": { "InstanceName": "string", "SecretArn": "string" }, "Azure": { "AWSConfigConnectorArn": "string", "ScopeConfiguration": { "ScopeType": "TENANT"|"SUBSCRIPTION", "ScopeValues": ["string", ...] }, "AzureRegions": ["string", ...] } }</param>
+    /// <param name="Name">The unique name of the connectorV2. Constraints: • pattern: .*\S.*</param>
+    /// <param name="Provider">The third-party providers service configuration. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: JiraCloud, ServiceNow, Azure. JiraCloud -&gt; (structure) The configuration settings required to establish an integration with Jira Cloud. ProjectKey -&gt; (string) The project key for a JiraCloud instance. Constraints: • pattern: .*\S.* ServiceNow -&gt; (structure) The configuration settings required to establish an integration with ServiceNow ITSM. InstanceName -&gt; (string) [required] The instance name of ServiceNow ITSM. Constraints: • pattern: .*\S.* SecretArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the Amazon Web Services Secrets Manager secret that contains the ServiceNow credentials. Constraints: • pattern: .*\S.* Azure -&gt; (structure) The configuration settings required to establish a CSPM integration with Microsoft Azure. AWSConfigConnectorArn -&gt; (string) [required] The ARN of the multi-cloud configuration connector used to establish the connection to Azure. Constraints: • pattern: .*\S.* ScopeConfiguration -&gt; (structure) [required] The scope configuration that defines which Azure resources are monitored. ScopeType -&gt; (string) [required] The type of scope. Valid values are tenant and subscription . Possible values: • TENANT • SUBSCRIPTION ScopeValues -&gt; (list) The list of scope values, such as subscription IDs, when the scope type is subscription . Constraints: • min: 0 • max: 100 (string) Constraints: • pattern: .*\S.* AzureRegions -&gt; (list) [required] The list of Azure regions to monitor. Constraints: • min: 1 • max: 100 (string) Constraints: • pattern: .*\S.* JSON Syntax: { "JiraCloud": { "ProjectKey": "string" }, "ServiceNow": { "InstanceName": "string", "SecretArn": "string" }, "Azure": { "AWSConfigConnectorArn": "string", "ScopeConfiguration": { "ScopeType": "TENANT"|"SUBSCRIPTION", "ScopeValues": ["string", ...] }, "AzureRegions": ["string", ...] } }</param>
     public AwsSecurityhubCreateConnectorV2Options(
         string Name,
         string Provider
@@ -62,37 +62,37 @@ public record AwsSecurityhubCreateConnectorV2Options : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique name of the connectorV2. Constraints: o pattern: .*\S.*
+    /// The unique name of the connectorV2. Constraints: • pattern: .*\S.*
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The third-party providers service configuration. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: JiraCloud, ServiceNow, Azure. JiraCloud -&gt; (structure) The configuration settings required to establish an integration with Jira Cloud. ProjectKey -&gt; (string) The project key for a JiraCloud instance. Constraints: o pattern: .*\S.* ServiceNow -&gt; (structure) The configuration settings required to establish an integration with ServiceNow ITSM. InstanceName -&gt; (string) [required] The instance name of ServiceNow ITSM. Constraints: o pattern: .*\S.* SecretArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the Amazon Web Services Se- crets Manager secret that contains the ServiceNow creden- tials. Constraints: o pattern: .*\S.* Azure -&gt; (structure) The configuration settings required to establish a CSPM integra- tion with Microsoft Azure. AWSConfigConnectorArn -&gt; (string) [required] The ARN of the multi-cloud configuration connector used to establish the connection to Azure. Constraints: o pattern: .*\S.* ScopeConfiguration -&gt; (structure) [required] The scope configuration that defines which Azure resources are monitored. ScopeType -&gt; (string) [required] The type of scope. Valid values are tenant and subscrip- tion . Possible values: o TENANT o SUBSCRIPTION ScopeValues -&gt; (list) The list of scope values, such as subscription IDs, when the scope type is subscription . Constraints: o min: 0 o max: 100 (string) Constraints: o pattern: .*\S.* AzureRegions -&gt; (list) [required] The list of Azure regions to monitor. Constraints: o min: 1 o max: 100 (string) Constraints: o pattern: .*\S.* JSON Syntax: { "JiraCloud": { "ProjectKey": "string" }, "ServiceNow": { "InstanceName": "string", "SecretArn": "string" }, "Azure": { "AWSConfigConnectorArn": "string", "ScopeConfiguration": { "ScopeType": "TENANT"|"SUBSCRIPTION", "ScopeValues": ["string", ...] }, "AzureRegions": ["string", ...] } }
+    /// The third-party providers service configuration. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: JiraCloud, ServiceNow, Azure. JiraCloud -&gt; (structure) The configuration settings required to establish an integration with Jira Cloud. ProjectKey -&gt; (string) The project key for a JiraCloud instance. Constraints: • pattern: .*\S.* ServiceNow -&gt; (structure) The configuration settings required to establish an integration with ServiceNow ITSM. InstanceName -&gt; (string) [required] The instance name of ServiceNow ITSM. Constraints: • pattern: .*\S.* SecretArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the Amazon Web Services Secrets Manager secret that contains the ServiceNow credentials. Constraints: • pattern: .*\S.* Azure -&gt; (structure) The configuration settings required to establish a CSPM integration with Microsoft Azure. AWSConfigConnectorArn -&gt; (string) [required] The ARN of the multi-cloud configuration connector used to establish the connection to Azure. Constraints: • pattern: .*\S.* ScopeConfiguration -&gt; (structure) [required] The scope configuration that defines which Azure resources are monitored. ScopeType -&gt; (string) [required] The type of scope. Valid values are tenant and subscription . Possible values: • TENANT • SUBSCRIPTION ScopeValues -&gt; (list) The list of scope values, such as subscription IDs, when the scope type is subscription . Constraints: • min: 0 • max: 100 (string) Constraints: • pattern: .*\S.* AzureRegions -&gt; (list) [required] The list of Azure regions to monitor. Constraints: • min: 1 • max: 100 (string) Constraints: • pattern: .*\S.* JSON Syntax: { "JiraCloud": { "ProjectKey": "string" }, "ServiceNow": { "InstanceName": "string", "SecretArn": "string" }, "Azure": { "AWSConfigConnectorArn": "string", "ScopeConfiguration": { "ScopeType": "TENANT"|"SUBSCRIPTION", "ScopeValues": ["string", ...] }, "AzureRegions": ["string", ...] } }
     /// </summary>
     [CliOption("--provider")]
     public string? Provider { get; private init; }
 
     /// <summary>
-    /// The description of the connectorV2. Constraints: o pattern: .*\S.*
+    /// The description of the connectorV2. Constraints: • pattern: .*\S.*
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of KMS key used to encrypt secrets for the connectorV2. Constraints: o pattern: .*\S.*
+    /// The Amazon Resource Name (ARN) of KMS key used to encrypt secrets for the connectorV2. Constraints: • pattern: .*\S.*
     /// </summary>
     [CliOption("--kms-key-arn")]
     public string? KmsKeyArn { get; set; }
 
     /// <summary>
-    /// The tags to add to the connectorV2 when you create. Constraints: o min: 1 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^(?!aws:)[a-zA-Z+-=._:/]+$ value -&gt; (string) Constraints: o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The tags to add to the connectorV2 when you create. Constraints: • min: 1 • max: 50 key -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: ^(?!aws:)[a-zA-Z+-=._:/]+$ value -&gt; (string) Constraints: • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>
-    /// A unique identifier used to ensure idempotency. Constraints: o min: 1 o max: 63 o pattern: ^[\x21-\x7E]{1,64}$
+    /// A unique identifier used to ensure idempotency. Constraints: • min: 1 • max: 63 • pattern: ^[\x21-\x7E]{1,64}$
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
@@ -119,6 +119,15 @@ public record AwsSecurityhubCreateConnectorV2Options : AwsOptions, IValidatableO
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

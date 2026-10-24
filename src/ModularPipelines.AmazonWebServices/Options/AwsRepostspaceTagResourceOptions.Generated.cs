@@ -10,13 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Associates tags with an AWS re:Post Private resource. Currently, the only resource that can be tagged is the private re:Post. If you specify a new tag key for the resource, the tag is appended to the list of tags that are associated with the resource. If you specify a tag key thats already associated with the resource, the new tag value that you spec- ify replaces the previous value for that tag. See also: AWS API Documentation
+/// Associates tags with an AWS re:Post Private resource. Currently, the only resource that can be tagged is the private re:Post. If you specify a new tag key for the resource, the tag is appended to the list of tags that are associated with the resource. If you specify a tag key thats already associated with the resource, the new tag value that you specify replaces the previous value for that tag. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +26,10 @@ public record AwsRepostspaceTagResourceOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Associates tags with an AWS re:Post Private resource. Currently, the only resource that can be tagged is the private re:Post. If you specify a new tag key for the resource, the tag is appended to the list of tags that are associated with the resource. If you specify a tag key thats already associated with the resource, the new tag value that you spec- ify replaces the previous value for that tag. See also: AWS API Documentation
+    /// Associates tags with an AWS re:Post Private resource. Currently, the only resource that can be tagged is the private re:Post. If you specify a new tag key for the resource, the tag is appended to the list of tags that are associated with the resource. If you specify a tag key thats already associated with the resource, the new tag value that you specify replaces the previous value for that tag. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The ARN of the resource that the tag is associated with. Constraints: o min: 20 o max: 2048</param>
-    /// <param name="Tags">The list of tag keys and values that must be associated with the re- source. You can associate tag keys only, tags (key and values) only, or a combination of tag keys and tags. key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: (?!aws:)[a-zA-Z+-=._:/]+ value -&gt; (string) Constraints: o min: 1 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}</param>
+    /// <param name="ResourceArn">The ARN of the resource that the tag is associated with. Constraints: • min: 20 • max: 2048</param>
+    /// <param name="Tags">The list of tag keys and values that must be associated with the resource. You can associate tag keys only, tags (key and values) only, or a combination of tag keys and tags. key -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: (?!aws:)[a-zA-Z+-=._:/]+ value -&gt; (string) Constraints: • min: 1 • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}</param>
     public AwsRepostspaceTagResourceOptions(
         string ResourceArn,
         IReadOnlyList<KeyValue> Tags
@@ -72,13 +72,13 @@ public record AwsRepostspaceTagResourceOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the resource that the tag is associated with. Constraints: o min: 20 o max: 2048
+    /// The ARN of the resource that the tag is associated with. Constraints: • min: 20 • max: 2048
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
 
     /// <summary>
-    /// The list of tag keys and values that must be associated with the re- source. You can associate tag keys only, tags (key and values) only, or a combination of tag keys and tags. key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: (?!aws:)[a-zA-Z+-=._:/]+ value -&gt; (string) Constraints: o min: 1 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The list of tag keys and values that must be associated with the resource. You can associate tag keys only, tags (key and values) only, or a combination of tag keys and tags. key -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: (?!aws:)[a-zA-Z+-=._:/]+ value -&gt; (string) Constraints: • min: 1 • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; private init; }
@@ -104,6 +104,15 @@ public record AwsRepostspaceTagResourceOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

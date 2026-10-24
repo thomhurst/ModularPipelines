@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,9 +29,9 @@ public record AwsAcmCreateAcmeDomainValidationOptions : AwsOptions, IValidatable
     /// <summary>
     /// Creates a domain validation for an ACME endpoint. Domain validations authorize the endpoint to issue certificates for specified domain names. You configure prevalidation to prove domain ownership. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AcmeEndpointArn">The Amazon Resource Name (ARN) of the ACME endpoint. Constraints: o min: 1 o max: 200 o pattern: arn:aws[a-z-]*:acm:[a-z0-9-]+:[0-9]{12}:acme-end- point/[a-zA-Z0-9-]+</param>
-    /// <param name="DomainName">The domain name to validate. Constraints: o min: 1 o max: 253 o pattern: ([a-z0-9]([a-z0-9-]*[a-z0-9])?\.)*[a-z0-9]([a-z0-9-]*[a-z0-9])?</param>
-    /// <param name="PrevalidationOptions">The prevalidation options for the domain. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: DnsPrevalidation. DnsPrevalidation -&gt; (structure) DNS-based prevalidation options. DomainScope -&gt; (structure) The scope of domains covered by this prevalidation. ExactDomain -&gt; (string) Whether validation applies to the exact domain. Possible values: o ENABLED o DISABLED Subdomains -&gt; (string) Whether validation applies to subdomains. Possible values: o ENABLED o DISABLED Wildcards -&gt; (string) Whether validation applies to wildcard domains. Possible values: o ENABLED o DISABLED HostedZoneId -&gt; (string) The Route 53 hosted zone ID for DNS validation. Constraints: o min: 1 o max: 32 o pattern: Z[A-Z0-9]+ Shorthand Syntax: DnsPrevalidation={DomainScope={ExactDomain=string,Subdomains=string,Wildcards=string},HostedZoneId=string} JSON Syntax: { "DnsPrevalidation": { "DomainScope": { "ExactDomain": "ENABLED"|"DISABLED", "Subdomains": "ENABLED"|"DISABLED", "Wildcards": "ENABLED"|"DISABLED" }, "HostedZoneId": "string" } }</param>
+    /// <param name="AcmeEndpointArn">The Amazon Resource Name (ARN) of the ACME endpoint. Constraints: • min: 1 • max: 200 • pattern: arn:aws[a-z-]*:acm:[a-z0-9-]+:[0-9]{12}:acme-endpoint/[a-zA-Z0-9-]+</param>
+    /// <param name="DomainName">The domain name to validate. Constraints: • min: 1 • max: 253 • pattern: ([a-z0-9]([a-z0-9-]*[a-z0-9])?\.)*[a-z0-9]([a-z0-9-]*[a-z0-9])?</param>
+    /// <param name="PrevalidationOptions">The prevalidation options for the domain. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: DnsPrevalidation. DnsPrevalidation -&gt; (structure) DNS-based prevalidation options. DomainScope -&gt; (structure) The scope of domains covered by this prevalidation. ExactDomain -&gt; (string) Whether validation applies to the exact domain. Possible values: • ENABLED • DISABLED Subdomains -&gt; (string) Whether validation applies to subdomains. Possible values: • ENABLED • DISABLED Wildcards -&gt; (string) Whether validation applies to wildcard domains. Possible values: • ENABLED • DISABLED HostedZoneId -&gt; (string) The Route 53 hosted zone ID for DNS validation. Constraints: • min: 1 • max: 32 • pattern: Z[A-Z0-9]+ Shorthand Syntax: DnsPrevalidation={DomainScope={ExactDomain=string,Subdomains=string,Wildcards=string},HostedZoneId=string} JSON Syntax: { "DnsPrevalidation": { "DomainScope": { "ExactDomain": "ENABLED"|"DISABLED", "Subdomains": "ENABLED"|"DISABLED", "Wildcards": "ENABLED"|"DISABLED" }, "HostedZoneId": "string" } }</param>
     public AwsAcmCreateAcmeDomainValidationOptions(
         string AcmeEndpointArn,
         string DomainName,
@@ -65,32 +66,32 @@ public record AwsAcmCreateAcmeDomainValidationOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the ACME endpoint. Constraints: o min: 1 o max: 200 o pattern: arn:aws[a-z-]*:acm:[a-z0-9-]+:[0-9]{12}:acme-end- point/[a-zA-Z0-9-]+
+    /// The Amazon Resource Name (ARN) of the ACME endpoint. Constraints: • min: 1 • max: 200 • pattern: arn:aws[a-z-]*:acm:[a-z0-9-]+:[0-9]{12}:acme-endpoint/[a-zA-Z0-9-]+
     /// </summary>
     [CliOption("--acme-endpoint-arn")]
     public string? AcmeEndpointArn { get; private init; }
 
     /// <summary>
-    /// The domain name to validate. Constraints: o min: 1 o max: 253 o pattern: ([a-z0-9]([a-z0-9-]*[a-z0-9])?\.)*[a-z0-9]([a-z0-9-]*[a-z0-9])?
+    /// The domain name to validate. Constraints: • min: 1 • max: 253 • pattern: ([a-z0-9]([a-z0-9-]*[a-z0-9])?\.)*[a-z0-9]([a-z0-9-]*[a-z0-9])?
     /// </summary>
     [CliOption("--domain-name")]
     public string? DomainName { get; private init; }
 
     /// <summary>
-    /// The prevalidation options for the domain. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: DnsPrevalidation. DnsPrevalidation -&gt; (structure) DNS-based prevalidation options. DomainScope -&gt; (structure) The scope of domains covered by this prevalidation. ExactDomain -&gt; (string) Whether validation applies to the exact domain. Possible values: o ENABLED o DISABLED Subdomains -&gt; (string) Whether validation applies to subdomains. Possible values: o ENABLED o DISABLED Wildcards -&gt; (string) Whether validation applies to wildcard domains. Possible values: o ENABLED o DISABLED HostedZoneId -&gt; (string) The Route 53 hosted zone ID for DNS validation. Constraints: o min: 1 o max: 32 o pattern: Z[A-Z0-9]+ Shorthand Syntax: DnsPrevalidation={DomainScope={ExactDomain=string,Subdomains=string,Wildcards=string},HostedZoneId=string} JSON Syntax: { "DnsPrevalidation": { "DomainScope": { "ExactDomain": "ENABLED"|"DISABLED", "Subdomains": "ENABLED"|"DISABLED", "Wildcards": "ENABLED"|"DISABLED" }, "HostedZoneId": "string" } }
+    /// The prevalidation options for the domain. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: DnsPrevalidation. DnsPrevalidation -&gt; (structure) DNS-based prevalidation options. DomainScope -&gt; (structure) The scope of domains covered by this prevalidation. ExactDomain -&gt; (string) Whether validation applies to the exact domain. Possible values: • ENABLED • DISABLED Subdomains -&gt; (string) Whether validation applies to subdomains. Possible values: • ENABLED • DISABLED Wildcards -&gt; (string) Whether validation applies to wildcard domains. Possible values: • ENABLED • DISABLED HostedZoneId -&gt; (string) The Route 53 hosted zone ID for DNS validation. Constraints: • min: 1 • max: 32 • pattern: Z[A-Z0-9]+ Shorthand Syntax: DnsPrevalidation={DomainScope={ExactDomain=string,Subdomains=string,Wildcards=string},HostedZoneId=string} JSON Syntax: { "DnsPrevalidation": { "DomainScope": { "ExactDomain": "ENABLED"|"DISABLED", "Subdomains": "ENABLED"|"DISABLED", "Wildcards": "ENABLED"|"DISABLED" }, "HostedZoneId": "string" } }
     /// </summary>
     [CliOption("--prevalidation-options")]
     public string? PrevalidationOptions { get; private init; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier to ensure idempotency of the re- quest.
+    /// A unique, case-sensitive identifier to ensure idempotency of the request.
     /// </summary>
     [SecretValue]
     [CliOption("--idempotency-token")]
     public string? IdempotencyToken { get; set; }
 
     /// <summary>
-    /// One or more tags to associate with the domain validation. Constraints: o min: 1 o max: 50 (structure) A key-value pair that identifies or specifies metadata about an ACM resource. Key -&gt; (string) [required] The key of the tag. Constraints: o min: 1 o max: 128 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Value -&gt; (string) The value of the tag. Constraints: o min: 0 o max: 256 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// One or more tags to associate with the domain validation. Constraints: • min: 1 • max: 50 (structure) A key-value pair that identifies or specifies metadata about an ACM resource. Key -&gt; (string) [required] The key of the tag. Constraints: • min: 1 • max: 128 • pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Value -&gt; (string) The value of the tag. Constraints: • min: 0 • max: 256 • pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
@@ -116,6 +117,15 @@ public record AwsAcmCreateAcmeDomainValidationOptions : AwsOptions, IValidatable
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

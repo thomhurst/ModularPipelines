@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsIotwirelessGetWirelessDeviceImportTaskOptions : AwsOptions, IVa
     /// <summary>
     /// Get information about an import task and count of device onboarding summary information for the import task. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Id">The identifier of the import task for which information is re- quested. Constraints: o max: 256</param>
+    /// <param name="Id">The identifier of the import task for which information is requested. Constraints: • max: 256</param>
     public AwsIotwirelessGetWirelessDeviceImportTaskOptions(
         string Id
     )
@@ -56,7 +57,7 @@ public record AwsIotwirelessGetWirelessDeviceImportTaskOptions : AwsOptions, IVa
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the import task for which information is re- quested. Constraints: o max: 256
+    /// The identifier of the import task for which information is requested. Constraints: • max: 256
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; private init; }
@@ -82,6 +83,15 @@ public record AwsIotwirelessGetWirelessDeviceImportTaskOptions : AwsOptions, IVa
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

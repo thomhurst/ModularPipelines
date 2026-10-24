@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// This operation lists all the service deployments that meet the speci- fied filter criteria. A service deployment happens when you release a software update for the service. You route traffic from the running service revisions to the new service revison and control the number of running tasks. This API returns the values that you use for the request parameters in DescribeServiceRevisions . See also: AWS API Documentation
+/// This operation lists all the service deployments that meet the specified filter criteria. A service deployment happens when you release a software update for the service. You route traffic from the running service revisions to the new service revison and control the number of running tasks. This API returns the values that you use for the request parameters in DescribeServiceRevisions . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,7 +27,7 @@ public record AwsEcsListServiceDeploymentsOptions : AwsOptions, IValidatableObje
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// This operation lists all the service deployments that meet the speci- fied filter criteria. A service deployment happens when you release a software update for the service. You route traffic from the running service revisions to the new service revison and control the number of running tasks. This API returns the values that you use for the request parameters in DescribeServiceRevisions . See also: AWS API Documentation
+    /// This operation lists all the service deployments that meet the specified filter criteria. A service deployment happens when you release a software update for the service. You route traffic from the running service revisions to the new service revison and control the number of running tasks. This API returns the values that you use for the request parameters in DescribeServiceRevisions . See also: AWS API Documentation
     /// </summary>
     /// <param name="Service">The ARN or name of the service</param>
     public AwsEcsListServiceDeploymentsOptions(
@@ -63,32 +64,32 @@ public record AwsEcsListServiceDeploymentsOptions : AwsOptions, IValidatableObje
     public string? Service { get; private init; }
 
     /// <summary>
-    /// The cluster that hosts the service. This can either be the cluster name or ARN. Starting April 15, 2023, Amazon Web Services will not onboard new customers to Amazon Elastic Inference (EI), and will help current customers migrate their workloads to options that offer better price and performance. If you don't specify a cluster, de- fault is used.
+    /// The cluster that hosts the service. This can either be the cluster name or ARN. Starting April 15, 2023, Amazon Web Services will not onboard new customers to Amazon Elastic Inference (EI), and will help current customers migrate their workloads to options that offer better price and performance. If you don't specify a cluster, default is used.
     /// </summary>
     [CliOption("--cluster")]
     public string? Cluster { get; set; }
 
     /// <summary>
-    /// An optional filter you can use to narrow the results. If you do not specify a status, then all status values are included in the result. (string) Possible values: o PENDING o SUCCESSFUL o STOPPED o STOP_REQUESTED o IN_PROGRESS o ROLLBACK_REQUESTED o ROLLBACK_IN_PROGRESS o ROLLBACK_SUCCESSFUL o ROLLBACK_FAILED Syntax: "string" "string" ...
+    /// An optional filter you can use to narrow the results. If you do not specify a status, then all status values are included in the result. (string) Possible values: • PENDING • SUCCESSFUL • STOPPED • STOP_REQUESTED • IN_PROGRESS • ROLLBACK_REQUESTED • ROLLBACK_IN_PROGRESS • ROLLBACK_SUCCESSFUL • ROLLBACK_FAILED Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--status", GroupValues = true)]
     public IEnumerable<string>? Status { get; set; }
 
     /// <summary>
-    /// An optional filter you can use to narrow the results by the service creation date. If you do not specify a value, the result includes all services created before the current time. The format is yyyy-MM-dd HH:mm:ss.SSSSSS. before -&gt; (timestamp) Include service deployments in the result that were created be- fore this time. The format is yyyy-MM-dd HH:mm:ss.SSSSSS. after -&gt; (timestamp) Include service deployments in the result that were created af- ter this time. The format is yyyy-MM-dd HH:mm:ss.SSSSSS. Shorthand Syntax: before=timestamp,after=timestamp JSON Syntax: { "before": timestamp, "after": timestamp }
+    /// An optional filter you can use to narrow the results by the service creation date. If you do not specify a value, the result includes all services created before the current time. The format is yyyy-MM-dd HH:mm:ss.SSSSSS. before -&gt; (timestamp) Include service deployments in the result that were created before this time. The format is yyyy-MM-dd HH:mm:ss.SSSSSS. after -&gt; (timestamp) Include service deployments in the result that were created after this time. The format is yyyy-MM-dd HH:mm:ss.SSSSSS. Shorthand Syntax: before=timestamp,after=timestamp JSON Syntax: { "before": timestamp, "after": timestamp }
     /// </summary>
     [CliOption("--created-at")]
     public string? CreatedAt { get; set; }
 
     /// <summary>
-    /// The nextToken value returned from a ListServiceDeployments request indicating that more results are available to fulfill the request and further calls are needed. If you provided maxResults , it's pos- sible the number of results is fewer than maxResults .
+    /// The nextToken value returned from a ListServiceDeployments request indicating that more results are available to fulfill the request and further calls are needed. If you provided maxResults , it's possible the number of results is fewer than maxResults .
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// The maximum number of service deployment results that ListServiceDe- ployments returned in paginated output. When this parameter is used, ListServiceDeployments only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListServiceDe- ployments request with the returned nextToken value. This value can be between 1 and 100. If this parameter isn't used, then ListSer- viceDeployments returns up to 20 results and a nextToken value if applicable.
+    /// The maximum number of service deployment results that ListServiceDeployments returned in paginated output. When this parameter is used, ListServiceDeployments only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListServiceDeployments request with the returned nextToken value. This value can be between 1 and 100. If this parameter isn't used, then ListServiceDeployments returns up to 20 results and a nextToken value if applicable.
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
@@ -114,6 +115,15 @@ public record AwsEcsListServiceDeploymentsOptions : AwsOptions, IValidatableObje
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

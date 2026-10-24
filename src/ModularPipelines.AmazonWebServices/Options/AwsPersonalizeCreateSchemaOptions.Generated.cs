@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates an Amazon Personalize schema from the specified schema string. The schema you create must be in Avro JSON format. Amazon Personalize recognizes three schema variants. Each schema is as- sociated with a dataset type and has a set of required field and key- words. If you are creating a schema for a dataset in a Domain dataset group, you provide the domain of the Domain dataset group. You specify a schema when you call CreateDataset . Related APIs o ListSchemas o DescribeSchema o DeleteSche...
+/// Creates an Amazon Personalize schema from the specified schema string. The schema you create must be in Avro JSON format. Amazon Personalize recognizes three schema variants. Each schema is associated with a dataset type and has a set of required field and keywords. If you are creating a schema for a dataset in a Domain dataset group, you provide the domain of the Domain dataset group. You specify a schema when you call CreateDataset . Related APIs • ListSchemas • DescribeSchema • DeleteSchema S...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +27,10 @@ public record AwsPersonalizeCreateSchemaOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates an Amazon Personalize schema from the specified schema string. The schema you create must be in Avro JSON format. Amazon Personalize recognizes three schema variants. Each schema is as- sociated with a dataset type and has a set of required field and key- words. If you are creating a schema for a dataset in a Domain dataset group, you provide the domain of the Domain dataset group. You specify a schema when you call CreateDataset . Related APIs o ListSchemas o DescribeSchema o DeleteSche...
+    /// Creates an Amazon Personalize schema from the specified schema string. The schema you create must be in Avro JSON format. Amazon Personalize recognizes three schema variants. Each schema is associated with a dataset type and has a set of required field and keywords. If you are creating a schema for a dataset in a Domain dataset group, you provide the domain of the Domain dataset group. You specify a schema when you call CreateDataset . Related APIs • ListSchemas • DescribeSchema • DeleteSchema S...
     /// </summary>
-    /// <param name="Name">The name for the schema. Constraints: o min: 1 o max: 63 o pattern: ^[a-zA-Z0-9][a-zA-Z0-9\-_]*</param>
-    /// <param name="Schema">A schema in Avro JSON format. Constraints: o max: 20000</param>
+    /// <param name="Name">The name for the schema. Constraints: • min: 1 • max: 63 • pattern: ^[a-zA-Z0-9][a-zA-Z0-9\-_]*</param>
+    /// <param name="Schema">A schema in Avro JSON format. Constraints: • max: 20000</param>
     public AwsPersonalizeCreateSchemaOptions(
         string Name,
         string Schema
@@ -61,19 +62,19 @@ public record AwsPersonalizeCreateSchemaOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name for the schema. Constraints: o min: 1 o max: 63 o pattern: ^[a-zA-Z0-9][a-zA-Z0-9\-_]*
+    /// The name for the schema. Constraints: • min: 1 • max: 63 • pattern: ^[a-zA-Z0-9][a-zA-Z0-9\-_]*
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// A schema in Avro JSON format. Constraints: o max: 20000
+    /// A schema in Avro JSON format. Constraints: • max: 20000
     /// </summary>
     [CliOption("--schema")]
     public string? Schema { get; private init; }
 
     /// <summary>
-    /// The domain for the schema. If you are creating a schema for a dataset in a Domain dataset group, specify the domain you chose when you created the Domain dataset group. Possible values: o ECOMMERCE o VIDEO_ON_DEMAND
+    /// The domain for the schema. If you are creating a schema for a dataset in a Domain dataset group, specify the domain you chose when you created the Domain dataset group. Possible values: • ECOMMERCE • VIDEO_ON_DEMAND
     /// </summary>
     [CliOption("--domain")]
     public AwsPersonalizeCreateSchemaDomain? Domain { get; set; }
@@ -99,6 +100,15 @@ public record AwsPersonalizeCreateSchemaOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

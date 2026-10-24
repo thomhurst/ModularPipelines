@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsOpensearchAssociatePackagesOptions : AwsOptions, IValidatableOb
     /// <summary>
     /// Operation in the Amazon OpenSearch Service API for associating multiple packages with a domain simultaneously. See also: AWS API Documentation
     /// </summary>
-    /// <param name="PackageList">A list of packages and their prerequisites to be associated with a domain. (structure) Details of a package that is associated with a domain. PackageID -&gt; (string) [required] Internal ID of the package that you want to associate with a domain. Constraints: o pattern: ^([FG][0-9]+)$|^(pkg-[a-f0-9]+)$ PrerequisitePackageIDList -&gt; (list) List of package IDs that must be linked to the domain before or simultaneously with the package association. (string) Constraints: o pattern: ^([FG][0-9]+)$|^(pkg-[a-f0-9]+)$ AssociationConfiguration -&gt; (structure) The configuration parameters for associating the package with a domain. KeyStoreAccessOption -&gt; (structure) The configuration parameters to enable accessing the key store required by the package. KeyAccessRoleArn -&gt; (string) Role ARN to access the KeyStore Key Constraints: o min: 20 o max: 2048 o pattern: arn:(aws|aws\-cn|aws\-us\-gov|aws\-iso|aws\-iso\-b):iam::[0-9]+:role\/.* KeyStoreAccessEnabled -&gt; (boolean) [required] This indicates whether Key Store access is enabled Shorthand Syntax: PackageID=string,PrerequisitePackageIDList=string,string,AssociationConfiguration={KeyStoreAccessOption={KeyAccessRoleArn=string,KeyStoreAccessEnabled=boolean}} ... JSON Syntax: [ { "PackageID": "string", "PrerequisitePackageIDList": ["string", ...], "AssociationConfiguration": { "KeyStoreAccessOption": { "KeyAccessRoleArn": "string", "KeyStoreAccessEnabled": true|false } } } ... ]</param>
-    /// <param name="DomainName">The name of an OpenSearch Service domain. Domain names are unique across the domains owned by an account within an Amazon Web Services Region. Constraints: o min: 3 o max: 28 o pattern: [a-z][a-z0-9\-]+</param>
+    /// <param name="PackageList">A list of packages and their prerequisites to be associated with a domain. (structure) Details of a package that is associated with a domain. PackageID -&gt; (string) [required] Internal ID of the package that you want to associate with a domain. Constraints: • pattern: ^([FG][0-9]+)$|^(pkg-[a-f0-9]+)$ PrerequisitePackageIDList -&gt; (list) List of package IDs that must be linked to the domain before or simultaneously with the package association. (string) Constraints: • pattern: ^([FG][0-9]+)$|^(pkg-[a-f0-9]+)$ AssociationConfiguration -&gt; (structure) The configuration parameters for associating the package with a domain. KeyStoreAccessOption -&gt; (structure) The configuration parameters to enable accessing the key store required by the package. KeyAccessRoleArn -&gt; (string) Role ARN to access the KeyStore Key Constraints: • min: 20 • max: 2048 • pattern: arn:(aws|aws\-cn|aws\-us\-gov|aws\-iso|aws\-iso\-b):iam::[0-9]+:role\/.* KeyStoreAccessEnabled -&gt; (boolean) [required] This indicates whether Key Store access is enabled Shorthand Syntax: PackageID=string,PrerequisitePackageIDList=string,string,AssociationConfiguration={KeyStoreAccessOption={KeyAccessRoleArn=string,KeyStoreAccessEnabled=boolean}} ... JSON Syntax: [ { "PackageID": "string", "PrerequisitePackageIDList": ["string", ...], "AssociationConfiguration": { "KeyStoreAccessOption": { "KeyAccessRoleArn": "string", "KeyStoreAccessEnabled": true|false } } } ... ]</param>
+    /// <param name="DomainName">The name of an OpenSearch Service domain. Domain names are unique across the domains owned by an account within an Amazon Web Services Region. Constraints: • min: 3 • max: 28 • pattern: [a-z][a-z0-9\-]+</param>
     public AwsOpensearchAssociatePackagesOptions(
         IEnumerable<string> PackageList,
         string DomainName
@@ -71,13 +72,13 @@ public record AwsOpensearchAssociatePackagesOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A list of packages and their prerequisites to be associated with a domain. (structure) Details of a package that is associated with a domain. PackageID -&gt; (string) [required] Internal ID of the package that you want to associate with a domain. Constraints: o pattern: ^([FG][0-9]+)$|^(pkg-[a-f0-9]+)$ PrerequisitePackageIDList -&gt; (list) List of package IDs that must be linked to the domain before or simultaneously with the package association. (string) Constraints: o pattern: ^([FG][0-9]+)$|^(pkg-[a-f0-9]+)$ AssociationConfiguration -&gt; (structure) The configuration parameters for associating the package with a domain. KeyStoreAccessOption -&gt; (structure) The configuration parameters to enable accessing the key store required by the package. KeyAccessRoleArn -&gt; (string) Role ARN to access the KeyStore Key Constraints: o min: 20 o max: 2048 o pattern: arn:(aws|aws\-cn|aws\-us\-gov|aws\-iso|aws\-iso\-b):iam::[0-9]+:role\/.* KeyStoreAccessEnabled -&gt; (boolean) [required] This indicates whether Key Store access is enabled Shorthand Syntax: PackageID=string,PrerequisitePackageIDList=string,string,AssociationConfiguration={KeyStoreAccessOption={KeyAccessRoleArn=string,KeyStoreAccessEnabled=boolean}} ... JSON Syntax: [ { "PackageID": "string", "PrerequisitePackageIDList": ["string", ...], "AssociationConfiguration": { "KeyStoreAccessOption": { "KeyAccessRoleArn": "string", "KeyStoreAccessEnabled": true|false } } } ... ]
+    /// A list of packages and their prerequisites to be associated with a domain. (structure) Details of a package that is associated with a domain. PackageID -&gt; (string) [required] Internal ID of the package that you want to associate with a domain. Constraints: • pattern: ^([FG][0-9]+)$|^(pkg-[a-f0-9]+)$ PrerequisitePackageIDList -&gt; (list) List of package IDs that must be linked to the domain before or simultaneously with the package association. (string) Constraints: • pattern: ^([FG][0-9]+)$|^(pkg-[a-f0-9]+)$ AssociationConfiguration -&gt; (structure) The configuration parameters for associating the package with a domain. KeyStoreAccessOption -&gt; (structure) The configuration parameters to enable accessing the key store required by the package. KeyAccessRoleArn -&gt; (string) Role ARN to access the KeyStore Key Constraints: • min: 20 • max: 2048 • pattern: arn:(aws|aws\-cn|aws\-us\-gov|aws\-iso|aws\-iso\-b):iam::[0-9]+:role\/.* KeyStoreAccessEnabled -&gt; (boolean) [required] This indicates whether Key Store access is enabled Shorthand Syntax: PackageID=string,PrerequisitePackageIDList=string,string,AssociationConfiguration={KeyStoreAccessOption={KeyAccessRoleArn=string,KeyStoreAccessEnabled=boolean}} ... JSON Syntax: [ { "PackageID": "string", "PrerequisitePackageIDList": ["string", ...], "AssociationConfiguration": { "KeyStoreAccessOption": { "KeyAccessRoleArn": "string", "KeyStoreAccessEnabled": true|false } } } ... ]
     /// </summary>
     [CliOption("--package-list", GroupValues = true)]
     public IEnumerable<string>? PackageList { get; private init; }
 
     /// <summary>
-    /// The name of an OpenSearch Service domain. Domain names are unique across the domains owned by an account within an Amazon Web Services Region. Constraints: o min: 3 o max: 28 o pattern: [a-z][a-z0-9\-]+
+    /// The name of an OpenSearch Service domain. Domain names are unique across the domains owned by an account within an Amazon Web Services Region. Constraints: • min: 3 • max: 28 • pattern: [a-z][a-z0-9\-]+
     /// </summary>
     [CliOption("--domain-name")]
     public string? DomainName { get; private init; }
@@ -103,6 +104,15 @@ public record AwsOpensearchAssociatePackagesOptions : AwsOptions, IValidatableOb
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

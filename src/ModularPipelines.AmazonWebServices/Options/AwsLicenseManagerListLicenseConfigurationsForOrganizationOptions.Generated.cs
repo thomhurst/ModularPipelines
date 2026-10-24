@@ -42,7 +42,7 @@ public record AwsLicenseManagerListLicenseConfigurationsForOrganizationOptions :
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// Filters to scope the results. (structure) A filter name and value pair that is used to return more spe- cific results from a describe operation. Filters can be used to match a set of resources by specific criteria, such as tags, at- tributes, or IDs. Name -&gt; (string) Name of the filter. Filter names are case-sensitive. Values -&gt; (list) The value of the filter, which is case-sensitive. You can only specify one value for the filter. (string) Shorthand Syntax: Name=string,Values=string,string ... JSON Syntax: [ { "Name": "string", "Values": ["string", ...] } ... ]
+    /// Filters to scope the results. (structure) A filter name and value pair that is used to return more specific results from a describe operation. Filters can be used to match a set of resources by specific criteria, such as tags, attributes, or IDs. Name -&gt; (string) Name of the filter. Filter names are case-sensitive. Values -&gt; (list) The value of the filter, which is case-sensitive. You can only specify one value for the filter. (string) Shorthand Syntax: Name=string,Values=string,string ... JSON Syntax: [ { "Name": "string", "Values": ["string", ...] } ... ]
     /// </summary>
     [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
@@ -52,5 +52,14 @@ public record AwsLicenseManagerListLicenseConfigurationsForOrganizationOptions :
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

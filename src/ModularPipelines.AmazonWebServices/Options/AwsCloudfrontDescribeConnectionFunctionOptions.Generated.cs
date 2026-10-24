@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -63,7 +64,7 @@ public record AwsCloudfrontDescribeConnectionFunctionOptions : AwsOptions, IVali
     public string? Identifier { get; private init; }
 
     /// <summary>
-    /// The connection function's stage. Possible values: o DEVELOPMENT o LIVE
+    /// The connection function's stage. Possible values: • DEVELOPMENT • LIVE
     /// </summary>
     [CliOption("--stage")]
     public AwsCloudfrontDescribeConnectionFunctionStage? Stage { get; set; }
@@ -89,6 +90,15 @@ public record AwsCloudfrontDescribeConnectionFunctionOptions : AwsOptions, IVali
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

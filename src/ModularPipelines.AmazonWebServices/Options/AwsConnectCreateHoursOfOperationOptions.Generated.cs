@@ -10,7 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,10 +28,10 @@ public record AwsConnectCreateHoursOfOperationOptions : AwsOptions, IValidatable
     /// <summary>
     /// Creates hours of operation. See also: AWS API Documentation
     /// </summary>
-    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100</param>
-    /// <param name="Name">The name of the hours of operation. Constraints: o min: 1 o max: 127</param>
+    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: • min: 1 • max: 100</param>
+    /// <param name="Name">The name of the hours of operation. Constraints: • min: 1 • max: 127</param>
     /// <param name="TimeZone">The time zone of the hours of operation.</param>
-    /// <param name="Config">Configuration information for the hours of operation: day, start time, and end time. Constraints: o min: 0 o max: 100 (structure) Contains information about the hours of operation. Day -&gt; (string) [required] The day that the hours of operation applies to. Possible values: o SUNDAY o MONDAY o TUESDAY o WEDNESDAY o THURSDAY o FRIDAY o SATURDAY StartTime -&gt; (structure) [required] The start time that your contact center opens. Hours -&gt; (integer) [required] The hours. Constraints: o min: 0 o max: 23 Minutes -&gt; (integer) [required] The minutes. Constraints: o min: 0 o max: 59 EndTime -&gt; (structure) [required] The end time that your contact center closes. Hours -&gt; (integer) [required] The hours. Constraints: o min: 0 o max: 23 Minutes -&gt; (integer) [required] The minutes. Constraints: o min: 0 o max: 59 Shorthand Syntax: Day=string,StartTime={Hours=integer,Minutes=integer},EndTime={Hours=integer,Minutes=integer} ... JSON Syntax: [ { "Day": "SUNDAY"|"MONDAY"|"TUESDAY"|"WEDNESDAY"|"THURSDAY"|"FRIDAY"|"SATURDAY", "StartTime": { "Hours": integer, "Minutes": integer }, "EndTime": { "Hours": integer, "Minutes": integer } } ... ]</param>
+    /// <param name="Config">Configuration information for the hours of operation: day, start time, and end time. Constraints: • min: 0 • max: 100 (structure) Contains information about the hours of operation. Day -&gt; (string) [required] The day that the hours of operation applies to. Possible values: • SUNDAY • MONDAY • TUESDAY • WEDNESDAY • THURSDAY • FRIDAY • SATURDAY StartTime -&gt; (structure) [required] The start time that your contact center opens. Hours -&gt; (integer) [required] The hours. Constraints: • min: 0 • max: 23 Minutes -&gt; (integer) [required] The minutes. Constraints: • min: 0 • max: 59 EndTime -&gt; (structure) [required] The end time that your contact center closes. Hours -&gt; (integer) [required] The hours. Constraints: • min: 0 • max: 23 Minutes -&gt; (integer) [required] The minutes. Constraints: • min: 0 • max: 59 Shorthand Syntax: Day=string,StartTime={Hours=integer,Minutes=integer},EndTime={Hours=integer,Minutes=integer} ... JSON Syntax: [ { "Day": "SUNDAY"|"MONDAY"|"TUESDAY"|"WEDNESDAY"|"THURSDAY"|"FRIDAY"|"SATURDAY", "StartTime": { "Hours": integer, "Minutes": integer }, "EndTime": { "Hours": integer, "Minutes": integer } } ... ]</param>
     public AwsConnectCreateHoursOfOperationOptions(
         string InstanceId,
         string Name,
@@ -80,13 +80,13 @@ public record AwsConnectCreateHoursOfOperationOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100
+    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--instance-id")]
     public string? InstanceId { get; private init; }
 
     /// <summary>
-    /// The name of the hours of operation. Constraints: o min: 1 o max: 127
+    /// The name of the hours of operation. Constraints: • min: 1 • max: 127
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
@@ -98,25 +98,25 @@ public record AwsConnectCreateHoursOfOperationOptions : AwsOptions, IValidatable
     public string? TimeZone { get; private init; }
 
     /// <summary>
-    /// Configuration information for the hours of operation: day, start time, and end time. Constraints: o min: 0 o max: 100 (structure) Contains information about the hours of operation. Day -&gt; (string) [required] The day that the hours of operation applies to. Possible values: o SUNDAY o MONDAY o TUESDAY o WEDNESDAY o THURSDAY o FRIDAY o SATURDAY StartTime -&gt; (structure) [required] The start time that your contact center opens. Hours -&gt; (integer) [required] The hours. Constraints: o min: 0 o max: 23 Minutes -&gt; (integer) [required] The minutes. Constraints: o min: 0 o max: 59 EndTime -&gt; (structure) [required] The end time that your contact center closes. Hours -&gt; (integer) [required] The hours. Constraints: o min: 0 o max: 23 Minutes -&gt; (integer) [required] The minutes. Constraints: o min: 0 o max: 59 Shorthand Syntax: Day=string,StartTime={Hours=integer,Minutes=integer},EndTime={Hours=integer,Minutes=integer} ... JSON Syntax: [ { "Day": "SUNDAY"|"MONDAY"|"TUESDAY"|"WEDNESDAY"|"THURSDAY"|"FRIDAY"|"SATURDAY", "StartTime": { "Hours": integer, "Minutes": integer }, "EndTime": { "Hours": integer, "Minutes": integer } } ... ]
+    /// Configuration information for the hours of operation: day, start time, and end time. Constraints: • min: 0 • max: 100 (structure) Contains information about the hours of operation. Day -&gt; (string) [required] The day that the hours of operation applies to. Possible values: • SUNDAY • MONDAY • TUESDAY • WEDNESDAY • THURSDAY • FRIDAY • SATURDAY StartTime -&gt; (structure) [required] The start time that your contact center opens. Hours -&gt; (integer) [required] The hours. Constraints: • min: 0 • max: 23 Minutes -&gt; (integer) [required] The minutes. Constraints: • min: 0 • max: 59 EndTime -&gt; (structure) [required] The end time that your contact center closes. Hours -&gt; (integer) [required] The hours. Constraints: • min: 0 • max: 23 Minutes -&gt; (integer) [required] The minutes. Constraints: • min: 0 • max: 59 Shorthand Syntax: Day=string,StartTime={Hours=integer,Minutes=integer},EndTime={Hours=integer,Minutes=integer} ... JSON Syntax: [ { "Day": "SUNDAY"|"MONDAY"|"TUESDAY"|"WEDNESDAY"|"THURSDAY"|"FRIDAY"|"SATURDAY", "StartTime": { "Hours": integer, "Minutes": integer }, "EndTime": { "Hours": integer, "Minutes": integer } } ... ]
     /// </summary>
     [CliOption("--config", GroupValues = true)]
     public IEnumerable<string>? Config { get; private init; }
 
     /// <summary>
-    /// The description of the hours of operation. Constraints: o min: 1 o max: 250
+    /// The description of the hours of operation. Constraints: • min: 1 • max: 250
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// Configuration for parent hours of operations. Eg: ResourceArn. For more information about parent hours of operations, see Link overrides from different hours of operation in the Administrator Guide . Constraints: o min: 0 o max: 3 (structure) Contains configuration for the parent hours of operation. HoursOfOperationId -&gt; (string) The identifier for the hours of operation. Shorthand Syntax: HoursOfOperationId=string ... JSON Syntax: [ { "HoursOfOperationId": "string" } ... ]
+    /// Configuration for parent hours of operations. Eg: ResourceArn. For more information about parent hours of operations, see Link overrides from different hours of operation in the Administrator Guide . Constraints: • min: 0 • max: 3 (structure) Contains configuration for the parent hours of operation. HoursOfOperationId -&gt; (string) The identifier for the hours of operation. Shorthand Syntax: HoursOfOperationId=string ... JSON Syntax: [ { "HoursOfOperationId": "string" } ... ]
     /// </summary>
     [CliOption("--parent-hours-of-operation-configs", GroupValues = true)]
     public IEnumerable<string>? ParentHoursOfOperationConfigs { get; set; }
 
     /// <summary>
-    /// The tags used to organize, track, or control access for this re- source. For example, { "Tags": {"key1":"value1", "key2":"value2"} }. Constraints: o min: 1 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^(?!aws:)[\p{L}\p{Z}\p{N}_.:/=+\-@]*$ value -&gt; (string) Constraints: o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The tags used to organize, track, or control access for this resource. For example, { "Tags": {"key1":"value1", "key2":"value2"} }. Constraints: • min: 1 • max: 50 key -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: ^(?!aws:)[\p{L}\p{Z}\p{N}_.:/=+\-@]*$ value -&gt; (string) Constraints: • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
@@ -142,6 +142,15 @@ public record AwsConnectCreateHoursOfOperationOptions : AwsOptions, IValidatable
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

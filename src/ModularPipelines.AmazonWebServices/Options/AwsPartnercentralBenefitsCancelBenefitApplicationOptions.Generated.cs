@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,9 +29,9 @@ public record AwsPartnercentralBenefitsCancelBenefitApplicationOptions : AwsOpti
     /// <summary>
     /// Cancels a benefit application that is currently in progress, preventing further processing. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Catalog">The catalog identifier that specifies which benefit catalog the ap- plication belongs to. Constraints: o pattern: [A-Za-z0-9_-]+</param>
-    /// <param name="ClientToken">A unique, case-sensitive identifier to ensure idempotent processing of the cancellation request. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9-]{1,64}</param>
-    /// <param name="Identifier">The unique identifier of the benefit application to cancel. Constraints: o pattern: (arn:.+|benappl-[0-9a-z]{14})</param>
+    /// <param name="Catalog">The catalog identifier that specifies which benefit catalog the application belongs to. Constraints: • pattern: [A-Za-z0-9_-]+</param>
+    /// <param name="ClientToken">A unique, case-sensitive identifier to ensure idempotent processing of the cancellation request. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9-]{1,64}</param>
+    /// <param name="Identifier">The unique identifier of the benefit application to cancel. Constraints: • pattern: (arn:.+|benappl-[0-9a-z]{14})</param>
     public AwsPartnercentralBenefitsCancelBenefitApplicationOptions(
         string Catalog,
         string ClientToken,
@@ -65,26 +66,26 @@ public record AwsPartnercentralBenefitsCancelBenefitApplicationOptions : AwsOpti
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The catalog identifier that specifies which benefit catalog the ap- plication belongs to. Constraints: o pattern: [A-Za-z0-9_-]+
+    /// The catalog identifier that specifies which benefit catalog the application belongs to. Constraints: • pattern: [A-Za-z0-9_-]+
     /// </summary>
     [CliOption("--catalog")]
     public string? Catalog { get; private init; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier to ensure idempotent processing of the cancellation request. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9-]{1,64}
+    /// A unique, case-sensitive identifier to ensure idempotent processing of the cancellation request. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9-]{1,64}
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the benefit application to cancel. Constraints: o pattern: (arn:.+|benappl-[0-9a-z]{14})
+    /// The unique identifier of the benefit application to cancel. Constraints: • pattern: (arn:.+|benappl-[0-9a-z]{14})
     /// </summary>
     [CliOption("--identifier")]
     public string? Identifier { get; private init; }
 
     /// <summary>
-    /// A descriptive reason explaining why the benefit application is being cancelled. Constraints: o min: 0 o max: 1000 o pattern: [\s\S]{1,1000}
+    /// A descriptive reason explaining why the benefit application is being cancelled. Constraints: • min: 0 • max: 1000 • pattern: [\s\S]{1,1000}
     /// </summary>
     [CliOption("--reason")]
     public string? Reason { get; set; }
@@ -110,6 +111,15 @@ public record AwsPartnercentralBenefitsCancelBenefitApplicationOptions : AwsOpti
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

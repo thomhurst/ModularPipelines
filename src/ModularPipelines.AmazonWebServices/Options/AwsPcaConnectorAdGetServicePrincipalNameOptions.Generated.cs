@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Lists the service principal name that the connector uses to authenti- cate with Active Directory. See also: AWS API Documentation
+/// Lists the service principal name that the connector uses to authenticate with Active Directory. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsPcaConnectorAdGetServicePrincipalNameOptions : AwsOptions, IVal
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Lists the service principal name that the connector uses to authenti- cate with Active Directory. See also: AWS API Documentation
+    /// Lists the service principal name that the connector uses to authenticate with Active Directory. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ConnectorArn">The Amazon Resource Name (ARN) that was returned when you called CreateConnector . Constraints: o min: 5 o max: 200 o pattern: ^arn:[\w-]+:pca-connector-ad:[\w-]+:[0-9]+:connec- tor\/[0-9a-f]{8}(-[0-9a-f]{4}){3}-[0-9a-f]{12}$</param>
-    /// <param name="DirectoryRegistrationArn">The Amazon Resource Name (ARN) that was returned when you called CreateDirectoryRegistration . Constraints: o min: 5 o max: 200 o pattern: ^arn:[\w-]+:pca-connector-ad:[\w-]+:[0-9]+:directory-reg- istration\/d-[0-9a-f]{10}$</param>
+    /// <param name="ConnectorArn">The Amazon Resource Name (ARN) that was returned when you called CreateConnector . Constraints: • min: 5 • max: 200 • pattern: ^arn:[\w-]+:pca-connector-ad:[\w-]+:[0-9]+:connector\/[0-9a-f]{8}(-[0-9a-f]{4}){3}-[0-9a-f]{12}$</param>
+    /// <param name="DirectoryRegistrationArn">The Amazon Resource Name (ARN) that was returned when you called CreateDirectoryRegistration . Constraints: • min: 5 • max: 200 • pattern: ^arn:[\w-]+:pca-connector-ad:[\w-]+:[0-9]+:directory-registration\/d-[0-9a-f]{10}$</param>
     public AwsPcaConnectorAdGetServicePrincipalNameOptions(
         string ConnectorArn,
         string DirectoryRegistrationArn
@@ -60,13 +61,13 @@ public record AwsPcaConnectorAdGetServicePrincipalNameOptions : AwsOptions, IVal
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) that was returned when you called CreateConnector . Constraints: o min: 5 o max: 200 o pattern: ^arn:[\w-]+:pca-connector-ad:[\w-]+:[0-9]+:connec- tor\/[0-9a-f]{8}(-[0-9a-f]{4}){3}-[0-9a-f]{12}$
+    /// The Amazon Resource Name (ARN) that was returned when you called CreateConnector . Constraints: • min: 5 • max: 200 • pattern: ^arn:[\w-]+:pca-connector-ad:[\w-]+:[0-9]+:connector\/[0-9a-f]{8}(-[0-9a-f]{4}){3}-[0-9a-f]{12}$
     /// </summary>
     [CliOption("--connector-arn")]
     public string? ConnectorArn { get; private init; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) that was returned when you called CreateDirectoryRegistration . Constraints: o min: 5 o max: 200 o pattern: ^arn:[\w-]+:pca-connector-ad:[\w-]+:[0-9]+:directory-reg- istration\/d-[0-9a-f]{10}$
+    /// The Amazon Resource Name (ARN) that was returned when you called CreateDirectoryRegistration . Constraints: • min: 5 • max: 200 • pattern: ^arn:[\w-]+:pca-connector-ad:[\w-]+:[0-9]+:directory-registration\/d-[0-9a-f]{10}$
     /// </summary>
     [CliOption("--directory-registration-arn")]
     public string? DirectoryRegistrationArn { get; private init; }
@@ -92,6 +93,15 @@ public record AwsPcaConnectorAdGetServicePrincipalNameOptions : AwsOptions, IVal
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

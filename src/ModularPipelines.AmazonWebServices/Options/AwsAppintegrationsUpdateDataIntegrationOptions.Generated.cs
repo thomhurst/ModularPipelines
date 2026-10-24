@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates the description of a DataIntegration. NOTE: You cannot create a DataIntegration association for a DataIntegra- tion that has been previously associated. Use a different DataInte- gration, or recreate the DataIntegration using the CreateDataIntegration API. See also: AWS API Documentation
+/// Updates the description of a DataIntegration. NOTE: You cannot create a DataIntegration association for a DataIntegration that has been previously associated. Use a different DataIntegration, or recreate the DataIntegration using the CreateDataIntegration API. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsAppintegrationsUpdateDataIntegrationOptions : AwsOptions, IVali
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates the description of a DataIntegration. NOTE: You cannot create a DataIntegration association for a DataIntegra- tion that has been previously associated. Use a different DataInte- gration, or recreate the DataIntegration using the CreateDataIntegration API. See also: AWS API Documentation
+    /// Updates the description of a DataIntegration. NOTE: You cannot create a DataIntegration association for a DataIntegration that has been previously associated. Use a different DataIntegration, or recreate the DataIntegration using the CreateDataIntegration API. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Identifier">A unique identifier for the DataIntegration. Constraints: o min: 1 o max: 255 o pattern: .*\S.*</param>
+    /// <param name="Identifier">A unique identifier for the DataIntegration. Constraints: • min: 1 • max: 255 • pattern: .*\S.*</param>
     public AwsAppintegrationsUpdateDataIntegrationOptions(
         string Identifier
     )
@@ -56,19 +57,19 @@ public record AwsAppintegrationsUpdateDataIntegrationOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A unique identifier for the DataIntegration. Constraints: o min: 1 o max: 255 o pattern: .*\S.*
+    /// A unique identifier for the DataIntegration. Constraints: • min: 1 • max: 255 • pattern: .*\S.*
     /// </summary>
     [CliOption("--identifier")]
     public string? Identifier { get; private init; }
 
     /// <summary>
-    /// The name of the DataIntegration. Constraints: o min: 1 o max: 255 o pattern: ^[a-zA-Z0-9\/\._\-]+$
+    /// The name of the DataIntegration. Constraints: • min: 1 • max: 255 • pattern: ^[a-zA-Z0-9\/\._\-]+$
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
 
     /// <summary>
-    /// A description of the DataIntegration. Constraints: o min: 0 o max: 1000 o pattern: .*
+    /// A description of the DataIntegration. Constraints: • min: 0 • max: 1000 • pattern: .*
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
@@ -94,6 +95,15 @@ public record AwsAppintegrationsUpdateDataIntegrationOptions : AwsOptions, IVali
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

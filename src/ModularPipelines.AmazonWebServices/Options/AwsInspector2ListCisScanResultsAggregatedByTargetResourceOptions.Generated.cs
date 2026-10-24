@@ -11,13 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Lists scan results aggregated by a target resource. See also: AWS API Documentation list-cis-scan-results-aggregated-by-target-resource is a paginated op- eration. Multiple API calls may be issued in order to retrieve the en- tire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argu- ment on a paginated response, the --query argument must extract data from the results of the following query expressions: targetResou...
+/// Lists scan results aggregated by a target resource. See also: AWS API Documentation list-cis-scan-results-aggregated-by-target-resource is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: targetResourceAgg...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,9 +28,9 @@ public record AwsInspector2ListCisScanResultsAggregatedByTargetResourceOptions :
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Lists scan results aggregated by a target resource. See also: AWS API Documentation list-cis-scan-results-aggregated-by-target-resource is a paginated op- eration. Multiple API calls may be issued in order to retrieve the en- tire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argu- ment on a paginated response, the --query argument must extract data from the results of the following query expressions: targetResou...
+    /// Lists scan results aggregated by a target resource. See also: AWS API Documentation list-cis-scan-results-aggregated-by-target-resource is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: targetResourceAgg...
     /// </summary>
-    /// <param name="ScanArn">The scan ARN. Constraints: o pattern: arn:aws(-us-gov|-cn)?:inspec- tor2:[-.a-z0-9]{0,20}:\d{12}:owner/(\d{12}|o-[a-z0-9]{10,32})/cis-scan/[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}</param>
+    /// <param name="ScanArn">The scan ARN. Constraints: • pattern: arn:aws(-us-gov|-cn)?:inspector2:[-.a-z0-9]{0,20}:\d{12}:owner/(\d{12}|o-[a-z0-9]{10,32})/cis-scan/[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}</param>
     public AwsInspector2ListCisScanResultsAggregatedByTargetResourceOptions(
         string ScanArn
     )
@@ -58,34 +59,31 @@ public record AwsInspector2ListCisScanResultsAggregatedByTargetResourceOptions :
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The scan ARN. Constraints: o pattern: arn:aws(-us-gov|-cn)?:inspec- tor2:[-.a-z0-9]{0,20}:\d{12}:owner/(\d{12}|o-[a-z0-9]{10,32})/cis-scan/[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}
+    /// The scan ARN. Constraints: • pattern: arn:aws(-us-gov|-cn)?:inspector2:[-.a-z0-9]{0,20}:\d{12}:owner/(\d{12}|o-[a-z0-9]{10,32})/cis-scan/[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}
     /// </summary>
     [CliOption("--scan-arn")]
     public string? ScanArn { get; private init; }
 
     /// <summary>
-    /// The filter criteria. accountIdFilters -&gt; (list) The criteria's account ID filters. Constraints: o min: 1 o max: 10 (structure) The CIS string filter. comparison -&gt; (string) [required] The comparison value of the CIS string filter. Possible values: o EQUALS o PREFIX o NOT_EQUALS value -&gt; (string) [required] The value of the CIS string filter. statusFilters -&gt; (list) The criteria's status filter. Constraints: o min: 1 o max: 10 (structure) The CIS result status filter. comparison -&gt; (string) [required] The comparison value of the CIS result status filter. Possible values: o EQUALS value -&gt; (string) [required] The value of the CIS result status filter. Possible values: o PASSED o FAILED o SKIPPED checkIdFilters -&gt; (list) The criteria's check ID filters. Constraints: o min: 1 o max: 10 (structure) The CIS string filter. comparison -&gt; (string) [required] The comparison value of the CIS string filter. Possible values: o EQUALS o PREFIX o NOT_EQUALS value -&gt; (string) [required] The value of the CIS string filter. targetResourceIdFilters -&gt; (list) The criteria's target resource ID filters. Constraints: o min: 1 o max: 10 (structure) The CIS string filter. comparison -&gt; (string) [required] The comparison value of the CIS string filter. Possible values: o EQUALS o PREFIX o NOT_EQUALS value -&gt; (string) [required] The value of the CIS string filter. targetResourceTagFilters -&gt; (list) The criteria's target resource tag filters. Constraints: o min: 1 o max: 10 (structure) The tag filter. comparison -&gt; (string) [required] The tag filter comparison value. Possible values: o EQUALS key -&gt; (string) [required] The tag filter key. Constraints: o min: 1 value -&gt; (string) [required] The tag filter value. Constraints: o min: 1 platformFilters -&gt; (list) The criteria's platform filters. Constraints: o min: 1 o max: 10 (structure) The CIS string filter. comparison -&gt; (string) [required] The comparison value of the CIS string filter. Possible values: o EQUALS o PREFIX o NOT_EQUALS value -&gt; (string) [required] The value of the CIS string filter. targetStatusFilters -&gt; (list) The criteria's target status filters. Constraints: o min: 1 o max: 10 (structure) The CIS target status filter. comparison -&gt; (string) [required] The comparison value of the CIS target status filter. Possible values: o EQUALS value -&gt; (string) [required] The value of the CIS target status filter. Possible values: o TIMED_OUT o CANCELLED o COMPLETED targetStatusReasonFilters -&gt; (list) The criteria's target status reason filters. Constraints: o min: 1 o max: 10 (structure) The CIS target status reason filter. comparison -&gt; (string) [required] The comparison value of the CIS target status reason fil- ter. Possible values: o EQUALS value -&gt; (string) [required] The value of the CIS target status reason filter. Possible values: o SCAN_IN_PROGRESS o UNSUPPORTED_OS o SSM_UNMANAGED failedChecksFilters -&gt; (list) The criteria's failed checks filters. Constraints: o min: 1 o max: 10 (structure) The CIS number filter. upperInclusive -&gt; (integer) The CIS number filter's upper inclusive. lowerInclusive -&gt; (integer) The CIS number filter's lower inclusive. Shorthand Syntax: accountIdFilters=[{comparison=string,value=string},{comparison=string,value=string}],statusFilters=[{comparison=string,value=string},{comparison=string,value=string}],checkIdFilters=[{comparison=string,value=string},{comparison=string,value=string}],targetResourceIdFilters=[{comparison=string,value=string},{comparison=string,value=string}],targetResourceTagFilters=[{comparison=string,key=string,value=string},{comparison=string,key=string,value=string}],platformFilters=[{comparison=string,value=string},{comparison=string,value=string}],targetStatusFilters=[{comparison=string,value=string},{comparison=string,value=string}],targetStatusReasonFilters=[{comparison=string,value=string},{comparison=string,value=string}],failedChecksFilters=[{upperInclusive=integer,lowerInclusive=integer},{upperInclusive=integer,lowerInclusive=integer}] JSON Syntax: { "accountIdFilters": [ { "comparison": "EQUALS"|"PREFIX"|"NOT_EQUALS", "value": "string" } ... ], "statusFilters": [ { "comparison": "EQUALS", "value": "PASSED"|"FAILED"|"SKIPPED" } ... ], "checkIdFilters": [ { "comparison": "EQUALS"|"PREFIX"|"NOT_EQUALS", "value": "string" } ... ], "targetResourceIdFilters": [ { "comparison": "EQUALS"|"PREFIX"|"NOT_EQUALS", "value": "string" } ... ], "targetResourceTagFilters": [ { "comparison": "EQUALS", "key": "string", "value": "string" } ... ], "platformFilters": [ { "comparison": "EQUALS"|"PREFIX"|"NOT_EQUALS", "value": "string" } ... ], "targetStatusFilters": [ { "comparison": "EQUALS", "value": "TIMED_OUT"|"CANCELLED"|"COMPLETED" } ... ], "targetStatusReasonFilters": [ { "comparison": "EQUALS", "value": "SCAN_IN_PROGRESS"|"UNSUPPORTED_OS"|"SSM_UNMANAGED" } ... ], "failedChecksFilters": [ { "upperInclusive": integer, "lowerInclusive": integer } ... ] }
+    /// The filter criteria. accountIdFilters -&gt; (list) The criteria's account ID filters. Constraints: • min: 1 • max: 10 (structure) The CIS string filter. comparison -&gt; (string) [required] The comparison value of the CIS string filter. Possible values: • EQUALS • PREFIX • NOT_EQUALS value -&gt; (string) [required] The value of the CIS string filter. statusFilters -&gt; (list) The criteria's status filter. Constraints: • min: 1 • max: 10 (structure) The CIS result status filter. comparison -&gt; (string) [required] The comparison value of the CIS result status filter. Possible values: • EQUALS value -&gt; (string) [required] The value of the CIS result status filter. Possible values: • PASSED • FAILED • SKIPPED checkIdFilters -&gt; (list) The criteria's check ID filters. Constraints: • min: 1 • max: 10 (structure) The CIS string filter. comparison -&gt; (string) [required] The comparison value of the CIS string filter. Possible values: • EQUALS • PREFIX • NOT_EQUALS value -&gt; (string) [required] The value of the CIS string filter. targetResourceIdFilters -&gt; (list) The criteria's target resource ID filters. Constraints: • min: 1 • max: 10 (structure) The CIS string filter. comparison -&gt; (string) [required] The comparison value of the CIS string filter. Possible values: • EQUALS • PREFIX • NOT_EQUALS value -&gt; (string) [required] The value of the CIS string filter. targetResourceTagFilters -&gt; (list) The criteria's target resource tag filters. Constraints: • min: 1 • max: 10 (structure) The tag filter. comparison -&gt; (string) [required] The tag filter comparison value. Possible values: • EQUALS key -&gt; (string) [required] The tag filter key. Constraints: • min: 1 value -&gt; (string) [required] The tag filter value. Constraints: • min: 1 platformFilters -&gt; (list) The criteria's platform filters. Constraints: • min: 1 • max: 10 (structure) The CIS string filter. comparison -&gt; (string) [required] The comparison value of the CIS string filter. Possible values: • EQUALS • PREFIX • NOT_EQUALS value -&gt; (string) [required] The value of the CIS string filter. targetStatusFilters -&gt; (list) The criteria's target status filters. Constraints: • min: 1 • max: 10 (structure) The CIS target status filter. comparison -&gt; (string) [required] The comparison value of the CIS target status filter. Possible values: • EQUALS value -&gt; (string) [required] The value of the CIS target status filter. Possible values: • TIMED_OUT • CANCELLED • COMPLETED targetStatusReasonFilters -&gt; (list) The criteria's target status reason filters. Constraints: • min: 1 • max: 10 (structure) The CIS target status reason filter. comparison -&gt; (string) [required] The comparison value of the CIS target status reason filter. Possible values: • EQUALS value -&gt; (string) [required] The value of the CIS target status reason filter. Possible values: • SCAN_IN_PROGRESS • UNSUPPORTED_OS • SSM_UNMANAGED failedChecksFilters -&gt; (list) The criteria's failed checks filters. Constraints: • min: 1 • max: 10 (structure) The CIS number filter. upperInclusive -&gt; (integer) The CIS number filter's upper inclusive. lowerInclusive -&gt; (integer) The CIS number filter's lower inclusive. Shorthand Syntax: accountIdFilters=[{comparison=string,value=string},{comparison=string,value=string}],statusFilters=[{comparison=string,value=string},{comparison=string,value=string}],checkIdFilters=[{comparison=string,value=string},{comparison=string,value=string}],targetResourceIdFilters=[{comparison=string,value=string},{comparison=string,value=string}],targetResourceTagFilters=[{comparison=string,key=string,value=string},{comparison=string,key=string,value=string}],platformFilters=[{comparison=string,value=string},{comparison=string,value=string}],targetStatusFilters=[{comparison=string,value=string},{comparison=string,value=string}],targetStatusReasonFilters=[{comparison=string,value=string},{comparison=string,value=string}],failedChecksFilters=[{upperInclusive=integer,lowerInclusive=integer},{upperInclusive=integer,lowerInclusive=integer}] JSON Syntax: { "accountIdFilters": [ { "comparison": "EQUALS"|"PREFIX"|"NOT_EQUALS", "value": "string" } ... ], "statusFilters": [ { "comparison": "EQUALS", "value": "PASSED"|"FAILED"|"SKIPPED" } ... ], "checkIdFilters": [ { "comparison": "EQUALS"|"PREFIX"|"NOT_EQUALS", "value": "string" } ... ], "targetResourceIdFilters": [ { "comparison": "EQUALS"|"PREFIX"|"NOT_EQUALS", "value": "string" } ... ], "targetResourceTagFilters": [ { "comparison": "EQUALS", "key": "string", "value": "string" } ... ], "platformFilters": [ { "comparison": "EQUALS"|"PREFIX"|"NOT_EQUALS", "value": "string" } ... ], "targetStatusFilters": [ { "comparison": "EQUALS", "value": "TIMED_OUT"|"CANCELLED"|"COMPLETED" } ... ], "targetStatusReasonFilters": [ { "comparison": "EQUALS", "value": "SCAN_IN_PROGRESS"|"UNSUPPORTED_OS"|"SSM_UNMANAGED" } ... ], "failedChecksFilters": [ { "upperInclusive": integer, "lowerInclusive": integer } ... ] }
     /// </summary>
     [CliOption("--filter-criteria")]
     public string? FilterCriteria { get; set; }
 
     /// <summary>
-    /// The sort by order. Possible values: o RESOURCE_ID o FAILED_COUNTS o ACCOUNT_ID o PLATFORM o TARGET_STATUS o TARGET_STATUS_REASON
+    /// The sort by order. Possible values: • RESOURCE_ID • FAILED_COUNTS • ACCOUNT_ID • PLATFORM • TARGET_STATUS • TARGET_STATUS_REASON
     /// </summary>
     [CliOption("--sort-by")]
     public AwsInspector2ListCisScanResultsAggregatedByTargetResourceSortBy? SortBy { get; set; }
 
     /// <summary>
-    /// The sort order. Possible values: o ASC o DESC
+    /// The sort order. Possible values: • ASC • DESC
     /// </summary>
     [CliOption("--sort-order")]
     public AwsInspector2ListCisScanResultsAggregatedByTargetResourceSortOrder? SortOrder { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -95,16 +93,19 @@ public record AwsInspector2ListCisScanResultsAggregatedByTargetResourceOptions :
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 100
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
@@ -121,6 +122,15 @@ public record AwsInspector2ListCisScanResultsAggregatedByTargetResourceOptions :
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

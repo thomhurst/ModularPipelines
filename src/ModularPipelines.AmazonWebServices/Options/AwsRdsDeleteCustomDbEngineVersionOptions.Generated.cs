@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes a custom engine version. To run this command, make sure you meet the following prerequisites: o The CEV must not be the default for RDS Custom. If it is, change the default before running this command. o The CEV must not be associated with an RDS Custom DB instance, RDS Custom instance snapshot, or automated backup of your RDS Custom in- stance. Typically, deletion takes a few minutes. NOTE: The MediaImport service that imports files from Amazon S3 to create CEVs isn't integrated with Am...
+/// Deletes a custom engine version. To run this command, make sure you meet the following prerequisites: • The CEV must not be the default for RDS Custom. If it is, change the default before running this command. • The CEV must not be associated with an RDS Custom DB instance, RDS Custom instance snapshot, or automated backup of your RDS Custom instance. Typically, deletion takes a few minutes. NOTE: The MediaImport service that imports files from Amazon S3 to create CEVs isn't integrated with Amaz...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsRdsDeleteCustomDbEngineVersionOptions : AwsOptions, IValidatabl
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes a custom engine version. To run this command, make sure you meet the following prerequisites: o The CEV must not be the default for RDS Custom. If it is, change the default before running this command. o The CEV must not be associated with an RDS Custom DB instance, RDS Custom instance snapshot, or automated backup of your RDS Custom in- stance. Typically, deletion takes a few minutes. NOTE: The MediaImport service that imports files from Amazon S3 to create CEVs isn't integrated with Am...
+    /// Deletes a custom engine version. To run this command, make sure you meet the following prerequisites: • The CEV must not be the default for RDS Custom. If it is, change the default before running this command. • The CEV must not be associated with an RDS Custom DB instance, RDS Custom instance snapshot, or automated backup of your RDS Custom instance. Typically, deletion takes a few minutes. NOTE: The MediaImport service that imports files from Amazon S3 to create CEVs isn't integrated with Amaz...
     /// </summary>
-    /// <param name="Engine">The database engine. RDS Custom for Oracle supports the following values: o custom-oracle-ee o custom-oracle-ee-cdb o custom-oracle-se2 o custom-oracle-se2-cdb RDS Custom for SQL Server supports the following values: o custom-sqlserver-ee o custom-sqlserver-se o custom-sqlserver-web o custom-sqlserver-dev RDS for SQL Server supports the following values: o sqlserver-ee (Bring Your Own Media) o sqlserver-se (Bring Your Own Media) o sqlserver-dev-ee Constraints: o min: 1 o max: 35 o pattern: [A-Za-z0-9-]{1,35}</param>
-    /// <param name="EngineVersion">The custom engine version (CEV) for your DB instance. This option is required for RDS Custom, but optional for Amazon RDS. The combina- tion of Engine and EngineVersion is unique per customer per Amazon Web Services Region. Constraints: o min: 1 o max: 60 o pattern: [a-z0-9_.-]{1,60}</param>
+    /// <param name="Engine">The database engine. RDS Custom for Oracle supports the following values: • custom-oracle-ee • custom-oracle-ee-cdb • custom-oracle-se2 • custom-oracle-se2-cdb RDS Custom for SQL Server supports the following values: • custom-sqlserver-ee • custom-sqlserver-se • custom-sqlserver-web • custom-sqlserver-dev RDS for SQL Server supports the following values: • sqlserver-ee (Bring Your Own Media) • sqlserver-se (Bring Your Own Media) • sqlserver-dev-ee Constraints: • min: 1 • max: 35 • pattern: [A-Za-z0-9-]{1,35}</param>
+    /// <param name="EngineVersion">The custom engine version (CEV) for your DB instance. This option is required for RDS Custom, but optional for Amazon RDS. The combination of Engine and EngineVersion is unique per customer per Amazon Web Services Region. Constraints: • min: 1 • max: 60 • pattern: [a-z0-9_.-]{1,60}</param>
     public AwsRdsDeleteCustomDbEngineVersionOptions(
         string Engine,
         string EngineVersion
@@ -60,13 +61,13 @@ public record AwsRdsDeleteCustomDbEngineVersionOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The database engine. RDS Custom for Oracle supports the following values: o custom-oracle-ee o custom-oracle-ee-cdb o custom-oracle-se2 o custom-oracle-se2-cdb RDS Custom for SQL Server supports the following values: o custom-sqlserver-ee o custom-sqlserver-se o custom-sqlserver-web o custom-sqlserver-dev RDS for SQL Server supports the following values: o sqlserver-ee (Bring Your Own Media) o sqlserver-se (Bring Your Own Media) o sqlserver-dev-ee Constraints: o min: 1 o max: 35 o pattern: [A-Za-z0-9-]{1,35}
+    /// The database engine. RDS Custom for Oracle supports the following values: • custom-oracle-ee • custom-oracle-ee-cdb • custom-oracle-se2 • custom-oracle-se2-cdb RDS Custom for SQL Server supports the following values: • custom-sqlserver-ee • custom-sqlserver-se • custom-sqlserver-web • custom-sqlserver-dev RDS for SQL Server supports the following values: • sqlserver-ee (Bring Your Own Media) • sqlserver-se (Bring Your Own Media) • sqlserver-dev-ee Constraints: • min: 1 • max: 35 • pattern: [A-Za-z0-9-]{1,35}
     /// </summary>
     [CliOption("--engine")]
     public string? Engine { get; private init; }
 
     /// <summary>
-    /// The custom engine version (CEV) for your DB instance. This option is required for RDS Custom, but optional for Amazon RDS. The combina- tion of Engine and EngineVersion is unique per customer per Amazon Web Services Region. Constraints: o min: 1 o max: 60 o pattern: [a-z0-9_.-]{1,60}
+    /// The custom engine version (CEV) for your DB instance. This option is required for RDS Custom, but optional for Amazon RDS. The combination of Engine and EngineVersion is unique per customer per Amazon Web Services Region. Constraints: • min: 1 • max: 60 • pattern: [a-z0-9_.-]{1,60}
     /// </summary>
     [CliOption("--engine-version")]
     public string? EngineVersion { get; private init; }
@@ -92,6 +93,15 @@ public record AwsRdsDeleteCustomDbEngineVersionOptions : AwsOptions, IValidatabl
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

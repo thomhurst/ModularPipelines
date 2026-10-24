@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsApprunnerDescribeServiceOptions : AwsOptions, IValidatableObjec
     /// <summary>
     /// Return a full description of an App Runner service. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ServiceArn">The Amazon Resource Name (ARN) of the App Runner service that you want a description for. Constraints: o min: 1 o max: 1011 o pattern: arn:aws(-[\w]+)*:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[0-9]{12}:(\w|\/|-){1,1011}</param>
+    /// <param name="ServiceArn">The Amazon Resource Name (ARN) of the App Runner service that you want a description for. Constraints: • min: 1 • max: 1011 • pattern: arn:aws(-[\w]+)*:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[0-9]{12}:(\w|\/|-){1,1011}</param>
     public AwsApprunnerDescribeServiceOptions(
         string ServiceArn
     )
@@ -56,7 +57,7 @@ public record AwsApprunnerDescribeServiceOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the App Runner service that you want a description for. Constraints: o min: 1 o max: 1011 o pattern: arn:aws(-[\w]+)*:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[0-9]{12}:(\w|\/|-){1,1011}
+    /// The Amazon Resource Name (ARN) of the App Runner service that you want a description for. Constraints: • min: 1 • max: 1011 • pattern: arn:aws(-[\w]+)*:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[0-9]{12}:(\w|\/|-){1,1011}
     /// </summary>
     [CliOption("--service-arn")]
     public string? ServiceArn { get; private init; }
@@ -82,6 +83,15 @@ public record AwsApprunnerDescribeServiceOptions : AwsOptions, IValidatableObjec
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

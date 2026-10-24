@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsCurUntagResourceOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Disassociates a set of tags from a report definition. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ReportName">The report name of the report definition that tags are to be disas- sociated from. Constraints: o max: 256 o pattern: [0-9A-Za-z!\-_.*\'()]+</param>
-    /// <param name="TagKeys">The tags to be disassociated from the report definition resource. Constraints: o min: 0 o max: 200 (string) Constraints: o min: 1 o max: 128 o pattern: .* Syntax: "string" "string" ...</param>
+    /// <param name="ReportName">The report name of the report definition that tags are to be disassociated from. Constraints: • max: 256 • pattern: [0-9A-Za-z!\-_.*\'()]+</param>
+    /// <param name="TagKeys">The tags to be disassociated from the report definition resource. Constraints: • min: 0 • max: 200 (string) Constraints: • min: 1 • max: 128 • pattern: .* Syntax: "string" "string" ...</param>
     public AwsCurUntagResourceOptions(
         string ReportName,
         IEnumerable<string> TagKeys
@@ -71,13 +72,13 @@ public record AwsCurUntagResourceOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The report name of the report definition that tags are to be disas- sociated from. Constraints: o max: 256 o pattern: [0-9A-Za-z!\-_.*\'()]+
+    /// The report name of the report definition that tags are to be disassociated from. Constraints: • max: 256 • pattern: [0-9A-Za-z!\-_.*\'()]+
     /// </summary>
     [CliOption("--report-name")]
     public string? ReportName { get; private init; }
 
     /// <summary>
-    /// The tags to be disassociated from the report definition resource. Constraints: o min: 0 o max: 200 (string) Constraints: o min: 1 o max: 128 o pattern: .* Syntax: "string" "string" ...
+    /// The tags to be disassociated from the report definition resource. Constraints: • min: 0 • max: 200 (string) Constraints: • min: 1 • max: 128 • pattern: .* Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--tag-keys", GroupValues = true)]
     public IEnumerable<string>? TagKeys { get; private init; }
@@ -103,6 +104,15 @@ public record AwsCurUntagResourceOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

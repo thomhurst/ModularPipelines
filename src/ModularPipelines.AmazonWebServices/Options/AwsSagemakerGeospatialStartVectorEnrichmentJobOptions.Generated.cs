@@ -11,7 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -29,10 +29,10 @@ public record AwsSagemakerGeospatialStartVectorEnrichmentJobOptions : AwsOptions
     /// <summary>
     /// Creates a Vector Enrichment job for the supplied job type. Currently, there are two supported job types: reverse geocoding and map matching. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ExecutionRoleArn">The Amazon Resource Name (ARN) of the IAM role that you specified for the job. Constraints: o min: 20 o max: 2048 o pattern: ^arn:(aws[a-z-]*):iam::([0-9]{12}):role/[a-zA-Z0-9+=,.@_/-]+$</param>
-    /// <param name="InputConfig">Input configuration information for the Vector Enrichment job. DataSourceConfig -&gt; (tagged union structure) [required] The input structure for the data source that represents the storage type of the input data objects. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: S3Data. S3Data -&gt; (structure) The input structure for the Amazon S3 data that represents the Amazon S3 location of the input data objects. KmsKeyId -&gt; (string) The Key Management Service key ID for server-side encryp- tion. Constraints: o min: 0 o max: 2048 S3Uri -&gt; (string) [required] The URL to the Amazon S3 data for the Vector Enrichment job. Constraints: o pattern: ^s3://([^/]+)/?(.*)$ DocumentType -&gt; (string) [required] The input structure that defines the data source file type. Possible values: o CSV Shorthand Syntax: DataSourceConfig={S3Data={KmsKeyId=string,S3Uri=string}},DocumentType=string JSON Syntax: { "DataSourceConfig": { "S3Data": { "KmsKeyId": "string", "S3Uri": "string" } }, "DocumentType": "CSV" }</param>
-    /// <param name="JobConfig">An object containing information about the job configuration. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: MapMatchingConfig, ReverseGeocodingCon- fig. MapMatchingConfig -&gt; (structure) The input structure for Map Matching operation type. IdAttributeName -&gt; (string) [required] The field name for the data that describes the identifier representing a collection of GPS points belonging to an indi- vidual trace. TimestampAttributeName -&gt; (string) [required] The name of the timestamp attribute. XAttributeName -&gt; (string) [required] The name of the X-attribute YAttributeName -&gt; (string) [required] The name of the Y-attribute ReverseGeocodingConfig -&gt; (structure) The input structure for Reverse Geocoding operation type. XAttributeName -&gt; (string) [required] The field name for the data that describes x-axis coordinate, eg. longitude of a point. YAttributeName -&gt; (string) [required] The field name for the data that describes y-axis coordinate, eg. latitude of a point. Shorthand Syntax: MapMatchingConfig={IdAttributeName=string,TimestampAttributeName=string,XAttributeName=string,YAttributeName=string},ReverseGeocodingConfig={XAttributeName=string,YAttributeName=string} JSON Syntax: { "MapMatchingConfig": { "IdAttributeName": "string", "TimestampAttributeName": "string", "XAttributeName": "string", "YAttributeName": "string" }, "ReverseGeocodingConfig": { "XAttributeName": "string", "YAttributeName": "string" } }</param>
-    /// <param name="Name">The name of the Vector Enrichment job. Constraints: o min: 0 o max: 200</param>
+    /// <param name="ExecutionRoleArn">The Amazon Resource Name (ARN) of the IAM role that you specified for the job. Constraints: • min: 20 • max: 2048 • pattern: ^arn:(aws[a-z-]*):iam::([0-9]{12}):role/[a-zA-Z0-9+=,.@_/-]+$</param>
+    /// <param name="InputConfig">Input configuration information for the Vector Enrichment job. DataSourceConfig -&gt; (tagged union structure) [required] The input structure for the data source that represents the storage type of the input data objects. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: S3Data. S3Data -&gt; (structure) The input structure for the Amazon S3 data that represents the Amazon S3 location of the input data objects. KmsKeyId -&gt; (string) The Key Management Service key ID for server-side encryption. Constraints: • min: 0 • max: 2048 S3Uri -&gt; (string) [required] The URL to the Amazon S3 data for the Vector Enrichment job. Constraints: • pattern: ^s3://([^/]+)/?(.*)$ DocumentType -&gt; (string) [required] The input structure that defines the data source file type. Possible values: • CSV Shorthand Syntax: DataSourceConfig={S3Data={KmsKeyId=string,S3Uri=string}},DocumentType=string JSON Syntax: { "DataSourceConfig": { "S3Data": { "KmsKeyId": "string", "S3Uri": "string" } }, "DocumentType": "CSV" }</param>
+    /// <param name="JobConfig">An object containing information about the job configuration. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: MapMatchingConfig, ReverseGeocodingConfig. MapMatchingConfig -&gt; (structure) The input structure for Map Matching operation type. IdAttributeName -&gt; (string) [required] The field name for the data that describes the identifier representing a collection of GPS points belonging to an individual trace. TimestampAttributeName -&gt; (string) [required] The name of the timestamp attribute. XAttributeName -&gt; (string) [required] The name of the X-attribute YAttributeName -&gt; (string) [required] The name of the Y-attribute ReverseGeocodingConfig -&gt; (structure) The input structure for Reverse Geocoding operation type. XAttributeName -&gt; (string) [required] The field name for the data that describes x-axis coordinate, eg. longitude of a point. YAttributeName -&gt; (string) [required] The field name for the data that describes y-axis coordinate, eg. latitude of a point. Shorthand Syntax: MapMatchingConfig={IdAttributeName=string,TimestampAttributeName=string,XAttributeName=string,YAttributeName=string},ReverseGeocodingConfig={XAttributeName=string,YAttributeName=string} JSON Syntax: { "MapMatchingConfig": { "IdAttributeName": "string", "TimestampAttributeName": "string", "XAttributeName": "string", "YAttributeName": "string" }, "ReverseGeocodingConfig": { "XAttributeName": "string", "YAttributeName": "string" } }</param>
+    /// <param name="Name">The name of the Vector Enrichment job. Constraints: • min: 0 • max: 200</param>
     public AwsSagemakerGeospatialStartVectorEnrichmentJobOptions(
         string ExecutionRoleArn,
         string InputConfig,
@@ -70,38 +70,38 @@ public record AwsSagemakerGeospatialStartVectorEnrichmentJobOptions : AwsOptions
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the IAM role that you specified for the job. Constraints: o min: 20 o max: 2048 o pattern: ^arn:(aws[a-z-]*):iam::([0-9]{12}):role/[a-zA-Z0-9+=,.@_/-]+$
+    /// The Amazon Resource Name (ARN) of the IAM role that you specified for the job. Constraints: • min: 20 • max: 2048 • pattern: ^arn:(aws[a-z-]*):iam::([0-9]{12}):role/[a-zA-Z0-9+=,.@_/-]+$
     /// </summary>
     [CliOption("--execution-role-arn")]
     public string? ExecutionRoleArn { get; private init; }
 
     /// <summary>
-    /// Input configuration information for the Vector Enrichment job. DataSourceConfig -&gt; (tagged union structure) [required] The input structure for the data source that represents the storage type of the input data objects. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: S3Data. S3Data -&gt; (structure) The input structure for the Amazon S3 data that represents the Amazon S3 location of the input data objects. KmsKeyId -&gt; (string) The Key Management Service key ID for server-side encryp- tion. Constraints: o min: 0 o max: 2048 S3Uri -&gt; (string) [required] The URL to the Amazon S3 data for the Vector Enrichment job. Constraints: o pattern: ^s3://([^/]+)/?(.*)$ DocumentType -&gt; (string) [required] The input structure that defines the data source file type. Possible values: o CSV Shorthand Syntax: DataSourceConfig={S3Data={KmsKeyId=string,S3Uri=string}},DocumentType=string JSON Syntax: { "DataSourceConfig": { "S3Data": { "KmsKeyId": "string", "S3Uri": "string" } }, "DocumentType": "CSV" }
+    /// Input configuration information for the Vector Enrichment job. DataSourceConfig -&gt; (tagged union structure) [required] The input structure for the data source that represents the storage type of the input data objects. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: S3Data. S3Data -&gt; (structure) The input structure for the Amazon S3 data that represents the Amazon S3 location of the input data objects. KmsKeyId -&gt; (string) The Key Management Service key ID for server-side encryption. Constraints: • min: 0 • max: 2048 S3Uri -&gt; (string) [required] The URL to the Amazon S3 data for the Vector Enrichment job. Constraints: • pattern: ^s3://([^/]+)/?(.*)$ DocumentType -&gt; (string) [required] The input structure that defines the data source file type. Possible values: • CSV Shorthand Syntax: DataSourceConfig={S3Data={KmsKeyId=string,S3Uri=string}},DocumentType=string JSON Syntax: { "DataSourceConfig": { "S3Data": { "KmsKeyId": "string", "S3Uri": "string" } }, "DocumentType": "CSV" }
     /// </summary>
     [CliOption("--input-config")]
     public string? InputConfig { get; private init; }
 
     /// <summary>
-    /// An object containing information about the job configuration. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: MapMatchingConfig, ReverseGeocodingCon- fig. MapMatchingConfig -&gt; (structure) The input structure for Map Matching operation type. IdAttributeName -&gt; (string) [required] The field name for the data that describes the identifier representing a collection of GPS points belonging to an indi- vidual trace. TimestampAttributeName -&gt; (string) [required] The name of the timestamp attribute. XAttributeName -&gt; (string) [required] The name of the X-attribute YAttributeName -&gt; (string) [required] The name of the Y-attribute ReverseGeocodingConfig -&gt; (structure) The input structure for Reverse Geocoding operation type. XAttributeName -&gt; (string) [required] The field name for the data that describes x-axis coordinate, eg. longitude of a point. YAttributeName -&gt; (string) [required] The field name for the data that describes y-axis coordinate, eg. latitude of a point. Shorthand Syntax: MapMatchingConfig={IdAttributeName=string,TimestampAttributeName=string,XAttributeName=string,YAttributeName=string},ReverseGeocodingConfig={XAttributeName=string,YAttributeName=string} JSON Syntax: { "MapMatchingConfig": { "IdAttributeName": "string", "TimestampAttributeName": "string", "XAttributeName": "string", "YAttributeName": "string" }, "ReverseGeocodingConfig": { "XAttributeName": "string", "YAttributeName": "string" } }
+    /// An object containing information about the job configuration. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: MapMatchingConfig, ReverseGeocodingConfig. MapMatchingConfig -&gt; (structure) The input structure for Map Matching operation type. IdAttributeName -&gt; (string) [required] The field name for the data that describes the identifier representing a collection of GPS points belonging to an individual trace. TimestampAttributeName -&gt; (string) [required] The name of the timestamp attribute. XAttributeName -&gt; (string) [required] The name of the X-attribute YAttributeName -&gt; (string) [required] The name of the Y-attribute ReverseGeocodingConfig -&gt; (structure) The input structure for Reverse Geocoding operation type. XAttributeName -&gt; (string) [required] The field name for the data that describes x-axis coordinate, eg. longitude of a point. YAttributeName -&gt; (string) [required] The field name for the data that describes y-axis coordinate, eg. latitude of a point. Shorthand Syntax: MapMatchingConfig={IdAttributeName=string,TimestampAttributeName=string,XAttributeName=string,YAttributeName=string},ReverseGeocodingConfig={XAttributeName=string,YAttributeName=string} JSON Syntax: { "MapMatchingConfig": { "IdAttributeName": "string", "TimestampAttributeName": "string", "XAttributeName": "string", "YAttributeName": "string" }, "ReverseGeocodingConfig": { "XAttributeName": "string", "YAttributeName": "string" } }
     /// </summary>
     [CliOption("--job-config")]
     public string? JobConfig { get; private init; }
 
     /// <summary>
-    /// The name of the Vector Enrichment job. Constraints: o min: 0 o max: 200
+    /// The name of the Vector Enrichment job. Constraints: • min: 0 • max: 200
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// A unique token that guarantees that the call to this API is idempo- tent. Constraints: o min: 36 o max: 64
+    /// A unique token that guarantees that the call to this API is idempotent. Constraints: • min: 36 • max: 64
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// The Key Management Service key ID for server-side encryption. Constraints: o min: 0 o max: 2048
+    /// The Key Management Service key ID for server-side encryption. Constraints: • min: 0 • max: 2048
     /// </summary>
     [CliOption("--kms-key-id")]
     public string? KmsKeyId { get; set; }
@@ -133,6 +133,15 @@ public record AwsSagemakerGeospatialStartVectorEnrichmentJobOptions : AwsOptions
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

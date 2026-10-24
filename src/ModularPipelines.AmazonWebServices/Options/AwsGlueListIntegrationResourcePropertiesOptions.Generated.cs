@@ -22,13 +22,13 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsGlueListIntegrationResourcePropertiesOptions : AwsOptions
 {
     /// <summary>
-    /// This is the pagination token for next page, initial value is null . Constraints: o min: 1 o max: 4096
+    /// This is the pagination token for next page, initial value is null . Constraints: • min: 1 • max: 4096
     /// </summary>
     [CliOption("--marker")]
     public string? Marker { get; set; }
 
     /// <summary>
-    /// A list of filters, supported filter Key is SourceArn and TargetArn . (structure) A filter for integration resource properties. Name -&gt; (string) The name of the filter. Supported filter keys are SourceArn and TargetArn . Constraints: o min: 1 o max: 128 Values -&gt; (list) A list of filter values. (string) Constraints: o min: 1 o max: 128 Shorthand Syntax: Name=string,Values=string,string ... JSON Syntax: [ { "Name": "string", "Values": ["string", ...] } ... ]
+    /// A list of filters, supported filter Key is SourceArn and TargetArn . (structure) A filter for integration resource properties. Name -&gt; (string) The name of the filter. Supported filter keys are SourceArn and TargetArn . Constraints: • min: 1 • max: 128 Values -&gt; (list) A list of filter values. (string) Constraints: • min: 1 • max: 128 Shorthand Syntax: Name=string,Values=string,string ... JSON Syntax: [ { "Name": "string", "Values": ["string", ...] } ... ]
     /// </summary>
     [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
@@ -44,5 +44,14 @@ public record AwsGlueListIntegrationResourcePropertiesOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

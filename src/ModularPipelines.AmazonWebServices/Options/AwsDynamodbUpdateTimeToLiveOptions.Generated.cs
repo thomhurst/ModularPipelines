@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// The UpdateTimeToLive method enables or disables Time to Live (TTL) for the specified table. A successful UpdateTimeToLive call returns the current TimeToLiveSpecification . It can take up to one hour for the change to fully process. Any additional UpdateTimeToLive calls for the same table during this one hour duration result in a ValidationExcep- tion . TTL compares the current time in epoch time format to the time stored in the TTL attribute of an item. If the epoch time value stored in the att...
+/// The UpdateTimeToLive method enables or disables Time to Live (TTL) for the specified table. A successful UpdateTimeToLive call returns the current TimeToLiveSpecification . It can take up to one hour for the change to fully process. Any additional UpdateTimeToLive calls for the same table during this one hour duration result in a ValidationException . TTL compares the current time in epoch time format to the time stored in the TTL attribute of an item. If the epoch time value stored in the attri...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsDynamodbUpdateTimeToLiveOptions : AwsOptions, IValidatableObjec
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// The UpdateTimeToLive method enables or disables Time to Live (TTL) for the specified table. A successful UpdateTimeToLive call returns the current TimeToLiveSpecification . It can take up to one hour for the change to fully process. Any additional UpdateTimeToLive calls for the same table during this one hour duration result in a ValidationExcep- tion . TTL compares the current time in epoch time format to the time stored in the TTL attribute of an item. If the epoch time value stored in the att...
+    /// The UpdateTimeToLive method enables or disables Time to Live (TTL) for the specified table. A successful UpdateTimeToLive call returns the current TimeToLiveSpecification . It can take up to one hour for the change to fully process. Any additional UpdateTimeToLive calls for the same table during this one hour duration result in a ValidationException . TTL compares the current time in epoch time format to the time stored in the TTL attribute of an item. If the epoch time value stored in the attri...
     /// </summary>
-    /// <param name="TableName">The name of the table to be configured. You can also provide the Amazon Resource Name (ARN) of the table in this parameter. Constraints: o min: 1 o max: 1024</param>
-    /// <param name="TimeToLiveSpecification">Represents the settings used to enable or disable Time to Live for the specified table. Enabled -&gt; (boolean) [required] Indicates whether TTL is to be enabled (true) or disabled (false) on the table. AttributeName -&gt; (string) [required] The name of the TTL attribute used to store the expiration time for items in the table. Constraints: o min: 1 o max: 255 Shorthand Syntax: Enabled=boolean,AttributeName=string JSON Syntax: { "Enabled": true|false, "AttributeName": "string" }</param>
+    /// <param name="TableName">The name of the table to be configured. You can also provide the Amazon Resource Name (ARN) of the table in this parameter. Constraints: • min: 1 • max: 1024</param>
+    /// <param name="TimeToLiveSpecification">Represents the settings used to enable or disable Time to Live for the specified table. Enabled -&gt; (boolean) [required] Indicates whether TTL is to be enabled (true) or disabled (false) on the table. AttributeName -&gt; (string) [required] The name of the TTL attribute used to store the expiration time for items in the table. Constraints: • min: 1 • max: 255 Shorthand Syntax: Enabled=boolean,AttributeName=string JSON Syntax: { "Enabled": true|false, "AttributeName": "string" }</param>
     public AwsDynamodbUpdateTimeToLiveOptions(
         string TableName,
         string TimeToLiveSpecification
@@ -60,13 +61,13 @@ public record AwsDynamodbUpdateTimeToLiveOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the table to be configured. You can also provide the Amazon Resource Name (ARN) of the table in this parameter. Constraints: o min: 1 o max: 1024
+    /// The name of the table to be configured. You can also provide the Amazon Resource Name (ARN) of the table in this parameter. Constraints: • min: 1 • max: 1024
     /// </summary>
     [CliOption("--table-name")]
     public string? TableName { get; private init; }
 
     /// <summary>
-    /// Represents the settings used to enable or disable Time to Live for the specified table. Enabled -&gt; (boolean) [required] Indicates whether TTL is to be enabled (true) or disabled (false) on the table. AttributeName -&gt; (string) [required] The name of the TTL attribute used to store the expiration time for items in the table. Constraints: o min: 1 o max: 255 Shorthand Syntax: Enabled=boolean,AttributeName=string JSON Syntax: { "Enabled": true|false, "AttributeName": "string" }
+    /// Represents the settings used to enable or disable Time to Live for the specified table. Enabled -&gt; (boolean) [required] Indicates whether TTL is to be enabled (true) or disabled (false) on the table. AttributeName -&gt; (string) [required] The name of the TTL attribute used to store the expiration time for items in the table. Constraints: • min: 1 • max: 255 Shorthand Syntax: Enabled=boolean,AttributeName=string JSON Syntax: { "Enabled": true|false, "AttributeName": "string" }
     /// </summary>
     [CliOption("--time-to-live-specification")]
     public string? TimeToLiveSpecification { get; private init; }
@@ -92,6 +93,15 @@ public record AwsDynamodbUpdateTimeToLiveOptions : AwsOptions, IValidatableObjec
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

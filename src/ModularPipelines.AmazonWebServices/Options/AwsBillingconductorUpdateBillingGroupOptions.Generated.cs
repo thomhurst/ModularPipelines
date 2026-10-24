@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,7 +29,7 @@ public record AwsBillingconductorUpdateBillingGroupOptions : AwsOptions, IValida
     /// <summary>
     /// This updates an existing billing group. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Arn">The Amazon Resource Name (ARN) of the billing group being updated. Constraints: o pattern: (arn:aws(-cn)?:billingconductor::[0-9]{12}:billing- group/)?[a-zA-Z0-9]{10,12}</param>
+    /// <param name="Arn">The Amazon Resource Name (ARN) of the billing group being updated. Constraints: • pattern: (arn:aws(-cn)?:billingconductor::[0-9]{12}:billinggroup/)?[a-zA-Z0-9]{10,12}</param>
     public AwsBillingconductorUpdateBillingGroupOptions(
         string Arn
     )
@@ -57,37 +58,37 @@ public record AwsBillingconductorUpdateBillingGroupOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the billing group being updated. Constraints: o pattern: (arn:aws(-cn)?:billingconductor::[0-9]{12}:billing- group/)?[a-zA-Z0-9]{10,12}
+    /// The Amazon Resource Name (ARN) of the billing group being updated. Constraints: • pattern: (arn:aws(-cn)?:billingconductor::[0-9]{12}:billinggroup/)?[a-zA-Z0-9]{10,12}
     /// </summary>
     [CliOption("--arn")]
     public string? Arn { get; private init; }
 
     /// <summary>
-    /// The name of the billing group. The names must be unique to each billing group. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_\+=\.\-@]+
+    /// The name of the billing group. The names must be unique to each billing group. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9_\+=\.\-@]+
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
 
     /// <summary>
-    /// The status of the billing group. Only one of the valid values can be used. Possible values: o ACTIVE o PRIMARY_ACCOUNT_MISSING o PENDING
+    /// The status of the billing group. Only one of the valid values can be used. Possible values: • ACTIVE • PRIMARY_ACCOUNT_MISSING • PENDING
     /// </summary>
     [CliOption("--status")]
     public AwsBillingconductorUpdateBillingGroupStatus? Status { get; set; }
 
     /// <summary>
-    /// The preferences and settings that will be used to compute the Amazon Web Services charges for a billing group. PricingPlanArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the pricing plan that's used to compute the Amazon Web Services charges for a billing group. Constraints: o pattern: arn:aws(-cn)?:billingconductor::(aws|[0-9]{12}):pric- ingplan/(BasicPricingPlan|Passthrough|[a-zA-Z0-9]{10}) Shorthand Syntax: PricingPlanArn=string JSON Syntax: { "PricingPlanArn": "string" }
+    /// The preferences and settings that will be used to compute the Amazon Web Services charges for a billing group. PricingPlanArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the pricing plan that's used to compute the Amazon Web Services charges for a billing group. Constraints: • pattern: arn:aws(-cn)?:billingconductor::(aws|[0-9]{12}):pricingplan/(BasicPricingPlan|Passthrough|[a-zA-Z0-9]{10}) Shorthand Syntax: PricingPlanArn=string JSON Syntax: { "PricingPlanArn": "string" }
     /// </summary>
     [CliOption("--computation-preference")]
     public string? ComputationPreference { get; set; }
 
     /// <summary>
-    /// A description of the billing group. Constraints: o min: 0 o max: 1024
+    /// A description of the billing group. Constraints: • min: 0 • max: 1024
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// Specifies if the billing group has automatic account association (AutoAssociate ) enabled. AutoAssociate -&gt; (boolean) Specifies if this billing group will automatically associate newly added Amazon Web Services accounts that join your consoli- dated billing family. ResponsibilityTransferArn -&gt; (string) The Amazon Resource Name (ARN) that identifies the transfer re- lationship. Note: Modifications to the ResponsibilityTransferArn are not permitted for existing billing groups. Constraints: o pattern: arn:[a-z0-9][a-z0-9-.]{0,62}:organiza- tions::\d{12}:transfer/o-[a-z0-9]{10,32}/(billing)/(in- bound|outbound)/rt-[0-9a-z]{8,32} Shorthand Syntax: AutoAssociate=boolean,ResponsibilityTransferArn=string JSON Syntax: { "AutoAssociate": true|false, "ResponsibilityTransferArn": "string" }
+    /// Specifies if the billing group has automatic account association (AutoAssociate ) enabled. AutoAssociate -&gt; (boolean) Specifies if this billing group will automatically associate newly added Amazon Web Services accounts that join your consolidated billing family. ResponsibilityTransferArn -&gt; (string) The Amazon Resource Name (ARN) that identifies the transfer relationship. Note: Modifications to the ResponsibilityTransferArn are not permitted for existing billing groups. Constraints: • pattern: arn:[a-z0-9][a-z0-9-.]{0,62}:organizations::\d{12}:transfer/o-[a-z0-9]{10,32}/(billing)/(inbound|outbound)/rt-[0-9a-z]{8,32} Shorthand Syntax: AutoAssociate=boolean,ResponsibilityTransferArn=string JSON Syntax: { "AutoAssociate": true|false, "ResponsibilityTransferArn": "string" }
     /// </summary>
     [CliOption("--account-grouping")]
     public string? AccountGrouping { get; set; }
@@ -113,6 +114,15 @@ public record AwsBillingconductorUpdateBillingGroupOptions : AwsOptions, IValida
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

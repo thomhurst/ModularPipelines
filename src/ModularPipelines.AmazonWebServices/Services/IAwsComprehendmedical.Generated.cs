@@ -6,7 +6,7 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using ModularPipelines.Models;
+using ModularPipelines;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
@@ -28,78 +28,70 @@ public interface IAwsComprehendmedical
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeEntitiesDetectionV2JobAsync(AwsComprehendmedicalDescribeEntitiesDetectionV2JobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeEntitiesDetectionV2JobAsync(AwsComprehendmedicalDescribeEntitiesDetectionV2JobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Gets the properties associated with an InferICD10CM job. Use this oper- ation to get the status of an inference job. See also: AWS API Documentation
+    /// Gets the properties associated with an InferICD10CM job. Use this operation to get the status of an inference job. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeIcd10CmInferenceJobAsync(AwsComprehendmedicalDescribeIcd10CmInferenceJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeIcd10CmInferenceJobAsync(AwsComprehendmedicalDescribeIcd10CmInferenceJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Gets the properties associated with a protected health information (PHI) detection job. Use this operation to get the status of a detec- tion job. See also: AWS API Documentation
+    /// Gets the properties associated with a protected health information (PHI) detection job. Use this operation to get the status of a detection job. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribePhiDetectionJobAsync(AwsComprehendmedicalDescribePhiDetectionJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribePhiDetectionJobAsync(AwsComprehendmedicalDescribePhiDetectionJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Gets the properties associated with an InferRxNorm job. Use this opera- tion to get the status of an inference job. See also: AWS API Documentation
+    /// Gets the properties associated with an InferRxNorm job. Use this operation to get the status of an inference job. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeRxNormInferenceJobAsync(AwsComprehendmedicalDescribeRxNormInferenceJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeRxNormInferenceJobAsync(AwsComprehendmedicalDescribeRxNormInferenceJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Gets the properties associated with an InferSNOMEDCT job. Use this op- eration to get the status of an inference job. See also: AWS API Documentation
+    /// Gets the properties associated with an InferSNOMEDCT job. Use this operation to get the status of an inference job. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeSnomedctInferenceJobAsync(AwsComprehendmedicalDescribeSnomedctInferenceJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeSnomedctInferenceJobAsync(AwsComprehendmedicalDescribeSnomedctInferenceJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Inspects the clinical text for a variety of medical entities and re- turns specific information about them such as entity category, loca- tion, and confidence score on that information. Amazon Comprehend Med- ical only detects medical entities in English language texts. The DetectEntitiesV2 operation replaces the DetectEntities operation. This new action uses a different model for determining the entities in your medical text and changes the way that some entities are returned in the output. You...
+    /// Inspects the clinical text for a variety of medical entities and returns specific information about them such as entity category, location, and confidence score on that information. Amazon Comprehend Medical only detects medical entities in English language texts. The DetectEntitiesV2 operation replaces the DetectEntities operation. This new action uses a different model for determining the entities in your medical text and changes the way that some entities are returned in the output. You shoul...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DetectEntitiesV2Async(AwsComprehendmedicalDetectEntitiesV2Options options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DetectEntitiesV2Async(AwsComprehendmedicalDetectEntitiesV2Options options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Inspects the clinical text for protected health information (PHI) enti- ties and returns the entity category, location, and confidence score for each entity. Amazon Comprehend Medical only detects entities in English language texts. See also: AWS API Documentation
+    /// Inspects the clinical text for protected health information (PHI) entities and returns the entity category, location, and confidence score for each entity. Amazon Comprehend Medical only detects entities in English language texts. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DetectPhiAsync(AwsComprehendmedicalDetectPhiOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DetectPhiAsync(AwsComprehendmedicalDetectPhiOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// InferICD10CM detects medical conditions as entities listed in a patient record and links those entities to normalized concept identifiers in the ICD-10-CM knowledge base from the Centers for Disease Control. Ama- zon Comprehend Medical only detects medical entities in English lan- guage texts. See also: AWS API Documentation
+    /// InferICD10CM detects medical conditions as entities listed in a patient record and links those entities to normalized concept identifiers in the ICD-10-CM knowledge base from the Centers for Disease Control. Amazon Comprehend Medical only detects medical entities in English language texts. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> InferIcd10CmAsync(AwsComprehendmedicalInferIcd10CmOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> InferIcd10CmAsync(AwsComprehendmedicalInferIcd10CmOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// InferRxNorm detects medications as entities listed in a patient record and links to the normalized concept identifiers in the RxNorm database from the National Library of Medicine. Amazon Comprehend Medical only detects medical entities in English language texts. See also: AWS API Documentation
@@ -108,8 +100,7 @@ public interface IAwsComprehendmedical
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> InferRxNormAsync(AwsComprehendmedicalInferRxNormOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> InferRxNormAsync(AwsComprehendmedicalInferRxNormOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// InferSNOMEDCT detects possible medical concepts as entities and links them to codes from the Systematized Nomenclature of Medicine, Clinical Terms (SNOMED-CT) ontology See also: AWS API Documentation
@@ -118,8 +109,7 @@ public interface IAwsComprehendmedical
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> InferSnomedctAsync(AwsComprehendmedicalInferSnomedctOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> InferSnomedctAsync(AwsComprehendmedicalInferSnomedctOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets a list of medical entity detection jobs that you have submitted. See also: AWS API Documentation
@@ -128,8 +118,7 @@ public interface IAwsComprehendmedical
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListEntitiesDetectionV2JobsAsync(AwsComprehendmedicalListEntitiesDetectionV2JobsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListEntitiesDetectionV2JobsAsync(AwsComprehendmedicalListEntitiesDetectionV2JobsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets a list of InferICD10CM jobs that you have submitted. See also: AWS API Documentation
@@ -138,8 +127,7 @@ public interface IAwsComprehendmedical
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListIcd10CmInferenceJobsAsync(AwsComprehendmedicalListIcd10CmInferenceJobsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListIcd10CmInferenceJobsAsync(AwsComprehendmedicalListIcd10CmInferenceJobsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets a list of protected health information (PHI) detection jobs you have submitted. See also: AWS API Documentation
@@ -148,8 +136,7 @@ public interface IAwsComprehendmedical
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListPhiDetectionJobsAsync(AwsComprehendmedicalListPhiDetectionJobsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListPhiDetectionJobsAsync(AwsComprehendmedicalListPhiDetectionJobsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets a list of InferRxNorm jobs that you have submitted. See also: AWS API Documentation
@@ -158,8 +145,7 @@ public interface IAwsComprehendmedical
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListRxNormInferenceJobsAsync(AwsComprehendmedicalListRxNormInferenceJobsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListRxNormInferenceJobsAsync(AwsComprehendmedicalListRxNormInferenceJobsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets a list of InferSNOMEDCT jobs a user has submitted. See also: AWS API Documentation
@@ -168,8 +154,7 @@ public interface IAwsComprehendmedical
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListSnomedctInferenceJobsAsync(AwsComprehendmedicalListSnomedctInferenceJobsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListSnomedctInferenceJobsAsync(AwsComprehendmedicalListSnomedctInferenceJobsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Starts an asynchronous medical entity detection job for a collection of documents. Use the DescribeEntitiesDetectionV2Job operation to track the status of a job. See also: AWS API Documentation
@@ -178,18 +163,16 @@ public interface IAwsComprehendmedical
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartEntitiesDetectionV2JobAsync(AwsComprehendmedicalStartEntitiesDetectionV2JobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartEntitiesDetectionV2JobAsync(AwsComprehendmedicalStartEntitiesDetectionV2JobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Starts an asynchronous job to detect medical conditions and link them to the ICD-10-CM ontology. Use the DescribeICD10CMInferenceJob opera- tion to track the status of a job. See also: AWS API Documentation
+    /// Starts an asynchronous job to detect medical conditions and link them to the ICD-10-CM ontology. Use the DescribeICD10CMInferenceJob operation to track the status of a job. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartIcd10CmInferenceJobAsync(AwsComprehendmedicalStartIcd10CmInferenceJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartIcd10CmInferenceJobAsync(AwsComprehendmedicalStartIcd10CmInferenceJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Starts an asynchronous job to detect protected health information (PHI). Use the DescribePHIDetectionJob operation to track the status of a job. See also: AWS API Documentation
@@ -198,8 +181,7 @@ public interface IAwsComprehendmedical
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartPhiDetectionJobAsync(AwsComprehendmedicalStartPhiDetectionJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartPhiDetectionJobAsync(AwsComprehendmedicalStartPhiDetectionJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Starts an asynchronous job to detect medication entities and link them to the RxNorm ontology. Use the DescribeRxNormInferenceJob operation to track the status of a job. See also: AWS API Documentation
@@ -208,8 +190,7 @@ public interface IAwsComprehendmedical
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartRxNormInferenceJobAsync(AwsComprehendmedicalStartRxNormInferenceJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartRxNormInferenceJobAsync(AwsComprehendmedicalStartRxNormInferenceJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Starts an asynchronous job to detect medical concepts and link them to the SNOMED-CT ontology. Use the DescribeSNOMEDCTInferenceJob operation to track the status of a job. See also: AWS API Documentation
@@ -218,8 +199,7 @@ public interface IAwsComprehendmedical
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartSnomedctInferenceJobAsync(AwsComprehendmedicalStartSnomedctInferenceJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartSnomedctInferenceJobAsync(AwsComprehendmedicalStartSnomedctInferenceJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Stops a medical entities detection job in progress. See also: AWS API Documentation
@@ -228,8 +208,7 @@ public interface IAwsComprehendmedical
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StopEntitiesDetectionV2JobAsync(AwsComprehendmedicalStopEntitiesDetectionV2JobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StopEntitiesDetectionV2JobAsync(AwsComprehendmedicalStopEntitiesDetectionV2JobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Stops an InferICD10CM inference job in progress. See also: AWS API Documentation
@@ -238,8 +217,7 @@ public interface IAwsComprehendmedical
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StopIcd10CmInferenceJobAsync(AwsComprehendmedicalStopIcd10CmInferenceJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StopIcd10CmInferenceJobAsync(AwsComprehendmedicalStopIcd10CmInferenceJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Stops a protected health information (PHI) detection job in progress. See also: AWS API Documentation
@@ -248,8 +226,7 @@ public interface IAwsComprehendmedical
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StopPhiDetectionJobAsync(AwsComprehendmedicalStopPhiDetectionJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StopPhiDetectionJobAsync(AwsComprehendmedicalStopPhiDetectionJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Stops an InferRxNorm inference job in progress. See also: AWS API Documentation
@@ -258,8 +235,7 @@ public interface IAwsComprehendmedical
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StopRxNormInferenceJobAsync(AwsComprehendmedicalStopRxNormInferenceJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StopRxNormInferenceJobAsync(AwsComprehendmedicalStopRxNormInferenceJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Stops an InferSNOMEDCT inference job in progress. See also: AWS API Documentation
@@ -268,7 +244,6 @@ public interface IAwsComprehendmedical
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StopSnomedctInferenceJobAsync(AwsComprehendmedicalStopSnomedctInferenceJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StopSnomedctInferenceJobAsync(AwsComprehendmedicalStopSnomedctInferenceJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

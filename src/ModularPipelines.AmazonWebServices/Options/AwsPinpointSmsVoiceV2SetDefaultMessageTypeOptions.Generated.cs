@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Sets the default message type on a configuration set. Choose the category of SMS messages that you plan to send from this ac- count. If you send account-related messages or time-sensitive messages such as one-time passcodes, choose Transactional . If you plan to send messages that contain marketing material or other promotional content, choose Promotional . This setting applies to your entire Amazon Web Services account. See also: AWS API Documentation
+/// Sets the default message type on a configuration set. Choose the category of SMS messages that you plan to send from this account. If you send account-related messages or time-sensitive messages such as one-time passcodes, choose Transactional . If you plan to send messages that contain marketing material or other promotional content, choose Promotional . This setting applies to your entire Amazon Web Services account. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +27,10 @@ public record AwsPinpointSmsVoiceV2SetDefaultMessageTypeOptions : AwsOptions, IV
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Sets the default message type on a configuration set. Choose the category of SMS messages that you plan to send from this ac- count. If you send account-related messages or time-sensitive messages such as one-time passcodes, choose Transactional . If you plan to send messages that contain marketing material or other promotional content, choose Promotional . This setting applies to your entire Amazon Web Services account. See also: AWS API Documentation
+    /// Sets the default message type on a configuration set. Choose the category of SMS messages that you plan to send from this account. If you send account-related messages or time-sensitive messages such as one-time passcodes, choose Transactional . If you plan to send messages that contain marketing material or other promotional content, choose Promotional . This setting applies to your entire Amazon Web Services account. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ConfigurationSetName">The configuration set to update with a new default message type. This field can be the ConsigurationSetName or ConfigurationSetArn. Constraints: o min: 1 o max: 256 o pattern: [A-Za-z0-9_:/-]+</param>
-    /// <param name="MessageType">The type of message. Valid values are TRANSACTIONAL for messages that are critical or time-sensitive and PROMOTIONAL for messages that aren't critical or time-sensitive. Possible values: o TRANSACTIONAL o PROMOTIONAL</param>
+    /// <param name="ConfigurationSetName">The configuration set to update with a new default message type. This field can be the ConsigurationSetName or ConfigurationSetArn. Constraints: • min: 1 • max: 256 • pattern: [A-Za-z0-9_:/-]+</param>
+    /// <param name="MessageType">The type of message. Valid values are TRANSACTIONAL for messages that are critical or time-sensitive and PROMOTIONAL for messages that aren't critical or time-sensitive. Possible values: • TRANSACTIONAL • PROMOTIONAL</param>
     public AwsPinpointSmsVoiceV2SetDefaultMessageTypeOptions(
         string ConfigurationSetName,
         AwsPinpointSmsVoiceV2SetDefaultMessageTypeMessageType MessageType
@@ -60,13 +61,13 @@ public record AwsPinpointSmsVoiceV2SetDefaultMessageTypeOptions : AwsOptions, IV
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The configuration set to update with a new default message type. This field can be the ConsigurationSetName or ConfigurationSetArn. Constraints: o min: 1 o max: 256 o pattern: [A-Za-z0-9_:/-]+
+    /// The configuration set to update with a new default message type. This field can be the ConsigurationSetName or ConfigurationSetArn. Constraints: • min: 1 • max: 256 • pattern: [A-Za-z0-9_:/-]+
     /// </summary>
     [CliOption("--configuration-set-name")]
     public string? ConfigurationSetName { get; private init; }
 
     /// <summary>
-    /// The type of message. Valid values are TRANSACTIONAL for messages that are critical or time-sensitive and PROMOTIONAL for messages that aren't critical or time-sensitive. Possible values: o TRANSACTIONAL o PROMOTIONAL
+    /// The type of message. Valid values are TRANSACTIONAL for messages that are critical or time-sensitive and PROMOTIONAL for messages that aren't critical or time-sensitive. Possible values: • TRANSACTIONAL • PROMOTIONAL
     /// </summary>
     [CliOption("--message-type")]
     public AwsPinpointSmsVoiceV2SetDefaultMessageTypeMessageType? MessageType { get; private init; }
@@ -92,6 +93,15 @@ public record AwsPinpointSmsVoiceV2SetDefaultMessageTypeOptions : AwsOptions, IV
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

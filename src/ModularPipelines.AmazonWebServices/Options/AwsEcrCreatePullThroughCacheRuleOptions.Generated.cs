@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,8 +29,8 @@ public record AwsEcrCreatePullThroughCacheRuleOptions : AwsOptions, IValidatable
     /// <summary>
     /// Creates a pull through cache rule. A pull through cache rule provides a way to cache images from an upstream registry source in your Amazon ECR private registry. For more information, see Using pull through cache rules in the Amazon Elastic Container Registry User Guide . See also: AWS API Documentation
     /// </summary>
-    /// <param name="EcrRepositoryPrefix">The repository name prefix to use when caching images from the source registry. WARNING: There is always an assumed / applied to the end of the prefix. If you specify ecr-public as the prefix, Amazon ECR treats that as ecr-public/ . Constraints: o min: 2 o max: 30 o pattern: ^([a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*(\/[a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*)*\/?|ROOT)$</param>
-    /// <param name="UpstreamRegistryUrl">The registry URL of the upstream public registry to use as the source for the pull through cache rule. The following is the syntax to use for each supported upstream registry. o Amazon ECR (ecr ) &lt;accountId&gt;.dkr.ecr.&lt;region&gt;.amazonaws.com o Amazon ECR Public (ecr-public ) public.ecr.aws o Docker Hub (docker-hub ) registry-1.docker.io o GitHub Container Registry (github-container-registry ) ghcr.io o GitLab Container Registry (gitlab-container-registry ) reg- istry.gitlab.com o Kubernetes (k8s ) registry.k8s.io o Microsoft Azure Container Registry (azure-container-registry ) &lt;custom&gt;.azurecr.io o Quay (quay ) quay.io</param>
+    /// <param name="EcrRepositoryPrefix">The repository name prefix to use when caching images from the source registry. WARNING: There is always an assumed / applied to the end of the prefix. If you specify ecr-public as the prefix, Amazon ECR treats that as ecr-public/ . Constraints: • min: 2 • max: 30 • pattern: ^([a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*(\/[a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*)*\/?|ROOT)$</param>
+    /// <param name="UpstreamRegistryUrl">The registry URL of the upstream public registry to use as the source for the pull through cache rule. The following is the syntax to use for each supported upstream registry. • Amazon ECR (ecr ) &lt;accountId&gt;.dkr.ecr.&lt;region&gt;.amazonaws.com • Amazon ECR Public (ecr-public ) public.ecr.aws • Docker Hub (docker-hub ) registry-1.docker.io • GitHub Container Registry (github-container-registry ) ghcr.io • GitLab Container Registry (gitlab-container-registry ) registry.gitlab.com • Kubernetes (k8s ) registry.k8s.io • Microsoft Azure Container Registry (azure-container-registry ) &lt;custom&gt;.azurecr.io • Quay (quay ) quay.io</param>
     public AwsEcrCreatePullThroughCacheRuleOptions(
         string EcrRepositoryPrefix,
         string UpstreamRegistryUrl
@@ -61,43 +62,43 @@ public record AwsEcrCreatePullThroughCacheRuleOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The repository name prefix to use when caching images from the source registry. WARNING: There is always an assumed / applied to the end of the prefix. If you specify ecr-public as the prefix, Amazon ECR treats that as ecr-public/ . Constraints: o min: 2 o max: 30 o pattern: ^([a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*(\/[a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*)*\/?|ROOT)$
+    /// The repository name prefix to use when caching images from the source registry. WARNING: There is always an assumed / applied to the end of the prefix. If you specify ecr-public as the prefix, Amazon ECR treats that as ecr-public/ . Constraints: • min: 2 • max: 30 • pattern: ^([a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*(\/[a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*)*\/?|ROOT)$
     /// </summary>
     [CliOption("--ecr-repository-prefix")]
     public string? EcrRepositoryPrefix { get; private init; }
 
     /// <summary>
-    /// The registry URL of the upstream public registry to use as the source for the pull through cache rule. The following is the syntax to use for each supported upstream registry. o Amazon ECR (ecr ) &lt;accountId&gt;.dkr.ecr.&lt;region&gt;.amazonaws.com o Amazon ECR Public (ecr-public ) public.ecr.aws o Docker Hub (docker-hub ) registry-1.docker.io o GitHub Container Registry (github-container-registry ) ghcr.io o GitLab Container Registry (gitlab-container-registry ) reg- istry.gitlab.com o Kubernetes (k8s ) registry.k8s.io o Microsoft Azure Container Registry (azure-container-registry ) &lt;custom&gt;.azurecr.io o Quay (quay ) quay.io
+    /// The registry URL of the upstream public registry to use as the source for the pull through cache rule. The following is the syntax to use for each supported upstream registry. • Amazon ECR (ecr ) &lt;accountId&gt;.dkr.ecr.&lt;region&gt;.amazonaws.com • Amazon ECR Public (ecr-public ) public.ecr.aws • Docker Hub (docker-hub ) registry-1.docker.io • GitHub Container Registry (github-container-registry ) ghcr.io • GitLab Container Registry (gitlab-container-registry ) registry.gitlab.com • Kubernetes (k8s ) registry.k8s.io • Microsoft Azure Container Registry (azure-container-registry ) &lt;custom&gt;.azurecr.io • Quay (quay ) quay.io
     /// </summary>
     [CliOption("--upstream-registry-url")]
     public string? UpstreamRegistryUrl { get; private init; }
 
     /// <summary>
-    /// The Amazon Web Services account ID associated with the registry to create the pull through cache rule for. If you do not specify a reg- istry, the default registry is assumed. Constraints: o pattern: [0-9]{12}
+    /// The Amazon Web Services account ID associated with the registry to create the pull through cache rule for. If you do not specify a registry, the default registry is assumed. Constraints: • pattern: [0-9]{12}
     /// </summary>
     [CliOption("--registry-id")]
     public string? RegistryId { get; set; }
 
     /// <summary>
-    /// The name of the upstream registry. Possible values: o ecr o ecr-public o quay o k8s o docker-hub o github-container-registry o azure-container-registry o gitlab-container-registry o chainguard
+    /// The name of the upstream registry. Possible values: • ecr • ecr-public • quay • k8s • docker-hub • github-container-registry • azure-container-registry • gitlab-container-registry • chainguard
     /// </summary>
     [CliOption("--upstream-registry")]
     public AwsEcrCreatePullThroughCacheRuleUpstreamRegistry? UpstreamRegistry { get; set; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the Amazon Web Services Secrets Manager secret that identifies the credentials to authenticate to the upstream registry. Constraints: o min: 50 o max: 612 o pattern: ^arn:aws(-\w+)*:secretsmanager:[a-zA-Z0-9-:]+:se- cret:ecr\-pullthroughcache\/[a-zA-Z0-9\/_+=.@-]+$
+    /// The Amazon Resource Name (ARN) of the Amazon Web Services Secrets Manager secret that identifies the credentials to authenticate to the upstream registry. Constraints: • min: 50 • max: 612 • pattern: ^arn:aws(-\w+)*:secretsmanager:[a-zA-Z0-9-:]+:secret:ecr\-pullthroughcache\/[a-zA-Z0-9\/_+=.@-]+$
     /// </summary>
     [CliOption("--credential-arn")]
     public string? CredentialArn { get; set; }
 
     /// <summary>
-    /// Amazon Resource Name (ARN) of the IAM role to be assumed by Amazon ECR to authenticate to the ECR upstream registry. This role must be in the same account as the registry that you are configuring. Constraints: o max: 2048
+    /// Amazon Resource Name (ARN) of the IAM role to be assumed by Amazon ECR to authenticate to the ECR upstream registry. This role must be in the same account as the registry that you are configuring. Constraints: • max: 2048
     /// </summary>
     [CliOption("--custom-role-arn")]
     public string? CustomRoleArn { get; set; }
 
     /// <summary>
-    /// The repository name prefix of the upstream registry to match with the upstream repository name. When this field isn't specified, Ama- zon ECR will use the ROOT . Constraints: o min: 2 o max: 30 o pattern: ^([a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*(\/[a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*)*\/?|ROOT)$
+    /// The repository name prefix of the upstream registry to match with the upstream repository name. When this field isn't specified, Amazon ECR will use the ROOT . Constraints: • min: 2 • max: 30 • pattern: ^([a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*(\/[a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*)*\/?|ROOT)$
     /// </summary>
     [CliOption("--upstream-repository-prefix")]
     public string? UpstreamRepositoryPrefix { get; set; }
@@ -123,6 +124,15 @@ public record AwsEcrCreatePullThroughCacheRuleOptions : AwsOptions, IValidatable
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

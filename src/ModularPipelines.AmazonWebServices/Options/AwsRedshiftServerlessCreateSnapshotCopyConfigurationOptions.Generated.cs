@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +29,7 @@ public record AwsRedshiftServerlessCreateSnapshotCopyConfigurationOptions : AwsO
     /// Creates a snapshot copy configuration that lets you copy snapshots to another Amazon Web Services Region. See also: AWS API Documentation
     /// </summary>
     /// <param name="DestinationRegion">The destination Amazon Web Services Region that you want to copy snapshots to.</param>
-    /// <param name="NamespaceName">The name of the namespace to copy snapshots from. Constraints: o min: 3 o max: 64 o pattern: ^[a-z0-9-]+$</param>
+    /// <param name="NamespaceName">The name of the namespace to copy snapshots from. Constraints: • min: 3 • max: 64 • pattern: ^[a-z0-9-]+$</param>
     public AwsRedshiftServerlessCreateSnapshotCopyConfigurationOptions(
         string DestinationRegion,
         string NamespaceName
@@ -66,19 +67,19 @@ public record AwsRedshiftServerlessCreateSnapshotCopyConfigurationOptions : AwsO
     public string? DestinationRegion { get; private init; }
 
     /// <summary>
-    /// The name of the namespace to copy snapshots from. Constraints: o min: 3 o max: 64 o pattern: ^[a-z0-9-]+$
+    /// The name of the namespace to copy snapshots from. Constraints: • min: 3 • max: 64 • pattern: ^[a-z0-9-]+$
     /// </summary>
     [CliOption("--namespace-name")]
     public string? NamespaceName { get; private init; }
 
     /// <summary>
-    /// The KMS key to use to encrypt your snapshots in the destination Ama- zon Web Services Region.
+    /// The KMS key to use to encrypt your snapshots in the destination Amazon Web Services Region.
     /// </summary>
     [CliOption("--destination-kms-key-id")]
     public string? DestinationKmsKeyId { get; set; }
 
     /// <summary>
-    /// The retention period of the snapshots that you copy to the destina- tion Amazon Web Services Region.
+    /// The retention period of the snapshots that you copy to the destination Amazon Web Services Region.
     /// </summary>
     [CliOption("--snapshot-retention-period")]
     public int? SnapshotRetentionPeriod { get; set; }
@@ -104,6 +105,15 @@ public record AwsRedshiftServerlessCreateSnapshotCopyConfigurationOptions : AwsO
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

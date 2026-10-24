@@ -11,13 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Lists the repositories in the added repositories list of the specified restriction type for a package group. For more information about re- striction types and added repository lists, see Package group origin controls in the CodeArtifact User Guide . See also: AWS API Documentation list-allowed-repositories-for-group is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- men...
+/// Lists the repositories in the added repositories list of the specified restriction type for a package group. For more information about restriction types and added repository lists, see Package group origin controls in the CodeArtifact User Guide . See also: AWS API Documentation list-allowed-repositories-for-group is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. Whe...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,11 +28,11 @@ public record AwsCodeartifactListAllowedRepositoriesForGroupOptions : AwsOptions
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Lists the repositories in the added repositories list of the specified restriction type for a package group. For more information about re- striction types and added repository lists, see Package group origin controls in the CodeArtifact User Guide . See also: AWS API Documentation list-allowed-repositories-for-group is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- men...
+    /// Lists the repositories in the added repositories list of the specified restriction type for a package group. For more information about restriction types and added repository lists, see Package group origin controls in the CodeArtifact User Guide . See also: AWS API Documentation list-allowed-repositories-for-group is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. Whe...
     /// </summary>
-    /// <param name="Domain">The name of the domain that contains the package group from which to list allowed repositories. Constraints: o min: 2 o max: 50 o pattern: [a-z][a-z0-9\-]{0,48}[a-z0-9]</param>
-    /// <param name="PackageGroup">The pattern of the package group from which to list allowed reposi- tories. Constraints: o min: 2 o max: 520 o pattern: [^\p{C}\p{IsWhitespace}]+</param>
-    /// <param name="OriginRestrictionType">The origin configuration restriction type of which to list allowed repositories. Possible values: o EXTERNAL_UPSTREAM o INTERNAL_UPSTREAM o PUBLISH</param>
+    /// <param name="Domain">The name of the domain that contains the package group from which to list allowed repositories. Constraints: • min: 2 • max: 50 • pattern: [a-z][a-z0-9\-]{0,48}[a-z0-9]</param>
+    /// <param name="PackageGroup">The pattern of the package group from which to list allowed repositories. Constraints: • min: 2 • max: 520 • pattern: [^\p{C}\p{IsWhitespace}]+</param>
+    /// <param name="OriginRestrictionType">The origin configuration restriction type of which to list allowed repositories. Possible values: • EXTERNAL_UPSTREAM • INTERNAL_UPSTREAM • PUBLISH</param>
     public AwsCodeartifactListAllowedRepositoriesForGroupOptions(
         string Domain,
         string PackageGroup,
@@ -65,34 +66,31 @@ public record AwsCodeartifactListAllowedRepositoriesForGroupOptions : AwsOptions
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the domain that contains the package group from which to list allowed repositories. Constraints: o min: 2 o max: 50 o pattern: [a-z][a-z0-9\-]{0,48}[a-z0-9]
+    /// The name of the domain that contains the package group from which to list allowed repositories. Constraints: • min: 2 • max: 50 • pattern: [a-z][a-z0-9\-]{0,48}[a-z0-9]
     /// </summary>
     [CliOption("--domain")]
     public string? Domain { get; private init; }
 
     /// <summary>
-    /// The pattern of the package group from which to list allowed reposi- tories. Constraints: o min: 2 o max: 520 o pattern: [^\p{C}\p{IsWhitespace}]+
+    /// The pattern of the package group from which to list allowed repositories. Constraints: • min: 2 • max: 520 • pattern: [^\p{C}\p{IsWhitespace}]+
     /// </summary>
     [CliOption("--package-group")]
     public string? PackageGroup { get; private init; }
 
     /// <summary>
-    /// The origin configuration restriction type of which to list allowed repositories. Possible values: o EXTERNAL_UPSTREAM o INTERNAL_UPSTREAM o PUBLISH
+    /// The origin configuration restriction type of which to list allowed repositories. Possible values: • EXTERNAL_UPSTREAM • INTERNAL_UPSTREAM • PUBLISH
     /// </summary>
     [CliOption("--origin-restriction-type")]
     public AwsCodeartifactListAllowedRepositoriesForGroupOriginRestrictionType? OriginRestrictionType { get; private init; }
 
     /// <summary>
-    /// The 12-digit account number of the Amazon Web Services account that owns the domain. It does not include dashes or spaces. Constraints: o min: 12 o max: 12 o pattern: [0-9]{12}
+    /// The 12-digit account number of the Amazon Web Services account that owns the domain. It does not include dashes or spaces. Constraints: • min: 12 • max: 12 • pattern: [0-9]{12}
     /// </summary>
     [CliOption("--domain-owner")]
     public string? DomainOwner { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -102,16 +100,19 @@ public record AwsCodeartifactListAllowedRepositoriesForGroupOptions : AwsOptions
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 1000
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 1000
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
@@ -128,6 +129,15 @@ public record AwsCodeartifactListAllowedRepositoriesForGroupOptions : AwsOptions
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

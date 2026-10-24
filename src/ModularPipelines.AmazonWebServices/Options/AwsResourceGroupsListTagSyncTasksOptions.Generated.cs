@@ -15,7 +15,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns a list of tag-sync tasks. Minimum permissions To run this command, you must have the following permissions: o resource-groups:ListTagSyncTasks with the group passed in the filters as the resource or * if using no filters See also: AWS API Documentation list-tag-sync-tasks is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --quer...
+/// Returns a list of tag-sync tasks. Minimum permissions To run this command, you must have the following permissions: • resource-groups:ListTagSyncTasks with the group passed in the filters as the resource or * if using no filters See also: AWS API Documentation list-tag-sync-tasks is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --quer...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -23,16 +23,13 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsResourceGroupsListTagSyncTasksOptions : AwsOptions
 {
     /// <summary>
-    /// The Amazon resource name (ARN) or name of the application group for which you want to return a list of tag-sync tasks. (structure) Returns tag-sync tasks filtered by the Amazon resource name (ARN) or name of a specified application group. GroupArn -&gt; (string) The Amazon resource name (ARN) of the application group. Constraints: o min: 12 o max: 1600 o pattern: arn:aws(-[a-z]+)*:re- source-groups:[a-z]{2}(-[a-z]+)+-\d{1}:[0-9]{12}:group/([a-zA-Z0-9_\.-]{1,300}|[a-zA-Z0-9_\.-]{1,150}/[a-z0-9]{26}) GroupName -&gt; (string) The name of the application group. Constraints: o min: 1 o max: 300 o pattern: [a-zA-Z0-9_\.-]{1,300}|[a-zA-Z0-9_\.-]{1,150}/[a-z0-9]{26} Shorthand Syntax: GroupArn=string,GroupName=string ... JSON Syntax: [ { "GroupArn": "string", "GroupName": "string" } ... ]
+    /// The Amazon resource name (ARN) or name of the application group for which you want to return a list of tag-sync tasks. (structure) Returns tag-sync tasks filtered by the Amazon resource name (ARN) or name of a specified application group. GroupArn -&gt; (string) The Amazon resource name (ARN) of the application group. Constraints: • min: 12 • max: 1600 • pattern: arn:aws(-[a-z]+)*:resource-groups:[a-z]{2}(-[a-z]+)+-\d{1}:[0-9]{12}:group/([a-zA-Z0-9_\.-]{1,300}|[a-zA-Z0-9_\.-]{1,150}/[a-z0-9]{26}) GroupName -&gt; (string) The name of the application group. Constraints: • min: 1 • max: 300 • pattern: [a-zA-Z0-9_\.-]{1,300}|[a-zA-Z0-9_\.-]{1,150}/[a-z0-9]{26} Shorthand Syntax: GroupArn=string,GroupName=string ... JSON Syntax: [ { "GroupArn": "string", "GroupName": "string" } ... ]
     /// </summary>
     [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -42,15 +39,27 @@ public record AwsResourceGroupsListTagSyncTasksOptions : AwsOptions
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 50
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 50
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

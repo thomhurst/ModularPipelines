@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Reboots a single node of a DAX cluster. The reboot action takes place as soon as possible. During the reboot, the node status is set to RE- BOOTING. NOTE: RebootNode restarts the DAX engine process and does not remove the contents of the cache. See also: AWS API Documentation
+/// Reboots a single node of a DAX cluster. The reboot action takes place as soon as possible. During the reboot, the node status is set to REBOOTING. NOTE: RebootNode restarts the DAX engine process and does not remove the contents of the cache. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +26,7 @@ public record AwsDaxRebootNodeOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Reboots a single node of a DAX cluster. The reboot action takes place as soon as possible. During the reboot, the node status is set to RE- BOOTING. NOTE: RebootNode restarts the DAX engine process and does not remove the contents of the cache. See also: AWS API Documentation
+    /// Reboots a single node of a DAX cluster. The reboot action takes place as soon as possible. During the reboot, the node status is set to REBOOTING. NOTE: RebootNode restarts the DAX engine process and does not remove the contents of the cache. See also: AWS API Documentation
     /// </summary>
     /// <param name="ClusterName">The name of the DAX cluster containing the node to be rebooted.</param>
     /// <param name="NodeId">The system-assigned ID of the node to be rebooted.</param>
@@ -92,6 +93,15 @@ public record AwsDaxRebootNodeOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

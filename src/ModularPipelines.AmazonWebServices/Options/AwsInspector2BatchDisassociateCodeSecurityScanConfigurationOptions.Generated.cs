@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsInspector2BatchDisassociateCodeSecurityScanConfigurationOptions
     /// <summary>
     /// Disassociates multiple code repositories from an Amazon Inspector code security scan configuration. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DisassociateConfigurationRequests">A list of code repositories to disassociate from the specified scan configuration. Constraints: o min: 1 o max: 25 (structure) Contains details about a request to disassociate a code reposi- tory from a scan configuration. scanConfigurationArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the scan configuration to disassociate from a code repository. Constraints: o pattern: arn:(aws[a-zA-Z-]*)?:inspec- tor2:[a-z]{2}(-gov)?-[a-z]+-\d{1}:\d{12}:owner/(\d{12}|o-[a-z0-9]{10,32})/codese- curity-configuration/[a-f0-9-]{36} resource -&gt; (tagged union structure) [required] Identifies a specific resource in a code repository that will be scanned. NOTE: This is a Tagged Union structure. Only one of the follow- ing top level keys can be set: projectId. projectId -&gt; (string) The unique identifier of the project in the code reposi- tory. Constraints: o pattern: project-[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12} Shorthand Syntax: scanConfigurationArn=string,resource={projectId=string} ... JSON Syntax: [ { "scanConfigurationArn": "string", "resource": { "projectId": "string" } } ... ]</param>
+    /// <param name="DisassociateConfigurationRequests">A list of code repositories to disassociate from the specified scan configuration. Constraints: • min: 1 • max: 25 (structure) Contains details about a request to disassociate a code repository from a scan configuration. scanConfigurationArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the scan configuration to disassociate from a code repository. Constraints: • pattern: arn:(aws[a-zA-Z-]*)?:inspector2:[a-z]{2}(-gov)?-[a-z]+-\d{1}:\d{12}:owner/(\d{12}|o-[a-z0-9]{10,32})/codesecurity-configuration/[a-f0-9-]{36} resource -&gt; (tagged union structure) [required] Identifies a specific resource in a code repository that will be scanned. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: projectId. projectId -&gt; (string) The unique identifier of the project in the code repository. Constraints: • pattern: project-[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12} Shorthand Syntax: scanConfigurationArn=string,resource={projectId=string} ... JSON Syntax: [ { "scanConfigurationArn": "string", "resource": { "projectId": "string" } } ... ]</param>
     public AwsInspector2BatchDisassociateCodeSecurityScanConfigurationOptions(
         IEnumerable<string> DisassociateConfigurationRequests
     )
@@ -67,7 +68,7 @@ public record AwsInspector2BatchDisassociateCodeSecurityScanConfigurationOptions
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A list of code repositories to disassociate from the specified scan configuration. Constraints: o min: 1 o max: 25 (structure) Contains details about a request to disassociate a code reposi- tory from a scan configuration. scanConfigurationArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the scan configuration to disassociate from a code repository. Constraints: o pattern: arn:(aws[a-zA-Z-]*)?:inspec- tor2:[a-z]{2}(-gov)?-[a-z]+-\d{1}:\d{12}:owner/(\d{12}|o-[a-z0-9]{10,32})/codese- curity-configuration/[a-f0-9-]{36} resource -&gt; (tagged union structure) [required] Identifies a specific resource in a code repository that will be scanned. NOTE: This is a Tagged Union structure. Only one of the follow- ing top level keys can be set: projectId. projectId -&gt; (string) The unique identifier of the project in the code reposi- tory. Constraints: o pattern: project-[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12} Shorthand Syntax: scanConfigurationArn=string,resource={projectId=string} ... JSON Syntax: [ { "scanConfigurationArn": "string", "resource": { "projectId": "string" } } ... ]
+    /// A list of code repositories to disassociate from the specified scan configuration. Constraints: • min: 1 • max: 25 (structure) Contains details about a request to disassociate a code repository from a scan configuration. scanConfigurationArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the scan configuration to disassociate from a code repository. Constraints: • pattern: arn:(aws[a-zA-Z-]*)?:inspector2:[a-z]{2}(-gov)?-[a-z]+-\d{1}:\d{12}:owner/(\d{12}|o-[a-z0-9]{10,32})/codesecurity-configuration/[a-f0-9-]{36} resource -&gt; (tagged union structure) [required] Identifies a specific resource in a code repository that will be scanned. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: projectId. projectId -&gt; (string) The unique identifier of the project in the code repository. Constraints: • pattern: project-[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12} Shorthand Syntax: scanConfigurationArn=string,resource={projectId=string} ... JSON Syntax: [ { "scanConfigurationArn": "string", "resource": { "projectId": "string" } } ... ]
     /// </summary>
     [CliOption("--disassociate-configuration-requests", GroupValues = true)]
     public IEnumerable<string>? DisassociateConfigurationRequests { get; private init; }
@@ -93,6 +94,15 @@ public record AwsInspector2BatchDisassociateCodeSecurityScanConfigurationOptions
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

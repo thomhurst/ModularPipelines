@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves the current resource metrics configuration for an Amazon Web Services resource. The response includes the resource ARN, any metric selections, and the times at which the configuration was created and last updated. This operation returns a ResourceNotFoundException if no resource met- rics configuration exists for the specified resource ARN. To create a configuration, use CreateResourceMetricsConfiguration . To retrieve a resource metrics configuration, you must have the cloud- watch:Ge...
+/// Retrieves the current resource metrics configuration for an Amazon Web Services resource. The response includes the resource ARN, any metric selections, and the times at which the configuration was created and last updated. This operation returns a ResourceNotFoundException if no resource metrics configuration exists for the specified resource ARN. To create a configuration, use CreateResourceMetricsConfiguration . To retrieve a resource metrics configuration, you must have the cloudwatch:GetRes...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsCloudwatchGetResourceMetricsConfigurationOptions : AwsOptions, 
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Retrieves the current resource metrics configuration for an Amazon Web Services resource. The response includes the resource ARN, any metric selections, and the times at which the configuration was created and last updated. This operation returns a ResourceNotFoundException if no resource met- rics configuration exists for the specified resource ARN. To create a configuration, use CreateResourceMetricsConfiguration . To retrieve a resource metrics configuration, you must have the cloud- watch:Ge...
+    /// Retrieves the current resource metrics configuration for an Amazon Web Services resource. The response includes the resource ARN, any metric selections, and the times at which the configuration was created and last updated. This operation returns a ResourceNotFoundException if no resource metrics configuration exists for the specified resource ARN. To create a configuration, use CreateResourceMetricsConfiguration . To retrieve a resource metrics configuration, you must have the cloudwatch:GetRes...
     /// </summary>
-    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the Amazon Web Services resource to retrieve the resource metrics configuration for. Constraints: o min: 20 o max: 2048 o pattern: arn:[a-zA-Z0-9-]+:[a-zA-Z0-9-]+:[a-zA-Z0-9-]*:\d{12}:.+</param>
+    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the Amazon Web Services resource to retrieve the resource metrics configuration for. Constraints: • min: 20 • max: 2048 • pattern: arn:[a-zA-Z0-9-]+:[a-zA-Z0-9-]+:[a-zA-Z0-9-]*:\d{12}:.+</param>
     public AwsCloudwatchGetResourceMetricsConfigurationOptions(
         string ResourceArn
     )
@@ -56,7 +57,7 @@ public record AwsCloudwatchGetResourceMetricsConfigurationOptions : AwsOptions, 
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the Amazon Web Services resource to retrieve the resource metrics configuration for. Constraints: o min: 20 o max: 2048 o pattern: arn:[a-zA-Z0-9-]+:[a-zA-Z0-9-]+:[a-zA-Z0-9-]*:\d{12}:.+
+    /// The Amazon Resource Name (ARN) of the Amazon Web Services resource to retrieve the resource metrics configuration for. Constraints: • min: 20 • max: 2048 • pattern: arn:[a-zA-Z0-9-]+:[a-zA-Z0-9-]+:[a-zA-Z0-9-]*:\d{12}:.+
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
@@ -82,6 +83,15 @@ public record AwsCloudwatchGetResourceMetricsConfigurationOptions : AwsOptions, 
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

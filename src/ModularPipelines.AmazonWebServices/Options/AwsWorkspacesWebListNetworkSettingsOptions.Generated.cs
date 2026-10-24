@@ -23,14 +23,14 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsWorkspacesWebListNetworkSettingsOptions : AwsOptions
 {
     /// <summary>
-    /// The pagination token used to retrieve the next page of results for this operation. Constraints: o min: 1 o max: 2048 o pattern: \S+
+    /// The pagination token used to retrieve the next page of results for this operation. Constraints: • min: 1 • max: 2048 • pattern: \S+
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// The maximum number of results to be included in the next page. Constraints: o min: 1
+    /// The maximum number of results to be included in the next page. Constraints: • min: 1
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
@@ -40,5 +40,14 @@ public record AwsWorkspacesWebListNetworkSettingsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

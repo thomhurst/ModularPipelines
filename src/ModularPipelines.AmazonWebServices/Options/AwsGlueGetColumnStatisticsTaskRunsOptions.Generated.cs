@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves information about all runs associated with the specified ta- ble. See also: AWS API Documentation
+/// Retrieves information about all runs associated with the specified table. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +27,10 @@ public record AwsGlueGetColumnStatisticsTaskRunsOptions : AwsOptions, IValidatab
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Retrieves information about all runs associated with the specified ta- ble. See also: AWS API Documentation
+    /// Retrieves information about all runs associated with the specified table. See also: AWS API Documentation
     /// </summary>
     /// <param name="DatabaseName">The name of the database where the table resides.</param>
-    /// <param name="TableName">The name of the table. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*</param>
+    /// <param name="TableName">The name of the table. Constraints: • min: 1 • max: 255 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*</param>
     public AwsGlueGetColumnStatisticsTaskRunsOptions(
         string DatabaseName,
         string TableName
@@ -67,13 +68,13 @@ public record AwsGlueGetColumnStatisticsTaskRunsOptions : AwsOptions, IValidatab
     public string? DatabaseName { get; private init; }
 
     /// <summary>
-    /// The name of the table. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
+    /// The name of the table. Constraints: • min: 1 • max: 255 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
     /// </summary>
     [CliOption("--table-name")]
     public string? TableName { get; private init; }
 
     /// <summary>
-    /// The maximum size of the response. Constraints: o min: 1 o max: 1000
+    /// The maximum size of the response. Constraints: • min: 1 • max: 1000
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
@@ -86,7 +87,7 @@ public record AwsGlueGetColumnStatisticsTaskRunsOptions : AwsOptions, IValidatab
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// The ID of the Data Catalog where the table resides. If none is sup- plied, the Amazon Web Services account ID is used by default. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
+    /// The ID of the Data Catalog where the table resides. If none is supplied, the Amazon Web Services account ID is used by default. Constraints: • min: 1 • max: 255 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
     /// </summary>
     [CliOption("--catalog-id")]
     public string? CatalogId { get; set; }
@@ -112,6 +113,15 @@ public record AwsGlueGetColumnStatisticsTaskRunsOptions : AwsOptions, IValidatab
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

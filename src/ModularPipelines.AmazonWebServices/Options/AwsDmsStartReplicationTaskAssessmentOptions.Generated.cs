@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Starts the replication task assessment for unsupported data types in the source database. You can only use this operation for a task if the following conditions are true: o The task must be in the stopped state. o The task must have successful connections to the source and target. If either of these conditions are not met, an InvalidResourceStateFault error will result. For information about DMS task assessments, see Creating a task assess- ment report in the Database Migration Service User Guid...
+/// Starts the replication task assessment for unsupported data types in the source database. You can only use this operation for a task if the following conditions are true: • The task must be in the stopped state. • The task must have successful connections to the source and target. If either of these conditions are not met, an InvalidResourceStateFault error will result. For information about DMS task assessments, see Creating a task assessment report in the Database Migration Service User Guide ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +26,7 @@ public record AwsDmsStartReplicationTaskAssessmentOptions : AwsOptions, IValidat
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Starts the replication task assessment for unsupported data types in the source database. You can only use this operation for a task if the following conditions are true: o The task must be in the stopped state. o The task must have successful connections to the source and target. If either of these conditions are not met, an InvalidResourceStateFault error will result. For information about DMS task assessments, see Creating a task assess- ment report in the Database Migration Service User Guid...
+    /// Starts the replication task assessment for unsupported data types in the source database. You can only use this operation for a task if the following conditions are true: • The task must be in the stopped state. • The task must have successful connections to the source and target. If either of these conditions are not met, an InvalidResourceStateFault error will result. For information about DMS task assessments, see Creating a task assessment report in the Database Migration Service User Guide ...
     /// </summary>
     /// <param name="ReplicationTaskArn">The Amazon Resource Name (ARN) of the replication task.</param>
     public AwsDmsStartReplicationTaskAssessmentOptions(
@@ -82,6 +83,15 @@ public record AwsDmsStartReplicationTaskAssessmentOptions : AwsOptions, IValidat
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

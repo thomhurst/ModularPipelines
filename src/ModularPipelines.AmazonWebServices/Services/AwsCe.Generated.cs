@@ -6,8 +6,8 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
+using ModularPipelines;
 using ModularPipelines.Context;
-using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
@@ -47,7 +47,7 @@ public class AwsCe : IAwsCe
     }
 
     /// <summary>
-    /// Adds an alert subscription to a cost anomaly detection monitor. You can use each subscription to define subscribers with email or SNS notifica- tions. Email subscribers can set an absolute or percentage threshold and a time frequency for receiving notifications. See also: AWS API Documentation
+    /// Adds an alert subscription to a cost anomaly detection monitor. You can use each subscription to define subscribers with email or SNS notifications. Email subscribers can set an absolute or percentage threshold and a time frequency for receiving notifications. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -137,7 +137,7 @@ public class AwsCe : IAwsCe
     }
 
     /// <summary>
-    /// Retrieves all of the cost anomalies detected on your account during the time period that's specified by the DateInterval object. Anomalies are available for up to 90 days. See also: AWS API Documentation get-anomalies is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument mu...
+    /// Retrieves all of the cost anomalies detected on your account during the time period that's specified by the DateInterval object. Anomalies are available for up to 90 days. See also: AWS API Documentation get-anomalies is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must e...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -182,7 +182,7 @@ public class AwsCe : IAwsCe
     }
 
     /// <summary>
-    /// Retrieves estimated usage records for hourly granularity or re- source-level data at daily granularity. See also: AWS API Documentation
+    /// Retrieves estimated usage records for hourly granularity or resource-level data at daily granularity. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -212,7 +212,7 @@ public class AwsCe : IAwsCe
     }
 
     /// <summary>
-    /// Retrieves cost and usage comparisons for your account between two peri- ods within the last 13 months. If you have enabled multi-year data at monthly granularity, you can go back up to 38 months. See also: AWS API Documentation get-cost-and-usage-comparisons is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a pa...
+    /// Retrieves cost and usage comparisons for your account between two periods within the last 13 months. If you have enabled multi-year data at monthly granularity, you can go back up to 38 months. See also: AWS API Documentation get-cost-and-usage-comparisons is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginate...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -227,7 +227,7 @@ public class AwsCe : IAwsCe
     }
 
     /// <summary>
-    /// Retrieves cost and usage metrics for your account. You can specify which cost and usage-related metric that you want the request to re- turn. For example, you can specify BlendedCosts or UsageQuantity . You can also filter and group your data by various dimensions, such as SER- VICE or AZ , in a specific time range. For a complete list of valid di- mensions, see the GetDimensionValues operation. Management account in an organization in Organizations have access to all member accounts. For inform...
+    /// Retrieves cost and usage metrics for your account. You can specify which cost and usage-related metric that you want the request to return. For example, you can specify BlendedCosts or UsageQuantity . You can also filter and group your data by various dimensions, such as SERVICE or AZ , in a specific time range. For a complete list of valid dimensions, see the GetDimensionValues operation. Management account in an organization in Organizations have access to all member accounts. For information ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -242,7 +242,7 @@ public class AwsCe : IAwsCe
     }
 
     /// <summary>
-    /// Retrieves cost and usage metrics with resources for your account. You can specify which cost and usage-related metric, such as BlendedCosts or UsageQuantity , that you want the request to return. You can also filter and group your data by various dimensions, such as SERVICE or AZ , in a specific time range. For a complete list of valid dimensions, see the GetDimensionValues operation. Management account in an organi- zation in Organizations have access to all member accounts. Hourly granularity ...
+    /// Retrieves cost and usage metrics with resources for your account. You can specify which cost and usage-related metric, such as BlendedCosts or UsageQuantity , that you want the request to return. You can also filter and group your data by various dimensions, such as SERVICE or AZ , in a specific time range. For a complete list of valid dimensions, see the GetDimensionValues operation. Management account in an organization in Organizations have access to all member accounts. Hourly granularity is...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -272,7 +272,7 @@ public class AwsCe : IAwsCe
     }
 
     /// <summary>
-    /// Retrieves key factors driving cost changes between two time periods within the last 13 months, such as usage changes, discount changes, and commitment-based savings. If you have enabled multi-year data at monthly granularity, you can go back up to 38 months. See also: AWS API Documentation get-cost-comparison-drivers is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- men...
+    /// Retrieves key factors driving cost changes between two time periods within the last 13 months, such as usage changes, discount changes, and commitment-based savings. If you have enabled multi-year data at monthly granularity, you can go back up to 38 months. See also: AWS API Documentation get-cost-comparison-drivers is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. W...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -302,7 +302,7 @@ public class AwsCe : IAwsCe
     }
 
     /// <summary>
-    /// Retrieves all available filter values for a specified filter over a pe- riod of time. You can search the dimension values for an arbitrary string. See also: AWS API Documentation
+    /// Retrieves all available filter values for a specified filter over a period of time. You can search the dimension values for an arbitrary string. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -317,7 +317,7 @@ public class AwsCe : IAwsCe
     }
 
     /// <summary>
-    /// Retrieves the reservation coverage for your account, which you can use to see how much of your Amazon Elastic Compute Cloud, Amazon Elasti- Cache, Amazon Relational Database Service, or Amazon Redshift usage is covered by a reservation. An organization's management account can see the coverage of the associated member accounts. This supports dimen- sions, cost categories, and nested expressions. For any time period, you can filter data about reservation usage by the following dimen- sions: o AZ ...
+    /// Retrieves the reservation coverage for your account, which you can use to see how much of your Amazon Elastic Compute Cloud, Amazon ElastiCache, Amazon Relational Database Service, or Amazon Redshift usage is covered by a reservation. An organization's management account can see the coverage of the associated member accounts. This supports dimensions, cost categories, and nested expressions. For any time period, you can filter data about reservation usage by the following dimensions: • AZ • CACH...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -332,7 +332,7 @@ public class AwsCe : IAwsCe
     }
 
     /// <summary>
-    /// Gets recommendations for reservation purchases. These recommendations might help you to reduce your costs. Reservations provide a discounted hourly rate (up to 75%) compared to On-Demand pricing. Amazon Web Services generates your recommendations by identifying your On-Demand usage during a specific time period and collecting your usage into categories that are eligible for a reservation. After Amazon Web Services has these categories, it simulates every combination of reser- vations in each cat...
+    /// Gets recommendations for reservation purchases. These recommendations might help you to reduce your costs. Reservations provide a discounted hourly rate (up to 75%) compared to On-Demand pricing. Amazon Web Services generates your recommendations by identifying your On-Demand usage during a specific time period and collecting your usage into categories that are eligible for a reservation. After Amazon Web Services has these categories, it simulates every combination of reservations in each categ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -347,7 +347,7 @@ public class AwsCe : IAwsCe
     }
 
     /// <summary>
-    /// Retrieves the reservation utilization for your account. Management ac- count in an organization have access to member accounts. You can filter data by dimensions in a time period. You can use GetDimensionValues to determine the possible dimension values. Currently, you can group only by SUBSCRIPTION_ID . See also: AWS API Documentation
+    /// Retrieves the reservation utilization for your account. Management account in an organization have access to member accounts. You can filter data by dimensions in a time period. You can use GetDimensionValues to determine the possible dimension values. Currently, you can group only by SUBSCRIPTION_ID . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -362,7 +362,7 @@ public class AwsCe : IAwsCe
     }
 
     /// <summary>
-    /// Creates recommendations that help you save cost by identifying idle and underutilized Amazon EC2 instances. Recommendations are generated to either downsize or terminate in- stances, along with providing savings detail and metrics. For more in- formation about calculation and function, see Optimizing Your Cost with Rightsizing Recommendations in the Billing and Cost Management User Guide . See also: AWS API Documentation get-rightsizing-recommendation is a paginated operation. Multiple API calls...
+    /// Creates recommendations that help you save cost by identifying idle and underutilized Amazon EC2 instances. Recommendations are generated to either downsize or terminate instances, along with providing savings detail and metrics. For more information about calculation and function, see Optimizing Your Cost with Rightsizing Recommendations in the Billing and Cost Management User Guide . See also: AWS API Documentation get-rightsizing-recommendation is a paginated operation. Multiple API calls may...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -392,7 +392,7 @@ public class AwsCe : IAwsCe
     }
 
     /// <summary>
-    /// Retrieves the Savings Plans covered for your account. This enables you to see how much of your cost is covered by a Savings Plan. An organiza- tions management account can see the coverage of the associated member accounts. This supports dimensions, cost categories, and nested expres- sions. For any time period, you can filter data for Savings Plans usage with the following dimensions: o LINKED_ACCOUNT o REGION o SERVICE o INSTANCE_FAMILY To determine valid values for a dimension, use the GetDim...
+    /// Retrieves the Savings Plans covered for your account. This enables you to see how much of your cost is covered by a Savings Plan. An organizations management account can see the coverage of the associated member accounts. This supports dimensions, cost categories, and nested expressions. For any time period, you can filter data for Savings Plans usage with the following dimensions: • LINKED_ACCOUNT • REGION • SERVICE • INSTANCE_FAMILY To determine valid values for a dimension, use the GetDimensi...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -422,7 +422,7 @@ public class AwsCe : IAwsCe
     }
 
     /// <summary>
-    /// Retrieves attribute data along with aggregate utilization and savings data for a given time period. This doesn't support granular or grouped data (daily/monthly) in response. You can't retrieve data by dates in a single response similar to GetSavingsPlanUtilization , but you have the option to make multiple calls to GetSavingsPlanUtilizationDetails by providing individual dates. You can use GetDimensionValues in SAV- INGS_PLANS to determine the possible dimension values. NOTE: GetSavingsPlanUtil...
+    /// Retrieves attribute data along with aggregate utilization and savings data for a given time period. This doesn't support granular or grouped data (daily/monthly) in response. You can't retrieve data by dates in a single response similar to GetSavingsPlanUtilization , but you have the option to make multiple calls to GetSavingsPlanUtilizationDetails by providing individual dates. You can use GetDimensionValues in SAVINGS_PLANS to determine the possible dimension values. NOTE: GetSavingsPlanUtiliz...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -437,7 +437,7 @@ public class AwsCe : IAwsCe
     }
 
     /// <summary>
-    /// Retrieves the Savings Plans utilization for your account across date ranges with daily or monthly granularity. Management account in an or- ganization have access to member accounts. You can use GetDimensionVal- ues in SAVINGS_PLANS to determine the possible dimension values. NOTE: You can't group by any dimension values for GetSavingsPlansUtiliza- tion . See also: AWS API Documentation
+    /// Retrieves the Savings Plans utilization for your account across date ranges with daily or monthly granularity. Management account in an organization have access to member accounts. You can use GetDimensionValues in SAVINGS_PLANS to determine the possible dimension values. NOTE: You can't group by any dimension values for GetSavingsPlansUtilization . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -482,7 +482,7 @@ public class AwsCe : IAwsCe
     }
 
     /// <summary>
-    /// Lists the commitment purchase analyses for your account. See also: AWS API Documentation list-commitment-purchase-analyses is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: AnalysisSummaryList
+    /// Lists the commitment purchase analyses for your account. See also: AWS API Documentation list-commitment-purchase-analyses is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: AnalysisSummaryList
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -497,7 +497,7 @@ public class AwsCe : IAwsCe
     }
 
     /// <summary>
-    /// Retrieves a list of your historical cost allocation tag backfill re- quests. See also: AWS API Documentation list-cost-allocation-tag-backfill-history is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-pagi- nate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the re- sults of the following query expressions...
+    /// Retrieves a list of your historical cost allocation tag backfill requests. See also: AWS API Documentation list-cost-allocation-tag-backfill-history is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Back...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -512,7 +512,7 @@ public class AwsCe : IAwsCe
     }
 
     /// <summary>
-    /// Get a list of cost allocation tags. All inputs in the API are optional and serve as filters. By default, all cost allocation tags are re- turned. See also: AWS API Documentation list-cost-allocation-tags is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data fr...
+    /// Get a list of cost allocation tags. All inputs in the API are optional and serve as filters. By default, all cost allocation tags are returned. See also: AWS API Documentation list-cost-allocation-tags is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -527,7 +527,7 @@ public class AwsCe : IAwsCe
     }
 
     /// <summary>
-    /// Returns the name, Amazon Resource Name (ARN), NumberOfRules and effec- tive dates of all cost categories defined in the account. You have the option to use EffectiveOn and SupportedResourceTypes to return a list of cost categories that were active on a specific date. If there is no EffectiveOn specified, youll see cost categories that are effective on the current date. If cost category is still effective, EffectiveEnd is omitted in the response. ListCostCategoryDefinitions supports pagina- tion....
+    /// Returns the name, Amazon Resource Name (ARN), NumberOfRules and effective dates of all cost categories defined in the account. You have the option to use EffectiveOn and SupportedResourceTypes to return a list of cost categories that were active on a specific date. If there is no EffectiveOn specified, youll see cost categories that are effective on the current date. If cost category is still effective, EffectiveEnd is omitted in the response. ListCostCategoryDefinitions supports pagination. The...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -542,7 +542,7 @@ public class AwsCe : IAwsCe
     }
 
     /// <summary>
-    /// Returns resource associations of all cost categories defined in the ac- count. You have the option to use CostCategoryArn to get the associa- tion for a specific cost category. ListCostCategoryResourceAssociations supports pagination. The request can have a MaxResults range up to 100. See also: AWS API Documentation list-cost-category-resource-associations is a paginated operation. Mul- tiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination ...
+    /// Returns resource associations of all cost categories defined in the account. You have the option to use CostCategoryArn to get the association for a specific cost category. ListCostCategoryResourceAssociations supports pagination. The request can have a MaxResults range up to 100. See also: AWS API Documentation list-cost-category-resource-associations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by pro...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -557,7 +557,7 @@ public class AwsCe : IAwsCe
     }
 
     /// <summary>
-    /// Retrieves a list of your historical recommendation generations within the past 30 days. See also: AWS API Documentation list-savings-plans-purchase-recommendation-generation is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argu- ment on a paginated response, the --query argument must extract data from the results of the follow...
+    /// Retrieves a list of your historical recommendation generations within the past 30 days. See also: AWS API Documentation list-savings-plans-purchase-recommendation-generation is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the followin...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -617,7 +617,7 @@ public class AwsCe : IAwsCe
     }
 
     /// <summary>
-    /// Request a cost allocation tag backfill. This will backfill the activa- tion status (either active or inactive ) for all tag keys from para:BackfillFrom up to the time this request is made. You can request a backfill once every 24 hours. See also: AWS API Documentation
+    /// Request a cost allocation tag backfill. This will backfill the activation status (either active or inactive ) for all tag keys from para:BackfillFrom up to the time this request is made. You can request a backfill once every 24 hours. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -632,7 +632,7 @@ public class AwsCe : IAwsCe
     }
 
     /// <summary>
-    /// Requests a Savings Plans recommendation generation. This enables you to calculate a fresh set of Savings Plans recommendations that takes your latest usage data and current Savings Plans inventory into account. You can refresh Savings Plans recommendations up to three times daily for a consolidated billing family. NOTE: StartSavingsPlansPurchaseRecommendationGeneration has no request syntax because no input parameters are needed to support this opera- tion. See also: AWS API Documentation
+    /// Requests a Savings Plans recommendation generation. This enables you to calculate a fresh set of Savings Plans recommendations that takes your latest usage data and current Savings Plans inventory into account. You can refresh Savings Plans recommendations up to three times daily for a consolidated billing family. NOTE: StartSavingsPlansPurchaseRecommendationGeneration has no request syntax because no input parameters are needed to support this operation. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -647,7 +647,7 @@ public class AwsCe : IAwsCe
     }
 
     /// <summary>
-    /// An API operation for adding one or more tags (key-value pairs) to a re- source. You can use the TagResource operation with a resource that already has tags. If you specify a new tag key for the resource, this tag is ap- pended to the list of tags associated with the resource. If you specify a tag key that is already associated with the resource, the new tag value you specify replaces the previous value for that tag. Although the maximum number of array members is 200, user-tag maximum is 50. The...
+    /// An API operation for adding one or more tags (key-value pairs) to a resource. You can use the TagResource operation with a resource that already has tags. If you specify a new tag key for the resource, this tag is appended to the list of tags associated with the resource. If you specify a tag key that is already associated with the resource, the new tag value you specify replaces the previous value for that tag. Although the maximum number of array members is 200, user-tag maximum is 50. The rem...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -692,7 +692,7 @@ public class AwsCe : IAwsCe
     }
 
     /// <summary>
-    /// Updates an existing cost anomaly subscription. Specify the fields that you want to update. Omitted fields are unchanged. NOTE: The JSON below describes the generic construct for each type. See Request Parameters for possible values as they apply to AnomalySub- scription . See also: AWS API Documentation
+    /// Updates an existing cost anomaly subscription. Specify the fields that you want to update. Omitted fields are unchanged. NOTE: The JSON below describes the generic construct for each type. See Request Parameters for possible values as they apply to AnomalySubscription . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -707,7 +707,7 @@ public class AwsCe : IAwsCe
     }
 
     /// <summary>
-    /// Updates status for cost allocation tags in bulk, with maximum batch size of 20. If the tag status that's updated is the same as the exist- ing tag status, the request doesn't fail. Instead, it doesn't have any effect on the tag status (for example, activating the active tag). See also: AWS API Documentation
+    /// Updates status for cost allocation tags in bulk, with maximum batch size of 20. If the tag status that's updated is the same as the existing tag status, the request doesn't fail. Instead, it doesn't have any effect on the tag status (for example, activating the active tag). See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsBedrockUpdateProvisionedModelThroughputOptions : AwsOptions, IV
     /// <summary>
     /// Updates the name or associated model for a Provisioned Throughput. For more information, see Provisioned Throughput in the Amazon Bedrock User Guide . See also: AWS API Documentation
     /// </summary>
-    /// <param name="ProvisionedModelId">The Amazon Resource Name (ARN) or name of the Provisioned Throughput to update. Constraints: o pattern: ((([0-9a-zA-Z][_-]?)+)|(arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:pro- visioned-model/[a-z0-9]{12}))</param>
+    /// <param name="ProvisionedModelId">The Amazon Resource Name (ARN) or name of the Provisioned Throughput to update. Constraints: • pattern: ((([0-9a-zA-Z][_-]?)+)|(arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:provisioned-model/[a-z0-9]{12}))</param>
     public AwsBedrockUpdateProvisionedModelThroughputOptions(
         string ProvisionedModelId
     )
@@ -56,19 +57,19 @@ public record AwsBedrockUpdateProvisionedModelThroughputOptions : AwsOptions, IV
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) or name of the Provisioned Throughput to update. Constraints: o pattern: ((([0-9a-zA-Z][_-]?)+)|(arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:pro- visioned-model/[a-z0-9]{12}))
+    /// The Amazon Resource Name (ARN) or name of the Provisioned Throughput to update. Constraints: • pattern: ((([0-9a-zA-Z][_-]?)+)|(arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:provisioned-model/[a-z0-9]{12}))
     /// </summary>
     [CliOption("--provisioned-model-id")]
     public string? ProvisionedModelId { get; private init; }
 
     /// <summary>
-    /// The new name for this Provisioned Throughput. Constraints: o min: 1 o max: 63 o pattern: ([0-9a-zA-Z][_-]?)+
+    /// The new name for this Provisioned Throughput. Constraints: • min: 1 • max: 63 • pattern: ([0-9a-zA-Z][_-]?)+
     /// </summary>
     [CliOption("--desired-provisioned-model-name")]
     public string? DesiredProvisionedModelName { get; set; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the new model to associate with this Provisioned Throughput. You can't specify this field if this Provisioned Throughput is associated with a base model. If this Provisioned Throughput is associated with a custom model, you can specify one of the following options: o The base model from which the custom model was customized. o Another custom model that was customized from the same base model as the custom model. Constraints: o min: 1 o max: 2048 o pattern: arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:(([0-9]{12}:cus- tom-model/((im- ported)|([a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}))(([:][a-z0-9-]{1,63}){0,2})?/[a-z0-9]{12})|(:foun- da- tion-model/([a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.]?[a-z0-9-]{1,63})([:][a-z0-9-]{1,63}){0,2})))|(([a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.]?[a-z0-9-]{1,63})([:][a-z0-9-]{1,63}){0,2}))|(([0-9a-zA-Z][_-]?)+)
+    /// The Amazon Resource Name (ARN) of the new model to associate with this Provisioned Throughput. You can't specify this field if this Provisioned Throughput is associated with a base model. If this Provisioned Throughput is associated with a custom model, you can specify one of the following options: • The base model from which the custom model was customized. • Another custom model that was customized from the same base model as the custom model. Constraints: • min: 1 • max: 2048 • pattern: arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:(([0-9]{12}:custom-model/((imported)|([a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}))(([:][a-z0-9-]{1,63}){0,2})?/[a-z0-9]{12})|(:foundation-model/([a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.]?[a-z0-9-]{1,63})([:][a-z0-9-]{1,63}){0,2})))|(([a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.]?[a-z0-9-]{1,63})([:][a-z0-9-]{1,63}){0,2}))|(([0-9a-zA-Z][_-]?)+)
     /// </summary>
     [CliOption("--desired-model-id")]
     public string? DesiredModelId { get; set; }
@@ -94,6 +95,15 @@ public record AwsBedrockUpdateProvisionedModelThroughputOptions : AwsOptions, IV
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

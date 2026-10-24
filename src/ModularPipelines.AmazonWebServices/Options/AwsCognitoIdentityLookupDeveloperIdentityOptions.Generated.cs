@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves the IdentityID associated with a DeveloperUserIdentifier or the list of DeveloperUserIdentifier values associated with an Identi- tyId for an existing identity. Either IdentityID or DeveloperUserIden- tifier must not be null. If you supply only one of these values, the other value will be searched in the database and returned as a part of the response. If you supply both, DeveloperUserIdentifier will be matched against IdentityID . If the values are verified against the database, the r...
+/// Retrieves the IdentityID associated with a DeveloperUserIdentifier or the list of DeveloperUserIdentifier values associated with an IdentityId for an existing identity. Either IdentityID or DeveloperUserIdentifier must not be null. If you supply only one of these values, the other value will be searched in the database and returned as a part of the response. If you supply both, DeveloperUserIdentifier will be matched against IdentityID . If the values are verified against the database, the respo...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +27,9 @@ public record AwsCognitoIdentityLookupDeveloperIdentityOptions : AwsOptions, IVa
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Retrieves the IdentityID associated with a DeveloperUserIdentifier or the list of DeveloperUserIdentifier values associated with an Identi- tyId for an existing identity. Either IdentityID or DeveloperUserIden- tifier must not be null. If you supply only one of these values, the other value will be searched in the database and returned as a part of the response. If you supply both, DeveloperUserIdentifier will be matched against IdentityID . If the values are verified against the database, the r...
+    /// Retrieves the IdentityID associated with a DeveloperUserIdentifier or the list of DeveloperUserIdentifier values associated with an IdentityId for an existing identity. Either IdentityID or DeveloperUserIdentifier must not be null. If you supply only one of these values, the other value will be searched in the database and returned as a part of the response. If you supply both, DeveloperUserIdentifier will be matched against IdentityID . If the values are verified against the database, the respo...
     /// </summary>
-    /// <param name="IdentityPoolId">An identity pool ID in the format REGION:GUID. Constraints: o min: 1 o max: 55 o pattern: [\w-]+:[0-9a-f-]+</param>
+    /// <param name="IdentityPoolId">An identity pool ID in the format REGION:GUID. Constraints: • min: 1 • max: 55 • pattern: [\w-]+:[0-9a-f-]+</param>
     public AwsCognitoIdentityLookupDeveloperIdentityOptions(
         string IdentityPoolId
     )
@@ -57,31 +58,31 @@ public record AwsCognitoIdentityLookupDeveloperIdentityOptions : AwsOptions, IVa
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// An identity pool ID in the format REGION:GUID. Constraints: o min: 1 o max: 55 o pattern: [\w-]+:[0-9a-f-]+
+    /// An identity pool ID in the format REGION:GUID. Constraints: • min: 1 • max: 55 • pattern: [\w-]+:[0-9a-f-]+
     /// </summary>
     [CliOption("--identity-pool-id")]
     public string? IdentityPoolId { get; private init; }
 
     /// <summary>
-    /// A unique identifier in the format REGION:GUID. Constraints: o min: 1 o max: 55 o pattern: [\w-]+:[0-9a-f-]+
+    /// A unique identifier in the format REGION:GUID. Constraints: • min: 1 • max: 55 • pattern: [\w-]+:[0-9a-f-]+
     /// </summary>
     [CliOption("--identity-id")]
     public string? IdentityId { get; set; }
 
     /// <summary>
-    /// A unique ID used by your backend authentication process to identify a user. Typically, a developer identity provider would issue many developer user identifiers, in keeping with the number of users. Constraints: o min: 1 o max: 1024
+    /// A unique ID used by your backend authentication process to identify a user. Typically, a developer identity provider would issue many developer user identifiers, in keeping with the number of users. Constraints: • min: 1 • max: 1024
     /// </summary>
     [CliOption("--developer-user-identifier")]
     public string? DeveloperUserIdentifier { get; set; }
 
     /// <summary>
-    /// The maximum number of identities to return. Constraints: o min: 1 o max: 60
+    /// The maximum number of identities to return. Constraints: • min: 1 • max: 60
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
     /// <summary>
-    /// A pagination token. The first call you make will have NextToken set to null. After that the service will return NextToken values as needed. For example, let's say you make a request with MaxResults set to 10, and there are 20 matches in the database. The service will return a pagination token as a part of the response. This token can be used to call the API again and get results starting from the 11th match. Constraints: o min: 1 o max: 65535 o pattern: [\S]+
+    /// A pagination token. The first call you make will have NextToken set to null. After that the service will return NextToken values as needed. For example, let's say you make a request with MaxResults set to 10, and there are 20 matches in the database. The service will return a pagination token as a part of the response. This token can be used to call the API again and get results starting from the 11th match. Constraints: • min: 1 • max: 65535 • pattern: [\S]+
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
@@ -108,6 +109,15 @@ public record AwsCognitoIdentityLookupDeveloperIdentityOptions : AwsOptions, IVa
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,7 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -29,7 +29,7 @@ public record AwsAmplifyuibuilderTagResourceOptions : AwsOptions, IValidatableOb
     /// Tags the resource with a tag key and value. See also: AWS API Documentation
     /// </summary>
     /// <param name="ResourceArn">The Amazon Resource Name (ARN) to use to tag a resource.</param>
-    /// <param name="Tags">A list of tag key value pairs for a specified Amazon Resource Name (ARN). key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: (?!aws:)[a-zA-Z+-=._:/]+ value -&gt; (string) Constraints: o min: 1 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}</param>
+    /// <param name="Tags">A list of tag key value pairs for a specified Amazon Resource Name (ARN). key -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: (?!aws:)[a-zA-Z+-=._:/]+ value -&gt; (string) Constraints: • min: 1 • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}</param>
     public AwsAmplifyuibuilderTagResourceOptions(
         string ResourceArn,
         IReadOnlyList<KeyValue> Tags
@@ -78,7 +78,7 @@ public record AwsAmplifyuibuilderTagResourceOptions : AwsOptions, IValidatableOb
     public string? ResourceArn { get; private init; }
 
     /// <summary>
-    /// A list of tag key value pairs for a specified Amazon Resource Name (ARN). key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: (?!aws:)[a-zA-Z+-=._:/]+ value -&gt; (string) Constraints: o min: 1 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// A list of tag key value pairs for a specified Amazon Resource Name (ARN). key -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: (?!aws:)[a-zA-Z+-=._:/]+ value -&gt; (string) Constraints: • min: 1 • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; private init; }
@@ -104,6 +104,15 @@ public record AwsAmplifyuibuilderTagResourceOptions : AwsOptions, IValidatableOb
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

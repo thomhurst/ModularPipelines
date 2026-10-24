@@ -15,7 +15,7 @@ using ModularPipelines.AmazonWebServices.Enums;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Displays a list of categories for all event source types, or, if speci- fied, for a specified source type. See also: AWS API Documentation
+/// Displays a list of categories for all event source types, or, if specified, for a specified source type. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -29,7 +29,7 @@ public record AwsDocdbDescribeEventCategoriesOptions : AwsOptions
     public AwsDocdbDescribeEventCategoriesSourceType? SourceType { get; set; }
 
     /// <summary>
-    /// This parameter is not currently supported. (structure) A named set of filter values, used to return a more specific list of results. You can use a filter to match a set of re- sources by specific criteria, such as IDs. Wildcards are not supported in filters. Name -&gt; (string) [required] The name of the filter. Filter names are case sensitive. Values -&gt; (list) [required] One or more filter values. Filter values are case sensitive. (string) Shorthand Syntax: Name=string,Values=string,string ... JSON Syntax: [ { "Name": "string", "Values": ["string", ...] } ... ]
+    /// This parameter is not currently supported. (structure) A named set of filter values, used to return a more specific list of results. You can use a filter to match a set of resources by specific criteria, such as IDs. Wildcards are not supported in filters. Name -&gt; (string) [required] The name of the filter. Filter names are case sensitive. Values -&gt; (list) [required] One or more filter values. Filter values are case sensitive. (string) Shorthand Syntax: Name=string,Values=string,string ... JSON Syntax: [ { "Name": "string", "Values": ["string", ...] } ... ]
     /// </summary>
     [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
@@ -39,5 +39,14 @@ public record AwsDocdbDescribeEventCategoriesOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

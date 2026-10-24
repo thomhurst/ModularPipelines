@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsSesv2GetCustomVerificationEmailTemplateOptions : AwsOptions, IV
     /// <summary>
     /// Returns the custom email verification template for the template name you specify. For more information about custom verification email templates, see Using custom verification email templates in the Amazon SES Developer Guide . You can execute this operation no more than once per second. See also: AWS API Documentation
     /// </summary>
-    /// <param name="TemplateName">The name of the custom verification email template that you want to retrieve. Constraints: o min: 1</param>
+    /// <param name="TemplateName">The name of the custom verification email template that you want to retrieve. Constraints: • min: 1</param>
     public AwsSesv2GetCustomVerificationEmailTemplateOptions(
         string TemplateName
     )
@@ -56,7 +57,7 @@ public record AwsSesv2GetCustomVerificationEmailTemplateOptions : AwsOptions, IV
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the custom verification email template that you want to retrieve. Constraints: o min: 1
+    /// The name of the custom verification email template that you want to retrieve. Constraints: • min: 1
     /// </summary>
     [CliOption("--template-name")]
     public string? TemplateName { get; private init; }
@@ -82,6 +83,15 @@ public record AwsSesv2GetCustomVerificationEmailTemplateOptions : AwsOptions, IV
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

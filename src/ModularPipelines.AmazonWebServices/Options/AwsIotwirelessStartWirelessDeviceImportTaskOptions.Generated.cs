@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -29,8 +30,8 @@ public record AwsIotwirelessStartWirelessDeviceImportTaskOptions : AwsOptions, I
     /// <summary>
     /// Start import task for provisioning Sidewalk devices in bulk using an S3 CSV file. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DestinationName">The name of the Sidewalk destination that describes the IoT rule to route messages from the devices in the import task that are on- boarded to AWS IoT Wireless. Constraints: o max: 128 o pattern: [a-zA-Z0-9-_]+</param>
-    /// <param name="Sidewalk">The Sidewalk-related parameters for importing wireless devices that need to be provisioned in bulk. DeviceCreationFile -&gt; (string) The CSV file contained in an S3 bucket that's used for adding devices to an import task. Constraints: o max: 1024 Role -&gt; (string) The IAM role that allows AWS IoT Wireless to access the CSV file in the S3 bucket. Constraints: o max: 2048 Positioning -&gt; (structure) The Positioning object of the Sidewalk device. DestinationName -&gt; (string) The location destination name of the Sidewalk device. Constraints: o max: 128 o pattern: [a-zA-Z0-9-_]+ Shorthand Syntax: DeviceCreationFile=string,Role=string,Positioning={DestinationName=string} JSON Syntax: { "DeviceCreationFile": "string", "Role": "string", "Positioning": { "DestinationName": "string" } }</param>
+    /// <param name="DestinationName">The name of the Sidewalk destination that describes the IoT rule to route messages from the devices in the import task that are onboarded to AWS IoT Wireless. Constraints: • max: 128 • pattern: [a-zA-Z0-9-_]+</param>
+    /// <param name="Sidewalk">The Sidewalk-related parameters for importing wireless devices that need to be provisioned in bulk. DeviceCreationFile -&gt; (string) The CSV file contained in an S3 bucket that's used for adding devices to an import task. Constraints: • max: 1024 Role -&gt; (string) The IAM role that allows AWS IoT Wireless to access the CSV file in the S3 bucket. Constraints: • max: 2048 Positioning -&gt; (structure) The Positioning object of the Sidewalk device. DestinationName -&gt; (string) The location destination name of the Sidewalk device. Constraints: • max: 128 • pattern: [a-zA-Z0-9-_]+ Shorthand Syntax: DeviceCreationFile=string,Role=string,Positioning={DestinationName=string} JSON Syntax: { "DeviceCreationFile": "string", "Role": "string", "Positioning": { "DestinationName": "string" } }</param>
     public AwsIotwirelessStartWirelessDeviceImportTaskOptions(
         string DestinationName,
         string Sidewalk
@@ -62,32 +63,32 @@ public record AwsIotwirelessStartWirelessDeviceImportTaskOptions : AwsOptions, I
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the Sidewalk destination that describes the IoT rule to route messages from the devices in the import task that are on- boarded to AWS IoT Wireless. Constraints: o max: 128 o pattern: [a-zA-Z0-9-_]+
+    /// The name of the Sidewalk destination that describes the IoT rule to route messages from the devices in the import task that are onboarded to AWS IoT Wireless. Constraints: • max: 128 • pattern: [a-zA-Z0-9-_]+
     /// </summary>
     [CliOption("--destination-name")]
     public string? DestinationName { get; private init; }
 
     /// <summary>
-    /// The Sidewalk-related parameters for importing wireless devices that need to be provisioned in bulk. DeviceCreationFile -&gt; (string) The CSV file contained in an S3 bucket that's used for adding devices to an import task. Constraints: o max: 1024 Role -&gt; (string) The IAM role that allows AWS IoT Wireless to access the CSV file in the S3 bucket. Constraints: o max: 2048 Positioning -&gt; (structure) The Positioning object of the Sidewalk device. DestinationName -&gt; (string) The location destination name of the Sidewalk device. Constraints: o max: 128 o pattern: [a-zA-Z0-9-_]+ Shorthand Syntax: DeviceCreationFile=string,Role=string,Positioning={DestinationName=string} JSON Syntax: { "DeviceCreationFile": "string", "Role": "string", "Positioning": { "DestinationName": "string" } }
+    /// The Sidewalk-related parameters for importing wireless devices that need to be provisioned in bulk. DeviceCreationFile -&gt; (string) The CSV file contained in an S3 bucket that's used for adding devices to an import task. Constraints: • max: 1024 Role -&gt; (string) The IAM role that allows AWS IoT Wireless to access the CSV file in the S3 bucket. Constraints: • max: 2048 Positioning -&gt; (structure) The Positioning object of the Sidewalk device. DestinationName -&gt; (string) The location destination name of the Sidewalk device. Constraints: • max: 128 • pattern: [a-zA-Z0-9-_]+ Shorthand Syntax: DeviceCreationFile=string,Role=string,Positioning={DestinationName=string} JSON Syntax: { "DeviceCreationFile": "string", "Role": "string", "Positioning": { "DestinationName": "string" } }
     /// </summary>
     [CliOption("--sidewalk")]
     public string? Sidewalk { get; private init; }
 
     /// <summary>
-    /// Each resource must have a unique client request token. The client token is used to implement idempotency. It ensures that the request completes no more than one time. If you retry a request with the same token and the same parameters, the request will complete suc- cessfully. However, if you try to create a new resource using the same token but different parameters, an HTTP 409 conflict occurs. If you omit this value, AWS SDKs will automatically generate a unique client request. For more information about idempotency, see Ensuring idempotency in Amazon EC2 API requests . Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9-_]+$
+    /// Each resource must have a unique client request token. The client token is used to implement idempotency. It ensures that the request completes no more than one time. If you retry a request with the same token and the same parameters, the request will complete successfully. However, if you try to create a new resource using the same token but different parameters, an HTTP 409 conflict occurs. If you omit this value, AWS SDKs will automatically generate a unique client request. For more information about idempotency, see Ensuring idempotency in Amazon EC2 API requests . Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9-_]+$
     /// </summary>
     [SecretValue]
     [CliOption("--client-request-token")]
     public string? ClientRequestToken { get; set; }
 
     /// <summary>
-    /// The tag to attach to the specified resource. Tags are metadata that you can use to manage a resource. Constraints: o min: 0 o max: 200 (structure) A simple label consisting of a customer-defined key-value pair Key -&gt; (string) [required] The tag's key value. Constraints: o min: 1 o max: 128 Value -&gt; (string) [required] The tag's value. Constraints: o min: 0 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// The tag to attach to the specified resource. Tags are metadata that you can use to manage a resource. Constraints: • min: 0 • max: 200 (structure) A simple label consisting of a customer-defined key-value pair Key -&gt; (string) [required] The tag's key value. Constraints: • min: 1 • max: 128 Value -&gt; (string) [required] The tag's value. Constraints: • min: 0 • max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
-    /// The integration status of the Device Location feature for Sidewalk devices. Possible values: o Enabled o Disabled
+    /// The integration status of the Device Location feature for Sidewalk devices. Possible values: • Enabled • Disabled
     /// </summary>
     [CliOption("--positioning")]
     public AwsIotwirelessStartWirelessDeviceImportTaskPositioning? Positioning { get; set; }
@@ -113,6 +114,15 @@ public record AwsIotwirelessStartWirelessDeviceImportTaskOptions : AwsOptions, I
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

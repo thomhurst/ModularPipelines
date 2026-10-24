@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes the specified data provider. Required permissions: dms:DeleteDataProvider . For more informa- tion, see Actions, resources, and condition keys for Database Migra- tion Service . NOTE: All migration projects associated with the data provider must be deleted or modified before you can delete the data provider. See also: AWS API Documentation
+/// Deletes the specified data provider. Required permissions: dms:DeleteDataProvider . For more information, see Actions, resources, and condition keys for Database Migration Service . NOTE: All migration projects associated with the data provider must be deleted or modified before you can delete the data provider. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +26,7 @@ public record AwsDmsDeleteDataProviderOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes the specified data provider. Required permissions: dms:DeleteDataProvider . For more informa- tion, see Actions, resources, and condition keys for Database Migra- tion Service . NOTE: All migration projects associated with the data provider must be deleted or modified before you can delete the data provider. See also: AWS API Documentation
+    /// Deletes the specified data provider. Required permissions: dms:DeleteDataProvider . For more information, see Actions, resources, and condition keys for Database Migration Service . NOTE: All migration projects associated with the data provider must be deleted or modified before you can delete the data provider. See also: AWS API Documentation
     /// </summary>
     /// <param name="DataProviderIdentifier">The identifier of the data provider to delete.</param>
     public AwsDmsDeleteDataProviderOptions(
@@ -82,6 +83,15 @@ public record AwsDmsDeleteDataProviderOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

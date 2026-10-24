@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsNetworkmanagerRemoveAttachmentRoutingPolicyLabelOptions : AwsOp
     /// <summary>
     /// Removes a routing policy label from an attachment. See also: AWS API Documentation
     /// </summary>
-    /// <param name="CoreNetworkId">The ID of the core network containing the attachment. Constraints: o min: 0 o max: 50 o pattern: ^core-network-([0-9a-f]{8,17})$</param>
-    /// <param name="AttachmentId">The ID of the attachment to remove the routing policy label from. Constraints: o min: 0 o max: 50 o pattern: ^attachment-([0-9a-f]{8,17})$</param>
+    /// <param name="CoreNetworkId">The ID of the core network containing the attachment. Constraints: • min: 0 • max: 50 • pattern: ^core-network-([0-9a-f]{8,17})$</param>
+    /// <param name="AttachmentId">The ID of the attachment to remove the routing policy label from. Constraints: • min: 0 • max: 50 • pattern: ^attachment-([0-9a-f]{8,17})$</param>
     public AwsNetworkmanagerRemoveAttachmentRoutingPolicyLabelOptions(
         string CoreNetworkId,
         string AttachmentId
@@ -60,13 +61,13 @@ public record AwsNetworkmanagerRemoveAttachmentRoutingPolicyLabelOptions : AwsOp
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the core network containing the attachment. Constraints: o min: 0 o max: 50 o pattern: ^core-network-([0-9a-f]{8,17})$
+    /// The ID of the core network containing the attachment. Constraints: • min: 0 • max: 50 • pattern: ^core-network-([0-9a-f]{8,17})$
     /// </summary>
     [CliOption("--core-network-id")]
     public string? CoreNetworkId { get; private init; }
 
     /// <summary>
-    /// The ID of the attachment to remove the routing policy label from. Constraints: o min: 0 o max: 50 o pattern: ^attachment-([0-9a-f]{8,17})$
+    /// The ID of the attachment to remove the routing policy label from. Constraints: • min: 0 • max: 50 • pattern: ^attachment-([0-9a-f]{8,17})$
     /// </summary>
     [CliOption("--attachment-id")]
     public string? AttachmentId { get; private init; }
@@ -92,6 +93,15 @@ public record AwsNetworkmanagerRemoveAttachmentRoutingPolicyLabelOptions : AwsOp
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

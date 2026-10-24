@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Assigns private IPv4 addresses to a private NAT gateway. For more in- formation, see Work with NAT gateways in the Amazon VPC User Guide . See also: AWS API Documentation
+/// Assigns private IPv4 addresses to a private NAT gateway. For more information, see Work with NAT gateways in the Amazon VPC User Guide . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +26,7 @@ public record AwsEc2AssignPrivateNatGatewayAddressOptions : AwsOptions, IValidat
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Assigns private IPv4 addresses to a private NAT gateway. For more in- formation, see Work with NAT gateways in the Amazon VPC User Guide . See also: AWS API Documentation
+    /// Assigns private IPv4 addresses to a private NAT gateway. For more information, see Work with NAT gateways in the Amazon VPC User Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="NatGatewayId">The ID of the NAT gateway.</param>
     public AwsEc2AssignPrivateNatGatewayAddressOptions(
@@ -68,13 +69,13 @@ public record AwsEc2AssignPrivateNatGatewayAddressOptions : AwsOptions, IValidat
     public IEnumerable<string>? PrivateIpAddresses { get; set; }
 
     /// <summary>
-    /// The number of private IP addresses to assign to the NAT gateway. You can't specify this parameter when also specifying private IP ad- dresses. Constraints: o min: 1 o max: 31
+    /// The number of private IP addresses to assign to the NAT gateway. You can't specify this parameter when also specifying private IP addresses. Constraints: • min: 1 • max: 31
     /// </summary>
     [CliOption("--private-ip-address-count")]
     public int? PrivateIpAddressCount { get; set; }
 
     /// <summary>
-    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation . Otherwise, it is UnauthorizedOperation .
     /// </summary>
     [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
@@ -100,6 +101,15 @@ public record AwsEc2AssignPrivateNatGatewayAddressOptions : AwsOptions, IValidat
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

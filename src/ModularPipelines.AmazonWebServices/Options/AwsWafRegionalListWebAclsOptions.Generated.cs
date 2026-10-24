@@ -22,13 +22,13 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsWafRegionalListWebAclsOptions : AwsOptions
 {
     /// <summary>
-    /// If you specify a value for Limit and you have more WebACL objects than the number that you specify for Limit , AWS WAF returns a NextMarker value in the response that allows you to list another group of WebACL objects. For the second and subsequent ListWebACLs requests, specify the value of NextMarker from the previous response to get information about another batch of WebACL objects. Constraints: o min: 1 o max: 1224 o pattern: .*\S.*
+    /// If you specify a value for Limit and you have more WebACL objects than the number that you specify for Limit , AWS WAF returns a NextMarker value in the response that allows you to list another group of WebACL objects. For the second and subsequent ListWebACLs requests, specify the value of NextMarker from the previous response to get information about another batch of WebACL objects. Constraints: • min: 1 • max: 1224 • pattern: .*\S.*
     /// </summary>
     [CliOption("--next-marker")]
     public string? NextMarker { get; set; }
 
     /// <summary>
-    /// Specifies the number of WebACL objects that you want AWS WAF to re- turn for this request. If you have more WebACL objects than the num- ber that you specify for Limit , the response includes a NextMarker value that you can use to get another batch of WebACL objects. Constraints: o min: 0 o max: 100
+    /// Specifies the number of WebACL objects that you want AWS WAF to return for this request. If you have more WebACL objects than the number that you specify for Limit , the response includes a NextMarker value that you can use to get another batch of WebACL objects. Constraints: • min: 0 • max: 100
     /// </summary>
     [CliOption("--limit")]
     public int? Limit { get; set; }
@@ -38,5 +38,14 @@ public record AwsWafRegionalListWebAclsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

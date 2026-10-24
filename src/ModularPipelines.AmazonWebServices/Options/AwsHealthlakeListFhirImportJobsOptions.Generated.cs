@@ -11,13 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// List all FHIR import jobs associated with an account and their sta- tuses. See also: AWS API Documentation
+/// List all FHIR import jobs associated with an account and their statuses. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,9 +28,9 @@ public record AwsHealthlakeListFhirImportJobsOptions : AwsOptions, IValidatableO
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// List all FHIR import jobs associated with an account and their sta- tuses. See also: AWS API Documentation
+    /// List all FHIR import jobs associated with an account and their statuses. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DatastoreId">Limits the response to the import job with the specified data store ID. Constraints: o min: 1 o max: 32 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-%@]*)</param>
+    /// <param name="DatastoreId">Limits the response to the import job with the specified data store ID. Constraints: • min: 1 • max: 32 • pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-%@]*)</param>
     public AwsHealthlakeListFhirImportJobsOptions(
         string DatastoreId
     )
@@ -58,32 +59,32 @@ public record AwsHealthlakeListFhirImportJobsOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Limits the response to the import job with the specified data store ID. Constraints: o min: 1 o max: 32 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-%@]*)
+    /// Limits the response to the import job with the specified data store ID. Constraints: • min: 1 • max: 32 • pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-%@]*)
     /// </summary>
     [CliOption("--datastore-id")]
     public string? DatastoreId { get; private init; }
 
     /// <summary>
-    /// The pagination token used to identify the next page of results to return. Constraints: o min: 0 o max: 8192 o pattern: \p{ASCII}{0,8192}
+    /// The pagination token used to identify the next page of results to return. Constraints: • min: 0 • max: 8192 • pattern: \p{ASCII}{0,8192}
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// Limits the number of results returned for ListFHIRImportJobs to a maximum quantity specified by the user. Constraints: o min: 1 o max: 500
+    /// Limits the number of results returned for ListFHIRImportJobs to a maximum quantity specified by the user. Constraints: • min: 1 • max: 500
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
     /// <summary>
-    /// Limits the response to the import job with the specified job name. Constraints: o min: 1 o max: 64 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-%@]*)
+    /// Limits the response to the import job with the specified job name. Constraints: • min: 1 • max: 64 • pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-%@]*)
     /// </summary>
     [CliOption("--job-name")]
     public string? JobName { get; set; }
 
     /// <summary>
-    /// Limits the response to the import job with the specified job status. Possible values: o SUBMITTED o QUEUED o IN_PROGRESS o COMPLETED_WITH_ERRORS o COMPLETED o FAILED o CANCEL_SUBMITTED o CANCEL_IN_PROGRESS o CANCEL_COMPLETED o CANCEL_FAILED
+    /// Limits the response to the import job with the specified job status. Possible values: • SUBMITTED • QUEUED • IN_PROGRESS • COMPLETED_WITH_ERRORS • COMPLETED • FAILED • CANCEL_SUBMITTED • CANCEL_IN_PROGRESS • CANCEL_COMPLETED • CANCEL_FAILED
     /// </summary>
     [CliOption("--job-status")]
     public AwsHealthlakeListFhirImportJobsJobStatus? JobStatus { get; set; }
@@ -95,7 +96,7 @@ public record AwsHealthlakeListFhirImportJobsOptions : AwsOptions, IValidatableO
     public string? SubmittedBefore { get; set; }
 
     /// <summary>
-    /// Limits the response to FHIR import jobs submitted after a user-spec- ified date.
+    /// Limits the response to FHIR import jobs submitted after a user-specified date.
     /// </summary>
     [CliOption("--submitted-after")]
     public string? SubmittedAfter { get; set; }
@@ -121,6 +122,15 @@ public record AwsHealthlakeListFhirImportJobsOptions : AwsOptions, IValidatableO
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,9 +29,9 @@ public record AwsMpaGetResourcePolicyOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Returns details about a policy for a resource. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">Amazon Resource Name (ARN) for the resource. Constraints: o min: 0 o max: 1000</param>
-    /// <param name="PolicyName">Name of the policy. Constraints: o min: 0 o max: 1000</param>
-    /// <param name="PolicyType">The type of policy. Possible values: o AWS_MANAGED o AWS_RAM</param>
+    /// <param name="ResourceArn">Amazon Resource Name (ARN) for the resource. Constraints: • min: 0 • max: 1000</param>
+    /// <param name="PolicyName">Name of the policy. Constraints: • min: 0 • max: 1000</param>
+    /// <param name="PolicyType">The type of policy. Possible values: • AWS_MANAGED • AWS_RAM</param>
     public AwsMpaGetResourcePolicyOptions(
         string ResourceArn,
         string PolicyName,
@@ -64,19 +65,19 @@ public record AwsMpaGetResourcePolicyOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Amazon Resource Name (ARN) for the resource. Constraints: o min: 0 o max: 1000
+    /// Amazon Resource Name (ARN) for the resource. Constraints: • min: 0 • max: 1000
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
 
     /// <summary>
-    /// Name of the policy. Constraints: o min: 0 o max: 1000
+    /// Name of the policy. Constraints: • min: 0 • max: 1000
     /// </summary>
     [CliOption("--policy-name")]
     public string? PolicyName { get; private init; }
 
     /// <summary>
-    /// The type of policy. Possible values: o AWS_MANAGED o AWS_RAM
+    /// The type of policy. Possible values: • AWS_MANAGED • AWS_RAM
     /// </summary>
     [CliOption("--policy-type")]
     public AwsMpaGetResourcePolicyPolicyType? PolicyType { get; private init; }
@@ -102,6 +103,15 @@ public record AwsMpaGetResourcePolicyOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -6,8 +6,8 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
+using ModularPipelines;
 using ModularPipelines.Context;
-using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
@@ -32,7 +32,7 @@ public class AwsSagemakerjobruntime : IAwsSagemakerjobruntime
     #region Commands
 
     /// <summary>
-    /// Marks a rollout as complete, indicating that no further turns will be appended to the trajectory. After calling this operation, the trajec- tory is sealed and eligible for reward submission via the UpdateReward operation. See also: AWS API Documentation
+    /// Marks a rollout as complete, indicating that no further turns will be appended to the trajectory. After calling this operation, the trajectory is sealed and eligible for reward submission via the UpdateReward operation. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -47,7 +47,7 @@ public class AwsSagemakerjobruntime : IAwsSagemakerjobruntime
     }
 
     /// <summary>
-    /// Sends an inference request to the model during a job execution. The re- quest and response bodies are forwarded to and from the model without modification. Each turn (prompt and response) is captured for later use. See also: AWS API Documentation
+    /// Sends an inference request to the model during a job execution. The request and response bodies are forwarded to and from the model without modification. Each turn (prompt and response) is captured for later use. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -62,7 +62,7 @@ public class AwsSagemakerjobruntime : IAwsSagemakerjobruntime
     }
 
     /// <summary>
-    /// Sends a streaming inference request to the model during a job execu- tion. Returns the response as a stream of payload chunks. Each turn is captured for later use. See also: AWS API Documentation
+    /// Sends a streaming inference request to the model during a job execution. Returns the response as a stream of payload chunks. Each turn is captured for later use. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -77,7 +77,7 @@ public class AwsSagemakerjobruntime : IAwsSagemakerjobruntime
     }
 
     /// <summary>
-    /// Updates the reward values for a trajectory and transitions it to re- ward-received status, signaling that it is eligible for processing. Call this operation after CompleteRollout to provide the computed re- ward scores. See also: AWS API Documentation
+    /// Updates the reward values for a trajectory and transitions it to reward-received status, signaling that it is eligible for processing. Call this operation after CompleteRollout to provide the computed reward scores. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

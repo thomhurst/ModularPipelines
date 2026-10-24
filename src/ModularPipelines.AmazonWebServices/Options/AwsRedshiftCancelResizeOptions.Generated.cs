@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsRedshiftCancelResizeOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Cancels a resize operation for a cluster. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ClusterIdentifier">The unique identifier for the cluster that you want to cancel a re- size operation for. Constraints: o max: 2147483647</param>
+    /// <param name="ClusterIdentifier">The unique identifier for the cluster that you want to cancel a resize operation for. Constraints: • max: 2147483647</param>
     public AwsRedshiftCancelResizeOptions(
         string ClusterIdentifier
     )
@@ -56,7 +57,7 @@ public record AwsRedshiftCancelResizeOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier for the cluster that you want to cancel a re- size operation for. Constraints: o max: 2147483647
+    /// The unique identifier for the cluster that you want to cancel a resize operation for. Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--cluster-identifier")]
     public string? ClusterIdentifier { get; private init; }
@@ -82,6 +83,15 @@ public record AwsRedshiftCancelResizeOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

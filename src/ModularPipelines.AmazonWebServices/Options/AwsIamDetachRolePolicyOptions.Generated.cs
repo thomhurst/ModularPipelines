@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Removes the specified managed policy from the specified role. A role can also have inline policies embedded with it. To delete an in- line policy, use DeleteRolePolicy . For information about policies, see Managed policies and inline policies in the IAM User Guide . See also: AWS API Documentation
+/// Removes the specified managed policy from the specified role. A role can also have inline policies embedded with it. To delete an inline policy, use DeleteRolePolicy . For information about policies, see Managed policies and inline policies in the IAM User Guide . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsIamDetachRolePolicyOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Removes the specified managed policy from the specified role. A role can also have inline policies embedded with it. To delete an in- line policy, use DeleteRolePolicy . For information about policies, see Managed policies and inline policies in the IAM User Guide . See also: AWS API Documentation
+    /// Removes the specified managed policy from the specified role. A role can also have inline policies embedded with it. To delete an inline policy, use DeleteRolePolicy . For information about policies, see Managed policies and inline policies in the IAM User Guide . See also: AWS API Documentation
     /// </summary>
-    /// <param name="RoleName">The name (friendly name, not ARN) of the IAM role to detach the pol- icy from. This parameter allows (through its regex pattern ) a string of char- acters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following charac- ters: _+=,.@- Constraints: o min: 1 o max: 64 o pattern: [\w+=,.@-]+</param>
-    /// <param name="PolicyArn">The Amazon Resource Name (ARN) of the IAM policy you want to detach. For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference . Constraints: o min: 20 o max: 2048</param>
+    /// <param name="RoleName">The name (friendly name, not ARN) of the IAM role to detach the policy from. This parameter allows (through its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@- Constraints: • min: 1 • max: 64 • pattern: [\w+=,.@-]+</param>
+    /// <param name="PolicyArn">The Amazon Resource Name (ARN) of the IAM policy you want to detach. For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference . Constraints: • min: 20 • max: 2048</param>
     public AwsIamDetachRolePolicyOptions(
         string RoleName,
         string PolicyArn
@@ -60,13 +61,13 @@ public record AwsIamDetachRolePolicyOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name (friendly name, not ARN) of the IAM role to detach the pol- icy from. This parameter allows (through its regex pattern ) a string of char- acters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following charac- ters: _+=,.@- Constraints: o min: 1 o max: 64 o pattern: [\w+=,.@-]+
+    /// The name (friendly name, not ARN) of the IAM role to detach the policy from. This parameter allows (through its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@- Constraints: • min: 1 • max: 64 • pattern: [\w+=,.@-]+
     /// </summary>
     [CliOption("--role-name")]
     public string? RoleName { get; private init; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the IAM policy you want to detach. For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference . Constraints: o min: 20 o max: 2048
+    /// The Amazon Resource Name (ARN) of the IAM policy you want to detach. For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference . Constraints: • min: 20 • max: 2048
     /// </summary>
     [CliOption("--policy-arn")]
     public string? PolicyArn { get; private init; }
@@ -92,6 +93,15 @@ public record AwsIamDetachRolePolicyOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

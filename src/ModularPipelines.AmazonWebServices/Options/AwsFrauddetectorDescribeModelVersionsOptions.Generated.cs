@@ -16,7 +16,7 @@ using ModularPipelines.AmazonWebServices.Enums;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Gets all of the model versions for the specified model type or for the specified model type and model ID. You can also get details for a sin- gle, specified model version. See also: AWS API Documentation
+/// Gets all of the model versions for the specified model type or for the specified model type and model ID. You can also get details for a single, specified model version. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -24,19 +24,19 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsFrauddetectorDescribeModelVersionsOptions : AwsOptions
 {
     /// <summary>
-    /// The model ID. Constraints: o min: 1 o max: 64 o pattern: ^[0-9a-z_]+$
+    /// The model ID. Constraints: • min: 1 • max: 64 • pattern: ^[0-9a-z_]+$
     /// </summary>
     [CliOption("--model-id")]
     public string? ModelId { get; set; }
 
     /// <summary>
-    /// The model version number. Constraints: o min: 3 o max: 7 o pattern: ^[1-9][0-9]{0,3}\.[0-9]{1,2}$
+    /// The model version number. Constraints: • min: 3 • max: 7 • pattern: ^[1-9][0-9]{0,3}\.[0-9]{1,2}$
     /// </summary>
     [CliOption("--model-version-number")]
     public string? ModelVersionNumber { get; set; }
 
     /// <summary>
-    /// The model type. Possible values: o ONLINE_FRAUD_INSIGHTS o TRANSACTION_FRAUD_INSIGHTS o ACCOUNT_TAKEOVER_INSIGHTS
+    /// The model type. Possible values: • ONLINE_FRAUD_INSIGHTS • TRANSACTION_FRAUD_INSIGHTS • ACCOUNT_TAKEOVER_INSIGHTS
     /// </summary>
     [CliOption("--model-type")]
     public AwsFrauddetectorDescribeModelVersionsModelType? ModelType { get; set; }
@@ -49,7 +49,7 @@ public record AwsFrauddetectorDescribeModelVersionsOptions : AwsOptions
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// The maximum number of results to return. Constraints: o min: 1 o max: 10
+    /// The maximum number of results to return. Constraints: • min: 1 • max: 10
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
@@ -59,5 +59,14 @@ public record AwsFrauddetectorDescribeModelVersionsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

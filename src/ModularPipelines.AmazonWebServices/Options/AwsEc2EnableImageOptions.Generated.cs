@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Re-enables a disabled AMI. The re-enabled AMI is marked as available and can be used for instance launches, appears in describe operations, and can be shared. Amazon Web Services accounts, organizations, and Or- ganizational Units that lost access to the AMI when it was disabled do not regain access automatically. Once the AMI is available, it can be shared with them again. Only the AMI owner can re-enable a disabled AMI. For more information, see Disable an Amazon EC2 AMI in the Amazon EC2 User...
+/// Re-enables a disabled AMI. The re-enabled AMI is marked as available and can be used for instance launches, appears in describe operations, and can be shared. Amazon Web Services accounts, organizations, and Organizational Units that lost access to the AMI when it was disabled do not regain access automatically. Once the AMI is available, it can be shared with them again. Only the AMI owner can re-enable a disabled AMI. For more information, see Disable an Amazon EC2 AMI in the Amazon EC2 User G...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +26,7 @@ public record AwsEc2EnableImageOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Re-enables a disabled AMI. The re-enabled AMI is marked as available and can be used for instance launches, appears in describe operations, and can be shared. Amazon Web Services accounts, organizations, and Or- ganizational Units that lost access to the AMI when it was disabled do not regain access automatically. Once the AMI is available, it can be shared with them again. Only the AMI owner can re-enable a disabled AMI. For more information, see Disable an Amazon EC2 AMI in the Amazon EC2 User...
+    /// Re-enables a disabled AMI. The re-enabled AMI is marked as available and can be used for instance launches, appears in describe operations, and can be shared. Amazon Web Services accounts, organizations, and Organizational Units that lost access to the AMI when it was disabled do not regain access automatically. Once the AMI is available, it can be shared with them again. Only the AMI owner can re-enable a disabled AMI. For more information, see Disable an Amazon EC2 AMI in the Amazon EC2 User G...
     /// </summary>
     /// <param name="ImageId">The ID of the AMI.</param>
     public AwsEc2EnableImageOptions(
@@ -62,7 +63,7 @@ public record AwsEc2EnableImageOptions : AwsOptions, IValidatableObject
     public string? ImageId { get; private init; }
 
     /// <summary>
-    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation . Otherwise, it is UnauthorizedOperation .
     /// </summary>
     [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
@@ -88,6 +89,15 @@ public record AwsEc2EnableImageOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

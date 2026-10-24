@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Adds a new Amazon Web Services Region to the keyspace. You can add a new Region to a keyspace that is either a single or a multi-Region key- space. Amazon Keyspaces is going to replicate all tables in the key- space to the new Region. To successfully replicate all tables to the new Region, they must use client-side timestamps for conflict resolu- tion. To enable client-side timestamps, specify clientSideTime- stamps.status = enabled when invoking the API. For more information about client-side t...
+/// Adds a new Amazon Web Services Region to the keyspace. You can add a new Region to a keyspace that is either a single or a multi-Region keyspace. Amazon Keyspaces is going to replicate all tables in the keyspace to the new Region. To successfully replicate all tables to the new Region, they must use client-side timestamps for conflict resolution. To enable client-side timestamps, specify clientSideTimestamps.status = enabled when invoking the API. For more information about client-side timestamp...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsKeyspacesUpdateKeyspaceOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Adds a new Amazon Web Services Region to the keyspace. You can add a new Region to a keyspace that is either a single or a multi-Region key- space. Amazon Keyspaces is going to replicate all tables in the key- space to the new Region. To successfully replicate all tables to the new Region, they must use client-side timestamps for conflict resolu- tion. To enable client-side timestamps, specify clientSideTime- stamps.status = enabled when invoking the API. For more information about client-side t...
+    /// Adds a new Amazon Web Services Region to the keyspace. You can add a new Region to a keyspace that is either a single or a multi-Region keyspace. Amazon Keyspaces is going to replicate all tables in the keyspace to the new Region. To successfully replicate all tables to the new Region, they must use client-side timestamps for conflict resolution. To enable client-side timestamps, specify clientSideTimestamps.status = enabled when invoking the API. For more information about client-side timestamp...
     /// </summary>
-    /// <param name="KeyspaceName">The name of the keyspace. Constraints: o min: 1 o max: 48 o pattern: [a-zA-Z0-9][a-zA-Z0-9_]{0,47}</param>
-    /// <param name="ReplicationSpecification">The replication specification of the keyspace includes: o regionList - the Amazon Web Services Regions where the keyspace is replicated in. o replicationStrategy - the required value is SINGLE_REGION or MULTI_REGION . replicationStrategy -&gt; (string) [required] The replicationStrategy of a keyspace, the required value is SINGLE_REGION or MULTI_REGION . Possible values: o SINGLE_REGION o MULTI_REGION Constraints: o min: 1 o max: 20 regionList -&gt; (list) The regionList contains the Amazon Web Services Regions where the keyspace is replicated in. Constraints: o min: 2 (string) Constraints: o min: 2 o max: 25 Shorthand Syntax: replicationStrategy=string,regionList=string,string JSON Syntax: { "replicationStrategy": "SINGLE_REGION"|"MULTI_REGION", "regionList": ["string", ...] }</param>
+    /// <param name="KeyspaceName">The name of the keyspace. Constraints: • min: 1 • max: 48 • pattern: [a-zA-Z0-9][a-zA-Z0-9_]{0,47}</param>
+    /// <param name="ReplicationSpecification">The replication specification of the keyspace includes: • regionList - the Amazon Web Services Regions where the keyspace is replicated in. • replicationStrategy - the required value is SINGLE_REGION or MULTI_REGION . replicationStrategy -&gt; (string) [required] The replicationStrategy of a keyspace, the required value is SINGLE_REGION or MULTI_REGION . Possible values: • SINGLE_REGION • MULTI_REGION Constraints: • min: 1 • max: 20 regionList -&gt; (list) The regionList contains the Amazon Web Services Regions where the keyspace is replicated in. Constraints: • min: 2 (string) Constraints: • min: 2 • max: 25 Shorthand Syntax: replicationStrategy=string,regionList=string,string JSON Syntax: { "replicationStrategy": "SINGLE_REGION"|"MULTI_REGION", "regionList": ["string", ...] }</param>
     public AwsKeyspacesUpdateKeyspaceOptions(
         string KeyspaceName,
         string ReplicationSpecification
@@ -60,19 +61,19 @@ public record AwsKeyspacesUpdateKeyspaceOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the keyspace. Constraints: o min: 1 o max: 48 o pattern: [a-zA-Z0-9][a-zA-Z0-9_]{0,47}
+    /// The name of the keyspace. Constraints: • min: 1 • max: 48 • pattern: [a-zA-Z0-9][a-zA-Z0-9_]{0,47}
     /// </summary>
     [CliOption("--keyspace-name")]
     public string? KeyspaceName { get; private init; }
 
     /// <summary>
-    /// The replication specification of the keyspace includes: o regionList - the Amazon Web Services Regions where the keyspace is replicated in. o replicationStrategy - the required value is SINGLE_REGION or MULTI_REGION . replicationStrategy -&gt; (string) [required] The replicationStrategy of a keyspace, the required value is SINGLE_REGION or MULTI_REGION . Possible values: o SINGLE_REGION o MULTI_REGION Constraints: o min: 1 o max: 20 regionList -&gt; (list) The regionList contains the Amazon Web Services Regions where the keyspace is replicated in. Constraints: o min: 2 (string) Constraints: o min: 2 o max: 25 Shorthand Syntax: replicationStrategy=string,regionList=string,string JSON Syntax: { "replicationStrategy": "SINGLE_REGION"|"MULTI_REGION", "regionList": ["string", ...] }
+    /// The replication specification of the keyspace includes: • regionList - the Amazon Web Services Regions where the keyspace is replicated in. • replicationStrategy - the required value is SINGLE_REGION or MULTI_REGION . replicationStrategy -&gt; (string) [required] The replicationStrategy of a keyspace, the required value is SINGLE_REGION or MULTI_REGION . Possible values: • SINGLE_REGION • MULTI_REGION Constraints: • min: 1 • max: 20 regionList -&gt; (list) The regionList contains the Amazon Web Services Regions where the keyspace is replicated in. Constraints: • min: 2 (string) Constraints: • min: 2 • max: 25 Shorthand Syntax: replicationStrategy=string,regionList=string,string JSON Syntax: { "replicationStrategy": "SINGLE_REGION"|"MULTI_REGION", "regionList": ["string", ...] }
     /// </summary>
     [CliOption("--replication-specification")]
     public string? ReplicationSpecification { get; private init; }
 
     /// <summary>
-    /// The client-side timestamp setting of the table. For more information, see How it works: Amazon Keyspaces client-side timestamps in the Amazon Keyspaces Developer Guide . status -&gt; (string) [required] Shows how to enable client-side timestamps settings for the specified table. Possible values: o ENABLED Shorthand Syntax: status=string JSON Syntax: { "status": "ENABLED" }
+    /// The client-side timestamp setting of the table. For more information, see How it works: Amazon Keyspaces client-side timestamps in the Amazon Keyspaces Developer Guide . status -&gt; (string) [required] Shows how to enable client-side timestamps settings for the specified table. Possible values: • ENABLED Shorthand Syntax: status=string JSON Syntax: { "status": "ENABLED" }
     /// </summary>
     [CliOption("--client-side-timestamps")]
     public string? ClientSideTimestamps { get; set; }
@@ -98,6 +99,15 @@ public record AwsKeyspacesUpdateKeyspaceOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

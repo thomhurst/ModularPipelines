@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns information about DB proxy target groups, represented by DBProxyTargetGroup data structures. See also: AWS API Documentation describe-db-proxy-target-groups is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following que...
+/// Returns information about DB proxy target groups, represented by DBProxyTargetGroup data structures. See also: AWS API Documentation describe-db-proxy-target-groups is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query e...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +27,9 @@ public record AwsRdsDescribeDbProxyTargetGroupsOptions : AwsOptions, IValidatabl
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns information about DB proxy target groups, represented by DBProxyTargetGroup data structures. See also: AWS API Documentation describe-db-proxy-target-groups is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following que...
+    /// Returns information about DB proxy target groups, represented by DBProxyTargetGroup data structures. See also: AWS API Documentation describe-db-proxy-target-groups is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query e...
     /// </summary>
-    /// <param name="DbProxyName">The identifier of the DBProxy associated with the target group. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z](?:-?[a-zA-Z0-9]+)*</param>
+    /// <param name="DbProxyName">The identifier of the DBProxy associated with the target group. Constraints: • min: 1 • max: 63 • pattern: [a-zA-Z](?:-?[a-zA-Z0-9]+)*</param>
     public AwsRdsDescribeDbProxyTargetGroupsOptions(
         string DbProxyName
     )
@@ -57,28 +58,25 @@ public record AwsRdsDescribeDbProxyTargetGroupsOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the DBProxy associated with the target group. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z](?:-?[a-zA-Z0-9]+)*
+    /// The identifier of the DBProxy associated with the target group. Constraints: • min: 1 • max: 63 • pattern: [a-zA-Z](?:-?[a-zA-Z0-9]+)*
     /// </summary>
     [CliOption("--db-proxy-name")]
     public string? DbProxyName { get; private init; }
 
     /// <summary>
-    /// The identifier of the DBProxyTargetGroup to describe. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z](?:-?[a-zA-Z0-9]+)*
+    /// The identifier of the DBProxyTargetGroup to describe. Constraints: • min: 1 • max: 63 • pattern: [a-zA-Z](?:-?[a-zA-Z0-9]+)*
     /// </summary>
     [CliOption("--target-group-name")]
     public string? TargetGroupName { get; set; }
 
     /// <summary>
-    /// This parameter is not currently supported. (structure) A filter name and value pair that is used to return a more spe- cific list of results from a describe operation. Filters can be used to match a set of resources by specific criteria, such as IDs. The filters supported by a describe operation are docu- mented with the describe operation. NOTE: Currently, wildcards are not supported in filters. The following actions can be filtered: o DescribeDBClusterBacktracks o DescribeDBClusterEndpoints o DescribeDBClusters o DescribeDBInstances o DescribeDBRecommendations o DescribeDBShardGroups o DescribePendingMaintenanceActions Name -&gt; (string) [required] The name of the filter. Filter names are case-sensitive. Values -&gt; (list) [required] One or more filter values. Filter values are case-sensitive. (string) Shorthand Syntax: Name=string,Values=string,string ... JSON Syntax: [ { "Name": "string", "Values": ["string", ...] } ... ]
+    /// This parameter is not currently supported. (structure) A filter name and value pair that is used to return a more specific list of results from a describe operation. Filters can be used to match a set of resources by specific criteria, such as IDs. The filters supported by a describe operation are documented with the describe operation. NOTE: Currently, wildcards are not supported in filters. The following actions can be filtered: • DescribeDBClusterBacktracks • DescribeDBClusterEndpoints • DescribeDBClusters • DescribeDBInstances • DescribeDBRecommendations • DescribeDBShardGroups • DescribePendingMaintenanceActions Name -&gt; (string) [required] The name of the filter. Filter names are case-sensitive. Values -&gt; (list) [required] One or more filter values. Filter values are case-sensitive. (string) Shorthand Syntax: Name=string,Values=string,string ... JSON Syntax: [ { "Name": "string", "Values": ["string", ...] } ... ]
     /// </summary>
     [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -88,16 +86,19 @@ public record AwsRdsDescribeDbProxyTargetGroupsOptions : AwsOptions, IValidatabl
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 20 o max: 100
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 20 • max: 100
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
@@ -114,6 +115,15 @@ public record AwsRdsDescribeDbProxyTargetGroupsOptions : AwsOptions, IValidatabl
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

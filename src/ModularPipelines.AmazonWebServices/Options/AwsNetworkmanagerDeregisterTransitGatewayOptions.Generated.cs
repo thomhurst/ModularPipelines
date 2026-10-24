@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsNetworkmanagerDeregisterTransitGatewayOptions : AwsOptions, IVa
     /// <summary>
     /// Deregisters a transit gateway from your global network. This action does not delete your transit gateway, or modify any of its attachments. This action removes any customer gateway associations. See also: AWS API Documentation
     /// </summary>
-    /// <param name="GlobalNetworkId">The ID of the global network. Constraints: o min: 0 o max: 50 o pattern: [\s\S]*</param>
-    /// <param name="TransitGatewayArn">The Amazon Resource Name (ARN) of the transit gateway. Constraints: o min: 0 o max: 500 o pattern: [\s\S]*</param>
+    /// <param name="GlobalNetworkId">The ID of the global network. Constraints: • min: 0 • max: 50 • pattern: [\s\S]*</param>
+    /// <param name="TransitGatewayArn">The Amazon Resource Name (ARN) of the transit gateway. Constraints: • min: 0 • max: 500 • pattern: [\s\S]*</param>
     public AwsNetworkmanagerDeregisterTransitGatewayOptions(
         string GlobalNetworkId,
         string TransitGatewayArn
@@ -60,13 +61,13 @@ public record AwsNetworkmanagerDeregisterTransitGatewayOptions : AwsOptions, IVa
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the global network. Constraints: o min: 0 o max: 50 o pattern: [\s\S]*
+    /// The ID of the global network. Constraints: • min: 0 • max: 50 • pattern: [\s\S]*
     /// </summary>
     [CliOption("--global-network-id")]
     public string? GlobalNetworkId { get; private init; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the transit gateway. Constraints: o min: 0 o max: 500 o pattern: [\s\S]*
+    /// The Amazon Resource Name (ARN) of the transit gateway. Constraints: • min: 0 • max: 500 • pattern: [\s\S]*
     /// </summary>
     [CliOption("--transit-gateway-arn")]
     public string? TransitGatewayArn { get; private init; }
@@ -92,6 +93,15 @@ public record AwsNetworkmanagerDeregisterTransitGatewayOptions : AwsOptions, IVa
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

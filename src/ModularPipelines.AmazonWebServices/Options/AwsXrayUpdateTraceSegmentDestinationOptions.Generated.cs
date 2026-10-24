@@ -15,7 +15,7 @@ using ModularPipelines.AmazonWebServices.Enums;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Modifies the destination of data sent to PutTraceSegments . The Trans- action Search feature requires the CloudWatchLogs destination. For more information, see Transaction Search . See also: AWS API Documentation
+/// Modifies the destination of data sent to PutTraceSegments . The Transaction Search feature requires the CloudWatchLogs destination. For more information, see Transaction Search . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -23,7 +23,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsXrayUpdateTraceSegmentDestinationOptions : AwsOptions
 {
     /// <summary>
-    /// The configured destination of trace segments. Possible values: o XRay o CloudWatchLogs
+    /// The configured destination of trace segments. Possible values: • XRay • CloudWatchLogs
     /// </summary>
     [CliOption("--destination")]
     public AwsXrayUpdateTraceSegmentDestinationDestination? Destination { get; set; }
@@ -33,5 +33,14 @@ public record AwsXrayUpdateTraceSegmentDestinationOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates an Network Firewall ProxyConfiguration A Proxy Configuration defines the monitoring and protection behavior for a Proxy. The details of the behavior are defined in the rule groups that you add to your configuration. To manage a proxy configuration's tags, use the standard Amazon Web Services resource tagging operations, ListTagsForResource , TagRe- source , and UntagResource . To retrieve information about proxies, use ListProxyConfigurations and DescribeProxyConfiguration . See also: AW...
+/// Creates an Network Firewall ProxyConfiguration A Proxy Configuration defines the monitoring and protection behavior for a Proxy. The details of the behavior are defined in the rule groups that you add to your configuration. To manage a proxy configuration's tags, use the standard Amazon Web Services resource tagging operations, ListTagsForResource , TagResource , and UntagResource . To retrieve information about proxies, use ListProxyConfigurations and DescribeProxyConfiguration . See also: AWS ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsNetworkFirewallCreateProxyConfigurationOptions : AwsOptions, IV
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates an Network Firewall ProxyConfiguration A Proxy Configuration defines the monitoring and protection behavior for a Proxy. The details of the behavior are defined in the rule groups that you add to your configuration. To manage a proxy configuration's tags, use the standard Amazon Web Services resource tagging operations, ListTagsForResource , TagRe- source , and UntagResource . To retrieve information about proxies, use ListProxyConfigurations and DescribeProxyConfiguration . See also: AW...
+    /// Creates an Network Firewall ProxyConfiguration A Proxy Configuration defines the monitoring and protection behavior for a Proxy. The details of the behavior are defined in the rule groups that you add to your configuration. To manage a proxy configuration's tags, use the standard Amazon Web Services resource tagging operations, ListTagsForResource , TagResource , and UntagResource . To retrieve information about proxies, use ListProxyConfigurations and DescribeProxyConfiguration . See also: AWS ...
     /// </summary>
-    /// <param name="ProxyConfigurationName">The descriptive name of the proxy configuration. You can't change the name of a proxy configuration after you create it. Constraints: o min: 1 o max: 128 o pattern: ^[a-zA-Z0-9-]+$</param>
-    /// <param name="DefaultRulePhaseActions">Evaluation points in the traffic flow where rules are applied. There are three phases in a traffic where the rule match is applied. PreDNS -&gt; (string) Before domain resolution. Possible values: o ALLOW o DENY o ALERT PreREQUEST -&gt; (string) After DNS, before request. Possible values: o ALLOW o DENY o ALERT PostRESPONSE -&gt; (string) After receiving response. Possible values: o ALLOW o DENY o ALERT Shorthand Syntax: PreDNS=string,PreREQUEST=string,PostRESPONSE=string JSON Syntax: { "PreDNS": "ALLOW"|"DENY"|"ALERT", "PreREQUEST": "ALLOW"|"DENY"|"ALERT", "PostRESPONSE": "ALLOW"|"DENY"|"ALERT" }</param>
+    /// <param name="ProxyConfigurationName">The descriptive name of the proxy configuration. You can't change the name of a proxy configuration after you create it. Constraints: • min: 1 • max: 128 • pattern: ^[a-zA-Z0-9-]+$</param>
+    /// <param name="DefaultRulePhaseActions">Evaluation points in the traffic flow where rules are applied. There are three phases in a traffic where the rule match is applied. PreDNS -&gt; (string) Before domain resolution. Possible values: • ALLOW • DENY • ALERT PreREQUEST -&gt; (string) After DNS, before request. Possible values: • ALLOW • DENY • ALERT PostRESPONSE -&gt; (string) After receiving response. Possible values: • ALLOW • DENY • ALERT Shorthand Syntax: PreDNS=string,PreREQUEST=string,PostRESPONSE=string JSON Syntax: { "PreDNS": "ALLOW"|"DENY"|"ALERT", "PreREQUEST": "ALLOW"|"DENY"|"ALERT", "PostRESPONSE": "ALLOW"|"DENY"|"ALERT" }</param>
     public AwsNetworkFirewallCreateProxyConfigurationOptions(
         string ProxyConfigurationName,
         string DefaultRulePhaseActions
@@ -60,37 +61,37 @@ public record AwsNetworkFirewallCreateProxyConfigurationOptions : AwsOptions, IV
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The descriptive name of the proxy configuration. You can't change the name of a proxy configuration after you create it. Constraints: o min: 1 o max: 128 o pattern: ^[a-zA-Z0-9-]+$
+    /// The descriptive name of the proxy configuration. You can't change the name of a proxy configuration after you create it. Constraints: • min: 1 • max: 128 • pattern: ^[a-zA-Z0-9-]+$
     /// </summary>
     [CliOption("--proxy-configuration-name")]
     public string? ProxyConfigurationName { get; private init; }
 
     /// <summary>
-    /// Evaluation points in the traffic flow where rules are applied. There are three phases in a traffic where the rule match is applied. PreDNS -&gt; (string) Before domain resolution. Possible values: o ALLOW o DENY o ALERT PreREQUEST -&gt; (string) After DNS, before request. Possible values: o ALLOW o DENY o ALERT PostRESPONSE -&gt; (string) After receiving response. Possible values: o ALLOW o DENY o ALERT Shorthand Syntax: PreDNS=string,PreREQUEST=string,PostRESPONSE=string JSON Syntax: { "PreDNS": "ALLOW"|"DENY"|"ALERT", "PreREQUEST": "ALLOW"|"DENY"|"ALERT", "PostRESPONSE": "ALLOW"|"DENY"|"ALERT" }
+    /// Evaluation points in the traffic flow where rules are applied. There are three phases in a traffic where the rule match is applied. PreDNS -&gt; (string) Before domain resolution. Possible values: • ALLOW • DENY • ALERT PreREQUEST -&gt; (string) After DNS, before request. Possible values: • ALLOW • DENY • ALERT PostRESPONSE -&gt; (string) After receiving response. Possible values: • ALLOW • DENY • ALERT Shorthand Syntax: PreDNS=string,PreREQUEST=string,PostRESPONSE=string JSON Syntax: { "PreDNS": "ALLOW"|"DENY"|"ALERT", "PreREQUEST": "ALLOW"|"DENY"|"ALERT", "PostRESPONSE": "ALLOW"|"DENY"|"ALERT" }
     /// </summary>
     [CliOption("--default-rule-phase-actions")]
     public string? DefaultRulePhaseActions { get; private init; }
 
     /// <summary>
-    /// A description of the proxy configuration. Constraints: o max: 512 o pattern: ^.*$
+    /// A description of the proxy configuration. Constraints: • max: 512 • pattern: ^.*$
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The proxy rule group name(s) to attach to the proxy configuration. You must specify the ARNs or the names, and you can specify both. (string) Constraints: o min: 1 o max: 128 o pattern: ^[a-zA-Z0-9-]+$ Syntax: "string" "string" ...
+    /// The proxy rule group name(s) to attach to the proxy configuration. You must specify the ARNs or the names, and you can specify both. (string) Constraints: • min: 1 • max: 128 • pattern: ^[a-zA-Z0-9-]+$ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--rule-group-names", GroupValues = true)]
     public IEnumerable<string>? RuleGroupNames { get; set; }
 
     /// <summary>
-    /// The proxy rule group arn(s) to attach to the proxy configuration. You must specify the ARNs or the names, and you can specify both. (string) Constraints: o min: 1 o max: 256 o pattern: ^arn:aws.* Syntax: "string" "string" ...
+    /// The proxy rule group arn(s) to attach to the proxy configuration. You must specify the ARNs or the names, and you can specify both. (string) Constraints: • min: 1 • max: 256 • pattern: ^arn:aws.* Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--rule-group-arns", GroupValues = true)]
     public IEnumerable<string>? RuleGroupArns { get; set; }
 
     /// <summary>
-    /// The key:value pairs to associate with the resource. Constraints: o min: 1 o max: 200 (structure) A key:value pair associated with an Amazon Web Services re- source. The key:value pair can be anything you define. Typi- cally, the tag key represents a category (such as "environment") and the tag value represents a specific value within that cate- gory (such as "test," "development," or "production"). You can add up to 50 tags to each Amazon Web Services resource. Key -&gt; (string) [required] The part of the key:value pair that defines a tag. You can use a tag key to describe a category of information, such as "customer." Tag keys are case-sensitive. Constraints: o min: 1 o max: 128 o pattern: ^.*$ Value -&gt; (string) [required] The part of the key:value pair that defines a tag. You can use a tag value to describe a specific value within a cate- gory, such as "companyA" or "companyB." Tag values are case-sensitive. Constraints: o min: 0 o max: 256 o pattern: ^.*$ Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// The key:value pairs to associate with the resource. Constraints: • min: 1 • max: 200 (structure) A key:value pair associated with an Amazon Web Services resource. The key:value pair can be anything you define. Typically, the tag key represents a category (such as "environment") and the tag value represents a specific value within that category (such as "test," "development," or "production"). You can add up to 50 tags to each Amazon Web Services resource. Key -&gt; (string) [required] The part of the key:value pair that defines a tag. You can use a tag key to describe a category of information, such as "customer." Tag keys are case-sensitive. Constraints: • min: 1 • max: 128 • pattern: ^.*$ Value -&gt; (string) [required] The part of the key:value pair that defines a tag. You can use a tag value to describe a specific value within a category, such as "companyA" or "companyB." Tag values are case-sensitive. Constraints: • min: 0 • max: 256 • pattern: ^.*$ Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
@@ -116,6 +117,15 @@ public record AwsNetworkFirewallCreateProxyConfigurationOptions : AwsOptions, IV
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

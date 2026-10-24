@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Reconnects a session to a managed node after it has been disconnected. Connections can be resumed for disconnected sessions, but not termi- nated sessions. NOTE: This command is primarily for use by client machines to automati- cally reconnect during intermittent network issues. It isn't in- tended for any other use. See also: AWS API Documentation
+/// Reconnects a session to a managed node after it has been disconnected. Connections can be resumed for disconnected sessions, but not terminated sessions. NOTE: This command is primarily for use by client machines to automatically reconnect during intermittent network issues. It isn't intended for any other use. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsSsmResumeSessionOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Reconnects a session to a managed node after it has been disconnected. Connections can be resumed for disconnected sessions, but not termi- nated sessions. NOTE: This command is primarily for use by client machines to automati- cally reconnect during intermittent network issues. It isn't in- tended for any other use. See also: AWS API Documentation
+    /// Reconnects a session to a managed node after it has been disconnected. Connections can be resumed for disconnected sessions, but not terminated sessions. NOTE: This command is primarily for use by client machines to automatically reconnect during intermittent network issues. It isn't intended for any other use. See also: AWS API Documentation
     /// </summary>
-    /// <param name="SessionId">The ID of the disconnected session to resume. Constraints: o min: 1 o max: 96</param>
+    /// <param name="SessionId">The ID of the disconnected session to resume. Constraints: • min: 1 • max: 96</param>
     public AwsSsmResumeSessionOptions(
         string SessionId
     )
@@ -56,7 +57,7 @@ public record AwsSsmResumeSessionOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the disconnected session to resume. Constraints: o min: 1 o max: 96
+    /// The ID of the disconnected session to resume. Constraints: • min: 1 • max: 96
     /// </summary>
     [CliOption("--session-id")]
     public string? SessionId { get; private init; }
@@ -82,6 +83,15 @@ public record AwsSsmResumeSessionOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

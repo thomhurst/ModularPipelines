@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsCognitoIdpGetUiCustomizationOptions : AwsOptions, IValidatableO
     /// <summary>
     /// Given a user pool ID or app client, returns information about classic hosted UI branding that you applied, if any. Returns user-pool level branding information if no app client branding is applied, or if you don't specify an app client ID. Returns an empty object if you haven't applied hosted UI branding to either the client or the user pool. For more information, see Hosted UI (classic) branding . See also: AWS API Documentation
     /// </summary>
-    /// <param name="UserPoolId">The ID of the user pool that you want to query for branding set- tings. Constraints: o min: 1 o max: 55 o pattern: [\w-]+_[0-9a-zA-Z]+</param>
+    /// <param name="UserPoolId">The ID of the user pool that you want to query for branding settings. Constraints: • min: 1 • max: 55 • pattern: [\w-]+_[0-9a-zA-Z]+</param>
     public AwsCognitoIdpGetUiCustomizationOptions(
         string UserPoolId
     )
@@ -56,13 +57,13 @@ public record AwsCognitoIdpGetUiCustomizationOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the user pool that you want to query for branding set- tings. Constraints: o min: 1 o max: 55 o pattern: [\w-]+_[0-9a-zA-Z]+
+    /// The ID of the user pool that you want to query for branding settings. Constraints: • min: 1 • max: 55 • pattern: [\w-]+_[0-9a-zA-Z]+
     /// </summary>
     [CliOption("--user-pool-id")]
     public string? UserPoolId { get; private init; }
 
     /// <summary>
-    /// The ID of the app client that you want to query for branding set- tings. Constraints: o min: 1 o max: 128 o pattern: [\w+]+
+    /// The ID of the app client that you want to query for branding settings. Constraints: • min: 1 • max: 128 • pattern: [\w+]+
     /// </summary>
     [CliOption("--client-id")]
     public string? ClientId { get; set; }
@@ -88,6 +89,15 @@ public record AwsCognitoIdpGetUiCustomizationOptions : AwsOptions, IValidatableO
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

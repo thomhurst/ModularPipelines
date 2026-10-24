@@ -6,8 +6,8 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
+using ModularPipelines;
 using ModularPipelines.Context;
-using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
@@ -32,7 +32,7 @@ public class AwsMq : IAwsMq
     #region Commands
 
     /// <summary>
-    /// Creates a broker. Note: This API is asynchronous. To create a broker, you must either use the AmazonMQFullAccess IAM pol- icy or include the following EC2 permissions in your IAM policy. o ec2:CreateNetworkInterface This permission is required to allow Ama- zon MQ to create an elastic network interface (ENI) on behalf of your account. o ec2:CreateNetworkInterfacePermission This permission is required to attach the ENI to the broker instance. o ec2:DeleteNetworkInterface o ec2:DeleteNetworkInterf...
+    /// Creates a broker. Note: This API is asynchronous. To create a broker, you must either use the AmazonMQFullAccess IAM policy or include the following EC2 permissions in your IAM policy. • ec2:CreateNetworkInterface This permission is required to allow Amazon MQ to create an elastic network interface (ENI) on behalf of your account. • ec2:CreateNetworkInterfacePermission This permission is required to attach the ENI to the broker instance. • ec2:DeleteNetworkInterface • ec2:DeleteNetworkInterfaceP...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -47,7 +47,7 @@ public class AwsMq : IAwsMq
     }
 
     /// <summary>
-    /// Creates a new configuration for the specified configuration name. Ama- zon MQ uses the default configuration (the engine type and version). See also: AWS API Documentation
+    /// Creates a new configuration for the specified configuration name. Amazon MQ uses the default configuration (the engine type and version). See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -77,7 +77,7 @@ public class AwsMq : IAwsMq
     }
 
     /// <summary>
-    /// Creates an ActiveMQ user. WARNING: Do not add personally identifiable information (PII) or other confi- dential or sensitive information in broker usernames. Broker user- names are accessible to other Amazon Web Services services, includ- ing CloudWatch Logs. Broker usernames are not intended to be used for private or sensitive data. See also: AWS API Documentation
+    /// Creates an ActiveMQ user. WARNING: Do not add personally identifiable information (PII) or other confidential or sensitive information in broker usernames. Broker usernames are accessible to other Amazon Web Services services, including CloudWatch Logs. Broker usernames are not intended to be used for private or sensitive data. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -212,7 +212,7 @@ public class AwsMq : IAwsMq
     }
 
     /// <summary>
-    /// Returns the specified configuration revision for the specified configu- ration. See also: AWS API Documentation
+    /// Returns the specified configuration revision for the specified configuration. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -227,7 +227,7 @@ public class AwsMq : IAwsMq
     }
 
     /// <summary>
-    /// Returns the resources shared to a broker. See also: AWS API Documentation describe-shared-resources is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: SharedResources
+    /// Returns the resources shared to a broker. See also: AWS API Documentation describe-shared-resources is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: SharedResources
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -257,7 +257,7 @@ public class AwsMq : IAwsMq
     }
 
     /// <summary>
-    /// Returns a list of all brokers. See also: AWS API Documentation list-brokers is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex- pressions: BrokerSummaries
+    /// Returns a list of all brokers. See also: AWS API Documentation list-brokers is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: BrokerSummaries
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

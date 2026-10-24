@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// NOTE: This operation is not supported by directory buckets. Returns a list of the access points. You can retrieve up to 1,000 ac- cess points per call. If the call returns more than 1,000 access points (or the number specified in maxResults , whichever is less), the re- sponse will include a continuation token that you can use to list the additional access points. Returns only access points attached to S3 buckets by default. To return all access points specify DataSourceType as ALL . All Amazon ...
+/// NOTE: This operation is not supported by directory buckets. Returns a list of the access points. You can retrieve up to 1,000 access points per call. If the call returns more than 1,000 access points (or the number specified in maxResults , whichever is less), the response will include a continuation token that you can use to list the additional access points. Returns only access points attached to S3 buckets by default. To return all access points specify DataSourceType as ALL . All Amazon S3 o...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +27,9 @@ public record AwsS3controlListAccessPointsOptions : AwsOptions, IValidatableObje
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// NOTE: This operation is not supported by directory buckets. Returns a list of the access points. You can retrieve up to 1,000 ac- cess points per call. If the call returns more than 1,000 access points (or the number specified in maxResults , whichever is less), the re- sponse will include a continuation token that you can use to list the additional access points. Returns only access points attached to S3 buckets by default. To return all access points specify DataSourceType as ALL . All Amazon ...
+    /// NOTE: This operation is not supported by directory buckets. Returns a list of the access points. You can retrieve up to 1,000 access points per call. If the call returns more than 1,000 access points (or the number specified in maxResults , whichever is less), the response will include a continuation token that you can use to list the additional access points. Returns only access points attached to S3 buckets by default. To return all access points specify DataSourceType as ALL . All Amazon S3 o...
     /// </summary>
-    /// <param name="AccountId">The Amazon Web Services account ID for the account that owns the specified access points. Constraints: o max: 64 o pattern: ^\d{12}$</param>
+    /// <param name="AccountId">The Amazon Web Services account ID for the account that owns the specified access points. Constraints: • max: 64 • pattern: ^\d{12}$</param>
     public AwsS3controlListAccessPointsOptions(
         string AccountId
     )
@@ -57,38 +58,38 @@ public record AwsS3controlListAccessPointsOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Web Services account ID for the account that owns the specified access points. Constraints: o max: 64 o pattern: ^\d{12}$
+    /// The Amazon Web Services account ID for the account that owns the specified access points. Constraints: • max: 64 • pattern: ^\d{12}$
     /// </summary>
     [CliOption("--account-id")]
     public string? AccountId { get; private init; }
 
     /// <summary>
-    /// The name of the bucket whose associated access points you want to list. For using this parameter with Amazon S3 on Outposts with the REST API, you must specify the name and the x-amz-outpost-id as well. For using this parameter with S3 on Outposts with the Amazon Web Services SDK and CLI, you must specify the ARN of the bucket ac- cessed in the format arn:aws:s3-outposts:&lt;Region&gt;:&lt;account-id&gt;:out- post/&lt;outpost-id&gt;/bucket/&lt;my-bucket-name&gt; . For example, to access the bucket reports through Outpost my-outpost owned by account 123456789012 in Region us-west-2 , use the URL encoding of arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-out- post/bucket/reports . The value must be URL encoded. Constraints: o min: 3 o max: 255
+    /// The name of the bucket whose associated access points you want to list. For using this parameter with Amazon S3 on Outposts with the REST API, you must specify the name and the x-amz-outpost-id as well. For using this parameter with S3 on Outposts with the Amazon Web Services SDK and CLI, you must specify the ARN of the bucket accessed in the format arn:aws:s3-outposts:&lt;Region&gt;:&lt;account-id&gt;:outpost/&lt;outpost-id&gt;/bucket/&lt;my-bucket-name&gt; . For example, to access the bucket reports through Outpost my-outpost owned by account 123456789012 in Region us-west-2 , use the URL encoding of arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/bucket/reports . The value must be URL encoded. Constraints: • min: 3 • max: 255
     /// </summary>
     [CliOption("--bucket")]
     public string? Bucket { get; set; }
 
     /// <summary>
-    /// A continuation token. If a previous call to ListAccessPoints re- turned a continuation token in the NextToken field, then providing that value here causes Amazon S3 to retrieve the next page of re- sults. Constraints: o min: 1 o max: 1024
+    /// A continuation token. If a previous call to ListAccessPoints returned a continuation token in the NextToken field, then providing that value here causes Amazon S3 to retrieve the next page of results. Constraints: • min: 1 • max: 1024
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// The maximum number of access points that you want to include in the list. If the specified bucket has more than this number of access points, then the response will include a continuation token in the NextToken field that you can use to retrieve the next page of access points. Constraints: o min: 0 o max: 1000
+    /// The maximum number of access points that you want to include in the list. If the specified bucket has more than this number of access points, then the response will include a continuation token in the NextToken field that you can use to retrieve the next page of access points. Constraints: • min: 0 • max: 1000
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
     /// <summary>
-    /// The unique identifier for the data source of the access point. Constraints: o max: 191
+    /// The unique identifier for the data source of the access point. Constraints: • max: 191
     /// </summary>
     [CliOption("--data-source-id")]
     public string? DataSourceId { get; set; }
 
     /// <summary>
-    /// The type of the data source that the access point is attached to. Returns only access points attached to S3 buckets by default. To re- turn all access points specify DataSourceType as ALL .
+    /// The type of the data source that the access point is attached to. Returns only access points attached to S3 buckets by default. To return all access points specify DataSourceType as ALL .
     /// </summary>
     [CliOption("--data-source-type")]
     public string? DataSourceType { get; set; }
@@ -114,6 +115,15 @@ public record AwsS3controlListAccessPointsOptions : AwsOptions, IValidatableObje
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

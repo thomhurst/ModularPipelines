@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Update a cross-account attachment to add or remove principals or re- sources. When you update an attachment to remove a principal (account ID or accelerator) or a resource, Global Accelerator revokes the per- mission for specific resources. For more information, see Working with cross-account attachments and resources in Global Accelerator in the Global Accelerator Developer Guide . See also: AWS API Documentation
+/// Update a cross-account attachment to add or remove principals or resources. When you update an attachment to remove a principal (account ID or accelerator) or a resource, Global Accelerator revokes the permission for specific resources. For more information, see Working with cross-account attachments and resources in Global Accelerator in the Global Accelerator Developer Guide . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsGlobalacceleratorUpdateCrossAccountAttachmentOptions : AwsOptio
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Update a cross-account attachment to add or remove principals or re- sources. When you update an attachment to remove a principal (account ID or accelerator) or a resource, Global Accelerator revokes the per- mission for specific resources. For more information, see Working with cross-account attachments and resources in Global Accelerator in the Global Accelerator Developer Guide . See also: AWS API Documentation
+    /// Update a cross-account attachment to add or remove principals or resources. When you update an attachment to remove a principal (account ID or accelerator) or a resource, Global Accelerator revokes the permission for specific resources. For more information, see Working with cross-account attachments and resources in Global Accelerator in the Global Accelerator Developer Guide . See also: AWS API Documentation
     /// </summary>
-    /// <param name="AttachmentArn">The Amazon Resource Name (ARN) of the cross-account attachment to update. Constraints: o max: 255</param>
+    /// <param name="AttachmentArn">The Amazon Resource Name (ARN) of the cross-account attachment to update. Constraints: • max: 255</param>
     public AwsGlobalacceleratorUpdateCrossAccountAttachmentOptions(
         string AttachmentArn
     )
@@ -56,37 +57,37 @@ public record AwsGlobalacceleratorUpdateCrossAccountAttachmentOptions : AwsOptio
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the cross-account attachment to update. Constraints: o max: 255
+    /// The Amazon Resource Name (ARN) of the cross-account attachment to update. Constraints: • max: 255
     /// </summary>
     [CliOption("--attachment-arn")]
     public string? AttachmentArn { get; private init; }
 
     /// <summary>
-    /// The name of the cross-account attachment. Constraints: o max: 64 o pattern: [\S\s]+
+    /// The name of the cross-account attachment. Constraints: • max: 64 • pattern: [\S\s]+
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
 
     /// <summary>
-    /// The principals to add to the cross-account attachment. A principal is an account or the Amazon Resource Name (ARN) of an accelerator that the attachment gives permission to work with resources from an- other account. The resources are also listed in the attachment. To add more than one principal, separate the account numbers or ac- celerator ARNs, or both, with commas. (string) Constraints: o max: 256 o pattern: (^\d{12}$|arn:.*) Syntax: "string" "string" ...
+    /// The principals to add to the cross-account attachment. A principal is an account or the Amazon Resource Name (ARN) of an accelerator that the attachment gives permission to work with resources from another account. The resources are also listed in the attachment. To add more than one principal, separate the account numbers or accelerator ARNs, or both, with commas. (string) Constraints: • max: 256 • pattern: (^\d{12}$|arn:.*) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--add-principals", GroupValues = true)]
     public IEnumerable<string>? AddPrincipals { get; set; }
 
     /// <summary>
-    /// The principals to remove from the cross-account attachment. A prin- cipal is an account or the Amazon Resource Name (ARN) of an acceler- ator that the attachment gives permission to work with resources from another account. The resources are also listed in the attach- ment. To remove more than one principal, separate the account numbers or accelerator ARNs, or both, with commas. (string) Constraints: o max: 256 o pattern: (^\d{12}$|arn:.*) Syntax: "string" "string" ...
+    /// The principals to remove from the cross-account attachment. A principal is an account or the Amazon Resource Name (ARN) of an accelerator that the attachment gives permission to work with resources from another account. The resources are also listed in the attachment. To remove more than one principal, separate the account numbers or accelerator ARNs, or both, with commas. (string) Constraints: • max: 256 • pattern: (^\d{12}$|arn:.*) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--remove-principals", GroupValues = true)]
     public IEnumerable<string>? RemovePrincipals { get; set; }
 
     /// <summary>
-    /// The resources to add to the cross-account attachment. A resource listed in a cross-account attachment can be used with an accelerator by the principals that are listed in the attachment. To add more than one resource, separate the resource ARNs with com- mas. (structure) A resource is one of the following: the ARN for an Amazon Web Services resource that is supported by Global Accelerator to be added as an endpoint, or a CIDR range that specifies a bring your own IP (BYOIP) address pool. EndpointId -&gt; (string) The endpoint ID for the endpoint that is specified as a Ama- zon Web Services resource. An endpoint ID for the cross-account feature is the ARN of an Amazon Web Services resource, such as a Network Load Bal- ancer, that Global Accelerator supports as an endpoint for an accelerator. Constraints: o max: 255 Cidr -&gt; (string) An IP address range, in CIDR format, that is specified as re- source. The address must be provisioned and advertised in Global Accelerator by following the bring your own IP address (BYOIP) process for Global Accelerator For more information, see Bring your own IP addresses (BYOIP) in the Global Accelerator Developer Guide. Constraints: o max: 255 Region -&gt; (string) The Amazon Web Services Region where a shared endpoint re- source is located. Constraints: o max: 255 Shorthand Syntax: EndpointId=string,Cidr=string,Region=string ... JSON Syntax: [ { "EndpointId": "string", "Cidr": "string", "Region": "string" } ... ]
+    /// The resources to add to the cross-account attachment. A resource listed in a cross-account attachment can be used with an accelerator by the principals that are listed in the attachment. To add more than one resource, separate the resource ARNs with commas. (structure) A resource is one of the following: the ARN for an Amazon Web Services resource that is supported by Global Accelerator to be added as an endpoint, or a CIDR range that specifies a bring your own IP (BYOIP) address pool. EndpointId -&gt; (string) The endpoint ID for the endpoint that is specified as a Amazon Web Services resource. An endpoint ID for the cross-account feature is the ARN of an Amazon Web Services resource, such as a Network Load Balancer, that Global Accelerator supports as an endpoint for an accelerator. Constraints: • max: 255 Cidr -&gt; (string) An IP address range, in CIDR format, that is specified as resource. The address must be provisioned and advertised in Global Accelerator by following the bring your own IP address (BYOIP) process for Global Accelerator For more information, see Bring your own IP addresses (BYOIP) in the Global Accelerator Developer Guide. Constraints: • max: 255 Region -&gt; (string) The Amazon Web Services Region where a shared endpoint resource is located. Constraints: • max: 255 Shorthand Syntax: EndpointId=string,Cidr=string,Region=string ... JSON Syntax: [ { "EndpointId": "string", "Cidr": "string", "Region": "string" } ... ]
     /// </summary>
     [CliOption("--add-resources", GroupValues = true)]
     public IEnumerable<string>? AddResources { get; set; }
 
     /// <summary>
-    /// The resources to remove from the cross-account attachment. A re- source listed in a cross-account attachment can be used with an ac- celerator by the principals that are listed in the attachment. To remove more than one resource, separate the resource ARNs with commas. (structure) A resource is one of the following: the ARN for an Amazon Web Services resource that is supported by Global Accelerator to be added as an endpoint, or a CIDR range that specifies a bring your own IP (BYOIP) address pool. EndpointId -&gt; (string) The endpoint ID for the endpoint that is specified as a Ama- zon Web Services resource. An endpoint ID for the cross-account feature is the ARN of an Amazon Web Services resource, such as a Network Load Bal- ancer, that Global Accelerator supports as an endpoint for an accelerator. Constraints: o max: 255 Cidr -&gt; (string) An IP address range, in CIDR format, that is specified as re- source. The address must be provisioned and advertised in Global Accelerator by following the bring your own IP address (BYOIP) process for Global Accelerator For more information, see Bring your own IP addresses (BYOIP) in the Global Accelerator Developer Guide. Constraints: o max: 255 Region -&gt; (string) The Amazon Web Services Region where a shared endpoint re- source is located. Constraints: o max: 255 Shorthand Syntax: EndpointId=string,Cidr=string,Region=string ... JSON Syntax: [ { "EndpointId": "string", "Cidr": "string", "Region": "string" } ... ]
+    /// The resources to remove from the cross-account attachment. A resource listed in a cross-account attachment can be used with an accelerator by the principals that are listed in the attachment. To remove more than one resource, separate the resource ARNs with commas. (structure) A resource is one of the following: the ARN for an Amazon Web Services resource that is supported by Global Accelerator to be added as an endpoint, or a CIDR range that specifies a bring your own IP (BYOIP) address pool. EndpointId -&gt; (string) The endpoint ID for the endpoint that is specified as a Amazon Web Services resource. An endpoint ID for the cross-account feature is the ARN of an Amazon Web Services resource, such as a Network Load Balancer, that Global Accelerator supports as an endpoint for an accelerator. Constraints: • max: 255 Cidr -&gt; (string) An IP address range, in CIDR format, that is specified as resource. The address must be provisioned and advertised in Global Accelerator by following the bring your own IP address (BYOIP) process for Global Accelerator For more information, see Bring your own IP addresses (BYOIP) in the Global Accelerator Developer Guide. Constraints: • max: 255 Region -&gt; (string) The Amazon Web Services Region where a shared endpoint resource is located. Constraints: • max: 255 Shorthand Syntax: EndpointId=string,Cidr=string,Region=string ... JSON Syntax: [ { "EndpointId": "string", "Cidr": "string", "Region": "string" } ... ]
     /// </summary>
     [CliOption("--remove-resources", GroupValues = true)]
     public IEnumerable<string>? RemoveResources { get; set; }
@@ -112,6 +113,15 @@ public record AwsGlobalacceleratorUpdateCrossAccountAttachmentOptions : AwsOptio
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

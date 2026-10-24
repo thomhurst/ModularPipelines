@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves detailed information about a specific anomaly detector, in- cluding its status and configuration. See also: AWS API Documentation
+/// Retrieves detailed information about a specific anomaly detector, including its status and configuration. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsAmpDescribeAnomalyDetectorOptions : AwsOptions, IValidatableObj
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Retrieves detailed information about a specific anomaly detector, in- cluding its status and configuration. See also: AWS API Documentation
+    /// Retrieves detailed information about a specific anomaly detector, including its status and configuration. See also: AWS API Documentation
     /// </summary>
-    /// <param name="WorkspaceId">The identifier of the workspace containing the anomaly detector. Constraints: o min: 1 o max: 64 o pattern: .*[0-9A-Za-z][-.0-9A-Z_a-z]*.*</param>
-    /// <param name="AnomalyDetectorId">The identifier of the anomaly detector to describe. Constraints: o min: 1 o max: 64 o pattern: ad-[0-9A-Za-z][-.0-9A-Z_a-z]*</param>
+    /// <param name="WorkspaceId">The identifier of the workspace containing the anomaly detector. Constraints: • min: 1 • max: 64 • pattern: .*[0-9A-Za-z][-.0-9A-Z_a-z]*.*</param>
+    /// <param name="AnomalyDetectorId">The identifier of the anomaly detector to describe. Constraints: • min: 1 • max: 64 • pattern: ad-[0-9A-Za-z][-.0-9A-Z_a-z]*</param>
     public AwsAmpDescribeAnomalyDetectorOptions(
         string WorkspaceId,
         string AnomalyDetectorId
@@ -60,13 +61,13 @@ public record AwsAmpDescribeAnomalyDetectorOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the workspace containing the anomaly detector. Constraints: o min: 1 o max: 64 o pattern: .*[0-9A-Za-z][-.0-9A-Z_a-z]*.*
+    /// The identifier of the workspace containing the anomaly detector. Constraints: • min: 1 • max: 64 • pattern: .*[0-9A-Za-z][-.0-9A-Z_a-z]*.*
     /// </summary>
     [CliOption("--workspace-id")]
     public string? WorkspaceId { get; private init; }
 
     /// <summary>
-    /// The identifier of the anomaly detector to describe. Constraints: o min: 1 o max: 64 o pattern: ad-[0-9A-Za-z][-.0-9A-Z_a-z]*
+    /// The identifier of the anomaly detector to describe. Constraints: • min: 1 • max: 64 • pattern: ad-[0-9A-Za-z][-.0-9A-Z_a-z]*
     /// </summary>
     [CliOption("--anomaly-detector-id")]
     public string? AnomalyDetectorId { get; private init; }
@@ -92,6 +93,15 @@ public record AwsAmpDescribeAnomalyDetectorOptions : AwsOptions, IValidatableObj
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

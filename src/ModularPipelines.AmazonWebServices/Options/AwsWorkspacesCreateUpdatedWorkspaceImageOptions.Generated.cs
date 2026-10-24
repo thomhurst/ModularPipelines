@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a new updated WorkSpace image based on the specified source im- age. The new updated WorkSpace image has the latest drivers and other updates required by the Amazon WorkSpaces components. To determine which WorkSpace images need to be updated with the latest Amazon WorkSpaces requirements, use DescribeWorkspaceImages . NOTE: o Only Windows 10, Windows Server 2016, and Windows Server 2019 WorkSpace images can be programmatically updated at this time. o Microsoft Windows updates and other ...
+/// Creates a new updated WorkSpace image based on the specified source image. The new updated WorkSpace image has the latest drivers and other updates required by the Amazon WorkSpaces components. To determine which WorkSpace images need to be updated with the latest Amazon WorkSpaces requirements, use DescribeWorkspaceImages . NOTE: • Only Windows 10, Windows Server 2016, and Windows Server 2019 WorkSpace images can be programmatically updated at this time. • Microsoft Windows updates and other ap...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,11 +26,11 @@ public record AwsWorkspacesCreateUpdatedWorkspaceImageOptions : AwsOptions, IVal
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a new updated WorkSpace image based on the specified source im- age. The new updated WorkSpace image has the latest drivers and other updates required by the Amazon WorkSpaces components. To determine which WorkSpace images need to be updated with the latest Amazon WorkSpaces requirements, use DescribeWorkspaceImages . NOTE: o Only Windows 10, Windows Server 2016, and Windows Server 2019 WorkSpace images can be programmatically updated at this time. o Microsoft Windows updates and other ...
+    /// Creates a new updated WorkSpace image based on the specified source image. The new updated WorkSpace image has the latest drivers and other updates required by the Amazon WorkSpaces components. To determine which WorkSpace images need to be updated with the latest Amazon WorkSpaces requirements, use DescribeWorkspaceImages . NOTE: • Only Windows 10, Windows Server 2016, and Windows Server 2019 WorkSpace images can be programmatically updated at this time. • Microsoft Windows updates and other ap...
     /// </summary>
-    /// <param name="Name">The name of the new updated WorkSpace image. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_./()\\-]+$</param>
-    /// <param name="Description">A description of whether updates for the WorkSpace image are avail- able. Constraints: o min: 1 o max: 256 o pattern: ^[a-zA-Z0-9_./() -]+$</param>
-    /// <param name="SourceImageId">The identifier of the source WorkSpace image. Constraints: o pattern: wsi-[0-9a-z]{9,63}$</param>
+    /// <param name="Name">The name of the new updated WorkSpace image. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9_./()\\-]+$</param>
+    /// <param name="Description">A description of whether updates for the WorkSpace image are available. Constraints: • min: 1 • max: 256 • pattern: ^[a-zA-Z0-9_./() -]+$</param>
+    /// <param name="SourceImageId">The identifier of the source WorkSpace image. Constraints: • pattern: wsi-[0-9a-z]{9,63}$</param>
     public AwsWorkspacesCreateUpdatedWorkspaceImageOptions(
         string Name,
         string Description,
@@ -64,25 +65,25 @@ public record AwsWorkspacesCreateUpdatedWorkspaceImageOptions : AwsOptions, IVal
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the new updated WorkSpace image. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_./()\\-]+$
+    /// The name of the new updated WorkSpace image. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9_./()\\-]+$
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// A description of whether updates for the WorkSpace image are avail- able. Constraints: o min: 1 o max: 256 o pattern: ^[a-zA-Z0-9_./() -]+$
+    /// A description of whether updates for the WorkSpace image are available. Constraints: • min: 1 • max: 256 • pattern: ^[a-zA-Z0-9_./() -]+$
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; private init; }
 
     /// <summary>
-    /// The identifier of the source WorkSpace image. Constraints: o pattern: wsi-[0-9a-z]{9,63}$
+    /// The identifier of the source WorkSpace image. Constraints: • pattern: wsi-[0-9a-z]{9,63}$
     /// </summary>
     [CliOption("--source-image-id")]
     public string? SourceImageId { get; private init; }
 
     /// <summary>
-    /// The tags that you want to add to the new updated WorkSpace image. NOTE: To add tags at the same time when you're creating the updated image, you must create an IAM policy that grants your IAM user permissions to use workspaces:CreateTags . (structure) Describes a tag. Key -&gt; (string) [required] The key of the tag. Constraints: o min: 1 o max: 127 Value -&gt; (string) The value of the tag. Constraints: o max: 255 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// The tags that you want to add to the new updated WorkSpace image. NOTE: To add tags at the same time when you're creating the updated image, you must create an IAM policy that grants your IAM user permissions to use workspaces:CreateTags . (structure) Describes a tag. Key -&gt; (string) [required] The key of the tag. Constraints: • min: 1 • max: 127 Value -&gt; (string) The value of the tag. Constraints: • max: 255 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
@@ -108,6 +109,15 @@ public record AwsWorkspacesCreateUpdatedWorkspaceImageOptions : AwsOptions, IVal
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

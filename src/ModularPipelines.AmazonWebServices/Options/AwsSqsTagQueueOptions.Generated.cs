@@ -10,13 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Add cost allocation tags to the specified Amazon SQS queue. For an overview, see Tagging Your Amazon SQS Queues in the Amazon SQS Devel- oper Guide . When you use queue tags, keep the following guidelines in mind: o Adding more than 50 tags to a queue isn't recommended. o Tags don't have any semantic meaning. Amazon SQS interprets tags as character strings. o Tags are case-sensitive. o A new tag with a key identical to that of an existing tag overwrites the existing tag. For a full list of tag r...
+/// Add cost allocation tags to the specified Amazon SQS queue. For an overview, see Tagging Your Amazon SQS Queues in the Amazon SQS Developer Guide . When you use queue tags, keep the following guidelines in mind: • Adding more than 50 tags to a queue isn't recommended. • Tags don't have any semantic meaning. Amazon SQS interprets tags as character strings. • Tags are case-sensitive. • A new tag with a key identical to that of an existing tag overwrites the existing tag. For a full list of tag res...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,7 +26,7 @@ public record AwsSqsTagQueueOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Add cost allocation tags to the specified Amazon SQS queue. For an overview, see Tagging Your Amazon SQS Queues in the Amazon SQS Devel- oper Guide . When you use queue tags, keep the following guidelines in mind: o Adding more than 50 tags to a queue isn't recommended. o Tags don't have any semantic meaning. Amazon SQS interprets tags as character strings. o Tags are case-sensitive. o A new tag with a key identical to that of an existing tag overwrites the existing tag. For a full list of tag r...
+    /// Add cost allocation tags to the specified Amazon SQS queue. For an overview, see Tagging Your Amazon SQS Queues in the Amazon SQS Developer Guide . When you use queue tags, keep the following guidelines in mind: • Adding more than 50 tags to a queue isn't recommended. • Tags don't have any semantic meaning. Amazon SQS interprets tags as character strings. • Tags are case-sensitive. • A new tag with a key identical to that of an existing tag overwrites the existing tag. For a full list of tag res...
     /// </summary>
     /// <param name="QueueUrl">The URL of the queue.</param>
     /// <param name="Tags">The list of tags to be added to the specified queue. key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}</param>
@@ -104,6 +104,15 @@ public record AwsSqsTagQueueOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

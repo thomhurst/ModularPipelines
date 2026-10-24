@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Stops an Amazon Bedrock flow's execution. This operation prevents fur- ther processing of the flow and changes the execution status to Aborted . See also: AWS API Documentation
+/// Stops an Amazon Bedrock flow's execution. This operation prevents further processing of the flow and changes the execution status to Aborted . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,11 +26,11 @@ public record AwsBedrockAgentRuntimeStopFlowExecutionOptions : AwsOptions, IVali
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Stops an Amazon Bedrock flow's execution. This operation prevents fur- ther processing of the flow and changes the execution status to Aborted . See also: AWS API Documentation
+    /// Stops an Amazon Bedrock flow's execution. This operation prevents further processing of the flow and changes the execution status to Aborted . See also: AWS API Documentation
     /// </summary>
-    /// <param name="ExecutionIdentifier">The unique identifier of the flow execution to stop. Constraints: o min: 0 o max: 2048 o pattern: ^[a-zA-Z0-9-]{1,36}$|^(arn:aws:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:flow/[0-9a-zA-Z]{10}/alias/[0-9a-zA-Z]{10}/ex- ecution/[a-zA-Z0-9-]{1,36})$</param>
-    /// <param name="FlowAliasIdentifier">The unique identifier of the flow alias used for the execution. Constraints: o min: 0 o max: 2048 o pattern: ^(arn:aws:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:flow/[0-9a-zA-Z]{10}/alias/[0-9a-zA-Z]{10})|(\bT- STALIASID\b|[0-9a-zA-Z]+)$</param>
-    /// <param name="FlowIdentifier">The unique identifier of the flow. Constraints: o min: 0 o max: 2048 o pattern: ^(arn:aws:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:flow/[0-9a-zA-Z]{10})|([0-9a-zA-Z]{10})$</param>
+    /// <param name="ExecutionIdentifier">The unique identifier of the flow execution to stop. Constraints: • min: 0 • max: 2048 • pattern: ^[a-zA-Z0-9-]{1,36}$|^(arn:aws:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:flow/[0-9a-zA-Z]{10}/alias/[0-9a-zA-Z]{10}/execution/[a-zA-Z0-9-]{1,36})$</param>
+    /// <param name="FlowAliasIdentifier">The unique identifier of the flow alias used for the execution. Constraints: • min: 0 • max: 2048 • pattern: ^(arn:aws:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:flow/[0-9a-zA-Z]{10}/alias/[0-9a-zA-Z]{10})|(\bTSTALIASID\b|[0-9a-zA-Z]+)$</param>
+    /// <param name="FlowIdentifier">The unique identifier of the flow. Constraints: • min: 0 • max: 2048 • pattern: ^(arn:aws:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:flow/[0-9a-zA-Z]{10})|([0-9a-zA-Z]{10})$</param>
     public AwsBedrockAgentRuntimeStopFlowExecutionOptions(
         string ExecutionIdentifier,
         string FlowAliasIdentifier,
@@ -64,19 +65,19 @@ public record AwsBedrockAgentRuntimeStopFlowExecutionOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the flow execution to stop. Constraints: o min: 0 o max: 2048 o pattern: ^[a-zA-Z0-9-]{1,36}$|^(arn:aws:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:flow/[0-9a-zA-Z]{10}/alias/[0-9a-zA-Z]{10}/ex- ecution/[a-zA-Z0-9-]{1,36})$
+    /// The unique identifier of the flow execution to stop. Constraints: • min: 0 • max: 2048 • pattern: ^[a-zA-Z0-9-]{1,36}$|^(arn:aws:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:flow/[0-9a-zA-Z]{10}/alias/[0-9a-zA-Z]{10}/execution/[a-zA-Z0-9-]{1,36})$
     /// </summary>
     [CliOption("--execution-identifier")]
     public string? ExecutionIdentifier { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the flow alias used for the execution. Constraints: o min: 0 o max: 2048 o pattern: ^(arn:aws:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:flow/[0-9a-zA-Z]{10}/alias/[0-9a-zA-Z]{10})|(\bT- STALIASID\b|[0-9a-zA-Z]+)$
+    /// The unique identifier of the flow alias used for the execution. Constraints: • min: 0 • max: 2048 • pattern: ^(arn:aws:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:flow/[0-9a-zA-Z]{10}/alias/[0-9a-zA-Z]{10})|(\bTSTALIASID\b|[0-9a-zA-Z]+)$
     /// </summary>
     [CliOption("--flow-alias-identifier")]
     public string? FlowAliasIdentifier { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the flow. Constraints: o min: 0 o max: 2048 o pattern: ^(arn:aws:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:flow/[0-9a-zA-Z]{10})|([0-9a-zA-Z]{10})$
+    /// The unique identifier of the flow. Constraints: • min: 0 • max: 2048 • pattern: ^(arn:aws:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:flow/[0-9a-zA-Z]{10})|([0-9a-zA-Z]{10})$
     /// </summary>
     [CliOption("--flow-identifier")]
     public string? FlowIdentifier { get; private init; }
@@ -102,6 +103,15 @@ public record AwsBedrockAgentRuntimeStopFlowExecutionOptions : AwsOptions, IVali
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +29,7 @@ public record AwsElasticacheModifyReplicationGroupShardConfigurationOptions : Aw
     /// Modifies a replication group's shards (node groups) by allowing you to add shards, remove shards, or rebalance the keyspaces among existing shards. See also: AWS API Documentation
     /// </summary>
     /// <param name="ReplicationGroupId">The name of the Valkey or Redis OSS (cluster mode enabled) cluster (replication group) on which the shards are to be configured.</param>
-    /// <param name="NodeGroupCount">The number of node groups (shards) that results from the modifica- tion of the shard configuration.</param>
+    /// <param name="NodeGroupCount">The number of node groups (shards) that results from the modification of the shard configuration.</param>
     /// <param name="ApplyImmediately">Indicates that the shard reconfiguration process begins immediately. At present, the only permitted value for this parameter is true . Value: true</param>
     public AwsElasticacheModifyReplicationGroupShardConfigurationOptions(
         string ReplicationGroupId,
@@ -68,7 +69,7 @@ public record AwsElasticacheModifyReplicationGroupShardConfigurationOptions : Aw
     public string? ReplicationGroupId { get; private init; }
 
     /// <summary>
-    /// The number of node groups (shards) that results from the modifica- tion of the shard configuration.
+    /// The number of node groups (shards) that results from the modification of the shard configuration.
     /// </summary>
     [CliOption("--node-group-count")]
     public int? NodeGroupCount { get; private init; }
@@ -80,19 +81,19 @@ public record AwsElasticacheModifyReplicationGroupShardConfigurationOptions : Aw
     public bool? ApplyImmediately { get; private init; }
 
     /// <summary>
-    /// Specifies the preferred availability zones for each node group in the cluster. If the value of NodeGroupCount is greater than the cur- rent number of node groups (shards), you can use this parameter to specify the preferred availability zones of the cluster's shards. If you omit this parameter ElastiCache selects availability zones for you. You can specify this parameter only if the value of NodeGroupCount is greater than the current number of node groups (shards). (structure) A list of PreferredAvailabilityZones objects that specifies the configuration of a node group in the resharded cluster. NodeGroupId -&gt; (string) Either the ElastiCache supplied 4-digit id or a user supplied id for the node group these configuration values apply to. Constraints: o min: 1 o max: 4 o pattern: \d+ PreferredAvailabilityZones -&gt; (list) A list of preferred availability zones for the nodes in this cluster. (string) Shorthand Syntax: NodeGroupId=string,PreferredAvailabilityZones=string,string ... JSON Syntax: [ { "NodeGroupId": "string", "PreferredAvailabilityZones": ["string", ...] } ... ]
+    /// Specifies the preferred availability zones for each node group in the cluster. If the value of NodeGroupCount is greater than the current number of node groups (shards), you can use this parameter to specify the preferred availability zones of the cluster's shards. If you omit this parameter ElastiCache selects availability zones for you. You can specify this parameter only if the value of NodeGroupCount is greater than the current number of node groups (shards). (structure) A list of PreferredAvailabilityZones objects that specifies the configuration of a node group in the resharded cluster. NodeGroupId -&gt; (string) Either the ElastiCache supplied 4-digit id or a user supplied id for the node group these configuration values apply to. Constraints: • min: 1 • max: 4 • pattern: \d+ PreferredAvailabilityZones -&gt; (list) A list of preferred availability zones for the nodes in this cluster. (string) Shorthand Syntax: NodeGroupId=string,PreferredAvailabilityZones=string,string ... JSON Syntax: [ { "NodeGroupId": "string", "PreferredAvailabilityZones": ["string", ...] } ... ]
     /// </summary>
     [CliOption("--resharding-configuration", GroupValues = true)]
     public IEnumerable<string>? ReshardingConfiguration { get; set; }
 
     /// <summary>
-    /// If the value of NodeGroupCount is less than the current number of node groups (shards), then either NodeGroupsToRemove or NodeGroup- sToRetain is required. NodeGroupsToRemove is a list of NodeGroupId s to remove from the cluster. ElastiCache will attempt to remove all node groups listed by Node- GroupsToRemove from the cluster. (string) Constraints: o min: 1 o max: 4 o pattern: \d+ Syntax: "string" "string" ...
+    /// If the value of NodeGroupCount is less than the current number of node groups (shards), then either NodeGroupsToRemove or NodeGroupsToRetain is required. NodeGroupsToRemove is a list of NodeGroupId s to remove from the cluster. ElastiCache will attempt to remove all node groups listed by NodeGroupsToRemove from the cluster. (string) Constraints: • min: 1 • max: 4 • pattern: \d+ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--node-groups-to-remove", GroupValues = true)]
     public IEnumerable<string>? NodeGroupsToRemove { get; set; }
 
     /// <summary>
-    /// If the value of NodeGroupCount is less than the current number of node groups (shards), then either NodeGroupsToRemove or NodeGroup- sToRetain is required. NodeGroupsToRetain is a list of NodeGroupId s to retain in the cluster. ElastiCache will attempt to remove all node groups except those listed by NodeGroupsToRetain from the cluster. (string) Constraints: o min: 1 o max: 4 o pattern: \d+ Syntax: "string" "string" ...
+    /// If the value of NodeGroupCount is less than the current number of node groups (shards), then either NodeGroupsToRemove or NodeGroupsToRetain is required. NodeGroupsToRetain is a list of NodeGroupId s to retain in the cluster. ElastiCache will attempt to remove all node groups except those listed by NodeGroupsToRetain from the cluster. (string) Constraints: • min: 1 • max: 4 • pattern: \d+ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--node-groups-to-retain", GroupValues = true)]
     public IEnumerable<string>? NodeGroupsToRetain { get; set; }
@@ -118,6 +119,15 @@ public record AwsElasticacheModifyReplicationGroupShardConfigurationOptions : Aw
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

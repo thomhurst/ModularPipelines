@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns the website access logs for a specific time range using a pre- signed URL. See also: AWS API Documentation
+/// Returns the website access logs for a specific time range using a presigned URL. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsAmplifyGenerateAccessLogsOptions : AwsOptions, IValidatableObje
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns the website access logs for a specific time range using a pre- signed URL. See also: AWS API Documentation
+    /// Returns the website access logs for a specific time range using a presigned URL. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DomainName">The name of the domain. Constraints: o max: 64 o pattern: ^(((?!-)[A-Za-z0-9-]{0,62}[A-Za-z0-9])\.)+((?!-)[A-Za-z0-9-]{1,62}[A-Za-z0-9])(\.)?$</param>
-    /// <param name="AppId">The unique ID for an Amplify app. Constraints: o min: 1 o max: 20 o pattern: d[a-z0-9]+</param>
+    /// <param name="DomainName">The name of the domain. Constraints: • max: 64 • pattern: ^(((?!-)[A-Za-z0-9-]{0,62}[A-Za-z0-9])\.)+((?!-)[A-Za-z0-9-]{1,62}[A-Za-z0-9])(\.)?$</param>
+    /// <param name="AppId">The unique ID for an Amplify app. Constraints: • min: 1 • max: 20 • pattern: d[a-z0-9]+</param>
     public AwsAmplifyGenerateAccessLogsOptions(
         string DomainName,
         string AppId
@@ -60,13 +61,13 @@ public record AwsAmplifyGenerateAccessLogsOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the domain. Constraints: o max: 64 o pattern: ^(((?!-)[A-Za-z0-9-]{0,62}[A-Za-z0-9])\.)+((?!-)[A-Za-z0-9-]{1,62}[A-Za-z0-9])(\.)?$
+    /// The name of the domain. Constraints: • max: 64 • pattern: ^(((?!-)[A-Za-z0-9-]{0,62}[A-Za-z0-9])\.)+((?!-)[A-Za-z0-9-]{1,62}[A-Za-z0-9])(\.)?$
     /// </summary>
     [CliOption("--domain-name")]
     public string? DomainName { get; private init; }
 
     /// <summary>
-    /// The unique ID for an Amplify app. Constraints: o min: 1 o max: 20 o pattern: d[a-z0-9]+
+    /// The unique ID for an Amplify app. Constraints: • min: 1 • max: 20 • pattern: d[a-z0-9]+
     /// </summary>
     [CliOption("--app-id")]
     public string? AppId { get; private init; }
@@ -104,6 +105,15 @@ public record AwsAmplifyGenerateAccessLogsOptions : AwsOptions, IValidatableObje
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

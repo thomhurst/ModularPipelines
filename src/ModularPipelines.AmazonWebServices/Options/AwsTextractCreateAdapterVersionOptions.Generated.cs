@@ -11,13 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a new version of an adapter. Operates on a provided AdapterId and a specified dataset provided via the DatasetConfig argument. Re- quires that you specify an Amazon S3 bucket with the OutputConfig argu- ment. You can provide an optional KMSKeyId, an optional ClientRequest- Token, and optional tags. See also: AWS API Documentation
+/// Creates a new version of an adapter. Operates on a provided AdapterId and a specified dataset provided via the DatasetConfig argument. Requires that you specify an Amazon S3 bucket with the OutputConfig argument. You can provide an optional KMSKeyId, an optional ClientRequestToken, and optional tags. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,11 +27,11 @@ public record AwsTextractCreateAdapterVersionOptions : AwsOptions, IValidatableO
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a new version of an adapter. Operates on a provided AdapterId and a specified dataset provided via the DatasetConfig argument. Re- quires that you specify an Amazon S3 bucket with the OutputConfig argu- ment. You can provide an optional KMSKeyId, an optional ClientRequest- Token, and optional tags. See also: AWS API Documentation
+    /// Creates a new version of an adapter. Operates on a provided AdapterId and a specified dataset provided via the DatasetConfig argument. Requires that you specify an Amazon S3 bucket with the OutputConfig argument. You can provide an optional KMSKeyId, an optional ClientRequestToken, and optional tags. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AdapterId">A string containing a unique ID for the adapter that will receive a new version. Constraints: o min: 12 o max: 1011</param>
-    /// <param name="DataSetConfig">Specifies a dataset used to train a new adapter version. Takes a ManifestS3Object as the value. ManifestS3Object -&gt; (structure) The S3 bucket name and file name that identifies the document. The AWS Region for the S3 bucket that contains the document must match the Region that you use for Amazon Textract operations. For Amazon Textract to process a file in an S3 bucket, the user must have permission to access the S3 bucket and file. Bucket -&gt; (string) The name of the S3 bucket. Note that the # character is not valid in the file name. Constraints: o min: 3 o max: 255 o pattern: [0-9A-Za-z\.\-_]* Name -&gt; (string) The file name of the input document. Image files may be in PDF, TIFF, JPEG, or PNG format. Constraints: o min: 1 o max: 1024 o pattern: .*\S.* Version -&gt; (string) If the bucket has versioning enabled, you can specify the ob- ject version. Constraints: o min: 1 o max: 1024 o pattern: .*\S.* Shorthand Syntax: ManifestS3Object={Bucket=string,Name=string,Version=string} JSON Syntax: { "ManifestS3Object": { "Bucket": "string", "Name": "string", "Version": "string" } }</param>
-    /// <param name="OutputConfig">Sets whether or not your output will go to a user created bucket. Used to set the name of the bucket, and the prefix on the output file. OutputConfig is an optional parameter which lets you adjust where your output will be placed. By default, Amazon Textract will store the results internally and can only be accessed by the Get API operations. With OutputConfig enabled, you can set the name of the bucket the output will be sent to the file pre- fix of the results where you can download your results. Addi- tionally, you can set the KMSKeyID parameter to a customer mas- ter key (CMK) to encrypt your output. Without this parameter set Amazon Textract will encrypt server-side using the AWS managed CMK for Amazon S3. Decryption of Customer Content is necessary for processing of the documents by Amazon Textract. If your account is opted out under an AI services opt out policy then all unencrypted Customer Content is immediately and permanently deleted after the Customer Content has been processed by the service. No copy of of the output is retained by Amazon Textract. For information about how to opt out, see Managing AI services opt-out policy. For more information on data privacy, see the Data Privacy FAQ . S3Bucket -&gt; (string) [required] The name of the bucket your output will go to. Constraints: o min: 3 o max: 255 o pattern: [0-9A-Za-z\.\-_]* S3Prefix -&gt; (string) The prefix of the object key that the output will be saved to. When not enabled, the prefix will be textract_output". Constraints: o min: 1 o max: 1024 o pattern: .*\S.* Shorthand Syntax: S3Bucket=string,S3Prefix=string JSON Syntax: { "S3Bucket": "string", "S3Prefix": "string" }</param>
+    /// <param name="AdapterId">A string containing a unique ID for the adapter that will receive a new version. Constraints: • min: 12 • max: 1011</param>
+    /// <param name="DataSetConfig">Specifies a dataset used to train a new adapter version. Takes a ManifestS3Object as the value. ManifestS3Object -&gt; (structure) The S3 bucket name and file name that identifies the document. The AWS Region for the S3 bucket that contains the document must match the Region that you use for Amazon Textract operations. For Amazon Textract to process a file in an S3 bucket, the user must have permission to access the S3 bucket and file. Bucket -&gt; (string) The name of the S3 bucket. Note that the # character is not valid in the file name. Constraints: • min: 3 • max: 255 • pattern: [0-9A-Za-z\.\-_]* Name -&gt; (string) The file name of the input document. Image files may be in PDF, TIFF, JPEG, or PNG format. Constraints: • min: 1 • max: 1024 • pattern: .*\S.* Version -&gt; (string) If the bucket has versioning enabled, you can specify the object version. Constraints: • min: 1 • max: 1024 • pattern: .*\S.* Shorthand Syntax: ManifestS3Object={Bucket=string,Name=string,Version=string} JSON Syntax: { "ManifestS3Object": { "Bucket": "string", "Name": "string", "Version": "string" } }</param>
+    /// <param name="OutputConfig">Sets whether or not your output will go to a user created bucket. Used to set the name of the bucket, and the prefix on the output file. OutputConfig is an optional parameter which lets you adjust where your output will be placed. By default, Amazon Textract will store the results internally and can only be accessed by the Get API operations. With OutputConfig enabled, you can set the name of the bucket the output will be sent to the file prefix of the results where you can download your results. Additionally, you can set the KMSKeyID parameter to a customer master key (CMK) to encrypt your output. Without this parameter set Amazon Textract will encrypt server-side using the AWS managed CMK for Amazon S3. Decryption of Customer Content is necessary for processing of the documents by Amazon Textract. If your account is opted out under an AI services opt out policy then all unencrypted Customer Content is immediately and permanently deleted after the Customer Content has been processed by the service. No copy of of the output is retained by Amazon Textract. For information about how to opt out, see Managing AI services opt-out policy. For more information on data privacy, see the Data Privacy FAQ . S3Bucket -&gt; (string) [required] The name of the bucket your output will go to. Constraints: • min: 3 • max: 255 • pattern: [0-9A-Za-z\.\-_]* S3Prefix -&gt; (string) The prefix of the object key that the output will be saved to. When not enabled, the prefix will be textract_output". Constraints: • min: 1 • max: 1024 • pattern: .*\S.* Shorthand Syntax: S3Bucket=string,S3Prefix=string JSON Syntax: { "S3Bucket": "string", "S3Prefix": "string" }</param>
     public AwsTextractCreateAdapterVersionOptions(
         string AdapterId,
         string DataSetConfig,
@@ -66,38 +66,38 @@ public record AwsTextractCreateAdapterVersionOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A string containing a unique ID for the adapter that will receive a new version. Constraints: o min: 12 o max: 1011
+    /// A string containing a unique ID for the adapter that will receive a new version. Constraints: • min: 12 • max: 1011
     /// </summary>
     [CliOption("--adapter-id")]
     public string? AdapterId { get; private init; }
 
     /// <summary>
-    /// Specifies a dataset used to train a new adapter version. Takes a ManifestS3Object as the value. ManifestS3Object -&gt; (structure) The S3 bucket name and file name that identifies the document. The AWS Region for the S3 bucket that contains the document must match the Region that you use for Amazon Textract operations. For Amazon Textract to process a file in an S3 bucket, the user must have permission to access the S3 bucket and file. Bucket -&gt; (string) The name of the S3 bucket. Note that the # character is not valid in the file name. Constraints: o min: 3 o max: 255 o pattern: [0-9A-Za-z\.\-_]* Name -&gt; (string) The file name of the input document. Image files may be in PDF, TIFF, JPEG, or PNG format. Constraints: o min: 1 o max: 1024 o pattern: .*\S.* Version -&gt; (string) If the bucket has versioning enabled, you can specify the ob- ject version. Constraints: o min: 1 o max: 1024 o pattern: .*\S.* Shorthand Syntax: ManifestS3Object={Bucket=string,Name=string,Version=string} JSON Syntax: { "ManifestS3Object": { "Bucket": "string", "Name": "string", "Version": "string" } }
+    /// Specifies a dataset used to train a new adapter version. Takes a ManifestS3Object as the value. ManifestS3Object -&gt; (structure) The S3 bucket name and file name that identifies the document. The AWS Region for the S3 bucket that contains the document must match the Region that you use for Amazon Textract operations. For Amazon Textract to process a file in an S3 bucket, the user must have permission to access the S3 bucket and file. Bucket -&gt; (string) The name of the S3 bucket. Note that the # character is not valid in the file name. Constraints: • min: 3 • max: 255 • pattern: [0-9A-Za-z\.\-_]* Name -&gt; (string) The file name of the input document. Image files may be in PDF, TIFF, JPEG, or PNG format. Constraints: • min: 1 • max: 1024 • pattern: .*\S.* Version -&gt; (string) If the bucket has versioning enabled, you can specify the object version. Constraints: • min: 1 • max: 1024 • pattern: .*\S.* Shorthand Syntax: ManifestS3Object={Bucket=string,Name=string,Version=string} JSON Syntax: { "ManifestS3Object": { "Bucket": "string", "Name": "string", "Version": "string" } }
     /// </summary>
     [CliOption("--dataset-config")]
     public string? DataSetConfig { get; private init; }
 
     /// <summary>
-    /// Sets whether or not your output will go to a user created bucket. Used to set the name of the bucket, and the prefix on the output file. OutputConfig is an optional parameter which lets you adjust where your output will be placed. By default, Amazon Textract will store the results internally and can only be accessed by the Get API operations. With OutputConfig enabled, you can set the name of the bucket the output will be sent to the file pre- fix of the results where you can download your results. Addi- tionally, you can set the KMSKeyID parameter to a customer mas- ter key (CMK) to encrypt your output. Without this parameter set Amazon Textract will encrypt server-side using the AWS managed CMK for Amazon S3. Decryption of Customer Content is necessary for processing of the documents by Amazon Textract. If your account is opted out under an AI services opt out policy then all unencrypted Customer Content is immediately and permanently deleted after the Customer Content has been processed by the service. No copy of of the output is retained by Amazon Textract. For information about how to opt out, see Managing AI services opt-out policy. For more information on data privacy, see the Data Privacy FAQ . S3Bucket -&gt; (string) [required] The name of the bucket your output will go to. Constraints: o min: 3 o max: 255 o pattern: [0-9A-Za-z\.\-_]* S3Prefix -&gt; (string) The prefix of the object key that the output will be saved to. When not enabled, the prefix will be textract_output". Constraints: o min: 1 o max: 1024 o pattern: .*\S.* Shorthand Syntax: S3Bucket=string,S3Prefix=string JSON Syntax: { "S3Bucket": "string", "S3Prefix": "string" }
+    /// Sets whether or not your output will go to a user created bucket. Used to set the name of the bucket, and the prefix on the output file. OutputConfig is an optional parameter which lets you adjust where your output will be placed. By default, Amazon Textract will store the results internally and can only be accessed by the Get API operations. With OutputConfig enabled, you can set the name of the bucket the output will be sent to the file prefix of the results where you can download your results. Additionally, you can set the KMSKeyID parameter to a customer master key (CMK) to encrypt your output. Without this parameter set Amazon Textract will encrypt server-side using the AWS managed CMK for Amazon S3. Decryption of Customer Content is necessary for processing of the documents by Amazon Textract. If your account is opted out under an AI services opt out policy then all unencrypted Customer Content is immediately and permanently deleted after the Customer Content has been processed by the service. No copy of of the output is retained by Amazon Textract. For information about how to opt out, see Managing AI services opt-out policy. For more information on data privacy, see the Data Privacy FAQ . S3Bucket -&gt; (string) [required] The name of the bucket your output will go to. Constraints: • min: 3 • max: 255 • pattern: [0-9A-Za-z\.\-_]* S3Prefix -&gt; (string) The prefix of the object key that the output will be saved to. When not enabled, the prefix will be textract_output". Constraints: • min: 1 • max: 1024 • pattern: .*\S.* Shorthand Syntax: S3Bucket=string,S3Prefix=string JSON Syntax: { "S3Bucket": "string", "S3Prefix": "string" }
     /// </summary>
     [CliOption("--output-config")]
     public string? OutputConfig { get; private init; }
 
     /// <summary>
-    /// Idempotent token is used to recognize the request. If the same token is used with multiple CreateAdapterVersion requests, the same ses- sion is returned. This token is employed to avoid unintentionally creating the same session multiple times. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9-_]+$
+    /// Idempotent token is used to recognize the request. If the same token is used with multiple CreateAdapterVersion requests, the same session is returned. This token is employed to avoid unintentionally creating the same session multiple times. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9-_]+$
     /// </summary>
     [SecretValue]
     [CliOption("--client-request-token")]
     public string? ClientRequestToken { get; set; }
 
     /// <summary>
-    /// The identifier for your AWS Key Management Service key (AWS KMS key). Used to encrypt your documents. Constraints: o min: 1 o max: 2048 o pattern: ^[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,2048}$
+    /// The identifier for your AWS Key Management Service key (AWS KMS key). Used to encrypt your documents. Constraints: • min: 1 • max: 2048 • pattern: ^[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,2048}$
     /// </summary>
     [CliOption("--kms-key-id")]
     public string? KmsKeyId { get; set; }
 
     /// <summary>
-    /// A set of tags (key-value pairs) that you want to attach to the adapter version. Constraints: o min: 0 o max: 200 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^(?!aws:)[\p{L}\p{Z}\p{N}_.:/=+\-@]*$ value -&gt; (string) Constraints: o min: 0 o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// A set of tags (key-value pairs) that you want to attach to the adapter version. Constraints: • min: 0 • max: 200 key -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: ^(?!aws:)[\p{L}\p{Z}\p{N}_.:/=+\-@]*$ value -&gt; (string) Constraints: • min: 0 • max: 256 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
@@ -123,6 +123,15 @@ public record AwsTextractCreateAdapterVersionOptions : AwsOptions, IValidatableO
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

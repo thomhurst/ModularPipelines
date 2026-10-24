@@ -6,8 +6,8 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
+using ModularPipelines;
 using ModularPipelines.Context;
-using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
@@ -32,7 +32,7 @@ public class AwsSns : IAwsSns
     #region Commands
 
     /// <summary>
-    /// Adds a statement to a topic's access control policy, granting access for the specified Amazon Web Services accounts to the specified ac- tions. NOTE: To remove the ability to change topic permissions, you must deny permissions to the AddPermission , RemovePermission , and SetTopi- cAttributes actions in your IAM policy. See also: AWS API Documentation
+    /// Adds a statement to a topic's access control policy, granting access for the specified Amazon Web Services accounts to the specified actions. NOTE: To remove the ability to change topic permissions, you must deny permissions to the AddPermission , RemovePermission , and SetTopicAttributes actions in your IAM policy. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -47,7 +47,7 @@ public class AwsSns : IAwsSns
     }
 
     /// <summary>
-    /// Accepts a phone number and indicates whether the phone holder has opted out of receiving SMS messages from your Amazon Web Services account. You cannot send SMS messages to a number that is opted out. To resume sending messages, you can opt in the number by using the Opt- InPhoneNumber action. See also: AWS API Documentation
+    /// Accepts a phone number and indicates whether the phone holder has opted out of receiving SMS messages from your Amazon Web Services account. You cannot send SMS messages to a number that is opted out. To resume sending messages, you can opt in the number by using the OptInPhoneNumber action. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -77,7 +77,7 @@ public class AwsSns : IAwsSns
     }
 
     /// <summary>
-    /// Creates a platform application object for one of the supported push no- tification services, such as APNS and GCM (Firebase Cloud Messaging), to which devices and mobile apps may register. You must specify Plat- formPrincipal and PlatformCredential attributes when using the Cre- atePlatformApplication action. PlatformPrincipal and PlatformCredential are received from the noti- fication service. o For ADM, PlatformPrincipal is client id and PlatformCredential is client secret . o For APNS and APN...
+    /// Creates a platform application object for one of the supported push notification services, such as APNS and GCM (Firebase Cloud Messaging), to which devices and mobile apps may register. You must specify PlatformPrincipal and PlatformCredential attributes when using the CreatePlatformApplication action. PlatformPrincipal and PlatformCredential are received from the notification service. • For ADM, PlatformPrincipal is client id and PlatformCredential is client secret . • For APNS and APNS_SANDBO...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -92,7 +92,7 @@ public class AwsSns : IAwsSns
     }
 
     /// <summary>
-    /// Creates an endpoint for a device and mobile app on one of the supported push notification services, such as GCM (Firebase Cloud Messaging) and APNS. CreatePlatformEndpoint requires the PlatformApplicationArn that is returned from CreatePlatformApplication . You can use the returned EndpointArn to send a message to a mobile app or by the Subscribe ac- tion for subscription to a topic. The CreatePlatformEndpoint action is idempotent, so if the requester already owns an endpoint with the same devic...
+    /// Creates an endpoint for a device and mobile app on one of the supported push notification services, such as GCM (Firebase Cloud Messaging) and APNS. CreatePlatformEndpoint requires the PlatformApplicationArn that is returned from CreatePlatformApplication . You can use the returned EndpointArn to send a message to a mobile app or by the Subscribe action for subscription to a topic. The CreatePlatformEndpoint action is idempotent, so if the requester already owns an endpoint with the same device ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -107,7 +107,7 @@ public class AwsSns : IAwsSns
     }
 
     /// <summary>
-    /// Adds a destination phone number to an Amazon Web Services account in the SMS sandbox and sends a one-time password (OTP) to that phone num- ber. When you start using Amazon SNS to send SMS messages, your Amazon Web Services account is in the SMS sandbox . The SMS sandbox provides a safe environment for you to try Amazon SNS features without risking your reputation as an SMS sender. While your Amazon Web Services ac- count is in the SMS sandbox, you can use all of the features of Amazon SNS. Howe...
+    /// Adds a destination phone number to an Amazon Web Services account in the SMS sandbox and sends a one-time password (OTP) to that phone number. When you start using Amazon SNS to send SMS messages, your Amazon Web Services account is in the SMS sandbox . The SMS sandbox provides a safe environment for you to try Amazon SNS features without risking your reputation as an SMS sender. While your Amazon Web Services account is in the SMS sandbox, you can use all of the features of Amazon SNS. However,...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -122,7 +122,7 @@ public class AwsSns : IAwsSns
     }
 
     /// <summary>
-    /// Creates a topic to which notifications can be published. Users can cre- ate at most 100,000 standard topics (at most 1,000 FIFO topics). For more information, see Creating an Amazon SNS topic in the Amazon SNS Developer Guide . This action is idempotent, so if the requester al- ready owns a topic with the specified name, that topic's ARN is re- turned without creating a new topic. See also: AWS API Documentation
+    /// Creates a topic to which notifications can be published. Users can create at most 100,000 standard topics (at most 1,000 FIFO topics). For more information, see Creating an Amazon SNS topic in the Amazon SNS Developer Guide . This action is idempotent, so if the requester already owns a topic with the specified name, that topic's ARN is returned without creating a new topic. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -152,7 +152,7 @@ public class AwsSns : IAwsSns
     }
 
     /// <summary>
-    /// Deletes a platform application object for one of the supported push no- tification services, such as APNS and GCM (Firebase Cloud Messaging). For more information, see Using Amazon SNS Mobile Push Notifications . See also: AWS API Documentation
+    /// Deletes a platform application object for one of the supported push notification services, such as APNS and GCM (Firebase Cloud Messaging). For more information, see Using Amazon SNS Mobile Push Notifications . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -167,7 +167,7 @@ public class AwsSns : IAwsSns
     }
 
     /// <summary>
-    /// Deletes an Amazon Web Services account's verified or pending phone num- ber from the SMS sandbox. When you start using Amazon SNS to send SMS messages, your Amazon Web Services account is in the SMS sandbox . The SMS sandbox provides a safe environment for you to try Amazon SNS features without risking your reputation as an SMS sender. While your Amazon Web Services ac- count is in the SMS sandbox, you can use all of the features of Amazon SNS. However, you can send SMS messages only to verified...
+    /// Deletes an Amazon Web Services account's verified or pending phone number from the SMS sandbox. When you start using Amazon SNS to send SMS messages, your Amazon Web Services account is in the SMS sandbox . The SMS sandbox provides a safe environment for you to try Amazon SNS features without risking your reputation as an SMS sender. While your Amazon Web Services account is in the SMS sandbox, you can use all of the features of Amazon SNS. However, you can send SMS messages only to verified des...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -182,7 +182,7 @@ public class AwsSns : IAwsSns
     }
 
     /// <summary>
-    /// Deletes a topic and all its subscriptions. Deleting a topic might pre- vent some messages previously sent to the topic from being delivered to subscribers. This action is idempotent, so deleting a topic that does not exist does not result in an error. See also: AWS API Documentation
+    /// Deletes a topic and all its subscriptions. Deleting a topic might prevent some messages previously sent to the topic from being delivered to subscribers. This action is idempotent, so deleting a topic that does not exist does not result in an error. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -212,7 +212,7 @@ public class AwsSns : IAwsSns
     }
 
     /// <summary>
-    /// Retrieves the endpoint attributes for a device on one of the supported push notification services, such as GCM (Firebase Cloud Messaging) and APNS. For more information, see Using Amazon SNS Mobile Push Notifica- tions . See also: AWS API Documentation
+    /// Retrieves the endpoint attributes for a device on one of the supported push notification services, such as GCM (Firebase Cloud Messaging) and APNS. For more information, see Using Amazon SNS Mobile Push Notifications . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -242,7 +242,7 @@ public class AwsSns : IAwsSns
     }
 
     /// <summary>
-    /// Returns the settings for sending SMS messages from your Amazon Web Ser- vices account. These settings are set with the SetSMSAttributes action. See also: AWS API Documentation
+    /// Returns the settings for sending SMS messages from your Amazon Web Services account. These settings are set with the SetSMSAttributes action. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -257,7 +257,7 @@ public class AwsSns : IAwsSns
     }
 
     /// <summary>
-    /// Retrieves the SMS sandbox status for the calling Amazon Web Services account in the target Amazon Web Services Region. When you start using Amazon SNS to send SMS messages, your Amazon Web Services account is in the SMS sandbox . The SMS sandbox provides a safe environment for you to try Amazon SNS features without risking your reputation as an SMS sender. While your Amazon Web Services ac- count is in the SMS sandbox, you can use all of the features of Amazon SNS. However, you can send SMS mess...
+    /// Retrieves the SMS sandbox status for the calling Amazon Web Services account in the target Amazon Web Services Region. When you start using Amazon SNS to send SMS messages, your Amazon Web Services account is in the SMS sandbox . The SMS sandbox provides a safe environment for you to try Amazon SNS features without risking your reputation as an SMS sender. While your Amazon Web Services account is in the SMS sandbox, you can use all of the features of Amazon SNS. However, you can send SMS messag...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -302,7 +302,7 @@ public class AwsSns : IAwsSns
     }
 
     /// <summary>
-    /// Lists the endpoints and endpoint attributes for devices in a supported push notification service, such as GCM (Firebase Cloud Messaging) and APNS. The results for ListEndpointsByPlatformApplication are paginated and return a limited list of endpoints, up to 100. If additional records are available after the first page results, then a NextToken string will be returned. To receive the next page, you call ListEnd- pointsByPlatformApplication again using the NextToken string received from the previo...
+    /// Lists the endpoints and endpoint attributes for devices in a supported push notification service, such as GCM (Firebase Cloud Messaging) and APNS. The results for ListEndpointsByPlatformApplication are paginated and return a limited list of endpoints, up to 100. If additional records are available after the first page results, then a NextToken string will be returned. To receive the next page, you call ListEndpointsByPlatformApplication again using the NextToken string received from the previous...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -317,7 +317,7 @@ public class AwsSns : IAwsSns
     }
 
     /// <summary>
-    /// Lists the calling Amazon Web Services account's dedicated origination numbers and their metadata. For more information about origination num- bers, see Origination numbers in the Amazon SNS Developer Guide . See also: AWS API Documentation list-origination-numbers is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a ...
+    /// Lists the calling Amazon Web Services account's dedicated origination numbers and their metadata. For more information about origination numbers, see Origination numbers in the Amazon SNS Developer Guide . See also: AWS API Documentation list-origination-numbers is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a pa...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -332,7 +332,7 @@ public class AwsSns : IAwsSns
     }
 
     /// <summary>
-    /// Returns a list of phone numbers that are opted out, meaning you cannot send SMS messages to them. The results for ListPhoneNumbersOptedOut are paginated, and each page returns up to 100 phone numbers. If additional phone numbers are avail- able after the first page of results, then a NextToken string will be returned. To receive the next page, you call ListPhoneNumbersOptedOut again using the NextToken string received from the previous call. When there are no more records to return, NextToken wi...
+    /// Returns a list of phone numbers that are opted out, meaning you cannot send SMS messages to them. The results for ListPhoneNumbersOptedOut are paginated, and each page returns up to 100 phone numbers. If additional phone numbers are available after the first page of results, then a NextToken string will be returned. To receive the next page, you call ListPhoneNumbersOptedOut again using the NextToken string received from the previous call. When there are no more records to return, NextToken will...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -347,7 +347,7 @@ public class AwsSns : IAwsSns
     }
 
     /// <summary>
-    /// Lists the platform application objects for the supported push notifica- tion services, such as APNS and GCM (Firebase Cloud Messaging). The re- sults for ListPlatformApplications are paginated and return a limited list of applications, up to 100. If additional records are available after the first page results, then a NextToken string will be returned. To receive the next page, you call ListPlatformApplications using the NextToken string received from the previous call. When there are no more re...
+    /// Lists the platform application objects for the supported push notification services, such as APNS and GCM (Firebase Cloud Messaging). The results for ListPlatformApplications are paginated and return a limited list of applications, up to 100. If additional records are available after the first page results, then a NextToken string will be returned. To receive the next page, you call ListPlatformApplications using the NextToken string received from the previous call. When there are no more record...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -362,7 +362,7 @@ public class AwsSns : IAwsSns
     }
 
     /// <summary>
-    /// Lists the calling Amazon Web Services account's current verified and pending destination phone numbers in the SMS sandbox. When you start using Amazon SNS to send SMS messages, your Amazon Web Services account is in the SMS sandbox . The SMS sandbox provides a safe environment for you to try Amazon SNS features without risking your reputation as an SMS sender. While your Amazon Web Services ac- count is in the SMS sandbox, you can use all of the features of Amazon SNS. However, you can send SMS ...
+    /// Lists the calling Amazon Web Services account's current verified and pending destination phone numbers in the SMS sandbox. When you start using Amazon SNS to send SMS messages, your Amazon Web Services account is in the SMS sandbox . The SMS sandbox provides a safe environment for you to try Amazon SNS features without risking your reputation as an SMS sender. While your Amazon Web Services account is in the SMS sandbox, you can use all of the features of Amazon SNS. However, you can send SMS me...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -377,7 +377,7 @@ public class AwsSns : IAwsSns
     }
 
     /// <summary>
-    /// Returns a list of the subscriptions to a specific topic. Each call re- turns a limited list of subscriptions, up to 100. If there are more subscriptions, a NextToken is also returned. Use the NextToken parame- ter in a new ListSubscriptionsByTopic call to get further results. This action is throttled at 30 transactions per second (TPS). See also: AWS API Documentation list-subscriptions-by-topic is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set o...
+    /// Returns a list of the subscriptions to a specific topic. Each call returns a limited list of subscriptions, up to 100. If there are more subscriptions, a NextToken is also returned. Use the NextToken parameter in a new ListSubscriptionsByTopic call to get further results. This action is throttled at 30 transactions per second (TPS). See also: AWS API Documentation list-subscriptions-by-topic is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -392,7 +392,7 @@ public class AwsSns : IAwsSns
     }
 
     /// <summary>
-    /// Returns a list of the requester's subscriptions. Each call returns a limited list of subscriptions, up to 100. If there are more subscrip- tions, a NextToken is also returned. Use the NextToken parameter in a new ListSubscriptions call to get further results. This action is throttled at 30 transactions per second (TPS). See also: AWS API Documentation list-subscriptions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable...
+    /// Returns a list of the requester's subscriptions. Each call returns a limited list of subscriptions, up to 100. If there are more subscriptions, a NextToken is also returned. Use the NextToken parameter in a new ListSubscriptions call to get further results. This action is throttled at 30 transactions per second (TPS). See also: AWS API Documentation list-subscriptions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable p...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -437,7 +437,7 @@ public class AwsSns : IAwsSns
     }
 
     /// <summary>
-    /// Use this request to opt in a phone number that is opted out, which en- ables you to resume sending SMS messages to the number. You can opt in a phone number only once every 30 days. See also: AWS API Documentation
+    /// Use this request to opt in a phone number that is opted out, which enables you to resume sending SMS messages to the number. You can opt in a phone number only once every 30 days. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -467,7 +467,7 @@ public class AwsSns : IAwsSns
     }
 
     /// <summary>
-    /// Sends a message to an Amazon SNS topic, a text message (SMS message) directly to a phone number, or a message to a mobile platform endpoint (when you specify the TargetArn ). If you send a message to a topic, Amazon SNS delivers the message to each endpoint that is subscribed to the topic. The format of the mes- sage depends on the notification protocol for each subscribed endpoint. When a messageId is returned, the message is saved and Amazon SNS imme- diately delivers it to subscribers. To use...
+    /// Sends a message to an Amazon SNS topic, a text message (SMS message) directly to a phone number, or a message to a mobile platform endpoint (when you specify the TargetArn ). If you send a message to a topic, Amazon SNS delivers the message to each endpoint that is subscribed to the topic. The format of the message depends on the notification protocol for each subscribed endpoint. When a messageId is returned, the message is saved and Amazon SNS immediately delivers it to subscribers. To use the...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -482,7 +482,7 @@ public class AwsSns : IAwsSns
     }
 
     /// <summary>
-    /// WARNING: Amazon SNS message data protection is no longer available to new customers. For more information and guidance on alternatives, see Amazon SNS message data protection availability change . Adds or updates an inline policy document that is stored in the speci- fied Amazon SNS topic. See also: AWS API Documentation
+    /// WARNING: Amazon SNS message data protection is no longer available to new customers. For more information and guidance on alternatives, see Amazon SNS message data protection availability change . Adds or updates an inline policy document that is stored in the specified Amazon SNS topic. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -497,7 +497,7 @@ public class AwsSns : IAwsSns
     }
 
     /// <summary>
-    /// Removes a statement from a topic's access control policy. NOTE: To remove the ability to change topic permissions, you must deny permissions to the AddPermission , RemovePermission , and SetTopi- cAttributes actions in your IAM policy. See also: AWS API Documentation
+    /// Removes a statement from a topic's access control policy. NOTE: To remove the ability to change topic permissions, you must deny permissions to the AddPermission , RemovePermission , and SetTopicAttributes actions in your IAM policy. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -512,7 +512,7 @@ public class AwsSns : IAwsSns
     }
 
     /// <summary>
-    /// Sets the attributes for an endpoint for a device on one of the sup- ported push notification services, such as GCM (Firebase Cloud Messag- ing) and APNS. For more information, see Using Amazon SNS Mobile Push Notifications . See also: AWS API Documentation
+    /// Sets the attributes for an endpoint for a device on one of the supported push notification services, such as GCM (Firebase Cloud Messaging) and APNS. For more information, see Using Amazon SNS Mobile Push Notifications . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -527,7 +527,7 @@ public class AwsSns : IAwsSns
     }
 
     /// <summary>
-    /// Sets the attributes of the platform application object for the sup- ported push notification services, such as APNS and GCM (Firebase Cloud Messaging). For more information, see Using Amazon SNS Mobile Push No- tifications . For information on configuring attributes for message de- livery status, see Using Amazon SNS Application Attributes for Message Delivery Status . See also: AWS API Documentation
+    /// Sets the attributes of the platform application object for the supported push notification services, such as APNS and GCM (Firebase Cloud Messaging). For more information, see Using Amazon SNS Mobile Push Notifications . For information on configuring attributes for message delivery status, see Using Amazon SNS Application Attributes for Message Delivery Status . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -542,7 +542,7 @@ public class AwsSns : IAwsSns
     }
 
     /// <summary>
-    /// Use this request to set the default settings for sending SMS messages and receiving daily SMS usage reports. You can override some of these settings for a single message when you use the Publish action with the MessageAttributes.entry.N parameter. For more information, see Publishing to a mobile phone in the Amazon SNS Developer Guide . NOTE: To use this operation, you must grant the Amazon SNS service princi- pal (sns.amazonaws.com ) permission to perform the s3:ListBucket ac- tion. See also: A...
+    /// Use this request to set the default settings for sending SMS messages and receiving daily SMS usage reports. You can override some of these settings for a single message when you use the Publish action with the MessageAttributes.entry.N parameter. For more information, see Publishing to a mobile phone in the Amazon SNS Developer Guide . NOTE: To use this operation, you must grant the Amazon SNS service principal (sns.amazonaws.com ) permission to perform the s3:ListBucket action. See also: AWS A...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -572,7 +572,7 @@ public class AwsSns : IAwsSns
     }
 
     /// <summary>
-    /// Allows a topic owner to set an attribute of the topic to a new value. NOTE: To remove the ability to change topic permissions, you must deny permissions to the AddPermission , RemovePermission , and SetTopi- cAttributes actions in your IAM policy. See also: AWS API Documentation
+    /// Allows a topic owner to set an attribute of the topic to a new value. NOTE: To remove the ability to change topic permissions, you must deny permissions to the AddPermission , RemovePermission , and SetTopicAttributes actions in your IAM policy. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -587,7 +587,7 @@ public class AwsSns : IAwsSns
     }
 
     /// <summary>
-    /// Subscribes an endpoint to an Amazon SNS topic. If the endpoint type is HTTP/S or email, or if the endpoint and the topic are not in the same Amazon Web Services account, the endpoint owner must run the Confirm- Subscription action to confirm the subscription. You call the ConfirmSubscription action with the token from the sub- scription response. Confirmation tokens are valid for two days. This action is throttled at 100 transactions per second (TPS). See also: AWS API Documentation
+    /// Subscribes an endpoint to an Amazon SNS topic. If the endpoint type is HTTP/S or email, or if the endpoint and the topic are not in the same Amazon Web Services account, the endpoint owner must run the ConfirmSubscription action to confirm the subscription. You call the ConfirmSubscription action with the token from the subscription response. Confirmation tokens are valid for two days. This action is throttled at 100 transactions per second (TPS). See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -602,7 +602,7 @@ public class AwsSns : IAwsSns
     }
 
     /// <summary>
-    /// Add tags to the specified Amazon SNS topic. For an overview, see Amazon SNS Tags in the Amazon SNS Developer Guide . When you use topic tags, keep the following guidelines in mind: o Adding more than 50 tags to a topic isn't recommended. o Tags don't have any semantic meaning. Amazon SNS interprets tags as character strings. o Tags are case-sensitive. o A new tag with a key identical to that of an existing tag overwrites the existing tag. o Tagging actions are limited to 10 TPS per Amazon Web Se...
+    /// Add tags to the specified Amazon SNS topic. For an overview, see Amazon SNS Tags in the Amazon SNS Developer Guide . When you use topic tags, keep the following guidelines in mind: • Adding more than 50 tags to a topic isn't recommended. • Tags don't have any semantic meaning. Amazon SNS interprets tags as character strings. • Tags are case-sensitive. • A new tag with a key identical to that of an existing tag overwrites the existing tag. • Tagging actions are limited to 10 TPS per Amazon Web Se...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -647,7 +647,7 @@ public class AwsSns : IAwsSns
     }
 
     /// <summary>
-    /// Verifies a destination phone number with a one-time password (OTP) for the calling Amazon Web Services account. When you start using Amazon SNS to send SMS messages, your Amazon Web Services account is in the SMS sandbox . The SMS sandbox provides a safe environment for you to try Amazon SNS features without risking your reputation as an SMS sender. While your Amazon Web Services ac- count is in the SMS sandbox, you can use all of the features of Amazon SNS. However, you can send SMS messages on...
+    /// Verifies a destination phone number with a one-time password (OTP) for the calling Amazon Web Services account. When you start using Amazon SNS to send SMS messages, your Amazon Web Services account is in the SMS sandbox . The SMS sandbox provides a safe environment for you to try Amazon SNS features without risking your reputation as an SMS sender. While your Amazon Web Services account is in the SMS sandbox, you can use all of the features of Amazon SNS. However, you can send SMS messages only...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

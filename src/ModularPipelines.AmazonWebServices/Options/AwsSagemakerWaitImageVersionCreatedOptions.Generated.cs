@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Wait until JMESPath query ImageVersionStatus returns CREATED when polling with describe-image-version. It will poll every 60 seconds un- til a successful state has been reached. This will exit with a return code of 255 after 60 failed checks. See also: AWS API Documentation
+/// Wait until JMESPath query ImageVersionStatus returns CREATED when polling with describe-image-version. It will poll every 60 seconds until a successful state has been reached. This will exit with a return code of 255 after 60 failed checks. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsSagemakerWaitImageVersionCreatedOptions : AwsOptions, IValidata
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Wait until JMESPath query ImageVersionStatus returns CREATED when polling with describe-image-version. It will poll every 60 seconds un- til a successful state has been reached. This will exit with a return code of 255 after 60 failed checks. See also: AWS API Documentation
+    /// Wait until JMESPath query ImageVersionStatus returns CREATED when polling with describe-image-version. It will poll every 60 seconds until a successful state has been reached. This will exit with a return code of 255 after 60 failed checks. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ImageName">The name of the image. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z0-9]([-.]?[a-zA-Z0-9]){0,62}</param>
+    /// <param name="ImageName">The name of the image. Constraints: • min: 1 • max: 63 • pattern: [a-zA-Z0-9]([-.]?[a-zA-Z0-9]){0,62}</param>
     public AwsSagemakerWaitImageVersionCreatedOptions(
         string ImageName
     )
@@ -56,13 +57,19 @@ public record AwsSagemakerWaitImageVersionCreatedOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the image. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z0-9]([-.]?[a-zA-Z0-9]){0,62}
+    /// The name of the image. Constraints: • min: 1 • max: 63 • pattern: [a-zA-Z0-9]([-.]?[a-zA-Z0-9]){0,62}
     /// </summary>
     [CliOption("--image-name")]
     public string? ImageName { get; private init; }
 
     /// <summary>
-    /// The alias of the image version. Constraints: o min: 1 o max: 128 o pattern: (?!^[.-])^([a-zA-Z0-9-_.]+)
+    /// The version of the image. If not specified, the latest version is described. Constraints: • min: 0
+    /// </summary>
+    [CliOption("--version")]
+    public int? Version { get; set; }
+
+    /// <summary>
+    /// The alias of the image version. Constraints: • min: 1 • max: 128 • pattern: (?!^[.-])^([a-zA-Z0-9-_.]+)
     /// </summary>
     [CliOption("--alias")]
     public string? Alias { get; set; }
@@ -88,6 +95,15 @@ public record AwsSagemakerWaitImageVersionCreatedOptions : AwsOptions, IValidata
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

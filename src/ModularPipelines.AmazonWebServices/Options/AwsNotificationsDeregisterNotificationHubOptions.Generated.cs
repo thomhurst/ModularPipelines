@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deregisters a NotificationHub in the specified Region. NOTE: You can't deregister the last NotificationHub in the account. Noti- ficationEvents stored in the deregistered NotificationHub are no longer visible. Recreating a new NotificationHub in the same Region restores access to those NotificationEvents . See also: AWS API Documentation
+/// Deregisters a NotificationHub in the specified Region. NOTE: You can't deregister the last NotificationHub in the account. NotificationEvents stored in the deregistered NotificationHub are no longer visible. Recreating a new NotificationHub in the same Region restores access to those NotificationEvents . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsNotificationsDeregisterNotificationHubOptions : AwsOptions, IVa
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deregisters a NotificationHub in the specified Region. NOTE: You can't deregister the last NotificationHub in the account. Noti- ficationEvents stored in the deregistered NotificationHub are no longer visible. Recreating a new NotificationHub in the same Region restores access to those NotificationEvents . See also: AWS API Documentation
+    /// Deregisters a NotificationHub in the specified Region. NOTE: You can't deregister the last NotificationHub in the account. NotificationEvents stored in the deregistered NotificationHub are no longer visible. Recreating a new NotificationHub in the same Region restores access to those NotificationEvents . See also: AWS API Documentation
     /// </summary>
-    /// <param name="NotificationHubRegion">The NotificationHub Region. Constraints: o min: 2 o max: 25 o pattern: ([a-z]{1,4})-([a-z]{1,15}-)+([0-9])</param>
+    /// <param name="NotificationHubRegion">The NotificationHub Region. Constraints: • min: 2 • max: 25 • pattern: ([a-z]{1,4})-([a-z]{1,15}-)+([0-9])</param>
     public AwsNotificationsDeregisterNotificationHubOptions(
         string NotificationHubRegion
     )
@@ -56,7 +57,7 @@ public record AwsNotificationsDeregisterNotificationHubOptions : AwsOptions, IVa
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The NotificationHub Region. Constraints: o min: 2 o max: 25 o pattern: ([a-z]{1,4})-([a-z]{1,15}-)+([0-9])
+    /// The NotificationHub Region. Constraints: • min: 2 • max: 25 • pattern: ([a-z]{1,4})-([a-z]{1,15}-)+([0-9])
     /// </summary>
     [CliOption("--notification-hub-region")]
     public string? NotificationHubRegion { get; private init; }
@@ -82,6 +83,15 @@ public record AwsNotificationsDeregisterNotificationHubOptions : AwsOptions, IVa
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

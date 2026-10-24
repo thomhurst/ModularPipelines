@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Starts the asynchronous analysis of an input document for relationships between detected items such as key-value pairs, tables, and selection elements. StartDocumentAnalysis can analyze text in documents that are in JPEG, PNG, TIFF, and PDF format. The documents are stored in an Ama- zon S3 bucket. Use DocumentLocation to specify the bucket name and file name of the document. StartDocumentAnalysis returns a job identifier (JobId ) that you use to get the results of the operation. When text analy...
+/// Starts the asynchronous analysis of an input document for relationships between detected items such as key-value pairs, tables, and selection elements. StartDocumentAnalysis can analyze text in documents that are in JPEG, PNG, TIFF, and PDF format. The documents are stored in an Amazon S3 bucket. Use DocumentLocation to specify the bucket name and file name of the document. StartDocumentAnalysis returns a job identifier (JobId ) that you use to get the results of the operation. When text analysi...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +27,10 @@ public record AwsTextractStartDocumentAnalysisOptions : AwsOptions, IValidatable
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Starts the asynchronous analysis of an input document for relationships between detected items such as key-value pairs, tables, and selection elements. StartDocumentAnalysis can analyze text in documents that are in JPEG, PNG, TIFF, and PDF format. The documents are stored in an Ama- zon S3 bucket. Use DocumentLocation to specify the bucket name and file name of the document. StartDocumentAnalysis returns a job identifier (JobId ) that you use to get the results of the operation. When text analy...
+    /// Starts the asynchronous analysis of an input document for relationships between detected items such as key-value pairs, tables, and selection elements. StartDocumentAnalysis can analyze text in documents that are in JPEG, PNG, TIFF, and PDF format. The documents are stored in an Amazon S3 bucket. Use DocumentLocation to specify the bucket name and file name of the document. StartDocumentAnalysis returns a job identifier (JobId ) that you use to get the results of the operation. When text analysi...
     /// </summary>
-    /// <param name="DocumentLocation">The location of the document to be processed. S3Object -&gt; (structure) The Amazon S3 bucket that contains the input document. Bucket -&gt; (string) The name of the S3 bucket. Note that the # character is not valid in the file name. Constraints: o min: 3 o max: 255 o pattern: [0-9A-Za-z\.\-_]* Name -&gt; (string) The file name of the input document. Image files may be in PDF, TIFF, JPEG, or PNG format. Constraints: o min: 1 o max: 1024 o pattern: .*\S.* Version -&gt; (string) If the bucket has versioning enabled, you can specify the ob- ject version. Constraints: o min: 1 o max: 1024 o pattern: .*\S.* Shorthand Syntax: S3Object={Bucket=string,Name=string,Version=string} JSON Syntax: { "S3Object": { "Bucket": "string", "Name": "string", "Version": "string" } }</param>
-    /// <param name="FeatureTypes">A list of the types of analysis to perform. Add TABLES to the list to return information about the tables that are detected in the in- put document. Add FORMS to return detected form data. To perform both types of analysis, add TABLES and FORMS to FeatureTypes . All lines and words detected in the document are included in the re- sponse (including text that isn't related to the value of Feature- Types ). (string) Possible values: o TABLES o FORMS o QUERIES o SIGNATURES o LAYOUT Syntax: "string" "string" ...</param>
+    /// <param name="DocumentLocation">The location of the document to be processed. S3Object -&gt; (structure) The Amazon S3 bucket that contains the input document. Bucket -&gt; (string) The name of the S3 bucket. Note that the # character is not valid in the file name. Constraints: • min: 3 • max: 255 • pattern: [0-9A-Za-z\.\-_]* Name -&gt; (string) The file name of the input document. Image files may be in PDF, TIFF, JPEG, or PNG format. Constraints: • min: 1 • max: 1024 • pattern: .*\S.* Version -&gt; (string) If the bucket has versioning enabled, you can specify the object version. Constraints: • min: 1 • max: 1024 • pattern: .*\S.* Shorthand Syntax: S3Object={Bucket=string,Name=string,Version=string} JSON Syntax: { "S3Object": { "Bucket": "string", "Name": "string", "Version": "string" } }</param>
+    /// <param name="FeatureTypes">A list of the types of analysis to perform. Add TABLES to the list to return information about the tables that are detected in the input document. Add FORMS to return detected form data. To perform both types of analysis, add TABLES and FORMS to FeatureTypes . All lines and words detected in the document are included in the response (including text that isn't related to the value of FeatureTypes ). (string) Possible values: • TABLES • FORMS • QUERIES • SIGNATURES • LAYOUT Syntax: "string" "string" ...</param>
     public AwsTextractStartDocumentAnalysisOptions(
         string DocumentLocation,
         IEnumerable<string> FeatureTypes
@@ -72,56 +73,56 @@ public record AwsTextractStartDocumentAnalysisOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The location of the document to be processed. S3Object -&gt; (structure) The Amazon S3 bucket that contains the input document. Bucket -&gt; (string) The name of the S3 bucket. Note that the # character is not valid in the file name. Constraints: o min: 3 o max: 255 o pattern: [0-9A-Za-z\.\-_]* Name -&gt; (string) The file name of the input document. Image files may be in PDF, TIFF, JPEG, or PNG format. Constraints: o min: 1 o max: 1024 o pattern: .*\S.* Version -&gt; (string) If the bucket has versioning enabled, you can specify the ob- ject version. Constraints: o min: 1 o max: 1024 o pattern: .*\S.* Shorthand Syntax: S3Object={Bucket=string,Name=string,Version=string} JSON Syntax: { "S3Object": { "Bucket": "string", "Name": "string", "Version": "string" } }
+    /// The location of the document to be processed. S3Object -&gt; (structure) The Amazon S3 bucket that contains the input document. Bucket -&gt; (string) The name of the S3 bucket. Note that the # character is not valid in the file name. Constraints: • min: 3 • max: 255 • pattern: [0-9A-Za-z\.\-_]* Name -&gt; (string) The file name of the input document. Image files may be in PDF, TIFF, JPEG, or PNG format. Constraints: • min: 1 • max: 1024 • pattern: .*\S.* Version -&gt; (string) If the bucket has versioning enabled, you can specify the object version. Constraints: • min: 1 • max: 1024 • pattern: .*\S.* Shorthand Syntax: S3Object={Bucket=string,Name=string,Version=string} JSON Syntax: { "S3Object": { "Bucket": "string", "Name": "string", "Version": "string" } }
     /// </summary>
     [CliOption("--document-location")]
     public string? DocumentLocation { get; private init; }
 
     /// <summary>
-    /// A list of the types of analysis to perform. Add TABLES to the list to return information about the tables that are detected in the in- put document. Add FORMS to return detected form data. To perform both types of analysis, add TABLES and FORMS to FeatureTypes . All lines and words detected in the document are included in the re- sponse (including text that isn't related to the value of Feature- Types ). (string) Possible values: o TABLES o FORMS o QUERIES o SIGNATURES o LAYOUT Syntax: "string" "string" ...
+    /// A list of the types of analysis to perform. Add TABLES to the list to return information about the tables that are detected in the input document. Add FORMS to return detected form data. To perform both types of analysis, add TABLES and FORMS to FeatureTypes . All lines and words detected in the document are included in the response (including text that isn't related to the value of FeatureTypes ). (string) Possible values: • TABLES • FORMS • QUERIES • SIGNATURES • LAYOUT Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--feature-types", GroupValues = true)]
     public IEnumerable<string>? FeatureTypes { get; private init; }
 
     /// <summary>
-    /// The idempotent token that you use to identify the start request. If you use the same token with multiple StartDocumentAnalysis requests, the same JobId is returned. Use ClientRequestToken to prevent the same job from being accidentally started more than once. For more information, see Calling Amazon Textract Asynchronous Operations . Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9-_]+$
+    /// The idempotent token that you use to identify the start request. If you use the same token with multiple StartDocumentAnalysis requests, the same JobId is returned. Use ClientRequestToken to prevent the same job from being accidentally started more than once. For more information, see Calling Amazon Textract Asynchronous Operations . Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9-_]+$
     /// </summary>
     [SecretValue]
     [CliOption("--client-request-token")]
     public string? ClientRequestToken { get; set; }
 
     /// <summary>
-    /// An identifier that you specify that's included in the completion no- tification published to the Amazon SNS topic. For example, you can use JobTag to identify the type of document that the completion no- tification corresponds to (such as a tax form or a receipt). Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_.\-:]+
+    /// An identifier that you specify that's included in the completion notification published to the Amazon SNS topic. For example, you can use JobTag to identify the type of document that the completion notification corresponds to (such as a tax form or a receipt). Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9_.\-:]+
     /// </summary>
     [CliOption("--job-tag")]
     public string? JobTag { get; set; }
 
     /// <summary>
-    /// The Amazon SNS topic ARN that you want Amazon Textract to publish the completion status of the operation to. SNSTopicArn -&gt; (string) [required] The Amazon SNS topic that Amazon Textract posts the completion status to. Constraints: o min: 20 o max: 1024 o pattern: (^arn:([a-z\d-]+):sns:[a-zA-Z\d-]{1,20}:\w{12}:.+$) RoleArn -&gt; (string) [required] The Amazon Resource Name (ARN) of an IAM role that gives Amazon Textract publishing permissions to the Amazon SNS topic. Constraints: o min: 20 o max: 2048 o pattern: arn:([a-z\d-]+):iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+ Shorthand Syntax: SNSTopicArn=string,RoleArn=string JSON Syntax: { "SNSTopicArn": "string", "RoleArn": "string" }
+    /// The Amazon SNS topic ARN that you want Amazon Textract to publish the completion status of the operation to. SNSTopicArn -&gt; (string) [required] The Amazon SNS topic that Amazon Textract posts the completion status to. Constraints: • min: 20 • max: 1024 • pattern: (^arn:([a-z\d-]+):sns:[a-zA-Z\d-]{1,20}:\w{12}:.+$) RoleArn -&gt; (string) [required] The Amazon Resource Name (ARN) of an IAM role that gives Amazon Textract publishing permissions to the Amazon SNS topic. Constraints: • min: 20 • max: 2048 • pattern: arn:([a-z\d-]+):iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+ Shorthand Syntax: SNSTopicArn=string,RoleArn=string JSON Syntax: { "SNSTopicArn": "string", "RoleArn": "string" }
     /// </summary>
     [CliOption("--notification-channel")]
     public string? NotificationChannel { get; set; }
 
     /// <summary>
-    /// Sets if the output will go to a customer defined bucket. By default, Amazon Textract will save the results internally to be accessed by the GetDocumentAnalysis operation. S3Bucket -&gt; (string) [required] The name of the bucket your output will go to. Constraints: o min: 3 o max: 255 o pattern: [0-9A-Za-z\.\-_]* S3Prefix -&gt; (string) The prefix of the object key that the output will be saved to. When not enabled, the prefix will be textract_output". Constraints: o min: 1 o max: 1024 o pattern: .*\S.* Shorthand Syntax: S3Bucket=string,S3Prefix=string JSON Syntax: { "S3Bucket": "string", "S3Prefix": "string" }
+    /// Sets if the output will go to a customer defined bucket. By default, Amazon Textract will save the results internally to be accessed by the GetDocumentAnalysis operation. S3Bucket -&gt; (string) [required] The name of the bucket your output will go to. Constraints: • min: 3 • max: 255 • pattern: [0-9A-Za-z\.\-_]* S3Prefix -&gt; (string) The prefix of the object key that the output will be saved to. When not enabled, the prefix will be textract_output". Constraints: • min: 1 • max: 1024 • pattern: .*\S.* Shorthand Syntax: S3Bucket=string,S3Prefix=string JSON Syntax: { "S3Bucket": "string", "S3Prefix": "string" }
     /// </summary>
     [CliOption("--output-config")]
     public string? OutputConfig { get; set; }
 
     /// <summary>
-    /// The KMS key used to encrypt the inference results. This can be in either Key ID or Key Alias format. When a KMS key is provided, the KMS key will be used for server-side encryption of the objects in the customer bucket. When this parameter is not enabled, the result will be encrypted server side,using SSE-S3. Constraints: o min: 1 o max: 2048 o pattern: ^[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,2048}$
+    /// The KMS key used to encrypt the inference results. This can be in either Key ID or Key Alias format. When a KMS key is provided, the KMS key will be used for server-side encryption of the objects in the customer bucket. When this parameter is not enabled, the result will be encrypted server side,using SSE-S3. Constraints: • min: 1 • max: 2048 • pattern: ^[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,2048}$
     /// </summary>
     [CliOption("--kms-key-id")]
     public string? KmsKeyId { get; set; }
 
     /// <summary>
-    /// Queries -&gt; (list) [required] Constraints: o min: 1 (structure) Each query contains the question you want to ask in the Text and the alias you want to associate. Text -&gt; (string) [required] Question that Amazon Textract will apply to the document. An example would be "What is the customer's SSN?" Constraints: o min: 1 o max: 200 o pattern: ^[a-zA-Z0-9\s!"\#\$%'&amp;\(\)\*\+\,\-\./:;=\?@\[\\\]\^_`\{\|\}~&gt;&lt;]+$ Alias -&gt; (string) Alias attached to the query, for ease of location. Constraints: o min: 1 o max: 200 o pattern: ^[a-zA-Z0-9\s!"\#\$%'&amp;\(\)\*\+\,\-\./:;=\?@\[\\\]\^_`\{\|\}~&gt;&lt;]+$ Pages -&gt; (list) Pages is a parameter that the user inputs to specify which pages to apply a query to. The following is a list of rules for using this parameter. o If a page is not specified, it is set to ["1"] by de- fault. o The following characters are allowed in the parameter's string: 0 1 2 3 4 5 6 7 8 9 - * . No whitespace is al- lowed. o When using * to indicate all pages, it must be the only element in the list. o You can use page intervals, such as [1-3, 1-1, 4-*] . Where * indicates last page of document. o Specified pages must be greater than 0 and less than or equal to the number of pages in the document. Constraints: o min: 1 (string) Constraints: o min: 1 o max: 9 o pattern: ^[0-9\*\-]+$ JSON Syntax: { "Queries": [ { "Text": "string", "Alias": "string", "Pages": ["string", ...] } ... ] }
+    /// Queries -&gt; (list) [required] Constraints: • min: 1 (structure) Each query contains the question you want to ask in the Text and the alias you want to associate. Text -&gt; (string) [required] Question that Amazon Textract will apply to the document. An example would be "What is the customer's SSN?" Constraints: • min: 1 • max: 200 • pattern: ^[a-zA-Z0-9\s!"\#\$%'&amp;\(\)\*\+\,\-\./:;=\?@\[\\\]\^_`\{\|\}~&gt;&lt;]+$ Alias -&gt; (string) Alias attached to the query, for ease of location. Constraints: • min: 1 • max: 200 • pattern: ^[a-zA-Z0-9\s!"\#\$%'&amp;\(\)\*\+\,\-\./:;=\?@\[\\\]\^_`\{\|\}~&gt;&lt;]+$ Pages -&gt; (list) Pages is a parameter that the user inputs to specify which pages to apply a query to. The following is a list of rules for using this parameter. • If a page is not specified, it is set to ["1"] by default. • The following characters are allowed in the parameter's string: 0 1 2 3 4 5 6 7 8 9 - * . No whitespace is allowed. • When using * to indicate all pages, it must be the only element in the list. • You can use page intervals, such as [1-3, 1-1, 4-*] . Where * indicates last page of document. • Specified pages must be greater than 0 and less than or equal to the number of pages in the document. Constraints: • min: 1 (string) Constraints: • min: 1 • max: 9 • pattern: ^[0-9\*\-]+$ JSON Syntax: { "Queries": [ { "Text": "string", "Alias": "string", "Pages": ["string", ...] } ... ] }
     /// </summary>
     [CliOption("--queries-config")]
     public string? QueriesConfig { get; set; }
 
     /// <summary>
-    /// Specifies the adapter to be used when analyzing a document. Adapters -&gt; (list) [required] A list of adapters to be used when analyzing the specified docu- ment. Constraints: o min: 1 o max: 100 (structure) An adapter selected for use when analyzing documents. Con- tains an adapter ID and a version number. Contains informa- tion on pages selected for analysis when analyzing documents asychronously. AdapterId -&gt; (string) [required] A unique identifier for the adapter resource. Constraints: o min: 12 o max: 1011 Pages -&gt; (list) Pages is a parameter that the user inputs to specify which pages to apply an adapter to. The following is a list of rules for using this parameter. o If a page is not specified, it is set to ["1"] by de- fault. o The following characters are allowed in the parameter's string: 0 1 2 3 4 5 6 7 8 9 - * . No whitespace is al- lowed. o When using * to indicate all pages, it must be the only element in the list. o You can use page intervals, such as ["1-3", "1-1", "4-*"] . Where * indicates last page of document. o Specified pages must be greater than 0 and less than or equal to the number of pages in the document. Constraints: o min: 1 (string) Constraints: o min: 1 o max: 9 o pattern: ^[0-9\*\-]+$ Version -&gt; (string) [required] A string that identifies the version of the adapter. Constraints: o min: 1 o max: 128 JSON Syntax: { "Adapters": [ { "AdapterId": "string", "Pages": ["string", ...], "Version": "string" } ... ] }
+    /// Specifies the adapter to be used when analyzing a document. Adapters -&gt; (list) [required] A list of adapters to be used when analyzing the specified document. Constraints: • min: 1 • max: 100 (structure) An adapter selected for use when analyzing documents. Contains an adapter ID and a version number. Contains information on pages selected for analysis when analyzing documents asychronously. AdapterId -&gt; (string) [required] A unique identifier for the adapter resource. Constraints: • min: 12 • max: 1011 Pages -&gt; (list) Pages is a parameter that the user inputs to specify which pages to apply an adapter to. The following is a list of rules for using this parameter. • If a page is not specified, it is set to ["1"] by default. • The following characters are allowed in the parameter's string: 0 1 2 3 4 5 6 7 8 9 - * . No whitespace is allowed. • When using * to indicate all pages, it must be the only element in the list. • You can use page intervals, such as ["1-3", "1-1", "4-*"] . Where * indicates last page of document. • Specified pages must be greater than 0 and less than or equal to the number of pages in the document. Constraints: • min: 1 (string) Constraints: • min: 1 • max: 9 • pattern: ^[0-9\*\-]+$ Version -&gt; (string) [required] A string that identifies the version of the adapter. Constraints: • min: 1 • max: 128 JSON Syntax: { "Adapters": [ { "AdapterId": "string", "Pages": ["string", ...], "Version": "string" } ... ] }
     /// </summary>
     [CliOption("--adapters-config")]
     public string? AdaptersConfig { get; set; }
@@ -147,6 +148,15 @@ public record AwsTextractStartDocumentAnalysisOptions : AwsOptions, IValidatable
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

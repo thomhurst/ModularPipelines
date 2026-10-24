@@ -22,7 +22,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsWorkspacesDeleteWorkspaceBundleOptions : AwsOptions
 {
     /// <summary>
-    /// The identifier of the bundle. Constraints: o pattern: ^wsb-[0-9a-z]{8,63}$
+    /// The identifier of the bundle. Constraints: • pattern: ^wsb-[0-9a-z]{8,63}$
     /// </summary>
     [CliOption("--bundle-id")]
     public string? BundleId { get; set; }
@@ -32,5 +32,14 @@ public record AwsWorkspacesDeleteWorkspaceBundleOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

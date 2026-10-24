@@ -24,40 +24,37 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsIotsitewiseListAccessPoliciesOptions : AwsOptions
 {
     /// <summary>
-    /// The type of identity (IAM Identity Center user, IAM Identity Center group, or IAM user). This parameter is required if you specify iden- tityId . Possible values: o USER o GROUP o IAM
+    /// The type of identity (IAM Identity Center user, IAM Identity Center group, or IAM user). This parameter is required if you specify identityId . Possible values: • USER • GROUP • IAM
     /// </summary>
     [CliOption("--identity-type")]
     public AwsIotsitewiseListAccessPoliciesIdentityType? IdentityType { get; set; }
 
     /// <summary>
-    /// The ID of the identity. This parameter is required if you specify USER or GROUP for identityType . Constraints: o min: 1 o max: 256 o pattern: \S+
+    /// The ID of the identity. This parameter is required if you specify USER or GROUP for identityType . Constraints: • min: 1 • max: 256 • pattern: \S+
     /// </summary>
     [CliOption("--identity-id")]
     public string? IdentityId { get; set; }
 
     /// <summary>
-    /// The type of resource (portal or project). This parameter is required if you specify resourceId . Possible values: o PORTAL o PROJECT
+    /// The type of resource (portal or project). This parameter is required if you specify resourceId . Possible values: • PORTAL • PROJECT
     /// </summary>
     [CliOption("--resource-type")]
     public AwsIotsitewiseListAccessPoliciesResourceType? ResourceType { get; set; }
 
     /// <summary>
-    /// The ID of the resource. This parameter is required if you specify resourceType . Constraints: o min: 36 o max: 36 o pattern: ^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$
+    /// The ID of the resource. This parameter is required if you specify resourceType . Constraints: • min: 36 • max: 36 • pattern: ^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$
     /// </summary>
     [CliOption("--resource-id")]
     public string? ResourceId { get; set; }
 
     /// <summary>
-    /// The ARN of the IAM user. For more information, see IAM ARNs in the IAM User Guide . This parameter is required if you specify IAM for identityType . Constraints: o min: 1 o max: 1600 o pattern: ^arn:aws(-cn|-us-gov)?:[a-zA-Z0-9-:\/_\.\+=,@]+$
+    /// The ARN of the IAM user. For more information, see IAM ARNs in the IAM User Guide . This parameter is required if you specify IAM for identityType . Constraints: • min: 1 • max: 1600 • pattern: ^arn:aws(-cn|-us-gov)?:[a-zA-Z0-9-:\/_\.\+=,@]+$
     /// </summary>
     [CliOption("--iam-arn")]
     public string? IamArn { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -67,15 +64,27 @@ public record AwsIotsitewiseListAccessPoliciesOptions : AwsOptions
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 250
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 250
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates the configuration of an existing telemetry pipeline. NOTE: The following attributes cannot be updated after pipeline cre- ation: o Pipeline name - The pipeline name is immutable o Pipeline ARN - The ARN is automatically generated and cannot be changed o Source type - Once a pipeline is created with a specific source type (such as S3, CloudWatch Logs, GitHub, or third-party sources), it cannot be changed to a different source type Processors can be added, removed, or modified. However, so...
+/// Updates the configuration of an existing telemetry pipeline. NOTE: The following attributes cannot be updated after pipeline creation: • Pipeline name - The pipeline name is immutable • Pipeline ARN - The ARN is automatically generated and cannot be changed • Source type - Once a pipeline is created with a specific source type (such as S3, CloudWatch Logs, GitHub, or third-party sources), it cannot be changed to a different source type Processors can be added, removed, or modified. However, some...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsObservabilityadminUpdateTelemetryPipelineOptions : AwsOptions, 
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates the configuration of an existing telemetry pipeline. NOTE: The following attributes cannot be updated after pipeline cre- ation: o Pipeline name - The pipeline name is immutable o Pipeline ARN - The ARN is automatically generated and cannot be changed o Source type - Once a pipeline is created with a specific source type (such as S3, CloudWatch Logs, GitHub, or third-party sources), it cannot be changed to a different source type Processors can be added, removed, or modified. However, so...
+    /// Updates the configuration of an existing telemetry pipeline. NOTE: The following attributes cannot be updated after pipeline creation: • Pipeline name - The pipeline name is immutable • Pipeline ARN - The ARN is automatically generated and cannot be changed • Source type - Once a pipeline is created with a specific source type (such as S3, CloudWatch Logs, GitHub, or third-party sources), it cannot be changed to a different source type Processors can be added, removed, or modified. However, some...
     /// </summary>
-    /// <param name="PipelineIdentifier">The ARN of the telemetry pipeline to update. Constraints: o min: 1 o max: 512</param>
-    /// <param name="Configuration">The new configuration for the telemetry pipeline, including updated sources, processors, and destinations. Body -&gt; (string) [required] The pipeline configuration body that defines the data processing rules and transformations. Constraints: o min: 1 o max: 24000 Shorthand Syntax: Body=string JSON Syntax: { "Body": "string" }</param>
+    /// <param name="PipelineIdentifier">The ARN of the telemetry pipeline to update. Constraints: • min: 1 • max: 512</param>
+    /// <param name="Configuration">The new configuration for the telemetry pipeline, including updated sources, processors, and destinations. Body -&gt; (string) [required] The pipeline configuration body that defines the data processing rules and transformations. Constraints: • min: 1 • max: 24000 Shorthand Syntax: Body=string JSON Syntax: { "Body": "string" }</param>
     public AwsObservabilityadminUpdateTelemetryPipelineOptions(
         string PipelineIdentifier,
         string Configuration
@@ -60,13 +61,13 @@ public record AwsObservabilityadminUpdateTelemetryPipelineOptions : AwsOptions, 
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the telemetry pipeline to update. Constraints: o min: 1 o max: 512
+    /// The ARN of the telemetry pipeline to update. Constraints: • min: 1 • max: 512
     /// </summary>
     [CliOption("--pipeline-identifier")]
     public string? PipelineIdentifier { get; private init; }
 
     /// <summary>
-    /// The new configuration for the telemetry pipeline, including updated sources, processors, and destinations. Body -&gt; (string) [required] The pipeline configuration body that defines the data processing rules and transformations. Constraints: o min: 1 o max: 24000 Shorthand Syntax: Body=string JSON Syntax: { "Body": "string" }
+    /// The new configuration for the telemetry pipeline, including updated sources, processors, and destinations. Body -&gt; (string) [required] The pipeline configuration body that defines the data processing rules and transformations. Constraints: • min: 1 • max: 24000 Shorthand Syntax: Body=string JSON Syntax: { "Body": "string" }
     /// </summary>
     [CliOption("--configuration")]
     public string? Configuration { get; private init; }
@@ -92,6 +93,15 @@ public record AwsObservabilityadminUpdateTelemetryPipelineOptions : AwsOptions, 
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

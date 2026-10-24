@@ -11,13 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a customer profile. You can have up to five customer profiles, each representing a distinct private network. A profile is the mecha- nism used to create the concept of a private network. See also: AWS API Documentation
+/// Creates a customer profile. You can have up to five customer profiles, each representing a distinct private network. A profile is the mechanism used to create the concept of a private network. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,12 +28,12 @@ public record AwsB2biCreateProfileOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a customer profile. You can have up to five customer profiles, each representing a distinct private network. A profile is the mecha- nism used to create the concept of a private network. See also: AWS API Documentation
+    /// Creates a customer profile. You can have up to five customer profiles, each representing a distinct private network. A profile is the mechanism used to create the concept of a private network. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">Specifies the name of the profile. Constraints: o min: 1 o max: 254</param>
-    /// <param name="Phone">Specifies the phone number associated with the profile. Constraints: o min: 7 o max: 22 o pattern: \+?([0-9 \t\-()\/]{7,})(?:\s*(?:#|x\.?|ext\.?|extension) \t*(\d+))?</param>
-    /// <param name="BusinessName">Specifies the name for the business associated with this profile. Constraints: o min: 1 o max: 254</param>
-    /// <param name="Logging">Specifies whether or not logging is enabled for this profile. Possible values: o ENABLED o DISABLED</param>
+    /// <param name="Name">Specifies the name of the profile. Constraints: • min: 1 • max: 254</param>
+    /// <param name="Phone">Specifies the phone number associated with the profile. Constraints: • min: 7 • max: 22 • pattern: \+?([0-9 \t\-()\/]{7,})(?:\s*(?:#|x\.?|ext\.?|extension) \t*(\d+))?</param>
+    /// <param name="BusinessName">Specifies the name for the business associated with this profile. Constraints: • min: 1 • max: 254</param>
+    /// <param name="Logging">Specifies whether or not logging is enabled for this profile. Possible values: • ENABLED • DISABLED</param>
     public AwsB2biCreateProfileOptions(
         string Name,
         string Phone,
@@ -69,31 +70,31 @@ public record AwsB2biCreateProfileOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Specifies the name of the profile. Constraints: o min: 1 o max: 254
+    /// Specifies the name of the profile. Constraints: • min: 1 • max: 254
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// Specifies the phone number associated with the profile. Constraints: o min: 7 o max: 22 o pattern: \+?([0-9 \t\-()\/]{7,})(?:\s*(?:#|x\.?|ext\.?|extension) \t*(\d+))?
+    /// Specifies the phone number associated with the profile. Constraints: • min: 7 • max: 22 • pattern: \+?([0-9 \t\-()\/]{7,})(?:\s*(?:#|x\.?|ext\.?|extension) \t*(\d+))?
     /// </summary>
     [CliOption("--phone")]
     public string? Phone { get; private init; }
 
     /// <summary>
-    /// Specifies the name for the business associated with this profile. Constraints: o min: 1 o max: 254
+    /// Specifies the name for the business associated with this profile. Constraints: • min: 1 • max: 254
     /// </summary>
     [CliOption("--business-name")]
     public string? BusinessName { get; private init; }
 
     /// <summary>
-    /// Specifies whether or not logging is enabled for this profile. Possible values: o ENABLED o DISABLED
+    /// Specifies whether or not logging is enabled for this profile. Possible values: • ENABLED • DISABLED
     /// </summary>
     [CliOption("--logging")]
     public AwsB2biCreateProfileLogging? Logging { get; private init; }
 
     /// <summary>
-    /// Specifies the email address associated with this customer profile. Constraints: o min: 5 o max: 254 o pattern: [\w\.\-]+@[\w\.\-]+
+    /// Specifies the email address associated with this customer profile. Constraints: • min: 5 • max: 254 • pattern: [\w\.\-]+@[\w\.\-]+
     /// </summary>
     [CliOption("--email")]
     public string? Email { get; set; }
@@ -106,7 +107,7 @@ public record AwsB2biCreateProfileOptions : AwsOptions, IValidatableObject
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// Specifies the key-value pairs assigned to ARNs that you can use to group and search for resources by type. You can attach this metadata to resources (capabilities, partnerships, and so on) for any pur- pose. Constraints: o min: 0 o max: 200 (structure) Creates a key-value pair for a specific resource. Tags are meta- data that you can use to search for and group a resource for various purposes. You can apply tags to capabilities, partner- ships, profiles and transformers. A tag key can take more than one value. For example, to group capabilities for accounting purposes, you might create a tag called Group and assign the values Research and Accounting to that group. Key -&gt; (string) [required] Specifies the name assigned to the tag that you create. Constraints: o min: 1 o max: 128 Value -&gt; (string) [required] Contains one or more values that you assigned to the key name that you create. Constraints: o min: 0 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// Specifies the key-value pairs assigned to ARNs that you can use to group and search for resources by type. You can attach this metadata to resources (capabilities, partnerships, and so on) for any purpose. Constraints: • min: 0 • max: 200 (structure) Creates a key-value pair for a specific resource. Tags are metadata that you can use to search for and group a resource for various purposes. You can apply tags to capabilities, partnerships, profiles and transformers. A tag key can take more than one value. For example, to group capabilities for accounting purposes, you might create a tag called Group and assign the values Research and Accounting to that group. Key -&gt; (string) [required] Specifies the name assigned to the tag that you create. Constraints: • min: 1 • max: 128 Value -&gt; (string) [required] Contains one or more values that you assigned to the key name that you create. Constraints: • min: 0 • max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
@@ -132,6 +133,15 @@ public record AwsB2biCreateProfileOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

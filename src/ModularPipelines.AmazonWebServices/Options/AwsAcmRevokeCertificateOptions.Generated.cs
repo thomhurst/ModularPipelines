@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Revokes a public ACM certificate. You can only revoke certificates that have been previously exported. WARNING: Once a certificate is revoked, you cannot reuse the certificate. Re- voking a certificate is permanent. See also: AWS API Documentation
+/// Revokes a public ACM certificate. You can only revoke certificates that have been previously exported. WARNING: Once a certificate is revoked, you cannot reuse the certificate. Revoking a certificate is permanent. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +27,10 @@ public record AwsAcmRevokeCertificateOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Revokes a public ACM certificate. You can only revoke certificates that have been previously exported. WARNING: Once a certificate is revoked, you cannot reuse the certificate. Re- voking a certificate is permanent. See also: AWS API Documentation
+    /// Revokes a public ACM certificate. You can only revoke certificates that have been previously exported. WARNING: Once a certificate is revoked, you cannot reuse the certificate. Revoking a certificate is permanent. See also: AWS API Documentation
     /// </summary>
-    /// <param name="CertificateArn">The Amazon Resource Name (ARN) of the public or private certificate that will be revoked. The ARN must have the following form: arn:aws:acm:region:account:certifi- cate/12345678-1234-1234-1234-123456789012 Constraints: o min: 20 o max: 2048 o pattern: arn:[\w+=/,.@-]+:acm:[\w+=/,.@-]*:[0-9]+:[\w+=,.@-]+(/[\w+=,.@-]+)*</param>
-    /// <param name="RevocationReason">Specifies why you revoked the certificate. Possible values: o UNSPECIFIED o KEY_COMPROMISE o CA_COMPROMISE o AFFILIATION_CHANGED o SUPERCEDED o SUPERSEDED o CESSATION_OF_OPERATION o CERTIFICATE_HOLD o REMOVE_FROM_CRL o PRIVILEGE_WITHDRAWN o A_A_COMPROMISE</param>
+    /// <param name="CertificateArn">The Amazon Resource Name (ARN) of the public or private certificate that will be revoked. The ARN must have the following form: arn:aws:acm:region:account:certificate/12345678-1234-1234-1234-123456789012 Constraints: • min: 20 • max: 2048 • pattern: arn:[\w+=/,.@-]+:acm:[\w+=/,.@-]*:[0-9]+:[\w+=,.@-]+(/[\w+=,.@-]+)*</param>
+    /// <param name="RevocationReason">Specifies why you revoked the certificate. Possible values: • UNSPECIFIED • KEY_COMPROMISE • CA_COMPROMISE • AFFILIATION_CHANGED • SUPERCEDED • SUPERSEDED • CESSATION_OF_OPERATION • CERTIFICATE_HOLD • REMOVE_FROM_CRL • PRIVILEGE_WITHDRAWN • A_A_COMPROMISE</param>
     public AwsAcmRevokeCertificateOptions(
         string CertificateArn,
         AwsAcmRevokeCertificateRevocationReason RevocationReason
@@ -60,13 +61,13 @@ public record AwsAcmRevokeCertificateOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the public or private certificate that will be revoked. The ARN must have the following form: arn:aws:acm:region:account:certifi- cate/12345678-1234-1234-1234-123456789012 Constraints: o min: 20 o max: 2048 o pattern: arn:[\w+=/,.@-]+:acm:[\w+=/,.@-]*:[0-9]+:[\w+=,.@-]+(/[\w+=,.@-]+)*
+    /// The Amazon Resource Name (ARN) of the public or private certificate that will be revoked. The ARN must have the following form: arn:aws:acm:region:account:certificate/12345678-1234-1234-1234-123456789012 Constraints: • min: 20 • max: 2048 • pattern: arn:[\w+=/,.@-]+:acm:[\w+=/,.@-]*:[0-9]+:[\w+=,.@-]+(/[\w+=,.@-]+)*
     /// </summary>
     [CliOption("--certificate-arn")]
     public string? CertificateArn { get; private init; }
 
     /// <summary>
-    /// Specifies why you revoked the certificate. Possible values: o UNSPECIFIED o KEY_COMPROMISE o CA_COMPROMISE o AFFILIATION_CHANGED o SUPERCEDED o SUPERSEDED o CESSATION_OF_OPERATION o CERTIFICATE_HOLD o REMOVE_FROM_CRL o PRIVILEGE_WITHDRAWN o A_A_COMPROMISE
+    /// Specifies why you revoked the certificate. Possible values: • UNSPECIFIED • KEY_COMPROMISE • CA_COMPROMISE • AFFILIATION_CHANGED • SUPERCEDED • SUPERSEDED • CESSATION_OF_OPERATION • CERTIFICATE_HOLD • REMOVE_FROM_CRL • PRIVILEGE_WITHDRAWN • A_A_COMPROMISE
     /// </summary>
     [CliOption("--revocation-reason")]
     public AwsAcmRevokeCertificateRevocationReason? RevocationReason { get; private init; }
@@ -92,6 +93,15 @@ public record AwsAcmRevokeCertificateOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

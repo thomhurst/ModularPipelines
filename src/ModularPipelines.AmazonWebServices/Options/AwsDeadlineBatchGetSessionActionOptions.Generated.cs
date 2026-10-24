@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsDeadlineBatchGetSessionActionOptions : AwsOptions, IValidatable
     /// <summary>
     /// Retrieves multiple session actions in a single request. This is a batch version of the GetSessionAction API. The result of getting each session action is reported individually in the response. Because the batch request can result in a combination of successful and unsuccessful actions, you should check for batch errors even when the call returns an HTTP status code of 200. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Identifiers">The list of session action identifiers to retrieve. You can specify up to 100 identifiers per request. Constraints: o min: 1 o max: 100 (structure) The identifiers for a session action. farmId -&gt; (string) [required] The farm ID of the session action. Constraints: o pattern: farm-[0-9a-f]{32} queueId -&gt; (string) [required] The queue ID of the session action. Constraints: o pattern: queue-[0-9a-f]{32} jobId -&gt; (string) [required] The job ID of the session action. Constraints: o pattern: job-[0-9a-f]{32} sessionActionId -&gt; (string) [required] The session action ID. Constraints: o pattern: sessionaction-[0-9a-f]{32}-(0|([1-9][0-9]{0,9})) Shorthand Syntax: farmId=string,queueId=string,jobId=string,sessionActionId=string ... JSON Syntax: [ { "farmId": "string", "queueId": "string", "jobId": "string", "sessionActionId": "string" } ... ]</param>
+    /// <param name="Identifiers">The list of session action identifiers to retrieve. You can specify up to 100 identifiers per request. Constraints: • min: 1 • max: 100 (structure) The identifiers for a session action. farmId -&gt; (string) [required] The farm ID of the session action. Constraints: • pattern: farm-[0-9a-f]{32} queueId -&gt; (string) [required] The queue ID of the session action. Constraints: • pattern: queue-[0-9a-f]{32} jobId -&gt; (string) [required] The job ID of the session action. Constraints: • pattern: job-[0-9a-f]{32} sessionActionId -&gt; (string) [required] The session action ID. Constraints: • pattern: sessionaction-[0-9a-f]{32}-(0|([1-9][0-9]{0,9})) Shorthand Syntax: farmId=string,queueId=string,jobId=string,sessionActionId=string ... JSON Syntax: [ { "farmId": "string", "queueId": "string", "jobId": "string", "sessionActionId": "string" } ... ]</param>
     public AwsDeadlineBatchGetSessionActionOptions(
         IEnumerable<string> Identifiers
     )
@@ -67,7 +68,7 @@ public record AwsDeadlineBatchGetSessionActionOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The list of session action identifiers to retrieve. You can specify up to 100 identifiers per request. Constraints: o min: 1 o max: 100 (structure) The identifiers for a session action. farmId -&gt; (string) [required] The farm ID of the session action. Constraints: o pattern: farm-[0-9a-f]{32} queueId -&gt; (string) [required] The queue ID of the session action. Constraints: o pattern: queue-[0-9a-f]{32} jobId -&gt; (string) [required] The job ID of the session action. Constraints: o pattern: job-[0-9a-f]{32} sessionActionId -&gt; (string) [required] The session action ID. Constraints: o pattern: sessionaction-[0-9a-f]{32}-(0|([1-9][0-9]{0,9})) Shorthand Syntax: farmId=string,queueId=string,jobId=string,sessionActionId=string ... JSON Syntax: [ { "farmId": "string", "queueId": "string", "jobId": "string", "sessionActionId": "string" } ... ]
+    /// The list of session action identifiers to retrieve. You can specify up to 100 identifiers per request. Constraints: • min: 1 • max: 100 (structure) The identifiers for a session action. farmId -&gt; (string) [required] The farm ID of the session action. Constraints: • pattern: farm-[0-9a-f]{32} queueId -&gt; (string) [required] The queue ID of the session action. Constraints: • pattern: queue-[0-9a-f]{32} jobId -&gt; (string) [required] The job ID of the session action. Constraints: • pattern: job-[0-9a-f]{32} sessionActionId -&gt; (string) [required] The session action ID. Constraints: • pattern: sessionaction-[0-9a-f]{32}-(0|([1-9][0-9]{0,9})) Shorthand Syntax: farmId=string,queueId=string,jobId=string,sessionActionId=string ... JSON Syntax: [ { "farmId": "string", "queueId": "string", "jobId": "string", "sessionActionId": "string" } ... ]
     /// </summary>
     [CliOption("--identifiers", GroupValues = true)]
     public IEnumerable<string>? Identifiers { get; private init; }
@@ -93,6 +94,15 @@ public record AwsDeadlineBatchGetSessionActionOptions : AwsOptions, IValidatable
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

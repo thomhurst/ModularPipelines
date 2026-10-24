@@ -11,13 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Lists channel handshakes based on specified criteria. See also: AWS API Documentation list-channel-handshakes is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: items
+/// Lists channel handshakes based on specified criteria. See also: AWS API Documentation list-channel-handshakes is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: items
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,11 +28,11 @@ public record AwsPartnercentralChannelListChannelHandshakesOptions : AwsOptions,
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Lists channel handshakes based on specified criteria. See also: AWS API Documentation list-channel-handshakes is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: items
+    /// Lists channel handshakes based on specified criteria. See also: AWS API Documentation list-channel-handshakes is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: items
     /// </summary>
-    /// <param name="HandshakeType">Filter results by handshake type. Possible values: o START_SERVICE_PERIOD o REVOKE_SERVICE_PERIOD o PROGRAM_MANAGEMENT_ACCOUNT</param>
-    /// <param name="Catalog">The catalog identifier to filter handshakes. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z]*</param>
-    /// <param name="ParticipantType">Filter by participant type (sender or receiver). Possible values: o SENDER o RECEIVER</param>
+    /// <param name="HandshakeType">Filter results by handshake type. Possible values: • START_SERVICE_PERIOD • REVOKE_SERVICE_PERIOD • PROGRAM_MANAGEMENT_ACCOUNT</param>
+    /// <param name="Catalog">The catalog identifier to filter handshakes. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z]*</param>
+    /// <param name="ParticipantType">Filter by participant type (sender or receiver). Possible values: • SENDER • RECEIVER</param>
     public AwsPartnercentralChannelListChannelHandshakesOptions(
         AwsPartnercentralChannelListChannelHandshakesHandshakeType HandshakeType,
         string Catalog,
@@ -64,52 +65,49 @@ public record AwsPartnercentralChannelListChannelHandshakesOptions : AwsOptions,
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Filter results by handshake type. Possible values: o START_SERVICE_PERIOD o REVOKE_SERVICE_PERIOD o PROGRAM_MANAGEMENT_ACCOUNT
+    /// Filter results by handshake type. Possible values: • START_SERVICE_PERIOD • REVOKE_SERVICE_PERIOD • PROGRAM_MANAGEMENT_ACCOUNT
     /// </summary>
     [CliOption("--handshake-type")]
     public AwsPartnercentralChannelListChannelHandshakesHandshakeType? HandshakeType { get; private init; }
 
     /// <summary>
-    /// The catalog identifier to filter handshakes. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z]*
+    /// The catalog identifier to filter handshakes. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z]*
     /// </summary>
     [CliOption("--catalog")]
     public string? Catalog { get; private init; }
 
     /// <summary>
-    /// Filter by participant type (sender or receiver). Possible values: o SENDER o RECEIVER
+    /// Filter by participant type (sender or receiver). Possible values: • SENDER • RECEIVER
     /// </summary>
     [CliOption("--participant-type")]
     public AwsPartnercentralChannelListChannelHandshakesParticipantType? ParticipantType { get; private init; }
 
     /// <summary>
-    /// Filter results by handshake status. (string) Possible values: o PENDING o ACCEPTED o REJECTED o CANCELED o EXPIRED Syntax: "string" "string" ...
+    /// Filter results by handshake status. (string) Possible values: • PENDING • ACCEPTED • REJECTED • CANCELED • EXPIRED Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--statuses", GroupValues = true)]
     public IEnumerable<string>? Statuses { get; set; }
 
     /// <summary>
-    /// Filter by associated resource identifiers. (string) Constraints: o min: 16 o max: 1011 o pattern: ((arn:[a-z-]+:partner- central:[a-z0-9-]+:[0-9]{12}:catalog/[a-zA-Z]+/program-manage- ment-account/pma-[a-z0-9]{13}(/relation- ship/rs-[a-z0-9]{13})?)|(pma|rs)-[a-z0-9]{13}) Syntax: "string" "string" ...
+    /// Filter by associated resource identifiers. (string) Constraints: • min: 16 • max: 1011 • pattern: ((arn:[a-z-]+:partnercentral:[a-z0-9-]+:[0-9]{12}:catalog/[a-zA-Z]+/program-management-account/pma-[a-z0-9]{13}(/relationship/rs-[a-z0-9]{13})?)|(pma|rs)-[a-z0-9]{13}) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--associated-resource-identifiers", GroupValues = true)]
     public IEnumerable<string>? AssociatedResourceIdentifiers { get; set; }
 
     /// <summary>
-    /// Type-specific filters for handshakes. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: startServicePeriodTypeFilters, revokeSer- vicePeriodTypeFilters, programManagementAccountTypeFilters. startServicePeriodTypeFilters -&gt; (structure) Filters specific to start service period handshakes. servicePeriodTypes -&gt; (list) Filter by service period types. (string) Possible values: o MINIMUM_NOTICE_PERIOD o FIXED_COMMITMENT_PERIOD revokeServicePeriodTypeFilters -&gt; (structure) Filters specific to revoke service period handshakes. servicePeriodTypes -&gt; (list) Filter by service period types. (string) Possible values: o MINIMUM_NOTICE_PERIOD o FIXED_COMMITMENT_PERIOD programManagementAccountTypeFilters -&gt; (structure) Filters specific to program management account handshakes. programs -&gt; (list) Filter by program types. (string) Possible values: o SOLUTION_PROVIDER o DISTRIBUTION o DISTRIBUTION_SELLER Shorthand Syntax: startServicePeriodTypeFilters={servicePeriodTypes=[string,string]},revokeServicePeriodTypeFilters={servicePeriodTypes=[string,string]},programManagementAccountTypeFilters={programs=[string,string]} JSON Syntax: { "startServicePeriodTypeFilters": { "servicePeriodTypes": ["MINIMUM_NOTICE_PERIOD"|"FIXED_COMMITMENT_PERIOD", ...] }, "revokeServicePeriodTypeFilters": { "servicePeriodTypes": ["MINIMUM_NOTICE_PERIOD"|"FIXED_COMMITMENT_PERIOD", ...] }, "programManagementAccountTypeFilters": { "programs": ["SOLUTION_PROVIDER"|"DISTRIBUTION"|"DISTRIBUTION_SELLER", ...] } }
+    /// Type-specific filters for handshakes. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: startServicePeriodTypeFilters, revokeServicePeriodTypeFilters, programManagementAccountTypeFilters. startServicePeriodTypeFilters -&gt; (structure) Filters specific to start service period handshakes. servicePeriodTypes -&gt; (list) Filter by service period types. (string) Possible values: • MINIMUM_NOTICE_PERIOD • FIXED_COMMITMENT_PERIOD revokeServicePeriodTypeFilters -&gt; (structure) Filters specific to revoke service period handshakes. servicePeriodTypes -&gt; (list) Filter by service period types. (string) Possible values: • MINIMUM_NOTICE_PERIOD • FIXED_COMMITMENT_PERIOD programManagementAccountTypeFilters -&gt; (structure) Filters specific to program management account handshakes. programs -&gt; (list) Filter by program types. (string) Possible values: • SOLUTION_PROVIDER • DISTRIBUTION • DISTRIBUTION_SELLER Shorthand Syntax: startServicePeriodTypeFilters={servicePeriodTypes=[string,string]},revokeServicePeriodTypeFilters={servicePeriodTypes=[string,string]},programManagementAccountTypeFilters={programs=[string,string]} JSON Syntax: { "startServicePeriodTypeFilters": { "servicePeriodTypes": ["MINIMUM_NOTICE_PERIOD"|"FIXED_COMMITMENT_PERIOD", ...] }, "revokeServicePeriodTypeFilters": { "servicePeriodTypes": ["MINIMUM_NOTICE_PERIOD"|"FIXED_COMMITMENT_PERIOD", ...] }, "programManagementAccountTypeFilters": { "programs": ["SOLUTION_PROVIDER"|"DISTRIBUTION"|"DISTRIBUTION_SELLER", ...] } }
     /// </summary>
     [CliOption("--handshake-type-filters")]
     public string? HandshakeTypeFilters { get; set; }
 
     /// <summary>
-    /// Type-specific sorting options for handshakes. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: startServicePeriodTypeSort, revokeServi- cePeriodTypeSort, programManagementAccountTypeSort. startServicePeriodTypeSort -&gt; (structure) Sorting options specific to start service period handshakes. sortOrder -&gt; (string) [required] The sort order (ascending or descending). Possible values: o Ascending o Descending sortBy -&gt; (string) [required] The field to sort by. Possible values: o UpdatedAt revokeServicePeriodTypeSort -&gt; (structure) Sorting options specific to revoke service period handshakes. sortOrder -&gt; (string) [required] The sort order (ascending or descending). Possible values: o Ascending o Descending sortBy -&gt; (string) [required] The field to sort by. Possible values: o UpdatedAt programManagementAccountTypeSort -&gt; (structure) Sorting options specific to program management account hand- shakes. sortOrder -&gt; (string) [required] The sort order (ascending or descending). Possible values: o Ascending o Descending sortBy -&gt; (string) [required] The field to sort by. Possible values: o UpdatedAt Shorthand Syntax: startServicePeriodTypeSort={sortOrder=string,sortBy=string},revokeServicePeriodTypeSort={sortOrder=string,sortBy=string},programManagementAccountTypeSort={sortOrder=string,sortBy=string} JSON Syntax: { "startServicePeriodTypeSort": { "sortOrder": "Ascending"|"Descending", "sortBy": "UpdatedAt" }, "revokeServicePeriodTypeSort": { "sortOrder": "Ascending"|"Descending", "sortBy": "UpdatedAt" }, "programManagementAccountTypeSort": { "sortOrder": "Ascending"|"Descending", "sortBy": "UpdatedAt" } }
+    /// Type-specific sorting options for handshakes. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: startServicePeriodTypeSort, revokeServicePeriodTypeSort, programManagementAccountTypeSort. startServicePeriodTypeSort -&gt; (structure) Sorting options specific to start service period handshakes. sortOrder -&gt; (string) [required] The sort order (ascending or descending). Possible values: • Ascending • Descending sortBy -&gt; (string) [required] The field to sort by. Possible values: • UpdatedAt revokeServicePeriodTypeSort -&gt; (structure) Sorting options specific to revoke service period handshakes. sortOrder -&gt; (string) [required] The sort order (ascending or descending). Possible values: • Ascending • Descending sortBy -&gt; (string) [required] The field to sort by. Possible values: • UpdatedAt programManagementAccountTypeSort -&gt; (structure) Sorting options specific to program management account handshakes. sortOrder -&gt; (string) [required] The sort order (ascending or descending). Possible values: • Ascending • Descending sortBy -&gt; (string) [required] The field to sort by. Possible values: • UpdatedAt Shorthand Syntax: startServicePeriodTypeSort={sortOrder=string,sortBy=string},revokeServicePeriodTypeSort={sortOrder=string,sortBy=string},programManagementAccountTypeSort={sortOrder=string,sortBy=string} JSON Syntax: { "startServicePeriodTypeSort": { "sortOrder": "Ascending"|"Descending", "sortBy": "UpdatedAt" }, "revokeServicePeriodTypeSort": { "sortOrder": "Ascending"|"Descending", "sortBy": "UpdatedAt" }, "programManagementAccountTypeSort": { "sortOrder": "Ascending"|"Descending", "sortBy": "UpdatedAt" } }
     /// </summary>
     [CliOption("--handshake-type-sort")]
     public string? HandshakeTypeSort { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -119,16 +117,19 @@ public record AwsPartnercentralChannelListChannelHandshakesOptions : AwsOptions,
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 100
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
@@ -145,6 +146,15 @@ public record AwsPartnercentralChannelListChannelHandshakesOptions : AwsOptions,
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

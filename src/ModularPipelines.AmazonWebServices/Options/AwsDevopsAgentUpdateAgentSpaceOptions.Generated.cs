@@ -10,7 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +28,7 @@ public record AwsDevopsAgentUpdateAgentSpaceOptions : AwsOptions, IValidatableOb
     /// <summary>
     /// Updates the information of an existing AgentSpace. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AgentSpaceId">The unique identifier of the AgentSpace Constraints: o pattern: [a-zA-Z0-9-]{1,64}</param>
+    /// <param name="AgentSpaceId">The unique identifier of the AgentSpace Constraints: • pattern: [a-zA-Z0-9-]{1,64}</param>
     public AwsDevopsAgentUpdateAgentSpaceOptions(
         string AgentSpaceId
     )
@@ -57,31 +57,31 @@ public record AwsDevopsAgentUpdateAgentSpaceOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the AgentSpace Constraints: o pattern: [a-zA-Z0-9-]{1,64}
+    /// The unique identifier of the AgentSpace Constraints: • pattern: [a-zA-Z0-9-]{1,64}
     /// </summary>
     [CliOption("--agent-space-id")]
     public string? AgentSpaceId { get; private init; }
 
     /// <summary>
-    /// The updated name of the AgentSpace. Constraints: o min: 1 o max: 255 o pattern: [\p{L}\p{N}\p{P}\p{S}\p{Z}]+
+    /// The updated name of the AgentSpace. Constraints: • min: 1 • max: 255 • pattern: [\p{L}\p{N}\p{P}\p{S}\p{Z}]+
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
 
     /// <summary>
-    /// The updated description of the AgentSpace. Constraints: o min: 1 o max: 1000 o pattern: [\p{L}\p{N}\p{P}\p{S}\p{Z}]+
+    /// The updated description of the AgentSpace. Constraints: • min: 1 • max: 1000 • pattern: [\p{L}\p{N}\p{P}\p{S}\p{Z}]+
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The updated locale for the AgentSpace, which determines the language used in agent responses. Constraints: o min: 2 o max: 35 o pattern: [a-zA-Z]{2,3}(-[a-zA-Z0-9]{2,8})*
+    /// The updated locale for the AgentSpace, which determines the language used in agent responses. Constraints: • min: 2 • max: 35 • pattern: [a-zA-Z]{2,3}(-[a-zA-Z0-9]{2,8})*
     /// </summary>
     [CliOption("--locale")]
     public string? Locale { get; set; }
 
     /// <summary>
-    /// The preferences to configure on the agent space. When provided, this replaces the full set of configured preferences; preferences not in- cluded revert to their default values. When omitted, the current preferences are left unchanged. Constraints: o min: 0 o max: 25 key -&gt; (string) The key of a preference that can be configured on an agent space. The elevatedActionsEnabled key controls whether elevated directed actions are permitted in the agent space. Elevated di- rected actions are mutating operations that also require per-ac- tion operator approval, and default to false when not set. Possible values: o elevatedActionsEnabled value -&gt; (boolean) Shorthand Syntax: KeyName1=boolean,KeyName2=boolean Where valid key names are: elevatedActionsEnabled JSON Syntax: {"elevatedActionsEnabled": true|false ...}
+    /// The preferences to configure on the agent space. When provided, this replaces the full set of configured preferences; preferences not included revert to their default values. When omitted, the current preferences are left unchanged. Constraints: • min: 0 • max: 25 key -&gt; (string) The key of a preference that can be configured on an agent space. The elevatedActionsEnabled key controls whether elevated directed actions are permitted in the agent space. Elevated directed actions are mutating operations that also require per-action operator approval, and default to false when not set. Possible values: • elevatedActionsEnabled value -&gt; (boolean) Shorthand Syntax: KeyName1=boolean,KeyName2=boolean Where valid key names are: elevatedActionsEnabled JSON Syntax: {"elevatedActionsEnabled": true|false ...}
     /// </summary>
     [CliOption("--preferences", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Preferences { get; set; }
@@ -107,6 +107,15 @@ public record AwsDevopsAgentUpdateAgentSpaceOptions : AwsOptions, IValidatableOb
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

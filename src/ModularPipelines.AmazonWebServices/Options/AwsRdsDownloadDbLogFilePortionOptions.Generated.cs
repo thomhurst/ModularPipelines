@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +29,7 @@ public record AwsRdsDownloadDbLogFilePortionOptions : AwsOptions, IValidatableOb
     /// <summary>
     /// Downloads all or a portion of the specified log file, up to 1 MB in size. This command doesn't apply to RDS Custom. NOTE: This operation uses resources on database instances. Because of this, we recommend publishing database logs to CloudWatch and then using the GetLogEvents operation. For more information, see GetLogEvents in the Amazon CloudWatch Logs API Reference . See also: AWS API Documentation download-db-log-file-portion is a paginated operation. Multiple API calls may be issued in order...
     /// </summary>
-    /// <param name="DbInstanceIdentifier">The customer-assigned name of the DB instance that contains the log files you want to list. Constraints: o Must match the identifier of an existing DBInstance.</param>
+    /// <param name="DbInstanceIdentifier">The customer-assigned name of the DB instance that contains the log files you want to list. Constraints: • Must match the identifier of an existing DBInstance.</param>
     /// <param name="LogFileName">The name of the log file to be downloaded.</param>
     public AwsRdsDownloadDbLogFilePortionOptions(
         string DbInstanceIdentifier,
@@ -61,7 +62,7 @@ public record AwsRdsDownloadDbLogFilePortionOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The customer-assigned name of the DB instance that contains the log files you want to list. Constraints: o Must match the identifier of an existing DBInstance.
+    /// The customer-assigned name of the DB instance that contains the log files you want to list. Constraints: • Must match the identifier of an existing DBInstance.
     /// </summary>
     [CliOption("--db-instance-identifier")]
     public string? DbInstanceIdentifier { get; private init; }
@@ -75,9 +76,6 @@ public record AwsRdsDownloadDbLogFilePortionOptions : AwsOptions, IValidatableOb
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
-
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
@@ -86,16 +84,19 @@ public record AwsRdsDownloadDbLogFilePortionOptions : AwsOptions, IValidatableOb
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
@@ -112,6 +113,15 @@ public record AwsRdsDownloadDbLogFilePortionOptions : AwsOptions, IValidatableOb
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

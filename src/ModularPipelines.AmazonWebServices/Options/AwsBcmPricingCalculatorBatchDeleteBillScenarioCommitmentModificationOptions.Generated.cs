@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsBcmPricingCalculatorBatchDeleteBillScenarioCommitmentModificati
     /// <summary>
     /// Delete commitment that you have created in a Bill Scenario. You can only delete a commitment that you had added and cannot model deletion (or removal) of a existing commitment. If you want model deletion of an existing commitment, see the negate BillScenarioCommitmentModificationAction of BatchCreateBillScenarioCommitmentModification operation. NOTE: The BatchDeleteBillScenarioCommitmentModification operation doesn't have its own IAM permission. To authorize this operation for Amazon Web Service...
     /// </summary>
-    /// <param name="BillScenarioId">The ID of the Bill Scenario for which you want to delete the modeled commitment. Constraints: o min: 36 o max: 36 o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}</param>
-    /// <param name="Ids">List of commitments that you want to delete from the Bill Scenario. Constraints: o min: 1 o max: 25 (string) Constraints: o min: 36 o max: 36 o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12} Syntax: "string" "string" ...</param>
+    /// <param name="BillScenarioId">The ID of the Bill Scenario for which you want to delete the modeled commitment. Constraints: • min: 36 • max: 36 • pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}</param>
+    /// <param name="Ids">List of commitments that you want to delete from the Bill Scenario. Constraints: • min: 1 • max: 25 (string) Constraints: • min: 36 • max: 36 • pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12} Syntax: "string" "string" ...</param>
     public AwsBcmPricingCalculatorBatchDeleteBillScenarioCommitmentModificationOptions(
         string BillScenarioId,
         IEnumerable<string> Ids
@@ -71,13 +72,13 @@ public record AwsBcmPricingCalculatorBatchDeleteBillScenarioCommitmentModificati
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the Bill Scenario for which you want to delete the modeled commitment. Constraints: o min: 36 o max: 36 o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}
+    /// The ID of the Bill Scenario for which you want to delete the modeled commitment. Constraints: • min: 36 • max: 36 • pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}
     /// </summary>
     [CliOption("--bill-scenario-id")]
     public string? BillScenarioId { get; private init; }
 
     /// <summary>
-    /// List of commitments that you want to delete from the Bill Scenario. Constraints: o min: 1 o max: 25 (string) Constraints: o min: 36 o max: 36 o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12} Syntax: "string" "string" ...
+    /// List of commitments that you want to delete from the Bill Scenario. Constraints: • min: 1 • max: 25 (string) Constraints: • min: 36 • max: 36 • pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12} Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--ids", GroupValues = true)]
     public IEnumerable<string>? Ids { get; private init; }
@@ -103,6 +104,15 @@ public record AwsBcmPricingCalculatorBatchDeleteBillScenarioCommitmentModificati
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

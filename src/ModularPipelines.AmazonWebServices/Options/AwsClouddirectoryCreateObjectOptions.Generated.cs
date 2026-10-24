@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsClouddirectoryCreateObjectOptions : AwsOptions, IValidatableObj
     /// <summary>
     /// Creates an object in a Directory . Additionally attaches the object to a parent, if a parent reference and LinkName is specified. An object is simply a collection of Facet attributes. You can also use this API call to create a policy object, if the facet from which you create the object is a policy facet. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DirectoryArn">The Amazon Resource Name (ARN) that is associated with the Direc- tory in which the object will be created. For more information, see arns .</param>
-    /// <param name="SchemaFacets">A list of schema facets to be associated with the object. Do not provide minor version components. See SchemaFacet for details. (structure) A facet. SchemaArn -&gt; (string) The ARN of the schema that contains the facet with no minor component. See arns and In-Place Schema Upgrade for a de- scription of when to provide minor versions. If this value is set, FacetName must also be set. FacetName -&gt; (string) The name of the facet. If this value is set, SchemaArn must also be set. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9._-]*$ Shorthand Syntax: SchemaArn=string,FacetName=string ... JSON Syntax: [ { "SchemaArn": "string", "FacetName": "string" } ... ]</param>
+    /// <param name="DirectoryArn">The Amazon Resource Name (ARN) that is associated with the Directory in which the object will be created. For more information, see arns .</param>
+    /// <param name="SchemaFacets">A list of schema facets to be associated with the object. Do not provide minor version components. See SchemaFacet for details. (structure) A facet. SchemaArn -&gt; (string) The ARN of the schema that contains the facet with no minor component. See arns and In-Place Schema Upgrade for a description of when to provide minor versions. If this value is set, FacetName must also be set. FacetName -&gt; (string) The name of the facet. If this value is set, SchemaArn must also be set. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9._-]*$ Shorthand Syntax: SchemaArn=string,FacetName=string ... JSON Syntax: [ { "SchemaArn": "string", "FacetName": "string" } ... ]</param>
     public AwsClouddirectoryCreateObjectOptions(
         string DirectoryArn,
         IEnumerable<string> SchemaFacets
@@ -71,31 +72,31 @@ public record AwsClouddirectoryCreateObjectOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) that is associated with the Direc- tory in which the object will be created. For more information, see arns .
+    /// The Amazon Resource Name (ARN) that is associated with the Directory in which the object will be created. For more information, see arns .
     /// </summary>
     [CliOption("--directory-arn")]
     public string? DirectoryArn { get; private init; }
 
     /// <summary>
-    /// A list of schema facets to be associated with the object. Do not provide minor version components. See SchemaFacet for details. (structure) A facet. SchemaArn -&gt; (string) The ARN of the schema that contains the facet with no minor component. See arns and In-Place Schema Upgrade for a de- scription of when to provide minor versions. If this value is set, FacetName must also be set. FacetName -&gt; (string) The name of the facet. If this value is set, SchemaArn must also be set. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9._-]*$ Shorthand Syntax: SchemaArn=string,FacetName=string ... JSON Syntax: [ { "SchemaArn": "string", "FacetName": "string" } ... ]
+    /// A list of schema facets to be associated with the object. Do not provide minor version components. See SchemaFacet for details. (structure) A facet. SchemaArn -&gt; (string) The ARN of the schema that contains the facet with no minor component. See arns and In-Place Schema Upgrade for a description of when to provide minor versions. If this value is set, FacetName must also be set. FacetName -&gt; (string) The name of the facet. If this value is set, SchemaArn must also be set. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9._-]*$ Shorthand Syntax: SchemaArn=string,FacetName=string ... JSON Syntax: [ { "SchemaArn": "string", "FacetName": "string" } ... ]
     /// </summary>
     [CliOption("--schema-facets", GroupValues = true)]
     public IEnumerable<string>? SchemaFacets { get; private init; }
 
     /// <summary>
-    /// The attribute map whose attribute ARN contains the key and attribute value as the map value. (structure) The combination of an attribute key and an attribute value. Key -&gt; (structure) [required] The key of the attribute. SchemaArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the schema that con- tains the facet and attribute. FacetName -&gt; (string) [required] The name of the facet that the attribute exists within. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9._-]*$ Name -&gt; (string) [required] The name of the attribute. Constraints: o min: 1 o max: 230 o pattern: ^[a-zA-Z0-9._:-]*$ Value -&gt; (structure) [required] The value of the attribute. StringValue -&gt; (string) A string data value. BinaryValue -&gt; (blob) A binary data value. BooleanValue -&gt; (boolean) A Boolean data value. NumberValue -&gt; (string) A number data value. DatetimeValue -&gt; (timestamp) A date and time value. Shorthand Syntax: Key={SchemaArn=string,FacetName=string,Name=string},Value={StringValue=string,BinaryValue=blob,BooleanValue=boolean,NumberValue=string,DatetimeValue=timestamp} ... JSON Syntax: [ { "Key": { "SchemaArn": "string", "FacetName": "string", "Name": "string" }, "Value": { "StringValue": "string", "BinaryValue": blob, "BooleanValue": true|false, "NumberValue": "string", "DatetimeValue": timestamp } } ... ]
+    /// The attribute map whose attribute ARN contains the key and attribute value as the map value. (structure) The combination of an attribute key and an attribute value. Key -&gt; (structure) [required] The key of the attribute. SchemaArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the schema that contains the facet and attribute. FacetName -&gt; (string) [required] The name of the facet that the attribute exists within. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9._-]*$ Name -&gt; (string) [required] The name of the attribute. Constraints: • min: 1 • max: 230 • pattern: ^[a-zA-Z0-9._:-]*$ Value -&gt; (structure) [required] The value of the attribute. StringValue -&gt; (string) A string data value. BinaryValue -&gt; (blob) A binary data value. BooleanValue -&gt; (boolean) A Boolean data value. NumberValue -&gt; (string) A number data value. DatetimeValue -&gt; (timestamp) A date and time value. Shorthand Syntax: Key={SchemaArn=string,FacetName=string,Name=string},Value={StringValue=string,BinaryValue=blob,BooleanValue=boolean,NumberValue=string,DatetimeValue=timestamp} ... JSON Syntax: [ { "Key": { "SchemaArn": "string", "FacetName": "string", "Name": "string" }, "Value": { "StringValue": "string", "BinaryValue": blob, "BooleanValue": true|false, "NumberValue": "string", "DatetimeValue": timestamp } } ... ]
     /// </summary>
     [CliOption("--object-attribute-list", GroupValues = true)]
     public IEnumerable<string>? ObjectAttributeList { get; set; }
 
     /// <summary>
-    /// If specified, the parent reference to which this object will be at- tached. Selector -&gt; (string) A path selector supports easy selection of an object by the par- ent/child links leading to it from the directory root. Use the link names from each parent/child link to construct the path. Path selectors start with a slash (/) and link names are sepa- rated by slashes. For more information about paths, see Access Objects . You can identify an object in one of the following ways: o $ObjectIdentifier - An object identifier is an opaque string provided by Amazon Cloud Directory. When creating objects, the system will provide you with the identifier of the created ob- ject. An objects identifier is immutable and no two objects will ever share the same object identifier. To identify an ob- ject with ObjectIdentifier, the ObjectIdentifier must be wrapped in double quotes. o /some/path - Identifies the object based on path o #SomeBatchReference - Identifies the object in a batch call Shorthand Syntax: Selector=string JSON Syntax: { "Selector": "string" }
+    /// If specified, the parent reference to which this object will be attached. Selector -&gt; (string) A path selector supports easy selection of an object by the parent/child links leading to it from the directory root. Use the link names from each parent/child link to construct the path. Path selectors start with a slash (/) and link names are separated by slashes. For more information about paths, see Access Objects . You can identify an object in one of the following ways: • $ObjectIdentifier - An object identifier is an opaque string provided by Amazon Cloud Directory. When creating objects, the system will provide you with the identifier of the created object. An objects identifier is immutable and no two objects will ever share the same object identifier. To identify an object with ObjectIdentifier, the ObjectIdentifier must be wrapped in double quotes. • /some/path - Identifies the object based on path • #SomeBatchReference - Identifies the object in a batch call Shorthand Syntax: Selector=string JSON Syntax: { "Selector": "string" }
     /// </summary>
     [CliOption("--parent-reference")]
     public string? ParentReference { get; set; }
 
     /// <summary>
-    /// The name of link that is used to attach this object to a parent. Constraints: o min: 1 o max: 64 o pattern: [^\/\[\]\(\):\{\}#@!?\s\\;]+
+    /// The name of link that is used to attach this object to a parent. Constraints: • min: 1 • max: 64 • pattern: [^\/\[\]\(\):\{\}#@!?\s\\;]+
     /// </summary>
     [CliOption("--link-name")]
     public string? LinkName { get; set; }
@@ -121,6 +122,15 @@ public record AwsClouddirectoryCreateObjectOptions : AwsOptions, IValidatableObj
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

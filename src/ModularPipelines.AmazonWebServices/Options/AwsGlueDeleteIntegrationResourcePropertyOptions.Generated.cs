@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// This API is used for deleting the ResourceProperty of the Glue connec- tion (for the source) or Glue database ARN (for the target). See also: AWS API Documentation
+/// This API is used for deleting the ResourceProperty of the Glue connection (for the source) or Glue database ARN (for the target). See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsGlueDeleteIntegrationResourcePropertyOptions : AwsOptions, IVal
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// This API is used for deleting the ResourceProperty of the Glue connec- tion (for the source) or Glue database ARN (for the target). See also: AWS API Documentation
+    /// This API is used for deleting the ResourceProperty of the Glue connection (for the source) or Glue database ARN (for the target). See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The connection ARN of the source, or the database ARN of the target. Constraints: o min: 1 o max: 512</param>
+    /// <param name="ResourceArn">The connection ARN of the source, or the database ARN of the target. Constraints: • min: 1 • max: 512</param>
     public AwsGlueDeleteIntegrationResourcePropertyOptions(
         string ResourceArn
     )
@@ -56,7 +57,7 @@ public record AwsGlueDeleteIntegrationResourcePropertyOptions : AwsOptions, IVal
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The connection ARN of the source, or the database ARN of the target. Constraints: o min: 1 o max: 512
+    /// The connection ARN of the source, or the database ARN of the target. Constraints: • min: 1 • max: 512
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
@@ -82,6 +83,15 @@ public record AwsGlueDeleteIntegrationResourcePropertyOptions : AwsOptions, IVal
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

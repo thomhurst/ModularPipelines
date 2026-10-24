@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsMediaconnectStopFlowOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Stops a flow. See also: AWS API Documentation
     /// </summary>
-    /// <param name="FlowArn">The Amazon Resource Name (ARN) of the flow that you want to stop. Constraints: o pattern: arn:.+:mediaconnect.+:flow:.+</param>
+    /// <param name="FlowArn">The Amazon Resource Name (ARN) of the flow that you want to stop. Constraints: • pattern: arn:.+:mediaconnect.+:flow:.+</param>
     public AwsMediaconnectStopFlowOptions(
         string FlowArn
     )
@@ -56,7 +57,7 @@ public record AwsMediaconnectStopFlowOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the flow that you want to stop. Constraints: o pattern: arn:.+:mediaconnect.+:flow:.+
+    /// The Amazon Resource Name (ARN) of the flow that you want to stop. Constraints: • pattern: arn:.+:mediaconnect.+:flow:.+
     /// </summary>
     [CliOption("--flow-arn")]
     public string? FlowArn { get; private init; }
@@ -82,6 +83,15 @@ public record AwsMediaconnectStopFlowOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

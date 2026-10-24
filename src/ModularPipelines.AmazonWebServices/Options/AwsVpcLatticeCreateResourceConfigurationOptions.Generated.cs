@@ -11,7 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -30,8 +30,8 @@ public record AwsVpcLatticeCreateResourceConfigurationOptions : AwsOptions, IVal
     /// <summary>
     /// Creates a resource configuration. A resource configuration defines a specific resource. You can associate a resource configuration with a service network or a VPC endpoint. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">The name of the resource configuration. The name must be unique within the account. The valid characters are a-z, 0-9, and hyphens (-). You can't use a hyphen as the first or last character, or imme- diately after another hyphen. Constraints: o min: 3 o max: 40 o pattern: (?!rcfg-)(?![-])(?!.*[-]$)(?!.*[-]{2})[a-z0-9-]+</param>
-    /// <param name="Type">The type of resource configuration. A resource configuration can be one of the following types: o SINGLE - A single resource. o GROUP - A group of resources. You must create a group resource configuration before you create a child resource configuration. o CHILD - A single resource that is part of a group resource config- uration. o ARN - An Amazon Web Services resource. o CIDR - A network segment, expressed as a range of IP addresses (a CIDR block). Use this type to share a portion of your network rather than an individual resource. A consumer accesses the re- sources within the CIDR range through a Tunnel VPC endpoint. You can't add a CIDR resource configuration to a service network. A CIDR resource configuration must be associated with a resource gateway whose DNS resolution is set to IN_VPC . Possible values: o GROUP o CHILD o SINGLE o ARN o CIDR</param>
+    /// <param name="Name">The name of the resource configuration. The name must be unique within the account. The valid characters are a-z, 0-9, and hyphens (-). You can't use a hyphen as the first or last character, or immediately after another hyphen. Constraints: • min: 3 • max: 40 • pattern: (?!rcfg-)(?![-])(?!.*[-]$)(?!.*[-]{2})[a-z0-9-]+</param>
+    /// <param name="Type">The type of resource configuration. A resource configuration can be one of the following types: • SINGLE - A single resource. • GROUP - A group of resources. You must create a group resource configuration before you create a child resource configuration. • CHILD - A single resource that is part of a group resource configuration. • ARN - An Amazon Web Services resource. • CIDR - A network segment, expressed as a range of IP addresses (a CIDR block). Use this type to share a portion of your network rather than an individual resource. A consumer accesses the resources within the CIDR range through a Tunnel VPC endpoint. You can't add a CIDR resource configuration to a service network. A CIDR resource configuration must be associated with a resource gateway whose DNS resolution is set to IN_VPC . Possible values: • GROUP • CHILD • SINGLE • ARN • CIDR</param>
     public AwsVpcLatticeCreateResourceConfigurationOptions(
         string Name,
         AwsVpcLatticeCreateResourceConfigurationType Type
@@ -62,80 +62,80 @@ public record AwsVpcLatticeCreateResourceConfigurationOptions : AwsOptions, IVal
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the resource configuration. The name must be unique within the account. The valid characters are a-z, 0-9, and hyphens (-). You can't use a hyphen as the first or last character, or imme- diately after another hyphen. Constraints: o min: 3 o max: 40 o pattern: (?!rcfg-)(?![-])(?!.*[-]$)(?!.*[-]{2})[a-z0-9-]+
+    /// The name of the resource configuration. The name must be unique within the account. The valid characters are a-z, 0-9, and hyphens (-). You can't use a hyphen as the first or last character, or immediately after another hyphen. Constraints: • min: 3 • max: 40 • pattern: (?!rcfg-)(?![-])(?!.*[-]$)(?!.*[-]{2})[a-z0-9-]+
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The type of resource configuration. A resource configuration can be one of the following types: o SINGLE - A single resource. o GROUP - A group of resources. You must create a group resource configuration before you create a child resource configuration. o CHILD - A single resource that is part of a group resource config- uration. o ARN - An Amazon Web Services resource. o CIDR - A network segment, expressed as a range of IP addresses (a CIDR block). Use this type to share a portion of your network rather than an individual resource. A consumer accesses the re- sources within the CIDR range through a Tunnel VPC endpoint. You can't add a CIDR resource configuration to a service network. A CIDR resource configuration must be associated with a resource gateway whose DNS resolution is set to IN_VPC . Possible values: o GROUP o CHILD o SINGLE o ARN o CIDR
+    /// The type of resource configuration. A resource configuration can be one of the following types: • SINGLE - A single resource. • GROUP - A group of resources. You must create a group resource configuration before you create a child resource configuration. • CHILD - A single resource that is part of a group resource configuration. • ARN - An Amazon Web Services resource. • CIDR - A network segment, expressed as a range of IP addresses (a CIDR block). Use this type to share a portion of your network rather than an individual resource. A consumer accesses the resources within the CIDR range through a Tunnel VPC endpoint. You can't add a CIDR resource configuration to a service network. A CIDR resource configuration must be associated with a resource gateway whose DNS resolution is set to IN_VPC . Possible values: • GROUP • CHILD • SINGLE • ARN • CIDR
     /// </summary>
     [CliOption("--type")]
     public AwsVpcLatticeCreateResourceConfigurationType? Type { get; private init; }
 
     /// <summary>
-    /// (SINGLE, GROUP, CHILD, CIDR) The port ranges that a consumer can use to access a resource configuration (for example: 1-65535). You can separate port ranges using commas (for example: 1,2,22-30). To re- solve DNS through a CIDR resource configuration, include port 53 in the port ranges. (string) Constraints: o min: 1 o max: 11 o pattern: ((\d{1,5}\-\d{1,5})|(\d+)) Syntax: "string" "string" ...
+    /// (SINGLE, GROUP, CHILD, CIDR) The port ranges that a consumer can use to access a resource configuration (for example: 1-65535). You can separate port ranges using commas (for example: 1,2,22-30). To resolve DNS through a CIDR resource configuration, include port 53 in the port ranges. (string) Constraints: • min: 1 • max: 11 • pattern: ((\d{1,5}\-\d{1,5})|(\d+)) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--port-ranges", GroupValues = true)]
     public IEnumerable<string>? PortRanges { get; set; }
 
     /// <summary>
-    /// (SINGLE, GROUP, CIDR) The protocol accepted by the resource configu- ration. The default is TCP . TCP_UDP is supported only for CIDR re- source configurations; specify it for a CIDR resource configuration to allow DNS resolution, which uses UDP. Possible values: o TCP o TCP_UDP
+    /// (SINGLE, GROUP, CIDR) The protocol accepted by the resource configuration. The default is TCP . TCP_UDP is supported only for CIDR resource configurations; specify it for a CIDR resource configuration to allow DNS resolution, which uses UDP. Possible values: • TCP • TCP_UDP
     /// </summary>
     [CliOption("--protocol")]
     public AwsVpcLatticeCreateResourceConfigurationProtocol? Protocol { get; set; }
 
     /// <summary>
-    /// (SINGLE, GROUP, ARN, CIDR) The ID or ARN of the resource gateway used to connect to the resource configuration. For a child resource configuration, this value is inherited from the parent resource con- figuration. For a CIDR resource configuration, the associated re- source gateway must have its DNS resolution set to IN_VPC so that DNS queries resolve in the context of your VPC. Constraints: o min: 17 o max: 2048 o pattern: ((rgw-[0-9a-z]{17})|(arn:[a-z0-9\-]+:vpc-lat- tice:[a-zA-Z0-9\-]+:\d{12}:resourcegateway/rgw-[0-9a-z]{17}))
+    /// (SINGLE, GROUP, ARN, CIDR) The ID or ARN of the resource gateway used to connect to the resource configuration. For a child resource configuration, this value is inherited from the parent resource configuration. For a CIDR resource configuration, the associated resource gateway must have its DNS resolution set to IN_VPC so that DNS queries resolve in the context of your VPC. Constraints: • min: 17 • max: 2048 • pattern: ((rgw-[0-9a-z]{17})|(arn:[a-z0-9\-]+:vpc-lattice:[a-zA-Z0-9\-]+:\d{12}:resourcegateway/rgw-[0-9a-z]{17}))
     /// </summary>
     [CliOption("--resource-gateway-identifier")]
     public string? ResourceGatewayIdentifier { get; set; }
 
     /// <summary>
-    /// (CHILD) The ID or ARN of the parent resource configuration of type GROUP . This is used to associate a child resource configuration with a group resource configuration. Constraints: o min: 20 o max: 2048 o pattern: ((rcfg-[0-9a-z]{17})|(arn:[a-z0-9\-]+:vpc-lat- tice:[a-zA-Z0-9\-]+:\d{12}:resourceconfigura- tion/rcfg-[0-9a-z]{17}))
+    /// (CHILD) The ID or ARN of the parent resource configuration of type GROUP . This is used to associate a child resource configuration with a group resource configuration. Constraints: • min: 20 • max: 2048 • pattern: ((rcfg-[0-9a-z]{17})|(arn:[a-z0-9\-]+:vpc-lattice:[a-zA-Z0-9\-]+:\d{12}:resourceconfiguration/rcfg-[0-9a-z]{17}))
     /// </summary>
     [CliOption("--resource-configuration-group-identifier")]
     public string? ResourceConfigurationGroupIdentifier { get; set; }
 
     /// <summary>
-    /// Identifies the resource configuration in one of the following ways: o Amazon Resource Name (ARN) - Supported resource-types that are provisioned by Amazon Web Services services, such as RDS data- bases, can be identified by their ARN. o Domain name - Any domain name that is publicly resolvable. o IP address - For IPv4 and IPv6, only IP addresses in the VPC are supported. o CIDR range - For a resource configuration of type CIDR, specify a cidrResource with one or more cidrRanges (for example, 10.0.0.0/16 ) that cover the IP addresses of the resources you want to make accessible. You can specify up to 10 ranges, using IPv4, IPv6, or both, and each range must include a prefix length. To represent your entire network, specify 0.0.0.0/0 (IPv4) or ::/0 (IPv6) as the only range. You can't use reserved ranges such as 169.254.0.0/16 , 100.64.0.0/10 , 224.0.0.0/4 , fe80::/10 , or ff00::/8 . NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: dnsResource, ipResource, arnResource, cidrResource. dnsResource -&gt; (structure) The DNS name of the resource. domainName -&gt; (string) The domain name of the resource. Constraints: o min: 3 o max: 255 ipAddressType -&gt; (string) The type of IP address. Dualstack is currently not supported. Possible values: o IPV4 o IPV6 o DUALSTACK ipResource -&gt; (structure) The IP resource. ipAddress -&gt; (string) The IP address of the IP resource. Constraints: o min: 4 o max: 39 arnResource -&gt; (structure) The Amazon Resource Name (ARN) of the resource. arn -&gt; (string) The Amazon Resource Name (ARN) of the resource. Constraints: o min: 20 o max: 2048 o pattern: arn:[a-z0-9][-.a-z0-9]{0,62}:[a-z0-9][-.a-z0-9]{0,62}:([a-z0-9][-.a-z0-9]{0,62})?:\d{12}?:[^/].{0,1023} cidrResource -&gt; (structure) The network segment for a resource configuration of type CIDR, specified as one or more CIDR ranges (cidrRanges ). Resources whose IP addresses fall within these ranges are reachable through a Tunnel VPC endpoint. cidrRanges -&gt; (list) The CIDR ranges of the network segment, for example, 10.0.0.0/16 . Constraints: o min: 1 o max: 10 (string) Constraints: o min: 1 o max: 50 Shorthand Syntax: dnsResource={domainName=string,ipAddressType=string},ipResource={ipAddress=string},arnResource={arn=string},cidrResource={cidrRanges=[string,string]} JSON Syntax: { "dnsResource": { "domainName": "string", "ipAddressType": "IPV4"|"IPV6"|"DUALSTACK" }, "ipResource": { "ipAddress": "string" }, "arnResource": { "arn": "string" }, "cidrResource": { "cidrRanges": ["string", ...] } }
+    /// Identifies the resource configuration in one of the following ways: • Amazon Resource Name (ARN) - Supported resource-types that are provisioned by Amazon Web Services services, such as RDS databases, can be identified by their ARN. • Domain name - Any domain name that is publicly resolvable. • IP address - For IPv4 and IPv6, only IP addresses in the VPC are supported. • CIDR range - For a resource configuration of type CIDR, specify a cidrResource with one or more cidrRanges (for example, 10.0.0.0/16 ) that cover the IP addresses of the resources you want to make accessible. You can specify up to 10 ranges, using IPv4, IPv6, or both, and each range must include a prefix length. To represent your entire network, specify 0.0.0.0/0 (IPv4) or ::/0 (IPv6) as the only range. You can't use reserved ranges such as 169.254.0.0/16 , 100.64.0.0/10 , 224.0.0.0/4 , fe80::/10 , or ff00::/8 . NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: dnsResource, ipResource, arnResource, cidrResource. dnsResource -&gt; (structure) The DNS name of the resource. domainName -&gt; (string) The domain name of the resource. Constraints: • min: 3 • max: 255 ipAddressType -&gt; (string) The type of IP address. Dualstack is currently not supported. Possible values: • IPV4 • IPV6 • DUALSTACK ipResource -&gt; (structure) The IP resource. ipAddress -&gt; (string) The IP address of the IP resource. Constraints: • min: 4 • max: 39 arnResource -&gt; (structure) The Amazon Resource Name (ARN) of the resource. arn -&gt; (string) The Amazon Resource Name (ARN) of the resource. Constraints: • min: 20 • max: 2048 • pattern: arn:[a-z0-9][-.a-z0-9]{0,62}:[a-z0-9][-.a-z0-9]{0,62}:([a-z0-9][-.a-z0-9]{0,62})?:\d{12}?:[^/].{0,1023} cidrResource -&gt; (structure) The network segment for a resource configuration of type CIDR, specified as one or more CIDR ranges (cidrRanges ). Resources whose IP addresses fall within these ranges are reachable through a Tunnel VPC endpoint. cidrRanges -&gt; (list) The CIDR ranges of the network segment, for example, 10.0.0.0/16 . Constraints: • min: 1 • max: 10 (string) Constraints: • min: 1 • max: 50 Shorthand Syntax: dnsResource={domainName=string,ipAddressType=string},ipResource={ipAddress=string},arnResource={arn=string},cidrResource={cidrRanges=[string,string]} JSON Syntax: { "dnsResource": { "domainName": "string", "ipAddressType": "IPV4"|"IPV6"|"DUALSTACK" }, "ipResource": { "ipAddress": "string" }, "arnResource": { "arn": "string" }, "cidrResource": { "cidrRanges": ["string", ...] } }
     /// </summary>
     [CliOption("--resource-configuration-definition")]
     public string? ResourceConfigurationDefinition { get; set; }
 
     /// <summary>
-    /// tion-to-shareable-service-network (boolean) (SINGLE, GROUP, ARN) Specifies whether the resource configuration can be associated with a sharable service network. The default is false.
+    /// (SINGLE, GROUP, ARN) Specifies whether the resource configuration can be associated with a sharable service network. The default is false.
     /// </summary>
     [CliFlag("--allow-association-to-shareable-service-network", NegatedName = "--no-allow-association-to-shareable-service-network")]
     public bool? AllowAssociationToShareableServiceNetwork { get; set; }
 
     /// <summary>
-    /// A custom domain name for your resource configuration. Additionally, provide a DomainVerificationID to prove your ownership of a domain. Constraints: o min: 3 o max: 255
+    /// A custom domain name for your resource configuration. Additionally, provide a DomainVerificationID to prove your ownership of a domain. Constraints: • min: 3 • max: 255
     /// </summary>
     [CliOption("--custom-domain-name")]
     public string? CustomDomainName { get; set; }
 
     /// <summary>
-    /// (GROUP) The group domain for a group resource configuration. Any do- mains that you create for the child resource are subdomains of the group domain. Child resources inherit the verification status of the domain. Constraints: o min: 3 o max: 255
+    /// (GROUP) The group domain for a group resource configuration. Any domains that you create for the child resource are subdomains of the group domain. Child resources inherit the verification status of the domain. Constraints: • min: 3 • max: 255
     /// </summary>
     [CliOption("--group-domain")]
     public string? GroupDomain { get; set; }
 
     /// <summary>
-    /// The domain verification ID of your verified custom domain name. If you don't provide an ID, you must configure the DNS settings your- self. Constraints: o min: 20 o max: 2048 o pattern: ((dv-[0-9a-z]{17})|(arn:[a-z0-9\-]+:vpc-lat- tice:[a-zA-Z0-9\-]+:\d{12}:domainverification/dv-[a-fA-F0-9]{17}))
+    /// The domain verification ID of your verified custom domain name. If you don't provide an ID, you must configure the DNS settings yourself. Constraints: • min: 20 • max: 2048 • pattern: ((dv-[0-9a-z]{17})|(arn:[a-z0-9\-]+:vpc-lattice:[a-zA-Z0-9\-]+:\d{12}:domainverification/dv-[a-fA-F0-9]{17}))
     /// </summary>
     [CliOption("--domain-verification-identifier")]
     public string? DomainVerificationIdentifier { get; set; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you retry a request that completed successfully using the same client token and parameters, the retry succeeds without performing any actions. If the parameters aren't identical, the retry fails. Constraints: o min: 1 o max: 64 o pattern: .*[!-~]+.*
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you retry a request that completed successfully using the same client token and parameters, the retry succeeds without performing any actions. If the parameters aren't identical, the retry fails. Constraints: • min: 1 • max: 64 • pattern: .*[!-~]+.*
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// The tags for the resource configuration. Constraints: o min: 0 o max: 200 key -&gt; (string) The key of the tag. Constraints: Tag keys are case-sensitive and accept a maximum of 128 Unicode characters. Valid characters are Unicode letters, digits, white space, and any of the following symbols: _ . : / = + - @ May not begin with aws: . Constraints: o min: 1 o max: 128 value -&gt; (string) The value of the tag. Constraints: Tag values are case-sensitive and accept a maximum of 256 Unicode characters. Valid characters are Unicode letters, digits, white space, and any of the following symbols: _ . : / = + - @ Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The tags for the resource configuration. Constraints: • min: 0 • max: 200 key -&gt; (string) The key of the tag. Constraints: Tag keys are case-sensitive and accept a maximum of 128 Unicode characters. Valid characters are Unicode letters, digits, white space, and any of the following symbols: _ . : / = + - @ May not begin with aws: . Constraints: • min: 1 • max: 128 value -&gt; (string) The value of the tag. Constraints: Tag values are case-sensitive and accept a maximum of 256 Unicode characters. Valid characters are Unicode letters, digits, white space, and any of the following symbols: _ . : / = + - @ Constraints: • min: 0 • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
@@ -161,6 +161,15 @@ public record AwsVpcLatticeCreateResourceConfigurationOptions : AwsOptions, IVal
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

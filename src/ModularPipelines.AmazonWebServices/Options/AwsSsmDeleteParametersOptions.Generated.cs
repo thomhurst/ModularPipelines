@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsSsmDeleteParametersOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Delete a list of parameters. After deleting a parameter, wait for at least 30 seconds to create a parameter with the same name. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Names">The names of the parameters to delete. After deleting a parameter, wait for at least 30 seconds to create a parameter with the same name. NOTE: You can't enter the Amazon Resource Name (ARN) for a parameter, only the parameter name itself. Constraints: o min: 1 o max: 10 (string) Constraints: o min: 1 o max: 2048 Syntax: "string" "string" ...</param>
+    /// <param name="Names">The names of the parameters to delete. After deleting a parameter, wait for at least 30 seconds to create a parameter with the same name. NOTE: You can't enter the Amazon Resource Name (ARN) for a parameter, only the parameter name itself. Constraints: • min: 1 • max: 10 (string) Constraints: • min: 1 • max: 2048 Syntax: "string" "string" ...</param>
     public AwsSsmDeleteParametersOptions(
         IEnumerable<string> Names
     )
@@ -67,7 +68,7 @@ public record AwsSsmDeleteParametersOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The names of the parameters to delete. After deleting a parameter, wait for at least 30 seconds to create a parameter with the same name. NOTE: You can't enter the Amazon Resource Name (ARN) for a parameter, only the parameter name itself. Constraints: o min: 1 o max: 10 (string) Constraints: o min: 1 o max: 2048 Syntax: "string" "string" ...
+    /// The names of the parameters to delete. After deleting a parameter, wait for at least 30 seconds to create a parameter with the same name. NOTE: You can't enter the Amazon Resource Name (ARN) for a parameter, only the parameter name itself. Constraints: • min: 1 • max: 10 (string) Constraints: • min: 1 • max: 2048 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--names", GroupValues = true)]
     public IEnumerable<string>? Names { get; private init; }
@@ -93,6 +94,15 @@ public record AwsSsmDeleteParametersOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

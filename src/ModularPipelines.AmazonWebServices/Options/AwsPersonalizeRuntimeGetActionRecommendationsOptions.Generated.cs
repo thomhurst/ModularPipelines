@@ -10,12 +10,12 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns a list of recommended actions in sorted in descending order by prediction score. Use the GetActionRecommendations API if you have a custom campaign that deploys a solution version trained with a PERSON- ALIZED_ACTIONS recipe. For more information about PERSONALIZED_ACTIONS recipes, see PERSONALIZED_ACTIONS recipes . For more information about getting ac- tion recommendations, see Getting action recommendations . See also: AWS API Documentation
+/// Returns a list of recommended actions in sorted in descending order by prediction score. Use the GetActionRecommendations API if you have a custom campaign that deploys a solution version trained with a PERSONALIZED_ACTIONS recipe. For more information about PERSONALIZED_ACTIONS recipes, see PERSONALIZED_ACTIONS recipes . For more information about getting action recommendations, see Getting action recommendations . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -23,31 +23,31 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsPersonalizeRuntimeGetActionRecommendationsOptions : AwsOptions
 {
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the campaign to use for getting action recommendations. This campaign must deploy a solution version trained with a PERSONALIZED_ACTIONS recipe. Constraints: o max: 256 o pattern: arn:([a-z\d-]+):personalize:.*:.*:.+
+    /// The Amazon Resource Name (ARN) of the campaign to use for getting action recommendations. This campaign must deploy a solution version trained with a PERSONALIZED_ACTIONS recipe. Constraints: • max: 256 • pattern: arn:([a-z\d-]+):personalize:.*:.*:.+
     /// </summary>
     [CliOption("--campaign-arn")]
     public string? CampaignArn { get; set; }
 
     /// <summary>
-    /// The user ID of the user to provide action recommendations for. Constraints: o max: 256
+    /// The user ID of the user to provide action recommendations for. Constraints: • max: 256
     /// </summary>
     [CliOption("--user-id")]
     public string? UserId { get; set; }
 
     /// <summary>
-    /// The number of results to return. The default is 5. The maximum is 100. Constraints: o min: 0
+    /// The number of results to return. The default is 5. The maximum is 100. Constraints: • min: 0
     /// </summary>
     [CliOption("--num-results")]
     public int? NumResults { get; set; }
 
     /// <summary>
-    /// The ARN of the filter to apply to the returned recommendations. For more information, see Filtering Recommendations . When using this parameter, be sure the filter resource is ACTIVE . Constraints: o max: 256 o pattern: arn:([a-z\d-]+):personalize:.*:.*:.+
+    /// The ARN of the filter to apply to the returned recommendations. For more information, see Filtering Recommendations . When using this parameter, be sure the filter resource is ACTIVE . Constraints: • max: 256 • pattern: arn:([a-z\d-]+):personalize:.*:.*:.+
     /// </summary>
     [CliOption("--filter-arn")]
     public string? FilterArn { get; set; }
 
     /// <summary>
-    /// The values to use when filtering recommendations. For each place- holder parameter in your filter expression, provide the parameter name (in matching case) as a key and the filter value(s) as the cor- responding value. Separate multiple values for one parameter with a comma. For filter expressions that use an INCLUDE element to include ac- tions, you must provide values for all parameters that are defined in the expression. For filters with expressions that use an EXCLUDE element to exclude actions, you can omit the filter-values . In this case, Amazon Personalize doesn't use that portion of the expression to filter recommendations. For more information, see Filtering recommendations and user seg- ments . Constraints: o max: 25 key -&gt; (string) Constraints: o max: 50 o pattern: [A-Za-z0-9_]+ value -&gt; (string) Constraints: o max: 1000 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The values to use when filtering recommendations. For each placeholder parameter in your filter expression, provide the parameter name (in matching case) as a key and the filter value(s) as the corresponding value. Separate multiple values for one parameter with a comma. For filter expressions that use an INCLUDE element to include actions, you must provide values for all parameters that are defined in the expression. For filters with expressions that use an EXCLUDE element to exclude actions, you can omit the filter-values . In this case, Amazon Personalize doesn't use that portion of the expression to filter recommendations. For more information, see Filtering recommendations and user segments . Constraints: • max: 25 key -&gt; (string) Constraints: • max: 50 • pattern: [A-Za-z0-9_]+ value -&gt; (string) Constraints: • max: 1000 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--filter-values", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? FilterValues { get; set; }
@@ -57,5 +57,14 @@ public record AwsPersonalizeRuntimeGetActionRecommendationsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

@@ -6,8 +6,8 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
+using ModularPipelines;
 using ModularPipelines.Context;
-using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
@@ -33,7 +33,7 @@ public class AwsElasticbeanstalk : IAwsElasticbeanstalk
     #region Sub-command Groups
 
     /// <summary>
-    /// aws wait sub-commands.
+    /// aws elasticbeanstalk wait sub-commands.
     /// </summary>
     public AwsElasticbeanstalkWait Wait => _wait ??= new AwsElasticbeanstalkWait(_command);
 
@@ -102,7 +102,7 @@ public class AwsElasticbeanstalk : IAwsElasticbeanstalk
     }
 
     /// <summary>
-    /// Create or update a group of environments that each run a separate com- ponent of a single application. Takes a list of version labels that specify application source bundles for each of the environments to cre- ate or update. The name of each environment and other required informa- tion must be included in the source bundles in an environment manifest named env.yaml . See Compose Environments for details. See also: AWS API Documentation
+    /// Create or update a group of environments that each run a separate component of a single application. Takes a list of version labels that specify application source bundles for each of the environments to create or update. The name of each environment and other required information must be included in the source bundles in an environment manifest named env.yaml . See Compose Environments for details. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -117,7 +117,7 @@ public class AwsElasticbeanstalk : IAwsElasticbeanstalk
     }
 
     /// <summary>
-    /// Creates an application that has one configuration template named de- fault and no application versions. See also: AWS API Documentation
+    /// Creates an application that has one configuration template named default and no application versions. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -132,7 +132,7 @@ public class AwsElasticbeanstalk : IAwsElasticbeanstalk
     }
 
     /// <summary>
-    /// Creates an application version for the specified application. You can create an application version from a source bundle in Amazon S3, a com- mit in CodeCommit, or the output of an CodeBuild build as follows: Specify a commit in an CodeCommit repository with SourceBuildInforma- tion . Specify a build in an CodeBuild with SourceBuildInformation and Build- Configuration . Specify a source bundle in Amazon S3 with SourceBundle Omit both SourceBuildInformation and SourceBundle to use the default sam...
+    /// Creates an application version for the specified application. You can create an application version from a source bundle in Amazon S3, a commit in CodeCommit, or the output of an CodeBuild build as follows: Specify a commit in an CodeCommit repository with SourceBuildInformation . Specify a build in an CodeBuild with SourceBuildInformation and BuildConfiguration . Specify a source bundle in Amazon S3 with SourceBundle Omit both SourceBuildInformation and SourceBundle to use the default sample ap...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -147,7 +147,7 @@ public class AwsElasticbeanstalk : IAwsElasticbeanstalk
     }
 
     /// <summary>
-    /// Creates an Elastic Beanstalk configuration template, associated with a specific Elastic Beanstalk application. You define application configu- ration settings in a configuration template. You can then use the con- figuration template to deploy different versions of the application with the same configuration settings. Templates aren't associated with any environment. The EnvironmentName response element is always null . Related Topics o DescribeConfigurationOptions o DescribeConfigurationSetting...
+    /// Creates an Elastic Beanstalk configuration template, associated with a specific Elastic Beanstalk application. You define application configuration settings in a configuration template. You can then use the configuration template to deploy different versions of the application with the same configuration settings. Templates aren't associated with any environment. The EnvironmentName response element is always null . Related Topics • DescribeConfigurationOptions • DescribeConfigurationSettings • ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -192,7 +192,7 @@ public class AwsElasticbeanstalk : IAwsElasticbeanstalk
     }
 
     /// <summary>
-    /// Creates a bucket in Amazon S3 to store application versions, logs, and other files used by Elastic Beanstalk environments. The Elastic Beanstalk console and EB CLI call this API the first time you create an environment in a region. If the storage location already exists, Cre- ateStorageLocation still returns the bucket name but does not create a new bucket. See also: AWS API Documentation
+    /// Creates a bucket in Amazon S3 to store application versions, logs, and other files used by Elastic Beanstalk environments. The Elastic Beanstalk console and EB CLI call this API the first time you create an environment in a region. If the storage location already exists, CreateStorageLocation still returns the bucket name but does not create a new bucket. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -252,7 +252,7 @@ public class AwsElasticbeanstalk : IAwsElasticbeanstalk
     }
 
     /// <summary>
-    /// Deletes the draft configuration associated with the running environ- ment. Updating a running environment with any configuration changes creates a draft configuration set. You can get the draft configuration using De- scribeConfigurationSettings while the update is in progress or if the update fails. The DeploymentStatus for the draft configuration indi- cates whether the deployment is in process or has failed. The draft configuration remains in existence until it is deleted with this ac- tion. ...
+    /// Deletes the draft configuration associated with the running environment. Updating a running environment with any configuration changes creates a draft configuration set. You can get the draft configuration using DescribeConfigurationSettings while the update is in progress or if the update fails. The DeploymentStatus for the draft configuration indicates whether the deployment is in process or has failed. The draft configuration remains in existence until it is deleted with this action. See also...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -297,21 +297,6 @@ public class AwsElasticbeanstalk : IAwsElasticbeanstalk
     }
 
     /// <summary>
-    /// Returns the descriptions of existing applications. This action only returns information about applications that the call- ing principle has IAM permissions to access. For example, consider a case where a user only has permission to access two of three applica- tions. When the user calls the DescribeApplications action, the re- sponse will only include the two applications that the user has permis- sion to access instead of all three applications. If the user doesnt have access to any of the appl...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> DescribeApplicationsAsync(
-        AwsElasticbeanstalkDescribeApplicationsOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsElasticbeanstalkDescribeApplicationsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
     /// Retrieve a list of application versions. This action only returns information about resources that the calling principle has IAM permissions to access. For example, consider a case where a user only has permission to access one of three resources. When the user calls the this action, the response will only include the one resource that the user has permission to access instead of all three resources. If the user doesnt have access to any of the resources an empty result is returned. NOTE: The AW...
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -327,7 +312,22 @@ public class AwsElasticbeanstalk : IAwsElasticbeanstalk
     }
 
     /// <summary>
-    /// Describes the configuration options that are used in a particular con- figuration template or environment, or that a specified solution stack defines. The description includes the values the options, their default values, and an indication of the required action on a running environ- ment if an option value is changed. This action only returns information about resources that the calling principle has IAM permissions to access. For example, consider a case where a user only has permission to acc...
+    /// Returns the descriptions of existing applications. This action only returns information about applications that the calling principle has IAM permissions to access. For example, consider a case where a user only has permission to access two of three applications. When the user calls the DescribeApplications action, the response will only include the two applications that the user has permission to access instead of all three applications. If the user doesnt have access to any of the applications...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> DescribeApplicationsAsync(
+        AwsElasticbeanstalkDescribeApplicationsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsElasticbeanstalkDescribeApplicationsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Describes the configuration options that are used in a particular configuration template or environment, or that a specified solution stack defines. The description includes the values the options, their default values, and an indication of the required action on a running environment if an option value is changed. This action only returns information about resources that the calling principle has IAM permissions to access. For example, consider a case where a user only has permission to access ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -357,7 +357,7 @@ public class AwsElasticbeanstalk : IAwsElasticbeanstalk
     }
 
     /// <summary>
-    /// Returns information about the overall health of the specified environ- ment. The DescribeEnvironmentHealth operation is only available with Elastic Beanstalk Enhanced Health. This action only returns information about environments that the call- ing principle has IAM permissions to access. For example, consider a case where a user only has permission to access one of three environ- ments. When the user calls this action, the response will only include the one environment that the user has permis...
+    /// Returns information about the overall health of the specified environment. The DescribeEnvironmentHealth operation is only available with Elastic Beanstalk Enhanced Health. This action only returns information about environments that the calling principle has IAM permissions to access. For example, consider a case where a user only has permission to access one of three environments. When the user calls this action, the response will only include the one environment that the user has permission t...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -372,7 +372,7 @@ public class AwsElasticbeanstalk : IAwsElasticbeanstalk
     }
 
     /// <summary>
-    /// Lists an environment's completed and failed managed actions. See also: AWS API Documentation describe-environment-managed-action-history is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-pagi- nate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the re- sults of the following query expressions: ManagedActio...
+    /// Lists an environment's completed and failed managed actions. See also: AWS API Documentation describe-environment-managed-action-history is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: ManagedActionHis...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -387,7 +387,7 @@ public class AwsElasticbeanstalk : IAwsElasticbeanstalk
     }
 
     /// <summary>
-    /// Lists an environment's upcoming and in-progress managed actions. This action only returns information about environments that the call- ing principle has IAM permissions to access. For example, consider a case where a user only has permission to access one of three environ- ments. When the user calls this action, the response will only include the one environment that the user has permission to access instead of all three environments. If the user doesnt have access to any of the environments an...
+    /// Lists an environment's upcoming and in-progress managed actions. This action only returns information about environments that the calling principle has IAM permissions to access. For example, consider a case where a user only has permission to access one of three environments. When the user calls this action, the response will only include the one environment that the user has permission to access instead of all three environments. If the user doesnt have access to any of the environments an emp...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -417,7 +417,7 @@ public class AwsElasticbeanstalk : IAwsElasticbeanstalk
     }
 
     /// <summary>
-    /// Returns descriptions for existing environments. This action only returns information about environments that the call- ing principle has IAM permissions to access. For example, consider a case where a user only has permission to access one of three environ- ments. When the user calls the DescribeEnvironments action, the re- sponse will only include the one environment that the user has permis- sion to access instead of all three environments. If the user doesnt have access to any of the environm...
+    /// Returns descriptions for existing environments. This action only returns information about environments that the calling principle has IAM permissions to access. For example, consider a case where a user only has permission to access one of three environments. When the user calls the DescribeEnvironments action, the response will only include the one environment that the user has permission to access instead of all three environments. If the user doesnt have access to any of the environments an ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -447,7 +447,7 @@ public class AwsElasticbeanstalk : IAwsElasticbeanstalk
     }
 
     /// <summary>
-    /// Retrieves detailed information about the health of instances in your Elastic Beanstalk environments. This operation requires enhanced health reporting . This action only returns information about environments that the call- ing principle has IAM permissions to access. For example, consider a case where a user only has permission to access one of three environ- ments. When the user calls this action, the response will only include the one environment that the user has permission to access instead...
+    /// Retrieves detailed information about the health of instances in your Elastic Beanstalk environments. This operation requires enhanced health reporting . This action only returns information about environments that the calling principle has IAM permissions to access. For example, consider a case where a user only has permission to access one of three environments. When the user calls this action, the response will only include the one environment that the user has permission to access instead of ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -462,7 +462,7 @@ public class AwsElasticbeanstalk : IAwsElasticbeanstalk
     }
 
     /// <summary>
-    /// Describes a platform version. Provides full details. Compare to List- PlatformVersions , which provides summary information about a list of platform versions. For definitions of platform version and other platform-related terms, see Elastic Beanstalk Platforms Glossary . This action only returns information about resources that the calling principle has IAM permissions to access. For example, consider a case where a user only has permission to access one of three resources. When the user calls t...
+    /// Describes a platform version. Provides full details. Compare to ListPlatformVersions , which provides summary information about a list of platform versions. For definitions of platform version and other platform-related terms, see Elastic Beanstalk Platforms Glossary . This action only returns information about resources that the calling principle has IAM permissions to access. For example, consider a case where a user only has permission to access one of three resources. When the user calls the...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -477,7 +477,7 @@ public class AwsElasticbeanstalk : IAwsElasticbeanstalk
     }
 
     /// <summary>
-    /// WARNING: The operations role feature of Elastic Beanstalk is in beta release and is subject to change. Disassociate the operations role from an environment. After this call is made, Elastic Beanstalk uses the caller's permissions for permis- sions to downstream services during subsequent calls acting on this en- vironment. See also: AWS API Documentation
+    /// WARNING: The operations role feature of Elastic Beanstalk is in beta release and is subject to change. Disassociate the operations role from an environment. After this call is made, Elastic Beanstalk uses the caller's permissions for permissions to downstream services during subsequent calls acting on this environment. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -522,7 +522,7 @@ public class AwsElasticbeanstalk : IAwsElasticbeanstalk
     }
 
     /// <summary>
-    /// Lists the platform versions available for your account in an Amazon Web Services Region. Provides summary information about each platform ver- sion. Compare to DescribePlatformVersion , which provides full details about a single platform version. This action only returns information about platform versions that the calling principle has IAM permissions to access. For example, consider a case where a user only has permission to access one of ten platform versions. When the user calls the ListPlat...
+    /// Lists the platform versions available for your account in an Amazon Web Services Region. Provides summary information about each platform version. Compare to DescribePlatformVersion , which provides full details about a single platform version. This action only returns information about platform versions that the calling principle has IAM permissions to access. For example, consider a case where a user only has permission to access one of ten platform versions. When the user calls the ListPlatfo...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -552,7 +552,7 @@ public class AwsElasticbeanstalk : IAwsElasticbeanstalk
     }
 
     /// <summary>
-    /// Deletes and recreates all of the Amazon Web Services resources (for ex- ample: the Auto Scaling group, load balancer, etc.) for a specified en- vironment and forces a restart. See also: AWS API Documentation
+    /// Deletes and recreates all of the Amazon Web Services resources (for example: the Auto Scaling group, load balancer, etc.) for a specified environment and forces a restart. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -567,7 +567,7 @@ public class AwsElasticbeanstalk : IAwsElasticbeanstalk
     }
 
     /// <summary>
-    /// Initiates a request to compile the specified type of information of the deployed environment. Setting the InfoType to tail compiles the last lines from the applica- tion server log files of every Amazon EC2 instance in your environment. Setting the InfoType to bundle compresses the application server log files for every Amazon EC2 instance into a .zip file. Legacy and .NET containers do not support bundle logs. Setting the InfoType to analyze collects recent events, instance health, and logs fro...
+    /// Initiates a request to compile the specified type of information of the deployed environment. Setting the InfoType to tail compiles the last lines from the application server log files of every Amazon EC2 instance in your environment. Setting the InfoType to bundle compresses the application server log files for every Amazon EC2 instance into a .zip file. Legacy and .NET containers do not support bundle logs. Setting the InfoType to analyze collects recent events, instance health, and logs from ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -582,7 +582,7 @@ public class AwsElasticbeanstalk : IAwsElasticbeanstalk
     }
 
     /// <summary>
-    /// Causes the environment to restart the application container server run- ning on each Amazon EC2 instance. See also: AWS API Documentation
+    /// Causes the environment to restart the application container server running on each Amazon EC2 instance. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -597,7 +597,7 @@ public class AwsElasticbeanstalk : IAwsElasticbeanstalk
     }
 
     /// <summary>
-    /// Retrieves the compiled information from a RequestEnvironmentInfo re- quest. Related Topics o RequestEnvironmentInfo See also: AWS API Documentation
+    /// Retrieves the compiled information from a RequestEnvironmentInfo request. Related Topics • RequestEnvironmentInfo See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -672,7 +672,7 @@ public class AwsElasticbeanstalk : IAwsElasticbeanstalk
     }
 
     /// <summary>
-    /// Updates the specified application version to have the specified proper- ties. NOTE: If a property (for example, description ) is not provided, the value remains unchanged. To clear properties, specify an empty string. See also: AWS API Documentation
+    /// Updates the specified application version to have the specified properties. NOTE: If a property (for example, description ) is not provided, the value remains unchanged. To clear properties, specify an empty string. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -687,7 +687,7 @@ public class AwsElasticbeanstalk : IAwsElasticbeanstalk
     }
 
     /// <summary>
-    /// Updates the specified configuration template to have the specified properties or configuration option values. NOTE: If a property (for example, ApplicationName ) is not provided, its value remains unchanged. To clear such properties, specify an empty string. Related Topics o DescribeConfigurationOptions See also: AWS API Documentation
+    /// Updates the specified configuration template to have the specified properties or configuration option values. NOTE: If a property (for example, ApplicationName ) is not provided, its value remains unchanged. To clear such properties, specify an empty string. Related Topics • DescribeConfigurationOptions See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -702,7 +702,7 @@ public class AwsElasticbeanstalk : IAwsElasticbeanstalk
     }
 
     /// <summary>
-    /// Updates the environment description, deploys a new application version, updates the configuration settings to an entirely new configuration template, or updates select configuration option values in the running environment. Attempting to update both the release and configuration is not allowed and Elastic Beanstalk returns an InvalidParameterCombination error. When updating the configuration settings to a new template or individ- ual settings, a draft configuration is created and DescribeConfigu...
+    /// Updates the environment description, deploys a new application version, updates the configuration settings to an entirely new configuration template, or updates select configuration option values in the running environment. Attempting to update both the release and configuration is not allowed and Elastic Beanstalk returns an InvalidParameterCombination error. When updating the configuration settings to a new template or individual settings, a draft configuration is created and DescribeConfigura...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -717,7 +717,7 @@ public class AwsElasticbeanstalk : IAwsElasticbeanstalk
     }
 
     /// <summary>
-    /// Update the list of tags applied to an Elastic Beanstalk resource. Two lists can be passed: TagsToAdd for tags to add or update, and TagsToRe- move . Elastic Beanstalk supports tagging of all of its resources. For details about resource tagging, see Tagging Application Resources . If you create a custom policy to control permission to this operation, specify one of the following two virtual actions (or both) instead of the API operation name: elasticbeanstalk:AddTags Controls permission to call U...
+    /// Update the list of tags applied to an Elastic Beanstalk resource. Two lists can be passed: TagsToAdd for tags to add or update, and TagsToRemove . Elastic Beanstalk supports tagging of all of its resources. For details about resource tagging, see Tagging Application Resources . If you create a custom policy to control permission to this operation, specify one of the following two virtual actions (or both) instead of the API operation name: elasticbeanstalk:AddTags Controls permission to call Upd...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -732,7 +732,7 @@ public class AwsElasticbeanstalk : IAwsElasticbeanstalk
     }
 
     /// <summary>
-    /// Takes a set of configuration settings and either a configuration tem- plate or environment, and determines whether those values are valid. This action returns a list of messages indicating any errors or warn- ings associated with the selection of option values. See also: AWS API Documentation
+    /// Takes a set of configuration settings and either a configuration template or environment, and determines whether those values are valid. This action returns a list of messages indicating any errors or warnings associated with the selection of option values. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

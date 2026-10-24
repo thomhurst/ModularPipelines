@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// NOTE: The AssociateAlias API operation only supports standard distribu- tions. To move domains between distribution tenants and/or standard distributions, we recommend that you use the UpdateDomainAssociation API operation instead. Associates an alias with a CloudFront standard distribution. An alias is commonly known as a custom domain or vanity domain. It can also be called a CNAME or alternate domain name. With this operation, you can move an alias that's already used for a standard distribut...
+/// NOTE: The AssociateAlias API operation only supports standard distributions. To move domains between distribution tenants and/or standard distributions, we recommend that you use the UpdateDomainAssociation API operation instead. Associates an alias with a CloudFront standard distribution. An alias is commonly known as a custom domain or vanity domain. It can also be called a CNAME or alternate domain name. With this operation, you can move an alias that's already used for a standard distributio...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsCloudfrontAssociateAliasOptions : AwsOptions, IValidatableObjec
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// NOTE: The AssociateAlias API operation only supports standard distribu- tions. To move domains between distribution tenants and/or standard distributions, we recommend that you use the UpdateDomainAssociation API operation instead. Associates an alias with a CloudFront standard distribution. An alias is commonly known as a custom domain or vanity domain. It can also be called a CNAME or alternate domain name. With this operation, you can move an alias that's already used for a standard distribut...
+    /// NOTE: The AssociateAlias API operation only supports standard distributions. To move domains between distribution tenants and/or standard distributions, we recommend that you use the UpdateDomainAssociation API operation instead. Associates an alias with a CloudFront standard distribution. An alias is commonly known as a custom domain or vanity domain. It can also be called a CNAME or alternate domain name. With this operation, you can move an alias that's already used for a standard distributio...
     /// </summary>
     /// <param name="TargetDistributionId">The ID of the standard distribution that you're associating the alias with.</param>
-    /// <param name="Alias">The alias (also known as a CNAME) to add to the target standard dis- tribution.</param>
+    /// <param name="Alias">The alias (also known as a CNAME) to add to the target standard distribution.</param>
     public AwsCloudfrontAssociateAliasOptions(
         string TargetDistributionId,
         string Alias
@@ -66,7 +67,7 @@ public record AwsCloudfrontAssociateAliasOptions : AwsOptions, IValidatableObjec
     public string? TargetDistributionId { get; private init; }
 
     /// <summary>
-    /// The alias (also known as a CNAME) to add to the target standard dis- tribution.
+    /// The alias (also known as a CNAME) to add to the target standard distribution.
     /// </summary>
     [CliOption("--alias")]
     public string? Alias { get; private init; }
@@ -92,6 +93,15 @@ public record AwsCloudfrontAssociateAliasOptions : AwsOptions, IValidatableObjec
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,9 +28,9 @@ public record AwsNetworkmanagerCreateLinkOptions : AwsOptions, IValidatableObjec
     /// <summary>
     /// Creates a new link for a specified site. See also: AWS API Documentation
     /// </summary>
-    /// <param name="GlobalNetworkId">The ID of the global network. Constraints: o min: 0 o max: 50 o pattern: [\s\S]*</param>
+    /// <param name="GlobalNetworkId">The ID of the global network. Constraints: • min: 0 • max: 50 • pattern: [\s\S]*</param>
     /// <param name="Bandwidth">The upload speed and download speed in Mbps. UploadSpeed -&gt; (integer) Upload speed in Mbps. DownloadSpeed -&gt; (integer) Download speed in Mbps. Shorthand Syntax: UploadSpeed=integer,DownloadSpeed=integer JSON Syntax: { "UploadSpeed": integer, "DownloadSpeed": integer }</param>
-    /// <param name="SiteId">The ID of the site. Constraints: o min: 0 o max: 50 o pattern: [\s\S]*</param>
+    /// <param name="SiteId">The ID of the site. Constraints: • min: 0 • max: 50 • pattern: [\s\S]*</param>
     public AwsNetworkmanagerCreateLinkOptions(
         string GlobalNetworkId,
         string Bandwidth,
@@ -64,7 +65,7 @@ public record AwsNetworkmanagerCreateLinkOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the global network. Constraints: o min: 0 o max: 50 o pattern: [\s\S]*
+    /// The ID of the global network. Constraints: • min: 0 • max: 50 • pattern: [\s\S]*
     /// </summary>
     [CliOption("--global-network-id")]
     public string? GlobalNetworkId { get; private init; }
@@ -76,31 +77,31 @@ public record AwsNetworkmanagerCreateLinkOptions : AwsOptions, IValidatableObjec
     public string? Bandwidth { get; private init; }
 
     /// <summary>
-    /// The ID of the site. Constraints: o min: 0 o max: 50 o pattern: [\s\S]*
+    /// The ID of the site. Constraints: • min: 0 • max: 50 • pattern: [\s\S]*
     /// </summary>
     [CliOption("--site-id")]
     public string? SiteId { get; private init; }
 
     /// <summary>
-    /// A description of the link. Constraints: Maximum length of 256 characters. Constraints: o min: 0 o max: 256 o pattern: [\s\S]*
+    /// A description of the link. Constraints: Maximum length of 256 characters. Constraints: • min: 0 • max: 256 • pattern: [\s\S]*
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The type of the link. Constraints: Maximum length of 128 characters. Cannot include the following characters: | ^ Constraints: o min: 0 o max: 256 o pattern: [\s\S]*
+    /// The type of the link. Constraints: Maximum length of 128 characters. Cannot include the following characters: | ^ Constraints: • min: 0 • max: 256 • pattern: [\s\S]*
     /// </summary>
     [CliOption("--type")]
     public string? Type { get; set; }
 
     /// <summary>
-    /// The provider of the link. Constraints: Maximum length of 128 characters. Cannot include the following characters: | ^ Constraints: o min: 0 o max: 256 o pattern: [\s\S]*
+    /// The provider of the link. Constraints: Maximum length of 128 characters. Cannot include the following characters: | ^ Constraints: • min: 0 • max: 256 • pattern: [\s\S]*
     /// </summary>
     [CliOption("--provider")]
     public string? Provider { get; set; }
 
     /// <summary>
-    /// The tags to apply to the resource during creation. (structure) Describes a tag. Key -&gt; (string) The tag key. Constraints: Maximum length of 128 characters. Constraints: o min: 0 o max: 10000000 o pattern: [\s\S]* Value -&gt; (string) The tag value. Constraints: Maximum length of 256 characters. Constraints: o min: 0 o max: 10000000 o pattern: [\s\S]* Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// The tags to apply to the resource during creation. (structure) Describes a tag. Key -&gt; (string) The tag key. Constraints: Maximum length of 128 characters. Constraints: • min: 0 • max: 10000000 • pattern: [\s\S]* Value -&gt; (string) The tag value. Constraints: Maximum length of 256 characters. Constraints: • min: 0 • max: 10000000 • pattern: [\s\S]* Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
@@ -126,6 +127,15 @@ public record AwsNetworkmanagerCreateLinkOptions : AwsOptions, IValidatableObjec
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

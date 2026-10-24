@@ -23,28 +23,25 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsSecuritylakeListLogSourcesOptions : AwsOptions
 {
     /// <summary>
-    /// The list of Amazon Web Services accounts for which log sources are displayed. (string) Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$ Syntax: "string" "string" ...
+    /// The list of Amazon Web Services accounts for which log sources are displayed. (string) Constraints: • min: 12 • max: 12 • pattern: ^[0-9]{12}$ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--accounts", GroupValues = true)]
     public IEnumerable<string>? Accounts { get; set; }
 
     /// <summary>
-    /// The list of Regions for which log sources are displayed. (string) Constraints: o pattern: ^(us(-gov)?|af|ap|ca|eu|me|sa)-(cen- tral|north|(north(?:east|west))|south|south(?:east|west)|east|west)-\d+$ Syntax: "string" "string" ...
+    /// The list of Regions for which log sources are displayed. (string) Constraints: • pattern: ^(us(-gov)?|af|ap|ca|eu|me|sa)-(central|north|(north(?:east|west))|south|south(?:east|west)|east|west)-\d+$ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--regions", GroupValues = true)]
     public IEnumerable<string>? Regions { get; set; }
 
     /// <summary>
-    /// The list of sources for which log sources are displayed. (tagged union structure) The supported source types from which logs and events are col- lected in Amazon Security Lake. For a list of supported Amazon Web Services services, see the Amazon Security Lake User Guide . NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: awsLogSource, customLogSource. awsLogSource -&gt; (structure) Amazon Security Lake supports log and event collection for natively supported Amazon Web Services services. For more in- formation, see the Amazon Security Lake User Guide . sourceName -&gt; (string) The name for a Amazon Web Services source. This must be a Regionally unique value. Possible values: o ROUTE53 o VPC_FLOW o SH_FINDINGS o CLOUD_TRAIL_MGMT o LAMBDA_EXECUTION o S3_DATA o EKS_AUDIT o WAF sourceVersion -&gt; (string) The version for a Amazon Web Services source. This must be a Regionally unique value. Constraints: o pattern: ^(latest|[0-9]\.[0-9])$ customLogSource -&gt; (structure) Amazon Security Lake supports custom source types. For more information, see the Amazon Security Lake User Guide . attributes -&gt; (structure) The attributes of a third-party custom source. crawlerArn -&gt; (string) The ARN of the Glue crawler. Constraints: o min: 1 o max: 1011 o pattern: ^arn:(aws|aws-us-gov|aws-cn):security- lake:[A-Za-z0-9_/.\-]{0,63}:[A-Za-z0-9_/.\-]{0,63}:[A-Za-z0-9][A-Za-z0-9_/.\-]{0,127}$ databaseArn -&gt; (string) The ARN of the Glue database where results are writ- ten, such as: arn:aws:daylight:us-east-1::data- base/sometable/* . Constraints: o min: 1 o max: 1011 o pattern: ^arn:(aws|aws-us-gov|aws-cn):security- lake:[A-Za-z0-9_/.\-]{0,63}:[A-Za-z0-9_/.\-]{0,63}:[A-Za-z0-9][A-Za-z0-9_/.\-]{0,127}$ tableArn -&gt; (string) The ARN of the Glue table. Constraints: o min: 1 o max: 1011 o pattern: ^arn:(aws|aws-us-gov|aws-cn):security- lake:[A-Za-z0-9_/.\-]{0,63}:[A-Za-z0-9_/.\-]{0,63}:[A-Za-z0-9][A-Za-z0-9_/.\-]{0,127}$ provider -&gt; (structure) The details of the log provider for a third-party custom source. location -&gt; (string) The location of the partition in the Amazon S3 bucket for Security Lake. Constraints: o min: 0 o max: 1024 o pattern: ^s3[an]?://[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9](/[^/].*)+$ roleArn -&gt; (string) The ARN of the IAM role to be used by the entity putting logs into your custom source partition. Secu- rity Lake will apply the correct access policies to this role, but you must first manually create the trust policy for this role. The IAM role name must start with the text 'Security Lake'. The IAM role must trust the logProviderAccountId to assume the role. Constraints: o pattern: ^arn:(aws[a-zA-Z-]*)?:iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+$ sourceName -&gt; (string) The name for a third-party custom source. This must be a Regionally unique value. Constraints: o min: 1 o max: 64 o pattern: ^[\w\-\_\:\.]*$ sourceVersion -&gt; (string) The version for a third-party custom source. This must be a Regionally unique value. Constraints: o min: 1 o max: 32 o pattern: ^[A-Za-z0-9\-\.\_]*$ Shorthand Syntax: awsLogSource={sourceName=string,sourceVersion=string},customLogSource={attributes={crawlerArn=string,databaseArn=string,tableArn=string},provider={location=string,roleArn=string},sourceName=string,sourceVersion=string} ... JSON Syntax: [ { "awsLogSource": { "sourceName": "ROUTE53"|"VPC_FLOW"|"SH_FINDINGS"|"CLOUD_TRAIL_MGMT"|"LAMBDA_EXECUTION"|"S3_DATA"|"EKS_AUDIT"|"WAF", "sourceVersion": "string" }, "customLogSource": { "attributes": { "crawlerArn": "string", "databaseArn": "string", "tableArn": "string" }, "provider": { "location": "string", "roleArn": "string" }, "sourceName": "string", "sourceVersion": "string" } } ... ]
+    /// The list of sources for which log sources are displayed. (tagged union structure) The supported source types from which logs and events are collected in Amazon Security Lake. For a list of supported Amazon Web Services services, see the Amazon Security Lake User Guide . NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: awsLogSource, customLogSource. awsLogSource -&gt; (structure) Amazon Security Lake supports log and event collection for natively supported Amazon Web Services services. For more information, see the Amazon Security Lake User Guide . sourceName -&gt; (string) The name for a Amazon Web Services source. This must be a Regionally unique value. Possible values: • ROUTE53 • VPC_FLOW • SH_FINDINGS • CLOUD_TRAIL_MGMT • LAMBDA_EXECUTION • S3_DATA • EKS_AUDIT • WAF sourceVersion -&gt; (string) The version for a Amazon Web Services source. This must be a Regionally unique value. Constraints: • pattern: ^(latest|[0-9]\.[0-9])$ customLogSource -&gt; (structure) Amazon Security Lake supports custom source types. For more information, see the Amazon Security Lake User Guide . attributes -&gt; (structure) The attributes of a third-party custom source. crawlerArn -&gt; (string) The ARN of the Glue crawler. Constraints: • min: 1 • max: 1011 • pattern: ^arn:(aws|aws-us-gov|aws-cn):securitylake:[A-Za-z0-9_/.\-]{0,63}:[A-Za-z0-9_/.\-]{0,63}:[A-Za-z0-9][A-Za-z0-9_/.\-]{0,127}$ databaseArn -&gt; (string) The ARN of the Glue database where results are written, such as: arn:aws:daylight:us-east-1::database/sometable/* . Constraints: • min: 1 • max: 1011 • pattern: ^arn:(aws|aws-us-gov|aws-cn):securitylake:[A-Za-z0-9_/.\-]{0,63}:[A-Za-z0-9_/.\-]{0,63}:[A-Za-z0-9][A-Za-z0-9_/.\-]{0,127}$ tableArn -&gt; (string) The ARN of the Glue table. Constraints: • min: 1 • max: 1011 • pattern: ^arn:(aws|aws-us-gov|aws-cn):securitylake:[A-Za-z0-9_/.\-]{0,63}:[A-Za-z0-9_/.\-]{0,63}:[A-Za-z0-9][A-Za-z0-9_/.\-]{0,127}$ provider -&gt; (structure) The details of the log provider for a third-party custom source. location -&gt; (string) The location of the partition in the Amazon S3 bucket for Security Lake. Constraints: • min: 0 • max: 1024 • pattern: ^s3[an]?://[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9](/[^/].*)+$ roleArn -&gt; (string) The ARN of the IAM role to be used by the entity putting logs into your custom source partition. Security Lake will apply the correct access policies to this role, but you must first manually create the trust policy for this role. The IAM role name must start with the text 'Security Lake'. The IAM role must trust the logProviderAccountId to assume the role. Constraints: • pattern: ^arn:(aws[a-zA-Z-]*)?:iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+$ sourceName -&gt; (string) The name for a third-party custom source. This must be a Regionally unique value. Constraints: • min: 1 • max: 64 • pattern: ^[\w\-\_\:\.]*$ sourceVersion -&gt; (string) The version for a third-party custom source. This must be a Regionally unique value. Constraints: • min: 1 • max: 32 • pattern: ^[A-Za-z0-9\-\.\_]*$ Shorthand Syntax: awsLogSource={sourceName=string,sourceVersion=string},customLogSource={attributes={crawlerArn=string,databaseArn=string,tableArn=string},provider={location=string,roleArn=string},sourceName=string,sourceVersion=string} ... JSON Syntax: [ { "awsLogSource": { "sourceName": "ROUTE53"|"VPC_FLOW"|"SH_FINDINGS"|"CLOUD_TRAIL_MGMT"|"LAMBDA_EXECUTION"|"S3_DATA"|"EKS_AUDIT"|"WAF", "sourceVersion": "string" }, "customLogSource": { "attributes": { "crawlerArn": "string", "databaseArn": "string", "tableArn": "string" }, "provider": { "location": "string", "roleArn": "string" }, "sourceName": "string", "sourceVersion": "string" } } ... ]
     /// </summary>
     [CliOption("--sources", GroupValues = true)]
     public IEnumerable<string>? Sources { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -54,15 +51,27 @@ public record AwsSecuritylakeListLogSourcesOptions : AwsOptions
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 100
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Transfers a domain from the current Amazon Web Services account to an- other Amazon Web Services account. Note the following: o The Amazon Web Services account that you're transferring the domain to must accept the transfer. If the other account doesn't accept the transfer within 3 days, we cancel the transfer. See AcceptDomainTransferFromAnotherAwsAccount . o You can cancel the transfer before the other account accepts it. See CancelDomainTransferToAnotherAwsAccount . o The other account can re...
+/// Transfers a domain from the current Amazon Web Services account to another Amazon Web Services account. Note the following: • The Amazon Web Services account that you're transferring the domain to must accept the transfer. If the other account doesn't accept the transfer within 3 days, we cancel the transfer. See AcceptDomainTransferFromAnotherAwsAccount . • You can cancel the transfer before the other account accepts it. See CancelDomainTransferToAnotherAwsAccount . • The other account can reje...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsRoute53domainsTransferDomainToAnotherAwsAccountOptions : AwsOpt
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Transfers a domain from the current Amazon Web Services account to an- other Amazon Web Services account. Note the following: o The Amazon Web Services account that you're transferring the domain to must accept the transfer. If the other account doesn't accept the transfer within 3 days, we cancel the transfer. See AcceptDomainTransferFromAnotherAwsAccount . o You can cancel the transfer before the other account accepts it. See CancelDomainTransferToAnotherAwsAccount . o The other account can re...
+    /// Transfers a domain from the current Amazon Web Services account to another Amazon Web Services account. Note the following: • The Amazon Web Services account that you're transferring the domain to must accept the transfer. If the other account doesn't accept the transfer within 3 days, we cancel the transfer. See AcceptDomainTransferFromAnotherAwsAccount . • You can cancel the transfer before the other account accepts it. See CancelDomainTransferToAnotherAwsAccount . • The other account can reje...
     /// </summary>
-    /// <param name="DomainName">The name of the domain that you want to transfer from the current Amazon Web Services account to another account. Constraints: o max: 255</param>
-    /// <param name="AccountId">The account ID of the Amazon Web Services account that you want to transfer the domain to, for example, 111122223333 . Constraints: o min: 12 o max: 12 o pattern: ^(\d{12})$</param>
+    /// <param name="DomainName">The name of the domain that you want to transfer from the current Amazon Web Services account to another account. Constraints: • max: 255</param>
+    /// <param name="AccountId">The account ID of the Amazon Web Services account that you want to transfer the domain to, for example, 111122223333 . Constraints: • min: 12 • max: 12 • pattern: ^(\d{12})$</param>
     public AwsRoute53domainsTransferDomainToAnotherAwsAccountOptions(
         string DomainName,
         string AccountId
@@ -60,13 +61,13 @@ public record AwsRoute53domainsTransferDomainToAnotherAwsAccountOptions : AwsOpt
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the domain that you want to transfer from the current Amazon Web Services account to another account. Constraints: o max: 255
+    /// The name of the domain that you want to transfer from the current Amazon Web Services account to another account. Constraints: • max: 255
     /// </summary>
     [CliOption("--domain-name")]
     public string? DomainName { get; private init; }
 
     /// <summary>
-    /// The account ID of the Amazon Web Services account that you want to transfer the domain to, for example, 111122223333 . Constraints: o min: 12 o max: 12 o pattern: ^(\d{12})$
+    /// The account ID of the Amazon Web Services account that you want to transfer the domain to, for example, 111122223333 . Constraints: • min: 12 • max: 12 • pattern: ^(\d{12})$
     /// </summary>
     [CliOption("--account-id")]
     public string? AccountId { get; private init; }
@@ -92,6 +93,15 @@ public record AwsRoute53domainsTransferDomainToAnotherAwsAccountOptions : AwsOpt
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

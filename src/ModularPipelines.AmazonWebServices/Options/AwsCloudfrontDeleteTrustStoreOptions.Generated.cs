@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsCloudfrontDeleteTrustStoreOptions : AwsOptions, IValidatableObj
     /// <summary>
     /// Deletes a trust store. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Id">The trust store's ID. Constraints: o min: 1 o max: 64</param>
-    /// <param name="IfMatch">The current version (ETag value) of the trust store you are delet- ing.</param>
+    /// <param name="Id">The trust store's ID. Constraints: • min: 1 • max: 64</param>
+    /// <param name="IfMatch">The current version (ETag value) of the trust store you are deleting.</param>
     public AwsCloudfrontDeleteTrustStoreOptions(
         string Id,
         string IfMatch
@@ -60,13 +61,13 @@ public record AwsCloudfrontDeleteTrustStoreOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The trust store's ID. Constraints: o min: 1 o max: 64
+    /// The trust store's ID. Constraints: • min: 1 • max: 64
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; private init; }
 
     /// <summary>
-    /// The current version (ETag value) of the trust store you are delet- ing.
+    /// The current version (ETag value) of the trust store you are deleting.
     /// </summary>
     [CliOption("--if-match")]
     public string? IfMatch { get; private init; }
@@ -92,6 +93,15 @@ public record AwsCloudfrontDeleteTrustStoreOptions : AwsOptions, IValidatableObj
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

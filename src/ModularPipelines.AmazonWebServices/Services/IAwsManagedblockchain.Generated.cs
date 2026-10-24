@@ -6,7 +6,7 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using ModularPipelines.Models;
+using ModularPipelines;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
@@ -22,14 +22,13 @@ namespace ModularPipelines.AmazonWebServices.Services;
 public interface IAwsManagedblockchain
 {
     /// <summary>
-    /// Creates a new accessor for use with Amazon Managed Blockchain service that supports token based access. The accessor contains information re- quired for token based access. See also: AWS API Documentation
+    /// Creates a new accessor for use with Amazon Managed Blockchain service that supports token based access. The accessor contains information required for token based access. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateAccessorAsync(AwsManagedblockchainCreateAccessorOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateAccessorAsync(AwsManagedblockchainCreateAccessorOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a member within a Managed Blockchain network. Applies only to Hyperledger Fabric. See also: AWS API Documentation
@@ -38,8 +37,7 @@ public interface IAwsManagedblockchain
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateMemberAsync(AwsManagedblockchainCreateMemberOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateMemberAsync(AwsManagedblockchainCreateMemberOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a new blockchain network using Amazon Managed Blockchain. Applies only to Hyperledger Fabric. See also: AWS API Documentation
@@ -48,8 +46,7 @@ public interface IAwsManagedblockchain
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateNetworkAsync(AwsManagedblockchainCreateNetworkOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateNetworkAsync(AwsManagedblockchainCreateNetworkOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a node on the specified blockchain network. Applies to Hyperledger Fabric and Ethereum. See also: AWS API Documentation
@@ -58,8 +55,7 @@ public interface IAwsManagedblockchain
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateNodeAsync(AwsManagedblockchainCreateNodeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateNodeAsync(AwsManagedblockchainCreateNodeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a proposal for a change to the network that other members of the network can vote on, for example, a proposal to add a new member to the network. Any member can create a proposal. Applies only to Hyperledger Fabric. See also: AWS API Documentation
@@ -68,28 +64,25 @@ public interface IAwsManagedblockchain
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateProposalAsync(AwsManagedblockchainCreateProposalOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateProposalAsync(AwsManagedblockchainCreateProposalOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Deletes an accessor that your Amazon Web Services account owns. An ac- cessor object is a container that has the information required for to- ken based access to your Ethereum nodes including, the BILLING_TOKEN . After an accessor is deleted, the status of the accessor changes from AVAILABLE to PENDING_DELETION . An accessor in the PENDING_DELETION state cant be used for new WebSocket requests or HTTP requests. How- ever, WebSocket connections that were initiated while the accessor was in the AV...
+    /// Deletes an accessor that your Amazon Web Services account owns. An accessor object is a container that has the information required for token based access to your Ethereum nodes including, the BILLING_TOKEN . After an accessor is deleted, the status of the accessor changes from AVAILABLE to PENDING_DELETION . An accessor in the PENDING_DELETION state cant be used for new WebSocket requests or HTTP requests. However, WebSocket connections that were initiated while the accessor was in the AVAILABL...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteAccessorAsync(AwsManagedblockchainDeleteAccessorOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteAccessorAsync(AwsManagedblockchainDeleteAccessorOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Deletes a member. Deleting a member removes the member and all associ- ated resources from the network. DeleteMember can only be called for a specified MemberId if the principal performing the action is associated with the Amazon Web Services account that owns the member. In all other cases, the DeleteMember action is carried out as the result of an ap- proved proposal to remove a member. If MemberId is the last member in a network specified by the last Amazon Web Services account, the network i...
+    /// Deletes a member. Deleting a member removes the member and all associated resources from the network. DeleteMember can only be called for a specified MemberId if the principal performing the action is associated with the Amazon Web Services account that owns the member. In all other cases, the DeleteMember action is carried out as the result of an approved proposal to remove a member. If MemberId is the last member in a network specified by the last Amazon Web Services account, the network is de...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteMemberAsync(AwsManagedblockchainDeleteMemberOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteMemberAsync(AwsManagedblockchainDeleteMemberOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a node that your Amazon Web Services account owns. All data on the node is lost and cannot be recovered. Applies to Hyperledger Fabric and Ethereum. See also: AWS API Documentation
@@ -98,8 +91,7 @@ public interface IAwsManagedblockchain
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteNodeAsync(AwsManagedblockchainDeleteNodeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteNodeAsync(AwsManagedblockchainDeleteNodeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns detailed information about an accessor. An accessor object is a container that has the information required for token based access to your Ethereum nodes. See also: AWS API Documentation
@@ -108,8 +100,7 @@ public interface IAwsManagedblockchain
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetAccessorAsync(AwsManagedblockchainGetAccessorOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetAccessorAsync(AwsManagedblockchainGetAccessorOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns detailed information about a member. Applies only to Hyperledger Fabric. See also: AWS API Documentation
@@ -118,8 +109,7 @@ public interface IAwsManagedblockchain
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetMemberAsync(AwsManagedblockchainGetMemberOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetMemberAsync(AwsManagedblockchainGetMemberOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns detailed information about a network. Applies to Hyperledger Fabric and Ethereum. See also: AWS API Documentation
@@ -128,8 +118,7 @@ public interface IAwsManagedblockchain
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetNetworkAsync(AwsManagedblockchainGetNetworkOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetNetworkAsync(AwsManagedblockchainGetNetworkOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns detailed information about a node. Applies to Hyperledger Fabric and Ethereum. See also: AWS API Documentation
@@ -138,8 +127,7 @@ public interface IAwsManagedblockchain
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetNodeAsync(AwsManagedblockchainGetNodeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetNodeAsync(AwsManagedblockchainGetNodeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns detailed information about a proposal. Applies only to Hyperledger Fabric. See also: AWS API Documentation
@@ -148,18 +136,16 @@ public interface IAwsManagedblockchain
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetProposalAsync(AwsManagedblockchainGetProposalOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetProposalAsync(AwsManagedblockchainGetProposalOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Returns a list of the accessors and their properties. Accessor objects are containers that have the information required for token based ac- cess to your Ethereum nodes. See also: AWS API Documentation list-accessors is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument mus...
+    /// Returns a list of the accessors and their properties. Accessor objects are containers that have the information required for token based access to your Ethereum nodes. See also: AWS API Documentation list-accessors is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extr...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListAccessorsAsync(AwsManagedblockchainListAccessorsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListAccessorsAsync(AwsManagedblockchainListAccessorsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a list of all invitations for the current Amazon Web Services account. Applies only to Hyperledger Fabric. See also: AWS API Documentation
@@ -168,18 +154,16 @@ public interface IAwsManagedblockchain
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListInvitationsAsync(AwsManagedblockchainListInvitationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListInvitationsAsync(AwsManagedblockchainListInvitationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Returns a list of the members in a network and properties of their con- figurations. Applies only to Hyperledger Fabric. See also: AWS API Documentation
+    /// Returns a list of the members in a network and properties of their configurations. Applies only to Hyperledger Fabric. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListMembersAsync(AwsManagedblockchainListMembersOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListMembersAsync(AwsManagedblockchainListMembersOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns information about the networks in which the current Amazon Web Services account participates. Applies to Hyperledger Fabric and Ethereum. See also: AWS API Documentation
@@ -188,8 +172,7 @@ public interface IAwsManagedblockchain
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListNetworksAsync(AwsManagedblockchainListNetworksOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListNetworksAsync(AwsManagedblockchainListNetworksOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns information about the nodes within a network. Applies to Hyperledger Fabric and Ethereum. See also: AWS API Documentation
@@ -198,18 +181,7 @@ public interface IAwsManagedblockchain
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListNodesAsync(AwsManagedblockchainListNodesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
-
-    /// <summary>
-    /// Returns a list of proposals for the network. Applies only to Hyperledger Fabric. See also: AWS API Documentation
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public Task<CommandResult> ListProposalsAsync(AwsManagedblockchainListProposalsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListNodesAsync(AwsManagedblockchainListNodesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns the list of votes for a specified proposal, including the value of each vote and the unique identifier of the member that cast the vote. Applies only to Hyperledger Fabric. See also: AWS API Documentation
@@ -218,8 +190,16 @@ public interface IAwsManagedblockchain
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListProposalVotesAsync(AwsManagedblockchainListProposalVotesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListProposalVotesAsync(AwsManagedblockchainListProposalVotesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Returns a list of proposals for the network. Applies only to Hyperledger Fabric. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> ListProposalsAsync(AwsManagedblockchainListProposalsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a list of tags for the specified resource. Each tag consists of a key and optional value. For more information about tags, see Tagging Resources in the Amazon Managed Blockchain Ethereum Developer Guide , or Tagging Resources in the Amazon Managed Blockchain Hyperledger Fabric Developer Guide . See also: AWS API Documentation
@@ -228,28 +208,25 @@ public interface IAwsManagedblockchain
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTagsForResourceAsync(AwsManagedblockchainListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListTagsForResourceAsync(AwsManagedblockchainListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Rejects an invitation to join a network. This action can be called by a principal in an Amazon Web Services account that has received an invi- tation to create a member and join a network. Applies only to Hyperledger Fabric. See also: AWS API Documentation
+    /// Rejects an invitation to join a network. This action can be called by a principal in an Amazon Web Services account that has received an invitation to create a member and join a network. Applies only to Hyperledger Fabric. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RejectInvitationAsync(AwsManagedblockchainRejectInvitationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> RejectInvitationAsync(AwsManagedblockchainRejectInvitationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Adds or overwrites the specified tags for the specified Amazon Managed Blockchain resource. Each tag consists of a key and optional value. When you specify a tag key that already exists, the tag value is over- written with the new value. Use UntagResource to remove tag keys. A resource can have up to 50 tags. If you try to create more than 50 tags for a resource, your request fails and returns an error. For more information about tags, see Tagging Resources in the Amazon Managed Blockchain Ether...
+    /// Adds or overwrites the specified tags for the specified Amazon Managed Blockchain resource. Each tag consists of a key and optional value. When you specify a tag key that already exists, the tag value is overwritten with the new value. Use UntagResource to remove tag keys. A resource can have up to 50 tags. If you try to create more than 50 tags for a resource, your request fails and returns an error. For more information about tags, see Tagging Resources in the Amazon Managed Blockchain Ethereu...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> TagResourceAsync(AwsManagedblockchainTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> TagResourceAsync(AwsManagedblockchainTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Removes the specified tags from the Amazon Managed Blockchain resource. For more information about tags, see Tagging Resources in the Amazon Managed Blockchain Ethereum Developer Guide , or Tagging Resources in the Amazon Managed Blockchain Hyperledger Fabric Developer Guide . See also: AWS API Documentation
@@ -258,8 +235,7 @@ public interface IAwsManagedblockchain
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UntagResourceAsync(AwsManagedblockchainUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UntagResourceAsync(AwsManagedblockchainUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates a member configuration with new parameters. Applies only to Hyperledger Fabric. See also: AWS API Documentation
@@ -268,8 +244,7 @@ public interface IAwsManagedblockchain
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateMemberAsync(AwsManagedblockchainUpdateMemberOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateMemberAsync(AwsManagedblockchainUpdateMemberOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates a node configuration with new parameters. Applies only to Hyperledger Fabric. See also: AWS API Documentation
@@ -278,17 +253,15 @@ public interface IAwsManagedblockchain
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateNodeAsync(AwsManagedblockchainUpdateNodeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateNodeAsync(AwsManagedblockchainUpdateNodeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Casts a vote for a specified ProposalId on behalf of a member. The mem- ber to vote as, specified by VoterMemberId , must be in the same Amazon Web Services account as the principal that calls the action. Applies only to Hyperledger Fabric. See also: AWS API Documentation
+    /// Casts a vote for a specified ProposalId on behalf of a member. The member to vote as, specified by VoterMemberId , must be in the same Amazon Web Services account as the principal that calls the action. Applies only to Hyperledger Fabric. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> VoteOnProposalAsync(AwsManagedblockchainVoteOnProposalOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> VoteOnProposalAsync(AwsManagedblockchainVoteOnProposalOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

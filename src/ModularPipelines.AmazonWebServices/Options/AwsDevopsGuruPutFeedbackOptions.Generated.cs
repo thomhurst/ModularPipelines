@@ -22,7 +22,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsDevopsGuruPutFeedbackOptions : AwsOptions
 {
     /// <summary>
-    /// The feedback from customers is about the recommendations in this in- sight. Id -&gt; (string) The insight feedback ID. Constraints: o min: 1 o max: 100 o pattern: ^[\w-]*$ Feedback -&gt; (string) The feedback provided by the customer. Possible values: o VALID_COLLECTION o RECOMMENDATION_USEFUL o ALERT_TOO_SENSITIVE o DATA_NOISY_ANOMALY o DATA_INCORRECT Shorthand Syntax: Id=string,Feedback=string JSON Syntax: { "Id": "string", "Feedback": "VALID_COLLECTION"|"RECOMMENDATION_USEFUL"|"ALERT_TOO_SENSITIVE"|"DATA_NOISY_ANOMALY"|"DATA_INCORRECT" }
+    /// The feedback from customers is about the recommendations in this insight. Id -&gt; (string) The insight feedback ID. Constraints: • min: 1 • max: 100 • pattern: ^[\w-]*$ Feedback -&gt; (string) The feedback provided by the customer. Possible values: • VALID_COLLECTION • RECOMMENDATION_USEFUL • ALERT_TOO_SENSITIVE • DATA_NOISY_ANOMALY • DATA_INCORRECT Shorthand Syntax: Id=string,Feedback=string JSON Syntax: { "Id": "string", "Feedback": "VALID_COLLECTION"|"RECOMMENDATION_USEFUL"|"ALERT_TOO_SENSITIVE"|"DATA_NOISY_ANOMALY"|"DATA_INCORRECT" }
     /// </summary>
     [CliOption("--insight-feedback")]
     public string? InsightFeedback { get; set; }
@@ -32,5 +32,14 @@ public record AwsDevopsGuruPutFeedbackOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

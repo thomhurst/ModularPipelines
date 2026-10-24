@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// NOTE: Auto-termination is supported in Amazon EMR releases 5.30.0 and 6.1.0 and later. For more information, see Using an auto-termination policy . Creates or updates an auto-termination policy for an Amazon EMR clus- ter. An auto-termination policy defines the amount of idle time in sec- onds after which a cluster automatically terminates. For alternative cluster termination options, see Control cluster termination . See also: AWS API Documentation
+/// NOTE: Auto-termination is supported in Amazon EMR releases 5.30.0 and 6.1.0 and later. For more information, see Using an auto-termination policy . Creates or updates an auto-termination policy for an Amazon EMR cluster. An auto-termination policy defines the amount of idle time in seconds after which a cluster automatically terminates. For alternative cluster termination options, see Control cluster termination . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsEmrPutAutoTerminationPolicyOptions : AwsOptions, IValidatableOb
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// NOTE: Auto-termination is supported in Amazon EMR releases 5.30.0 and 6.1.0 and later. For more information, see Using an auto-termination policy . Creates or updates an auto-termination policy for an Amazon EMR clus- ter. An auto-termination policy defines the amount of idle time in sec- onds after which a cluster automatically terminates. For alternative cluster termination options, see Control cluster termination . See also: AWS API Documentation
+    /// NOTE: Auto-termination is supported in Amazon EMR releases 5.30.0 and 6.1.0 and later. For more information, see Using an auto-termination policy . Creates or updates an auto-termination policy for an Amazon EMR cluster. An auto-termination policy defines the amount of idle time in seconds after which a cluster automatically terminates. For alternative cluster termination options, see Control cluster termination . See also: AWS API Documentation
     /// </summary>
-    /// <param name="ClusterId">Specifies the ID of the Amazon EMR cluster to which the auto-termi- nation policy will be attached. Constraints: o max: 256</param>
+    /// <param name="ClusterId">Specifies the ID of the Amazon EMR cluster to which the auto-termination policy will be attached. Constraints: • max: 256</param>
     public AwsEmrPutAutoTerminationPolicyOptions(
         string ClusterId
     )
@@ -56,7 +57,7 @@ public record AwsEmrPutAutoTerminationPolicyOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Specifies the ID of the Amazon EMR cluster to which the auto-termi- nation policy will be attached. Constraints: o max: 256
+    /// Specifies the ID of the Amazon EMR cluster to which the auto-termination policy will be attached. Constraints: • max: 256
     /// </summary>
     [CliOption("--cluster-id")]
     public string? ClusterId { get; private init; }
@@ -88,6 +89,15 @@ public record AwsEmrPutAutoTerminationPolicyOptions : AwsOptions, IValidatableOb
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

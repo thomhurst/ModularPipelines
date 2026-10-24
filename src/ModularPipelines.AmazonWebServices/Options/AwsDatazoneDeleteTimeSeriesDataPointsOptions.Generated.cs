@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -29,10 +30,10 @@ public record AwsDatazoneDeleteTimeSeriesDataPointsOptions : AwsOptions, IValida
     /// <summary>
     /// Deletes the specified time series form for the specified asset. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DomainIdentifier">The ID of the Amazon DataZone domain that houses the asset for which you want to delete a time series form. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}</param>
-    /// <param name="EntityIdentifier">The ID of the asset for which you want to delete a time series form. Constraints: o pattern: [a-zA-Z0-9_-]{1,36}</param>
-    /// <param name="EntityType">The type of the asset for which you want to delete a time series form. Possible values: o ASSET o LISTING</param>
-    /// <param name="FormName">The name of the time series form that you want to delete. Constraints: o min: 1 o max: 128</param>
+    /// <param name="DomainIdentifier">The ID of the Amazon DataZone domain that houses the asset for which you want to delete a time series form. Constraints: • pattern: dzd[-_][a-zA-Z0-9_-]{1,36}</param>
+    /// <param name="EntityIdentifier">The ID of the asset for which you want to delete a time series form. Constraints: • pattern: [a-zA-Z0-9_-]{1,36}</param>
+    /// <param name="EntityType">The type of the asset for which you want to delete a time series form. Possible values: • ASSET • LISTING</param>
+    /// <param name="FormName">The name of the time series form that you want to delete. Constraints: • min: 1 • max: 128</param>
     public AwsDatazoneDeleteTimeSeriesDataPointsOptions(
         string DomainIdentifier,
         string EntityIdentifier,
@@ -69,31 +70,31 @@ public record AwsDatazoneDeleteTimeSeriesDataPointsOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the Amazon DataZone domain that houses the asset for which you want to delete a time series form. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}
+    /// The ID of the Amazon DataZone domain that houses the asset for which you want to delete a time series form. Constraints: • pattern: dzd[-_][a-zA-Z0-9_-]{1,36}
     /// </summary>
     [CliOption("--domain-identifier")]
     public string? DomainIdentifier { get; private init; }
 
     /// <summary>
-    /// The ID of the asset for which you want to delete a time series form. Constraints: o pattern: [a-zA-Z0-9_-]{1,36}
+    /// The ID of the asset for which you want to delete a time series form. Constraints: • pattern: [a-zA-Z0-9_-]{1,36}
     /// </summary>
     [CliOption("--entity-identifier")]
     public string? EntityIdentifier { get; private init; }
 
     /// <summary>
-    /// The type of the asset for which you want to delete a time series form. Possible values: o ASSET o LISTING
+    /// The type of the asset for which you want to delete a time series form. Possible values: • ASSET • LISTING
     /// </summary>
     [CliOption("--entity-type")]
     public AwsDatazoneDeleteTimeSeriesDataPointsEntityType? EntityType { get; private init; }
 
     /// <summary>
-    /// The name of the time series form that you want to delete. Constraints: o min: 1 o max: 128
+    /// The name of the time series form that you want to delete. Constraints: • min: 1 • max: 128
     /// </summary>
     [CliOption("--form-name")]
     public string? FormName { get; private init; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier to ensure idempotency of the re- quest. This field is automatically populated if not provided. Constraints: o min: 1 o max: 128 o pattern: [\x21-\x7E]+
+    /// A unique, case-sensitive identifier to ensure idempotency of the request. This field is automatically populated if not provided. Constraints: • min: 1 • max: 128 • pattern: [\x21-\x7E]+
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
@@ -120,6 +121,15 @@ public record AwsDatazoneDeleteTimeSeriesDataPointsOptions : AwsOptions, IValida
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

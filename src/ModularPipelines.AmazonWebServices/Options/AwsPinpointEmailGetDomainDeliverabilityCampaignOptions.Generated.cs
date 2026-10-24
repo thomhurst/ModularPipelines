@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieve all the deliverability data for a specific campaign. This data is available for a campaign only if the campaign sent email by using a domain that the Deliverability dashboard is enabled for (PutDeliver- abilityDashboardOption operation). See also: AWS API Documentation
+/// Retrieve all the deliverability data for a specific campaign. This data is available for a campaign only if the campaign sent email by using a domain that the Deliverability dashboard is enabled for (PutDeliverabilityDashboardOption operation). See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsPinpointEmailGetDomainDeliverabilityCampaignOptions : AwsOption
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Retrieve all the deliverability data for a specific campaign. This data is available for a campaign only if the campaign sent email by using a domain that the Deliverability dashboard is enabled for (PutDeliver- abilityDashboardOption operation). See also: AWS API Documentation
+    /// Retrieve all the deliverability data for a specific campaign. This data is available for a campaign only if the campaign sent email by using a domain that the Deliverability dashboard is enabled for (PutDeliverabilityDashboardOption operation). See also: AWS API Documentation
     /// </summary>
-    /// <param name="CampaignId">The unique identifier for the campaign. Amazon Pinpoint automati- cally generates and assigns this identifier to a campaign. This value is not the same as the campaign identifier that Amazon Pin- point assigns to campaigns that you create and manage by using the Amazon Pinpoint API or the Amazon Pinpoint console.</param>
+    /// <param name="CampaignId">The unique identifier for the campaign. Amazon Pinpoint automatically generates and assigns this identifier to a campaign. This value is not the same as the campaign identifier that Amazon Pinpoint assigns to campaigns that you create and manage by using the Amazon Pinpoint API or the Amazon Pinpoint console.</param>
     public AwsPinpointEmailGetDomainDeliverabilityCampaignOptions(
         string CampaignId
     )
@@ -56,7 +57,7 @@ public record AwsPinpointEmailGetDomainDeliverabilityCampaignOptions : AwsOption
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier for the campaign. Amazon Pinpoint automati- cally generates and assigns this identifier to a campaign. This value is not the same as the campaign identifier that Amazon Pin- point assigns to campaigns that you create and manage by using the Amazon Pinpoint API or the Amazon Pinpoint console.
+    /// The unique identifier for the campaign. Amazon Pinpoint automatically generates and assigns this identifier to a campaign. This value is not the same as the campaign identifier that Amazon Pinpoint assigns to campaigns that you create and manage by using the Amazon Pinpoint API or the Amazon Pinpoint console.
     /// </summary>
     [CliOption("--campaign-id")]
     public string? CampaignId { get; private init; }
@@ -82,6 +83,15 @@ public record AwsPinpointEmailGetDomainDeliverabilityCampaignOptions : AwsOption
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

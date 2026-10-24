@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsDiscoveryStopContinuousExportOptions : AwsOptions, IValidatable
     /// <summary>
     /// Stop the continuous flow of agent's discovered data into Amazon Athena. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ExportId">The unique ID assigned to this export. Constraints: o max: 200 o pattern: \S*</param>
+    /// <param name="ExportId">The unique ID assigned to this export. Constraints: • max: 200 • pattern: \S*</param>
     public AwsDiscoveryStopContinuousExportOptions(
         string ExportId
     )
@@ -56,7 +57,7 @@ public record AwsDiscoveryStopContinuousExportOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique ID assigned to this export. Constraints: o max: 200 o pattern: \S*
+    /// The unique ID assigned to this export. Constraints: • max: 200 • pattern: \S*
     /// </summary>
     [CliOption("--export-id")]
     public string? ExportId { get; private init; }
@@ -82,6 +83,15 @@ public record AwsDiscoveryStopContinuousExportOptions : AwsOptions, IValidatable
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

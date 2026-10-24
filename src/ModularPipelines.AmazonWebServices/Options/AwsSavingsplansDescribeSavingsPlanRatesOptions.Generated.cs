@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -63,20 +64,20 @@ public record AwsSavingsplansDescribeSavingsPlanRatesOptions : AwsOptions, IVali
     public string? SavingsPlanId { get; private init; }
 
     /// <summary>
-    /// The filters. (structure) Information about a Savings Plan rate filter. name -&gt; (string) The filter name. Possible values: o region o instanceType o productDescription o tenancy o productType o serviceCode o usageType o operation values -&gt; (list) The filter values. (string) Shorthand Syntax: name=string,values=string,string ... JSON Syntax: [ { "name": "region"|"instanceType"|"productDescription"|"tenancy"|"productType"|"serviceCode"|"usageType"|"operation", "values": ["string", ...] } ... ]
+    /// The filters. (structure) Information about a Savings Plan rate filter. name -&gt; (string) The filter name. Possible values: • region • instanceType • productDescription • tenancy • productType • serviceCode • usageType • operation values -&gt; (list) The filter values. (string) Shorthand Syntax: name=string,values=string,string ... JSON Syntax: [ { "name": "region"|"instanceType"|"productDescription"|"tenancy"|"productType"|"serviceCode"|"usageType"|"operation", "values": ["string", ...] } ... ]
     /// </summary>
     [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     /// <summary>
-    /// The token for the next page of results. Constraints: o max: 1024 o pattern: ^[A-Za-z0-9/=\+]+$
+    /// The token for the next page of results. Constraints: • max: 1024 • pattern: ^[A-Za-z0-9/=\+]+$
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// The maximum number of results to return with a single call. To re- trieve additional results, make another call with the returned token value. Constraints: o min: 1 o max: 1000
+    /// The maximum number of results to return with a single call. To retrieve additional results, make another call with the returned token value. Constraints: • min: 1 • max: 1000
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
@@ -102,6 +103,15 @@ public record AwsSavingsplansDescribeSavingsPlanRatesOptions : AwsOptions, IVali
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

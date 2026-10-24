@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a batch job that deletes all references to specific users from an Amazon Personalize dataset group in batches. You specify the users to delete in a CSV file of userIds in an Amazon S3 bucket. After a job completes, Amazon Personalize no longer trains on the users data and no longer considers the users when generating user segments. For more in- formation about creating a data deletion job, see Deleting users . o Your input file must be a CSV file with a single USER_ID column that lists t...
+/// Creates a batch job that deletes all references to specific users from an Amazon Personalize dataset group in batches. You specify the users to delete in a CSV file of userIds in an Amazon S3 bucket. After a job completes, Amazon Personalize no longer trains on the users data and no longer considers the users when generating user segments. For more information about creating a data deletion job, see Deleting users . • Your input file must be a CSV file with a single USER_ID column that lists the...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,12 +26,12 @@ public record AwsPersonalizeCreateDataDeletionJobOptions : AwsOptions, IValidata
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a batch job that deletes all references to specific users from an Amazon Personalize dataset group in batches. You specify the users to delete in a CSV file of userIds in an Amazon S3 bucket. After a job completes, Amazon Personalize no longer trains on the users data and no longer considers the users when generating user segments. For more in- formation about creating a data deletion job, see Deleting users . o Your input file must be a CSV file with a single USER_ID column that lists t...
+    /// Creates a batch job that deletes all references to specific users from an Amazon Personalize dataset group in batches. You specify the users to delete in a CSV file of userIds in an Amazon S3 bucket. After a job completes, Amazon Personalize no longer trains on the users data and no longer considers the users when generating user segments. For more information about creating a data deletion job, see Deleting users . • Your input file must be a CSV file with a single USER_ID column that lists the...
     /// </summary>
-    /// <param name="JobName">The name for the data deletion job. Constraints: o min: 1 o max: 63 o pattern: ^[a-zA-Z0-9][a-zA-Z0-9\-_]*</param>
-    /// <param name="DataSetGroupArn">The Amazon Resource Name (ARN) of the dataset group that has the datasets you want to delete records from. Constraints: o max: 256 o pattern: arn:([a-z\d-]+):personalize:.*:.*:.+</param>
-    /// <param name="DataSource">The Amazon S3 bucket that contains the list of userIds of the users to delete. dataLocation -&gt; (string) For dataset import jobs, the path to the Amazon S3 bucket where the data that you want to upload to your dataset is stored. For data deletion jobs, the path to the Amazon S3 bucket that stores the list of records to delete. For example: s3://bucket-name/folder-name/fileName.csv If your CSV files are in a folder in your Amazon S3 bucket and you want your import job or data deletion job to consider multi- ple files, you can specify the path to the folder. With a data deletion job, Amazon Personalize uses all files in the folder and any sub folder. Use the following syntax with a / after the folder name: s3://bucket-name/folder-name/ Constraints: o max: 256 o pattern: (s3|http|https)://.+ Shorthand Syntax: dataLocation=string JSON Syntax: { "dataLocation": "string" }</param>
-    /// <param name="RoleArn">The Amazon Resource Name (ARN) of the IAM role that has permissions to read from the Amazon S3 data source. Constraints: o max: 256 o pattern: arn:([a-z\d-]+):iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+</param>
+    /// <param name="JobName">The name for the data deletion job. Constraints: • min: 1 • max: 63 • pattern: ^[a-zA-Z0-9][a-zA-Z0-9\-_]*</param>
+    /// <param name="DataSetGroupArn">The Amazon Resource Name (ARN) of the dataset group that has the datasets you want to delete records from. Constraints: • max: 256 • pattern: arn:([a-z\d-]+):personalize:.*:.*:.+</param>
+    /// <param name="DataSource">The Amazon S3 bucket that contains the list of userIds of the users to delete. dataLocation -&gt; (string) For dataset import jobs, the path to the Amazon S3 bucket where the data that you want to upload to your dataset is stored. For data deletion jobs, the path to the Amazon S3 bucket that stores the list of records to delete. For example: s3://bucket-name/folder-name/fileName.csv If your CSV files are in a folder in your Amazon S3 bucket and you want your import job or data deletion job to consider multiple files, you can specify the path to the folder. With a data deletion job, Amazon Personalize uses all files in the folder and any sub folder. Use the following syntax with a / after the folder name: s3://bucket-name/folder-name/ Constraints: • max: 256 • pattern: (s3|http|https)://.+ Shorthand Syntax: dataLocation=string JSON Syntax: { "dataLocation": "string" }</param>
+    /// <param name="RoleArn">The Amazon Resource Name (ARN) of the IAM role that has permissions to read from the Amazon S3 data source. Constraints: • max: 256 • pattern: arn:([a-z\d-]+):iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+</param>
     public AwsPersonalizeCreateDataDeletionJobOptions(
         string JobName,
         string DataSetGroupArn,
@@ -68,31 +69,31 @@ public record AwsPersonalizeCreateDataDeletionJobOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name for the data deletion job. Constraints: o min: 1 o max: 63 o pattern: ^[a-zA-Z0-9][a-zA-Z0-9\-_]*
+    /// The name for the data deletion job. Constraints: • min: 1 • max: 63 • pattern: ^[a-zA-Z0-9][a-zA-Z0-9\-_]*
     /// </summary>
     [CliOption("--job-name")]
     public string? JobName { get; private init; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the dataset group that has the datasets you want to delete records from. Constraints: o max: 256 o pattern: arn:([a-z\d-]+):personalize:.*:.*:.+
+    /// The Amazon Resource Name (ARN) of the dataset group that has the datasets you want to delete records from. Constraints: • max: 256 • pattern: arn:([a-z\d-]+):personalize:.*:.*:.+
     /// </summary>
     [CliOption("--dataset-group-arn")]
     public string? DataSetGroupArn { get; private init; }
 
     /// <summary>
-    /// The Amazon S3 bucket that contains the list of userIds of the users to delete. dataLocation -&gt; (string) For dataset import jobs, the path to the Amazon S3 bucket where the data that you want to upload to your dataset is stored. For data deletion jobs, the path to the Amazon S3 bucket that stores the list of records to delete. For example: s3://bucket-name/folder-name/fileName.csv If your CSV files are in a folder in your Amazon S3 bucket and you want your import job or data deletion job to consider multi- ple files, you can specify the path to the folder. With a data deletion job, Amazon Personalize uses all files in the folder and any sub folder. Use the following syntax with a / after the folder name: s3://bucket-name/folder-name/ Constraints: o max: 256 o pattern: (s3|http|https)://.+ Shorthand Syntax: dataLocation=string JSON Syntax: { "dataLocation": "string" }
+    /// The Amazon S3 bucket that contains the list of userIds of the users to delete. dataLocation -&gt; (string) For dataset import jobs, the path to the Amazon S3 bucket where the data that you want to upload to your dataset is stored. For data deletion jobs, the path to the Amazon S3 bucket that stores the list of records to delete. For example: s3://bucket-name/folder-name/fileName.csv If your CSV files are in a folder in your Amazon S3 bucket and you want your import job or data deletion job to consider multiple files, you can specify the path to the folder. With a data deletion job, Amazon Personalize uses all files in the folder and any sub folder. Use the following syntax with a / after the folder name: s3://bucket-name/folder-name/ Constraints: • max: 256 • pattern: (s3|http|https)://.+ Shorthand Syntax: dataLocation=string JSON Syntax: { "dataLocation": "string" }
     /// </summary>
     [CliOption("--data-source")]
     public string? DataSource { get; private init; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the IAM role that has permissions to read from the Amazon S3 data source. Constraints: o max: 256 o pattern: arn:([a-z\d-]+):iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+
+    /// The Amazon Resource Name (ARN) of the IAM role that has permissions to read from the Amazon S3 data source. Constraints: • max: 256 • pattern: arn:([a-z\d-]+):iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+
     /// </summary>
     [CliOption("--role-arn")]
     public string? RoleArn { get; private init; }
 
     /// <summary>
-    /// A list of tags to apply to the data deletion job. Constraints: o min: 0 o max: 200 (structure) The optional metadata that you apply to resources to help you categorize and organize them. Each tag consists of a key and an optional value, both of which you define. For more information see Tagging Amazon Personalize resources . tagKey -&gt; (string) [required] One part of a key-value pair that makes up a tag. A key is a general label that acts like a category for more specific tag values. Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ tagValue -&gt; (string) [required] The optional part of a key-value pair that makes up a tag. A value acts as a descriptor within a tag category (key). Constraints: o min: 0 o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: tagKey=string,tagValue=string ... JSON Syntax: [ { "tagKey": "string", "tagValue": "string" } ... ]
+    /// A list of tags to apply to the data deletion job. Constraints: • min: 0 • max: 200 (structure) The optional metadata that you apply to resources to help you categorize and organize them. Each tag consists of a key and an optional value, both of which you define. For more information see Tagging Amazon Personalize resources . tagKey -&gt; (string) [required] One part of a key-value pair that makes up a tag. A key is a general label that acts like a category for more specific tag values. Constraints: • min: 1 • max: 128 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ tagValue -&gt; (string) [required] The optional part of a key-value pair that makes up a tag. A value acts as a descriptor within a tag category (key). Constraints: • min: 0 • max: 256 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: tagKey=string,tagValue=string ... JSON Syntax: [ { "tagKey": "string", "tagValue": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
@@ -118,6 +119,15 @@ public record AwsPersonalizeCreateDataDeletionJobOptions : AwsOptions, IValidata
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

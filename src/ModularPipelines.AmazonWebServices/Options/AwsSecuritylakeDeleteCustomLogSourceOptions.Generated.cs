@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsSecuritylakeDeleteCustomLogSourceOptions : AwsOptions, IValidat
     /// <summary>
     /// Removes a custom log source from Amazon Security Lake, to stop sending data from the custom source to Security Lake. See also: AWS API Documentation
     /// </summary>
-    /// <param name="SourceName">The source name of custom log source that you want to delete. Constraints: o min: 1 o max: 64 o pattern: ^[\w\-\_\:\.]*$</param>
+    /// <param name="SourceName">The source name of custom log source that you want to delete. Constraints: • min: 1 • max: 64 • pattern: ^[\w\-\_\:\.]*$</param>
     public AwsSecuritylakeDeleteCustomLogSourceOptions(
         string SourceName
     )
@@ -56,13 +57,13 @@ public record AwsSecuritylakeDeleteCustomLogSourceOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The source name of custom log source that you want to delete. Constraints: o min: 1 o max: 64 o pattern: ^[\w\-\_\:\.]*$
+    /// The source name of custom log source that you want to delete. Constraints: • min: 1 • max: 64 • pattern: ^[\w\-\_\:\.]*$
     /// </summary>
     [CliOption("--source-name")]
     public string? SourceName { get; private init; }
 
     /// <summary>
-    /// The source version for the third-party custom source. You can limit the custom source removal to the specified source version. Constraints: o min: 1 o max: 32 o pattern: ^[A-Za-z0-9\-\.\_]*$
+    /// The source version for the third-party custom source. You can limit the custom source removal to the specified source version. Constraints: • min: 1 • max: 32 • pattern: ^[A-Za-z0-9\-\.\_]*$
     /// </summary>
     [CliOption("--source-version")]
     public string? SourceVersion { get; set; }
@@ -88,6 +89,15 @@ public record AwsSecuritylakeDeleteCustomLogSourceOptions : AwsOptions, IValidat
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsDsUnshareDirectoryOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Stops the directory sharing between the directory owner and consumer accounts. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DirectoryId">The identifier of the Managed Microsoft AD directory that you want to stop sharing. Constraints: o pattern: ^d-[0-9a-f]{10}$</param>
-    /// <param name="UnshareTarget">Identifier for the directory consumer account with whom the direc- tory has to be unshared. Id -&gt; (string) [required] Identifier of the directory consumer account. Constraints: o min: 1 o max: 64 Type -&gt; (string) [required] Type of identifier to be used in the Id field. Possible values: o ACCOUNT Shorthand Syntax: Id=string,Type=string JSON Syntax: { "Id": "string", "Type": "ACCOUNT" }</param>
+    /// <param name="DirectoryId">The identifier of the Managed Microsoft AD directory that you want to stop sharing. Constraints: • pattern: ^d-[0-9a-f]{10}$</param>
+    /// <param name="UnshareTarget">Identifier for the directory consumer account with whom the directory has to be unshared. Id -&gt; (string) [required] Identifier of the directory consumer account. Constraints: • min: 1 • max: 64 Type -&gt; (string) [required] Type of identifier to be used in the Id field. Possible values: • ACCOUNT Shorthand Syntax: Id=string,Type=string JSON Syntax: { "Id": "string", "Type": "ACCOUNT" }</param>
     public AwsDsUnshareDirectoryOptions(
         string DirectoryId,
         string UnshareTarget
@@ -60,13 +61,13 @@ public record AwsDsUnshareDirectoryOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the Managed Microsoft AD directory that you want to stop sharing. Constraints: o pattern: ^d-[0-9a-f]{10}$
+    /// The identifier of the Managed Microsoft AD directory that you want to stop sharing. Constraints: • pattern: ^d-[0-9a-f]{10}$
     /// </summary>
     [CliOption("--directory-id")]
     public string? DirectoryId { get; private init; }
 
     /// <summary>
-    /// Identifier for the directory consumer account with whom the direc- tory has to be unshared. Id -&gt; (string) [required] Identifier of the directory consumer account. Constraints: o min: 1 o max: 64 Type -&gt; (string) [required] Type of identifier to be used in the Id field. Possible values: o ACCOUNT Shorthand Syntax: Id=string,Type=string JSON Syntax: { "Id": "string", "Type": "ACCOUNT" }
+    /// Identifier for the directory consumer account with whom the directory has to be unshared. Id -&gt; (string) [required] Identifier of the directory consumer account. Constraints: • min: 1 • max: 64 Type -&gt; (string) [required] Type of identifier to be used in the Id field. Possible values: • ACCOUNT Shorthand Syntax: Id=string,Type=string JSON Syntax: { "Id": "string", "Type": "ACCOUNT" }
     /// </summary>
     [CliOption("--unshare-target")]
     public string? UnshareTarget { get; private init; }
@@ -92,6 +93,15 @@ public record AwsDsUnshareDirectoryOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

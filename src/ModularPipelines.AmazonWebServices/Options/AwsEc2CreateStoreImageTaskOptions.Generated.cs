@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Stores an AMI as a single object in an Amazon S3 bucket. To use this API, you must have the required permissions. For more in- formation, see Permissions for storing and restoring AMIs using S3 in the Amazon EC2 User Guide . For more information, see Store and restore an AMI using S3 in the Ama- zon EC2 User Guide . See also: AWS API Documentation
+/// Stores an AMI as a single object in an Amazon S3 bucket. To use this API, you must have the required permissions. For more information, see Permissions for storing and restoring AMIs using S3 in the Amazon EC2 User Guide . For more information, see Store and restore an AMI using S3 in the Amazon EC2 User Guide . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsEc2CreateStoreImageTaskOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Stores an AMI as a single object in an Amazon S3 bucket. To use this API, you must have the required permissions. For more in- formation, see Permissions for storing and restoring AMIs using S3 in the Amazon EC2 User Guide . For more information, see Store and restore an AMI using S3 in the Ama- zon EC2 User Guide . See also: AWS API Documentation
+    /// Stores an AMI as a single object in an Amazon S3 bucket. To use this API, you must have the required permissions. For more information, see Permissions for storing and restoring AMIs using S3 in the Amazon EC2 User Guide . For more information, see Store and restore an AMI using S3 in the Amazon EC2 User Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="ImageId">The ID of the AMI.</param>
-    /// <param name="Bucket">The name of the Amazon S3 bucket in which the AMI object will be stored. The bucket must be in the Region in which the request is be- ing made. The AMI object appears in the bucket only after the upload task has completed.</param>
+    /// <param name="Bucket">The name of the Amazon S3 bucket in which the AMI object will be stored. The bucket must be in the Region in which the request is being made. The AMI object appears in the bucket only after the upload task has completed.</param>
     public AwsEc2CreateStoreImageTaskOptions(
         string ImageId,
         string Bucket
@@ -66,19 +67,19 @@ public record AwsEc2CreateStoreImageTaskOptions : AwsOptions, IValidatableObject
     public string? ImageId { get; private init; }
 
     /// <summary>
-    /// The name of the Amazon S3 bucket in which the AMI object will be stored. The bucket must be in the Region in which the request is be- ing made. The AMI object appears in the bucket only after the upload task has completed.
+    /// The name of the Amazon S3 bucket in which the AMI object will be stored. The bucket must be in the Region in which the request is being made. The AMI object appears in the bucket only after the upload task has completed.
     /// </summary>
     [CliOption("--bucket")]
     public string? Bucket { get; private init; }
 
     /// <summary>
-    /// The tags to apply to the AMI object that will be stored in the Ama- zon S3 bucket. (structure) The tags to apply to the AMI object that will be stored in the Amazon S3 bucket. For more information, see Categorizing your storage using tags in the Amazon Simple Storage Service User Guide . Key -&gt; (string) The key of the tag. Constraints: Tag keys are case-sensitive and can be up to 128 Unicode characters in length. May not begin with aws :. Value -&gt; (string) The value of the tag. Constraints: Tag values are case-sensitive and can be up to 256 Unicode characters in length. Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// The tags to apply to the AMI object that will be stored in the Amazon S3 bucket. (structure) The tags to apply to the AMI object that will be stored in the Amazon S3 bucket. For more information, see Categorizing your storage using tags in the Amazon Simple Storage Service User Guide . Key -&gt; (string) The key of the tag. Constraints: Tag keys are case-sensitive and can be up to 128 Unicode characters in length. May not begin with aws :. Value -&gt; (string) The value of the tag. Constraints: Tag values are case-sensitive and can be up to 256 Unicode characters in length. Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--s3-object-tags", GroupValues = true)]
     public IEnumerable<string>? S3ObjectTags { get; set; }
 
     /// <summary>
-    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation . Otherwise, it is UnauthorizedOperation .
     /// </summary>
     [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
@@ -104,6 +105,15 @@ public record AwsEc2CreateStoreImageTaskOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

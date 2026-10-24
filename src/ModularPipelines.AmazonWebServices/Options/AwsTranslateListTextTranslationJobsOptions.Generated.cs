@@ -23,20 +23,20 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsTranslateListTextTranslationJobsOptions : AwsOptions
 {
     /// <summary>
-    /// The parameters that specify which batch translation jobs to re- trieve. Filters include job name, job status, and submission time. You can only set one filter at a time. JobName -&gt; (string) Filters the list of jobs by name. Constraints: o min: 1 o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-%@]*)$ JobStatus -&gt; (string) Filters the list of jobs based by job status. Possible values: o SUBMITTED o IN_PROGRESS o COMPLETED o COMPLETED_WITH_ERROR o FAILED o STOP_REQUESTED o STOPPED SubmittedBeforeTime -&gt; (timestamp) Filters the list of jobs based on the time that the job was sub- mitted for processing and returns only the jobs submitted before the specified time. Jobs are returned in ascending order, oldest to newest. SubmittedAfterTime -&gt; (timestamp) Filters the list of jobs based on the time that the job was sub- mitted for processing and returns only the jobs submitted after the specified time. Jobs are returned in descending order, newest to oldest. Shorthand Syntax: JobName=string,JobStatus=string,SubmittedBeforeTime=timestamp,SubmittedAfterTime=timestamp JSON Syntax: { "JobName": "string", "JobStatus": "SUBMITTED"|"IN_PROGRESS"|"COMPLETED"|"COMPLETED_WITH_ERROR"|"FAILED"|"STOP_REQUESTED"|"STOPPED", "SubmittedBeforeTime": timestamp, "SubmittedAfterTime": timestamp }
+    /// The parameters that specify which batch translation jobs to retrieve. Filters include job name, job status, and submission time. You can only set one filter at a time. JobName -&gt; (string) Filters the list of jobs by name. Constraints: • min: 1 • max: 256 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-%@]*)$ JobStatus -&gt; (string) Filters the list of jobs based by job status. Possible values: • SUBMITTED • IN_PROGRESS • COMPLETED • COMPLETED_WITH_ERROR • FAILED • STOP_REQUESTED • STOPPED SubmittedBeforeTime -&gt; (timestamp) Filters the list of jobs based on the time that the job was submitted for processing and returns only the jobs submitted before the specified time. Jobs are returned in ascending order, oldest to newest. SubmittedAfterTime -&gt; (timestamp) Filters the list of jobs based on the time that the job was submitted for processing and returns only the jobs submitted after the specified time. Jobs are returned in descending order, newest to oldest. Shorthand Syntax: JobName=string,JobStatus=string,SubmittedBeforeTime=timestamp,SubmittedAfterTime=timestamp JSON Syntax: { "JobName": "string", "JobStatus": "SUBMITTED"|"IN_PROGRESS"|"COMPLETED"|"COMPLETED_WITH_ERROR"|"FAILED"|"STOP_REQUESTED"|"STOPPED", "SubmittedBeforeTime": timestamp, "SubmittedAfterTime": timestamp }
     /// </summary>
     [CliOption("--filter")]
     public string? Filter { get; set; }
 
     /// <summary>
-    /// The token to request the next page of results. Constraints: o max: 8192 o pattern: \p{ASCII}{0,8192}
+    /// The token to request the next page of results. Constraints: • max: 8192 • pattern: \p{ASCII}{0,8192}
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// The maximum number of results to return in each page. The default value is 100. Constraints: o min: 1 o max: 500
+    /// The maximum number of results to return in each page. The default value is 100. Constraints: • min: 1 • max: 500
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
@@ -46,5 +46,14 @@ public record AwsTranslateListTextTranslationJobsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

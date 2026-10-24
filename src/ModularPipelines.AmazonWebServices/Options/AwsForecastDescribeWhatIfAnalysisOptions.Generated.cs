@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Describes the what-if analysis created using the CreateWhatIfAnalysis operation. In addition to listing the properties provided in the CreateWhatIf- Analysis request, this operation lists the following properties: o CreationTime o LastModificationTime o Message - If an error occurred, information about the error. o Status See also: AWS API Documentation
+/// Describes the what-if analysis created using the CreateWhatIfAnalysis operation. In addition to listing the properties provided in the CreateWhatIfAnalysis request, this operation lists the following properties: • CreationTime • LastModificationTime • Message - If an error occurred, information about the error. • Status See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsForecastDescribeWhatIfAnalysisOptions : AwsOptions, IValidatabl
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Describes the what-if analysis created using the CreateWhatIfAnalysis operation. In addition to listing the properties provided in the CreateWhatIf- Analysis request, this operation lists the following properties: o CreationTime o LastModificationTime o Message - If an error occurred, information about the error. o Status See also: AWS API Documentation
+    /// Describes the what-if analysis created using the CreateWhatIfAnalysis operation. In addition to listing the properties provided in the CreateWhatIfAnalysis request, this operation lists the following properties: • CreationTime • LastModificationTime • Message - If an error occurred, information about the error. • Status See also: AWS API Documentation
     /// </summary>
-    /// <param name="WhatIfAnalysisArn">The Amazon Resource Name (ARN) of the what-if analysis that you are interested in. Constraints: o max: 256 o pattern: arn:([a-z\d-]+):forecast:.*:.*:.+</param>
+    /// <param name="WhatIfAnalysisArn">The Amazon Resource Name (ARN) of the what-if analysis that you are interested in. Constraints: • max: 256 • pattern: arn:([a-z\d-]+):forecast:.*:.*:.+</param>
     public AwsForecastDescribeWhatIfAnalysisOptions(
         string WhatIfAnalysisArn
     )
@@ -56,7 +57,7 @@ public record AwsForecastDescribeWhatIfAnalysisOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the what-if analysis that you are interested in. Constraints: o max: 256 o pattern: arn:([a-z\d-]+):forecast:.*:.*:.+
+    /// The Amazon Resource Name (ARN) of the what-if analysis that you are interested in. Constraints: • max: 256 • pattern: arn:([a-z\d-]+):forecast:.*:.*:.+
     /// </summary>
     [CliOption("--what-if-analysis-arn")]
     public string? WhatIfAnalysisArn { get; private init; }
@@ -82,6 +83,15 @@ public record AwsForecastDescribeWhatIfAnalysisOptions : AwsOptions, IValidatabl
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

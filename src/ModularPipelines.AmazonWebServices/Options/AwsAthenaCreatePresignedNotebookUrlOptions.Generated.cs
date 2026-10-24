@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Gets an authentication token and the URL at which the notebook can be accessed. During programmatic access, CreatePresignedNotebookUrl must be called every 10 minutes to refresh the authentication token. For in- formation about granting programmatic access, see Grant programmatic access . See also: AWS API Documentation
+/// Gets an authentication token and the URL at which the notebook can be accessed. During programmatic access, CreatePresignedNotebookUrl must be called every 10 minutes to refresh the authentication token. For information about granting programmatic access, see Grant programmatic access . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsAthenaCreatePresignedNotebookUrlOptions : AwsOptions, IValidata
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Gets an authentication token and the URL at which the notebook can be accessed. During programmatic access, CreatePresignedNotebookUrl must be called every 10 minutes to refresh the authentication token. For in- formation about granting programmatic access, see Grant programmatic access . See also: AWS API Documentation
+    /// Gets an authentication token and the URL at which the notebook can be accessed. During programmatic access, CreatePresignedNotebookUrl must be called every 10 minutes to refresh the authentication token. For information about granting programmatic access, see Grant programmatic access . See also: AWS API Documentation
     /// </summary>
-    /// <param name="SessionId">The session ID. Constraints: o min: 1 o max: 256</param>
+    /// <param name="SessionId">The session ID. Constraints: • min: 1 • max: 256</param>
     public AwsAthenaCreatePresignedNotebookUrlOptions(
         string SessionId
     )
@@ -56,7 +57,7 @@ public record AwsAthenaCreatePresignedNotebookUrlOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The session ID. Constraints: o min: 1 o max: 256
+    /// The session ID. Constraints: • min: 1 • max: 256
     /// </summary>
     [CliOption("--session-id")]
     public string? SessionId { get; private init; }
@@ -82,6 +83,15 @@ public record AwsAthenaCreatePresignedNotebookUrlOptions : AwsOptions, IValidata
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

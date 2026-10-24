@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -72,19 +73,19 @@ public record AwsEc2GetVpnConnectionDeviceSampleConfigurationOptions : AwsOption
     public string? VpnConnectionDeviceTypeId { get; private init; }
 
     /// <summary>
-    /// The IKE version to be used in the sample configuration file for your customer gateway device. You can specify one of the following ver- sions: ikev1 or ikev2 .
+    /// The IKE version to be used in the sample configuration file for your customer gateway device. You can specify one of the following versions: ikev1 or ikev2 .
     /// </summary>
     [CliOption("--internet-key-exchange-version")]
     public string? InternetKeyExchangeVersion { get; set; }
 
     /// <summary>
-    /// The type of sample configuration to generate. Valid values are "com- patibility" (includes IKEv1) or "recommended" (throws UnsupportedOp- erationException for IKEv1).
+    /// The type of sample configuration to generate. Valid values are "compatibility" (includes IKEv1) or "recommended" (throws UnsupportedOperationException for IKEv1).
     /// </summary>
     [CliOption("--sample-type")]
     public string? SampleType { get; set; }
 
     /// <summary>
-    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation . Otherwise, it is UnauthorizedOperation .
     /// </summary>
     [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
@@ -110,6 +111,15 @@ public record AwsEc2GetVpnConnectionDeviceSampleConfigurationOptions : AwsOption
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

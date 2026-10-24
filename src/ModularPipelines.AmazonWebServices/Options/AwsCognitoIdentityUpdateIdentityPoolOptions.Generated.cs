@@ -10,13 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates the configuration of an identity pool. WARNING: If you don't provide a value for a parameter, Amazon Cognito sets it to its default value. You must use Amazon Web Services developer credentials to call this op- eration. See also: AWS API Documentation
+/// Updates the configuration of an identity pool. WARNING: If you don't provide a value for a parameter, Amazon Cognito sets it to its default value. You must use Amazon Web Services developer credentials to call this operation. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,11 +26,11 @@ public record AwsCognitoIdentityUpdateIdentityPoolOptions : AwsOptions, IValidat
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates the configuration of an identity pool. WARNING: If you don't provide a value for a parameter, Amazon Cognito sets it to its default value. You must use Amazon Web Services developer credentials to call this op- eration. See also: AWS API Documentation
+    /// Updates the configuration of an identity pool. WARNING: If you don't provide a value for a parameter, Amazon Cognito sets it to its default value. You must use Amazon Web Services developer credentials to call this operation. See also: AWS API Documentation
     /// </summary>
-    /// <param name="IdentityPoolId">An identity pool ID in the format REGION:GUID. Constraints: o min: 1 o max: 55 o pattern: [\w-]+:[0-9a-f-]+</param>
-    /// <param name="IdentityPoolName">A string that you provide. Constraints: o min: 1 o max: 128 o pattern: [\w\s+=,.@-]+</param>
-    /// <param name="AllowUnauthenticatedIdentities">ties (boolean) [required] TRUE if the identity pool supports unauthenticated logins.</param>
+    /// <param name="IdentityPoolId">An identity pool ID in the format REGION:GUID. Constraints: • min: 1 • max: 55 • pattern: [\w-]+:[0-9a-f-]+</param>
+    /// <param name="IdentityPoolName">A string that you provide. Constraints: • min: 1 • max: 128 • pattern: [\w\s+=,.@-]+</param>
+    /// <param name="AllowUnauthenticatedIdentities">TRUE if the identity pool supports unauthenticated logins.</param>
     public AwsCognitoIdentityUpdateIdentityPoolOptions(
         string IdentityPoolId,
         string IdentityPoolName,
@@ -64,61 +64,61 @@ public record AwsCognitoIdentityUpdateIdentityPoolOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// An identity pool ID in the format REGION:GUID. Constraints: o min: 1 o max: 55 o pattern: [\w-]+:[0-9a-f-]+
+    /// An identity pool ID in the format REGION:GUID. Constraints: • min: 1 • max: 55 • pattern: [\w-]+:[0-9a-f-]+
     /// </summary>
     [CliOption("--identity-pool-id")]
     public string? IdentityPoolId { get; private init; }
 
     /// <summary>
-    /// A string that you provide. Constraints: o min: 1 o max: 128 o pattern: [\w\s+=,.@-]+
+    /// A string that you provide. Constraints: • min: 1 • max: 128 • pattern: [\w\s+=,.@-]+
     /// </summary>
     [CliOption("--identity-pool-name")]
     public string? IdentityPoolName { get; private init; }
 
     /// <summary>
-    /// ties (boolean) [required] TRUE if the identity pool supports unauthenticated logins.
+    /// TRUE if the identity pool supports unauthenticated logins.
     /// </summary>
     [CliFlag("--allow-unauthenticated-identities", NegatedName = "--no-allow-unauthenticated-identities")]
     public bool? AllowUnauthenticatedIdentities { get; private init; }
 
     /// <summary>
-    /// Enables or disables the Basic (Classic) authentication flow. For more information, see Identity Pools (Federated Identities) Authen- tication Flow in the Amazon Cognito Developer Guide .
+    /// Enables or disables the Basic (Classic) authentication flow. For more information, see Identity Pools (Federated Identities) Authentication Flow in the Amazon Cognito Developer Guide .
     /// </summary>
     [CliFlag("--allow-classic-flow", NegatedName = "--no-allow-classic-flow")]
     public bool? AllowClassicFlow { get; set; }
 
     /// <summary>
-    /// Optional key:value pairs mapping provider names to provider app IDs. Constraints: o max: 10 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: [\w.;_/-]+ Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// Optional key:value pairs mapping provider names to provider app IDs. Constraints: • max: 10 key -&gt; (string) Constraints: • min: 1 • max: 128 value -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: [\w.;_/-]+ Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--supported-login-providers", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? SupportedLoginProviders { get; set; }
 
     /// <summary>
-    /// The "domain" by which Cognito will refer to your users. Constraints: o min: 1 o max: 128 o pattern: [\w._-]+
+    /// The "domain" by which Cognito will refer to your users. Constraints: • min: 1 • max: 128 • pattern: [\w._-]+
     /// </summary>
     [CliOption("--developer-provider-name")]
     public string? DeveloperProviderName { get; set; }
 
     /// <summary>
-    /// The ARNs of the OpenID Connect providers. (string) Constraints: o min: 20 o max: 2048 Syntax: "string" "string" ...
+    /// The ARNs of the OpenID Connect providers. (string) Constraints: • min: 20 • max: 2048 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--open-id-connect-provider-arns", GroupValues = true)]
     public IEnumerable<string>? OpenIdConnectProviderArns { get; set; }
 
     /// <summary>
-    /// A list representing an Amazon Cognito user pool and its client ID. (structure) A provider representing an Amazon Cognito user pool and its client ID. ProviderName -&gt; (string) The provider name for an Amazon Cognito user pool. For exam- ple, cognito-idp.us-east-1.amazonaws.com/us-east-1_123456789 . Constraints: o min: 1 o max: 128 o pattern: [\w._:/-]+ ClientId -&gt; (string) The client ID for the Amazon Cognito user pool. Constraints: o min: 1 o max: 128 o pattern: [\w_]+ ServerSideTokenCheck -&gt; (boolean) TRUE if server-side token validation is enabled for the iden- tity providers token. Once you set ServerSideTokenCheck to TRUE for an identity pool, that identity pool will check with the integrated user pools to make sure that the user has not been globally signed out or deleted before the identity pool provides an OIDC to- ken or Amazon Web Services credentials for the user. If the user is signed out or deleted, the identity pool will return a 400 Not Authorized error. Shorthand Syntax: ProviderName=string,ClientId=string,ServerSideTokenCheck=boolean ... JSON Syntax: [ { "ProviderName": "string", "ClientId": "string", "ServerSideTokenCheck": true|false } ... ]
+    /// A list representing an Amazon Cognito user pool and its client ID. (structure) A provider representing an Amazon Cognito user pool and its client ID. ProviderName -&gt; (string) The provider name for an Amazon Cognito user pool. For example, cognito-idp.us-east-1.amazonaws.com/us-east-1_123456789 . Constraints: • min: 1 • max: 128 • pattern: [\w._:/-]+ ClientId -&gt; (string) The client ID for the Amazon Cognito user pool. Constraints: • min: 1 • max: 128 • pattern: [\w_]+ ServerSideTokenCheck -&gt; (boolean) TRUE if server-side token validation is enabled for the identity providers token. Once you set ServerSideTokenCheck to TRUE for an identity pool, that identity pool will check with the integrated user pools to make sure that the user has not been globally signed out or deleted before the identity pool provides an OIDC token or Amazon Web Services credentials for the user. If the user is signed out or deleted, the identity pool will return a 400 Not Authorized error. Shorthand Syntax: ProviderName=string,ClientId=string,ServerSideTokenCheck=boolean ... JSON Syntax: [ { "ProviderName": "string", "ClientId": "string", "ServerSideTokenCheck": true|false } ... ]
     /// </summary>
     [CliOption("--cognito-identity-providers", GroupValues = true)]
     public IEnumerable<string>? CognitoIdentityProviders { get; set; }
 
     /// <summary>
-    /// An array of Amazon Resource Names (ARNs) of the SAML provider for your identity pool. (string) Constraints: o min: 20 o max: 2048 Syntax: "string" "string" ...
+    /// An array of Amazon Resource Names (ARNs) of the SAML provider for your identity pool. (string) Constraints: • min: 20 • max: 2048 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--saml-provider-arns", GroupValues = true)]
     public IEnumerable<string>? SamlProviderArns { get; set; }
 
     /// <summary>
-    /// The tags that are assigned to the identity pool. A tag is a label that you can apply to identity pools to categorize and manage them in different ways, such as by purpose, owner, environment, or other criteria. key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The tags that are assigned to the identity pool. A tag is a label that you can apply to identity pools to categorize and manage them in different ways, such as by purpose, owner, environment, or other criteria. key -&gt; (string) Constraints: • min: 1 • max: 128 value -&gt; (string) Constraints: • min: 0 • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--identity-pool-tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? IdentityPoolTags { get; set; }
@@ -144,6 +144,15 @@ public record AwsCognitoIdentityUpdateIdentityPoolOptions : AwsOptions, IValidat
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -72,19 +73,19 @@ public record AwsTimestreamWriteUpdateTableOptions : AwsOptions, IValidatableObj
     public string? TableName { get; private init; }
 
     /// <summary>
-    /// The retention duration of the memory store and the magnetic store. MemoryStoreRetentionPeriodInHours -&gt; (long) [required] The duration for which data must be stored in the memory store. Constraints: o min: 1 o max: 8766 MagneticStoreRetentionPeriodInDays -&gt; (long) [required] The duration for which data must be stored in the magnetic store. Constraints: o min: 1 o max: 73000 Shorthand Syntax: MemoryStoreRetentionPeriodInHours=long,MagneticStoreRetentionPeriodInDays=long JSON Syntax: { "MemoryStoreRetentionPeriodInHours": long, "MagneticStoreRetentionPeriodInDays": long }
+    /// The retention duration of the memory store and the magnetic store. MemoryStoreRetentionPeriodInHours -&gt; (long) [required] The duration for which data must be stored in the memory store. Constraints: • min: 1 • max: 8766 MagneticStoreRetentionPeriodInDays -&gt; (long) [required] The duration for which data must be stored in the magnetic store. Constraints: • min: 1 • max: 73000 Shorthand Syntax: MemoryStoreRetentionPeriodInHours=long,MagneticStoreRetentionPeriodInDays=long JSON Syntax: { "MemoryStoreRetentionPeriodInHours": long, "MagneticStoreRetentionPeriodInDays": long }
     /// </summary>
     [CliOption("--retention-properties")]
     public string? RetentionProperties { get; set; }
 
     /// <summary>
-    /// Contains properties to set on the table when enabling magnetic store writes. EnableMagneticStoreWrites -&gt; (boolean) [required] A flag to enable magnetic store writes. MagneticStoreRejectedDataLocation -&gt; (structure) The location to write error reports for records rejected asyn- chronously during magnetic store writes. S3Configuration -&gt; (structure) Configuration of an S3 location to write error reports for records rejected, asynchronously, during magnetic store writes. BucketName -&gt; (string) The bucket name of the customer S3 bucket. Constraints: o min: 3 o max: 63 o pattern: [a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9] ObjectKeyPrefix -&gt; (string) The object key preview for the customer S3 location. Constraints: o min: 1 o max: 928 o pattern: [a-zA-Z0-9|!\-_*'\(\)]([a-zA-Z0-9]|[!\-_*'\(\)\/.])+ EncryptionOption -&gt; (string) The encryption option for the customer S3 location. Op- tions are S3 server-side encryption with an S3 managed key or Amazon Web Services managed key. Possible values: o SSE_S3 o SSE_KMS KmsKeyId -&gt; (string) The KMS key ID for the customer S3 location when encrypt- ing with an Amazon Web Services managed key. Constraints: o min: 1 o max: 2048 Shorthand Syntax: EnableMagneticStoreWrites=boolean,MagneticStoreRejectedDataLocation={S3Configuration={BucketName=string,ObjectKeyPrefix=string,EncryptionOption=string,KmsKeyId=string}} JSON Syntax: { "EnableMagneticStoreWrites": true|false, "MagneticStoreRejectedDataLocation": { "S3Configuration": { "BucketName": "string", "ObjectKeyPrefix": "string", "EncryptionOption": "SSE_S3"|"SSE_KMS", "KmsKeyId": "string" } } }
+    /// Contains properties to set on the table when enabling magnetic store writes. EnableMagneticStoreWrites -&gt; (boolean) [required] A flag to enable magnetic store writes. MagneticStoreRejectedDataLocation -&gt; (structure) The location to write error reports for records rejected asynchronously during magnetic store writes. S3Configuration -&gt; (structure) Configuration of an S3 location to write error reports for records rejected, asynchronously, during magnetic store writes. BucketName -&gt; (string) The bucket name of the customer S3 bucket. Constraints: • min: 3 • max: 63 • pattern: [a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9] ObjectKeyPrefix -&gt; (string) The object key preview for the customer S3 location. Constraints: • min: 1 • max: 928 • pattern: [a-zA-Z0-9|!\-_*'\(\)]([a-zA-Z0-9]|[!\-_*'\(\)\/.])+ EncryptionOption -&gt; (string) The encryption option for the customer S3 location. Options are S3 server-side encryption with an S3 managed key or Amazon Web Services managed key. Possible values: • SSE_S3 • SSE_KMS KmsKeyId -&gt; (string) The KMS key ID for the customer S3 location when encrypting with an Amazon Web Services managed key. Constraints: • min: 1 • max: 2048 Shorthand Syntax: EnableMagneticStoreWrites=boolean,MagneticStoreRejectedDataLocation={S3Configuration={BucketName=string,ObjectKeyPrefix=string,EncryptionOption=string,KmsKeyId=string}} JSON Syntax: { "EnableMagneticStoreWrites": true|false, "MagneticStoreRejectedDataLocation": { "S3Configuration": { "BucketName": "string", "ObjectKeyPrefix": "string", "EncryptionOption": "SSE_S3"|"SSE_KMS", "KmsKeyId": "string" } } }
     /// </summary>
     [CliOption("--magnetic-store-write-properties")]
     public string? MagneticStoreWriteProperties { get; set; }
 
     /// <summary>
-    /// The schema of the table. CompositePartitionKey -&gt; (list) A non-empty list of partition keys defining the attributes used to partition the table data. The order of the list determines the partition hierarchy. The name and type of each partition key as well as the partition key order cannot be changed after the table is created. However, the enforcement level of each parti- tion key can be changed. Constraints: o min: 1 (structure) An attribute used in partitioning data in a table. A dimen- sion key partitions data using the values of the dimension specified by the dimension-name as partition key, while a measure key partitions data using measure names (values of the 'measure_name' column). Type -&gt; (string) [required] The type of the partition key. Options are DIMENSION (di- mension key) and MEASURE (measure key). Possible values: o DIMENSION o MEASURE Name -&gt; (string) The name of the attribute used for a dimension key. Constraints: o min: 1 EnforcementInRecord -&gt; (string) The level of enforcement for the specification of a di- mension key in ingested records. Options are REQUIRED (dimension key must be specified) and OPTIONAL (dimension key does not have to be specified). Possible values: o REQUIRED o OPTIONAL Shorthand Syntax: CompositePartitionKey=[{Type=string,Name=string,EnforcementInRecord=string},{Type=string,Name=string,EnforcementInRecord=string}] JSON Syntax: { "CompositePartitionKey": [ { "Type": "DIMENSION"|"MEASURE", "Name": "string", "EnforcementInRecord": "REQUIRED"|"OPTIONAL" } ... ] }
+    /// The schema of the table. CompositePartitionKey -&gt; (list) A non-empty list of partition keys defining the attributes used to partition the table data. The order of the list determines the partition hierarchy. The name and type of each partition key as well as the partition key order cannot be changed after the table is created. However, the enforcement level of each partition key can be changed. Constraints: • min: 1 (structure) An attribute used in partitioning data in a table. A dimension key partitions data using the values of the dimension specified by the dimension-name as partition key, while a measure key partitions data using measure names (values of the 'measure_name' column). Type -&gt; (string) [required] The type of the partition key. Options are DIMENSION (dimension key) and MEASURE (measure key). Possible values: • DIMENSION • MEASURE Name -&gt; (string) The name of the attribute used for a dimension key. Constraints: • min: 1 EnforcementInRecord -&gt; (string) The level of enforcement for the specification of a dimension key in ingested records. Options are REQUIRED (dimension key must be specified) and OPTIONAL (dimension key does not have to be specified). Possible values: • REQUIRED • OPTIONAL Shorthand Syntax: CompositePartitionKey=[{Type=string,Name=string,EnforcementInRecord=string},{Type=string,Name=string,EnforcementInRecord=string}] JSON Syntax: { "CompositePartitionKey": [ { "Type": "DIMENSION"|"MEASURE", "Name": "string", "EnforcementInRecord": "REQUIRED"|"OPTIONAL" } ... ] }
     /// </summary>
     [CliOption("--schema")]
     public string? Schema { get; set; }
@@ -110,6 +111,15 @@ public record AwsTimestreamWriteUpdateTableOptions : AwsOptions, IValidatableObj
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

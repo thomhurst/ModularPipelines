@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsIotManagedIntegrationsUpdateDestinationOptions : AwsOptions, IV
     /// <summary>
     /// Update a destination specified by name. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">The name of the customer-managed destination. Constraints: o min: 1 o max: 128 o pattern: [\p{L}\p{N} ._-]+</param>
+    /// <param name="Name">The name of the customer-managed destination. Constraints: • min: 1 • max: 128 • pattern: [\p{L}\p{N} ._-]+</param>
     public AwsIotManagedIntegrationsUpdateDestinationOptions(
         string Name
     )
@@ -56,19 +57,19 @@ public record AwsIotManagedIntegrationsUpdateDestinationOptions : AwsOptions, IV
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the customer-managed destination. Constraints: o min: 1 o max: 128 o pattern: [\p{L}\p{N} ._-]+
+    /// The name of the customer-managed destination. Constraints: • min: 1 • max: 128 • pattern: [\p{L}\p{N} ._-]+
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the customer-managed destination. Constraints: o min: 20 o max: 2048 o pattern: arn:aws:[0-9a-zA-Z]+:[0-9a-zA-Z-]+:[0-9]+:[0-9a-zA-Z]+/[0-9a-zA-Z._-]+
+    /// The Amazon Resource Name (ARN) of the customer-managed destination. Constraints: • min: 20 • max: 2048 • pattern: arn:aws:[0-9a-zA-Z]+:[0-9a-zA-Z-]+:[0-9]+:[0-9a-zA-Z]+/[0-9a-zA-Z._-]+
     /// </summary>
     [CliOption("--delivery-destination-arn")]
     public string? DeliveryDestinationArn { get; set; }
 
     /// <summary>
-    /// The destination type for the customer-managed destination. Possible values: o KINESIS
+    /// The destination type for the customer-managed destination. Possible values: • KINESIS
     /// </summary>
     [CliOption("--delivery-destination-type")]
     public string? DeliveryDestinationType { get; set; }
@@ -80,7 +81,7 @@ public record AwsIotManagedIntegrationsUpdateDestinationOptions : AwsOptions, IV
     public string? RoleArn { get; set; }
 
     /// <summary>
-    /// The description of the customer-managed destination. Constraints: o min: 1 o max: 256 o pattern: [0-9A-Za-z_\- ]+
+    /// The description of the customer-managed destination. Constraints: • min: 1 • max: 256 • pattern: [0-9A-Za-z_\- ]+
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
@@ -106,6 +107,15 @@ public record AwsIotManagedIntegrationsUpdateDestinationOptions : AwsOptions, IV
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

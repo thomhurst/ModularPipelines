@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsCodeartifactDescribePackageGroupOptions : AwsOptions, IValidata
     /// <summary>
     /// Returns a PackageGroupDescription object that contains information about the requested package group. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Domain">The name of the domain that contains the package group. Constraints: o min: 2 o max: 50 o pattern: [a-z][a-z0-9\-]{0,48}[a-z0-9]</param>
-    /// <param name="PackageGroup">The pattern of the requested package group. Constraints: o min: 2 o max: 520 o pattern: [^\p{C}\p{IsWhitespace}]+</param>
+    /// <param name="Domain">The name of the domain that contains the package group. Constraints: • min: 2 • max: 50 • pattern: [a-z][a-z0-9\-]{0,48}[a-z0-9]</param>
+    /// <param name="PackageGroup">The pattern of the requested package group. Constraints: • min: 2 • max: 520 • pattern: [^\p{C}\p{IsWhitespace}]+</param>
     public AwsCodeartifactDescribePackageGroupOptions(
         string Domain,
         string PackageGroup
@@ -60,19 +61,19 @@ public record AwsCodeartifactDescribePackageGroupOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the domain that contains the package group. Constraints: o min: 2 o max: 50 o pattern: [a-z][a-z0-9\-]{0,48}[a-z0-9]
+    /// The name of the domain that contains the package group. Constraints: • min: 2 • max: 50 • pattern: [a-z][a-z0-9\-]{0,48}[a-z0-9]
     /// </summary>
     [CliOption("--domain")]
     public string? Domain { get; private init; }
 
     /// <summary>
-    /// The pattern of the requested package group. Constraints: o min: 2 o max: 520 o pattern: [^\p{C}\p{IsWhitespace}]+
+    /// The pattern of the requested package group. Constraints: • min: 2 • max: 520 • pattern: [^\p{C}\p{IsWhitespace}]+
     /// </summary>
     [CliOption("--package-group")]
     public string? PackageGroup { get; private init; }
 
     /// <summary>
-    /// The 12-digit account number of the Amazon Web Services account that owns the domain. It does not include dashes or spaces. Constraints: o min: 12 o max: 12 o pattern: [0-9]{12}
+    /// The 12-digit account number of the Amazon Web Services account that owns the domain. It does not include dashes or spaces. Constraints: • min: 12 • max: 12 • pattern: [0-9]{12}
     /// </summary>
     [CliOption("--domain-owner")]
     public string? DomainOwner { get; set; }
@@ -98,6 +99,15 @@ public record AwsCodeartifactDescribePackageGroupOptions : AwsOptions, IValidata
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

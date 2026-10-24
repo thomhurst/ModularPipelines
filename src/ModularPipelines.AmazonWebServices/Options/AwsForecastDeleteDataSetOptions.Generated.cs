@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes an Amazon Forecast dataset that was created using the CreateDataset operation. You can only delete datasets that have a sta- tus of ACTIVE or CREATE_FAILED . To get the status use the DescribeDataset operation. NOTE: Forecast does not automatically update any dataset groups that con- tain the deleted dataset. In order to update the dataset group, use the UpdateDatasetGroup operation, omitting the deleted dataset's ARN. See also: AWS API Documentation
+/// Deletes an Amazon Forecast dataset that was created using the CreateDataset operation. You can only delete datasets that have a status of ACTIVE or CREATE_FAILED . To get the status use the DescribeDataset operation. NOTE: Forecast does not automatically update any dataset groups that contain the deleted dataset. In order to update the dataset group, use the UpdateDatasetGroup operation, omitting the deleted dataset's ARN. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsForecastDeleteDataSetOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes an Amazon Forecast dataset that was created using the CreateDataset operation. You can only delete datasets that have a sta- tus of ACTIVE or CREATE_FAILED . To get the status use the DescribeDataset operation. NOTE: Forecast does not automatically update any dataset groups that con- tain the deleted dataset. In order to update the dataset group, use the UpdateDatasetGroup operation, omitting the deleted dataset's ARN. See also: AWS API Documentation
+    /// Deletes an Amazon Forecast dataset that was created using the CreateDataset operation. You can only delete datasets that have a status of ACTIVE or CREATE_FAILED . To get the status use the DescribeDataset operation. NOTE: Forecast does not automatically update any dataset groups that contain the deleted dataset. In order to update the dataset group, use the UpdateDatasetGroup operation, omitting the deleted dataset's ARN. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DataSetArn">The Amazon Resource Name (ARN) of the dataset to delete. Constraints: o max: 256 o pattern: arn:([a-z\d-]+):forecast:.*:.*:.+</param>
+    /// <param name="DataSetArn">The Amazon Resource Name (ARN) of the dataset to delete. Constraints: • max: 256 • pattern: arn:([a-z\d-]+):forecast:.*:.*:.+</param>
     public AwsForecastDeleteDataSetOptions(
         string DataSetArn
     )
@@ -56,7 +57,7 @@ public record AwsForecastDeleteDataSetOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the dataset to delete. Constraints: o max: 256 o pattern: arn:([a-z\d-]+):forecast:.*:.*:.+
+    /// The Amazon Resource Name (ARN) of the dataset to delete. Constraints: • max: 256 • pattern: arn:([a-z\d-]+):forecast:.*:.*:.+
     /// </summary>
     [CliOption("--dataset-arn")]
     public string? DataSetArn { get; private init; }
@@ -82,6 +83,15 @@ public record AwsForecastDeleteDataSetOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

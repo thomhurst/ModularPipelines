@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,9 +28,9 @@ public record AwsTranslateTranslateTextOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Translates input text from the source language to the target language. For a list of available languages and language codes, see Supported languages . See also: AWS API Documentation
     /// </summary>
-    /// <param name="Text">The text to translate. The text string can be a maximum of 10,000 bytes long. Depending on your character set, this may be fewer than 10,000 characters. Constraints: o min: 1 o max: 10000 o pattern: [\P{M}\p{M}]{1,10000}</param>
-    /// <param name="SourceLanguageCode">The language code for the language of the source text. For a list of language codes, see Supported languages . To have Amazon Translate determine the source language of your text, you can specify auto in the SourceLanguageCode field. If you specify auto , Amazon Translate will call Amazon Comprehend to determine the source language. NOTE: If you specify auto , you must send the TranslateText request in a region that supports Amazon Comprehend. Otherwise, the request returns an error indicating that autodetect is not supported. Constraints: o min: 2 o max: 5</param>
-    /// <param name="TargetLanguageCode">The language code requested for the language of the target text. For a list of language codes, see Supported languages . Constraints: o min: 2 o max: 5</param>
+    /// <param name="Text">The text to translate. The text string can be a maximum of 10,000 bytes long. Depending on your character set, this may be fewer than 10,000 characters. Constraints: • min: 1 • max: 10000 • pattern: [\P{M}\p{M}]{1,10000}</param>
+    /// <param name="SourceLanguageCode">The language code for the language of the source text. For a list of language codes, see Supported languages . To have Amazon Translate determine the source language of your text, you can specify auto in the SourceLanguageCode field. If you specify auto , Amazon Translate will call Amazon Comprehend to determine the source language. NOTE: If you specify auto , you must send the TranslateText request in a region that supports Amazon Comprehend. Otherwise, the request returns an error indicating that autodetect is not supported. Constraints: • min: 2 • max: 5</param>
+    /// <param name="TargetLanguageCode">The language code requested for the language of the target text. For a list of language codes, see Supported languages . Constraints: • min: 2 • max: 5</param>
     public AwsTranslateTranslateTextOptions(
         string Text,
         string SourceLanguageCode,
@@ -64,31 +65,31 @@ public record AwsTranslateTranslateTextOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The text to translate. The text string can be a maximum of 10,000 bytes long. Depending on your character set, this may be fewer than 10,000 characters. Constraints: o min: 1 o max: 10000 o pattern: [\P{M}\p{M}]{1,10000}
+    /// The text to translate. The text string can be a maximum of 10,000 bytes long. Depending on your character set, this may be fewer than 10,000 characters. Constraints: • min: 1 • max: 10000 • pattern: [\P{M}\p{M}]{1,10000}
     /// </summary>
     [CliOption("--text")]
     public string? Text { get; private init; }
 
     /// <summary>
-    /// The language code for the language of the source text. For a list of language codes, see Supported languages . To have Amazon Translate determine the source language of your text, you can specify auto in the SourceLanguageCode field. If you specify auto , Amazon Translate will call Amazon Comprehend to determine the source language. NOTE: If you specify auto , you must send the TranslateText request in a region that supports Amazon Comprehend. Otherwise, the request returns an error indicating that autodetect is not supported. Constraints: o min: 2 o max: 5
+    /// The language code for the language of the source text. For a list of language codes, see Supported languages . To have Amazon Translate determine the source language of your text, you can specify auto in the SourceLanguageCode field. If you specify auto , Amazon Translate will call Amazon Comprehend to determine the source language. NOTE: If you specify auto , you must send the TranslateText request in a region that supports Amazon Comprehend. Otherwise, the request returns an error indicating that autodetect is not supported. Constraints: • min: 2 • max: 5
     /// </summary>
     [CliOption("--source-language-code")]
     public string? SourceLanguageCode { get; private init; }
 
     /// <summary>
-    /// The language code requested for the language of the target text. For a list of language codes, see Supported languages . Constraints: o min: 2 o max: 5
+    /// The language code requested for the language of the target text. For a list of language codes, see Supported languages . Constraints: • min: 2 • max: 5
     /// </summary>
     [CliOption("--target-language-code")]
     public string? TargetLanguageCode { get; private init; }
 
     /// <summary>
-    /// The name of a terminology list file to add to the translation job. This file provides source terms and the desired translation for each term. A terminology list can contain a maximum of 256 terms. You can use one custom terminology resource in your translation request. Use the ListTerminologies operation to get the available terminol- ogy lists. For more information about custom terminology lists, see Custom ter- minology . (string) Constraints: o min: 1 o max: 256 o pattern: ^([A-Za-z0-9-]_?)+$ Syntax: "string" "string" ...
+    /// The name of a terminology list file to add to the translation job. This file provides source terms and the desired translation for each term. A terminology list can contain a maximum of 256 terms. You can use one custom terminology resource in your translation request. Use the ListTerminologies operation to get the available terminology lists. For more information about custom terminology lists, see Custom terminology . (string) Constraints: • min: 1 • max: 256 • pattern: ^([A-Za-z0-9-]_?)+$ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--terminology-names", GroupValues = true)]
     public IEnumerable<string>? TerminologyNames { get; set; }
 
     /// <summary>
-    /// Settings to configure your translation output. You can configure the following options: o Brevity: reduces the length of the translated output for most translations. o Formality: sets the formality level of the output text. o Profanity: masks profane words and phrases in your translation output. Formality -&gt; (string) You can specify the desired level of formality for translations to supported target languages. The formality setting controls the level of formal language usage (also known as register ) in the translation output. You can set the value to informal or formal. If you don't specify a value for formality, or if the target language doesn't support formality, the translation will ignore the formality setting. If you specify multiple target languages for the job, translate ignores the formality setting for any unsupported target lan- guage. For a list of target languages that support formality, see Supported languages in the Amazon Translate Developer Guide. Possible values: o FORMAL o INFORMAL Profanity -&gt; (string) You can enable the profanity setting if you want to mask profane words and phrases in your translation output. To mask profane words and phrases, Amazon Translate replaces them with the grawlix string ?$#@$. This 5-character sequence is used for each profane word or phrase, regardless of the length or number of words. Amazon Translate doesn't detect profanity in all of its sup- ported languages. For languages that don't support profanity de- tection, see Unsupported languages in the Amazon Translate De- veloper Guide. If you specify multiple target languages for the job, all the target languages must support profanity masking. If any of the target languages don't support profanity masking, the transla- tion job won't mask profanity for any target language. Possible values: o MASK Brevity -&gt; (string) When you turn on brevity, Amazon Translate reduces the length of the translation output for most translations (when compared with the same translation with brevity turned off). By default, brevity is turned off. If you turn on brevity for a translation request with an unsup- ported language pair, the translation proceeds with the brevity setting turned off. For the language pairs that brevity supports, see Using brevity in the Amazon Translate Developer Guide. Possible values: o ON Shorthand Syntax: Formality=string,Profanity=string,Brevity=string JSON Syntax: { "Formality": "FORMAL"|"INFORMAL", "Profanity": "MASK", "Brevity": "ON" }
+    /// Settings to configure your translation output. You can configure the following options: • Brevity: reduces the length of the translated output for most translations. • Formality: sets the formality level of the output text. • Profanity: masks profane words and phrases in your translation output. Formality -&gt; (string) You can specify the desired level of formality for translations to supported target languages. The formality setting controls the level of formal language usage (also known as register ) in the translation output. You can set the value to informal or formal. If you don't specify a value for formality, or if the target language doesn't support formality, the translation will ignore the formality setting. If you specify multiple target languages for the job, translate ignores the formality setting for any unsupported target language. For a list of target languages that support formality, see Supported languages in the Amazon Translate Developer Guide. Possible values: • FORMAL • INFORMAL Profanity -&gt; (string) You can enable the profanity setting if you want to mask profane words and phrases in your translation output. To mask profane words and phrases, Amazon Translate replaces them with the grawlix string ?$#@$. This 5-character sequence is used for each profane word or phrase, regardless of the length or number of words. Amazon Translate doesn't detect profanity in all of its supported languages. For languages that don't support profanity detection, see Unsupported languages in the Amazon Translate Developer Guide. If you specify multiple target languages for the job, all the target languages must support profanity masking. If any of the target languages don't support profanity masking, the translation job won't mask profanity for any target language. Possible values: • MASK Brevity -&gt; (string) When you turn on brevity, Amazon Translate reduces the length of the translation output for most translations (when compared with the same translation with brevity turned off). By default, brevity is turned off. If you turn on brevity for a translation request with an unsupported language pair, the translation proceeds with the brevity setting turned off. For the language pairs that brevity supports, see Using brevity in the Amazon Translate Developer Guide. Possible values: • ON Shorthand Syntax: Formality=string,Profanity=string,Brevity=string JSON Syntax: { "Formality": "FORMAL"|"INFORMAL", "Profanity": "MASK", "Brevity": "ON" }
     /// </summary>
     [CliOption("--settings")]
     public string? Settings { get; set; }
@@ -114,6 +115,15 @@ public record AwsTranslateTranslateTextOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

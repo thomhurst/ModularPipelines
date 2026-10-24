@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsMediatailorUpdateVodSourceOptions : AwsOptions, IValidatableObj
     /// <summary>
     /// Updates a VOD source's configuration. See also: AWS API Documentation
     /// </summary>
-    /// <param name="HttpPackageConfigurations">A list of HTTP package configurations for the VOD source on this ac- count. (structure) The HTTP package configuration properties for the requested VOD source. Path -&gt; (string) [required] The relative path to the URL for this VOD source. This is combined with SourceLocation::HttpConfiguration::BaseUrl to form a valid URL. SourceGroup -&gt; (string) [required] The name of the source group. This has to match one of the Channel::Outputs::SourceGroup . Type -&gt; (string) [required] The streaming protocol for this package configuration. Sup- ported values are HLS and DASH . Possible values: o DASH o HLS Shorthand Syntax: Path=string,SourceGroup=string,Type=string ... JSON Syntax: [ { "Path": "string", "SourceGroup": "string", "Type": "DASH"|"HLS" } ... ]</param>
+    /// <param name="HttpPackageConfigurations">A list of HTTP package configurations for the VOD source on this account. (structure) The HTTP package configuration properties for the requested VOD source. Path -&gt; (string) [required] The relative path to the URL for this VOD source. This is combined with SourceLocation::HttpConfiguration::BaseUrl to form a valid URL. SourceGroup -&gt; (string) [required] The name of the source group. This has to match one of the Channel::Outputs::SourceGroup . Type -&gt; (string) [required] The streaming protocol for this package configuration. Supported values are HLS and DASH . Possible values: • DASH • HLS Shorthand Syntax: Path=string,SourceGroup=string,Type=string ... JSON Syntax: [ { "Path": "string", "SourceGroup": "string", "Type": "DASH"|"HLS" } ... ]</param>
     /// <param name="SourceLocationName">The name of the source location associated with this VOD Source.</param>
     /// <param name="VodSourceName">The name of the VOD source.</param>
     public AwsMediatailorUpdateVodSourceOptions(
@@ -75,7 +76,7 @@ public record AwsMediatailorUpdateVodSourceOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A list of HTTP package configurations for the VOD source on this ac- count. (structure) The HTTP package configuration properties for the requested VOD source. Path -&gt; (string) [required] The relative path to the URL for this VOD source. This is combined with SourceLocation::HttpConfiguration::BaseUrl to form a valid URL. SourceGroup -&gt; (string) [required] The name of the source group. This has to match one of the Channel::Outputs::SourceGroup . Type -&gt; (string) [required] The streaming protocol for this package configuration. Sup- ported values are HLS and DASH . Possible values: o DASH o HLS Shorthand Syntax: Path=string,SourceGroup=string,Type=string ... JSON Syntax: [ { "Path": "string", "SourceGroup": "string", "Type": "DASH"|"HLS" } ... ]
+    /// A list of HTTP package configurations for the VOD source on this account. (structure) The HTTP package configuration properties for the requested VOD source. Path -&gt; (string) [required] The relative path to the URL for this VOD source. This is combined with SourceLocation::HttpConfiguration::BaseUrl to form a valid URL. SourceGroup -&gt; (string) [required] The name of the source group. This has to match one of the Channel::Outputs::SourceGroup . Type -&gt; (string) [required] The streaming protocol for this package configuration. Supported values are HLS and DASH . Possible values: • DASH • HLS Shorthand Syntax: Path=string,SourceGroup=string,Type=string ... JSON Syntax: [ { "Path": "string", "SourceGroup": "string", "Type": "DASH"|"HLS" } ... ]
     /// </summary>
     [CliOption("--http-package-configurations", GroupValues = true)]
     public IEnumerable<string>? HttpPackageConfigurations { get; private init; }
@@ -113,6 +114,15 @@ public record AwsMediatailorUpdateVodSourceOptions : AwsOptions, IValidatableObj
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

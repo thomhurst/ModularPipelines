@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Accepts a delegation request, granting the requested temporary access. Once the delegation request is accepted, it is eligible to send the ex- change token to the partner. The SendDelegationToken API has to be ex- plicitly called to send the delegation token. At the time of acceptance, IAM records the details and the state of the identity that called this API. This is the identity that gets mapped to the delegated credential. An accepted request may be rejected before the exchange token is sent ...
+/// Accepts a delegation request, granting the requested temporary access. Once the delegation request is accepted, it is eligible to send the exchange token to the partner. The SendDelegationToken API has to be explicitly called to send the delegation token. At the time of acceptance, IAM records the details and the state of the identity that called this API. This is the identity that gets mapped to the delegated credential. An accepted request may be rejected before the exchange token is sent to t...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsIamAcceptDelegationRequestOptions : AwsOptions, IValidatableObj
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Accepts a delegation request, granting the requested temporary access. Once the delegation request is accepted, it is eligible to send the ex- change token to the partner. The SendDelegationToken API has to be ex- plicitly called to send the delegation token. At the time of acceptance, IAM records the details and the state of the identity that called this API. This is the identity that gets mapped to the delegated credential. An accepted request may be rejected before the exchange token is sent ...
+    /// Accepts a delegation request, granting the requested temporary access. Once the delegation request is accepted, it is eligible to send the exchange token to the partner. The SendDelegationToken API has to be explicitly called to send the delegation token. At the time of acceptance, IAM records the details and the state of the identity that called this API. This is the identity that gets mapped to the delegated credential. An accepted request may be rejected before the exchange token is sent to t...
     /// </summary>
-    /// <param name="DelegationRequestId">The unique identifier of the delegation request to accept. Constraints: o min: 16 o max: 128 o pattern: [\w-]+</param>
+    /// <param name="DelegationRequestId">The unique identifier of the delegation request to accept. Constraints: • min: 16 • max: 128 • pattern: [\w-]+</param>
     public AwsIamAcceptDelegationRequestOptions(
         string DelegationRequestId
     )
@@ -56,7 +57,7 @@ public record AwsIamAcceptDelegationRequestOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the delegation request to accept. Constraints: o min: 16 o max: 128 o pattern: [\w-]+
+    /// The unique identifier of the delegation request to accept. Constraints: • min: 16 • max: 128 • pattern: [\w-]+
     /// </summary>
     [CliOption("--delegation-request-id")]
     public string? DelegationRequestId { get; private init; }
@@ -82,6 +83,15 @@ public record AwsIamAcceptDelegationRequestOptions : AwsOptions, IValidatableObj
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

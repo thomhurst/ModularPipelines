@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// The UpdateNotificationSettings operation creates, updates, disables or re-enables notifications for a HIT type. If you call the UpdateNotifi- cationSettings operation for a HIT type that already has a notification specification, the operation replaces the old specification with a new one. You can call the UpdateNotificationSettings operation to enable or disable notifications for the HIT type, without having to modify the notification specification itself by providing updates to the Active statu...
+/// The UpdateNotificationSettings operation creates, updates, disables or re-enables notifications for a HIT type. If you call the UpdateNotificationSettings operation for a HIT type that already has a notification specification, the operation replaces the old specification with a new one. You can call the UpdateNotificationSettings operation to enable or disable notifications for the HIT type, without having to modify the notification specification itself by providing updates to the Active status ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsMturkUpdateNotificationSettingsOptions : AwsOptions, IValidatab
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// The UpdateNotificationSettings operation creates, updates, disables or re-enables notifications for a HIT type. If you call the UpdateNotifi- cationSettings operation for a HIT type that already has a notification specification, the operation replaces the old specification with a new one. You can call the UpdateNotificationSettings operation to enable or disable notifications for the HIT type, without having to modify the notification specification itself by providing updates to the Active statu...
+    /// The UpdateNotificationSettings operation creates, updates, disables or re-enables notifications for a HIT type. If you call the UpdateNotificationSettings operation for a HIT type that already has a notification specification, the operation replaces the old specification with a new one. You can call the UpdateNotificationSettings operation to enable or disable notifications for the HIT type, without having to modify the notification specification itself by providing updates to the Active status ...
     /// </summary>
-    /// <param name="HitTypeId">The ID of the HIT type whose notification specification is being up- dated. Constraints: o min: 1 o max: 64 o pattern: ^[A-Z0-9]+$</param>
+    /// <param name="HitTypeId">The ID of the HIT type whose notification specification is being updated. Constraints: • min: 1 • max: 64 • pattern: ^[A-Z0-9]+$</param>
     public AwsMturkUpdateNotificationSettingsOptions(
         string HitTypeId
     )
@@ -56,13 +57,13 @@ public record AwsMturkUpdateNotificationSettingsOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the HIT type whose notification specification is being up- dated. Constraints: o min: 1 o max: 64 o pattern: ^[A-Z0-9]+$
+    /// The ID of the HIT type whose notification specification is being updated. Constraints: • min: 1 • max: 64 • pattern: ^[A-Z0-9]+$
     /// </summary>
     [CliOption("--hit-type-id")]
     public string? HitTypeId { get; private init; }
 
     /// <summary>
-    /// The notification specification for the HIT type. Destination -&gt; (string) [required] The target for notification messages. The Destinations format is determined by the specified Transport: o When Transport is Email, the Destination is your email ad- dress. o When Transport is SQS, the Destination is your queue URL. o When Transport is SNS, the Destination is the ARN of your topic. Transport -&gt; (string) [required] The method Amazon Mechanical Turk uses to send the notification. Valid Values: Email | SQS | SNS. Possible values: o Email o SQS o SNS Version -&gt; (string) [required] The version of the Notification API to use. Valid value is 2006-05-05. EventTypes -&gt; (list) [required] The list of events that should cause notifications to be sent. Valid Values: AssignmentAccepted | AssignmentAbandoned | Assign- mentReturned | AssignmentSubmitted | AssignmentRejected | As- signmentApproved | HITCreated | HITExtended | HITDisposed | HITReviewable | HITExpired | Ping. The Ping event is only valid for the SendTestEventNotification operation. (string) Possible values: o AssignmentAccepted o AssignmentAbandoned o AssignmentReturned o AssignmentSubmitted o AssignmentRejected o AssignmentApproved o HITCreated o HITExpired o HITReviewable o HITExtended o HITDisposed o Ping Shorthand Syntax: Destination=string,Transport=string,Version=string,EventTypes=string,string JSON Syntax: { "Destination": "string", "Transport": "Email"|"SQS"|"SNS", "Version": "string", "EventTypes": ["AssignmentAccepted"|"AssignmentAbandoned"|"AssignmentReturned"|"AssignmentSubmitted"|"AssignmentRejected"|"AssignmentApproved"|"HITCreated"|"HITExpired"|"HITReviewable"|"HITExtended"|"HITDisposed"|"Ping", ...] }
+    /// The notification specification for the HIT type. Destination -&gt; (string) [required] The target for notification messages. The Destinations format is determined by the specified Transport: • When Transport is Email, the Destination is your email address. • When Transport is SQS, the Destination is your queue URL. • When Transport is SNS, the Destination is the ARN of your topic. Transport -&gt; (string) [required] The method Amazon Mechanical Turk uses to send the notification. Valid Values: Email | SQS | SNS. Possible values: • Email • SQS • SNS Version -&gt; (string) [required] The version of the Notification API to use. Valid value is 2006-05-05. EventTypes -&gt; (list) [required] The list of events that should cause notifications to be sent. Valid Values: AssignmentAccepted | AssignmentAbandoned | AssignmentReturned | AssignmentSubmitted | AssignmentRejected | AssignmentApproved | HITCreated | HITExtended | HITDisposed | HITReviewable | HITExpired | Ping. The Ping event is only valid for the SendTestEventNotification operation. (string) Possible values: • AssignmentAccepted • AssignmentAbandoned • AssignmentReturned • AssignmentSubmitted • AssignmentRejected • AssignmentApproved • HITCreated • HITExpired • HITReviewable • HITExtended • HITDisposed • Ping Shorthand Syntax: Destination=string,Transport=string,Version=string,EventTypes=string,string JSON Syntax: { "Destination": "string", "Transport": "Email"|"SQS"|"SNS", "Version": "string", "EventTypes": ["AssignmentAccepted"|"AssignmentAbandoned"|"AssignmentReturned"|"AssignmentSubmitted"|"AssignmentRejected"|"AssignmentApproved"|"HITCreated"|"HITExpired"|"HITReviewable"|"HITExtended"|"HITDisposed"|"Ping", ...] }
     /// </summary>
     [CliOption("--notification")]
     public string? Notification { get; set; }
@@ -94,6 +95,15 @@ public record AwsMturkUpdateNotificationSettingsOptions : AwsOptions, IValidatab
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

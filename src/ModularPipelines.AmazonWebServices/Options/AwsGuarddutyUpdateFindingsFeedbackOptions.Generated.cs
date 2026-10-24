@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,9 +29,9 @@ public record AwsGuarddutyUpdateFindingsFeedbackOptions : AwsOptions, IValidatab
     /// <summary>
     /// Marks the specified GuardDuty findings as useful or not useful. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DetectorId">The ID of the detector that is associated with the findings for which you want to update the feedback. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the ListDetectors API. Constraints: o min: 1 o max: 300</param>
-    /// <param name="FindingIds">The IDs of the findings that you want to mark as useful or not use- ful. Constraints: o min: 0 o max: 50 (string) Constraints: o min: 1 o max: 300 Syntax: "string" "string" ...</param>
-    /// <param name="Feedback">The feedback for the finding. Possible values: o USEFUL o NOT_USEFUL</param>
+    /// <param name="DetectorId">The ID of the detector that is associated with the findings for which you want to update the feedback. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the ListDetectors API. Constraints: • min: 1 • max: 300</param>
+    /// <param name="FindingIds">The IDs of the findings that you want to mark as useful or not useful. Constraints: • min: 0 • max: 50 (string) Constraints: • min: 1 • max: 300 Syntax: "string" "string" ...</param>
+    /// <param name="Feedback">The feedback for the finding. Possible values: • USEFUL • NOT_USEFUL</param>
     public AwsGuarddutyUpdateFindingsFeedbackOptions(
         string DetectorId,
         IEnumerable<string> FindingIds,
@@ -75,19 +76,19 @@ public record AwsGuarddutyUpdateFindingsFeedbackOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the detector that is associated with the findings for which you want to update the feedback. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the ListDetectors API. Constraints: o min: 1 o max: 300
+    /// The ID of the detector that is associated with the findings for which you want to update the feedback. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the ListDetectors API. Constraints: • min: 1 • max: 300
     /// </summary>
     [CliOption("--detector-id")]
     public string? DetectorId { get; private init; }
 
     /// <summary>
-    /// The IDs of the findings that you want to mark as useful or not use- ful. Constraints: o min: 0 o max: 50 (string) Constraints: o min: 1 o max: 300 Syntax: "string" "string" ...
+    /// The IDs of the findings that you want to mark as useful or not useful. Constraints: • min: 0 • max: 50 (string) Constraints: • min: 1 • max: 300 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--finding-ids", GroupValues = true)]
     public IEnumerable<string>? FindingIds { get; private init; }
 
     /// <summary>
-    /// The feedback for the finding. Possible values: o USEFUL o NOT_USEFUL
+    /// The feedback for the finding. Possible values: • USEFUL • NOT_USEFUL
     /// </summary>
     [CliOption("--feedback")]
     public AwsGuarddutyUpdateFindingsFeedbackFeedback? Feedback { get; private init; }
@@ -119,6 +120,15 @@ public record AwsGuarddutyUpdateFindingsFeedbackOptions : AwsOptions, IValidatab
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Create a review template share. The owner of a review template can share it with other Amazon Web Ser- vices accounts, users, an organization, and organizational units (OUs) in the same Amazon Web Services Region. Shared access to a review template is not removed until the review tem- plate share invitation is deleted. If you share a review template with an organization or OU, all accounts in the organization or OU are granted access to the review template. NOTE: Disclaimer By sharing your revie...
+/// Create a review template share. The owner of a review template can share it with other Amazon Web Services accounts, users, an organization, and organizational units (OUs) in the same Amazon Web Services Region. Shared access to a review template is not removed until the review template share invitation is deleted. If you share a review template with an organization or OU, all accounts in the organization or OU are granted access to the review template. NOTE: Disclaimer By sharing your review te...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +27,10 @@ public record AwsWellarchitectedCreateTemplateShareOptions : AwsOptions, IValida
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Create a review template share. The owner of a review template can share it with other Amazon Web Ser- vices accounts, users, an organization, and organizational units (OUs) in the same Amazon Web Services Region. Shared access to a review template is not removed until the review tem- plate share invitation is deleted. If you share a review template with an organization or OU, all accounts in the organization or OU are granted access to the review template. NOTE: Disclaimer By sharing your revie...
+    /// Create a review template share. The owner of a review template can share it with other Amazon Web Services accounts, users, an organization, and organizational units (OUs) in the same Amazon Web Services Region. Shared access to a review template is not removed until the review template share invitation is deleted. If you share a review template with an organization or OU, all accounts in the organization or OU are granted access to the review template. NOTE: Disclaimer By sharing your review te...
     /// </summary>
-    /// <param name="TemplateArn">The review template ARN. Constraints: o min: 50 o max: 250 o pattern: arn:aws(-us-gov|-iso(-[a-z])?|-cn)?:wellarchi- tected:[a-z]{2}(-gov|-iso([a-z])?)?-[a-z]+-\d:\d{12}:(review-tem- plate)/[a-f0-9]{32}</param>
-    /// <param name="SharedWith">The Amazon Web Services account ID, organization ID, or organiza- tional unit (OU) ID with which the workload, lens, profile, or re- view template is shared. Constraints: o min: 12 o max: 2048</param>
+    /// <param name="TemplateArn">The review template ARN. Constraints: • min: 50 • max: 250 • pattern: arn:aws(-us-gov|-iso(-[a-z])?|-cn)?:wellarchitected:[a-z]{2}(-gov|-iso([a-z])?)?-[a-z]+-\d:\d{12}:(review-template)/[a-f0-9]{32}</param>
+    /// <param name="SharedWith">The Amazon Web Services account ID, organization ID, or organizational unit (OU) ID with which the workload, lens, profile, or review template is shared. Constraints: • min: 12 • max: 2048</param>
     public AwsWellarchitectedCreateTemplateShareOptions(
         string TemplateArn,
         string SharedWith
@@ -61,19 +62,19 @@ public record AwsWellarchitectedCreateTemplateShareOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The review template ARN. Constraints: o min: 50 o max: 250 o pattern: arn:aws(-us-gov|-iso(-[a-z])?|-cn)?:wellarchi- tected:[a-z]{2}(-gov|-iso([a-z])?)?-[a-z]+-\d:\d{12}:(review-tem- plate)/[a-f0-9]{32}
+    /// The review template ARN. Constraints: • min: 50 • max: 250 • pattern: arn:aws(-us-gov|-iso(-[a-z])?|-cn)?:wellarchitected:[a-z]{2}(-gov|-iso([a-z])?)?-[a-z]+-\d:\d{12}:(review-template)/[a-f0-9]{32}
     /// </summary>
     [CliOption("--template-arn")]
     public string? TemplateArn { get; private init; }
 
     /// <summary>
-    /// The Amazon Web Services account ID, organization ID, or organiza- tional unit (OU) ID with which the workload, lens, profile, or re- view template is shared. Constraints: o min: 12 o max: 2048
+    /// The Amazon Web Services account ID, organization ID, or organizational unit (OU) ID with which the workload, lens, profile, or review template is shared. Constraints: • min: 12 • max: 2048
     /// </summary>
     [CliOption("--shared-with")]
     public string? SharedWith { get; private init; }
 
     /// <summary>
-    /// A unique case-sensitive string used to ensure that this request is idempotent (executes only once). You should not reuse the same token for other requests. If you retry a request with the same client request token and the same parameters after the original request has completed successfully, the result of the original request is returned. WARNING: This token is listed as required, however, if you do not specify it, the Amazon Web Services SDKs automatically generate one for you. If you are not using the Amazon Web Services SDK or the CLI, you must provide this token or the request will fail. Constraints: o min: 1 o max: 2048 o pattern: [\x00-\x7F]*
+    /// A unique case-sensitive string used to ensure that this request is idempotent (executes only once). You should not reuse the same token for other requests. If you retry a request with the same client request token and the same parameters after the original request has completed successfully, the result of the original request is returned. WARNING: This token is listed as required, however, if you do not specify it, the Amazon Web Services SDKs automatically generate one for you. If you are not using the Amazon Web Services SDK or the CLI, you must provide this token or the request will fail. Constraints: • min: 1 • max: 2048 • pattern: [\x00-\x7F]*
     /// </summary>
     [SecretValue]
     [CliOption("--client-request-token")]
@@ -100,6 +101,15 @@ public record AwsWellarchitectedCreateTemplateShareOptions : AwsOptions, IValida
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

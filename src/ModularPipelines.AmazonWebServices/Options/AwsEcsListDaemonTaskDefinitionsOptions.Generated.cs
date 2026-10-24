@@ -24,44 +24,44 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsEcsListDaemonTaskDefinitionsOptions : AwsOptions
 {
     /// <summary>
-    /// The full family name to filter the ListDaemonTaskDefinitions results with. Specifying a familyPrefix limits the listed daemon task defin- itions to daemon task definition families that start with the fami- lyPrefix string.
+    /// The full family name to filter the ListDaemonTaskDefinitions results with. Specifying a familyPrefix limits the listed daemon task definitions to daemon task definition families that start with the familyPrefix string.
     /// </summary>
     [CliOption("--family-prefix")]
     public string? FamilyPrefix { get; set; }
 
     /// <summary>
-    /// The exact name of the daemon task definition family to filter re- sults with.
+    /// The exact name of the daemon task definition family to filter results with.
     /// </summary>
     [CliOption("--family")]
     public string? Family { get; set; }
 
     /// <summary>
-    /// The revision filter to apply. Specify LAST_REGISTERED to return only the last registered revision for each daemon task definition family. Possible values: o LAST_REGISTERED
+    /// The revision filter to apply. Specify LAST_REGISTERED to return only the last registered revision for each daemon task definition family. Possible values: • LAST_REGISTERED
     /// </summary>
     [CliOption("--revision")]
     public string? Revision { get; set; }
 
     /// <summary>
-    /// The daemon task definition status to filter the ListDaemonTaskDefin- itions results with. By default, only ACTIVE daemon task definitions are listed. If you set this parameter to DELETE_IN_PROGRESS , only daemon task definitions that are in the process of being deleted are listed. If you set this parameter to ALL , all daemon task defini- tions are listed regardless of status. Possible values: o ACTIVE o DELETE_IN_PROGRESS o ALL
+    /// The daemon task definition status to filter the ListDaemonTaskDefinitions results with. By default, only ACTIVE daemon task definitions are listed. If you set this parameter to DELETE_IN_PROGRESS , only daemon task definitions that are in the process of being deleted are listed. If you set this parameter to ALL , all daemon task definitions are listed regardless of status. Possible values: • ACTIVE • DELETE_IN_PROGRESS • ALL
     /// </summary>
     [CliOption("--status")]
     public AwsEcsListDaemonTaskDefinitionsStatus? Status { get; set; }
 
     /// <summary>
-    /// The order to sort the results. Valid values are ASC and DESC . By default (ASC ), daemon task definitions are listed in ascending or- der by family name and revision number. Possible values: o ASC o DESC
+    /// The order to sort the results. Valid values are ASC and DESC . By default (ASC ), daemon task definitions are listed in ascending order by family name and revision number. Possible values: • ASC • DESC
     /// </summary>
     [CliOption("--sort")]
     public AwsEcsListDaemonTaskDefinitionsSort? Sort { get; set; }
 
     /// <summary>
-    /// The nextToken value returned from a ListDaemonTaskDefinitions re- quest indicating that more results are available to fulfill the re- quest and further calls will be needed. If maxResults was provided, it's possible for the number of results to be fewer than maxResults . NOTE: This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes.
+    /// The nextToken value returned from a ListDaemonTaskDefinitions request indicating that more results are available to fulfill the request and further calls will be needed. If maxResults was provided, it's possible for the number of results to be fewer than maxResults . NOTE: This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes.
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// The maximum number of daemon task definition results that ListDae- monTaskDefinitions returned in paginated output. When this parameter is used, ListDaemonTaskDefinitions only returns maxResults results in a single page along with a nextToken response element. The re- maining results of the initial request can be seen by sending an- other ListDaemonTaskDefinitions request with the returned nextToken value. This value can be between 1 and 100. If this parameter isn't used, then ListDaemonTaskDefinitions returns up to 100 results and a nextToken value if applicable.
+    /// The maximum number of daemon task definition results that ListDaemonTaskDefinitions returned in paginated output. When this parameter is used, ListDaemonTaskDefinitions only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListDaemonTaskDefinitions request with the returned nextToken value. This value can be between 1 and 100. If this parameter isn't used, then ListDaemonTaskDefinitions returns up to 100 results and a nextToken value if applicable.
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
@@ -71,5 +71,14 @@ public record AwsEcsListDaemonTaskDefinitionsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

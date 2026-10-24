@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -63,19 +64,19 @@ public record AwsMqUpdateBrokerOptions : AwsOptions, IValidatableObject
     public string? BrokerId { get; private init; }
 
     /// <summary>
-    /// Optional. The authentication strategy used to secure the broker. The default is SIMPLE. Possible values: o SIMPLE o LDAP o CONFIG_MANAGED
+    /// Optional. The authentication strategy used to secure the broker. The default is SIMPLE. Possible values: • SIMPLE • LDAP • CONFIG_MANAGED
     /// </summary>
     [CliOption("--authentication-strategy")]
     public AwsMqUpdateBrokerAuthenticationStrategy? AuthenticationStrategy { get; set; }
 
     /// <summary>
-    /// Enables automatic upgrades to new patch versions for brokers as new versions are released and supported by Amazon MQ. Automatic upgrades occur during the scheduled maintenance window or after a manual bro- ker reboot. NOTE: Must be set to true for ActiveMQ brokers version 5.18 and above and for RabbitMQ brokers version 3.13 and above.
+    /// Enables automatic upgrades to new patch versions for brokers as new versions are released and supported by Amazon MQ. Automatic upgrades occur during the scheduled maintenance window or after a manual broker reboot. NOTE: Must be set to true for ActiveMQ brokers version 5.18 and above and for RabbitMQ brokers version 3.13 and above.
     /// </summary>
     [CliFlag("--auto-minor-version-upgrade", NegatedName = "--no-auto-minor-version-upgrade")]
     public bool? AutoMinorVersionUpgrade { get; set; }
 
     /// <summary>
-    /// A list of information about the configuration. Id -&gt; (string) [required] Required. The unique ID that Amazon MQ generates for the config- uration. Revision -&gt; (integer) The revision number of the configuration. Shorthand Syntax: Id=string,Revision=integer JSON Syntax: { "Id": "string", "Revision": integer }
+    /// A list of information about the configuration. Id -&gt; (string) [required] Required. The unique ID that Amazon MQ generates for the configuration. Revision -&gt; (integer) The revision number of the configuration. Shorthand Syntax: Id=string,Revision=integer JSON Syntax: { "Id": "string", "Revision": integer }
     /// </summary>
     [CliOption("--configuration")]
     public string? Configuration { get; set; }
@@ -87,13 +88,13 @@ public record AwsMqUpdateBrokerOptions : AwsOptions, IValidatableObject
     public string? EngineVersion { get; set; }
 
     /// <summary>
-    /// The broker's host instance type to upgrade to. For a list of sup- ported instance types, see Broker instance types .
+    /// The broker's host instance type to upgrade to. For a list of supported instance types, see Broker instance types .
     /// </summary>
     [CliOption("--host-instance-type")]
     public string? HostInstanceType { get; set; }
 
     /// <summary>
-    /// Optional. The metadata of the LDAP server used to authenticate and authorize connections to the broker. Does not apply to RabbitMQ bro- kers. Hosts -&gt; (list) [required] Specifies the location of the LDAP server such as Directory Ser- vice for Microsoft Active Directory. Optional failover server. (string) RoleBase -&gt; (string) [required] The distinguished name of the node in the directory information tree (DIT) to search for roles or groups. For example, ou=group, ou=corp, dc=corp, dc=example, dc=com. RoleName -&gt; (string) Specifies the LDAP attribute that identifies the group name at- tribute in the object returned from the group membership query. RoleSearchMatching -&gt; (string) [required] The LDAP search filter used to find roles within the roleBase. The distinguished name of the user matched by userSearchMatching is substituted into the {0} placeholder in the search filter. The client's username is substituted into the {1} placeholder. For example, if you set this option to (member=uid={1})for the user janedoe, the search filter becomes (member=uid=janedoe) af- ter string substitution. It matches all role entries that have a member attribute equal to uid=janedoe under the subtree selected by the roleBase. RoleSearchSubtree -&gt; (boolean) The directory search scope for the role. If set to true, scope is to search the entire subtree. ServiceAccountPassword -&gt; (string) [required] Service account password. A service account is an account in your LDAP server that has access to initiate a connection. For example, cn=admin,dc=corp, dc=example, dc=com. ServiceAccountUsername -&gt; (string) [required] Service account username. A service account is an account in your LDAP server that has access to initiate a connection. For example, cn=admin,dc=corp, dc=example, dc=com. UserBase -&gt; (string) [required] Select a particular subtree of the directory information tree (DIT) to search for user entries. The subtree is specified by a DN, which specifies the base node of the subtree. For example, by setting this option to ou=Users,ou=corp, dc=corp, dc=example, dc=com, the search for user entries is restricted to the subtree beneath ou=Users, ou=corp, dc=corp, dc=example, dc=com. UserRoleName -&gt; (string) Specifies the name of the LDAP attribute for the user group mem- bership. UserSearchMatching -&gt; (string) [required] The LDAP search filter used to find users within the userBase. The client's username is substituted into the {0} placeholder in the search filter. For example, if this option is set to (uid={0}) and the received username is janedoe, the search fil- ter becomes (uid=janedoe) after string substitution. It will re- sult in matching an entry like uid=janedoe, ou=Users,ou=corp, dc=corp, dc=example, dc=com. UserSearchSubtree -&gt; (boolean) The directory search scope for the user. If set to true, scope is to search the entire subtree. Shorthand Syntax: Hosts=string,string,RoleBase=string,RoleName=string,RoleSearchMatching=string,RoleSearchSubtree=boolean,ServiceAccountPassword=string,ServiceAccountUsername=string,UserBase=string,UserRoleName=string,UserSearchMatching=string,UserSearchSubtree=boolean JSON Syntax: { "Hosts": ["string", ...], "RoleBase": "string", "RoleName": "string", "RoleSearchMatching": "string", "RoleSearchSubtree": true|false, "ServiceAccountPassword": "string", "ServiceAccountUsername": "string", "UserBase": "string", "UserRoleName": "string", "UserSearchMatching": "string", "UserSearchSubtree": true|false }
+    /// Optional. The metadata of the LDAP server used to authenticate and authorize connections to the broker. Does not apply to RabbitMQ brokers. Hosts -&gt; (list) [required] Specifies the location of the LDAP server such as Directory Service for Microsoft Active Directory. Optional failover server. (string) RoleBase -&gt; (string) [required] The distinguished name of the node in the directory information tree (DIT) to search for roles or groups. For example, ou=group, ou=corp, dc=corp, dc=example, dc=com. RoleName -&gt; (string) Specifies the LDAP attribute that identifies the group name attribute in the object returned from the group membership query. RoleSearchMatching -&gt; (string) [required] The LDAP search filter used to find roles within the roleBase. The distinguished name of the user matched by userSearchMatching is substituted into the {0} placeholder in the search filter. The client's username is substituted into the {1} placeholder. For example, if you set this option to (member=uid={1})for the user janedoe, the search filter becomes (member=uid=janedoe) after string substitution. It matches all role entries that have a member attribute equal to uid=janedoe under the subtree selected by the roleBase. RoleSearchSubtree -&gt; (boolean) The directory search scope for the role. If set to true, scope is to search the entire subtree. ServiceAccountPassword -&gt; (string) [required] Service account password. A service account is an account in your LDAP server that has access to initiate a connection. For example, cn=admin,dc=corp, dc=example, dc=com. ServiceAccountUsername -&gt; (string) [required] Service account username. A service account is an account in your LDAP server that has access to initiate a connection. For example, cn=admin,dc=corp, dc=example, dc=com. UserBase -&gt; (string) [required] Select a particular subtree of the directory information tree (DIT) to search for user entries. The subtree is specified by a DN, which specifies the base node of the subtree. For example, by setting this option to ou=Users,ou=corp, dc=corp, dc=example, dc=com, the search for user entries is restricted to the subtree beneath ou=Users, ou=corp, dc=corp, dc=example, dc=com. UserRoleName -&gt; (string) Specifies the name of the LDAP attribute for the user group membership. UserSearchMatching -&gt; (string) [required] The LDAP search filter used to find users within the userBase. The client's username is substituted into the {0} placeholder in the search filter. For example, if this option is set to (uid={0}) and the received username is janedoe, the search filter becomes (uid=janedoe) after string substitution. It will result in matching an entry like uid=janedoe, ou=Users,ou=corp, dc=corp, dc=example, dc=com. UserSearchSubtree -&gt; (boolean) The directory search scope for the user. If set to true, scope is to search the entire subtree. Shorthand Syntax: Hosts=string,string,RoleBase=string,RoleName=string,RoleSearchMatching=string,RoleSearchSubtree=boolean,ServiceAccountPassword=string,ServiceAccountUsername=string,UserBase=string,UserRoleName=string,UserSearchMatching=string,UserSearchSubtree=boolean JSON Syntax: { "Hosts": ["string", ...], "RoleBase": "string", "RoleName": "string", "RoleSearchMatching": "string", "RoleSearchSubtree": true|false, "ServiceAccountPassword": "string", "ServiceAccountUsername": "string", "UserBase": "string", "UserRoleName": "string", "UserSearchMatching": "string", "UserSearchSubtree": true|false }
     /// </summary>
     [CliOption("--ldap-server-metadata")]
     public string? LdapServerMetadata { get; set; }
@@ -105,7 +106,7 @@ public record AwsMqUpdateBrokerOptions : AwsOptions, IValidatableObject
     public string? Logs { get; set; }
 
     /// <summary>
-    /// The parameters that determine the WeeklyStartTime. DayOfWeek -&gt; (string) [required] Required. The day of the week. Possible values: o MONDAY o TUESDAY o WEDNESDAY o THURSDAY o FRIDAY o SATURDAY o SUNDAY TimeOfDay -&gt; (string) [required] Required. The time, in 24-hour format. TimeZone -&gt; (string) The time zone, UTC by default, in either the Country/City for- mat, or the UTC offset format. Shorthand Syntax: DayOfWeek=string,TimeOfDay=string,TimeZone=string JSON Syntax: { "DayOfWeek": "MONDAY"|"TUESDAY"|"WEDNESDAY"|"THURSDAY"|"FRIDAY"|"SATURDAY"|"SUNDAY", "TimeOfDay": "string", "TimeZone": "string" }
+    /// The parameters that determine the WeeklyStartTime. DayOfWeek -&gt; (string) [required] Required. The day of the week. Possible values: • MONDAY • TUESDAY • WEDNESDAY • THURSDAY • FRIDAY • SATURDAY • SUNDAY TimeOfDay -&gt; (string) [required] Required. The time, in 24-hour format. TimeZone -&gt; (string) The time zone, UTC by default, in either the Country/City format, or the UTC offset format. Shorthand Syntax: DayOfWeek=string,TimeOfDay=string,TimeZone=string JSON Syntax: { "DayOfWeek": "MONDAY"|"TUESDAY"|"WEDNESDAY"|"THURSDAY"|"FRIDAY"|"SATURDAY"|"SUNDAY", "TimeOfDay": "string", "TimeZone": "string" }
     /// </summary>
     [CliOption("--maintenance-window-start-time")]
     public string? MaintenanceWindowStartTime { get; set; }
@@ -129,7 +130,7 @@ public record AwsMqUpdateBrokerOptions : AwsOptions, IValidatableObject
     public int? StorageSize { get; set; }
 
     /// <summary>
-    /// Defines whether this broker is a part of a data replication pair. Possible values: o NONE o CRDR
+    /// Defines whether this broker is a part of a data replication pair. Possible values: • NONE • CRDR
     /// </summary>
     [CliOption("--data-replication-mode")]
     public AwsMqUpdateBrokerDataReplicationMode? DataReplicationMode { get; set; }
@@ -155,6 +156,15 @@ public record AwsMqUpdateBrokerOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

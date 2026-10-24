@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// You might need to reboot your instance, usually for maintenance rea- sons. For example, if you make certain changes, or if you change the cluster parameter group that is associated with the instance, you must reboot the instance for the changes to take effect. Rebooting an instance restarts the database engine service. Rebooting an instance results in a momentary outage, during which the instance status is set to rebooting . See also: AWS API Documentation
+/// You might need to reboot your instance, usually for maintenance reasons. For example, if you make certain changes, or if you change the cluster parameter group that is associated with the instance, you must reboot the instance for the changes to take effect. Rebooting an instance restarts the database engine service. Rebooting an instance results in a momentary outage, during which the instance status is set to rebooting . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsDocdbRebootDbInstanceOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// You might need to reboot your instance, usually for maintenance rea- sons. For example, if you make certain changes, or if you change the cluster parameter group that is associated with the instance, you must reboot the instance for the changes to take effect. Rebooting an instance restarts the database engine service. Rebooting an instance results in a momentary outage, during which the instance status is set to rebooting . See also: AWS API Documentation
+    /// You might need to reboot your instance, usually for maintenance reasons. For example, if you make certain changes, or if you change the cluster parameter group that is associated with the instance, you must reboot the instance for the changes to take effect. Rebooting an instance restarts the database engine service. Rebooting an instance results in a momentary outage, during which the instance status is set to rebooting . See also: AWS API Documentation
     /// </summary>
-    /// <param name="DbInstanceIdentifier">The instance identifier. This parameter is stored as a lowercase string. Constraints: o Must match the identifier of an existing DBInstance .</param>
+    /// <param name="DbInstanceIdentifier">The instance identifier. This parameter is stored as a lowercase string. Constraints: • Must match the identifier of an existing DBInstance .</param>
     public AwsDocdbRebootDbInstanceOptions(
         string DbInstanceIdentifier
     )
@@ -56,7 +57,7 @@ public record AwsDocdbRebootDbInstanceOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The instance identifier. This parameter is stored as a lowercase string. Constraints: o Must match the identifier of an existing DBInstance .
+    /// The instance identifier. This parameter is stored as a lowercase string. Constraints: • Must match the identifier of an existing DBInstance .
     /// </summary>
     [CliOption("--db-instance-identifier")]
     public string? DbInstanceIdentifier { get; private init; }
@@ -88,6 +89,15 @@ public record AwsDocdbRebootDbInstanceOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

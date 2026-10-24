@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Configures UI branding settings for domains with the hosted UI (clas- sic) branding version. Your user pool must have a domain. Configure a domain with . Set the default configuration for all clients with a ClientId of ALL . When the ClientId value is an app client ID, the settings you pass in this request apply to that app client and override the default ALL con- figuration. NOTE: Amazon Cognito evaluates Identity and Access Management (IAM) poli- cies in requests for this API operation. For th...
+/// Configures UI branding settings for domains with the hosted UI (classic) branding version. Your user pool must have a domain. Configure a domain with . Set the default configuration for all clients with a ClientId of ALL . When the ClientId value is an app client ID, the settings you pass in this request apply to that app client and override the default ALL configuration. NOTE: Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this ope...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsCognitoIdpSetUiCustomizationOptions : AwsOptions, IValidatableO
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Configures UI branding settings for domains with the hosted UI (clas- sic) branding version. Your user pool must have a domain. Configure a domain with . Set the default configuration for all clients with a ClientId of ALL . When the ClientId value is an app client ID, the settings you pass in this request apply to that app client and override the default ALL con- figuration. NOTE: Amazon Cognito evaluates Identity and Access Management (IAM) poli- cies in requests for this API operation. For th...
+    /// Configures UI branding settings for domains with the hosted UI (classic) branding version. Your user pool must have a domain. Configure a domain with . Set the default configuration for all clients with a ClientId of ALL . When the ClientId value is an app client ID, the settings you pass in this request apply to that app client and override the default ALL configuration. NOTE: Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this ope...
     /// </summary>
-    /// <param name="UserPoolId">The ID of the user pool where you want to apply branding to the classic hosted UI. Constraints: o min: 1 o max: 55 o pattern: [\w-]+_[0-9a-zA-Z]+</param>
+    /// <param name="UserPoolId">The ID of the user pool where you want to apply branding to the classic hosted UI. Constraints: • min: 1 • max: 55 • pattern: [\w-]+_[0-9a-zA-Z]+</param>
     public AwsCognitoIdpSetUiCustomizationOptions(
         string UserPoolId
     )
@@ -56,25 +57,25 @@ public record AwsCognitoIdpSetUiCustomizationOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the user pool where you want to apply branding to the classic hosted UI. Constraints: o min: 1 o max: 55 o pattern: [\w-]+_[0-9a-zA-Z]+
+    /// The ID of the user pool where you want to apply branding to the classic hosted UI. Constraints: • min: 1 • max: 55 • pattern: [\w-]+_[0-9a-zA-Z]+
     /// </summary>
     [CliOption("--user-pool-id")]
     public string? UserPoolId { get; private init; }
 
     /// <summary>
-    /// The ID of the app client that you want to customize. To apply a de- fault style to all app clients not configured with client-level branding, set this parameter value to ALL . Constraints: o min: 1 o max: 128 o pattern: [\w+]+
+    /// The ID of the app client that you want to customize. To apply a default style to all app clients not configured with client-level branding, set this parameter value to ALL . Constraints: • min: 1 • max: 128 • pattern: [\w+]+
     /// </summary>
     [CliOption("--client-id")]
     public string? ClientId { get; set; }
 
     /// <summary>
-    /// A plaintext CSS file that contains the custom fields that you want to apply to your user pool or app client. To download a template, go to the Amazon Cognito console. Navigate to your user pool App clients tab, select Login pages , edit Hosted UI (classic) style , and select the link to CSS template.css . Constraints: o min: 0 o max: 131072
+    /// A plaintext CSS file that contains the custom fields that you want to apply to your user pool or app client. To download a template, go to the Amazon Cognito console. Navigate to your user pool App clients tab, select Login pages , edit Hosted UI (classic) style , and select the link to CSS template.css . Constraints: • min: 0 • max: 131072
     /// </summary>
     [CliOption("--css")]
     public string? Css { get; set; }
 
     /// <summary>
-    /// The image that you want to set as your login in the classic hosted UI, as a Base64-formatted binary object. Constraints: o min: 0 o max: 131072
+    /// The image that you want to set as your login in the classic hosted UI, as a Base64-formatted binary object. Constraints: • min: 0 • max: 131072
     /// </summary>
     [CliOption("--image-file")]
     public string? ImageFile { get; set; }
@@ -100,6 +101,15 @@ public record AwsCognitoIdpSetUiCustomizationOptions : AwsOptions, IValidatableO
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

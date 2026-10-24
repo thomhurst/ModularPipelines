@@ -11,13 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates an existing payment connector. This operation uses PATCH seman- tics, so you only need to specify the fields you want to change. See also: AWS API Documentation
+/// Updates an existing payment connector. This operation uses PATCH semantics, so you only need to specify the fields you want to change. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,10 +28,10 @@ public record AwsBedrockAgentcoreControlUpdatePaymentConnectorOptions : AwsOptio
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates an existing payment connector. This operation uses PATCH seman- tics, so you only need to specify the fields you want to change. See also: AWS API Documentation
+    /// Updates an existing payment connector. This operation uses PATCH semantics, so you only need to specify the fields you want to change. See also: AWS API Documentation
     /// </summary>
-    /// <param name="PaymentManagerId">The unique identifier of the parent payment manager. Constraints: o min: 12 o max: 211 o pattern: ([0-9a-z][-]?){1,100}-[0-9a-z]{10}</param>
-    /// <param name="PaymentConnectorId">The unique identifier of the payment connector to update. Constraints: o min: 12 o max: 211 o pattern: ([0-9a-z_][-]?){1,100}-[0-9a-z]{10}</param>
+    /// <param name="PaymentManagerId">The unique identifier of the parent payment manager. Constraints: • min: 12 • max: 211 • pattern: ([0-9a-z][-]?){1,100}-[0-9a-z]{10}</param>
+    /// <param name="PaymentConnectorId">The unique identifier of the payment connector to update. Constraints: • min: 12 • max: 211 • pattern: ([0-9a-z_][-]?){1,100}-[0-9a-z]{10}</param>
     public AwsBedrockAgentcoreControlUpdatePaymentConnectorOptions(
         string PaymentManagerId,
         string PaymentConnectorId
@@ -62,38 +63,38 @@ public record AwsBedrockAgentcoreControlUpdatePaymentConnectorOptions : AwsOptio
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the parent payment manager. Constraints: o min: 12 o max: 211 o pattern: ([0-9a-z][-]?){1,100}-[0-9a-z]{10}
+    /// The unique identifier of the parent payment manager. Constraints: • min: 12 • max: 211 • pattern: ([0-9a-z][-]?){1,100}-[0-9a-z]{10}
     /// </summary>
     [CliOption("--payment-manager-id")]
     public string? PaymentManagerId { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the payment connector to update. Constraints: o min: 12 o max: 211 o pattern: ([0-9a-z_][-]?){1,100}-[0-9a-z]{10}
+    /// The unique identifier of the payment connector to update. Constraints: • min: 12 • max: 211 • pattern: ([0-9a-z_][-]?){1,100}-[0-9a-z]{10}
     /// </summary>
     [CliOption("--payment-connector-id")]
     public string? PaymentConnectorId { get; private init; }
 
     /// <summary>
-    /// The updated description of the payment connector. Constraints: o min: 1 o max: 4096 o pattern: [^\p{C}]*
+    /// The updated description of the payment connector. Constraints: • min: 1 • max: 4096 • pattern: [^\p{C}]*
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The updated type of the payment connector. Possible values: o CoinbaseCDP o StripePrivy
+    /// The updated type of the payment connector. Possible values: • CoinbaseCDP • StripePrivy
     /// </summary>
     [CliOption("--type")]
     public AwsBedrockAgentcoreControlUpdatePaymentConnectorType? Type { get; set; }
 
     /// <summary>
-    /// The updated credential provider configurations for the payment con- nector. Constraints: o min: 0 o max: 1 (tagged union structure) The credential provider configuration for a payment connector. Specifies the payment provider type and its associated creden- tial provider. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: coinbaseCDP, stripePrivy. coinbaseCDP -&gt; (structure) The credential provider configuration for a Coinbase CDP pay- ment connector. credentialProviderArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the credential provider that stores the authentication credentials for the pay- ment provider. Constraints: o min: 69 o max: 2048 o pattern: arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b|aws-iso-e|aws-iso-f|aws-eusc):(acps|bedrock-agent- core):[A-Za-z0-9-]{1,64}:[0-9]{12}:to- ken-vault/[a-zA-Z0-9-.]+/paymentcredential- provider/[a-zA-Z0-9-.]+ stripePrivy -&gt; (structure) The credential provider configuration for a Stripe Privy pay- ment connector. credentialProviderArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the credential provider that stores the authentication credentials for the pay- ment provider. Constraints: o min: 69 o max: 2048 o pattern: arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b|aws-iso-e|aws-iso-f|aws-eusc):(acps|bedrock-agent- core):[A-Za-z0-9-]{1,64}:[0-9]{12}:to- ken-vault/[a-zA-Z0-9-.]+/paymentcredential- provider/[a-zA-Z0-9-.]+ Shorthand Syntax: coinbaseCDP={credentialProviderArn=string},stripePrivy={credentialProviderArn=string} ... JSON Syntax: [ { "coinbaseCDP": { "credentialProviderArn": "string" }, "stripePrivy": { "credentialProviderArn": "string" } } ... ]
+    /// The updated credential provider configurations for the payment connector. Constraints: • min: 0 • max: 1 (tagged union structure) The credential provider configuration for a payment connector. Specifies the payment provider type and its associated credential provider. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: coinbaseCDP, stripePrivy. coinbaseCDP -&gt; (structure) The credential provider configuration for a Coinbase CDP payment connector. credentialProviderArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the credential provider that stores the authentication credentials for the payment provider. Constraints: • min: 69 • max: 2048 • pattern: arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b|aws-iso-e|aws-iso-f|aws-eusc):(acps|bedrock-agentcore):[A-Za-z0-9-]{1,64}:[0-9]{12}:token-vault/[a-zA-Z0-9-.]+/paymentcredentialprovider/[a-zA-Z0-9-.]+ stripePrivy -&gt; (structure) The credential provider configuration for a Stripe Privy payment connector. credentialProviderArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the credential provider that stores the authentication credentials for the payment provider. Constraints: • min: 69 • max: 2048 • pattern: arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b|aws-iso-e|aws-iso-f|aws-eusc):(acps|bedrock-agentcore):[A-Za-z0-9-]{1,64}:[0-9]{12}:token-vault/[a-zA-Z0-9-.]+/paymentcredentialprovider/[a-zA-Z0-9-.]+ Shorthand Syntax: coinbaseCDP={credentialProviderArn=string},stripePrivy={credentialProviderArn=string} ... JSON Syntax: [ { "coinbaseCDP": { "credentialProviderArn": "string" }, "stripePrivy": { "credentialProviderArn": "string" } } ... ]
     /// </summary>
     [SecretValue]
     [CliOption("--credential-provider-configurations", GroupValues = true)]
     public IEnumerable<string>? CredentialProviderConfigurations { get; set; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If you don't specify this field, a value is randomly generated for you. If this token matches a previ- ous request, the service ignores the request, but doesn't return an error. For more information, see Ensuring idempotency . Constraints: o min: 33 o max: 256 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,256}
+    /// A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If you don't specify this field, a value is randomly generated for you. If this token matches a previous request, the service ignores the request, but doesn't return an error. For more information, see Ensuring idempotency . Constraints: • min: 33 • max: 256 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,256}
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
@@ -120,6 +121,15 @@ public record AwsBedrockAgentcoreControlUpdatePaymentConnectorOptions : AwsOptio
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

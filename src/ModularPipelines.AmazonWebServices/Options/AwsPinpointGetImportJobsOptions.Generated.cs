@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +29,7 @@ public record AwsPinpointGetImportJobsOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Retrieves information about the status and settings of all the import jobs for an application. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ApplicationId">The unique identifier for the application. This identifier is dis- played as the Project ID on the Amazon Pinpoint console.</param>
+    /// <param name="ApplicationId">The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.</param>
     public AwsPinpointGetImportJobsOptions(
         string ApplicationId
     )
@@ -57,7 +58,7 @@ public record AwsPinpointGetImportJobsOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier for the application. This identifier is dis- played as the Project ID on the Amazon Pinpoint console.
+    /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
     /// </summary>
     [CliOption("--application-id")]
     public string? ApplicationId { get; private init; }
@@ -96,6 +97,15 @@ public record AwsPinpointGetImportJobsOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

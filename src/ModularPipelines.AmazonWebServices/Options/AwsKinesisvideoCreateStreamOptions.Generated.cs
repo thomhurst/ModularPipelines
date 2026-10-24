@@ -10,13 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a new Kinesis video stream. When you create a new stream, Kinesis Video Streams assigns it a ver- sion number. When you change the stream's metadata, Kinesis Video Streams updates the version. CreateStream is an asynchronous operation. For information about how the service works, see How it Works . You must have permissions for the KinesisVideo:CreateStream action. See also: AWS API Documentation
+/// Creates a new Kinesis video stream. When you create a new stream, Kinesis Video Streams assigns it a version number. When you change the stream's metadata, Kinesis Video Streams updates the version. CreateStream is an asynchronous operation. For information about how the service works, see How it Works . You must have permissions for the KinesisVideo:CreateStream action. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +26,9 @@ public record AwsKinesisvideoCreateStreamOptions : AwsOptions, IValidatableObjec
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a new Kinesis video stream. When you create a new stream, Kinesis Video Streams assigns it a ver- sion number. When you change the stream's metadata, Kinesis Video Streams updates the version. CreateStream is an asynchronous operation. For information about how the service works, see How it Works . You must have permissions for the KinesisVideo:CreateStream action. See also: AWS API Documentation
+    /// Creates a new Kinesis video stream. When you create a new stream, Kinesis Video Streams assigns it a version number. When you change the stream's metadata, Kinesis Video Streams updates the version. CreateStream is an asynchronous operation. For information about how the service works, see How it Works . You must have permissions for the KinesisVideo:CreateStream action. See also: AWS API Documentation
     /// </summary>
-    /// <param name="StreamName">A name for the stream that you are creating. The stream name is an identifier for the stream, and must be unique for each account and region. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9_.-]+</param>
+    /// <param name="StreamName">A name for the stream that you are creating. The stream name is an identifier for the stream, and must be unique for each account and region. Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9_.-]+</param>
     public AwsKinesisvideoCreateStreamOptions(
         string StreamName
     )
@@ -57,43 +57,43 @@ public record AwsKinesisvideoCreateStreamOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A name for the stream that you are creating. The stream name is an identifier for the stream, and must be unique for each account and region. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9_.-]+
+    /// A name for the stream that you are creating. The stream name is an identifier for the stream, and must be unique for each account and region. Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9_.-]+
     /// </summary>
     [CliOption("--stream-name")]
     public string? StreamName { get; private init; }
 
     /// <summary>
-    /// The name of the device that is writing to the stream. NOTE: In the current implementation, Kinesis Video Streams doesn't use this name. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_.-]+
+    /// The name of the device that is writing to the stream. NOTE: In the current implementation, Kinesis Video Streams doesn't use this name. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9_.-]+
     /// </summary>
     [CliOption("--device-name")]
     public string? DeviceName { get; set; }
 
     /// <summary>
-    /// The media type of the stream. Consumers of the stream can use this information when processing the stream. For more information about media types, see Media Types . If you choose to specify the Medi- aType , see Naming Requirements for guidelines. Example valid values include "video/h264" and "video/h264,au- dio/aac". This parameter is optional; the default value is null (or empty in JSON). Constraints: o min: 1 o max: 128 o pattern: [\w\-\.\+]+/[\w\-\.\+]+(,[\w\-\.\+]+/[\w\-\.\+]+)*
+    /// The media type of the stream. Consumers of the stream can use this information when processing the stream. For more information about media types, see Media Types . If you choose to specify the MediaType , see Naming Requirements for guidelines. Example valid values include "video/h264" and "video/h264,audio/aac". This parameter is optional; the default value is null (or empty in JSON). Constraints: • min: 1 • max: 128 • pattern: [\w\-\.\+]+/[\w\-\.\+]+(,[\w\-\.\+]+/[\w\-\.\+]+)*
     /// </summary>
     [CliOption("--media-type")]
     public string? MediaType { get; set; }
 
     /// <summary>
-    /// The ID of the Key Management Service (KMS) key that you want Kinesis Video Streams to use to encrypt stream data. If no key ID is specified, the default, Kinesis Video-managed key (aws/kinesisvideo ) is used. For more information, see DescribeKey . Constraints: o min: 1 o max: 2048 o pattern: .+
+    /// The ID of the Key Management Service (KMS) key that you want Kinesis Video Streams to use to encrypt stream data. If no key ID is specified, the default, Kinesis Video-managed key (aws/kinesisvideo ) is used. For more information, see DescribeKey . Constraints: • min: 1 • max: 2048 • pattern: .+
     /// </summary>
     [CliOption("--kms-key-id")]
     public string? KmsKeyId { get; set; }
 
     /// <summary>
-    /// The number of hours that you want to retain the data in the stream. Kinesis Video Streams retains the data in a data store that is asso- ciated with the stream. The default value is 0, indicating that the stream does not persist data. The minimum is 1 hour. When the DataRetentionInHours value is 0, consumers can still con- sume the fragments that remain in the service host buffer, which has a retention time limit of 5 minutes and a retention memory limit of 200 MB. Fragments are removed from the buffer when either limit is reached. Constraints: o min: 0
+    /// The number of hours that you want to retain the data in the stream. Kinesis Video Streams retains the data in a data store that is associated with the stream. The default value is 0, indicating that the stream does not persist data. The minimum is 1 hour. When the DataRetentionInHours value is 0, consumers can still consume the fragments that remain in the service host buffer, which has a retention time limit of 5 minutes and a retention memory limit of 200 MB. Fragments are removed from the buffer when either limit is reached. Constraints: • min: 0
     /// </summary>
     [CliOption("--data-retention-in-hours")]
     public int? DataRetentionInHours { get; set; }
 
     /// <summary>
-    /// A list of tags to associate with the specified stream. Each tag is a key-value pair (the value is optional). Constraints: o min: 1 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ value -&gt; (string) Constraints: o min: 0 o max: 256 o pattern: [\p{L}\p{Z}\p{N}_.:/=+\-@]* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// A list of tags to associate with the specified stream. Each tag is a key-value pair (the value is optional). Constraints: • min: 1 • max: 50 key -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ value -&gt; (string) Constraints: • min: 0 • max: 256 • pattern: [\p{L}\p{Z}\p{N}_.:/=+\-@]* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>
-    /// The configuration for the stream's storage, including the default storage tier for stream data. This configuration determines how stream data is stored and accessed, with different tiers offering varying levels of performance and cost optimization. If not specified, the stream will use the default storage configura- tion with HOT tier for optimal performance. DefaultStorageTier -&gt; (string) [required] The default storage tier for the stream data. This setting de- termines the storage class used for stream data, affecting both performance characteristics and storage costs. Available storage tiers: o HOT - Optimized for frequent access with the lowest latency and highest performance. Ideal for real-time applications and frequently accessed data. o WARM - Balanced performance and cost for moderately accessed data. Suitable for data that is accessed regularly but not continuously. Possible values: o HOT o WARM Shorthand Syntax: DefaultStorageTier=string JSON Syntax: { "DefaultStorageTier": "HOT"|"WARM" }
+    /// The configuration for the stream's storage, including the default storage tier for stream data. This configuration determines how stream data is stored and accessed, with different tiers offering varying levels of performance and cost optimization. If not specified, the stream will use the default storage configuration with HOT tier for optimal performance. DefaultStorageTier -&gt; (string) [required] The default storage tier for the stream data. This setting determines the storage class used for stream data, affecting both performance characteristics and storage costs. Available storage tiers: • HOT - Optimized for frequent access with the lowest latency and highest performance. Ideal for real-time applications and frequently accessed data. • WARM - Balanced performance and cost for moderately accessed data. Suitable for data that is accessed regularly but not continuously. Possible values: • HOT • WARM Shorthand Syntax: DefaultStorageTier=string JSON Syntax: { "DefaultStorageTier": "HOT"|"WARM" }
     /// </summary>
     [CliOption("--stream-storage-configuration")]
     public string? StreamStorageConfiguration { get; set; }
@@ -119,6 +119,15 @@ public record AwsKinesisvideoCreateStreamOptions : AwsOptions, IValidatableObjec
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

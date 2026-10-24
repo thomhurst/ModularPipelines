@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,7 +29,7 @@ public record AwsAppstreamUpdateThemeForStackOptions : AwsOptions, IValidatableO
     /// <summary>
     /// Updates custom branding that customizes the appearance of the streaming application catalog page. See also: AWS API Documentation
     /// </summary>
-    /// <param name="StackName">The name of the stack for the theme. Constraints: o pattern: ^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$</param>
+    /// <param name="StackName">The name of the stack for the theme. Constraints: • pattern: ^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$</param>
     public AwsAppstreamUpdateThemeForStackOptions(
         string StackName
     )
@@ -57,49 +58,49 @@ public record AwsAppstreamUpdateThemeForStackOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the stack for the theme. Constraints: o pattern: ^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$
+    /// The name of the stack for the theme. Constraints: • pattern: ^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$
     /// </summary>
     [CliOption("--stack-name")]
     public string? StackName { get; private init; }
 
     /// <summary>
-    /// The links that are displayed in the footer of the streaming applica- tion catalog page. These links are helpful resources for users, such as the organization's IT support and product marketing sites. (structure) The website links that display in the catalog page footer. DisplayName -&gt; (string) The name of the websites that display in the catalog page footer. Constraints: o min: 1 o max: 300 o pattern: ^[-@./#&amp;+\w\s]*$ FooterLinkURL -&gt; (string) The URL of the websites that display in the catalog page footer. Constraints: o min: 1 o max: 1000 Shorthand Syntax: DisplayName=string,FooterLinkURL=string ... JSON Syntax: [ { "DisplayName": "string", "FooterLinkURL": "string" } ... ]
+    /// The links that are displayed in the footer of the streaming application catalog page. These links are helpful resources for users, such as the organization's IT support and product marketing sites. (structure) The website links that display in the catalog page footer. DisplayName -&gt; (string) The name of the websites that display in the catalog page footer. Constraints: • min: 1 • max: 300 • pattern: ^[-@./#&amp;+\w\s]*$ FooterLinkURL -&gt; (string) The URL of the websites that display in the catalog page footer. Constraints: • min: 1 • max: 1000 Shorthand Syntax: DisplayName=string,FooterLinkURL=string ... JSON Syntax: [ { "DisplayName": "string", "FooterLinkURL": "string" } ... ]
     /// </summary>
     [CliOption("--footer-links", GroupValues = true)]
     public IEnumerable<string>? FooterLinks { get; set; }
 
     /// <summary>
-    /// The title that is displayed at the top of the browser tab during users' application streaming sessions. Constraints: o min: 1 o max: 300 o pattern: ^[-@./#&amp;+\w\s]*$
+    /// The title that is displayed at the top of the browser tab during users' application streaming sessions. Constraints: • min: 1 • max: 300 • pattern: ^[-@./#&amp;+\w\s]*$
     /// </summary>
     [CliOption("--title-text")]
     public string? TitleText { get; set; }
 
     /// <summary>
-    /// The color theme that is applied to website links, text, and buttons. These colors are also applied as accents in the background for the streaming application catalog page. Possible values: o LIGHT_BLUE o BLUE o PINK o RED
+    /// The color theme that is applied to website links, text, and buttons. These colors are also applied as accents in the background for the streaming application catalog page. Possible values: • LIGHT_BLUE • BLUE • PINK • RED
     /// </summary>
     [CliOption("--theme-styling")]
     public AwsAppstreamUpdateThemeForStackThemeStyling? ThemeStyling { get; set; }
 
     /// <summary>
-    /// The organization logo that appears on the streaming application cat- alog page. S3Bucket -&gt; (string) [required] The S3 bucket of the S3 object. Constraints: o min: 3 o max: 63 o pattern: ^[0-9a-z\.\-]*(?&lt;!\.)$ S3Key -&gt; (string) The S3 key of the S3 object. This is required when used for the following: o IconS3Location (Actions: CreateApplication and UpdateApplica- tion) o SessionScriptS3Location (Actions: CreateFleet and UpdateFleet) o ScriptDetails (Actions: CreateAppBlock) o SourceS3Location when creating an app block with CUSTOM Pack- agingType (Actions: CreateAppBlock) o SourceS3Location when creating an app block with APPSTREAM2 PackagingType, and using an existing application package (VHD file). In this case, S3Key refers to the VHD file. If a new application package is required, then S3Key is not required. (Actions: CreateAppBlock) Constraints: o min: 1 o max: 1024 Shorthand Syntax: S3Bucket=string,S3Key=string JSON Syntax: { "S3Bucket": "string", "S3Key": "string" }
+    /// The organization logo that appears on the streaming application catalog page. S3Bucket -&gt; (string) [required] The S3 bucket of the S3 object. Constraints: • min: 3 • max: 63 • pattern: ^[0-9a-z\.\-]*(?&lt;!\.)$ S3Key -&gt; (string) The S3 key of the S3 object. This is required when used for the following: • IconS3Location (Actions: CreateApplication and UpdateApplication) • SessionScriptS3Location (Actions: CreateFleet and UpdateFleet) • ScriptDetails (Actions: CreateAppBlock) • SourceS3Location when creating an app block with CUSTOM PackagingType (Actions: CreateAppBlock) • SourceS3Location when creating an app block with APPSTREAM2 PackagingType, and using an existing application package (VHD file). In this case, S3Key refers to the VHD file. If a new application package is required, then S3Key is not required. (Actions: CreateAppBlock) Constraints: • min: 1 • max: 1024 Shorthand Syntax: S3Bucket=string,S3Key=string JSON Syntax: { "S3Bucket": "string", "S3Key": "string" }
     /// </summary>
     [CliOption("--organization-logo-s3-location")]
     public string? OrganizationLogoS3Location { get; set; }
 
     /// <summary>
-    /// The S3 location of the favicon. The favicon enables users to recog- nize their application streaming site in a browser full of tabs or bookmarks. It is displayed at the top of the browser tab for the ap- plication streaming site during users' streaming sessions. S3Bucket -&gt; (string) [required] The S3 bucket of the S3 object. Constraints: o min: 3 o max: 63 o pattern: ^[0-9a-z\.\-]*(?&lt;!\.)$ S3Key -&gt; (string) The S3 key of the S3 object. This is required when used for the following: o IconS3Location (Actions: CreateApplication and UpdateApplica- tion) o SessionScriptS3Location (Actions: CreateFleet and UpdateFleet) o ScriptDetails (Actions: CreateAppBlock) o SourceS3Location when creating an app block with CUSTOM Pack- agingType (Actions: CreateAppBlock) o SourceS3Location when creating an app block with APPSTREAM2 PackagingType, and using an existing application package (VHD file). In this case, S3Key refers to the VHD file. If a new application package is required, then S3Key is not required. (Actions: CreateAppBlock) Constraints: o min: 1 o max: 1024 Shorthand Syntax: S3Bucket=string,S3Key=string JSON Syntax: { "S3Bucket": "string", "S3Key": "string" }
+    /// The S3 location of the favicon. The favicon enables users to recognize their application streaming site in a browser full of tabs or bookmarks. It is displayed at the top of the browser tab for the application streaming site during users' streaming sessions. S3Bucket -&gt; (string) [required] The S3 bucket of the S3 object. Constraints: • min: 3 • max: 63 • pattern: ^[0-9a-z\.\-]*(?&lt;!\.)$ S3Key -&gt; (string) The S3 key of the S3 object. This is required when used for the following: • IconS3Location (Actions: CreateApplication and UpdateApplication) • SessionScriptS3Location (Actions: CreateFleet and UpdateFleet) • ScriptDetails (Actions: CreateAppBlock) • SourceS3Location when creating an app block with CUSTOM PackagingType (Actions: CreateAppBlock) • SourceS3Location when creating an app block with APPSTREAM2 PackagingType, and using an existing application package (VHD file). In this case, S3Key refers to the VHD file. If a new application package is required, then S3Key is not required. (Actions: CreateAppBlock) Constraints: • min: 1 • max: 1024 Shorthand Syntax: S3Bucket=string,S3Key=string JSON Syntax: { "S3Bucket": "string", "S3Key": "string" }
     /// </summary>
     [CliOption("--favicon-s3-location")]
     public string? FaviconS3Location { get; set; }
 
     /// <summary>
-    /// Specifies whether custom branding should be applied to catalog page or not. Possible values: o ENABLED o DISABLED
+    /// Specifies whether custom branding should be applied to catalog page or not. Possible values: • ENABLED • DISABLED
     /// </summary>
     [CliOption("--state")]
     public AwsAppstreamUpdateThemeForStackState? State { get; set; }
 
     /// <summary>
-    /// The attributes to delete. (string) Possible values: o FOOTER_LINKS Syntax: "string" "string" ...
+    /// The attributes to delete. (string) Possible values: • FOOTER_LINKS Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--attributes-to-delete", GroupValues = true)]
     public IEnumerable<string>? AttributesToDelete { get; set; }
@@ -125,6 +126,15 @@ public record AwsAppstreamUpdateThemeForStackOptions : AwsOptions, IValidatableO
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

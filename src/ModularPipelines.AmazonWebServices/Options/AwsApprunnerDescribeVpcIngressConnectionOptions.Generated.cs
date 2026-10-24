@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Return a full description of an App Runner VPC Ingress Connection re- source. See also: AWS API Documentation
+/// Return a full description of an App Runner VPC Ingress Connection resource. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsApprunnerDescribeVpcIngressConnectionOptions : AwsOptions, IVal
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Return a full description of an App Runner VPC Ingress Connection re- source. See also: AWS API Documentation
+    /// Return a full description of an App Runner VPC Ingress Connection resource. See also: AWS API Documentation
     /// </summary>
-    /// <param name="VpcIngressConnectionArn">The Amazon Resource Name (ARN) of the App Runner VPC Ingress Connec- tion that you want a description for. Constraints: o min: 1 o max: 1011 o pattern: arn:aws(-[\w]+)*:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[0-9]{12}:(\w|\/|-){1,1011}</param>
+    /// <param name="VpcIngressConnectionArn">The Amazon Resource Name (ARN) of the App Runner VPC Ingress Connection that you want a description for. Constraints: • min: 1 • max: 1011 • pattern: arn:aws(-[\w]+)*:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[0-9]{12}:(\w|\/|-){1,1011}</param>
     public AwsApprunnerDescribeVpcIngressConnectionOptions(
         string VpcIngressConnectionArn
     )
@@ -56,7 +57,7 @@ public record AwsApprunnerDescribeVpcIngressConnectionOptions : AwsOptions, IVal
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the App Runner VPC Ingress Connec- tion that you want a description for. Constraints: o min: 1 o max: 1011 o pattern: arn:aws(-[\w]+)*:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[0-9]{12}:(\w|\/|-){1,1011}
+    /// The Amazon Resource Name (ARN) of the App Runner VPC Ingress Connection that you want a description for. Constraints: • min: 1 • max: 1011 • pattern: arn:aws(-[\w]+)*:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[0-9]{12}:(\w|\/|-){1,1011}
     /// </summary>
     [CliOption("--vpc-ingress-connection-arn")]
     public string? VpcIngressConnectionArn { get; private init; }
@@ -82,6 +83,15 @@ public record AwsApprunnerDescribeVpcIngressConnectionOptions : AwsOptions, IVal
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

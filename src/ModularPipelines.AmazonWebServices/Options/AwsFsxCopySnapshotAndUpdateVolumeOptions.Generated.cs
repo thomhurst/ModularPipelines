@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -29,8 +30,8 @@ public record AwsFsxCopySnapshotAndUpdateVolumeOptions : AwsOptions, IValidatabl
     /// <summary>
     /// Updates an existing volume by using a snapshot from another Amazon FSx for OpenZFS file system. For more information, see on-demand data replication in the Amazon FSx for OpenZFS User Guide. See also: AWS API Documentation
     /// </summary>
-    /// <param name="VolumeId">Specifies the ID of the volume that you are copying the snapshot to. Constraints: o min: 23 o max: 23 o pattern: ^(fsvol-[0-9a-f]{17,})$</param>
-    /// <param name="SourceSnapshotArn">The Amazon Resource Name (ARN) for a given resource. ARNs uniquely identify Amazon Web Services resources. We require an ARN when you need to specify a resource unambiguously across all of Amazon Web Services. For more information, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference . Constraints: o min: 8 o max: 512 o pattern: ^arn:(?=[^:]+:fsx:[^:]+:\d{12}:)((|(?=[a-z0-9-.]{1,63})(?!\d{1,3}(\.\d{1,3}){3})(?![^:]*-{2})(?![^:]*-\.)(?![^:]*\.-)[a-z0-9].*(?&lt;!-)):){4}(?!/).{0,1024}$</param>
+    /// <param name="VolumeId">Specifies the ID of the volume that you are copying the snapshot to. Constraints: • min: 23 • max: 23 • pattern: ^(fsvol-[0-9a-f]{17,})$</param>
+    /// <param name="SourceSnapshotArn">The Amazon Resource Name (ARN) for a given resource. ARNs uniquely identify Amazon Web Services resources. We require an ARN when you need to specify a resource unambiguously across all of Amazon Web Services. For more information, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference . Constraints: • min: 8 • max: 512 • pattern: ^arn:(?=[^:]+:fsx:[^:]+:\d{12}:)((|(?=[a-z0-9-.]{1,63})(?!\d{1,3}(\.\d{1,3}){3})(?![^:]*-{2})(?![^:]*-\.)(?![^:]*\.-)[a-z0-9].*(?&lt;!-)):){4}(?!/).{0,1024}$</param>
     public AwsFsxCopySnapshotAndUpdateVolumeOptions(
         string VolumeId,
         string SourceSnapshotArn
@@ -62,32 +63,32 @@ public record AwsFsxCopySnapshotAndUpdateVolumeOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Specifies the ID of the volume that you are copying the snapshot to. Constraints: o min: 23 o max: 23 o pattern: ^(fsvol-[0-9a-f]{17,})$
+    /// Specifies the ID of the volume that you are copying the snapshot to. Constraints: • min: 23 • max: 23 • pattern: ^(fsvol-[0-9a-f]{17,})$
     /// </summary>
     [CliOption("--volume-id")]
     public string? VolumeId { get; private init; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) for a given resource. ARNs uniquely identify Amazon Web Services resources. We require an ARN when you need to specify a resource unambiguously across all of Amazon Web Services. For more information, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference . Constraints: o min: 8 o max: 512 o pattern: ^arn:(?=[^:]+:fsx:[^:]+:\d{12}:)((|(?=[a-z0-9-.]{1,63})(?!\d{1,3}(\.\d{1,3}){3})(?![^:]*-{2})(?![^:]*-\.)(?![^:]*\.-)[a-z0-9].*(?&lt;!-)):){4}(?!/).{0,1024}$
+    /// The Amazon Resource Name (ARN) for a given resource. ARNs uniquely identify Amazon Web Services resources. We require an ARN when you need to specify a resource unambiguously across all of Amazon Web Services. For more information, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference . Constraints: • min: 8 • max: 512 • pattern: ^arn:(?=[^:]+:fsx:[^:]+:\d{12}:)((|(?=[a-z0-9-.]{1,63})(?!\d{1,3}(\.\d{1,3}){3})(?![^:]*-{2})(?![^:]*-\.)(?![^:]*\.-)[a-z0-9].*(?&lt;!-)):){4}(?!/).{0,1024}$
     /// </summary>
     [CliOption("--source-snapshot-arn")]
     public string? SourceSnapshotArn { get; private init; }
 
     /// <summary>
-    /// (Optional) An idempotency token for resource creation, in a string of up to 63 ASCII characters. This token is automatically filled on your behalf when you use the Command Line Interface (CLI) or an Ama- zon Web Services SDK. Constraints: o min: 1 o max: 63 o pattern: [A-za-z0-9_.-]{0,63}$
+    /// (Optional) An idempotency token for resource creation, in a string of up to 63 ASCII characters. This token is automatically filled on your behalf when you use the Command Line Interface (CLI) or an Amazon Web Services SDK. Constraints: • min: 1 • max: 63 • pattern: [A-za-z0-9_.-]{0,63}$
     /// </summary>
     [SecretValue]
     [CliOption("--client-request-token")]
     public string? ClientRequestToken { get; set; }
 
     /// <summary>
-    /// Specifies the strategy to use when copying data from a snapshot to the volume. o FULL_COPY - Copies all data from the snapshot to the volume. o INCREMENTAL_COPY - Copies only the snapshot data that's changed since the previous replication. NOTE: CLONE isn't a valid copy strategy option for the CopySnap- shotAndUpdateVolume operation. Possible values: o CLONE o FULL_COPY o INCREMENTAL_COPY
+    /// Specifies the strategy to use when copying data from a snapshot to the volume. • FULL_COPY - Copies all data from the snapshot to the volume. • INCREMENTAL_COPY - Copies only the snapshot data that's changed since the previous replication. NOTE: CLONE isn't a valid copy strategy option for the CopySnapshotAndUpdateVolume operation. Possible values: • CLONE • FULL_COPY • INCREMENTAL_COPY
     /// </summary>
     [CliOption("--copy-strategy")]
     public AwsFsxCopySnapshotAndUpdateVolumeCopyStrategy? CopyStrategy { get; set; }
 
     /// <summary>
-    /// Confirms that you want to delete data on the destination volume that wasnt there during the previous snapshot replication. Your replication will fail if you dont include an option for a spe- cific type of data and that data is on your destination. For exam- ple, if you dont include DELETE_INTERMEDIATE_SNAPSHOTS and there are intermediate snapshots on the destination, you cant copy the snap- shot. o DELETE_INTERMEDIATE_SNAPSHOTS - Deletes snapshots on the destina- tion volume that arent on the source volume. o DELETE_CLONED_VOLUMES - Deletes snapshot clones on the destination volume that aren't on the source volume. o DELETE_INTERMEDIATE_DATA - Overwrites snapshots on the destination volume that dont match the source snapshot that youre copying. (string) Possible values: o DELETE_INTERMEDIATE_SNAPSHOTS o DELETE_CLONED_VOLUMES o DELETE_INTERMEDIATE_DATA Syntax: "string" "string" ...
+    /// Confirms that you want to delete data on the destination volume that wasnt there during the previous snapshot replication. Your replication will fail if you dont include an option for a specific type of data and that data is on your destination. For example, if you dont include DELETE_INTERMEDIATE_SNAPSHOTS and there are intermediate snapshots on the destination, you cant copy the snapshot. • DELETE_INTERMEDIATE_SNAPSHOTS - Deletes snapshots on the destination volume that arent on the source volume. • DELETE_CLONED_VOLUMES - Deletes snapshot clones on the destination volume that aren't on the source volume. • DELETE_INTERMEDIATE_DATA - Overwrites snapshots on the destination volume that dont match the source snapshot that youre copying. (string) Possible values: • DELETE_INTERMEDIATE_SNAPSHOTS • DELETE_CLONED_VOLUMES • DELETE_INTERMEDIATE_DATA Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--options", GroupValues = true)]
     public IEnumerable<string>? Options { get; set; }
@@ -113,6 +114,15 @@ public record AwsFsxCopySnapshotAndUpdateVolumeOptions : AwsOptions, IValidatabl
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

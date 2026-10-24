@@ -10,13 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a deployment for your Amazon Lightsail container service. A deployment specifies the containers that will be launched on the con- tainer service and their settings, such as the ports to open, the envi- ronment variables to apply, and the launch command to run. It also specifies the container that will serve as the public endpoint of the deployment and its settings, such as the HTTP or HTTPS port to use, and the health check configuration. You can deploy containers to your container servi...
+/// Creates a deployment for your Amazon Lightsail container service. A deployment specifies the containers that will be launched on the container service and their settings, such as the ports to open, the environment variables to apply, and the launch command to run. It also specifies the container that will serve as the public endpoint of the deployment and its settings, such as the HTTP or HTTPS port to use, and the health check configuration. You can deploy containers to your container service u...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +26,9 @@ public record AwsLightsailCreateContainerServiceDeploymentOptions : AwsOptions, 
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a deployment for your Amazon Lightsail container service. A deployment specifies the containers that will be launched on the con- tainer service and their settings, such as the ports to open, the envi- ronment variables to apply, and the launch command to run. It also specifies the container that will serve as the public endpoint of the deployment and its settings, such as the HTTP or HTTPS port to use, and the health check configuration. You can deploy containers to your container servi...
+    /// Creates a deployment for your Amazon Lightsail container service. A deployment specifies the containers that will be launched on the container service and their settings, such as the ports to open, the environment variables to apply, and the launch command to run. It also specifies the container that will serve as the public endpoint of the deployment and its settings, such as the HTTP or HTTPS port to use, and the health check configuration. You can deploy containers to your container service u...
     /// </summary>
-    /// <param name="ServiceName">The name of the container service for which to create the deploy- ment. Constraints: o min: 1 o max: 63 o pattern: ^[a-z0-9]{1,2}|[a-z0-9][a-z0-9-]+[a-z0-9]$</param>
+    /// <param name="ServiceName">The name of the container service for which to create the deployment. Constraints: • min: 1 • max: 63 • pattern: ^[a-z0-9]{1,2}|[a-z0-9][a-z0-9-]+[a-z0-9]$</param>
     public AwsLightsailCreateContainerServiceDeploymentOptions(
         string ServiceName
     )
@@ -57,19 +57,19 @@ public record AwsLightsailCreateContainerServiceDeploymentOptions : AwsOptions, 
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the container service for which to create the deploy- ment. Constraints: o min: 1 o max: 63 o pattern: ^[a-z0-9]{1,2}|[a-z0-9][a-z0-9-]+[a-z0-9]$
+    /// The name of the container service for which to create the deployment. Constraints: • min: 1 • max: 63 • pattern: ^[a-z0-9]{1,2}|[a-z0-9][a-z0-9-]+[a-z0-9]$
     /// </summary>
     [CliOption("--service-name")]
     public string? ServiceName { get; private init; }
 
     /// <summary>
-    /// An object that describes the settings of the containers that will be launched on the container service. key -&gt; (string) Constraints: o min: 1 o max: 53 o pattern: ^[a-z0-9]{1,2}|[a-z0-9][a-z0-9-]+[a-z0-9]$ value -&gt; (structure) Describes the settings of a container that will be launched, or that is launched, to an Amazon Lightsail container service. image -&gt; (string) The name of the image used for the container. Container images sourced from your Lightsail container ser- vice, that are registered and stored on your service, start with a colon (: ). For example, if your container service name is container-service-1 , the container image label is mystaticsite , and you want to use the third (3 ) version of the registered container image, then you should specify :con- tainer-service-1.mystaticsite.3 . To use the latest version of a container image, specify latest instead of a version number (for example, :container-service-1.mystaticsite.latest ). Lightsail will automatically use the highest numbered ver- sion of the registered container image. Container images sourced from a public registry like Docker Hub don't start with a colon. For example, nginx:latest or nginx . command -&gt; (list) The launch command for the container. (string) environment -&gt; (map) The environment variables of the container. key -&gt; (string) value -&gt; (string) ports -&gt; (map) The open firewall ports of the container. key -&gt; (string) value -&gt; (string) Possible values: o HTTP o HTTPS o TCP o UDP Shorthand Syntax: KeyName1={image=string,command=[string,string],environment={KeyName1=string,KeyName2=string},ports={KeyName1=string,KeyName2=string}},KeyName2={image=string,command=[string,string],environment={KeyName1=string,KeyName2=string},ports={KeyName1=string,KeyName2=string}} JSON Syntax: {"string": { "image": "string", "command": ["string", ...], "environment": {"string": "string" ...}, "ports": {"string": "HTTP"|"HTTPS"|"TCP"|"UDP" ...} } ...}
+    /// An object that describes the settings of the containers that will be launched on the container service. key -&gt; (string) Constraints: • min: 1 • max: 53 • pattern: ^[a-z0-9]{1,2}|[a-z0-9][a-z0-9-]+[a-z0-9]$ value -&gt; (structure) Describes the settings of a container that will be launched, or that is launched, to an Amazon Lightsail container service. image -&gt; (string) The name of the image used for the container. Container images sourced from your Lightsail container service, that are registered and stored on your service, start with a colon (: ). For example, if your container service name is container-service-1 , the container image label is mystaticsite , and you want to use the third (3 ) version of the registered container image, then you should specify :container-service-1.mystaticsite.3 . To use the latest version of a container image, specify latest instead of a version number (for example, :container-service-1.mystaticsite.latest ). Lightsail will automatically use the highest numbered version of the registered container image. Container images sourced from a public registry like Docker Hub don't start with a colon. For example, nginx:latest or nginx . command -&gt; (list) The launch command for the container. (string) environment -&gt; (map) The environment variables of the container. key -&gt; (string) value -&gt; (string) ports -&gt; (map) The open firewall ports of the container. key -&gt; (string) value -&gt; (string) Possible values: • HTTP • HTTPS • TCP • UDP Shorthand Syntax: KeyName1={image=string,command=[string,string],environment={KeyName1=string,KeyName2=string},ports={KeyName1=string,KeyName2=string}},KeyName2={image=string,command=[string,string],environment={KeyName1=string,KeyName2=string},ports={KeyName1=string,KeyName2=string}} JSON Syntax: {"string": { "image": "string", "command": ["string", ...], "environment": {"string": "string" ...}, "ports": {"string": "HTTP"|"HTTPS"|"TCP"|"UDP" ...} } ...}
     /// </summary>
     [CliOption("--containers", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Containers { get; set; }
 
     /// <summary>
-    /// An object that describes the settings of the public endpoint for the container service. containerName -&gt; (string) [required] The name of the container for the endpoint. containerPort -&gt; (integer) [required] The port of the container to which traffic is forwarded to. healthCheck -&gt; (structure) An object that describes the health check configuration of the container. healthyThreshold -&gt; (integer) The number of consecutive health checks successes required before moving the container to the Healthy state. The default value is 2 . unhealthyThreshold -&gt; (integer) The number of consecutive health check failures required be- fore moving the container to the Unhealthy state. The default value is 2 . timeoutSeconds -&gt; (integer) The amount of time, in seconds, during which no response means a failed health check. You can specify between 2 and 60 seconds. The default value is 2 . intervalSeconds -&gt; (integer) The approximate interval, in seconds, between health checks of an individual container. You can specify between 5 and 300 seconds. The default value is 5 . path -&gt; (string) The path on the container on which to perform the health check. The default value is / . successCodes -&gt; (string) The HTTP codes to use when checking for a successful response from a container. You can specify values between 200 and 499 . You can specify multiple values (for example, 200,202 ) or a range of values (for example, 200-299 ). Shorthand Syntax: containerName=string,containerPort=integer,healthCheck={healthyThreshold=integer,unhealthyThreshold=integer,timeoutSeconds=integer,intervalSeconds=integer,path=string,successCodes=string} JSON Syntax: { "containerName": "string", "containerPort": integer, "healthCheck": { "healthyThreshold": integer, "unhealthyThreshold": integer, "timeoutSeconds": integer, "intervalSeconds": integer, "path": "string", "successCodes": "string" } }
+    /// An object that describes the settings of the public endpoint for the container service. containerName -&gt; (string) [required] The name of the container for the endpoint. containerPort -&gt; (integer) [required] The port of the container to which traffic is forwarded to. healthCheck -&gt; (structure) An object that describes the health check configuration of the container. healthyThreshold -&gt; (integer) The number of consecutive health checks successes required before moving the container to the Healthy state. The default value is 2 . unhealthyThreshold -&gt; (integer) The number of consecutive health check failures required before moving the container to the Unhealthy state. The default value is 2 . timeoutSeconds -&gt; (integer) The amount of time, in seconds, during which no response means a failed health check. You can specify between 2 and 60 seconds. The default value is 2 . intervalSeconds -&gt; (integer) The approximate interval, in seconds, between health checks of an individual container. You can specify between 5 and 300 seconds. The default value is 5 . path -&gt; (string) The path on the container on which to perform the health check. The default value is / . successCodes -&gt; (string) The HTTP codes to use when checking for a successful response from a container. You can specify values between 200 and 499 . You can specify multiple values (for example, 200,202 ) or a range of values (for example, 200-299 ). Shorthand Syntax: containerName=string,containerPort=integer,healthCheck={healthyThreshold=integer,unhealthyThreshold=integer,timeoutSeconds=integer,intervalSeconds=integer,path=string,successCodes=string} JSON Syntax: { "containerName": "string", "containerPort": integer, "healthCheck": { "healthyThreshold": integer, "unhealthyThreshold": integer, "timeoutSeconds": integer, "intervalSeconds": integer, "path": "string", "successCodes": "string" } }
     /// </summary>
     [CliOption("--public-endpoint")]
     public string? PublicEndpoint { get; set; }
@@ -95,6 +95,15 @@ public record AwsLightsailCreateContainerServiceDeploymentOptions : AwsOptions, 
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Associate your S3 Access Grants instance with an Amazon Web Services IAM Identity Center instance. Use this action if you want to create ac- cess grants for users or groups from your corporate identity directory. First, you must add your corporate identity directory to Amazon Web Services IAM Identity Center. Then, you can associate this IAM Identity Center instance with your S3 Access Grants instance. Permissions You must have the s3:AssociateAccessGrantsIdentityCenter permission to use this op...
+/// Associate your S3 Access Grants instance with an Amazon Web Services IAM Identity Center instance. Use this action if you want to create access grants for users or groups from your corporate identity directory. First, you must add your corporate identity directory to Amazon Web Services IAM Identity Center. Then, you can associate this IAM Identity Center instance with your S3 Access Grants instance. Permissions You must have the s3:AssociateAccessGrantsIdentityCenter permission to use this oper...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsS3controlAssociateAccessGrantsIdentityCenterOptions : AwsOption
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Associate your S3 Access Grants instance with an Amazon Web Services IAM Identity Center instance. Use this action if you want to create ac- cess grants for users or groups from your corporate identity directory. First, you must add your corporate identity directory to Amazon Web Services IAM Identity Center. Then, you can associate this IAM Identity Center instance with your S3 Access Grants instance. Permissions You must have the s3:AssociateAccessGrantsIdentityCenter permission to use this op...
+    /// Associate your S3 Access Grants instance with an Amazon Web Services IAM Identity Center instance. Use this action if you want to create access grants for users or groups from your corporate identity directory. First, you must add your corporate identity directory to Amazon Web Services IAM Identity Center. Then, you can associate this IAM Identity Center instance with your S3 Access Grants instance. Permissions You must have the s3:AssociateAccessGrantsIdentityCenter permission to use this oper...
     /// </summary>
-    /// <param name="AccountId">The Amazon Web Services account ID of the S3 Access Grants instance. Constraints: o max: 64 o pattern: ^\d{12}$</param>
-    /// <param name="IdentityCenterArn">The Amazon Resource Name (ARN) of the Amazon Web Services IAM Iden- tity Center instance that you are associating with your S3 Access Grants instance. An IAM Identity Center instance is your corporate identity directory that you added to the IAM Identity Center. You can use the ListInstances API operation to retrieve a list of your Identity Center instances and their ARNs. Constraints: o min: 10 o max: 1224 o pattern: arn:[^:]+:sso::(\d{12}){0,1}:instance/.*$</param>
+    /// <param name="AccountId">The Amazon Web Services account ID of the S3 Access Grants instance. Constraints: • max: 64 • pattern: ^\d{12}$</param>
+    /// <param name="IdentityCenterArn">The Amazon Resource Name (ARN) of the Amazon Web Services IAM Identity Center instance that you are associating with your S3 Access Grants instance. An IAM Identity Center instance is your corporate identity directory that you added to the IAM Identity Center. You can use the ListInstances API operation to retrieve a list of your Identity Center instances and their ARNs. Constraints: • min: 10 • max: 1224 • pattern: arn:[^:]+:sso::(\d{12}){0,1}:instance/.*$</param>
     public AwsS3controlAssociateAccessGrantsIdentityCenterOptions(
         string AccountId,
         string IdentityCenterArn
@@ -60,13 +61,13 @@ public record AwsS3controlAssociateAccessGrantsIdentityCenterOptions : AwsOption
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Web Services account ID of the S3 Access Grants instance. Constraints: o max: 64 o pattern: ^\d{12}$
+    /// The Amazon Web Services account ID of the S3 Access Grants instance. Constraints: • max: 64 • pattern: ^\d{12}$
     /// </summary>
     [CliOption("--account-id")]
     public string? AccountId { get; private init; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the Amazon Web Services IAM Iden- tity Center instance that you are associating with your S3 Access Grants instance. An IAM Identity Center instance is your corporate identity directory that you added to the IAM Identity Center. You can use the ListInstances API operation to retrieve a list of your Identity Center instances and their ARNs. Constraints: o min: 10 o max: 1224 o pattern: arn:[^:]+:sso::(\d{12}){0,1}:instance/.*$
+    /// The Amazon Resource Name (ARN) of the Amazon Web Services IAM Identity Center instance that you are associating with your S3 Access Grants instance. An IAM Identity Center instance is your corporate identity directory that you added to the IAM Identity Center. You can use the ListInstances API operation to retrieve a list of your Identity Center instances and their ARNs. Constraints: • min: 10 • max: 1224 • pattern: arn:[^:]+:sso::(\d{12}){0,1}:instance/.*$
     /// </summary>
     [CliOption("--identity-center-arn")]
     public string? IdentityCenterArn { get; private init; }
@@ -92,6 +93,15 @@ public record AwsS3controlAssociateAccessGrantsIdentityCenterOptions : AwsOption
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

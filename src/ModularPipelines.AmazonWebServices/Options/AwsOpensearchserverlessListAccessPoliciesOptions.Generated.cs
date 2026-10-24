@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns information about a list of OpenSearch Serverless access poli- cies. See also: AWS API Documentation
+/// Returns information about a list of OpenSearch Serverless access policies. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +27,9 @@ public record AwsOpensearchserverlessListAccessPoliciesOptions : AwsOptions, IVa
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns information about a list of OpenSearch Serverless access poli- cies. See also: AWS API Documentation
+    /// Returns information about a list of OpenSearch Serverless access policies. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Type">The type of access policy. Possible values: o data</param>
+    /// <param name="Type">The type of access policy. Possible values: • data</param>
     public AwsOpensearchserverlessListAccessPoliciesOptions(
         string Type
     )
@@ -57,26 +58,26 @@ public record AwsOpensearchserverlessListAccessPoliciesOptions : AwsOptions, IVa
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The type of access policy. Possible values: o data
+    /// The type of access policy. Possible values: • data
     /// </summary>
     [CliOption("--type")]
     public string? Type { get; private init; }
 
     /// <summary>
-    /// Resource filters (can be collections or indexes) that policies can apply to. Constraints: o min: 1 o max: 1000 (string) Syntax: "string" "string" ...
+    /// Resource filters (can be collections or indexes) that policies can apply to. Constraints: • min: 1 • max: 1000 (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--resource", GroupValues = true)]
     public IEnumerable<string>? Resource { get; set; }
 
     /// <summary>
-    /// If your initial ListAccessPolicies operation returns a nextToken , you can include the returned nextToken in subsequent ListAccessPoli- cies operations, which returns results in the next page.
+    /// If your initial ListAccessPolicies operation returns a nextToken , you can include the returned nextToken in subsequent ListAccessPolicies operations, which returns results in the next page.
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// An optional parameter that specifies the maximum number of results to return. You can use nextToken to get the next page of results. The default is 20. Constraints: o min: 1 o max: 100
+    /// An optional parameter that specifies the maximum number of results to return. You can use nextToken to get the next page of results. The default is 20. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
@@ -102,6 +103,15 @@ public record AwsOpensearchserverlessListAccessPoliciesOptions : AwsOptions, IVa
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

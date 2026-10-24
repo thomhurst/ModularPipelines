@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsOpensearchPurchaseReservedInstanceOfferingOptions : AwsOptions,
     /// <summary>
     /// Allows you to purchase Amazon OpenSearch Service Reserved Instances. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ReservedInstanceOfferingId">The ID of the Reserved Instance offering to purchase. Constraints: o min: 36 o max: 36 o pattern: \p{XDigit}{8}-\p{XDigit}{4}-\p{XDigit}{4}-\p{XDigit}{4}-\p{XDigit}{12}</param>
-    /// <param name="ReservationName">A customer-specified identifier to track this reservation. Constraints: o min: 5 o max: 64 o pattern: .*</param>
+    /// <param name="ReservedInstanceOfferingId">The ID of the Reserved Instance offering to purchase. Constraints: • min: 36 • max: 36 • pattern: \p{XDigit}{8}-\p{XDigit}{4}-\p{XDigit}{4}-\p{XDigit}{4}-\p{XDigit}{12}</param>
+    /// <param name="ReservationName">A customer-specified identifier to track this reservation. Constraints: • min: 5 • max: 64 • pattern: .*</param>
     public AwsOpensearchPurchaseReservedInstanceOfferingOptions(
         string ReservedInstanceOfferingId,
         string ReservationName
@@ -60,19 +61,19 @@ public record AwsOpensearchPurchaseReservedInstanceOfferingOptions : AwsOptions,
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the Reserved Instance offering to purchase. Constraints: o min: 36 o max: 36 o pattern: \p{XDigit}{8}-\p{XDigit}{4}-\p{XDigit}{4}-\p{XDigit}{4}-\p{XDigit}{12}
+    /// The ID of the Reserved Instance offering to purchase. Constraints: • min: 36 • max: 36 • pattern: \p{XDigit}{8}-\p{XDigit}{4}-\p{XDigit}{4}-\p{XDigit}{4}-\p{XDigit}{12}
     /// </summary>
     [CliOption("--reserved-instance-offering-id")]
     public string? ReservedInstanceOfferingId { get; private init; }
 
     /// <summary>
-    /// A customer-specified identifier to track this reservation. Constraints: o min: 5 o max: 64 o pattern: .*
+    /// A customer-specified identifier to track this reservation. Constraints: • min: 5 • max: 64 • pattern: .*
     /// </summary>
     [CliOption("--reservation-name")]
     public string? ReservationName { get; private init; }
 
     /// <summary>
-    /// The number of OpenSearch instances to reserve. Constraints: o min: 1
+    /// The number of OpenSearch instances to reserve. Constraints: • min: 1
     /// </summary>
     [CliOption("--instance-count")]
     public int? InstanceCount { get; set; }
@@ -98,6 +99,15 @@ public record AwsOpensearchPurchaseReservedInstanceOfferingOptions : AwsOptions,
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsSagemakerDeleteModelOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Deletes a model. The DeleteModel API deletes only the model entry that was created in SageMaker when you called the CreateModel API. It does not delete model artifacts, inference code, or the IAM role that you specified when creating the model. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ModelName">The name of the model to delete. Constraints: o min: 0 o max: 63 o pattern: [a-zA-Z0-9]([\-a-zA-Z0-9]*[a-zA-Z0-9])?</param>
+    /// <param name="ModelName">The name of the model to delete. Constraints: • min: 0 • max: 63 • pattern: [a-zA-Z0-9]([\-a-zA-Z0-9]*[a-zA-Z0-9])?</param>
     public AwsSagemakerDeleteModelOptions(
         string ModelName
     )
@@ -56,7 +57,7 @@ public record AwsSagemakerDeleteModelOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the model to delete. Constraints: o min: 0 o max: 63 o pattern: [a-zA-Z0-9]([\-a-zA-Z0-9]*[a-zA-Z0-9])?
+    /// The name of the model to delete. Constraints: • min: 0 • max: 63 • pattern: [a-zA-Z0-9]([\-a-zA-Z0-9]*[a-zA-Z0-9])?
     /// </summary>
     [CliOption("--model-name")]
     public string? ModelName { get; private init; }
@@ -82,6 +83,15 @@ public record AwsSagemakerDeleteModelOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

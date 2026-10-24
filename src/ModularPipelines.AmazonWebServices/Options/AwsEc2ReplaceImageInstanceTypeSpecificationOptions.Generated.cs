@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Replaces or removes the instance type specification for an AMI. The in- stance type specification defines which instance types are compatible with the AMI. When you launch an instance using RunInstances , Amazon EC2 validates the requested instance type against the AMI's instance type specifica- tion. If the instance type is not compatible, the request fails with an InvalidParameterCombination error. You can specify supported instance types, unsupported instance types, or both. The evaluation lo...
+/// Replaces or removes the instance type specification for an AMI. The instance type specification defines which instance types are compatible with the AMI. When you launch an instance using RunInstances , Amazon EC2 validates the requested instance type against the AMI's instance type specification. If the instance type is not compatible, the request fails with an InvalidParameterCombination error. You can specify supported instance types, unsupported instance types, or both. The evaluation logic ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +26,7 @@ public record AwsEc2ReplaceImageInstanceTypeSpecificationOptions : AwsOptions, I
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Replaces or removes the instance type specification for an AMI. The in- stance type specification defines which instance types are compatible with the AMI. When you launch an instance using RunInstances , Amazon EC2 validates the requested instance type against the AMI's instance type specifica- tion. If the instance type is not compatible, the request fails with an InvalidParameterCombination error. You can specify supported instance types, unsupported instance types, or both. The evaluation lo...
+    /// Replaces or removes the instance type specification for an AMI. The instance type specification defines which instance types are compatible with the AMI. When you launch an instance using RunInstances , Amazon EC2 validates the requested instance type against the AMI's instance type specification. If the instance type is not compatible, the request fails with an InvalidParameterCombination error. You can specify supported instance types, unsupported instance types, or both. The evaluation logic ...
     /// </summary>
     /// <param name="ImageId">The ID of the AMI.</param>
     public AwsEc2ReplaceImageInstanceTypeSpecificationOptions(
@@ -62,13 +63,13 @@ public record AwsEc2ReplaceImageInstanceTypeSpecificationOptions : AwsOptions, I
     public string? ImageId { get; private init; }
 
     /// <summary>
-    /// The instance type specification to set on the AMI. Omit this parame- ter to remove the existing instance type specification. SupportedInstanceTypes -&gt; (list) The instance types that the AMI supports. You can specify in- stance type names or use wildcard patterns (for example, t3.* ). Constraints: Maximum 100 entries. Each entry must be 1-24 char- acters and match the pattern ^[A-Za-z0-9_.*-]+$ . Consecutive wildcard characters (** ) are not allowed. Entries must be unique within each list and across both lists; duplicate entries cause the request to fail. Constraints: o min: 0 o max: 100 (string) Constraints: o min: 0 o max: 24 UnsupportedInstanceTypes -&gt; (list) The instance types that the AMI does not support. You can spec- ify instance type names or use wildcard patterns (for example, t3.* ). Constraints: Maximum 100 entries. Each entry must be 1-24 char- acters and match the pattern ^[A-Za-z0-9_.*-]+$ . Consecutive wildcard characters (** ) are not allowed. Entries must be unique within each list and across both lists; duplicate entries cause the request to fail. Constraints: o min: 0 o max: 100 (string) Constraints: o min: 0 o max: 24 Shorthand Syntax: SupportedInstanceTypes=string,string,UnsupportedInstanceTypes=string,string JSON Syntax: { "SupportedInstanceTypes": ["string", ...], "UnsupportedInstanceTypes": ["string", ...] }
+    /// The instance type specification to set on the AMI. Omit this parameter to remove the existing instance type specification. SupportedInstanceTypes -&gt; (list) The instance types that the AMI supports. You can specify instance type names or use wildcard patterns (for example, t3.* ). Constraints: Maximum 100 entries. Each entry must be 1-24 characters and match the pattern ^[A-Za-z0-9_.*-]+$ . Consecutive wildcard characters (** ) are not allowed. Entries must be unique within each list and across both lists; duplicate entries cause the request to fail. Constraints: • min: 0 • max: 100 (string) Constraints: • min: 0 • max: 24 UnsupportedInstanceTypes -&gt; (list) The instance types that the AMI does not support. You can specify instance type names or use wildcard patterns (for example, t3.* ). Constraints: Maximum 100 entries. Each entry must be 1-24 characters and match the pattern ^[A-Za-z0-9_.*-]+$ . Consecutive wildcard characters (** ) are not allowed. Entries must be unique within each list and across both lists; duplicate entries cause the request to fail. Constraints: • min: 0 • max: 100 (string) Constraints: • min: 0 • max: 24 Shorthand Syntax: SupportedInstanceTypes=string,string,UnsupportedInstanceTypes=string,string JSON Syntax: { "SupportedInstanceTypes": ["string", ...], "UnsupportedInstanceTypes": ["string", ...] }
     /// </summary>
     [CliOption("--instance-type-specification")]
     public string? InstanceTypeSpecification { get; set; }
 
     /// <summary>
-    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation . Otherwise, it is UnauthorizedOperation .
     /// </summary>
     [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
@@ -94,6 +95,15 @@ public record AwsEc2ReplaceImageInstanceTypeSpecificationOptions : AwsOptions, I
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

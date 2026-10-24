@@ -10,13 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Create/Update a DomainObjectType in a Customer Profiles domain. To cre- ate a new DomainObjectType, Data Store needs to be enabled on the Do- main. See also: AWS API Documentation
+/// Create/Update a DomainObjectType in a Customer Profiles domain. To create a new DomainObjectType, Data Store needs to be enabled on the Domain. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,11 +26,11 @@ public record AwsCustomerProfilesPutDomainObjectTypeOptions : AwsOptions, IValid
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Create/Update a DomainObjectType in a Customer Profiles domain. To cre- ate a new DomainObjectType, Data Store needs to be enabled on the Do- main. See also: AWS API Documentation
+    /// Create/Update a DomainObjectType in a Customer Profiles domain. To create a new DomainObjectType, Data Store needs to be enabled on the Domain. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DomainName">The unique name of the domain. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$</param>
-    /// <param name="ObjectTypeName">The unique name of the domain object type. Constraints: o min: 1 o max: 255 o pattern: ^[a-zA-Z_][a-zA-Z_0-9-]*$</param>
-    /// <param name="Fields">A map of field names to their corresponding domain object type field definitions. key -&gt; (string) Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_.-]+$ value -&gt; (structure) The standard domain object type. Source -&gt; (string) [required] The expression that defines how to extract the field value from the source object.&gt; Constraints: o min: 1 o max: 1000 Target -&gt; (string) [required] The expression that defines where the field value should be placed in the standard domain object. Constraints: o min: 1 o max: 1000 ContentType -&gt; (string) The content type of the field. Possible values: o STRING o NUMBER FeatureType -&gt; (string) The semantic meaning of the field. Possible values: o TEXTUAL o CATEGORICAL Shorthand Syntax: KeyName1={Source=string,Target=string,ContentType=string,FeatureType=string},KeyName2={Source=string,Target=string,ContentType=string,FeatureType=string} JSON Syntax: {"string": { "Source": "string", "Target": "string", "ContentType": "STRING"|"NUMBER", "FeatureType": "TEXTUAL"|"CATEGORICAL" } ...}</param>
+    /// <param name="DomainName">The unique name of the domain. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9_-]+$</param>
+    /// <param name="ObjectTypeName">The unique name of the domain object type. Constraints: • min: 1 • max: 255 • pattern: ^[a-zA-Z_][a-zA-Z_0-9-]*$</param>
+    /// <param name="Fields">A map of field names to their corresponding domain object type field definitions. key -&gt; (string) Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9_.-]+$ value -&gt; (structure) The standard domain object type. Source -&gt; (string) [required] The expression that defines how to extract the field value from the source object.&gt; Constraints: • min: 1 • max: 1000 Target -&gt; (string) [required] The expression that defines where the field value should be placed in the standard domain object. Constraints: • min: 1 • max: 1000 ContentType -&gt; (string) The content type of the field. Possible values: • STRING • NUMBER FeatureType -&gt; (string) The semantic meaning of the field. Possible values: • TEXTUAL • CATEGORICAL Shorthand Syntax: KeyName1={Source=string,Target=string,ContentType=string,FeatureType=string},KeyName2={Source=string,Target=string,ContentType=string,FeatureType=string} JSON Syntax: {"string": { "Source": "string", "Target": "string", "ContentType": "STRING"|"NUMBER", "FeatureType": "TEXTUAL"|"CATEGORICAL" } ...}</param>
     public AwsCustomerProfilesPutDomainObjectTypeOptions(
         string DomainName,
         string ObjectTypeName,
@@ -76,37 +76,37 @@ public record AwsCustomerProfilesPutDomainObjectTypeOptions : AwsOptions, IValid
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique name of the domain. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$
+    /// The unique name of the domain. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9_-]+$
     /// </summary>
     [CliOption("--domain-name")]
     public string? DomainName { get; private init; }
 
     /// <summary>
-    /// The unique name of the domain object type. Constraints: o min: 1 o max: 255 o pattern: ^[a-zA-Z_][a-zA-Z_0-9-]*$
+    /// The unique name of the domain object type. Constraints: • min: 1 • max: 255 • pattern: ^[a-zA-Z_][a-zA-Z_0-9-]*$
     /// </summary>
     [CliOption("--object-type-name")]
     public string? ObjectTypeName { get; private init; }
 
     /// <summary>
-    /// A map of field names to their corresponding domain object type field definitions. key -&gt; (string) Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_.-]+$ value -&gt; (structure) The standard domain object type. Source -&gt; (string) [required] The expression that defines how to extract the field value from the source object.&gt; Constraints: o min: 1 o max: 1000 Target -&gt; (string) [required] The expression that defines where the field value should be placed in the standard domain object. Constraints: o min: 1 o max: 1000 ContentType -&gt; (string) The content type of the field. Possible values: o STRING o NUMBER FeatureType -&gt; (string) The semantic meaning of the field. Possible values: o TEXTUAL o CATEGORICAL Shorthand Syntax: KeyName1={Source=string,Target=string,ContentType=string,FeatureType=string},KeyName2={Source=string,Target=string,ContentType=string,FeatureType=string} JSON Syntax: {"string": { "Source": "string", "Target": "string", "ContentType": "STRING"|"NUMBER", "FeatureType": "TEXTUAL"|"CATEGORICAL" } ...}
+    /// A map of field names to their corresponding domain object type field definitions. key -&gt; (string) Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9_.-]+$ value -&gt; (structure) The standard domain object type. Source -&gt; (string) [required] The expression that defines how to extract the field value from the source object.&gt; Constraints: • min: 1 • max: 1000 Target -&gt; (string) [required] The expression that defines where the field value should be placed in the standard domain object. Constraints: • min: 1 • max: 1000 ContentType -&gt; (string) The content type of the field. Possible values: • STRING • NUMBER FeatureType -&gt; (string) The semantic meaning of the field. Possible values: • TEXTUAL • CATEGORICAL Shorthand Syntax: KeyName1={Source=string,Target=string,ContentType=string,FeatureType=string},KeyName2={Source=string,Target=string,ContentType=string,FeatureType=string} JSON Syntax: {"string": { "Source": "string", "Target": "string", "ContentType": "STRING"|"NUMBER", "FeatureType": "TEXTUAL"|"CATEGORICAL" } ...}
     /// </summary>
     [CliOption("--fields", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Fields { get; private init; }
 
     /// <summary>
-    /// The description of the domain object type. Constraints: o min: 1 o max: 10000
+    /// The description of the domain object type. Constraints: • min: 1 • max: 10000
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The customer provided KMS key used to encrypt this type of domain object. Constraints: o min: 0 o max: 255
+    /// The customer provided KMS key used to encrypt this type of domain object. Constraints: • min: 0 • max: 255
     /// </summary>
     [CliOption("--encryption-key")]
     public string? EncryptionKey { get; set; }
 
     /// <summary>
-    /// The tags used to organize, track, or control access for this re- source. Constraints: o min: 1 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^(?!aws:)[a-zA-Z+-=._:/]+$ value -&gt; (string) Constraints: o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The tags used to organize, track, or control access for this resource. Constraints: • min: 1 • max: 50 key -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: ^(?!aws:)[a-zA-Z+-=._:/]+$ value -&gt; (string) Constraints: • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
@@ -132,6 +132,15 @@ public record AwsCustomerProfilesPutDomainObjectTypeOptions : AwsOptions, IValid
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

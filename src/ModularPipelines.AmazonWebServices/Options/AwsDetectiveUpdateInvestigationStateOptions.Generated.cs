@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,9 +29,9 @@ public record AwsDetectiveUpdateInvestigationStateOptions : AwsOptions, IValidat
     /// <summary>
     /// Updates the state of an investigation. See also: AWS API Documentation
     /// </summary>
-    /// <param name="GraphArn">The Amazon Resource Name (ARN) of the behavior graph. Constraints: o pattern: ^arn:aws[-\w]{0,10}?:detec- tive:[-\w]{2,20}?:\d{12}?:graph:[abcdef\d]{32}?$</param>
-    /// <param name="InvestigationId">The investigation ID of the investigation report. Constraints: o min: 21 o max: 21 o pattern: ^[0-9]+$</param>
-    /// <param name="State">The current state of the investigation. An archived investigation indicates you have completed reviewing the investigation. Possible values: o ACTIVE o ARCHIVED</param>
+    /// <param name="GraphArn">The Amazon Resource Name (ARN) of the behavior graph. Constraints: • pattern: ^arn:aws[-\w]{0,10}?:detective:[-\w]{2,20}?:\d{12}?:graph:[abcdef\d]{32}?$</param>
+    /// <param name="InvestigationId">The investigation ID of the investigation report. Constraints: • min: 21 • max: 21 • pattern: ^[0-9]+$</param>
+    /// <param name="State">The current state of the investigation. An archived investigation indicates you have completed reviewing the investigation. Possible values: • ACTIVE • ARCHIVED</param>
     public AwsDetectiveUpdateInvestigationStateOptions(
         string GraphArn,
         string InvestigationId,
@@ -64,19 +65,19 @@ public record AwsDetectiveUpdateInvestigationStateOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the behavior graph. Constraints: o pattern: ^arn:aws[-\w]{0,10}?:detec- tive:[-\w]{2,20}?:\d{12}?:graph:[abcdef\d]{32}?$
+    /// The Amazon Resource Name (ARN) of the behavior graph. Constraints: • pattern: ^arn:aws[-\w]{0,10}?:detective:[-\w]{2,20}?:\d{12}?:graph:[abcdef\d]{32}?$
     /// </summary>
     [CliOption("--graph-arn")]
     public string? GraphArn { get; private init; }
 
     /// <summary>
-    /// The investigation ID of the investigation report. Constraints: o min: 21 o max: 21 o pattern: ^[0-9]+$
+    /// The investigation ID of the investigation report. Constraints: • min: 21 • max: 21 • pattern: ^[0-9]+$
     /// </summary>
     [CliOption("--investigation-id")]
     public string? InvestigationId { get; private init; }
 
     /// <summary>
-    /// The current state of the investigation. An archived investigation indicates you have completed reviewing the investigation. Possible values: o ACTIVE o ARCHIVED
+    /// The current state of the investigation. An archived investigation indicates you have completed reviewing the investigation. Possible values: • ACTIVE • ARCHIVED
     /// </summary>
     [CliOption("--state")]
     public AwsDetectiveUpdateInvestigationStateState? State { get; private init; }
@@ -102,6 +103,15 @@ public record AwsDetectiveUpdateInvestigationStateOptions : AwsOptions, IValidat
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -15,7 +15,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves the latest deployed configuration. This API may return empty configuration data if the client already has the latest version. For more information about this API action and to view example CLI commands that show how to use it with the StartConfigurationSession API action, see Retrieving the configuration in the AppConfig User Guide . WARNING: Note the following important information. o Each configuration token is only valid for one call to GetLatest- Configuration . The GetLatestConfig...
+/// Retrieves the latest deployed configuration. This API may return empty configuration data if the client already has the latest version. For more information about this API action and to view example CLI commands that show how to use it with the StartConfigurationSession API action, see Retrieving the configuration in the AppConfig User Guide . WARNING: Note the following important information. • Each configuration token is only valid for one call to GetLatestConfiguration . The GetLatestConfigur...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -23,9 +23,9 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsAppconfigdataGetLatestConfigurationOptions : AwsOptions
 {
     /// <summary>
-    /// Retrieves the latest deployed configuration. This API may return empty configuration data if the client already has the latest version. For more information about this API action and to view example CLI commands that show how to use it with the StartConfigurationSession API action, see Retrieving the configuration in the AppConfig User Guide . WARNING: Note the following important information. o Each configuration token is only valid for one call to GetLatest- Configuration . The GetLatestConfig...
+    /// Retrieves the latest deployed configuration. This API may return empty configuration data if the client already has the latest version. For more information about this API action and to view example CLI commands that show how to use it with the StartConfigurationSession API action, see Retrieving the configuration in the AppConfig User Guide . WARNING: Note the following important information. • Each configuration token is only valid for one call to GetLatestConfiguration . The GetLatestConfigur...
     /// </summary>
-    /// <param name="ConfigurationToken">Token describing the current state of the configuration session. To obtain a token, first call the StartConfigurationSession API. Note that every call to GetLatestConfiguration will return a new Configu- rationToken (NextPollConfigurationToken in the response) and must be provided to subsequent GetLatestConfiguration API calls. WARNING: This token should only be used once. To support long poll use cases, the token is valid for up to 24 hours. If a GetLatestCon- figuration call uses an expired token, the system returns BadRequestException . Constraints: o pattern: \S{1,8192} outfile (string) [required] Filename where the content will be saved</param>
+    /// <param name="ConfigurationToken">Token describing the current state of the configuration session. To obtain a token, first call the StartConfigurationSession API. Note that every call to GetLatestConfiguration will return a new ConfigurationToken (NextPollConfigurationToken in the response) and must be provided to subsequent GetLatestConfiguration API calls. WARNING: This token should only be used once. To support long poll use cases, the token is valid for up to 24 hours. If a GetLatestConfiguration call uses an expired token, the system returns BadRequestException . Constraints: • pattern: \S{1,8192} outfile (string) [required] Filename where the content will be saved</param>
     /// <param name="Outfile">The &lt;outfile&gt; operand.</param>
     public AwsAppconfigdataGetLatestConfigurationOptions(
         string ConfigurationToken,
@@ -45,7 +45,7 @@ public record AwsAppconfigdataGetLatestConfigurationOptions : AwsOptions
     }
 
     /// <summary>
-    /// Token describing the current state of the configuration session. To obtain a token, first call the StartConfigurationSession API. Note that every call to GetLatestConfiguration will return a new Configu- rationToken (NextPollConfigurationToken in the response) and must be provided to subsequent GetLatestConfiguration API calls. WARNING: This token should only be used once. To support long poll use cases, the token is valid for up to 24 hours. If a GetLatestCon- figuration call uses an expired token, the system returns BadRequestException . Constraints: o pattern: \S{1,8192} outfile (string) [required] Filename where the content will be saved
+    /// Token describing the current state of the configuration session. To obtain a token, first call the StartConfigurationSession API. Note that every call to GetLatestConfiguration will return a new ConfigurationToken (NextPollConfigurationToken in the response) and must be provided to subsequent GetLatestConfiguration API calls. WARNING: This token should only be used once. To support long poll use cases, the token is valid for up to 24 hours. If a GetLatestConfiguration call uses an expired token, the system returns BadRequestException . Constraints: • pattern: \S{1,8192} outfile (string) [required] Filename where the content will be saved
     /// </summary>
     [SecretValue]
     [CliOption("--configuration-token")]
@@ -56,5 +56,14 @@ public record AwsAppconfigdataGetLatestConfigurationOptions : AwsOptions
     /// </summary>
     [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
     public string Outfile { get; private init; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

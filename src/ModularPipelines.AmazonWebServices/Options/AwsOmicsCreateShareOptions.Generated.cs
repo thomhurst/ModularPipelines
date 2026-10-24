@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a cross-account shared resource. The resource owner makes an offer to share the resource with the principal subscriber (an Amazon Web Services user with a different account than the resource owner). The following resources support cross-account sharing: o HealthOmics variant stores o HealthOmics annotation stores o Private workflows See also: AWS API Documentation
+/// Creates a cross-account shared resource. The resource owner makes an offer to share the resource with the principal subscriber (an Amazon Web Services user with a different account than the resource owner). The following resources support cross-account sharing: • HealthOmics variant stores • HealthOmics annotation stores • Private workflows See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +26,7 @@ public record AwsOmicsCreateShareOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a cross-account shared resource. The resource owner makes an offer to share the resource with the principal subscriber (an Amazon Web Services user with a different account than the resource owner). The following resources support cross-account sharing: o HealthOmics variant stores o HealthOmics annotation stores o Private workflows See also: AWS API Documentation
+    /// Creates a cross-account shared resource. The resource owner makes an offer to share the resource with the principal subscriber (an Amazon Web Services user with a different account than the resource owner). The following resources support cross-account sharing: • HealthOmics variant stores • HealthOmics annotation stores • Private workflows See also: AWS API Documentation
     /// </summary>
     /// <param name="ResourceArn">The ARN of the resource to be shared.</param>
     /// <param name="PrincipalSubscriber">The principal subscriber is the account being offered shared access to the resource.</param>
@@ -72,7 +73,7 @@ public record AwsOmicsCreateShareOptions : AwsOptions, IValidatableObject
     public string? PrincipalSubscriber { get; private init; }
 
     /// <summary>
-    /// A name that the owner defines for the share. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9_-]+
+    /// A name that the owner defines for the share. Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9_-]+
     /// </summary>
     [CliOption("--share-name")]
     public string? ShareName { get; set; }
@@ -98,6 +99,15 @@ public record AwsOmicsCreateShareOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

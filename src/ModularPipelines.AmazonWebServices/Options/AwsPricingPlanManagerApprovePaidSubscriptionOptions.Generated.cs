@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Approves a subscription that is in PENDING_APPROVAL status, activating it and starting billing. NOTE: This operation requires the current ETag value for concurrency con- trol. Retrieve it from a previous GetSubscription or ListSubscrip- tions response. See also: AWS API Documentation
+/// Approves a subscription that is in PENDING_APPROVAL status, activating it and starting billing. NOTE: This operation requires the current ETag value for concurrency control. Retrieve it from a previous GetSubscription or ListSubscriptions response. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +27,9 @@ public record AwsPricingPlanManagerApprovePaidSubscriptionOptions : AwsOptions, 
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Approves a subscription that is in PENDING_APPROVAL status, activating it and starting billing. NOTE: This operation requires the current ETag value for concurrency con- trol. Retrieve it from a previous GetSubscription or ListSubscrip- tions response. See also: AWS API Documentation
+    /// Approves a subscription that is in PENDING_APPROVAL status, activating it and starting billing. NOTE: This operation requires the current ETag value for concurrency control. Retrieve it from a previous GetSubscription or ListSubscriptions response. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Arn">The ARN of the subscription to approve. Constraints: o min: 1 o max: 2048</param>
+    /// <param name="Arn">The ARN of the subscription to approve. Constraints: • min: 1 • max: 2048</param>
     /// <param name="IfMatch">The ETag value from a previous GetSubscription or ListSubscriptions response. This ensures you are approving the expected version of the subscription.</param>
     public AwsPricingPlanManagerApprovePaidSubscriptionOptions(
         string Arn,
@@ -61,7 +62,7 @@ public record AwsPricingPlanManagerApprovePaidSubscriptionOptions : AwsOptions, 
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the subscription to approve. Constraints: o min: 1 o max: 2048
+    /// The ARN of the subscription to approve. Constraints: • min: 1 • max: 2048
     /// </summary>
     [CliOption("--arn")]
     public string? Arn { get; private init; }
@@ -73,7 +74,7 @@ public record AwsPricingPlanManagerApprovePaidSubscriptionOptions : AwsOptions, 
     public string? IfMatch { get; private init; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier that you provide to ensure the request is handled only once. Constraints: o min: 1 o max: 64
+    /// A unique, case-sensitive identifier that you provide to ensure the request is handled only once. Constraints: • min: 1 • max: 64
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
@@ -100,6 +101,15 @@ public record AwsPricingPlanManagerApprovePaidSubscriptionOptions : AwsOptions, 
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

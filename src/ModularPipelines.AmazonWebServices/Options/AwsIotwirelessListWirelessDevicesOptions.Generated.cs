@@ -24,50 +24,50 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsIotwirelessListWirelessDevicesOptions : AwsOptions
 {
     /// <summary>
-    /// The maximum number of results to return in this operation. Constraints: o min: 0 o max: 250
+    /// The maximum number of results to return in this operation. Constraints: • min: 0 • max: 250
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
     /// <summary>
-    /// To retrieve the next set of results, the nextToken value from a pre- vious response; otherwise null to receive the first set of results. Constraints: o max: 4096
+    /// To retrieve the next set of results, the nextToken value from a previous response; otherwise null to receive the first set of results. Constraints: • max: 4096
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// A filter to list only the wireless devices that use as uplink desti- nation. Constraints: o max: 128 o pattern: [a-zA-Z0-9-_]+
+    /// A filter to list only the wireless devices that use as uplink destination. Constraints: • max: 128 • pattern: [a-zA-Z0-9-_]+
     /// </summary>
     [CliOption("--destination-name")]
     public string? DestinationName { get; set; }
 
     /// <summary>
-    /// A filter to list only the wireless devices that use this device pro- file. Constraints: o max: 256
+    /// A filter to list only the wireless devices that use this device profile. Constraints: • max: 256
     /// </summary>
     [CliOption("--device-profile-id")]
     public string? DeviceProfileId { get; set; }
 
     /// <summary>
-    /// A filter to list only the wireless devices that use this service profile. Constraints: o max: 256
+    /// A filter to list only the wireless devices that use this service profile. Constraints: • max: 256
     /// </summary>
     [CliOption("--service-profile-id")]
     public string? ServiceProfileId { get; set; }
 
     /// <summary>
-    /// A filter to list only the wireless devices that use this wireless device type. Possible values: o Sidewalk o LoRaWAN
+    /// A filter to list only the wireless devices that use this wireless device type. Possible values: • Sidewalk • LoRaWAN
     /// </summary>
     [CliOption("--wireless-device-type")]
     public AwsIotwirelessListWirelessDevicesWirelessDeviceType? WirelessDeviceType { get; set; }
 
     /// <summary>
-    /// The ID of a FUOTA task. Constraints: o max: 256
+    /// The ID of a FUOTA task. Constraints: • max: 256
     /// </summary>
     [CliOption("--fuota-task-id")]
     public string? FuotaTaskId { get; set; }
 
     /// <summary>
-    /// The ID of the multicast group. Constraints: o max: 256
+    /// The ID of the multicast group. Constraints: • max: 256
     /// </summary>
     [CliOption("--multicast-group-id")]
     public string? MulticastGroupId { get; set; }
@@ -77,5 +77,14 @@ public record AwsIotwirelessListWirelessDevicesOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

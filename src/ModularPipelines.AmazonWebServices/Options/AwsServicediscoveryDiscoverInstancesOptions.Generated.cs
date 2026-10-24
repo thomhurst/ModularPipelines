@@ -10,14 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Discovers registered instances for a specified namespace and service. You can use DiscoverInstances to discover instances for any type of namespace. DiscoverInstances returns a randomized list of instances al- lowing customers to distribute traffic evenly across instances. For public and private DNS namespaces, you can also use DNS queries to dis- cover instances. See also: AWS API Documentation
+/// Discovers registered instances for a specified namespace and service. You can use DiscoverInstances to discover instances for any type of namespace. DiscoverInstances returns a randomized list of instances allowing customers to distribute traffic evenly across instances. For public and private DNS namespaces, you can also use DNS queries to discover instances. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,10 +27,10 @@ public record AwsServicediscoveryDiscoverInstancesOptions : AwsOptions, IValidat
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Discovers registered instances for a specified namespace and service. You can use DiscoverInstances to discover instances for any type of namespace. DiscoverInstances returns a randomized list of instances al- lowing customers to distribute traffic evenly across instances. For public and private DNS namespaces, you can also use DNS queries to dis- cover instances. See also: AWS API Documentation
+    /// Discovers registered instances for a specified namespace and service. You can use DiscoverInstances to discover instances for any type of namespace. DiscoverInstances returns a randomized list of instances allowing customers to distribute traffic evenly across instances. For public and private DNS namespaces, you can also use DNS queries to discover instances. See also: AWS API Documentation
     /// </summary>
-    /// <param name="NamespaceName">The HttpName name of the namespace. The HttpName is found in the HttpProperties member of the Properties member of the namespace. In most cases, Name and HttpName match. However, if you reuse Name for namespace creation, a generated hash is added to HttpName to distin- guish the two. Constraints: o max: 1024 o pattern: ^[!-~]{1,1024}$</param>
-    /// <param name="ServiceName">The name of the service that you specified when you registered the instance. Constraints: o pattern: ((?=^.{1,127}$)^([a-zA-Z0-9_][a-zA-Z0-9-_]{0,61}[a-zA-Z0-9_]|[a-zA-Z0-9])(\.([a-zA-Z0-9_][a-zA-Z0-9-_]{0,61}[a-zA-Z0-9_]|[a-zA-Z0-9]))*$)|(^\.$)</param>
+    /// <param name="NamespaceName">The HttpName name of the namespace. The HttpName is found in the HttpProperties member of the Properties member of the namespace. In most cases, Name and HttpName match. However, if you reuse Name for namespace creation, a generated hash is added to HttpName to distinguish the two. Constraints: • max: 1024 • pattern: ^[!-~]{1,1024}$</param>
+    /// <param name="ServiceName">The name of the service that you specified when you registered the instance. Constraints: • pattern: ((?=^.{1,127}$)^([a-zA-Z0-9_][a-zA-Z0-9-_]{0,61}[a-zA-Z0-9_]|[a-zA-Z0-9])(\.([a-zA-Z0-9_][a-zA-Z0-9-_]{0,61}[a-zA-Z0-9_]|[a-zA-Z0-9]))*$)|(^\.$)</param>
     public AwsServicediscoveryDiscoverInstancesOptions(
         string NamespaceName,
         string ServiceName
@@ -62,43 +62,43 @@ public record AwsServicediscoveryDiscoverInstancesOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The HttpName name of the namespace. The HttpName is found in the HttpProperties member of the Properties member of the namespace. In most cases, Name and HttpName match. However, if you reuse Name for namespace creation, a generated hash is added to HttpName to distin- guish the two. Constraints: o max: 1024 o pattern: ^[!-~]{1,1024}$
+    /// The HttpName name of the namespace. The HttpName is found in the HttpProperties member of the Properties member of the namespace. In most cases, Name and HttpName match. However, if you reuse Name for namespace creation, a generated hash is added to HttpName to distinguish the two. Constraints: • max: 1024 • pattern: ^[!-~]{1,1024}$
     /// </summary>
     [CliOption("--namespace-name")]
     public string? NamespaceName { get; private init; }
 
     /// <summary>
-    /// The name of the service that you specified when you registered the instance. Constraints: o pattern: ((?=^.{1,127}$)^([a-zA-Z0-9_][a-zA-Z0-9-_]{0,61}[a-zA-Z0-9_]|[a-zA-Z0-9])(\.([a-zA-Z0-9_][a-zA-Z0-9-_]{0,61}[a-zA-Z0-9_]|[a-zA-Z0-9]))*$)|(^\.$)
+    /// The name of the service that you specified when you registered the instance. Constraints: • pattern: ((?=^.{1,127}$)^([a-zA-Z0-9_][a-zA-Z0-9-_]{0,61}[a-zA-Z0-9_]|[a-zA-Z0-9])(\.([a-zA-Z0-9_][a-zA-Z0-9-_]{0,61}[a-zA-Z0-9_]|[a-zA-Z0-9]))*$)|(^\.$)
     /// </summary>
     [CliOption("--service-name")]
     public string? ServiceName { get; private init; }
 
     /// <summary>
-    /// The maximum number of instances that you want Cloud Map to return in the response to a DiscoverInstances request. If you don't specify a value for MaxResults , Cloud Map returns up to 100 instances. Constraints: o min: 1 o max: 1000
+    /// The maximum number of instances that you want Cloud Map to return in the response to a DiscoverInstances request. If you don't specify a value for MaxResults , Cloud Map returns up to 100 instances. Constraints: • min: 1 • max: 1000
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
     /// <summary>
-    /// Filters to scope the results based on custom attributes for the in- stance (for example, {version=v1, az=1a} ). Only instances that match all the specified key-value pairs are returned. key -&gt; (string) Constraints: o max: 255 o pattern: ^[a-zA-Z0-9!-~]+$ value -&gt; (string) Constraints: o max: 1024 o pattern: ^([a-zA-Z0-9!-~][ \ta-zA-Z0-9!-~]*){0,1}[a-zA-Z0-9!-~]{0,1}$ Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// Filters to scope the results based on custom attributes for the instance (for example, {version=v1, az=1a} ). Only instances that match all the specified key-value pairs are returned. key -&gt; (string) Constraints: • max: 255 • pattern: ^[a-zA-Z0-9!-~]+$ value -&gt; (string) Constraints: • max: 1024 • pattern: ^([a-zA-Z0-9!-~][ \ta-zA-Z0-9!-~]*){0,1}[a-zA-Z0-9!-~]{0,1}$ Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--query-parameters", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? QueryParameters { get; set; }
 
     /// <summary>
-    /// Opportunistic filters to scope the results based on custom attrib- utes. If there are instances that match both the filters specified in both the QueryParameters parameter and this parameter, all of these instances are returned. Otherwise, the filters are ignored, and only instances that match the filters that are specified in the QueryParameters parameter are returned. key -&gt; (string) Constraints: o max: 255 o pattern: ^[a-zA-Z0-9!-~]+$ value -&gt; (string) Constraints: o max: 1024 o pattern: ^([a-zA-Z0-9!-~][ \ta-zA-Z0-9!-~]*){0,1}[a-zA-Z0-9!-~]{0,1}$ Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// Opportunistic filters to scope the results based on custom attributes. If there are instances that match both the filters specified in both the QueryParameters parameter and this parameter, all of these instances are returned. Otherwise, the filters are ignored, and only instances that match the filters that are specified in the QueryParameters parameter are returned. key -&gt; (string) Constraints: • max: 255 • pattern: ^[a-zA-Z0-9!-~]+$ value -&gt; (string) Constraints: • max: 1024 • pattern: ^([a-zA-Z0-9!-~][ \ta-zA-Z0-9!-~]*){0,1}[a-zA-Z0-9!-~]{0,1}$ Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--optional-parameters", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? OptionalParameters { get; set; }
 
     /// <summary>
-    /// The health status of the instances that you want to discover. This parameter is ignored for services that don't have a health check configured, and all instances are returned. HEALTHY Returns healthy instances. UNHEALTHY Returns unhealthy instances. ALL Returns all instances. HEALTHY_OR_ELSE_ALL Returns healthy instances, unless none are reporting a healthy state. In that case, return all instances. This is also called fail- ing open. Possible values: o HEALTHY o UNHEALTHY o ALL o HEALTHY_OR_ELSE_ALL
+    /// The health status of the instances that you want to discover. This parameter is ignored for services that don't have a health check configured, and all instances are returned. HEALTHY Returns healthy instances. UNHEALTHY Returns unhealthy instances. ALL Returns all instances. HEALTHY_OR_ELSE_ALL Returns healthy instances, unless none are reporting a healthy state. In that case, return all instances. This is also called failing open. Possible values: • HEALTHY • UNHEALTHY • ALL • HEALTHY_OR_ELSE_ALL
     /// </summary>
     [CliOption("--health-status")]
     public AwsServicediscoveryDiscoverInstancesHealthStatus? HealthStatus { get; set; }
 
     /// <summary>
-    /// The ID of the Amazon Web Services account that owns the namespace associated with the instance, as specified in the namespace Re- sourceOwner field. For instances associated with namespaces that are shared with your account, you must specify an OwnerAccount . Constraints: o min: 12 o max: 12
+    /// The ID of the Amazon Web Services account that owns the namespace associated with the instance, as specified in the namespace ResourceOwner field. For instances associated with namespaces that are shared with your account, you must specify an OwnerAccount . Constraints: • min: 12 • max: 12
     /// </summary>
     [CliOption("--owner-account")]
     public string? OwnerAccount { get; set; }
@@ -124,6 +124,15 @@ public record AwsServicediscoveryDiscoverInstancesOptions : AwsOptions, IValidat
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

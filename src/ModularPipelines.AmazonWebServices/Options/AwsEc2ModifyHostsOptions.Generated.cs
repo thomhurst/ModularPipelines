@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Modify the auto-placement setting of a Dedicated Host. When auto-place- ment is enabled, any instances that you launch with a tenancy of host but without a specific host ID are placed onto any available Dedicated Host in your account that has auto-placement enabled. When auto-place- ment is disabled, you need to provide a host ID to have the instance launch onto a specific host. If no host ID is provided, the instance is launched onto a suitable host with auto-placement enabled. You can also use...
+/// Modify the auto-placement setting of a Dedicated Host. When auto-placement is enabled, any instances that you launch with a tenancy of host but without a specific host ID are placed onto any available Dedicated Host in your account that has auto-placement enabled. When auto-placement is disabled, you need to provide a host ID to have the instance launch onto a specific host. If no host ID is provided, the instance is launched onto a suitable host with auto-placement enabled. You can also use thi...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,7 +27,7 @@ public record AwsEc2ModifyHostsOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Modify the auto-placement setting of a Dedicated Host. When auto-place- ment is enabled, any instances that you launch with a tenancy of host but without a specific host ID are placed onto any available Dedicated Host in your account that has auto-placement enabled. When auto-place- ment is disabled, you need to provide a host ID to have the instance launch onto a specific host. If no host ID is provided, the instance is launched onto a suitable host with auto-placement enabled. You can also use...
+    /// Modify the auto-placement setting of a Dedicated Host. When auto-placement is enabled, any instances that you launch with a tenancy of host but without a specific host ID are placed onto any available Dedicated Host in your account that has auto-placement enabled. When auto-placement is disabled, you need to provide a host ID to have the instance launch onto a specific host. If no host ID is provided, the instance is launched onto a suitable host with auto-placement enabled. You can also use thi...
     /// </summary>
     /// <param name="HostIds">The IDs of the Dedicated Hosts to modify. (string) Syntax: "string" "string" ...</param>
     public AwsEc2ModifyHostsOptions(
@@ -74,31 +75,31 @@ public record AwsEc2ModifyHostsOptions : AwsOptions, IValidatableObject
     public IEnumerable<string>? HostIds { get; private init; }
 
     /// <summary>
-    /// Indicates whether to enable or disable host recovery for the Dedi- cated Host. For more information, see Host recovery in the Amazon EC2 User Guide . Possible values: o on o off
+    /// Indicates whether to enable or disable host recovery for the Dedicated Host. For more information, see Host recovery in the Amazon EC2 User Guide . Possible values: • on • off
     /// </summary>
     [CliOption("--host-recovery")]
     public AwsEc2ModifyHostsHostRecovery? HostRecovery { get; set; }
 
     /// <summary>
-    /// Specifies the instance type to be supported by the Dedicated Host. Specify this parameter to modify a Dedicated Host to support only a specific instance type. If you want to modify a Dedicated Host to support multiple instance types in its current instance family, omit this parameter and spec- ify InstanceFamily instead. You cannot specify InstanceType and In- stanceFamily in the same request.
+    /// Specifies the instance type to be supported by the Dedicated Host. Specify this parameter to modify a Dedicated Host to support only a specific instance type. If you want to modify a Dedicated Host to support multiple instance types in its current instance family, omit this parameter and specify InstanceFamily instead. You cannot specify InstanceType and InstanceFamily in the same request.
     /// </summary>
     [CliOption("--instance-type")]
     public string? InstanceType { get; set; }
 
     /// <summary>
-    /// Specifies the instance family to be supported by the Dedicated Host. Specify this parameter to modify a Dedicated Host to support multi- ple instance types within its current instance family. If you want to modify a Dedicated Host to support a specific in- stance type only, omit this parameter and specify InstanceType in- stead. You cannot specify InstanceFamily and InstanceType in the same request.
+    /// Specifies the instance family to be supported by the Dedicated Host. Specify this parameter to modify a Dedicated Host to support multiple instance types within its current instance family. If you want to modify a Dedicated Host to support a specific instance type only, omit this parameter and specify InstanceType instead. You cannot specify InstanceFamily and InstanceType in the same request.
     /// </summary>
     [CliOption("--instance-family")]
     public string? InstanceFamily { get; set; }
 
     /// <summary>
-    /// Indicates whether to enable or disable host maintenance for the Ded- icated Host. For more information, see Host maintenance in the Ama- zon EC2 User Guide . Possible values: o on o off
+    /// Indicates whether to enable or disable host maintenance for the Dedicated Host. For more information, see Host maintenance in the Amazon EC2 User Guide . Possible values: • on • off
     /// </summary>
     [CliOption("--host-maintenance")]
     public AwsEc2ModifyHostsHostMaintenance? HostMaintenance { get; set; }
 
     /// <summary>
-    /// Specify whether to enable or disable auto-placement. Possible values: o on o off
+    /// Specify whether to enable or disable auto-placement. Possible values: • on • off
     /// </summary>
     [CliOption("--auto-placement")]
     public AwsEc2ModifyHostsAutoPlacement? AutoPlacement { get; set; }
@@ -124,6 +125,15 @@ public record AwsEc2ModifyHostsOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

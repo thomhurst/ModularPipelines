@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// NOTE: This operation applies only to Amazon Rekognition Custom Labels. Detects custom labels in a supplied image by using an Amazon Rekogni- tion Custom Labels model. You specify which version of a model version to use by using the Pro- jectVersionArn input parameter. You pass the input image as base64-encoded image bytes or as a refer- ence to an image in an Amazon S3 bucket. If you use the AWS CLI to call Amazon Rekognition operations, passing image bytes is not supported. The image must be ei...
+/// NOTE: This operation applies only to Amazon Rekognition Custom Labels. Detects custom labels in a supplied image by using an Amazon Rekognition Custom Labels model. You specify which version of a model version to use by using the ProjectVersionArn input parameter. You pass the input image as base64-encoded image bytes or as a reference to an image in an Amazon S3 bucket. If you use the AWS CLI to call Amazon Rekognition operations, passing image bytes is not supported. The image must be either a...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsRekognitionDetectCustomLabelsOptions : AwsOptions, IValidatable
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// NOTE: This operation applies only to Amazon Rekognition Custom Labels. Detects custom labels in a supplied image by using an Amazon Rekogni- tion Custom Labels model. You specify which version of a model version to use by using the Pro- jectVersionArn input parameter. You pass the input image as base64-encoded image bytes or as a refer- ence to an image in an Amazon S3 bucket. If you use the AWS CLI to call Amazon Rekognition operations, passing image bytes is not supported. The image must be ei...
+    /// NOTE: This operation applies only to Amazon Rekognition Custom Labels. Detects custom labels in a supplied image by using an Amazon Rekognition Custom Labels model. You specify which version of a model version to use by using the ProjectVersionArn input parameter. You pass the input image as base64-encoded image bytes or as a reference to an image in an Amazon S3 bucket. If you use the AWS CLI to call Amazon Rekognition operations, passing image bytes is not supported. The image must be either a...
     /// </summary>
-    /// <param name="ProjectVersionArn">The ARN of the model version that you want to use. Only models asso- ciated with Custom Labels projects accepted by the operation. If a provided ARN refers to a model version associated with a project for a different feature type, then an InvalidParameterException is re- turned. Constraints: o min: 20 o max: 2048 o pattern: (^arn:[a-z\d-]+:rekogni- tion:[a-z\d-]+:\d{12}:project\/[a-zA-Z0-9_.\-]{1,255}\/ver- sion\/[a-zA-Z0-9_.\-]{1,255}\/[0-9]+$)</param>
+    /// <param name="ProjectVersionArn">The ARN of the model version that you want to use. Only models associated with Custom Labels projects accepted by the operation. If a provided ARN refers to a model version associated with a project for a different feature type, then an InvalidParameterException is returned. Constraints: • min: 20 • max: 2048 • pattern: (^arn:[a-z\d-]+:rekognition:[a-z\d-]+:\d{12}:project\/[a-zA-Z0-9_.\-]{1,255}\/version\/[a-zA-Z0-9_.\-]{1,255}\/[0-9]+$)</param>
     public AwsRekognitionDetectCustomLabelsOptions(
         string ProjectVersionArn
     )
@@ -56,28 +57,28 @@ public record AwsRekognitionDetectCustomLabelsOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the model version that you want to use. Only models asso- ciated with Custom Labels projects accepted by the operation. If a provided ARN refers to a model version associated with a project for a different feature type, then an InvalidParameterException is re- turned. Constraints: o min: 20 o max: 2048 o pattern: (^arn:[a-z\d-]+:rekogni- tion:[a-z\d-]+:\d{12}:project\/[a-zA-Z0-9_.\-]{1,255}\/ver- sion\/[a-zA-Z0-9_.\-]{1,255}\/[0-9]+$)
+    /// The ARN of the model version that you want to use. Only models associated with Custom Labels projects accepted by the operation. If a provided ARN refers to a model version associated with a project for a different feature type, then an InvalidParameterException is returned. Constraints: • min: 20 • max: 2048 • pattern: (^arn:[a-z\d-]+:rekognition:[a-z\d-]+:\d{12}:project\/[a-zA-Z0-9_.\-]{1,255}\/version\/[a-zA-Z0-9_.\-]{1,255}\/[0-9]+$)
     /// </summary>
     [CliOption("--project-version-arn")]
     public string? ProjectVersionArn { get; private init; }
 
     /// <summary>
-    /// Provides the input image either as bytes or an S3 object. You pass image bytes to an Amazon Rekognition API operation by using the Bytes property. For example, you would use the Bytes property to pass an image loaded from a local file system. Image bytes passed by using the Bytes property must be base64-encoded. Your code may not need to encode image bytes if you are using an AWS SDK to call Ama- zon Rekognition API operations. For more information, see Analyzing an Image Loaded from a Local File System in the Amazon Rekognition Developer Guide. You pass images stored in an S3 bucket to an Amazon Rekognition API operation by using the S3Object property. Images stored in an S3 bucket do not need to be base64-encoded. The region for the S3 bucket containing the S3 object must match the region you use for Amazon Rekognition operations. If you use the AWS CLI to call Amazon Rekognition operations, pass- ing image bytes using the Bytes property is not supported. You must first upload the image to an Amazon S3 bucket and then call the op- eration using the S3Object property. For Amazon Rekognition to process an S3 object, the user must have permission to access the S3 object. For more information, see How Amazon Rekognition works with IAM in the Amazon Rekognition Devel- oper Guide. To specify a local file use --image-bytes instead. Bytes -&gt; (blob) Blob of image bytes up to 5 MBs. Note that the maximum image size you can pass to DetectCustomLabels is 4MB. Constraints: o min: 1 o max: 5242880 S3Object -&gt; (structure) Identifies an S3 object as the image source. Bucket -&gt; (string) Name of the S3 bucket. Constraints: o min: 3 o max: 255 o pattern: [0-9A-Za-z\.\-_]* Name -&gt; (string) S3 object key name. Constraints: o min: 1 o max: 1024 Version -&gt; (string) If the bucket is versioning enabled, you can specify the ob- ject version. Constraints: o min: 1 o max: 1024 Shorthand Syntax: Bytes=blob,S3Object={Bucket=string,Name=string,Version=string} JSON Syntax: { "Bytes": blob, "S3Object": { "Bucket": "string", "Name": "string", "Version": "string" } }
+    /// Provides the input image either as bytes or an S3 object. You pass image bytes to an Amazon Rekognition API operation by using the Bytes property. For example, you would use the Bytes property to pass an image loaded from a local file system. Image bytes passed by using the Bytes property must be base64-encoded. Your code may not need to encode image bytes if you are using an AWS SDK to call Amazon Rekognition API operations. For more information, see Analyzing an Image Loaded from a Local File System in the Amazon Rekognition Developer Guide. You pass images stored in an S3 bucket to an Amazon Rekognition API operation by using the S3Object property. Images stored in an S3 bucket do not need to be base64-encoded. The region for the S3 bucket containing the S3 object must match the region you use for Amazon Rekognition operations. If you use the AWS CLI to call Amazon Rekognition operations, passing image bytes using the Bytes property is not supported. You must first upload the image to an Amazon S3 bucket and then call the operation using the S3Object property. For Amazon Rekognition to process an S3 object, the user must have permission to access the S3 object. For more information, see How Amazon Rekognition works with IAM in the Amazon Rekognition Developer Guide. To specify a local file use --image-bytes instead. Bytes -&gt; (blob) Blob of image bytes up to 5 MBs. Note that the maximum image size you can pass to DetectCustomLabels is 4MB. Constraints: • min: 1 • max: 5242880 S3Object -&gt; (structure) Identifies an S3 object as the image source. Bucket -&gt; (string) Name of the S3 bucket. Constraints: • min: 3 • max: 255 • pattern: [0-9A-Za-z\.\-_]* Name -&gt; (string) S3 object key name. Constraints: • min: 1 • max: 1024 Version -&gt; (string) If the bucket is versioning enabled, you can specify the object version. Constraints: • min: 1 • max: 1024 Shorthand Syntax: Bytes=blob,S3Object={Bucket=string,Name=string,Version=string} JSON Syntax: { "Bytes": blob, "S3Object": { "Bucket": "string", "Name": "string", "Version": "string" } }
     /// </summary>
     [CliOption("--image")]
     public string? Image { get; set; }
 
     /// <summary>
-    /// Maximum number of results you want the service to return in the re- sponse. The service returns the specified number of highest confi- dence labels ranked from highest confidence to lowest. Constraints: o min: 0
+    /// Maximum number of results you want the service to return in the response. The service returns the specified number of highest confidence labels ranked from highest confidence to lowest. Constraints: • min: 0
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
     /// <summary>
-    /// Specifies the minimum confidence level for the labels to return. De- tectCustomLabels doesn't return any labels with a confidence value that's lower than this specified value. If you specify a value of 0, DetectCustomLabels returns all labels, regardless of the assumed threshold applied to each label. If you don't specify a value for MinConfidence , DetectCustomLabels returns labels based on the as- sumed threshold of each label. Constraints: o min: 0 o max: 100
+    /// Specifies the minimum confidence level for the labels to return. DetectCustomLabels doesn't return any labels with a confidence value that's lower than this specified value. If you specify a value of 0, DetectCustomLabels returns all labels, regardless of the assumed threshold applied to each label. If you don't specify a value for MinConfidence , DetectCustomLabels returns labels based on the assumed threshold of each label. Constraints: • min: 0 • max: 100
     /// </summary>
     [CliOption("--min-confidence")]
-    public int? MinConfidence { get; set; }
+    public double? MinConfidence { get; set; }
 
     /// <summary>
     /// The content of the image to be uploaded. To specify the content of a local file use the fileb:// prefix. Example: fileb://image.png
@@ -106,6 +107,15 @@ public record AwsRekognitionDetectCustomLabelsOptions : AwsOptions, IValidatable
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

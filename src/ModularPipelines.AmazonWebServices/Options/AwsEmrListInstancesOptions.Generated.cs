@@ -11,13 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Provides information for all active Amazon EC2 instances and Amazon EC2 instances terminated in the last 30 days, up to a maximum of 2,000. Amazon EC2 instances in any of the following states are considered ac- tive: AWAITING_FULFILLMENT, PROVISIONING, BOOTSTRAPPING, RUNNING. See also: AWS API Documentation list-instances is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate ar...
+/// Provides information for all active Amazon EC2 instances and Amazon EC2 instances terminated in the last 30 days, up to a maximum of 2,000. Amazon EC2 instances in any of the following states are considered active: AWAITING_FULFILLMENT, PROVISIONING, BOOTSTRAPPING, RUNNING. See also: AWS API Documentation list-instances is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,9 +28,9 @@ public record AwsEmrListInstancesOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Provides information for all active Amazon EC2 instances and Amazon EC2 instances terminated in the last 30 days, up to a maximum of 2,000. Amazon EC2 instances in any of the following states are considered ac- tive: AWAITING_FULFILLMENT, PROVISIONING, BOOTSTRAPPING, RUNNING. See also: AWS API Documentation list-instances is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate ar...
+    /// Provides information for all active Amazon EC2 instances and Amazon EC2 instances terminated in the last 30 days, up to a maximum of 2,000. Amazon EC2 instances in any of the following states are considered active: AWAITING_FULFILLMENT, PROVISIONING, BOOTSTRAPPING, RUNNING. See also: AWS API Documentation list-instances is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument...
     /// </summary>
-    /// <param name="ClusterId">The identifier of the cluster for which to list the instances. Constraints: o max: 256</param>
+    /// <param name="ClusterId">The identifier of the cluster for which to list the instances. Constraints: • max: 256</param>
     public AwsEmrListInstancesOptions(
         string ClusterId
     )
@@ -58,46 +59,43 @@ public record AwsEmrListInstancesOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the cluster for which to list the instances. Constraints: o max: 256
+    /// The identifier of the cluster for which to list the instances. Constraints: • max: 256
     /// </summary>
     [CliOption("--cluster-id")]
     public string? ClusterId { get; private init; }
 
     /// <summary>
-    /// The identifier of the instance group for which to list the in- stances. Constraints: o max: 256
+    /// The identifier of the instance group for which to list the instances. Constraints: • max: 256
     /// </summary>
     [CliOption("--instance-group-id")]
     public string? InstanceGroupId { get; set; }
 
     /// <summary>
-    /// The type of instance group for which to list the instances. (string) Possible values: o MASTER o CORE o TASK Syntax: "string" "string" ...
+    /// The type of instance group for which to list the instances. (string) Possible values: • MASTER • CORE • TASK Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--instance-group-types", GroupValues = true)]
     public IEnumerable<string>? InstanceGroupTypes { get; set; }
 
     /// <summary>
-    /// The unique identifier of the instance fleet. Constraints: o max: 256
+    /// The unique identifier of the instance fleet. Constraints: • max: 256
     /// </summary>
     [CliOption("--instance-fleet-id")]
     public string? InstanceFleetId { get; set; }
 
     /// <summary>
-    /// The node type of the instance fleet. For example MASTER, CORE, or TASK. Possible values: o MASTER o CORE o TASK
+    /// The node type of the instance fleet. For example MASTER, CORE, or TASK. Possible values: • MASTER • CORE • TASK
     /// </summary>
     [CliOption("--instance-fleet-type")]
     public AwsEmrListInstancesInstanceFleetType? InstanceFleetType { get; set; }
 
     /// <summary>
-    /// A list of instance states that will filter the instances returned with this request. (string) Possible values: o AWAITING_FULFILLMENT o PROVISIONING o BOOTSTRAPPING o RUNNING o TERMINATED Syntax: "string" "string" ...
+    /// A list of instance states that will filter the instances returned with this request. (string) Possible values: • AWAITING_FULFILLMENT • PROVISIONING • BOOTSTRAPPING • RUNNING • TERMINATED Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--instance-states", GroupValues = true)]
     public IEnumerable<string>? InstanceStates { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -107,10 +105,13 @@ public record AwsEmrListInstancesOptions : AwsOptions, IValidatableObject
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
@@ -127,6 +128,15 @@ public record AwsEmrListInstancesOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

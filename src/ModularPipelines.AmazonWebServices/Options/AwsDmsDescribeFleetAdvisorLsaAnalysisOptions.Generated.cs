@@ -29,7 +29,7 @@ public record AwsDmsDescribeFleetAdvisorLsaAnalysisOptions : AwsOptions
     public int? MaxRecords { get; set; }
 
     /// <summary>
-    /// If NextToken is returned by a previous response, there are more re- sults available. The value of NextToken is a unique pagination token for each page. Make the call again using the returned token to re- trieve the next page. Keep all other arguments unchanged.
+    /// If NextToken is returned by a previous response, there are more results available. The value of NextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged.
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
@@ -40,5 +40,14 @@ public record AwsDmsDescribeFleetAdvisorLsaAnalysisOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

@@ -15,7 +15,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Lists agents or collectors as specified by ID or other filters. All agents/collectors associated with your user can be listed if you call DescribeAgents as is without passing any parameters. See also: AWS API Documentation describe-agents is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, th...
+/// Lists agents or collectors as specified by ID or other filters. All agents/collectors associated with your user can be listed if you call DescribeAgents as is without passing any parameters. See also: AWS API Documentation describe-agents is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -23,22 +23,19 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsDiscoveryDescribeAgentsOptions : AwsOptions
 {
     /// <summary>
-    /// The agent or the collector IDs for which you want information. If you specify no IDs, the system returns information about all agents/collectors associated with your user. (string) Constraints: o min: 10 o max: 20 o pattern: \S+ Syntax: "string" "string" ...
+    /// The agent or the collector IDs for which you want information. If you specify no IDs, the system returns information about all agents/collectors associated with your user. (string) Constraints: • min: 10 • max: 20 • pattern: \S+ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--agent-ids", GroupValues = true)]
     public IEnumerable<string>? AgentIds { get; set; }
 
     /// <summary>
-    /// You can filter the request using various logical operators and a key -value format. For example: {"key": "collectionStatus", "value": "STARTED"} (structure) A filter that can use conditional operators. For more information about filters, see Querying Discovered Con- figuration Items in the Amazon Web Services Application Discov- ery Service User Guide . name -&gt; (string) [required] The name of the filter. Constraints: o max: 10000 o pattern: [\s\S]* values -&gt; (list) [required] A string value on which to filter. For example, if you choose the destinationServer.osVersion filter name, you could spec- ify Ubuntu for the value. (string) Constraints: o max: 1000 o pattern: (^$|[\s\S]*\S[\s\S]*) condition -&gt; (string) [required] A conditional operator. The following operators are valid: EQUALS, NOT_EQUALS, CONTAINS, NOT_CONTAINS. If you specify multiple filters, the system utilizes all filters as though concatenated by AND . If you specify multiple values for a particular filter, the system differentiates the values using OR . Calling either DescribeConfigurations or ListConfigura- tions returns attributes of matching configuration items. Constraints: o max: 200 o pattern: \S+ Shorthand Syntax: name=string,values=string,string,condition=string ... JSON Syntax: [ { "name": "string", "values": ["string", ...], "condition": "string" } ... ]
+    /// You can filter the request using various logical operators and a key -value format. For example: {"key": "collectionStatus", "value": "STARTED"} (structure) A filter that can use conditional operators. For more information about filters, see Querying Discovered Configuration Items in the Amazon Web Services Application Discovery Service User Guide . name -&gt; (string) [required] The name of the filter. Constraints: • max: 10000 • pattern: [\s\S]* values -&gt; (list) [required] A string value on which to filter. For example, if you choose the destinationServer.osVersion filter name, you could specify Ubuntu for the value. (string) Constraints: • max: 1000 • pattern: (^$|[\s\S]*\S[\s\S]*) condition -&gt; (string) [required] A conditional operator. The following operators are valid: EQUALS, NOT_EQUALS, CONTAINS, NOT_CONTAINS. If you specify multiple filters, the system utilizes all filters as though concatenated by AND . If you specify multiple values for a particular filter, the system differentiates the values using OR . Calling either DescribeConfigurations or ListConfigurations returns attributes of matching configuration items. Constraints: • max: 200 • pattern: \S+ Shorthand Syntax: name=string,values=string,string,condition=string ... JSON Syntax: [ { "name": "string", "values": ["string", ...], "condition": "string" } ... ]
     /// </summary>
     [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -48,15 +45,27 @@ public record AwsDiscoveryDescribeAgentsOptions : AwsOptions
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

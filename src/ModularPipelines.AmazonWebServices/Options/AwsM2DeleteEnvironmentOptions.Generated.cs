@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsM2DeleteEnvironmentOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Deletes a specific runtime environment. The environment cannot contain deployed applications. If it does, you must delete those applications before you delete the environment. See also: AWS API Documentation
     /// </summary>
-    /// <param name="EnvironmentId">The unique identifier of the runtime environment you want to delete. Constraints: o pattern: ^\S{1,80}$</param>
+    /// <param name="EnvironmentId">The unique identifier of the runtime environment you want to delete. Constraints: • pattern: ^\S{1,80}$</param>
     public AwsM2DeleteEnvironmentOptions(
         string EnvironmentId
     )
@@ -56,7 +57,7 @@ public record AwsM2DeleteEnvironmentOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the runtime environment you want to delete. Constraints: o pattern: ^\S{1,80}$
+    /// The unique identifier of the runtime environment you want to delete. Constraints: • pattern: ^\S{1,80}$
     /// </summary>
     [CliOption("--environment-id")]
     public string? EnvironmentId { get; private init; }
@@ -82,6 +83,15 @@ public record AwsM2DeleteEnvironmentOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

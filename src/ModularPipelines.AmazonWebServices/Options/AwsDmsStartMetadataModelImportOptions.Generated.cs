@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Queues an import of metadata models (database objects such as tables, views, and procedures) from your data provider into the metadata tree. If other requests created by Start* operations are already in the mi- gration project's queue, the import begins after they complete. To check the status of the import request, call DescribeMetadataModelImports using the returned RequestIdentifier as a filter. Required permissions: dms:StartMetadataModelImport . For more in- formation, see Actions, resource...
+/// Queues an import of metadata models (database objects such as tables, views, and procedures) from your data provider into the metadata tree. If other requests created by Start* operations are already in the migration project's queue, the import begins after they complete. To check the status of the import request, call DescribeMetadataModelImports using the returned RequestIdentifier as a filter. Required permissions: dms:StartMetadataModelImport . For more information, see Actions, resources, a...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,11 +27,11 @@ public record AwsDmsStartMetadataModelImportOptions : AwsOptions, IValidatableOb
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Queues an import of metadata models (database objects such as tables, views, and procedures) from your data provider into the metadata tree. If other requests created by Start* operations are already in the mi- gration project's queue, the import begins after they complete. To check the status of the import request, call DescribeMetadataModelImports using the returned RequestIdentifier as a filter. Required permissions: dms:StartMetadataModelImport . For more in- formation, see Actions, resource...
+    /// Queues an import of metadata models (database objects such as tables, views, and procedures) from your data provider into the metadata tree. If other requests created by Start* operations are already in the migration project's queue, the import begins after they complete. To check the status of the import request, call DescribeMetadataModelImports using the returned RequestIdentifier as a filter. Required permissions: dms:StartMetadataModelImport . For more information, see Actions, resources, a...
     /// </summary>
-    /// <param name="MigrationProjectIdentifier">The migration project name or Amazon Resource Name (ARN). Constraints: o max: 255</param>
-    /// <param name="SelectionRules">A JSON string that identifies the metadata models to import from the data provider. For the selection rule format and examples, see Selection rules in DMS Schema Conversion . Usage: o Accepts source or target selection rules depending on the Origin parameter. The server-name in the object locator must match the corresponding data provider. o Supports explicit , include , and exclude rule actions.</param>
-    /// <param name="Origin">Specifies the metadata tree to import into. NOTE: You cannot import from a virtual target data provider. Possible values: o SOURCE o TARGET</param>
+    /// <param name="MigrationProjectIdentifier">The migration project name or Amazon Resource Name (ARN). Constraints: • max: 255</param>
+    /// <param name="SelectionRules">A JSON string that identifies the metadata models to import from the data provider. For the selection rule format and examples, see Selection rules in DMS Schema Conversion . Usage: • Accepts source or target selection rules depending on the Origin parameter. The server-name in the object locator must match the corresponding data provider. • Supports explicit , include , and exclude rule actions.</param>
+    /// <param name="Origin">Specifies the metadata tree to import into. NOTE: You cannot import from a virtual target data provider. Possible values: • SOURCE • TARGET</param>
     public AwsDmsStartMetadataModelImportOptions(
         string MigrationProjectIdentifier,
         string SelectionRules,
@@ -64,19 +65,19 @@ public record AwsDmsStartMetadataModelImportOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The migration project name or Amazon Resource Name (ARN). Constraints: o max: 255
+    /// The migration project name or Amazon Resource Name (ARN). Constraints: • max: 255
     /// </summary>
     [CliOption("--migration-project-identifier")]
     public string? MigrationProjectIdentifier { get; private init; }
 
     /// <summary>
-    /// A JSON string that identifies the metadata models to import from the data provider. For the selection rule format and examples, see Selection rules in DMS Schema Conversion . Usage: o Accepts source or target selection rules depending on the Origin parameter. The server-name in the object locator must match the corresponding data provider. o Supports explicit , include , and exclude rule actions.
+    /// A JSON string that identifies the metadata models to import from the data provider. For the selection rule format and examples, see Selection rules in DMS Schema Conversion . Usage: • Accepts source or target selection rules depending on the Origin parameter. The server-name in the object locator must match the corresponding data provider. • Supports explicit , include , and exclude rule actions.
     /// </summary>
     [CliOption("--selection-rules")]
     public string? SelectionRules { get; private init; }
 
     /// <summary>
-    /// Specifies the metadata tree to import into. NOTE: You cannot import from a virtual target data provider. Possible values: o SOURCE o TARGET
+    /// Specifies the metadata tree to import into. NOTE: You cannot import from a virtual target data provider. Possible values: • SOURCE • TARGET
     /// </summary>
     [CliOption("--origin")]
     public AwsDmsStartMetadataModelImportOrigin? Origin { get; private init; }
@@ -108,6 +109,15 @@ public record AwsDmsStartMetadataModelImportOptions : AwsOptions, IValidatableOb
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

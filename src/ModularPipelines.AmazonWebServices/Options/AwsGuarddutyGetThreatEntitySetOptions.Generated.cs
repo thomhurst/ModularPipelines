@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves the threat entity set associated with the specified threatEn- titySetId . See also: AWS API Documentation
+/// Retrieves the threat entity set associated with the specified threatEntitySetId . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsGuarddutyGetThreatEntitySetOptions : AwsOptions, IValidatableOb
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Retrieves the threat entity set associated with the specified threatEn- titySetId . See also: AWS API Documentation
+    /// Retrieves the threat entity set associated with the specified threatEntitySetId . See also: AWS API Documentation
     /// </summary>
-    /// <param name="DetectorId">The unique ID of the detector associated with the threat entity set resource. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the ListDetectors API. Constraints: o min: 1 o max: 300</param>
+    /// <param name="DetectorId">The unique ID of the detector associated with the threat entity set resource. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the ListDetectors API. Constraints: • min: 1 • max: 300</param>
     /// <param name="ThreatEntitySetId">The unique ID that helps GuardDuty identify the threat entity set.</param>
     public AwsGuarddutyGetThreatEntitySetOptions(
         string DetectorId,
@@ -60,7 +61,7 @@ public record AwsGuarddutyGetThreatEntitySetOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique ID of the detector associated with the threat entity set resource. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the ListDetectors API. Constraints: o min: 1 o max: 300
+    /// The unique ID of the detector associated with the threat entity set resource. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the ListDetectors API. Constraints: • min: 1 • max: 300
     /// </summary>
     [CliOption("--detector-id")]
     public string? DetectorId { get; private init; }
@@ -92,6 +93,15 @@ public record AwsGuarddutyGetThreatEntitySetOptions : AwsOptions, IValidatableOb
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

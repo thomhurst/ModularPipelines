@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Attempts to cancel a job to create a one-time backup of a resource. This action is not supported for the following services: o Amazon Aurora o Amazon DocumentDB (with MongoDB compatibility) o Amazon FSx for Lustre o Amazon FSx for NetApp ONTAP o Amazon FSx for OpenZFS o Amazon FSx for Windows File Server o Amazon Neptune o SAP HANA databases on Amazon EC2 instances o Amazon RDS See also: AWS API Documentation
+/// Attempts to cancel a job to create a one-time backup of a resource. This action is not supported for the following services: • Amazon Aurora • Amazon DocumentDB (with MongoDB compatibility) • Amazon FSx for Lustre • Amazon FSx for NetApp ONTAP • Amazon FSx for OpenZFS • Amazon FSx for Windows File Server • Amazon Neptune • SAP HANA databases on Amazon EC2 instances • Amazon RDS See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +26,7 @@ public record AwsBackupStopBackupJobOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Attempts to cancel a job to create a one-time backup of a resource. This action is not supported for the following services: o Amazon Aurora o Amazon DocumentDB (with MongoDB compatibility) o Amazon FSx for Lustre o Amazon FSx for NetApp ONTAP o Amazon FSx for OpenZFS o Amazon FSx for Windows File Server o Amazon Neptune o SAP HANA databases on Amazon EC2 instances o Amazon RDS See also: AWS API Documentation
+    /// Attempts to cancel a job to create a one-time backup of a resource. This action is not supported for the following services: • Amazon Aurora • Amazon DocumentDB (with MongoDB compatibility) • Amazon FSx for Lustre • Amazon FSx for NetApp ONTAP • Amazon FSx for OpenZFS • Amazon FSx for Windows File Server • Amazon Neptune • SAP HANA databases on Amazon EC2 instances • Amazon RDS See also: AWS API Documentation
     /// </summary>
     /// <param name="BackupJobId">Uniquely identifies a request to Backup to back up a resource.</param>
     public AwsBackupStopBackupJobOptions(
@@ -82,6 +83,15 @@ public record AwsBackupStopBackupJobOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

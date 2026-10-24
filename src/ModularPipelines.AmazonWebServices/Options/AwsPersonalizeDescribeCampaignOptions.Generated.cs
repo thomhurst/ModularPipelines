@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Describes the given campaign, including its status. A campaign can be in one of the following states: o CREATE PENDING &gt; CREATE IN_PROGRESS &gt; ACTIVE -or- CREATE FAILED o DELETE PENDING &gt; DELETE IN_PROGRESS When the status is CREATE FAILED , the response includes the failur- eReason key, which describes why. For more information on campaigns, see CreateCampaign . See also: AWS API Documentation
+/// Describes the given campaign, including its status. A campaign can be in one of the following states: • CREATE PENDING &gt; CREATE IN_PROGRESS &gt; ACTIVE -or- CREATE FAILED • DELETE PENDING &gt; DELETE IN_PROGRESS When the status is CREATE FAILED , the response includes the failureReason key, which describes why. For more information on campaigns, see CreateCampaign . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsPersonalizeDescribeCampaignOptions : AwsOptions, IValidatableOb
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Describes the given campaign, including its status. A campaign can be in one of the following states: o CREATE PENDING &gt; CREATE IN_PROGRESS &gt; ACTIVE -or- CREATE FAILED o DELETE PENDING &gt; DELETE IN_PROGRESS When the status is CREATE FAILED , the response includes the failur- eReason key, which describes why. For more information on campaigns, see CreateCampaign . See also: AWS API Documentation
+    /// Describes the given campaign, including its status. A campaign can be in one of the following states: • CREATE PENDING &gt; CREATE IN_PROGRESS &gt; ACTIVE -or- CREATE FAILED • DELETE PENDING &gt; DELETE IN_PROGRESS When the status is CREATE FAILED , the response includes the failureReason key, which describes why. For more information on campaigns, see CreateCampaign . See also: AWS API Documentation
     /// </summary>
-    /// <param name="CampaignArn">The Amazon Resource Name (ARN) of the campaign. Constraints: o max: 256 o pattern: arn:([a-z\d-]+):personalize:.*:.*:.+</param>
+    /// <param name="CampaignArn">The Amazon Resource Name (ARN) of the campaign. Constraints: • max: 256 • pattern: arn:([a-z\d-]+):personalize:.*:.*:.+</param>
     public AwsPersonalizeDescribeCampaignOptions(
         string CampaignArn
     )
@@ -56,7 +57,7 @@ public record AwsPersonalizeDescribeCampaignOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the campaign. Constraints: o max: 256 o pattern: arn:([a-z\d-]+):personalize:.*:.*:.+
+    /// The Amazon Resource Name (ARN) of the campaign. Constraints: • max: 256 • pattern: arn:([a-z\d-]+):personalize:.*:.*:.+
     /// </summary>
     [CliOption("--campaign-arn")]
     public string? CampaignArn { get; private init; }
@@ -82,6 +83,15 @@ public record AwsPersonalizeDescribeCampaignOptions : AwsOptions, IValidatableOb
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

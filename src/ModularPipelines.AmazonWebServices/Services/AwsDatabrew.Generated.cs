@@ -6,8 +6,8 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
+using ModularPipelines;
 using ModularPipelines.Context;
-using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
@@ -32,7 +32,7 @@ public class AwsDatabrew : IAwsDatabrew
     #region Commands
 
     /// <summary>
-    /// Deletes one or more versions of a recipe at a time. The entire request will be rejected if: o The recipe does not exist. o There is an invalid version identifier in the list of versions. o The version list is empty. o The version list size exceeds 50. o The version list contains duplicate entries. The request will complete successfully, but with partial failures, if: o A version does not exist. o A version is being used by a job. o You specify LATEST_WORKING , but it's being used by a project. o...
+    /// Deletes one or more versions of a recipe at a time. The entire request will be rejected if: • The recipe does not exist. • There is an invalid version identifier in the list of versions. • The version list is empty. • The version list size exceeds 50. • The version list contains duplicate entries. The request will complete successfully, but with partial failures, if: • A version does not exist. • A version is being used by a job. • You specify LATEST_WORKING , but it's being used by a project. •...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -347,7 +347,7 @@ public class AwsDatabrew : IAwsDatabrew
     }
 
     /// <summary>
-    /// Lists all of the DataBrew datasets. See also: AWS API Documentation list-datasets is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Datasets
+    /// Lists all of the DataBrew datasets. See also: AWS API Documentation list-datasets is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Datasets
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -362,7 +362,7 @@ public class AwsDatabrew : IAwsDatabrew
     }
 
     /// <summary>
-    /// Lists all of the previous runs of a particular DataBrew job. See also: AWS API Documentation list-job-runs is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: JobRuns
+    /// Lists all of the previous runs of a particular DataBrew job. See also: AWS API Documentation list-job-runs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: JobRuns
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -377,7 +377,7 @@ public class AwsDatabrew : IAwsDatabrew
     }
 
     /// <summary>
-    /// Lists all of the DataBrew jobs that are defined. See also: AWS API Documentation list-jobs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagi- nation by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query ar- gument must extract data from the results of the following query ex- pressions: Jobs
+    /// Lists all of the DataBrew jobs that are defined. See also: AWS API Documentation list-jobs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Jobs
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -392,7 +392,7 @@ public class AwsDatabrew : IAwsDatabrew
     }
 
     /// <summary>
-    /// Lists all of the DataBrew projects that are defined. See also: AWS API Documentation list-projects is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Projects
+    /// Lists all of the DataBrew projects that are defined. See also: AWS API Documentation list-projects is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Projects
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -407,22 +407,7 @@ public class AwsDatabrew : IAwsDatabrew
     }
 
     /// <summary>
-    /// Lists all of the DataBrew recipes that are defined. See also: AWS API Documentation list-recipes is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex- pressions: Recipes
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListRecipesAsync(
-        AwsDatabrewListRecipesOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsDatabrewListRecipesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
-    /// Lists the versions of a particular DataBrew recipe, except for LAT- EST_WORKING . See also: AWS API Documentation list-recipe-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Recipes
+    /// Lists the versions of a particular DataBrew recipe, except for LATEST_WORKING . See also: AWS API Documentation list-recipe-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Recipes
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -437,7 +422,22 @@ public class AwsDatabrew : IAwsDatabrew
     }
 
     /// <summary>
-    /// List all rulesets available in the current account or rulesets associ- ated with a specific resource (dataset). See also: AWS API Documentation list-rulesets is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expr...
+    /// Lists all of the DataBrew recipes that are defined. See also: AWS API Documentation list-recipes is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Recipes
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListRecipesAsync(
+        AwsDatabrewListRecipesOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsDatabrewListRecipesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// List all rulesets available in the current account or rulesets associated with a specific resource (dataset). See also: AWS API Documentation list-rulesets is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expression...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -452,7 +452,7 @@ public class AwsDatabrew : IAwsDatabrew
     }
 
     /// <summary>
-    /// Lists the DataBrew schedules that are defined. See also: AWS API Documentation list-schedules is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Schedules
+    /// Lists the DataBrew schedules that are defined. See also: AWS API Documentation list-schedules is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Schedules
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

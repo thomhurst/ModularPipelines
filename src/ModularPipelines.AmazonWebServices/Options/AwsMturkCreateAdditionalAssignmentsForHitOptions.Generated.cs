@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// The CreateAdditionalAssignmentsForHIT operation increases the maximum number of assignments of an existing HIT. To extend the maximum number of assignments, specify the number of ad- ditional assignments. NOTE: o HITs created with fewer than 10 assignments cannot be extended to have 10 or more assignments. Attempting to add assignments in a way that brings the total number of assignments for a HIT from fewer than 10 assignments to 10 or more assignments will result in an AWS.MechanicalTurk.Inval...
+/// The CreateAdditionalAssignmentsForHIT operation increases the maximum number of assignments of an existing HIT. To extend the maximum number of assignments, specify the number of additional assignments. NOTE: • HITs created with fewer than 10 assignments cannot be extended to have 10 or more assignments. Attempting to add assignments in a way that brings the total number of assignments for a HIT from fewer than 10 assignments to 10 or more assignments will result in an AWS.MechanicalTurk.Invalid...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +27,9 @@ public record AwsMturkCreateAdditionalAssignmentsForHitOptions : AwsOptions, IVa
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// The CreateAdditionalAssignmentsForHIT operation increases the maximum number of assignments of an existing HIT. To extend the maximum number of assignments, specify the number of ad- ditional assignments. NOTE: o HITs created with fewer than 10 assignments cannot be extended to have 10 or more assignments. Attempting to add assignments in a way that brings the total number of assignments for a HIT from fewer than 10 assignments to 10 or more assignments will result in an AWS.MechanicalTurk.Inval...
+    /// The CreateAdditionalAssignmentsForHIT operation increases the maximum number of assignments of an existing HIT. To extend the maximum number of assignments, specify the number of additional assignments. NOTE: • HITs created with fewer than 10 assignments cannot be extended to have 10 or more assignments. Attempting to add assignments in a way that brings the total number of assignments for a HIT from fewer than 10 assignments to 10 or more assignments will result in an AWS.MechanicalTurk.Invalid...
     /// </summary>
-    /// <param name="HitId">The ID of the HIT to extend. Constraints: o min: 1 o max: 64 o pattern: ^[A-Z0-9]+$</param>
+    /// <param name="HitId">The ID of the HIT to extend. Constraints: • min: 1 • max: 64 • pattern: ^[A-Z0-9]+$</param>
     /// <param name="NumberOfAdditionalAssignments">The number of additional assignments to request for this HIT.</param>
     public AwsMturkCreateAdditionalAssignmentsForHitOptions(
         string HitId,
@@ -60,7 +61,7 @@ public record AwsMturkCreateAdditionalAssignmentsForHitOptions : AwsOptions, IVa
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the HIT to extend. Constraints: o min: 1 o max: 64 o pattern: ^[A-Z0-9]+$
+    /// The ID of the HIT to extend. Constraints: • min: 1 • max: 64 • pattern: ^[A-Z0-9]+$
     /// </summary>
     [CliOption("--hit-id")]
     public string? HitId { get; private init; }
@@ -72,7 +73,7 @@ public record AwsMturkCreateAdditionalAssignmentsForHitOptions : AwsOptions, IVa
     public int? NumberOfAdditionalAssignments { get; private init; }
 
     /// <summary>
-    /// A unique identifier for this request, which allows you to retry the call on error without extending the HIT multiple times. This is use- ful in cases such as network timeouts where it is unclear whether or not the call succeeded on the server. If the extend HIT already ex- ists in the system from a previous call using the same Uni- queRequestToken , subsequent calls will return an error with a mes- sage containing the request ID. Constraints: o min: 1 o max: 64
+    /// A unique identifier for this request, which allows you to retry the call on error without extending the HIT multiple times. This is useful in cases such as network timeouts where it is unclear whether or not the call succeeded on the server. If the extend HIT already exists in the system from a previous call using the same UniqueRequestToken , subsequent calls will return an error with a message containing the request ID. Constraints: • min: 1 • max: 64
     /// </summary>
     [SecretValue]
     [CliOption("--unique-request-token")]
@@ -99,6 +100,15 @@ public record AwsMturkCreateAdditionalAssignmentsForHitOptions : AwsOptions, IVa
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Starts an Amazon SageMaker Inference Recommender autoscaling recommen- dation job. Returns recommendations for autoscaling policies that you can apply to your SageMaker endpoint. See also: AWS API Documentation
+/// Starts an Amazon SageMaker Inference Recommender autoscaling recommendation job. Returns recommendations for autoscaling policies that you can apply to your SageMaker endpoint. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsSagemakerGetScalingConfigurationRecommendationOptions : AwsOpti
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Starts an Amazon SageMaker Inference Recommender autoscaling recommen- dation job. Returns recommendations for autoscaling policies that you can apply to your SageMaker endpoint. See also: AWS API Documentation
+    /// Starts an Amazon SageMaker Inference Recommender autoscaling recommendation job. Returns recommendations for autoscaling policies that you can apply to your SageMaker endpoint. See also: AWS API Documentation
     /// </summary>
-    /// <param name="InferenceRecommendationsJobName">The name of a previously completed Inference Recommender job. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,63}</param>
+    /// <param name="InferenceRecommendationsJobName">The name of a previously completed Inference Recommender job. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,63}</param>
     public AwsSagemakerGetScalingConfigurationRecommendationOptions(
         string InferenceRecommendationsJobName
     )
@@ -56,25 +57,25 @@ public record AwsSagemakerGetScalingConfigurationRecommendationOptions : AwsOpti
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of a previously completed Inference Recommender job. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,63}
+    /// The name of a previously completed Inference Recommender job. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,63}
     /// </summary>
     [CliOption("--inference-recommendations-job-name")]
     public string? InferenceRecommendationsJobName { get; private init; }
 
     /// <summary>
-    /// The recommendation ID of a previously completed inference recommen- dation. This ID should come from one of the recommendations returned by the job specified in the InferenceRecommendationsJobName field. Specify either this field or the EndpointName field.
+    /// The recommendation ID of a previously completed inference recommendation. This ID should come from one of the recommendations returned by the job specified in the InferenceRecommendationsJobName field. Specify either this field or the EndpointName field.
     /// </summary>
     [CliOption("--recommendation-id")]
     public string? RecommendationId { get; set; }
 
     /// <summary>
-    /// The name of an endpoint benchmarked during a previously completed inference recommendation job. This name should come from one of the recommendations returned by the job specified in the InferenceRecom- mendationsJobName field. Specify either this field or the RecommendationId field. Constraints: o min: 0 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}
+    /// The name of an endpoint benchmarked during a previously completed inference recommendation job. This name should come from one of the recommendations returned by the job specified in the InferenceRecommendationsJobName field. Specify either this field or the RecommendationId field. Constraints: • min: 0 • max: 63 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}
     /// </summary>
     [CliOption("--endpoint-name")]
     public string? EndpointName { get; set; }
 
     /// <summary>
-    /// The percentage of how much utilization you want an instance to use before autoscaling. The default value is 50%. Constraints: o min: 1 o max: 100
+    /// The percentage of how much utilization you want an instance to use before autoscaling. The default value is 50%. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--target-cpu-utilization-per-core")]
     public int? TargetCpuUtilizationPerCore { get; set; }
@@ -106,6 +107,15 @@ public record AwsSagemakerGetScalingConfigurationRecommendationOptions : AwsOpti
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

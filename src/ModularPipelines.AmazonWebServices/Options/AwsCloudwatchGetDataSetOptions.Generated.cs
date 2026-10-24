@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns information about the specified dataset. This includes its identifier, Amazon Resource Name (ARN), and any customer managed Amazon Web Services Key Management Service (Amazon Web Services KMS) key that is currently associated with it. Only the default dataset is supported. The default dataset is implicit for every account in every Region you can call GetDataset for it with- out first creating it. If no customer managed KMS key has been associ- ated with the dataset, the response omits th...
+/// Returns information about the specified dataset. This includes its identifier, Amazon Resource Name (ARN), and any customer managed Amazon Web Services Key Management Service (Amazon Web Services KMS) key that is currently associated with it. Only the default dataset is supported. The default dataset is implicit for every account in every Region you can call GetDataset for it without first creating it. If no customer managed KMS key has been associated with the dataset, the response omits the Km...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsCloudwatchGetDataSetOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns information about the specified dataset. This includes its identifier, Amazon Resource Name (ARN), and any customer managed Amazon Web Services Key Management Service (Amazon Web Services KMS) key that is currently associated with it. Only the default dataset is supported. The default dataset is implicit for every account in every Region you can call GetDataset for it with- out first creating it. If no customer managed KMS key has been associ- ated with the dataset, the response omits th...
+    /// Returns information about the specified dataset. This includes its identifier, Amazon Resource Name (ARN), and any customer managed Amazon Web Services Key Management Service (Amazon Web Services KMS) key that is currently associated with it. Only the default dataset is supported. The default dataset is implicit for every account in every Region you can call GetDataset for it without first creating it. If no customer managed KMS key has been associated with the dataset, the response omits the Km...
     /// </summary>
-    /// <param name="DataSetIdentifier">Specifies the identifier of the dataset to retrieve. For the default dataset, you can specify either default or the full dataset Amazon Resource Name (ARN) in the format arn:aws:cloudwatch:*Region* :*ac- count-id* :dataset/default . Constraints: o min: 1 o max: 2048 o pattern: (default|arn:[a-zA-Z0-9-]+:cloud- watch:[a-zA-Z0-9-]*:\d{12}:dataset/default)</param>
+    /// <param name="DataSetIdentifier">Specifies the identifier of the dataset to retrieve. For the default dataset, you can specify either default or the full dataset Amazon Resource Name (ARN) in the format arn:aws:cloudwatch:*Region* :*account-id* :dataset/default . Constraints: • min: 1 • max: 2048 • pattern: (default|arn:[a-zA-Z0-9-]+:cloudwatch:[a-zA-Z0-9-]*:\d{12}:dataset/default)</param>
     public AwsCloudwatchGetDataSetOptions(
         string DataSetIdentifier
     )
@@ -56,7 +57,7 @@ public record AwsCloudwatchGetDataSetOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Specifies the identifier of the dataset to retrieve. For the default dataset, you can specify either default or the full dataset Amazon Resource Name (ARN) in the format arn:aws:cloudwatch:*Region* :*ac- count-id* :dataset/default . Constraints: o min: 1 o max: 2048 o pattern: (default|arn:[a-zA-Z0-9-]+:cloud- watch:[a-zA-Z0-9-]*:\d{12}:dataset/default)
+    /// Specifies the identifier of the dataset to retrieve. For the default dataset, you can specify either default or the full dataset Amazon Resource Name (ARN) in the format arn:aws:cloudwatch:*Region* :*account-id* :dataset/default . Constraints: • min: 1 • max: 2048 • pattern: (default|arn:[a-zA-Z0-9-]+:cloudwatch:[a-zA-Z0-9-]*:\d{12}:dataset/default)
     /// </summary>
     [CliOption("--dataset-identifier")]
     public string? DataSetIdentifier { get; private init; }
@@ -82,6 +83,15 @@ public record AwsCloudwatchGetDataSetOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

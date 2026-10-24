@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Start importing bulk data into an ACTIVE data store. The import job im- ports DICOM P10 files or enhances existing DICOM files with JSON meta- data. The importConfiguration parameter specifies the import type. The data is found in the S3 prefix specified by the inputS3Uri parameter. The import job stores processing results in the file specified by the outputS3Uri parameter. See also: AWS API Documentation
+/// Start importing bulk data into an ACTIVE data store. The import job imports DICOM P10 files or enhances existing DICOM files with JSON metadata. The importConfiguration parameter specifies the import type. The data is found in the S3 prefix specified by the inputS3Uri parameter. The import job stores processing results in the file specified by the outputS3Uri parameter. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,12 +27,12 @@ public record AwsMedicalImagingStartDicomImportJobOptions : AwsOptions, IValidat
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Start importing bulk data into an ACTIVE data store. The import job im- ports DICOM P10 files or enhances existing DICOM files with JSON meta- data. The importConfiguration parameter specifies the import type. The data is found in the S3 prefix specified by the inputS3Uri parameter. The import job stores processing results in the file specified by the outputS3Uri parameter. See also: AWS API Documentation
+    /// Start importing bulk data into an ACTIVE data store. The import job imports DICOM P10 files or enhances existing DICOM files with JSON metadata. The importConfiguration parameter specifies the import type. The data is found in the S3 prefix specified by the inputS3Uri parameter. The import job stores processing results in the file specified by the outputS3Uri parameter. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DataAccessRoleArn">The Amazon Resource Name (ARN) of the IAM role that grants permis- sion to access medical imaging resources. Constraints: o min: 20 o max: 2048 o pattern: arn:aws(-[^:]+)?:iam::[0-9]{12}:role/.+</param>
-    /// <param name="DatastoreId">The data store identifier. Constraints: o pattern: [0-9a-z]{32}</param>
-    /// <param name="InputS3Uri">The input prefix path for the S3 bucket that contains the DICOM files to be imported. Constraints: o min: 1 o max: 1024 o pattern: s3://[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9](/.*)?</param>
-    /// <param name="OutputS3Uri">The output prefix of the S3 bucket to upload the results of the DI- COM import job. Constraints: o min: 1 o max: 1024 o pattern: s3://[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9](/.*)?</param>
+    /// <param name="DataAccessRoleArn">The Amazon Resource Name (ARN) of the IAM role that grants permission to access medical imaging resources. Constraints: • min: 20 • max: 2048 • pattern: arn:aws(-[^:]+)?:iam::[0-9]{12}:role/.+</param>
+    /// <param name="DatastoreId">The data store identifier. Constraints: • pattern: [0-9a-z]{32}</param>
+    /// <param name="InputS3Uri">The input prefix path for the S3 bucket that contains the DICOM files to be imported. Constraints: • min: 1 • max: 1024 • pattern: s3://[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9](/.*)?</param>
+    /// <param name="OutputS3Uri">The output prefix of the S3 bucket to upload the results of the DICOM import job. Constraints: • min: 1 • max: 1024 • pattern: s3://[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9](/.*)?</param>
     public AwsMedicalImagingStartDicomImportJobOptions(
         string DataAccessRoleArn,
         string DatastoreId,
@@ -69,50 +70,50 @@ public record AwsMedicalImagingStartDicomImportJobOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the IAM role that grants permis- sion to access medical imaging resources. Constraints: o min: 20 o max: 2048 o pattern: arn:aws(-[^:]+)?:iam::[0-9]{12}:role/.+
+    /// The Amazon Resource Name (ARN) of the IAM role that grants permission to access medical imaging resources. Constraints: • min: 20 • max: 2048 • pattern: arn:aws(-[^:]+)?:iam::[0-9]{12}:role/.+
     /// </summary>
     [CliOption("--data-access-role-arn")]
     public string? DataAccessRoleArn { get; private init; }
 
     /// <summary>
-    /// The data store identifier. Constraints: o pattern: [0-9a-z]{32}
+    /// The data store identifier. Constraints: • pattern: [0-9a-z]{32}
     /// </summary>
     [CliOption("--datastore-id")]
     public string? DatastoreId { get; private init; }
 
     /// <summary>
-    /// The input prefix path for the S3 bucket that contains the DICOM files to be imported. Constraints: o min: 1 o max: 1024 o pattern: s3://[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9](/.*)?
+    /// The input prefix path for the S3 bucket that contains the DICOM files to be imported. Constraints: • min: 1 • max: 1024 • pattern: s3://[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9](/.*)?
     /// </summary>
     [CliOption("--input-s3-uri")]
     public string? InputS3Uri { get; private init; }
 
     /// <summary>
-    /// The output prefix of the S3 bucket to upload the results of the DI- COM import job. Constraints: o min: 1 o max: 1024 o pattern: s3://[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9](/.*)?
+    /// The output prefix of the S3 bucket to upload the results of the DICOM import job. Constraints: • min: 1 • max: 1024 • pattern: s3://[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9](/.*)?
     /// </summary>
     [CliOption("--output-s3-uri")]
     public string? OutputS3Uri { get; private init; }
 
     /// <summary>
-    /// The import job name. Constraints: o min: 1 o max: 64 o pattern: [A-Za-z0-9._/#-]+
+    /// The import job name. Constraints: • min: 1 • max: 64 • pattern: [A-Za-z0-9._/#-]+
     /// </summary>
     [CliOption("--job-name")]
     public string? JobName { get; set; }
 
     /// <summary>
-    /// A unique identifier for API idempotency. Constraints: o min: 1 o max: 64 o pattern: [A-Za-z0-9._-]+
+    /// A unique identifier for API idempotency. Constraints: • min: 1 • max: 64 • pattern: [A-Za-z0-9._-]+
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// The account ID of the source S3 bucket owner. Constraints: o min: 12 o max: 12 o pattern: \d+
+    /// The account ID of the source S3 bucket owner. Constraints: • min: 12 • max: 12 • pattern: \d+
     /// </summary>
     [CliOption("--input-owner-account-id")]
     public string? InputOwnerAccountId { get; set; }
 
     /// <summary>
-    /// The import configuration for the import job. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: dicomJsonMetadataImportConfiguration. dicomJsonMetadataImportConfiguration -&gt; (structure) The configuration parameters that are specific to DICOM JSON metadata import operations. dicomMetadataMappings -&gt; (list) [required] Maps DCM files to their metadata. Constraints: o min: 1 o max: 1000 (structure) Maps DCM files to their metadata. studyInstanceUID -&gt; (string) [required] The Study Instance UID that identifies the study. Constraints: o min: 0 o max: 512 o pattern: [0-9.]+ seriesInstanceUID -&gt; (string) The Series Instance UID that identifies the series. This parameter is optional because the mapping might be at the study level. Constraints: o min: 0 o max: 512 o pattern: [0-9.]+ metadataFilePath -&gt; (string) [required] The path to the JSON metadata file relative to in- putS3Uri. Constraints: o min: 1 o max: 1024 o pattern: [a-zA-Z0-9!-~]+([a-zA-Z0-9!-~ ]*[a-zA-Z0-9!-~]+)* JSON Syntax: { "dicomJsonMetadataImportConfiguration": { "dicomMetadataMappings": [ { "studyInstanceUID": "string", "seriesInstanceUID": "string", "metadataFilePath": "string" } ... ] } }
+    /// The import configuration for the import job. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: dicomJsonMetadataImportConfiguration. dicomJsonMetadataImportConfiguration -&gt; (structure) The configuration parameters that are specific to DICOM JSON metadata import operations. dicomMetadataMappings -&gt; (list) [required] Maps DCM files to their metadata. Constraints: • min: 1 • max: 1000 (structure) Maps DCM files to their metadata. studyInstanceUID -&gt; (string) [required] The Study Instance UID that identifies the study. Constraints: • min: 0 • max: 512 • pattern: [0-9.]+ seriesInstanceUID -&gt; (string) The Series Instance UID that identifies the series. This parameter is optional because the mapping might be at the study level. Constraints: • min: 0 • max: 512 • pattern: [0-9.]+ metadataFilePath -&gt; (string) [required] The path to the JSON metadata file relative to inputS3Uri. Constraints: • min: 1 • max: 1024 • pattern: [a-zA-Z0-9!-~]+([a-zA-Z0-9!-~ ]*[a-zA-Z0-9!-~]+)* JSON Syntax: { "dicomJsonMetadataImportConfiguration": { "dicomMetadataMappings": [ { "studyInstanceUID": "string", "seriesInstanceUID": "string", "metadataFilePath": "string" } ... ] } }
     /// </summary>
     [CliOption("--import-configuration")]
     public string? ImportConfiguration { get; set; }
@@ -138,6 +139,15 @@ public record AwsMedicalImagingStartDicomImportJobOptions : AwsOptions, IValidat
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

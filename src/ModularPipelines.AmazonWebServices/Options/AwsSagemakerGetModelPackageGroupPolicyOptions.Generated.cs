@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Gets a resource policy that manages access for a model group. For in- formation about resource policies, see Identity-based policies and re- source-based policies in the Amazon Web Services Identity and Access Management User Guide. . See also: AWS API Documentation
+/// Gets a resource policy that manages access for a model group. For information about resource policies, see Identity-based policies and resource-based policies in the Amazon Web Services Identity and Access Management User Guide. . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsSagemakerGetModelPackageGroupPolicyOptions : AwsOptions, IValid
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Gets a resource policy that manages access for a model group. For in- formation about resource policies, see Identity-based policies and re- source-based policies in the Amazon Web Services Identity and Access Management User Guide. . See also: AWS API Documentation
+    /// Gets a resource policy that manages access for a model group. For information about resource policies, see Identity-based policies and resource-based policies in the Amazon Web Services Identity and Access Management User Guide. . See also: AWS API Documentation
     /// </summary>
-    /// <param name="ModelPackageGroupName">The name of the model group for which to get the resource policy. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}</param>
+    /// <param name="ModelPackageGroupName">The name of the model group for which to get the resource policy. Constraints: • min: 1 • max: 63 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}</param>
     public AwsSagemakerGetModelPackageGroupPolicyOptions(
         string ModelPackageGroupName
     )
@@ -56,7 +57,7 @@ public record AwsSagemakerGetModelPackageGroupPolicyOptions : AwsOptions, IValid
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the model group for which to get the resource policy. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}
+    /// The name of the model group for which to get the resource policy. Constraints: • min: 1 • max: 63 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}
     /// </summary>
     [CliOption("--model-package-group-name")]
     public string? ModelPackageGroupName { get; private init; }
@@ -82,6 +83,15 @@ public record AwsSagemakerGetModelPackageGroupPolicyOptions : AwsOptions, IValid
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

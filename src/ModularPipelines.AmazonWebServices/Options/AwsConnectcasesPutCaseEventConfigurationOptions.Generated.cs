@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsConnectcasesPutCaseEventConfigurationOptions : AwsOptions, IVal
     /// <summary>
     /// Adds case event publishing configuration. For a complete list of fields you can add to the event message, see Create case fields in the Amazon Connect Administrator Guide See also: AWS API Documentation
     /// </summary>
-    /// <param name="DomainId">The unique identifier of the Cases domain. Constraints: o min: 1 o max: 500</param>
-    /// <param name="EventBridge">Configuration to enable EventBridge case event delivery and deter- mine what data is delivered. enabled -&gt; (boolean) [required] Indicates whether the to broadcast case event data to the cus- tomer. includedData -&gt; (structure) Details of what case and related item data is published through the case event stream. caseData -&gt; (structure) Details of what case data is published through the case event stream. fields -&gt; (list) [required] List of field identifiers. Constraints: o min: 0 o max: 400 (structure) Object for unique identifier of a field. id -&gt; (string) [required] Unique identifier of a field. Constraints: o min: 1 o max: 500 relatedItemData -&gt; (structure) Details of what related item data is published through the case event stream. includeContent -&gt; (boolean) [required] Details of what related item data is published through the case event stream. JSON Syntax: { "enabled": true|false, "includedData": { "caseData": { "fields": [ { "id": "string" } ... ] }, "relatedItemData": { "includeContent": true|false } } }</param>
+    /// <param name="DomainId">The unique identifier of the Cases domain. Constraints: • min: 1 • max: 500</param>
+    /// <param name="EventBridge">Configuration to enable EventBridge case event delivery and determine what data is delivered. enabled -&gt; (boolean) [required] Indicates whether the to broadcast case event data to the customer. includedData -&gt; (structure) Details of what case and related item data is published through the case event stream. caseData -&gt; (structure) Details of what case data is published through the case event stream. fields -&gt; (list) [required] List of field identifiers. Constraints: • min: 0 • max: 400 (structure) Object for unique identifier of a field. id -&gt; (string) [required] Unique identifier of a field. Constraints: • min: 1 • max: 500 relatedItemData -&gt; (structure) Details of what related item data is published through the case event stream. includeContent -&gt; (boolean) [required] Details of what related item data is published through the case event stream. JSON Syntax: { "enabled": true|false, "includedData": { "caseData": { "fields": [ { "id": "string" } ... ] }, "relatedItemData": { "includeContent": true|false } } }</param>
     public AwsConnectcasesPutCaseEventConfigurationOptions(
         string DomainId,
         string EventBridge
@@ -60,13 +61,13 @@ public record AwsConnectcasesPutCaseEventConfigurationOptions : AwsOptions, IVal
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the Cases domain. Constraints: o min: 1 o max: 500
+    /// The unique identifier of the Cases domain. Constraints: • min: 1 • max: 500
     /// </summary>
     [CliOption("--domain-id")]
     public string? DomainId { get; private init; }
 
     /// <summary>
-    /// Configuration to enable EventBridge case event delivery and deter- mine what data is delivered. enabled -&gt; (boolean) [required] Indicates whether the to broadcast case event data to the cus- tomer. includedData -&gt; (structure) Details of what case and related item data is published through the case event stream. caseData -&gt; (structure) Details of what case data is published through the case event stream. fields -&gt; (list) [required] List of field identifiers. Constraints: o min: 0 o max: 400 (structure) Object for unique identifier of a field. id -&gt; (string) [required] Unique identifier of a field. Constraints: o min: 1 o max: 500 relatedItemData -&gt; (structure) Details of what related item data is published through the case event stream. includeContent -&gt; (boolean) [required] Details of what related item data is published through the case event stream. JSON Syntax: { "enabled": true|false, "includedData": { "caseData": { "fields": [ { "id": "string" } ... ] }, "relatedItemData": { "includeContent": true|false } } }
+    /// Configuration to enable EventBridge case event delivery and determine what data is delivered. enabled -&gt; (boolean) [required] Indicates whether the to broadcast case event data to the customer. includedData -&gt; (structure) Details of what case and related item data is published through the case event stream. caseData -&gt; (structure) Details of what case data is published through the case event stream. fields -&gt; (list) [required] List of field identifiers. Constraints: • min: 0 • max: 400 (structure) Object for unique identifier of a field. id -&gt; (string) [required] Unique identifier of a field. Constraints: • min: 1 • max: 500 relatedItemData -&gt; (structure) Details of what related item data is published through the case event stream. includeContent -&gt; (boolean) [required] Details of what related item data is published through the case event stream. JSON Syntax: { "enabled": true|false, "includedData": { "caseData": { "fields": [ { "id": "string" } ... ] }, "relatedItemData": { "includeContent": true|false } } }
     /// </summary>
     [CliOption("--event-bridge")]
     public string? EventBridge { get; private init; }
@@ -92,6 +93,15 @@ public record AwsConnectcasesPutCaseEventConfigurationOptions : AwsOptions, IVal
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

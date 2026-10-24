@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// The DeleteTable operation deletes a table and all of its data. After a DeleteTable request is received, the specified table is in the DELETING state until Amazon Keyspaces completes the deletion. If the table is in the ACTIVE state, you can delete it. If a table is either in the CREAT- ING or UPDATING states, then Amazon Keyspaces returns a ResourceInUse- Exception . If the specified table does not exist, Amazon Keyspaces re- turns a ResourceNotFoundException . If the table is already in the DEL...
+/// The DeleteTable operation deletes a table and all of its data. After a DeleteTable request is received, the specified table is in the DELETING state until Amazon Keyspaces completes the deletion. If the table is in the ACTIVE state, you can delete it. If a table is either in the CREATING or UPDATING states, then Amazon Keyspaces returns a ResourceInUseException . If the specified table does not exist, Amazon Keyspaces returns a ResourceNotFoundException . If the table is already in the DELETING ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsKeyspacesDeleteTableOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// The DeleteTable operation deletes a table and all of its data. After a DeleteTable request is received, the specified table is in the DELETING state until Amazon Keyspaces completes the deletion. If the table is in the ACTIVE state, you can delete it. If a table is either in the CREAT- ING or UPDATING states, then Amazon Keyspaces returns a ResourceInUse- Exception . If the specified table does not exist, Amazon Keyspaces re- turns a ResourceNotFoundException . If the table is already in the DEL...
+    /// The DeleteTable operation deletes a table and all of its data. After a DeleteTable request is received, the specified table is in the DELETING state until Amazon Keyspaces completes the deletion. If the table is in the ACTIVE state, you can delete it. If a table is either in the CREATING or UPDATING states, then Amazon Keyspaces returns a ResourceInUseException . If the specified table does not exist, Amazon Keyspaces returns a ResourceNotFoundException . If the table is already in the DELETING ...
     /// </summary>
-    /// <param name="KeyspaceName">The name of the keyspace of the to be deleted table. Constraints: o min: 1 o max: 48 o pattern: [a-zA-Z0-9][a-zA-Z0-9_]{0,47}</param>
-    /// <param name="TableName">The name of the table to be deleted. Constraints: o min: 1 o max: 48 o pattern: [a-zA-Z0-9][a-zA-Z0-9_]{0,47}</param>
+    /// <param name="KeyspaceName">The name of the keyspace of the to be deleted table. Constraints: • min: 1 • max: 48 • pattern: [a-zA-Z0-9][a-zA-Z0-9_]{0,47}</param>
+    /// <param name="TableName">The name of the table to be deleted. Constraints: • min: 1 • max: 48 • pattern: [a-zA-Z0-9][a-zA-Z0-9_]{0,47}</param>
     public AwsKeyspacesDeleteTableOptions(
         string KeyspaceName,
         string TableName
@@ -60,13 +61,13 @@ public record AwsKeyspacesDeleteTableOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the keyspace of the to be deleted table. Constraints: o min: 1 o max: 48 o pattern: [a-zA-Z0-9][a-zA-Z0-9_]{0,47}
+    /// The name of the keyspace of the to be deleted table. Constraints: • min: 1 • max: 48 • pattern: [a-zA-Z0-9][a-zA-Z0-9_]{0,47}
     /// </summary>
     [CliOption("--keyspace-name")]
     public string? KeyspaceName { get; private init; }
 
     /// <summary>
-    /// The name of the table to be deleted. Constraints: o min: 1 o max: 48 o pattern: [a-zA-Z0-9][a-zA-Z0-9_]{0,47}
+    /// The name of the table to be deleted. Constraints: • min: 1 • max: 48 • pattern: [a-zA-Z0-9][a-zA-Z0-9_]{0,47}
     /// </summary>
     [CliOption("--table-name")]
     public string? TableName { get; private init; }
@@ -92,6 +93,15 @@ public record AwsKeyspacesDeleteTableOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns details for a given workload and deployment pattern, including the available specifications. You can use the ListWorkloads operation to discover the available workload names and the ListWorkloadDeploymentPatterns operation to discover the available de- ployment pattern names of a given workload. See also: AWS API Documentation
+/// Returns details for a given workload and deployment pattern, including the available specifications. You can use the ListWorkloads operation to discover the available workload names and the ListWorkloadDeploymentPatterns operation to discover the available deployment pattern names of a given workload. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsLaunchWizardGetWorkloadDeploymentPatternOptions : AwsOptions, I
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns details for a given workload and deployment pattern, including the available specifications. You can use the ListWorkloads operation to discover the available workload names and the ListWorkloadDeploymentPatterns operation to discover the available de- ployment pattern names of a given workload. See also: AWS API Documentation
+    /// Returns details for a given workload and deployment pattern, including the available specifications. You can use the ListWorkloads operation to discover the available workload names and the ListWorkloadDeploymentPatterns operation to discover the available deployment pattern names of a given workload. See also: AWS API Documentation
     /// </summary>
-    /// <param name="WorkloadName">The name of the workload. Constraints: o min: 1 o max: 100 o pattern: [A-Za-z][a-zA-Z0-9-_]*</param>
-    /// <param name="DeploymentPatternName">The name of the deployment pattern. Constraints: o min: 1 o max: 256 o pattern: [A-Za-z0-9][a-zA-Z0-9-]*</param>
+    /// <param name="WorkloadName">The name of the workload. Constraints: • min: 1 • max: 100 • pattern: [A-Za-z][a-zA-Z0-9-_]*</param>
+    /// <param name="DeploymentPatternName">The name of the deployment pattern. Constraints: • min: 1 • max: 256 • pattern: [A-Za-z0-9][a-zA-Z0-9-]*</param>
     public AwsLaunchWizardGetWorkloadDeploymentPatternOptions(
         string WorkloadName,
         string DeploymentPatternName
@@ -60,13 +61,13 @@ public record AwsLaunchWizardGetWorkloadDeploymentPatternOptions : AwsOptions, I
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the workload. Constraints: o min: 1 o max: 100 o pattern: [A-Za-z][a-zA-Z0-9-_]*
+    /// The name of the workload. Constraints: • min: 1 • max: 100 • pattern: [A-Za-z][a-zA-Z0-9-_]*
     /// </summary>
     [CliOption("--workload-name")]
     public string? WorkloadName { get; private init; }
 
     /// <summary>
-    /// The name of the deployment pattern. Constraints: o min: 1 o max: 256 o pattern: [A-Za-z0-9][a-zA-Z0-9-]*
+    /// The name of the deployment pattern. Constraints: • min: 1 • max: 256 • pattern: [A-Za-z0-9][a-zA-Z0-9-]*
     /// </summary>
     [CliOption("--deployment-pattern-name")]
     public string? DeploymentPatternName { get; private init; }
@@ -92,6 +93,15 @@ public record AwsLaunchWizardGetWorkloadDeploymentPatternOptions : AwsOptions, I
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

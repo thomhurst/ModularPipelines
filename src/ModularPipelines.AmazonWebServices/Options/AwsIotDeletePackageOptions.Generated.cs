@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes a specific version from a software package. Note: All package versions must be deleted before deleting the soft- ware package. Requires permission to access the DeletePackageVersion action. See also: AWS API Documentation
+/// Deletes a specific version from a software package. Note: All package versions must be deleted before deleting the software package. Requires permission to access the DeletePackageVersion action. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +27,9 @@ public record AwsIotDeletePackageOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes a specific version from a software package. Note: All package versions must be deleted before deleting the soft- ware package. Requires permission to access the DeletePackageVersion action. See also: AWS API Documentation
+    /// Deletes a specific version from a software package. Note: All package versions must be deleted before deleting the software package. Requires permission to access the DeletePackageVersion action. See also: AWS API Documentation
     /// </summary>
-    /// <param name="PackageName">The name of the target software package. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9-_.]+</param>
+    /// <param name="PackageName">The name of the target software package. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9-_.]+</param>
     public AwsIotDeletePackageOptions(
         string PackageName
     )
@@ -57,13 +58,13 @@ public record AwsIotDeletePackageOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the target software package. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9-_.]+
+    /// The name of the target software package. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9-_.]+
     /// </summary>
     [CliOption("--package-name")]
     public string? PackageName { get; private init; }
 
     /// <summary>
-    /// A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required. Constraints: o min: 36 o max: 64 o pattern: \S{36,64}
+    /// A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required. Constraints: • min: 36 • max: 64 • pattern: \S{36,64}
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
@@ -90,6 +91,15 @@ public record AwsIotDeletePackageOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

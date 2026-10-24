@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,7 +29,7 @@ public record AwsEc2EnableSnapshotBlockPublicAccessOptions : AwsOptions, IValida
     /// <summary>
     /// Enables or modifies the block public access for snapshots setting at the account level for the specified Amazon Web Services Region. After you enable block public access for snapshots in a Region, users can no longer request public sharing for snapshots in that Region. Snapshots that are already publicly shared are either treated as private or they remain publicly shared, depending on the State that you specify. WARNING: Enabling block public access for snapshots in block all sharing mode does n...
     /// </summary>
-    /// <param name="State">The mode in which to enable block public access for snapshots for the Region. Specify one of the following values: o block-all-sharing - Prevents all public sharing of snapshots in the Region. Users in the account will no longer be able to request new public sharing. Additionally, snapshots that are already pub- licly shared are treated as private and they are no longer pub- licly available. o block-new-sharing - Prevents only new public sharing of snapshots in the Region. Users in the account will no longer be able to re- quest new public sharing. However, snapshots that are already pub- licly shared, remain publicly available. unblocked is not a valid value for EnableSnapshotBlockPublicAc- cess . Possible values: o block-all-sharing o block-new-sharing o unblocked</param>
+    /// <param name="State">The mode in which to enable block public access for snapshots for the Region. Specify one of the following values: • block-all-sharing - Prevents all public sharing of snapshots in the Region. Users in the account will no longer be able to request new public sharing. Additionally, snapshots that are already publicly shared are treated as private and they are no longer publicly available. • block-new-sharing - Prevents only new public sharing of snapshots in the Region. Users in the account will no longer be able to request new public sharing. However, snapshots that are already publicly shared, remain publicly available. unblocked is not a valid value for EnableSnapshotBlockPublicAccess . Possible values: • block-all-sharing • block-new-sharing • unblocked</param>
     public AwsEc2EnableSnapshotBlockPublicAccessOptions(
         AwsEc2EnableSnapshotBlockPublicAccessState State
     )
@@ -56,13 +57,13 @@ public record AwsEc2EnableSnapshotBlockPublicAccessOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The mode in which to enable block public access for snapshots for the Region. Specify one of the following values: o block-all-sharing - Prevents all public sharing of snapshots in the Region. Users in the account will no longer be able to request new public sharing. Additionally, snapshots that are already pub- licly shared are treated as private and they are no longer pub- licly available. o block-new-sharing - Prevents only new public sharing of snapshots in the Region. Users in the account will no longer be able to re- quest new public sharing. However, snapshots that are already pub- licly shared, remain publicly available. unblocked is not a valid value for EnableSnapshotBlockPublicAc- cess . Possible values: o block-all-sharing o block-new-sharing o unblocked
+    /// The mode in which to enable block public access for snapshots for the Region. Specify one of the following values: • block-all-sharing - Prevents all public sharing of snapshots in the Region. Users in the account will no longer be able to request new public sharing. Additionally, snapshots that are already publicly shared are treated as private and they are no longer publicly available. • block-new-sharing - Prevents only new public sharing of snapshots in the Region. Users in the account will no longer be able to request new public sharing. However, snapshots that are already publicly shared, remain publicly available. unblocked is not a valid value for EnableSnapshotBlockPublicAccess . Possible values: • block-all-sharing • block-new-sharing • unblocked
     /// </summary>
     [CliOption("--state")]
     public AwsEc2EnableSnapshotBlockPublicAccessState? State { get; private init; }
 
     /// <summary>
-    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation . Otherwise, it is UnauthorizedOperation .
     /// </summary>
     [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
@@ -88,6 +89,15 @@ public record AwsEc2EnableSnapshotBlockPublicAccessOptions : AwsOptions, IValida
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

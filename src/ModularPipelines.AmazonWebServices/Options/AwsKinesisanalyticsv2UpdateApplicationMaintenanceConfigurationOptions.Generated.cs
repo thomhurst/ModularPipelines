@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates the maintenance configuration of the Managed Service for Apache Flink application. You can invoke this operation on an application that is in one of the two following states: READY or RUNNING . If you invoke it when the ap- plication is in a state other than these two states, it throws a Re- sourceInUseException . The service makes use of the updated configura- tion the next time it schedules maintenance for the application. If you invoke this operation after the service schedules mainte...
+/// Updates the maintenance configuration of the Managed Service for Apache Flink application. You can invoke this operation on an application that is in one of the two following states: READY or RUNNING . If you invoke it when the application is in a state other than these two states, it throws a ResourceInUseException . The service makes use of the updated configuration the next time it schedules maintenance for the application. If you invoke this operation after the service schedules maintenance,...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsKinesisanalyticsv2UpdateApplicationMaintenanceConfigurationOpti
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates the maintenance configuration of the Managed Service for Apache Flink application. You can invoke this operation on an application that is in one of the two following states: READY or RUNNING . If you invoke it when the ap- plication is in a state other than these two states, it throws a Re- sourceInUseException . The service makes use of the updated configura- tion the next time it schedules maintenance for the application. If you invoke this operation after the service schedules mainte...
+    /// Updates the maintenance configuration of the Managed Service for Apache Flink application. You can invoke this operation on an application that is in one of the two following states: READY or RUNNING . If you invoke it when the application is in a state other than these two states, it throws a ResourceInUseException . The service makes use of the updated configuration the next time it schedules maintenance for the application. If you invoke this operation after the service schedules maintenance,...
     /// </summary>
-    /// <param name="ApplicationName">The name of the application for which you want to update the mainte- nance configuration. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_.-]+</param>
-    /// <param name="ApplicationMaintenanceConfigurationUpdate">Describes the application maintenance configuration update. ApplicationMaintenanceWindowStartTimeUpdate -&gt; (string) [required] The updated start time for the maintenance window. Constraints: o min: 5 o max: 5 o pattern: ([01][0-9]|2[0-3]):[0-5][0-9] Shorthand Syntax: ApplicationMaintenanceWindowStartTimeUpdate=string JSON Syntax: { "ApplicationMaintenanceWindowStartTimeUpdate": "string" }</param>
+    /// <param name="ApplicationName">The name of the application for which you want to update the maintenance configuration. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9_.-]+</param>
+    /// <param name="ApplicationMaintenanceConfigurationUpdate">Describes the application maintenance configuration update. ApplicationMaintenanceWindowStartTimeUpdate -&gt; (string) [required] The updated start time for the maintenance window. Constraints: • min: 5 • max: 5 • pattern: ([01][0-9]|2[0-3]):[0-5][0-9] Shorthand Syntax: ApplicationMaintenanceWindowStartTimeUpdate=string JSON Syntax: { "ApplicationMaintenanceWindowStartTimeUpdate": "string" }</param>
     public AwsKinesisanalyticsv2UpdateApplicationMaintenanceConfigurationOptions(
         string ApplicationName,
         string ApplicationMaintenanceConfigurationUpdate
@@ -60,13 +61,13 @@ public record AwsKinesisanalyticsv2UpdateApplicationMaintenanceConfigurationOpti
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the application for which you want to update the mainte- nance configuration. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_.-]+
+    /// The name of the application for which you want to update the maintenance configuration. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9_.-]+
     /// </summary>
     [CliOption("--application-name")]
     public string? ApplicationName { get; private init; }
 
     /// <summary>
-    /// Describes the application maintenance configuration update. ApplicationMaintenanceWindowStartTimeUpdate -&gt; (string) [required] The updated start time for the maintenance window. Constraints: o min: 5 o max: 5 o pattern: ([01][0-9]|2[0-3]):[0-5][0-9] Shorthand Syntax: ApplicationMaintenanceWindowStartTimeUpdate=string JSON Syntax: { "ApplicationMaintenanceWindowStartTimeUpdate": "string" }
+    /// Describes the application maintenance configuration update. ApplicationMaintenanceWindowStartTimeUpdate -&gt; (string) [required] The updated start time for the maintenance window. Constraints: • min: 5 • max: 5 • pattern: ([01][0-9]|2[0-3]):[0-5][0-9] Shorthand Syntax: ApplicationMaintenanceWindowStartTimeUpdate=string JSON Syntax: { "ApplicationMaintenanceWindowStartTimeUpdate": "string" }
     /// </summary>
     [CliOption("--application-maintenance-configuration-update")]
     public string? ApplicationMaintenanceConfigurationUpdate { get; private init; }
@@ -92,6 +93,15 @@ public record AwsKinesisanalyticsv2UpdateApplicationMaintenanceConfigurationOpti
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

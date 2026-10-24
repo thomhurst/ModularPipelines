@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsSagemakerDeleteClusterOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Delete a SageMaker HyperPod cluster. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ClusterName">The string name or the Amazon Resource Name (ARN) of the SageMaker HyperPod cluster to delete. Constraints: o min: 0 o max: 256 o pattern: (arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:clus- ter/[a-z0-9]{12})|([a-zA-Z0-9](-*[a-zA-Z0-9]){0,62})</param>
+    /// <param name="ClusterName">The string name or the Amazon Resource Name (ARN) of the SageMaker HyperPod cluster to delete. Constraints: • min: 0 • max: 256 • pattern: (arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:cluster/[a-z0-9]{12})|([a-zA-Z0-9](-*[a-zA-Z0-9]){0,62})</param>
     public AwsSagemakerDeleteClusterOptions(
         string ClusterName
     )
@@ -56,7 +57,7 @@ public record AwsSagemakerDeleteClusterOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The string name or the Amazon Resource Name (ARN) of the SageMaker HyperPod cluster to delete. Constraints: o min: 0 o max: 256 o pattern: (arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:clus- ter/[a-z0-9]{12})|([a-zA-Z0-9](-*[a-zA-Z0-9]){0,62})
+    /// The string name or the Amazon Resource Name (ARN) of the SageMaker HyperPod cluster to delete. Constraints: • min: 0 • max: 256 • pattern: (arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:cluster/[a-z0-9]{12})|([a-zA-Z0-9](-*[a-zA-Z0-9]){0,62})
     /// </summary>
     [CliOption("--cluster-name")]
     public string? ClusterName { get; private init; }
@@ -82,6 +83,15 @@ public record AwsSagemakerDeleteClusterOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

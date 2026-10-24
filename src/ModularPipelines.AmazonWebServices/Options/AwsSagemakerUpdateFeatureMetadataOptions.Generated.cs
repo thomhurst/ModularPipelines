@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsSagemakerUpdateFeatureMetadataOptions : AwsOptions, IValidatabl
     /// <summary>
     /// Updates the description and parameters of the feature group. See also: AWS API Documentation
     /// </summary>
-    /// <param name="FeatureGroupName">The name or Amazon Resource Name (ARN) of the feature group contain- ing the feature that you're updating. Constraints: o min: 1 o max: 256 o pattern: (arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:fea- ture-group\/)?([a-zA-Z0-9]([_-]*[a-zA-Z0-9]){0,63})</param>
-    /// <param name="FeatureName">The name of the feature that you're updating. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9]([-_]*[a-zA-Z0-9]){0,63}</param>
+    /// <param name="FeatureGroupName">The name or Amazon Resource Name (ARN) of the feature group containing the feature that you're updating. Constraints: • min: 1 • max: 256 • pattern: (arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:feature-group\/)?([a-zA-Z0-9]([_-]*[a-zA-Z0-9]){0,63})</param>
+    /// <param name="FeatureName">The name of the feature that you're updating. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9]([-_]*[a-zA-Z0-9]){0,63}</param>
     public AwsSagemakerUpdateFeatureMetadataOptions(
         string FeatureGroupName,
         string FeatureName
@@ -60,31 +61,31 @@ public record AwsSagemakerUpdateFeatureMetadataOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name or Amazon Resource Name (ARN) of the feature group contain- ing the feature that you're updating. Constraints: o min: 1 o max: 256 o pattern: (arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:fea- ture-group\/)?([a-zA-Z0-9]([_-]*[a-zA-Z0-9]){0,63})
+    /// The name or Amazon Resource Name (ARN) of the feature group containing the feature that you're updating. Constraints: • min: 1 • max: 256 • pattern: (arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:feature-group\/)?([a-zA-Z0-9]([_-]*[a-zA-Z0-9]){0,63})
     /// </summary>
     [CliOption("--feature-group-name")]
     public string? FeatureGroupName { get; private init; }
 
     /// <summary>
-    /// The name of the feature that you're updating. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9]([-_]*[a-zA-Z0-9]){0,63}
+    /// The name of the feature that you're updating. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9]([-_]*[a-zA-Z0-9]){0,63}
     /// </summary>
     [CliOption("--feature-name")]
     public string? FeatureName { get; private init; }
 
     /// <summary>
-    /// A description that you can write to better describe the feature. Constraints: o min: 0 o max: 255 o pattern: .*
+    /// A description that you can write to better describe the feature. Constraints: • min: 0 • max: 255 • pattern: .*
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// A list of key-value pairs that you can add to better describe the feature. Constraints: o min: 0 o max: 25 (structure) A key-value pair that you specify to describe the feature. Key -&gt; (string) A key that must contain a value to describe the feature. Constraints: o min: 1 o max: 255 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-]*) Value -&gt; (string) The value that belongs to a key. Constraints: o min: 1 o max: 255 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-]*) Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// A list of key-value pairs that you can add to better describe the feature. Constraints: • min: 0 • max: 25 (structure) A key-value pair that you specify to describe the feature. Key -&gt; (string) A key that must contain a value to describe the feature. Constraints: • min: 1 • max: 255 • pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-]*) Value -&gt; (string) The value that belongs to a key. Constraints: • min: 1 • max: 255 • pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-]*) Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--parameter-additions", GroupValues = true)]
     public IEnumerable<string>? ParameterAdditions { get; set; }
 
     /// <summary>
-    /// A list of parameter keys that you can specify to remove parameters that describe your feature. Constraints: o min: 0 o max: 25 (string) Constraints: o min: 1 o max: 255 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-]*) Syntax: "string" "string" ...
+    /// A list of parameter keys that you can specify to remove parameters that describe your feature. Constraints: • min: 0 • max: 25 (string) Constraints: • min: 1 • max: 255 • pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-]*) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--parameter-removals", GroupValues = true)]
     public IEnumerable<string>? ParameterRemovals { get; set; }
@@ -110,6 +111,15 @@ public record AwsSagemakerUpdateFeatureMetadataOptions : AwsOptions, IValidatabl
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

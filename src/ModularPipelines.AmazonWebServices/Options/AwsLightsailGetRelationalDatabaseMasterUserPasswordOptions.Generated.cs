@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,7 +29,7 @@ public record AwsLightsailGetRelationalDatabaseMasterUserPasswordOptions : AwsOp
     /// <summary>
     /// Returns the current, previous, or pending versions of the master user password for a Lightsail database. The GetRelationalDatabaseMasterUserPassword operation supports tag-based access control via resource tags applied to the resource identified by relationalDatabaseName. See also: AWS API Documentation
     /// </summary>
-    /// <param name="RelationalDatabaseName">The name of your database for which to get the master user password. Constraints: o pattern: \w[\w\-]*\w</param>
+    /// <param name="RelationalDatabaseName">The name of your database for which to get the master user password. Constraints: • pattern: \w[\w\-]*\w</param>
     public AwsLightsailGetRelationalDatabaseMasterUserPasswordOptions(
         string RelationalDatabaseName
     )
@@ -57,13 +58,13 @@ public record AwsLightsailGetRelationalDatabaseMasterUserPasswordOptions : AwsOp
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of your database for which to get the master user password. Constraints: o pattern: \w[\w\-]*\w
+    /// The name of your database for which to get the master user password. Constraints: • pattern: \w[\w\-]*\w
     /// </summary>
     [CliOption("--relational-database-name")]
     public string? RelationalDatabaseName { get; private init; }
 
     /// <summary>
-    /// The password version to return. Specifying CURRENT or PREVIOUS returns the current or previous pass- words respectively. Specifying PENDING returns the newest version of the password that will rotate to CURRENT . After the PENDING pass- word rotates to CURRENT , the PENDING password is no longer avail- able. Default: CURRENT Possible values: o CURRENT o PREVIOUS o PENDING
+    /// The password version to return. Specifying CURRENT or PREVIOUS returns the current or previous passwords respectively. Specifying PENDING returns the newest version of the password that will rotate to CURRENT . After the PENDING password rotates to CURRENT , the PENDING password is no longer available. Default: CURRENT Possible values: • CURRENT • PREVIOUS • PENDING
     /// </summary>
     [CliOption("--password-version")]
     public AwsLightsailGetRelationalDatabaseMasterUserPasswordPasswordVersion? PasswordVersion { get; set; }
@@ -89,6 +90,15 @@ public record AwsLightsailGetRelationalDatabaseMasterUserPasswordOptions : AwsOp
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsIotsecuretunnelingDescribeTunnelOptions : AwsOptions, IValidata
     /// <summary>
     /// Gets information about a tunnel identified by the unique tunnel id. Requires permission to access the DescribeTunnel action. See also: AWS API Documentation
     /// </summary>
-    /// <param name="TunnelId">The tunnel to describe. Constraints: o pattern: [a-zA-Z0-9_\-+=:]{1,128}</param>
+    /// <param name="TunnelId">The tunnel to describe. Constraints: • pattern: [a-zA-Z0-9_\-+=:]{1,128}</param>
     public AwsIotsecuretunnelingDescribeTunnelOptions(
         string TunnelId
     )
@@ -56,7 +57,7 @@ public record AwsIotsecuretunnelingDescribeTunnelOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The tunnel to describe. Constraints: o pattern: [a-zA-Z0-9_\-+=:]{1,128}
+    /// The tunnel to describe. Constraints: • pattern: [a-zA-Z0-9_\-+=:]{1,128}
     /// </summary>
     [CliOption("--tunnel-id")]
     public string? TunnelId { get; private init; }
@@ -82,6 +83,15 @@ public record AwsIotsecuretunnelingDescribeTunnelOptions : AwsOptions, IValidata
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

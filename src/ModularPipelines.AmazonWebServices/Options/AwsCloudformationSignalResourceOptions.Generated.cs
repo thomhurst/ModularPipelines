@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Sends a signal to the specified resource with a success or failure sta- tus. You can use the SignalResource operation in conjunction with a creation policy or update policy. CloudFormation doesn't proceed with a stack creation or update until resources receive the required number of signals or the timeout period is exceeded. The SignalResource operation is useful in cases where you want to send signals from anywhere other than an Amazon EC2 instance. See also: AWS API Documentation
+/// Sends a signal to the specified resource with a success or failure status. You can use the SignalResource operation in conjunction with a creation policy or update policy. CloudFormation doesn't proceed with a stack creation or update until resources receive the required number of signals or the timeout period is exceeded. The SignalResource operation is useful in cases where you want to send signals from anywhere other than an Amazon EC2 instance. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,12 +27,12 @@ public record AwsCloudformationSignalResourceOptions : AwsOptions, IValidatableO
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Sends a signal to the specified resource with a success or failure sta- tus. You can use the SignalResource operation in conjunction with a creation policy or update policy. CloudFormation doesn't proceed with a stack creation or update until resources receive the required number of signals or the timeout period is exceeded. The SignalResource operation is useful in cases where you want to send signals from anywhere other than an Amazon EC2 instance. See also: AWS API Documentation
+    /// Sends a signal to the specified resource with a success or failure status. You can use the SignalResource operation in conjunction with a creation policy or update policy. CloudFormation doesn't proceed with a stack creation or update until resources receive the required number of signals or the timeout period is exceeded. The SignalResource operation is useful in cases where you want to send signals from anywhere other than an Amazon EC2 instance. See also: AWS API Documentation
     /// </summary>
-    /// <param name="StackName">The stack name or unique stack ID that includes the resource that you want to signal. Constraints: o min: 1 o pattern: ([a-zA-Z][-a-zA-Z0-9]*)|(arn:\b(aws|aws-us-gov|aws-cn)\b:[-a-zA-Z0-9:/._+]*)</param>
+    /// <param name="StackName">The stack name or unique stack ID that includes the resource that you want to signal. Constraints: • min: 1 • pattern: ([a-zA-Z][-a-zA-Z0-9]*)|(arn:\b(aws|aws-us-gov|aws-cn)\b:[-a-zA-Z0-9:/._+]*)</param>
     /// <param name="LogicalResourceId">The logical ID of the resource that you want to signal. The logical ID is the name of the resource that given in the template.</param>
-    /// <param name="UniqueId">A unique ID of the signal. When you signal Amazon EC2 instances or Auto Scaling groups, specify the instance ID that you are signaling as the unique ID. If you send multiple signals to a single resource (such as signaling a wait condition), each signal requires a differ- ent unique ID. Constraints: o min: 1 o max: 64</param>
-    /// <param name="Status">The status of the signal, which is either success or failure. A failure signal causes CloudFormation to immediately fail the stack creation or update. Possible values: o SUCCESS o FAILURE</param>
+    /// <param name="UniqueId">A unique ID of the signal. When you signal Amazon EC2 instances or Auto Scaling groups, specify the instance ID that you are signaling as the unique ID. If you send multiple signals to a single resource (such as signaling a wait condition), each signal requires a different unique ID. Constraints: • min: 1 • max: 64</param>
+    /// <param name="Status">The status of the signal, which is either success or failure. A failure signal causes CloudFormation to immediately fail the stack creation or update. Possible values: • SUCCESS • FAILURE</param>
     public AwsCloudformationSignalResourceOptions(
         string StackName,
         string LogicalResourceId,
@@ -68,7 +69,7 @@ public record AwsCloudformationSignalResourceOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The stack name or unique stack ID that includes the resource that you want to signal. Constraints: o min: 1 o pattern: ([a-zA-Z][-a-zA-Z0-9]*)|(arn:\b(aws|aws-us-gov|aws-cn)\b:[-a-zA-Z0-9:/._+]*)
+    /// The stack name or unique stack ID that includes the resource that you want to signal. Constraints: • min: 1 • pattern: ([a-zA-Z][-a-zA-Z0-9]*)|(arn:\b(aws|aws-us-gov|aws-cn)\b:[-a-zA-Z0-9:/._+]*)
     /// </summary>
     [CliOption("--stack-name")]
     public string? StackName { get; private init; }
@@ -80,13 +81,13 @@ public record AwsCloudformationSignalResourceOptions : AwsOptions, IValidatableO
     public string? LogicalResourceId { get; private init; }
 
     /// <summary>
-    /// A unique ID of the signal. When you signal Amazon EC2 instances or Auto Scaling groups, specify the instance ID that you are signaling as the unique ID. If you send multiple signals to a single resource (such as signaling a wait condition), each signal requires a differ- ent unique ID. Constraints: o min: 1 o max: 64
+    /// A unique ID of the signal. When you signal Amazon EC2 instances or Auto Scaling groups, specify the instance ID that you are signaling as the unique ID. If you send multiple signals to a single resource (such as signaling a wait condition), each signal requires a different unique ID. Constraints: • min: 1 • max: 64
     /// </summary>
     [CliOption("--unique-id")]
     public string? UniqueId { get; private init; }
 
     /// <summary>
-    /// The status of the signal, which is either success or failure. A failure signal causes CloudFormation to immediately fail the stack creation or update. Possible values: o SUCCESS o FAILURE
+    /// The status of the signal, which is either success or failure. A failure signal causes CloudFormation to immediately fail the stack creation or update. Possible values: • SUCCESS • FAILURE
     /// </summary>
     [CliOption("--status")]
     public AwsCloudformationSignalResourceStatus? Status { get; private init; }
@@ -112,6 +113,15 @@ public record AwsCloudformationSignalResourceOptions : AwsOptions, IValidatableO
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

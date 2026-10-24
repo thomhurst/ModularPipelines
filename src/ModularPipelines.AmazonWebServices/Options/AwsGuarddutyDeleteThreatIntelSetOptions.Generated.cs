@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsGuarddutyDeleteThreatIntelSetOptions : AwsOptions, IValidatable
     /// <summary>
     /// Deletes the ThreatIntelSet specified by the ThreatIntelSet ID. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DetectorId">The unique ID of the detector that is associated with the threatIn- telSet. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the ListDetectors API. Constraints: o min: 1 o max: 300</param>
+    /// <param name="DetectorId">The unique ID of the detector that is associated with the threatIntelSet. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the ListDetectors API. Constraints: • min: 1 • max: 300</param>
     /// <param name="ThreatIntelSetId">The unique ID of the threatIntelSet that you want to delete.</param>
     public AwsGuarddutyDeleteThreatIntelSetOptions(
         string DetectorId,
@@ -60,7 +61,7 @@ public record AwsGuarddutyDeleteThreatIntelSetOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique ID of the detector that is associated with the threatIn- telSet. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the ListDetectors API. Constraints: o min: 1 o max: 300
+    /// The unique ID of the detector that is associated with the threatIntelSet. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the ListDetectors API. Constraints: • min: 1 • max: 300
     /// </summary>
     [CliOption("--detector-id")]
     public string? DetectorId { get; private init; }
@@ -92,6 +93,15 @@ public record AwsGuarddutyDeleteThreatIntelSetOptions : AwsOptions, IValidatable
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

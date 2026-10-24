@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsRoute53CreateTrafficPolicyOptions : AwsOptions, IValidatableObj
     /// <summary>
     /// Creates a traffic policy, which you use to create multiple DNS resource record sets for one domain name (such as example.com) or one subdomain name (such as www.example.com). See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">The name of the traffic policy. Constraints: o max: 512</param>
-    /// <param name="Document">The definition of this traffic policy in JSON format. For more in- formation, see Traffic Policy Document Format . Constraints: o max: 102400</param>
+    /// <param name="Name">The name of the traffic policy. Constraints: • max: 512</param>
+    /// <param name="Document">The definition of this traffic policy in JSON format. For more information, see Traffic Policy Document Format . Constraints: • max: 102400</param>
     public AwsRoute53CreateTrafficPolicyOptions(
         string Name,
         string Document
@@ -60,19 +61,19 @@ public record AwsRoute53CreateTrafficPolicyOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the traffic policy. Constraints: o max: 512
+    /// The name of the traffic policy. Constraints: • max: 512
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The definition of this traffic policy in JSON format. For more in- formation, see Traffic Policy Document Format . Constraints: o max: 102400
+    /// The definition of this traffic policy in JSON format. For more information, see Traffic Policy Document Format . Constraints: • max: 102400
     /// </summary>
     [CliOption("--document")]
     public string? Document { get; private init; }
 
     /// <summary>
-    /// (Optional) Any comments that you want to include about the traffic policy. Constraints: o max: 1024
+    /// (Optional) Any comments that you want to include about the traffic policy. Constraints: • max: 1024
     /// </summary>
     [CliOption("--comment")]
     public string? Comment { get; set; }
@@ -98,6 +99,15 @@ public record AwsRoute53CreateTrafficPolicyOptions : AwsOptions, IValidatableObj
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

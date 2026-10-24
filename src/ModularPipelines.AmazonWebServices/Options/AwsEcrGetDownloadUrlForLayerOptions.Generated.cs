@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves the pre-signed Amazon S3 download URL corresponding to an im- age layer. You can only get URLs for image layers that are referenced in an image. When an image is pulled, the GetDownloadUrlForLayer API is called once per image layer that is not already cached. NOTE: This operation is used by the Amazon ECR proxy and is not generally used by customers for pulling and pushing images. In most cases, you should use the docker CLI to pull, tag, and push images. See also: AWS API Documentatio...
+/// Retrieves the pre-signed Amazon S3 download URL corresponding to an image layer. You can only get URLs for image layers that are referenced in an image. When an image is pulled, the GetDownloadUrlForLayer API is called once per image layer that is not already cached. NOTE: This operation is used by the Amazon ECR proxy and is not generally used by customers for pulling and pushing images. In most cases, you should use the docker CLI to pull, tag, and push images. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsEcrGetDownloadUrlForLayerOptions : AwsOptions, IValidatableObje
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Retrieves the pre-signed Amazon S3 download URL corresponding to an im- age layer. You can only get URLs for image layers that are referenced in an image. When an image is pulled, the GetDownloadUrlForLayer API is called once per image layer that is not already cached. NOTE: This operation is used by the Amazon ECR proxy and is not generally used by customers for pulling and pushing images. In most cases, you should use the docker CLI to pull, tag, and push images. See also: AWS API Documentatio...
+    /// Retrieves the pre-signed Amazon S3 download URL corresponding to an image layer. You can only get URLs for image layers that are referenced in an image. When an image is pulled, the GetDownloadUrlForLayer API is called once per image layer that is not already cached. NOTE: This operation is used by the Amazon ECR proxy and is not generally used by customers for pulling and pushing images. In most cases, you should use the docker CLI to pull, tag, and push images. See also: AWS API Documentation
     /// </summary>
-    /// <param name="RepositoryName">The name of the repository that is associated with the image layer to download. Constraints: o min: 2 o max: 256 o pattern: [a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*(\/[a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*)*</param>
-    /// <param name="LayerDigest">The digest of the image layer to download. Constraints: o pattern: [a-zA-Z0-9-_+.]+:[a-fA-F0-9]+</param>
+    /// <param name="RepositoryName">The name of the repository that is associated with the image layer to download. Constraints: • min: 2 • max: 256 • pattern: [a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*(\/[a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*)*</param>
+    /// <param name="LayerDigest">The digest of the image layer to download. Constraints: • pattern: [a-zA-Z0-9-_+.]+:[a-fA-F0-9]+</param>
     public AwsEcrGetDownloadUrlForLayerOptions(
         string RepositoryName,
         string LayerDigest
@@ -60,19 +61,19 @@ public record AwsEcrGetDownloadUrlForLayerOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the repository that is associated with the image layer to download. Constraints: o min: 2 o max: 256 o pattern: [a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*(\/[a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*)*
+    /// The name of the repository that is associated with the image layer to download. Constraints: • min: 2 • max: 256 • pattern: [a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*(\/[a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*)*
     /// </summary>
     [CliOption("--repository-name")]
     public string? RepositoryName { get; private init; }
 
     /// <summary>
-    /// The digest of the image layer to download. Constraints: o pattern: [a-zA-Z0-9-_+.]+:[a-fA-F0-9]+
+    /// The digest of the image layer to download. Constraints: • pattern: [a-zA-Z0-9-_+.]+:[a-fA-F0-9]+
     /// </summary>
     [CliOption("--layer-digest")]
     public string? LayerDigest { get; private init; }
 
     /// <summary>
-    /// The Amazon Web Services account ID associated with the registry that contains the image layer to download. If you do not specify a reg- istry, the default registry is assumed. Constraints: o pattern: [0-9]{12}
+    /// The Amazon Web Services account ID associated with the registry that contains the image layer to download. If you do not specify a registry, the default registry is assumed. Constraints: • pattern: [0-9]{12}
     /// </summary>
     [CliOption("--registry-id")]
     public string? RegistryId { get; set; }
@@ -98,6 +99,15 @@ public record AwsEcrGetDownloadUrlForLayerOptions : AwsOptions, IValidatableObje
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,9 +28,9 @@ public record AwsCloudfrontCreateConnectionFunctionOptions : AwsOptions, IValida
     /// <summary>
     /// Creates a connection function. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">A name for the connection function. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9-_]{1,64}</param>
-    /// <param name="ConnectionFunctionConfig">Contains configuration information about a CloudFront function. Comment -&gt; (string) [required] A comment to describe the function. Runtime -&gt; (string) [required] The function's runtime environment version. Possible values: o cloudfront-js-1.0 o cloudfront-js-2.0 KeyValueStoreAssociations -&gt; (structure) The configuration for the key value store associations. Quantity -&gt; (integer) [required] The quantity of key value store associations. Items -&gt; (list) The items of the key value store association. (structure) The key value store association. KeyValueStoreARN -&gt; (string) [required] The Amazon Resource Name (ARN) of the key value store association. Constraints: o min: 0 o max: 85 o pattern: arn:aws:cloud- front::[0-9]{12}:key-value-store\/[0-9a-fA-F-]{36} JSON Syntax: { "Comment": "string", "Runtime": "cloudfront-js-1.0"|"cloudfront-js-2.0", "KeyValueStoreAssociations": { "Quantity": integer, "Items": [ { "KeyValueStoreARN": "string" } ... ] } }</param>
-    /// <param name="ConnectionFunctionCode">The code for the connection function. Constraints: o min: 1 o max: 40960</param>
+    /// <param name="Name">A name for the connection function. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9-_]{1,64}</param>
+    /// <param name="ConnectionFunctionConfig">Contains configuration information about a CloudFront function. Comment -&gt; (string) [required] A comment to describe the function. Runtime -&gt; (string) [required] The function's runtime environment version. Possible values: • cloudfront-js-1.0 • cloudfront-js-2.0 KeyValueStoreAssociations -&gt; (structure) The configuration for the key value store associations. Quantity -&gt; (integer) [required] The quantity of key value store associations. Items -&gt; (list) The items of the key value store association. (structure) The key value store association. KeyValueStoreARN -&gt; (string) [required] The Amazon Resource Name (ARN) of the key value store association. Constraints: • min: 0 • max: 85 • pattern: arn:aws:cloudfront::[0-9]{12}:key-value-store\/[0-9a-fA-F-]{36} JSON Syntax: { "Comment": "string", "Runtime": "cloudfront-js-1.0"|"cloudfront-js-2.0", "KeyValueStoreAssociations": { "Quantity": integer, "Items": [ { "KeyValueStoreARN": "string" } ... ] } }</param>
+    /// <param name="ConnectionFunctionCode">The code for the connection function. Constraints: • min: 1 • max: 40960</param>
     public AwsCloudfrontCreateConnectionFunctionOptions(
         string Name,
         string ConnectionFunctionConfig,
@@ -64,25 +65,25 @@ public record AwsCloudfrontCreateConnectionFunctionOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A name for the connection function. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9-_]{1,64}
+    /// A name for the connection function. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9-_]{1,64}
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// Contains configuration information about a CloudFront function. Comment -&gt; (string) [required] A comment to describe the function. Runtime -&gt; (string) [required] The function's runtime environment version. Possible values: o cloudfront-js-1.0 o cloudfront-js-2.0 KeyValueStoreAssociations -&gt; (structure) The configuration for the key value store associations. Quantity -&gt; (integer) [required] The quantity of key value store associations. Items -&gt; (list) The items of the key value store association. (structure) The key value store association. KeyValueStoreARN -&gt; (string) [required] The Amazon Resource Name (ARN) of the key value store association. Constraints: o min: 0 o max: 85 o pattern: arn:aws:cloud- front::[0-9]{12}:key-value-store\/[0-9a-fA-F-]{36} JSON Syntax: { "Comment": "string", "Runtime": "cloudfront-js-1.0"|"cloudfront-js-2.0", "KeyValueStoreAssociations": { "Quantity": integer, "Items": [ { "KeyValueStoreARN": "string" } ... ] } }
+    /// Contains configuration information about a CloudFront function. Comment -&gt; (string) [required] A comment to describe the function. Runtime -&gt; (string) [required] The function's runtime environment version. Possible values: • cloudfront-js-1.0 • cloudfront-js-2.0 KeyValueStoreAssociations -&gt; (structure) The configuration for the key value store associations. Quantity -&gt; (integer) [required] The quantity of key value store associations. Items -&gt; (list) The items of the key value store association. (structure) The key value store association. KeyValueStoreARN -&gt; (string) [required] The Amazon Resource Name (ARN) of the key value store association. Constraints: • min: 0 • max: 85 • pattern: arn:aws:cloudfront::[0-9]{12}:key-value-store\/[0-9a-fA-F-]{36} JSON Syntax: { "Comment": "string", "Runtime": "cloudfront-js-1.0"|"cloudfront-js-2.0", "KeyValueStoreAssociations": { "Quantity": integer, "Items": [ { "KeyValueStoreARN": "string" } ... ] } }
     /// </summary>
     [CliOption("--connection-function-config")]
     public string? ConnectionFunctionConfig { get; private init; }
 
     /// <summary>
-    /// The code for the connection function. Constraints: o min: 1 o max: 40960
+    /// The code for the connection function. Constraints: • min: 1 • max: 40960
     /// </summary>
     [CliOption("--connection-function-code")]
     public string? ConnectionFunctionCode { get; private init; }
 
     /// <summary>
-    /// A complex type that contains zero or more Tag elements. Items -&gt; (list) A complex type that contains Tag elements. (structure) A complex type that contains Tag key and Tag value. Key -&gt; (string) [required] A string that contains Tag key. The string length should be between 1 and 128 characters. Valid characters include a-z , A-Z , 0-9 , space, and the special characters _ - . : / = + @ . Constraints: o min: 1 o max: 128 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Value -&gt; (string) A string that contains an optional Tag value. The string length should be between 0 and 256 characters. Valid characters include a-z , A-Z , 0-9 , space, and the special characters _ - . : / = + @ . Constraints: o min: 0 o max: 256 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Shorthand Syntax: Items=[{Key=string,Value=string},{Key=string,Value=string}] JSON Syntax: { "Items": [ { "Key": "string", "Value": "string" } ... ] }
+    /// A complex type that contains zero or more Tag elements. Items -&gt; (list) A complex type that contains Tag elements. (structure) A complex type that contains Tag key and Tag value. Key -&gt; (string) [required] A string that contains Tag key. The string length should be between 1 and 128 characters. Valid characters include a-z , A-Z , 0-9 , space, and the special characters _ - . : / = + @ . Constraints: • min: 1 • max: 128 • pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Value -&gt; (string) A string that contains an optional Tag value. The string length should be between 0 and 256 characters. Valid characters include a-z , A-Z , 0-9 , space, and the special characters _ - . : / = + @ . Constraints: • min: 0 • max: 256 • pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Shorthand Syntax: Items=[{Key=string,Value=string},{Key=string,Value=string}] JSON Syntax: { "Items": [ { "Key": "string", "Value": "string" } ... ] }
     /// </summary>
     [CliOption("--tags")]
     public string? Tags { get; set; }
@@ -108,6 +109,15 @@ public record AwsCloudfrontCreateConnectionFunctionOptions : AwsOptions, IValida
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

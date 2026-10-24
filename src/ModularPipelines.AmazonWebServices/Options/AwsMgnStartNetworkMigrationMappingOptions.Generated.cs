@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Starts the network migration mapping process for a given network migra- tion execution. See also: AWS API Documentation
+/// Starts the network migration mapping process for a given network migration execution. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +27,10 @@ public record AwsMgnStartNetworkMigrationMappingOptions : AwsOptions, IValidatab
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Starts the network migration mapping process for a given network migra- tion execution. See also: AWS API Documentation
+    /// Starts the network migration mapping process for a given network migration execution. See also: AWS API Documentation
     /// </summary>
-    /// <param name="NetworkMigrationExecutionId">The unique identifier of the network migration execution. Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
-    /// <param name="NetworkMigrationDefinitionId">The unique identifier of the network migration definition. Constraints: o min: 21 o max: 21 o pattern: nmd-[0-9a-zA-Z]{17}</param>
+    /// <param name="NetworkMigrationExecutionId">The unique identifier of the network migration execution. Constraints: • min: 36 • max: 36 • pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
+    /// <param name="NetworkMigrationDefinitionId">The unique identifier of the network migration definition. Constraints: • min: 21 • max: 21 • pattern: nmd-[0-9a-zA-Z]{17}</param>
     public AwsMgnStartNetworkMigrationMappingOptions(
         string NetworkMigrationExecutionId,
         string NetworkMigrationDefinitionId
@@ -61,19 +62,19 @@ public record AwsMgnStartNetworkMigrationMappingOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the network migration execution. Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
+    /// The unique identifier of the network migration execution. Constraints: • min: 36 • max: 36 • pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
     /// </summary>
     [CliOption("--network-migration-execution-id")]
     public string? NetworkMigrationExecutionId { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the network migration definition. Constraints: o min: 21 o max: 21 o pattern: nmd-[0-9a-zA-Z]{17}
+    /// The unique identifier of the network migration definition. Constraints: • min: 21 • max: 21 • pattern: nmd-[0-9a-zA-Z]{17}
     /// </summary>
     [CliOption("--network-migration-definition-id")]
     public string? NetworkMigrationDefinitionId { get; private init; }
 
     /// <summary>
-    /// The security group mapping strategy to use. Possible values: o MAP o SKIP o MAP_DHCP
+    /// The security group mapping strategy to use. Possible values: • MAP • SKIP • MAP_DHCP
     /// </summary>
     [CliOption("--security-group-mapping-strategy")]
     public AwsMgnStartNetworkMigrationMappingSecurityGroupMappingStrategy? SecurityGroupMappingStrategy { get; set; }
@@ -99,6 +100,15 @@ public record AwsMgnStartNetworkMigrationMappingOptions : AwsOptions, IValidatab
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

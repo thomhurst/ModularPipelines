@@ -31,19 +31,19 @@ public record AwsSesv2ListExportJobsOptions : AwsOptions
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// Maximum number of export jobs to return at once. Use this parameter to paginate results. If additional export jobs exist beyond the specified limit, the NextToken element is sent in the response. Use the NextToken value in subsequent calls to ListExportJobs to re- trieve additional export jobs.
+    /// Maximum number of export jobs to return at once. Use this parameter to paginate results. If additional export jobs exist beyond the specified limit, the NextToken element is sent in the response. Use the NextToken value in subsequent calls to ListExportJobs to retrieve additional export jobs.
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// A value used to list export jobs that have a certain ExportSource- Type . Possible values: o METRICS_DATA o MESSAGE_INSIGHTS
+    /// A value used to list export jobs that have a certain ExportSourceType . Possible values: • METRICS_DATA • MESSAGE_INSIGHTS
     /// </summary>
     [CliOption("--export-source-type")]
     public AwsSesv2ListExportJobsExportSourceType? ExportSourceType { get; set; }
 
     /// <summary>
-    /// A value used to list export jobs that have a certain JobStatus . Possible values: o CREATED o PROCESSING o COMPLETED o FAILED o CANCELLED
+    /// A value used to list export jobs that have a certain JobStatus . Possible values: • CREATED • PROCESSING • COMPLETED • FAILED • CANCELLED
     /// </summary>
     [CliOption("--job-status")]
     public AwsSesv2ListExportJobsJobStatus? JobStatus { get; set; }
@@ -53,5 +53,14 @@ public record AwsSesv2ListExportJobsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

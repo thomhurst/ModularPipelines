@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// WARNING: CloudTrail Lake will no longer be open to new customers starting May 31, 2026. If you would like to use CloudTrail Lake, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see CloudTrail Lake availability change . Starts a CloudTrail Lake query. Use the QueryStatement parameter to provide your SQL query, enclosed in single quotation marks. Use the op- tional DeliveryS3Uri parameter to deliver the query results to an S3 bucket....
+/// WARNING: CloudTrail Lake will no longer be open to new customers starting May 31, 2026. If you would like to use CloudTrail Lake, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see CloudTrail Lake availability change . Starts a CloudTrail Lake query. Use the QueryStatement parameter to provide your SQL query, enclosed in single quotation marks. Use the optional DeliveryS3Uri parameter to deliver the query results to an S3 bucket. S...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -22,31 +22,31 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsCloudtrailStartQueryOptions : AwsOptions
 {
     /// <summary>
-    /// The SQL code of your query. Constraints: o min: 1 o max: 10000 o pattern: (?s).*
+    /// The SQL code of your query. Constraints: • min: 1 • max: 10000 • pattern: (?s).*
     /// </summary>
     [CliOption("--query-statement")]
     public string? QueryStatement { get; set; }
 
     /// <summary>
-    /// The URI for the S3 bucket where CloudTrail delivers the query re- sults. Constraints: o max: 1024 o pattern: s3://[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9](/.*)?
+    /// The URI for the S3 bucket where CloudTrail delivers the query results. Constraints: • max: 1024 • pattern: s3://[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9](/.*)?
     /// </summary>
     [CliOption("--delivery-s3-uri")]
     public string? DeliveryS3Uri { get; set; }
 
     /// <summary>
-    /// The alias that identifies a query template. Constraints: o min: 1 o max: 256 o pattern: ^[a-zA-Z][a-zA-Z0-9._\-]*$
+    /// The alias that identifies a query template. Constraints: • min: 1 • max: 256 • pattern: ^[a-zA-Z][a-zA-Z0-9._\-]*$
     /// </summary>
     [CliOption("--query-alias")]
     public string? QueryAlias { get; set; }
 
     /// <summary>
-    /// The query parameters for the specified QueryAlias . Constraints: o min: 1 o max: 10 (string) Constraints: o min: 1 o max: 1024 o pattern: .* Syntax: "string" "string" ...
+    /// The query parameters for the specified QueryAlias . Constraints: • min: 1 • max: 10 (string) Constraints: • min: 1 • max: 1024 • pattern: .* Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--query-parameters", GroupValues = true)]
     public IEnumerable<string>? QueryParameters { get; set; }
 
     /// <summary>
-    /// The account ID of the event data store owner. Constraints: o min: 12 o max: 16 o pattern: \d+
+    /// The account ID of the event data store owner. Constraints: • min: 12 • max: 16 • pattern: \d+
     /// </summary>
     [CliOption("--event-data-store-owner-account-id")]
     public string? EventDataStoreOwnerAccountId { get; set; }
@@ -56,5 +56,14 @@ public record AwsCloudtrailStartQueryOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

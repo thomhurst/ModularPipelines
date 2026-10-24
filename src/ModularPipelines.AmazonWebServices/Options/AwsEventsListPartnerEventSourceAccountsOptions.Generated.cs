@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// An SaaS partner can use this operation to display the Amazon Web Ser- vices account ID that a particular partner event source name is associ- ated with. This operation is not used by Amazon Web Services customers. See also: AWS API Documentation
+/// An SaaS partner can use this operation to display the Amazon Web Services account ID that a particular partner event source name is associated with. This operation is not used by Amazon Web Services customers. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +27,9 @@ public record AwsEventsListPartnerEventSourceAccountsOptions : AwsOptions, IVali
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// An SaaS partner can use this operation to display the Amazon Web Ser- vices account ID that a particular partner event source name is associ- ated with. This operation is not used by Amazon Web Services customers. See also: AWS API Documentation
+    /// An SaaS partner can use this operation to display the Amazon Web Services account ID that a particular partner event source name is associated with. This operation is not used by Amazon Web Services customers. See also: AWS API Documentation
     /// </summary>
-    /// <param name="EventSourceName">The name of the partner event source to display account information about. Constraints: o min: 1 o max: 256 o pattern: aws\.partner(/[\.\-_A-Za-z0-9]+){2,}</param>
+    /// <param name="EventSourceName">The name of the partner event source to display account information about. Constraints: • min: 1 • max: 256 • pattern: aws\.partner(/[\.\-_A-Za-z0-9]+){2,}</param>
     public AwsEventsListPartnerEventSourceAccountsOptions(
         string EventSourceName
     )
@@ -57,20 +58,20 @@ public record AwsEventsListPartnerEventSourceAccountsOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the partner event source to display account information about. Constraints: o min: 1 o max: 256 o pattern: aws\.partner(/[\.\-_A-Za-z0-9]+){2,}
+    /// The name of the partner event source to display account information about. Constraints: • min: 1 • max: 256 • pattern: aws\.partner(/[\.\-_A-Za-z0-9]+){2,}
     /// </summary>
     [CliOption("--event-source-name")]
     public string? EventSourceName { get; private init; }
 
     /// <summary>
-    /// The token returned by a previous call, which you can use to retrieve the next set of results. The value of nextToken is a unique pagination token for each page. To retrieve the next page of results, make the call again using the returned token. Keep all other arguments unchanged. Using an expired pagination token results in an HTTP 400 InvalidTo- ken error. Constraints: o min: 1 o max: 2048
+    /// The token returned by a previous call, which you can use to retrieve the next set of results. The value of nextToken is a unique pagination token for each page. To retrieve the next page of results, make the call again using the returned token. Keep all other arguments unchanged. Using an expired pagination token results in an HTTP 400 InvalidToken error. Constraints: • min: 1 • max: 2048
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// Specifying this limits the number of results returned by this opera- tion. The operation also returns a NextToken which you can use in a subsequent operation to retrieve the next set of results. Constraints: o min: 1 o max: 100
+    /// Specifying this limits the number of results returned by this operation. The operation also returns a NextToken which you can use in a subsequent operation to retrieve the next set of results. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--limit")]
     public int? Limit { get; set; }
@@ -96,6 +97,15 @@ public record AwsEventsListPartnerEventSourceAccountsOptions : AwsOptions, IVali
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

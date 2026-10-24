@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates an HSM client certificate that an Amazon Redshift cluster will use to connect to the client's HSM in order to store and retrieve the keys used to encrypt the cluster databases. The command returns a public key, which you must store in the HSM. In addition to creating the HSM certificate, you must create an Amazon Redshift HSM configuration that provides a cluster the information needed to store and use encryption keys in the HSM. For more informa- tion, go to Hardware Security Modules in...
+/// Creates an HSM client certificate that an Amazon Redshift cluster will use to connect to the client's HSM in order to store and retrieve the keys used to encrypt the cluster databases. The command returns a public key, which you must store in the HSM. In addition to creating the HSM certificate, you must create an Amazon Redshift HSM configuration that provides a cluster the information needed to store and use encryption keys in the HSM. For more information, go to Hardware Security Modules in t...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsRedshiftCreateHsmClientCertificateOptions : AwsOptions, IValida
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates an HSM client certificate that an Amazon Redshift cluster will use to connect to the client's HSM in order to store and retrieve the keys used to encrypt the cluster databases. The command returns a public key, which you must store in the HSM. In addition to creating the HSM certificate, you must create an Amazon Redshift HSM configuration that provides a cluster the information needed to store and use encryption keys in the HSM. For more informa- tion, go to Hardware Security Modules in...
+    /// Creates an HSM client certificate that an Amazon Redshift cluster will use to connect to the client's HSM in order to store and retrieve the keys used to encrypt the cluster databases. The command returns a public key, which you must store in the HSM. In addition to creating the HSM certificate, you must create an Amazon Redshift HSM configuration that provides a cluster the information needed to store and use encryption keys in the HSM. For more information, go to Hardware Security Modules in t...
     /// </summary>
-    /// <param name="HsmClientCertificateIdentifier">The identifier to be assigned to the new HSM client certificate that the cluster will use to connect to the HSM to use the database en- cryption keys. Constraints: o max: 2147483647</param>
+    /// <param name="HsmClientCertificateIdentifier">The identifier to be assigned to the new HSM client certificate that the cluster will use to connect to the HSM to use the database encryption keys. Constraints: • max: 2147483647</param>
     public AwsRedshiftCreateHsmClientCertificateOptions(
         string HsmClientCertificateIdentifier
     )
@@ -56,13 +57,13 @@ public record AwsRedshiftCreateHsmClientCertificateOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier to be assigned to the new HSM client certificate that the cluster will use to connect to the HSM to use the database en- cryption keys. Constraints: o max: 2147483647
+    /// The identifier to be assigned to the new HSM client certificate that the cluster will use to connect to the HSM to use the database encryption keys. Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--hsm-client-certificate-identifier")]
     public string? HsmClientCertificateIdentifier { get; private init; }
 
     /// <summary>
-    /// A list of tag instances. (structure) A tag consisting of a name/value pair for a resource. Key -&gt; (string) The key, or name, for the resource tag. Constraints: o max: 2147483647 Value -&gt; (string) The value for the resource tag. Constraints: o max: 2147483647 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// A list of tag instances. (structure) A tag consisting of a name/value pair for a resource. Key -&gt; (string) The key, or name, for the resource tag. Constraints: • max: 2147483647 Value -&gt; (string) The value for the resource tag. Constraints: • max: 2147483647 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
@@ -88,6 +89,15 @@ public record AwsRedshiftCreateHsmClientCertificateOptions : AwsOptions, IValida
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

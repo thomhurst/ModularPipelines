@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,7 +29,7 @@ public record AwsIotRegisterCertificateOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Registers a device certificate with IoT in the same certificate mode as the signing CA. If you have more than one CA certificate that has the same subject field, you must specify the CA certificate that was used to sign the device certificate being registered. Requires permission to access the RegisterCertificate action. See also: AWS API Documentation
     /// </summary>
-    /// <param name="CertificatePem">The certificate data, in PEM format. Constraints: o min: 1 o max: 65536 o pattern: [\s\S]*</param>
+    /// <param name="CertificatePem">The certificate data, in PEM format. Constraints: • min: 1 • max: 65536 • pattern: [\s\S]*</param>
     public AwsIotRegisterCertificateOptions(
         string CertificatePem
     )
@@ -57,13 +58,13 @@ public record AwsIotRegisterCertificateOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The certificate data, in PEM format. Constraints: o min: 1 o max: 65536 o pattern: [\s\S]*
+    /// The certificate data, in PEM format. Constraints: • min: 1 • max: 65536 • pattern: [\s\S]*
     /// </summary>
     [CliOption("--certificate-pem")]
     public string? CertificatePem { get; private init; }
 
     /// <summary>
-    /// The CA certificate used to sign the device certificate being regis- tered. Constraints: o min: 1 o max: 65536 o pattern: [\s\S]*
+    /// The CA certificate used to sign the device certificate being registered. Constraints: • min: 1 • max: 65536 • pattern: [\s\S]*
     /// </summary>
     [CliOption("--ca-certificate-pem")]
     public string? CaCertificatePem { get; set; }
@@ -75,7 +76,7 @@ public record AwsIotRegisterCertificateOptions : AwsOptions, IValidatableObject
     public bool? SetAsActive { get; set; }
 
     /// <summary>
-    /// The status of the register certificate request. Valid values that you can use include ACTIVE , INACTIVE , and REVOKED . Possible values: o ACTIVE o INACTIVE o REVOKED o PENDING_TRANSFER o REGISTER_INACTIVE o PENDING_ACTIVATION
+    /// The status of the register certificate request. Valid values that you can use include ACTIVE , INACTIVE , and REVOKED . Possible values: • ACTIVE • INACTIVE • REVOKED • PENDING_TRANSFER • REGISTER_INACTIVE • PENDING_ACTIVATION
     /// </summary>
     [CliOption("--status")]
     public AwsIotRegisterCertificateStatus? Status { get; set; }
@@ -101,6 +102,15 @@ public record AwsIotRegisterCertificateOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

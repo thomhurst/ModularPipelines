@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns comments made on a pull request. NOTE: Reaction counts might include numbers from user identities who were deleted after the reaction was made. For a count of reactions from active identities, use GetCommentReactions. See also: AWS API Documentation get-comments-for-pull-request is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and...
+/// Returns comments made on a pull request. NOTE: Reaction counts might include numbers from user identities who were deleted after the reaction was made. For a count of reactions from active identities, use GetCommentReactions. See also: AWS API Documentation get-comments-for-pull-request is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,7 +27,7 @@ public record AwsCodecommitGetCommentsForPullRequestOptions : AwsOptions, IValid
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns comments made on a pull request. NOTE: Reaction counts might include numbers from user identities who were deleted after the reaction was made. For a count of reactions from active identities, use GetCommentReactions. See also: AWS API Documentation get-comments-for-pull-request is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and...
+    /// Returns comments made on a pull request. NOTE: Reaction counts might include numbers from user identities who were deleted after the reaction was made. For a count of reactions from active identities, use GetCommentReactions. See also: AWS API Documentation get-comments-for-pull-request is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the...
     /// </summary>
     /// <param name="PullRequestId">The system-generated ID of the pull request. To get this ID, use ListPullRequests .</param>
     public AwsCodecommitGetCommentsForPullRequestOptions(
@@ -63,13 +64,13 @@ public record AwsCodecommitGetCommentsForPullRequestOptions : AwsOptions, IValid
     public string? PullRequestId { get; private init; }
 
     /// <summary>
-    /// The name of the repository that contains the pull request. Require- ment is conditional: repositoryName must be specified when be- foreCommitId and afterCommitId are included. Constraints: o min: 1 o max: 100 o pattern: [\w\.-]+
+    /// The name of the repository that contains the pull request. Requirement is conditional: repositoryName must be specified when beforeCommitId and afterCommitId are included. Constraints: • min: 1 • max: 100 • pattern: [\w\.-]+
     /// </summary>
     [CliOption("--repository-name")]
     public string? RepositoryName { get; set; }
 
     /// <summary>
-    /// The full commit ID of the commit in the destination branch that was the tip of the branch at the time the pull request was created. Re- quirement is conditional: beforeCommitId must be specified when repositoryName is included.
+    /// The full commit ID of the commit in the destination branch that was the tip of the branch at the time the pull request was created. Requirement is conditional: beforeCommitId must be specified when repositoryName is included.
     /// </summary>
     [CliOption("--before-commit-id")]
     public string? BeforeCommitId { get; set; }
@@ -83,9 +84,6 @@ public record AwsCodecommitGetCommentsForPullRequestOptions : AwsOptions, IValid
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
-
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
@@ -94,16 +92,19 @@ public record AwsCodecommitGetCommentsForPullRequestOptions : AwsOptions, IValid
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
@@ -120,6 +121,15 @@ public record AwsCodecommitGetCommentsForPullRequestOptions : AwsOptions, IValid
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

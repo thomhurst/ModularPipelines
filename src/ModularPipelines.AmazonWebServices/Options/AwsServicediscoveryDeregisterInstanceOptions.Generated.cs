@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsServicediscoveryDeregisterInstanceOptions : AwsOptions, IValida
     /// <summary>
     /// Deletes the Amazon Route 53 DNS records and health check, if any, that Cloud Map created for the specified instance. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ServiceId">The ID or Amazon Resource Name (ARN) of the service that the in- stance is associated with. If the namespace associated with the ser- vice is shared with your account, specify the service ARN. For more information about shared namespaces, see Cross-account Cloud Map namespace sharing in the Cloud Map Developer Guide . Constraints: o max: 255</param>
-    /// <param name="InstanceId">The value that you specified for Id in the RegisterInstance request. Constraints: o max: 64</param>
+    /// <param name="ServiceId">The ID or Amazon Resource Name (ARN) of the service that the instance is associated with. If the namespace associated with the service is shared with your account, specify the service ARN. For more information about shared namespaces, see Cross-account Cloud Map namespace sharing in the Cloud Map Developer Guide . Constraints: • max: 255</param>
+    /// <param name="InstanceId">The value that you specified for Id in the RegisterInstance request. Constraints: • max: 64</param>
     public AwsServicediscoveryDeregisterInstanceOptions(
         string ServiceId,
         string InstanceId
@@ -60,13 +61,13 @@ public record AwsServicediscoveryDeregisterInstanceOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID or Amazon Resource Name (ARN) of the service that the in- stance is associated with. If the namespace associated with the ser- vice is shared with your account, specify the service ARN. For more information about shared namespaces, see Cross-account Cloud Map namespace sharing in the Cloud Map Developer Guide . Constraints: o max: 255
+    /// The ID or Amazon Resource Name (ARN) of the service that the instance is associated with. If the namespace associated with the service is shared with your account, specify the service ARN. For more information about shared namespaces, see Cross-account Cloud Map namespace sharing in the Cloud Map Developer Guide . Constraints: • max: 255
     /// </summary>
     [CliOption("--service-id")]
     public string? ServiceId { get; private init; }
 
     /// <summary>
-    /// The value that you specified for Id in the RegisterInstance request. Constraints: o max: 64
+    /// The value that you specified for Id in the RegisterInstance request. Constraints: • max: 64
     /// </summary>
     [CliOption("--instance-id")]
     public string? InstanceId { get; private init; }
@@ -92,6 +93,15 @@ public record AwsServicediscoveryDeregisterInstanceOptions : AwsOptions, IValida
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

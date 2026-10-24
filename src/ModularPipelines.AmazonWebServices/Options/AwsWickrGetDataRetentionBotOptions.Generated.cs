@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsWickrGetDataRetentionBotOptions : AwsOptions, IValidatableObjec
     /// <summary>
     /// Retrieves information about the data retention bot in a Wickr network, including its status and whether the data retention service is enabled. See also: AWS API Documentation
     /// </summary>
-    /// <param name="NetworkId">The ID of the Wickr network containing the data retention bot. Constraints: o min: 8 o max: 8 o pattern: [0-9]{8}</param>
+    /// <param name="NetworkId">The ID of the Wickr network containing the data retention bot. Constraints: • min: 8 • max: 8 • pattern: [0-9]{8}</param>
     public AwsWickrGetDataRetentionBotOptions(
         string NetworkId
     )
@@ -56,7 +57,7 @@ public record AwsWickrGetDataRetentionBotOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the Wickr network containing the data retention bot. Constraints: o min: 8 o max: 8 o pattern: [0-9]{8}
+    /// The ID of the Wickr network containing the data retention bot. Constraints: • min: 8 • max: 8 • pattern: [0-9]{8}
     /// </summary>
     [CliOption("--network-id")]
     public string? NetworkId { get; private init; }
@@ -82,6 +83,15 @@ public record AwsWickrGetDataRetentionBotOptions : AwsOptions, IValidatableObjec
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -23,14 +23,14 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsCustomerProfilesListProfileObjectTypeTemplatesOptions : AwsOptions
 {
     /// <summary>
-    /// The pagination token from the previous ListObjectTypeTemplates API call. Constraints: o min: 1 o max: 1024
+    /// The pagination token from the previous ListObjectTypeTemplates API call. Constraints: • min: 1 • max: 1024
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// The maximum number of objects returned per page. Constraints: o min: 1 o max: 100
+    /// The maximum number of objects returned per page. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
@@ -40,5 +40,14 @@ public record AwsCustomerProfilesListProfileObjectTypeTemplatesOptions : AwsOpti
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

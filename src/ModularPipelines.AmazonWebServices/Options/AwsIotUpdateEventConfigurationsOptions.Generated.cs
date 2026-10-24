@@ -10,7 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -23,7 +23,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsIotUpdateEventConfigurationsOptions : AwsOptions
 {
     /// <summary>
-    /// The new event configuration values. key -&gt; (string) Possible values: o THING o THING_GROUP o THING_TYPE o THING_GROUP_MEMBERSHIP o THING_GROUP_HIERARCHY o THING_TYPE_ASSOCIATION o JOB o JOB_EXECUTION o POLICY o CERTIFICATE o CA_CERTIFICATE value -&gt; (structure) Configuration. Enabled -&gt; (boolean) True to enable the configuration. Shorthand Syntax: KeyName1={Enabled=boolean},KeyName2={Enabled=boolean} Where valid key names are: THING THING_GROUP THING_TYPE THING_GROUP_MEMBERSHIP THING_GROUP_HIERARCHY THING_TYPE_ASSOCIATION JOB JOB_EXECUTION POLICY CERTIFICATE CA_CERTIFICATE JSON Syntax: {"THING"|"THING_GROUP"|"THING_TYPE"|"THING_GROUP_MEMBERSHIP"|"THING_GROUP_HIERARCHY"|"THING_TYPE_ASSOCIATION"|"JOB"|"JOB_EXECUTION"|"POLICY"|"CERTIFICATE"|"CA_CERTIFICATE": { "Enabled": true|false } ...}
+    /// The new event configuration values. key -&gt; (string) Possible values: • THING • THING_GROUP • THING_TYPE • THING_GROUP_MEMBERSHIP • THING_GROUP_HIERARCHY • THING_TYPE_ASSOCIATION • JOB • JOB_EXECUTION • POLICY • CERTIFICATE • CA_CERTIFICATE value -&gt; (structure) Configuration. Enabled -&gt; (boolean) True to enable the configuration. Shorthand Syntax: KeyName1={Enabled=boolean},KeyName2={Enabled=boolean} Where valid key names are: THING THING_GROUP THING_TYPE THING_GROUP_MEMBERSHIP THING_GROUP_HIERARCHY THING_TYPE_ASSOCIATION JOB JOB_EXECUTION POLICY CERTIFICATE CA_CERTIFICATE JSON Syntax: {"THING"|"THING_GROUP"|"THING_TYPE"|"THING_GROUP_MEMBERSHIP"|"THING_GROUP_HIERARCHY"|"THING_TYPE_ASSOCIATION"|"JOB"|"JOB_EXECUTION"|"POLICY"|"CERTIFICATE"|"CA_CERTIFICATE": { "Enabled": true|false } ...}
     /// </summary>
     [CliOption("--event-configurations", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? EventConfigurations { get; set; }
@@ -33,5 +33,14 @@ public record AwsIotUpdateEventConfigurationsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

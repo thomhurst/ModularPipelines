@@ -10,7 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -30,8 +30,8 @@ public record AwsLightsailCreateInstancesFromSnapshotOptions : AwsOptions, IVali
     /// Creates one or more new instances from a manual or automatic snapshot of an instance. The create instances from snapshot operation supports tag-based access control via request tags and resource tags applied to the resource identified by instance snapshot name . For more information, see the Amazon Lightsail Developer Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="InstanceNames">The names for your new instances. (string) Syntax: "string" "string" ...</param>
-    /// <param name="AvailabilityZone">The Availability Zone where you want to create your instances. Use the following formatting: us-east-2a (case sensitive). You can get a list of Availability Zones by using the get regions operation. Be sure to add the include Availability Zones parameter to your re- quest.</param>
-    /// <param name="BundleId">The bundle of specification information for your virtual private server (or instance ), including the pricing plan (micro_x_x ). Constraints: o pattern: .*\S.*</param>
+    /// <param name="AvailabilityZone">The Availability Zone where you want to create your instances. Use the following formatting: us-east-2a (case sensitive). You can get a list of Availability Zones by using the get regions operation. Be sure to add the include Availability Zones parameter to your request.</param>
+    /// <param name="BundleId">The bundle of specification information for your virtual private server (or instance ), including the pricing plan (micro_x_x ). Constraints: • pattern: .*\S.*</param>
     public AwsLightsailCreateInstancesFromSnapshotOptions(
         IEnumerable<string> InstanceNames,
         string AvailabilityZone,
@@ -83,73 +83,73 @@ public record AwsLightsailCreateInstancesFromSnapshotOptions : AwsOptions, IVali
     public IEnumerable<string>? InstanceNames { get; private init; }
 
     /// <summary>
-    /// The Availability Zone where you want to create your instances. Use the following formatting: us-east-2a (case sensitive). You can get a list of Availability Zones by using the get regions operation. Be sure to add the include Availability Zones parameter to your re- quest.
+    /// The Availability Zone where you want to create your instances. Use the following formatting: us-east-2a (case sensitive). You can get a list of Availability Zones by using the get regions operation. Be sure to add the include Availability Zones parameter to your request.
     /// </summary>
     [CliOption("--availability-zone")]
     public string? AvailabilityZone { get; private init; }
 
     /// <summary>
-    /// The bundle of specification information for your virtual private server (or instance ), including the pricing plan (micro_x_x ). Constraints: o pattern: .*\S.*
+    /// The bundle of specification information for your virtual private server (or instance ), including the pricing plan (micro_x_x ). Constraints: • pattern: .*\S.*
     /// </summary>
     [CliOption("--bundle-id")]
     public string? BundleId { get; private init; }
 
     /// <summary>
-    /// An object containing information about one or more disk mappings. key -&gt; (string) Constraints: o pattern: \w[\w\-]*\w value -&gt; (list) (structure) Describes a block storage disk mapping. originalDiskPath -&gt; (string) The original disk path exposed to the instance (for exam- ple, /dev/sdh ). Constraints: o pattern: .*\S.* newDiskName -&gt; (string) The new disk name (my-new-disk ). Constraints: o pattern: \w[\w\-]*\w Shorthand Syntax: KeyName1=[{originalDiskPath=string,newDiskName=string},{originalDiskPath=string,newDiskName=string}],KeyName2=[{originalDiskPath=string,newDiskName=string},{originalDiskPath=string,newDiskName=string}] JSON Syntax: {"string": [ { "originalDiskPath": "string", "newDiskName": "string" } ... ] ...}
+    /// An object containing information about one or more disk mappings. key -&gt; (string) Constraints: • pattern: \w[\w\-]*\w value -&gt; (list) (structure) Describes a block storage disk mapping. originalDiskPath -&gt; (string) The original disk path exposed to the instance (for example, /dev/sdh ). Constraints: • pattern: .*\S.* newDiskName -&gt; (string) The new disk name (my-new-disk ). Constraints: • pattern: \w[\w\-]*\w Shorthand Syntax: KeyName1=[{originalDiskPath=string,newDiskName=string},{originalDiskPath=string,newDiskName=string}],KeyName2=[{originalDiskPath=string,newDiskName=string},{originalDiskPath=string,newDiskName=string}] JSON Syntax: {"string": [ { "originalDiskPath": "string", "newDiskName": "string" } ... ] ...}
     /// </summary>
     [CliOption("--attached-disk-mapping", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? AttachedDiskMapping { get; set; }
 
     /// <summary>
-    /// The name of the instance snapshot on which you are basing your new instances. Use the get instance snapshots operation to return infor- mation about your existing snapshots. Constraint: o This parameter cannot be defined together with the source instance name parameter. The instance snapshot name and source instance name parameters are mutually exclusive. Constraints: o pattern: \w[\w\-]*\w
+    /// The name of the instance snapshot on which you are basing your new instances. Use the get instance snapshots operation to return information about your existing snapshots. Constraint: • This parameter cannot be defined together with the source instance name parameter. The instance snapshot name and source instance name parameters are mutually exclusive. Constraints: • pattern: \w[\w\-]*\w
     /// </summary>
     [CliOption("--instance-snapshot-name")]
     public string? InstanceSnapshotName { get; set; }
 
     /// <summary>
-    /// You can create a launch script that configures a server with addi- tional user data. For example, apt-get -y update . NOTE: Depending on the machine image you choose, the command to get software on your instance varies. Amazon Linux and CentOS use yum , Debian and Ubuntu use apt-get , and FreeBSD uses pkg . For a complete list, see the Amazon Lightsail Developer Guide .
+    /// You can create a launch script that configures a server with additional user data. For example, apt-get -y update . NOTE: Depending on the machine image you choose, the command to get software on your instance varies. Amazon Linux and CentOS use yum , Debian and Ubuntu use apt-get , and FreeBSD uses pkg . For a complete list, see the Amazon Lightsail Developer Guide .
     /// </summary>
     [CliOption("--user-data")]
     public string? UserData { get; set; }
 
     /// <summary>
-    /// The name for your key pair. Constraints: o pattern: \w[\w\-]*\w
+    /// The name for your key pair. Constraints: • pattern: \w[\w\-]*\w
     /// </summary>
     [CliOption("--key-pair-name")]
     public string? KeyPairName { get; set; }
 
     /// <summary>
-    /// The tag keys and optional values to add to the resource during cre- ate. Use the TagResource action to tag a resource after it's created. (structure) Describes a tag key and optional value assigned to an Amazon Lightsail resource. For more information about tags in Lightsail, see the Amazon Lightsail Developer Guide . key -&gt; (string) The key of the tag. Constraints: Tag keys accept a maximum of 128 letters, num- bers, spaces in UTF-8, or the following characters: + - = . _ : / @ value -&gt; (string) The value of the tag. Constraints: Tag values accept a maximum of 256 letters, num- bers, spaces in UTF-8, or the following characters: + - = . _ : / @ Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
+    /// The tag keys and optional values to add to the resource during create. Use the TagResource action to tag a resource after it's created. (structure) Describes a tag key and optional value assigned to an Amazon Lightsail resource. For more information about tags in Lightsail, see the Amazon Lightsail Developer Guide . key -&gt; (string) The key of the tag. Constraints: Tag keys accept a maximum of 128 letters, numbers, spaces in UTF-8, or the following characters: + - = . _ : / @ value -&gt; (string) The value of the tag. Constraints: Tag values accept a maximum of 256 letters, numbers, spaces in UTF-8, or the following characters: + - = . _ : / @ Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
-    /// An array of objects representing the add-ons to enable for the new instance. (structure) Describes a request to enable, modify, or disable an add-on for an Amazon Lightsail resource. NOTE: An additional cost may be associated with enabling add-ons. For more information, see the Lightsail pricing page . addOnType -&gt; (string) [required] The add-on type. Possible values: o AutoSnapshot o StopInstanceOnIdle autoSnapshotAddOnRequest -&gt; (structure) An object that represents additional parameters when enabling or modifying the automatic snapshot add-on. snapshotTimeOfDay -&gt; (string) The daily time when an automatic snapshot will be cre- ated. Constraints: o Must be in HH:00 format, and in an hourly increment. o Specified in Coordinated Universal Time (UTC). o The snapshot will be automatically created between the time specified and up to 45 minutes after. Constraints: o pattern: ^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$ stopInstanceOnIdleRequest -&gt; (structure) An object that represents additional parameters when enabling or modifying the StopInstanceOnIdle add-on. WARNING: This object only applies to Lightsail for Research re- sources. threshold -&gt; (string) The value to compare with the duration. duration -&gt; (string) The amount of idle time in minutes after which your vir- tual computer will automatically stop. Shorthand Syntax: addOnType=string,autoSnapshotAddOnRequest={snapshotTimeOfDay=string},stopInstanceOnIdleRequest={threshold=string,duration=string} ... JSON Syntax: [ { "addOnType": "AutoSnapshot"|"StopInstanceOnIdle", "autoSnapshotAddOnRequest": { "snapshotTimeOfDay": "string" }, "stopInstanceOnIdleRequest": { "threshold": "string", "duration": "string" } } ... ]
+    /// An array of objects representing the add-ons to enable for the new instance. (structure) Describes a request to enable, modify, or disable an add-on for an Amazon Lightsail resource. NOTE: An additional cost may be associated with enabling add-ons. For more information, see the Lightsail pricing page . addOnType -&gt; (string) [required] The add-on type. Possible values: • AutoSnapshot • StopInstanceOnIdle autoSnapshotAddOnRequest -&gt; (structure) An object that represents additional parameters when enabling or modifying the automatic snapshot add-on. snapshotTimeOfDay -&gt; (string) The daily time when an automatic snapshot will be created. Constraints: • Must be in HH:00 format, and in an hourly increment. • Specified in Coordinated Universal Time (UTC). • The snapshot will be automatically created between the time specified and up to 45 minutes after. Constraints: • pattern: ^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$ stopInstanceOnIdleRequest -&gt; (structure) An object that represents additional parameters when enabling or modifying the StopInstanceOnIdle add-on. WARNING: This object only applies to Lightsail for Research resources. threshold -&gt; (string) The value to compare with the duration. duration -&gt; (string) The amount of idle time in minutes after which your virtual computer will automatically stop. Shorthand Syntax: addOnType=string,autoSnapshotAddOnRequest={snapshotTimeOfDay=string},stopInstanceOnIdleRequest={threshold=string,duration=string} ... JSON Syntax: [ { "addOnType": "AutoSnapshot"|"StopInstanceOnIdle", "autoSnapshotAddOnRequest": { "snapshotTimeOfDay": "string" }, "stopInstanceOnIdleRequest": { "threshold": "string", "duration": "string" } } ... ]
     /// </summary>
     [CliOption("--add-ons", GroupValues = true)]
     public IEnumerable<string>? AddOns { get; set; }
 
     /// <summary>
-    /// The IP address type for the instance. The possible values are ipv4 for IPv4 only, ipv6 for IPv6 only, and dualstack for IPv4 and IPv6. The default value is dualstack . Possible values: o dualstack o ipv4 o ipv6
+    /// The IP address type for the instance. The possible values are ipv4 for IPv4 only, ipv6 for IPv6 only, and dualstack for IPv4 and IPv6. The default value is dualstack . Possible values: • dualstack • ipv4 • ipv6
     /// </summary>
     [CliOption("--ip-address-type")]
     public AwsLightsailCreateInstancesFromSnapshotIpAddressType? IpAddressType { get; set; }
 
     /// <summary>
-    /// The name of the source instance from which the source automatic snapshot was created. Constraints: o This parameter cannot be defined together with the instance snap- shot name parameter. The source instance name and instance snap- shot name parameters are mutually exclusive. o Define this parameter only when creating a new instance from an automatic snapshot. For more information, see the Amazon Lightsail Developer Guide .
+    /// The name of the source instance from which the source automatic snapshot was created. Constraints: • This parameter cannot be defined together with the instance snapshot name parameter. The source instance name and instance snapshot name parameters are mutually exclusive. • Define this parameter only when creating a new instance from an automatic snapshot. For more information, see the Amazon Lightsail Developer Guide .
     /// </summary>
     [CliOption("--source-instance-name")]
     public string? SourceInstanceName { get; set; }
 
     /// <summary>
-    /// The date of the automatic snapshot to use for the new instance. Use the get auto snapshots operation to identify the dates of the avail- able automatic snapshots. Constraints: o Must be specified in YYYY-MM-DD format. o This parameter cannot be defined together with the use latest re- storable auto snapshot parameter. The restore date and use latest restorable auto snapshot parameters are mutually exclusive. o Define this parameter only when creating a new instance from an automatic snapshot. For more information, see the Amazon Lightsail Developer Guide .
+    /// The date of the automatic snapshot to use for the new instance. Use the get auto snapshots operation to identify the dates of the available automatic snapshots. Constraints: • Must be specified in YYYY-MM-DD format. • This parameter cannot be defined together with the use latest restorable auto snapshot parameter. The restore date and use latest restorable auto snapshot parameters are mutually exclusive. • Define this parameter only when creating a new instance from an automatic snapshot. For more information, see the Amazon Lightsail Developer Guide .
     /// </summary>
     [CliOption("--restore-date")]
     public string? RestoreDate { get; set; }
 
     /// <summary>
-    /// able-auto-snapshot (boolean) A Boolean value to indicate whether to use the latest available au- tomatic snapshot. Constraints: o This parameter cannot be defined together with the restore date parameter. The use latest restorable auto snapshot and restore date parameters are mutually exclusive. o Define this parameter only when creating a new instance from an automatic snapshot. For more information, see the Amazon Lightsail Developer Guide .
+    /// A Boolean value to indicate whether to use the latest available automatic snapshot. Constraints: • This parameter cannot be defined together with the restore date parameter. The use latest restorable auto snapshot and restore date parameters are mutually exclusive. • Define this parameter only when creating a new instance from an automatic snapshot. For more information, see the Amazon Lightsail Developer Guide .
     /// </summary>
     [CliFlag("--use-latest-restorable-auto-snapshot", NegatedName = "--no-use-latest-restorable-auto-snapshot")]
     public bool? UseLatestRestorableAutoSnapshot { get; set; }
@@ -175,6 +175,15 @@ public record AwsLightsailCreateInstancesFromSnapshotOptions : AwsOptions, IVali
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

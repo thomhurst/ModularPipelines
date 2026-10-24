@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Sets or updates the storage class configuration for a table bucket. This configuration serves as the default storage class for all new ta- bles created in the bucket, allowing you to optimize storage costs at the bucket level. Permissions You must have the s3tables:PutTableBucketStorageClass permission to use this operation. See also: AWS API Documentation
+/// Sets or updates the storage class configuration for a table bucket. This configuration serves as the default storage class for all new tables created in the bucket, allowing you to optimize storage costs at the bucket level. Permissions You must have the s3tables:PutTableBucketStorageClass permission to use this operation. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsS3tablesPutTableBucketStorageClassOptions : AwsOptions, IValida
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Sets or updates the storage class configuration for a table bucket. This configuration serves as the default storage class for all new ta- bles created in the bucket, allowing you to optimize storage costs at the bucket level. Permissions You must have the s3tables:PutTableBucketStorageClass permission to use this operation. See also: AWS API Documentation
+    /// Sets or updates the storage class configuration for a table bucket. This configuration serves as the default storage class for all new tables created in the bucket, allowing you to optimize storage costs at the bucket level. Permissions You must have the s3tables:PutTableBucketStorageClass permission to use this operation. See also: AWS API Documentation
     /// </summary>
-    /// <param name="TableBucketArn">The Amazon Resource Name (ARN) of the table bucket. Constraints: o pattern: (arn:aws[-a-z0-9]*:[a-z0-9]+:[-a-z0-9]*:[0-9]{12}:bucket/[a-z0-9_-]{3,63})</param>
-    /// <param name="StorageClassConfiguration">The storage class configuration to apply to the table bucket. This configuration will serve as the default for new tables created in this bucket. storageClass -&gt; (string) [required] The storage class for the table or table bucket. Valid values include storage classes optimized for different access patterns and cost profiles. Possible values: o STANDARD o INTELLIGENT_TIERING Shorthand Syntax: storageClass=string JSON Syntax: { "storageClass": "STANDARD"|"INTELLIGENT_TIERING" }</param>
+    /// <param name="TableBucketArn">The Amazon Resource Name (ARN) of the table bucket. Constraints: • pattern: (arn:aws[-a-z0-9]*:[a-z0-9]+:[-a-z0-9]*:[0-9]{12}:bucket/[a-z0-9_-]{3,63})</param>
+    /// <param name="StorageClassConfiguration">The storage class configuration to apply to the table bucket. This configuration will serve as the default for new tables created in this bucket. storageClass -&gt; (string) [required] The storage class for the table or table bucket. Valid values include storage classes optimized for different access patterns and cost profiles. Possible values: • STANDARD • INTELLIGENT_TIERING Shorthand Syntax: storageClass=string JSON Syntax: { "storageClass": "STANDARD"|"INTELLIGENT_TIERING" }</param>
     public AwsS3tablesPutTableBucketStorageClassOptions(
         string TableBucketArn,
         string StorageClassConfiguration
@@ -60,13 +61,13 @@ public record AwsS3tablesPutTableBucketStorageClassOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the table bucket. Constraints: o pattern: (arn:aws[-a-z0-9]*:[a-z0-9]+:[-a-z0-9]*:[0-9]{12}:bucket/[a-z0-9_-]{3,63})
+    /// The Amazon Resource Name (ARN) of the table bucket. Constraints: • pattern: (arn:aws[-a-z0-9]*:[a-z0-9]+:[-a-z0-9]*:[0-9]{12}:bucket/[a-z0-9_-]{3,63})
     /// </summary>
     [CliOption("--table-bucket-arn")]
     public string? TableBucketArn { get; private init; }
 
     /// <summary>
-    /// The storage class configuration to apply to the table bucket. This configuration will serve as the default for new tables created in this bucket. storageClass -&gt; (string) [required] The storage class for the table or table bucket. Valid values include storage classes optimized for different access patterns and cost profiles. Possible values: o STANDARD o INTELLIGENT_TIERING Shorthand Syntax: storageClass=string JSON Syntax: { "storageClass": "STANDARD"|"INTELLIGENT_TIERING" }
+    /// The storage class configuration to apply to the table bucket. This configuration will serve as the default for new tables created in this bucket. storageClass -&gt; (string) [required] The storage class for the table or table bucket. Valid values include storage classes optimized for different access patterns and cost profiles. Possible values: • STANDARD • INTELLIGENT_TIERING Shorthand Syntax: storageClass=string JSON Syntax: { "storageClass": "STANDARD"|"INTELLIGENT_TIERING" }
     /// </summary>
     [CliOption("--storage-class-configuration")]
     public string? StorageClassConfiguration { get; private init; }
@@ -92,6 +93,15 @@ public record AwsS3tablesPutTableBucketStorageClassOptions : AwsOptions, IValida
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

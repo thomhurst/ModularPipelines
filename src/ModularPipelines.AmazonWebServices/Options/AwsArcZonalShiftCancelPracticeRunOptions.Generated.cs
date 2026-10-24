@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsArcZonalShiftCancelPracticeRunOptions : AwsOptions, IValidatabl
     /// <summary>
     /// Cancel an in-progress practice run zonal shift in Amazon Application Recovery Controller. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ZonalShiftId">The identifier of a practice run zonal shift in Amazon Application Recovery Controller that you want to cancel. Constraints: o min: 6 o max: 36 o pattern: [A-Za-z0-9-]+</param>
+    /// <param name="ZonalShiftId">The identifier of a practice run zonal shift in Amazon Application Recovery Controller that you want to cancel. Constraints: • min: 6 • max: 36 • pattern: [A-Za-z0-9-]+</param>
     public AwsArcZonalShiftCancelPracticeRunOptions(
         string ZonalShiftId
     )
@@ -56,7 +57,7 @@ public record AwsArcZonalShiftCancelPracticeRunOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of a practice run zonal shift in Amazon Application Recovery Controller that you want to cancel. Constraints: o min: 6 o max: 36 o pattern: [A-Za-z0-9-]+
+    /// The identifier of a practice run zonal shift in Amazon Application Recovery Controller that you want to cancel. Constraints: • min: 6 • max: 36 • pattern: [A-Za-z0-9-]+
     /// </summary>
     [CliOption("--zonal-shift-id")]
     public string? ZonalShiftId { get; private init; }
@@ -82,6 +83,15 @@ public record AwsArcZonalShiftCancelPracticeRunOptions : AwsOptions, IValidatabl
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

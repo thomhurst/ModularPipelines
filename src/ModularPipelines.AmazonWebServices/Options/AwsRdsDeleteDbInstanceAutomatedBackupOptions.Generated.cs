@@ -28,7 +28,7 @@ public record AwsRdsDeleteDbInstanceAutomatedBackupOptions : AwsOptions
     public string? DbiResourceId { get; set; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the automated backups to delete, for example, arn:aws:rds:us-east-1:123456789012:auto-backup:ab-L2IJCEXJP7XQ7HOJ4SIEX- AMPLE . This setting doesn't apply to RDS Custom.
+    /// The Amazon Resource Name (ARN) of the automated backups to delete, for example, arn:aws:rds:us-east-1:123456789012:auto-backup:ab-L2IJCEXJP7XQ7HOJ4SIEXAMPLE . This setting doesn't apply to RDS Custom.
     /// </summary>
     [CliOption("--db-instance-automated-backups-arn")]
     public string? DbInstanceAutomatedBackupsArn { get; set; }
@@ -38,5 +38,14 @@ public record AwsRdsDeleteDbInstanceAutomatedBackupOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

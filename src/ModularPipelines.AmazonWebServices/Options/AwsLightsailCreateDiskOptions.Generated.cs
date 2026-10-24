@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a block storage disk that can be attached to an Amazon Light- sail instance in the same Availability Zone (us-east-2a ). The create disk operation supports tag-based access control via request tags. For more information, see the Amazon Lightsail Developer Guide . See also: AWS API Documentation
+/// Creates a block storage disk that can be attached to an Amazon Lightsail instance in the same Availability Zone (us-east-2a ). The create disk operation supports tag-based access control via request tags. For more information, see the Amazon Lightsail Developer Guide . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsLightsailCreateDiskOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a block storage disk that can be attached to an Amazon Light- sail instance in the same Availability Zone (us-east-2a ). The create disk operation supports tag-based access control via request tags. For more information, see the Amazon Lightsail Developer Guide . See also: AWS API Documentation
+    /// Creates a block storage disk that can be attached to an Amazon Lightsail instance in the same Availability Zone (us-east-2a ). The create disk operation supports tag-based access control via request tags. For more information, see the Amazon Lightsail Developer Guide . See also: AWS API Documentation
     /// </summary>
-    /// <param name="DiskName">The unique Lightsail disk name (my-disk ). Constraints: o pattern: \w[\w\-]*\w</param>
-    /// <param name="AvailabilityZone">The Availability Zone where you want to create the disk (us-east-2a ). Use the same Availability Zone as the Lightsail instance to which you want to attach the disk. Use the get regions operation to list the Availability Zones where Lightsail is currently available. Constraints: o pattern: .*\S.*</param>
+    /// <param name="DiskName">The unique Lightsail disk name (my-disk ). Constraints: • pattern: \w[\w\-]*\w</param>
+    /// <param name="AvailabilityZone">The Availability Zone where you want to create the disk (us-east-2a ). Use the same Availability Zone as the Lightsail instance to which you want to attach the disk. Use the get regions operation to list the Availability Zones where Lightsail is currently available. Constraints: • pattern: .*\S.*</param>
     /// <param name="SizeInGb">The size of the disk in GB (32 ).</param>
     public AwsLightsailCreateDiskOptions(
         string DiskName,
@@ -63,13 +64,13 @@ public record AwsLightsailCreateDiskOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique Lightsail disk name (my-disk ). Constraints: o pattern: \w[\w\-]*\w
+    /// The unique Lightsail disk name (my-disk ). Constraints: • pattern: \w[\w\-]*\w
     /// </summary>
     [CliOption("--disk-name")]
     public string? DiskName { get; private init; }
 
     /// <summary>
-    /// The Availability Zone where you want to create the disk (us-east-2a ). Use the same Availability Zone as the Lightsail instance to which you want to attach the disk. Use the get regions operation to list the Availability Zones where Lightsail is currently available. Constraints: o pattern: .*\S.*
+    /// The Availability Zone where you want to create the disk (us-east-2a ). Use the same Availability Zone as the Lightsail instance to which you want to attach the disk. Use the get regions operation to list the Availability Zones where Lightsail is currently available. Constraints: • pattern: .*\S.*
     /// </summary>
     [CliOption("--availability-zone")]
     public string? AvailabilityZone { get; private init; }
@@ -81,13 +82,13 @@ public record AwsLightsailCreateDiskOptions : AwsOptions, IValidatableObject
     public int? SizeInGb { get; private init; }
 
     /// <summary>
-    /// The tag keys and optional values to add to the resource during cre- ate. Use the TagResource action to tag a resource after it's created. (structure) Describes a tag key and optional value assigned to an Amazon Lightsail resource. For more information about tags in Lightsail, see the Amazon Lightsail Developer Guide . key -&gt; (string) The key of the tag. Constraints: Tag keys accept a maximum of 128 letters, num- bers, spaces in UTF-8, or the following characters: + - = . _ : / @ value -&gt; (string) The value of the tag. Constraints: Tag values accept a maximum of 256 letters, num- bers, spaces in UTF-8, or the following characters: + - = . _ : / @ Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
+    /// The tag keys and optional values to add to the resource during create. Use the TagResource action to tag a resource after it's created. (structure) Describes a tag key and optional value assigned to an Amazon Lightsail resource. For more information about tags in Lightsail, see the Amazon Lightsail Developer Guide . key -&gt; (string) The key of the tag. Constraints: Tag keys accept a maximum of 128 letters, numbers, spaces in UTF-8, or the following characters: + - = . _ : / @ value -&gt; (string) The value of the tag. Constraints: Tag values accept a maximum of 256 letters, numbers, spaces in UTF-8, or the following characters: + - = . _ : / @ Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
-    /// An array of objects that represent the add-ons to enable for the new disk. (structure) Describes a request to enable, modify, or disable an add-on for an Amazon Lightsail resource. NOTE: An additional cost may be associated with enabling add-ons. For more information, see the Lightsail pricing page . addOnType -&gt; (string) [required] The add-on type. Possible values: o AutoSnapshot o StopInstanceOnIdle autoSnapshotAddOnRequest -&gt; (structure) An object that represents additional parameters when enabling or modifying the automatic snapshot add-on. snapshotTimeOfDay -&gt; (string) The daily time when an automatic snapshot will be cre- ated. Constraints: o Must be in HH:00 format, and in an hourly increment. o Specified in Coordinated Universal Time (UTC). o The snapshot will be automatically created between the time specified and up to 45 minutes after. Constraints: o pattern: ^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$ stopInstanceOnIdleRequest -&gt; (structure) An object that represents additional parameters when enabling or modifying the StopInstanceOnIdle add-on. WARNING: This object only applies to Lightsail for Research re- sources. threshold -&gt; (string) The value to compare with the duration. duration -&gt; (string) The amount of idle time in minutes after which your vir- tual computer will automatically stop. Shorthand Syntax: addOnType=string,autoSnapshotAddOnRequest={snapshotTimeOfDay=string},stopInstanceOnIdleRequest={threshold=string,duration=string} ... JSON Syntax: [ { "addOnType": "AutoSnapshot"|"StopInstanceOnIdle", "autoSnapshotAddOnRequest": { "snapshotTimeOfDay": "string" }, "stopInstanceOnIdleRequest": { "threshold": "string", "duration": "string" } } ... ]
+    /// An array of objects that represent the add-ons to enable for the new disk. (structure) Describes a request to enable, modify, or disable an add-on for an Amazon Lightsail resource. NOTE: An additional cost may be associated with enabling add-ons. For more information, see the Lightsail pricing page . addOnType -&gt; (string) [required] The add-on type. Possible values: • AutoSnapshot • StopInstanceOnIdle autoSnapshotAddOnRequest -&gt; (structure) An object that represents additional parameters when enabling or modifying the automatic snapshot add-on. snapshotTimeOfDay -&gt; (string) The daily time when an automatic snapshot will be created. Constraints: • Must be in HH:00 format, and in an hourly increment. • Specified in Coordinated Universal Time (UTC). • The snapshot will be automatically created between the time specified and up to 45 minutes after. Constraints: • pattern: ^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$ stopInstanceOnIdleRequest -&gt; (structure) An object that represents additional parameters when enabling or modifying the StopInstanceOnIdle add-on. WARNING: This object only applies to Lightsail for Research resources. threshold -&gt; (string) The value to compare with the duration. duration -&gt; (string) The amount of idle time in minutes after which your virtual computer will automatically stop. Shorthand Syntax: addOnType=string,autoSnapshotAddOnRequest={snapshotTimeOfDay=string},stopInstanceOnIdleRequest={threshold=string,duration=string} ... JSON Syntax: [ { "addOnType": "AutoSnapshot"|"StopInstanceOnIdle", "autoSnapshotAddOnRequest": { "snapshotTimeOfDay": "string" }, "stopInstanceOnIdleRequest": { "threshold": "string", "duration": "string" } } ... ]
     /// </summary>
     [CliOption("--add-ons", GroupValues = true)]
     public IEnumerable<string>? AddOns { get; set; }
@@ -113,6 +114,15 @@ public record AwsLightsailCreateDiskOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// WARNING: This operation is no longer current and may be deprecated in the fu- ture. We recommend you upgrade to the Routes API V2 unless you re- quire Grab data. o DescribeRouteCalculator is part of a previous Amazon Location Ser- vice Routes API (version 1) which has been superseded by a more intuitive, powerful, and complete API (version 2). o The Routes API version 2 has a simplified interface that can be used without creating or managing route calculator resources. o If you are using an Amaz...
+/// WARNING: This operation is no longer current and may be deprecated in the future. We recommend you upgrade to the Routes API V2 unless you require Grab data. • DescribeRouteCalculator is part of a previous Amazon Location Service Routes API (version 1) which has been superseded by a more intuitive, powerful, and complete API (version 2). • The Routes API version 2 has a simplified interface that can be used without creating or managing route calculator resources. • If you are using an Amazon Web...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsLocationDescribeRouteCalculatorOptions : AwsOptions, IValidatab
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// WARNING: This operation is no longer current and may be deprecated in the fu- ture. We recommend you upgrade to the Routes API V2 unless you re- quire Grab data. o DescribeRouteCalculator is part of a previous Amazon Location Ser- vice Routes API (version 1) which has been superseded by a more intuitive, powerful, and complete API (version 2). o The Routes API version 2 has a simplified interface that can be used without creating or managing route calculator resources. o If you are using an Amaz...
+    /// WARNING: This operation is no longer current and may be deprecated in the future. We recommend you upgrade to the Routes API V2 unless you require Grab data. • DescribeRouteCalculator is part of a previous Amazon Location Service Routes API (version 1) which has been superseded by a more intuitive, powerful, and complete API (version 2). • The Routes API version 2 has a simplified interface that can be used without creating or managing route calculator resources. • If you are using an Amazon Web...
     /// </summary>
-    /// <param name="CalculatorName">The name of the route calculator resource. Constraints: o min: 1 o max: 100 o pattern: [-._\w]+</param>
+    /// <param name="CalculatorName">The name of the route calculator resource. Constraints: • min: 1 • max: 100 • pattern: [-._\w]+</param>
     public AwsLocationDescribeRouteCalculatorOptions(
         string CalculatorName
     )
@@ -56,7 +57,7 @@ public record AwsLocationDescribeRouteCalculatorOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the route calculator resource. Constraints: o min: 1 o max: 100 o pattern: [-._\w]+
+    /// The name of the route calculator resource. Constraints: • min: 1 • max: 100 • pattern: [-._\w]+
     /// </summary>
     [CliOption("--calculator-name")]
     public string? CalculatorName { get; private init; }
@@ -82,6 +83,15 @@ public record AwsLocationDescribeRouteCalculatorOptions : AwsOptions, IValidatab
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

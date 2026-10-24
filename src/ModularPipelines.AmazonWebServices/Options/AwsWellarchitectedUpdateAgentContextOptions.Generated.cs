@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,8 +29,8 @@ public record AwsWellarchitectedUpdateAgentContextOptions : AwsOptions, IValidat
     /// <summary>
     /// Updates an existing context associated with a profile. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ProfileArn">The Amazon Resource Name (ARN) of the profile containing the con- text. Constraints: o min: 0 o max: 2048 o pattern: arn:aws([a-z0-9-]+)?:wellarchi- tected:[a-z0-9-]{6,64}:\d{12}:agent-profile/([a-zA-Z0-9_-]+)</param>
-    /// <param name="Id">The unique identifier of the context to update. Constraints: o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
+    /// <param name="ProfileArn">The Amazon Resource Name (ARN) of the profile containing the context. Constraints: • min: 0 • max: 2048 • pattern: arn:aws([a-z0-9-]+)?:wellarchitected:[a-z0-9-]{6,64}:\d{12}:agent-profile/([a-zA-Z0-9_-]+)</param>
+    /// <param name="Id">The unique identifier of the context to update. Constraints: • pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
     public AwsWellarchitectedUpdateAgentContextOptions(
         string ProfileArn,
         string Id
@@ -61,32 +62,32 @@ public record AwsWellarchitectedUpdateAgentContextOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the profile containing the con- text. Constraints: o min: 0 o max: 2048 o pattern: arn:aws([a-z0-9-]+)?:wellarchi- tected:[a-z0-9-]{6,64}:\d{12}:agent-profile/([a-zA-Z0-9_-]+)
+    /// The Amazon Resource Name (ARN) of the profile containing the context. Constraints: • min: 0 • max: 2048 • pattern: arn:aws([a-z0-9-]+)?:wellarchitected:[a-z0-9-]{6,64}:\d{12}:agent-profile/([a-zA-Z0-9_-]+)
     /// </summary>
     [CliOption("--profile-arn")]
     public string? ProfileArn { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the context to update. Constraints: o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
+    /// The unique identifier of the context to update. Constraints: • pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; private init; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Constraints: o min: 1 o max: 128 o pattern: [\x21-\x7E]+
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Constraints: • min: 1 • max: 128 • pattern: [\x21-\x7E]+
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// The updated title of the context. Constraints: o min: 1 o max: 1000 o pattern: (?:(?!\$\{[a-zA-Z]+:)[\P{C}])+
+    /// The updated title of the context. Constraints: • min: 1 • max: 1000 • pattern: (?:(?!\$\{[a-zA-Z]+:)[\P{C}])+
     /// </summary>
     [CliOption("--title")]
     public string? Title { get; set; }
 
     /// <summary>
-    /// The updated typed content of the context. The structure contains ap- plication-specific fields such as account IDs, Regions, services, and resource types. accountIds -&gt; (list) The Amazon Web Services account IDs associated with this appli- cation context. Constraints: o min: 0 o max: 1000 (string) Constraints: o min: 12 o max: 12 o pattern: \d{12} regions -&gt; (list) The Amazon Web Services Regions where this application operates. Constraints: o min: 0 o max: 50 (string) Constraints: o min: 1 o max: 64 o pattern: [a-z]{2}(-gov)?-[a-z]+-\d+ awsServices -&gt; (list) The Amazon Web Services services used by this application. Constraints: o min: 0 o max: 300 (string) Constraints: o min: 1 o max: 256 o pattern: [\P{C}]+ resourceTypes -&gt; (list) The Amazon Web Services resource types relevant to this applica- tion. Constraints: o min: 0 o max: 1500 (string) Constraints: o min: 1 o max: 256 o pattern: [\P{C}]+ resourceTags -&gt; (list) Resource tags used to scope this application context. Constraints: o min: 0 o max: 20 (structure) A key-value pair representing a resource tag used to scope context content. key -&gt; (string) [required] The tag key. Constraints: o min: 1 o max: 128 o pattern: (?:(?!\$\{[a-zA-Z]+:)[\P{C}])+ value -&gt; (string) [required] The tag value. Constraints: o min: 0 o max: 256 o pattern: (?:(?!\$\{[a-zA-Z]+:)[\P{C}])* applicationOverview -&gt; (string) A free-form overview of the application. Constraints: o min: 0 o max: 10000 o pattern: (?:(?!\$\{[a-zA-Z]+:)[\P{C}\r\n])* industry -&gt; (string) The industry vertical for this application. Constraints: o min: 0 o max: 1000 o pattern: (?:(?!\$\{[a-zA-Z]+:)[\P{C}\r\n])* applicationType -&gt; (string) The type of the application. Possible values: o SAS o DESKTOP_APPLICATION o OTHER criticality -&gt; (string) The business criticality of the application. Possible values: o MISSION_CRITICAL o BUSINESS_CRITICAL o NON_CRITICAL o TEST_DEVELOPMENT architectureOverview -&gt; (string) A free-form description of the application architecture. Constraints: o min: 0 o max: 10000 o pattern: (?:(?!\$\{[a-zA-Z]+:)[\P{C}\r\n])* additionalContext -&gt; (string) Additional context not captured by other fields. Constraints: o min: 0 o max: 10000 o pattern: (?:(?!\$\{[a-zA-Z]+:)[\P{C}\r\n])* Shorthand Syntax: accountIds=string,string,regions=string,string,awsServices=string,string,resourceTypes=string,string,resourceTags=[{key=string,value=string},{key=string,value=string}],applicationOverview=string,industry=string,applicationType=string,criticality=string,architectureOverview=string,additionalContext=string JSON Syntax: { "accountIds": ["string", ...], "regions": ["string", ...], "awsServices": ["string", ...], "resourceTypes": ["string", ...], "resourceTags": [ { "key": "string", "value": "string" } ... ], "applicationOverview": "string", "industry": "string", "applicationType": "SAS"|"DESKTOP_APPLICATION"|"OTHER", "criticality": "MISSION_CRITICAL"|"BUSINESS_CRITICAL"|"NON_CRITICAL"|"TEST_DEVELOPMENT", "architectureOverview": "string", "additionalContext": "string" }
+    /// The updated typed content of the context. The structure contains application-specific fields such as account IDs, Regions, services, and resource types. accountIds -&gt; (list) The Amazon Web Services account IDs associated with this application context. Constraints: • min: 0 • max: 1000 (string) Constraints: • min: 12 • max: 12 • pattern: \d{12} regions -&gt; (list) The Amazon Web Services Regions where this application operates. Constraints: • min: 0 • max: 50 (string) Constraints: • min: 1 • max: 64 • pattern: [a-z]{2}(-gov)?-[a-z]+-\d+ awsServices -&gt; (list) The Amazon Web Services services used by this application. Constraints: • min: 0 • max: 300 (string) Constraints: • min: 1 • max: 256 • pattern: [\P{C}]+ resourceTypes -&gt; (list) The Amazon Web Services resource types relevant to this application. Constraints: • min: 0 • max: 1500 (string) Constraints: • min: 1 • max: 256 • pattern: [\P{C}]+ resourceTags -&gt; (list) Resource tags used to scope this application context. Constraints: • min: 0 • max: 20 (structure) A key-value pair representing a resource tag used to scope context content. key -&gt; (string) [required] The tag key. Constraints: • min: 1 • max: 128 • pattern: (?:(?!\$\{[a-zA-Z]+:)[\P{C}])+ value -&gt; (string) [required] The tag value. Constraints: • min: 0 • max: 256 • pattern: (?:(?!\$\{[a-zA-Z]+:)[\P{C}])* applicationOverview -&gt; (string) A free-form overview of the application. Constraints: • min: 0 • max: 10000 • pattern: (?:(?!\$\{[a-zA-Z]+:)[\P{C}\r\n])* industry -&gt; (string) The industry vertical for this application. Constraints: • min: 0 • max: 1000 • pattern: (?:(?!\$\{[a-zA-Z]+:)[\P{C}\r\n])* applicationType -&gt; (string) The type of the application. Possible values: • SAS • DESKTOP_APPLICATION • OTHER criticality -&gt; (string) The business criticality of the application. Possible values: • MISSION_CRITICAL • BUSINESS_CRITICAL • NON_CRITICAL • TEST_DEVELOPMENT architectureOverview -&gt; (string) A free-form description of the application architecture. Constraints: • min: 0 • max: 10000 • pattern: (?:(?!\$\{[a-zA-Z]+:)[\P{C}\r\n])* additionalContext -&gt; (string) Additional context not captured by other fields. Constraints: • min: 0 • max: 10000 • pattern: (?:(?!\$\{[a-zA-Z]+:)[\P{C}\r\n])* Shorthand Syntax: accountIds=string,string,regions=string,string,awsServices=string,string,resourceTypes=string,string,resourceTags=[{key=string,value=string},{key=string,value=string}],applicationOverview=string,industry=string,applicationType=string,criticality=string,architectureOverview=string,additionalContext=string JSON Syntax: { "accountIds": ["string", ...], "regions": ["string", ...], "awsServices": ["string", ...], "resourceTypes": ["string", ...], "resourceTags": [ { "key": "string", "value": "string" } ... ], "applicationOverview": "string", "industry": "string", "applicationType": "SAS"|"DESKTOP_APPLICATION"|"OTHER", "criticality": "MISSION_CRITICAL"|"BUSINESS_CRITICAL"|"NON_CRITICAL"|"TEST_DEVELOPMENT", "architectureOverview": "string", "additionalContext": "string" }
     /// </summary>
     [CliOption("--content")]
     public string? Content { get; set; }
@@ -112,6 +113,15 @@ public record AwsWellarchitectedUpdateAgentContextOptions : AwsOptions, IValidat
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

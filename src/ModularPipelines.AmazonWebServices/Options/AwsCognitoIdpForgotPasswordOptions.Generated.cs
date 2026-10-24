@@ -11,13 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Sends a password-reset confirmation code to the email address or phone number of the requested username. The message delivery method is deter- mined by the user's available attributes and the AccountRecoverySetting configuration of the user pool. For the Username parameter, you can use the username or an email, phone, or preferred username alias. If neither a verified phone number nor a verified email exists, Amazon Cognito responds with an InvalidParameterException error . If your app client ha...
+/// Sends a password-reset confirmation code to the email address or phone number of the requested username. The message delivery method is determined by the user's available attributes and the AccountRecoverySetting configuration of the user pool. For the Username parameter, you can use the username or an email, phone, or preferred username alias. If neither a verified phone number nor a verified email exists, Amazon Cognito responds with an InvalidParameterException error . If your app client has ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,10 +27,10 @@ public record AwsCognitoIdpForgotPasswordOptions : AwsOptions, IValidatableObjec
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Sends a password-reset confirmation code to the email address or phone number of the requested username. The message delivery method is deter- mined by the user's available attributes and the AccountRecoverySetting configuration of the user pool. For the Username parameter, you can use the username or an email, phone, or preferred username alias. If neither a verified phone number nor a verified email exists, Amazon Cognito responds with an InvalidParameterException error . If your app client ha...
+    /// Sends a password-reset confirmation code to the email address or phone number of the requested username. The message delivery method is determined by the user's available attributes and the AccountRecoverySetting configuration of the user pool. For the Username parameter, you can use the username or an email, phone, or preferred username alias. If neither a verified phone number nor a verified email exists, Amazon Cognito responds with an InvalidParameterException error . If your app client has ...
     /// </summary>
-    /// <param name="ClientId">The ID of the user pool app client associated with the current signed-in user. Constraints: o min: 1 o max: 128 o pattern: [\w+]+</param>
-    /// <param name="Username">The name of the user that you want to query or modify. The value of this parameter is typically your user's username, but it can be any of their alias attributes. If username isn't an alias attribute in your user pool, this value must be the sub of a local user or the username of a user from a third-party IdP. Constraints: o min: 1 o max: 128 o pattern: [\p{L}\p{M}\p{S}\p{N}\p{P}]+</param>
+    /// <param name="ClientId">The ID of the user pool app client associated with the current signed-in user. Constraints: • min: 1 • max: 128 • pattern: [\w+]+</param>
+    /// <param name="Username">The name of the user that you want to query or modify. The value of this parameter is typically your user's username, but it can be any of their alias attributes. If username isn't an alias attribute in your user pool, this value must be the sub of a local user or the username of a user from a third-party IdP. Constraints: • min: 1 • max: 128 • pattern: [\p{L}\p{M}\p{S}\p{N}\p{P}]+</param>
     public AwsCognitoIdpForgotPasswordOptions(
         string ClientId,
         string Username
@@ -62,38 +62,38 @@ public record AwsCognitoIdpForgotPasswordOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the user pool app client associated with the current signed-in user. Constraints: o min: 1 o max: 128 o pattern: [\w+]+
+    /// The ID of the user pool app client associated with the current signed-in user. Constraints: • min: 1 • max: 128 • pattern: [\w+]+
     /// </summary>
     [CliOption("--client-id")]
     public string? ClientId { get; private init; }
 
     /// <summary>
-    /// The name of the user that you want to query or modify. The value of this parameter is typically your user's username, but it can be any of their alias attributes. If username isn't an alias attribute in your user pool, this value must be the sub of a local user or the username of a user from a third-party IdP. Constraints: o min: 1 o max: 128 o pattern: [\p{L}\p{M}\p{S}\p{N}\p{P}]+
+    /// The name of the user that you want to query or modify. The value of this parameter is typically your user's username, but it can be any of their alias attributes. If username isn't an alias attribute in your user pool, this value must be the sub of a local user or the username of a user from a third-party IdP. Constraints: • min: 1 • max: 128 • pattern: [\p{L}\p{M}\p{S}\p{N}\p{P}]+
     /// </summary>
     [CliOption("--username")]
     public string? Username { get; private init; }
 
     /// <summary>
-    /// A keyed-hash message authentication code (HMAC) calculated using the secret key of a user pool client and username plus the client ID in the message. For more information about SecretHash , see Computing secret hash values . Constraints: o min: 1 o max: 128 o pattern: [\w+=/]+
+    /// A keyed-hash message authentication code (HMAC) calculated using the secret key of a user pool client and username plus the client ID in the message. For more information about SecretHash , see Computing secret hash values . Constraints: • min: 1 • max: 128 • pattern: [\w+=/]+
     /// </summary>
     [SecretValue]
     [CliOption("--secret-hash")]
     public string? SecretHash { get; set; }
 
     /// <summary>
-    /// Contextual data about your user session like the device fingerprint, IP address, or location. Amazon Cognito threat protection evaluates the risk of an authentication event based on the context that your app generates and passes to Amazon Cognito when it makes API re- quests. For more information, see Collecting data for threat protection in applications . IpAddress -&gt; (string) The source IP address of your user's device. Constraints: o min: 0 o max: 131072 EncodedData -&gt; (string) Encoded device-fingerprint details that your app collected with the Amazon Cognito context data collection library. For more in- formation, see Adding user device and session data to API re- quests . Constraints: o min: 0 o max: 131072 Shorthand Syntax: IpAddress=string,EncodedData=string JSON Syntax: { "IpAddress": "string", "EncodedData": "string" }
+    /// Contextual data about your user session like the device fingerprint, IP address, or location. Amazon Cognito threat protection evaluates the risk of an authentication event based on the context that your app generates and passes to Amazon Cognito when it makes API requests. For more information, see Collecting data for threat protection in applications . IpAddress -&gt; (string) The source IP address of your user's device. Constraints: • min: 0 • max: 131072 EncodedData -&gt; (string) Encoded device-fingerprint details that your app collected with the Amazon Cognito context data collection library. For more information, see Adding user device and session data to API requests . Constraints: • min: 0 • max: 131072 Shorthand Syntax: IpAddress=string,EncodedData=string JSON Syntax: { "IpAddress": "string", "EncodedData": "string" }
     /// </summary>
     [CliOption("--user-context-data")]
     public string? UserContextData { get; set; }
 
     /// <summary>
-    /// Information that supports analytics outcomes with Amazon Pinpoint, including the user's endpoint ID. The endpoint ID is a destination for Amazon Pinpoint push notifications, for example a device identi- fier, email address, or phone number. AnalyticsEndpointId -&gt; (string) The endpoint ID. Information that you want to pass to Amazon Pinpoint about where to send notifications. Constraints: o min: 0 o max: 131072 Shorthand Syntax: AnalyticsEndpointId=string JSON Syntax: { "AnalyticsEndpointId": "string" }
+    /// Information that supports analytics outcomes with Amazon Pinpoint, including the user's endpoint ID. The endpoint ID is a destination for Amazon Pinpoint push notifications, for example a device identifier, email address, or phone number. AnalyticsEndpointId -&gt; (string) The endpoint ID. Information that you want to pass to Amazon Pinpoint about where to send notifications. Constraints: • min: 0 • max: 131072 Shorthand Syntax: AnalyticsEndpointId=string JSON Syntax: { "AnalyticsEndpointId": "string" }
     /// </summary>
     [CliOption("--analytics-metadata")]
     public string? AnalyticsMetadata { get; set; }
 
     /// <summary>
-    /// A map of custom key-value pairs that you can provide as input for any custom workflows that this action triggers. You create custom workflows by assigning Lambda functions to user pool triggers. When Amazon Cognito invokes any of these functions, it passes a JSON payload, which the function receives as input. This payload contains a clientMetadata attribute that provides the data that you assigned to the ClientMetadata parameter in your request. In your function code, you can process the clientMetadata value to enhance your work- flow for your specific needs. To review the Lambda trigger types that Amazon Cognito invokes at runtime with API requests, see Connecting API actions to Lambda triggers in the Amazon Cognito Developer Guide . NOTE: When you use the ClientMetadata parameter, note that Amazon Cog- nito won't do the following: o Store the ClientMetadata value. This data is available only to Lambda triggers that are assigned to a user pool to support custom workflows. If your user pool configuration doesn't in- clude triggers, the ClientMetadata parameter serves no pur- pose. o Validate the ClientMetadata value. o Encrypt the ClientMetadata value. Don't send sensitive infor- mation in this parameter. key -&gt; (string) Constraints: o min: 0 o max: 131072 value -&gt; (string) Constraints: o min: 0 o max: 131072 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// A map of custom key-value pairs that you can provide as input for any custom workflows that this action triggers. You create custom workflows by assigning Lambda functions to user pool triggers. When Amazon Cognito invokes any of these functions, it passes a JSON payload, which the function receives as input. This payload contains a clientMetadata attribute that provides the data that you assigned to the ClientMetadata parameter in your request. In your function code, you can process the clientMetadata value to enhance your workflow for your specific needs. To review the Lambda trigger types that Amazon Cognito invokes at runtime with API requests, see Connecting API actions to Lambda triggers in the Amazon Cognito Developer Guide . NOTE: When you use the ClientMetadata parameter, note that Amazon Cognito won't do the following: • Store the ClientMetadata value. This data is available only to Lambda triggers that are assigned to a user pool to support custom workflows. If your user pool configuration doesn't include triggers, the ClientMetadata parameter serves no purpose. • Validate the ClientMetadata value. • Encrypt the ClientMetadata value. Don't send sensitive information in this parameter. key -&gt; (string) Constraints: • min: 0 • max: 131072 value -&gt; (string) Constraints: • min: 0 • max: 131072 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--client-metadata", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? ClientMetadata { get; set; }
@@ -119,6 +119,15 @@ public record AwsCognitoIdpForgotPasswordOptions : AwsOptions, IValidatableObjec
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

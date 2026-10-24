@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a new maintenance configuration or replaces an existing mainte- nance configuration for a table. For more information, see S3 Tables maintenance in the Amazon Simple Storage Service User Guide . Permissions You must have the s3tables:PutTableMaintenanceConfiguration permission to use this operation. See also: AWS API Documentation
+/// Creates a new maintenance configuration or replaces an existing maintenance configuration for a table. For more information, see S3 Tables maintenance in the Amazon Simple Storage Service User Guide . Permissions You must have the s3tables:PutTableMaintenanceConfiguration permission to use this operation. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,13 +27,13 @@ public record AwsS3tablesPutTableMaintenanceConfigurationOptions : AwsOptions, I
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a new maintenance configuration or replaces an existing mainte- nance configuration for a table. For more information, see S3 Tables maintenance in the Amazon Simple Storage Service User Guide . Permissions You must have the s3tables:PutTableMaintenanceConfiguration permission to use this operation. See also: AWS API Documentation
+    /// Creates a new maintenance configuration or replaces an existing maintenance configuration for a table. For more information, see S3 Tables maintenance in the Amazon Simple Storage Service User Guide . Permissions You must have the s3tables:PutTableMaintenanceConfiguration permission to use this operation. See also: AWS API Documentation
     /// </summary>
-    /// <param name="TableBucketArn">The Amazon Resource Name (ARN) of the table associated with the maintenance configuration. Constraints: o pattern: (arn:aws[-a-z0-9]*:[a-z0-9]+:[-a-z0-9]*:[0-9]{12}:bucket/[a-z0-9_-]{3,63})</param>
-    /// <param name="Namespace">The namespace of the table. Constraints: o min: 1 o max: 255 o pattern: [0-9a-z_]*</param>
-    /// <param name="Name">The name of the table. Constraints: o min: 1 o max: 255 o pattern: [0-9a-z_]*</param>
-    /// <param name="Type">The type of the maintenance configuration. Possible values: o icebergCompaction o icebergSnapshotManagement</param>
-    /// <param name="Value">Defines the values of the maintenance configuration for the table. status -&gt; (string) The status of the maintenance configuration. Possible values: o enabled o disabled settings -&gt; (tagged union structure) Contains details about the settings for the maintenance configu- ration. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: icebergCompaction, icebergSnap- shotManagement. icebergCompaction -&gt; (structure) Contains details about the Iceberg compaction settings for the table. targetFileSizeMB -&gt; (integer) The target file size for the table in MB. Constraints: o min: 1 o max: 2147483647 strategy -&gt; (string) The compaction strategy to use for the table. This deter- mines how files are selected and combined during com- paction operations. Possible values: o auto o binpack o sort o z-order icebergSnapshotManagement -&gt; (structure) Contains details about the Iceberg snapshot management set- tings for the table. minSnapshotsToKeep -&gt; (integer) The minimum number of snapshots to keep. Constraints: o min: 1 o max: 2147483647 maxSnapshotAgeHours -&gt; (integer) The maximum age of a snapshot before it can be expired. Constraints: o min: 1 o max: 2147483647 Shorthand Syntax: status=string,settings={icebergCompaction={targetFileSizeMB=integer,strategy=string},icebergSnapshotManagement={minSnapshotsToKeep=integer,maxSnapshotAgeHours=integer}} JSON Syntax: { "status": "enabled"|"disabled", "settings": { "icebergCompaction": { "targetFileSizeMB": integer, "strategy": "auto"|"binpack"|"sort"|"z-order" }, "icebergSnapshotManagement": { "minSnapshotsToKeep": integer, "maxSnapshotAgeHours": integer } } }</param>
+    /// <param name="TableBucketArn">The Amazon Resource Name (ARN) of the table associated with the maintenance configuration. Constraints: • pattern: (arn:aws[-a-z0-9]*:[a-z0-9]+:[-a-z0-9]*:[0-9]{12}:bucket/[a-z0-9_-]{3,63})</param>
+    /// <param name="Namespace">The namespace of the table. Constraints: • min: 1 • max: 255 • pattern: [0-9a-z_]*</param>
+    /// <param name="Name">The name of the table. Constraints: • min: 1 • max: 255 • pattern: [0-9a-z_]*</param>
+    /// <param name="Type">The type of the maintenance configuration. Possible values: • icebergCompaction • icebergSnapshotManagement</param>
+    /// <param name="Value">Defines the values of the maintenance configuration for the table. status -&gt; (string) The status of the maintenance configuration. Possible values: • enabled • disabled settings -&gt; (tagged union structure) Contains details about the settings for the maintenance configuration. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: icebergCompaction, icebergSnapshotManagement. icebergCompaction -&gt; (structure) Contains details about the Iceberg compaction settings for the table. targetFileSizeMB -&gt; (integer) The target file size for the table in MB. Constraints: • min: 1 • max: 2147483647 strategy -&gt; (string) The compaction strategy to use for the table. This determines how files are selected and combined during compaction operations. Possible values: • auto • binpack • sort • z-order icebergSnapshotManagement -&gt; (structure) Contains details about the Iceberg snapshot management settings for the table. minSnapshotsToKeep -&gt; (integer) The minimum number of snapshots to keep. Constraints: • min: 1 • max: 2147483647 maxSnapshotAgeHours -&gt; (integer) The maximum age of a snapshot before it can be expired. Constraints: • min: 1 • max: 2147483647 Shorthand Syntax: status=string,settings={icebergCompaction={targetFileSizeMB=integer,strategy=string},icebergSnapshotManagement={minSnapshotsToKeep=integer,maxSnapshotAgeHours=integer}} JSON Syntax: { "status": "enabled"|"disabled", "settings": { "icebergCompaction": { "targetFileSizeMB": integer, "strategy": "auto"|"binpack"|"sort"|"z-order" }, "icebergSnapshotManagement": { "minSnapshotsToKeep": integer, "maxSnapshotAgeHours": integer } } }</param>
     public AwsS3tablesPutTableMaintenanceConfigurationOptions(
         string TableBucketArn,
         string Namespace,
@@ -72,31 +73,31 @@ public record AwsS3tablesPutTableMaintenanceConfigurationOptions : AwsOptions, I
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the table associated with the maintenance configuration. Constraints: o pattern: (arn:aws[-a-z0-9]*:[a-z0-9]+:[-a-z0-9]*:[0-9]{12}:bucket/[a-z0-9_-]{3,63})
+    /// The Amazon Resource Name (ARN) of the table associated with the maintenance configuration. Constraints: • pattern: (arn:aws[-a-z0-9]*:[a-z0-9]+:[-a-z0-9]*:[0-9]{12}:bucket/[a-z0-9_-]{3,63})
     /// </summary>
     [CliOption("--table-bucket-arn")]
     public string? TableBucketArn { get; private init; }
 
     /// <summary>
-    /// The namespace of the table. Constraints: o min: 1 o max: 255 o pattern: [0-9a-z_]*
+    /// The namespace of the table. Constraints: • min: 1 • max: 255 • pattern: [0-9a-z_]*
     /// </summary>
     [CliOption("--namespace")]
     public string? Namespace { get; private init; }
 
     /// <summary>
-    /// The name of the table. Constraints: o min: 1 o max: 255 o pattern: [0-9a-z_]*
+    /// The name of the table. Constraints: • min: 1 • max: 255 • pattern: [0-9a-z_]*
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The type of the maintenance configuration. Possible values: o icebergCompaction o icebergSnapshotManagement
+    /// The type of the maintenance configuration. Possible values: • icebergCompaction • icebergSnapshotManagement
     /// </summary>
     [CliOption("--type")]
     public AwsS3tablesPutTableMaintenanceConfigurationType? Type { get; private init; }
 
     /// <summary>
-    /// Defines the values of the maintenance configuration for the table. status -&gt; (string) The status of the maintenance configuration. Possible values: o enabled o disabled settings -&gt; (tagged union structure) Contains details about the settings for the maintenance configu- ration. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: icebergCompaction, icebergSnap- shotManagement. icebergCompaction -&gt; (structure) Contains details about the Iceberg compaction settings for the table. targetFileSizeMB -&gt; (integer) The target file size for the table in MB. Constraints: o min: 1 o max: 2147483647 strategy -&gt; (string) The compaction strategy to use for the table. This deter- mines how files are selected and combined during com- paction operations. Possible values: o auto o binpack o sort o z-order icebergSnapshotManagement -&gt; (structure) Contains details about the Iceberg snapshot management set- tings for the table. minSnapshotsToKeep -&gt; (integer) The minimum number of snapshots to keep. Constraints: o min: 1 o max: 2147483647 maxSnapshotAgeHours -&gt; (integer) The maximum age of a snapshot before it can be expired. Constraints: o min: 1 o max: 2147483647 Shorthand Syntax: status=string,settings={icebergCompaction={targetFileSizeMB=integer,strategy=string},icebergSnapshotManagement={minSnapshotsToKeep=integer,maxSnapshotAgeHours=integer}} JSON Syntax: { "status": "enabled"|"disabled", "settings": { "icebergCompaction": { "targetFileSizeMB": integer, "strategy": "auto"|"binpack"|"sort"|"z-order" }, "icebergSnapshotManagement": { "minSnapshotsToKeep": integer, "maxSnapshotAgeHours": integer } } }
+    /// Defines the values of the maintenance configuration for the table. status -&gt; (string) The status of the maintenance configuration. Possible values: • enabled • disabled settings -&gt; (tagged union structure) Contains details about the settings for the maintenance configuration. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: icebergCompaction, icebergSnapshotManagement. icebergCompaction -&gt; (structure) Contains details about the Iceberg compaction settings for the table. targetFileSizeMB -&gt; (integer) The target file size for the table in MB. Constraints: • min: 1 • max: 2147483647 strategy -&gt; (string) The compaction strategy to use for the table. This determines how files are selected and combined during compaction operations. Possible values: • auto • binpack • sort • z-order icebergSnapshotManagement -&gt; (structure) Contains details about the Iceberg snapshot management settings for the table. minSnapshotsToKeep -&gt; (integer) The minimum number of snapshots to keep. Constraints: • min: 1 • max: 2147483647 maxSnapshotAgeHours -&gt; (integer) The maximum age of a snapshot before it can be expired. Constraints: • min: 1 • max: 2147483647 Shorthand Syntax: status=string,settings={icebergCompaction={targetFileSizeMB=integer,strategy=string},icebergSnapshotManagement={minSnapshotsToKeep=integer,maxSnapshotAgeHours=integer}} JSON Syntax: { "status": "enabled"|"disabled", "settings": { "icebergCompaction": { "targetFileSizeMB": integer, "strategy": "auto"|"binpack"|"sort"|"z-order" }, "icebergSnapshotManagement": { "minSnapshotsToKeep": integer, "maxSnapshotAgeHours": integer } } }
     /// </summary>
     [CliOption("--value")]
     public string? Value { get; private init; }
@@ -122,6 +123,15 @@ public record AwsS3tablesPutTableMaintenanceConfigurationOptions : AwsOptions, I
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

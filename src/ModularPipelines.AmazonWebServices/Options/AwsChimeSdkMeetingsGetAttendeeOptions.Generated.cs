@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsChimeSdkMeetingsGetAttendeeOptions : AwsOptions, IValidatableOb
     /// <summary>
     /// Gets the Amazon Chime SDK attendee details for a specified meeting ID and attendee ID. For more information about the Amazon Chime SDK, see Using the Amazon Chime SDK in the Amazon Chime Developer Guide . See also: AWS API Documentation
     /// </summary>
-    /// <param name="MeetingId">The Amazon Chime SDK meeting ID. Constraints: o pattern: [a-fA-F0-9]{8}(?:-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12}</param>
-    /// <param name="AttendeeId">The Amazon Chime SDK attendee ID. Constraints: o pattern: [a-fA-F0-9]{8}(?:-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12}</param>
+    /// <param name="MeetingId">The Amazon Chime SDK meeting ID. Constraints: • pattern: [a-fA-F0-9]{8}(?:-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12}</param>
+    /// <param name="AttendeeId">The Amazon Chime SDK attendee ID. Constraints: • pattern: [a-fA-F0-9]{8}(?:-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12}</param>
     public AwsChimeSdkMeetingsGetAttendeeOptions(
         string MeetingId,
         string AttendeeId
@@ -60,13 +61,13 @@ public record AwsChimeSdkMeetingsGetAttendeeOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Chime SDK meeting ID. Constraints: o pattern: [a-fA-F0-9]{8}(?:-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12}
+    /// The Amazon Chime SDK meeting ID. Constraints: • pattern: [a-fA-F0-9]{8}(?:-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12}
     /// </summary>
     [CliOption("--meeting-id")]
     public string? MeetingId { get; private init; }
 
     /// <summary>
-    /// The Amazon Chime SDK attendee ID. Constraints: o pattern: [a-fA-F0-9]{8}(?:-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12}
+    /// The Amazon Chime SDK attendee ID. Constraints: • pattern: [a-fA-F0-9]{8}(?:-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12}
     /// </summary>
     [CliOption("--attendee-id")]
     public string? AttendeeId { get; private init; }
@@ -92,6 +93,15 @@ public record AwsChimeSdkMeetingsGetAttendeeOptions : AwsOptions, IValidatableOb
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

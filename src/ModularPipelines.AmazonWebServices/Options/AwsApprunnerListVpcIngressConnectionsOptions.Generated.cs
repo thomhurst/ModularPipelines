@@ -23,19 +23,19 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsApprunnerListVpcIngressConnectionsOptions : AwsOptions
 {
     /// <summary>
-    /// The VPC Ingress Connections to be listed based on either the Service Arn or Vpc Endpoint Id, or both. ServiceArn -&gt; (string) The Amazon Resource Name (ARN) of a service to filter by. Constraints: o min: 1 o max: 1011 o pattern: arn:aws(-[\w]+)*:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[0-9]{12}:(\w|\/|-){1,1011} VpcEndpointId -&gt; (string) The ID of a VPC Endpoint to filter by. Constraints: o min: 0 o max: 51200 o pattern: .* Shorthand Syntax: ServiceArn=string,VpcEndpointId=string JSON Syntax: { "ServiceArn": "string", "VpcEndpointId": "string" }
+    /// The VPC Ingress Connections to be listed based on either the Service Arn or Vpc Endpoint Id, or both. ServiceArn -&gt; (string) The Amazon Resource Name (ARN) of a service to filter by. Constraints: • min: 1 • max: 1011 • pattern: arn:aws(-[\w]+)*:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[0-9]{12}:(\w|\/|-){1,1011} VpcEndpointId -&gt; (string) The ID of a VPC Endpoint to filter by. Constraints: • min: 0 • max: 51200 • pattern: .* Shorthand Syntax: ServiceArn=string,VpcEndpointId=string JSON Syntax: { "ServiceArn": "string", "VpcEndpointId": "string" }
     /// </summary>
     [CliOption("--filter")]
     public string? Filter { get; set; }
 
     /// <summary>
-    /// The maximum number of results to include in each response (result page). It's used for a paginated request. If you don't specify MaxResults , the request retrieves all avail- able results in a single response. Constraints: o min: 1 o max: 100
+    /// The maximum number of results to include in each response (result page). It's used for a paginated request. If you don't specify MaxResults , the request retrieves all available results in a single response. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
     /// <summary>
-    /// A token from a previous result page. It's used for a paginated re- quest. The request retrieves the next result page. All other parame- ter values must be identical to the ones that are specified in the initial request. If you don't specify NextToken , the request retrieves the first re- sult page. Constraints: o min: 1 o max: 1024 o pattern: .*
+    /// A token from a previous result page. It's used for a paginated request. The request retrieves the next result page. All other parameter values must be identical to the ones that are specified in the initial request. If you don't specify NextToken , the request retrieves the first result page. Constraints: • min: 1 • max: 1024 • pattern: .*
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
@@ -46,5 +46,14 @@ public record AwsApprunnerListVpcIngressConnectionsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

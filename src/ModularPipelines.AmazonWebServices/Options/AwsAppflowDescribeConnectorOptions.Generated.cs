@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Describes the given custom connector registered in your Amazon Web Ser- vices account. This API can be used for custom connectors that are reg- istered in your account and also for Amazon authored connectors. See also: AWS API Documentation
+/// Describes the given custom connector registered in your Amazon Web Services account. This API can be used for custom connectors that are registered in your account and also for Amazon authored connectors. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsAppflowDescribeConnectorOptions : AwsOptions, IValidatableObjec
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Describes the given custom connector registered in your Amazon Web Ser- vices account. This API can be used for custom connectors that are reg- istered in your account and also for Amazon authored connectors. See also: AWS API Documentation
+    /// Describes the given custom connector registered in your Amazon Web Services account. This API can be used for custom connectors that are registered in your account and also for Amazon authored connectors. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ConnectorType">The connector type, such as CUSTOMCONNECTOR, Saleforce, Marketo. Please choose CUSTOMCONNECTOR for Lambda based custom connectors. Possible values: o Salesforce o Singular o Slack o Redshift o S3 o Marketo o Googleanalytics o Zendesk o Servicenow o Datadog o Trendmicro o Snowflake o Dynatrace o Infornexus o Amplitude o Veeva o EventBridge o LookoutMetrics o Upsolver o Honeycode o CustomerProfiles o SAPOData o CustomConnector o Pardot</param>
+    /// <param name="ConnectorType">The connector type, such as CUSTOMCONNECTOR, Saleforce, Marketo. Please choose CUSTOMCONNECTOR for Lambda based custom connectors. Possible values: • Salesforce • Singular • Slack • Redshift • S3 • Marketo • Googleanalytics • Zendesk • Servicenow • Datadog • Trendmicro • Snowflake • Dynatrace • Infornexus • Amplitude • Veeva • EventBridge • LookoutMetrics • Upsolver • Honeycode • CustomerProfiles • SAPOData • CustomConnector • Pardot</param>
     public AwsAppflowDescribeConnectorOptions(
         string ConnectorType
     )
@@ -56,13 +57,13 @@ public record AwsAppflowDescribeConnectorOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The connector type, such as CUSTOMCONNECTOR, Saleforce, Marketo. Please choose CUSTOMCONNECTOR for Lambda based custom connectors. Possible values: o Salesforce o Singular o Slack o Redshift o S3 o Marketo o Googleanalytics o Zendesk o Servicenow o Datadog o Trendmicro o Snowflake o Dynatrace o Infornexus o Amplitude o Veeva o EventBridge o LookoutMetrics o Upsolver o Honeycode o CustomerProfiles o SAPOData o CustomConnector o Pardot
+    /// The connector type, such as CUSTOMCONNECTOR, Saleforce, Marketo. Please choose CUSTOMCONNECTOR for Lambda based custom connectors. Possible values: • Salesforce • Singular • Slack • Redshift • S3 • Marketo • Googleanalytics • Zendesk • Servicenow • Datadog • Trendmicro • Snowflake • Dynatrace • Infornexus • Amplitude • Veeva • EventBridge • LookoutMetrics • Upsolver • Honeycode • CustomerProfiles • SAPOData • CustomConnector • Pardot
     /// </summary>
     [CliOption("--connector-type")]
     public string? ConnectorType { get; private init; }
 
     /// <summary>
-    /// The label of the connector. The label is unique for each Connector- Registration in your Amazon Web Services account. Only needed if calling for CUSTOMCONNECTOR connector type/. Constraints: o max: 256 o pattern: [a-zA-Z0-9][\w!@#.-]+
+    /// The label of the connector. The label is unique for each ConnectorRegistration in your Amazon Web Services account. Only needed if calling for CUSTOMCONNECTOR connector type/. Constraints: • max: 256 • pattern: [a-zA-Z0-9][\w!@#.-]+
     /// </summary>
     [CliOption("--connector-label")]
     public string? ConnectorLabel { get; set; }
@@ -88,6 +89,15 @@ public record AwsAppflowDescribeConnectorOptions : AwsOptions, IValidatableObjec
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

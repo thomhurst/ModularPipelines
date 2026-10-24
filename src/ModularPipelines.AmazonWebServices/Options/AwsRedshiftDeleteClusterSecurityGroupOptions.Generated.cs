@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes an Amazon Redshift security group. NOTE: You cannot delete a security group that is associated with any clus- ters. You cannot delete the default security group. For information about managing security groups, go to Amazon Redshift Cluster Security Groups in the Amazon Redshift Cluster Management Guide . See also: AWS API Documentation
+/// Deletes an Amazon Redshift security group. NOTE: You cannot delete a security group that is associated with any clusters. You cannot delete the default security group. For information about managing security groups, go to Amazon Redshift Cluster Security Groups in the Amazon Redshift Cluster Management Guide . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsRedshiftDeleteClusterSecurityGroupOptions : AwsOptions, IValida
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes an Amazon Redshift security group. NOTE: You cannot delete a security group that is associated with any clus- ters. You cannot delete the default security group. For information about managing security groups, go to Amazon Redshift Cluster Security Groups in the Amazon Redshift Cluster Management Guide . See also: AWS API Documentation
+    /// Deletes an Amazon Redshift security group. NOTE: You cannot delete a security group that is associated with any clusters. You cannot delete the default security group. For information about managing security groups, go to Amazon Redshift Cluster Security Groups in the Amazon Redshift Cluster Management Guide . See also: AWS API Documentation
     /// </summary>
-    /// <param name="ClusterSecurityGroupName">The name of the cluster security group to be deleted. Constraints: o max: 2147483647</param>
+    /// <param name="ClusterSecurityGroupName">The name of the cluster security group to be deleted. Constraints: • max: 2147483647</param>
     public AwsRedshiftDeleteClusterSecurityGroupOptions(
         string ClusterSecurityGroupName
     )
@@ -56,7 +57,7 @@ public record AwsRedshiftDeleteClusterSecurityGroupOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the cluster security group to be deleted. Constraints: o max: 2147483647
+    /// The name of the cluster security group to be deleted. Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--cluster-security-group-name")]
     public string? ClusterSecurityGroupName { get; private init; }
@@ -82,6 +83,15 @@ public record AwsRedshiftDeleteClusterSecurityGroupOptions : AwsOptions, IValida
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

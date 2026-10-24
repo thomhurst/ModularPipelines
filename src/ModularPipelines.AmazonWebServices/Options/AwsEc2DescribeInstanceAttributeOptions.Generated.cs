@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -29,7 +30,7 @@ public record AwsEc2DescribeInstanceAttributeOptions : AwsOptions, IValidatableO
     /// Describes the specified attribute of the specified instance. You can specify only one attribute at a time. Available attributes include SQL license exemption configuration for instances registered with the SQL LE service. See also: AWS API Documentation
     /// </summary>
     /// <param name="InstanceId">The ID of the instance.</param>
-    /// <param name="Attribute">The instance attribute. Note that the enaSupport attribute is not supported. Possible values: o instanceType o kernel o ramdisk o userData o disableApiTermination o instanceInitiatedShutdownBehavior o rootDeviceName o blockDeviceMapping o productCodes o sourceDestCheck o groupSet o ebsOptimized o sriovNetSupport o enaSupport o enclaveOptions o disableApiStop</param>
+    /// <param name="Attribute">The instance attribute. Note that the enaSupport attribute is not supported. Possible values: • instanceType • kernel • ramdisk • userData • disableApiTermination • instanceInitiatedShutdownBehavior • rootDeviceName • blockDeviceMapping • productCodes • sourceDestCheck • groupSet • ebsOptimized • sriovNetSupport • enaSupport • enclaveOptions • disableApiStop</param>
     public AwsEc2DescribeInstanceAttributeOptions(
         string InstanceId,
         AwsEc2DescribeInstanceAttributeAttribute Attribute
@@ -66,13 +67,13 @@ public record AwsEc2DescribeInstanceAttributeOptions : AwsOptions, IValidatableO
     public string? InstanceId { get; private init; }
 
     /// <summary>
-    /// The instance attribute. Note that the enaSupport attribute is not supported. Possible values: o instanceType o kernel o ramdisk o userData o disableApiTermination o instanceInitiatedShutdownBehavior o rootDeviceName o blockDeviceMapping o productCodes o sourceDestCheck o groupSet o ebsOptimized o sriovNetSupport o enaSupport o enclaveOptions o disableApiStop
+    /// The instance attribute. Note that the enaSupport attribute is not supported. Possible values: • instanceType • kernel • ramdisk • userData • disableApiTermination • instanceInitiatedShutdownBehavior • rootDeviceName • blockDeviceMapping • productCodes • sourceDestCheck • groupSet • ebsOptimized • sriovNetSupport • enaSupport • enclaveOptions • disableApiStop
     /// </summary>
     [CliOption("--attribute")]
     public AwsEc2DescribeInstanceAttributeAttribute? Attribute { get; private init; }
 
     /// <summary>
-    /// Checks whether you have the required permissions for the operation, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// Checks whether you have the required permissions for the operation, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation . Otherwise, it is UnauthorizedOperation .
     /// </summary>
     [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
@@ -98,6 +99,15 @@ public record AwsEc2DescribeInstanceAttributeOptions : AwsOptions, IValidatableO
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

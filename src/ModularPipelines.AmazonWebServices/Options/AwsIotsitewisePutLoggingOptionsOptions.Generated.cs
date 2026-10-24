@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsIotsitewisePutLoggingOptionsOptions : AwsOptions, IValidatableO
     /// <summary>
     /// Sets logging options for IoT SiteWise. See also: AWS API Documentation
     /// </summary>
-    /// <param name="LoggingOptions">The logging options to set. level -&gt; (string) [required] The IoT SiteWise logging verbosity level. Possible values: o ERROR o INFO o OFF Shorthand Syntax: level=string JSON Syntax: { "level": "ERROR"|"INFO"|"OFF" }</param>
+    /// <param name="LoggingOptions">The logging options to set. level -&gt; (string) [required] The IoT SiteWise logging verbosity level. Possible values: • ERROR • INFO • OFF Shorthand Syntax: level=string JSON Syntax: { "level": "ERROR"|"INFO"|"OFF" }</param>
     public AwsIotsitewisePutLoggingOptionsOptions(
         string LoggingOptions
     )
@@ -56,13 +57,13 @@ public record AwsIotsitewisePutLoggingOptionsOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The logging options to set. level -&gt; (string) [required] The IoT SiteWise logging verbosity level. Possible values: o ERROR o INFO o OFF Shorthand Syntax: level=string JSON Syntax: { "level": "ERROR"|"INFO"|"OFF" }
+    /// The logging options to set. level -&gt; (string) [required] The IoT SiteWise logging verbosity level. Possible values: • ERROR • INFO • OFF Shorthand Syntax: level=string JSON Syntax: { "level": "ERROR"|"INFO"|"OFF" }
     /// </summary>
     [CliOption("--logging-options")]
     public string? LoggingOptions { get; private init; }
 
     /// <summary>
-    /// The name of the workspace. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$
+    /// The name of the workspace. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9_-]+$
     /// </summary>
     [CliOption("--workspace-name")]
     public string? WorkspaceName { get; set; }
@@ -88,6 +89,15 @@ public record AwsIotsitewisePutLoggingOptionsOptions : AwsOptions, IValidatableO
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

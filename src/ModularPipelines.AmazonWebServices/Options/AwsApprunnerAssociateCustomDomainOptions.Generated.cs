@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsApprunnerAssociateCustomDomainOptions : AwsOptions, IValidatabl
     /// <summary>
     /// Associate your own domain name with the App Runner subdomain URL of your App Runner service. After you call AssociateCustomDomain and receive a successful response, use the information in the CustomDomain record that's returned to add CNAME records to your Domain Name System (DNS). For each mapped domain name, add a mapping to the target App Runner subdomain and one or more certificate validation records. App Runner then performs DNS validation to verify that you own or control the domain name t...
     /// </summary>
-    /// <param name="ServiceArn">The Amazon Resource Name (ARN) of the App Runner service that you want to associate a custom domain name with. Constraints: o min: 1 o max: 1011 o pattern: arn:aws(-[\w]+)*:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[0-9]{12}:(\w|\/|-){1,1011}</param>
-    /// <param name="DomainName">A custom domain endpoint to associate. Specify a root domain (for example, example.com ), a subdomain (for example, login.example.com or admin.login.example.com ), or a wildcard (for example, *.exam- ple.com ). Constraints: o min: 1 o max: 255 o pattern: [A-Za-z0-9*.-]{1,255}</param>
+    /// <param name="ServiceArn">The Amazon Resource Name (ARN) of the App Runner service that you want to associate a custom domain name with. Constraints: • min: 1 • max: 1011 • pattern: arn:aws(-[\w]+)*:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[0-9]{12}:(\w|\/|-){1,1011}</param>
+    /// <param name="DomainName">A custom domain endpoint to associate. Specify a root domain (for example, example.com ), a subdomain (for example, login.example.com or admin.login.example.com ), or a wildcard (for example, *.example.com ). Constraints: • min: 1 • max: 255 • pattern: [A-Za-z0-9*.-]{1,255}</param>
     public AwsApprunnerAssociateCustomDomainOptions(
         string ServiceArn,
         string DomainName
@@ -60,13 +61,13 @@ public record AwsApprunnerAssociateCustomDomainOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the App Runner service that you want to associate a custom domain name with. Constraints: o min: 1 o max: 1011 o pattern: arn:aws(-[\w]+)*:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[0-9]{12}:(\w|\/|-){1,1011}
+    /// The Amazon Resource Name (ARN) of the App Runner service that you want to associate a custom domain name with. Constraints: • min: 1 • max: 1011 • pattern: arn:aws(-[\w]+)*:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[0-9]{12}:(\w|\/|-){1,1011}
     /// </summary>
     [CliOption("--service-arn")]
     public string? ServiceArn { get; private init; }
 
     /// <summary>
-    /// A custom domain endpoint to associate. Specify a root domain (for example, example.com ), a subdomain (for example, login.example.com or admin.login.example.com ), or a wildcard (for example, *.exam- ple.com ). Constraints: o min: 1 o max: 255 o pattern: [A-Za-z0-9*.-]{1,255}
+    /// A custom domain endpoint to associate. Specify a root domain (for example, example.com ), a subdomain (for example, login.example.com or admin.login.example.com ), or a wildcard (for example, *.example.com ). Constraints: • min: 1 • max: 255 • pattern: [A-Za-z0-9*.-]{1,255}
     /// </summary>
     [CliOption("--domain-name")]
     public string? DomainName { get; private init; }
@@ -98,6 +99,15 @@ public record AwsApprunnerAssociateCustomDomainOptions : AwsOptions, IValidatabl
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

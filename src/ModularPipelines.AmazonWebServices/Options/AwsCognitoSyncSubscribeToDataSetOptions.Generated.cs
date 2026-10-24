@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Subscribes to receive notifications when a dataset is modified by an- other device. This API can only be called with temporary credentials provided by Cog- nito Identity. You cannot call this API with developer credentials. See also: AWS API Documentation
+/// Subscribes to receive notifications when a dataset is modified by another device. This API can only be called with temporary credentials provided by Cognito Identity. You cannot call this API with developer credentials. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,12 +26,12 @@ public record AwsCognitoSyncSubscribeToDataSetOptions : AwsOptions, IValidatable
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Subscribes to receive notifications when a dataset is modified by an- other device. This API can only be called with temporary credentials provided by Cog- nito Identity. You cannot call this API with developer credentials. See also: AWS API Documentation
+    /// Subscribes to receive notifications when a dataset is modified by another device. This API can only be called with temporary credentials provided by Cognito Identity. You cannot call this API with developer credentials. See also: AWS API Documentation
     /// </summary>
-    /// <param name="IdentityPoolId">A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito. The ID of the pool to which the identity belongs. Constraints: o min: 1 o max: 55 o pattern: [\w-]+:[0-9a-f-]+</param>
-    /// <param name="IdentityId">Unique ID for this identity. Constraints: o min: 1 o max: 55 o pattern: [\w-]+:[0-9a-f-]+</param>
-    /// <param name="DataSetName">The name of the dataset to subcribe to. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_.:-]+</param>
-    /// <param name="DeviceId">The unique ID generated for this device by Cognito. Constraints: o min: 1 o max: 256</param>
+    /// <param name="IdentityPoolId">A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito. The ID of the pool to which the identity belongs. Constraints: • min: 1 • max: 55 • pattern: [\w-]+:[0-9a-f-]+</param>
+    /// <param name="IdentityId">Unique ID for this identity. Constraints: • min: 1 • max: 55 • pattern: [\w-]+:[0-9a-f-]+</param>
+    /// <param name="DataSetName">The name of the dataset to subcribe to. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9_.:-]+</param>
+    /// <param name="DeviceId">The unique ID generated for this device by Cognito. Constraints: • min: 1 • max: 256</param>
     public AwsCognitoSyncSubscribeToDataSetOptions(
         string IdentityPoolId,
         string IdentityId,
@@ -68,25 +69,25 @@ public record AwsCognitoSyncSubscribeToDataSetOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito. The ID of the pool to which the identity belongs. Constraints: o min: 1 o max: 55 o pattern: [\w-]+:[0-9a-f-]+
+    /// A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito. The ID of the pool to which the identity belongs. Constraints: • min: 1 • max: 55 • pattern: [\w-]+:[0-9a-f-]+
     /// </summary>
     [CliOption("--identity-pool-id")]
     public string? IdentityPoolId { get; private init; }
 
     /// <summary>
-    /// Unique ID for this identity. Constraints: o min: 1 o max: 55 o pattern: [\w-]+:[0-9a-f-]+
+    /// Unique ID for this identity. Constraints: • min: 1 • max: 55 • pattern: [\w-]+:[0-9a-f-]+
     /// </summary>
     [CliOption("--identity-id")]
     public string? IdentityId { get; private init; }
 
     /// <summary>
-    /// The name of the dataset to subcribe to. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_.:-]+
+    /// The name of the dataset to subcribe to. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9_.:-]+
     /// </summary>
     [CliOption("--dataset-name")]
     public string? DataSetName { get; private init; }
 
     /// <summary>
-    /// The unique ID generated for this device by Cognito. Constraints: o min: 1 o max: 256
+    /// The unique ID generated for this device by Cognito. Constraints: • min: 1 • max: 256
     /// </summary>
     [CliOption("--device-id")]
     public string? DeviceId { get; private init; }
@@ -112,6 +113,15 @@ public record AwsCognitoSyncSubscribeToDataSetOptions : AwsOptions, IValidatable
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

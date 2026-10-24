@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Sends a successful completion response for a callback operation in a durable execution. Use this API when an external system has success- fully completed a callback operation. See also: AWS API Documentation
+/// Sends a successful completion response for a callback operation in a durable execution. Use this API when an external system has successfully completed a callback operation. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsLambdaSendDurableExecutionCallbackSuccessOptions : AwsOptions, 
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Sends a successful completion response for a callback operation in a durable execution. Use this API when an external system has success- fully completed a callback operation. See also: AWS API Documentation
+    /// Sends a successful completion response for a callback operation in a durable execution. Use this API when an external system has successfully completed a callback operation. See also: AWS API Documentation
     /// </summary>
-    /// <param name="CallbackId">The unique identifier for the callback operation. Constraints: o min: 1 o max: 1024 o pattern: [A-Za-z0-9+/]+={0,2}</param>
+    /// <param name="CallbackId">The unique identifier for the callback operation. Constraints: • min: 1 • max: 1024 • pattern: [A-Za-z0-9+/]+={0,2}</param>
     public AwsLambdaSendDurableExecutionCallbackSuccessOptions(
         string CallbackId
     )
@@ -56,13 +57,13 @@ public record AwsLambdaSendDurableExecutionCallbackSuccessOptions : AwsOptions, 
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier for the callback operation. Constraints: o min: 1 o max: 1024 o pattern: [A-Za-z0-9+/]+={0,2}
+    /// The unique identifier for the callback operation. Constraints: • min: 1 • max: 1024 • pattern: [A-Za-z0-9+/]+={0,2}
     /// </summary>
     [CliOption("--callback-id")]
     public string? CallbackId { get; private init; }
 
     /// <summary>
-    /// The result data from the successful callback operation. Maximum size is 256 KB. Constraints: o min: 0 o max: 262144
+    /// The result data from the successful callback operation. Maximum size is 256 KB. Constraints: • min: 0 • max: 1048576
     /// </summary>
     [CliOption("--result")]
     public string? Result { get; set; }
@@ -88,6 +89,15 @@ public record AwsLambdaSendDurableExecutionCallbackSuccessOptions : AwsOptions, 
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

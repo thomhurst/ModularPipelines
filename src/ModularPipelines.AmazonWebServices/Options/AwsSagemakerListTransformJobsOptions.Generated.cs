@@ -24,58 +24,55 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsSagemakerListTransformJobsOptions : AwsOptions
 {
     /// <summary>
-    /// A filter that returns only transform jobs created after the speci- fied time.
+    /// A filter that returns only transform jobs created after the specified time.
     /// </summary>
     [CliOption("--creation-time-after")]
     public string? CreationTimeAfter { get; set; }
 
     /// <summary>
-    /// A filter that returns only transform jobs created before the speci- fied time.
+    /// A filter that returns only transform jobs created before the specified time.
     /// </summary>
     [CliOption("--creation-time-before")]
     public string? CreationTimeBefore { get; set; }
 
     /// <summary>
-    /// A filter that returns only transform jobs modified after the speci- fied time.
+    /// A filter that returns only transform jobs modified after the specified time.
     /// </summary>
     [CliOption("--last-modified-time-after")]
     public string? LastModifiedTimeAfter { get; set; }
 
     /// <summary>
-    /// A filter that returns only transform jobs modified before the speci- fied time.
+    /// A filter that returns only transform jobs modified before the specified time.
     /// </summary>
     [CliOption("--last-modified-time-before")]
     public string? LastModifiedTimeBefore { get; set; }
 
     /// <summary>
-    /// A string in the transform job name. This filter returns only trans- form jobs whose name contains the specified string. Constraints: o min: 0 o max: 63 o pattern: [a-zA-Z0-9\-]+
+    /// A string in the transform job name. This filter returns only transform jobs whose name contains the specified string. Constraints: • min: 0 • max: 63 • pattern: [a-zA-Z0-9\-]+
     /// </summary>
     [CliOption("--name-contains")]
     public string? NameContains { get; set; }
 
     /// <summary>
-    /// A filter that retrieves only transform jobs with a specific status. Possible values: o InProgress o Completed o Failed o Stopping o Stopped
+    /// A filter that retrieves only transform jobs with a specific status. Possible values: • InProgress • Completed • Failed • Stopping • Stopped
     /// </summary>
     [CliOption("--status-equals")]
     public AwsSagemakerListTransformJobsStatusEquals? StatusEquals { get; set; }
 
     /// <summary>
-    /// The field to sort results by. The default is CreationTime . Possible values: o Name o CreationTime o Status
+    /// The field to sort results by. The default is CreationTime . Possible values: • Name • CreationTime • Status
     /// </summary>
     [CliOption("--sort-by")]
     public AwsSagemakerListTransformJobsSortBy? SortBy { get; set; }
 
     /// <summary>
-    /// The sort order for results. The default is Descending . Possible values: o Ascending o Descending
+    /// The sort order for results. The default is Descending . Possible values: • Ascending • Descending
     /// </summary>
     [CliOption("--sort-order")]
     public AwsSagemakerListTransformJobsSortOrder? SortOrder { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -85,15 +82,27 @@ public record AwsSagemakerListTransformJobsOptions : AwsOptions
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 100
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

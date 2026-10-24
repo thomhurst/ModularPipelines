@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,8 +29,8 @@ public record AwsEntityresolutionPutPolicyOptions : AwsOptions, IValidatableObje
     /// <summary>
     /// Updates the resource-based policy. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Arn">The Amazon Resource Name (ARN) of the resource for which the policy needs to be updated. Constraints: o pattern: arn:(aws|aws-us-gov|aws-cn):entityresolu- tion:[a-z]{2}-[a-z]{1,10}-[0-9]:[0-9]{12}:((schemamapping|match- ingworkflow|idmappingworkflow|idnamespace)/[a-zA-Z_0-9-]{1,255})</param>
-    /// <param name="Policy">The resource-based policy. WARNING: If you set the value of the effect parameter in the policy to Deny for the PutPolicy operation, you must also set the value of the effect parameter to Deny for the AddPolicyStatement opera- tion. Constraints: o min: 1 o max: 40960</param>
+    /// <param name="Arn">The Amazon Resource Name (ARN) of the resource for which the policy needs to be updated. Constraints: • pattern: arn:(aws|aws-us-gov|aws-cn):entityresolution:[a-z]{2}-[a-z]{1,10}-[0-9]:[0-9]{12}:((schemamapping|matchingworkflow|idmappingworkflow|idnamespace)/[a-zA-Z_0-9-]{1,255})</param>
+    /// <param name="Policy">The resource-based policy. WARNING: If you set the value of the effect parameter in the policy to Deny for the PutPolicy operation, you must also set the value of the effect parameter to Deny for the AddPolicyStatement operation. Constraints: • min: 1 • max: 40960</param>
     public AwsEntityresolutionPutPolicyOptions(
         string Arn,
         string Policy
@@ -61,19 +62,19 @@ public record AwsEntityresolutionPutPolicyOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the resource for which the policy needs to be updated. Constraints: o pattern: arn:(aws|aws-us-gov|aws-cn):entityresolu- tion:[a-z]{2}-[a-z]{1,10}-[0-9]:[0-9]{12}:((schemamapping|match- ingworkflow|idmappingworkflow|idnamespace)/[a-zA-Z_0-9-]{1,255})
+    /// The Amazon Resource Name (ARN) of the resource for which the policy needs to be updated. Constraints: • pattern: arn:(aws|aws-us-gov|aws-cn):entityresolution:[a-z]{2}-[a-z]{1,10}-[0-9]:[0-9]{12}:((schemamapping|matchingworkflow|idmappingworkflow|idnamespace)/[a-zA-Z_0-9-]{1,255})
     /// </summary>
     [CliOption("--arn")]
     public string? Arn { get; private init; }
 
     /// <summary>
-    /// The resource-based policy. WARNING: If you set the value of the effect parameter in the policy to Deny for the PutPolicy operation, you must also set the value of the effect parameter to Deny for the AddPolicyStatement opera- tion. Constraints: o min: 1 o max: 40960
+    /// The resource-based policy. WARNING: If you set the value of the effect parameter in the policy to Deny for the PutPolicy operation, you must also set the value of the effect parameter to Deny for the AddPolicyStatement operation. Constraints: • min: 1 • max: 40960
     /// </summary>
     [CliOption("--policy")]
     public string? Policy { get; private init; }
 
     /// <summary>
-    /// A unique identifier for the current revision of the policy. Constraints: o min: 36 o max: 36 o pattern: [a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}
+    /// A unique identifier for the current revision of the policy. Constraints: • min: 36 • max: 36 • pattern: [a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}
     /// </summary>
     [SecretValue]
     [CliOption("--token")]
@@ -100,6 +101,15 @@ public record AwsEntityresolutionPutPolicyOptions : AwsOptions, IValidatableObje
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

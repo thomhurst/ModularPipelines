@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Stops a resource. The resource undergoes the following states: CREATE_STOPPING and CRE- ATE_STOPPED . You cannot resume a resource once it has been stopped. This operation can be applied to the following resources (and their corresponding child resources): o Dataset Import Job o Predictor Job o Forecast Job o Forecast Export Job o Predictor Backtest Export Job o Explainability Job o Explainability Export Job See also: AWS API Documentation
+/// Stops a resource. The resource undergoes the following states: CREATE_STOPPING and CREATE_STOPPED . You cannot resume a resource once it has been stopped. This operation can be applied to the following resources (and their corresponding child resources): • Dataset Import Job • Predictor Job • Forecast Job • Forecast Export Job • Predictor Backtest Export Job • Explainability Job • Explainability Export Job See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsForecastStopResourceOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Stops a resource. The resource undergoes the following states: CREATE_STOPPING and CRE- ATE_STOPPED . You cannot resume a resource once it has been stopped. This operation can be applied to the following resources (and their corresponding child resources): o Dataset Import Job o Predictor Job o Forecast Job o Forecast Export Job o Predictor Backtest Export Job o Explainability Job o Explainability Export Job See also: AWS API Documentation
+    /// Stops a resource. The resource undergoes the following states: CREATE_STOPPING and CREATE_STOPPED . You cannot resume a resource once it has been stopped. This operation can be applied to the following resources (and their corresponding child resources): • Dataset Import Job • Predictor Job • Forecast Job • Forecast Export Job • Predictor Backtest Export Job • Explainability Job • Explainability Export Job See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The Amazon Resource Name (ARN) that identifies the resource to stop. The supported ARNs are DatasetImportJobArn , PredictorArn , Predic- torBacktestExportJobArn , ForecastArn , ForecastExportJobArn , Ex- plainabilityArn , and ExplainabilityExportArn . Constraints: o max: 256 o pattern: arn:([a-z\d-]+):forecast:.*:.*:.+</param>
+    /// <param name="ResourceArn">The Amazon Resource Name (ARN) that identifies the resource to stop. The supported ARNs are DatasetImportJobArn , PredictorArn , PredictorBacktestExportJobArn , ForecastArn , ForecastExportJobArn , ExplainabilityArn , and ExplainabilityExportArn . Constraints: • max: 256 • pattern: arn:([a-z\d-]+):forecast:.*:.*:.+</param>
     public AwsForecastStopResourceOptions(
         string ResourceArn
     )
@@ -56,7 +57,7 @@ public record AwsForecastStopResourceOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) that identifies the resource to stop. The supported ARNs are DatasetImportJobArn , PredictorArn , Predic- torBacktestExportJobArn , ForecastArn , ForecastExportJobArn , Ex- plainabilityArn , and ExplainabilityExportArn . Constraints: o max: 256 o pattern: arn:([a-z\d-]+):forecast:.*:.*:.+
+    /// The Amazon Resource Name (ARN) that identifies the resource to stop. The supported ARNs are DatasetImportJobArn , PredictorArn , PredictorBacktestExportJobArn , ForecastArn , ForecastExportJobArn , ExplainabilityArn , and ExplainabilityExportArn . Constraints: • max: 256 • pattern: arn:([a-z\d-]+):forecast:.*:.*:.+
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
@@ -82,6 +83,15 @@ public record AwsForecastStopResourceOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

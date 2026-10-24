@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates trail settings that control what events you are logging, and how to handle log files. Changes to a trail do not require stopping the CloudTrail service. Use this action to designate an existing bucket for log delivery. If the existing bucket has previously been a target for CloudTrail log files, an IAM policy exists for the bucket. UpdateTrail must be called from the Region in which the trail was created; other- wise, an InvalidHomeRegionException is thrown. See also: AWS API Documentati...
+/// Updates trail settings that control what events you are logging, and how to handle log files. Changes to a trail do not require stopping the CloudTrail service. Use this action to designate an existing bucket for log delivery. If the existing bucket has previously been a target for CloudTrail log files, an IAM policy exists for the bucket. UpdateTrail must be called from the Region in which the trail was created; otherwise, an InvalidHomeRegionException is thrown. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsCloudtrailUpdateTrailOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates trail settings that control what events you are logging, and how to handle log files. Changes to a trail do not require stopping the CloudTrail service. Use this action to designate an existing bucket for log delivery. If the existing bucket has previously been a target for CloudTrail log files, an IAM policy exists for the bucket. UpdateTrail must be called from the Region in which the trail was created; other- wise, an InvalidHomeRegionException is thrown. See also: AWS API Documentati...
+    /// Updates trail settings that control what events you are logging, and how to handle log files. Changes to a trail do not require stopping the CloudTrail service. Use this action to designate an existing bucket for log delivery. If the existing bucket has previously been a target for CloudTrail log files, an IAM policy exists for the bucket. UpdateTrail must be called from the Region in which the trail was created; otherwise, an InvalidHomeRegionException is thrown. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">Specifies the name of the trail or trail ARN. If Name is a trail name, the string must meet the following requirements: o Contain only ASCII letters (a-z, A-Z), numbers (0-9), periods (.), underscores (_), or dashes (-) o Start with a letter or number, and end with a letter or number o Be between 3 and 128 characters o Have no adjacent periods, underscores or dashes. Names like my-_namespace and my--namespace are not valid. o Not be in IP address format (for example, 192.168.5.4) If Name is a trail ARN, it must be in the following format. arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail</param>
+    /// <param name="Name">Specifies the name of the trail or trail ARN. If Name is a trail name, the string must meet the following requirements: • Contain only ASCII letters (a-z, A-Z), numbers (0-9), periods (.), underscores (_), or dashes (-) • Start with a letter or number, and end with a letter or number • Be between 3 and 128 characters • Have no adjacent periods, underscores or dashes. Names like my-_namespace and my--namespace are not valid. • Not be in IP address format (for example, 192.168.5.4) If Name is a trail ARN, it must be in the following format. arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail</param>
     public AwsCloudtrailUpdateTrailOptions(
         string Name
     )
@@ -56,7 +57,7 @@ public record AwsCloudtrailUpdateTrailOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Specifies the name of the trail or trail ARN. If Name is a trail name, the string must meet the following requirements: o Contain only ASCII letters (a-z, A-Z), numbers (0-9), periods (.), underscores (_), or dashes (-) o Start with a letter or number, and end with a letter or number o Be between 3 and 128 characters o Have no adjacent periods, underscores or dashes. Names like my-_namespace and my--namespace are not valid. o Not be in IP address format (for example, 192.168.5.4) If Name is a trail ARN, it must be in the following format. arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail
+    /// Specifies the name of the trail or trail ARN. If Name is a trail name, the string must meet the following requirements: • Contain only ASCII letters (a-z, A-Z), numbers (0-9), periods (.), underscores (_), or dashes (-) • Start with a letter or number, and end with a letter or number • Be between 3 and 128 characters • Have no adjacent periods, underscores or dashes. Names like my-_namespace and my--namespace are not valid. • Not be in IP address format (for example, 192.168.5.4) If Name is a trail ARN, it must be in the following format. arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
@@ -68,37 +69,37 @@ public record AwsCloudtrailUpdateTrailOptions : AwsOptions, IValidatableObject
     public string? S3BucketName { get; set; }
 
     /// <summary>
-    /// Specifies the Amazon S3 key prefix that comes after the name of the bucket you have designated for log file delivery. For more informa- tion, see Finding Your CloudTrail Log Files . The maximum length is 200 characters.
+    /// Specifies the Amazon S3 key prefix that comes after the name of the bucket you have designated for log file delivery. For more information, see Finding Your CloudTrail Log Files . The maximum length is 200 characters.
     /// </summary>
     [CliOption("--s3-key-prefix")]
     public string? S3KeyPrefix { get; set; }
 
     /// <summary>
-    /// Specifies the name or ARN of the Amazon SNS topic defined for noti- fication of log file delivery. The maximum length is 256 characters.
+    /// Specifies the name or ARN of the Amazon SNS topic defined for notification of log file delivery. The maximum length is 256 characters.
     /// </summary>
     [CliOption("--sns-topic-name")]
     public string? SnsTopicName { get; set; }
 
     /// <summary>
-    /// Specifies whether the trail is publishing events from global ser- vices such as IAM to the log files. Setting this value to true only delivers global service events to the trail if the trail is multi-Region or if the trail's home Region is the partition leader Region (for example, us-east-1).
+    /// Specifies whether the trail is publishing events from global services such as IAM to the log files. Setting this value to true only delivers global service events to the trail if the trail is multi-Region or if the trail's home Region is the partition leader Region (for example, us-east-1).
     /// </summary>
     [CliFlag("--include-global-service-events", NegatedName = "--no-include-global-service-events")]
     public bool? IncludeGlobalServiceEvents { get; set; }
 
     /// <summary>
-    /// Specifies whether the trail applies only to the current Region or to all Regions. The default is false. If the trail exists only in the current Region and this value is set to true, shadow trails (repli- cations of the trail) will be created in the other Regions. If the trail exists in all Regions and this value is set to false, the trail will remain in the Region where it was created, and its shadow trails in other Regions will be deleted. As a best practice, con- sider using trails that log events in all Regions.
+    /// Specifies whether the trail applies only to the current Region or to all Regions. The default is false. If the trail exists only in the current Region and this value is set to true, shadow trails (replications of the trail) will be created in the other Regions. If the trail exists in all Regions and this value is set to false, the trail will remain in the Region where it was created, and its shadow trails in other Regions will be deleted. As a best practice, consider using trails that log events in all Regions.
     /// </summary>
     [CliFlag("--is-multi-region-trail", NegatedName = "--no-is-multi-region-trail")]
     public bool? IsMultiRegionTrail { get; set; }
 
     /// <summary>
-    /// Specifies whether log file validation is enabled. The default is false. NOTE: When you disable log file integrity validation, the chain of di- gest files is broken after one hour. CloudTrail does not create digest files for log files that were delivered during a period in which log file integrity validation was disabled. For exam- ple, if you enable log file integrity validation at noon on Jan- uary 1, disable it at noon on January 2, and re-enable it at noon on January 10, digest files will not be created for the log files delivered from noon on January 2 to noon on January 10. The same applies whenever you stop CloudTrail logging or delete a trail.
+    /// Specifies whether log file validation is enabled. The default is false. NOTE: When you disable log file integrity validation, the chain of digest files is broken after one hour. CloudTrail does not create digest files for log files that were delivered during a period in which log file integrity validation was disabled. For example, if you enable log file integrity validation at noon on January 1, disable it at noon on January 2, and re-enable it at noon on January 10, digest files will not be created for the log files delivered from noon on January 2 to noon on January 10. The same applies whenever you stop CloudTrail logging or delete a trail.
     /// </summary>
     [CliFlag("--enable-log-file-validation", NegatedName = "--no-enable-log-file-validation")]
     public bool? EnableLogFileValidation { get; set; }
 
     /// <summary>
-    /// Specifies a log group name using an Amazon Resource Name (ARN), a unique identifier that represents the log group to which CloudTrail logs are delivered. You must use a log group that exists in your ac- count. Not required unless you specify CloudWatchLogsRoleArn .
+    /// Specifies a log group name using an Amazon Resource Name (ARN), a unique identifier that represents the log group to which CloudTrail logs are delivered. You must use a log group that exists in your account. Not required unless you specify CloudWatchLogsRoleArn .
     /// </summary>
     [CliOption("--cloud-watch-logs-log-group-arn")]
     public string? CloudWatchLogsLogGroupArn { get; set; }
@@ -110,19 +111,19 @@ public record AwsCloudtrailUpdateTrailOptions : AwsOptions, IValidatableObject
     public string? CloudWatchLogsRoleArn { get; set; }
 
     /// <summary>
-    /// Specifies the KMS key ID to use to encrypt the logs and digest files delivered by CloudTrail. The value can be an alias name prefixed by "alias/", a fully specified ARN to an alias, a fully specified ARN to a key, or a globally unique identifier. CloudTrail also supports KMS multi-Region keys. For more information about multi-Region keys, see Using multi-Region keys in the Key Man- agement Service Developer Guide . Examples: o alias/MyAliasName o arn:aws:kms:us-east-2:123456789012:alias/MyAliasName o arn:aws:kms:us-east-2:123456789012:key/12345678-1234-1234-1234-123456789012 o 12345678-1234-1234-1234-123456789012
+    /// Specifies the KMS key ID to use to encrypt the logs and digest files delivered by CloudTrail. The value can be an alias name prefixed by "alias/", a fully specified ARN to an alias, a fully specified ARN to a key, or a globally unique identifier. CloudTrail also supports KMS multi-Region keys. For more information about multi-Region keys, see Using multi-Region keys in the Key Management Service Developer Guide . Examples: • alias/MyAliasName • arn:aws:kms:us-east-2:123456789012:alias/MyAliasName • arn:aws:kms:us-east-2:123456789012:key/12345678-1234-1234-1234-123456789012 • 12345678-1234-1234-1234-123456789012
     /// </summary>
     [CliOption("--kms-key-id")]
     public string? KmsKeyId { get; set; }
 
     /// <summary>
-    /// Specifies whether the trail is applied to all accounts in an organi- zation in Organizations, or only for the current Amazon Web Services account. The default is false, and cannot be true unless the call is made on behalf of an Amazon Web Services account that is the manage- ment account for an organization in Organizations. If the trail is not an organization trail and this is set to true , the trail will be created in all Amazon Web Services accounts that belong to the organization. If the trail is an organization trail and this is set to false , the trail will remain in the current Amazon Web Services account but be deleted from all member accounts in the organization. NOTE: Only the management account for the organization can convert an organization trail to a non-organization trail, or convert a non-organization trail to an organization trail.
+    /// Specifies whether the trail is applied to all accounts in an organization in Organizations, or only for the current Amazon Web Services account. The default is false, and cannot be true unless the call is made on behalf of an Amazon Web Services account that is the management account for an organization in Organizations. If the trail is not an organization trail and this is set to true , the trail will be created in all Amazon Web Services accounts that belong to the organization. If the trail is an organization trail and this is set to false , the trail will remain in the current Amazon Web Services account but be deleted from all member accounts in the organization. NOTE: Only the management account for the organization can convert an organization trail to a non-organization trail, or convert a non-organization trail to an organization trail.
     /// </summary>
     [CliFlag("--is-organization-trail", NegatedName = "--no-is-organization-trail")]
     public bool? IsOrganizationTrail { get; set; }
 
     /// <summary>
-    /// Specifies whether recursive logging is enabled for the trail. If you set RecursiveLogging to false , CloudTrail suppresses events gener- ated by CloudTrail when it delivers log files to your trail's desti- nations, including Amazon S3 and CloudWatch Logs. The default value is true .
+    /// Specifies whether recursive logging is enabled for the trail. If you set RecursiveLogging to false , CloudTrail suppresses events generated by CloudTrail when it delivers log files to your trail's destinations, including Amazon S3 and CloudWatch Logs. The default value is true .
     /// </summary>
     [CliFlag("--recursive-logging", NegatedName = "--no-recursive-logging")]
     public bool? RecursiveLogging { get; set; }
@@ -148,6 +149,15 @@ public record AwsCloudtrailUpdateTrailOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

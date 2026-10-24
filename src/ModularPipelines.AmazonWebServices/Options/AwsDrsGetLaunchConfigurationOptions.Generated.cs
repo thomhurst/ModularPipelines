@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsDrsGetLaunchConfigurationOptions : AwsOptions, IValidatableObje
     /// <summary>
     /// Gets a LaunchConfiguration, filtered by Source Server IDs. See also: AWS API Documentation
     /// </summary>
-    /// <param name="SourceServerId">The ID of the Source Server that we want to retrieve a Launch Con- figuration for. Constraints: o min: 19 o max: 19 o pattern: s-[0-9a-zA-Z]{17}</param>
+    /// <param name="SourceServerId">The ID of the Source Server that we want to retrieve a Launch Configuration for. Constraints: • min: 19 • max: 19 • pattern: s-[0-9a-zA-Z]{17}</param>
     public AwsDrsGetLaunchConfigurationOptions(
         string SourceServerId
     )
@@ -56,7 +57,7 @@ public record AwsDrsGetLaunchConfigurationOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the Source Server that we want to retrieve a Launch Con- figuration for. Constraints: o min: 19 o max: 19 o pattern: s-[0-9a-zA-Z]{17}
+    /// The ID of the Source Server that we want to retrieve a Launch Configuration for. Constraints: • min: 19 • max: 19 • pattern: s-[0-9a-zA-Z]{17}
     /// </summary>
     [CliOption("--source-server-id")]
     public string? SourceServerId { get; private init; }
@@ -82,6 +83,15 @@ public record AwsDrsGetLaunchConfigurationOptions : AwsOptions, IValidatableObje
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

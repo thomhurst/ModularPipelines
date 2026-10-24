@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns details about the specified delivery channel. If a delivery channel is not specified, this operation returns the details of all de- livery channels associated with the account. NOTE: Currently, you can specify only one delivery channel per region in your account. See also: AWS API Documentation
+/// Returns details about the specified delivery channel. If a delivery channel is not specified, this operation returns the details of all delivery channels associated with the account. NOTE: Currently, you can specify only one delivery channel per region in your account. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -22,7 +22,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsConfigserviceDescribeDeliveryChannelsOptions : AwsOptions
 {
     /// <summary>
-    /// A list of delivery channel names. (string) Constraints: o min: 1 o max: 256 Syntax: "string" "string" ...
+    /// A list of delivery channel names. (string) Constraints: • min: 1 • max: 256 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--delivery-channel-names", GroupValues = true)]
     public IEnumerable<string>? DeliveryChannelNames { get; set; }
@@ -32,5 +32,14 @@ public record AwsConfigserviceDescribeDeliveryChannelsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

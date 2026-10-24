@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// WARNING: This operation is no longer current and may be deprecated in the fu- ture. We recommend upgrading to ` GetSprites https://docs.aws.amazon.com/location/latest/APIReference/API_geomaps_GetSprites.html`__ unless you require Grab data. o GetMapSprites is part of a previous Amazon Location Service Maps API (version 1) which has been superseded by a more intuitive, powerful, and complete API (version 2). o The version 2 GetSprites operation gives a better user experience and is compatible wit...
+/// WARNING: This operation is no longer current and may be deprecated in the future. We recommend upgrading to ` GetSprites https://docs.aws.amazon.com/location/latest/APIReference/API_geomaps_GetSprites.html`__ unless you require Grab data. • GetMapSprites is part of a previous Amazon Location Service Maps API (version 1) which has been superseded by a more intuitive, powerful, and complete API (version 2). • The version 2 GetSprites operation gives a better user experience and is compatible with ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -22,10 +22,10 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsLocationGetMapSpritesOptions : AwsOptions
 {
     /// <summary>
-    /// WARNING: This operation is no longer current and may be deprecated in the fu- ture. We recommend upgrading to ` GetSprites https://docs.aws.amazon.com/location/latest/APIReference/API_geomaps_GetSprites.html`__ unless you require Grab data. o GetMapSprites is part of a previous Amazon Location Service Maps API (version 1) which has been superseded by a more intuitive, powerful, and complete API (version 2). o The version 2 GetSprites operation gives a better user experience and is compatible wit...
+    /// WARNING: This operation is no longer current and may be deprecated in the future. We recommend upgrading to ` GetSprites https://docs.aws.amazon.com/location/latest/APIReference/API_geomaps_GetSprites.html`__ unless you require Grab data. • GetMapSprites is part of a previous Amazon Location Service Maps API (version 1) which has been superseded by a more intuitive, powerful, and complete API (version 2). • The version 2 GetSprites operation gives a better user experience and is compatible with ...
     /// </summary>
-    /// <param name="MapName">The map resource associated with the sprite le. Constraints: o min: 1 o max: 100 o pattern: [-._\w]+</param>
-    /// <param name="FileName">The name of the sprite le. Use the following le names for the sprite sheet: o sprites.png o sprites@2x.png for high pixel density displays For the JSON document containing image offsets. Use the following le names: o sprites.json o sprites@2x.json for high pixel density displays Constraints: o pattern: sprites(@2x)?\.(png|json)</param>
+    /// <param name="MapName">The map resource associated with the sprite le. Constraints: • min: 1 • max: 100 • pattern: [-._\w]+</param>
+    /// <param name="FileName">The name of the sprite le. Use the following le names for the sprite sheet: • sprites.png • sprites@2x.png for high pixel density displays For the JSON document containing image offsets. Use the following le names: • sprites.json • sprites@2x.json for high pixel density displays Constraints: • pattern: sprites(@2x)?\.(png|json)</param>
     /// <param name="Outfile">The &lt;outfile&gt; operand.</param>
     public AwsLocationGetMapSpritesOptions(
         string MapName,
@@ -49,19 +49,19 @@ public record AwsLocationGetMapSpritesOptions : AwsOptions
     }
 
     /// <summary>
-    /// The map resource associated with the sprite le. Constraints: o min: 1 o max: 100 o pattern: [-._\w]+
+    /// The map resource associated with the sprite le. Constraints: • min: 1 • max: 100 • pattern: [-._\w]+
     /// </summary>
     [CliOption("--map-name")]
     public string MapName { get; private init; }
 
     /// <summary>
-    /// The name of the sprite le. Use the following le names for the sprite sheet: o sprites.png o sprites@2x.png for high pixel density displays For the JSON document containing image offsets. Use the following le names: o sprites.json o sprites@2x.json for high pixel density displays Constraints: o pattern: sprites(@2x)?\.(png|json)
+    /// The name of the sprite le. Use the following le names for the sprite sheet: • sprites.png • sprites@2x.png for high pixel density displays For the JSON document containing image offsets. Use the following le names: • sprites.json • sprites@2x.json for high pixel density displays Constraints: • pattern: sprites(@2x)?\.(png|json)
     /// </summary>
     [CliOption("--file-name")]
     public string FileName { get; private init; }
 
     /// <summary>
-    /// The optional API key to authorize the request. Constraints: o min: 0 o max: 1000 outfile (string) [required] Filename where the content will be saved
+    /// The optional API key to authorize the request. Constraints: • min: 0 • max: 1000 outfile (string) [required] Filename where the content will be saved
     /// </summary>
     [CliOption("--key")]
     public string? Key { get; set; }
@@ -71,5 +71,14 @@ public record AwsLocationGetMapSpritesOptions : AwsOptions
     /// </summary>
     [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
     public string Outfile { get; private init; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

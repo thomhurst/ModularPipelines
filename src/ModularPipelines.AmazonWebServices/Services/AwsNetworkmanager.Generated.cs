@@ -6,8 +6,8 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
+using ModularPipelines;
 using ModularPipelines.Context;
-using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
@@ -47,7 +47,7 @@ public class AwsNetworkmanager : IAwsNetworkmanager
     }
 
     /// <summary>
-    /// Associates a core network Connect peer with a device and optionally, with a link. If you specify a link, it must be associated with the specified device. You can only associate core network Connect peers that have been cre- ated on a core network Connect attachment on a core network. See also: AWS API Documentation
+    /// Associates a core network Connect peer with a device and optionally, with a link. If you specify a link, it must be associated with the specified device. You can only associate core network Connect peers that have been created on a core network Connect attachment on a core network. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -62,7 +62,7 @@ public class AwsNetworkmanager : IAwsNetworkmanager
     }
 
     /// <summary>
-    /// Associates a customer gateway with a device and optionally, with a link. If you specify a link, it must be associated with the specified device. You can only associate customer gateways that are connected to a VPN attachment on a transit gateway or core network registered in your global network. When you register a transit gateway or core network, customer gateways that are connected to the transit gateway are auto- matically included in the global network. To list customer gateways that are con...
+    /// Associates a customer gateway with a device and optionally, with a link. If you specify a link, it must be associated with the specified device. You can only associate customer gateways that are connected to a VPN attachment on a transit gateway or core network registered in your global network. When you register a transit gateway or core network, customer gateways that are connected to the transit gateway are automatically included in the global network. To list customer gateways that are conne...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -92,7 +92,7 @@ public class AwsNetworkmanager : IAwsNetworkmanager
     }
 
     /// <summary>
-    /// Associates a transit gateway Connect peer with a device, and option- ally, with a link. If you specify a link, it must be associated with the specified device. You can only associate transit gateway Connect peers that have been created on a transit gateway that's registered in your global network. You cannot associate a transit gateway Connect peer with more than one device and link. See also: AWS API Documentation
+    /// Associates a transit gateway Connect peer with a device, and optionally, with a link. If you specify a link, it must be associated with the specified device. You can only associate transit gateway Connect peers that have been created on a transit gateway that's registered in your global network. You cannot associate a transit gateway Connect peer with more than one device and link. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -107,7 +107,7 @@ public class AwsNetworkmanager : IAwsNetworkmanager
     }
 
     /// <summary>
-    /// Creates a core network Connect attachment from a specified core network attachment. A core network Connect attachment is a GRE-based tunnel attachment that you can use to establish a connection between a core network and an ap- pliance. A core network Connect attachment uses an existing VPC attach- ment as the underlying transport mechanism. See also: AWS API Documentation
+    /// Creates a core network Connect attachment from a specified core network attachment. A core network Connect attachment is a GRE-based tunnel attachment that you can use to establish a connection between a core network and an appliance. A core network Connect attachment uses an existing VPC attachment as the underlying transport mechanism. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -115,6 +115,21 @@ public class AwsNetworkmanager : IAwsNetworkmanager
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateConnectAttachmentAsync(
         AwsNetworkmanagerCreateConnectAttachmentOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Creates a core network Connect peer for a specified core network connect attachment between a core network and an appliance. The peer address and transit gateway address must be the same IP address family (IPv4 or IPv6). See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> CreateConnectPeerAsync(
+        AwsNetworkmanagerCreateConnectPeerOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
@@ -130,21 +145,6 @@ public class AwsNetworkmanager : IAwsNetworkmanager
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateConnectionAsync(
         AwsNetworkmanagerCreateConnectionOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
-    /// Creates a core network Connect peer for a specified core network con- nect attachment between a core network and an appliance. The peer ad- dress and transit gateway address must be the same IP address family (IPv4 or IPv6). See also: AWS API Documentation
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> CreateConnectPeerAsync(
-        AwsNetworkmanagerCreateConnectPeerOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
@@ -332,21 +332,6 @@ public class AwsNetworkmanager : IAwsNetworkmanager
     }
 
     /// <summary>
-    /// Deletes the specified connection in your global network. See also: AWS API Documentation
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> DeleteConnectionAsync(
-        AwsNetworkmanagerDeleteConnectionOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
     /// Deletes a Connect peer. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -355,6 +340,21 @@ public class AwsNetworkmanager : IAwsNetworkmanager
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteConnectPeerAsync(
         AwsNetworkmanagerDeleteConnectPeerOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Deletes the specified connection in your global network. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> DeleteConnectionAsync(
+        AwsNetworkmanagerDeleteConnectionOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
@@ -377,7 +377,7 @@ public class AwsNetworkmanager : IAwsNetworkmanager
     }
 
     /// <summary>
-    /// Deletes a policy version from a core network. You can't delete the cur- rent LIVE policy. See also: AWS API Documentation
+    /// Deletes a policy version from a core network. You can't delete the current LIVE policy. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -512,7 +512,7 @@ public class AwsNetworkmanager : IAwsNetworkmanager
     }
 
     /// <summary>
-    /// Describes one or more global networks. By default, all global networks are described. To describe the objects in your global network, you must use the appropriate Get* action. For example, to list the transit gate- ways in your global network, use GetTransitGatewayRegistrations . See also: AWS API Documentation describe-global-networks is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-p...
+    /// Describes one or more global networks. By default, all global networks are described. To describe the objects in your global network, you must use the appropriate Get* action. For example, to list the transit gateways in your global network, use GetTransitGatewayRegistrations . See also: AWS API Documentation describe-global-networks is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-pag...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -557,7 +557,7 @@ public class AwsNetworkmanager : IAwsNetworkmanager
     }
 
     /// <summary>
-    /// Disassociates an existing device from a link. You must first disassoci- ate any customer gateways that are associated with the link. See also: AWS API Documentation
+    /// Disassociates an existing device from a link. You must first disassociate any customer gateways that are associated with the link. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -617,22 +617,7 @@ public class AwsNetworkmanager : IAwsNetworkmanager
     }
 
     /// <summary>
-    /// Gets information about one or more of your connections in a global net- work. See also: AWS API Documentation get-connections is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Connections
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> GetConnectionsAsync(
-        AwsNetworkmanagerGetConnectionsOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
-    /// Returns information about a core network Connect peer associations. See also: AWS API Documentation get-connect-peer-associations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: ConnectPeerAssociat...
+    /// Returns information about a core network Connect peer associations. See also: AWS API Documentation get-connect-peer-associations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: ConnectPeerAssociations
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -662,7 +647,22 @@ public class AwsNetworkmanager : IAwsNetworkmanager
     }
 
     /// <summary>
-    /// Returns information about a core network change event. See also: AWS API Documentation get-core-network-change-events is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: CoreNetworkChangeEvents
+    /// Gets information about one or more of your connections in a global network. See also: AWS API Documentation get-connections is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Connections
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> GetConnectionsAsync(
+        AwsNetworkmanagerGetConnectionsOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Returns information about a core network change event. See also: AWS API Documentation get-core-network-change-events is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: CoreNetworkChangeEvents
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -677,7 +677,7 @@ public class AwsNetworkmanager : IAwsNetworkmanager
     }
 
     /// <summary>
-    /// Returns a change set between the LIVE core network policy and a submit- ted policy. See also: AWS API Documentation get-core-network-change-set is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: CoreN...
+    /// Returns a change set between the LIVE core network policy and a submitted policy. See also: AWS API Documentation get-core-network-change-set is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: CoreNetwork...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -722,7 +722,7 @@ public class AwsNetworkmanager : IAwsNetworkmanager
     }
 
     /// <summary>
-    /// Gets the association information for customer gateways that are associ- ated with devices and links in your global network. See also: AWS API Documentation get-customer-gateway-associations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the res...
+    /// Gets the association information for customer gateways that are associated with devices and links in your global network. See also: AWS API Documentation get-customer-gateway-associations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results o...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -737,7 +737,7 @@ public class AwsNetworkmanager : IAwsNetworkmanager
     }
 
     /// <summary>
-    /// Gets information about one or more of your devices in a global network. See also: AWS API Documentation get-devices is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex- pressions: Devices
+    /// Gets information about one or more of your devices in a global network. See also: AWS API Documentation get-devices is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Devices
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -782,7 +782,7 @@ public class AwsNetworkmanager : IAwsNetworkmanager
     }
 
     /// <summary>
-    /// Gets information about one or more links in a specified global network. If you specify the site ID, you cannot specify the type or provider in the same request. You can specify the type and provider in the same re- quest. See also: AWS API Documentation get-links is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagi- nation by providing the --no-paginate argument. When using --output text and the --query argument on a...
+    /// Gets information about one or more links in a specified global network. If you specify the site ID, you cannot specify the type or provider in the same request. You can specify the type and provider in the same request. See also: AWS API Documentation get-links is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a pag...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -797,7 +797,7 @@ public class AwsNetworkmanager : IAwsNetworkmanager
     }
 
     /// <summary>
-    /// Gets the count of network resources, by resource type, for the speci- fied global network. See also: AWS API Documentation get-network-resource-counts is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions...
+    /// Gets the count of network resources, by resource type, for the specified global network. See also: AWS API Documentation get-network-resource-counts is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Netw...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -812,7 +812,7 @@ public class AwsNetworkmanager : IAwsNetworkmanager
     }
 
     /// <summary>
-    /// Gets the network resource relationships for the specified global net- work. See also: AWS API Documentation get-network-resource-relationships is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Relati...
+    /// Gets the network resource relationships for the specified global network. See also: AWS API Documentation get-network-resource-relationships is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Relationship...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -902,21 +902,6 @@ public class AwsNetworkmanager : IAwsNetworkmanager
     }
 
     /// <summary>
-    /// Gets information about one or more of your sites in a global network. See also: AWS API Documentation get-sites is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagi- nation by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query ar- gument must extract data from the results of the following query ex- pressions: Sites
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> GetSitesAsync(
-        AwsNetworkmanagerGetSitesOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
     /// Returns information about a site-to-site VPN attachment. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -932,7 +917,22 @@ public class AwsNetworkmanager : IAwsNetworkmanager
     }
 
     /// <summary>
-    /// Gets information about one or more of your transit gateway Connect peer associations in a global network. See also: AWS API Documentation get-transit-gateway-connect-peer-associations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-pagi- nate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the re- sults o...
+    /// Gets information about one or more of your sites in a global network. See also: AWS API Documentation get-sites is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Sites
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> GetSitesAsync(
+        AwsNetworkmanagerGetSitesOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Gets information about one or more of your transit gateway Connect peer associations in a global network. See also: AWS API Documentation get-transit-gateway-connect-peer-associations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of th...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -962,7 +962,7 @@ public class AwsNetworkmanager : IAwsNetworkmanager
     }
 
     /// <summary>
-    /// Gets information about the transit gateway registrations in a specified global network. See also: AWS API Documentation get-transit-gateway-registrations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressi...
+    /// Gets information about the transit gateway registrations in a specified global network. See also: AWS API Documentation get-transit-gateway-registrations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions:...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1007,7 +1007,7 @@ public class AwsNetworkmanager : IAwsNetworkmanager
     }
 
     /// <summary>
-    /// Lists the routing policy associations for attachments in a core net- work. See also: AWS API Documentation list-attachment-routing-policy-associations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-pagi- nate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the re- sults of the following query expressions...
+    /// Lists the routing policy associations for attachments in a core network. See also: AWS API Documentation list-attachment-routing-policy-associations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Atta...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1052,7 +1052,7 @@ public class AwsNetworkmanager : IAwsNetworkmanager
     }
 
     /// <summary>
-    /// Returns a list of core network policy versions. See also: AWS API Documentation list-core-network-policy-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: CoreNetworkPolicyVersions
+    /// Returns a list of core network policy versions. See also: AWS API Documentation list-core-network-policy-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: CoreNetworkPolicyVersions
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1067,7 +1067,7 @@ public class AwsNetworkmanager : IAwsNetworkmanager
     }
 
     /// <summary>
-    /// Lists the prefix list associations for a core network. See also: AWS API Documentation list-core-network-prefix-list-associations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-pagi- nate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the re- sults of the following query expressions: PrefixListAssociati...
+    /// Lists the prefix list associations for a core network. See also: AWS API Documentation list-core-network-prefix-list-associations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: PrefixListAssociations
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1082,7 +1082,7 @@ public class AwsNetworkmanager : IAwsNetworkmanager
     }
 
     /// <summary>
-    /// Lists routing information for a core network, including routes and their attributes. See also: AWS API Documentation list-core-network-routing-information is a paginated operation. Multi- ple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate ar- gument. When using --output text and the --query argument on a pagi- nated response, the --query argument must extract data from the results of the following query expre...
+    /// Lists routing information for a core network, including routes and their attributes. See also: AWS API Documentation list-core-network-routing-information is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1112,7 +1112,7 @@ public class AwsNetworkmanager : IAwsNetworkmanager
     }
 
     /// <summary>
-    /// Gets the status of the Service Linked Role (SLR) deployment for the ac- counts in a given Amazon Web Services Organization. See also: AWS API Documentation
+    /// Gets the status of the Service Linked Role (SLR) deployment for the accounts in a given Amazon Web Services Organization. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1127,7 +1127,7 @@ public class AwsNetworkmanager : IAwsNetworkmanager
     }
 
     /// <summary>
-    /// Lists the peerings for a core network. See also: AWS API Documentation list-peerings is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Peerings
+    /// Lists the peerings for a core network. See also: AWS API Documentation list-peerings is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Peerings
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1157,7 +1157,7 @@ public class AwsNetworkmanager : IAwsNetworkmanager
     }
 
     /// <summary>
-    /// Applies a routing policy label to an attachment for traffic routing de- cisions. See also: AWS API Documentation
+    /// Applies a routing policy label to an attachment for traffic routing decisions. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1202,7 +1202,7 @@ public class AwsNetworkmanager : IAwsNetworkmanager
     }
 
     /// <summary>
-    /// Registers a transit gateway in your global network. Not all Regions support transit gateways for global networks. For a list of the sup- ported Regions, see Region Availability in the Amazon Web Services Transit Gateways for Global Networks User Guide . The transit gateway can be in any of the supported Amazon Web Services Regions, but it must be owned by the same Amazon Web Services account that owns the global network. You cannot register a transit gateway in more than one global network. See ...
+    /// Registers a transit gateway in your global network. Not all Regions support transit gateways for global networks. For a list of the supported Regions, see Region Availability in the Amazon Web Services Transit Gateways for Global Networks User Guide . The transit gateway can be in any of the supported Amazon Web Services Regions, but it must be owned by the same Amazon Web Services account that owns the global network. You cannot register a transit gateway in more than one global network. See al...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1262,7 +1262,7 @@ public class AwsNetworkmanager : IAwsNetworkmanager
     }
 
     /// <summary>
-    /// Enables the Network Manager service for an Amazon Web Services Organi- zation. This can only be called by a management account within the or- ganization. See also: AWS API Documentation
+    /// Enables the Network Manager service for an Amazon Web Services Organization. This can only be called by a management account within the organization. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1277,7 +1277,7 @@ public class AwsNetworkmanager : IAwsNetworkmanager
     }
 
     /// <summary>
-    /// Starts analyzing the routing path between the specified source and des- tination. For more information, see Route Analyzer . See also: AWS API Documentation
+    /// Starts analyzing the routing path between the specified source and destination. For more information, see Route Analyzer . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1322,7 +1322,7 @@ public class AwsNetworkmanager : IAwsNetworkmanager
     }
 
     /// <summary>
-    /// Updates the information for an existing connection. To remove informa- tion for any of the parameters, specify an empty string. See also: AWS API Documentation
+    /// Updates the information for an existing connection. To remove information for any of the parameters, specify an empty string. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1367,7 +1367,7 @@ public class AwsNetworkmanager : IAwsNetworkmanager
     }
 
     /// <summary>
-    /// Updates the edge locations associated with an Amazon Web Services Di- rect Connect gateway attachment. See also: AWS API Documentation
+    /// Updates the edge locations associated with an Amazon Web Services Direct Connect gateway attachment. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

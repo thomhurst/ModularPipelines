@@ -29,7 +29,7 @@ public record AwsAppstreamDescribeUsageReportSubscriptionsOptions : AwsOptions
     public int? MaxResults { get; set; }
 
     /// <summary>
-    /// The pagination token to use to retrieve the next page of results for this operation. If this value is null, it retrieves the first page. Constraints: o min: 1
+    /// The pagination token to use to retrieve the next page of results for this operation. If this value is null, it retrieves the first page. Constraints: • min: 1
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
@@ -40,5 +40,14 @@ public record AwsAppstreamDescribeUsageReportSubscriptionsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

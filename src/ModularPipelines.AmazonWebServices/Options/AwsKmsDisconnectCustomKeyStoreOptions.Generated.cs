@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Disconnects the custom key store from its backing key store. This oper- ation disconnects an CloudHSM key store from its associated CloudHSM cluster or disconnects an external key store from the external key store proxy that communicates with your external key manager. This operation is part of the custom key stores feature in KMS, which combines the convenience and extensive integration of KMS with the iso- lation and control of a key store that you own and manage. While a custom key store is d...
+/// Disconnects the custom key store from its backing key store. This operation disconnects an CloudHSM key store from its associated CloudHSM cluster or disconnects an external key store from the external key store proxy that communicates with your external key manager. This operation is part of the custom key stores feature in KMS, which combines the convenience and extensive integration of KMS with the isolation and control of a key store that you own and manage. While a custom key store is disco...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsKmsDisconnectCustomKeyStoreOptions : AwsOptions, IValidatableOb
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Disconnects the custom key store from its backing key store. This oper- ation disconnects an CloudHSM key store from its associated CloudHSM cluster or disconnects an external key store from the external key store proxy that communicates with your external key manager. This operation is part of the custom key stores feature in KMS, which combines the convenience and extensive integration of KMS with the iso- lation and control of a key store that you own and manage. While a custom key store is d...
+    /// Disconnects the custom key store from its backing key store. This operation disconnects an CloudHSM key store from its associated CloudHSM cluster or disconnects an external key store from the external key store proxy that communicates with your external key manager. This operation is part of the custom key stores feature in KMS, which combines the convenience and extensive integration of KMS with the isolation and control of a key store that you own and manage. While a custom key store is disco...
     /// </summary>
-    /// <param name="CustomKeyStoreId">Enter the ID of the custom key store you want to disconnect. To find the ID of a custom key store, use the DescribeCustomKeyStores oper- ation. Constraints: o min: 1 o max: 64</param>
+    /// <param name="CustomKeyStoreId">Enter the ID of the custom key store you want to disconnect. To find the ID of a custom key store, use the DescribeCustomKeyStores operation. Constraints: • min: 1 • max: 64</param>
     public AwsKmsDisconnectCustomKeyStoreOptions(
         string CustomKeyStoreId
     )
@@ -56,7 +57,7 @@ public record AwsKmsDisconnectCustomKeyStoreOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Enter the ID of the custom key store you want to disconnect. To find the ID of a custom key store, use the DescribeCustomKeyStores oper- ation. Constraints: o min: 1 o max: 64
+    /// Enter the ID of the custom key store you want to disconnect. To find the ID of a custom key store, use the DescribeCustomKeyStores operation. Constraints: • min: 1 • max: 64
     /// </summary>
     [CliOption("--custom-key-store-id")]
     public string? CustomKeyStoreId { get; private init; }
@@ -82,6 +83,15 @@ public record AwsKmsDisconnectCustomKeyStoreOptions : AwsOptions, IValidatableOb
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

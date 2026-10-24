@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +29,7 @@ public record AwsIottwinmakerListEntitiesOptions : AwsOptions, IValidatableObjec
     /// <summary>
     /// Lists all entities in a workspace. See also: AWS API Documentation
     /// </summary>
-    /// <param name="WorkspaceId">The ID of the workspace. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z_0-9][a-zA-Z_\-0-9]*[a-zA-Z0-9]+</param>
+    /// <param name="WorkspaceId">The ID of the workspace. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z_0-9][a-zA-Z_\-0-9]*[a-zA-Z0-9]+</param>
     public AwsIottwinmakerListEntitiesOptions(
         string WorkspaceId
     )
@@ -57,25 +58,25 @@ public record AwsIottwinmakerListEntitiesOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the workspace. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z_0-9][a-zA-Z_\-0-9]*[a-zA-Z0-9]+
+    /// The ID of the workspace. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z_0-9][a-zA-Z_\-0-9]*[a-zA-Z0-9]+
     /// </summary>
     [CliOption("--workspace-id")]
     public string? WorkspaceId { get; private init; }
 
     /// <summary>
-    /// A list of objects that filter the request. NOTE: Only one object is accepted as a valid input. (tagged union structure) An object that filters items in a list of entities. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: parentEntityId, componentTypeId, externalId. parentEntityId -&gt; (string) The parent of the entities in the list. Constraints: o min: 1 o max: 128 o pattern: \$ROOT|^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}|^[a-zA-Z0-9][a-zA-Z_\-0-9.:]*[a-zA-Z0-9]+ componentTypeId -&gt; (string) The ID of the component type in the entities in the list. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z_\.\-0-9:]+ externalId -&gt; (string) The external-Id property of a component. The external-Id property is the primary key of an external storage system. Constraints: o min: 1 o max: 256 o pattern: .* Shorthand Syntax: parentEntityId=string,componentTypeId=string,externalId=string ... JSON Syntax: [ { "parentEntityId": "string", "componentTypeId": "string", "externalId": "string" } ... ]
+    /// A list of objects that filter the request. NOTE: Only one object is accepted as a valid input. (tagged union structure) An object that filters items in a list of entities. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: parentEntityId, componentTypeId, externalId. parentEntityId -&gt; (string) The parent of the entities in the list. Constraints: • min: 1 • max: 128 • pattern: \$ROOT|^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}|^[a-zA-Z0-9][a-zA-Z_\-0-9.:]*[a-zA-Z0-9]+ componentTypeId -&gt; (string) The ID of the component type in the entities in the list. Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z_\.\-0-9:]+ externalId -&gt; (string) The external-Id property of a component. The external-Id property is the primary key of an external storage system. Constraints: • min: 1 • max: 256 • pattern: .* Shorthand Syntax: parentEntityId=string,componentTypeId=string,externalId=string ... JSON Syntax: [ { "parentEntityId": "string", "componentTypeId": "string", "externalId": "string" } ... ]
     /// </summary>
     [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     /// <summary>
-    /// The maximum number of results to return at one time. The default is 25. Valid Range: Minimum value of 1. Maximum value of 250. Constraints: o min: 0 o max: 200
+    /// The maximum number of results to return at one time. The default is 25. Valid Range: Minimum value of 1. Maximum value of 250. Constraints: • min: 0 • max: 200
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
     /// <summary>
-    /// The string that specifies the next page of results. Constraints: o min: 0 o max: 17880 o pattern: .*
+    /// The string that specifies the next page of results. Constraints: • min: 0 • max: 17880 • pattern: .*
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
@@ -102,6 +103,15 @@ public record AwsIottwinmakerListEntitiesOptions : AwsOptions, IValidatableObjec
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

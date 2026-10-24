@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Running PutPermission permits the specified Amazon Web Services account or Amazon Web Services organization to put events to the specified event bus . Amazon EventBridge rules in your account are triggered by these events arriving to an event bus in your account. For another account to send events to your account, that external ac- count must have an EventBridge rule with your account's event bus as a target. To enable multiple Amazon Web Services accounts to put events to your event bus, run Pu...
+/// Running PutPermission permits the specified Amazon Web Services account or Amazon Web Services organization to put events to the specified event bus . Amazon EventBridge rules in your account are triggered by these events arriving to an event bus in your account. For another account to send events to your account, that external account must have an EventBridge rule with your account's event bus as a target. To enable multiple Amazon Web Services accounts to put events to your event bus, run PutP...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -22,31 +22,31 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsEventsPutPermissionOptions : AwsOptions
 {
     /// <summary>
-    /// The name of the event bus associated with the rule. If you omit this, the default event bus is used. Constraints: o min: 1 o max: 256 o pattern: [\.\-_A-Za-z0-9]+
+    /// The name of the event bus associated with the rule. If you omit this, the default event bus is used. Constraints: • min: 1 • max: 256 • pattern: [\.\-_A-Za-z0-9]+
     /// </summary>
     [CliOption("--event-bus-name")]
     public string? EventBusName { get; set; }
 
     /// <summary>
-    /// The action that you are enabling the other account to perform. Constraints: o min: 1 o max: 64 o pattern: events:[a-zA-Z]+
+    /// The action that you are enabling the other account to perform. Constraints: • min: 1 • max: 64 • pattern: events:[a-zA-Z]+
     /// </summary>
     [CliOption("--action")]
     public string? Action { get; set; }
 
     /// <summary>
-    /// The 12-digit Amazon Web Services account ID that you are permitting to put events to your default event bus. Specify "*" to permit any account to put events to your default event bus. If you specify "*" without specifying Condition , avoid creating rules that may match undesirable events. To create more secure rules, make sure that the event pattern for each rule contains an account field with a specific account ID from which to receive events. Rules with an account field do not match any events sent from other accounts. Constraints: o min: 1 o max: 12 o pattern: (\d{12}|\*)
+    /// The 12-digit Amazon Web Services account ID that you are permitting to put events to your default event bus. Specify "*" to permit any account to put events to your default event bus. If you specify "*" without specifying Condition , avoid creating rules that may match undesirable events. To create more secure rules, make sure that the event pattern for each rule contains an account field with a specific account ID from which to receive events. Rules with an account field do not match any events sent from other accounts. Constraints: • min: 1 • max: 12 • pattern: (\d{12}|\*)
     /// </summary>
     [CliOption("--principal")]
     public string? Principal { get; set; }
 
     /// <summary>
-    /// An identifier string for the external account that you are granting permissions to. If you later want to revoke the permission for this external account, specify this StatementId when you run RemovePermission . NOTE: Each StatementId must be unique. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9-_]+
+    /// An identifier string for the external account that you are granting permissions to. If you later want to revoke the permission for this external account, specify this StatementId when you run RemovePermission . NOTE: Each StatementId must be unique. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9-_]+
     /// </summary>
     [CliOption("--statement-id")]
     public string? StatementId { get; set; }
 
     /// <summary>
-    /// This parameter enables you to limit the permission to accounts that fulfill a certain condition, such as being a member of a certain Amazon Web Services organization. For more information about Amazon Web Services Organizations, see What Is Amazon Web Services Organi- zations in the Amazon Web Services Organizations User Guide . If you specify Condition with an Amazon Web Services organization ID, and specify "*" as the value for Principal , you grant permis- sion to all the accounts in the named organization. The Condition is a JSON string which must contain Type , Key , and Value fields. Type -&gt; (string) [required] Specifies the type of condition. Currently the only supported value is StringEquals . Key -&gt; (string) [required] Specifies the key for the condition. Currently the only sup- ported key is aws:PrincipalOrgID . Value -&gt; (string) [required] Specifies the value for the key. Currently, this must be the ID of the organization. Shorthand Syntax: Type=string,Key=string,Value=string JSON Syntax: { "Type": "string", "Key": "string", "Value": "string" }
+    /// This parameter enables you to limit the permission to accounts that fulfill a certain condition, such as being a member of a certain Amazon Web Services organization. For more information about Amazon Web Services Organizations, see What Is Amazon Web Services Organizations in the Amazon Web Services Organizations User Guide . If you specify Condition with an Amazon Web Services organization ID, and specify "*" as the value for Principal , you grant permission to all the accounts in the named organization. The Condition is a JSON string which must contain Type , Key , and Value fields. Type -&gt; (string) [required] Specifies the type of condition. Currently the only supported value is StringEquals . Key -&gt; (string) [required] Specifies the key for the condition. Currently the only supported key is aws:PrincipalOrgID . Value -&gt; (string) [required] Specifies the value for the key. Currently, this must be the ID of the organization. Shorthand Syntax: Type=string,Key=string,Value=string JSON Syntax: { "Type": "string", "Key": "string", "Value": "string" }
     /// </summary>
     [CliOption("--condition")]
     public string? Condition { get; set; }
@@ -62,5 +62,14 @@ public record AwsEventsPutPermissionOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

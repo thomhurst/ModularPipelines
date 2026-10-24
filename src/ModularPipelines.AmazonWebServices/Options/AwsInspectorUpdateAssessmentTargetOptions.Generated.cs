@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates the assessment target that is specified by the ARN of the as- sessment target. If resourceGroupArn is not specified, all EC2 instances in the current AWS account and region are included in the assessment target. See also: AWS API Documentation
+/// Updates the assessment target that is specified by the ARN of the assessment target. If resourceGroupArn is not specified, all EC2 instances in the current AWS account and region are included in the assessment target. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsInspectorUpdateAssessmentTargetOptions : AwsOptions, IValidatab
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates the assessment target that is specified by the ARN of the as- sessment target. If resourceGroupArn is not specified, all EC2 instances in the current AWS account and region are included in the assessment target. See also: AWS API Documentation
+    /// Updates the assessment target that is specified by the ARN of the assessment target. If resourceGroupArn is not specified, all EC2 instances in the current AWS account and region are included in the assessment target. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AssessmentTargetArn">The ARN of the assessment target that you want to update. Constraints: o min: 1 o max: 300</param>
-    /// <param name="AssessmentTargetName">The name of the assessment target that you want to update. Constraints: o min: 1 o max: 140</param>
+    /// <param name="AssessmentTargetArn">The ARN of the assessment target that you want to update. Constraints: • min: 1 • max: 300</param>
+    /// <param name="AssessmentTargetName">The name of the assessment target that you want to update. Constraints: • min: 1 • max: 140</param>
     public AwsInspectorUpdateAssessmentTargetOptions(
         string AssessmentTargetArn,
         string AssessmentTargetName
@@ -60,19 +61,19 @@ public record AwsInspectorUpdateAssessmentTargetOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the assessment target that you want to update. Constraints: o min: 1 o max: 300
+    /// The ARN of the assessment target that you want to update. Constraints: • min: 1 • max: 300
     /// </summary>
     [CliOption("--assessment-target-arn")]
     public string? AssessmentTargetArn { get; private init; }
 
     /// <summary>
-    /// The name of the assessment target that you want to update. Constraints: o min: 1 o max: 140
+    /// The name of the assessment target that you want to update. Constraints: • min: 1 • max: 140
     /// </summary>
     [CliOption("--assessment-target-name")]
     public string? AssessmentTargetName { get; private init; }
 
     /// <summary>
-    /// The ARN of the resource group that is used to specify the new re- source group to associate with the assessment target. Constraints: o min: 1 o max: 300
+    /// The ARN of the resource group that is used to specify the new resource group to associate with the assessment target. Constraints: • min: 1 • max: 300
     /// </summary>
     [CliOption("--resource-group-arn")]
     public string? ResourceGroupArn { get; set; }
@@ -98,6 +99,15 @@ public record AwsInspectorUpdateAssessmentTargetOptions : AwsOptions, IValidatab
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

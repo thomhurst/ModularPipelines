@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +29,7 @@ public record AwsBedrockAgentcoreControlUpdateCapacityProviderOptions : AwsOptio
     /// <summary>
     /// Updates a capacity provider. Only the description can be changed. To change other configuration, such as instance types, networking, or storage, create a new capacity provider. See also: AWS API Documentation
     /// </summary>
-    /// <param name="CapacityProviderId">The unique identifier of the capacity provider to update. Constraints: o min: 12 o max: 59 o pattern: [a-zA-Z][a-zA-Z0-9_]{0,47}-[a-zA-Z0-9]{10}</param>
+    /// <param name="CapacityProviderId">The unique identifier of the capacity provider to update. Constraints: • min: 12 • max: 59 • pattern: [a-zA-Z][a-zA-Z0-9_]{0,47}-[a-zA-Z0-9]{10}</param>
     public AwsBedrockAgentcoreControlUpdateCapacityProviderOptions(
         string CapacityProviderId
     )
@@ -57,19 +58,19 @@ public record AwsBedrockAgentcoreControlUpdateCapacityProviderOptions : AwsOptio
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the capacity provider to update. Constraints: o min: 12 o max: 59 o pattern: [a-zA-Z][a-zA-Z0-9_]{0,47}-[a-zA-Z0-9]{10}
+    /// The unique identifier of the capacity provider to update. Constraints: • min: 12 • max: 59 • pattern: [a-zA-Z][a-zA-Z0-9_]{0,47}-[a-zA-Z0-9]{10}
     /// </summary>
     [CliOption("--capacity-provider-id")]
     public string? CapacityProviderId { get; private init; }
 
     /// <summary>
-    /// The updated description of the capacity provider. optionalValue -&gt; (string) Represents an optional value that is used to update the hu- man-readable description of the resource. If not specified, it will clear the current description of the resource. Constraints: o min: 1 o max: 4096 Shorthand Syntax: optionalValue=string JSON Syntax: { "optionalValue": "string" }
+    /// The updated description of the capacity provider. optionalValue -&gt; (string) Represents an optional value that is used to update the human-readable description of the resource. If not specified, it will clear the current description of the resource. Constraints: • min: 1 • max: 4096 Shorthand Syntax: optionalValue=string JSON Syntax: { "optionalValue": "string" }
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If you don't specify this field, a value is randomly generated for you. If this token matches a previ- ous request, the service ignores the request, but doesn't return an error. For more information, see Ensuring idempotency . Constraints: o min: 33 o max: 256 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,256}
+    /// A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If you don't specify this field, a value is randomly generated for you. If this token matches a previous request, the service ignores the request, but doesn't return an error. For more information, see Ensuring idempotency . Constraints: • min: 33 • max: 256 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,256}
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
@@ -96,6 +97,15 @@ public record AwsBedrockAgentcoreControlUpdateCapacityProviderOptions : AwsOptio
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

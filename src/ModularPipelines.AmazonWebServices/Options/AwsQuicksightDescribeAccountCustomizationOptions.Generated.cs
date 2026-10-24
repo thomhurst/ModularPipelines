@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Describes the customizations associated with the provided Amazon Web Services account and Amazon Quick Sight namespace. The Quick Sight con- sole evaluates which customizations to apply by running this API opera- tion with the Resolved flag included. To determine what customizations display when you run this command, it can help to visualize the relationship of the entities involved. o Amazon Web Services account - The Amazon Web Services account exists at the top of the hierarchy. It has the po...
+/// Describes the customizations associated with the provided Amazon Web Services account and Amazon Quick Sight namespace. The Quick Sight console evaluates which customizations to apply by running this API operation with the Resolved flag included. To determine what customizations display when you run this command, it can help to visualize the relationship of the entities involved. • Amazon Web Services account - The Amazon Web Services account exists at the top of the hierarchy. It has the potent...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsQuicksightDescribeAccountCustomizationOptions : AwsOptions, IVa
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Describes the customizations associated with the provided Amazon Web Services account and Amazon Quick Sight namespace. The Quick Sight con- sole evaluates which customizations to apply by running this API opera- tion with the Resolved flag included. To determine what customizations display when you run this command, it can help to visualize the relationship of the entities involved. o Amazon Web Services account - The Amazon Web Services account exists at the top of the hierarchy. It has the po...
+    /// Describes the customizations associated with the provided Amazon Web Services account and Amazon Quick Sight namespace. The Quick Sight console evaluates which customizations to apply by running this API operation with the Resolved flag included. To determine what customizations display when you run this command, it can help to visualize the relationship of the entities involved. • Amazon Web Services account - The Amazon Web Services account exists at the top of the hierarchy. It has the potent...
     /// </summary>
-    /// <param name="AwsAccountId">The ID for the Amazon Web Services account that you want to describe Quick Sight customizations for. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$</param>
+    /// <param name="AwsAccountId">The ID for the Amazon Web Services account that you want to describe Quick Sight customizations for. Constraints: • min: 12 • max: 12 • pattern: ^[0-9]{12}$</param>
     public AwsQuicksightDescribeAccountCustomizationOptions(
         string AwsAccountId
     )
@@ -56,13 +57,13 @@ public record AwsQuicksightDescribeAccountCustomizationOptions : AwsOptions, IVa
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID for the Amazon Web Services account that you want to describe Quick Sight customizations for. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$
+    /// The ID for the Amazon Web Services account that you want to describe Quick Sight customizations for. Constraints: • min: 12 • max: 12 • pattern: ^[0-9]{12}$
     /// </summary>
     [CliOption("--aws-account-id")]
     public string? AwsAccountId { get; private init; }
 
     /// <summary>
-    /// The Quick Sight namespace that you want to describe Quick Sight cus- tomizations for. Constraints: o max: 64 o pattern: ^[a-zA-Z0-9._-]*$
+    /// The Quick Sight namespace that you want to describe Quick Sight customizations for. Constraints: • max: 64 • pattern: ^[a-zA-Z0-9._-]*$
     /// </summary>
     [CliOption("--namespace")]
     public string? Namespace { get; set; }
@@ -94,6 +95,15 @@ public record AwsQuicksightDescribeAccountCustomizationOptions : AwsOptions, IVa
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

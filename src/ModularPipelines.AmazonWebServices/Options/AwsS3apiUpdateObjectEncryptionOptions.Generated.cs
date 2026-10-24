@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// NOTE: This operation is not supported for directory buckets or Amazon S3 on Outposts buckets. Updates the server-side encryption type of an existing encrypted object in a general purpose bucket. You can use the UpdateObjectEncryption op- eration to change encrypted objects from server-side encryption with Amazon S3 managed keys (SSE-S3) to server-side encryption with Key Man- agement Service (KMS) keys (SSE-KMS), or to apply S3 Bucket Keys. You can also use the UpdateObjectEncryption operation t...
+/// NOTE: This operation is not supported for directory buckets or Amazon S3 on Outposts buckets. Updates the server-side encryption type of an existing encrypted object in a general purpose bucket. You can use the UpdateObjectEncryption operation to change encrypted objects from server-side encryption with Amazon S3 managed keys (SSE-S3) to server-side encryption with Key Management Service (KMS) keys (SSE-KMS), or to apply S3 Bucket Keys. You can also use the UpdateObjectEncryption operation to ch...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,11 +27,11 @@ public record AwsS3apiUpdateObjectEncryptionOptions : AwsOptions, IValidatableOb
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// NOTE: This operation is not supported for directory buckets or Amazon S3 on Outposts buckets. Updates the server-side encryption type of an existing encrypted object in a general purpose bucket. You can use the UpdateObjectEncryption op- eration to change encrypted objects from server-side encryption with Amazon S3 managed keys (SSE-S3) to server-side encryption with Key Man- agement Service (KMS) keys (SSE-KMS), or to apply S3 Bucket Keys. You can also use the UpdateObjectEncryption operation t...
+    /// NOTE: This operation is not supported for directory buckets or Amazon S3 on Outposts buckets. Updates the server-side encryption type of an existing encrypted object in a general purpose bucket. You can use the UpdateObjectEncryption operation to change encrypted objects from server-side encryption with Amazon S3 managed keys (SSE-S3) to server-side encryption with Key Management Service (KMS) keys (SSE-KMS), or to apply S3 Bucket Keys. You can also use the UpdateObjectEncryption operation to ch...
     /// </summary>
-    /// <param name="Bucket">The name of the general purpose bucket that contains the specified object key name. When you use this operation with an access point attached to a gen- eral purpose bucket, you must either provide the alias of the access point in place of the bucket name or you must specify the access point Amazon Resource Name (ARN). When using the access point ARN, you must direct requests to the access point hostname. The access point hostname takes the form `` AccessPointName -AccountId .s3-ac- cesspoint.*Region* .amazonaws.com`` . When using this operation with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more informa- tion about access point ARNs, see Referencing access points in the Amazon S3 User Guide .</param>
-    /// <param name="Key">The key name of the object that you want to update the server-side encryption type for. Constraints: o min: 1</param>
-    /// <param name="ObjectEncryption">The updated server-side encryption type for this object. The Upda- teObjectEncryption operation supports the SSE-S3 and SSE-KMS encryp- tion types. Valid Values: SSES3 | SSEKMS NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: SSEKMS. SSEKMS -&gt; (structure) Specifies to update the object encryption type to server-side encryption with Key Management Service (KMS) keys (SSE-KMS). KMSKeyArn -&gt; (string) [required] Specifies the Amazon Web Services KMS key Amazon Resource Name (ARN) to use for the updated server-side encryption type. Required if ObjectEncryption specifies SSEKMS . NOTE: You must specify the full Amazon Web Services KMS key ARN. The KMS key ID and KMS key alias aren't supported. Pattern: (arn:aws[-a-z0-9]*:kms:[-a-z0-9]*:[0-9]{12}:key/.+ ) Constraints: o min: 20 o max: 2048 o pattern: arn:aws[a-zA-Z0-9-]*:kms:[a-z0-9-]+:[0-9]{12}:key/[a-zA-Z0-9-]+ BucketKeyEnabled -&gt; (boolean) Specifies whether Amazon S3 should use an S3 Bucket Key for object encryption with server-side encryption using Key Man- agement Service (KMS) keys (SSE-KMS). If this value isn't specified, it defaults to false . Setting this value to true causes Amazon S3 to use an S3 Bucket Key for object encryp- tion with SSE-KMS. For more information, see Using Amazon S3 Bucket Keys in the Amazon S3 User Guide . Valid Values: true | false Shorthand Syntax: SSEKMS={KMSKeyArn=string,BucketKeyEnabled=boolean} JSON Syntax: { "SSEKMS": { "KMSKeyArn": "string", "BucketKeyEnabled": true|false } }</param>
+    /// <param name="Bucket">The name of the general purpose bucket that contains the specified object key name. When you use this operation with an access point attached to a general purpose bucket, you must either provide the alias of the access point in place of the bucket name or you must specify the access point Amazon Resource Name (ARN). When using the access point ARN, you must direct requests to the access point hostname. The access point hostname takes the form `` AccessPointName -AccountId .s3-accesspoint.*Region* .amazonaws.com`` . When using this operation with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Referencing access points in the Amazon S3 User Guide .</param>
+    /// <param name="Key">The key name of the object that you want to update the server-side encryption type for. Constraints: • min: 1</param>
+    /// <param name="ObjectEncryption">The updated server-side encryption type for this object. The UpdateObjectEncryption operation supports the SSE-S3 and SSE-KMS encryption types. Valid Values: SSES3 | SSEKMS NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: SSEKMS. SSEKMS -&gt; (structure) Specifies to update the object encryption type to server-side encryption with Key Management Service (KMS) keys (SSE-KMS). KMSKeyArn -&gt; (string) [required] Specifies the Amazon Web Services KMS key Amazon Resource Name (ARN) to use for the updated server-side encryption type. Required if ObjectEncryption specifies SSEKMS . NOTE: You must specify the full Amazon Web Services KMS key ARN. The KMS key ID and KMS key alias aren't supported. Pattern: (arn:aws[-a-z0-9]*:kms:[-a-z0-9]*:[0-9]{12}:key/.+ ) Constraints: • min: 20 • max: 2048 • pattern: arn:aws[a-zA-Z0-9-]*:kms:[a-z0-9-]+:[0-9]{12}:key/[a-zA-Z0-9-]+ BucketKeyEnabled -&gt; (boolean) Specifies whether Amazon S3 should use an S3 Bucket Key for object encryption with server-side encryption using Key Management Service (KMS) keys (SSE-KMS). If this value isn't specified, it defaults to false . Setting this value to true causes Amazon S3 to use an S3 Bucket Key for object encryption with SSE-KMS. For more information, see Using Amazon S3 Bucket Keys in the Amazon S3 User Guide . Valid Values: true | false Shorthand Syntax: SSEKMS={KMSKeyArn=string,BucketKeyEnabled=boolean} JSON Syntax: { "SSEKMS": { "KMSKeyArn": "string", "BucketKeyEnabled": true|false } }</param>
     public AwsS3apiUpdateObjectEncryptionOptions(
         string Bucket,
         string Key,
@@ -65,19 +66,19 @@ public record AwsS3apiUpdateObjectEncryptionOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the general purpose bucket that contains the specified object key name. When you use this operation with an access point attached to a gen- eral purpose bucket, you must either provide the alias of the access point in place of the bucket name or you must specify the access point Amazon Resource Name (ARN). When using the access point ARN, you must direct requests to the access point hostname. The access point hostname takes the form `` AccessPointName -AccountId .s3-ac- cesspoint.*Region* .amazonaws.com`` . When using this operation with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more informa- tion about access point ARNs, see Referencing access points in the Amazon S3 User Guide .
+    /// The name of the general purpose bucket that contains the specified object key name. When you use this operation with an access point attached to a general purpose bucket, you must either provide the alias of the access point in place of the bucket name or you must specify the access point Amazon Resource Name (ARN). When using the access point ARN, you must direct requests to the access point hostname. The access point hostname takes the form `` AccessPointName -AccountId .s3-accesspoint.*Region* .amazonaws.com`` . When using this operation with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Referencing access points in the Amazon S3 User Guide .
     /// </summary>
     [CliOption("--bucket")]
     public string? Bucket { get; private init; }
 
     /// <summary>
-    /// The key name of the object that you want to update the server-side encryption type for. Constraints: o min: 1
+    /// The key name of the object that you want to update the server-side encryption type for. Constraints: • min: 1
     /// </summary>
     [CliOption("--key")]
     public string? Key { get; private init; }
 
     /// <summary>
-    /// The updated server-side encryption type for this object. The Upda- teObjectEncryption operation supports the SSE-S3 and SSE-KMS encryp- tion types. Valid Values: SSES3 | SSEKMS NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: SSEKMS. SSEKMS -&gt; (structure) Specifies to update the object encryption type to server-side encryption with Key Management Service (KMS) keys (SSE-KMS). KMSKeyArn -&gt; (string) [required] Specifies the Amazon Web Services KMS key Amazon Resource Name (ARN) to use for the updated server-side encryption type. Required if ObjectEncryption specifies SSEKMS . NOTE: You must specify the full Amazon Web Services KMS key ARN. The KMS key ID and KMS key alias aren't supported. Pattern: (arn:aws[-a-z0-9]*:kms:[-a-z0-9]*:[0-9]{12}:key/.+ ) Constraints: o min: 20 o max: 2048 o pattern: arn:aws[a-zA-Z0-9-]*:kms:[a-z0-9-]+:[0-9]{12}:key/[a-zA-Z0-9-]+ BucketKeyEnabled -&gt; (boolean) Specifies whether Amazon S3 should use an S3 Bucket Key for object encryption with server-side encryption using Key Man- agement Service (KMS) keys (SSE-KMS). If this value isn't specified, it defaults to false . Setting this value to true causes Amazon S3 to use an S3 Bucket Key for object encryp- tion with SSE-KMS. For more information, see Using Amazon S3 Bucket Keys in the Amazon S3 User Guide . Valid Values: true | false Shorthand Syntax: SSEKMS={KMSKeyArn=string,BucketKeyEnabled=boolean} JSON Syntax: { "SSEKMS": { "KMSKeyArn": "string", "BucketKeyEnabled": true|false } }
+    /// The updated server-side encryption type for this object. The UpdateObjectEncryption operation supports the SSE-S3 and SSE-KMS encryption types. Valid Values: SSES3 | SSEKMS NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: SSEKMS. SSEKMS -&gt; (structure) Specifies to update the object encryption type to server-side encryption with Key Management Service (KMS) keys (SSE-KMS). KMSKeyArn -&gt; (string) [required] Specifies the Amazon Web Services KMS key Amazon Resource Name (ARN) to use for the updated server-side encryption type. Required if ObjectEncryption specifies SSEKMS . NOTE: You must specify the full Amazon Web Services KMS key ARN. The KMS key ID and KMS key alias aren't supported. Pattern: (arn:aws[-a-z0-9]*:kms:[-a-z0-9]*:[0-9]{12}:key/.+ ) Constraints: • min: 20 • max: 2048 • pattern: arn:aws[a-zA-Z0-9-]*:kms:[a-z0-9-]+:[0-9]{12}:key/[a-zA-Z0-9-]+ BucketKeyEnabled -&gt; (boolean) Specifies whether Amazon S3 should use an S3 Bucket Key for object encryption with server-side encryption using Key Management Service (KMS) keys (SSE-KMS). If this value isn't specified, it defaults to false . Setting this value to true causes Amazon S3 to use an S3 Bucket Key for object encryption with SSE-KMS. For more information, see Using Amazon S3 Bucket Keys in the Amazon S3 User Guide . Valid Values: true | false Shorthand Syntax: SSEKMS={KMSKeyArn=string,BucketKeyEnabled=boolean} JSON Syntax: { "SSEKMS": { "KMSKeyArn": "string", "BucketKeyEnabled": true|false } }
     /// </summary>
     [CliOption("--object-encryption")]
     public string? ObjectEncryption { get; private init; }
@@ -89,25 +90,25 @@ public record AwsS3apiUpdateObjectEncryptionOptions : AwsOptions, IValidatableOb
     public string? VersionId { get; set; }
 
     /// <summary>
-    /// Confirms that the requester knows that they will be charged for the request. Bucket owners need not specify this parameter in their re- quests. If either the source or destination S3 bucket has Requester Pays enabled, the requester will pay for the corresponding charges. For information about downloading objects from Requester Pays buck- ets, see Downloading Objects in Requester Pays Buckets in the Amazon S3 User Guide . NOTE: This functionality is not supported for directory buckets. Possible values: o requester
+    /// Confirms that the requester knows that they will be charged for the request. Bucket owners need not specify this parameter in their requests. If either the source or destination S3 bucket has Requester Pays enabled, the requester will pay for the corresponding charges. For information about downloading objects from Requester Pays buckets, see Downloading Objects in Requester Pays Buckets in the Amazon S3 User Guide . NOTE: This functionality is not supported for directory buckets. Possible values: • requester
     /// </summary>
     [CliOption("--request-payer")]
     public string? RequestPayer { get; set; }
 
     /// <summary>
-    /// The account ID of the expected bucket owner. If the account ID that you provide doesn't match the actual owner of the bucket, the re- quest fails with the HTTP status code 403 Forbidden (access denied).
+    /// The account ID of the expected bucket owner. If the account ID that you provide doesn't match the actual owner of the bucket, the request fails with the HTTP status code 403 Forbidden (access denied).
     /// </summary>
     [CliOption("--expected-bucket-owner")]
     public string? ExpectedBucketOwner { get; set; }
 
     /// <summary>
-    /// The MD5 hash for the request body. For requests made using the Ama- zon Web Services Command Line Interface (CLI) or Amazon Web Services SDKs, this field is calculated automatically.
+    /// The MD5 hash for the request body. For requests made using the Amazon Web Services Command Line Interface (CLI) or Amazon Web Services SDKs, this field is calculated automatically.
     /// </summary>
     [CliOption("--content-md5")]
     public string? ContentMd5 { get; set; }
 
     /// <summary>
-    /// Indicates the algorithm used to create the checksum for the object when you use an Amazon Web Services SDK. This header doesn't provide any additional functionality if you don't use the SDK. When you send this header, there must be a corresponding x-amz-checksum or x-amz-trailer header sent. Otherwise, Amazon S3 fails the request with the HTTP status code 400 Bad Request . For more information, see Checking object integrity in the Amazon S3 User Guide . If you provide an individual checksum, Amazon S3 ignores any pro- vided ChecksumAlgorithm parameter. Possible values: o CRC32 o CRC32C o SHA1 o SHA256 o CRC64NVME o SHA512 o MD5 o XXHASH64 o XXHASH3 o XXHASH128
+    /// Indicates the algorithm used to create the checksum for the object when you use an Amazon Web Services SDK. This header doesn't provide any additional functionality if you don't use the SDK. When you send this header, there must be a corresponding x-amz-checksum or x-amz-trailer header sent. Otherwise, Amazon S3 fails the request with the HTTP status code 400 Bad Request . For more information, see Checking object integrity in the Amazon S3 User Guide . If you provide an individual checksum, Amazon S3 ignores any provided ChecksumAlgorithm parameter. Possible values: • CRC32 • CRC32C • SHA1 • SHA256 • CRC64NVME • SHA512 • MD5 • XXHASH64 • XXHASH3 • XXHASH128
     /// </summary>
     [CliOption("--checksum-algorithm")]
     public AwsS3apiUpdateObjectEncryptionChecksumAlgorithm? ChecksumAlgorithm { get; set; }
@@ -133,6 +134,15 @@ public record AwsS3apiUpdateObjectEncryptionOptions : AwsOptions, IValidatableOb
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

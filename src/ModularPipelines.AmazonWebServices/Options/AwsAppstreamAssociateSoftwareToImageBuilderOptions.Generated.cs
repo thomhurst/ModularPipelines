@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsAppstreamAssociateSoftwareToImageBuilderOptions : AwsOptions, I
     /// <summary>
     /// Associates license included application(s) with an existing image builder instance. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ImageBuilderName">The name of the target image builder instance. Constraints: o pattern: ^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$</param>
-    /// <param name="SoftwareNames">The list of license included applications to associate with the im- age builder. Possible values include the following: o Microsoft_Office_2021_LTSC_Professional_Plus_32Bit o Microsoft_Office_2021_LTSC_Professional_Plus_64Bit o Microsoft_Office_2024_LTSC_Professional_Plus_32Bit o Microsoft_Office_2024_LTSC_Professional_Plus_64Bit o Microsoft_Visio_2021_LTSC_Professional_32Bit o Microsoft_Visio_2021_LTSC_Professional_64Bit o Microsoft_Visio_2024_LTSC_Professional_32Bit o Microsoft_Visio_2024_LTSC_Professional_64Bit o Microsoft_Project_2021_Professional_32Bit o Microsoft_Project_2021_Professional_64Bit o Microsoft_Project_2024_Professional_32Bit o Microsoft_Project_2024_Professional_64Bit o Microsoft_Office_2021_LTSC_Standard_32Bit o Microsoft_Office_2021_LTSC_Standard_64Bit o Microsoft_Office_2024_LTSC_Standard_32Bit o Microsoft_Office_2024_LTSC_Standard_64Bit o Microsoft_Visio_2021_LTSC_Standard_32Bit o Microsoft_Visio_2021_LTSC_Standard_64Bit o Microsoft_Visio_2024_LTSC_Standard_32Bit o Microsoft_Visio_2024_LTSC_Standard_64Bit o Microsoft_Project_2021_Standard_32Bit o Microsoft_Project_2021_Standard_64Bit o Microsoft_Project_2024_Standard_32Bit o Microsoft_Project_2024_Standard_64Bit (string) Constraints: o min: 1 Syntax: "string" "string" ...</param>
+    /// <param name="ImageBuilderName">The name of the target image builder instance. Constraints: • pattern: ^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$</param>
+    /// <param name="SoftwareNames">The list of license included applications to associate with the image builder. Possible values include the following: • Microsoft_Office_2021_LTSC_Professional_Plus_32Bit • Microsoft_Office_2021_LTSC_Professional_Plus_64Bit • Microsoft_Office_2024_LTSC_Professional_Plus_32Bit • Microsoft_Office_2024_LTSC_Professional_Plus_64Bit • Microsoft_Visio_2021_LTSC_Professional_32Bit • Microsoft_Visio_2021_LTSC_Professional_64Bit • Microsoft_Visio_2024_LTSC_Professional_32Bit • Microsoft_Visio_2024_LTSC_Professional_64Bit • Microsoft_Project_2021_Professional_32Bit • Microsoft_Project_2021_Professional_64Bit • Microsoft_Project_2024_Professional_32Bit • Microsoft_Project_2024_Professional_64Bit • Microsoft_Office_2021_LTSC_Standard_32Bit • Microsoft_Office_2021_LTSC_Standard_64Bit • Microsoft_Office_2024_LTSC_Standard_32Bit • Microsoft_Office_2024_LTSC_Standard_64Bit • Microsoft_Visio_2021_LTSC_Standard_32Bit • Microsoft_Visio_2021_LTSC_Standard_64Bit • Microsoft_Visio_2024_LTSC_Standard_32Bit • Microsoft_Visio_2024_LTSC_Standard_64Bit • Microsoft_Project_2021_Standard_32Bit • Microsoft_Project_2021_Standard_64Bit • Microsoft_Project_2024_Standard_32Bit • Microsoft_Project_2024_Standard_64Bit (string) Constraints: • min: 1 Syntax: "string" "string" ...</param>
     public AwsAppstreamAssociateSoftwareToImageBuilderOptions(
         string ImageBuilderName,
         IEnumerable<string> SoftwareNames
@@ -71,13 +72,13 @@ public record AwsAppstreamAssociateSoftwareToImageBuilderOptions : AwsOptions, I
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the target image builder instance. Constraints: o pattern: ^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$
+    /// The name of the target image builder instance. Constraints: • pattern: ^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$
     /// </summary>
     [CliOption("--image-builder-name")]
     public string? ImageBuilderName { get; private init; }
 
     /// <summary>
-    /// The list of license included applications to associate with the im- age builder. Possible values include the following: o Microsoft_Office_2021_LTSC_Professional_Plus_32Bit o Microsoft_Office_2021_LTSC_Professional_Plus_64Bit o Microsoft_Office_2024_LTSC_Professional_Plus_32Bit o Microsoft_Office_2024_LTSC_Professional_Plus_64Bit o Microsoft_Visio_2021_LTSC_Professional_32Bit o Microsoft_Visio_2021_LTSC_Professional_64Bit o Microsoft_Visio_2024_LTSC_Professional_32Bit o Microsoft_Visio_2024_LTSC_Professional_64Bit o Microsoft_Project_2021_Professional_32Bit o Microsoft_Project_2021_Professional_64Bit o Microsoft_Project_2024_Professional_32Bit o Microsoft_Project_2024_Professional_64Bit o Microsoft_Office_2021_LTSC_Standard_32Bit o Microsoft_Office_2021_LTSC_Standard_64Bit o Microsoft_Office_2024_LTSC_Standard_32Bit o Microsoft_Office_2024_LTSC_Standard_64Bit o Microsoft_Visio_2021_LTSC_Standard_32Bit o Microsoft_Visio_2021_LTSC_Standard_64Bit o Microsoft_Visio_2024_LTSC_Standard_32Bit o Microsoft_Visio_2024_LTSC_Standard_64Bit o Microsoft_Project_2021_Standard_32Bit o Microsoft_Project_2021_Standard_64Bit o Microsoft_Project_2024_Standard_32Bit o Microsoft_Project_2024_Standard_64Bit (string) Constraints: o min: 1 Syntax: "string" "string" ...
+    /// The list of license included applications to associate with the image builder. Possible values include the following: • Microsoft_Office_2021_LTSC_Professional_Plus_32Bit • Microsoft_Office_2021_LTSC_Professional_Plus_64Bit • Microsoft_Office_2024_LTSC_Professional_Plus_32Bit • Microsoft_Office_2024_LTSC_Professional_Plus_64Bit • Microsoft_Visio_2021_LTSC_Professional_32Bit • Microsoft_Visio_2021_LTSC_Professional_64Bit • Microsoft_Visio_2024_LTSC_Professional_32Bit • Microsoft_Visio_2024_LTSC_Professional_64Bit • Microsoft_Project_2021_Professional_32Bit • Microsoft_Project_2021_Professional_64Bit • Microsoft_Project_2024_Professional_32Bit • Microsoft_Project_2024_Professional_64Bit • Microsoft_Office_2021_LTSC_Standard_32Bit • Microsoft_Office_2021_LTSC_Standard_64Bit • Microsoft_Office_2024_LTSC_Standard_32Bit • Microsoft_Office_2024_LTSC_Standard_64Bit • Microsoft_Visio_2021_LTSC_Standard_32Bit • Microsoft_Visio_2021_LTSC_Standard_64Bit • Microsoft_Visio_2024_LTSC_Standard_32Bit • Microsoft_Visio_2024_LTSC_Standard_64Bit • Microsoft_Project_2021_Standard_32Bit • Microsoft_Project_2021_Standard_64Bit • Microsoft_Project_2024_Standard_32Bit • Microsoft_Project_2024_Standard_64Bit (string) Constraints: • min: 1 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--software-names", GroupValues = true)]
     public IEnumerable<string>? SoftwareNames { get; private init; }
@@ -103,6 +104,15 @@ public record AwsAppstreamAssociateSoftwareToImageBuilderOptions : AwsOptions, I
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

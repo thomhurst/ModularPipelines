@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes the specified report generator. This action deletes the report generator, which stops it from generat- ing future reports. The action cannot be reversed. It has no effect on the previous reports from this generator. See also: AWS API Documentation
+/// Deletes the specified report generator. This action deletes the report generator, which stops it from generating future reports. The action cannot be reversed. It has no effect on the previous reports from this generator. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +26,7 @@ public record AwsLicenseManagerDeleteLicenseManagerReportGeneratorOptions : AwsO
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes the specified report generator. This action deletes the report generator, which stops it from generat- ing future reports. The action cannot be reversed. It has no effect on the previous reports from this generator. See also: AWS API Documentation
+    /// Deletes the specified report generator. This action deletes the report generator, which stops it from generating future reports. The action cannot be reversed. It has no effect on the previous reports from this generator. See also: AWS API Documentation
     /// </summary>
     /// <param name="LicenseManagerReportGeneratorArn">Amazon Resource Name (ARN) of the report generator to be deleted.</param>
     public AwsLicenseManagerDeleteLicenseManagerReportGeneratorOptions(
@@ -82,6 +83,15 @@ public record AwsLicenseManagerDeleteLicenseManagerReportGeneratorOptions : AwsO
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

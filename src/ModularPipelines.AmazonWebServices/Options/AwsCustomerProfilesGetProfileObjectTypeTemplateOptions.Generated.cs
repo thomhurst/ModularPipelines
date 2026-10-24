@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns the template information for a specific object type. A template is a predefined ProfileObjectType, such as Salesforce-Ac- count or Salesforce-Contact. When a user sends a ProfileObject, using the PutProfileObject API, with an ObjectTypeName that matches one of the TemplateIds, it uses the mappings from the template. See also: AWS API Documentation
+/// Returns the template information for a specific object type. A template is a predefined ProfileObjectType, such as Salesforce-Account or Salesforce-Contact. When a user sends a ProfileObject, using the PutProfileObject API, with an ObjectTypeName that matches one of the TemplateIds, it uses the mappings from the template. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsCustomerProfilesGetProfileObjectTypeTemplateOptions : AwsOption
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns the template information for a specific object type. A template is a predefined ProfileObjectType, such as Salesforce-Ac- count or Salesforce-Contact. When a user sends a ProfileObject, using the PutProfileObject API, with an ObjectTypeName that matches one of the TemplateIds, it uses the mappings from the template. See also: AWS API Documentation
+    /// Returns the template information for a specific object type. A template is a predefined ProfileObjectType, such as Salesforce-Account or Salesforce-Contact. When a user sends a ProfileObject, using the PutProfileObject API, with an ObjectTypeName that matches one of the TemplateIds, it uses the mappings from the template. See also: AWS API Documentation
     /// </summary>
-    /// <param name="TemplateId">A unique identifier for the object template. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$</param>
+    /// <param name="TemplateId">A unique identifier for the object template. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9_-]+$</param>
     public AwsCustomerProfilesGetProfileObjectTypeTemplateOptions(
         string TemplateId
     )
@@ -56,7 +57,7 @@ public record AwsCustomerProfilesGetProfileObjectTypeTemplateOptions : AwsOption
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A unique identifier for the object template. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$
+    /// A unique identifier for the object template. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9_-]+$
     /// </summary>
     [CliOption("--template-id")]
     public string? TemplateId { get; private init; }
@@ -82,6 +83,15 @@ public record AwsCustomerProfilesGetProfileObjectTypeTemplateOptions : AwsOption
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

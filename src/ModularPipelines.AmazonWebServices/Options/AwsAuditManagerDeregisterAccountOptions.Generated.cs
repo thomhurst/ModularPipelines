@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deregisters an account in Audit Manager. NOTE: Before you deregister, you can use the UpdateSettings API operation to set your preferred data retention policy. By default, Audit Man- ager retains your data. If you want to delete your data, you can use the DeregistrationPolicy attribute to request the deletion of your data. For more information about data retention, see Data Protection in the Audit Manager User Guide . See also: AWS API Documentation
+/// Deregisters an account in Audit Manager. NOTE: Before you deregister, you can use the UpdateSettings API operation to set your preferred data retention policy. By default, Audit Manager retains your data. If you want to delete your data, you can use the DeregistrationPolicy attribute to request the deletion of your data. For more information about data retention, see Data Protection in the Audit Manager User Guide . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,5 +26,14 @@ public record AwsAuditManagerDeregisterAccountOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

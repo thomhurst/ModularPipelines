@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsChimeSdkIdentityPutAppInstanceRetentionSettingsOptions : AwsOpt
     /// <summary>
     /// Sets the amount of time in days that a given AppInstance retains data. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AppInstanceArn">The ARN of the AppInstance . Constraints: o min: 5 o max: 1600 o pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}</param>
-    /// <param name="AppInstanceRetentionSettings">The time in days to retain data. Data type: number. ChannelRetentionSettings -&gt; (structure) The length of time in days to retain the messages in a channel. RetentionDays -&gt; (integer) The time in days to retain the messages in a channel. Constraints: o min: 1 o max: 5475 Shorthand Syntax: ChannelRetentionSettings={RetentionDays=integer} JSON Syntax: { "ChannelRetentionSettings": { "RetentionDays": integer } }</param>
+    /// <param name="AppInstanceArn">The ARN of the AppInstance . Constraints: • min: 5 • max: 1600 • pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}</param>
+    /// <param name="AppInstanceRetentionSettings">The time in days to retain data. Data type: number. ChannelRetentionSettings -&gt; (structure) The length of time in days to retain the messages in a channel. RetentionDays -&gt; (integer) The time in days to retain the messages in a channel. Constraints: • min: 1 • max: 5475 Shorthand Syntax: ChannelRetentionSettings={RetentionDays=integer} JSON Syntax: { "ChannelRetentionSettings": { "RetentionDays": integer } }</param>
     public AwsChimeSdkIdentityPutAppInstanceRetentionSettingsOptions(
         string AppInstanceArn,
         string AppInstanceRetentionSettings
@@ -60,13 +61,13 @@ public record AwsChimeSdkIdentityPutAppInstanceRetentionSettingsOptions : AwsOpt
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the AppInstance . Constraints: o min: 5 o max: 1600 o pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}
+    /// The ARN of the AppInstance . Constraints: • min: 5 • max: 1600 • pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}
     /// </summary>
     [CliOption("--app-instance-arn")]
     public string? AppInstanceArn { get; private init; }
 
     /// <summary>
-    /// The time in days to retain data. Data type: number. ChannelRetentionSettings -&gt; (structure) The length of time in days to retain the messages in a channel. RetentionDays -&gt; (integer) The time in days to retain the messages in a channel. Constraints: o min: 1 o max: 5475 Shorthand Syntax: ChannelRetentionSettings={RetentionDays=integer} JSON Syntax: { "ChannelRetentionSettings": { "RetentionDays": integer } }
+    /// The time in days to retain data. Data type: number. ChannelRetentionSettings -&gt; (structure) The length of time in days to retain the messages in a channel. RetentionDays -&gt; (integer) The time in days to retain the messages in a channel. Constraints: • min: 1 • max: 5475 Shorthand Syntax: ChannelRetentionSettings={RetentionDays=integer} JSON Syntax: { "ChannelRetentionSettings": { "RetentionDays": integer } }
     /// </summary>
     [CliOption("--app-instance-retention-settings")]
     public string? AppInstanceRetentionSettings { get; private init; }
@@ -92,6 +93,15 @@ public record AwsChimeSdkIdentityPutAppInstanceRetentionSettingsOptions : AwsOpt
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

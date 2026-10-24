@@ -6,8 +6,8 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
+using ModularPipelines;
 using ModularPipelines.Context;
-using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
@@ -33,7 +33,7 @@ public class AwsEc2 : IAwsEc2
     #region Sub-command Groups
 
     /// <summary>
-    /// aws wait sub-commands.
+    /// aws ec2 wait sub-commands.
     /// </summary>
     public AwsEc2Wait Wait => _wait ??= new AwsEc2Wait(_command);
 
@@ -117,7 +117,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Accepts a transit gateway peering attachment request. The peering at- tachment must be in the pendingAcceptance state. See also: AWS API Documentation
+    /// Accepts a transit gateway peering attachment request. The peering attachment must be in the pendingAcceptance state. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -132,7 +132,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Accepts a request to attach a VPC to a transit gateway. The VPC attachment must be in the pendingAcceptance state. Use Descri- beTransitGatewayVpcAttachments to view your pending VPC attachment re- quests. Use RejectTransitGatewayVpcAttachment to reject a VPC attach- ment request. See also: AWS API Documentation
+    /// Accepts a request to attach a VPC to a transit gateway. The VPC attachment must be in the pendingAcceptance state. Use DescribeTransitGatewayVpcAttachments to view your pending VPC attachment requests. Use RejectTransitGatewayVpcAttachment to reject a VPC attachment request. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -177,7 +177,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Advertises an IPv4 or IPv6 address range that is provisioned for use with your Amazon Web Services resources through bring your own IP ad- dresses (BYOIP). You can perform this operation at most once every 10 seconds, even if you specify different address ranges each time. We recommend that you stop advertising the BYOIP CIDR from other loca- tions when you advertise it from Amazon Web Services. To minimize down time, you can configure your Amazon Web Services resources to use an address from a ...
+    /// Advertises an IPv4 or IPv6 address range that is provisioned for use with your Amazon Web Services resources through bring your own IP addresses (BYOIP). You can perform this operation at most once every 10 seconds, even if you specify different address ranges each time. We recommend that you stop advertising the BYOIP CIDR from other locations when you advertise it from Amazon Web Services. To minimize down time, you can configure your Amazon Web Services resources to use an address from a BYOI...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -192,7 +192,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Allocates an Elastic IP address to your Amazon Web Services account. After you allocate the Elastic IP address you can associate it with an instance or network interface. After you release an Elastic IP address, it is released to the IP address pool and can be allocated to a differ- ent Amazon Web Services account. You can allocate an Elastic IP address from one of the following ad- dress pools: o Amazon's pool of IPv4 addresses o Public IPv4 address range that you own and bring to your Amazon W...
+    /// Allocates an Elastic IP address to your Amazon Web Services account. After you allocate the Elastic IP address you can associate it with an instance or network interface. After you release an Elastic IP address, it is released to the IP address pool and can be allocated to a different Amazon Web Services account. You can allocate an Elastic IP address from one of the following address pools: • Amazon's pool of IPv4 addresses • Public IPv4 address range that you own and bring to your Amazon Web S...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -222,7 +222,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Allocate a CIDR from an IPAM pool. The Region you use should be the IPAM pool locale. The locale is the Amazon Web Services Region where this IPAM pool is available for allocations. In IPAM, an allocation is a CIDR assignment from an IPAM pool to an- other IPAM pool or to a resource. For more information, see Allocate CIDRs in the Amazon VPC IPAM User Guide . NOTE: This action creates an allocation with strong consistency. The re- turned CIDR will not overlap with any other allocations from the ...
+    /// Allocate a CIDR from an IPAM pool. The Region you use should be the IPAM pool locale. The locale is the Amazon Web Services Region where this IPAM pool is available for allocations. In IPAM, an allocation is a CIDR assignment from an IPAM pool to another IPAM pool or to a resource. For more information, see Allocate CIDRs in the Amazon VPC IPAM User Guide . NOTE: This action creates an allocation with strong consistency. The returned CIDR will not overlap with any other allocations from the same...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -252,7 +252,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Assigns the specified IPv6 addresses to the specified network inter- face. You can specify specific IPv6 addresses, or you can specify the number of IPv6 addresses to be automatically assigned from the subnet's IPv6 CIDR block range. You can assign as many IPv6 addresses to a net- work interface as you can assign private IPv4 addresses, and the limit varies by instance type. You must specify either the IPv6 addresses or the IPv6 address count in the request. You can optionally use Prefix Delegat...
+    /// Assigns the specified IPv6 addresses to the specified network interface. You can specify specific IPv6 addresses, or you can specify the number of IPv6 addresses to be automatically assigned from the subnet's IPv6 CIDR block range. You can assign as many IPv6 addresses to a network interface as you can assign private IPv4 addresses, and the limit varies by instance type. You must specify either the IPv6 addresses or the IPv6 address count in the request. You can optionally use Prefix Delegation ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -267,7 +267,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Assigns the specified secondary private IP addresses to the specified network interface. You can specify specific secondary IP addresses, or you can specify the number of secondary IP addresses to be automatically assigned from the subnet's CIDR block range. The number of secondary IP addresses that you can assign to an instance varies by instance type. For more infor- mation about Elastic IP addresses, see Elastic IP Addresses in the Ama- zon EC2 User Guide . When you move a secondary private I...
+    /// Assigns the specified secondary private IP addresses to the specified network interface. You can specify specific secondary IP addresses, or you can specify the number of secondary IP addresses to be automatically assigned from the subnet's CIDR block range. The number of secondary IP addresses that you can assign to an instance varies by instance type. For more information about Elastic IP addresses, see Elastic IP Addresses in the Amazon EC2 User Guide . When you move a secondary private IP ad...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -282,7 +282,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Assigns private IPv4 addresses to a private NAT gateway. For more in- formation, see Work with NAT gateways in the Amazon VPC User Guide . See also: AWS API Documentation
+    /// Assigns private IPv4 addresses to a private NAT gateway. For more information, see Work with NAT gateways in the Amazon VPC User Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -297,7 +297,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Associates an Elastic IP address, or carrier IP address (for instances that are in subnets in Wavelength Zones) with an instance or a network interface. Before you can use an Elastic IP address, you must allocate it to your account. If the Elastic IP address is already associated with a different in- stance, it is disassociated from that instance and associated with the specified instance. If you associate an Elastic IP address with an in- stance that has an existing Elastic IP address, the exis...
+    /// Associates an Elastic IP address, or carrier IP address (for instances that are in subnets in Wavelength Zones) with an instance or a network interface. Before you can use an Elastic IP address, you must allocate it to your account. If the Elastic IP address is already associated with a different instance, it is disassociated from that instance and associated with the specified instance. If you associate an Elastic IP address with an instance that has an existing Elastic IP address, the existing...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -312,7 +312,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Associates an application status check with instances or tags . Once you create an association, health monitoring automatically begins for the specified instances or for instances that match the specified tags. The following rules apply: o You must specify either TargetTagAssociations or InstanceIds , but not both. Specifying both results in an InvalidParameterCombination error. o You must own the application status check. The check must already ex- ist in your account. o You must not leave tag ...
+    /// Associates an application status check with instances or tags . Once you create an association, health monitoring automatically begins for the specified instances or for instances that match the specified tags. The following rules apply: • You must specify either TargetTagAssociations or InstanceIds , but not both. Specifying both results in an InvalidParameterCombination error. • You must own the application status check. The check must already exist in your account. • You must not leave tag ke...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -342,7 +342,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Associates a target network with a Client VPN endpoint. A target net- work is a subnet in a VPC. You can associate multiple subnets from the same VPC with a Client VPN endpoint. You can associate only one subnet in each Availability Zone. We recommend that you associate at least two subnets to provide Availability Zone redundancy. If you specified a VPC when you created the Client VPN endpoint or if you have previous subnet associations, the specified subnet must be in the same VPC. To specify a...
+    /// Associates a target network with a Client VPN endpoint. A target network is a subnet in a VPC. You can associate multiple subnets from the same VPC with a Client VPN endpoint. You can associate only one subnet in each Availability Zone. We recommend that you associate at least two subnets to provide Availability Zone redundancy. If you specified a VPC when you created the Client VPN endpoint or if you have previous subnet associations, the specified subnet must be in the same VPC. To specify a s...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -357,7 +357,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Associates a set of DHCP options (that you've previously created) with the specified VPC, or associates no DHCP options with the VPC. After you associate the options with the VPC, any existing instances and all new instances that you launch in that VPC use the options. You don't need to restart or relaunch the instances. They automatically pick up the changes within a few hours, depending on how frequently the instance renews its DHCP lease. You can explicitly renew the lease us- ing the operati...
+    /// Associates a set of DHCP options (that you've previously created) with the specified VPC, or associates no DHCP options with the VPC. After you associate the options with the VPC, any existing instances and all new instances that you launch in that VPC use the options. You don't need to restart or relaunch the instances. They automatically pick up the changes within a few hours, depending on how frequently the instance renews its DHCP lease. You can explicitly renew the lease using the operating...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -372,7 +372,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Associates an Identity and Access Management (IAM) role with an Cer- tificate Manager (ACM) certificate. This enables the certificate to be used by the ACM for Nitro Enclaves application inside an enclave. For more information, see Certificate Manager for Nitro Enclaves in the Amazon Web Services Nitro Enclaves User Guide . When the IAM role is associated with the ACM certificate, the certifi- cate, certificate chain, and encrypted private key are placed in an Amazon S3 location that only the as...
+    /// Associates an Identity and Access Management (IAM) role with an Certificate Manager (ACM) certificate. This enables the certificate to be used by the ACM for Nitro Enclaves application inside an enclave. For more information, see Certificate Manager for Nitro Enclaves in the Amazon Web Services Nitro Enclaves User Guide . When the IAM role is associated with the ACM certificate, the certificate, certificate chain, and encrypted private key are placed in an Amazon S3 location that only the associ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -387,7 +387,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Associates an IAM instance profile with a running or stopped instance. You cannot associate more than one IAM instance profile with an in- stance. See also: AWS API Documentation
+    /// Associates an IAM instance profile with a running or stopped instance. You cannot associate more than one IAM instance profile with an instance. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -417,7 +417,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Associates your Autonomous System Number (ASN) with a BYOIP CIDR that you own in the same Amazon Web Services Region. For more information, see Tutorial: Bring your ASN to IPAM in the Amazon VPC IPAM guide . After the association succeeds, the ASN is eligible for advertisement. You can view the association with DescribeByoipCidrs . You can adver- tise the CIDR with AdvertiseByoipCidr . See also: AWS API Documentation
+    /// Associates your Autonomous System Number (ASN) with a BYOIP CIDR that you own in the same Amazon Web Services Region. For more information, see Tutorial: Bring your ASN to IPAM in the Amazon VPC IPAM guide . After the association succeeds, the ASN is eligible for advertisement. You can view the association with DescribeByoipCidrs . You can advertise the CIDR with AdvertiseByoipCidr . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -432,7 +432,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Associates an IPAM resource discovery with an Amazon VPC IPAM. A re- source discovery is an IPAM component that enables IPAM to manage and monitor resources that belong to the owning account. See also: AWS API Documentation
+    /// Associates an IPAM resource discovery with an Amazon VPC IPAM. A resource discovery is an IPAM component that enables IPAM to manage and monitor resources that belong to the owning account. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -447,7 +447,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Associates Elastic IP addresses (EIPs) and private IPv4 addresses with a public NAT gateway. For more information, see Work with NAT gateways in the Amazon VPC User Guide . By default, you can associate up to 2 Elastic IP addresses per public NAT gateway. You can increase the limit by requesting a quota adjust- ment. For more information, see Elastic IP address quotas in the Amazon VPC User Guide . WARNING: When you associate an EIP or secondary EIPs with a public NAT gate- way, the network bord...
+    /// Associates Elastic IP addresses (EIPs) and private IPv4 addresses with a public NAT gateway. For more information, see Work with NAT gateways in the Amazon VPC User Guide . By default, you can associate up to 2 Elastic IP addresses per public NAT gateway. You can increase the limit by requesting a quota adjustment. For more information, see Elastic IP address quotas in the Amazon VPC User Guide . WARNING: When you associate an EIP or secondary EIPs with a public NAT gateway, the network border g...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -477,7 +477,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Associates a subnet in your VPC or an internet gateway or virtual pri- vate gateway attached to your VPC with a route table in your VPC. This association causes traffic from the subnet or gateway to be routed ac- cording to the routes in the route table. The action returns an associ- ation ID, which you need in order to disassociate the route table later. A route table can be associated with multiple subnets. For more information, see Route tables in the Amazon VPC User Guide . See also: AWS API...
+    /// Associates a subnet in your VPC or an internet gateway or virtual private gateway attached to your VPC with a route table in your VPC. This association causes traffic from the subnet or gateway to be routed according to the routes in the route table. The action returns an association ID, which you need in order to disassociate the route table later. A route table can be associated with multiple subnets. For more information, see Route tables in the Amazon VPC User Guide . See also: AWS API Docum...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -492,7 +492,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Associates a security group with another VPC in the same Region. This enables you to use the same security group with network interfaces and instances in the specified VPC. NOTE: o The VPC you want to associate the security group with must be in the same Region. o You can associate the security group with another VPC if your ac- count owns the VPC or if the VPC was shared with you. o You must own the security group. o You cannot use this feature with default security groups. o You cannot use thi...
+    /// Associates a security group with another VPC in the same Region. This enables you to use the same security group with network interfaces and instances in the specified VPC. NOTE: • The VPC you want to associate the security group with must be in the same Region. • You can associate the security group with another VPC if your account owns the VPC or if the VPC was shared with you. • You must own the security group. • You cannot use this feature with default security groups. • You cannot use this ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -507,7 +507,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Associates a CIDR block with your subnet. You can only associate a sin- gle IPv6 CIDR block with your subnet. See also: AWS API Documentation
+    /// Associates a CIDR block with your subnet. You can only associate a single IPv6 CIDR block with your subnet. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -597,7 +597,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// NOTE: This action is deprecated. Links an EC2-Classic instance to a ClassicLink-enabled VPC through one or more of the VPC security groups. You cannot link an EC2-Classic in- stance to more than one VPC at a time. You can only link an instance that's in the running state. An instance is automatically unlinked from a VPC when it's stopped - you can link it to the VPC again when you restart it. After you've linked an instance, you cannot change the VPC security groups that are associated with it. ...
+    /// NOTE: This action is deprecated. Links an EC2-Classic instance to a ClassicLink-enabled VPC through one or more of the VPC security groups. You cannot link an EC2-Classic instance to more than one VPC at a time. You can only link an instance that's in the running state. An instance is automatically unlinked from a VPC when it's stopped - you can link it to the VPC again when you restart it. After you've linked an instance, you cannot change the VPC security groups that are associated with it. To...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -612,7 +612,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Attaches a watermark to a non-public AMI. The watermark is a structured identifier that automatically propagates to all derivative images cre- ated through CreateImage , and CopyImage . Only the AMI owner can attach watermarks. Watermarks cannot be added to public AMIs. See also: AWS API Documentation
+    /// Attaches a watermark to a non-public AMI. The watermark is a structured identifier that automatically propagates to all derivative images created through CreateImage , and CopyImage . Only the AMI owner can attach watermarks. Watermarks cannot be added to public AMIs. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -627,7 +627,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Attaches an internet gateway or a virtual private gateway to a VPC, en- abling connectivity between the internet and the VPC. For more informa- tion, see Internet gateways in the Amazon VPC User Guide . See also: AWS API Documentation
+    /// Attaches an internet gateway or a virtual private gateway to a VPC, enabling connectivity between the internet and the VPC. For more information, see Internet gateways in the Amazon VPC User Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -672,7 +672,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Attaches an Amazon EBS volume to a running or stopped instance, and ex- poses it to the instance with the specified device name. NOTE: The maximum number of Amazon EBS volumes that you can attach to an instance depends on the instance type. If you exceed the volume at- tachment limit for an instance type, the attachment request fails with the AttachmentLimitExceeded error. For more information, see Instance volume limits . After you attach an EBS volume, you must make it available for use. For m...
+    /// Attaches an Amazon EBS volume to a running or stopped instance, and exposes it to the instance with the specified device name. NOTE: The maximum number of Amazon EBS volumes that you can attach to an instance depends on the instance type. If you exceed the volume attachment limit for an instance type, the attachment request fails with the AttachmentLimitExceeded error. For more information, see Instance volume limits . After you attach an EBS volume, you must make it available for use. For more ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -702,7 +702,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Adds an ingress authorization rule to a Client VPN endpoint. Ingress authorization rules act as firewall rules that grant access to net- works. You must configure ingress authorization rules to enable clients to access resources in Amazon Web Services or on-premises networks. See also: AWS API Documentation
+    /// Adds an ingress authorization rule to a Client VPN endpoint. Ingress authorization rules act as firewall rules that grant access to networks. You must configure ingress authorization rules to enable clients to access resources in Amazon Web Services or on-premises networks. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -717,7 +717,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Adds the specified outbound (egress) rules to a security group. An outbound rule permits instances to send traffic to the specified IPv4 or IPv6 address ranges, the IP address ranges specified by a pre- fix list, or the instances that are associated with a source security group. For more information, see Security group rules . You must specify exactly one of the following destinations: an IPv4 or IPv6 address range, a prefix list, or a security group. You must spec- ify a protocol for each rule ...
+    /// Adds the specified outbound (egress) rules to a security group. An outbound rule permits instances to send traffic to the specified IPv4 or IPv6 address ranges, the IP address ranges specified by a prefix list, or the instances that are associated with a source security group. For more information, see Security group rules . You must specify exactly one of the following destinations: an IPv4 or IPv6 address range, a prefix list, or a security group. You must specify a protocol for each rule (for...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -777,7 +777,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Cancels a bundling operation for an instance store-backed Windows in- stance. NOTE: CancelBundleTask is no longer supported because BundleInstance , the operation it cancels, is no longer supported. See also: AWS API Documentation
+    /// Cancels a bundling operation for an instance store-backed Windows instance. NOTE: CancelBundleTask is no longer supported because BundleInstance , the operation it cancels, is no longer supported. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -792,7 +792,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Cancels one or more Capacity Reservation Fleets. When you cancel a Ca- pacity Reservation Fleet, the following happens: o The Capacity Reservation Fleet's status changes to cancelled . o The individual Capacity Reservations in the Fleet are cancelled. In- stances running in the Capacity Reservations at the time of can- celling the Fleet continue to run in shared capacity. o The Fleet stops creating new Capacity Reservations. See also: AWS API Documentation
+    /// Cancels one or more Capacity Reservation Fleets. When you cancel a Capacity Reservation Fleet, the following happens: • The Capacity Reservation Fleet's status changes to cancelled . • The individual Capacity Reservations in the Fleet are cancelled. Instances running in the Capacity Reservations at the time of cancelling the Fleet continue to run in shared capacity. • The Fleet stops creating new Capacity Reservations. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -807,7 +807,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Cancels the specified Capacity Reservation, releases the reserved ca- pacity, and changes the Capacity Reservation's state to cancelled . You can cancel a Capacity Reservation that is in the following states: o assessing o scheduled requires a cancellation quote. Use CreateCapacityReserva- tionCancellationQuote to generate a quote, then pass the quote ID with ApplyCancellationCharges set to commitment-wind-down . The can- cellation charge depends on how close the reservation is to its start date...
+    /// Cancels the specified Capacity Reservation, releases the reserved capacity, and changes the Capacity Reservation's state to cancelled . You can cancel a Capacity Reservation that is in the following states: • assessing • scheduled requires a cancellation quote. Use CreateCapacityReservationCancellationQuote to generate a quote, then pass the quote ID with ApplyCancellationCharges set to commitment-wind-down . The cancellation charge depends on how close the reservation is to its start date. • ac...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -822,7 +822,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Cancels an active conversion task. The task can be the import of an in- stance or volume. The action removes all artifacts of the conversion, including a partially uploaded volume or instance. If the conversion is complete or is in the process of transferring the final disk image, the command fails and returns an exception. See also: AWS API Documentation
+    /// Cancels an active conversion task. The task can be the import of an instance or volume. The action removes all artifacts of the conversion, including a partially uploaded volume or instance. If the conversion is complete or is in the process of transferring the final disk image, the command fails and returns an exception. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -837,7 +837,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Cancels the generation of an account status report. You can only cancel a report while it has the running status. Reports with other statuses (complete , cancelled , or error ) can't be can- celed. For more information, see Generating the account status report for de- clarative policies in the Amazon Web Services Organizations User Guide . See also: AWS API Documentation
+    /// Cancels the generation of an account status report. You can only cancel a report while it has the running status. Reports with other statuses (complete , cancelled , or error ) can't be canceled. For more information, see Generating the account status report for declarative policies in the Amazon Web Services Organizations User Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -852,7 +852,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Cancels an active export task. The request removes all artifacts of the export, including any partially-created Amazon S3 objects. If the ex- port task is complete or is in the process of transferring the final disk image, the command fails and returns an error. See also: AWS API Documentation
+    /// Cancels an active export task. The request removes all artifacts of the export, including any partially-created Amazon S3 objects. If the export task is complete or is in the process of transferring the final disk image, the command fails and returns an error. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -897,7 +897,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Cancels the specified Reserved Instance listing in the Reserved In- stance Marketplace. For more information, see Sell in the Reserved Instance Marketplace in the Amazon EC2 User Guide . See also: AWS API Documentation
+    /// Cancels the specified Reserved Instance listing in the Reserved Instance Marketplace. For more information, see Sell in the Reserved Instance Marketplace in the Amazon EC2 User Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -912,7 +912,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Cancels the specified Spot Fleet requests. After you cancel a Spot Fleet request, the Spot Fleet launches no new instances. You must also specify whether a canceled Spot Fleet request should ter- minate its instances. If you choose to terminate the instances, the Spot Fleet request enters the cancelled_terminating state. Otherwise, the Spot Fleet request enters the cancelled_running state and the in- stances continue to run until they are interrupted or you terminate them manually. WARNING: Term...
+    /// Cancels the specified Spot Fleet requests. After you cancel a Spot Fleet request, the Spot Fleet launches no new instances. You must also specify whether a canceled Spot Fleet request should terminate its instances. If you choose to terminate the instances, the Spot Fleet request enters the cancelled_terminating state. Otherwise, the Spot Fleet request enters the cancelled_running state and the instances continue to run until they are interrupted or you terminate them manually. WARNING: Terminat...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -972,7 +972,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Initiates an AMI copy operation. You must specify the source AMI ID and both the source and destination locations. The copy operation must be initiated in the destination Region. CopyImage supports the following source to destination copies: o Region to Region o Region to Outpost o Parent Region to Local Zone o Local Zone to parent Region o Between Local Zones with the same parent Region (only supported for certain Local Zones) CopyImage does not support the following source to destination copie...
+    /// Initiates an AMI copy operation. You must specify the source AMI ID and both the source and destination locations. The copy operation must be initiated in the destination Region. CopyImage supports the following source to destination copies: • Region to Region • Region to Outpost • Parent Region to Local Zone • Local Zone to parent Region • Between Local Zones with the same parent Region (only supported for certain Local Zones) CopyImage does not support the following source to destination copie...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -987,7 +987,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Creates an exact copy of an Amazon EBS snapshot. The location of the source snapshot determines whether you can copy it or not, and the allowed destinations for the snapshot copy. o If the source snapshot is in a Region, you can copy it within that Region, to another Region, to an Outpost associated with that Region, or to a Local Zone in that Region. o If the source snapshot is in a Local Zone, you can copy it within that Local Zone, to another Local Zone in the same zone group, or to the paren...
+    /// Creates an exact copy of an Amazon EBS snapshot. The location of the source snapshot determines whether you can copy it or not, and the allowed destinations for the snapshot copy. • If the source snapshot is in a Region, you can copy it within that Region, to another Region, to an Outpost associated with that Region, or to a Local Zone in that Region. • If the source snapshot is in a Local Zone, you can copy it within that Local Zone, to another Local Zone in the same zone group, or to the paren...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1017,7 +1017,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Creates an application status check for monitoring the health of appli- cations running on your instances. You can configure the protocol, port, path, and thresholds for the health check. The following rules apply: o You can create a maximum of 50 application status checks for each ac- count. o You must associate the check with instances or tags using Associ- ateApplicationStatusCheck before health checks start. o You must set the Timeout value to less than the Interval value. o You must start t...
+    /// Creates an application status check for monitoring the health of applications running on your instances. You can configure the protocol, port, path, and thresholds for the health check. The following rules apply: • You can create a maximum of 50 application status checks for each account. • You must associate the check with instances or tags using AssociateApplicationStatusCheck before health checks start. • You must set the Timeout value to less than the Interval value. • You must start the Pat...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1062,7 +1062,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Generates a cancellation quote for a future-dated Capacity Reservation that is within its commitment duration. The quote includes the cancel- lation terms and a quote ID that you can pass to the CancelCapaci- tyReservation action. Cancellation quotes are valid for 24 hours. See also: AWS API Documentation
+    /// Generates a cancellation quote for a future-dated Capacity Reservation that is within its commitment duration. The quote includes the cancellation terms and a quote ID that you can pass to the CancelCapacityReservation action. Cancellation quotes are valid for 24 hours. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1077,7 +1077,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Generates a quote for changing the start date of a future-dated Capac- ity Reservation that has not yet been delivered. The quote includes the new start date, the resulting commitment end date, and a quote ID. Pass the quote ID to ModifyCapacityReservation to apply the change. The cumulative pushout across all changes is limited to 30 days from the Capacity Reservation's original start date. Quotes are valid for 24 hours, and always expire at least one hour before the start date. See also: AWS A...
+    /// Generates a quote for changing the start date of a future-dated Capacity Reservation that has not yet been delivered. The quote includes the new start date, the resulting commitment end date, and a quote ID. Pass the quote ID to ModifyCapacityReservation to apply the change. The cumulative pushout across all changes is limited to 30 days from the Capacity Reservation's original start date. Quotes are valid for 24 hours, and always expire at least one hour before the start date. See also: AWS API...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1107,7 +1107,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Creates a new Capacity Reservation with the specified attributes. Ca- pacity Reservations enable you to reserve capacity for your Amazon EC2 instances in a specific Availability Zone for any duration. You can create a Capacity Reservation at any time, and you can choose when it starts. You can create a Capacity Reservation for immediate use or you can request a Capacity Reservation for a future date. For more information, see Reserve compute capacity with On-Demand Ca- pacity Reservations in the...
+    /// Creates a new Capacity Reservation with the specified attributes. Capacity Reservations enable you to reserve capacity for your Amazon EC2 instances in a specific Availability Zone for any duration. You can create a Capacity Reservation at any time, and you can choose when it starts. You can create a Capacity Reservation for immediate use or you can request a Capacity Reservation for a future date. For more information, see Reserve compute capacity with On-Demand Capacity Reservations in the Ama...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1137,7 +1137,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Creates a Client VPN endpoint. A Client VPN endpoint is the resource you create and configure to enable and manage client VPN sessions. It is the destination endpoint at which all client VPN sessions are termi- nated. See also: AWS API Documentation
+    /// Creates a Client VPN endpoint. A Client VPN endpoint is the resource you create and configure to enable and manage client VPN sessions. It is the destination endpoint at which all client VPN sessions are terminated. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1197,7 +1197,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Provides information to Amazon Web Services about your customer gateway device. The customer gateway device is the appliance at your end of the VPN connection. You must provide the IP address of the customer gateway devices external interface. The IP address must be static and can be behind a device performing network address translation (NAT). For devices that use Border Gateway Protocol (BGP), you can also pro- vide the device's BGP Autonomous System Number (ASN). You can use an existing ASN a...
+    /// Provides information to Amazon Web Services about your customer gateway device. The customer gateway device is the appliance at your end of the VPN connection. You must provide the IP address of the customer gateway devices external interface. The IP address must be static and can be behind a device performing network address translation (NAT). For devices that use Border Gateway Protocol (BGP), you can also provide the device's BGP Autonomous System Number (ASN). You can use an existing ASN ass...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1212,7 +1212,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Creates a default subnet with a size /20 IPv4 CIDR block in the speci- fied Availability Zone in your default VPC. You can have only one de- fault subnet per Availability Zone. For more information, see Create a default subnet in the Amazon VPC User Guide . See also: AWS API Documentation
+    /// Creates a default subnet with a size /20 IPv4 CIDR block in the specified Availability Zone in your default VPC. You can have only one default subnet per Availability Zone. For more information, see Create a default subnet in the Amazon VPC User Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1227,7 +1227,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Creates a default VPC with a size /16 IPv4 CIDR block and a default subnet in each Availability Zone. For more information about the compo- nents of a default VPC, see Default VPCs in the Amazon VPC User Guide . You cannot specify the components of the default VPC yourself. If you deleted your previous default VPC, you can create a default VPC. You cannot have more than one default VPC per Region. See also: AWS API Documentation
+    /// Creates a default VPC with a size /16 IPv4 CIDR block and a default subnet in each Availability Zone. For more information about the components of a default VPC, see Default VPCs in the Amazon VPC User Guide . You cannot specify the components of the default VPC yourself. If you deleted your previous default VPC, you can create a default VPC. You cannot have more than one default VPC per Region. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1257,7 +1257,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Creates a custom set of DHCP options. After you create a DHCP option set, you associate it with a VPC. After you associate a DHCP option set with a VPC, all existing and newly launched instances in the VPC use this set of DHCP options. The following are the individual DHCP options you can specify. For more information, see DHCP option sets in the Amazon VPC User Guide . o domain-name - If you're using AmazonProvidedDNS in us-east-1 , spec- ify ec2.internal . If you're using AmazonProvidedDNS in ...
+    /// Creates a custom set of DHCP options. After you create a DHCP option set, you associate it with a VPC. After you associate a DHCP option set with a VPC, all existing and newly launched instances in the VPC use this set of DHCP options. The following are the individual DHCP options you can specify. For more information, see DHCP option sets in the Amazon VPC User Guide . • domain-name - If you're using AmazonProvidedDNS in us-east-1 , specify ec2.internal . If you're using AmazonProvidedDNS in an...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1287,7 +1287,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Creates an EC2 Fleet that contains the configuration information for On-Demand Instances and Spot Instances. Instances are launched immedi- ately if there is available capacity. A single EC2 Fleet can include multiple launch specifications that vary by instance type, AMI, Availability Zone, or subnet. For more information, see EC2 Fleet in the Amazon EC2 User Guide . See also: AWS API Documentation
+    /// Creates an EC2 Fleet that contains the configuration information for On-Demand Instances and Spot Instances. Instances are launched immediately if there is available capacity. A single EC2 Fleet can include multiple launch specifications that vary by instance type, AMI, Availability Zone, or subnet. For more information, see EC2 Fleet in the Amazon EC2 User Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1317,7 +1317,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Creates an Amazon FPGA Image (AFI) from the specified design checkpoint (DCP). The create operation is asynchronous. To verify that the AFI was suc- cessfully created and is ready for use, check the output logs. An AFI contains the FPGA bitstream that is ready to download to an FPGA. You can securely deploy an AFI on multiple FPGA-accelerated in- stances. For more information, see the Amazon Web Services FPGA Hard- ware Development Kit . See also: AWS API Documentation
+    /// Creates an Amazon FPGA Image (AFI) from the specified design checkpoint (DCP). The create operation is asynchronous. To verify that the AFI was successfully created and is ready for use, check the output logs. An AFI contains the FPGA bitstream that is ready to download to an FPGA. You can securely deploy an AFI on multiple FPGA-accelerated instances. For more information, see the Amazon Web Services FPGA Hardware Development Kit . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1347,7 +1347,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Creates a report that shows how your image is used across other Amazon Web Services accounts. The report provides visibility into which ac- counts are using the specified image, and how many resources (EC2 in- stances or launch templates) are referencing it. For more information, see View your AMI usage in the Amazon EC2 User Guide . See also: AWS API Documentation
+    /// Creates a report that shows how your image is used across other Amazon Web Services accounts. The report provides visibility into which accounts are using the specified image, and how many resources (EC2 instances or launch templates) are referencing it. For more information, see View your AMI usage in the Amazon EC2 User Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1362,7 +1362,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Creates an EC2 Instance Connect Endpoint. An EC2 Instance Connect Endpoint allows you to connect to an instance, without requiring the instance to have a public IPv4 or public IPv6 ad- dress. For more information, see Connect to your instances using EC2 Instance Connect Endpoint in the Amazon EC2 User Guide . See also: AWS API Documentation
+    /// Creates an EC2 Instance Connect Endpoint. An EC2 Instance Connect Endpoint allows you to connect to an instance, without requiring the instance to have a public IPv4 or public IPv6 address. For more information, see Connect to your instances using EC2 Instance Connect Endpoint in the Amazon EC2 User Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1392,7 +1392,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Exports a running or stopped instance to an Amazon S3 bucket. For information about the prerequisites for your Amazon S3 bucket, sup- ported operating systems, image formats, and known limitations for the types of instances you can export, see Exporting an instance as a VM Using VM Import/Export in the VM Import/Export User Guide . See also: AWS API Documentation
+    /// Exports a running or stopped instance to an Amazon S3 bucket. For information about the prerequisites for your Amazon S3 bucket, supported operating systems, image formats, and known limitations for the types of instances you can export, see Exporting an instance as a VM Using VM Import/Export in the VM Import/Export User Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1407,7 +1407,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Creates an internet gateway for use with a VPC. After creating the in- ternet gateway, you attach it to a VPC using AttachInternetGateway . For more information, see Internet gateways in the Amazon VPC User Guide . See also: AWS API Documentation
+    /// Creates an internet gateway for use with a VPC. After creating the internet gateway, you attach it to a VPC using AttachInternetGateway . For more information, see Internet gateways in the Amazon VPC User Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1437,7 +1437,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Create a verification token. A verification token is an Amazon Web Services-generated random value that you can use to prove ownership of an external resource. For exam- ple, you can use a verification token to validate that you control a public IP address range when you bring an IP address range to Amazon Web Services (BYOIP). See also: AWS API Documentation
+    /// Create a verification token. A verification token is an Amazon Web Services-generated random value that you can use to prove ownership of an external resource. For example, you can use a verification token to validate that you control a public IP address range when you bring an IP address range to Amazon Web Services (BYOIP). See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1467,7 +1467,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Create an IPAM. Amazon VPC IP Address Manager (IPAM) is a VPC feature that you can use to automate your IP address management workflows in- cluding assigning, tracking, troubleshooting, and auditing IP addresses across Amazon Web Services Regions and accounts throughout your Amazon Web Services Organization. For more information, see Create an IPAM in the Amazon VPC IPAM User Guide . See also: AWS API Documentation
+    /// Create an IPAM. Amazon VPC IP Address Manager (IPAM) is a VPC feature that you can use to automate your IP address management workflows including assigning, tracking, troubleshooting, and auditing IP addresses across Amazon Web Services Regions and accounts throughout your Amazon Web Services Organization. For more information, see Create an IPAM in the Amazon VPC IPAM User Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1512,7 +1512,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Creates an IPAM prefix list resolver. An IPAM prefix list resolver is a component that manages the synchro- nization between IPAM's CIDR selection rules and customer-managed pre- fix lists. It automates connectivity configurations by selecting CIDRs from IPAM's database based on your business logic and synchronizing them with prefix lists used in resources such as VPC route tables and security groups. For more information about IPAM prefix list resolver, see Automate pre- fix list updates with I...
+    /// Creates an IPAM prefix list resolver. An IPAM prefix list resolver is a component that manages the synchronization between IPAM's CIDR selection rules and customer-managed prefix lists. It automates connectivity configurations by selecting CIDRs from IPAM's database based on your business logic and synchronizing them with prefix lists used in resources such as VPC route tables and security groups. For more information about IPAM prefix list resolver, see Automate prefix list updates with IPAM in...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1527,7 +1527,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Creates an IPAM prefix list resolver target. An IPAM prefix list resolver target is an association between a spe- cific customer-managed prefix list and an IPAM prefix list resolver. The target enables the resolver to synchronize CIDRs selected by its rules into the specified prefix list, which can then be referenced in Amazon Web Services resources. For more information about IPAM prefix list resolver, see Automate pre- fix list updates with IPAM in the Amazon VPC IPAM User Guide . See also: AW...
+    /// Creates an IPAM prefix list resolver target. An IPAM prefix list resolver target is an association between a specific customer-managed prefix list and an IPAM prefix list resolver. The target enables the resolver to synchronize CIDRs selected by its rules into the specified prefix list, which can then be referenced in Amazon Web Services resources. For more information about IPAM prefix list resolver, see Automate prefix list updates with IPAM in the Amazon VPC IPAM User Guide . See also: AWS AP...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1557,7 +1557,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Creates a routing policy registration and publishes Route Origin Autho- rizations (ROAs) to the RPKI for the specified CIDR prefix and ASNs. See also: AWS API Documentation
+    /// Creates a routing policy registration and publishes Route Origin Authorizations (ROAs) to the RPKI for the specified CIDR prefix and ASNs. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1572,7 +1572,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Create an IPAM scope. In IPAM, a scope is the highest-level container within IPAM. An IPAM contains two default scopes. Each scope represents the IP space for a single network. The private scope is intended for all private IP address space. The public scope is intended for all pub- lic IP address space. Scopes enable you to reuse IP addresses across multiple unconnected networks without causing IP address overlap or conflict. For more information, see Add a scope in the Amazon VPC IPAM User Guid...
+    /// Create an IPAM scope. In IPAM, a scope is the highest-level container within IPAM. An IPAM contains two default scopes. Each scope represents the IP space for a single network. The private scope is intended for all private IP address space. The public scope is intended for all public IP address space. Scopes enable you to reuse IP addresses across multiple unconnected networks without causing IP address overlap or conflict. For more information, see Add a scope in the Amazon VPC IPAM User Guide ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1587,7 +1587,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Creates an ED25519 or 2048-bit RSA key pair with the specified name and in the specified format. Amazon EC2 stores the public key and displays the private key for you to save to a file. The private key is returned as an unencrypted PEM encoded PKCS#1 private key or an unencrypted PPK formatted private key for use with PuTTY. If a key with the specified name already exists, Amazon EC2 returns an error. The key pair returned to you is available only in the Amazon Web Ser- vices Region in which you...
+    /// Creates an ED25519 or 2048-bit RSA key pair with the specified name and in the specified format. Amazon EC2 stores the public key and displays the private key for you to save to a file. The private key is returned as an unencrypted PEM encoded PKCS#1 private key or an unencrypted PPK formatted private key for use with PuTTY. If a key with the specified name already exists, Amazon EC2 returns an error. The key pair returned to you is available only in the Amazon Web Services Region in which you c...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1602,7 +1602,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Creates a launch template. A launch template contains the parameters to launch an instance. When you launch an instance using RunInstances , you can specify a launch template instead of providing the launch parameters in the request. For more information, see Store instance launch parameters in Amazon EC2 launch templates in the Amazon EC2 User Guide . To clone an existing launch template as the basis for a new launch tem- plate, use the Amazon EC2 console. The API, SDKs, and CLI do not sup- por...
+    /// Creates a launch template. A launch template contains the parameters to launch an instance. When you launch an instance using RunInstances , you can specify a launch template instead of providing the launch parameters in the request. For more information, see Store instance launch parameters in Amazon EC2 launch templates in the Amazon EC2 User Guide . To clone an existing launch template as the basis for a new launch template, use the Amazon EC2 console. The API, SDKs, and CLI do not support cl...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1617,7 +1617,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Creates a new version of a launch template. You must specify an exist- ing launch template, either by name or ID. You can determine whether the new version inherits parameters from a source version, and add or overwrite parameters as needed. Launch template versions are numbered in the order in which they are created. You can't specify, change, or replace the numbering of launch template versions. Launch templates are immutable; after you create a launch template, you can't modify it. Instead, y...
+    /// Creates a new version of a launch template. You must specify an existing launch template, either by name or ID. You can determine whether the new version inherits parameters from a source version, and add or overwrite parameters as needed. Launch template versions are numbered in the order in which they are created. You can't specify, change, or replace the numbering of launch template versions. Launch templates are immutable; after you create a launch template, you can't modify it. Instead, you...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1632,7 +1632,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Creates a static route for the specified local gateway route table. You must specify one of the following targets: o LocalGatewayVirtualInterfaceGroupId o NetworkInterfaceId See also: AWS API Documentation
+    /// Creates a static route for the specified local gateway route table. You must specify one of the following targets: • LocalGatewayVirtualInterfaceGroupId • NetworkInterfaceId See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1662,7 +1662,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Creates a local gateway route table virtual interface group associa- tion. See also: AWS API Documentation
+    /// Creates a local gateway route table virtual interface group association. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1677,7 +1677,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Associates the specified VPC with the specified local gateway route ta- ble. See also: AWS API Documentation
+    /// Associates the specified VPC with the specified local gateway route table. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1722,7 +1722,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Creates a System Integrity Protection (SIP) modification task to con- figure the SIP settings for an x86 Mac instance or Apple silicon Mac instance. For more information, see Configure SIP for Amazon EC2 in- stances in the Amazon EC2 User Guide . When you configure the SIP settings for your instance, you can either enable or disable all SIP settings, or you can specify a custom SIP configuration that selectively enables or disables specific SIP set- tings. NOTE: If you implement a custom configu...
+    /// Creates a System Integrity Protection (SIP) modification task to configure the SIP settings for an x86 Mac instance or Apple silicon Mac instance. For more information, see Configure SIP for Amazon EC2 instances in the Amazon EC2 User Guide . When you configure the SIP settings for your instance, you can either enable or disable all SIP settings, or you can specify a custom SIP configuration that selectively enables or disables specific SIP settings. NOTE: If you implement a custom configuration...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1767,7 +1767,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Creates an entry (a rule) in a network ACL with the specified rule num- ber. Each network ACL has a set of numbered ingress rules and a sepa- rate set of numbered egress rules. When determining whether a packet should be allowed in or out of a subnet associated with the ACL, we process the entries in the ACL according to the rule numbers, in as- cending order. Each network ACL has a set of ingress rules and a sepa- rate set of egress rules. We recommend that you leave room between the rule numbe...
+    /// Creates an entry (a rule) in a network ACL with the specified rule number. Each network ACL has a set of numbered ingress rules and a separate set of numbered egress rules. When determining whether a packet should be allowed in or out of a subnet associated with the ACL, we process the entries in the ACL according to the rule numbers, in ascending order. Each network ACL has a set of ingress rules and a separate set of egress rules. We recommend that you leave room between the rule numbers (for ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1797,7 +1797,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Creates a Network Access Scope. Amazon Web Services Network Access Analyzer enables cloud networking and cloud operations teams to verify that their networks on Amazon Web Services conform to their network security and governance objectives. For more information, see the Amazon Web Services Network Access Ana- lyzer Guide . See also: AWS API Documentation
+    /// Creates a Network Access Scope. Amazon Web Services Network Access Analyzer enables cloud networking and cloud operations teams to verify that their networks on Amazon Web Services conform to their network security and governance objectives. For more information, see the Amazon Web Services Network Access Analyzer Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1812,7 +1812,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Creates a path to analyze for reachability. Reachability Analyzer enables you to analyze and debug network reacha- bility between two resources in your virtual private cloud (VPC). For more information, see the Reachability Analyzer Guide . See also: AWS API Documentation
+    /// Creates a path to analyze for reachability. Reachability Analyzer enables you to analyze and debug network reachability between two resources in your virtual private cloud (VPC). For more information, see the Reachability Analyzer Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1827,7 +1827,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Creates a network interface in the specified subnet. The number of IP addresses you can assign to a network interface varies by instance type. For more information about network interfaces, see Elastic network in- terfaces in the Amazon EC2 User Guide . See also: AWS API Documentation
+    /// Creates a network interface in the specified subnet. The number of IP addresses you can assign to a network interface varies by instance type. For more information about network interfaces, see Elastic network interfaces in the Amazon EC2 User Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1857,7 +1857,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Creates a placement group in which to launch instances. The strategy of the placement group determines how the instances are organized within the group. A cluster placement group is a logical grouping of instances within a single Availability Zone that benefit from low network latency, high network throughput. A spread placement group places instances on dis- tinct hardware. A partition placement group places groups of instances in different partitions, where instances in one partition do not sh...
+    /// Creates a placement group in which to launch instances. The strategy of the placement group determines how the instances are organized within the group. A cluster placement group is a logical grouping of instances within a single Availability Zone that benefit from low network latency, high network throughput. A spread placement group places instances on distinct hardware. A partition placement group places groups of instances in different partitions, where instances in one partition do not shar...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1872,7 +1872,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Creates a public IPv4 address pool. A public IPv4 pool is an EC2 IP ad- dress pool required for the public IPv4 CIDRs that you own and bring to Amazon Web Services to manage with IPAM. IPv6 addresses you bring to Amazon Web Services, however, use IPAM pools only. To monitor the sta- tus of pool creation, use DescribePublicIpv4Pools . See also: AWS API Documentation
+    /// Creates a public IPv4 address pool. A public IPv4 pool is an EC2 IP address pool required for the public IPv4 CIDRs that you own and bring to Amazon Web Services to manage with IPAM. IPv6 addresses you bring to Amazon Web Services, however, use IPAM pools only. To monitor the status of pool creation, use DescribePublicIpv4Pools . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1887,7 +1887,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Replaces the EBS-backed root volume for a running instance with a new volume that is restored to the original root volume's launch state, that is restored to a specific snapshot taken from the original root volume, that is restored from an AMI that has the same key characteris- tics as that of the instance, or that is replaced by a specified vol- ume. For more information, see Replace a root volume in the Amazon EC2 User Guide . See also: AWS API Documentation
+    /// Replaces the EBS-backed root volume for a running instance with a new volume that is restored to the original root volume's launch state, that is restored to a specific snapshot taken from the original root volume, that is restored from an AMI that has the same key characteristics as that of the instance, or that is replaced by a specified volume. For more information, see Replace a root volume in the Amazon EC2 User Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1902,7 +1902,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Creates a listing for Amazon EC2 Standard Reserved Instances to be sold in the Reserved Instance Marketplace. You can submit one Standard Re- served Instance listing at a time. To get a list of your Standard Re- served Instances, you can use the DescribeReservedInstances operation. NOTE: Only Standard Reserved Instances can be sold in the Reserved In- stance Marketplace. Convertible Reserved Instances cannot be sold. The Reserved Instance Marketplace matches sellers who want to resell Standard R...
+    /// Creates a listing for Amazon EC2 Standard Reserved Instances to be sold in the Reserved Instance Marketplace. You can submit one Standard Reserved Instance listing at a time. To get a list of your Standard Reserved Instances, you can use the DescribeReservedInstances operation. NOTE: Only Standard Reserved Instances can be sold in the Reserved Instance Marketplace. Convertible Reserved Instances cannot be sold. The Reserved Instance Marketplace matches sellers who want to resell Standard Reserve...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1917,7 +1917,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Starts a task that restores an AMI from an Amazon S3 object that was previously created by using CreateStoreImageTask . To use this API, you must have the required permissions. For more in- formation, see Permissions for storing and restoring AMIs using S3 in the Amazon EC2 User Guide . For more information, see Store and restore an AMI using S3 in the Ama- zon EC2 User Guide . See also: AWS API Documentation
+    /// Starts a task that restores an AMI from an Amazon S3 object that was previously created by using CreateStoreImageTask . To use this API, you must have the required permissions. For more information, see Permissions for storing and restoring AMIs using S3 in the Amazon EC2 User Guide . For more information, see Store and restore an AMI using S3 in the Amazon EC2 User Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1932,7 +1932,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Creates a route in a route table within a VPC. You must specify either a destination CIDR block or a prefix list ID. You must also specify exactly one of the resources from the parameter list. When determining how to route traffic, we use the route with the most specific match. For example, traffic is destined for the IPv4 address 192.0.2.3 , and the route table includes the following two IPv4 routes: o 192.0.2.0/24 (goes to some target A) o 192.0.2.0/28 (goes to some target B) Both routes apply...
+    /// Creates a route in a route table within a VPC. You must specify either a destination CIDR block or a prefix list ID. You must also specify exactly one of the resources from the parameter list. When determining how to route traffic, we use the route with the most specific match. For example, traffic is destined for the IPv4 address 192.0.2.3 , and the route table includes the following two IPv4 routes: • 192.0.2.0/24 (goes to some target A) • 192.0.2.0/28 (goes to some target B) Both routes apply...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1947,7 +1947,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Creates a new endpoint for a route server in a specified subnet. A route server endpoint is an Amazon Web Services-managed component in- side a subnet that facilitates BGP (Border Gateway Protocol) connec- tions between your route server and your BGP peers. For more information see Dynamic routing in your VPC with VPC Route Server in the Amazon VPC User Guide . See also: AWS API Documentation
+    /// Creates a new endpoint for a route server in a specified subnet. A route server endpoint is an Amazon Web Services-managed component inside a subnet that facilitates BGP (Border Gateway Protocol) connections between your route server and your BGP peers. For more information see Dynamic routing in your VPC with VPC Route Server in the Amazon VPC User Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1962,7 +1962,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Creates a new route server to manage dynamic routing in a VPC. Amazon VPC Route Server simplifies routing for traffic between work- loads that are deployed within a VPC and its internet gateways. With this feature, VPC Route Server dynamically updates VPC and internet gateway route tables with your preferred IPv4 or IPv6 routes to achieve routing fault tolerance for those workloads. This enables you to auto- matically reroute traffic within a VPC, which increases the manageabil- ity of VPC routi...
+    /// Creates a new route server to manage dynamic routing in a VPC. Amazon VPC Route Server simplifies routing for traffic between workloads that are deployed within a VPC and its internet gateways. With this feature, VPC Route Server dynamically updates VPC and internet gateway route tables with your preferred IPv4 or IPv6 routes to achieve routing fault tolerance for those workloads. This enables you to automatically reroute traffic within a VPC, which increases the manageability of VPC routing and...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1977,7 +1977,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Creates a new BGP peer for a specified route server endpoint. A route server peer is a session between a route server endpoint and the device deployed in Amazon Web Services (such as a firewall appli- ance or other network security function running on an EC2 instance). The device must meet these requirements: o Have an elastic network interface in the VPC o Support BGP (Border Gateway Protocol) o Can initiate BGP sessions For more information see Dynamic routing in your VPC with VPC Route Server...
+    /// Creates a new BGP peer for a specified route server endpoint. A route server peer is a session between a route server endpoint and the device deployed in Amazon Web Services (such as a firewall appliance or other network security function running on an EC2 instance). The device must meet these requirements: • Have an elastic network interface in the VPC • Support BGP (Border Gateway Protocol) • Can initiate BGP sessions For more information see Dynamic routing in your VPC with VPC Route Server i...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2007,7 +2007,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Creates a secondary network. The allowed size for a secondary network CIDR block is between /28 net- mask (16 IP addresses) and /12 netmask (1,048,576 IP addresses). See also: AWS API Documentation
+    /// Creates a secondary network. The allowed size for a secondary network CIDR block is between /28 netmask (16 IP addresses) and /12 netmask (1,048,576 IP addresses). See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2022,7 +2022,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Creates a secondary subnet in a secondary network. A secondary subnet CIDR block must not overlap with the CIDR block of an existing secondary subnet in the secondary network. After you create a secondary subnet, you can't change its CIDR block. The allowed size for a secondary subnet CIDR block is between /28 net- mask (16 IP addresses) and /12 netmask (1,048,576 IP addresses). Amazon reserves the first four IP addresses and the last IP address in each secondary subnet for internal use. See als...
+    /// Creates a secondary subnet in a secondary network. A secondary subnet CIDR block must not overlap with the CIDR block of an existing secondary subnet in the secondary network. After you create a secondary subnet, you can't change its CIDR block. The allowed size for a secondary subnet CIDR block is between /28 netmask (16 IP addresses) and /12 netmask (1,048,576 IP addresses). Amazon reserves the first four IP addresses and the last IP address in each secondary subnet for internal use. See also:...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2037,7 +2037,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Creates a security group. A security group acts as a virtual firewall for your instance to con- trol inbound and outbound traffic. For more information, see Amazon EC2 security groups in the Amazon EC2 User Guide and Security groups for your VPC in the Amazon VPC User Guide . When you create a security group, you specify a friendly name of your choice. You can't have two security groups for the same VPC with the same name. You have a default security group for use in your VPC. If you don't speci...
+    /// Creates a security group. A security group acts as a virtual firewall for your instance to control inbound and outbound traffic. For more information, see Amazon EC2 security groups in the Amazon EC2 User Guide and Security groups for your VPC in the Amazon VPC User Guide . When you create a security group, you specify a friendly name of your choice. You can't have two security groups for the same VPC with the same name. You have a default security group for use in your VPC. If you don't specify...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2052,7 +2052,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Creates a snapshot of an EBS volume and stores it in Amazon S3. You can use snapshots for backups, to make copies of EBS volumes, and to save data before shutting down an instance. The location of the source EBS volume determines where you can create the snapshot. o If the source volume is in a Region, you must create the snapshot in the same Region as the volume. o If the source volume is in a Local Zone, you can create the snapshot in the same Local Zone or in its parent Amazon Web Services Re...
+    /// Creates a snapshot of an EBS volume and stores it in Amazon S3. You can use snapshots for backups, to make copies of EBS volumes, and to save data before shutting down an instance. The location of the source EBS volume determines where you can create the snapshot. • If the source volume is in a Region, you must create the snapshot in the same Region as the volume. • If the source volume is in a Local Zone, you can create the snapshot in the same Local Zone or in its parent Amazon Web Services Re...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2067,7 +2067,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Creates crash-consistent snapshots of multiple EBS volumes attached to an Amazon EC2 instance. Volumes are chosen by specifying an instance. Each volume attached to the specified instance will produce one snap- shot that is crash-consistent across the instance. You can include all of the volumes currently attached to the instance, or you can exclude the root volume or specific data (non-root) volumes from the multi-vol- ume snapshot set. The location of the source instance determines where you c...
+    /// Creates crash-consistent snapshots of multiple EBS volumes attached to an Amazon EC2 instance. Volumes are chosen by specifying an instance. Each volume attached to the specified instance will produce one snapshot that is crash-consistent across the instance. You can include all of the volumes currently attached to the instance, or you can exclude the root volume or specific data (non-root) volumes from the multi-volume snapshot set. The location of the source instance determines where you can c...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2082,7 +2082,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Creates a data feed for Spot Instances, enabling you to view Spot In- stance usage logs. You can create one data feed per Amazon Web Services account. For more information, see Spot Instance data feed in the Ama- zon EC2 User Guide . See also: AWS API Documentation
+    /// Creates a data feed for Spot Instances, enabling you to view Spot Instance usage logs. You can create one data feed per Amazon Web Services account. For more information, see Spot Instance data feed in the Amazon EC2 User Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2097,7 +2097,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Stores an AMI as a single object in an Amazon S3 bucket. To use this API, you must have the required permissions. For more in- formation, see Permissions for storing and restoring AMIs using S3 in the Amazon EC2 User Guide . For more information, see Store and restore an AMI using S3 in the Ama- zon EC2 User Guide . See also: AWS API Documentation
+    /// Stores an AMI as a single object in an Amazon S3 bucket. To use this API, you must have the required permissions. For more information, see Permissions for storing and restoring AMIs using S3 in the Amazon EC2 User Guide . For more information, see Store and restore an AMI using S3 in the Amazon EC2 User Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2127,7 +2127,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Creates a subnet in the specified VPC. For an IPv4 only subnet, specify an IPv4 CIDR block. If the VPC has an IPv6 CIDR block, you can create an IPv6 only subnet or a dual stack subnet instead. For an IPv6 only subnet, specify an IPv6 CIDR block. For a dual stack subnet, specify both an IPv4 CIDR block and an IPv6 CIDR block. A subnet CIDR block must not overlap the CIDR block of an existing sub- net in the VPC. After you create a subnet, you can't change its CIDR block. The allowed size for an ...
+    /// Creates a subnet in the specified VPC. For an IPv4 only subnet, specify an IPv4 CIDR block. If the VPC has an IPv6 CIDR block, you can create an IPv6 only subnet or a dual stack subnet instead. For an IPv6 only subnet, specify an IPv6 CIDR block. For a dual stack subnet, specify both an IPv4 CIDR block and an IPv6 CIDR block. A subnet CIDR block must not overlap the CIDR block of an existing subnet in the VPC. After you create a subnet, you can't change its CIDR block. The allowed size for an IP...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2157,7 +2157,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Creates a Traffic Mirror filter. A Traffic Mirror filter is a set of rules that defines the traffic to mirror. By default, no traffic is mirrored. To mirror traffic, use CreateTrafficMirrorFilterRule to add Traffic Mirror rules to the fil- ter. The rules you add define what traffic gets mirrored. You can also use ModifyTrafficMirrorFilterNetworkServices to mirror supported net- work services. See also: AWS API Documentation
+    /// Creates a Traffic Mirror filter. A Traffic Mirror filter is a set of rules that defines the traffic to mirror. By default, no traffic is mirrored. To mirror traffic, use CreateTrafficMirrorFilterRule to add Traffic Mirror rules to the filter. The rules you add define what traffic gets mirrored. You can also use ModifyTrafficMirrorFilterNetworkServices to mirror supported network services. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2172,7 +2172,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Creates a Traffic Mirror filter rule. A Traffic Mirror rule defines the Traffic Mirror source traffic to mir- ror. You need the Traffic Mirror filter ID when you create the rule. See also: AWS API Documentation
+    /// Creates a Traffic Mirror filter rule. A Traffic Mirror rule defines the Traffic Mirror source traffic to mirror. You need the Traffic Mirror filter ID when you create the rule. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2187,7 +2187,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Creates a Traffic Mirror session. A Traffic Mirror session actively copies packets from a Traffic Mirror source to a Traffic Mirror target. Create a filter, and then assign it to the session to define a subset of the traffic to mirror, for example all TCP traffic. The Traffic Mirror source and the Traffic Mirror target (monitoring ap- pliances) can be in the same VPC, or in a different VPC connected via VPC peering or a transit gateway. By default, no traffic is mirrored. Use CreateTrafficMirror...
+    /// Creates a Traffic Mirror session. A Traffic Mirror session actively copies packets from a Traffic Mirror source to a Traffic Mirror target. Create a filter, and then assign it to the session to define a subset of the traffic to mirror, for example all TCP traffic. The Traffic Mirror source and the Traffic Mirror target (monitoring appliances) can be in the same VPC, or in a different VPC connected via VPC peering or a transit gateway. By default, no traffic is mirrored. Use CreateTrafficMirrorFi...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2202,7 +2202,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Creates a target for your Traffic Mirror session. A Traffic Mirror target is the destination for mirrored traffic. The Traffic Mirror source and the Traffic Mirror target (monitoring appli- ances) can be in the same VPC, or in different VPCs connected via VPC peering or a transit gateway. A Traffic Mirror target can be a network interface, a Network Load Bal- ancer, or a Gateway Load Balancer endpoint. To use the target in a Traffic Mirror session, use CreateTrafficMirrorSession . See also: AWS ...
+    /// Creates a target for your Traffic Mirror session. A Traffic Mirror target is the destination for mirrored traffic. The Traffic Mirror source and the Traffic Mirror target (monitoring appliances) can be in the same VPC, or in different VPCs connected via VPC peering or a transit gateway. A Traffic Mirror target can be a network interface, a Network Load Balancer, or a Gateway Load Balancer endpoint. To use the target in a Traffic Mirror session, use CreateTrafficMirrorSession . See also: AWS API ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2217,7 +2217,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Creates a Connect attachment from a specified transit gateway attach- ment. A Connect attachment is a GRE-based tunnel attachment that you can use to establish a connection between a transit gateway and an ap- pliance. A Connect attachment uses an existing VPC or Amazon Web Services Direct Connect attachment as the underlying transport mechanism. See also: AWS API Documentation
+    /// Creates a Connect attachment from a specified transit gateway attachment. A Connect attachment is a GRE-based tunnel attachment that you can use to establish a connection between a transit gateway and an appliance. A Connect attachment uses an existing VPC or Amazon Web Services Direct Connect attachment as the underlying transport mechanism. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2232,7 +2232,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Creates a Connect peer for a specified transit gateway Connect attach- ment between a transit gateway and an appliance. The peer address and transit gateway address must be the same IP ad- dress family (IPv4 or IPv6). For more information, see Connect peers in the Amazon Web Services Transit Gateways Guide . See also: AWS API Documentation
+    /// Creates a Connect peer for a specified transit gateway Connect attachment between a transit gateway and an appliance. The peer address and transit gateway address must be the same IP address family (IPv4 or IPv6). For more information, see Connect peers in the Amazon Web Services Transit Gateways Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2277,7 +2277,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Creates a multicast domain using the specified transit gateway. The transit gateway must be in the available state before you create a domain. Use DescribeTransitGateways to see the state of transit gate- way. See also: AWS API Documentation
+    /// Creates a multicast domain using the specified transit gateway. The transit gateway must be in the available state before you create a domain. Use DescribeTransitGateways to see the state of transit gateway. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2292,7 +2292,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Creates a transit gateway. You can use a transit gateway to interconnect your virtual private clouds (VPC) and on-premises networks. After the transit gateway enters the available state, you can attach your VPCs and VPN connections to the transit gateway. To attach your VPCs, use CreateTransitGatewayVpcAttachment . To attach a VPN connection, use CreateCustomerGateway to create a cus- tomer gateway and specify the ID of the customer gateway and the ID of the transit gateway in a call to CreateVp...
+    /// Creates a transit gateway. You can use a transit gateway to interconnect your virtual private clouds (VPC) and on-premises networks. After the transit gateway enters the available state, you can attach your VPCs and VPN connections to the transit gateway. To attach your VPCs, use CreateTransitGatewayVpcAttachment . To attach a VPN connection, use CreateCustomerGateway to create a customer gateway and specify the ID of the customer gateway and the ID of the transit gateway in a call to CreateVpnC...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2442,7 +2442,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// An Amazon Web Services Verified Access group is a collection of Amazon Web Services Verified Access endpoints who's associated applications have similar security requirements. Each instance within a Verified Ac- cess group shares an Verified Access policy. For example, you can group all Verified Access instances associated with "sales" applications to- gether and use one common Verified Access policy. See also: AWS API Documentation
+    /// An Amazon Web Services Verified Access group is a collection of Amazon Web Services Verified Access endpoints who's associated applications have similar security requirements. Each instance within a Verified Access group shares an Verified Access policy. For example, you can group all Verified Access instances associated with "sales" applications together and use one common Verified Access policy. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2487,7 +2487,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Creates an EBS volume that can be attached to an instance in the same Availability Zone. You can create a new empty volume or restore a volume from an EBS snap- shot. Any Amazon Web Services Marketplace product codes from the snap- shot are propagated to the volume. You can create encrypted volumes. Encrypted volumes must be attached to instances that support Amazon EBS encryption. Volumes that are created from encrypted snapshots are also automatically encrypted. For more in- formation, see Ama...
+    /// Creates an EBS volume that can be attached to an instance in the same Availability Zone. You can create a new empty volume or restore a volume from an EBS snapshot. Any Amazon Web Services Marketplace product codes from the snapshot are propagated to the volume. You can create encrypted volumes. Encrypted volumes must be attached to instances that support Amazon EBS encryption. Volumes that are created from encrypted snapshots are also automatically encrypted. For more information, see Amazon EB...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2502,7 +2502,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Create a VPC Block Public Access (BPA) exclusion. A VPC BPA exclusion is a mode that can be applied to a single VPC or subnet that exempts it from the accounts BPA mode and will allow bidirectional or egress-only access. You can create BPA exclusions for VPCs and subnets even when BPA is not enabled on the account to ensure that there is no traffic disruption to the exclusions when VPC BPA is turned on. To learn more about VPC BPA, see Block public access to VPCs and subnets in the Ama- zon VPC ...
+    /// Create a VPC Block Public Access (BPA) exclusion. A VPC BPA exclusion is a mode that can be applied to a single VPC or subnet that exempts it from the accounts BPA mode and will allow bidirectional or egress-only access. You can create BPA exclusions for VPCs and subnets even when BPA is not enabled on the account to ensure that there is no traffic disruption to the exclusions when VPC BPA is turned on. To learn more about VPC BPA, see Block public access to VPCs and subnets in the Amazon VPC Us...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2517,7 +2517,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Creates a VPC Encryption Control configuration for a specified VPC. VPC Encryption Control enables you to enforce encryption for all data in transit within and between VPCs to meet compliance requirements for standards like HIPAA, FedRAMP, and PCI DSS. For more information, see Enforce VPC encryption in transit in the Ama- zon VPC User Guide . See also: AWS API Documentation
+    /// Creates a VPC Encryption Control configuration for a specified VPC. VPC Encryption Control enables you to enforce encryption for all data in transit within and between VPCs to meet compliance requirements for standards like HIPAA, FedRAMP, and PCI DSS. For more information, see Enforce VPC encryption in transit in the Amazon VPC User Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2562,7 +2562,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Creates a VPC endpoint service to which service consumers (Amazon Web Services accounts, users, and IAM roles) can connect. Before you create an endpoint service, you must create one of the fol- lowing for your service: o A Network Load Balancer . Service consumers connect to your service using an interface endpoint. o A Gateway Load Balancer . Service consumers connect to your service using a Gateway Load Balancer endpoint. If you set the private DNS name, you must prove that you own the pri- v...
+    /// Creates a VPC endpoint service to which service consumers (Amazon Web Services accounts, users, and IAM roles) can connect. Before you create an endpoint service, you must create one of the following for your service: • A Network Load Balancer . Service consumers connect to your service using an interface endpoint. • A Gateway Load Balancer . Service consumers connect to your service using a Gateway Load Balancer endpoint. If you set the private DNS name, you must prove that you own the private ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2577,7 +2577,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Creates a VPC with the specified CIDR blocks. A VPC must have an associated IPv4 CIDR block. You can choose an IPv4 CIDR block or an IPAM-allocated IPv4 CIDR block. You can optionally as- sociate an IPv6 CIDR block with a VPC. You can choose an IPv6 CIDR block, an Amazon-provided IPv6 CIDR block, an IPAM-allocated IPv6 CIDR block, or an IPv6 CIDR block that you brought to Amazon Web Services. For more information, see IP addressing for your VPCs and subnets in the Amazon VPC User Guide . By defa...
+    /// Creates a VPC with the specified CIDR blocks. A VPC must have an associated IPv4 CIDR block. You can choose an IPv4 CIDR block or an IPAM-allocated IPv4 CIDR block. You can optionally associate an IPv6 CIDR block with a VPC. You can choose an IPv6 CIDR block, an Amazon-provided IPv6 CIDR block, an IPAM-allocated IPv6 CIDR block, or an IPv6 CIDR block that you brought to Amazon Web Services. For more information, see IP addressing for your VPCs and subnets in the Amazon VPC User Guide . By defaul...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2637,7 +2637,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Creates a static route associated with a VPN connection between an ex- isting virtual private gateway and a VPN customer gateway. The static route allows traffic to be routed from the virtual private gateway to the VPN customer gateway. For more information, see Amazon Web Services Site-to-Site VPN in the Amazon Web Services Site-to-Site VPN User Guide . See also: AWS API Documentation
+    /// Creates a static route associated with a VPN connection between an existing virtual private gateway and a VPN customer gateway. The static route allows traffic to be routed from the virtual private gateway to the VPN customer gateway. For more information, see Amazon Web Services Site-to-Site VPN in the Amazon Web Services Site-to-Site VPN User Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2652,7 +2652,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Creates a virtual private gateway. A virtual private gateway is the endpoint on the VPC side of your VPN connection. You can create a vir- tual private gateway before creating the VPC itself. For more information, see Amazon Web Services Site-to-Site VPN in the Amazon Web Services Site-to-Site VPN User Guide . See also: AWS API Documentation
+    /// Creates a virtual private gateway. A virtual private gateway is the endpoint on the VPC side of your VPN connection. You can create a virtual private gateway before creating the VPC itself. For more information, see Amazon Web Services Site-to-Site VPN in the Amazon Web Services Site-to-Site VPN User Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2667,7 +2667,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Deletes an application status check. The following rules apply: o Deleting a check automatically removes all of its associations. o Use DescribeApplicationStatusChecks to view existing checks before deleting. See also: AWS API Documentation
+    /// Deletes an application status check. The following rules apply: • Deleting a check automatically removes all of its associations. • Use DescribeApplicationStatusChecks to view existing checks before deleting. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2742,7 +2742,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Deletes a route from a Client VPN endpoint. You can only delete routes that you manually added using the CreateClientVpnRoute action. You can- not delete routes that were automatically added when associating a sub- net. To remove routes that have been automatically added, disassociate the target subnet from the Client VPN endpoint. See also: AWS API Documentation
+    /// Deletes a route from a Client VPN endpoint. You can only delete routes that you manually added using the CreateClientVpnRoute action. You cannot delete routes that were automatically added when associating a subnet. To remove routes that have been automatically added, disassociate the target subnet from the Client VPN endpoint. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2787,7 +2787,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Deletes the specified customer gateway. You must delete the VPN connec- tion before you can delete the customer gateway. See also: AWS API Documentation
+    /// Deletes the specified customer gateway. You must delete the VPN connection before you can delete the customer gateway. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2832,7 +2832,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Deletes the specified EC2 Fleet request. After you delete an EC2 Fleet request, it launches no new instances. You must also specify whether a deleted EC2 Fleet request should termi- nate its instances. If you choose to terminate the instances, the EC2 Fleet request enters the deleted_terminating state. Otherwise, it en- ters the deleted_running state, and the instances continue to run until they are interrupted or you terminate them manually. A deleted instant fleet with running instances is not...
+    /// Deletes the specified EC2 Fleet request. After you delete an EC2 Fleet request, it launches no new instances. You must also specify whether a deleted EC2 Fleet request should terminate its instances. If you choose to terminate the instances, the EC2 Fleet request enters the deleted_terminating state. Otherwise, it enters the deleted_running state, and the instances continue to run until they are interrupted or you terminate them manually. A deleted instant fleet with running instances is not sup...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2937,7 +2937,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Delete a verification token. A verification token is an Amazon Web Services-generated random value that you can use to prove ownership of an external resource. For exam- ple, you can use a verification token to validate that you control a public IP address range when you bring an IP address range to Amazon Web Services (BYOIP). See also: AWS API Documentation
+    /// Delete a verification token. A verification token is an Amazon Web Services-generated random value that you can use to prove ownership of an external resource. For example, you can use a verification token to validate that you control a public IP address range when you bring an IP address range to Amazon Web Services (BYOIP). See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2952,7 +2952,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Deletes an IPAM internet registry association. Before deleting, you must remove all routing policy registrations associated with the inter- net registry. See also: AWS API Documentation
+    /// Deletes an IPAM internet registry association. Before deleting, you must remove all routing policy registrations associated with the internet registry. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -3027,7 +3027,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Deletes an IPAM prefix list resolver target. This removes the associa- tion between the resolver and the managed prefix list, stopping auto- matic CIDR synchronization. For more information about IPAM prefix list resolver, see Automate pre- fix list updates with IPAM in the Amazon VPC IPAM User Guide . See also: AWS API Documentation
+    /// Deletes an IPAM prefix list resolver target. This removes the association between the resolver and the managed prefix list, stopping automatic CIDR synchronization. For more information about IPAM prefix list resolver, see Automate prefix list updates with IPAM in the Amazon VPC IPAM User Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -3117,7 +3117,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Deletes one or more versions of a launch template. You can't delete the default version of a launch template; you must first assign a different version as the default. If the default version is the only version for the launch template, you must delete the entire launch template using DeleteLaunchTemplate . You can delete up to 200 launch template versions in a single request. To delete more than 200 versions in a single request, use Delete- LaunchTemplate , which deletes the launch template and ...
+    /// Deletes one or more versions of a launch template. You can't delete the default version of a launch template; you must first assign a different version as the default. If the default version is the only version for the launch template, you must delete the entire launch template using DeleteLaunchTemplate . You can delete up to 200 launch template versions in a single request. To delete more than 200 versions in a single request, use DeleteLaunchTemplate , which deletes the launch template and al...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -3132,7 +3132,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Deletes the specified route from the specified local gateway route ta- ble. See also: AWS API Documentation
+    /// Deletes the specified route from the specified local gateway route table. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -3162,7 +3162,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Deletes a local gateway route table virtual interface group associa- tion. See also: AWS API Documentation
+    /// Deletes a local gateway route table virtual interface group association. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -3237,7 +3237,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Deletes the specified NAT gateway. Deleting a public NAT gateway disas- sociates its Elastic IP address, but does not release the address from your account. Deleting a NAT gateway does not delete any NAT gateway routes in your route tables. See also: AWS API Documentation
+    /// Deletes the specified NAT gateway. Deleting a public NAT gateway disassociates its Elastic IP address, but does not release the address from your account. Deleting a NAT gateway does not delete any NAT gateway routes in your route tables. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -3267,7 +3267,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Deletes the specified network ACL. You can't delete the ACL if it's as- sociated with any subnets. You can't delete the default network ACL. See also: AWS API Documentation
+    /// Deletes the specified network ACL. You can't delete the ACL if it's associated with any subnets. You can't delete the default network ACL. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -3357,7 +3357,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Deletes a permission for a network interface. By default, you cannot delete the permission if the account for which you're removing the per- mission has attached the network interface to an instance. However, you can force delete the permission, regardless of any attachment. See also: AWS API Documentation
+    /// Deletes a permission for a network interface. By default, you cannot delete the permission if the account for which you're removing the permission has attached the network interface to an instance. However, you can force delete the permission, regardless of any attachment. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -3432,7 +3432,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Deletes the specified route server endpoint. A route server endpoint is an Amazon Web Services-managed component in- side a subnet that facilitates BGP (Border Gateway Protocol) connec- tions between your route server and your BGP peers. See also: AWS API Documentation
+    /// Deletes the specified route server endpoint. A route server endpoint is an Amazon Web Services-managed component inside a subnet that facilitates BGP (Border Gateway Protocol) connections between your route server and your BGP peers. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -3447,7 +3447,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Deletes the specified route server. Amazon VPC Route Server simplifies routing for traffic between work- loads that are deployed within a VPC and its internet gateways. With this feature, VPC Route Server dynamically updates VPC and internet gateway route tables with your preferred IPv4 or IPv6 routes to achieve routing fault tolerance for those workloads. This enables you to auto- matically reroute traffic within a VPC, which increases the manageabil- ity of VPC routing and interoperability wit...
+    /// Deletes the specified route server. Amazon VPC Route Server simplifies routing for traffic between workloads that are deployed within a VPC and its internet gateways. With this feature, VPC Route Server dynamically updates VPC and internet gateway route tables with your preferred IPv4 or IPv6 routes to achieve routing fault tolerance for those workloads. This enables you to automatically reroute traffic within a VPC, which increases the manageability of VPC routing and interoperability with thir...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -3462,7 +3462,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Deletes the specified BGP peer from a route server. A route server peer is a session between a route server endpoint and the device deployed in Amazon Web Services (such as a firewall appli- ance or other network security function running on an EC2 instance). The device must meet these requirements: o Have an elastic network interface in the VPC o Support BGP (Border Gateway Protocol) o Can initiate BGP sessions See also: AWS API Documentation
+    /// Deletes the specified BGP peer from a route server. A route server peer is a session between a route server endpoint and the device deployed in Amazon Web Services (such as a firewall appliance or other network security function running on an EC2 instance). The device must meet these requirements: • Have an elastic network interface in the VPC • Support BGP (Border Gateway Protocol) • Can initiate BGP sessions See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -3477,7 +3477,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Deletes the specified route table. You must disassociate the route ta- ble from any subnets before you can delete it. You can't delete the main route table. See also: AWS API Documentation
+    /// Deletes the specified route table. You must disassociate the route table from any subnets before you can delete it. You can't delete the main route table. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -3522,7 +3522,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Deletes a security group. If you attempt to delete a security group that is associated with an instance or network interface, is referenced by another security group in the same VPC, or has a VPC association, the operation fails with De- pendencyViolation . See also: AWS API Documentation
+    /// Deletes a security group. If you attempt to delete a security group that is associated with an instance or network interface, is referenced by another security group in the same VPC, or has a VPC association, the operation fails with DependencyViolation . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -3537,7 +3537,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Deletes the specified snapshot. When you make periodic snapshots of a volume, the snapshots are incre- mental, and only the blocks on the device that have changed since your last snapshot are saved in the new snapshot. When you delete a snap- shot, only the data not needed for any other snapshot is removed. So regardless of which prior snapshots have been deleted, all active snap- shots will have access to all the information needed to restore the volume. You cannot delete a snapshot of the root...
+    /// Deletes the specified snapshot. When you make periodic snapshots of a volume, the snapshots are incremental, and only the blocks on the device that have changed since your last snapshot are saved in the new snapshot. When you delete a snapshot, only the data not needed for any other snapshot is removed. So regardless of which prior snapshots have been deleted, all active snapshots will have access to all the information needed to restore the volume. You cannot delete a snapshot of the root devic...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -3672,7 +3672,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Deletes a Transit Gateway attachment for a Client VPN endpoint. The Transit Gateway owner can delete the attachment to remove the associa- tion between the Client VPN endpoint and the Transit Gateway. See also: AWS API Documentation
+    /// Deletes a Transit Gateway attachment for a Client VPN endpoint. The Transit Gateway owner can delete the attachment to remove the association between the Client VPN endpoint and the Transit Gateway. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -3972,7 +3972,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Delete a VPC Block Public Access (BPA) exclusion. A VPC BPA exclusion is a mode that can be applied to a single VPC or subnet that exempts it from the accounts BPA mode and will allow bidirectional or egress-only access. You can create BPA exclusions for VPCs and subnets even when BPA is not enabled on the account to ensure that there is no traffic disruption to the exclusions when VPC BPA is turned on. To learn more about VPC BPA, see Block public access to VPCs and subnets in the Ama- zon VPC ...
+    /// Delete a VPC Block Public Access (BPA) exclusion. A VPC BPA exclusion is a mode that can be applied to a single VPC or subnet that exempts it from the accounts BPA mode and will allow bidirectional or egress-only access. You can create BPA exclusions for VPCs and subnets even when BPA is not enabled on the account to ensure that there is no traffic disruption to the exclusions when VPC BPA is turned on. To learn more about VPC BPA, see Block public access to VPCs and subnets in the Amazon VPC Us...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -3987,7 +3987,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Deletes a VPC Encryption Control configuration. This removes the en- cryption policy enforcement from the specified VPC. For more information, see Enforce VPC encryption in transit in the Ama- zon VPC User Guide . See also: AWS API Documentation
+    /// Deletes a VPC Encryption Control configuration. This removes the encryption policy enforcement from the specified VPC. For more information, see Enforce VPC encryption in transit in the Amazon VPC User Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -4032,7 +4032,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Deletes the specified VPC endpoints. When you delete a gateway endpoint, we delete the endpoint routes in the route tables for the endpoint. When you delete a Gateway Load Balancer endpoint, we delete its end- point network interfaces. You can only delete Gateway Load Balancer endpoints when the routes that are associated with the endpoint are deleted. When you delete an interface endpoint, we delete its endpoint network interfaces. See also: AWS API Documentation
+    /// Deletes the specified VPC endpoints. When you delete a gateway endpoint, we delete the endpoint routes in the route tables for the endpoint. When you delete a Gateway Load Balancer endpoint, we delete its endpoint network interfaces. You can only delete Gateway Load Balancer endpoints when the routes that are associated with the endpoint are deleted. When you delete an interface endpoint, we delete its endpoint network interfaces. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -4047,7 +4047,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Deletes the specified VPC. You must detach or delete all gateways and resources that are associated with the VPC before you can delete it. For example, you must terminate all instances running in the VPC, delete all security groups associated with the VPC (except the default one), delete all route tables associated with the VPC (except the de- fault one), and so on. When you delete the VPC, it deletes the default security group, network ACL, and route table for the VPC. If you created a flow log...
+    /// Deletes the specified VPC. You must detach or delete all gateways and resources that are associated with the VPC before you can delete it. For example, you must terminate all instances running in the VPC, delete all security groups associated with the VPC (except the default one), delete all route tables associated with the VPC (except the default one), and so on. When you delete the VPC, it deletes the default security group, network ACL, and route table for the VPC. If you created a flow log f...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -4092,7 +4092,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Deletes the specified VPN connection. If you're deleting the VPC and its associated components, we recommend that you detach the virtual private gateway from the VPC and delete the VPC before deleting the VPN connection. If you believe that the tunnel credentials for your VPN connection have been compromised, you can delete the VPN connection and create a new one that has new keys, with- out needing to delete the VPC or virtual private gateway. If you create a new VPN connection, you must reconf...
+    /// Deletes the specified VPN connection. If you're deleting the VPC and its associated components, we recommend that you detach the virtual private gateway from the VPC and delete the VPC before deleting the VPN connection. If you believe that the tunnel credentials for your VPN connection have been compromised, you can delete the VPN connection and create a new one that has new keys, without needing to delete the VPC or virtual private gateway. If you create a new VPN connection, you must reconfig...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -4107,7 +4107,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Deletes the specified static route associated with a VPN connection be- tween an existing virtual private gateway and a VPN customer gateway. The static route allows traffic to be routed from the virtual private gateway to the VPN customer gateway. See also: AWS API Documentation
+    /// Deletes the specified static route associated with a VPN connection between an existing virtual private gateway and a VPN customer gateway. The static route allows traffic to be routed from the virtual private gateway to the VPN customer gateway. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -4197,7 +4197,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Deregisters the specified AMI. A deregistered AMI can't be used to launch new instances. If a deregistered EBS-backed AMI matches a Recycle Bin retention rule, it moves to the Recycle Bin for the specified retention period. It can be restored before its retention period expires, after which it is per- manently deleted. If the deregistered AMI doesn't match a retention rule, it is permanently deleted immediately. For more information, see Recover deleted Amazon EBS snapshots and EBS-backed AMIs w...
+    /// Deregisters the specified AMI. A deregistered AMI can't be used to launch new instances. If a deregistered EBS-backed AMI matches a Recycle Bin retention rule, it moves to the Recycle Bin for the specified retention period. It can be restored before its retention period expires, after which it is permanently deleted. If the deregistered AMI doesn't match a retention rule, it is permanently deleted immediately. For more information, see Recover deleted Amazon EBS snapshots and EBS-backed AMIs wit...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -4257,7 +4257,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Describes attributes of your Amazon Web Services account. The following are the supported account attributes: o default-vpc : The ID of the default VPC for your account, or none . o max-instances : This attribute is no longer supported. The returned value does not reflect your actual vCPU limit for running On-Demand Instances. For more information, see On-Demand Instance Limits in the Amazon Elastic Compute Cloud User Guide . o max-elastic-ips : The maximum number of Elastic IP addresses that yo...
+    /// Describes attributes of your Amazon Web Services account. The following are the supported account attributes: • default-vpc : The ID of the default VPC for your account, or none . • max-instances : This attribute is no longer supported. The returned value does not reflect your actual vCPU limit for running On-Demand Instances. For more information, see On-Demand Instance Limits in the Amazon Elastic Compute Cloud User Guide . • max-elastic-ips : The maximum number of Elastic IP addresses that yo...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -4272,7 +4272,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Describes the account-level VPC Encryption Control configuration for your account. VPC Encryption Control enables you to enforce encryption for all data in transit within and between VPCs to meet compliance re- quirements. For more information, see Enforce VPC encryption in transit in the Ama- zon VPC User Guide . See also: AWS API Documentation
+    /// Describes the account-level VPC Encryption Control configuration for your account. VPC Encryption Control enables you to enforce encryption for all data in transit within and between VPCs to meet compliance requirements. For more information, see Enforce VPC encryption in transit in the Amazon VPC User Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -4287,7 +4287,22 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Describes the attributes of the specified Elastic IP addresses. For re- quirements, see Using reverse DNS for email applications . See also: AWS API Documentation describe-addresses-attribute is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the r...
+    /// Describes an Elastic IP address transfer. For more information, see Transfer Elastic IP addresses in the Amazon VPC User Guide . When you transfer an Elastic IP address, there is a two-step handshake between the source and transfer Amazon Web Services accounts. When the source account starts the transfer, the transfer account has seven days to accept the Elastic IP address transfer. During those seven days, the source account can view the pending transfer by using this action. After seven days, ...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> DescribeAddressTransfersAsync(
+        AwsEc2DescribeAddressTransfersOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeAddressTransfersOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Describes the attributes of the specified Elastic IP addresses. For requirements, see Using reverse DNS for email applications . See also: AWS API Documentation describe-addresses-attribute is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -4317,22 +4332,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Describes an Elastic IP address transfer. For more information, see Transfer Elastic IP addresses in the Amazon VPC User Guide . When you transfer an Elastic IP address, there is a two-step handshake between the source and transfer Amazon Web Services accounts. When the source account starts the transfer, the transfer account has seven days to accept the Elastic IP address transfer. During those seven days, the source account can view the pending transfer by using this action. Af- ter seven days...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> DescribeAddressTransfersAsync(
-        AwsEc2DescribeAddressTransfersOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeAddressTransfersOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
-    /// Describes the longer ID format settings for all resource types in a specific Region. This request is useful for performing a quick audit to determine whether a specific Region is fully opted in for longer IDs (17-character IDs). This request only returns information about resource types that support longer IDs. The following resource types support longer IDs: bundle | conver- sion-task | customer-gateway | dhcp-options | elastic-ip-allocation | elastic-ip-association | export-task | flow-log | i...
+    /// Describes the longer ID format settings for all resource types in a specific Region. This request is useful for performing a quick audit to determine whether a specific Region is fully opted in for longer IDs (17-character IDs). This request only returns information about resource types that support longer IDs. The following resource types support longer IDs: bundle | conversion-task | customer-gateway | dhcp-options | elastic-ip-allocation | elastic-ip-association | export-task | flow-log | ima...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -4362,7 +4362,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Describes application status checks, including configuration details such as protocol, port, path, thresholds, and associations. Results are paginated. Use the NextToken parameter to retrieve additional results. The following rules apply: o If you do not specify any application status check IDs, all checks in your account are returned. o Use DescribeApplicationStatus to see the actual health status of in- stances. See also: AWS API Documentation
+    /// Describes application status checks, including configuration details such as protocol, port, path, thresholds, and associations. Results are paginated. Use the NextToken parameter to retrieve additional results. The following rules apply: • If you do not specify any application status check IDs, all checks in your account are returned. • Use DescribeApplicationStatus to see the actual health status of instances. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -4377,7 +4377,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Describes the aggregated application health status for the specified instances. The following rules apply: o The instance-level status is derived from all application status checks with the aggregation setting set to included . o Use DescribeApplicationStatusChecks to view the configuration of in- dividual checks. o Use EnableApplicationStatusCheckSuppression to temporarily suppress health check results from affecting the instance-level status. See also: AWS API Documentation
+    /// Describes the aggregated application health status for the specified instances. The following rules apply: • The instance-level status is derived from all application status checks with the aggregation setting set to included . • Use DescribeApplicationStatusChecks to view the configuration of individual checks. • Use EnableApplicationStatusCheckSuppression to temporarily suppress health check results from affecting the instance-level status. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -4392,7 +4392,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Describes the Availability Zones, Local Zones, and Wavelength Zones that are available to you. For more information about Availability Zones, Local Zones, and Wave- length Zones, see Regions and zones in the Amazon EC2 User Guide . NOTE: The order of the elements in the response, including those within nested structures, might vary. Applications should not assume the elements appear in a particular order. See also: AWS API Documentation
+    /// Describes the Availability Zones, Local Zones, and Wavelength Zones that are available to you. For more information about Availability Zones, Local Zones, and Wavelength Zones, see Regions and zones in the Amazon EC2 User Guide . NOTE: The order of the elements in the response, including those within nested structures, might vary. Applications should not assume the elements appear in a particular order. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -4407,7 +4407,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Describes the current Infrastructure Performance metric subscriptions. See also: AWS API Documentation describe-aws-network-performance-metric-subscriptions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argu- ment on a paginated response, the --query argument must extract data from the results of the following query express...
+    /// Describes the current Infrastructure Performance metric subscriptions. See also: AWS API Documentation describe-aws-network-performance-metric-subscriptions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressio...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -4437,7 +4437,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Describes the IP address ranges that were provisioned for use with Ama- zon Web Services resources through through bring your own IP addresses (BYOIP). See also: AWS API Documentation describe-byoip-cidrs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data f...
+    /// Describes the IP address ranges that were provisioned for use with Amazon Web Services resources through through bring your own IP addresses (BYOIP). See also: AWS API Documentation describe-byoip-cidrs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data fro...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -4452,7 +4452,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Describes the events for the specified Capacity Block extension during the specified time. See also: AWS API Documentation describe-capacity-block-extension-history is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-pagi- nate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the re- sults of the following que...
+    /// Describes the events for the specified Capacity Block extension during the specified time. See also: AWS API Documentation describe-capacity-block-extension-history is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query e...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -4467,7 +4467,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Describes Capacity Block extension offerings available for purchase in the Amazon Web Services Region that you're currently using. See also: AWS API Documentation describe-capacity-block-extension-offerings is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-pagi- nate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract da...
+    /// Describes Capacity Block extension offerings available for purchase in the Amazon Web Services Region that you're currently using. See also: AWS API Documentation describe-capacity-block-extension-offerings is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -4497,22 +4497,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Describes details about Capacity Blocks in the Amazon Web Services Re- gion that you're currently using. See also: AWS API Documentation describe-capacity-blocks is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query ex...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> DescribeCapacityBlocksAsync(
-        AwsEc2DescribeCapacityBlocksOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeCapacityBlocksOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
-    /// Describes the availability of capacity for the specified Capacity blocks, or all of your Capacity Blocks. See also: AWS API Documentation describe-capacity-block-status is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following...
+    /// Describes the availability of capacity for the specified Capacity blocks, or all of your Capacity Blocks. See also: AWS API Documentation describe-capacity-block-status is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following que...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -4527,7 +4512,22 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Describes one or more Capacity Manager data export configurations. Re- turns information about export settings, delivery status, and recent export activity. See also: AWS API Documentation describe-capacity-manager-data-exports is a paginated operation. Multi- ple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate ar- gument. When using --output text and the --query argument on a pagi- nated response, the --query...
+    /// Describes details about Capacity Blocks in the Amazon Web Services Region that you're currently using. See also: AWS API Documentation describe-capacity-blocks is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expres...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> DescribeCapacityBlocksAsync(
+        AwsEc2DescribeCapacityBlocksOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeCapacityBlocksOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Describes one or more Capacity Manager data export configurations. Returns information about export settings, delivery status, and recent export activity. See also: AWS API Documentation describe-capacity-manager-data-exports is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argumen...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -4542,7 +4542,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Describes a request to assign the billing of the unused capacity of a Capacity Reservation. For more information, see Billing assignment for shared Amazon EC2 Capacity Reservations . See also: AWS API Documentation describe-capacity-reservation-billing-requests is a paginated opera- tion. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argu- ment on a...
+    /// Describes a request to assign the billing of the unused capacity of a Capacity Reservation. For more information, see Billing assignment for shared Amazon EC2 Capacity Reservations . See also: AWS API Documentation describe-capacity-reservation-billing-requests is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a pag...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -4557,7 +4557,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Describes one or more Capacity Reservation cancellation quotes. The re- sults describe only the quotes that you have previously generated by using the CreateCapacityReservationCancellationQuote action. See also: AWS API Documentation
+    /// Describes one or more Capacity Reservation cancellation quotes. The results describe only the quotes that you have previously generated by using the CreateCapacityReservationCancellationQuote action. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -4572,7 +4572,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Describes one or more Capacity Reservation date change quotes that you generated by using the CreateCapacityReservationDateChangeQuote opera- tion. See also: AWS API Documentation describe-capacity-reservation-date-change-quotes is a paginated opera- tion. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argu- ment on a paginated response, the --query ...
+    /// Describes one or more Capacity Reservation date change quotes that you generated by using the CreateCapacityReservationDateChangeQuote operation. See also: AWS API Documentation describe-capacity-reservation-date-change-quotes is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argume...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -4587,7 +4587,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Describes one or more Capacity Reservation Fleets. See also: AWS API Documentation describe-capacity-reservation-fleets is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: CapacityReservationFleets
+    /// Describes one or more Capacity Reservation Fleets. See also: AWS API Documentation describe-capacity-reservation-fleets is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: CapacityReservationFleets
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -4602,22 +4602,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Describes one or more of your Capacity Reservations. The results de- scribe only the Capacity Reservations in the Amazon Web Services Region that you're currently using. See also: AWS API Documentation describe-capacity-reservations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --qu...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> DescribeCapacityReservationsAsync(
-        AwsEc2DescribeCapacityReservationsOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeCapacityReservationsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
-    /// Describes a tree-based hierarchy that represents the physical host placement of your pending or active Capacity Reservations within an Availability Zone or Local Zone. You can use this information to deter- mine the relative proximity of your capacity within the Amazon Web Ser- vices network before it is launched and use this information to allo- cate capacity together to support your tightly coupled workloads. Capacity Reservation topology is supported for specific instance types only. For more...
+    /// Describes a tree-based hierarchy that represents the physical host placement of your pending or active Capacity Reservations within an Availability Zone or Local Zone. You can use this information to determine the relative proximity of your capacity within the Amazon Web Services network before it is launched and use this information to allocate capacity together to support your tightly coupled workloads. Capacity Reservation topology is supported for specific instance types only. For more infor...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -4632,7 +4617,22 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Describes one or more of your carrier gateways. See also: AWS API Documentation describe-carrier-gateways is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: CarrierGateways
+    /// Describes one or more of your Capacity Reservations. The results describe only the Capacity Reservations in the Amazon Web Services Region that you're currently using. See also: AWS API Documentation describe-capacity-reservations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query ar...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> DescribeCapacityReservationsAsync(
+        AwsEc2DescribeCapacityReservationsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeCapacityReservationsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Describes one or more of your carrier gateways. See also: AWS API Documentation describe-carrier-gateways is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: CarrierGateways
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -4647,7 +4647,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// NOTE: This action is deprecated. Describes your linked EC2-Classic instances. This request only returns information about EC2-Classic instances linked to a VPC through Classi- cLink. You cannot use this request to return information about other instances. See also: AWS API Documentation describe-classic-link-instances is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- me...
+    /// NOTE: This action is deprecated. Describes your linked EC2-Classic instances. This request only returns information about EC2-Classic instances linked to a VPC through ClassicLink. You cannot use this request to return information about other instances. See also: AWS API Documentation describe-classic-link-instances is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. Wh...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -4662,7 +4662,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Describes the authorization rules for a specified Client VPN endpoint. See also: AWS API Documentation describe-client-vpn-authorization-rules is a paginated operation. Mul- tiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a pagi- nated response, the --query argument must extract data from the results of the following query expressions: Author...
+    /// Describes the authorization rules for a specified Client VPN endpoint. See also: AWS API Documentation describe-client-vpn-authorization-rules is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Authorizat...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -4677,7 +4677,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Describes active client connections and connections that have been ter- minated within the last 60 minutes for the specified Client VPN end- point. See also: AWS API Documentation describe-client-vpn-connections is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must ext...
+    /// Describes active client connections and connections that have been terminated within the last 60 minutes for the specified Client VPN endpoint. See also: AWS API Documentation describe-client-vpn-connections is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract dat...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -4692,7 +4692,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Describes one or more Client VPN endpoints in the account. See also: AWS API Documentation describe-client-vpn-endpoints is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: ClientVpnEndpoints
+    /// Describes one or more Client VPN endpoints in the account. See also: AWS API Documentation describe-client-vpn-endpoints is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: ClientVpnEndpoints
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -4707,7 +4707,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Describes the routes for the specified Client VPN endpoint. See also: AWS API Documentation describe-client-vpn-routes is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: Routes
+    /// Describes the routes for the specified Client VPN endpoint. See also: AWS API Documentation describe-client-vpn-routes is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Routes
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -4722,7 +4722,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Describes the target networks associated with the specified Client VPN endpoint. See also: AWS API Documentation describe-client-vpn-target-networks is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: ...
+    /// Describes the target networks associated with the specified Client VPN endpoint. See also: AWS API Documentation describe-client-vpn-target-networks is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Clie...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -4752,7 +4752,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Describes the specified conversion tasks or all your conversion tasks. For more information, see the VM Import/Export User Guide . For information about the import manifest referenced by this API ac- tion, see VM Import Manifest . See also: AWS API Documentation
+    /// Describes the specified conversion tasks or all your conversion tasks. For more information, see the VM Import/Export User Guide . For information about the import manifest referenced by this API action, see VM Import Manifest . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -4782,7 +4782,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Describes the metadata of an account status report, including the sta- tus of the report. To view the full report, download it from the Amazon S3 bucket where it was saved. Reports are accessible only when they have the complete sta- tus. Reports with other statuses (running , cancelled , or error ) are not available in the S3 bucket. For more information about downloading objects from an S3 bucket, see Downloading objects in the Amazon Simple Storage Service User Guide . For more information, s...
+    /// Describes the metadata of an account status report, including the status of the report. To view the full report, download it from the Amazon S3 bucket where it was saved. Reports are accessible only when they have the complete status. Reports with other statuses (running , cancelled , or error ) are not available in the S3 bucket. For more information about downloading objects from an S3 bucket, see Downloading objects in the Amazon Simple Storage Service User Guide . For more information, see G...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -4812,7 +4812,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Describes your egress-only internet gateways. The default is to de- scribe all your egress-only internet gateways. Alternatively, you can specify specific egress-only internet gateway IDs or filter the results to include only the egress-only internet gateways that match specific criteria. See also: AWS API Documentation describe-egress-only-internet-gateways is a paginated operation. Multi- ple API calls may be issued in order to retrieve the entire data set of results. You can disable paginatio...
+    /// Describes your egress-only internet gateways. The default is to describe all your egress-only internet gateways. Alternatively, you can specify specific egress-only internet gateway IDs or filter the results to include only the egress-only internet gateways that match specific criteria. See also: AWS API Documentation describe-egress-only-internet-gateways is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -4827,7 +4827,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// NOTE: Amazon Elastic Graphics reached end of life on January 8, 2024. Describes the Elastic Graphics accelerator associated with your in- stances. See also: AWS API Documentation
+    /// NOTE: Amazon Elastic Graphics reached end of life on January 8, 2024. Describes the Elastic Graphics accelerator associated with your instances. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -4842,7 +4842,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Describes the specified export image tasks or all of your export image tasks. See also: AWS API Documentation describe-export-image-tasks is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: ExportImage...
+    /// Describes the specified export image tasks or all of your export image tasks. See also: AWS API Documentation describe-export-image-tasks is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: ExportImageTask...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -4857,7 +4857,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Describes the specified export instance tasks or all of your export in- stance tasks. See also: AWS API Documentation
+    /// Describes the specified export instance tasks or all of your export instance tasks. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -4872,7 +4872,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Describe details for Windows AMIs that are configured for Windows fast launch. See also: AWS API Documentation describe-fast-launch-images is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: FastLaunch...
+    /// Describe details for Windows AMIs that are configured for Windows fast launch. See also: AWS API Documentation describe-fast-launch-images is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: FastLaunchImag...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -4887,7 +4887,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Describes the state of fast snapshot restores for your snapshots. See also: AWS API Documentation describe-fast-snapshot-restores is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: FastSnapshotRestore...
+    /// Describes the state of fast snapshot restores for your snapshots. See also: AWS API Documentation describe-fast-snapshot-restores is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: FastSnapshotRestores
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -4902,7 +4902,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Describes the events for the specified EC2 Fleet during the specified time. EC2 Fleet events are delayed by up to 30 seconds before they can be de- scribed. This ensures that you can query by the last evaluated time and not miss a recorded event. EC2 Fleet events are available for 48 hours. For more information, see Monitor fleet events using Amazon EventBridge in the Amazon EC2 User Guide . See also: AWS API Documentation
+    /// Describes the events for the specified EC2 Fleet during the specified time. EC2 Fleet events are delayed by up to 30 seconds before they can be described. This ensures that you can query by the last evaluated time and not miss a recorded event. EC2 Fleet events are available for 48 hours. For more information, see Monitor fleet events using Amazon EventBridge in the Amazon EC2 User Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -4932,7 +4932,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Describes the specified EC2 Fleet or all of your EC2 Fleets. WARNING: If a fleet is of type instant , you must specify the fleet ID in the request, otherwise the fleet does not appear in the response. For more information, see Describe your EC2 Fleet in the Amazon EC2 User Guide . See also: AWS API Documentation describe-fleets is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-pagin...
+    /// Describes the specified EC2 Fleet or all of your EC2 Fleets. WARNING: If a fleet is of type instant , you must specify the fleet ID in the request, otherwise the fleet does not appear in the response. For more information, see Describe your EC2 Fleet in the Amazon EC2 User Guide . See also: AWS API Documentation describe-fleets is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -4947,7 +4947,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Describes one or more flow logs. To view the published flow log records, you must view the log destina- tion. For example, the CloudWatch Logs log group, the Amazon S3 bucket, or the Kinesis Data Firehose delivery stream. See also: AWS API Documentation describe-flow-logs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argume...
+    /// Describes one or more flow logs. To view the published flow log records, you must view the log destination. For example, the CloudWatch Logs log group, the Amazon S3 bucket, or the Kinesis Data Firehose delivery stream. See also: AWS API Documentation describe-flow-logs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -4992,7 +4992,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Describes the Dedicated Host reservations that are available to pur- chase. The results describe all of the Dedicated Host reservation offerings, including offerings that might not match the instance family and Region of your Dedicated Hosts. When purchasing an offering, ensure that the instance family and Region of the offering matches that of the Dedi- cated Hosts with which it is to be associated. For more information about supported instance types, see Dedicated Hosts in the Amazon EC2 User ...
+    /// Describes the Dedicated Host reservations that are available to purchase. The results describe all of the Dedicated Host reservation offerings, including offerings that might not match the instance family and Region of your Dedicated Hosts. When purchasing an offering, ensure that the instance family and Region of the offering matches that of the Dedicated Hosts with which it is to be associated. For more information about supported instance types, see Dedicated Hosts in the Amazon EC2 User Guid...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -5007,7 +5007,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Describes reservations that are associated with Dedicated Hosts in your account. See also: AWS API Documentation describe-host-reservations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: HostReserva...
+    /// Describes reservations that are associated with Dedicated Hosts in your account. See also: AWS API Documentation describe-host-reservations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: HostReservati...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -5022,7 +5022,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Describes the specified Dedicated Hosts or all your Dedicated Hosts. The results describe only the Dedicated Hosts in the Region you're cur- rently using. All listed instances consume capacity on your Dedicated Host. Dedicated Hosts that have recently been released are listed with the state released . See also: AWS API Documentation describe-hosts is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by prov...
+    /// Describes the specified Dedicated Hosts or all your Dedicated Hosts. The results describe only the Dedicated Hosts in the Region you're currently using. All listed instances consume capacity on your Dedicated Host. Dedicated Hosts that have recently been released are listed with the state released . See also: AWS API Documentation describe-hosts is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -5037,7 +5037,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Describes your IAM instance profile associations. See also: AWS API Documentation describe-iam-instance-profile-associations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-pagi- nate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the re- sults of the following query expressions: IamInstanceProfileAssoci...
+    /// Describes your IAM instance profile associations. See also: AWS API Documentation describe-iam-instance-profile-associations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: IamInstanceProfileAssociatio...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -5052,22 +5052,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Describes the ID format settings for resources for the specified IAM user, IAM role, or root user. For example, you can view the resource types that are enabled for longer IDs. This request only returns infor- mation about resource types whose ID formats can be modified; it does not return information about other resource types. For more informa- tion, see Resource IDs in the Amazon Elastic Compute Cloud User Guide . The following resource types support longer IDs: bundle | conver- sion-task | c...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> DescribeIdentityIdFormatAsync(
-        AwsEc2DescribeIdentityIdFormatOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
-    /// Describes the ID format settings for your resources on a per-Region ba- sis, for example, to view which resource types are enabled for longer IDs. This request only returns information about resource types whose ID formats can be modified; it does not return information about other resource types. The following resource types support longer IDs: bundle | conver- sion-task | customer-gateway | dhcp-options | elastic-ip-allocation | elastic-ip-association | export-task | flow-log | image | import-...
+    /// Describes the ID format settings for your resources on a per-Region basis, for example, to view which resource types are enabled for longer IDs. This request only returns information about resource types whose ID formats can be modified; it does not return information about other resource types. The following resource types support longer IDs: bundle | conversion-task | customer-gateway | dhcp-options | elastic-ip-allocation | elastic-ip-association | export-task | flow-log | image | import-task...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -5079,6 +5064,21 @@ public class AwsEc2 : IAwsEc2
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeIdFormatOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Describes the ID format settings for resources for the specified IAM user, IAM role, or root user. For example, you can view the resource types that are enabled for longer IDs. This request only returns information about resource types whose ID formats can be modified; it does not return information about other resource types. For more information, see Resource IDs in the Amazon Elastic Compute Cloud User Guide . The following resource types support longer IDs: bundle | conversion-task | custome...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> DescribeIdentityIdFormatAsync(
+        AwsEc2DescribeIdentityIdFormatOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -5112,22 +5112,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Describes the specified images (AMIs, AKIs, and ARIs) available to you or all of the images available to you. The images available to you include public images, private images that you own, and private images owned by other Amazon Web Services accounts for which you have explicit launch permissions. Recently deregistered images appear in the returned results for a short interval and then return empty results. After all instances that refer- ence a deregistered AMI are terminated, specifying the ...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> DescribeImagesAsync(
-        AwsEc2DescribeImagesOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeImagesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
-    /// Describes the entries in image usage reports, showing how your images are used across other Amazon Web Services accounts. For more information, see View your AMI usage in the Amazon EC2 User Guide . See also: AWS API Documentation describe-image-usage-report-entries is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument...
+    /// Describes the entries in image usage reports, showing how your images are used across other Amazon Web Services accounts. For more information, see View your AMI usage in the Amazon EC2 User Guide . See also: AWS API Documentation describe-image-usage-report-entries is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -5142,7 +5127,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Describes the configuration and status of image usage reports, filtered by report IDs or image IDs. For more information, see View your AMI usage in the Amazon EC2 User Guide . See also: AWS API Documentation describe-image-usage-reports is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the...
+    /// Describes the configuration and status of image usage reports, filtered by report IDs or image IDs. For more information, see View your AMI usage in the Amazon EC2 User Guide . See also: AWS API Documentation describe-image-usage-reports is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --q...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -5157,7 +5142,22 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Displays details about an import virtual machine or import snapshot tasks that are already created. See also: AWS API Documentation describe-import-image-tasks is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex...
+    /// Describes the specified images (AMIs, AKIs, and ARIs) available to you or all of the images available to you. The images available to you include public images, private images that you own, and private images owned by other Amazon Web Services accounts for which you have explicit launch permissions. Recently deregistered images appear in the returned results for a short interval and then return empty results. After all instances that reference a deregistered AMI are terminated, specifying the ID...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> DescribeImagesAsync(
+        AwsEc2DescribeImagesOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeImagesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Displays details about an import virtual machine or import snapshot tasks that are already created. See also: AWS API Documentation describe-import-image-tasks is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expres...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -5172,7 +5172,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Describes your import snapshot tasks. See also: AWS API Documentation describe-import-snapshot-tasks is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: ImportSnapshotTasks
+    /// Describes your import snapshot tasks. See also: AWS API Documentation describe-import-snapshot-tasks is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: ImportSnapshotTasks
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -5202,7 +5202,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Describes the specified EC2 Instance Connect Endpoints or all EC2 In- stance Connect Endpoints. See also: AWS API Documentation describe-instance-connect-endpoints is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following quer...
+    /// Describes the specified EC2 Instance Connect Endpoints or all EC2 Instance Connect Endpoints. See also: AWS API Documentation describe-instance-connect-endpoints is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expr...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -5217,7 +5217,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Describes the credit option for CPU usage of the specified burstable performance instances. The credit options are standard and unlimited . If you do not specify an instance ID, Amazon EC2 returns burstable per- formance instances with the unlimited credit option, as well as in- stances that were previously configured as T2, T3, and T3a with the un- limited credit option. For example, if you resize a T2 instance, while it is configured as unlimited , to an M4 instance, Amazon EC2 returns the M4 ...
+    /// Describes the credit option for CPU usage of the specified burstable performance instances. The credit options are standard and unlimited . If you do not specify an instance ID, Amazon EC2 returns burstable performance instances with the unlimited credit option, as well as instances that were previously configured as T2, T3, and T3a with the unlimited credit option. For example, if you resize a T2 instance, while it is configured as unlimited , to an M4 instance, Amazon EC2 returns the M4 instan...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -5247,7 +5247,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Describes the specified event windows or all event windows. If you specify event window IDs, the output includes information for only the specified event windows. If you specify filters, the output includes information for only those event windows that meet the filter criteria. If you do not specify event windows IDs or filters, the out- put includes information for all event windows, which can affect per- formance. We recommend that you use pagination to ensure that the oper- ation returns quic...
+    /// Describes the specified event windows or all event windows. If you specify event window IDs, the output includes information for only the specified event windows. If you specify filters, the output includes information for only those event windows that meet the filter criteria. If you do not specify event windows IDs or filters, the output includes information for all event windows, which can affect performance. We recommend that you use pagination to ensure that the operation returns quickly an...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -5262,7 +5262,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Describes the AMI that was used to launch an instance, even if the AMI is deprecated, deregistered, made private (no longer public or shared with your account), or not allowed. If you specify instance IDs, the output includes information for only the specified instances. If you specify filters, the output includes information for only those instances that meet the filter criteria. If you do not specify instance IDs or filters, the output includes infor- mation for all instances, which can affect...
+    /// Describes the AMI that was used to launch an instance, even if the AMI is deprecated, deregistered, made private (no longer public or shared with your account), or not allowed. If you specify instance IDs, the output includes information for only the specified instances. If you specify filters, the output includes information for only those instances that meet the filter criteria. If you do not specify instance IDs or filters, the output includes information for all instances, which can affect p...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -5274,21 +5274,6 @@ public class AwsEc2 : IAwsEc2
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeInstanceImageMetadataOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
-    /// Describes the specified instances or all instances. If you specify instance IDs, the output includes information for only the specified instances. If you specify filters, the output includes information for only those instances that meet the filter criteria. If you do not specify instance IDs or filters, the output includes infor- mation for all instances, which can affect performance. We recommend that you use pagination to ensure that the operation returns quickly and successfully. The respons...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> DescribeInstancesAsync(
-        AwsEc2DescribeInstancesOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeInstancesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -5307,7 +5292,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Describes the SQL Server High Availability states for Amazon EC2 in- stances that are enabled for Amazon EC2 High Availability for SQL Server monitoring. See also: AWS API Documentation
+    /// Describes the SQL Server High Availability states for Amazon EC2 instances that are enabled for Amazon EC2 High Availability for SQL Server monitoring. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -5322,7 +5307,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Describes the status of the specified instances or all of your in- stances. By default, only running instances are described, unless you specifically indicate to return the status of all instances. Instance status includes the following components: o Status checks - Amazon EC2 performs status checks on running EC2 in- stances to identify hardware and software issues. For more informa- tion, see Status checks for your instances and Troubleshoot instances with failed status checks in the Amazon EC...
+    /// Describes the status of the specified instances or all of your instances. By default, only running instances are described, unless you specifically indicate to return the status of all instances. Instance status includes the following components: • Status checks - Amazon EC2 performs status checks on running EC2 instances to identify hardware and software issues. For more information, see Status checks for your instances and Troubleshoot instances with failed status checks in the Amazon EC2 User...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -5352,7 +5337,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Lists the instance types that are offered for the specified location. If no location is specified, the default is to list the instance types that are offered in the current Region. See also: AWS API Documentation describe-instance-type-offerings is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated respo...
+    /// Lists the instance types that are offered for the specified location. If no location is specified, the default is to list the instance types that are offered in the current Region. See also: AWS API Documentation describe-instance-type-offerings is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response,...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -5367,7 +5352,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Describes the specified instance types. By default, all instance types for the current Region are described. Alternatively, you can filter the results. To include instance types that are not supported in the cur- rent Region, set IncludeUnsupportedInRegion to true . See also: AWS API Documentation describe-instance-types is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argumen...
+    /// Describes the specified instance types. By default, all instance types for the current Region are described. Alternatively, you can filter the results. To include instance types that are not supported in the current Region, set IncludeUnsupportedInRegion to true . See also: AWS API Documentation describe-instance-types is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument....
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -5379,6 +5364,21 @@ public class AwsEc2 : IAwsEc2
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeInstanceTypesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Describes the specified instances or all instances. If you specify instance IDs, the output includes information for only the specified instances. If you specify filters, the output includes information for only those instances that meet the filter criteria. If you do not specify instance IDs or filters, the output includes information for all instances, which can affect performance. We recommend that you use pagination to ensure that the operation returns quickly and successfully. The response ...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> DescribeInstancesAsync(
+        AwsEc2DescribeInstancesOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeInstancesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -5412,7 +5412,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Describe verification tokens. A verification token is an Amazon Web Services-generated random value that you can use to prove ownership of an external resource. For exam- ple, you can use a verification token to validate that you control a public IP address range when you bring an IP address range to Amazon Web Services (BYOIP). See also: AWS API Documentation
+    /// Describe verification tokens. A verification token is an Amazon Web Services-generated random value that you can use to prove ownership of an external resource. For example, you can use a verification token to validate that you control a public IP address range when you bring an IP address range to Amazon Web Services (BYOIP). See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -5427,7 +5427,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Describes one or more IPAM internet registry associations. We recommend using pagination to ensure that the operation returns quickly and suc- cessfully. See also: AWS API Documentation
+    /// Describes one or more IPAM internet registry associations. We recommend using pagination to ensure that the operation returns quickly and successfully. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -5487,22 +5487,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Describes one or more IPAM prefix list resolvers. Use this operation to view the configuration, status, and properties of your resolvers. See also: AWS API Documentation describe-ipam-prefix-list-resolvers is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract d...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> DescribeIpamPrefixListResolversAsync(
-        AwsEc2DescribeIpamPrefixListResolversOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeIpamPrefixListResolversOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
-    /// Describes one or more IPAM prefix list resolver Targets. Use this oper- ation to view the configuration and status of resolver targets. See also: AWS API Documentation describe-ipam-prefix-list-resolver-targets is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-pagi- nate argument. When using --output text and the --query argument on a paginated response, the --query argument must extrac...
+    /// Describes one or more IPAM prefix list resolver Targets. Use this operation to view the configuration and status of resolver targets. See also: AWS API Documentation describe-ipam-prefix-list-resolver-targets is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract da...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -5517,7 +5502,22 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Describes IPAM resource discoveries. A resource discovery is an IPAM component that enables IPAM to manage and monitor resources that belong to the owning account. See also: AWS API Documentation describe-ipam-resource-discoveries is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --quer...
+    /// Describes one or more IPAM prefix list resolvers. Use this operation to view the configuration, status, and properties of your resolvers. See also: AWS API Documentation describe-ipam-prefix-list-resolvers is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data ...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> DescribeIpamPrefixListResolversAsync(
+        AwsEc2DescribeIpamPrefixListResolversOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeIpamPrefixListResolversOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Describes IPAM resource discoveries. A resource discovery is an IPAM component that enables IPAM to manage and monitor resources that belong to the owning account. See also: AWS API Documentation describe-ipam-resource-discoveries is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query ar...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -5532,7 +5532,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Describes resource discovery association with an Amazon VPC IPAM. An associated resource discovery is a resource discovery that has been as- sociated with an IPAM.. See also: AWS API Documentation describe-ipam-resource-discovery-associations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-pagi- nate argument. When using --output text and the --query argument on a paginated response, ...
+    /// Describes resource discovery association with an Amazon VPC IPAM. An associated resource discovery is a resource discovery that has been associated with an IPAM.. See also: AWS API Documentation describe-ipam-resource-discovery-associations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -5562,7 +5562,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Get information about your IPAM pools. For more information, see What is IPAM? in the Amazon VPC IPAM User Guide . See also: AWS API Documentation describe-ipams is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ...
+    /// Get information about your IPAM pools. For more information, see What is IPAM? in the Amazon VPC IPAM User Guide . See also: AWS API Documentation describe-ipams is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expr...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -5607,22 +5607,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Describes one or more launch templates. See also: AWS API Documentation describe-launch-templates is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: LaunchTemplates
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> DescribeLaunchTemplatesAsync(
-        AwsEc2DescribeLaunchTemplatesOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeLaunchTemplatesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
-    /// Describes one or more versions of a specified launch template. You can describe all versions, individual versions, or a range of versions. You can also describe all the latest versions or all the default versions of all the launch templates in your account. See also: AWS API Documentation describe-launch-template-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu...
+    /// Describes one or more versions of a specified launch template. You can describe all versions, individual versions, or a range of versions. You can also describe all the latest versions or all the default versions of all the launch templates in your account. See also: AWS API Documentation describe-launch-template-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argume...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -5637,7 +5622,52 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Describes one or more local gateway route tables. By default, all local gateway route tables are described. Alternatively, you can filter the results. See also: AWS API Documentation describe-local-gateway-route-tables is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument m...
+    /// Describes one or more launch templates. See also: AWS API Documentation describe-launch-templates is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: LaunchTemplates
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> DescribeLaunchTemplatesAsync(
+        AwsEc2DescribeLaunchTemplatesOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeLaunchTemplatesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Describes the associations between virtual interface groups and local gateway route tables. See also: AWS API Documentation describe-local-gateway-route-table-virtual-interface-group-associations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the r...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> DescribeLocalGatewayRouteTableVirtualInterfaceGroupAssociationsAsync(
+        AwsEc2DescribeLocalGatewayRouteTableVirtualInterfaceGroupAssociationsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeLocalGatewayRouteTableVirtualInterfaceGroupAssociationsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Describes the specified associations between VPCs and local gateway route tables. See also: AWS API Documentation describe-local-gateway-route-table-vpc-associations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> DescribeLocalGatewayRouteTableVpcAssociationsAsync(
+        AwsEc2DescribeLocalGatewayRouteTableVpcAssociationsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeLocalGatewayRouteTableVpcAssociationsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Describes one or more local gateway route tables. By default, all local gateway route tables are described. Alternatively, you can filter the results. See also: AWS API Documentation describe-local-gateway-route-tables is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -5652,18 +5682,33 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Describes the specified associations between VPCs and local gateway route tables. See also: AWS API Documentation describe-local-gateway-route-table-vpc-associations is a paginated op- eration. Multiple API calls may be issued in order to retrieve the en- tire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argu- ment on a paginated response, the --query argument must extract data from the results of the following ...
+    /// Describes the specified local gateway virtual interface groups. See also: AWS API Documentation describe-local-gateway-virtual-interface-groups is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: LocalGate...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> DescribeLocalGatewayRouteTableVpcAssociationsAsync(
-        AwsEc2DescribeLocalGatewayRouteTableVpcAssociationsOptions? options = null,
+    public virtual async Task<CommandResult> DescribeLocalGatewayVirtualInterfaceGroupsAsync(
+        AwsEc2DescribeLocalGatewayVirtualInterfaceGroupsOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeLocalGatewayRouteTableVpcAssociationsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeLocalGatewayVirtualInterfaceGroupsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Describes the specified local gateway virtual interfaces. See also: AWS API Documentation describe-local-gateway-virtual-interfaces is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: LocalGatewayVirtualIn...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> DescribeLocalGatewayVirtualInterfacesAsync(
+        AwsEc2DescribeLocalGatewayVirtualInterfacesOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeLocalGatewayVirtualInterfacesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -5679,36 +5724,6 @@ public class AwsEc2 : IAwsEc2
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeLocalGatewaysOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
-    /// Describes the specified local gateway virtual interface groups. See also: AWS API Documentation describe-local-gateway-virtual-interface-groups is a paginated opera- tion. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argu- ment on a paginated response, the --query argument must extract data from the results of the following query expressions: Local...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> DescribeLocalGatewayVirtualInterfaceGroupsAsync(
-        AwsEc2DescribeLocalGatewayVirtualInterfaceGroupsOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeLocalGatewayVirtualInterfaceGroupsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
-    /// Describes the specified local gateway virtual interfaces. See also: AWS API Documentation describe-local-gateway-virtual-interfaces is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-pagi- nate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the re- sults of the following query expressions: LocalGatewayVirtu...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> DescribeLocalGatewayVirtualInterfacesAsync(
-        AwsEc2DescribeLocalGatewayVirtualInterfacesOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeLocalGatewayVirtualInterfacesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -5742,7 +5757,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Describes a System Integrity Protection (SIP) modification task or vol- ume ownership delegation task for an Amazon EC2 Mac instance. For more information, see Configure SIP for Amazon EC2 instances in the Amazon EC2 User Guide . See also: AWS API Documentation describe-mac-modification-tasks is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output te...
+    /// Describes a System Integrity Protection (SIP) modification task or volume ownership delegation task for an Amazon EC2 Mac instance. For more information, see Configure SIP for Amazon EC2 instances in the Amazon EC2 User Guide . See also: AWS API Documentation describe-mac-modification-tasks is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -5757,7 +5772,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Describes your managed prefix lists and any Amazon Web Services-managed prefix lists. See also: AWS API Documentation describe-managed-prefix-lists is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: P...
+    /// Describes your managed prefix lists and any Amazon Web Services-managed prefix lists. See also: AWS API Documentation describe-managed-prefix-lists is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Prefi...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -5772,7 +5787,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// NOTE: This action is deprecated. Describes your Elastic IP addresses that are being moved from or being restored to the EC2-Classic platform. This request does not return in- formation about any other Elastic IP addresses in your account. See also: AWS API Documentation describe-moving-addresses is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output tex...
+    /// NOTE: This action is deprecated. Describes your Elastic IP addresses that are being moved from or being restored to the EC2-Classic platform. This request does not return information about any other Elastic IP addresses in your account. See also: AWS API Documentation describe-moving-addresses is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -5802,7 +5817,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Describes your network ACLs. The default is to describe all your net- work ACLs. Alternatively, you can specify specific network ACL IDs or filter the results to include only the network ACLs that match specific criteria. For more information, see Network ACLs in the Amazon VPC User Guide . See also: AWS API Documentation describe-network-acls is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing th...
+    /// Describes your network ACLs. The default is to describe all your network ACLs. Alternatively, you can specify specific network ACL IDs or filter the results to include only the network ACLs that match specific criteria. For more information, see Network ACLs in the Amazon VPC User Guide . See also: AWS API Documentation describe-network-acls is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -5817,7 +5832,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Describes the specified Network Access Scope analyses. See also: AWS API Documentation describe-network-insights-access-scope-analyses is a paginated opera- tion. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argu- ment on a paginated response, the --query argument must extract data from the results of the following query expressions: NetworkInsight...
+    /// Describes the specified Network Access Scope analyses. See also: AWS API Documentation describe-network-insights-access-scope-analyses is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: NetworkInsightsAcc...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -5832,7 +5847,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Describes the specified Network Access Scopes. See also: AWS API Documentation describe-network-insights-access-scopes is a paginated operation. Mul- tiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a pagi- nated response, the --query argument must extract data from the results of the following query expressions: NetworkInsightsAccessScopes
+    /// Describes the specified Network Access Scopes. See also: AWS API Documentation describe-network-insights-access-scopes is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: NetworkInsightsAccessScopes
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -5847,7 +5862,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Describes one or more of your network insights analyses. See also: AWS API Documentation describe-network-insights-analyses is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: NetworkInsightsAnalyses
+    /// Describes one or more of your network insights analyses. See also: AWS API Documentation describe-network-insights-analyses is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: NetworkInsightsAnalyses
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -5862,7 +5877,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Describes one or more of your paths. See also: AWS API Documentation describe-network-insights-paths is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: NetworkInsightsPaths
+    /// Describes one or more of your paths. See also: AWS API Documentation describe-network-insights-paths is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: NetworkInsightsPaths
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -5877,7 +5892,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Describes a network interface attribute. You can specify only one at- tribute at a time. See also: AWS API Documentation
+    /// Describes a network interface attribute. You can specify only one attribute at a time. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -5892,7 +5907,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Describes the permissions for your network interfaces. See also: AWS API Documentation describe-network-interface-permissions is a paginated operation. Multi- ple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate ar- gument. When using --output text and the --query argument on a pagi- nated response, the --query argument must extract data from the results of the following query expressions: NetworkInterfacePermi...
+    /// Describes the permissions for your network interfaces. See also: AWS API Documentation describe-network-interface-permissions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: NetworkInterfacePermissions
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -5907,7 +5922,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Describes the specified network interfaces or all your network inter- faces. If you have a large number of network interfaces, the operation fails unless you use pagination or one of the following filters: group-id , mac-address , private-dns-name , private-ip-address , subnet-id , or vpc-id . WARNING: We strongly recommend using only paginated requests. Unpaginated re- quests are susceptible to throttling and timeouts. See also: AWS API Documentation describe-network-interfaces is a paginated o...
+    /// Describes the specified network interfaces or all your network interfaces. If you have a large number of network interfaces, the operation fails unless you use pagination or one of the following filters: group-id , mac-address , private-dns-name , private-ip-address , subnet-id , or vpc-id . WARNING: We strongly recommend using only paginated requests. Unpaginated requests are susceptible to throttling and timeouts. See also: AWS API Documentation describe-network-interfaces is a paginated opera...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -5937,7 +5952,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Describes the specified placement groups or all of your placement groups. NOTE: To describe a specific placement group that is shared with your ac- count, you must specify the ID of the placement group using the GroupId parameter. Specifying the name of a shared placement group using the GroupNames parameter will result in an error. For more information, see Placement groups in the Amazon EC2 User Guide . See also: AWS API Documentation
+    /// Describes the specified placement groups or all of your placement groups. NOTE: To describe a specific placement group that is shared with your account, you must specify the ID of the placement group using the GroupId parameter. Specifying the name of a shared placement group using the GroupNames parameter will result in an error. For more information, see Placement groups in the Amazon EC2 User Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -5952,7 +5967,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Describes available Amazon Web Services services in a prefix list for- mat, which includes the prefix list name and prefix list ID of the ser- vice and the IP address range for the service. See also: AWS API Documentation describe-prefix-lists is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, t...
+    /// Describes available Amazon Web Services services in a prefix list format, which includes the prefix list name and prefix list ID of the service and the IP address range for the service. See also: AWS API Documentation describe-prefix-lists is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the -...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -5967,7 +5982,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Describes the ID format settings for the root user and all IAM roles and IAM users that have explicitly specified a longer ID (17-character ID) preference. By default, all IAM roles and IAM users default to the same ID settings as the root user, unless they explicitly override the settings. This request is useful for identifying those IAM users and IAM roles that have overridden the default ID settings. The following resource types support longer IDs: bundle | conver- sion-task | customer-gatewa...
+    /// Describes the ID format settings for the root user and all IAM roles and IAM users that have explicitly specified a longer ID (17-character ID) preference. By default, all IAM roles and IAM users default to the same ID settings as the root user, unless they explicitly override the settings. This request is useful for identifying those IAM users and IAM roles that have overridden the default ID settings. The following resource types support longer IDs: bundle | conversion-task | customer-gateway ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -5982,7 +5997,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Describes the specified IPv4 address pools. See also: AWS API Documentation describe-public-ipv4-pools is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: PublicIpv4Pools
+    /// Describes the specified IPv4 address pools. See also: AWS API Documentation describe-public-ipv4-pools is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: PublicIpv4Pools
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -5997,7 +6012,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Describes the Regions that are enabled for your account, or all Re- gions. For a list of the Regions supported by Amazon EC2, see Amazon EC2 ser- vice endpoints . For information about enabling and disabling Regions for your account, see Specify which Amazon Web Services Regions your account can use in the Amazon Web Services Account Management Reference Guide . NOTE: The order of the elements in the response, including those within nested structures, might vary. Applications should not assume t...
+    /// Describes the Regions that are enabled for your account, or all Regions. For a list of the Regions supported by Amazon EC2, see Amazon EC2 service endpoints . For information about enabling and disabling Regions for your account, see Specify which Amazon Web Services Regions your account can use in the Amazon Web Services Account Management Reference Guide . NOTE: The order of the elements in the response, including those within nested structures, might vary. Applications should not assume the e...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -6012,7 +6027,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Describes a root volume replacement task. For more information, see Replace a root volume in the Amazon EC2 User Guide . See also: AWS API Documentation describe-replace-root-volume-tasks is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the resul...
+    /// Describes a root volume replacement task. For more information, see Replace a root volume in the Amazon EC2 User Guide . See also: AWS API Documentation describe-replace-root-volume-tasks is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results o...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -6027,7 +6042,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Describes your account's Reserved Instance listings in the Reserved In- stance Marketplace. The Reserved Instance Marketplace matches sellers who want to resell Reserved Instance capacity that they no longer need with buyers who want to purchase additional capacity. Reserved Instances bought and sold through the Reserved Instance Marketplace work like any other Re- served Instances. As a seller, you choose to list some or all of your Reserved Instances, and you specify the upfront price to recei...
+    /// Describes your account's Reserved Instance listings in the Reserved Instance Marketplace. The Reserved Instance Marketplace matches sellers who want to resell Reserved Instance capacity that they no longer need with buyers who want to purchase additional capacity. Reserved Instances bought and sold through the Reserved Instance Marketplace work like any other Reserved Instances. As a seller, you choose to list some or all of your Reserved Instances, and you specify the upfront price to receive f...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -6042,7 +6057,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Describes the modifications made to your Reserved Instances. If no pa- rameter is specified, information about all your Reserved Instances modification requests is returned. If a modification ID is specified, only information about the specific modification is returned. For more information, see Modify Reserved Instances in the Amazon EC2 User Guide . NOTE: The order of the elements in the response, including those within nested structures, might vary. Applications should not assume the elements...
+    /// Describes the modifications made to your Reserved Instances. If no parameter is specified, information about all your Reserved Instances modification requests is returned. If a modification ID is specified, only information about the specific modification is returned. For more information, see Modify Reserved Instances in the Amazon EC2 User Guide . NOTE: The order of the elements in the response, including those within nested structures, might vary. Applications should not assume the elements a...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -6057,7 +6072,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Describes Reserved Instance offerings that are available for purchase. With Reserved Instances, you purchase the right to launch instances for a period of time. During that time period, you do not receive insuffi- cient capacity errors, and you pay a lower usage rate than the rate charged for On-Demand instances for the actual time used. If you have listed your own Reserved Instances for sale in the Reserved Instance Marketplace, they will be excluded from these results. This is to ensure that y...
+    /// Describes Reserved Instance offerings that are available for purchase. With Reserved Instances, you purchase the right to launch instances for a period of time. During that time period, you do not receive insufficient capacity errors, and you pay a lower usage rate than the rate charged for On-Demand instances for the actual time used. If you have listed your own Reserved Instances for sale in the Reserved Instance Marketplace, they will be excluded from these results. This is to ensure that you...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -6087,7 +6102,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Describes one or more route server endpoints. A route server endpoint is an Amazon Web Services-managed component in- side a subnet that facilitates BGP (Border Gateway Protocol) connec- tions between your route server and your BGP peers. For more information see Dynamic routing in your VPC with VPC Route Server in the Amazon VPC User Guide . See also: AWS API Documentation describe-route-server-endpoints is a paginated operation. Multiple API calls may be issued in order to retrieve the entire ...
+    /// Describes one or more route server endpoints. A route server endpoint is an Amazon Web Services-managed component inside a subnet that facilitates BGP (Border Gateway Protocol) connections between your route server and your BGP peers. For more information see Dynamic routing in your VPC with VPC Route Server in the Amazon VPC User Guide . See also: AWS API Documentation describe-route-server-endpoints is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -6102,7 +6117,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Describes one or more route server peers. A route server peer is a session between a route server endpoint and the device deployed in Amazon Web Services (such as a firewall appli- ance or other network security function running on an EC2 instance). The device must meet these requirements: o Have an elastic network interface in the VPC o Support BGP (Border Gateway Protocol) o Can initiate BGP sessions For more information see Dynamic routing in your VPC with VPC Route Server in the Amazon VPC U...
+    /// Describes one or more route server peers. A route server peer is a session between a route server endpoint and the device deployed in Amazon Web Services (such as a firewall appliance or other network security function running on an EC2 instance). The device must meet these requirements: • Have an elastic network interface in the VPC • Support BGP (Border Gateway Protocol) • Can initiate BGP sessions For more information see Dynamic routing in your VPC with VPC Route Server in the Amazon VPC Use...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -6117,7 +6132,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Describes one or more route servers. Amazon VPC Route Server simplifies routing for traffic between work- loads that are deployed within a VPC and its internet gateways. With this feature, VPC Route Server dynamically updates VPC and internet gateway route tables with your preferred IPv4 or IPv6 routes to achieve routing fault tolerance for those workloads. This enables you to auto- matically reroute traffic within a VPC, which increases the manageabil- ity of VPC routing and interoperability wi...
+    /// Describes one or more route servers. Amazon VPC Route Server simplifies routing for traffic between workloads that are deployed within a VPC and its internet gateways. With this feature, VPC Route Server dynamically updates VPC and internet gateway route tables with your preferred IPv4 or IPv6 routes to achieve routing fault tolerance for those workloads. This enables you to automatically reroute traffic within a VPC, which increases the manageability of VPC routing and interoperability with thi...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -6132,7 +6147,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Describes your route tables. The default is to describe all your route tables. Alternatively, you can specify specific route table IDs or fil- ter the results to include only the route tables that match specific criteria. Each subnet in your VPC must be associated with a route table. If a subnet is not explicitly associated with any route table, it is implic- itly associated with the main route table. This command does not return the subnet ID for implicit associations. For more information, see...
+    /// Describes your route tables. The default is to describe all your route tables. Alternatively, you can specify specific route table IDs or filter the results to include only the route tables that match specific criteria. Each subnet in your VPC must be associated with a route table. If a subnet is not explicitly associated with any route table, it is implicitly associated with the main route table. This command does not return the subnet ID for implicit associations. For more information, see Rou...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -6147,7 +6162,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Finds available schedules that meet the specified criteria. You can search for an available schedule no more than 3 months in ad- vance. You must meet the minimum required duration of 1,200 hours per year. For example, the minimum daily schedule is 4 hours, the minimum weekly schedule is 24 hours, and the minimum monthly schedule is 100 hours. After you find a schedule that meets your needs, call PurchaseSched- uledInstances to purchase Scheduled Instances with that schedule. See also: AWS API D...
+    /// Finds available schedules that meet the specified criteria. You can search for an available schedule no more than 3 months in advance. You must meet the minimum required duration of 1,200 hours per year. For example, the minimum daily schedule is 4 hours, the minimum weekly schedule is 24 hours, and the minimum monthly schedule is 100 hours. After you find a schedule that meets your needs, call PurchaseScheduledInstances to purchase Scheduled Instances with that schedule. See also: AWS API Docum...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -6162,7 +6177,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Describes the specified Scheduled Instances or all your Scheduled In- stances. See also: AWS API Documentation describe-scheduled-instances is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Scheduled...
+    /// Describes the specified Scheduled Instances or all your Scheduled Instances. See also: AWS API Documentation describe-scheduled-instances is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: ScheduledInstan...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -6177,7 +6192,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Describes one or more of your secondary interfaces. See also: AWS API Documentation describe-secondary-interfaces is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: SecondaryInterfaces
+    /// Describes one or more of your secondary interfaces. See also: AWS API Documentation describe-secondary-interfaces is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: SecondaryInterfaces
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -6192,7 +6207,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Describes one or more secondary networks. See also: AWS API Documentation describe-secondary-networks is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: SecondaryNetworks
+    /// Describes one or more secondary networks. See also: AWS API Documentation describe-secondary-networks is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: SecondaryNetworks
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -6207,7 +6222,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Describes one or more of your secondary subnets. See also: AWS API Documentation describe-secondary-subnets is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: SecondarySubnets
+    /// Describes one or more of your secondary subnets. See also: AWS API Documentation describe-secondary-subnets is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: SecondarySubnets
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -6222,7 +6237,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Describes the VPCs on the other side of a VPC peering or Transit Gate- way connection that are referencing the security groups you've speci- fied in this request. See also: AWS API Documentation
+    /// Describes the VPCs on the other side of a VPC peering or Transit Gateway connection that are referencing the security groups you've specified in this request. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -6237,7 +6252,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Describes one or more of your security group rules. See also: AWS API Documentation describe-security-group-rules is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: SecurityGroupRules
+    /// Describes one or more of your security group rules. See also: AWS API Documentation describe-security-group-rules is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: SecurityGroupRules
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -6252,22 +6267,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Describes the specified security groups or all of your security groups. See also: AWS API Documentation describe-security-groups is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: SecurityGroups
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> DescribeSecurityGroupsAsync(
-        AwsEc2DescribeSecurityGroupsOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeSecurityGroupsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
-    /// Describes security group VPC associations made with AssociateSecurityGroupVpc . See also: AWS API Documentation describe-security-group-vpc-associations is a paginated operation. Mul- tiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a pagi- nated response, the --query argument must extract data from the results of the following query expressio...
+    /// Describes security group VPC associations made with AssociateSecurityGroupVpc . See also: AWS API Documentation describe-security-group-vpc-associations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -6279,6 +6279,21 @@ public class AwsEc2 : IAwsEc2
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeSecurityGroupVpcAssociationsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Describes the specified security groups or all of your security groups. See also: AWS API Documentation describe-security-groups is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: SecurityGroups
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> DescribeSecurityGroupsAsync(
+        AwsEc2DescribeSecurityGroupsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeSecurityGroupsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -6312,22 +6327,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Describes the specified EBS snapshots available to you or all of the EBS snapshots available to you. The snapshots available to you include public snapshots, private snap- shots that you own, and private snapshots owned by other Amazon Web Services accounts for which you have explicit create volume permis- sions. The create volume permissions fall into the following categories: o public : The owner of the snapshot granted create volume permissions for the snapshot to the all group. All Amazon We...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> DescribeSnapshotsAsync(
-        AwsEc2DescribeSnapshotsOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeSnapshotsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
-    /// Describes the storage tier status of one or more Amazon EBS snapshots. See also: AWS API Documentation describe-snapshot-tier-status is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: SnapshotTierStat...
+    /// Describes the storage tier status of one or more Amazon EBS snapshots. See also: AWS API Documentation describe-snapshot-tier-status is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: SnapshotTierStatuses
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -6339,6 +6339,21 @@ public class AwsEc2 : IAwsEc2
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeSnapshotTierStatusOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Describes the specified EBS snapshots available to you or all of the EBS snapshots available to you. The snapshots available to you include public snapshots, private snapshots that you own, and private snapshots owned by other Amazon Web Services accounts for which you have explicit create volume permissions. The create volume permissions fall into the following categories: • public : The owner of the snapshot granted create volume permissions for the snapshot to the all group. All Amazon Web Se...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> DescribeSnapshotsAsync(
+        AwsEc2DescribeSnapshotsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeSnapshotsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -6357,7 +6372,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Describes the running instances for the specified Spot Fleet. See also: AWS API Documentation describe-spot-fleet-instances is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: ActiveInstances
+    /// Describes the running instances for the specified Spot Fleet. See also: AWS API Documentation describe-spot-fleet-instances is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: ActiveInstances
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -6387,7 +6402,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Describes your Spot Fleet requests. Spot Fleet requests are deleted 48 hours after they are canceled and their instances are terminated. See also: AWS API Documentation describe-spot-fleet-requests is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from...
+    /// Describes your Spot Fleet requests. Spot Fleet requests are deleted 48 hours after they are canceled and their instances are terminated. See also: AWS API Documentation describe-spot-fleet-requests is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -6402,7 +6417,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Describes the specified Spot Instance requests. You can use DescribeSpotInstanceRequests to find a running Spot In- stance by examining the response. If the status of the Spot Instance is fulfilled , the instance ID appears in the response and contains the identifier of the instance. Alternatively, you can use DescribeInstances with a filter to look for instances where the in- stance lifecycle is spot . We recommend that you set MaxResults to a value between 5 and 1000 to limit the number of ite...
+    /// Describes the specified Spot Instance requests. You can use DescribeSpotInstanceRequests to find a running Spot Instance by examining the response. If the status of the Spot Instance is fulfilled , the instance ID appears in the response and contains the identifier of the instance. Alternatively, you can use DescribeInstances with a filter to look for instances where the instance lifecycle is spot . We recommend that you set MaxResults to a value between 5 and 1000 to limit the number of items r...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -6417,7 +6432,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Describes the Spot price history. For more information, see Spot In- stance pricing history in the Amazon EC2 User Guide . When you specify a start and end time, the operation returns the prices of the instance types within that time range. It also returns the last price change before the start time, which is the effective price as of the start time. See also: AWS API Documentation describe-spot-price-history is a paginated operation. Multiple API calls may be issued in order to retrieve the ent...
+    /// Describes the Spot price history. For more information, see Spot Instance pricing history in the Amazon EC2 User Guide . When you specify a start and end time, the operation returns the prices of the instance types within that time range. It also returns the last price change before the start time, which is the effective price as of the start time. See also: AWS API Documentation describe-spot-price-history is a paginated operation. Multiple API calls may be issued in order to retrieve the entir...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -6432,7 +6447,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Describes the stale security group rules for security groups referenced across a VPC peering connection, transit gateway connection, or with a security group VPC association. Rules are stale when they reference a deleted security group. Rules can also be stale if they reference a se- curity group in a peer VPC for which the VPC peering connection has been deleted, across a transit gateway where the transit gateway has been deleted (or the transit gateway security group referencing feature has be...
+    /// Describes the stale security group rules for security groups referenced across a VPC peering connection, transit gateway connection, or with a security group VPC association. Rules are stale when they reference a deleted security group. Rules can also be stale if they reference a security group in a peer VPC for which the VPC peering connection has been deleted, across a transit gateway where the transit gateway has been deleted (or the transit gateway security group referencing feature has been...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -6462,7 +6477,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Describes your subnets. The default is to describe all your subnets. Alternatively, you can specify specific subnet IDs or filter the re- sults to include only the subnets that match specific criteria. For more information, see Subnets in the Amazon VPC User Guide . See also: AWS API Documentation describe-subnets is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When...
+    /// Describes your subnets. The default is to describe all your subnets. Alternatively, you can specify specific subnet IDs or filter the results to include only the subnets that match specific criteria. For more information, see Subnets in the Amazon VPC User Guide . See also: AWS API Documentation describe-subnets is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When u...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -6477,7 +6492,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Describes the specified tags for your EC2 resources. For more information about tags, see Tag your Amazon EC2 resources in the Amazon Elastic Compute Cloud User Guide . WARNING: We strongly recommend using only paginated requests. Unpaginated re- quests are susceptible to throttling and timeouts. NOTE: The order of the elements in the response, including those within nested structures, might vary. Applications should not assume the elements appear in a particular order. See also: AWS API Documen...
+    /// Describes the specified tags for your EC2 resources. For more information about tags, see Tag your Amazon EC2 resources in the Amazon Elastic Compute Cloud User Guide . WARNING: We strongly recommend using only paginated requests. Unpaginated requests are susceptible to throttling and timeouts. NOTE: The order of the elements in the response, including those within nested structures, might vary. Applications should not assume the elements appear in a particular order. See also: AWS API Documenta...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -6492,7 +6507,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Describe traffic mirror filters that determine the traffic that is mir- rored. See also: AWS API Documentation
+    /// Describe traffic mirror filters that determine the traffic that is mirrored. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -6507,7 +6522,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Describes one or more Traffic Mirror filters. See also: AWS API Documentation describe-traffic-mirror-filters is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: TrafficMirrorFilters
+    /// Describes one or more Traffic Mirror filters. See also: AWS API Documentation describe-traffic-mirror-filters is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: TrafficMirrorFilters
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -6522,7 +6537,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Describes one or more Traffic Mirror sessions. By default, all Traffic Mirror sessions are described. Alternatively, you can filter the re- sults. See also: AWS API Documentation describe-traffic-mirror-sessions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must ext...
+    /// Describes one or more Traffic Mirror sessions. By default, all Traffic Mirror sessions are described. Alternatively, you can filter the results. See also: AWS API Documentation describe-traffic-mirror-sessions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract d...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -6537,7 +6552,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Information about one or more Traffic Mirror targets. See also: AWS API Documentation describe-traffic-mirror-targets is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: TrafficMirrorTargets
+    /// Information about one or more Traffic Mirror targets. See also: AWS API Documentation describe-traffic-mirror-targets is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: TrafficMirrorTargets
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -6552,7 +6567,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Describes one or more attachments between resources and transit gate- ways. By default, all attachments are described. Alternatively, you can filter the results by attachment ID, attachment state, resource ID, or resource owner. See also: AWS API Documentation describe-transit-gateway-attachments is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --outpu...
+    /// Describes one or more attachments between resources and transit gateways. By default, all attachments are described. Alternatively, you can filter the results by attachment ID, attachment state, resource ID, or resource owner. See also: AWS API Documentation describe-transit-gateway-attachments is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -6567,7 +6582,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Describes one or more Connect peers. See also: AWS API Documentation describe-transit-gateway-connect-peers is a paginated operation. Multi- ple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate ar- gument. When using --output text and the --query argument on a pagi- nated response, the --query argument must extract data from the results of the following query expressions: TransitGatewayConnectPeers
+    /// Describes one or more Connect peers. See also: AWS API Documentation describe-transit-gateway-connect-peers is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: TransitGatewayConnectPeers
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -6582,7 +6597,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Describes one or more Connect attachments. See also: AWS API Documentation describe-transit-gateway-connects is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: TransitGatewayConnects
+    /// Describes one or more Connect attachments. See also: AWS API Documentation describe-transit-gateway-connects is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: TransitGatewayConnects
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -6612,7 +6627,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Describes one or more transit gateway multicast domains. See also: AWS API Documentation describe-transit-gateway-multicast-domains is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-pagi- nate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the re- sults of the following query expressions: TransitGatewayMul...
+    /// Describes one or more transit gateway multicast domains. See also: AWS API Documentation describe-transit-gateway-multicast-domains is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: TransitGatewayMultica...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -6627,7 +6642,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Describes your transit gateway peering attachments. See also: AWS API Documentation describe-transit-gateway-peering-attachments is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-pagi- nate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the re- sults of the following query expressions: TransitGatewayPeerin...
+    /// Describes your transit gateway peering attachments. See also: AWS API Documentation describe-transit-gateway-peering-attachments is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: TransitGatewayPeeringAtt...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -6642,7 +6657,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Describes one or more transit gateway route policy tables. See also: AWS API Documentation describe-transit-gateway-policy-tables is a paginated operation. Multi- ple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate ar- gument. When using --output text and the --query argument on a pagi- nated response, the --query argument must extract data from the results of the following query expressions: TransitGatewayPol...
+    /// Describes one or more transit gateway route policy tables. See also: AWS API Documentation describe-transit-gateway-policy-tables is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: TransitGatewayPolicyTab...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -6657,7 +6672,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Describes one or more transit gateway route table advertisements. See also: AWS API Documentation describe-transit-gateway-route-table-announcements is a paginated oper- ation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argu- ment on a paginated response, the --query argument must extract data from the results of the following query expressions: ...
+    /// Describes one or more transit gateway route table advertisements. See also: AWS API Documentation describe-transit-gateway-route-table-announcements is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Tran...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -6672,7 +6687,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Describes one or more transit gateway route tables. By default, all transit gateway route tables are described. Alternatively, you can fil- ter the results. See also: AWS API Documentation describe-transit-gateway-route-tables is a paginated operation. Multi- ple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate ar- gument. When using --output text and the --query argument on a pagi- nated response, the --query ...
+    /// Describes one or more transit gateway route tables. By default, all transit gateway route tables are described. Alternatively, you can filter the results. See also: AWS API Documentation describe-transit-gateway-route-tables is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -6687,22 +6702,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Describes one or more transit gateways. By default, all transit gate- ways are described. Alternatively, you can filter the results. See also: AWS API Documentation describe-transit-gateways is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the result...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> DescribeTransitGatewaysAsync(
-        AwsEc2DescribeTransitGatewaysOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeTransitGatewaysOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
-    /// Describes one or more VPC attachments. By default, all VPC attachments are described. Alternatively, you can filter the results. See also: AWS API Documentation describe-transit-gateway-vpc-attachments is a paginated operation. Mul- tiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a pagi- nated response, the --query argument must extract data ...
+    /// Describes one or more VPC attachments. By default, all VPC attachments are described. Alternatively, you can filter the results. See also: AWS API Documentation describe-transit-gateway-vpc-attachments is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -6717,7 +6717,22 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Describes one or more network interface trunk associations. See also: AWS API Documentation describe-trunk-interface-associations is a paginated operation. Multi- ple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate ar- gument. When using --output text and the --query argument on a pagi- nated response, the --query argument must extract data from the results of the following query expressions: InterfaceAssociat...
+    /// Describes one or more transit gateways. By default, all transit gateways are described. Alternatively, you can filter the results. See also: AWS API Documentation describe-transit-gateways is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results ...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> DescribeTransitGatewaysAsync(
+        AwsEc2DescribeTransitGatewaysOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeTransitGatewaysOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Describes one or more network interface trunk associations. See also: AWS API Documentation describe-trunk-interface-associations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: InterfaceAssociations
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -6732,7 +6747,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Describes the specified Amazon Web Services Verified Access endpoints. See also: AWS API Documentation describe-verified-access-endpoints is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: VerifiedAcc...
+    /// Describes the specified Amazon Web Services Verified Access endpoints. See also: AWS API Documentation describe-verified-access-endpoints is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: VerifiedAccessE...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -6747,7 +6762,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Describes the specified Verified Access groups. See also: AWS API Documentation describe-verified-access-groups is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: VerifiedAccessGroups
+    /// Describes the specified Verified Access groups. See also: AWS API Documentation describe-verified-access-groups is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: VerifiedAccessGroups
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -6762,7 +6777,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Describes the specified Amazon Web Services Verified Access instances. See also: AWS API Documentation describe-verified-access-instance-logging-configurations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argu- ment on a paginated response, the --query argument must extract data from the results of the following query expr...
+    /// Describes the specified Amazon Web Services Verified Access instances. See also: AWS API Documentation describe-verified-access-instance-logging-configurations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expres...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -6777,7 +6792,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Describes the specified Amazon Web Services Verified Access instances. See also: AWS API Documentation describe-verified-access-instances is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: VerifiedAcc...
+    /// Describes the specified Amazon Web Services Verified Access instances. See also: AWS API Documentation describe-verified-access-instances is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: VerifiedAccessI...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -6792,7 +6807,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Describes the specified Amazon Web Services Verified Access trust providers. See also: AWS API Documentation describe-verified-access-trust-providers is a paginated operation. Mul- tiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a pagi- nated response, the --query argument must extract data from the results of the following query expressions:...
+    /// Describes the specified Amazon Web Services Verified Access trust providers. See also: AWS API Documentation describe-verified-access-trust-providers is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Ver...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -6822,7 +6837,22 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Describes the most recent volume modification request for the specified EBS volumes. For more information, see Monitor the progress of volume modifications in the Amazon EBS User Guide . See also: AWS API Documentation describe-volumes-modifications is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated r...
+    /// Describes the status of the specified volumes. Volume status provides the result of the checks performed on your volumes to determine events that can impair the performance of your volumes. The performance of a volume can be affected if an issue occurs on the volume's underlying host. If the volume's underlying host experiences a power outage or system issue, after the system is restored, there could be data inconsistencies on the volume. Volume events notify you if this occurs. Volume actions n...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> DescribeVolumeStatusAsync(
+        AwsEc2DescribeVolumeStatusOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeVolumeStatusOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Describes the most recent volume modification request for the specified EBS volumes. For more information, see Monitor the progress of volume modifications in the Amazon EBS User Guide . See also: AWS API Documentation describe-volumes-modifications is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated respo...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -6837,7 +6867,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Describes the specified EBS volumes or all of your EBS volumes. If you are describing a long list of volumes, we recommend that you paginate the output to make the list more manageable. For more informa- tion, see Pagination . For more information about EBS volumes, see Amazon EBS volumes in the Amazon EBS User Guide . WARNING: We strongly recommend using only paginated requests. Unpaginated re- quests are susceptible to throttling and timeouts. NOTE: The order of the elements in the response, i...
+    /// Describes the specified EBS volumes or all of your EBS volumes. If you are describing a long list of volumes, we recommend that you paginate the output to make the list more manageable. For more information, see Pagination . For more information about EBS volumes, see Amazon EBS volumes in the Amazon EBS User Guide . WARNING: We strongly recommend using only paginated requests. Unpaginated requests are susceptible to throttling and timeouts. NOTE: The order of the elements in the response, inclu...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -6849,21 +6879,6 @@ public class AwsEc2 : IAwsEc2
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeVolumesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
-    /// Describes the status of the specified volumes. Volume status provides the result of the checks performed on your volumes to determine events that can impair the performance of your volumes. The performance of a volume can be affected if an issue occurs on the volume's underlying host. If the volume's underlying host experiences a power outage or system issue, after the system is restored, there could be data incon- sistencies on the volume. Volume events notify you if this occurs. Vol- ume actio...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> DescribeVolumeStatusAsync(
-        AwsEc2DescribeVolumeStatusOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeVolumeStatusOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -6882,7 +6897,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Describe VPC Block Public Access (BPA) exclusions. A VPC BPA exclusion is a mode that can be applied to a single VPC or subnet that exempts it from the accounts BPA mode and will allow bidirectional or egress-only access. You can create BPA exclusions for VPCs and subnets even when BPA is not enabled on the account to ensure that there is no traffic disruption to the exclusions when VPC BPA is turned on. To learn more about VPC BPA, see Block public access to VPCs and subnets in the Ama- zon VPC...
+    /// Describe VPC Block Public Access (BPA) exclusions. A VPC BPA exclusion is a mode that can be applied to a single VPC or subnet that exempts it from the accounts BPA mode and will allow bidirectional or egress-only access. You can create BPA exclusions for VPCs and subnets even when BPA is not enabled on the account to ensure that there is no traffic disruption to the exclusions when VPC BPA is turned on. To learn more about VPC BPA, see Block public access to VPCs and subnets in the Amazon VPC U...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -6897,7 +6912,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Describe VPC Block Public Access (BPA) options. VPC Block Public Access (BPA) enables you to block resources in VPCs and subnets that you own in a Region from reaching or being reached from the internet through internet gateways and egress-only internet gateways. To learn more about VPC BPA, see Block public access to VPCs and subnets in the Ama- zon VPC User Guide . See also: AWS API Documentation
+    /// Describe VPC Block Public Access (BPA) options. VPC Block Public Access (BPA) enables you to block resources in VPCs and subnets that you own in a Region from reaching or being reached from the internet through internet gateways and egress-only internet gateways. To learn more about VPC BPA, see Block public access to VPCs and subnets in the Amazon VPC User Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -6942,7 +6957,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Describes one or more VPC Encryption Control configurations. VPC En- cryption Control enables you to enforce encryption for all data in transit within and between VPCs to meet compliance requirements You can filter the results to return information about specific encryption con- trols or VPCs. For more information, see Enforce VPC encryption in transit in the Ama- zon VPC User Guide . See also: AWS API Documentation
+    /// Describes one or more VPC Encryption Control configurations. VPC Encryption Control enables you to enforce encryption for all data in transit within and between VPCs to meet compliance requirements You can filter the results to return information about specific encryption controls or VPCs. For more information, see Enforce VPC encryption in transit in the Amazon VPC User Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -6957,7 +6972,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Describes the VPC resources, VPC endpoint services, Amazon Lattice ser- vices, or service networks associated with the VPC endpoint. See also: AWS API Documentation
+    /// Describes the VPC resources, VPC endpoint services, Amazon Lattice services, or service networks associated with the VPC endpoint. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -6972,7 +6987,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Describes the connection notifications for VPC endpoints and VPC end- point services. See also: AWS API Documentation describe-vpc-endpoint-connection-notifications is a paginated opera- tion. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argu- ment on a paginated response, the --query argument must extract data from the results of the following que...
+    /// Describes the connection notifications for VPC endpoints and VPC endpoint services. See also: AWS API Documentation describe-vpc-endpoint-connection-notifications is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query exp...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -6987,7 +7002,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Describes the VPC endpoint connections to your VPC endpoint services, including any endpoints that are pending your acceptance. See also: AWS API Documentation describe-vpc-endpoint-connections is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the...
+    /// Describes the VPC endpoint connections to your VPC endpoint services, including any endpoints that are pending your acceptance. See also: AWS API Documentation describe-vpc-endpoint-connections is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the res...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -7002,7 +7017,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Describes the VPC endpoint service configurations in your account (your services). See also: AWS API Documentation describe-vpc-endpoint-service-configurations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-pagi- nate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the re- sults of the following query ex...
+    /// Describes the VPC endpoint service configurations in your account (your services). See also: AWS API Documentation describe-vpc-endpoint-service-configurations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expres...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -7017,7 +7032,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Describes the principals (service consumers) that are permitted to dis- cover your VPC endpoint service. Principal ARNs with path components aren't supported. See also: AWS API Documentation describe-vpc-endpoint-service-permissions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-pagi- nate argument. When using --output text and the --query argument on a paginated response, the --quer...
+    /// Describes the principals (service consumers) that are permitted to discover your VPC endpoint service. Principal ARNs with path components aren't supported. See also: AWS API Documentation describe-vpc-endpoint-service-permissions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query ar...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -7047,7 +7062,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Describes your VPC endpoints. The default is to describe all your VPC endpoints. Alternatively, you can specify specific VPC endpoint IDs or filter the results to include only the VPC endpoints that match spe- cific criteria. See also: AWS API Documentation describe-vpc-endpoints is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --quer...
+    /// Describes your VPC endpoints. The default is to describe all your VPC endpoints. Alternatively, you can specify specific VPC endpoint IDs or filter the results to include only the VPC endpoints that match specific criteria. See also: AWS API Documentation describe-vpc-endpoints is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -7062,7 +7077,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Describes your VPC peering connections. The default is to describe all your VPC peering connections. Alternatively, you can specify specific VPC peering connection IDs or filter the results to include only the VPC peering connections that match specific criteria. See also: AWS API Documentation describe-vpc-peering-connections is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate...
+    /// Describes your VPC peering connections. The default is to describe all your VPC peering connections. Alternatively, you can specify specific VPC peering connection IDs or filter the results to include only the VPC peering connections that match specific criteria. See also: AWS API Documentation describe-vpc-peering-connections is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate a...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -7077,7 +7092,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Describes your VPCs. The default is to describe all your VPCs. Alterna- tively, you can specify specific VPC IDs or filter the results to in- clude only the VPCs that match specific criteria. See also: AWS API Documentation describe-vpcs is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the...
+    /// Describes your VPCs. The default is to describe all your VPCs. Alternatively, you can specify specific VPC IDs or filter the results to include only the VPCs that match specific criteria. See also: AWS API Documentation describe-vpcs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -7092,7 +7107,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Describes one or more of your VPN concentrators. See also: AWS API Documentation describe-vpn-concentrators is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: VpnConcentrators
+    /// Describes one or more of your VPN concentrators. See also: AWS API Documentation describe-vpn-concentrators is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: VpnConcentrators
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -7137,7 +7152,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// NOTE: This action is deprecated. Unlinks (detaches) a linked EC2-Classic instance from a VPC. After the instance has been unlinked, the VPC security groups are no longer asso- ciated with it. An instance is automatically unlinked from a VPC when it's stopped. See also: AWS API Documentation
+    /// NOTE: This action is deprecated. Unlinks (detaches) a linked EC2-Classic instance from a VPC. After the instance has been unlinked, the VPC security groups are no longer associated with it. An instance is automatically unlinked from a VPC when it's stopped. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -7152,7 +7167,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Removes a watermark from the specified AMI. This is an idempotent oper- ation. It succeeds even if the watermark does not exist on the image. Removing a watermark from an image does not affect derivative images that already carry the watermark. Only the AMI owner can detach watermarks. See also: AWS API Documentation
+    /// Removes a watermark from the specified AMI. This is an idempotent operation. It succeeds even if the watermark does not exist on the image. Removing a watermark from an image does not affect derivative images that already carry the watermark. Only the AMI owner can detach watermarks. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -7167,7 +7182,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Detaches an internet gateway from a VPC, disabling connectivity between the internet and the VPC. The VPC must not contain any running in- stances with Elastic IP addresses or public IPv4 addresses. See also: AWS API Documentation
+    /// Detaches an internet gateway from a VPC, disabling connectivity between the internet and the VPC. The VPC must not contain any running instances with Elastic IP addresses or public IPv4 addresses. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -7197,7 +7212,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Detaches the specified Amazon Web Services Verified Access trust provider from the specified Amazon Web Services Verified Access in- stance. See also: AWS API Documentation
+    /// Detaches the specified Amazon Web Services Verified Access trust provider from the specified Amazon Web Services Verified Access instance. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -7212,7 +7227,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Detaches an EBS volume from an instance. Make sure to unmount any file systems on the device within your operating system before detaching the volume. Failure to do so can result in the volume becoming stuck in the busy state while detaching. If this happens, detachment can be delayed indefinitely until you unmount the volume, force detachment, reboot the instance, or all three. If an EBS volume is the root device of an in- stance, it can't be detached while the instance is running. To detach th...
+    /// Detaches an EBS volume from an instance. Make sure to unmount any file systems on the device within your operating system before detaching the volume. Failure to do so can result in the volume becoming stuck in the busy state while detaching. If this happens, detachment can be delayed indefinitely until you unmount the volume, force detachment, reboot the instance, or all three. If an EBS volume is the root device of an instance, it can't be detached while the instance is running. To detach the ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -7227,7 +7242,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Detaches a virtual private gateway from a VPC. You do this if you're planning to turn off the VPC and not use it anymore. You can confirm a virtual private gateway has been completely detached from a VPC by de- scribing the virtual private gateway (any attachments to the virtual private gateway are also described). You must wait for the attachment's state to switch to detached before you can delete the VPC or attach a different VPC to the virtual private gateway. See also: AWS API Documentation
+    /// Detaches a virtual private gateway from a VPC. You do this if you're planning to turn off the VPC and not use it anymore. You can confirm a virtual private gateway has been completely detached from a VPC by describing the virtual private gateway (any attachments to the virtual private gateway are also described). You must wait for the attachment's state to switch to detached before you can delete the VPC or attach a different VPC to the virtual private gateway. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -7257,7 +7272,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Disables Allowed AMIs for your account in the specified Amazon Web Ser- vices Region. When set to disabled , the image criteria in your Allowed AMIs settings do not apply, and no restrictions are placed on AMI dis- coverability or usage. Users in your account can launch instances using any public AMI or AMI shared with your account. NOTE: The Allowed AMIs feature does not restrict the AMIs owned by your account. Regardless of the criteria you set, the AMIs created by your account will always be ...
+    /// Disables Allowed AMIs for your account in the specified Amazon Web Services Region. When set to disabled , the image criteria in your Allowed AMIs settings do not apply, and no restrictions are placed on AMI discoverability or usage. Users in your account can launch instances using any public AMI or AMI shared with your account. NOTE: The Allowed AMIs feature does not restrict the AMIs owned by your account. Regardless of the criteria you set, the AMIs created by your account will always be disc...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -7272,7 +7287,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Disables suppression of application status checks for the specified in- stances. After suppression is disabled, health check results resume af- fecting the instance-level application status. You can specify a maxi- mum of 100 instance IDs for each request. See also: AWS API Documentation
+    /// Disables suppression of application status checks for the specified instances. After suppression is disabled, health check results resume affecting the instance-level application status. You can specify a maximum of 100 instance IDs for each request. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -7302,7 +7317,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Disables EC2 Capacity Manager for your account. This stops data inges- tion and removes access to capacity analytics and optimization recom- mendations. Previously collected data is retained but no new data will be processed. See also: AWS API Documentation
+    /// Disables EC2 Capacity Manager for your account. This stops data ingestion and removes access to capacity analytics and optimization recommendations. Previously collected data is retained but no new data will be processed. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -7317,7 +7332,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Disables EBS encryption by default for your account in the current Re- gion. After you disable encryption by default, you can still create encrypted volumes by enabling encryption when you create each volume. Disabling encryption by default does not change the encryption status of your existing volumes. For more information, see Amazon EBS encryption in the Amazon EBS User Guide . See also: AWS API Documentation
+    /// Disables EBS encryption by default for your account in the current Region. After you disable encryption by default, you can still create encrypted volumes by enabling encryption when you create each volume. Disabling encryption by default does not change the encryption status of your existing volumes. For more information, see Amazon EBS encryption in the Amazon EBS User Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -7332,7 +7347,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Discontinue Windows fast launch for a Windows AMI, and clean up exist- ing pre-provisioned snapshots. After you disable Windows fast launch, the AMI uses the standard launch process for each new instance. Amazon EC2 must remove all pre-provisioned snapshots before you can enable Windows fast launch again. NOTE: You can only change these settings for Windows AMIs that you own or that have been shared with you. See also: AWS API Documentation
+    /// Discontinue Windows fast launch for a Windows AMI, and clean up existing pre-provisioned snapshots. After you disable Windows fast launch, the AMI uses the standard launch process for each new instance. Amazon EC2 must remove all pre-provisioned snapshots before you can enable Windows fast launch again. NOTE: You can only change these settings for Windows AMIs that you own or that have been shared with you. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -7362,7 +7377,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Disables block public access for AMIs at the account level in the spec- ified Amazon Web Services Region. This removes the block public access restriction from your account. With the restriction removed, you can publicly share your AMIs in the specified Amazon Web Services Region. For more information, see Block public access to your AMIs in the Ama- zon EC2 User Guide . See also: AWS API Documentation
+    /// Disables block public access for AMIs at the account level in the specified Amazon Web Services Region. This removes the block public access restriction from your account. With the restriction removed, you can publicly share your AMIs in the specified Amazon Web Services Region. For more information, see Block public access to your AMIs in the Amazon EC2 User Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -7392,7 +7407,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Disables deregistration protection for an AMI. When deregistration pro- tection is disabled, the AMI can be deregistered. If you chose to include a 24-hour cooldown period when you enabled deregistration protection for the AMI, then, when you disable deregis- tration protection, you wont immediately be able to deregister the AMI. For more information, see Protect an Amazon EC2 AMI from deregistration in the Amazon EC2 User Guide . See also: AWS API Documentation
+    /// Disables deregistration protection for an AMI. When deregistration protection is disabled, the AMI can be deregistered. If you chose to include a 24-hour cooldown period when you enabled deregistration protection for the AMI, then, when you disable deregistration protection, you wont immediately be able to deregister the AMI. For more information, see Protect an Amazon EC2 AMI from deregistration in the Amazon EC2 User Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -7407,7 +7422,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Sets the AMI state to disabled and removes all launch permissions from the AMI. A disabled AMI can't be used for instance launches. A disabled AMI can't be shared. If an AMI was public or previously shared, it is made private. If an AMI was shared with an Amazon Web Services account, organization, or Organizational Unit, they lose ac- cess to the disabled AMI. A disabled AMI does not appear in DescribeImages API calls by default. Only the AMI owner can disable an AMI. You can re-enable a disable...
+    /// Sets the AMI state to disabled and removes all launch permissions from the AMI. A disabled AMI can't be used for instance launches. A disabled AMI can't be shared. If an AMI was public or previously shared, it is made private. If an AMI was shared with an Amazon Web Services account, organization, or Organizational Unit, they lose access to the disabled AMI. A disabled AMI does not appear in DescribeImages API calls by default. Only the AMI owner can disable an AMI. You can re-enable a disabled ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -7467,7 +7482,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Disables route propagation from a route server to a specified route ta- ble. When enabled, route server propagation installs the routes in the FIB on the route table you've specified. Route server supports IPv4 and IPv6 route propagation. Amazon VPC Route Server simplifies routing for traffic between work- loads that are deployed within a VPC and its internet gateways. With this feature, VPC Route Server dynamically updates VPC and internet gateway route tables with your preferred IPv4 or IPv6 r...
+    /// Disables route propagation from a route server to a specified route table. When enabled, route server propagation installs the routes in the FIB on the route table you've specified. Route server supports IPv4 and IPv6 route propagation. Amazon VPC Route Server simplifies routing for traffic between workloads that are deployed within a VPC and its internet gateways. With this feature, VPC Route Server dynamically updates VPC and internet gateway route tables with your preferred IPv4 or IPv6 route...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -7482,7 +7497,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Disables access to the EC2 serial console of all instances for your ac- count. By default, access to the EC2 serial console is disabled for your account. For more information, see Manage account access to the EC2 serial console in the Amazon EC2 User Guide . See also: AWS API Documentation
+    /// Disables access to the EC2 serial console of all instances for your account. By default, access to the EC2 serial console is disabled for your account. For more information, see Manage account access to the EC2 serial console in the Amazon EC2 User Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -7497,7 +7512,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Disables the block public access for snapshots setting at the account level for the specified Amazon Web Services Region. After you disable block public access for snapshots in a Region, users can publicly share snapshots in that Region. WARNING: Enabling block public access for snapshots in block-all-sharing mode does not change the permissions for snapshots that are already pub- licly shared. Instead, it prevents these snapshots from be publicly visible and publicly accessible. Therefore, the ...
+    /// Disables the block public access for snapshots setting at the account level for the specified Amazon Web Services Region. After you disable block public access for snapshots in a Region, users can publicly share snapshots in that Region. WARNING: Enabling block public access for snapshots in block-all-sharing mode does not change the permissions for snapshots that are already publicly shared. Instead, it prevents these snapshots from be publicly visible and publicly accessible. Therefore, the at...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -7572,7 +7587,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Disassociates an Elastic IP address from the instance or network inter- face it's associated with. This is an idempotent operation. If you perform the operation more than once, Amazon EC2 doesn't return an error. An address cannot be disassociated if the all of the following condi- tions are met: o Network interface has a publicDualStackDnsName publicDnsName o Public IPv4 address is the primary public IPv4 address o Network interface only has one remaining public IPv4 address See also: AWS API D...
+    /// Disassociates an Elastic IP address from the instance or network interface it's associated with. This is an idempotent operation. If you perform the operation more than once, Amazon EC2 doesn't return an error. An address cannot be disassociated if the all of the following conditions are met: • Network interface has a publicDualStackDnsName publicDnsName • Public IPv4 address is the primary public IPv4 address • Network interface only has one remaining public IPv4 address See also: AWS API Docum...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -7587,7 +7602,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Disassociates an application status check from instances or tags . Af- ter disassociation, health monitoring stops for the affected instances. The following rules apply: o You must specify either TargetTagAssociations or InstanceIds , but not both. Specifying both results in an InvalidParameterCombination error. o The application status check must already exist and belong to your account. o Tag keys must not be blank. See also: AWS API Documentation
+    /// Disassociates an application status check from instances or tags . After disassociation, health monitoring stops for the affected instances. The following rules apply: • You must specify either TargetTagAssociations or InstanceIds , but not both. Specifying both results in an InvalidParameterCombination error. • The application status check must already exist and belong to your account. • Tag keys must not be blank. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -7617,7 +7632,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Disassociates a target network from the specified Client VPN endpoint. When you disassociate the last target network from a Client VPN, the following happens: o The route that was automatically added for the VPC is deleted o All active client connections are terminated o New client connections are disallowed o The Client VPN endpoint's status changes to pending-associate See also: AWS API Documentation
+    /// Disassociates a target network from the specified Client VPN endpoint. When you disassociate the last target network from a Client VPN, the following happens: • The route that was automatically added for the VPC is deleted • All active client connections are terminated • New client connections are disallowed • The Client VPN endpoint's status changes to pending-associate See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -7632,7 +7647,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Disassociates an IAM role from an Certificate Manager (ACM) certifi- cate. Disassociating an IAM role from an ACM certificate removes the Amazon S3 object that contains the certificate, certificate chain, and encrypted private key from the Amazon S3 bucket. It also revokes the IAM role's permission to use the KMS key used to encrypt the private key. This effectively revokes the role's permission to use the certifi- cate. See also: AWS API Documentation
+    /// Disassociates an IAM role from an Certificate Manager (ACM) certificate. Disassociating an IAM role from an ACM certificate removes the Amazon S3 object that contains the certificate, certificate chain, and encrypted private key from the Amazon S3 bucket. It also revokes the IAM role's permission to use the KMS key used to encrypt the private key. This effectively revokes the role's permission to use the certificate. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -7647,7 +7662,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Disassociates an IAM instance profile from a running or stopped in- stance. Use DescribeIamInstanceProfileAssociations to get the association ID. See also: AWS API Documentation
+    /// Disassociates an IAM instance profile from a running or stopped instance. Use DescribeIamInstanceProfileAssociations to get the association ID. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -7707,7 +7722,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Disassociates secondary Elastic IP addresses (EIPs) from a public NAT gateway. You cannot disassociate your primary EIP. For more informa- tion, see Edit secondary IP address associations in the Amazon VPC User Guide . While disassociating is in progress, you cannot associate/disassociate additional EIPs while the connections are being drained. You are, how- ever, allowed to delete the NAT gateway. An EIP is released only at the end of MaxDrainDurationSeconds. It stays associated and supports th...
+    /// Disassociates secondary Elastic IP addresses (EIPs) from a public NAT gateway. You cannot disassociate your primary EIP. For more information, see Edit secondary IP address associations in the Amazon VPC User Guide . While disassociating is in progress, you cannot associate/disassociate additional EIPs while the connections are being drained. You are, however, allowed to delete the NAT gateway. An EIP is released only at the end of MaxDrainDurationSeconds. It stays associated and supports the ex...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -7752,7 +7767,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Disassociates a security group from a VPC. You cannot disassociate the security group if any Elastic network interfaces in the associated VPC are still associated with the security group. Note that the disassocia- tion is asynchronous and you can check the status of the request with DescribeSecurityGroupVpcAssociations . See also: AWS API Documentation
+    /// Disassociates a security group from a VPC. You cannot disassociate the security group if any Elastic network interfaces in the associated VPC are still associated with the security group. Note that the disassociation is asynchronous and you can check the status of the request with DescribeSecurityGroupVpcAssociations . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -7767,7 +7782,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Disassociates a CIDR block from a subnet. Currently, you can disassoci- ate an IPv6 CIDR block only. You must detach or delete all gateways and resources that are associated with the CIDR block before you can disas- sociate it. See also: AWS API Documentation
+    /// Disassociates a CIDR block from a subnet. Currently, you can disassociate an IPv6 CIDR block only. You must detach or delete all gateways and resources that are associated with the CIDR block before you can disassociate it. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -7842,7 +7857,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Disassociates a CIDR block from a VPC. To disassociate the CIDR block, you must specify its association ID. You can get the association ID by using DescribeVpcs . You must detach or delete all gateways and re- sources that are associated with the CIDR block before you can disasso- ciate it. You cannot disassociate the CIDR block with which you originally cre- ated the VPC (the primary CIDR block). See also: AWS API Documentation
+    /// Disassociates a CIDR block from a VPC. To disassociate the CIDR block, you must specify its association ID. You can get the association ID by using DescribeVpcs . You must detach or delete all gateways and resources that are associated with the CIDR block before you can disassociate it. You cannot disassociate the CIDR block with which you originally created the VPC (the primary CIDR block). See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -7872,7 +7887,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Enables Allowed AMIs for your account in the specified Amazon Web Ser- vices Region. Two values are accepted: o enabled : The image criteria in your Allowed AMIs settings are ap- plied. As a result, only AMIs matching these criteria are discover- able and can be used by your account to launch instances. o audit-mode : The image criteria in your Allowed AMIs settings are not applied. No restrictions are placed on AMI discoverability or usage. Users in your account can launch instances using any p...
+    /// Enables Allowed AMIs for your account in the specified Amazon Web Services Region. Two values are accepted: • enabled : The image criteria in your Allowed AMIs settings are applied. As a result, only AMIs matching these criteria are discoverable and can be used by your account to launch instances. • audit-mode : The image criteria in your Allowed AMIs settings are not applied. No restrictions are placed on AMI discoverability or usage. Users in your account can launch instances using any public ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -7887,7 +7902,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Suppresses application status checks for the specified instances. While suppressed, health checks continue to run but do not affect the in- stance-level application status. The following rules apply: o You can specify a maximum of 100 instance IDs for each request. o Use DisableApplicationStatusCheckSuppression to resume normal health check reporting. o If you do not specify DurationSeconds , suppression continues indefi- nitely until you call DisableApplicationStatusCheckSuppression . See also:...
+    /// Suppresses application status checks for the specified instances. While suppressed, health checks continue to run but do not affect the instance-level application status. The following rules apply: • You can specify a maximum of 100 instance IDs for each request. • Use DisableApplicationStatusCheckSuppression to resume normal health check reporting. • If you do not specify DurationSeconds , suppression continues indefinitely until you call DisableApplicationStatusCheckSuppression . See also: AWS...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -7917,7 +7932,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Enables EC2 Capacity Manager for your account. This starts data inges- tion for your EC2 capacity usage across On-Demand, Spot, and Capacity Reservations. Initial data processing may take several hours to com- plete. See also: AWS API Documentation
+    /// Enables EC2 Capacity Manager for your account. This starts data ingestion for your EC2 capacity usage across On-Demand, Spot, and Capacity Reservations. Initial data processing may take several hours to complete. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -7932,7 +7947,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Enables EBS encryption by default for your account in the current Re- gion. After you enable encryption by default, the EBS volumes that you create are always encrypted, either using the default KMS key or the KMS key that you specified when you created each volume. For more information, see Amazon EBS encryption in the Amazon EBS User Guide . Enabling encryption by default has no effect on the encryption status of your existing volumes. After you enable encryption by default, you can no longer ...
+    /// Enables EBS encryption by default for your account in the current Region. After you enable encryption by default, the EBS volumes that you create are always encrypted, either using the default KMS key or the KMS key that you specified when you created each volume. For more information, see Amazon EBS encryption in the Amazon EBS User Guide . Enabling encryption by default has no effect on the encryption status of your existing volumes. After you enable encryption by default, you can no longer la...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -7947,7 +7962,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// When you enable Windows fast launch for a Windows AMI, images are pre-provisioned, using snapshots to launch instances up to 65% faster. To create the optimized Windows image, Amazon EC2 launches an instance and runs through Sysprep steps, rebooting as required. Then it creates a set of reserved snapshots that are used for subsequent launches. The reserved snapshots are automatically replenished as they are used, de- pending on your settings for launch frequency. NOTE: You can only change these ...
+    /// When you enable Windows fast launch for a Windows AMI, images are pre-provisioned, using snapshots to launch instances up to 65% faster. To create the optimized Windows image, Amazon EC2 launches an instance and runs through Sysprep steps, rebooting as required. Then it creates a set of reserved snapshots that are used for subsequent launches. The reserved snapshots are automatically replenished as they are used, depending on your settings for launch frequency. NOTE: You can only change these se...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -7962,7 +7977,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Enables fast snapshot restores for the specified snapshots in the spec- ified Availability Zones. You get the full benefit of fast snapshot restores after they enter the enabled state. For more information, see Amazon EBS fast snapshot restore in the Ama- zon EBS User Guide . See also: AWS API Documentation
+    /// Enables fast snapshot restores for the specified snapshots in the specified Availability Zones. You get the full benefit of fast snapshot restores after they enter the enabled state. For more information, see Amazon EBS fast snapshot restore in the Amazon EBS User Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -7977,7 +7992,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Enables block public access for AMIs at the account level in the speci- fied Amazon Web Services Region. This prevents the public sharing of your AMIs. However, if you already have public AMIs, they will remain publicly available. The API can take up to 10 minutes to configure this setting. During this time, if you run GetImageBlockPublicAccessState , the response will be unblocked . When the API has completed the configuration, the response will be block-new-sharing . For more information, see ...
+    /// Enables block public access for AMIs at the account level in the specified Amazon Web Services Region. This prevents the public sharing of your AMIs. However, if you already have public AMIs, they will remain publicly available. The API can take up to 10 minutes to configure this setting. During this time, if you run GetImageBlockPublicAccessState , the response will be unblocked . When the API has completed the configuration, the response will be block-new-sharing . For more information, see Bl...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -8007,7 +8022,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Enables deregistration protection for an AMI. When deregistration pro- tection is enabled, the AMI can't be deregistered. To allow the AMI to be deregistered, you must first disable deregistra- tion protection. For more information, see Protect an Amazon EC2 AMI from deregistration in the Amazon EC2 User Guide . See also: AWS API Documentation
+    /// Enables deregistration protection for an AMI. When deregistration protection is enabled, the AMI can't be deregistered. To allow the AMI to be deregistered, you must first disable deregistration protection. For more information, see Protect an Amazon EC2 AMI from deregistration in the Amazon EC2 User Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -8022,7 +8037,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Re-enables a disabled AMI. The re-enabled AMI is marked as available and can be used for instance launches, appears in describe operations, and can be shared. Amazon Web Services accounts, organizations, and Or- ganizational Units that lost access to the AMI when it was disabled do not regain access automatically. Once the AMI is available, it can be shared with them again. Only the AMI owner can re-enable a disabled AMI. For more information, see Disable an Amazon EC2 AMI in the Amazon EC2 User...
+    /// Re-enables a disabled AMI. The re-enabled AMI is marked as available and can be used for instance launches, appears in describe operations, and can be shared. Amazon Web Services accounts, organizations, and Organizational Units that lost access to the AMI when it was disabled do not regain access automatically. Once the AMI is available, it can be shared with them again. Only the AMI owner can re-enable a disabled AMI. For more information, see Disable an Amazon EC2 AMI in the Amazon EC2 User G...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -8037,7 +8052,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Enable Amazon EC2 instances running in an SQL Server High Availability cluster for SQL Server High Availability instance standby detection monitoring. Once enabled, Amazon Web Services monitors the metadata for the instances to determine whether they are active or standby nodes in the SQL Server High Availability cluster. If the instances are deter- mined to be standby failover nodes, Amazon Web Services automatically applies SQL Server licensing fee waiver for those instances. To register an in...
+    /// Enable Amazon EC2 instances running in an SQL Server High Availability cluster for SQL Server High Availability instance standby detection monitoring. Once enabled, Amazon Web Services monitors the metadata for the instances to determine whether they are active or standby nodes in the SQL Server High Availability cluster. If the instances are determined to be standby failover nodes, Amazon Web Services automatically applies SQL Server licensing fee waiver for those instances. To register an inst...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -8052,7 +8067,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Enables Resource Public Key Infrastructure (RPKI) on an existing IPAM internet registry association by providing BGP Public Key Infrastruc- ture (BPKI) certificate details. After enabling, you can create Route Origin Authorizations (ROAs) for prefixes registered with the internet registry. See also: AWS API Documentation
+    /// Enables Resource Public Key Infrastructure (RPKI) on an existing IPAM internet registry association by providing BGP Public Key Infrastructure (BPKI) certificate details. After enabling, you can create Route Origin Authorizations (ROAs) for prefixes registered with the internet registry. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -8067,7 +8082,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Enable an Organizations member account as the IPAM admin account. You cannot select the Organizations management account as the IPAM admin account. For more information, see Enable integration with Organiza- tions in the Amazon VPC IPAM User Guide . See also: AWS API Documentation
+    /// Enable an Organizations member account as the IPAM admin account. You cannot select the Organizations management account as the IPAM admin account. For more information, see Enable integration with Organizations in the Amazon VPC IPAM User Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -8097,7 +8112,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Establishes a trust relationship between Reachability Analyzer and Or- ganizations. This operation must be performed by the management account for the organization. After you establish a trust relationship, a user in the management ac- count or a delegated administrator account can run a cross-account analysis using resources from the member accounts. See also: AWS API Documentation
+    /// Establishes a trust relationship between Reachability Analyzer and Organizations. This operation must be performed by the management account for the organization. After you establish a trust relationship, a user in the management account or a delegated administrator account can run a cross-account analysis using resources from the member accounts. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -8127,7 +8142,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Enables access to the EC2 serial console of all instances for your ac- count. By default, access to the EC2 serial console is disabled for your account. For more information, see Manage account access to the EC2 serial console in the Amazon EC2 User Guide . See also: AWS API Documentation
+    /// Enables access to the EC2 serial console of all instances for your account. By default, access to the EC2 serial console is disabled for your account. For more information, see Manage account access to the EC2 serial console in the Amazon EC2 User Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -8247,7 +8262,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Downloads the contents of the Client VPN endpoint configuration file for the specified Client VPN endpoint. The Client VPN endpoint configu- ration file includes the Client VPN endpoint and certificate informa- tion clients need to establish a connection with the Client VPN end- point. See also: AWS API Documentation
+    /// Downloads the contents of the Client VPN endpoint configuration file for the specified Client VPN endpoint. The Client VPN endpoint configuration file includes the Client VPN endpoint and certificate information clients need to establish a connection with the Client VPN endpoint. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -8262,7 +8277,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Exports an Amazon Machine Image (AMI) to a VM file. For more informa- tion, see Exporting a VM directly from an Amazon Machine Image (AMI) in the VM Import/Export User Guide . See also: AWS API Documentation
+    /// Exports an Amazon Machine Image (AMI) to a VM file. For more information, see Exporting a VM directly from an Amazon Machine Image (AMI) in the VM Import/Export User Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -8277,7 +8292,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Exports routes from the specified transit gateway route table to the specified S3 bucket. By default, all routes are exported. Alterna- tively, you can filter by CIDR range. The routes are saved to the specified bucket in a JSON file. For more information, see Export route tables to Amazon S3 in the Amazon Web Services Transit Gateways Guide . See also: AWS API Documentation
+    /// Exports routes from the specified transit gateway route table to the specified S3 bucket. By default, all routes are exported. Alternatively, you can filter by CIDR range. The routes are saved to the specified bucket in a JSON file. For more information, see Export route tables to Amazon S3 in the Amazon Web Services Transit Gateways Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -8322,7 +8337,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Gets the current state of the Allowed AMIs setting and the list of Al- lowed AMIs criteria at the account level in the specified Region. NOTE: The Allowed AMIs feature does not restrict the AMIs owned by your account. Regardless of the criteria you set, the AMIs created by your account will always be discoverable and usable by users in your account. For more information, see Control the discovery and use of AMIs in Ama- zon EC2 with Allowed AMIs in Amazon EC2 User Guide . See also: AWS API Docum...
+    /// Gets the current state of the Allowed AMIs setting and the list of Allowed AMIs criteria at the account level in the specified Region. NOTE: The Allowed AMIs feature does not restrict the AMIs owned by your account. Regardless of the criteria you set, the AMIs created by your account will always be discoverable and usable by users in your account. For more information, see Control the discovery and use of AMIs in Amazon EC2 with Allowed AMIs in Amazon EC2 User Guide . See also: AWS API Documenta...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -8337,7 +8352,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Returns the IAM roles that are associated with the specified ACM (ACM) certificate. It also returns the name of the Amazon S3 bucket and the Amazon S3 object key where the certificate, certificate chain, and en- crypted private key bundle are stored, and the ARN of the KMS key that's used to encrypt the private key. See also: AWS API Documentation
+    /// Returns the IAM roles that are associated with the specified ACM (ACM) certificate. It also returns the name of the Amazon S3 bucket and the Amazon S3 object key where the certificate, certificate chain, and encrypted private key bundle are stored, and the ARN of the KMS key that's used to encrypt the private key. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -8352,7 +8367,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Gets information about the IPv6 CIDR block associations for a specified IPv6 address pool. See also: AWS API Documentation get-associated-ipv6-pool-cidrs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressi...
+    /// Gets information about the IPv6 CIDR block associations for a specified IPv6 address pool. See also: AWS API Documentation get-associated-ipv6-pool-cidrs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions:...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -8367,7 +8382,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Gets network performance data. See also: AWS API Documentation get-aws-network-performance-data is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: DataResponses
+    /// Gets network performance data. See also: AWS API Documentation get-aws-network-performance-data is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: DataResponses
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -8397,7 +8412,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Retrieves capacity usage metrics for your EC2 resources. Returns time-series data for metrics like unused capacity, utilization rates, and costs across On-Demand, Spot, and Capacity Reservations. Data can be grouped and filtered by various dimensions such as region, account, and instance family. See also: AWS API Documentation get-capacity-manager-metric-data is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable paginati...
+    /// Retrieves capacity usage metrics for your EC2 resources. Returns time-series data for metrics like unused capacity, utilization rates, and costs across On-Demand, Spot, and Capacity Reservations. Data can be grouped and filtered by various dimensions such as region, account, and instance family. See also: AWS API Documentation get-capacity-manager-metric-data is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -8412,7 +8427,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Retrieves the available dimension values for capacity metrics within a specified time range. This is useful for discovering what accounts, re- gions, instance families, and other dimensions have data available for filtering and grouping. See also: AWS API Documentation get-capacity-manager-metric-dimensions is a paginated operation. Multi- ple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate ar- gument. When us...
+    /// Retrieves the available dimension values for capacity metrics within a specified time range. This is useful for discovering what accounts, regions, instance families, and other dimensions have data available for filtering and grouping. See also: AWS API Documentation get-capacity-manager-metric-dimensions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -8427,7 +8442,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Retrieves the tag keys that are currently being monitored by EC2 Capac- ity Manager. Monitored tag keys are included as dimensions in capacity metric data, enabling you to group and filter metrics by tag values. See also: AWS API Documentation get-capacity-manager-monitored-tag-keys is a paginated operation. Mul- tiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the -...
+    /// Retrieves the tag keys that are currently being monitored by EC2 Capacity Manager. Monitored tag keys are included as dimensions in capacity metric data, enabling you to group and filter metrics by tag values. See also: AWS API Documentation get-capacity-manager-monitored-tag-keys is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --que...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -8442,7 +8457,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Gets usage information about a Capacity Reservation. If the Capacity Reservation is shared, it shows usage information for the Capacity Reservation owner and each Amazon Web Services account that is cur- rently using the shared capacity. If the Capacity Reservation is not shared, it shows only the Capacity Reservation owner's usage. See also: AWS API Documentation
+    /// Gets usage information about a Capacity Reservation. If the Capacity Reservation is shared, it shows usage information for the Capacity Reservation owner and each Amazon Web Services account that is currently using the shared capacity. If the Capacity Reservation is not shared, it shows only the Capacity Reservation owner's usage. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -8487,7 +8502,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Gets the console output for the specified instance. For Linux in- stances, the instance console output displays the exact console output that would normally be displayed on a physical monitor attached to a computer. For Windows instances, the instance console output includes the last three system event log errors. For more information, see Instance console output in the Amazon EC2 User Guide . See also: AWS API Documentation
+    /// Gets the console output for the specified instance. For Linux instances, the instance console output displays the exact console output that would normally be displayed on a physical monitor attached to a computer. For Windows instances, the instance console output includes the last three system event log errors. For more information, see Instance console output in the Amazon EC2 User Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -8517,7 +8532,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Retrieves a summary of the account status report. To view the full report, download it from the Amazon S3 bucket where it was saved. Reports are accessible only when they have the complete sta- tus. Reports with other statuses (running , cancelled , or error ) are not available in the S3 bucket. For more information about downloading objects from an S3 bucket, see Downloading objects in the Amazon Simple Storage Service User Guide . For more information, see Generating the account status report ...
+    /// Retrieves a summary of the account status report. To view the full report, download it from the Amazon S3 bucket where it was saved. Reports are accessible only when they have the complete status. Reports with other statuses (running , cancelled , or error ) are not available in the S3 bucket. For more information about downloading objects from an S3 bucket, see Downloading objects in the Amazon Simple Storage Service User Guide . For more information, see Generating the account status report fo...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -8532,7 +8547,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Describes the default credit option for CPU usage of a burstable per- formance instance family. For more information, see Burstable performance instances in the Amazon EC2 User Guide . See also: AWS API Documentation
+    /// Describes the default credit option for CPU usage of a burstable performance instance family. For more information, see Burstable performance instances in the Amazon EC2 User Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -8592,7 +8607,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Generates a CloudFormation template that streamlines and automates the integration of VPC flow logs with Amazon Athena. This make it easier for you to query and gain insights from VPC flow logs data. Based on the information that you provide, we configure resources in the tem- plate to do the following: o Create a table in Athena that maps fields to a custom log format o Create a Lambda function that updates the table with new partitions on a daily, weekly, or monthly basis o Create a table part...
+    /// Generates a CloudFormation template that streamlines and automates the integration of VPC flow logs with Amazon Athena. This make it easier for you to query and gain insights from VPC flow logs data. Based on the information that you provide, we configure resources in the template to do the following: • Create a table in Athena that maps fields to a custom log format • Create a Lambda function that updates the table with new partitions on a daily, weekly, or monthly basis • Create a table partit...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -8607,7 +8622,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Lists the resource groups to which a Capacity Reservation has been added. See also: AWS API Documentation get-groups-for-capacity-reservation is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Capacit...
+    /// Lists the resource groups to which a Capacity Reservation has been added. See also: AWS API Documentation get-groups-for-capacity-reservation is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: CapacityRes...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -8622,7 +8637,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Preview a reservation purchase with configurations that match those of your Dedicated Host. You must have active Dedicated Hosts in your ac- count before you purchase a reservation. This is a preview of the PurchaseHostReservation action and does not result in the offering being purchased. See also: AWS API Documentation
+    /// Preview a reservation purchase with configurations that match those of your Dedicated Host. You must have active Dedicated Hosts in your account before you purchase a reservation. This is a preview of the PurchaseHostReservation action and does not result in the offering being purchased. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -8652,7 +8667,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Gets the current state of block public access for AMIs at the account level in the specified Amazon Web Services Region. For more information, see Block public access to your AMIs in the Ama- zon EC2 User Guide . See also: AWS API Documentation
+    /// Gets the current state of block public access for AMIs at the account level in the specified Amazon Web Services Region. For more information, see Block public access to your AMIs in the Amazon EC2 User Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -8667,7 +8682,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Gets the default instance metadata service (IMDS) settings that are set at the account level in the specified Amazon Web Services Region. For more information, see Order of precedence for instance metadata op- tions in the Amazon EC2 User Guide . See also: AWS API Documentation
+    /// Gets the default instance metadata service (IMDS) settings that are set at the account level in the specified Amazon Web Services Region. For more information, see Order of precedence for instance metadata options in the Amazon EC2 User Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -8682,7 +8697,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Gets the public endorsement key associated with the Nitro Trusted Plat- form Module (NitroTPM) for the specified instance. See also: AWS API Documentation
+    /// Gets the public endorsement key associated with the Nitro Trusted Platform Module (NitroTPM) for the specified instance. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -8697,7 +8712,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Returns a list of instance types with the specified instance attrib- utes. You can use the response to preview the instance types without launching instances. Note that the response does not consider capacity. When you specify multiple parameters, you get instance types that sat- isfy all of the specified parameters. If you specify multiple values for a parameter, you get instance types that satisfy any of the speci- fied values. For more information, see Preview instance types with specified at...
+    /// Returns a list of instance types with the specified instance attributes. You can use the response to preview the instance types without launching instances. Note that the response does not consider capacity. When you specify multiple parameters, you get instance types that satisfy all of the specified parameters. If you specify multiple values for a parameter, you get instance types that satisfy any of the specified values. For more information, see Preview instance types with specified attribut...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -8712,7 +8727,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// A binary representation of the UEFI variable store. Only non-volatile variables are stored. This is a base64 encoded and zlib compressed bi- nary value that must be properly encoded. When you use register-image to create an AMI, you can create an exact copy of your variable store by passing the UEFI data in the UefiData parameter. You can modify the UEFI data by using the python-uefivars tool on GitHub. You can use the tool to convert the UEFI data into a human-readable format (JSON), which you ...
+    /// A binary representation of the UEFI variable store. Only non-volatile variables are stored. This is a base64 encoded and zlib compressed binary value that must be properly encoded. When you use register-image to create an AMI, you can create an exact copy of your variable store by passing the UEFI data in the UefiData parameter. You can modify the UEFI data by using the python-uefivars tool on GitHub. You can use the tool to convert the UEFI data into a human-readable format (JSON), which you ca...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -8742,7 +8757,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Gets IPAM discovered accounts. A discovered account is an Amazon Web Services account that is monitored under a resource discovery. If you have integrated IPAM with Amazon Web Services Organizations, all ac- counts in the organization are discovered accounts. Only the IPAM ac- count can get all discovered accounts in the organization. See also: AWS API Documentation get-ipam-discovered-accounts is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of...
+    /// Gets IPAM discovered accounts. A discovered account is an Amazon Web Services account that is monitored under a resource discovery. If you have integrated IPAM with Amazon Web Services Organizations, all accounts in the organization are discovered accounts. Only the IPAM account can get all discovered accounts in the organization. See also: AWS API Documentation get-ipam-discovered-accounts is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of res...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -8772,7 +8787,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Returns the resource CIDRs that are monitored as part of a resource discovery. A discovered resource is a resource CIDR monitored under a resource discovery. The following resources can be discovered: VPCs, Public IPv4 pools, VPC subnets, and Elastic IP addresses. See also: AWS API Documentation get-ipam-discovered-resource-cidrs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-pagin...
+    /// Returns the resource CIDRs that are monitored as part of a resource discovery. A discovered resource is a resource CIDR monitored under a resource discovery. The following resources can be discovered: VPCs, Public IPv4 pools, VPC subnets, and Elastic IP addresses. See also: AWS API Documentation get-ipam-discovered-resource-cidrs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginat...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -8787,7 +8802,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Retrieves Border Gateway Protocol (BGP) routes discovered by IPAM re- source discovery for a specified Region. Use this operation to view the Bring Your Own IP (BYOIP) address ranges that are currently advertised through BGP. We recommend using pagination to ensure that the operation returns quickly and successfully. See also: AWS API Documentation
+    /// Retrieves Border Gateway Protocol (BGP) routes discovered by IPAM resource discovery for a specified Region. Use this operation to view the Bring Your Own IP (BYOIP) address ranges that are currently advertised through BGP. We recommend using pagination to ensure that the operation returns quickly and successfully. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -8802,7 +8817,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Retrieves Autonomous System Numbers (ASNs) registered with an internet registry for an IPAM internet registry association. We recommend using pagination to ensure that the operation returns quickly and success- fully. See also: AWS API Documentation
+    /// Retrieves Autonomous System Numbers (ASNs) registered with an internet registry for an IPAM internet registry association. We recommend using pagination to ensure that the operation returns quickly and successfully. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -8862,7 +8877,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Get a list of all the CIDR allocations in an IPAM pool. The Region you use should be the IPAM pool locale. The locale is the Amazon Web Ser- vices Region where this IPAM pool is available for allocations. NOTE: If you use this action after AllocateIpamPoolCidr or ReleaseIpamPoolAllocation , note that all EC2 API actions follow an eventual consistency model. See also: AWS API Documentation get-ipam-pool-allocations is a paginated operation. Multiple API calls may be issued in order to retrieve th...
+    /// Get a list of all the CIDR allocations in an IPAM pool. The Region you use should be the IPAM pool locale. The locale is the Amazon Web Services Region where this IPAM pool is available for allocations. NOTE: If you use this action after AllocateIpamPoolCidr or ReleaseIpamPoolAllocation , note that all EC2 API actions follow an eventual consistency model. See also: AWS API Documentation get-ipam-pool-allocations is a paginated operation. Multiple API calls may be issued in order to retrieve the ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -8892,7 +8907,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Retrieves the CIDR selection rules for an IPAM prefix list resolver. Use this operation to view the business logic that determines which CIDRs are selected for synchronization with prefix lists. See also: AWS API Documentation get-ipam-prefix-list-resolver-rules is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on ...
+    /// Retrieves the CIDR selection rules for an IPAM prefix list resolver. Use this operation to view the business logic that determines which CIDRs are selected for synchronization with prefix lists. See also: AWS API Documentation get-ipam-prefix-list-resolver-rules is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a pa...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -8907,7 +8922,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Retrieves the CIDR entries for a specific version of an IPAM prefix list resolver. This shows the actual CIDRs that were selected and syn- chronized at a particular point in time. See also: AWS API Documentation get-ipam-prefix-list-resolver-version-entries is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-pagi- nate argument. When using --output text and the --query argument on a pagin...
+    /// Retrieves the CIDR entries for a specific version of an IPAM prefix list resolver. This shows the actual CIDRs that were selected and synchronized at a particular point in time. See also: AWS API Documentation get-ipam-prefix-list-resolver-version-entries is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -8922,7 +8937,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Retrieves version information for an IPAM prefix list resolver. Each version is a snapshot of what CIDRs matched your rules at that mo- ment in time. The version number increments every time the CIDR list changes due to infrastructure changes. Version example: Initial State (Version 1) Production environment: o vpc-prod-web (10.1.0.0/16) - tagged env=prod o vpc-prod-db (10.2.0.0/16) - tagged env=prod Resolver rule: Include all VPCs tagged env=prod Version 1 CIDRs: 10.1.0.0/16, 10.2.0.0/16 Infras...
+    /// Retrieves version information for an IPAM prefix list resolver. Each version is a snapshot of what CIDRs matched your rules at that moment in time. The version number increments every time the CIDR list changes due to infrastructure changes. Version example: Initial State (Version 1) Production environment: • vpc-prod-web (10.1.0.0/16) - tagged env=prod • vpc-prod-db (10.2.0.0/16) - tagged env=prod Resolver rule: Include all VPCs tagged env=prod Version 1 CIDRs: 10.1.0.0/16, 10.2.0.0/16 Infrastr...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -8937,7 +8952,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Returns resource CIDRs managed by IPAM in a given scope. If an IPAM is associated with more than one resource discovery, the resource CIDRs across all of the resource discoveries is returned. A resource discov- ery is an IPAM component that enables IPAM to manage and monitor re- sources that belong to the owning account. See also: AWS API Documentation get-ipam-resource-cidrs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can d...
+    /// Returns resource CIDRs managed by IPAM in a given scope. If an IPAM is associated with more than one resource discovery, the resource CIDRs across all of the resource discoveries is returned. A resource discovery is an IPAM component that enables IPAM to manage and monitor resources that belong to the owning account. See also: AWS API Documentation get-ipam-resource-cidrs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disab...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -8952,7 +8967,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Retrieves the current Route Origin Authorizations (ROAs) published to the RPKI for an IPAM internet registry association. We recommend using pagination to ensure that the operation returns quickly and success- fully. See also: AWS API Documentation
+    /// Retrieves the current Route Origin Authorizations (ROAs) published to the RPKI for an IPAM internet registry association. We recommend using pagination to ensure that the operation returns quickly and successfully. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -8967,7 +8982,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Retrieves route protection findings for an IPAM. Route protection find- ings show the Resource Public Key Infrastructure (RPKI) validation sta- tus of your Bring Your Own IP (BYOIP) routes. Findings identify routes that have valid, invalid, or unknown validation states. We recommend using pagination to ensure that the operation returns quickly and suc- cessfully. See also: AWS API Documentation
+    /// Retrieves route protection findings for an IPAM. Route protection findings show the Resource Public Key Infrastructure (RPKI) validation status of your Bring Your Own IP (BYOIP) routes. Findings identify routes that have valid, invalid, or unknown validation states. We recommend using pagination to ensure that the operation returns quickly and successfully. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -9012,7 +9027,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Retrieves the configuration data of the specified instance. You can use this data to create a launch template. This action calls on other describe actions to get instance informa- tion. Depending on your instance configuration, you may need to allow the following actions in your IAM policy: DescribeSpotInstanceRequests , DescribeInstanceCreditSpecifications , DescribeVolumes , and De- scribeInstanceAttribute . Or, you can allow describe* depending on your instance requirements. See also: AWS API...
+    /// Retrieves the configuration data of the specified instance. You can use this data to create a launch template. This action calls on other describe actions to get instance information. Depending on your instance configuration, you may need to allow the following actions in your IAM policy: DescribeSpotInstanceRequests , DescribeInstanceCreditSpecifications , DescribeVolumes , and DescribeInstanceAttribute . Or, you can allow describe* depending on your instance requirements. See also: AWS API Doc...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -9027,7 +9042,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Gets information about the resources that are associated with the spec- ified managed prefix list. See also: AWS API Documentation get-managed-prefix-list-associations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following ...
+    /// Gets information about the resources that are associated with the specified managed prefix list. See also: AWS API Documentation get-managed-prefix-list-associations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -9042,7 +9057,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Gets information about the entries for a specified managed prefix list. See also: AWS API Documentation get-managed-prefix-list-entries is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Entries
+    /// Gets information about the entries for a specified managed prefix list. See also: AWS API Documentation get-managed-prefix-list-entries is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Entries
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -9057,7 +9072,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Retrieves the managed resource visibility configuration for the ac- count. The response indicates whether managed resources are hidden or visible by default. See also: AWS API Documentation
+    /// Retrieves the managed resource visibility configuration for the account. The response indicates whether managed resources are hidden or visible by default. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -9072,7 +9087,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Gets the findings for the specified Network Access Scope analysis. See also: AWS API Documentation get-network-insights-access-scope-analysis-findings is a paginated op- eration. Multiple API calls may be issued in order to retrieve the en- tire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argu- ment on a paginated response, the --query argument must extract data from the results of the following query expressio...
+    /// Gets the findings for the specified Network Access Scope analysis. See also: AWS API Documentation get-network-insights-access-scope-analysis-findings is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: An...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -9147,7 +9162,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Gets information about the route propagations for the specified route server. When enabled, route server propagation installs the routes in the FIB on the route table you've specified. Route server supports IPv4 and IPv6 route propagation. Amazon VPC Route Server simplifies routing for traffic between work- loads that are deployed within a VPC and its internet gateways. With this feature, VPC Route Server dynamically updates VPC and internet gateway route tables with your preferred IPv4 or IPv6 ...
+    /// Gets information about the route propagations for the specified route server. When enabled, route server propagation installs the routes in the FIB on the route table you've specified. Route server supports IPv4 and IPv6 route propagation. Amazon VPC Route Server simplifies routing for traffic between workloads that are deployed within a VPC and its internet gateways. With this feature, VPC Route Server dynamically updates VPC and internet gateway route tables with your preferred IPv4 or IPv6 ro...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -9177,7 +9192,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Gets security groups that can be associated by the Amazon Web Services account making the request with network interfaces in the specified VPC. See also: AWS API Documentation get-security-groups-for-vpc is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract dat...
+    /// Gets security groups that can be associated by the Amazon Web Services account making the request with network interfaces in the specified VPC. See also: AWS API Documentation get-security-groups-for-vpc is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data fr...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -9192,7 +9207,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Retrieves the access status of your account to the EC2 serial console of all instances. By default, access to the EC2 serial console is dis- abled for your account. For more information, see Manage account access to the EC2 serial console in the Amazon EC2 User Guide . See also: AWS API Documentation
+    /// Retrieves the access status of your account to the EC2 serial console of all instances. By default, access to the EC2 serial console is disabled for your account. For more information, see Manage account access to the EC2 serial console in the Amazon EC2 User Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -9207,7 +9222,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Gets the current state of block public access for snapshots setting for the account and Region. For more information, see Block public access for snapshots in the Ama- zon EBS User Guide . See also: AWS API Documentation
+    /// Gets the current state of block public access for snapshots setting for the account and Region. For more information, see Block public access for snapshots in the Amazon EBS User Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -9222,7 +9237,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Calculates the Spot placement score for a Region or Availability Zone based on the specified target capacity and compute requirements. You can specify your compute requirements either by using In- stanceRequirementsWithMetadata and letting Amazon EC2 choose the opti- mal instance types to fulfill your Spot request, or you can specify the instance types by using InstanceTypes . For more information, see Spot placement score in the Amazon EC2 User Guide . See also: AWS API Documentation get-spot-p...
+    /// Calculates the Spot placement score for a Region or Availability Zone based on the specified target capacity and compute requirements. You can specify your compute requirements either by using InstanceRequirementsWithMetadata and letting Amazon EC2 choose the optimal instance types to fulfill your Spot request, or you can specify the instance types by using InstanceTypes . For more information, see Spot placement score in the Amazon EC2 User Guide . See also: AWS API Documentation get-spot-place...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -9252,7 +9267,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Lists the route tables to which the specified resource attachment prop- agates routes. See also: AWS API Documentation get-transit-gateway-attachment-propagations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-pagi- nate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the re- sults of the following query...
+    /// Lists the route tables to which the specified resource attachment propagates routes. See also: AWS API Documentation get-transit-gateway-attachment-propagations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expre...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -9282,7 +9297,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Gets information about the associations for the transit gateway multi- cast domain. See also: AWS API Documentation get-transit-gateway-multicast-domain-associations is a paginated opera- tion. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argu- ment on a paginated response, the --query argument must extract data from the results of the following qu...
+    /// Gets information about the associations for the transit gateway multicast domain. See also: AWS API Documentation get-transit-gateway-multicast-domain-associations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -9297,7 +9312,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Gets a list of the transit gateway policy table associations. See also: AWS API Documentation get-transit-gateway-policy-table-associations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-pagi- nate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the re- sults of the following query expressions: Associati...
+    /// Gets a list of the transit gateway policy table associations. See also: AWS API Documentation get-transit-gateway-policy-table-associations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Associations
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -9312,7 +9327,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Returns a list of transit gateway policy table entries. See also: AWS API Documentation get-transit-gateway-policy-table-entries is a paginated operation. Mul- tiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a pagi- nated response, the --query argument must extract data from the results of the following query expressions: TransitGatewayPolicy...
+    /// Returns a list of transit gateway policy table entries. See also: AWS API Documentation get-transit-gateway-policy-table-entries is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: TransitGatewayPolicyTabl...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -9327,7 +9342,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Gets information about the prefix list references in a specified tran- sit gateway route table. See also: AWS API Documentation get-transit-gateway-prefix-list-references is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-pagi- nate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the re- sults of the followi...
+    /// Gets information about the prefix list references in a specified transit gateway route table. See also: AWS API Documentation get-transit-gateway-prefix-list-references is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following que...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -9342,7 +9357,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Gets information about the associations for the specified transit gate- way route table. See also: AWS API Documentation get-transit-gateway-route-table-associations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-pagi- nate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the re- sults of the following qu...
+    /// Gets information about the associations for the specified transit gateway route table. See also: AWS API Documentation get-transit-gateway-route-table-associations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -9357,7 +9372,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Gets information about the route table propagations for the specified transit gateway route table. See also: AWS API Documentation get-transit-gateway-route-table-propagations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-pagi- nate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the re- sults of the fo...
+    /// Gets information about the route table propagations for the specified transit gateway route table. See also: AWS API Documentation get-transit-gateway-route-table-propagations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -9417,7 +9432,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Gets information about resources in a VPC that are blocking encryption enforcement. For more information, see Enforce VPC encryption in transit in the Ama- zon VPC User Guide . See also: AWS API Documentation
+    /// Gets information about resources in a VPC that are blocking encryption enforcement. For more information, see Enforce VPC encryption in transit in the Amazon VPC User Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -9447,7 +9462,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Obtain a list of customer gateway devices for which sample configura- tion files can be provided. The request has no additional parameters. You can also see the list of device types with sample configuration files available under Your customer gateway device in the Amazon Web Services Site-to-Site VPN User Guide . See also: AWS API Documentation get-vpn-connection-device-types is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You ca...
+    /// Obtain a list of customer gateway devices for which sample configuration files can be provided. The request has no additional parameters. You can also see the list of device types with sample configuration files available under Your customer gateway device in the Amazon Web Services Site-to-Site VPN User Guide . See also: AWS API Documentation get-vpn-connection-device-types is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can di...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -9492,7 +9507,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// NOTE: To import your virtual machines (VMs) with a console-based experi- ence, you can use the Import virtual machine images to Amazon Web Services template in the Migration Hub Orchestrator console . For more information, see the ` Migration Hub Orchestrator User Guide https://docs.aws.amazon.com/migrationhub-orchestrator/latest/userguide/import-vm-images.html`__ . Import single or multi-volume disk images or EBS snapshots into an Ama- zon Machine Image (AMI). WARNING: Amazon Web Services VM Im...
+    /// NOTE: To import your virtual machines (VMs) with a console-based experience, you can use the Import virtual machine images to Amazon Web Services template in the Migration Hub Orchestrator console . For more information, see the ` Migration Hub Orchestrator User Guide https://docs.aws.amazon.com/migrationhub-orchestrator/latest/userguide/import-vm-images.html`__ . Import single or multi-volume disk images or EBS snapshots into an Amazon Machine Image (AMI). WARNING: Amazon Web Services VM Import...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -9522,7 +9537,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Imports a disk into an EBS snapshot. For more information, see Importing a disk as a snapshot using VM Im- port/Export in the VM Import/Export User Guide . See also: AWS API Documentation
+    /// Imports a disk into an EBS snapshot. For more information, see Importing a disk as a snapshot using VM Import/Export in the VM Import/Export User Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -9552,7 +9567,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Lists one or more snapshots that are currently in the Recycle Bin. See also: AWS API Documentation list-snapshots-in-recycle-bin is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Snapshots
+    /// Lists one or more snapshots that are currently in the Recycle Bin. See also: AWS API Documentation list-snapshots-in-recycle-bin is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Snapshots
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -9582,7 +9597,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Locks an Amazon EBS snapshot in either governance or compliance mode to protect it against accidental or malicious deletions for a specific du- ration. A locked snapshot can't be deleted. You can also use this action to modify the lock settings for a snapshot that is already locked. The allowed modifications depend on the lock mode and lock state: o If the snapshot is locked in governance mode, you can modify the lock mode and the lock duration or lock expiration date. o If the snapshot is locke...
+    /// Locks an Amazon EBS snapshot in either governance or compliance mode to protect it against accidental or malicious deletions for a specific duration. A locked snapshot can't be deleted. You can also use this action to modify the lock settings for a snapshot that is already locked. The allowed modifications depend on the lock mode and lock state: • If the snapshot is locked in governance mode, you can modify the lock mode and the lock duration or lock expiration date. • If the snapshot is locked ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -9597,7 +9612,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Modifies the account-level VPC Encryption Control configuration. This sets the encryption control mode and resource exclusions that apply to the VPCs in your account. VPC Encryption Control enables you to enforce encryption for all data in transit within and between VPCs to meet com- pliance requirements. For more information, see Enforce VPC encryption in transit in the Ama- zon VPC User Guide . See also: AWS API Documentation
+    /// Modifies the account-level VPC Encryption Control configuration. This sets the encryption control mode and resource exclusions that apply to the VPCs in your account. VPC Encryption Control enables you to enforce encryption for all data in transit within and between VPCs to meet compliance requirements. For more information, see Enforce VPC encryption in transit in the Amazon VPC User Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -9612,7 +9627,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Modifies an attribute of the specified Elastic IP address. For require- ments, see Using reverse DNS for email applications . See also: AWS API Documentation
+    /// Modifies an attribute of the specified Elastic IP address. For requirements, see Using reverse DNS for email applications . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -9627,7 +9642,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Modifies an existing application status check. You can update the pro- tocol, port, path, thresholds, and other configuration settings. The following rules apply: o The application status check must exist and belong to your account. o Changes take effect on the next health check interval. See also: AWS API Documentation
+    /// Modifies an existing application status check. You can update the protocol, port, path, thresholds, and other configuration settings. The following rules apply: • The application status check must exist and belong to your account. • Changes take effect on the next health check interval. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -9672,7 +9687,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Modifies a Capacity Reservation's capacity, instance eligibility, and the conditions under which it is to be released. You can't modify a Ca- pacity Reservation's instance type, EBS optimization, platform, in- stance store settings, Availability Zone, or tenancy. If you need to modify any of these attributes, we recommend that you cancel the Capac- ity Reservation, and then create a new one with the required attrib- utes. For more information, see Modify an active Capacity Reservation . The allo...
+    /// Modifies a Capacity Reservation's capacity, instance eligibility, and the conditions under which it is to be released. You can't modify a Capacity Reservation's instance type, EBS optimization, platform, instance store settings, Availability Zone, or tenancy. If you need to modify any of these attributes, we recommend that you cancel the Capacity Reservation, and then create a new one with the required attributes. For more information, see Modify an active Capacity Reservation . The allowed modi...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -9717,7 +9732,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Modifies the default credit option for CPU usage of burstable perfor- mance instances. The default credit option is set at the account level per Amazon Web Services Region, and is specified per instance family. All new burstable performance instances in the account launch using the default credit option. ModifyDefaultCreditSpecification is an asynchronous operation, which works at an Amazon Web Services Region level and modifies the credit option for each Availability Zone. All zones in a Region...
+    /// Modifies the default credit option for CPU usage of burstable performance instances. The default credit option is set at the account level per Amazon Web Services Region, and is specified per instance family. All new burstable performance instances in the account launch using the default credit option. ModifyDefaultCreditSpecification is an asynchronous operation, which works at an Amazon Web Services Region level and modifies the credit option for each Availability Zone. All zones in a Region a...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -9732,7 +9747,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Changes the default KMS key for EBS encryption by default for your ac- count in this Region. Amazon Web Services creates a unique Amazon Web Services managed KMS key in each Region for use with encryption by default. If you change the default KMS key to a symmetric customer managed KMS key, it is used instead of the Amazon Web Services managed KMS key. Amazon EBS does not support asymmetric KMS keys. If you delete or disable the customer managed KMS key that you speci- fied for use with encrypti...
+    /// Changes the default KMS key for EBS encryption by default for your account in this Region. Amazon Web Services creates a unique Amazon Web Services managed KMS key in each Region for use with encryption by default. If you change the default KMS key to a symmetric customer managed KMS key, it is used instead of the Amazon Web Services managed KMS key. Amazon EBS does not support asymmetric KMS keys. If you delete or disable the customer managed KMS key that you specified for use with encryption b...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -9747,7 +9762,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Modifies the specified EC2 Fleet. You can only modify an EC2 Fleet request of type maintain . While the EC2 Fleet is being modified, it is in the modifying state. To scale up your EC2 Fleet, increase its target capacity. The EC2 Fleet launches the additional Spot Instances according to the allocation strategy for the EC2 Fleet request. If the allocation strategy is low- est-price , the EC2 Fleet launches instances using the Spot Instance pool with the lowest price. If the allocation strategy is ...
+    /// Modifies the specified EC2 Fleet. You can only modify an EC2 Fleet request of type maintain . While the EC2 Fleet is being modified, it is in the modifying state. To scale up your EC2 Fleet, increase its target capacity. The EC2 Fleet launches the additional Spot Instances according to the allocation strategy for the EC2 Fleet request. If the allocation strategy is lowest-price , the EC2 Fleet launches instances using the Spot Instance pool with the lowest price. If the allocation strategy is di...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -9777,7 +9792,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Modify the auto-placement setting of a Dedicated Host. When auto-place- ment is enabled, any instances that you launch with a tenancy of host but without a specific host ID are placed onto any available Dedicated Host in your account that has auto-placement enabled. When auto-place- ment is disabled, you need to provide a host ID to have the instance launch onto a specific host. If no host ID is provided, the instance is launched onto a suitable host with auto-placement enabled. You can also use...
+    /// Modify the auto-placement setting of a Dedicated Host. When auto-placement is enabled, any instances that you launch with a tenancy of host but without a specific host ID are placed onto any available Dedicated Host in your account that has auto-placement enabled. When auto-placement is disabled, you need to provide a host ID to have the instance launch onto a specific host. If no host ID is provided, the instance is launched onto a suitable host with auto-placement enabled. You can also use thi...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -9792,22 +9807,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Modifies the ID format of a resource for a specified IAM user, IAM role, or the root user for an account; or all IAM users, IAM roles, and the root user for an account. You can specify that resources should re- ceive longer IDs (17-character IDs) when they are created. This request can only be used to modify longer ID settings for resource types that are within the opt-in period. Resources currently in their opt-in period include: bundle | conversion-task | customer-gateway | dhcp-options | elas...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ModifyIdentityIdFormatAsync(
-        AwsEc2ModifyIdentityIdFormatOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
-    /// Modifies the ID format for the specified resource on a per-Region ba- sis. You can specify that resources should receive longer IDs (17-char- acter IDs) when they are created. This request can only be used to modify longer ID settings for resource types that are within the opt-in period. Resources currently in their opt-in period include: bundle | conversion-task | customer-gateway | dhcp-options | elastic-ip-allocation | elastic-ip-association | ex- port-task | flow-log | image | import-task | ...
+    /// Modifies the ID format for the specified resource on a per-Region basis. You can specify that resources should receive longer IDs (17-character IDs) when they are created. This request can only be used to modify longer ID settings for resource types that are within the opt-in period. Resources currently in their opt-in period include: bundle | conversion-task | customer-gateway | dhcp-options | elastic-ip-allocation | elastic-ip-association | export-task | flow-log | image | import-task | intern...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -9822,7 +9822,22 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Modifies the specified attribute of the specified AMI. You can specify only one attribute at a time. To specify the attribute, you can use the Attribute parameter, or one of the following parameters: Description , ImdsSupport , or LaunchPer- mission . Images with an Amazon Web Services Marketplace product code cannot be made public. To enable the SriovNetSupport enhanced networking attribute of an im- age, enable SriovNetSupport on an instance and create an AMI from the instance. See also: AWS A...
+    /// Modifies the ID format of a resource for a specified IAM user, IAM role, or the root user for an account; or all IAM users, IAM roles, and the root user for an account. You can specify that resources should receive longer IDs (17-character IDs) when they are created. This request can only be used to modify longer ID settings for resource types that are within the opt-in period. Resources currently in their opt-in period include: bundle | conversion-task | customer-gateway | dhcp-options | elasti...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ModifyIdentityIdFormatAsync(
+        AwsEc2ModifyIdentityIdFormatOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Modifies the specified attribute of the specified AMI. You can specify only one attribute at a time. To specify the attribute, you can use the Attribute parameter, or one of the following parameters: Description , ImdsSupport , or LaunchPermission . Images with an Amazon Web Services Marketplace product code cannot be made public. To enable the SriovNetSupport enhanced networking attribute of an image, enable SriovNetSupport on an instance and create an AMI from the instance. See also: AWS API D...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -9837,7 +9852,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Modifies the specified attribute of the specified instance. You can specify only one attribute at a time. Note: Using this action to change the security groups associated with an elastic network interface (ENI) attached to an instance can result in an error if the instance has more than one ENI. To change the security groups associated with an ENI attached to an instance that has multiple ENIs, we recommend that you use the ModifyNet- workInterfaceAttribute action. To modify some attributes, the...
+    /// Modifies the specified attribute of the specified instance. You can specify only one attribute at a time. Note: Using this action to change the security groups associated with an elastic network interface (ENI) attached to an instance can result in an error if the instance has more than one ENI. To change the security groups associated with an ENI attached to an instance that has multiple ENIs, we recommend that you use the ModifyNetworkInterfaceAttribute action. To modify some attributes, the i...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -9852,7 +9867,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Modifies the Capacity Reservation settings for a stopped instance. Use this action to configure an instance to target a specific Capacity Reservation, run in any open Capacity Reservation with matching attrib- utes, run in On-Demand Instance capacity, or only run in a Capacity Reservation. See also: AWS API Documentation
+    /// Modifies the Capacity Reservation settings for a stopped instance. Use this action to configure an instance to target a specific Capacity Reservation, run in any open Capacity Reservation with matching attributes, run in On-Demand Instance capacity, or only run in a Capacity Reservation. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -9882,7 +9897,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// By default, all vCPUs for the instance type are active when you launch an instance. When you configure the number of active vCPUs for the in- stance, it can help you save on licensing costs and optimize perfor- mance. The base cost of the instance remains unchanged. The number of active vCPUs equals the number of threads per CPU core multiplied by the number of cores. The instance must be in a Stopped state before you make changes. NOTE: Some instance type options do not support this capability....
+    /// By default, all vCPUs for the instance type are active when you launch an instance. When you configure the number of active vCPUs for the instance, it can help you save on licensing costs and optimize performance. The base cost of the instance remains unchanged. The number of active vCPUs equals the number of threads per CPU core multiplied by the number of cores. The instance must be in a Stopped state before you make changes. NOTE: Some instance type options do not support this capability. For...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -9897,7 +9912,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Modifies the credit option for CPU usage on a running or stopped burstable performance instance. The credit options are standard and un- limited . For more information, see Burstable performance instances in the Amazon EC2 User Guide . See also: AWS API Documentation
+    /// Modifies the credit option for CPU usage on a running or stopped burstable performance instance. The credit options are standard and unlimited . For more information, see Burstable performance instances in the Amazon EC2 User Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -9927,7 +9942,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Modifies the specified event window. You can define either a set of time ranges or a cron expression when modifying the event window, but not both. To modify the targets associated with the event window, use the Asso- ciateInstanceEventWindow and DisassociateInstanceEventWindow API. If Amazon Web Services has already scheduled an event, modifying an event window won't change the time of the scheduled event. For more information, see Define event windows for scheduled events in the Amazon EC2 Use...
+    /// Modifies the specified event window. You can define either a set of time ranges or a cron expression when modifying the event window, but not both. To modify the targets associated with the event window, use the AssociateInstanceEventWindow and DisassociateInstanceEventWindow API. If Amazon Web Services has already scheduled an event, modifying an event window won't change the time of the scheduled event. For more information, see Define event windows for scheduled events in the Amazon EC2 User ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -9942,7 +9957,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Modifies the recovery behavior of your instance to disable simplified automatic recovery or set the recovery behavior to default. The default configuration will not enable simplified automatic recovery for an un- supported instance type. For more information, see Simplified automatic recovery . Modifies the reboot migration behavior during a user-initiated reboot of an instance that has a pending system-reboot event. For more infor- mation, see Enable or disable reboot migration . See also: AWS ...
+    /// Modifies the recovery behavior of your instance to disable simplified automatic recovery or set the recovery behavior to default. The default configuration will not enable simplified automatic recovery for an unsupported instance type. For more information, see Simplified automatic recovery . Modifies the reboot migration behavior during a user-initiated reboot of an instance that has a pending system-reboot event. For more information, see Enable or disable reboot migration . See also: AWS API ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -9957,7 +9972,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Modifies the default instance metadata service (IMDS) settings at the account level in the specified Amazon Web Services Region. NOTE: To remove a parameter's account-level default setting, specify no-preference . If an account-level setting is cleared with no-pref- erence , then the instance launch considers the other instance meta- data settings. For more information, see Order of precedence for in- stance metadata options in the Amazon EC2 User Guide . See also: AWS API Documentation
+    /// Modifies the default instance metadata service (IMDS) settings at the account level in the specified Amazon Web Services Region. NOTE: To remove a parameter's account-level default setting, specify no-preference . If an account-level setting is cleared with no-preference , then the instance launch considers the other instance metadata settings. For more information, see Order of precedence for instance metadata options in the Amazon EC2 User Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -9972,7 +9987,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Modify the instance metadata parameters on a running or stopped in- stance. When you modify the parameters on a stopped instance, they are applied when the instance is started. When you modify the parameters on a running instance, the API responds with a state of pending. After the parameter modifications are successfully applied to the instance, the state of the modifications changes from pending to applied in subse- quent describe-instances API calls. For more information, see Instance metadat...
+    /// Modify the instance metadata parameters on a running or stopped instance. When you modify the parameters on a stopped instance, they are applied when the instance is started. When you modify the parameters on a running instance, the API responds with a state of pending. After the parameter modifications are successfully applied to the instance, the state of the modifications changes from pending to applied in subsequent describe-instances API calls. For more information, see Instance metadata an...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -9987,7 +10002,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Change the configuration of the network performance options for an ex- isting instance. See also: AWS API Documentation
+    /// Change the configuration of the network performance options for an existing instance. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -10002,7 +10017,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Modifies the placement attributes for a specified instance. You can do the following: o Modify the affinity between an instance and a Dedicated Host . When affinity is set to host and the instance is not associated with a specific Dedicated Host, the next time the instance is started, it is automatically associated with the host on which it lands. If the in- stance is restarted or rebooted, this relationship persists. o Change the Dedicated Host with which an instance is associated. o Change the...
+    /// Modifies the placement attributes for a specified instance. You can do the following: • Modify the affinity between an instance and a Dedicated Host . When affinity is set to host and the instance is not associated with a specific Dedicated Host, the next time the instance is started, it is automatically associated with the host on which it lands. If the instance is restarted or rebooted, this relationship persists. • Change the Dedicated Host with which an instance is associated. • Change the i...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -10047,7 +10062,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Modifies the description of an IPAM pool allocation. For more informa- tion, see Modify an IPAM pool allocation in the Amazon VPC IPAM User Guide . See also: AWS API Documentation
+    /// Modifies the description of an IPAM pool allocation. For more information, see Modify an IPAM pool allocation in the Amazon VPC IPAM User Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -10122,7 +10137,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Modifies a resource discovery. A resource discovery is an IPAM compo- nent that enables IPAM to manage and monitor resources that belong to the owning account. See also: AWS API Documentation
+    /// Modifies a resource discovery. A resource discovery is an IPAM component that enables IPAM to manage and monitor resources that belong to the owning account. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -10167,7 +10182,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Modifies a launch template. You can specify which version of the launch template to set as the default version. When launching an instance, the default version applies when a launch template version is not speci- fied. See also: AWS API Documentation
+    /// Modifies a launch template. You can specify which version of the launch template to set as the default version. When launching an instance, the default version applies when a launch template version is not specified. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -10227,7 +10242,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Modifies the specified network interface attribute. You can specify only one attribute at a time. You can use this action to attach and de- tach security groups from an existing EC2 instance. See also: AWS API Documentation
+    /// Modifies the specified network interface attribute. You can specify only one attribute at a time. You can use this action to attach and detach security groups from an existing EC2 instance. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -10257,7 +10272,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Modify public hostname options for a network interface. For more infor- mation, see EC2 instance hostnames, DNS names, and domains in the Ama- zon EC2 User Guide . See also: AWS API Documentation
+    /// Modify public hostname options for a network interface. For more information, see EC2 instance hostnames, DNS names, and domains in the Amazon EC2 User Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -10272,7 +10287,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Modifies the configuration of your Reserved Instances, such as the Availability Zone, instance count, or instance type. The Reserved In- stances to be modified must be identical, except for Availability Zone, network platform, and instance type. For more information, see Modify Reserved Instances in the Amazon EC2 User Guide . See also: AWS API Documentation
+    /// Modifies the configuration of your Reserved Instances, such as the Availability Zone, instance count, or instance type. The Reserved Instances to be modified must be identical, except for Availability Zone, network platform, and instance type. For more information, see Modify Reserved Instances in the Amazon EC2 User Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -10287,7 +10302,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Modifies the configuration of an existing route server. Amazon VPC Route Server simplifies routing for traffic between work- loads that are deployed within a VPC and its internet gateways. With this feature, VPC Route Server dynamically updates VPC and internet gateway route tables with your preferred IPv4 or IPv6 routes to achieve routing fault tolerance for those workloads. This enables you to auto- matically reroute traffic within a VPC, which increases the manageabil- ity of VPC routing and ...
+    /// Modifies the configuration of an existing route server. Amazon VPC Route Server simplifies routing for traffic between workloads that are deployed within a VPC and its internet gateways. With this feature, VPC Route Server dynamically updates VPC and internet gateway route tables with your preferred IPv4 or IPv6 routes to achieve routing fault tolerance for those workloads. This enables you to automatically reroute traffic within a VPC, which increases the manageability of VPC routing and intero...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -10317,7 +10332,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Adds or removes permission settings for the specified snapshot. You may add or remove specified Amazon Web Services account IDs from a snap- shot's list of create volume permissions, but you cannot do both in a single operation. If you need to both add and remove account IDs for a snapshot, you must use multiple operations. You can make up to 500 mod- ifications to a snapshot in a single operation. Encrypted snapshots and snapshots with Amazon Web Services Marketplace product codes cannot be mad...
+    /// Adds or removes permission settings for the specified snapshot. You may add or remove specified Amazon Web Services account IDs from a snapshot's list of create volume permissions, but you cannot do both in a single operation. If you need to both add and remove account IDs for a snapshot, you must use multiple operations. You can make up to 500 modifications to a snapshot in a single operation. Encrypted snapshots and snapshots with Amazon Web Services Marketplace product codes cannot be made pu...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -10332,7 +10347,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Archives an Amazon EBS snapshot. When you archive a snapshot, it is converted to a full snapshot that includes all of the blocks of data that were written to the volume at the time the snapshot was created, and moved from the standard tier to the archive tier. For more informa- tion, see Archive Amazon EBS snapshots in the Amazon EBS User Guide . See also: AWS API Documentation
+    /// Archives an Amazon EBS snapshot. When you archive a snapshot, it is converted to a full snapshot that includes all of the blocks of data that were written to the volume at the time the snapshot was created, and moved from the standard tier to the archive tier. For more information, see Archive Amazon EBS snapshots in the Amazon EBS User Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -10347,7 +10362,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Modifies the specified Spot Fleet request. You can only modify a Spot Fleet request of type maintain . While the Spot Fleet request is being modified, it is in the modifying state. To scale up your Spot Fleet, increase its target capacity. The Spot Fleet launches the additional Spot Instances according to the alloca- tion strategy for the Spot Fleet request. If the allocation strategy is lowestPrice , the Spot Fleet launches instances using the Spot Instance pool with the lowest price. If the al...
+    /// Modifies the specified Spot Fleet request. You can only modify a Spot Fleet request of type maintain . While the Spot Fleet request is being modified, it is in the modifying state. To scale up your Spot Fleet, increase its target capacity. The Spot Fleet launches the additional Spot Instances according to the allocation strategy for the Spot Fleet request. If the allocation strategy is lowestPrice , the Spot Fleet launches instances using the Spot Instance pool with the lowest price. If the allo...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -10362,7 +10377,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Modifies a subnet attribute. You can only modify one attribute at a time. Use this action to modify subnets on Amazon Web Services Outposts. o To modify a subnet on an Outpost rack, set both MapCustomerOwnedIpOn- Launch and CustomerOwnedIpv4Pool . These two parameters act as a sin- gle attribute. o To modify a subnet on an Outpost server, set either EnableLniAtDevi- ceIndex or DisableLniAtDeviceIndex . For more information about Amazon Web Services Outposts, see the fol- lowing: o Outpost server...
+    /// Modifies a subnet attribute. You can only modify one attribute at a time. Use this action to modify subnets on Amazon Web Services Outposts. • To modify a subnet on an Outpost rack, set both MapCustomerOwnedIpOnLaunch and CustomerOwnedIpv4Pool . These two parameters act as a single attribute. • To modify a subnet on an Outpost server, set either EnableLniAtDeviceIndex or DisableLniAtDeviceIndex . For more information about Amazon Web Services Outposts, see the following: • Outpost servers • Outp...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -10377,7 +10392,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Allows or restricts mirroring network services. By default, Amazon DNS network services are not eligible for Traffic Mirror. Use AddNetworkServices to add network services to a Traffic Mirror filter. When a network service is added to the Traffic Mirror filter, all traffic related to that network service will be mirrored. When you no longer want to mirror network services, use RemoveNetwork- Services to remove the network services from the Traffic Mirror filter. See also: AWS API Documentation
+    /// Allows or restricts mirroring network services. By default, Amazon DNS network services are not eligible for Traffic Mirror. Use AddNetworkServices to add network services to a Traffic Mirror filter. When a network service is added to the Traffic Mirror filter, all traffic related to that network service will be mirrored. When you no longer want to mirror network services, use RemoveNetworkServices to remove the network services from the Traffic Mirror filter. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -10437,7 +10452,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Modifies the specified transit gateway. When you modify a transit gate- way, the modified options are applied to new transit gateway attach- ments only. Your existing transit gateway attachments are not modified. See also: AWS API Documentation
+    /// Modifies the specified transit gateway. When you modify a transit gateway, the modified options are applied to new transit gateway attachments only. Your existing transit gateway attachments are not modified. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -10497,7 +10512,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Modifies the configuration of the specified Amazon Web Services Veri- fied Access endpoint. See also: AWS API Documentation
+    /// Modifies the configuration of the specified Amazon Web Services Verified Access endpoint. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -10527,7 +10542,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Modifies the specified Amazon Web Services Verified Access group con- figuration. See also: AWS API Documentation
+    /// Modifies the specified Amazon Web Services Verified Access group configuration. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -10542,7 +10557,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Modifies the specified Amazon Web Services Verified Access group pol- icy. See also: AWS API Documentation
+    /// Modifies the specified Amazon Web Services Verified Access group policy. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -10557,7 +10572,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Modifies the logging configuration for the specified Amazon Web Ser- vices Verified Access instance. See also: AWS API Documentation
+    /// Modifies the logging configuration for the specified Amazon Web Services Verified Access instance. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -10572,7 +10587,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Modifies the configuration of the specified Amazon Web Services Veri- fied Access instance. See also: AWS API Documentation
+    /// Modifies the configuration of the specified Amazon Web Services Verified Access instance. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -10587,7 +10602,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Modifies the configuration of the specified Amazon Web Services Veri- fied Access trust provider. See also: AWS API Documentation
+    /// Modifies the configuration of the specified Amazon Web Services Verified Access trust provider. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -10602,7 +10617,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Modifies a volume attribute. By default, all I/O operations for the volume are suspended when the data on the volume is determined to be potentially inconsistent, to prevent undetectable, latent data corruption. The I/O access to the volume can be resumed by first enabling I/O access and then checking the data consistency on your volume. You can change the default behavior to resume I/O operations. We recom- mend that you change this only for boot volumes or for volumes that are stateless or dis...
+    /// Modifies a volume attribute. By default, all I/O operations for the volume are suspended when the data on the volume is determined to be potentially inconsistent, to prevent undetectable, latent data corruption. The I/O access to the volume can be resumed by first enabling I/O access and then checking the data consistency on your volume. You can change the default behavior to resume I/O operations. We recommend that you change this only for boot volumes or for volumes that are stateless or dispo...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -10617,7 +10632,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// You can modify several parameters of an existing EBS volume, including volume size, volume type, and IOPS capacity. If your EBS volume is at- tached to a current-generation EC2 instance type, you might be able to apply these changes without stopping the instance or detaching the vol- ume from it. For more information about modifying EBS volumes, see Amazon EBS Elastic Volumes in the Amazon EBS User Guide . When you complete a resize operation on your volume, you need to extend the volume's file-...
+    /// You can modify several parameters of an existing EBS volume, including volume size, volume type, and IOPS capacity. If your EBS volume is attached to a current-generation EC2 instance type, you might be able to apply these changes without stopping the instance or detaching the volume from it. For more information about modifying EBS volumes, see Amazon EBS Elastic Volumes in the Amazon EBS User Guide . When you complete a resize operation on your volume, you need to extend the volume's file-syst...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -10662,7 +10677,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Modify VPC Block Public Access (BPA) options. VPC Block Public Access (BPA) enables you to block resources in VPCs and subnets that you own in a Region from reaching or being reached from the internet through internet gateways and egress-only internet gateways. To learn more about VPC BPA, see Block public access to VPCs and subnets in the Ama- zon VPC User Guide . See also: AWS API Documentation
+    /// Modify VPC Block Public Access (BPA) options. VPC Block Public Access (BPA) enables you to block resources in VPCs and subnets that you own in a Region from reaching or being reached from the internet through internet gateways and egress-only internet gateways. To learn more about VPC BPA, see Block public access to VPCs and subnets in the Amazon VPC User Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -10677,7 +10692,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Modifies the encryption control configuration for a VPC. You can update the encryption mode and exclusion settings for various gateway types and peering connections. For more information, see Enforce VPC encryption in transit in the Ama- zon VPC User Guide . See also: AWS API Documentation
+    /// Modifies the encryption control configuration for a VPC. You can update the encryption mode and exclusion settings for various gateway types and peering connections. For more information, see Enforce VPC encryption in transit in the Amazon VPC User Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -10737,7 +10752,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Modifies the attributes of the specified VPC endpoint service configu- ration. If you set or modify the private DNS name, you must prove that you own the private DNS domain name. See also: AWS API Documentation
+    /// Modifies the attributes of the specified VPC endpoint service configuration. If you set or modify the private DNS name, you must prove that you own the private DNS domain name. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -10767,7 +10782,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Modifies the permissions for your VPC endpoint service. You can add or remove permissions for service consumers (Amazon Web Services accounts, users, and IAM roles) to connect to your endpoint service. Principal ARNs with path components aren't supported. If you grant permissions to all principals, the service is public. Any users who know the name of a public service can send a request to at- tach an endpoint. If the service does not require manual approval, at- tachments are automatically appr...
+    /// Modifies the permissions for your VPC endpoint service. You can add or remove permissions for service consumers (Amazon Web Services accounts, users, and IAM roles) to connect to your endpoint service. Principal ARNs with path components aren't supported. If you grant permissions to all principals, the service is public. Any users who know the name of a public service can send a request to attach an endpoint. If the service does not require manual approval, attachments are automatically approved...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -10782,7 +10797,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Modifies the VPC peering connection options on one side of a VPC peer- ing connection. If the peered VPCs are in the same Amazon Web Services account, you can enable DNS resolution for queries from the local VPC. This ensures that queries from the local VPC resolve to private IP addresses in the peer VPC. This option is not available if the peered VPCs are in different Amazon Web Services accounts or different Regions. For peered VPCs in different Amazon Web Services accounts, each Amazon Web Se...
+    /// Modifies the VPC peering connection options on one side of a VPC peering connection. If the peered VPCs are in the same Amazon Web Services account, you can enable DNS resolution for queries from the local VPC. This ensures that queries from the local VPC resolve to private IP addresses in the peer VPC. This option is not available if the peered VPCs are in different Amazon Web Services accounts or different Regions. For peered VPCs in different Amazon Web Services accounts, each Amazon Web Serv...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -10797,7 +10812,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Modifies the instance tenancy attribute of the specified VPC. You can change the instance tenancy attribute of a VPC to default only. You cannot change the instance tenancy attribute to dedicated . After you modify the tenancy of the VPC, any new instances that you launch into the VPC have a tenancy of default , unless you specify oth- erwise during launch. The tenancy of any existing instances in the VPC is not affected. For more information, see Dedicated Instances in the Amazon EC2 User Guide...
+    /// Modifies the instance tenancy attribute of the specified VPC. You can change the instance tenancy attribute of a VPC to default only. You cannot change the instance tenancy attribute to dedicated . After you modify the tenancy of the VPC, any new instances that you launch into the VPC have a tenancy of default , unless you specify otherwise during launch. The tenancy of any existing instances in the VPC is not affected. For more information, see Dedicated Instances in the Amazon EC2 User Guide ....
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -10812,7 +10827,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Modifies the customer gateway or the target gateway of an Amazon Web Services Site-to-Site VPN connection. To modify the target gateway, the following migration options are available: o An existing virtual private gateway to a new virtual private gateway o An existing virtual private gateway to a transit gateway o An existing transit gateway to a new transit gateway o An existing transit gateway to a virtual private gateway Before you perform the migration to the new gateway, you must configure ...
+    /// Modifies the customer gateway or the target gateway of an Amazon Web Services Site-to-Site VPN connection. To modify the target gateway, the following migration options are available: • An existing virtual private gateway to a new virtual private gateway • An existing virtual private gateway to a transit gateway • An existing transit gateway to a new transit gateway • An existing transit gateway to a virtual private gateway Before you perform the migration to the new gateway, you must configure ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -10827,7 +10842,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Modifies the connection options for your Site-to-Site VPN connection. When you modify the VPN connection options, the VPN endpoint IP ad- dresses on the Amazon Web Services side do not change, and the tunnel options do not change. Your VPN connection will be temporarily unavail- able for a brief period while the VPN connection is updated. See also: AWS API Documentation
+    /// Modifies the connection options for your Site-to-Site VPN connection. When you modify the VPN connection options, the VPN endpoint IP addresses on the Amazon Web Services side do not change, and the tunnel options do not change. Your VPN connection will be temporarily unavailable for a brief period while the VPN connection is updated. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -10857,7 +10872,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Modifies the options for a VPN tunnel in an Amazon Web Services Site-to-Site VPN connection. You can modify multiple options for a tun- nel in a single request, but you can only modify one tunnel at a time. For more information, see Site-to-Site VPN tunnel options for your Site-to-Site VPN connection in the Amazon Web Services Site-to-Site VPN User Guide . See also: AWS API Documentation
+    /// Modifies the options for a VPN tunnel in an Amazon Web Services Site-to-Site VPN connection. You can modify multiple options for a tunnel in a single request, but you can only modify one tunnel at a time. For more information, see Site-to-Site VPN tunnel options for your Site-to-Site VPN connection in the Amazon Web Services Site-to-Site VPN User Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -10887,7 +10902,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// NOTE: This action is deprecated. Moves an Elastic IP address from the EC2-Classic platform to the EC2-VPC platform. The Elastic IP address must be allocated to your ac- count for more than 24 hours, and it must not be associated with an in- stance. After the Elastic IP address is moved, it is no longer avail- able for use in the EC2-Classic platform. You cannot move an Elastic IP address that was originally allocated for use in the EC2-VPC platform to the EC2-Classic platform. See also: AWS API ...
+    /// NOTE: This action is deprecated. Moves an Elastic IP address from the EC2-Classic platform to the EC2-VPC platform. The Elastic IP address must be allocated to your account for more than 24 hours, and it must not be associated with an instance. After the Elastic IP address is moved, it is no longer available for use in the EC2-Classic platform. You cannot move an Elastic IP address that was originally allocated for use in the EC2-VPC platform to the EC2-Classic platform. See also: AWS API Docume...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -10902,7 +10917,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Move a BYOIPv4 CIDR to IPAM from a public IPv4 pool. If you already have a BYOIPv4 CIDR with Amazon Web Services, you can move the CIDR to IPAM from a public IPv4 pool. You cannot move an IPv6 CIDR to IPAM. If you are bringing a new IP address to Amazon Web Ser- vices for the first time, complete the steps in Tutorial: BYOIP address CIDRs to IPAM . See also: AWS API Documentation
+    /// Move a BYOIPv4 CIDR to IPAM from a public IPv4 pool. If you already have a BYOIPv4 CIDR with Amazon Web Services, you can move the CIDR to IPAM from a public IPv4 pool. You cannot move an IPv6 CIDR to IPAM. If you are bringing a new IP address to Amazon Web Services for the first time, complete the steps in Tutorial: BYOIP address CIDRs to IPAM . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -10917,7 +10932,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Move available capacity from a source Capacity Reservation to a desti- nation Capacity Reservation. The source Capacity Reservation and the destination Capacity Reservation must be active , owned by your Amazon Web Services account, and share the following: o Instance type o Platform o Availability Zone o Tenancy o Placement group o Capacity Reservation end time - At specific time or Manually . See also: AWS API Documentation
+    /// Move available capacity from a source Capacity Reservation to a destination Capacity Reservation. The source Capacity Reservation and the destination Capacity Reservation must be active , owned by your Amazon Web Services account, and share the following: • Instance type • Platform • Availability Zone • Tenancy • Placement group • Capacity Reservation end time - At specific time or Manually . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -10932,7 +10947,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Provisions an IPv4 or IPv6 address range for use with your Amazon Web Services resources through bring your own IP addresses (BYOIP) and cre- ates a corresponding address pool. After the address range is provi- sioned, it is ready to be advertised. Amazon Web Services verifies that you own the address range and are au- thorized to advertise it. You must ensure that the address range is registered to you and that you created an RPKI ROA to authorize Amazon ASNs 16509 and 14618 to advertise the ad...
+    /// Provisions an IPv4 or IPv6 address range for use with your Amazon Web Services resources through bring your own IP addresses (BYOIP) and creates a corresponding address pool. After the address range is provisioned, it is ready to be advertised. Amazon Web Services verifies that you own the address range and are authorized to advertise it. You must ensure that the address range is registered to you and that you created an RPKI ROA to authorize Amazon ASNs 16509 and 14618 to advertise the address ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -10947,7 +10962,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Provisions your Autonomous System Number (ASN) for use in your Amazon Web Services account. This action requires authorization context for Amazon to bring the ASN to an Amazon Web Services account. For more in- formation, see Tutorial: Bring your ASN to IPAM in the Amazon VPC IPAM guide . See also: AWS API Documentation
+    /// Provisions your Autonomous System Number (ASN) for use in your Amazon Web Services account. This action requires authorization context for Amazon to bring the ASN to an Amazon Web Services account. For more information, see Tutorial: Bring your ASN to IPAM in the Amazon VPC IPAM guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -11037,7 +11052,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Purchases a Reserved Instance for use with your account. With Reserved Instances, you pay a lower hourly rate compared to On-Demand instance pricing. Use DescribeReservedInstancesOfferings to get a list of Reserved In- stance offerings that match your specifications. After you've purchased a Reserved Instance, you can check for your new Reserved Instance with DescribeReservedInstances . To queue a purchase for a future date and time, specify a purchase time. If you do not specify a purchase time...
+    /// Purchases a Reserved Instance for use with your account. With Reserved Instances, you pay a lower hourly rate compared to On-Demand instance pricing. Use DescribeReservedInstancesOfferings to get a list of Reserved Instance offerings that match your specifications. After you've purchased a Reserved Instance, you can check for your new Reserved Instance with DescribeReservedInstances . To queue a purchase for a future date and time, specify a purchase time. If you do not specify a purchase time, ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -11067,7 +11082,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Requests a reboot of the specified instances. This operation is asyn- chronous; it only queues a request to reboot the specified instances. The operation succeeds if the instances are valid and belong to you. Requests to reboot terminated instances are ignored. If an instance does not cleanly shut down within a few minutes, Amazon EC2 performs a hard reboot. For more information about troubleshooting, see Troubleshoot an un- reachable instance in the Amazon EC2 User Guide . See also: AWS API Doc...
+    /// Requests a reboot of the specified instances. This operation is asynchronous; it only queues a request to reboot the specified instances. The operation succeeds if the instances are valid and belong to you. Requests to reboot terminated instances are ignored. If an instance does not cleanly shut down within a few minutes, Amazon EC2 performs a hard reboot. For more information about troubleshooting, see Troubleshoot an unreachable instance in the Amazon EC2 User Guide . See also: AWS API Documen...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -11082,7 +11097,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Registers an AMI. When you're creating an instance-store backed AMI, registering the AMI is the final step in the creation process. For more information about creating AMIs, see Create an AMI from a snapshot and Create an instance-store backed AMI in the Amazon EC2 User Guide . If needed, you can deregister an AMI at any time. Any modifications you make to an AMI backed by an instance store volume invalidates its reg- istration. If you make changes to an image, deregister the previous im- age an...
+    /// Registers an AMI. When you're creating an instance-store backed AMI, registering the AMI is the final step in the creation process. For more information about creating AMIs, see Create an AMI from a snapshot and Create an instance-store backed AMI in the Amazon EC2 User Guide . If needed, you can deregister an AMI at any time. Any modifications you make to an AMI backed by an instance store volume invalidates its registration. If you make changes to an image, deregister the previous image and re...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -11112,7 +11127,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Registers members (network interfaces) with the transit gateway multi- cast group. A member is a network interface associated with a supported EC2 instance that receives multicast traffic. For more information, see Multicast on transit gateways in the Amazon Web Services Transit Gate- ways Guide . After you add the members, use SearchTransitGatewayMulticastGroups to verify that the members were added to the transit gateway multicast group. See also: AWS API Documentation
+    /// Registers members (network interfaces) with the transit gateway multicast group. A member is a network interface associated with a supported EC2 instance that receives multicast traffic. For more information, see Multicast on transit gateways in the Amazon Web Services Transit Gateways Guide . After you add the members, use SearchTransitGatewayMulticastGroups to verify that the members were added to the transit gateway multicast group. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -11127,7 +11142,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Registers sources (network interfaces) with the specified transit gate- way multicast group. A multicast source is a network interface attached to a supported in- stance that sends multicast traffic. For more information about sup- ported instances, see Multicast on transit gateways in the Amazon Web Services Transit Gateways Guide . After you add the source, use SearchTransitGatewayMulticastGroups to verify that the source was added to the multicast group. See also: AWS API Documentation
+    /// Registers sources (network interfaces) with the specified transit gateway multicast group. A multicast source is a network interface attached to a supported instance that sends multicast traffic. For more information about supported instances, see Multicast on transit gateways in the Amazon Web Services Transit Gateways Guide . After you add the source, use SearchTransitGatewayMulticastGroups to verify that the source was added to the multicast group. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -11157,7 +11172,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Rejects a Transit Gateway attachment request for a Client VPN endpoint. The Transit Gateway owner can reject the attachment request to prevent the Client VPN endpoint from routing traffic through the Transit Gate- way. See also: AWS API Documentation
+    /// Rejects a Transit Gateway attachment request for a Client VPN endpoint. The Transit Gateway owner can reject the attachment request to prevent the Client VPN endpoint from routing traffic through the Transit Gateway. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -11202,7 +11217,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Rejects a request to attach a VPC to a transit gateway. The VPC attachment must be in the pendingAcceptance state. Use Descri- beTransitGatewayVpcAttachments to view your pending VPC attachment re- quests. Use AcceptTransitGatewayVpcAttachment to accept a VPC attach- ment request. See also: AWS API Documentation
+    /// Rejects a request to attach a VPC to a transit gateway. The VPC attachment must be in the pendingAcceptance state. Use DescribeTransitGatewayVpcAttachments to view your pending VPC attachment requests. Use AcceptTransitGatewayVpcAttachment to accept a VPC attachment request. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -11232,7 +11247,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Rejects a VPC peering connection request. The VPC peering connection must be in the pending-acceptance state. Use the DescribeVpcPeering- Connections request to view your outstanding VPC peering connection re- quests. To delete an active VPC peering connection, or to delete a VPC peering connection request that you initiated, use DeleteVpcPeering- Connection . See also: AWS API Documentation
+    /// Rejects a VPC peering connection request. The VPC peering connection must be in the pending-acceptance state. Use the DescribeVpcPeeringConnections request to view your outstanding VPC peering connection requests. To delete an active VPC peering connection, or to delete a VPC peering connection request that you initiated, use DeleteVpcPeeringConnection . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -11247,7 +11262,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Releases the specified Elastic IP address. [Default VPC] Releasing an Elastic IP address automatically disassoci- ates it from any instance that it's associated with. Alternatively, you can disassociate an Elastic IP address without releasing it. [Nondefault VPC] You must disassociate the Elastic IP address before you can release it. Otherwise, Amazon EC2 returns an error (InvalidI- PAddress.InUse ). After releasing an Elastic IP address, it is released to the IP address pool. Be sure to update ...
+    /// Releases the specified Elastic IP address. [Default VPC] Releasing an Elastic IP address automatically disassociates it from any instance that it's associated with. Alternatively, you can disassociate an Elastic IP address without releasing it. [Nondefault VPC] You must disassociate the Elastic IP address before you can release it. Otherwise, Amazon EC2 returns an error (InvalidIPAddress.InUse ). After releasing an Elastic IP address, it is released to the IP address pool. Be sure to update your...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -11292,7 +11307,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Replaces an IAM instance profile for the specified running instance. You can use this action to change the IAM instance profile that's asso- ciated with an instance without having to disassociate the existing IAM instance profile first. Use DescribeIamInstanceProfileAssociations to get the association ID. See also: AWS API Documentation
+    /// Replaces an IAM instance profile for the specified running instance. You can use this action to change the IAM instance profile that's associated with an instance without having to disassociate the existing IAM instance profile first. Use DescribeIamInstanceProfileAssociations to get the association ID. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -11307,7 +11322,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Sets or replaces the criteria for Allowed AMIs. The ImageCriteria can include up to: o 10 ImageCriterion NOTE: The Allowed AMIs feature does not restrict the AMIs owned by your account. Regardless of the criteria you set, the AMIs created by your account will always be discoverable and usable by users in your account. For more information, see Control the discovery and use of AMIs in Ama- zon EC2 with Allowed AMIs in Amazon EC2 User Guide . See also: AWS API Documentation
+    /// Sets or replaces the criteria for Allowed AMIs. The ImageCriteria can include up to: • 10 ImageCriterion NOTE: The Allowed AMIs feature does not restrict the AMIs owned by your account. Regardless of the criteria you set, the AMIs created by your account will always be discoverable and usable by users in your account. For more information, see Control the discovery and use of AMIs in Amazon EC2 with Allowed AMIs in Amazon EC2 User Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -11322,7 +11337,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Replaces or removes the instance type specification for an AMI. The in- stance type specification defines which instance types are compatible with the AMI. When you launch an instance using RunInstances , Amazon EC2 validates the requested instance type against the AMI's instance type specifica- tion. If the instance type is not compatible, the request fails with an InvalidParameterCombination error. You can specify supported instance types, unsupported instance types, or both. The evaluation lo...
+    /// Replaces or removes the instance type specification for an AMI. The instance type specification defines which instance types are compatible with the AMI. When you launch an instance using RunInstances , Amazon EC2 validates the requested instance type against the AMI's instance type specification. If the instance type is not compatible, the request fails with an InvalidParameterCombination error. You can specify supported instance types, unsupported instance types, or both. The evaluation logic ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -11382,7 +11397,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Changes the route table associated with a given subnet, internet gate- way, or virtual private gateway in a VPC. After the operation com- pletes, the subnet or gateway uses the routes in the new route table. For more information about route tables, see Route tables in the Amazon VPC User Guide . You can also use this operation to change which table is the main route table in the VPC. Specify the main route table's association ID and the route table ID of the new main route table. See also: AWS A...
+    /// Changes the route table associated with a given subnet, internet gateway, or virtual private gateway in a VPC. After the operation completes, the subnet or gateway uses the routes in the new route table. For more information about route tables, see Route tables in the Amazon VPC User Guide . You can also use this operation to change which table is the main route table in the VPC. Specify the main route table's association ID and the route table ID of the new main route table. See also: AWS API D...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -11397,7 +11412,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Replaces the specified route in the specified transit gateway route ta- ble. See also: AWS API Documentation
+    /// Replaces the specified route in the specified transit gateway route table. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -11427,7 +11442,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Submits feedback about the status of an instance. The instance must be in the running state. If your experience with the instance differs from the instance status returned by DescribeInstanceStatus , use Re- portInstanceStatus to report your experience with the instance. Amazon EC2 collects this information to improve the accuracy of status checks. Use of this action does not change the value returned by DescribeIn- stanceStatus . See also: AWS API Documentation
+    /// Submits feedback about the status of an instance. The instance must be in the running state. If your experience with the instance differs from the instance status returned by DescribeInstanceStatus , use ReportInstanceStatus to report your experience with the instance. Amazon EC2 collects this information to improve the accuracy of status checks. Use of this action does not change the value returned by DescribeInstanceStatus . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -11442,7 +11457,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Creates a Spot Fleet request. The Spot Fleet request specifies the total target capacity and the On-Demand target capacity. Amazon EC2 calculates the difference between the total capacity and On-Demand capacity, and launches the difference as Spot capacity. You can submit a single request that includes multiple launch specifi- cations that vary by instance type, AMI, Availability Zone, or subnet. By default, the Spot Fleet requests Spot Instances in the Spot Instance pool where the price per uni...
+    /// Creates a Spot Fleet request. The Spot Fleet request specifies the total target capacity and the On-Demand target capacity. Amazon EC2 calculates the difference between the total capacity and On-Demand capacity, and launches the difference as Spot capacity. You can submit a single request that includes multiple launch specifications that vary by instance type, AMI, Availability Zone, or subnet. By default, the Spot Fleet requests Spot Instances in the Spot Instance pool where the price per unit ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -11457,7 +11472,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Creates a Spot Instance request. For more information, see Work with Spot Instance in the Amazon EC2 User Guide . WARNING: We strongly discourage using the RequestSpotInstances API because it is a legacy API with no planned investment. For options for request- ing Spot Instances, see Which is the best Spot request method to use? in the Amazon EC2 User Guide . See also: AWS API Documentation
+    /// Creates a Spot Instance request. For more information, see Work with Spot Instance in the Amazon EC2 User Guide . WARNING: We strongly discourage using the RequestSpotInstances API because it is a legacy API with no planned investment. For options for requesting Spot Instances, see Which is the best Spot request method to use? in the Amazon EC2 User Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -11547,7 +11562,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Resets a network interface attribute. You can specify only one at- tribute at a time. See also: AWS API Documentation
+    /// Resets a network interface attribute. You can specify only one attribute at a time. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -11577,7 +11592,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// NOTE: This action is deprecated. Restores an Elastic IP address that was previously moved to the EC2-VPC platform back to the EC2-Classic platform. You cannot move an Elastic IP address that was originally allocated for use in EC2-VPC. The Elas- tic IP address must not be associated with an instance or network in- terface. See also: AWS API Documentation
+    /// NOTE: This action is deprecated. Restores an Elastic IP address that was previously moved to the EC2-VPC platform back to the EC2-Classic platform. You cannot move an Elastic IP address that was originally allocated for use in EC2-VPC. The Elastic IP address must not be associated with an instance or network interface. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -11637,7 +11652,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Restores an archived Amazon EBS snapshot for use temporarily or perma- nently, or modifies the restore period or restore type for a snapshot that was previously temporarily restored. For more information see Restore an archived snapshot and modify the restore period or restore type for a temporarily restored snapshot in the Amazon EBS User Guide . See also: AWS API Documentation
+    /// Restores an archived Amazon EBS snapshot for use temporarily or permanently, or modifies the restore period or restore type for a snapshot that was previously temporarily restored. For more information see Restore an archived snapshot and modify the restore period or restore type for a temporarily restored snapshot in the Amazon EBS User Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -11682,7 +11697,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Removes the specified outbound (egress) rules from the specified secu- rity group. You can specify rules using either rule IDs or security group rule properties. If you use rule properties, the values that you specify (for example, ports) must match the existing rule's values exactly. Each rule has a protocol, from and to ports, and destination (CIDR range, security group, or prefix list). For the TCP and UDP protocols, you must also specify the destination port or range of ports. For the ICMP p...
+    /// Removes the specified outbound (egress) rules from the specified security group. You can specify rules using either rule IDs or security group rule properties. If you use rule properties, the values that you specify (for example, ports) must match the existing rule's values exactly. Each rule has a protocol, from and to ports, and destination (CIDR range, security group, or prefix list). For the TCP and UDP protocols, you must also specify the destination port or range of ports. For the ICMP pro...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -11712,7 +11727,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Launches the specified number of instances using an AMI for which you have permissions. You can specify a number of options, or leave the default options. The following rules apply: o If you don't specify a subnet ID, we choose a default subnet from your default VPC for you. If you don't have a default VPC, you must specify a subnet ID in the request. o All instances have a network interface with a primary private IPv4 address. If you don't specify this address, we choose one from the IPv4 range...
+    /// Launches the specified number of instances using an AMI for which you have permissions. You can specify a number of options, or leave the default options. The following rules apply: • If you don't specify a subnet ID, we choose a default subnet from your default VPC for you. If you don't have a default VPC, you must specify a subnet ID in the request. • All instances have a network interface with a primary private IPv4 address. If you don't specify this address, we choose one from the IPv4 range...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -11727,7 +11742,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Launches the specified Scheduled Instances. Before you can launch a Scheduled Instance, you must purchase it and obtain an identifier using PurchaseScheduledInstances . You must launch a Scheduled Instance during its scheduled time period. You can't stop or reboot a Scheduled Instance, but you can terminate it as needed. If you terminate a Scheduled Instance before the current scheduled time period ends, you can launch it again after a few min- utes. See also: AWS API Documentation
+    /// Launches the specified Scheduled Instances. Before you can launch a Scheduled Instance, you must purchase it and obtain an identifier using PurchaseScheduledInstances . You must launch a Scheduled Instance during its scheduled time period. You can't stop or reboot a Scheduled Instance, but you can terminate it as needed. If you terminate a Scheduled Instance before the current scheduled time period ends, you can launch it again after a few minutes. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -11742,7 +11757,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Searches for routes in the specified local gateway route table. See also: AWS API Documentation search-local-gateway-routes is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Routes
+    /// Searches for routes in the specified local gateway route table. See also: AWS API Documentation search-local-gateway-routes is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Routes
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -11757,7 +11772,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Searches one or more transit gateway multicast groups and returns the group membership information. See also: AWS API Documentation search-transit-gateway-multicast-groups is a paginated operation. Mul- tiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a pagi- nated response, the --query argument must extract data from the results of the follow...
+    /// Searches one or more transit gateway multicast groups and returns the group membership information. See also: AWS API Documentation search-transit-gateway-multicast-groups is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -11772,7 +11787,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Searches for routes in the specified transit gateway route table. See also: AWS API Documentation search-transit-gateway-routes is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Routes
+    /// Searches for routes in the specified transit gateway route table. See also: AWS API Documentation search-transit-gateway-routes is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Routes
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -11787,7 +11802,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Sends a diagnostic interrupt to the specified Amazon EC2 instance to trigger a kernel panic (on Linux instances), or a blue screen /stop er- ror (on Windows instances). For instances based on Intel and AMD processors, the interrupt is received as a non-maskable interrupt (NMI). In general, the operating system crashes and reboots when a kernel panic or stop error is triggered. The operating system can also be con- figured to perform diagnostic tasks, such as generating a memory dump file, loadin...
+    /// Sends a diagnostic interrupt to the specified Amazon EC2 instance to trigger a kernel panic (on Linux instances), or a blue screen /stop error (on Windows instances). For instances based on Intel and AMD processors, the interrupt is received as a non-maskable interrupt (NMI). In general, the operating system crashes and reboots when a kernel panic or stop error is triggered. The operating system can also be configured to perform diagnostic tasks, such as generating a memory dump file, loading a ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -11802,7 +11817,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Generates an account status report. The report is generated asynchro- nously, and can take several hours to complete. The report provides the current status of all attributes supported by declarative policies for the accounts within the specified scope. The scope is determined by the specified TargetId , which can represent an individual account, or all the accounts that fall under the specified organizational unit (OU) or root (the entire Amazon Web Services Orga- nization). The report is saved...
+    /// Generates an account status report. The report is generated asynchronously, and can take several hours to complete. The report provides the current status of all attributes supported by declarative policies for the accounts within the specified scope. The scope is determined by the specified TargetId , which can represent an individual account, or all the accounts that fall under the specified organizational unit (OU) or root (the entire Amazon Web Services Organization). The report is saved to ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -11817,7 +11832,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Starts an Amazon EBS-backed instance that you've previously stopped. Instances that use Amazon EBS volumes as their root devices can be quickly stopped and started. When an instance is stopped, the compute resources are released and you are not billed for instance usage. How- ever, your root partition Amazon EBS volume remains and continues to persist your data, and you are charged for Amazon EBS volume usage. You can restart your instance at any time. Every time you start your in- stance, Amazo...
+    /// Starts an Amazon EBS-backed instance that you've previously stopped. Instances that use Amazon EBS volumes as their root devices can be quickly stopped and started. When an instance is stopped, the compute resources are released and you are not billed for instance usage. However, your root partition Amazon EBS volume remains and continues to persist your data, and you are charged for Amazon EBS volume usage. You can restart your instance at any time. Every time you start your instance, Amazon EC...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -11847,7 +11862,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Starts analyzing the specified path. If the path is reachable, the op- eration returns the shortest feasible path. See also: AWS API Documentation
+    /// Starts analyzing the specified path. If the path is reachable, the operation returns the shortest feasible path. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -11892,7 +11907,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Terminates active Client VPN endpoint connections. This action can be used to terminate a specific client connection, or up to five connec- tions established by a specific user. See also: AWS API Documentation
+    /// Terminates active Client VPN endpoint connections. This action can be used to terminate a specific client connection, or up to five connections established by a specific user. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -11952,7 +11967,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Unassigns secondary private IPv4 addresses from a private NAT gateway. You cannot unassign your primary private IP. For more information, see Edit secondary IP address associations in the Amazon VPC User Guide . While unassigning is in progress, you cannot assign/unassign additional IP addresses while the connections are being drained. You are, however, allowed to delete the NAT gateway. A private IP address will only be released at the end of MaxDrainDura- tionSeconds. The private IP addresses ...
+    /// Unassigns secondary private IPv4 addresses from a private NAT gateway. You cannot unassign your primary private IP. For more information, see Edit secondary IP address associations in the Amazon VPC User Guide . While unassigning is in progress, you cannot assign/unassign additional IP addresses while the connections are being drained. You are, however, allowed to delete the NAT gateway. A private IP address will only be released at the end of MaxDrainDurationSeconds. The private IP addresses st...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -11967,7 +11982,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Unlocks a snapshot that is locked in governance mode or that is locked in compliance mode but still in the cooling-off period. You can't un- lock a snapshot that is locked in compliance mode after the cooling-off period has expired. See also: AWS API Documentation
+    /// Unlocks a snapshot that is locked in governance mode or that is locked in compliance mode but still in the cooling-off period. You can't unlock a snapshot that is locked in compliance mode after the cooling-off period has expired. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -11982,7 +11997,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Disables detailed monitoring for a running instance. For more informa- tion, see Monitoring your instances and volumes in the Amazon EC2 User Guide . See also: AWS API Documentation
+    /// Disables detailed monitoring for a running instance. For more information, see Monitoring your instances and volumes in the Amazon EC2 User Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -11997,7 +12012,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Activates or deactivates tag keys for monitoring by EC2 Capacity Man- ager. Activated tag keys are included as dimensions in capacity metric data, enabling you to group and filter metrics by tag values. See also: AWS API Documentation
+    /// Activates or deactivates tag keys for monitoring by EC2 Capacity Manager. Activated tag keys are included as dimensions in capacity metric data, enabling you to group and filter metrics by tag values. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -12012,7 +12027,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Updates the Organizations access setting for EC2 Capacity Manager. This controls whether Capacity Manager can aggregate data from all accounts in your Amazon Web Services Organization or only from the current ac- count. See also: AWS API Documentation
+    /// Updates the Organizations access setting for EC2 Capacity Manager. This controls whether Capacity Manager can aggregate data from all accounts in your Amazon Web Services Organization or only from the current account. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -12027,7 +12042,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Modifies the number of instances allocated to an interruptible reserva- tion, allowing you to add more capacity or reclaim capacity to your source Capacity Reservation. See also: AWS API Documentation
+    /// Modifies the number of instances allocated to an interruptible reservation, allowing you to add more capacity or reclaim capacity to your source Capacity Reservation. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -12042,7 +12057,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Updates the description of an egress (outbound) security group rule. You can replace an existing description, or add a description to a rule that did not have one previously. You can remove a description for a security group rule by omitting the description parameter in the re- quest. See also: AWS API Documentation
+    /// Updates the description of an egress (outbound) security group rule. You can replace an existing description, or add a description to a rule that did not have one previously. You can remove a description for a security group rule by omitting the description parameter in the request. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -12057,7 +12072,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Updates the description of an ingress (inbound) security group rule. You can replace an existing description, or add a description to a rule that did not have one previously. You can remove a description for a security group rule by omitting the description parameter in the re- quest. See also: AWS API Documentation
+    /// Updates the description of an ingress (inbound) security group rule. You can replace an existing description, or add a description to a rule that did not have one previously. You can remove a description for a security group rule by omitting the description parameter in the request. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -12072,7 +12087,7 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Validates whether the specified security groups can be associated with a single network interface. The operation checks Amazon Virtual Private Cloud (Amazon VPC) quotas. It checks inbound or outbound rules per se- curity group and security groups per network interface. Only authorized Amazon Web Services services can call this operation. For more information about security group quotas, see Amazon VPC quotas in the Amazon VPC User Guide . See also: AWS API Documentation
+    /// Validates whether the specified security groups can be associated with a single network interface. The operation checks Amazon Virtual Private Cloud (Amazon VPC) quotas. It checks inbound or outbound rules per security group and security groups per network interface. Only authorized Amazon Web Services services can call this operation. For more information about security group quotas, see Amazon VPC quotas in the Amazon VPC User Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

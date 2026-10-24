@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsDeadlineGetStorageProfileOptions : AwsOptions, IValidatableObje
     /// <summary>
     /// Gets a storage profile. See also: AWS API Documentation
     /// </summary>
-    /// <param name="FarmId">The farm ID for the storage profile. Constraints: o pattern: farm-[0-9a-f]{32}</param>
-    /// <param name="StorageProfileId">The storage profile ID. Constraints: o pattern: sp-[0-9a-f]{32}</param>
+    /// <param name="FarmId">The farm ID for the storage profile. Constraints: • pattern: farm-[0-9a-f]{32}</param>
+    /// <param name="StorageProfileId">The storage profile ID. Constraints: • pattern: sp-[0-9a-f]{32}</param>
     public AwsDeadlineGetStorageProfileOptions(
         string FarmId,
         string StorageProfileId
@@ -60,13 +61,13 @@ public record AwsDeadlineGetStorageProfileOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The farm ID for the storage profile. Constraints: o pattern: farm-[0-9a-f]{32}
+    /// The farm ID for the storage profile. Constraints: • pattern: farm-[0-9a-f]{32}
     /// </summary>
     [CliOption("--farm-id")]
     public string? FarmId { get; private init; }
 
     /// <summary>
-    /// The storage profile ID. Constraints: o pattern: sp-[0-9a-f]{32}
+    /// The storage profile ID. Constraints: • pattern: sp-[0-9a-f]{32}
     /// </summary>
     [CliOption("--storage-profile-id")]
     public string? StorageProfileId { get; private init; }
@@ -92,6 +93,15 @@ public record AwsDeadlineGetStorageProfileOptions : AwsOptions, IValidatableObje
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Adds an attribute and values to, or removes an attribute and values from, a manual DB snapshot. To share a manual DB snapshot with other Amazon Web Services accounts, specify restore as the AttributeName and use the ValuesToAdd parameter to add a list of IDs of the Amazon Web Services accounts that are au- thorized to restore the manual DB snapshot. Uses the value all to make the manual DB snapshot public, which means it can be copied or restored by all Amazon Web Services accounts. NOTE: Don't ...
+/// Adds an attribute and values to, or removes an attribute and values from, a manual DB snapshot. To share a manual DB snapshot with other Amazon Web Services accounts, specify restore as the AttributeName and use the ValuesToAdd parameter to add a list of IDs of the Amazon Web Services accounts that are authorized to restore the manual DB snapshot. Uses the value all to make the manual DB snapshot public, which means it can be copied or restored by all Amazon Web Services accounts. NOTE: Don't ad...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsRdsModifyDbSnapshotAttributeOptions : AwsOptions, IValidatableO
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Adds an attribute and values to, or removes an attribute and values from, a manual DB snapshot. To share a manual DB snapshot with other Amazon Web Services accounts, specify restore as the AttributeName and use the ValuesToAdd parameter to add a list of IDs of the Amazon Web Services accounts that are au- thorized to restore the manual DB snapshot. Uses the value all to make the manual DB snapshot public, which means it can be copied or restored by all Amazon Web Services accounts. NOTE: Don't ...
+    /// Adds an attribute and values to, or removes an attribute and values from, a manual DB snapshot. To share a manual DB snapshot with other Amazon Web Services accounts, specify restore as the AttributeName and use the ValuesToAdd parameter to add a list of IDs of the Amazon Web Services accounts that are authorized to restore the manual DB snapshot. Uses the value all to make the manual DB snapshot public, which means it can be copied or restored by all Amazon Web Services accounts. NOTE: Don't ad...
     /// </summary>
     /// <param name="DbSnapshotIdentifier">The identifier for the DB snapshot to modify the attributes for.</param>
-    /// <param name="AttributeName">The name of the DB snapshot attribute to modify. To manage authorization for other Amazon Web Services accounts to copy or restore a manual DB snapshot, set this value to restore . NOTE: To view the list of attributes available to modify, use the De- scribeDBSnapshotAttributes API operation.</param>
+    /// <param name="AttributeName">The name of the DB snapshot attribute to modify. To manage authorization for other Amazon Web Services accounts to copy or restore a manual DB snapshot, set this value to restore . NOTE: To view the list of attributes available to modify, use the DescribeDBSnapshotAttributes API operation.</param>
     public AwsRdsModifyDbSnapshotAttributeOptions(
         string DbSnapshotIdentifier,
         string AttributeName
@@ -66,19 +67,19 @@ public record AwsRdsModifyDbSnapshotAttributeOptions : AwsOptions, IValidatableO
     public string? DbSnapshotIdentifier { get; private init; }
 
     /// <summary>
-    /// The name of the DB snapshot attribute to modify. To manage authorization for other Amazon Web Services accounts to copy or restore a manual DB snapshot, set this value to restore . NOTE: To view the list of attributes available to modify, use the De- scribeDBSnapshotAttributes API operation.
+    /// The name of the DB snapshot attribute to modify. To manage authorization for other Amazon Web Services accounts to copy or restore a manual DB snapshot, set this value to restore . NOTE: To view the list of attributes available to modify, use the DescribeDBSnapshotAttributes API operation.
     /// </summary>
     [CliOption("--attribute-name")]
     public string? AttributeName { get; private init; }
 
     /// <summary>
-    /// A list of DB snapshot attributes to add to the attribute specified by AttributeName . To authorize other Amazon Web Services accounts to copy or restore a manual snapshot, set this list to include one or more Amazon Web Services account IDs, or all to make the manual DB snapshot restor- able by any Amazon Web Services account. Do not add the all value for any manual DB snapshots that contain private information that you don't want available to all Amazon Web Services accounts. (string) Syntax: "string" "string" ...
+    /// A list of DB snapshot attributes to add to the attribute specified by AttributeName . To authorize other Amazon Web Services accounts to copy or restore a manual snapshot, set this list to include one or more Amazon Web Services account IDs, or all to make the manual DB snapshot restorable by any Amazon Web Services account. Do not add the all value for any manual DB snapshots that contain private information that you don't want available to all Amazon Web Services accounts. (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--values-to-add", GroupValues = true)]
     public IEnumerable<string>? ValuesToAdd { get; set; }
 
     /// <summary>
-    /// A list of DB snapshot attributes to remove from the attribute speci- fied by AttributeName . To remove authorization for other Amazon Web Services accounts to copy or restore a manual snapshot, set this list to include one or more Amazon Web Services account identifiers, or all to remove au- thorization for any Amazon Web Services account to copy or restore the DB snapshot. If you specify all , an Amazon Web Services account whose account ID is explicitly added to the restore attribute can still copy or restore the manual DB snapshot. (string) Syntax: "string" "string" ...
+    /// A list of DB snapshot attributes to remove from the attribute specified by AttributeName . To remove authorization for other Amazon Web Services accounts to copy or restore a manual snapshot, set this list to include one or more Amazon Web Services account identifiers, or all to remove authorization for any Amazon Web Services account to copy or restore the DB snapshot. If you specify all , an Amazon Web Services account whose account ID is explicitly added to the restore attribute can still copy or restore the manual DB snapshot. (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--values-to-remove", GroupValues = true)]
     public IEnumerable<string>? ValuesToRemove { get; set; }
@@ -104,6 +105,15 @@ public record AwsRdsModifyDbSnapshotAttributeOptions : AwsOptions, IValidatableO
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

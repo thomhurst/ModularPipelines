@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsKinesisanalyticsv2DescribeApplicationOperationOptions : AwsOpti
     /// <summary>
     /// Provides a detailed description of a specified application operation. To see a list of all the operations of an application, invoke the ListApplicationOperations operation. NOTE: This operation is supported only for Managed Service for Apache Flink. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ApplicationName">The name of the application. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_.-]+</param>
-    /// <param name="OperationId">The operation ID of the request. Constraints: o min: 1 o max: 64</param>
+    /// <param name="ApplicationName">The name of the application. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9_.-]+</param>
+    /// <param name="OperationId">The operation ID of the request. Constraints: • min: 1 • max: 64</param>
     public AwsKinesisanalyticsv2DescribeApplicationOperationOptions(
         string ApplicationName,
         string OperationId
@@ -60,13 +61,13 @@ public record AwsKinesisanalyticsv2DescribeApplicationOperationOptions : AwsOpti
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the application. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_.-]+
+    /// The name of the application. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9_.-]+
     /// </summary>
     [CliOption("--application-name")]
     public string? ApplicationName { get; private init; }
 
     /// <summary>
-    /// The operation ID of the request. Constraints: o min: 1 o max: 64
+    /// The operation ID of the request. Constraints: • min: 1 • max: 64
     /// </summary>
     [CliOption("--operation-id")]
     public string? OperationId { get; private init; }
@@ -92,6 +93,15 @@ public record AwsKinesisanalyticsv2DescribeApplicationOperationOptions : AwsOpti
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

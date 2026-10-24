@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates the visibility of the problem or specifies the problem as RE- SOLVED . See also: AWS API Documentation
+/// Updates the visibility of the problem or specifies the problem as RESOLVED . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +27,9 @@ public record AwsApplicationInsightsUpdateProblemOptions : AwsOptions, IValidata
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates the visibility of the problem or specifies the problem as RE- SOLVED . See also: AWS API Documentation
+    /// Updates the visibility of the problem or specifies the problem as RESOLVED . See also: AWS API Documentation
     /// </summary>
-    /// <param name="ProblemId">The ID of the problem. Constraints: o min: 38 o max: 38 o pattern: p-[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}</param>
+    /// <param name="ProblemId">The ID of the problem. Constraints: • min: 38 • max: 38 • pattern: p-[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}</param>
     public AwsApplicationInsightsUpdateProblemOptions(
         string ProblemId
     )
@@ -57,19 +58,19 @@ public record AwsApplicationInsightsUpdateProblemOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the problem. Constraints: o min: 38 o max: 38 o pattern: p-[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}
+    /// The ID of the problem. Constraints: • min: 38 • max: 38 • pattern: p-[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}
     /// </summary>
     [CliOption("--problem-id")]
     public string? ProblemId { get; private init; }
 
     /// <summary>
-    /// The status of the problem. Arguments can be passed for only problems that show a status of RECOVERING . Possible values: o RESOLVED
+    /// The status of the problem. Arguments can be passed for only problems that show a status of RECOVERING . Possible values: • RESOLVED
     /// </summary>
     [CliOption("--update-status")]
     public string? UpdateStatus { get; set; }
 
     /// <summary>
-    /// The visibility of a problem. When you pass a value of IGNORED , the problem is removed from the default view, and all notifications for the problem are suspended. When VISIBLE is passed, the IGNORED ac- tion is reversed. Possible values: o IGNORED o VISIBLE
+    /// The visibility of a problem. When you pass a value of IGNORED , the problem is removed from the default view, and all notifications for the problem are suspended. When VISIBLE is passed, the IGNORED action is reversed. Possible values: • IGNORED • VISIBLE
     /// </summary>
     [CliOption("--visibility")]
     public AwsApplicationInsightsUpdateProblemVisibility? Visibility { get; set; }
@@ -95,6 +96,15 @@ public record AwsApplicationInsightsUpdateProblemOptions : AwsOptions, IValidata
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

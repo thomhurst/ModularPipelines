@@ -10,7 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -29,9 +29,9 @@ public record AwsRepostspaceCreateSpaceOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Creates an AWS re:Post Private private re:Post. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">The name for the private re:Post. This must be unique in your ac- count. Constraints: o min: 1 o max: 30</param>
-    /// <param name="Subdomain">The subdomain that you use to access your AWS re:Post Private pri- vate re:Post. All custom subdomains must be approved by AWS before use. In addition to your custom subdomain, all private re:Posts are issued an AWS generated subdomain for immediate use. Constraints: o min: 1 o max: 63</param>
-    /// <param name="Tier">The pricing tier for the private re:Post. Possible values: o BASIC o STANDARD</param>
+    /// <param name="Name">The name for the private re:Post. This must be unique in your account. Constraints: • min: 1 • max: 30</param>
+    /// <param name="Subdomain">The subdomain that you use to access your AWS re:Post Private private re:Post. All custom subdomains must be approved by AWS before use. In addition to your custom subdomain, all private re:Posts are issued an AWS generated subdomain for immediate use. Constraints: • min: 1 • max: 63</param>
+    /// <param name="Tier">The pricing tier for the private re:Post. Possible values: • BASIC • STANDARD</param>
     public AwsRepostspaceCreateSpaceOptions(
         string Name,
         string Subdomain,
@@ -65,25 +65,25 @@ public record AwsRepostspaceCreateSpaceOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name for the private re:Post. This must be unique in your ac- count. Constraints: o min: 1 o max: 30
+    /// The name for the private re:Post. This must be unique in your account. Constraints: • min: 1 • max: 30
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The subdomain that you use to access your AWS re:Post Private pri- vate re:Post. All custom subdomains must be approved by AWS before use. In addition to your custom subdomain, all private re:Posts are issued an AWS generated subdomain for immediate use. Constraints: o min: 1 o max: 63
+    /// The subdomain that you use to access your AWS re:Post Private private re:Post. All custom subdomains must be approved by AWS before use. In addition to your custom subdomain, all private re:Posts are issued an AWS generated subdomain for immediate use. Constraints: • min: 1 • max: 63
     /// </summary>
     [CliOption("--subdomain")]
     public string? Subdomain { get; private init; }
 
     /// <summary>
-    /// The pricing tier for the private re:Post. Possible values: o BASIC o STANDARD
+    /// The pricing tier for the private re:Post. Possible values: • BASIC • STANDARD
     /// </summary>
     [CliOption("--tier")]
     public AwsRepostspaceCreateSpaceTier? Tier { get; private init; }
 
     /// <summary>
-    /// A description for the private re:Post. This is used only to help you identify this private re:Post. Constraints: o min: 1 o max: 255
+    /// A description for the private re:Post. This is used only to help you identify this private re:Post. Constraints: • min: 1 • max: 255
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
@@ -95,19 +95,19 @@ public record AwsRepostspaceCreateSpaceOptions : AwsOptions, IValidatableObject
     public string? UserKmsKey { get; set; }
 
     /// <summary>
-    /// The list of tags associated with the private re:Post. key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: (?!aws:)[a-zA-Z+-=._:/]+ value -&gt; (string) Constraints: o min: 1 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The list of tags associated with the private re:Post. key -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: (?!aws:)[a-zA-Z+-=._:/]+ value -&gt; (string) Constraints: • min: 1 • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>
-    /// The IAM role that grants permissions to the private re:Post to con- vert unanswered questions into AWS support tickets. Constraints: o min: 20 o max: 2048
+    /// The IAM role that grants permissions to the private re:Post to convert unanswered questions into AWS support tickets. Constraints: • min: 20 • max: 2048
     /// </summary>
     [CliOption("--role-arn")]
     public string? RoleArn { get; set; }
 
     /// <summary>
-    /// enabled -&gt; (string) Possible values: o ENABLED o DISABLED allowedDomains -&gt; (list) Constraints: o min: 1 o max: 10 (string) Constraints: o min: 1 o max: 255 Shorthand Syntax: enabled=string,allowedDomains=string,string JSON Syntax: { "enabled": "ENABLED"|"DISABLED", "allowedDomains": ["string", ...] }
+    /// enabled -&gt; (string) Possible values: • ENABLED • DISABLED allowedDomains -&gt; (list) Constraints: • min: 1 • max: 10 (string) Constraints: • min: 1 • max: 255 Shorthand Syntax: enabled=string,allowedDomains=string,string JSON Syntax: { "enabled": "ENABLED"|"DISABLED", "allowedDomains": ["string", ...] }
     /// </summary>
     [CliOption("--supported-email-domains")]
     public string? SupportedEmailDomains { get; set; }
@@ -133,6 +133,15 @@ public record AwsRepostspaceCreateSpaceOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

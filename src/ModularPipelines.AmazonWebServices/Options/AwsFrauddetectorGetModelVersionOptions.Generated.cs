@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,9 +29,9 @@ public record AwsFrauddetectorGetModelVersionOptions : AwsOptions, IValidatableO
     /// <summary>
     /// Gets the details of the specified model version. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ModelId">The model ID. Constraints: o min: 1 o max: 64 o pattern: ^[0-9a-z_]+$</param>
-    /// <param name="ModelType">The model type. Possible values: o ONLINE_FRAUD_INSIGHTS o TRANSACTION_FRAUD_INSIGHTS o ACCOUNT_TAKEOVER_INSIGHTS</param>
-    /// <param name="ModelVersionNumber">The model version number. Constraints: o min: 3 o max: 7 o pattern: ^[1-9][0-9]{0,3}\.[0-9]{1,2}$</param>
+    /// <param name="ModelId">The model ID. Constraints: • min: 1 • max: 64 • pattern: ^[0-9a-z_]+$</param>
+    /// <param name="ModelType">The model type. Possible values: • ONLINE_FRAUD_INSIGHTS • TRANSACTION_FRAUD_INSIGHTS • ACCOUNT_TAKEOVER_INSIGHTS</param>
+    /// <param name="ModelVersionNumber">The model version number. Constraints: • min: 3 • max: 7 • pattern: ^[1-9][0-9]{0,3}\.[0-9]{1,2}$</param>
     public AwsFrauddetectorGetModelVersionOptions(
         string ModelId,
         AwsFrauddetectorGetModelVersionModelType ModelType,
@@ -64,19 +65,19 @@ public record AwsFrauddetectorGetModelVersionOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The model ID. Constraints: o min: 1 o max: 64 o pattern: ^[0-9a-z_]+$
+    /// The model ID. Constraints: • min: 1 • max: 64 • pattern: ^[0-9a-z_]+$
     /// </summary>
     [CliOption("--model-id")]
     public string? ModelId { get; private init; }
 
     /// <summary>
-    /// The model type. Possible values: o ONLINE_FRAUD_INSIGHTS o TRANSACTION_FRAUD_INSIGHTS o ACCOUNT_TAKEOVER_INSIGHTS
+    /// The model type. Possible values: • ONLINE_FRAUD_INSIGHTS • TRANSACTION_FRAUD_INSIGHTS • ACCOUNT_TAKEOVER_INSIGHTS
     /// </summary>
     [CliOption("--model-type")]
     public AwsFrauddetectorGetModelVersionModelType? ModelType { get; private init; }
 
     /// <summary>
-    /// The model version number. Constraints: o min: 3 o max: 7 o pattern: ^[1-9][0-9]{0,3}\.[0-9]{1,2}$
+    /// The model version number. Constraints: • min: 3 • max: 7 • pattern: ^[1-9][0-9]{0,3}\.[0-9]{1,2}$
     /// </summary>
     [CliOption("--model-version-number")]
     public string? ModelVersionNumber { get; private init; }
@@ -102,6 +103,15 @@ public record AwsFrauddetectorGetModelVersionOptions : AwsOptions, IValidatableO
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

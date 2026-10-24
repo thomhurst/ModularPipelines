@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates and returns a URL that you can use to connect to an applica- tion's extension. The IAM role or user used to call this API defines the permissions to access the extension. After the presigned URL is created, no additional permission is required to access this URL. IAM authorization policies for this API are also enforced for every HTTP request that attempts to connect to the extension. You control the amount of time that the URL will be valid using the SessionExpirationDurationInSeconds p...
+/// Creates and returns a URL that you can use to connect to an application's extension. The IAM role or user used to call this API defines the permissions to access the extension. After the presigned URL is created, no additional permission is required to access this URL. IAM authorization policies for this API are also enforced for every HTTP request that attempts to connect to the extension. You control the amount of time that the URL will be valid using the SessionExpirationDurationInSeconds par...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +27,10 @@ public record AwsKinesisanalyticsv2CreateApplicationPresignedUrlOptions : AwsOpt
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates and returns a URL that you can use to connect to an applica- tion's extension. The IAM role or user used to call this API defines the permissions to access the extension. After the presigned URL is created, no additional permission is required to access this URL. IAM authorization policies for this API are also enforced for every HTTP request that attempts to connect to the extension. You control the amount of time that the URL will be valid using the SessionExpirationDurationInSeconds p...
+    /// Creates and returns a URL that you can use to connect to an application's extension. The IAM role or user used to call this API defines the permissions to access the extension. After the presigned URL is created, no additional permission is required to access this URL. IAM authorization policies for this API are also enforced for every HTTP request that attempts to connect to the extension. You control the amount of time that the URL will be valid using the SessionExpirationDurationInSeconds par...
     /// </summary>
-    /// <param name="ApplicationName">The name of the application. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_.-]+</param>
-    /// <param name="UrlType">The type of the extension for which to create and return a URL. Cur- rently, the only valid extension URL type is FLINK_DASHBOARD_URL . Possible values: o FLINK_DASHBOARD_URL o ZEPPELIN_UI_URL</param>
+    /// <param name="ApplicationName">The name of the application. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9_.-]+</param>
+    /// <param name="UrlType">The type of the extension for which to create and return a URL. Currently, the only valid extension URL type is FLINK_DASHBOARD_URL . Possible values: • FLINK_DASHBOARD_URL • ZEPPELIN_UI_URL</param>
     public AwsKinesisanalyticsv2CreateApplicationPresignedUrlOptions(
         string ApplicationName,
         AwsKinesisanalyticsv2CreateApplicationPresignedUrlUrlType UrlType
@@ -60,22 +61,22 @@ public record AwsKinesisanalyticsv2CreateApplicationPresignedUrlOptions : AwsOpt
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the application. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_.-]+
+    /// The name of the application. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9_.-]+
     /// </summary>
     [CliOption("--application-name")]
     public string? ApplicationName { get; private init; }
 
     /// <summary>
-    /// The type of the extension for which to create and return a URL. Cur- rently, the only valid extension URL type is FLINK_DASHBOARD_URL . Possible values: o FLINK_DASHBOARD_URL o ZEPPELIN_UI_URL
+    /// The type of the extension for which to create and return a URL. Currently, the only valid extension URL type is FLINK_DASHBOARD_URL . Possible values: • FLINK_DASHBOARD_URL • ZEPPELIN_UI_URL
     /// </summary>
     [CliOption("--url-type")]
     public AwsKinesisanalyticsv2CreateApplicationPresignedUrlUrlType? UrlType { get; private init; }
 
     /// <summary>
-    /// The duration in seconds for which the returned URL will be valid. Constraints: o min: 1800 o max: 43200
+    /// The duration in seconds for which the returned URL will be valid. Constraints: • min: 1800 • max: 43200
     /// </summary>
     [CliOption("--session-expiration-duration-in-seconds")]
-    public int? SessionExpirationDurationInSeconds { get; set; }
+    public long? SessionExpirationDurationInSeconds { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
@@ -98,6 +99,15 @@ public record AwsKinesisanalyticsv2CreateApplicationPresignedUrlOptions : AwsOpt
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

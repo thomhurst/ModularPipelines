@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// An auto-complete API for the search functionality in the SageMaker con- sole. It returns suggestions of possible matches for the property name to use in Search queries. Provides suggestions for HyperParameters , Tags , and Metrics . See also: AWS API Documentation
+/// An auto-complete API for the search functionality in the SageMaker console. It returns suggestions of possible matches for the property name to use in Search queries. Provides suggestions for HyperParameters , Tags , and Metrics . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +27,9 @@ public record AwsSagemakerGetSearchSuggestionsOptions : AwsOptions, IValidatable
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// An auto-complete API for the search functionality in the SageMaker con- sole. It returns suggestions of possible matches for the property name to use in Search queries. Provides suggestions for HyperParameters , Tags , and Metrics . See also: AWS API Documentation
+    /// An auto-complete API for the search functionality in the SageMaker console. It returns suggestions of possible matches for the property name to use in Search queries. Provides suggestions for HyperParameters , Tags , and Metrics . See also: AWS API Documentation
     /// </summary>
-    /// <param name="Resource">The name of the SageMaker resource to search for. Possible values: o TrainingJob o Experiment o ExperimentTrial o ExperimentTrialComponent o Endpoint o Model o ModelPackage o ModelPackageGroup o Pipeline o PipelineExecution o FeatureGroup o FeatureMetadata o Image o ImageVersion o Project o HyperParameterTuningJob o ModelCard o PipelineVersion o Job o HubContent</param>
+    /// <param name="Resource">The name of the SageMaker resource to search for. Possible values: • TrainingJob • Experiment • ExperimentTrial • ExperimentTrialComponent • Endpoint • Model • ModelPackage • ModelPackageGroup • Pipeline • PipelineExecution • FeatureGroup • FeatureMetadata • Image • ImageVersion • Project • HyperParameterTuningJob • ModelCard • PipelineVersion • Job • HubContent</param>
     public AwsSagemakerGetSearchSuggestionsOptions(
         AwsSagemakerGetSearchSuggestionsResource Resource
     )
@@ -56,13 +57,13 @@ public record AwsSagemakerGetSearchSuggestionsOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the SageMaker resource to search for. Possible values: o TrainingJob o Experiment o ExperimentTrial o ExperimentTrialComponent o Endpoint o Model o ModelPackage o ModelPackageGroup o Pipeline o PipelineExecution o FeatureGroup o FeatureMetadata o Image o ImageVersion o Project o HyperParameterTuningJob o ModelCard o PipelineVersion o Job o HubContent
+    /// The name of the SageMaker resource to search for. Possible values: • TrainingJob • Experiment • ExperimentTrial • ExperimentTrialComponent • Endpoint • Model • ModelPackage • ModelPackageGroup • Pipeline • PipelineExecution • FeatureGroup • FeatureMetadata • Image • ImageVersion • Project • HyperParameterTuningJob • ModelCard • PipelineVersion • Job • HubContent
     /// </summary>
     [CliOption("--resource")]
     public AwsSagemakerGetSearchSuggestionsResource? Resource { get; private init; }
 
     /// <summary>
-    /// Limits the property names that are included in the response. PropertyNameQuery -&gt; (structure) Defines a property name hint. Only property names that begin with the specified hint are included in the response. PropertyNameHint -&gt; (string) [required] Text that begins a property's name. Constraints: o min: 0 o max: 100 o pattern: .* Shorthand Syntax: PropertyNameQuery={PropertyNameHint=string} JSON Syntax: { "PropertyNameQuery": { "PropertyNameHint": "string" } }
+    /// Limits the property names that are included in the response. PropertyNameQuery -&gt; (structure) Defines a property name hint. Only property names that begin with the specified hint are included in the response. PropertyNameHint -&gt; (string) [required] Text that begins a property's name. Constraints: • min: 0 • max: 100 • pattern: .* Shorthand Syntax: PropertyNameQuery={PropertyNameHint=string} JSON Syntax: { "PropertyNameQuery": { "PropertyNameHint": "string" } }
     /// </summary>
     [CliOption("--suggestion-query")]
     public string? SuggestionQuery { get; set; }
@@ -88,6 +89,15 @@ public record AwsSagemakerGetSearchSuggestionsOptions : AwsOptions, IValidatable
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

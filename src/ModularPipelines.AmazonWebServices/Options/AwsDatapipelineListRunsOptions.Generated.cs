@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Lists the times the specified pipeline has run. You can optionally fil- ter the complete list of results to include only the runs you are in- terested in.
+/// Lists the times the specified pipeline has run. You can optionally filter the complete list of results to include only the runs you are interested in.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -22,7 +22,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsDatapipelineListRunsOptions : AwsOptions
 {
     /// <summary>
-    /// Lists the times the specified pipeline has run. You can optionally fil- ter the complete list of results to include only the runs you are in- terested in.
+    /// Lists the times the specified pipeline has run. You can optionally filter the complete list of results to include only the runs you are interested in.
     /// </summary>
     /// <param name="PipelineId"></param>
     public AwsDatapipelineListRunsOptions(
@@ -49,5 +49,14 @@ public record AwsDatapipelineListRunsOptions : AwsOptions
 
     [CliOption("--schedule-interval")]
     public string? ScheduleInterval { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

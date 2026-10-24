@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Converts source selection rules into their target counterparts for schema conversion operations. Required permissions: dms:GetTargetSelectionRules . For more infor- mation, see Actions, resources, and condition keys for Database Mi- gration Service . See also: AWS API Documentation
+/// Converts source selection rules into their target counterparts for schema conversion operations. Required permissions: dms:GetTargetSelectionRules . For more information, see Actions, resources, and condition keys for Database Migration Service . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsDmsGetTargetSelectionRulesOptions : AwsOptions, IValidatableObj
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Converts source selection rules into their target counterparts for schema conversion operations. Required permissions: dms:GetTargetSelectionRules . For more infor- mation, see Actions, resources, and condition keys for Database Mi- gration Service . See also: AWS API Documentation
+    /// Converts source selection rules into their target counterparts for schema conversion operations. Required permissions: dms:GetTargetSelectionRules . For more information, see Actions, resources, and condition keys for Database Migration Service . See also: AWS API Documentation
     /// </summary>
-    /// <param name="MigrationProjectIdentifier">The migration project name or Amazon Resource Name (ARN). Constraints: o max: 255</param>
-    /// <param name="SelectionRules">A JSON string that contains the source selection rules to convert into their target counterparts. For the selection rule format and examples, see Selection rules in DMS Schema Conversion . Usage: o Accepts only source selection rules, where server-name in the ob- ject locator matches the source data provider. o Supports only explicit rule actions. o Does not support category-name in the object locator. o Up to 10 rules are allowed.</param>
+    /// <param name="MigrationProjectIdentifier">The migration project name or Amazon Resource Name (ARN). Constraints: • max: 255</param>
+    /// <param name="SelectionRules">A JSON string that contains the source selection rules to convert into their target counterparts. For the selection rule format and examples, see Selection rules in DMS Schema Conversion . Usage: • Accepts only source selection rules, where server-name in the object locator matches the source data provider. • Supports only explicit rule actions. • Does not support category-name in the object locator. • Up to 10 rules are allowed.</param>
     public AwsDmsGetTargetSelectionRulesOptions(
         string MigrationProjectIdentifier,
         string SelectionRules
@@ -60,13 +61,13 @@ public record AwsDmsGetTargetSelectionRulesOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The migration project name or Amazon Resource Name (ARN). Constraints: o max: 255
+    /// The migration project name or Amazon Resource Name (ARN). Constraints: • max: 255
     /// </summary>
     [CliOption("--migration-project-identifier")]
     public string? MigrationProjectIdentifier { get; private init; }
 
     /// <summary>
-    /// A JSON string that contains the source selection rules to convert into their target counterparts. For the selection rule format and examples, see Selection rules in DMS Schema Conversion . Usage: o Accepts only source selection rules, where server-name in the ob- ject locator matches the source data provider. o Supports only explicit rule actions. o Does not support category-name in the object locator. o Up to 10 rules are allowed.
+    /// A JSON string that contains the source selection rules to convert into their target counterparts. For the selection rule format and examples, see Selection rules in DMS Schema Conversion . Usage: • Accepts only source selection rules, where server-name in the object locator matches the source data provider. • Supports only explicit rule actions. • Does not support category-name in the object locator. • Up to 10 rules are allowed.
     /// </summary>
     [CliOption("--selection-rules")]
     public string? SelectionRules { get; private init; }
@@ -92,6 +93,15 @@ public record AwsDmsGetTargetSelectionRulesOptions : AwsOptions, IValidatableObj
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

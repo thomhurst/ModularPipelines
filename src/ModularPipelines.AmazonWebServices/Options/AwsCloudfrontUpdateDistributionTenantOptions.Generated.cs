@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +29,7 @@ public record AwsCloudfrontUpdateDistributionTenantOptions : AwsOptions, IValida
     /// Updates a distribution tenant. See also: AWS API Documentation
     /// </summary>
     /// <param name="Id">The ID of the distribution tenant.</param>
-    /// <param name="IfMatch">The value of the ETag header that you received when retrieving the distribution tenant to update. This value is returned in the re- sponse of the GetDistributionTenant API operation.</param>
+    /// <param name="IfMatch">The value of the ETag header that you received when retrieving the distribution tenant to update. This value is returned in the response of the GetDistributionTenant API operation.</param>
     public AwsCloudfrontUpdateDistributionTenantOptions(
         string Id,
         string IfMatch
@@ -66,7 +67,7 @@ public record AwsCloudfrontUpdateDistributionTenantOptions : AwsOptions, IValida
     public string? Id { get; private init; }
 
     /// <summary>
-    /// The value of the ETag header that you received when retrieving the distribution tenant to update. This value is returned in the re- sponse of the GetDistributionTenant API operation.
+    /// The value of the ETag header that you received when retrieving the distribution tenant to update. This value is returned in the response of the GetDistributionTenant API operation.
     /// </summary>
     [CliOption("--if-match")]
     public string? IfMatch { get; private init; }
@@ -84,13 +85,13 @@ public record AwsCloudfrontUpdateDistributionTenantOptions : AwsOptions, IValida
     public IEnumerable<string>? Domains { get; set; }
 
     /// <summary>
-    /// Customizations for the distribution tenant. For each distribution tenant, you can specify the geographic restrictions, and the Amazon Resource Names (ARNs) for the ACM certificate and WAF web ACL. These are specific values that you can override or disable from the multi-tenant distribution that was used to create the distribution tenant. WebAcl -&gt; (structure) The WAF web ACL. Action -&gt; (string) [required] The action for the WAF web ACL customization. You can specify override to specify a separate WAF web ACL for the distribu- tion tenant. If you specify disable , the distribution tenant won't have WAF web ACL protections and won't inherit from the multi-tenant distribution. Possible values: o override o disable Arn -&gt; (string) The Amazon Resource Name (ARN) of the WAF web ACL. Certificate -&gt; (structure) The Certificate Manager (ACM) certificate. Arn -&gt; (string) [required] The Amazon Resource Name (ARN) of the ACM certificate. GeoRestrictions -&gt; (structure) The geographic restrictions. RestrictionType -&gt; (string) [required] The method that you want to use to restrict distribution of your content by country: o none : No geographic restriction is enabled, meaning access to content is not restricted by client geo location. o blacklist : The Location elements specify the countries in which you don't want CloudFront to distribute your content. o whitelist : The Location elements specify the countries in which you want CloudFront to distribute your content. Possible values: o blacklist o whitelist o none Locations -&gt; (list) The locations for geographic restrictions. (string) Shorthand Syntax: WebAcl={Action=string,Arn=string},Certificate={Arn=string},GeoRestrictions={RestrictionType=string,Locations=[string,string]} JSON Syntax: { "WebAcl": { "Action": "override"|"disable", "Arn": "string" }, "Certificate": { "Arn": "string" }, "GeoRestrictions": { "RestrictionType": "blacklist"|"whitelist"|"none", "Locations": ["string", ...] } }
+    /// Customizations for the distribution tenant. For each distribution tenant, you can specify the geographic restrictions, and the Amazon Resource Names (ARNs) for the ACM certificate and WAF web ACL. These are specific values that you can override or disable from the multi-tenant distribution that was used to create the distribution tenant. WebAcl -&gt; (structure) The WAF web ACL. Action -&gt; (string) [required] The action for the WAF web ACL customization. You can specify override to specify a separate WAF web ACL for the distribution tenant. If you specify disable , the distribution tenant won't have WAF web ACL protections and won't inherit from the multi-tenant distribution. Possible values: • override • disable Arn -&gt; (string) The Amazon Resource Name (ARN) of the WAF web ACL. Certificate -&gt; (structure) The Certificate Manager (ACM) certificate. Arn -&gt; (string) [required] The Amazon Resource Name (ARN) of the ACM certificate. GeoRestrictions -&gt; (structure) The geographic restrictions. RestrictionType -&gt; (string) [required] The method that you want to use to restrict distribution of your content by country: • none : No geographic restriction is enabled, meaning access to content is not restricted by client geo location. • blacklist : The Location elements specify the countries in which you don't want CloudFront to distribute your content. • whitelist : The Location elements specify the countries in which you want CloudFront to distribute your content. Possible values: • blacklist • whitelist • none Locations -&gt; (list) The locations for geographic restrictions. (string) Shorthand Syntax: WebAcl={Action=string,Arn=string},Certificate={Arn=string},GeoRestrictions={RestrictionType=string,Locations=[string,string]} JSON Syntax: { "WebAcl": { "Action": "override"|"disable", "Arn": "string" }, "Certificate": { "Arn": "string" }, "GeoRestrictions": { "RestrictionType": "blacklist"|"whitelist"|"none", "Locations": ["string", ...] } }
     /// </summary>
     [CliOption("--customizations")]
     public string? Customizations { get; set; }
 
     /// <summary>
-    /// A list of parameter values to add to the resource. A parameter is specified as a key-value pair. A valid parameter value must exist for any parameter that is marked as required in the multi-tenant distribution. (structure) A list of parameter values to add to the resource. A parameter is specified as a key-value pair. A valid parameter value must exist for any parameter that is marked as required in the multi-tenant distribution. Name -&gt; (string) [required] The parameter name. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9-_]+ Value -&gt; (string) [required] The parameter value. Constraints: o min: 1 o max: 256 Shorthand Syntax: Name=string,Value=string ... JSON Syntax: [ { "Name": "string", "Value": "string" } ... ]
+    /// A list of parameter values to add to the resource. A parameter is specified as a key-value pair. A valid parameter value must exist for any parameter that is marked as required in the multi-tenant distribution. (structure) A list of parameter values to add to the resource. A parameter is specified as a key-value pair. A valid parameter value must exist for any parameter that is marked as required in the multi-tenant distribution. Name -&gt; (string) [required] The parameter name. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9-_]+ Value -&gt; (string) [required] The parameter value. Constraints: • min: 1 • max: 256 Shorthand Syntax: Name=string,Value=string ... JSON Syntax: [ { "Name": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--parameters", GroupValues = true)]
     public IEnumerable<string>? Parameters { get; set; }
@@ -102,7 +103,7 @@ public record AwsCloudfrontUpdateDistributionTenantOptions : AwsOptions, IValida
     public string? ConnectionGroupId { get; set; }
 
     /// <summary>
-    /// An object that contains the CloudFront managed ACM certificate re- quest. ValidationTokenHost -&gt; (string) [required] Specify how the HTTP validation token will be served when re- questing the CloudFront managed ACM certificate. o For cloudfront , CloudFront will automatically serve the vali- dation token. Choose this mode if you can point the domain's DNS to CloudFront immediately. o For self-hosted , you serve the validation token from your ex- isting infrastructure. Choose this mode when you need to main- tain current traffic flow while your certificate is being is- sued. You can place the validation token at the well-known path on your existing web server, wait for ACM to validate and issue the certificate, and then update your DNS to point to CloudFront. Possible values: o cloudfront o self-hosted PrimaryDomainName -&gt; (string) The primary domain name associated with the CloudFront managed ACM certificate. CertificateTransparencyLoggingPreference -&gt; (string) You can opt out of certificate transparency logging by specify- ing the disabled option. Opt in by specifying enabled . For more information, see Certificate Transparency Logging in the Cer- tificate Manager User Guide . Possible values: o enabled o disabled Shorthand Syntax: ValidationTokenHost=string,PrimaryDomainName=string,CertificateTransparencyLoggingPreference=string JSON Syntax: { "ValidationTokenHost": "cloudfront"|"self-hosted", "PrimaryDomainName": "string", "CertificateTransparencyLoggingPreference": "enabled"|"disabled" }
+    /// An object that contains the CloudFront managed ACM certificate request. ValidationTokenHost -&gt; (string) [required] Specify how the HTTP validation token will be served when requesting the CloudFront managed ACM certificate. • For cloudfront , CloudFront will automatically serve the validation token. Choose this mode if you can point the domain's DNS to CloudFront immediately. • For self-hosted , you serve the validation token from your existing infrastructure. Choose this mode when you need to maintain current traffic flow while your certificate is being issued. You can place the validation token at the well-known path on your existing web server, wait for ACM to validate and issue the certificate, and then update your DNS to point to CloudFront. Possible values: • cloudfront • self-hosted PrimaryDomainName -&gt; (string) The primary domain name associated with the CloudFront managed ACM certificate. CertificateTransparencyLoggingPreference -&gt; (string) You can opt out of certificate transparency logging by specifying the disabled option. Opt in by specifying enabled . For more information, see Certificate Transparency Logging in the Certificate Manager User Guide . Possible values: • enabled • disabled Shorthand Syntax: ValidationTokenHost=string,PrimaryDomainName=string,CertificateTransparencyLoggingPreference=string JSON Syntax: { "ValidationTokenHost": "cloudfront"|"self-hosted", "PrimaryDomainName": "string", "CertificateTransparencyLoggingPreference": "enabled"|"disabled" }
     /// </summary>
     [CliOption("--managed-certificate-request")]
     public string? ManagedCertificateRequest { get; set; }
@@ -134,6 +135,15 @@ public record AwsCloudfrontUpdateDistributionTenantOptions : AwsOptions, IValida
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

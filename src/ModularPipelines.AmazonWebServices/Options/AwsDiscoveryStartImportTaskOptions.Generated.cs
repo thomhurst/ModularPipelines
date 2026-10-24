@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Starts an import task, which allows you to import details of your on-premises environment directly into Amazon Web Services Migration Hub without having to use the Amazon Web Services Application Discovery Service (Application Discovery Service) tools such as the Amazon Web Services Application Discovery Service Agentless Collector or Applica- tion Discovery Agent. This gives you the option to perform migration assessment and planning directly from your imported data, including the ability to gr...
+/// Starts an import task, which allows you to import details of your on-premises environment directly into Amazon Web Services Migration Hub without having to use the Amazon Web Services Application Discovery Service (Application Discovery Service) tools such as the Amazon Web Services Application Discovery Service Agentless Collector or Application Discovery Agent. This gives you the option to perform migration assessment and planning directly from your imported data, including the ability to grou...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +27,10 @@ public record AwsDiscoveryStartImportTaskOptions : AwsOptions, IValidatableObjec
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Starts an import task, which allows you to import details of your on-premises environment directly into Amazon Web Services Migration Hub without having to use the Amazon Web Services Application Discovery Service (Application Discovery Service) tools such as the Amazon Web Services Application Discovery Service Agentless Collector or Applica- tion Discovery Agent. This gives you the option to perform migration assessment and planning directly from your imported data, including the ability to gr...
+    /// Starts an import task, which allows you to import details of your on-premises environment directly into Amazon Web Services Migration Hub without having to use the Amazon Web Services Application Discovery Service (Application Discovery Service) tools such as the Amazon Web Services Application Discovery Service Agentless Collector or Application Discovery Agent. This gives you the option to perform migration assessment and planning directly from your imported data, including the ability to grou...
     /// </summary>
-    /// <param name="Name">A descriptive name for this request. You can use this name to filter future requests related to this import task, such as identifying ap- plications and servers that were included in this import task. We recommend that you use a meaningful name for each import task. Constraints: o min: 1 o max: 255 o pattern: [\s\S]*\S[\s\S]*</param>
-    /// <param name="ImportUrl">The URL for your import file that you've uploaded to Amazon S3. NOTE: If you're using the Amazon Web Services CLI, this URL is struc- tured as follows: s3://BucketName/ImportFileName.CSV Constraints: o min: 1 o max: 4000 o pattern: \S+://\S+/[\s\S]*\S[\s\S]*</param>
+    /// <param name="Name">A descriptive name for this request. You can use this name to filter future requests related to this import task, such as identifying applications and servers that were included in this import task. We recommend that you use a meaningful name for each import task. Constraints: • min: 1 • max: 255 • pattern: [\s\S]*\S[\s\S]*</param>
+    /// <param name="ImportUrl">The URL for your import file that you've uploaded to Amazon S3. NOTE: If you're using the Amazon Web Services CLI, this URL is structured as follows: s3://BucketName/ImportFileName.CSV Constraints: • min: 1 • max: 4000 • pattern: \S+://\S+/[\s\S]*\S[\s\S]*</param>
     public AwsDiscoveryStartImportTaskOptions(
         string Name,
         string ImportUrl
@@ -61,19 +62,19 @@ public record AwsDiscoveryStartImportTaskOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A descriptive name for this request. You can use this name to filter future requests related to this import task, such as identifying ap- plications and servers that were included in this import task. We recommend that you use a meaningful name for each import task. Constraints: o min: 1 o max: 255 o pattern: [\s\S]*\S[\s\S]*
+    /// A descriptive name for this request. You can use this name to filter future requests related to this import task, such as identifying applications and servers that were included in this import task. We recommend that you use a meaningful name for each import task. Constraints: • min: 1 • max: 255 • pattern: [\s\S]*\S[\s\S]*
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The URL for your import file that you've uploaded to Amazon S3. NOTE: If you're using the Amazon Web Services CLI, this URL is struc- tured as follows: s3://BucketName/ImportFileName.CSV Constraints: o min: 1 o max: 4000 o pattern: \S+://\S+/[\s\S]*\S[\s\S]*
+    /// The URL for your import file that you've uploaded to Amazon S3. NOTE: If you're using the Amazon Web Services CLI, this URL is structured as follows: s3://BucketName/ImportFileName.CSV Constraints: • min: 1 • max: 4000 • pattern: \S+://\S+/[\s\S]*\S[\s\S]*
     /// </summary>
     [CliOption("--import-url")]
     public string? ImportUrl { get; private init; }
 
     /// <summary>
-    /// Optional. A unique token that you can provide to prevent the same import request from occurring more than once. If you don't provide a token, a token is automatically generated. Sending more than one StartImportTask request with the same client request token will return information about the original import task with that client request token. Constraints: o min: 1 o max: 100
+    /// Optional. A unique token that you can provide to prevent the same import request from occurring more than once. If you don't provide a token, a token is automatically generated. Sending more than one StartImportTask request with the same client request token will return information about the original import task with that client request token. Constraints: • min: 1 • max: 100
     /// </summary>
     [SecretValue]
     [CliOption("--client-request-token")]
@@ -100,6 +101,15 @@ public record AwsDiscoveryStartImportTaskOptions : AwsOptions, IValidatableObjec
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

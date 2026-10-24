@@ -10,13 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a recovery group in an account. A recovery group corresponds to an application and includes a list of the cells that make up the appli- cation. See also: AWS API Documentation
+/// Creates a recovery group in an account. A recovery group corresponds to an application and includes a list of the cells that make up the application. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,7 +26,7 @@ public record AwsRoute53RecoveryReadinessCreateRecoveryGroupOptions : AwsOptions
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a recovery group in an account. A recovery group corresponds to an application and includes a list of the cells that make up the appli- cation. See also: AWS API Documentation
+    /// Creates a recovery group in an account. A recovery group corresponds to an application and includes a list of the cells that make up the application. See also: AWS API Documentation
     /// </summary>
     /// <param name="RecoveryGroupName">The name of the recovery group to create.</param>
     public AwsRoute53RecoveryReadinessCreateRecoveryGroupOptions(
@@ -95,6 +95,15 @@ public record AwsRoute53RecoveryReadinessCreateRecoveryGroupOptions : AwsOptions
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns a list of all insights checked for against the specified clus- ter. You can filter which insights are returned by category, associated Kubernetes version, and status. The default filter lists all categories and every status. The following lists the available categories: o UPGRADE_READINESS : Amazon EKS identifies issues that could impact your ability to upgrade to new versions of Kubernetes. These are called upgrade insights. o MISCONFIGURATION : Amazon EKS identifies misconfiguration in...
+/// Returns a list of all insights checked for against the specified cluster. You can filter which insights are returned by category, associated Kubernetes version, and status. The default filter lists all categories and every status. The following lists the available categories: • UPGRADE_READINESS : Amazon EKS identifies issues that could impact your ability to upgrade to new versions of Kubernetes. These are called upgrade insights. • MISCONFIGURATION : Amazon EKS identifies misconfiguration in y...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,7 +27,7 @@ public record AwsEksListInsightsOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns a list of all insights checked for against the specified clus- ter. You can filter which insights are returned by category, associated Kubernetes version, and status. The default filter lists all categories and every status. The following lists the available categories: o UPGRADE_READINESS : Amazon EKS identifies issues that could impact your ability to upgrade to new versions of Kubernetes. These are called upgrade insights. o MISCONFIGURATION : Amazon EKS identifies misconfiguration in...
+    /// Returns a list of all insights checked for against the specified cluster. You can filter which insights are returned by category, associated Kubernetes version, and status. The default filter lists all categories and every status. The following lists the available categories: • UPGRADE_READINESS : Amazon EKS identifies issues that could impact your ability to upgrade to new versions of Kubernetes. These are called upgrade insights. • MISCONFIGURATION : Amazon EKS identifies misconfiguration in y...
     /// </summary>
     /// <param name="ClusterName">The name of the Amazon EKS cluster associated with the insights.</param>
     public AwsEksListInsightsOptions(
@@ -63,16 +64,13 @@ public record AwsEksListInsightsOptions : AwsOptions, IValidatableObject
     public string? ClusterName { get; private init; }
 
     /// <summary>
-    /// The criteria to filter your list of insights for your cluster. You can filter which insights are returned by category, associated Ku- bernetes version, and status. categories -&gt; (list) The categories to use to filter insights. The following lists the available categories: o UPGRADE_READINESS : Amazon EKS identifies issues that could impact your ability to upgrade to new versions of Kubernetes. These are called upgrade insights. o MISCONFIGURATION : Amazon EKS identifies misconfiguration in your EKS Hybrid Nodes setup that could impair functionality of your cluster or workloads. These are called configuration in- sights. (string) Possible values: o UPGRADE_READINESS o MISCONFIGURATION o ROLLBACK_READINESS kubernetesVersions -&gt; (list) The Kubernetes versions to use to filter the insights. (string) statuses -&gt; (list) The statuses to use to filter the insights. (string) Possible values: o PASSING o WARNING o ERROR o UNKNOWN Shorthand Syntax: categories=string,string,kubernetesVersions=string,string,statuses=string,string JSON Syntax: { "categories": ["UPGRADE_READINESS"|"MISCONFIGURATION"|"ROLLBACK_READINESS", ...], "kubernetesVersions": ["string", ...], "statuses": ["PASSING"|"WARNING"|"ERROR"|"UNKNOWN", ...] }
+    /// The criteria to filter your list of insights for your cluster. You can filter which insights are returned by category, associated Kubernetes version, and status. categories -&gt; (list) The categories to use to filter insights. The following lists the available categories: • UPGRADE_READINESS : Amazon EKS identifies issues that could impact your ability to upgrade to new versions of Kubernetes. These are called upgrade insights. • MISCONFIGURATION : Amazon EKS identifies misconfiguration in your EKS Hybrid Nodes setup that could impair functionality of your cluster or workloads. These are called configuration insights. (string) Possible values: • UPGRADE_READINESS • MISCONFIGURATION • ROLLBACK_READINESS kubernetesVersions -&gt; (list) The Kubernetes versions to use to filter the insights. (string) statuses -&gt; (list) The statuses to use to filter the insights. (string) Possible values: • PASSING • WARNING • ERROR • UNKNOWN Shorthand Syntax: categories=string,string,kubernetesVersions=string,string,statuses=string,string JSON Syntax: { "categories": ["UPGRADE_READINESS"|"MISCONFIGURATION"|"ROLLBACK_READINESS", ...], "kubernetesVersions": ["string", ...], "statuses": ["PASSING"|"WARNING"|"ERROR"|"UNKNOWN", ...] }
     /// </summary>
     [CliOption("--filter")]
     public string? Filter { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -82,16 +80,19 @@ public record AwsEksListInsightsOptions : AwsOptions, IValidatableObject
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 100
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
@@ -108,6 +109,15 @@ public record AwsEksListInsightsOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

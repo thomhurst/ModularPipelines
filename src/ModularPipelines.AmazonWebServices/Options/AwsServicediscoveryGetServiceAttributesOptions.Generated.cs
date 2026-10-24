@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsServicediscoveryGetServiceAttributesOptions : AwsOptions, IVali
     /// <summary>
     /// Returns the attributes associated with a specified service. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ServiceId">The ID or Amazon Resource Name (ARN) of the service that you want to get attributes for. For services created in a namespace shared with your Amazon Web Services account, specify the service ARN. For more information about shared namespaces, see Cross-account Cloud Map namespace sharing in the Cloud Map Developer Guide . Constraints: o max: 255</param>
+    /// <param name="ServiceId">The ID or Amazon Resource Name (ARN) of the service that you want to get attributes for. For services created in a namespace shared with your Amazon Web Services account, specify the service ARN. For more information about shared namespaces, see Cross-account Cloud Map namespace sharing in the Cloud Map Developer Guide . Constraints: • max: 255</param>
     public AwsServicediscoveryGetServiceAttributesOptions(
         string ServiceId
     )
@@ -56,7 +57,7 @@ public record AwsServicediscoveryGetServiceAttributesOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID or Amazon Resource Name (ARN) of the service that you want to get attributes for. For services created in a namespace shared with your Amazon Web Services account, specify the service ARN. For more information about shared namespaces, see Cross-account Cloud Map namespace sharing in the Cloud Map Developer Guide . Constraints: o max: 255
+    /// The ID or Amazon Resource Name (ARN) of the service that you want to get attributes for. For services created in a namespace shared with your Amazon Web Services account, specify the service ARN. For more information about shared namespaces, see Cross-account Cloud Map namespace sharing in the Cloud Map Developer Guide . Constraints: • max: 255
     /// </summary>
     [CliOption("--service-id")]
     public string? ServiceId { get; private init; }
@@ -82,6 +83,15 @@ public record AwsServicediscoveryGetServiceAttributesOptions : AwsOptions, IVali
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

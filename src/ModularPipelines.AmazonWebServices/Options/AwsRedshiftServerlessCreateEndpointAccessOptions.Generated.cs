@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsRedshiftServerlessCreateEndpointAccessOptions : AwsOptions, IVa
     /// <summary>
     /// Creates an Amazon Redshift Serverless managed VPC endpoint. See also: AWS API Documentation
     /// </summary>
-    /// <param name="EndpointName">The name of the VPC endpoint. An endpoint name must contain 1-30 characters. Valid characters are A-Z, a-z, 0-9, and hyphen(-). The first character must be a letter. The name can't contain two consec- utive hyphens or end with a hyphen.</param>
-    /// <param name="SubnetIds">The unique identifers of subnets from which Amazon Redshift Server- less chooses one to deploy a VPC endpoint. (string) Syntax: "string" "string" ...</param>
+    /// <param name="EndpointName">The name of the VPC endpoint. An endpoint name must contain 1-30 characters. Valid characters are A-Z, a-z, 0-9, and hyphen(-). The first character must be a letter. The name can't contain two consecutive hyphens or end with a hyphen.</param>
+    /// <param name="SubnetIds">The unique identifers of subnets from which Amazon Redshift Serverless chooses one to deploy a VPC endpoint. (string) Syntax: "string" "string" ...</param>
     /// <param name="WorkgroupName">The name of the workgroup to associate with the VPC endpoint.</param>
     public AwsRedshiftServerlessCreateEndpointAccessOptions(
         string EndpointName,
@@ -75,13 +76,13 @@ public record AwsRedshiftServerlessCreateEndpointAccessOptions : AwsOptions, IVa
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the VPC endpoint. An endpoint name must contain 1-30 characters. Valid characters are A-Z, a-z, 0-9, and hyphen(-). The first character must be a letter. The name can't contain two consec- utive hyphens or end with a hyphen.
+    /// The name of the VPC endpoint. An endpoint name must contain 1-30 characters. Valid characters are A-Z, a-z, 0-9, and hyphen(-). The first character must be a letter. The name can't contain two consecutive hyphens or end with a hyphen.
     /// </summary>
     [CliOption("--endpoint-name")]
     public string? EndpointName { get; private init; }
 
     /// <summary>
-    /// The unique identifers of subnets from which Amazon Redshift Server- less chooses one to deploy a VPC endpoint. (string) Syntax: "string" "string" ...
+    /// The unique identifers of subnets from which Amazon Redshift Serverless chooses one to deploy a VPC endpoint. (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--subnet-ids", GroupValues = true)]
     public IEnumerable<string>? SubnetIds { get; private init; }
@@ -93,7 +94,7 @@ public record AwsRedshiftServerlessCreateEndpointAccessOptions : AwsOptions, IVa
     public string? WorkgroupName { get; private init; }
 
     /// <summary>
-    /// The owner Amazon Web Services account for the Amazon Redshift Serverless workgroup. Constraints: o min: 1 o max: 12 o pattern: (\d{12})
+    /// The owner Amazon Web Services account for the Amazon Redshift Serverless workgroup. Constraints: • min: 1 • max: 12 • pattern: (\d{12})
     /// </summary>
     [CliOption("--owner-account")]
     public string? OwnerAccount { get; set; }
@@ -125,6 +126,15 @@ public record AwsRedshiftServerlessCreateEndpointAccessOptions : AwsOptions, IVa
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +29,7 @@ public record AwsSesTestRenderTemplateOptions : AwsOptions, IValidatableObject
     /// Creates a preview of the MIME content of an email when provided with a template and a set of replacement data. You can execute this operation no more than once per second. See also: AWS API Documentation
     /// </summary>
     /// <param name="TemplateName">The name of the template to render.</param>
-    /// <param name="TemplateData">A list of replacement values to apply to the template. This parame- ter is a JSON object, typically consisting of key-value pairs in which the keys correspond to replacement tags in the email template. Constraints: o max: 262144</param>
+    /// <param name="TemplateData">A list of replacement values to apply to the template. This parameter is a JSON object, typically consisting of key-value pairs in which the keys correspond to replacement tags in the email template. Constraints: • max: 262144</param>
     public AwsSesTestRenderTemplateOptions(
         string TemplateName,
         string TemplateData
@@ -66,7 +67,7 @@ public record AwsSesTestRenderTemplateOptions : AwsOptions, IValidatableObject
     public string? TemplateName { get; private init; }
 
     /// <summary>
-    /// A list of replacement values to apply to the template. This parame- ter is a JSON object, typically consisting of key-value pairs in which the keys correspond to replacement tags in the email template. Constraints: o max: 262144
+    /// A list of replacement values to apply to the template. This parameter is a JSON object, typically consisting of key-value pairs in which the keys correspond to replacement tags in the email template. Constraints: • max: 262144
     /// </summary>
     [CliOption("--template-data")]
     public string? TemplateData { get; private init; }
@@ -92,6 +93,15 @@ public record AwsSesTestRenderTemplateOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

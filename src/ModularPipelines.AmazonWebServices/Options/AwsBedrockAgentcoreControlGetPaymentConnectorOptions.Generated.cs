@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsBedrockAgentcoreControlGetPaymentConnectorOptions : AwsOptions,
     /// <summary>
     /// Retrieves information about a specific payment connector. See also: AWS API Documentation
     /// </summary>
-    /// <param name="PaymentManagerId">The unique identifier of the parent payment manager. Constraints: o min: 12 o max: 211 o pattern: ([0-9a-z][-]?){1,100}-[0-9a-z]{10}</param>
-    /// <param name="PaymentConnectorId">The unique identifier of the payment connector to retrieve. Constraints: o min: 12 o max: 211 o pattern: ([0-9a-z_][-]?){1,100}-[0-9a-z]{10}</param>
+    /// <param name="PaymentManagerId">The unique identifier of the parent payment manager. Constraints: • min: 12 • max: 211 • pattern: ([0-9a-z][-]?){1,100}-[0-9a-z]{10}</param>
+    /// <param name="PaymentConnectorId">The unique identifier of the payment connector to retrieve. Constraints: • min: 12 • max: 211 • pattern: ([0-9a-z_][-]?){1,100}-[0-9a-z]{10}</param>
     public AwsBedrockAgentcoreControlGetPaymentConnectorOptions(
         string PaymentManagerId,
         string PaymentConnectorId
@@ -60,13 +61,13 @@ public record AwsBedrockAgentcoreControlGetPaymentConnectorOptions : AwsOptions,
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the parent payment manager. Constraints: o min: 12 o max: 211 o pattern: ([0-9a-z][-]?){1,100}-[0-9a-z]{10}
+    /// The unique identifier of the parent payment manager. Constraints: • min: 12 • max: 211 • pattern: ([0-9a-z][-]?){1,100}-[0-9a-z]{10}
     /// </summary>
     [CliOption("--payment-manager-id")]
     public string? PaymentManagerId { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the payment connector to retrieve. Constraints: o min: 12 o max: 211 o pattern: ([0-9a-z_][-]?){1,100}-[0-9a-z]{10}
+    /// The unique identifier of the payment connector to retrieve. Constraints: • min: 12 • max: 211 • pattern: ([0-9a-z_][-]?){1,100}-[0-9a-z]{10}
     /// </summary>
     [CliOption("--payment-connector-id")]
     public string? PaymentConnectorId { get; private init; }
@@ -92,6 +93,15 @@ public record AwsBedrockAgentcoreControlGetPaymentConnectorOptions : AwsOptions,
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

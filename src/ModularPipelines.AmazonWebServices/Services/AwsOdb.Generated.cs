@@ -6,8 +6,8 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
+using ModularPipelines;
 using ModularPipelines.Context;
-using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
@@ -122,7 +122,7 @@ public class AwsOdb : IAwsOdb
     }
 
     /// <summary>
-    /// Creates a new Autonomous VM cluster in the specified Exadata infra- structure. See also: AWS API Documentation
+    /// Creates a new Autonomous VM cluster in the specified Exadata infrastructure. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -272,7 +272,7 @@ public class AwsOdb : IAwsOdb
     }
 
     /// <summary>
-    /// Deletes the specified Exadata infrastructure. Before you use this oper- ation, make sure to delete all of the VM clusters that are hosted on this Exadata infrastructure. See also: AWS API Documentation
+    /// Deletes the specified Exadata infrastructure. Before you use this operation, make sure to delete all of the VM clusters that are hosted on this Exadata infrastructure. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -362,7 +362,7 @@ public class AwsOdb : IAwsOdb
     }
 
     /// <summary>
-    /// Disassociates an Amazon Web Services Identity and Access Management (IAM) service role from a specified resource to disable Amazon Web Ser- vices service integration. See also: AWS API Documentation
+    /// Disassociates an Amazon Web Services Identity and Access Management (IAM) service role from a specified resource to disable Amazon Web Services service integration. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -572,7 +572,7 @@ public class AwsOdb : IAwsOdb
     }
 
     /// <summary>
-    /// Returns the tenancy activation link and onboarding status for your Ama- zon Web Services account. See also: AWS API Documentation
+    /// Returns the tenancy activation link and onboarding status for your Amazon Web Services account. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -632,7 +632,7 @@ public class AwsOdb : IAwsOdb
     }
 
     /// <summary>
-    /// Lists the backups of the specified Autonomous Database. See also: AWS API Documentation list-autonomous-database-backups is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: autonomousDatabaseBackups
+    /// Lists the backups of the specified Autonomous Database. See also: AWS API Documentation list-autonomous-database-backups is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: autonomousDatabaseBackups
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -647,7 +647,7 @@ public class AwsOdb : IAwsOdb
     }
 
     /// <summary>
-    /// Lists the available character sets for Autonomous Databases. See also: AWS API Documentation list-autonomous-database-character-sets is a paginated operation. Mul- tiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a pagi- nated response, the --query argument must extract data from the results of the following query expressions: autonomousDataba...
+    /// Lists the available character sets for Autonomous Databases. See also: AWS API Documentation list-autonomous-database-character-sets is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: autonomousDatabaseCh...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -662,7 +662,7 @@ public class AwsOdb : IAwsOdb
     }
 
     /// <summary>
-    /// Lists the clones of the specified Autonomous Database. See also: AWS API Documentation list-autonomous-database-clones is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: autonomousDatabaseClones
+    /// Lists the clones of the specified Autonomous Database. See also: AWS API Documentation list-autonomous-database-clones is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: autonomousDatabaseClones
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -677,7 +677,7 @@ public class AwsOdb : IAwsOdb
     }
 
     /// <summary>
-    /// Lists the peer databases of the specified Autonomous Database. See also: AWS API Documentation list-autonomous-database-peers is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: autonomousDatabasePeers
+    /// Lists the peer databases of the specified Autonomous Database. See also: AWS API Documentation list-autonomous-database-peers is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: autonomousDatabasePeers
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -689,6 +689,21 @@ public class AwsOdb : IAwsOdb
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Lists the available Oracle Database software versions for Autonomous Databases. See also: AWS API Documentation list-autonomous-database-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: autonom...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListAutonomousDatabaseVersionsAsync(
+        AwsOdbListAutonomousDatabaseVersionsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsOdbListAutonomousDatabaseVersionsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -707,22 +722,7 @@ public class AwsOdb : IAwsOdb
     }
 
     /// <summary>
-    /// Lists the available Oracle Database software versions for Autonomous Databases. See also: AWS API Documentation list-autonomous-database-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: aut...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListAutonomousDatabaseVersionsAsync(
-        AwsOdbListAutonomousDatabaseVersionsOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsOdbListAutonomousDatabaseVersionsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
-    /// Lists all Autonomous VMs in an Autonomous VM cluster. See also: AWS API Documentation list-autonomous-virtual-machines is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: autonomousVirtualMachines
+    /// Lists all Autonomous VMs in an Autonomous VM cluster. See also: AWS API Documentation list-autonomous-virtual-machines is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: autonomousVirtualMachines
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -737,7 +737,7 @@ public class AwsOdb : IAwsOdb
     }
 
     /// <summary>
-    /// Lists all Autonomous VM clusters in a specified Cloud Exadata infra- structure. See also: AWS API Documentation list-cloud-autonomous-vm-clusters is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: clo...
+    /// Lists all Autonomous VM clusters in a specified Cloud Exadata infrastructure. See also: AWS API Documentation list-cloud-autonomous-vm-clusters is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: cloudAuto...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -752,7 +752,7 @@ public class AwsOdb : IAwsOdb
     }
 
     /// <summary>
-    /// Returns information about the Exadata infrastructures owned by your Amazon Web Services account. See also: AWS API Documentation list-cloud-exadata-infrastructures is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following quer...
+    /// Returns information about the Exadata infrastructures owned by your Amazon Web Services account. See also: AWS API Documentation list-cloud-exadata-infrastructures is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -767,7 +767,7 @@ public class AwsOdb : IAwsOdb
     }
 
     /// <summary>
-    /// Returns information about the VM clusters owned by your Amazon Web Ser- vices account or only the ones on the specified Exadata infrastructure. See also: AWS API Documentation list-cloud-vm-clusters is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from th...
+    /// Returns information about the VM clusters owned by your Amazon Web Services account or only the ones on the specified Exadata infrastructure. See also: AWS API Documentation list-cloud-vm-clusters is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -782,7 +782,7 @@ public class AwsOdb : IAwsOdb
     }
 
     /// <summary>
-    /// Returns information about the DB nodes for the specified VM cluster. See also: AWS API Documentation list-db-nodes is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: dbNodes
+    /// Returns information about the DB nodes for the specified VM cluster. See also: AWS API Documentation list-db-nodes is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: dbNodes
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -797,7 +797,7 @@ public class AwsOdb : IAwsOdb
     }
 
     /// <summary>
-    /// Returns information about the database servers that belong to the spec- ified Exadata infrastructure. See also: AWS API Documentation list-db-servers is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions:...
+    /// Returns information about the database servers that belong to the specified Exadata infrastructure. See also: AWS API Documentation list-db-servers is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: dbSer...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -842,7 +842,7 @@ public class AwsOdb : IAwsOdb
     }
 
     /// <summary>
-    /// Returns information about the Exascale storage vaults owned by your Amazon Web Services account. See also: AWS API Documentation list-exascale-db-storage-vaults is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query e...
+    /// Returns information about the Exascale storage vaults owned by your Amazon Web Services account. See also: AWS API Documentation list-exascale-db-storage-vaults is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expre...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -887,7 +887,7 @@ public class AwsOdb : IAwsOdb
     }
 
     /// <summary>
-    /// Returns information about Oracle Grid Infrastructure (GI) software ver- sions that are available for a VM cluster for the specified shape. See also: AWS API Documentation list-gi-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results o...
+    /// Returns information about Oracle Grid Infrastructure (GI) software versions that are available for a VM cluster for the specified shape. See also: AWS API Documentation list-gi-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -917,7 +917,7 @@ public class AwsOdb : IAwsOdb
     }
 
     /// <summary>
-    /// Lists all ODB peering connections or those associated with a specific ODB network. See also: AWS API Documentation list-odb-peering-connections is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: odbPe...
+    /// Lists all ODB peering connections or those associated with a specific ODB network. See also: AWS API Documentation list-odb-peering-connections is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: odbPeerin...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1007,7 +1007,7 @@ public class AwsOdb : IAwsOdb
     }
 
     /// <summary>
-    /// Shrinks the storage of the specified Autonomous Database to reclaim un- used space. See also: AWS API Documentation
+    /// Shrinks the storage of the specified Autonomous Database to reclaim unused space. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

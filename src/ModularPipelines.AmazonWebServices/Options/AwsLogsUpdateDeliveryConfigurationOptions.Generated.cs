@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Use this operation to update the configuration of a delivery to change either the S3 path pattern or the format of the delivered logs. You can't use this operation to change the source or destination of the de- livery. See also: AWS API Documentation
+/// Use this operation to update the configuration of a delivery to change either the S3 path pattern or the format of the delivered logs. You can't use this operation to change the source or destination of the delivery. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsLogsUpdateDeliveryConfigurationOptions : AwsOptions, IValidatab
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Use this operation to update the configuration of a delivery to change either the S3 path pattern or the format of the delivered logs. You can't use this operation to change the source or destination of the de- livery. See also: AWS API Documentation
+    /// Use this operation to update the configuration of a delivery to change either the S3 path pattern or the format of the delivered logs. You can't use this operation to change the source or destination of the delivery. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Id">The ID of the delivery to be updated by this request. Constraints: o min: 1 o max: 64 o pattern: ^[0-9A-Za-z]+$</param>
+    /// <param name="Id">The ID of the delivery to be updated by this request. Constraints: • min: 1 • max: 64 • pattern: ^[0-9A-Za-z]+$</param>
     public AwsLogsUpdateDeliveryConfigurationOptions(
         string Id
     )
@@ -56,25 +57,25 @@ public record AwsLogsUpdateDeliveryConfigurationOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the delivery to be updated by this request. Constraints: o min: 1 o max: 64 o pattern: ^[0-9A-Za-z]+$
+    /// The ID of the delivery to be updated by this request. Constraints: • min: 1 • max: 64 • pattern: ^[0-9A-Za-z]+$
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; private init; }
 
     /// <summary>
-    /// The list of record fields to be delivered to the destination, in or- der. If the delivery's log source has mandatory fields, they must be included in this list. Constraints: o min: 0 o max: 128 (string) Constraints: o min: 1 o max: 64 Syntax: "string" "string" ...
+    /// The list of record fields to be delivered to the destination, in order. If the delivery's log source has mandatory fields, they must be included in this list. Constraints: • min: 0 • max: 128 (string) Constraints: • min: 1 • max: 64 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--record-fields", GroupValues = true)]
     public IEnumerable<string>? RecordFields { get; set; }
 
     /// <summary>
-    /// The field delimiter to use between record fields when the final out- put format of a delivery is in Plain , W3C , or Raw format. Constraints: o min: 0 o max: 5
+    /// The field delimiter to use between record fields when the final output format of a delivery is in Plain , W3C , or Raw format. Constraints: • min: 0 • max: 5
     /// </summary>
     [CliOption("--field-delimiter")]
     public string? FieldDelimiter { get; set; }
 
     /// <summary>
-    /// This structure contains parameters that are valid only when the de- livery's delivery destination is an S3 bucket. suffixPath -&gt; (string) This string allows re-configuring the S3 object prefix to con- tain either static or variable sections. The valid variables to use in the suffix path vary by log type. To find the values sup- ported for the suffix path for each log type, use the DescribeConfigurationTemplates operation and check the allowed- SuffixPathFields field in the response. For more information about how the destination prefix, suffix path, and Hive-compati- ble setting determine the Amazon S3 object key, see Amazon S3 object key for V2 deliveries . Constraints: o min: 1 o max: 256 enableHiveCompatiblePath -&gt; (boolean) This parameter causes the S3 objects that contain delivered logs to use a prefix structure that allows for integration with Apache Hive. Shorthand Syntax: suffixPath=string,enableHiveCompatiblePath=boolean JSON Syntax: { "suffixPath": "string", "enableHiveCompatiblePath": true|false }
+    /// This structure contains parameters that are valid only when the delivery's delivery destination is an S3 bucket. suffixPath -&gt; (string) This string allows re-configuring the S3 object prefix to contain either static or variable sections. The valid variables to use in the suffix path vary by log type. To find the values supported for the suffix path for each log type, use the DescribeConfigurationTemplates operation and check the allowedSuffixPathFields field in the response. For more information about how the destination prefix, suffix path, and Hive-compatible setting determine the Amazon S3 object key, see Amazon S3 object key for V2 deliveries . Constraints: • min: 1 • max: 256 enableHiveCompatiblePath -&gt; (boolean) This parameter causes the S3 objects that contain delivered logs to use a prefix structure that allows for integration with Apache Hive. Shorthand Syntax: suffixPath=string,enableHiveCompatiblePath=boolean JSON Syntax: { "suffixPath": "string", "enableHiveCompatiblePath": true|false }
     /// </summary>
     [CliOption("--s3-delivery-configuration")]
     public string? S3DeliveryConfiguration { get; set; }
@@ -100,6 +101,15 @@ public record AwsLogsUpdateDeliveryConfigurationOptions : AwsOptions, IValidatab
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

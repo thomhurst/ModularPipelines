@@ -11,7 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -25,38 +25,38 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsMedicalImagingCreateDatastoreOptions : AwsOptions
 {
     /// <summary>
-    /// The data store name. Constraints: o min: 1 o max: 256 o pattern: [A-Za-z0-9._/#-]+
+    /// The data store name. Constraints: • min: 1 • max: 256 • pattern: [A-Za-z0-9._/#-]+
     /// </summary>
     [CliOption("--datastore-name")]
     public string? DatastoreName { get; set; }
 
     /// <summary>
-    /// A unique identifier for API idempotency. Constraints: o min: 1 o max: 64 o pattern: [A-Za-z0-9._-]+
+    /// A unique identifier for API idempotency. Constraints: • min: 1 • max: 64 • pattern: [A-Za-z0-9._-]+
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// The tags provided when creating a data store. key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: (?!aws:)[a-zA-Z+-=._:/]+ value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The tags provided when creating a data store. key -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: (?!aws:)[a-zA-Z+-=._:/]+ value -&gt; (string) Constraints: • min: 0 • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) assigned to the Key Management Ser- vice (KMS) key for accessing encrypted data. Constraints: o min: 1 o max: 512 o pattern: arn:aws[a-zA-Z-]{0,16}:kms:[a-z]{2}(-[a-z]{1,16}){1,3}-\d{1}:\d{12}:((key/[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12})|(alias/[a-zA-Z0-9:/_-]{1,256}))
+    /// The Amazon Resource Name (ARN) assigned to the Key Management Service (KMS) key for accessing encrypted data. Constraints: • min: 1 • max: 512 • pattern: arn:aws[a-zA-Z-]{0,16}:kms:[a-z]{2}(-[a-z]{1,16}){1,3}-\d{1}:\d{12}:((key/[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12})|(alias/[a-zA-Z0-9:/_-]{1,256}))
     /// </summary>
     [CliOption("--kms-key-arn")]
     public string? KmsKeyArn { get; set; }
 
     /// <summary>
-    /// The ARN of the authorizer's Lambda function. Constraints: o pattern: arn:(aws[a-zA-Z-]*)?:lambda:[a-z]{2}((-gov)|(-iso(b?)))?-[a-z]+-\d{1}:\d{12}:func- tion:[a-zA-Z0-9-_]+(:(\$LATEST|[a-zA-Z0-9-_]+))?
+    /// The ARN of the authorizer's Lambda function. Constraints: • pattern: arn:(aws[a-zA-Z-]*)?:lambda:[a-z]{2}((-gov)|(-iso(b?)))?-[a-z]+-\d{1}:\d{12}:function:[a-zA-Z0-9-_]+(:(\$LATEST|[a-zA-Z0-9-_]+))?
     /// </summary>
     [CliOption("--lambda-authorizer-arn")]
     public string? LambdaAuthorizerArn { get; set; }
 
     /// <summary>
-    /// The lossless storage format for the datastore. Possible values: o HTJ2K o JPEG_2000_LOSSLESS
+    /// The lossless storage format for the datastore. Possible values: • HTJ2K • JPEG_2000_LOSSLESS
     /// </summary>
     [CliOption("--lossless-storage-format")]
     public AwsMedicalImagingCreateDatastoreLosslessStorageFormat? LosslessStorageFormat { get; set; }
@@ -66,5 +66,14 @@ public record AwsMedicalImagingCreateDatastoreOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

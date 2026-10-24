@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Runs a batch SQL statement over an array of data. You can run bulk update and insert operations for multiple records us- ing a DML statement with different parameter sets. Bulk operations can provide a significant performance improvement over individual insert and update operations. NOTE: If a call isn't part of a transaction because it doesn't include the transactionID parameter, changes that result from the call are com- mitted automatically. There isn't a fixed upper limit on the number of pa...
+/// Runs a batch SQL statement over an array of data. You can run bulk update and insert operations for multiple records using a DML statement with different parameter sets. Bulk operations can provide a significant performance improvement over individual insert and update operations. NOTE: If a call isn't part of a transaction because it doesn't include the transactionID parameter, changes that result from the call are committed automatically. There isn't a fixed upper limit on the number of parame...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,11 +26,11 @@ public record AwsRdsDataBatchExecuteStatementOptions : AwsOptions, IValidatableO
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Runs a batch SQL statement over an array of data. You can run bulk update and insert operations for multiple records us- ing a DML statement with different parameter sets. Bulk operations can provide a significant performance improvement over individual insert and update operations. NOTE: If a call isn't part of a transaction because it doesn't include the transactionID parameter, changes that result from the call are com- mitted automatically. There isn't a fixed upper limit on the number of pa...
+    /// Runs a batch SQL statement over an array of data. You can run bulk update and insert operations for multiple records using a DML statement with different parameter sets. Bulk operations can provide a significant performance improvement over individual insert and update operations. NOTE: If a call isn't part of a transaction because it doesn't include the transactionID parameter, changes that result from the call are committed automatically. There isn't a fixed upper limit on the number of parame...
     /// </summary>
-    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the Aurora Serverless DB cluster. Constraints: o min: 11 o max: 570</param>
-    /// <param name="SecretArn">The ARN of the secret that enables access to the DB cluster. Enter the database user name and password for the credentials in the se- cret. For information about creating the secret, see Create a database se- cret . Constraints: o min: 11 o max: 570</param>
-    /// <param name="Sql">The SQL statement to run. Don't include a semicolon (;) at the end of the SQL statement. Constraints: o min: 0 o max: 65536</param>
+    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the Aurora Serverless DB cluster. Constraints: • min: 11 • max: 570</param>
+    /// <param name="SecretArn">The ARN of the secret that enables access to the DB cluster. Enter the database user name and password for the credentials in the secret. For information about creating the secret, see Create a database secret . Constraints: • min: 11 • max: 570</param>
+    /// <param name="Sql">The SQL statement to run. Don't include a semicolon (;) at the end of the SQL statement. Constraints: • min: 0 • max: 65536</param>
     public AwsRdsDataBatchExecuteStatementOptions(
         string ResourceArn,
         string SecretArn,
@@ -64,43 +65,43 @@ public record AwsRdsDataBatchExecuteStatementOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the Aurora Serverless DB cluster. Constraints: o min: 11 o max: 570
+    /// The Amazon Resource Name (ARN) of the Aurora Serverless DB cluster. Constraints: • min: 11 • max: 570
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
 
     /// <summary>
-    /// The ARN of the secret that enables access to the DB cluster. Enter the database user name and password for the credentials in the se- cret. For information about creating the secret, see Create a database se- cret . Constraints: o min: 11 o max: 570
+    /// The ARN of the secret that enables access to the DB cluster. Enter the database user name and password for the credentials in the secret. For information about creating the secret, see Create a database secret . Constraints: • min: 11 • max: 570
     /// </summary>
     [CliOption("--secret-arn")]
     public string? SecretArn { get; private init; }
 
     /// <summary>
-    /// The SQL statement to run. Don't include a semicolon (;) at the end of the SQL statement. Constraints: o min: 0 o max: 65536
+    /// The SQL statement to run. Don't include a semicolon (;) at the end of the SQL statement. Constraints: • min: 0 • max: 65536
     /// </summary>
     [CliOption("--sql")]
     public string? Sql { get; private init; }
 
     /// <summary>
-    /// The name of the database. Constraints: o min: 0 o max: 64
+    /// The name of the database. Constraints: • min: 0 • max: 64
     /// </summary>
     [CliOption("--database")]
     public string? Database { get; set; }
 
     /// <summary>
-    /// The name of the database schema. NOTE: Currently, the schema parameter isn't supported. Constraints: o min: 0 o max: 64
+    /// The name of the database schema. NOTE: Currently, the schema parameter isn't supported. Constraints: • min: 0 • max: 64
     /// </summary>
     [CliOption("--schema")]
     public string? Schema { get; set; }
 
     /// <summary>
-    /// The parameter set for the batch operation. The SQL statement is executed as many times as the number of parame- ter sets provided. To execute a SQL statement with no parameters, use one of the following options: o Specify one or more empty parameter sets. o Use the ExecuteStatement operation instead of the BatchExecuteS- tatement operation. NOTE: Array parameters are not supported. (list) (structure) A parameter used in a SQL statement. name -&gt; (string) The name of the parameter. value -&gt; (tagged union structure) The value of the parameter. NOTE: This is a Tagged Union structure. Only one of the fol- lowing top level keys can be set: isNull, boolean- Value, longValue, doubleValue, stringValue, blobValue, arrayValue. isNull -&gt; (boolean) A NULL value. booleanValue -&gt; (boolean) A value of Boolean data type. longValue -&gt; (long) A value of long data type. doubleValue -&gt; (double) A value of double data type. stringValue -&gt; (string) A value of string data type. blobValue -&gt; (blob) A value of BLOB data type. arrayValue -&gt; (tagged union structure) An array of values. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: booleanVal- ues, longValues, doubleValues, stringValues, ar- rayValues. booleanValues -&gt; (list) An array of Boolean values. Can contain null val- ues. (boolean) longValues -&gt; (list) An array of integers. Can contain null values. (long) doubleValues -&gt; (list) An array of floating-point numbers. Can contain null values. (double) stringValues -&gt; (list) An array of strings. Can contain null values. (string) arrayValues -&gt; (list) An array of arrays. Can contain null values. (tagged union structure) Contains an array. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: booleanValues, longValues, doubleValues, stringValues, arrayValues. booleanValues -&gt; (list) An array of Boolean values. Can contain null values. (boolean) longValues -&gt; (list) An array of integers. Can contain null val- ues. (long) doubleValues -&gt; (list) An array of floating-point numbers. Can contain null values. (double) stringValues -&gt; (list) An array of strings. Can contain null val- ues. (string) arrayValues -&gt; (list) An array of arrays. Can contain null val- ues. ( ... recursive ... ) typeHint -&gt; (string) A hint that specifies the correct object type for data type mapping. Possible values are as follows: o DATE - The corresponding String parameter value is sent as an object of DATE type to the database. The accepted format is YYYY-MM-DD . o DECIMAL - The corresponding String parameter value is sent as an object of DECIMAL type to the database. o JSON - The corresponding String parameter value is sent as an object of JSON type to the database. o TIME - The corresponding String parameter value is sent as an object of TIME type to the database. The accepted format is HH:MM:SS[.FFF] . o TIMESTAMP - The corresponding String parameter value is sent as an object of TIMESTAMP type to the database. The accepted format is YYYY-MM-DD HH:MM:SS[.FFF] . o UUID - The corresponding String parameter value is sent as an object of UUID type to the database. Possible values: o JSON o UUID o TIMESTAMP o DATE o TIME o DECIMAL JSON Syntax: [ [ { "name": "string", "value": { "isNull": true|false, "booleanValue": true|false, "longValue": long, "doubleValue": double, "stringValue": "string", "blobValue": blob, "arrayValue": { "booleanValues": [true|false, ...], "longValues": [long, ...], "doubleValues": [double, ...], "stringValues": ["string", ...], "arrayValues": [ { "booleanValues": [true|false, ...], "longValues": [long, ...], "doubleValues": [double, ...], "stringValues": ["string", ...], "arrayValues": [ { ... recursive ... } ... ] } ... ] } }, "typeHint": "JSON"|"UUID"|"TIMESTAMP"|"DATE"|"TIME"|"DECIMAL" } ... ] ... ]
+    /// The parameter set for the batch operation. The SQL statement is executed as many times as the number of parameter sets provided. To execute a SQL statement with no parameters, use one of the following options: • Specify one or more empty parameter sets. • Use the ExecuteStatement operation instead of the BatchExecuteStatement operation. NOTE: Array parameters are not supported. (list) (structure) A parameter used in a SQL statement. name -&gt; (string) The name of the parameter. value -&gt; (tagged union structure) The value of the parameter. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: isNull, booleanValue, longValue, doubleValue, stringValue, blobValue, arrayValue. isNull -&gt; (boolean) A NULL value. booleanValue -&gt; (boolean) A value of Boolean data type. longValue -&gt; (long) A value of long data type. doubleValue -&gt; (double) A value of double data type. stringValue -&gt; (string) A value of string data type. blobValue -&gt; (blob) A value of BLOB data type. arrayValue -&gt; (tagged union structure) An array of values. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: booleanValues, longValues, doubleValues, stringValues, arrayValues. booleanValues -&gt; (list) An array of Boolean values. Can contain null values. (boolean) longValues -&gt; (list) An array of integers. Can contain null values. (long) doubleValues -&gt; (list) An array of floating-point numbers. Can contain null values. (double) stringValues -&gt; (list) An array of strings. Can contain null values. (string) arrayValues -&gt; (list) An array of arrays. Can contain null values. (tagged union structure) Contains an array. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: booleanValues, longValues, doubleValues, stringValues, arrayValues. booleanValues -&gt; (list) An array of Boolean values. Can contain null values. (boolean) longValues -&gt; (list) An array of integers. Can contain null values. (long) doubleValues -&gt; (list) An array of floating-point numbers. Can contain null values. (double) stringValues -&gt; (list) An array of strings. Can contain null values. (string) arrayValues -&gt; (list) An array of arrays. Can contain null values. ( ... recursive ... ) typeHint -&gt; (string) A hint that specifies the correct object type for data type mapping. Possible values are as follows: • DATE - The corresponding String parameter value is sent as an object of DATE type to the database. The accepted format is YYYY-MM-DD . • DECIMAL - The corresponding String parameter value is sent as an object of DECIMAL type to the database. • JSON - The corresponding String parameter value is sent as an object of JSON type to the database. • TIME - The corresponding String parameter value is sent as an object of TIME type to the database. The accepted format is HH:MM:SS[.FFF] . • TIMESTAMP - The corresponding String parameter value is sent as an object of TIMESTAMP type to the database. The accepted format is YYYY-MM-DD HH:MM:SS[.FFF] . • UUID - The corresponding String parameter value is sent as an object of UUID type to the database. Possible values: • JSON • UUID • TIMESTAMP • DATE • TIME • DECIMAL JSON Syntax: [ [ { "name": "string", "value": { "isNull": true|false, "booleanValue": true|false, "longValue": long, "doubleValue": double, "stringValue": "string", "blobValue": blob, "arrayValue": { "booleanValues": [true|false, ...], "longValues": [long, ...], "doubleValues": [double, ...], "stringValues": ["string", ...], "arrayValues": [ { "booleanValues": [true|false, ...], "longValues": [long, ...], "doubleValues": [double, ...], "stringValues": ["string", ...], "arrayValues": [ { ... recursive ... } ... ] } ... ] } }, "typeHint": "JSON"|"UUID"|"TIMESTAMP"|"DATE"|"TIME"|"DECIMAL" } ... ] ... ]
     /// </summary>
     [CliOption("--parameter-sets", GroupValues = true)]
     public IEnumerable<string>? ParameterSets { get; set; }
 
     /// <summary>
-    /// The identifier of a transaction that was started by using the Begin- Transaction operation. Specify the transaction ID of the transaction that you want to include the SQL statement in. If the SQL statement is not part of a transaction, don't set this parameter. Constraints: o min: 0 o max: 192
+    /// The identifier of a transaction that was started by using the BeginTransaction operation. Specify the transaction ID of the transaction that you want to include the SQL statement in. If the SQL statement is not part of a transaction, don't set this parameter. Constraints: • min: 0 • max: 192
     /// </summary>
     [CliOption("--transaction-id")]
     public string? TransactionId { get; set; }
@@ -126,6 +127,15 @@ public record AwsRdsDataBatchExecuteStatementOptions : AwsOptions, IValidatableO
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

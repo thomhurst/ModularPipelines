@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsMediaconnectRevokeFlowEntitlementOptions : AwsOptions, IValidat
     /// <summary>
     /// Revokes an entitlement from a flow. Once an entitlement is revoked, the content becomes unavailable to the subscriber and the associated output is removed. See also: AWS API Documentation
     /// </summary>
-    /// <param name="EntitlementArn">The Amazon Resource Name (ARN) of the entitlement that you want to revoke. Constraints: o pattern: arn:.+:mediaconnect.+:entitlement:.+</param>
-    /// <param name="FlowArn">The flow that you want to revoke an entitlement from. Constraints: o pattern: arn:.+:mediaconnect.+:flow:.+</param>
+    /// <param name="EntitlementArn">The Amazon Resource Name (ARN) of the entitlement that you want to revoke. Constraints: • pattern: arn:.+:mediaconnect.+:entitlement:.+</param>
+    /// <param name="FlowArn">The flow that you want to revoke an entitlement from. Constraints: • pattern: arn:.+:mediaconnect.+:flow:.+</param>
     public AwsMediaconnectRevokeFlowEntitlementOptions(
         string EntitlementArn,
         string FlowArn
@@ -60,13 +61,13 @@ public record AwsMediaconnectRevokeFlowEntitlementOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the entitlement that you want to revoke. Constraints: o pattern: arn:.+:mediaconnect.+:entitlement:.+
+    /// The Amazon Resource Name (ARN) of the entitlement that you want to revoke. Constraints: • pattern: arn:.+:mediaconnect.+:entitlement:.+
     /// </summary>
     [CliOption("--entitlement-arn")]
     public string? EntitlementArn { get; private init; }
 
     /// <summary>
-    /// The flow that you want to revoke an entitlement from. Constraints: o pattern: arn:.+:mediaconnect.+:flow:.+
+    /// The flow that you want to revoke an entitlement from. Constraints: • pattern: arn:.+:mediaconnect.+:flow:.+
     /// </summary>
     [CliOption("--flow-arn")]
     public string? FlowArn { get; private init; }
@@ -92,6 +93,15 @@ public record AwsMediaconnectRevokeFlowEntitlementOptions : AwsOptions, IValidat
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,8 +29,8 @@ public record AwsComprehendBatchDetectSyntaxOptions : AwsOptions, IValidatableOb
     /// <summary>
     /// Inspects the text of a batch of documents for the syntax and part of speech of the words in the document and returns information about them. For more information, see Syntax in the Comprehend Developer Guide. See also: AWS API Documentation
     /// </summary>
-    /// <param name="TextList">A list containing the UTF-8 encoded text of the input documents. The list can contain a maximum of 25 documents. The maximum size for each document is 5 KB. Constraints: o min: 1 (string) Constraints: o min: 1 Syntax: "string" "string" ...</param>
-    /// <param name="LanguageCode">The language of the input documents. You can specify any of the fol- lowing languages supported by Amazon Comprehend: German ("de"), Eng- lish ("en"), Spanish ("es"), French ("fr"), Italian ("it"), or Por- tuguese ("pt"). All documents must be in the same language. Possible values: o en o es o fr o de o it o pt</param>
+    /// <param name="TextList">A list containing the UTF-8 encoded text of the input documents. The list can contain a maximum of 25 documents. The maximum size for each document is 5 KB. Constraints: • min: 1 (string) Constraints: • min: 1 Syntax: "string" "string" ...</param>
+    /// <param name="LanguageCode">The language of the input documents. You can specify any of the following languages supported by Amazon Comprehend: German ("de"), English ("en"), Spanish ("es"), French ("fr"), Italian ("it"), or Portuguese ("pt"). All documents must be in the same language. Possible values: • en • es • fr • de • it • pt</param>
     public AwsComprehendBatchDetectSyntaxOptions(
         IEnumerable<string> TextList,
         AwsComprehendBatchDetectSyntaxLanguageCode LanguageCode
@@ -71,13 +72,13 @@ public record AwsComprehendBatchDetectSyntaxOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A list containing the UTF-8 encoded text of the input documents. The list can contain a maximum of 25 documents. The maximum size for each document is 5 KB. Constraints: o min: 1 (string) Constraints: o min: 1 Syntax: "string" "string" ...
+    /// A list containing the UTF-8 encoded text of the input documents. The list can contain a maximum of 25 documents. The maximum size for each document is 5 KB. Constraints: • min: 1 (string) Constraints: • min: 1 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--text-list", GroupValues = true)]
     public IEnumerable<string>? TextList { get; private init; }
 
     /// <summary>
-    /// The language of the input documents. You can specify any of the fol- lowing languages supported by Amazon Comprehend: German ("de"), Eng- lish ("en"), Spanish ("es"), French ("fr"), Italian ("it"), or Por- tuguese ("pt"). All documents must be in the same language. Possible values: o en o es o fr o de o it o pt
+    /// The language of the input documents. You can specify any of the following languages supported by Amazon Comprehend: German ("de"), English ("en"), Spanish ("es"), French ("fr"), Italian ("it"), or Portuguese ("pt"). All documents must be in the same language. Possible values: • en • es • fr • de • it • pt
     /// </summary>
     [CliOption("--language-code")]
     public AwsComprehendBatchDetectSyntaxLanguageCode? LanguageCode { get; private init; }
@@ -103,6 +104,15 @@ public record AwsComprehendBatchDetectSyntaxOptions : AwsOptions, IValidatableOb
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a template in the Cases domain. This template is used to define the case object model (that is, to define what data can be captured on cases) in a Cases domain. A template must have a unique name within a domain, and it must reference existing field IDs and layout IDs. Addi- tionally, multiple fields with same IDs are not allowed within the same Template. A template can be either Active or Inactive, as indicated by its status. Inactive templates cannot be used to create cases. Other temp...
+/// Creates a template in the Cases domain. This template is used to define the case object model (that is, to define what data can be captured on cases) in a Cases domain. A template must have a unique name within a domain, and it must reference existing field IDs and layout IDs. Additionally, multiple fields with same IDs are not allowed within the same Template. A template can be either Active or Inactive, as indicated by its status. Inactive templates cannot be used to create cases. Other templa...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +27,10 @@ public record AwsConnectcasesCreateTemplateOptions : AwsOptions, IValidatableObj
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a template in the Cases domain. This template is used to define the case object model (that is, to define what data can be captured on cases) in a Cases domain. A template must have a unique name within a domain, and it must reference existing field IDs and layout IDs. Addi- tionally, multiple fields with same IDs are not allowed within the same Template. A template can be either Active or Inactive, as indicated by its status. Inactive templates cannot be used to create cases. Other temp...
+    /// Creates a template in the Cases domain. This template is used to define the case object model (that is, to define what data can be captured on cases) in a Cases domain. A template must have a unique name within a domain, and it must reference existing field IDs and layout IDs. Additionally, multiple fields with same IDs are not allowed within the same Template. A template can be either Active or Inactive, as indicated by its status. Inactive templates cannot be used to create cases. Other templa...
     /// </summary>
-    /// <param name="DomainId">The unique identifier of the Cases domain. Constraints: o min: 1 o max: 500</param>
-    /// <param name="Name">A name for the template. It must be unique per domain. Constraints: o min: 1 o max: 100 o pattern: .*[\S]</param>
+    /// <param name="DomainId">The unique identifier of the Cases domain. Constraints: • min: 1 • max: 500</param>
+    /// <param name="Name">A name for the template. It must be unique per domain. Constraints: • min: 1 • max: 100 • pattern: .*[\S]</param>
     public AwsConnectcasesCreateTemplateOptions(
         string DomainId,
         string Name
@@ -61,49 +62,49 @@ public record AwsConnectcasesCreateTemplateOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the Cases domain. Constraints: o min: 1 o max: 500
+    /// The unique identifier of the Cases domain. Constraints: • min: 1 • max: 500
     /// </summary>
     [CliOption("--domain-id")]
     public string? DomainId { get; private init; }
 
     /// <summary>
-    /// A name for the template. It must be unique per domain. Constraints: o min: 1 o max: 100 o pattern: .*[\S]
+    /// A name for the template. It must be unique per domain. Constraints: • min: 1 • max: 100 • pattern: .*[\S]
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// A brief description of the template. Constraints: o min: 0 o max: 255
+    /// A brief description of the template. Constraints: • min: 0 • max: 255
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// Configuration of layouts associated to the template. defaultLayout -&gt; (string) Unique identifier of a layout. Constraints: o min: 1 o max: 500 Shorthand Syntax: defaultLayout=string JSON Syntax: { "defaultLayout": "string" }
+    /// Configuration of layouts associated to the template. defaultLayout -&gt; (string) Unique identifier of a layout. Constraints: • min: 1 • max: 500 Shorthand Syntax: defaultLayout=string JSON Syntax: { "defaultLayout": "string" }
     /// </summary>
     [CliOption("--layout-configuration")]
     public string? LayoutConfiguration { get; set; }
 
     /// <summary>
-    /// A list of fields that must contain a value for a case to be success- fully created with this template. Constraints: o min: 0 o max: 100 (structure) List of fields that must have a value provided to create a case. fieldId -&gt; (string) [required] Unique identifier of a field. Constraints: o min: 1 o max: 500 Shorthand Syntax: fieldId=string ... JSON Syntax: [ { "fieldId": "string" } ... ]
+    /// A list of fields that must contain a value for a case to be successfully created with this template. Constraints: • min: 0 • max: 100 (structure) List of fields that must have a value provided to create a case. fieldId -&gt; (string) [required] Unique identifier of a field. Constraints: • min: 1 • max: 500 Shorthand Syntax: fieldId=string ... JSON Syntax: [ { "fieldId": "string" } ... ]
     /// </summary>
     [CliOption("--required-fields", GroupValues = true)]
     public IEnumerable<string>? RequiredFields { get; set; }
 
     /// <summary>
-    /// The status of the template. Possible values: o Active o Inactive
+    /// The status of the template. Possible values: • Active • Inactive
     /// </summary>
     [CliOption("--status")]
     public AwsConnectcasesCreateTemplateStatus? Status { get; set; }
 
     /// <summary>
-    /// A list of case rules (also known as case field conditions ) on a template. Constraints: o min: 0 o max: 50 (structure) An association representing a case rule acting upon a field. In the Amazon Connect admin website, case rules are known as case field conditions . For more information about case field condi- tions, see Add case field conditions to a case template . caseRuleId -&gt; (string) [required] Unique identifier of a case rule. Constraints: o min: 1 o max: 500 fieldId -&gt; (string) Unique identifier of a field. Constraints: o min: 1 o max: 500 Shorthand Syntax: caseRuleId=string,fieldId=string ... JSON Syntax: [ { "caseRuleId": "string", "fieldId": "string" } ... ]
+    /// A list of case rules (also known as case field conditions ) on a template. Constraints: • min: 0 • max: 50 (structure) An association representing a case rule acting upon a field. In the Amazon Connect admin website, case rules are known as case field conditions . For more information about case field conditions, see Add case field conditions to a case template . caseRuleId -&gt; (string) [required] Unique identifier of a case rule. Constraints: • min: 1 • max: 500 fieldId -&gt; (string) Unique identifier of a field. Constraints: • min: 1 • max: 500 Shorthand Syntax: caseRuleId=string,fieldId=string ... JSON Syntax: [ { "caseRuleId": "string", "fieldId": "string" } ... ]
     /// </summary>
     [CliOption("--rules", GroupValues = true)]
     public IEnumerable<string>? Rules { get; set; }
 
     /// <summary>
-    /// Defines tag propagation configuration for resources created within a domain. Tags specified here will be automatically applied to re- sources being created for the specified resource type. Constraints: o min: 0 o max: 1 (structure) Defines tag propagation configuration for resources created within a domain. Tags specified here will be automatically ap- plied to resources being created for the specified resource type. resourceType -&gt; (string) [required] Supported resource types for tag propagation. Determines which resources will receive automatically propagated tags. Possible values: o Cases tagMap -&gt; (map) [required] The tags that will be applied to the created resource. Constraints: o min: 0 o max: 10 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: (?![aA][wW][sS]:)[a-zA-Z0-9 _.:/=+\-@]+ value -&gt; (string) Constraints: o min: 0 o max: 256 o pattern: ([a-zA-Z0-9 _.:/=+\-@]*) Shorthand Syntax: resourceType=string,tagMap={KeyName1=string,KeyName2=string} ... JSON Syntax: [ { "resourceType": "Cases", "tagMap": {"string": "string" ...} } ... ]
+    /// Defines tag propagation configuration for resources created within a domain. Tags specified here will be automatically applied to resources being created for the specified resource type. Constraints: • min: 0 • max: 1 (structure) Defines tag propagation configuration for resources created within a domain. Tags specified here will be automatically applied to resources being created for the specified resource type. resourceType -&gt; (string) [required] Supported resource types for tag propagation. Determines which resources will receive automatically propagated tags. Possible values: • Cases tagMap -&gt; (map) [required] The tags that will be applied to the created resource. Constraints: • min: 0 • max: 10 key -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: (?![aA][wW][sS]:)[a-zA-Z0-9 _.:/=+\-@]+ value -&gt; (string) Constraints: • min: 0 • max: 256 • pattern: ([a-zA-Z0-9 _.:/=+\-@]*) Shorthand Syntax: resourceType=string,tagMap={KeyName1=string,KeyName2=string} ... JSON Syntax: [ { "resourceType": "Cases", "tagMap": {"string": "string" ...} } ... ]
     /// </summary>
     [CliOption("--tag-propagation-configurations", GroupValues = true)]
     public IEnumerable<string>? TagPropagationConfigurations { get; set; }
@@ -129,6 +130,15 @@ public record AwsConnectcasesCreateTemplateOptions : AwsOptions, IValidatableObj
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

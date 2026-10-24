@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes a Firehose stream and its data. You can delete a Firehose stream only if it is in one of the following states: ACTIVE , DELETING , CREATING_FAILED , or DELETING_FAILED . You can't delete a Firehose stream that is in the CREATING state. To check the state of a Firehose stream, use DescribeDeliveryStream . DeleteDeliveryStream is an asynchronous API. When an API request to DeleteDeliveryStream succeeds, the Firehose stream is marked for dele- tion, and it goes into the DELETING state.While...
+/// Deletes a Firehose stream and its data. You can delete a Firehose stream only if it is in one of the following states: ACTIVE , DELETING , CREATING_FAILED , or DELETING_FAILED . You can't delete a Firehose stream that is in the CREATING state. To check the state of a Firehose stream, use DescribeDeliveryStream . DeleteDeliveryStream is an asynchronous API. When an API request to DeleteDeliveryStream succeeds, the Firehose stream is marked for deletion, and it goes into the DELETING state.While t...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsFirehoseDeleteDeliveryStreamOptions : AwsOptions, IValidatableO
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes a Firehose stream and its data. You can delete a Firehose stream only if it is in one of the following states: ACTIVE , DELETING , CREATING_FAILED , or DELETING_FAILED . You can't delete a Firehose stream that is in the CREATING state. To check the state of a Firehose stream, use DescribeDeliveryStream . DeleteDeliveryStream is an asynchronous API. When an API request to DeleteDeliveryStream succeeds, the Firehose stream is marked for dele- tion, and it goes into the DELETING state.While...
+    /// Deletes a Firehose stream and its data. You can delete a Firehose stream only if it is in one of the following states: ACTIVE , DELETING , CREATING_FAILED , or DELETING_FAILED . You can't delete a Firehose stream that is in the CREATING state. To check the state of a Firehose stream, use DescribeDeliveryStream . DeleteDeliveryStream is an asynchronous API. When an API request to DeleteDeliveryStream succeeds, the Firehose stream is marked for deletion, and it goes into the DELETING state.While t...
     /// </summary>
-    /// <param name="DeliveryStreamName">The name of the Firehose stream. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_.-]+</param>
+    /// <param name="DeliveryStreamName">The name of the Firehose stream. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9_.-]+</param>
     public AwsFirehoseDeleteDeliveryStreamOptions(
         string DeliveryStreamName
     )
@@ -56,7 +57,7 @@ public record AwsFirehoseDeleteDeliveryStreamOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the Firehose stream. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_.-]+
+    /// The name of the Firehose stream. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9_.-]+
     /// </summary>
     [CliOption("--delivery-stream-name")]
     public string? DeliveryStreamName { get; private init; }
@@ -88,6 +89,15 @@ public record AwsFirehoseDeleteDeliveryStreamOptions : AwsOptions, IValidatableO
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

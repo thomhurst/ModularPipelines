@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Allows buyers (acceptors) to accept a payment request that is in PEND- ING_APPROVAL status. Once accepted, the payment request transitions to APPROVED status and the charge will be processed. Buyers can optionally provide a purchase order reference for their internal tracking. NOTE: Only payment requests in PENDING_APPROVAL status can be accepted. A ConflictException is thrown if the payment request is in any other status. See also: AWS API Documentation
+/// Allows buyers (acceptors) to accept a payment request that is in PENDING_APPROVAL status. Once accepted, the payment request transitions to APPROVED status and the charge will be processed. Buyers can optionally provide a purchase order reference for their internal tracking. NOTE: Only payment requests in PENDING_APPROVAL status can be accepted. A ConflictException is thrown if the payment request is in any other status. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsMarketplaceAgreementAcceptAgreementPaymentRequestOptions : AwsO
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Allows buyers (acceptors) to accept a payment request that is in PEND- ING_APPROVAL status. Once accepted, the payment request transitions to APPROVED status and the charge will be processed. Buyers can optionally provide a purchase order reference for their internal tracking. NOTE: Only payment requests in PENDING_APPROVAL status can be accepted. A ConflictException is thrown if the payment request is in any other status. See also: AWS API Documentation
+    /// Allows buyers (acceptors) to accept a payment request that is in PENDING_APPROVAL status. Once accepted, the payment request transitions to APPROVED status and the charge will be processed. Buyers can optionally provide a purchase order reference for their internal tracking. NOTE: Only payment requests in PENDING_APPROVAL status can be accepted. A ConflictException is thrown if the payment request is in any other status. See also: AWS API Documentation
     /// </summary>
-    /// <param name="PaymentRequestId">The unique identifier of the payment request to accept. Constraints: o min: 1 o max: 64 o pattern: pr-[a-zA-Z0-9]+</param>
-    /// <param name="AgreementId">The unique identifier of the agreement associated with the payment request. Constraints: o min: 1 o max: 64 o pattern: [A-Za-z0-9_/-]+</param>
+    /// <param name="PaymentRequestId">The unique identifier of the payment request to accept. Constraints: • min: 1 • max: 64 • pattern: pr-[a-zA-Z0-9]+</param>
+    /// <param name="AgreementId">The unique identifier of the agreement associated with the payment request. Constraints: • min: 1 • max: 64 • pattern: [A-Za-z0-9_/-]+</param>
     public AwsMarketplaceAgreementAcceptAgreementPaymentRequestOptions(
         string PaymentRequestId,
         string AgreementId
@@ -60,19 +61,19 @@ public record AwsMarketplaceAgreementAcceptAgreementPaymentRequestOptions : AwsO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the payment request to accept. Constraints: o min: 1 o max: 64 o pattern: pr-[a-zA-Z0-9]+
+    /// The unique identifier of the payment request to accept. Constraints: • min: 1 • max: 64 • pattern: pr-[a-zA-Z0-9]+
     /// </summary>
     [CliOption("--payment-request-id")]
     public string? PaymentRequestId { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the agreement associated with the payment request. Constraints: o min: 1 o max: 64 o pattern: [A-Za-z0-9_/-]+
+    /// The unique identifier of the agreement associated with the payment request. Constraints: • min: 1 • max: 64 • pattern: [A-Za-z0-9_/-]+
     /// </summary>
     [CliOption("--agreement-id")]
     public string? AgreementId { get; private init; }
 
     /// <summary>
-    /// An optional purchase order reference that buyers can provide to as- sociate the payment request with their internal purchase order sys- tem. Constraints: o min: 1
+    /// An optional purchase order reference that buyers can provide to associate the payment request with their internal purchase order system. Constraints: • min: 1
     /// </summary>
     [CliOption("--purchase-order-reference")]
     public string? PurchaseOrderReference { get; set; }
@@ -98,6 +99,15 @@ public record AwsMarketplaceAgreementAcceptAgreementPaymentRequestOptions : AwsO
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

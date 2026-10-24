@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsInspector2GetCodeSecurityScanOptions : AwsOptions, IValidatable
     /// <summary>
     /// Retrieves information about a specific code security scan. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Resource">The resource identifier for the code repository that was scanned. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: projectId. projectId -&gt; (string) The unique identifier of the project in the code repository. Constraints: o pattern: project-[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12} Shorthand Syntax: projectId=string JSON Syntax: { "projectId": "string" }</param>
-    /// <param name="ScanId">The unique identifier of the scan to retrieve. Constraints: o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}</param>
+    /// <param name="Resource">The resource identifier for the code repository that was scanned. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: projectId. projectId -&gt; (string) The unique identifier of the project in the code repository. Constraints: • pattern: project-[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12} Shorthand Syntax: projectId=string JSON Syntax: { "projectId": "string" }</param>
+    /// <param name="ScanId">The unique identifier of the scan to retrieve. Constraints: • pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}</param>
     public AwsInspector2GetCodeSecurityScanOptions(
         string Resource,
         string ScanId
@@ -60,13 +61,13 @@ public record AwsInspector2GetCodeSecurityScanOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The resource identifier for the code repository that was scanned. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: projectId. projectId -&gt; (string) The unique identifier of the project in the code repository. Constraints: o pattern: project-[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12} Shorthand Syntax: projectId=string JSON Syntax: { "projectId": "string" }
+    /// The resource identifier for the code repository that was scanned. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: projectId. projectId -&gt; (string) The unique identifier of the project in the code repository. Constraints: • pattern: project-[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12} Shorthand Syntax: projectId=string JSON Syntax: { "projectId": "string" }
     /// </summary>
     [CliOption("--resource")]
     public string? Resource { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the scan to retrieve. Constraints: o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}
+    /// The unique identifier of the scan to retrieve. Constraints: • pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}
     /// </summary>
     [CliOption("--scan-id")]
     public string? ScanId { get; private init; }
@@ -92,6 +93,15 @@ public record AwsInspector2GetCodeSecurityScanOptions : AwsOptions, IValidatable
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

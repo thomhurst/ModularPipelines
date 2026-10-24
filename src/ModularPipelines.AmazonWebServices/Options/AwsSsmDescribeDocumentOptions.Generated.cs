@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsSsmDescribeDocumentOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Describes the specified Amazon Web Services Systems Manager document (SSM document). See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">The name of the SSM document. NOTE: If you're calling a shared SSM document from a different Amazon Web Services account, Name is the full Amazon Resource Name (ARN) of the document. Constraints: o pattern: ^[a-zA-Z0-9_\-.:/]{3,128}$</param>
+    /// <param name="Name">The name of the SSM document. NOTE: If you're calling a shared SSM document from a different Amazon Web Services account, Name is the full Amazon Resource Name (ARN) of the document. Constraints: • pattern: ^[a-zA-Z0-9_\-.:/]{3,128}$</param>
     public AwsSsmDescribeDocumentOptions(
         string Name
     )
@@ -56,19 +57,19 @@ public record AwsSsmDescribeDocumentOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the SSM document. NOTE: If you're calling a shared SSM document from a different Amazon Web Services account, Name is the full Amazon Resource Name (ARN) of the document. Constraints: o pattern: ^[a-zA-Z0-9_\-.:/]{3,128}$
+    /// The name of the SSM document. NOTE: If you're calling a shared SSM document from a different Amazon Web Services account, Name is the full Amazon Resource Name (ARN) of the document. Constraints: • pattern: ^[a-zA-Z0-9_\-.:/]{3,128}$
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The document version for which you want information. Can be a spe- cific version or the default version. Constraints: o pattern: ([$]LATEST|[$]DEFAULT|^[1-9][0-9]*$)
+    /// The document version for which you want information. Can be a specific version or the default version. Constraints: • pattern: ([$]LATEST|[$]DEFAULT|^[1-9][0-9]*$)
     /// </summary>
     [CliOption("--document-version")]
     public string? DocumentVersion { get; set; }
 
     /// <summary>
-    /// An optional field specifying the version of the artifact associated with the document. For example, 12.6. This value is unique across all versions of a document, and can't be changed. Constraints: o pattern: ^[a-zA-Z0-9_\-.]{1,128}$
+    /// An optional field specifying the version of the artifact associated with the document. For example, 12.6. This value is unique across all versions of a document, and can't be changed. Constraints: • pattern: ^[a-zA-Z0-9_\-.]{1,128}$
     /// </summary>
     [CliOption("--version-name")]
     public string? VersionName { get; set; }
@@ -94,6 +95,15 @@ public record AwsSsmDescribeDocumentOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Initiates a stop request for the current job. AWS Device Farm immedi- ately stops the job on the device where tests have not started. You are not billed for this device. On the device where tests have started, setup suite and teardown suite tests run to completion on the device. You are billed for setup, teardown, and any tests that were in progress or already completed. See also: AWS API Documentation
+/// Initiates a stop request for the current job. AWS Device Farm immediately stops the job on the device where tests have not started. You are not billed for this device. On the device where tests have started, setup suite and teardown suite tests run to completion on the device. You are billed for setup, teardown, and any tests that were in progress or already completed. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsDevicefarmStopJobOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Initiates a stop request for the current job. AWS Device Farm immedi- ately stops the job on the device where tests have not started. You are not billed for this device. On the device where tests have started, setup suite and teardown suite tests run to completion on the device. You are billed for setup, teardown, and any tests that were in progress or already completed. See also: AWS API Documentation
+    /// Initiates a stop request for the current job. AWS Device Farm immediately stops the job on the device where tests have not started. You are not billed for this device. On the device where tests have started, setup suite and teardown suite tests run to completion on the device. You are billed for setup, teardown, and any tests that were in progress or already completed. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Arn">Represents the Amazon Resource Name (ARN) of the Device Farm job to stop. Constraints: o min: 32 o max: 1011 o pattern: ^arn:aws:devicefarm:.+</param>
+    /// <param name="Arn">Represents the Amazon Resource Name (ARN) of the Device Farm job to stop. Constraints: • min: 32 • max: 1011 • pattern: ^arn:aws:devicefarm:.+</param>
     public AwsDevicefarmStopJobOptions(
         string Arn
     )
@@ -56,7 +57,7 @@ public record AwsDevicefarmStopJobOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Represents the Amazon Resource Name (ARN) of the Device Farm job to stop. Constraints: o min: 32 o max: 1011 o pattern: ^arn:aws:devicefarm:.+
+    /// Represents the Amazon Resource Name (ARN) of the Device Farm job to stop. Constraints: • min: 32 • max: 1011 • pattern: ^arn:aws:devicefarm:.+
     /// </summary>
     [CliOption("--arn")]
     public string? Arn { get; private init; }
@@ -82,6 +83,15 @@ public record AwsDevicefarmStopJobOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

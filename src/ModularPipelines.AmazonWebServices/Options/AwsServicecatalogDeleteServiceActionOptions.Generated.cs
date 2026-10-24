@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +29,7 @@ public record AwsServicecatalogDeleteServiceActionOptions : AwsOptions, IValidat
     /// <summary>
     /// Deletes a self-service action. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Id">The self-service action identifier. For example, act-fs7abcd89wxyz . Constraints: o min: 1 o max: 100 o pattern: ^[a-zA-Z0-9_\-]*</param>
+    /// <param name="Id">The self-service action identifier. For example, act-fs7abcd89wxyz . Constraints: • min: 1 • max: 100 • pattern: ^[a-zA-Z0-9_\-]*</param>
     public AwsServicecatalogDeleteServiceActionOptions(
         string Id
     )
@@ -57,19 +58,19 @@ public record AwsServicecatalogDeleteServiceActionOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The self-service action identifier. For example, act-fs7abcd89wxyz . Constraints: o min: 1 o max: 100 o pattern: ^[a-zA-Z0-9_\-]*
+    /// The self-service action identifier. For example, act-fs7abcd89wxyz . Constraints: • min: 1 • max: 100 • pattern: ^[a-zA-Z0-9_\-]*
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; private init; }
 
     /// <summary>
-    /// The language code. o jp - Japanese o zh - Chinese Constraints: o max: 100
+    /// The language code. • jp - Japanese • zh - Chinese Constraints: • max: 100
     /// </summary>
     [CliOption("--accept-language")]
     public string? AcceptLanguage { get; set; }
 
     /// <summary>
-    /// A unique identifier that you provide to ensure idempotency. If mul- tiple requests from the same Amazon Web Services account use the same idempotency token, the same response is returned for each re- peated request. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9][a-zA-Z0-9_-]*
+    /// A unique identifier that you provide to ensure idempotency. If multiple requests from the same Amazon Web Services account use the same idempotency token, the same response is returned for each repeated request. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9][a-zA-Z0-9_-]*
     /// </summary>
     [SecretValue]
     [CliOption("--idempotency-token")]
@@ -96,6 +97,15 @@ public record AwsServicecatalogDeleteServiceActionOptions : AwsOptions, IValidat
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

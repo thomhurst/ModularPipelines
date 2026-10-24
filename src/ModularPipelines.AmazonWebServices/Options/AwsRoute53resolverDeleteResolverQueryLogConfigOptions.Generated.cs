@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes a query logging configuration. When you delete a configuration, Resolver stops logging DNS queries for all of the Amazon VPCs that are associated with the configuration. This also applies if the query log- ging configuration is shared with other Amazon Web Services accounts, and the other accounts have associated VPCs with the shared configura- tion. Before you can delete a query logging configuration, you must first disassociate all VPCs from the configuration. See DisassociateResolverQ...
+/// Deletes a query logging configuration. When you delete a configuration, Resolver stops logging DNS queries for all of the Amazon VPCs that are associated with the configuration. This also applies if the query logging configuration is shared with other Amazon Web Services accounts, and the other accounts have associated VPCs with the shared configuration. Before you can delete a query logging configuration, you must first disassociate all VPCs from the configuration. See DisassociateResolverQuery...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsRoute53resolverDeleteResolverQueryLogConfigOptions : AwsOptions
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes a query logging configuration. When you delete a configuration, Resolver stops logging DNS queries for all of the Amazon VPCs that are associated with the configuration. This also applies if the query log- ging configuration is shared with other Amazon Web Services accounts, and the other accounts have associated VPCs with the shared configura- tion. Before you can delete a query logging configuration, you must first disassociate all VPCs from the configuration. See DisassociateResolverQ...
+    /// Deletes a query logging configuration. When you delete a configuration, Resolver stops logging DNS queries for all of the Amazon VPCs that are associated with the configuration. This also applies if the query logging configuration is shared with other Amazon Web Services accounts, and the other accounts have associated VPCs with the shared configuration. Before you can delete a query logging configuration, you must first disassociate all VPCs from the configuration. See DisassociateResolverQuery...
     /// </summary>
-    /// <param name="ResolverQueryLogConfigId">The ID of the query logging configuration that you want to delete. Constraints: o min: 1 o max: 64</param>
+    /// <param name="ResolverQueryLogConfigId">The ID of the query logging configuration that you want to delete. Constraints: • min: 1 • max: 64</param>
     public AwsRoute53resolverDeleteResolverQueryLogConfigOptions(
         string ResolverQueryLogConfigId
     )
@@ -56,7 +57,7 @@ public record AwsRoute53resolverDeleteResolverQueryLogConfigOptions : AwsOptions
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the query logging configuration that you want to delete. Constraints: o min: 1 o max: 64
+    /// The ID of the query logging configuration that you want to delete. Constraints: • min: 1 • max: 64
     /// </summary>
     [CliOption("--resolver-query-log-config-id")]
     public string? ResolverQueryLogConfigId { get; private init; }
@@ -82,6 +83,15 @@ public record AwsRoute53resolverDeleteResolverQueryLogConfigOptions : AwsOptions
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

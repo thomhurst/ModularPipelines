@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,9 +28,9 @@ public record AwsChimeSdkIdentityUpdateAppInstanceBotOptions : AwsOptions, IVali
     /// <summary>
     /// Updates the name and metadata of an AppInstanceBot . See also: AWS API Documentation
     /// </summary>
-    /// <param name="AppInstanceBotArn">The ARN of the AppInstanceBot . Constraints: o min: 5 o max: 1600 o pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}</param>
-    /// <param name="Name">The name of the AppInstanceBot . Constraints: o min: 0 o max: 256 o pattern: [\u0009\u000A\u000D\u0020-\u007E\u0085\u00A0-\uD7FF\uE000-\uFFFD\u10000-\u10FFFF]*</param>
-    /// <param name="Metadata">The metadata of the AppInstanceBot . Constraints: o min: 0 o max: 1024 o pattern: .*</param>
+    /// <param name="AppInstanceBotArn">The ARN of the AppInstanceBot . Constraints: • min: 5 • max: 1600 • pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}</param>
+    /// <param name="Name">The name of the AppInstanceBot . Constraints: • min: 0 • max: 256 • pattern: [\u0009\u000A\u000D\u0020-\u007E\u0085\u00A0-\uD7FF\uE000-\uFFFD\u10000-\u10FFFF]*</param>
+    /// <param name="Metadata">The metadata of the AppInstanceBot . Constraints: • min: 0 • max: 1024 • pattern: .*</param>
     public AwsChimeSdkIdentityUpdateAppInstanceBotOptions(
         string AppInstanceBotArn,
         string Name,
@@ -64,25 +65,25 @@ public record AwsChimeSdkIdentityUpdateAppInstanceBotOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the AppInstanceBot . Constraints: o min: 5 o max: 1600 o pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}
+    /// The ARN of the AppInstanceBot . Constraints: • min: 5 • max: 1600 • pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}
     /// </summary>
     [CliOption("--app-instance-bot-arn")]
     public string? AppInstanceBotArn { get; private init; }
 
     /// <summary>
-    /// The name of the AppInstanceBot . Constraints: o min: 0 o max: 256 o pattern: [\u0009\u000A\u000D\u0020-\u007E\u0085\u00A0-\uD7FF\uE000-\uFFFD\u10000-\u10FFFF]*
+    /// The name of the AppInstanceBot . Constraints: • min: 0 • max: 256 • pattern: [\u0009\u000A\u000D\u0020-\u007E\u0085\u00A0-\uD7FF\uE000-\uFFFD\u10000-\u10FFFF]*
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The metadata of the AppInstanceBot . Constraints: o min: 0 o max: 1024 o pattern: .*
+    /// The metadata of the AppInstanceBot . Constraints: • min: 0 • max: 1024 • pattern: .*
     /// </summary>
     [CliOption("--metadata")]
     public string? Metadata { get; private init; }
 
     /// <summary>
-    /// The configuration for the bot update. Lex -&gt; (structure) [required] The configuration for an Amazon Lex V2 bot. RespondsTo -&gt; (string) WARNING: Deprecated . Use InvokedBy instead. Determines whether the Amazon Lex V2 bot responds to all standard messages. Control messages are not supported. Possible values: o STANDARD_MESSAGES InvokedBy -&gt; (structure) Specifies the type of message that triggers a bot. StandardMessages -&gt; (string) [required] Sets standard messages as the bot trigger. For standard messages: o ALL : The bot processes all standard messages. o AUTO : The bot responds to ALL messages when the chan- nel has one other non-hidden member, and responds to MENTIONS when the channel has more than one other non-hidden member. o MENTIONS : The bot processes all standard messages that have a message attribute with CHIME.mentions and a value of the bot ARN. o NONE : The bot processes no standard messages. Possible values: o AUTO o ALL o MENTIONS o NONE TargetedMessages -&gt; (string) [required] Sets targeted messages as the bot trigger. For targeted messages: o ALL : The bot processes all TargetedMessages sent to it. The bot then responds with a targeted message back to the sender. o NONE : The bot processes no targeted messages. Possible values: o ALL o NONE LexBotAliasArn -&gt; (string) [required] The ARN of the Amazon Lex V2 bot's alias. The ARN uses this format: arn:aws:lex:REGION:ACCOUNT:bot-alias/MYBOTID/MYBOTAL- IAS Constraints: o min: 15 o max: 2048 o pattern: arn:aws:lex:[a-z]{2}-[a-z]+-\d{1}:\d{12}:bot-alias/[A-Z0-9]{10}/[A-Z0-9]{10} LocaleId -&gt; (string) [required] Identifies the Amazon Lex V2 bot's language and locale. The string must match one of the supported locales in Amazon Lex V2. All of the intents, slot types, and slots used in the bot must have the same locale. For more information, see Supported languages in the Amazon Lex V2 Developer Guide . WelcomeIntent -&gt; (string) The name of the welcome intent configured in the Amazon Lex V2 bot. Constraints: o min: 1 o max: 100 o pattern: ^([A-Za-z]_?)+$ Shorthand Syntax: Lex={RespondsTo=string,InvokedBy={StandardMessages=string,TargetedMessages=string},LexBotAliasArn=string,LocaleId=string,WelcomeIntent=string} JSON Syntax: { "Lex": { "RespondsTo": "STANDARD_MESSAGES", "InvokedBy": { "StandardMessages": "AUTO"|"ALL"|"MENTIONS"|"NONE", "TargetedMessages": "ALL"|"NONE" }, "LexBotAliasArn": "string", "LocaleId": "string", "WelcomeIntent": "string" } }
+    /// The configuration for the bot update. Lex -&gt; (structure) [required] The configuration for an Amazon Lex V2 bot. RespondsTo -&gt; (string) WARNING: Deprecated . Use InvokedBy instead. Determines whether the Amazon Lex V2 bot responds to all standard messages. Control messages are not supported. Possible values: • STANDARD_MESSAGES InvokedBy -&gt; (structure) Specifies the type of message that triggers a bot. StandardMessages -&gt; (string) [required] Sets standard messages as the bot trigger. For standard messages: • ALL : The bot processes all standard messages. • AUTO : The bot responds to ALL messages when the channel has one other non-hidden member, and responds to MENTIONS when the channel has more than one other non-hidden member. • MENTIONS : The bot processes all standard messages that have a message attribute with CHIME.mentions and a value of the bot ARN. • NONE : The bot processes no standard messages. Possible values: • AUTO • ALL • MENTIONS • NONE TargetedMessages -&gt; (string) [required] Sets targeted messages as the bot trigger. For targeted messages: • ALL : The bot processes all TargetedMessages sent to it. The bot then responds with a targeted message back to the sender. • NONE : The bot processes no targeted messages. Possible values: • ALL • NONE LexBotAliasArn -&gt; (string) [required] The ARN of the Amazon Lex V2 bot's alias. The ARN uses this format: arn:aws:lex:REGION:ACCOUNT:bot-alias/MYBOTID/MYBOTALIAS Constraints: • min: 15 • max: 2048 • pattern: arn:aws:lex:[a-z]{2}-[a-z]+-\d{1}:\d{12}:bot-alias/[A-Z0-9]{10}/[A-Z0-9]{10} LocaleId -&gt; (string) [required] Identifies the Amazon Lex V2 bot's language and locale. The string must match one of the supported locales in Amazon Lex V2. All of the intents, slot types, and slots used in the bot must have the same locale. For more information, see Supported languages in the Amazon Lex V2 Developer Guide . WelcomeIntent -&gt; (string) The name of the welcome intent configured in the Amazon Lex V2 bot. Constraints: • min: 1 • max: 100 • pattern: ^([A-Za-z]_?)+$ Shorthand Syntax: Lex={RespondsTo=string,InvokedBy={StandardMessages=string,TargetedMessages=string},LexBotAliasArn=string,LocaleId=string,WelcomeIntent=string} JSON Syntax: { "Lex": { "RespondsTo": "STANDARD_MESSAGES", "InvokedBy": { "StandardMessages": "AUTO"|"ALL"|"MENTIONS"|"NONE", "TargetedMessages": "ALL"|"NONE" }, "LexBotAliasArn": "string", "LocaleId": "string", "WelcomeIntent": "string" } }
     /// </summary>
     [CliOption("--configuration")]
     public string? Configuration { get; set; }
@@ -108,6 +109,15 @@ public record AwsChimeSdkIdentityUpdateAppInstanceBotOptions : AwsOptions, IVali
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

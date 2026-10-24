@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +29,7 @@ public record AwsCloudcontrolWaitResourceRequestSuccessOptions : AwsOptions, IVa
     /// <summary>
     /// Wait until resource operation request is successful It will poll every 5 seconds until a successful state has been reached. This will exit with a return code of 255 after 24 failed checks. See also: AWS API Documentation
     /// </summary>
-    /// <param name="RequestToken">A unique token used to track the progress of the resource operation request. Request tokens are included in the ProgressEvent type returned by a resource operation request. Constraints: o min: 1 o max: 128 o pattern: [-A-Za-z0-9+/=]+</param>
+    /// <param name="RequestToken">A unique token used to track the progress of the resource operation request. Request tokens are included in the ProgressEvent type returned by a resource operation request. Constraints: • min: 1 • max: 128 • pattern: [-A-Za-z0-9+/=]+</param>
     public AwsCloudcontrolWaitResourceRequestSuccessOptions(
         string RequestToken
     )
@@ -57,7 +58,7 @@ public record AwsCloudcontrolWaitResourceRequestSuccessOptions : AwsOptions, IVa
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A unique token used to track the progress of the resource operation request. Request tokens are included in the ProgressEvent type returned by a resource operation request. Constraints: o min: 1 o max: 128 o pattern: [-A-Za-z0-9+/=]+
+    /// A unique token used to track the progress of the resource operation request. Request tokens are included in the ProgressEvent type returned by a resource operation request. Constraints: • min: 1 • max: 128 • pattern: [-A-Za-z0-9+/=]+
     /// </summary>
     [SecretValue]
     [CliOption("--request-token")]
@@ -84,6 +85,15 @@ public record AwsCloudcontrolWaitResourceRequestSuccessOptions : AwsOptions, IVa
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

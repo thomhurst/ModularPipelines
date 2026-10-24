@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a Grafana API key for the workspace. This key can be used to authenticate requests sent to the workspace's HTTP API. See https://docs.aws.amazon.com/grafana/latest/userguide/Using-Grafana-APIs.html for available APIs and example requests. NOTE: In workspaces compatible with Grafana version 9 or above, use work- space service accounts instead of API keys. API keys will be removed in a future release. See also: AWS API Documentation
+/// Creates a Grafana API key for the workspace. This key can be used to authenticate requests sent to the workspace's HTTP API. See https://docs.aws.amazon.com/grafana/latest/userguide/Using-Grafana-APIs.html for available APIs and example requests. NOTE: In workspaces compatible with Grafana version 9 or above, use workspace service accounts instead of API keys. API keys will be removed in a future release. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,12 +26,12 @@ public record AwsGrafanaCreateWorkspaceApiKeyOptions : AwsOptions, IValidatableO
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a Grafana API key for the workspace. This key can be used to authenticate requests sent to the workspace's HTTP API. See https://docs.aws.amazon.com/grafana/latest/userguide/Using-Grafana-APIs.html for available APIs and example requests. NOTE: In workspaces compatible with Grafana version 9 or above, use work- space service accounts instead of API keys. API keys will be removed in a future release. See also: AWS API Documentation
+    /// Creates a Grafana API key for the workspace. This key can be used to authenticate requests sent to the workspace's HTTP API. See https://docs.aws.amazon.com/grafana/latest/userguide/Using-Grafana-APIs.html for available APIs and example requests. NOTE: In workspaces compatible with Grafana version 9 or above, use workspace service accounts instead of API keys. API keys will be removed in a future release. See also: AWS API Documentation
     /// </summary>
-    /// <param name="KeyName">Specifies the name of the key. Keynames must be unique to the work- space. Constraints: o min: 1 o max: 100</param>
+    /// <param name="KeyName">Specifies the name of the key. Keynames must be unique to the workspace. Constraints: • min: 1 • max: 100</param>
     /// <param name="KeyRole">Specifies the permission level of the key. Valid values: ADMIN | EDITOR | VIEWER System Message: WARNING/2 (&lt;string&gt;:, line 104) Inline substitution_reference start-string without end-string. System Message: WARNING/2 (&lt;string&gt;:, line 104) Inline substitution_reference start-string without end-string.</param>
-    /// <param name="SecondsToLive">Specifies the time in seconds until the key expires. Keys can be valid for up to 30 days. Constraints: o min: 1 o max: 2592000</param>
-    /// <param name="WorkspaceId">The ID of the workspace to create an API key. Constraints: o pattern: g-[0-9a-f]{10}</param>
+    /// <param name="SecondsToLive">Specifies the time in seconds until the key expires. Keys can be valid for up to 30 days. Constraints: • min: 1 • max: 2592000</param>
+    /// <param name="WorkspaceId">The ID of the workspace to create an API key. Constraints: • pattern: g-[0-9a-f]{10}</param>
     public AwsGrafanaCreateWorkspaceApiKeyOptions(
         string KeyName,
         string KeyRole,
@@ -67,7 +68,7 @@ public record AwsGrafanaCreateWorkspaceApiKeyOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Specifies the name of the key. Keynames must be unique to the work- space. Constraints: o min: 1 o max: 100
+    /// Specifies the name of the key. Keynames must be unique to the workspace. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--key-name")]
     public string? KeyName { get; private init; }
@@ -79,13 +80,13 @@ public record AwsGrafanaCreateWorkspaceApiKeyOptions : AwsOptions, IValidatableO
     public string? KeyRole { get; private init; }
 
     /// <summary>
-    /// Specifies the time in seconds until the key expires. Keys can be valid for up to 30 days. Constraints: o min: 1 o max: 2592000
+    /// Specifies the time in seconds until the key expires. Keys can be valid for up to 30 days. Constraints: • min: 1 • max: 2592000
     /// </summary>
     [CliOption("--seconds-to-live")]
     public int? SecondsToLive { get; private init; }
 
     /// <summary>
-    /// The ID of the workspace to create an API key. Constraints: o pattern: g-[0-9a-f]{10}
+    /// The ID of the workspace to create an API key. Constraints: • pattern: g-[0-9a-f]{10}
     /// </summary>
     [CliOption("--workspace-id")]
     public string? WorkspaceId { get; private init; }
@@ -111,6 +112,15 @@ public record AwsGrafanaCreateWorkspaceApiKeyOptions : AwsOptions, IValidatableO
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

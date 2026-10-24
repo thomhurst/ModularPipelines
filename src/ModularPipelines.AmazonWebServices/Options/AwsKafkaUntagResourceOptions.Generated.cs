@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +29,7 @@ public record AwsKafkaUntagResourceOptions : AwsOptions, IValidatableObject
     /// Removes the tags associated with the keys that are provided in the query. See also: AWS API Documentation
     /// </summary>
     /// <param name="ResourceArn">The Amazon Resource Name (ARN) that uniquely identifies the resource that's associated with the tags.</param>
-    /// <param name="TagKeys">Tag keys must be unique for a given cluster. In addition, the fol- lowing restrictions apply: o Each tag key must be unique. If you add a tag with a key that's already in use, your new tag overwrites the existing key-value pair. o You can't start a tag key with aws: because this prefix is re- served for use by AWS. AWS creates tags that begin with this pre- fix on your behalf, but you can't edit or delete them. o Tag keys must be between 1 and 128 Unicode characters in length. o Tag keys must consist of the following characters: Unicode let- ters, digits, white space, and the following special characters: _ . / = + - @. (string) Syntax: "string" "string" ...</param>
+    /// <param name="TagKeys">Tag keys must be unique for a given cluster. In addition, the following restrictions apply: • Each tag key must be unique. If you add a tag with a key that's already in use, your new tag overwrites the existing key-value pair. • You can't start a tag key with aws: because this prefix is reserved for use by AWS. AWS creates tags that begin with this prefix on your behalf, but you can't edit or delete them. • Tag keys must be between 1 and 128 Unicode characters in length. • Tag keys must consist of the following characters: Unicode letters, digits, white space, and the following special characters: _ . / = + - @. (string) Syntax: "string" "string" ...</param>
     public AwsKafkaUntagResourceOptions(
         string ResourceArn,
         IEnumerable<string> TagKeys
@@ -77,7 +78,7 @@ public record AwsKafkaUntagResourceOptions : AwsOptions, IValidatableObject
     public string? ResourceArn { get; private init; }
 
     /// <summary>
-    /// Tag keys must be unique for a given cluster. In addition, the fol- lowing restrictions apply: o Each tag key must be unique. If you add a tag with a key that's already in use, your new tag overwrites the existing key-value pair. o You can't start a tag key with aws: because this prefix is re- served for use by AWS. AWS creates tags that begin with this pre- fix on your behalf, but you can't edit or delete them. o Tag keys must be between 1 and 128 Unicode characters in length. o Tag keys must consist of the following characters: Unicode let- ters, digits, white space, and the following special characters: _ . / = + - @. (string) Syntax: "string" "string" ...
+    /// Tag keys must be unique for a given cluster. In addition, the following restrictions apply: • Each tag key must be unique. If you add a tag with a key that's already in use, your new tag overwrites the existing key-value pair. • You can't start a tag key with aws: because this prefix is reserved for use by AWS. AWS creates tags that begin with this prefix on your behalf, but you can't edit or delete them. • Tag keys must be between 1 and 128 Unicode characters in length. • Tag keys must consist of the following characters: Unicode letters, digits, white space, and the following special characters: _ . / = + - @. (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--tag-keys", GroupValues = true)]
     public IEnumerable<string>? TagKeys { get; private init; }
@@ -103,6 +104,15 @@ public record AwsKafkaUntagResourceOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

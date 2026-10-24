@@ -6,8 +6,8 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
+using ModularPipelines;
 using ModularPipelines.Context;
-using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
@@ -32,7 +32,7 @@ public class AwsIot : IAwsIot
     #region Commands
 
     /// <summary>
-    /// Accepts a pending certificate transfer. The default state of the cer- tificate is INACTIVE. To check for pending certificate transfers, call ListCertificates to enumerate your certificates. Requires permission to access the AcceptCertificateTransfer action. See also: AWS API Documentation
+    /// Accepts a pending certificate transfer. The default state of the certificate is INACTIVE. To check for pending certificate transfers, call ListCertificates to enumerate your certificates. Requires permission to access the AcceptCertificateTransfer action. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -77,7 +77,7 @@ public class AwsIot : IAwsIot
     }
 
     /// <summary>
-    /// Associates the selected software bill of materials (SBOM) with a spe- cific software package version. Requires permission to access the AssociateSbomWithPackageVersion ac- tion. See also: AWS API Documentation
+    /// Associates the selected software bill of materials (SBOM) with a specific software package version. Requires permission to access the AssociateSbomWithPackageVersion action. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -92,7 +92,7 @@ public class AwsIot : IAwsIot
     }
 
     /// <summary>
-    /// Associates a group with a continuous job. The following criteria must be met: o The job must have been created with the targetSelection field set to "CONTINUOUS". o The job status must currently be "IN_PROGRESS". o The total number of targets associated with a job must not exceed 100. Requires permission to access the AssociateTargetsWithJob action. See also: AWS API Documentation
+    /// Associates a group with a continuous job. The following criteria must be met: • The job must have been created with the targetSelection field set to "CONTINUOUS". • The job status must currently be "IN_PROGRESS". • The total number of targets associated with a job must not exceed 100. Requires permission to access the AssociateTargetsWithJob action. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -122,7 +122,7 @@ public class AwsIot : IAwsIot
     }
 
     /// <summary>
-    /// NOTE: The IoT Device Defender detect feature will no longer be available to new customers starting August 31, 2026. If you would like to use the detect feature, sign up prior to August 31, 2026. To learn about alternatives to IoT Device Defender detect, see IoT Device Defender detect feature availability change in the IoT Device Defender Devel- oper Guide. There is no change to IoT Device Defender audit avail- ability. Associates a Device Defender security profile with a thing group or this acco...
+    /// NOTE: The IoT Device Defender detect feature will no longer be available to new customers starting August 31, 2026. If you would like to use the detect feature, sign up prior to August 31, 2026. To learn about alternatives to IoT Device Defender detect, see IoT Device Defender detect feature availability change in the IoT Device Defender Developer Guide. There is no change to IoT Device Defender audit availability. Associates a Device Defender security profile with a thing group or this account....
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -137,7 +137,7 @@ public class AwsIot : IAwsIot
     }
 
     /// <summary>
-    /// Attaches the specified principal to the specified thing. A principal can be X.509 certificates, Amazon Cognito identities or federated iden- tities. Requires permission to access the AttachThingPrincipal action. See also: AWS API Documentation
+    /// Attaches the specified principal to the specified thing. A principal can be X.509 certificates, Amazon Cognito identities or federated identities. Requires permission to access the AttachThingPrincipal action. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -152,7 +152,7 @@ public class AwsIot : IAwsIot
     }
 
     /// <summary>
-    /// Cancels a mitigation action task that is in progress. If the task is not in progress, an InvalidRequestException occurs. Requires permission to access the CancelAuditMitigationActionsTask ac- tion. See also: AWS API Documentation
+    /// Cancels a mitigation action task that is in progress. If the task is not in progress, an InvalidRequestException occurs. Requires permission to access the CancelAuditMitigationActionsTask action. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -167,7 +167,7 @@ public class AwsIot : IAwsIot
     }
 
     /// <summary>
-    /// Cancels an audit that is in progress. The audit can be either scheduled or on demand. If the audit isn't in progress, an "InvalidRequestExcep- tion" occurs. Requires permission to access the CancelAuditTask action. See also: AWS API Documentation
+    /// Cancels an audit that is in progress. The audit can be either scheduled or on demand. If the audit isn't in progress, an "InvalidRequestException" occurs. Requires permission to access the CancelAuditTask action. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -182,7 +182,7 @@ public class AwsIot : IAwsIot
     }
 
     /// <summary>
-    /// Cancels a pending transfer for the specified certificate. Note Only the transfer source account can use this operation to can- cel a transfer. (Transfer destinations can use RejectCertificate- Transfer instead.) After transfer, IoT returns the certificate to the source account in the INACTIVE state. After the destination ac- count has accepted the transfer, the transfer cannot be cancelled. After a certificate transfer is cancelled, the status of the certifi- cate changes from PENDING_TRANSFER t...
+    /// Cancels a pending transfer for the specified certificate. Note Only the transfer source account can use this operation to cancel a transfer. (Transfer destinations can use RejectCertificateTransfer instead.) After transfer, IoT returns the certificate to the source account in the INACTIVE state. After the destination account has accepted the transfer, the transfer cannot be cancelled. After a certificate transfer is cancelled, the status of the certificate changes from PENDING_TRANSFER to INACTI...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -197,7 +197,7 @@ public class AwsIot : IAwsIot
     }
 
     /// <summary>
-    /// NOTE: The IoT Device Defender detect feature will no longer be available to new customers starting August 31, 2026. If you would like to use the detect feature, sign up prior to August 31, 2026. To learn about alternatives to IoT Device Defender detect, see IoT Device Defender detect feature availability change in the IoT Device Defender Devel- oper Guide. There is no change to IoT Device Defender audit avail- ability. Cancels a Device Defender ML Detect mitigation action. Requires permission to...
+    /// NOTE: The IoT Device Defender detect feature will no longer be available to new customers starting August 31, 2026. If you would like to use the detect feature, sign up prior to August 31, 2026. To learn about alternatives to IoT Device Defender detect, see IoT Device Defender detect feature availability change in the IoT Device Defender Developer Guide. There is no change to IoT Device Defender audit availability. Cancels a Device Defender ML Detect mitigation action. Requires permission to acc...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -302,7 +302,7 @@ public class AwsIot : IAwsIot
     }
 
     /// <summary>
-    /// Creates a billing group. If this call is made multiple times using the same billing group name and configuration, the call will succeed. If this call is made with the same billing group name but different con- figuration a ResourceAlreadyExistsException is thrown. Requires permission to access the CreateBillingGroup action. See also: AWS API Documentation
+    /// Creates a billing group. If this call is made multiple times using the same billing group name and configuration, the call will succeed. If this call is made with the same billing group name but different configuration a ResourceAlreadyExistsException is thrown. Requires permission to access the CreateBillingGroup action. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -317,7 +317,7 @@ public class AwsIot : IAwsIot
     }
 
     /// <summary>
-    /// Creates an X.509 certificate using the specified certificate signing request. Requires permission to access the CreateCertificateFromCsr action. NOTE: The CSR must include a public key that is either an RSA key with a length of at least 2048 bits or an ECC key from NIST P-256, NIST P-384, or NIST P-521 curves. For supported certificates, consult Certificate signing algorithms supported by IoT . NOTE: Reusing the same certificate signing request (CSR) results in a dis- tinct certificate. You can ...
+    /// Creates an X.509 certificate using the specified certificate signing request. Requires permission to access the CreateCertificateFromCsr action. NOTE: The CSR must include a public key that is either an RSA key with a length of at least 2048 bits or an ECC key from NIST P-256, NIST P-384, or NIST P-521 curves. For supported certificates, consult Certificate signing algorithms supported by IoT . NOTE: Reusing the same certificate signing request (CSR) results in a distinct certificate. You can cr...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -362,7 +362,7 @@ public class AwsIot : IAwsIot
     }
 
     /// <summary>
-    /// NOTE: The IoT Device Defender detect feature will no longer be available to new customers starting August 31, 2026. If you would like to use the detect feature, sign up prior to August 31, 2026. To learn about alternatives to IoT Device Defender detect, see IoT Device Defender detect feature availability change in the IoT Device Defender Devel- oper Guide. There is no change to IoT Device Defender audit avail- ability. Use this API to define a Custom Metric published by your devices to De- vice ...
+    /// NOTE: The IoT Device Defender detect feature will no longer be available to new customers starting August 31, 2026. If you would like to use the detect feature, sign up prior to August 31, 2026. To learn about alternatives to IoT Device Defender detect, see IoT Device Defender detect feature availability change in the IoT Device Defender Developer Guide. There is no change to IoT Device Defender audit availability. Use this API to define a Custom Metric published by your devices to Device Defend...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -377,7 +377,7 @@ public class AwsIot : IAwsIot
     }
 
     /// <summary>
-    /// NOTE: The IoT Device Defender detect feature will no longer be available to new customers starting August 31, 2026. If you would like to use the detect feature, sign up prior to August 31, 2026. To learn about alternatives to IoT Device Defender detect, see IoT Device Defender detect feature availability change in the IoT Device Defender Devel- oper Guide. There is no change to IoT Device Defender audit avail- ability. Create a dimension that you can use to limit the scope of a metric used in a ...
+    /// NOTE: The IoT Device Defender detect feature will no longer be available to new customers starting August 31, 2026. If you would like to use the detect feature, sign up prior to August 31, 2026. To learn about alternatives to IoT Device Defender detect, see IoT Device Defender detect feature availability change in the IoT Device Defender Developer Guide. There is no change to IoT Device Defender audit availability. Create a dimension that you can use to limit the scope of a metric used in a secu...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -467,7 +467,7 @@ public class AwsIot : IAwsIot
     }
 
     /// <summary>
-    /// Creates a 2048-bit RSA key pair and issues an X.509 certificate using the issued public key. You can also call CreateKeysAndCertificate over MQTT from a device, for more information, see Provisioning MQTT API . Note This is the only time IoT issues the private key for this cer- tificate, so it is important to keep it in a secure location. Requires permission to access the CreateKeysAndCertificate action. See also: AWS API Documentation
+    /// Creates a 2048-bit RSA key pair and issues an X.509 certificate using the issued public key. You can also call CreateKeysAndCertificate over MQTT from a device, for more information, see Provisioning MQTT API . Note This is the only time IoT issues the private key for this certificate, so it is important to keep it in a secure location. Requires permission to access the CreateKeysAndCertificate action. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -482,7 +482,7 @@ public class AwsIot : IAwsIot
     }
 
     /// <summary>
-    /// Defines an action that can be applied to audit findings by using Star- tAuditMitigationActionsTask. Only certain types of mitigation actions can be applied to specific check names. For more information, see Mitigation actions . Each mitigation action can apply only one type of change. Requires permission to access the CreateMitigationAction action. See also: AWS API Documentation
+    /// Defines an action that can be applied to audit findings by using StartAuditMitigationActionsTask. Only certain types of mitigation actions can be applied to specific check names. For more information, see Mitigation actions . Each mitigation action can apply only one type of change. Requires permission to access the CreateMitigationAction action. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -542,7 +542,7 @@ public class AwsIot : IAwsIot
     }
 
     /// <summary>
-    /// Creates an IoT policy. The created policy is the default version for the policy. This opera- tion creates a policy version with a version identifier of 1 and sets 1 as the policy's default version. Requires permission to access the CreatePolicy action. See also: AWS API Documentation
+    /// Creates an IoT policy. The created policy is the default version for the policy. This operation creates a policy version with a version identifier of 1 and sets 1 as the policy's default version. Requires permission to access the CreatePolicy action. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -557,7 +557,7 @@ public class AwsIot : IAwsIot
     }
 
     /// <summary>
-    /// Creates a new version of the specified IoT policy. To update a policy, create a new policy version. A managed policy can have up to five ver- sions. If the policy has five versions, you must use DeletePolicyVer- sion to delete an existing version before you create a new one. Optionally, you can set the new version as the policy's default ver- sion. The default version is the operative version (that is, the ver- sion that is in effect for the certificates to which the policy is at- tached). Requi...
+    /// Creates a new version of the specified IoT policy. To update a policy, create a new policy version. A managed policy can have up to five versions. If the policy has five versions, you must use DeletePolicyVersion to delete an existing version before you create a new one. Optionally, you can set the new version as the policy's default version. The default version is the operative version (that is, the version that is in effect for the certificates to which the policy is attached). Requires permis...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -602,7 +602,7 @@ public class AwsIot : IAwsIot
     }
 
     /// <summary>
-    /// Creates a new version of a provisioning template. Requires permission to access the CreateProvisioningTemplateVersion ac- tion. See also: AWS API Documentation
+    /// Creates a new version of a provisioning template. Requires permission to access the CreateProvisioningTemplateVersion action. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -647,7 +647,7 @@ public class AwsIot : IAwsIot
     }
 
     /// <summary>
-    /// NOTE: The IoT Device Defender detect feature will no longer be available to new customers starting August 31, 2026. If you would like to use the detect feature, sign up prior to August 31, 2026. To learn about alternatives to IoT Device Defender detect, see IoT Device Defender detect feature availability change in the IoT Device Defender Devel- oper Guide. There is no change to IoT Device Defender audit avail- ability. Creates a Device Defender security profile. Requires permission to access the...
+    /// NOTE: The IoT Device Defender detect feature will no longer be available to new customers starting August 31, 2026. If you would like to use the detect feature, sign up prior to August 31, 2026. To learn about alternatives to IoT Device Defender detect, see IoT Device Defender detect feature availability change in the IoT Device Defender Developer Guide. There is no change to IoT Device Defender audit availability. Creates a Device Defender security profile. Requires permission to access the Cre...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -662,7 +662,7 @@ public class AwsIot : IAwsIot
     }
 
     /// <summary>
-    /// Creates a stream for delivering one or more large files in chunks over MQTT. A stream transports data bytes in chunks or blocks packaged as MQTT messages from a source like S3. You can have one or more files as- sociated with a stream. Requires permission to access the CreateStream action. See also: AWS API Documentation
+    /// Creates a stream for delivering one or more large files in chunks over MQTT. A stream transports data bytes in chunks or blocks packaged as MQTT messages from a source like S3. You can have one or more files associated with a stream. Requires permission to access the CreateStream action. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -692,7 +692,7 @@ public class AwsIot : IAwsIot
     }
 
     /// <summary>
-    /// Creates a thing record in the registry. If this call is made multiple times using the same thing name and configuration, the call will suc- ceed. If this call is made with the same thing name but different con- figuration a ResourceAlreadyExistsException is thrown. NOTE: This is a control plane operation. See Authorization for information about authorizing control plane actions. Requires permission to access the CreateThing action. See also: AWS API Documentation
+    /// Creates a thing record in the registry. If this call is made multiple times using the same thing name and configuration, the call will succeed. If this call is made with the same thing name but different configuration a ResourceAlreadyExistsException is thrown. NOTE: This is a control plane operation. See Authorization for information about authorizing control plane actions. Requires permission to access the CreateThing action. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -752,7 +752,7 @@ public class AwsIot : IAwsIot
     }
 
     /// <summary>
-    /// Restores the default settings for Device Defender audits for this ac- count. Any configuration data you entered is deleted and all audit checks are reset to disabled. Requires permission to access the DeleteAccountAuditConfiguration ac- tion. See also: AWS API Documentation
+    /// Restores the default settings for Device Defender audits for this account. Any configuration data you entered is deleted and all audit checks are reset to disabled. Requires permission to access the DeleteAccountAuditConfiguration action. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -827,7 +827,7 @@ public class AwsIot : IAwsIot
     }
 
     /// <summary>
-    /// Deletes the specified certificate. A certificate cannot be deleted if it has a policy or IoT thing at- tached to it or if its status is set to ACTIVE. To delete a certifi- cate, first use the DetachPolicy action to detach all policies. Next, use the UpdateCertificate action to set the certificate to the INAC- TIVE status. Requires permission to access the DeleteCertificate action. See also: AWS API Documentation
+    /// Deletes the specified certificate. A certificate cannot be deleted if it has a policy or IoT thing attached to it or if its status is set to ACTIVE. To delete a certificate, first use the DetachPolicy action to detach all policies. Next, use the UpdateCertificate action to set the certificate to the INACTIVE status. Requires permission to access the DeleteCertificate action. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -842,7 +842,7 @@ public class AwsIot : IAwsIot
     }
 
     /// <summary>
-    /// Deletes a certificate provider. Requires permission to access the DeleteCertificateProvider action. If you delete the certificate provider resource, the behavior of Cre- ateCertificateFromCsr will resume, and IoT will create certificates signed by IoT from a certificate signing request (CSR). See also: AWS API Documentation
+    /// Deletes a certificate provider. Requires permission to access the DeleteCertificateProvider action. If you delete the certificate provider resource, the behavior of CreateCertificateFromCsr will resume, and IoT will create certificates signed by IoT from a certificate signing request (CSR). See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -887,7 +887,7 @@ public class AwsIot : IAwsIot
     }
 
     /// <summary>
-    /// NOTE: The IoT Device Defender detect feature will no longer be available to new customers starting August 31, 2026. If you would like to use the detect feature, sign up prior to August 31, 2026. To learn about alternatives to IoT Device Defender detect, see IoT Device Defender detect feature availability change in the IoT Device Defender Devel- oper Guide. There is no change to IoT Device Defender audit avail- ability. Deletes a Device Defender detect custom metric. Requires permission to access...
+    /// NOTE: The IoT Device Defender detect feature will no longer be available to new customers starting August 31, 2026. If you would like to use the detect feature, sign up prior to August 31, 2026. To learn about alternatives to IoT Device Defender detect, see IoT Device Defender detect feature availability change in the IoT Device Defender Developer Guide. There is no change to IoT Device Defender audit availability. Deletes a Device Defender detect custom metric. Requires permission to access the...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -902,7 +902,7 @@ public class AwsIot : IAwsIot
     }
 
     /// <summary>
-    /// NOTE: The IoT Device Defender detect feature will no longer be available to new customers starting August 31, 2026. If you would like to use the detect feature, sign up prior to August 31, 2026. To learn about alternatives to IoT Device Defender detect, see IoT Device Defender detect feature availability change in the IoT Device Defender Devel- oper Guide. There is no change to IoT Device Defender audit avail- ability. Removes the specified dimension from your Amazon Web Services accounts. Requi...
+    /// NOTE: The IoT Device Defender detect feature will no longer be available to new customers starting August 31, 2026. If you would like to use the detect feature, sign up prior to August 31, 2026. To learn about alternatives to IoT Device Defender detect, see IoT Device Defender detect feature availability change in the IoT Device Defender Developer Guide. There is no change to IoT Device Defender audit availability. Removes the specified dimension from your Amazon Web Services accounts. Requires ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -977,7 +977,7 @@ public class AwsIot : IAwsIot
     }
 
     /// <summary>
-    /// Deletes a job and its related job executions. Deleting a job may take time, depending on the number of job executions created for the job and various other factors. While the job is being deleted, the status of the job will be shown as "DELETION_IN_PROGRESS". Attempting to delete or cancel a job whose status is already "DELE- TION_IN_PROGRESS" will result in an error. Only 10 jobs may have status "DELETION_IN_PROGRESS" at the same time, or a LimitExceededException will occur. Requires permission...
+    /// Deletes a job and its related job executions. Deleting a job may take time, depending on the number of job executions created for the job and various other factors. While the job is being deleted, the status of the job will be shown as "DELETION_IN_PROGRESS". Attempting to delete or cancel a job whose status is already "DELETION_IN_PROGRESS" will result in an error. Only 10 jobs may have status "DELETION_IN_PROGRESS" at the same time, or a LimitExceededException will occur. Requires permission t...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1007,7 +1007,7 @@ public class AwsIot : IAwsIot
     }
 
     /// <summary>
-    /// Deletes a defined mitigation action from your Amazon Web Services ac- counts. Requires permission to access the DeleteMitigationAction action. See also: AWS API Documentation
+    /// Deletes a defined mitigation action from your Amazon Web Services accounts. Requires permission to access the DeleteMitigationAction action. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1037,7 +1037,7 @@ public class AwsIot : IAwsIot
     }
 
     /// <summary>
-    /// Deletes a specific version from a software package. Note: All package versions must be deleted before deleting the soft- ware package. Requires permission to access the DeletePackageVersion action. See also: AWS API Documentation
+    /// Deletes a specific version from a software package. Note: All package versions must be deleted before deleting the software package. Requires permission to access the DeletePackageVersion action. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1067,7 +1067,7 @@ public class AwsIot : IAwsIot
     }
 
     /// <summary>
-    /// Deletes the specified policy. A policy cannot be deleted if it has non-default versions or it is at- tached to any certificate. To delete a policy, use the DeletePolicyVersion action to delete all non-default versions of the policy; use the DetachPolicy action to de- tach the policy from any certificate; and then use the DeletePolicy ac- tion to delete the policy. When a policy is deleted using DeletePolicy, its default version is deleted with it. NOTE: Because of the distributed nature of Amazo...
+    /// Deletes the specified policy. A policy cannot be deleted if it has non-default versions or it is attached to any certificate. To delete a policy, use the DeletePolicyVersion action to delete all non-default versions of the policy; use the DetachPolicy action to detach the policy from any certificate; and then use the DeletePolicy action to delete the policy. When a policy is deleted using DeletePolicy, its default version is deleted with it. NOTE: Because of the distributed nature of Amazon Web ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1082,7 +1082,7 @@ public class AwsIot : IAwsIot
     }
 
     /// <summary>
-    /// Deletes the specified version of the specified policy. You cannot delete the default version of a policy using this action. To delete the default version of a policy, use DeletePolicy . To find out which ver- sion of a policy is marked as the default version, use ListPolicyVer- sions. Requires permission to access the DeletePolicyVersion action. See also: AWS API Documentation
+    /// Deletes the specified version of the specified policy. You cannot delete the default version of a policy using this action. To delete the default version of a policy, use DeletePolicy . To find out which version of a policy is marked as the default version, use ListPolicyVersions. Requires permission to access the DeletePolicyVersion action. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1112,7 +1112,7 @@ public class AwsIot : IAwsIot
     }
 
     /// <summary>
-    /// Deletes a provisioning template version. Requires permission to access the DeleteProvisioningTemplateVersion ac- tion. See also: AWS API Documentation
+    /// Deletes a provisioning template version. Requires permission to access the DeleteProvisioningTemplateVersion action. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1172,7 +1172,7 @@ public class AwsIot : IAwsIot
     }
 
     /// <summary>
-    /// NOTE: The IoT Device Defender detect feature will no longer be available to new customers starting August 31, 2026. If you would like to use the detect feature, sign up prior to August 31, 2026. To learn about alternatives to IoT Device Defender detect, see IoT Device Defender detect feature availability change in the IoT Device Defender Devel- oper Guide. There is no change to IoT Device Defender audit avail- ability. Deletes a Device Defender security profile. Requires permission to access the...
+    /// NOTE: The IoT Device Defender detect feature will no longer be available to new customers starting August 31, 2026. If you would like to use the detect feature, sign up prior to August 31, 2026. To learn about alternatives to IoT Device Defender detect, see IoT Device Defender detect feature availability change in the IoT Device Defender Developer Guide. There is no change to IoT Device Defender audit availability. Deletes a Device Defender security profile. Requires permission to access the Del...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1232,7 +1232,7 @@ public class AwsIot : IAwsIot
     }
 
     /// <summary>
-    /// Deletes the specified thing type. You cannot delete a thing type if it has things associated with it. To delete a thing type, first mark it as deprecated by calling DeprecateThingType , then remove any associated things by calling UpdateThing to change the thing type on any associ- ated thing, and finally use DeleteThingType to delete the thing type. Requires permission to access the DeleteThingType action. See also: AWS API Documentation
+    /// Deletes the specified thing type. You cannot delete a thing type if it has things associated with it. To delete a thing type, first mark it as deprecated by calling DeprecateThingType , then remove any associated things by calling UpdateThing to change the thing type on any associated thing, and finally use DeleteThingType to delete the thing type. Requires permission to access the DeleteThingType action. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1292,7 +1292,7 @@ public class AwsIot : IAwsIot
     }
 
     /// <summary>
-    /// Deprecates a thing type. You can not associate new things with depre- cated thing type. Requires permission to access the DeprecateThingType action. See also: AWS API Documentation
+    /// Deprecates a thing type. You can not associate new things with deprecated thing type. Requires permission to access the DeprecateThingType action. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1307,7 +1307,7 @@ public class AwsIot : IAwsIot
     }
 
     /// <summary>
-    /// Gets information about the Device Defender audit settings for this ac- count. Settings include how audit notifications are sent and which au- dit checks are enabled or disabled. Requires permission to access the DescribeAccountAuditConfiguration ac- tion. See also: AWS API Documentation
+    /// Gets information about the Device Defender audit settings for this account. Settings include how audit notifications are sent and which audit checks are enabled or disabled. Requires permission to access the DescribeAccountAuditConfiguration action. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1457,7 +1457,7 @@ public class AwsIot : IAwsIot
     }
 
     /// <summary>
-    /// NOTE: The IoT Device Defender detect feature will no longer be available to new customers starting August 31, 2026. If you would like to use the detect feature, sign up prior to August 31, 2026. To learn about alternatives to IoT Device Defender detect, see IoT Device Defender detect feature availability change in the IoT Device Defender Devel- oper Guide. There is no change to IoT Device Defender audit avail- ability. Gets information about a Device Defender detect custom metric. Requires permi...
+    /// NOTE: The IoT Device Defender detect feature will no longer be available to new customers starting August 31, 2026. If you would like to use the detect feature, sign up prior to August 31, 2026. To learn about alternatives to IoT Device Defender detect, see IoT Device Defender detect feature availability change in the IoT Device Defender Developer Guide. There is no change to IoT Device Defender audit availability. Gets information about a Device Defender detect custom metric. Requires permissio...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1487,7 +1487,7 @@ public class AwsIot : IAwsIot
     }
 
     /// <summary>
-    /// NOTE: The IoT Device Defender detect feature will no longer be available to new customers starting August 31, 2026. If you would like to use the detect feature, sign up prior to August 31, 2026. To learn about alternatives to IoT Device Defender detect, see IoT Device Defender detect feature availability change in the IoT Device Defender Devel- oper Guide. There is no change to IoT Device Defender audit avail- ability. Gets information about a Device Defender ML Detect mitigation action. Require...
+    /// NOTE: The IoT Device Defender detect feature will no longer be available to new customers starting August 31, 2026. If you would like to use the detect feature, sign up prior to August 31, 2026. To learn about alternatives to IoT Device Defender detect, see IoT Device Defender detect feature availability change in the IoT Device Defender Developer Guide. There is no change to IoT Device Defender audit availability. Gets information about a Device Defender ML Detect mitigation action. Requires pe...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1502,7 +1502,7 @@ public class AwsIot : IAwsIot
     }
 
     /// <summary>
-    /// NOTE: The IoT Device Defender detect feature will no longer be available to new customers starting August 31, 2026. If you would like to use the detect feature, sign up prior to August 31, 2026. To learn about alternatives to IoT Device Defender detect, see IoT Device Defender detect feature availability change in the IoT Device Defender Devel- oper Guide. There is no change to IoT Device Defender audit avail- ability. Provides details about a dimension that is defined in your Amazon Web Service...
+    /// NOTE: The IoT Device Defender detect feature will no longer be available to new customers starting August 31, 2026. If you would like to use the detect feature, sign up prior to August 31, 2026. To learn about alternatives to IoT Device Defender detect, see IoT Device Defender detect feature availability change in the IoT Device Defender Developer Guide. There is no change to IoT Device Defender audit availability. Provides details about a dimension that is defined in your Amazon Web Services ac...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1547,7 +1547,7 @@ public class AwsIot : IAwsIot
     }
 
     /// <summary>
-    /// Returns or creates a unique endpoint specific to the Amazon Web Ser- vices account making the call. NOTE: The first time DescribeEndpoint is called, an endpoint is created. All subsequent calls to DescribeEndpoint return the same endpoint. Requires permission to access the DescribeEndpoint action. See also: AWS API Documentation
+    /// Returns or creates a unique endpoint specific to the Amazon Web Services account making the call. NOTE: The first time DescribeEndpoint is called, an endpoint is created. All subsequent calls to DescribeEndpoint return the same endpoint. Requires permission to access the DescribeEndpoint action. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1742,7 +1742,7 @@ public class AwsIot : IAwsIot
     }
 
     /// <summary>
-    /// NOTE: The IoT Device Defender detect feature will no longer be available to new customers starting August 31, 2026. If you would like to use the detect feature, sign up prior to August 31, 2026. To learn about alternatives to IoT Device Defender detect, see IoT Device Defender detect feature availability change in the IoT Device Defender Devel- oper Guide. There is no change to IoT Device Defender audit avail- ability. Gets information about a Device Defender security profile. Requires permissio...
+    /// NOTE: The IoT Device Defender detect feature will no longer be available to new customers starting August 31, 2026. If you would like to use the detect feature, sign up prior to August 31, 2026. To learn about alternatives to IoT Device Defender detect, see IoT Device Defender detect feature availability change in the IoT Device Defender Developer Guide. There is no change to IoT Device Defender audit availability. Gets information about a Device Defender security profile. Requires permission to...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1847,7 +1847,7 @@ public class AwsIot : IAwsIot
     }
 
     /// <summary>
-    /// NOTE: The IoT Device Defender detect feature will no longer be available to new customers starting August 31, 2026. If you would like to use the detect feature, sign up prior to August 31, 2026. To learn about alternatives to IoT Device Defender detect, see IoT Device Defender detect feature availability change in the IoT Device Defender Devel- oper Guide. There is no change to IoT Device Defender audit avail- ability. Disassociates a Device Defender security profile from a thing group or from t...
+    /// NOTE: The IoT Device Defender detect feature will no longer be available to new customers starting August 31, 2026. If you would like to use the detect feature, sign up prior to August 31, 2026. To learn about alternatives to IoT Device Defender detect, see IoT Device Defender detect feature availability change in the IoT Device Defender Developer Guide. There is no change to IoT Device Defender audit availability. Disassociates a Device Defender security profile from a thing group or from this ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1862,7 +1862,7 @@ public class AwsIot : IAwsIot
     }
 
     /// <summary>
-    /// Detaches the specified principal from the specified thing. A principal can be X.509 certificates, IAM users, groups, and roles, Amazon Cognito identities or federated identities. NOTE: This call is asynchronous. It might take several seconds for the de- tachment to propagate. Requires permission to access the DetachThingPrincipal action. See also: AWS API Documentation
+    /// Detaches the specified principal from the specified thing. A principal can be X.509 certificates, IAM users, groups, and roles, Amazon Cognito identities or federated identities. NOTE: This call is asynchronous. It might take several seconds for the detachment to propagate. Requires permission to access the DetachThingPrincipal action. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1922,7 +1922,7 @@ public class AwsIot : IAwsIot
     }
 
     /// <summary>
-    /// NOTE: The IoT Device Defender detect feature will no longer be available to new customers starting August 31, 2026. If you would like to use the detect feature, sign up prior to August 31, 2026. To learn about alternatives to IoT Device Defender detect, see IoT Device Defender detect feature availability change in the IoT Device Defender Devel- oper Guide. There is no change to IoT Device Defender audit avail- ability. Returns a Device Defender's ML Detect Security Profile training model's statu...
+    /// NOTE: The IoT Device Defender detect feature will no longer be available to new customers starting August 31, 2026. If you would like to use the detect feature, sign up prior to August 31, 2026. To learn about alternatives to IoT Device Defender detect, see IoT Device Defender detect feature availability change in the IoT Device Defender Developer Guide. There is no change to IoT Device Defender audit availability. Returns a Device Defender's ML Detect Security Profile training model's status. R...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1967,7 +1967,7 @@ public class AwsIot : IAwsIot
     }
 
     /// <summary>
-    /// Gets information about the specific command execution on a single de- vice. See also: AWS API Documentation
+    /// Gets information about the specific command execution on a single device. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2117,7 +2117,7 @@ public class AwsIot : IAwsIot
     }
 
     /// <summary>
-    /// Groups the aggregated values that match the query into percentile groupings. The default percentile groupings are: 1,5,25,50,75,95,99, although you can specify your own when you call GetPercentiles . This function returns a value for each percentile group specified (or the default percentile groupings). The percentile group "1" contains the aggregated field value that occurs in approximately one percent of the values that match the query. The percentile group "5" contains the ag- gregated field ...
+    /// Groups the aggregated values that match the query into percentile groupings. The default percentile groupings are: 1,5,25,50,75,95,99, although you can specify your own when you call GetPercentiles . This function returns a value for each percentile group specified (or the default percentile groupings). The percentile group "1" contains the aggregated field value that occurs in approximately one percent of the values that match the query. The percentile group "5" contains the aggregated field va...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2162,7 +2162,7 @@ public class AwsIot : IAwsIot
     }
 
     /// <summary>
-    /// Gets a registration code used to register a CA certificate with IoT. IoT will create a registration code as part of this API call if the registration code doesn't exist or has been deleted. If you already have a registration code, this API call will return the same registra- tion code. Requires permission to access the GetRegistrationCode action. See also: AWS API Documentation
+    /// Gets a registration code used to register a CA certificate with IoT. IoT will create a registration code as part of this API call if the registration code doesn't exist or has been deleted. If you already have a registration code, this API call will return the same registration code. Requires permission to access the GetRegistrationCode action. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2252,7 +2252,7 @@ public class AwsIot : IAwsIot
     }
 
     /// <summary>
-    /// NOTE: The IoT Device Defender detect feature will no longer be available to new customers starting August 31, 2026. If you would like to use the detect feature, sign up prior to August 31, 2026. To learn about alternatives to IoT Device Defender detect, see IoT Device Defender detect feature availability change in the IoT Device Defender Devel- oper Guide. There is no change to IoT Device Defender audit avail- ability. Lists the active violations for a given Device Defender security pro- file. R...
+    /// NOTE: The IoT Device Defender detect feature will no longer be available to new customers starting August 31, 2026. If you would like to use the detect feature, sign up prior to August 31, 2026. To learn about alternatives to IoT Device Defender detect, see IoT Device Defender detect feature availability change in the IoT Device Defender Developer Guide. There is no change to IoT Device Defender audit availability. Lists the active violations for a given Device Defender security profile. Require...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2282,7 +2282,7 @@ public class AwsIot : IAwsIot
     }
 
     /// <summary>
-    /// Lists the findings (results) of a Device Defender audit or of the au- dits performed during a specified time period. (Findings are retained for 90 days.) Requires permission to access the ListAuditFindings action. See also: AWS API Documentation list-audit-findings is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a...
+    /// Lists the findings (results) of a Device Defender audit or of the audits performed during a specified time period. (Findings are retained for 90 days.) Requires permission to access the ListAuditFindings action. See also: AWS API Documentation list-audit-findings is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a p...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2297,7 +2297,7 @@ public class AwsIot : IAwsIot
     }
 
     /// <summary>
-    /// Gets the status of audit mitigation action tasks that were executed. Requires permission to access the ListAuditMitigationActionsExecutions action. See also: AWS API Documentation list-audit-mitigation-actions-executions is a paginated operation. Mul- tiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a pagi- nated response, the --query argument...
+    /// Gets the status of audit mitigation action tasks that were executed. Requires permission to access the ListAuditMitigationActionsExecutions action. See also: AWS API Documentation list-audit-mitigation-actions-executions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument mus...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2312,7 +2312,7 @@ public class AwsIot : IAwsIot
     }
 
     /// <summary>
-    /// Gets a list of audit mitigation action tasks that match the specified filters. Requires permission to access the ListAuditMitigationActionsTasks ac- tion. See also: AWS API Documentation list-audit-mitigation-actions-tasks is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argume...
+    /// Gets a list of audit mitigation action tasks that match the specified filters. Requires permission to access the ListAuditMitigationActionsTasks action. See also: AWS API Documentation list-audit-mitigation-actions-tasks is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument mus...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2327,7 +2327,7 @@ public class AwsIot : IAwsIot
     }
 
     /// <summary>
-    /// Lists your Device Defender audit listings. Requires permission to access the ListAuditSuppressions action. See also: AWS API Documentation list-audit-suppressions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query e...
+    /// Lists your Device Defender audit listings. Requires permission to access the ListAuditSuppressions action. See also: AWS API Documentation list-audit-suppressions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query exp...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2387,7 +2387,7 @@ public class AwsIot : IAwsIot
     }
 
     /// <summary>
-    /// Lists the CA certificates registered for your Amazon Web Services ac- count. The results are paginated with a default page size of 25. You can use the returned marker to retrieve additional results. Requires permission to access the ListCACertificates action. See also: AWS API Documentation list-ca-certificates is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When us...
+    /// Lists the CA certificates registered for your Amazon Web Services account. The results are paginated with a default page size of 25. You can use the returned marker to retrieve additional results. Requires permission to access the ListCACertificates action. See also: AWS API Documentation list-ca-certificates is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When usin...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2402,7 +2402,7 @@ public class AwsIot : IAwsIot
     }
 
     /// <summary>
-    /// Lists all your certificate providers in your Amazon Web Services ac- count. Requires permission to access the ListCertificateProviders action. See also: AWS API Documentation
+    /// Lists all your certificate providers in your Amazon Web Services account. Requires permission to access the ListCertificateProviders action. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2447,7 +2447,7 @@ public class AwsIot : IAwsIot
     }
 
     /// <summary>
-    /// List all command executions. WARNING: o You must provide only the startedTimeFilter or the completedTime- Filter information. If you provide both time filters, the API will generate an error. You can use this information to retrieve a list of command executions within a specific timeframe. o You must provide only the commandArn or the thingArn information depending on whether you want to list executions for a specific command or an IoT thing. If you provide both fields, the API will generate an ...
+    /// List all command executions. WARNING: • You must provide only the startedTimeFilter or the completedTimeFilter information. If you provide both time filters, the API will generate an error. You can use this information to retrieve a list of command executions within a specific timeframe. • You must provide only the commandArn or the thingArn information depending on whether you want to list executions for a specific command or an IoT thing. If you provide both fields, the API will generate an er...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2462,7 +2462,7 @@ public class AwsIot : IAwsIot
     }
 
     /// <summary>
-    /// List all commands in your account. See also: AWS API Documentation list-commands is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: commands
+    /// List all commands in your account. See also: AWS API Documentation list-commands is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: commands
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2477,7 +2477,7 @@ public class AwsIot : IAwsIot
     }
 
     /// <summary>
-    /// NOTE: The IoT Device Defender detect feature will no longer be available to new customers starting August 31, 2026. If you would like to use the detect feature, sign up prior to August 31, 2026. To learn about alternatives to IoT Device Defender detect, see IoT Device Defender detect feature availability change in the IoT Device Defender Devel- oper Guide. There is no change to IoT Device Defender audit avail- ability. Lists your Device Defender detect custom metrics. Requires permission to acce...
+    /// NOTE: The IoT Device Defender detect feature will no longer be available to new customers starting August 31, 2026. If you would like to use the detect feature, sign up prior to August 31, 2026. To learn about alternatives to IoT Device Defender detect, see IoT Device Defender detect feature availability change in the IoT Device Defender Developer Guide. There is no change to IoT Device Defender audit availability. Lists your Device Defender detect custom metrics. Requires permission to access t...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2492,7 +2492,7 @@ public class AwsIot : IAwsIot
     }
 
     /// <summary>
-    /// NOTE: The IoT Device Defender detect feature will no longer be available to new customers starting August 31, 2026. If you would like to use the detect feature, sign up prior to August 31, 2026. To learn about alternatives to IoT Device Defender detect, see IoT Device Defender detect feature availability change in the IoT Device Defender Devel- oper Guide. There is no change to IoT Device Defender audit avail- ability. Lists mitigation actions executions for a Device Defender ML Detect Se- curit...
+    /// NOTE: The IoT Device Defender detect feature will no longer be available to new customers starting August 31, 2026. If you would like to use the detect feature, sign up prior to August 31, 2026. To learn about alternatives to IoT Device Defender detect, see IoT Device Defender detect feature availability change in the IoT Device Defender Developer Guide. There is no change to IoT Device Defender audit availability. Lists mitigation actions executions for a Device Defender ML Detect Security Prof...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2507,7 +2507,7 @@ public class AwsIot : IAwsIot
     }
 
     /// <summary>
-    /// NOTE: The IoT Device Defender detect feature will no longer be available to new customers starting August 31, 2026. If you would like to use the detect feature, sign up prior to August 31, 2026. To learn about alternatives to IoT Device Defender detect, see IoT Device Defender detect feature availability change in the IoT Device Defender Devel- oper Guide. There is no change to IoT Device Defender audit avail- ability. List of Device Defender ML Detect mitigation actions tasks. Requires permissi...
+    /// NOTE: The IoT Device Defender detect feature will no longer be available to new customers starting August 31, 2026. If you would like to use the detect feature, sign up prior to August 31, 2026. To learn about alternatives to IoT Device Defender detect, see IoT Device Defender detect feature availability change in the IoT Device Defender Developer Guide. There is no change to IoT Device Defender audit availability. List of Device Defender ML Detect mitigation actions tasks. Requires permission t...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2522,7 +2522,7 @@ public class AwsIot : IAwsIot
     }
 
     /// <summary>
-    /// NOTE: The IoT Device Defender detect feature will no longer be available to new customers starting August 31, 2026. If you would like to use the detect feature, sign up prior to August 31, 2026. To learn about alternatives to IoT Device Defender detect, see IoT Device Defender detect feature availability change in the IoT Device Defender Devel- oper Guide. There is no change to IoT Device Defender audit avail- ability. List the set of dimensions that are defined for your Amazon Web Ser- vices ac...
+    /// NOTE: The IoT Device Defender detect feature will no longer be available to new customers starting August 31, 2026. If you would like to use the detect feature, sign up prior to August 31, 2026. To learn about alternatives to IoT Device Defender detect, see IoT Device Defender detect feature availability change in the IoT Device Defender Developer Guide. There is no change to IoT Device Defender audit availability. List the set of dimensions that are defined for your Amazon Web Services accounts...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2567,7 +2567,7 @@ public class AwsIot : IAwsIot
     }
 
     /// <summary>
-    /// Lists the search indices. Requires permission to access the ListIndices action. See also: AWS API Documentation list-indices is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex- pressions: indexNames
+    /// Lists the search indices. Requires permission to access the ListIndices action. See also: AWS API Documentation list-indices is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: indexNames
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2582,7 +2582,7 @@ public class AwsIot : IAwsIot
     }
 
     /// <summary>
-    /// Lists the job executions for a job. Requires permission to access the ListJobExecutionsForJob action. See also: AWS API Documentation list-job-executions-for-job is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ...
+    /// Lists the job executions for a job. Requires permission to access the ListJobExecutionsForJob action. See also: AWS API Documentation list-job-executions-for-job is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expr...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2597,7 +2597,7 @@ public class AwsIot : IAwsIot
     }
 
     /// <summary>
-    /// Lists the job executions for the specified thing. Requires permission to access the ListJobExecutionsForThing action. See also: AWS API Documentation list-job-executions-for-thing is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of th...
+    /// Lists the job executions for the specified thing. Requires permission to access the ListJobExecutionsForThing action. See also: AWS API Documentation list-job-executions-for-thing is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the fo...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2609,21 +2609,6 @@ public class AwsIot : IAwsIot
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
-    /// Lists jobs. Requires permission to access the ListJobs action. See also: AWS API Documentation list-jobs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagi- nation by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query ar- gument must extract data from the results of the following query ex- pressions: jobs
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListJobsAsync(
-        AwsIotListJobsOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotListJobsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -2642,7 +2627,22 @@ public class AwsIot : IAwsIot
     }
 
     /// <summary>
-    /// Returns a list of managed job templates. See also: AWS API Documentation list-managed-job-templates is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: managedJobTemplates
+    /// Lists jobs. Requires permission to access the ListJobs action. See also: AWS API Documentation list-jobs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: jobs
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListJobsAsync(
+        AwsIotListJobsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotListJobsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Returns a list of managed job templates. See also: AWS API Documentation list-managed-job-templates is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: managedJobTemplates
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2657,7 +2657,7 @@ public class AwsIot : IAwsIot
     }
 
     /// <summary>
-    /// Lists the values reported for an IoT Device Defender metric (de- vice-side metric, cloud-side metric, or custom metric) by the given thing during the specified time period. See also: AWS API Documentation list-metric-values is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument ...
+    /// Lists the values reported for an IoT Device Defender metric (device-side metric, cloud-side metric, or custom metric) by the given thing during the specified time period. See also: AWS API Documentation list-metric-values is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument mu...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2717,21 +2717,6 @@ public class AwsIot : IAwsIot
     }
 
     /// <summary>
-    /// Lists the software packages associated to the account. Requires permission to access the ListPackages action. See also: AWS API Documentation list-packages is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expres...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListPackagesAsync(
-        AwsIotListPackagesOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotListPackagesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
     /// Lists the software package versions associated to the account. Requires permission to access the ListPackageVersions action. See also: AWS API Documentation list-package-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the fol...
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -2747,7 +2732,22 @@ public class AwsIot : IAwsIot
     }
 
     /// <summary>
-    /// Lists your policies. Requires permission to access the ListPolicies action. See also: AWS API Documentation list-policies is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: policies
+    /// Lists the software packages associated to the account. Requires permission to access the ListPackages action. See also: AWS API Documentation list-packages is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expression...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListPackagesAsync(
+        AwsIotListPackagesOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotListPackagesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Lists your policies. Requires permission to access the ListPolicies action. See also: AWS API Documentation list-policies is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: policies
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2807,22 +2807,7 @@ public class AwsIot : IAwsIot
     }
 
     /// <summary>
-    /// Lists the provisioning templates in your Amazon Web Services account. Requires permission to access the ListProvisioningTemplates action. See also: AWS API Documentation list-provisioning-templates is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListProvisioningTemplatesAsync(
-        AwsIotListProvisioningTemplatesOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotListProvisioningTemplatesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
-    /// A list of provisioning template versions. Requires permission to access the ListProvisioningTemplateVersions ac- tion. See also: AWS API Documentation list-provisioning-template-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the result...
+    /// A list of provisioning template versions. Requires permission to access the ListProvisioningTemplateVersions action. See also: AWS API Documentation list-provisioning-template-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of t...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2837,7 +2822,22 @@ public class AwsIot : IAwsIot
     }
 
     /// <summary>
-    /// The related resources of an Audit finding. The following resources can be returned from calling this API: o DEVICE_CERTIFICATE o CA_CERTIFICATE o IOT_POLICY o COGNITO_IDENTITY_POOL o CLIENT_ID o ACCOUNT_SETTINGS o ROLE_ALIAS o IAM_ROLE o ISSUER_CERTIFICATE NOTE: This API is similar to DescribeAuditFinding's RelatedResources but provides pagination and is not limited to 10 resources. When calling DescribeAuditFinding for the intermediate CA revoked for active de- vice certificates check, RelatedR...
+    /// Lists the provisioning templates in your Amazon Web Services account. Requires permission to access the ListProvisioningTemplates action. See also: AWS API Documentation list-provisioning-templates is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListProvisioningTemplatesAsync(
+        AwsIotListProvisioningTemplatesOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotListProvisioningTemplatesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// The related resources of an Audit finding. The following resources can be returned from calling this API: • DEVICE_CERTIFICATE • CA_CERTIFICATE • IOT_POLICY • COGNITO_IDENTITY_POOL • CLIENT_ID • ACCOUNT_SETTINGS • ROLE_ALIAS • IAM_ROLE • ISSUER_CERTIFICATE NOTE: This API is similar to DescribeAuditFinding's RelatedResources but provides pagination and is not limited to 10 resources. When calling DescribeAuditFinding for the intermediate CA revoked for active device certificates check, RelatedRes...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2867,7 +2867,7 @@ public class AwsIot : IAwsIot
     }
 
     /// <summary>
-    /// The validation results for all software bill of materials (SBOM) at- tached to a specific software package version. Requires permission to access the ListSbomValidationResults action. See also: AWS API Documentation list-sbom-validation-results is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated respon...
+    /// The validation results for all software bill of materials (SBOM) attached to a specific software package version. Requires permission to access the ListSbomValidationResults action. See also: AWS API Documentation list-sbom-validation-results is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, th...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2897,7 +2897,7 @@ public class AwsIot : IAwsIot
     }
 
     /// <summary>
-    /// NOTE: The IoT Device Defender detect feature will no longer be available to new customers starting August 31, 2026. If you would like to use the detect feature, sign up prior to August 31, 2026. To learn about alternatives to IoT Device Defender detect, see IoT Device Defender detect feature availability change in the IoT Device Defender Devel- oper Guide. There is no change to IoT Device Defender audit avail- ability. Lists the Device Defender security profiles attached to a target (thing group...
+    /// NOTE: The IoT Device Defender detect feature will no longer be available to new customers starting August 31, 2026. If you would like to use the detect feature, sign up prior to August 31, 2026. To learn about alternatives to IoT Device Defender detect, see IoT Device Defender detect feature availability change in the IoT Device Defender Developer Guide. There is no change to IoT Device Defender audit availability. Lists the Device Defender security profiles attached to a target (thing group). R...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2912,7 +2912,7 @@ public class AwsIot : IAwsIot
     }
 
     /// <summary>
-    /// NOTE: The IoT Device Defender detect feature will no longer be available to new customers starting August 31, 2026. If you would like to use the detect feature, sign up prior to August 31, 2026. To learn about alternatives to IoT Device Defender detect, see IoT Device Defender detect feature availability change in the IoT Device Defender Devel- oper Guide. There is no change to IoT Device Defender audit avail- ability. Lists the Device Defender security profiles you've created. You can filter se...
+    /// NOTE: The IoT Device Defender detect feature will no longer be available to new customers starting August 31, 2026. If you would like to use the detect feature, sign up prior to August 31, 2026. To learn about alternatives to IoT Device Defender detect, see IoT Device Defender detect feature availability change in the IoT Device Defender Developer Guide. There is no change to IoT Device Defender audit availability. Lists the Device Defender security profiles you've created. You can filter securi...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2927,7 +2927,7 @@ public class AwsIot : IAwsIot
     }
 
     /// <summary>
-    /// Lists all of the streams in your Amazon Web Services account. Requires permission to access the ListStreams action. See also: AWS API Documentation list-streams is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex-...
+    /// Lists all of the streams in your Amazon Web Services account. Requires permission to access the ListStreams action. See also: AWS API Documentation list-streams is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expre...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2957,7 +2957,7 @@ public class AwsIot : IAwsIot
     }
 
     /// <summary>
-    /// List targets for the specified policy. Requires permission to access the ListTargetsForPolicy action. See also: AWS API Documentation list-targets-for-policy is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expres...
+    /// List targets for the specified policy. Requires permission to access the ListTargetsForPolicy action. See also: AWS API Documentation list-targets-for-policy is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressi...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2972,7 +2972,7 @@ public class AwsIot : IAwsIot
     }
 
     /// <summary>
-    /// NOTE: The IoT Device Defender detect feature will no longer be available to new customers starting August 31, 2026. If you would like to use the detect feature, sign up prior to August 31, 2026. To learn about alternatives to IoT Device Defender detect, see IoT Device Defender detect feature availability change in the IoT Device Defender Devel- oper Guide. There is no change to IoT Device Defender audit avail- ability. Lists the targets (thing groups) associated with a given Device De- fender se...
+    /// NOTE: The IoT Device Defender detect feature will no longer be available to new customers starting August 31, 2026. If you would like to use the detect feature, sign up prior to August 31, 2026. To learn about alternatives to IoT Device Defender detect, see IoT Device Defender detect feature availability change in the IoT Device Defender Developer Guide. There is no change to IoT Device Defender audit availability. Lists the targets (thing groups) associated with a given Device Defender security...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2987,7 +2987,7 @@ public class AwsIot : IAwsIot
     }
 
     /// <summary>
-    /// List the thing groups to which the specified thing belongs. Requires permission to access the ListThingGroupsForThing action. See also: AWS API Documentation list-thing-groups-for-thing is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results...
+    /// List the thing groups to which the specified thing belongs. Requires permission to access the ListThingGroupsForThing action. See also: AWS API Documentation list-thing-groups-for-thing is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -3047,7 +3047,7 @@ public class AwsIot : IAwsIot
     }
 
     /// <summary>
-    /// Information about the thing registration tasks. See also: AWS API Documentation list-thing-registration-task-reports is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: resourceLinks
+    /// Information about the thing registration tasks. See also: AWS API Documentation list-thing-registration-task-reports is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: resourceLinks
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -3062,7 +3062,7 @@ public class AwsIot : IAwsIot
     }
 
     /// <summary>
-    /// List bulk thing provisioning tasks. Requires permission to access the ListThingRegistrationTasks action. See also: AWS API Documentation list-thing-registration-tasks is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following q...
+    /// List bulk thing provisioning tasks. Requires permission to access the ListThingRegistrationTasks action. See also: AWS API Documentation list-thing-registration-tasks is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -3074,51 +3074,6 @@ public class AwsIot : IAwsIot
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotListThingRegistrationTasksOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
-    /// Lists the things you have added to the given billing group. Requires permission to access the ListThingsInBillingGroup action. See also: AWS API Documentation list-things-in-billing-group is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the resul...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListThingsInBillingGroupAsync(
-        AwsIotListThingsInBillingGroupOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
-    /// Lists the things in the specified group. Requires permission to access the ListThingsInThingGroup action. See also: AWS API Documentation list-things-in-thing-group is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListThingsInThingGroupAsync(
-        AwsIotListThingsInThingGroupOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
-    /// Lists your things. Use the attributeName and attributeValue parameters to filter your things. For example, calling ListThings with attribute- Name=Color and attributeValue=Red retrieves all things in the registry that contain an attribute Color with the value Red . For more informa- tion, see List Things from the Amazon Web Services IoT Core Developer Guide . Requires permission to access the ListThings action. NOTE: You will not be charged for calling this API if an Access denied er- ror is ret...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListThingsAsync(
-        AwsIotListThingsOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotListThingsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -3137,7 +3092,52 @@ public class AwsIot : IAwsIot
     }
 
     /// <summary>
-    /// Lists all the topic rule destinations in your Amazon Web Services ac- count. Requires permission to access the ListTopicRuleDestinations action. See also: AWS API Documentation list-topic-rule-destinations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract d...
+    /// Lists the things you have added to the given billing group. Requires permission to access the ListThingsInBillingGroup action. See also: AWS API Documentation list-things-in-billing-group is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results o...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListThingsInBillingGroupAsync(
+        AwsIotListThingsInBillingGroupOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Lists the things in the specified group. Requires permission to access the ListThingsInThingGroup action. See also: AWS API Documentation list-things-in-thing-group is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query e...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListThingsInThingGroupAsync(
+        AwsIotListThingsInThingGroupOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Lists your things. Use the attributeName and attributeValue parameters to filter your things. For example, calling ListThings with attributeName=Color and attributeValue=Red retrieves all things in the registry that contain an attribute Color with the value Red . For more information, see List Things from the Amazon Web Services IoT Core Developer Guide . Requires permission to access the ListThings action. NOTE: You will not be charged for calling this API if an Access denied error is returned....
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListThingsAsync(
+        AwsIotListThingsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotListThingsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Lists all the topic rule destinations in your Amazon Web Services account. Requires permission to access the ListTopicRuleDestinations action. See also: AWS API Documentation list-topic-rule-destinations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data fr...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -3182,7 +3182,7 @@ public class AwsIot : IAwsIot
     }
 
     /// <summary>
-    /// NOTE: The IoT Device Defender detect feature will no longer be available to new customers starting August 31, 2026. If you would like to use the detect feature, sign up prior to August 31, 2026. To learn about alternatives to IoT Device Defender detect, see IoT Device Defender detect feature availability change in the IoT Device Defender Devel- oper Guide. There is no change to IoT Device Defender audit avail- ability. Lists the Device Defender security profile violations discovered during the g...
+    /// NOTE: The IoT Device Defender detect feature will no longer be available to new customers starting August 31, 2026. If you would like to use the detect feature, sign up prior to August 31, 2026. To learn about alternatives to IoT Device Defender detect, see IoT Device Defender detect feature availability change in the IoT Device Defender Developer Guide. There is no change to IoT Device Defender audit availability. Lists the Device Defender security profile violations discovered during the given...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -3197,7 +3197,7 @@ public class AwsIot : IAwsIot
     }
 
     /// <summary>
-    /// NOTE: The IoT Device Defender detect feature will no longer be available to new customers starting August 31, 2026. If you would like to use the detect feature, sign up prior to August 31, 2026. To learn about alternatives to IoT Device Defender detect, see IoT Device Defender detect feature availability change in the IoT Device Defender Devel- oper Guide. There is no change to IoT Device Defender audit avail- ability. Set a verification state and provide a description of that verification state...
+    /// NOTE: The IoT Device Defender detect feature will no longer be available to new customers starting August 31, 2026. If you would like to use the detect feature, sign up prior to August 31, 2026. To learn about alternatives to IoT Device Defender detect, see IoT Device Defender detect feature availability change in the IoT Device Defender Developer Guide. There is no change to IoT Device Defender audit availability. Set a verification state and provide a description of that verification state on ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -3212,7 +3212,7 @@ public class AwsIot : IAwsIot
     }
 
     /// <summary>
-    /// Registers a CA certificate with Amazon Web Services IoT Core. There is no limit to the number of CA certificates you can register in your Ama- zon Web Services account. You can register up to 10 CA certificates with the same CA subject field per Amazon Web Services account. Requires permission to access the RegisterCACertificate action. See also: AWS API Documentation
+    /// Registers a CA certificate with Amazon Web Services IoT Core. There is no limit to the number of CA certificates you can register in your Amazon Web Services account. You can register up to 10 CA certificates with the same CA subject field per Amazon Web Services account. Requires permission to access the RegisterCACertificate action. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -3242,7 +3242,7 @@ public class AwsIot : IAwsIot
     }
 
     /// <summary>
-    /// Register a certificate that does not have a certificate authority (CA). For supported certificates, consult Certificate signing algorithms sup- ported by IoT . See also: AWS API Documentation
+    /// Register a certificate that does not have a certificate authority (CA). For supported certificates, consult Certificate signing algorithms supported by IoT . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -3272,7 +3272,7 @@ public class AwsIot : IAwsIot
     }
 
     /// <summary>
-    /// Rejects a pending certificate transfer. After IoT rejects a certificate transfer, the certificate status changes from PENDING_TRANSFER to INAC- TIVE . To check for pending certificate transfers, call ListCertificates to enumerate your certificates. This operation can only be called by the transfer destination. After it is called, the certificate will be returned to the source's account in the INACTIVE state. Requires permission to access the RejectCertificateTransfer action. See also: AWS API Do...
+    /// Rejects a pending certificate transfer. After IoT rejects a certificate transfer, the certificate status changes from PENDING_TRANSFER to INACTIVE . To check for pending certificate transfers, call ListCertificates to enumerate your certificates. This operation can only be called by the transfer destination. After it is called, the certificate will be returned to the source's account in the INACTIVE state. Requires permission to access the RejectCertificateTransfer action. See also: AWS API Docu...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -3287,7 +3287,7 @@ public class AwsIot : IAwsIot
     }
 
     /// <summary>
-    /// Removes the given thing from the billing group. Requires permission to access the RemoveThingFromBillingGroup action. NOTE: This call is asynchronous. It might take several seconds for the de- tachment to propagate. See also: AWS API Documentation
+    /// Removes the given thing from the billing group. Requires permission to access the RemoveThingFromBillingGroup action. NOTE: This call is asynchronous. It might take several seconds for the detachment to propagate. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -3317,7 +3317,7 @@ public class AwsIot : IAwsIot
     }
 
     /// <summary>
-    /// Replaces the rule. You must specify all parameters for the new rule. Creating rules is an administrator-level action. Any user who has per- mission to create rules will be able to access data processed by the rule. Requires permission to access the ReplaceTopicRule action. See also: AWS API Documentation
+    /// Replaces the rule. You must specify all parameters for the new rule. Creating rules is an administrator-level action. Any user who has permission to create rules will be able to access data processed by the rule. Requires permission to access the ReplaceTopicRule action. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -3347,7 +3347,7 @@ public class AwsIot : IAwsIot
     }
 
     /// <summary>
-    /// Sets the default authorizer. This will be used if a websocket connec- tion is made without specifying an authorizer. Requires permission to access the SetDefaultAuthorizer action. See also: AWS API Documentation
+    /// Sets the default authorizer. This will be used if a websocket connection is made without specifying an authorizer. Requires permission to access the SetDefaultAuthorizer action. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -3362,7 +3362,7 @@ public class AwsIot : IAwsIot
     }
 
     /// <summary>
-    /// Sets the specified version of the specified policy as the policy's de- fault (operative) version. This action affects all certificates to which the policy is attached. To list the principals the policy is at- tached to, use the ListPrincipalPolicies action. Requires permission to access the SetDefaultPolicyVersion action. See also: AWS API Documentation
+    /// Sets the specified version of the specified policy as the policy's default (operative) version. This action affects all certificates to which the policy is attached. To list the principals the policy is attached to, use the ListPrincipalPolicies action. Requires permission to access the SetDefaultPolicyVersion action. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -3422,7 +3422,7 @@ public class AwsIot : IAwsIot
     }
 
     /// <summary>
-    /// Starts a task that applies a set of mitigation actions to the specified target. Requires permission to access the StartAuditMitigationActionsTask ac- tion. See also: AWS API Documentation
+    /// Starts a task that applies a set of mitigation actions to the specified target. Requires permission to access the StartAuditMitigationActionsTask action. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -3437,7 +3437,7 @@ public class AwsIot : IAwsIot
     }
 
     /// <summary>
-    /// NOTE: The IoT Device Defender detect feature will no longer be available to new customers starting August 31, 2026. If you would like to use the detect feature, sign up prior to August 31, 2026. To learn about alternatives to IoT Device Defender detect, see IoT Device Defender detect feature availability change in the IoT Device Defender Devel- oper Guide. There is no change to IoT Device Defender audit avail- ability. Starts a Device Defender ML Detect mitigation actions task. Requires permissi...
+    /// NOTE: The IoT Device Defender detect feature will no longer be available to new customers starting August 31, 2026. If you would like to use the detect feature, sign up prior to August 31, 2026. To learn about alternatives to IoT Device Defender detect, see IoT Device Defender detect feature availability change in the IoT Device Defender Developer Guide. There is no change to IoT Device Defender audit availability. Starts a Device Defender ML Detect mitigation actions task. Requires permission t...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -3527,7 +3527,7 @@ public class AwsIot : IAwsIot
     }
 
     /// <summary>
-    /// Tests a custom authorization behavior by invoking a specified custom authorizer. Use this to test and debug the custom authorization behav- ior of devices that connect to the IoT device gateway. Requires permission to access the TestInvokeAuthorizer action. See also: AWS API Documentation
+    /// Tests a custom authorization behavior by invoking a specified custom authorizer. Use this to test and debug the custom authorization behavior of devices that connect to the IoT device gateway. Requires permission to access the TestInvokeAuthorizer action. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -3542,7 +3542,7 @@ public class AwsIot : IAwsIot
     }
 
     /// <summary>
-    /// Transfers the specified certificate to the specified Amazon Web Ser- vices account. Requires permission to access the TransferCertificate action. You can cancel the transfer until it is accepted by the recipient. No notification is sent to the transfer destination's account. The caller is responsible for notifying the transfer target. The certificate being transferred must not be in the ACTIVE state. You can use the UpdateCertificate action to deactivate it. The certificate must not have any pol...
+    /// Transfers the specified certificate to the specified Amazon Web Services account. Requires permission to access the TransferCertificate action. You can cancel the transfer until it is accepted by the recipient. No notification is sent to the transfer destination's account. The caller is responsible for notifying the transfer target. The certificate being transferred must not be in the ACTIVE state. You can use the UpdateCertificate action to deactivate it. The certificate must not have any polic...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -3572,7 +3572,7 @@ public class AwsIot : IAwsIot
     }
 
     /// <summary>
-    /// Configures or reconfigures the Device Defender audit settings for this account. Settings include how audit notifications are sent and which audit checks are enabled or disabled. Requires permission to access the UpdateAccountAuditConfiguration ac- tion. See also: AWS API Documentation
+    /// Configures or reconfigures the Device Defender audit settings for this account. Settings include how audit notifications are sent and which audit checks are enabled or disabled. Requires permission to access the UpdateAccountAuditConfiguration action. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -3692,7 +3692,7 @@ public class AwsIot : IAwsIot
     }
 
     /// <summary>
-    /// NOTE: The IoT Device Defender detect feature will no longer be available to new customers starting August 31, 2026. If you would like to use the detect feature, sign up prior to August 31, 2026. To learn about alternatives to IoT Device Defender detect, see IoT Device Defender detect feature availability change in the IoT Device Defender Devel- oper Guide. There is no change to IoT Device Defender audit avail- ability. Updates a Device Defender detect custom metric. Requires permission to access...
+    /// NOTE: The IoT Device Defender detect feature will no longer be available to new customers starting August 31, 2026. If you would like to use the detect feature, sign up prior to August 31, 2026. To learn about alternatives to IoT Device Defender detect, see IoT Device Defender detect feature availability change in the IoT Device Defender Developer Guide. There is no change to IoT Device Defender audit availability. Updates a Device Defender detect custom metric. Requires permission to access the...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -3707,7 +3707,7 @@ public class AwsIot : IAwsIot
     }
 
     /// <summary>
-    /// NOTE: The IoT Device Defender detect feature will no longer be available to new customers starting August 31, 2026. If you would like to use the detect feature, sign up prior to August 31, 2026. To learn about alternatives to IoT Device Defender detect, see IoT Device Defender detect feature availability change in the IoT Device Defender Devel- oper Guide. There is no change to IoT Device Defender audit avail- ability. Updates the definition for a dimension. You cannot change the type of a dimen...
+    /// NOTE: The IoT Device Defender detect feature will no longer be available to new customers starting August 31, 2026. If you would like to use the detect feature, sign up prior to August 31, 2026. To learn about alternatives to IoT Device Defender detect, see IoT Device Defender detect feature availability change in the IoT Device Defender Developer Guide. There is no change to IoT Device Defender audit availability. Updates the definition for a dimension. You cannot change the type of a dimension...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -3722,7 +3722,7 @@ public class AwsIot : IAwsIot
     }
 
     /// <summary>
-    /// Updates values stored in the domain configuration. Domain configura- tions for default endpoints can't be updated. Requires permission to access the UpdateDomainConfiguration action. See also: AWS API Documentation
+    /// Updates values stored in the domain configuration. Domain configurations for default endpoints can't be updated. Requires permission to access the UpdateDomainConfiguration action. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -3752,7 +3752,7 @@ public class AwsIot : IAwsIot
     }
 
     /// <summary>
-    /// Updates the encryption configuration. By default, Amazon Web Services IoT Core encrypts your data at rest using Amazon Web Services owned keys. Amazon Web Services IoT Core also supports symmetric customer managed keys from Key Management Service (KMS). With customer managed keys, you create, own, and manage the KMS keys in your Amazon Web Ser- vices account. Before using this API, you must set up permissions for Amazon Web Ser- vices IoT Core to access KMS. For more information, see Data encryp...
+    /// Updates the encryption configuration. By default, Amazon Web Services IoT Core encrypts your data at rest using Amazon Web Services owned keys. Amazon Web Services IoT Core also supports symmetric customer managed keys from Key Management Service (KMS). With customer managed keys, you create, own, and manage the KMS keys in your Amazon Web Services account. Before using this API, you must set up permissions for Amazon Web Services IoT Core to access KMS. For more information, see Data encryption...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -3932,7 +3932,7 @@ public class AwsIot : IAwsIot
     }
 
     /// <summary>
-    /// NOTE: The IoT Device Defender detect feature will no longer be available to new customers starting August 31, 2026. If you would like to use the detect feature, sign up prior to August 31, 2026. To learn about alternatives to IoT Device Defender detect, see IoT Device Defender detect feature availability change in the IoT Device Defender Devel- oper Guide. There is no change to IoT Device Defender audit avail- ability. Updates a Device Defender security profile. Requires permission to access the...
+    /// NOTE: The IoT Device Defender detect feature will no longer be available to new customers starting August 31, 2026. If you would like to use the detect feature, sign up prior to August 31, 2026. To learn about alternatives to IoT Device Defender detect, see IoT Device Defender detect feature availability change in the IoT Device Defender Developer Guide. There is no change to IoT Device Defender audit availability. Updates a Device Defender security profile. Requires permission to access the Upd...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -4037,7 +4037,7 @@ public class AwsIot : IAwsIot
     }
 
     /// <summary>
-    /// NOTE: The IoT Device Defender detect feature will no longer be available to new customers starting August 31, 2026. If you would like to use the detect feature, sign up prior to August 31, 2026. To learn about alternatives to IoT Device Defender detect, see IoT Device Defender detect feature availability change in the IoT Device Defender Devel- oper Guide. There is no change to IoT Device Defender audit avail- ability. Validates a Device Defender security profile behaviors specification. Require...
+    /// NOTE: The IoT Device Defender detect feature will no longer be available to new customers starting August 31, 2026. If you would like to use the detect feature, sign up prior to August 31, 2026. To learn about alternatives to IoT Device Defender detect, see IoT Device Defender detect feature availability change in the IoT Device Defender Developer Guide. There is no change to IoT Device Defender audit availability. Validates a Device Defender security profile behaviors specification. Requires pe...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

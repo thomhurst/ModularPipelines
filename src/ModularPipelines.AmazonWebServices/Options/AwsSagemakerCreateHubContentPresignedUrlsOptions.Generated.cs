@@ -11,13 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates presigned URLs for accessing hub content artifacts. This opera- tion generates time-limited, secure URLs that allow direct download of model artifacts and associated files from Amazon SageMaker hub content, including gated models that require end-user license agreement accep- tance. See also: AWS API Documentation create-hub-content-presigned-urls is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination b...
+/// Creates presigned URLs for accessing hub content artifacts. This operation generates time-limited, secure URLs that allow direct download of model artifacts and associated files from Amazon SageMaker hub content, including gated models that require end-user license agreement acceptance. See also: AWS API Documentation create-hub-content-presigned-urls is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by prov...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,11 +28,11 @@ public record AwsSagemakerCreateHubContentPresignedUrlsOptions : AwsOptions, IVa
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates presigned URLs for accessing hub content artifacts. This opera- tion generates time-limited, secure URLs that allow direct download of model artifacts and associated files from Amazon SageMaker hub content, including gated models that require end-user license agreement accep- tance. See also: AWS API Documentation create-hub-content-presigned-urls is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination b...
+    /// Creates presigned URLs for accessing hub content artifacts. This operation generates time-limited, secure URLs that allow direct download of model artifacts and associated files from Amazon SageMaker hub content, including gated models that require end-user license agreement acceptance. See also: AWS API Documentation create-hub-content-presigned-urls is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by prov...
     /// </summary>
-    /// <param name="HubName">The name or Amazon Resource Name (ARN) of the hub that contains the content. For public content, use SageMakerPublicHub . Constraints: o pattern: (arn:[a-z0-9-\.]{1,63}:sage- maker:\w+(?:-\w+)+:(\d{12}|aws):hub\/)?[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}</param>
-    /// <param name="HubContentType">The type of hub content to access. Valid values include Model , Notebook , and ModelReference . Possible values: o Model o Notebook o ModelReference o DataSet o JsonDoc</param>
-    /// <param name="HubContentName">The name of the hub content for which to generate presigned URLs. This identifies the specific model or content within the hub. Constraints: o min: 0 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}</param>
+    /// <param name="HubName">The name or Amazon Resource Name (ARN) of the hub that contains the content. For public content, use SageMakerPublicHub . Constraints: • pattern: (arn:[a-z0-9-\.]{1,63}:sagemaker:\w+(?:-\w+)+:(\d{12}|aws):hub\/)?[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}</param>
+    /// <param name="HubContentType">The type of hub content to access. Valid values include Model , Notebook , and ModelReference . Possible values: • Model • Notebook • ModelReference • DataSet • JsonDoc</param>
+    /// <param name="HubContentName">The name of the hub content for which to generate presigned URLs. This identifies the specific model or content within the hub. Constraints: • min: 0 • max: 63 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}</param>
     public AwsSagemakerCreateHubContentPresignedUrlsOptions(
         string HubName,
         AwsSagemakerCreateHubContentPresignedUrlsHubContentType HubContentType,
@@ -65,40 +66,37 @@ public record AwsSagemakerCreateHubContentPresignedUrlsOptions : AwsOptions, IVa
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name or Amazon Resource Name (ARN) of the hub that contains the content. For public content, use SageMakerPublicHub . Constraints: o pattern: (arn:[a-z0-9-\.]{1,63}:sage- maker:\w+(?:-\w+)+:(\d{12}|aws):hub\/)?[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}
+    /// The name or Amazon Resource Name (ARN) of the hub that contains the content. For public content, use SageMakerPublicHub . Constraints: • pattern: (arn:[a-z0-9-\.]{1,63}:sagemaker:\w+(?:-\w+)+:(\d{12}|aws):hub\/)?[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}
     /// </summary>
     [CliOption("--hub-name")]
     public string? HubName { get; private init; }
 
     /// <summary>
-    /// The type of hub content to access. Valid values include Model , Notebook , and ModelReference . Possible values: o Model o Notebook o ModelReference o DataSet o JsonDoc
+    /// The type of hub content to access. Valid values include Model , Notebook , and ModelReference . Possible values: • Model • Notebook • ModelReference • DataSet • JsonDoc
     /// </summary>
     [CliOption("--hub-content-type")]
     public AwsSagemakerCreateHubContentPresignedUrlsHubContentType? HubContentType { get; private init; }
 
     /// <summary>
-    /// The name of the hub content for which to generate presigned URLs. This identifies the specific model or content within the hub. Constraints: o min: 0 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}
+    /// The name of the hub content for which to generate presigned URLs. This identifies the specific model or content within the hub. Constraints: • min: 0 • max: 63 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}
     /// </summary>
     [CliOption("--hub-content-name")]
     public string? HubContentName { get; private init; }
 
     /// <summary>
-    /// The version of the hub content. If not specified, the latest version is used. Constraints: o min: 5 o max: 14 o pattern: \d{1,4}.\d{1,4}.\d{1,4}
+    /// The version of the hub content. If not specified, the latest version is used. Constraints: • min: 5 • max: 14 • pattern: \d{1,4}.\d{1,4}.\d{1,4}
     /// </summary>
     [CliOption("--hub-content-version")]
     public string? HubContentVersion { get; set; }
 
     /// <summary>
-    /// Configuration settings for accessing the hub content, including end-user license agreement acceptance for gated models and expected S3 URL validation. AcceptEula -&gt; (boolean) Indicates acceptance of the End User License Agreement (EULA) for gated models. Set to true to acknowledge acceptance of the license terms required for accessing gated content. ExpectedS3Url -&gt; (string) The expected S3 URL prefix for validation purposes. This parame- ter helps ensure consistency between the resolved S3 URIs and the deployment configuration, reducing potential compatibility issues. Constraints: o min: 0 o max: 1024 o pattern: (https|s3)://([^/]+)/?(.*) Shorthand Syntax: AcceptEula=boolean,ExpectedS3Url=string JSON Syntax: { "AcceptEula": true|false, "ExpectedS3Url": "string" }
+    /// Configuration settings for accessing the hub content, including end-user license agreement acceptance for gated models and expected S3 URL validation. AcceptEula -&gt; (boolean) Indicates acceptance of the End User License Agreement (EULA) for gated models. Set to true to acknowledge acceptance of the license terms required for accessing gated content. ExpectedS3Url -&gt; (string) The expected S3 URL prefix for validation purposes. This parameter helps ensure consistency between the resolved S3 URIs and the deployment configuration, reducing potential compatibility issues. Constraints: • min: 0 • max: 1024 • pattern: (https|s3)://([^/]+)/?(.*) Shorthand Syntax: AcceptEula=boolean,ExpectedS3Url=string JSON Syntax: { "AcceptEula": true|false, "ExpectedS3Url": "string" }
     /// </summary>
     [CliOption("--access-config")]
     public string? AccessConfig { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -108,16 +106,19 @@ public record AwsSagemakerCreateHubContentPresignedUrlsOptions : AwsOptions, IVa
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 100
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
@@ -134,6 +135,15 @@ public record AwsSagemakerCreateHubContentPresignedUrlsOptions : AwsOptions, IVa
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

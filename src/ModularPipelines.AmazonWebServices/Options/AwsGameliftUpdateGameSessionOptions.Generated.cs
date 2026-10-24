@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// This API works with the following fleet types: EC2, Anywhere, Con- tainer Updates the mutable properties of a game session. To update a game session, specify the game session ID and the values you want to change. If successful, the updated GameSession object is returned. All APIs by task See also: AWS API Documentation
+/// This API works with the following fleet types: EC2, Anywhere, Container Updates the mutable properties of a game session. To update a game session, specify the game session ID and the values you want to change. If successful, the updated GameSession object is returned. All APIs by task See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +27,9 @@ public record AwsGameliftUpdateGameSessionOptions : AwsOptions, IValidatableObje
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// This API works with the following fleet types: EC2, Anywhere, Con- tainer Updates the mutable properties of a game session. To update a game session, specify the game session ID and the values you want to change. If successful, the updated GameSession object is returned. All APIs by task See also: AWS API Documentation
+    /// This API works with the following fleet types: EC2, Anywhere, Container Updates the mutable properties of a game session. To update a game session, specify the game session ID and the values you want to change. If successful, the updated GameSession object is returned. All APIs by task See also: AWS API Documentation
     /// </summary>
-    /// <param name="GameSessionId">An identifier for the game session that is unique across all regions to update. The value is always a full ARN in the following format: For Home Region game session - arn:aws:gamelift:&lt;home_region&gt;::game- session/&lt;fleet ID&gt;/&lt;ID string&gt; . For Remote Location game session - arn:aws:gamelift:&lt;home_region&gt;::gamesession/&lt;fleet ID&gt;/&lt;loca- tion&gt;/&lt;ID string&gt; . Constraints: o min: 1 o max: 512 o pattern: ^[a-zA-Z0-9:/-]+$</param>
+    /// <param name="GameSessionId">An identifier for the game session that is unique across all regions to update. The value is always a full ARN in the following format: For Home Region game session - arn:aws:gamelift:&lt;home_region&gt;::gamesession/&lt;fleet ID&gt;/&lt;ID string&gt; . For Remote Location game session - arn:aws:gamelift:&lt;home_region&gt;::gamesession/&lt;fleet ID&gt;/&lt;location&gt;/&lt;ID string&gt; . Constraints: • min: 1 • max: 512 • pattern: ^[a-zA-Z0-9:/-]+$</param>
     public AwsGameliftUpdateGameSessionOptions(
         string GameSessionId
     )
@@ -57,37 +58,37 @@ public record AwsGameliftUpdateGameSessionOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// An identifier for the game session that is unique across all regions to update. The value is always a full ARN in the following format: For Home Region game session - arn:aws:gamelift:&lt;home_region&gt;::game- session/&lt;fleet ID&gt;/&lt;ID string&gt; . For Remote Location game session - arn:aws:gamelift:&lt;home_region&gt;::gamesession/&lt;fleet ID&gt;/&lt;loca- tion&gt;/&lt;ID string&gt; . Constraints: o min: 1 o max: 512 o pattern: ^[a-zA-Z0-9:/-]+$
+    /// An identifier for the game session that is unique across all regions to update. The value is always a full ARN in the following format: For Home Region game session - arn:aws:gamelift:&lt;home_region&gt;::gamesession/&lt;fleet ID&gt;/&lt;ID string&gt; . For Remote Location game session - arn:aws:gamelift:&lt;home_region&gt;::gamesession/&lt;fleet ID&gt;/&lt;location&gt;/&lt;ID string&gt; . Constraints: • min: 1 • max: 512 • pattern: ^[a-zA-Z0-9:/-]+$
     /// </summary>
     [CliOption("--game-session-id")]
     public string? GameSessionId { get; private init; }
 
     /// <summary>
-    /// The maximum number of players that can be connected simultaneously to the game session. Constraints: o min: 0
+    /// The maximum number of players that can be connected simultaneously to the game session. Constraints: • min: 0
     /// </summary>
     [CliOption("--maximum-player-session-count")]
     public int? MaximumPlayerSessionCount { get; set; }
 
     /// <summary>
-    /// A descriptive label that is associated with a game session. Session names do not need to be unique. Constraints: o min: 1 o max: 1024
+    /// A descriptive label that is associated with a game session. Session names do not need to be unique. Constraints: • min: 1 • max: 1024
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
 
     /// <summary>
-    /// A policy that determines whether the game session is accepting new players. Possible values: o ACCEPT_ALL o DENY_ALL
+    /// A policy that determines whether the game session is accepting new players. Possible values: • ACCEPT_ALL • DENY_ALL
     /// </summary>
     [CliOption("--player-session-creation-policy")]
     public AwsGameliftUpdateGameSessionPlayerSessionCreationPolicy? PlayerSessionCreationPolicy { get; set; }
 
     /// <summary>
-    /// Game session protection policy to apply to this game session only. o NoProtection -- The game session can be terminated during a scale-down event. o FullProtection -- If the game session is in an ACTIVE status, it cannot be terminated during a scale-down event. Possible values: o NoProtection o FullProtection
+    /// Game session protection policy to apply to this game session only. • NoProtection -- The game session can be terminated during a scale-down event. • FullProtection -- If the game session is in an ACTIVE status, it cannot be terminated during a scale-down event. Possible values: • NoProtection • FullProtection
     /// </summary>
     [CliOption("--protection-policy")]
     public AwsGameliftUpdateGameSessionProtectionPolicy? ProtectionPolicy { get; set; }
 
     /// <summary>
-    /// A set of key-value pairs that can store custom data in a game ses- sion. For example: {"Key": "difficulty", "Value": "novice"} . You can use this parameter to modify game properties in an active game session. This action adds new properties and modifies existing prop- erties. There is no way to delete properties. For an example, see Update the value of a game property . NOTE: o Avoid using periods (".") in property keys if you plan to search for game sessions by properties. Property keys contain- ing periods cannot be searched and will be filtered out from search results due to search index limitations. o If you use SearchGameSessions API, there is a limit of 500 game property keys across all game sessions and all fleets per region. If the limit is exceeded, there will potentially be game session entries missing from SearchGameSessions API re- sults. Constraints: o max: 16 (structure) This key-value pair can store custom data about a game session. For example, you might use a GameProperty to track a game ses- sion's map, level of difficulty, or remaining time. The diffi- culty level could be specified like this: {"Key": "difficulty", "Value":"Novice"} . You can set game properties when creating a game session. You can also modify game properties of an active game session. When searching for game sessions, you can filter on game property keys and values. You can't delete game properties from a game session. For examples of working with game properties, see Create a game session with properties . Key -&gt; (string) [required] The game property identifier. NOTE: o Avoid using periods (".") in property keys if you plan to search for game sessions by properties. Property keys containing periods cannot be searched and will be filtered out from search results due to search index limitations. o If you use SearchGameSessions API, there is a limit of 500 game property keys across all game sessions and all fleets per region. If the limit is exceeded, there will potentially be game session entries missing from SearchGameSessions API results. Constraints: o max: 32 Value -&gt; (string) [required] The game property value. Constraints: o max: 96 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// A set of key-value pairs that can store custom data in a game session. For example: {"Key": "difficulty", "Value": "novice"} . You can use this parameter to modify game properties in an active game session. This action adds new properties and modifies existing properties. There is no way to delete properties. For an example, see Update the value of a game property . NOTE: • Avoid using periods (".") in property keys if you plan to search for game sessions by properties. Property keys containing periods cannot be searched and will be filtered out from search results due to search index limitations. • If you use SearchGameSessions API, there is a limit of 500 game property keys across all game sessions and all fleets per region. If the limit is exceeded, there will potentially be game session entries missing from SearchGameSessions API results. Constraints: • max: 16 (structure) This key-value pair can store custom data about a game session. For example, you might use a GameProperty to track a game session's map, level of difficulty, or remaining time. The difficulty level could be specified like this: {"Key": "difficulty", "Value":"Novice"} . You can set game properties when creating a game session. You can also modify game properties of an active game session. When searching for game sessions, you can filter on game property keys and values. You can't delete game properties from a game session. For examples of working with game properties, see Create a game session with properties . Key -&gt; (string) [required] The game property identifier. NOTE: • Avoid using periods (".") in property keys if you plan to search for game sessions by properties. Property keys containing periods cannot be searched and will be filtered out from search results due to search index limitations. • If you use SearchGameSessions API, there is a limit of 500 game property keys across all game sessions and all fleets per region. If the limit is exceeded, there will potentially be game session entries missing from SearchGameSessions API results. Constraints: • max: 32 Value -&gt; (string) [required] The game property value. Constraints: • max: 96 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--game-properties", GroupValues = true)]
     public IEnumerable<string>? GameProperties { get; set; }
@@ -113,6 +114,15 @@ public record AwsGameliftUpdateGameSessionOptions : AwsOptions, IValidatableObje
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

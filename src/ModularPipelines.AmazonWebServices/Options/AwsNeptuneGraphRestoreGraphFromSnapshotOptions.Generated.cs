@@ -10,7 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,8 +28,8 @@ public record AwsNeptuneGraphRestoreGraphFromSnapshotOptions : AwsOptions, IVali
     /// <summary>
     /// Restores a graph from a snapshot. See also: AWS API Documentation
     /// </summary>
-    /// <param name="SnapshotIdentifier">The ID of the snapshot in question. Constraints: o pattern: gs-[a-z0-9]{10}</param>
-    /// <param name="GraphName">A name for the new Neptune Analytics graph to be created from the snapshot. The name must contain from 1 to 63 letters, numbers, or hyphens, and its first character must be a letter. It cannot end with a hyphen or contain two consecutive hyphens. Only lowercase letters are allowed. Constraints: o min: 1 o max: 63 o pattern: (?!g-)[a-z][a-z0-9]*(-[a-z0-9]+)*</param>
+    /// <param name="SnapshotIdentifier">The ID of the snapshot in question. Constraints: • pattern: gs-[a-z0-9]{10}</param>
+    /// <param name="GraphName">A name for the new Neptune Analytics graph to be created from the snapshot. The name must contain from 1 to 63 letters, numbers, or hyphens, and its first character must be a letter. It cannot end with a hyphen or contain two consecutive hyphens. Only lowercase letters are allowed. Constraints: • min: 1 • max: 63 • pattern: (?!g-)[a-z][a-z0-9]*(-[a-z0-9]+)*</param>
     public AwsNeptuneGraphRestoreGraphFromSnapshotOptions(
         string SnapshotIdentifier,
         string GraphName
@@ -61,43 +61,43 @@ public record AwsNeptuneGraphRestoreGraphFromSnapshotOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the snapshot in question. Constraints: o pattern: gs-[a-z0-9]{10}
+    /// The ID of the snapshot in question. Constraints: • pattern: gs-[a-z0-9]{10}
     /// </summary>
     [CliOption("--snapshot-identifier")]
     public string? SnapshotIdentifier { get; private init; }
 
     /// <summary>
-    /// A name for the new Neptune Analytics graph to be created from the snapshot. The name must contain from 1 to 63 letters, numbers, or hyphens, and its first character must be a letter. It cannot end with a hyphen or contain two consecutive hyphens. Only lowercase letters are allowed. Constraints: o min: 1 o max: 63 o pattern: (?!g-)[a-z][a-z0-9]*(-[a-z0-9]+)*
+    /// A name for the new Neptune Analytics graph to be created from the snapshot. The name must contain from 1 to 63 letters, numbers, or hyphens, and its first character must be a letter. It cannot end with a hyphen or contain two consecutive hyphens. Only lowercase letters are allowed. Constraints: • min: 1 • max: 63 • pattern: (?!g-)[a-z][a-z0-9]*(-[a-z0-9]+)*
     /// </summary>
     [CliOption("--graph-name")]
     public string? GraphName { get; private init; }
 
     /// <summary>
-    /// The provisioned memory-optimized Neptune Capacity Units (m-NCUs) to use for the graph. Min = 16 Constraints: o min: 16 o max: 24576
+    /// The provisioned memory-optimized Neptune Capacity Units (m-NCUs) to use for the graph. Min = 16 Constraints: • min: 16 • max: 24576
     /// </summary>
     [CliOption("--provisioned-memory")]
     public int? ProvisionedMemory { get; set; }
 
     /// <summary>
-    /// A value that indicates whether the graph has deletion protection en- abled. The graph can't be deleted when deletion protection is en- abled.
+    /// A value that indicates whether the graph has deletion protection enabled. The graph can't be deleted when deletion protection is enabled.
     /// </summary>
     [CliFlag("--deletion-protection", NegatedName = "--no-deletion-protection")]
     public bool? DeletionProtection { get; set; }
 
     /// <summary>
-    /// Adds metadata tags to the snapshot. These tags can also be used with cost allocation reporting, or used in a Condition statement in an IAM policy. Constraints: o min: 0 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z+-=._:/]+ value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// Adds metadata tags to the snapshot. These tags can also be used with cost allocation reporting, or used in a Condition statement in an IAM policy. Constraints: • min: 0 • max: 50 key -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z+-=._:/]+ value -&gt; (string) Constraints: • min: 0 • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>
-    /// The number of replicas in other AZs. Min =0, Max = 2, Default =1 WARNING: Additional charges equivalent to the m-NCUs selected for the graph apply for each replica. Constraints: o min: 0 o max: 2
+    /// The number of replicas in other AZs. Min =0, Max = 2, Default =1 WARNING: Additional charges equivalent to the m-NCUs selected for the graph apply for each replica. Constraints: • min: 0 • max: 2
     /// </summary>
     [CliOption("--replica-count")]
     public int? ReplicaCount { get; set; }
 
     /// <summary>
-    /// Specifies whether or not the graph can be reachable over the inter- net. All access to graphs is IAM authenticated. (true to enable, or false to disable).
+    /// Specifies whether or not the graph can be reachable over the internet. All access to graphs is IAM authenticated. (true to enable, or false to disable).
     /// </summary>
     [CliFlag("--public-connectivity", NegatedName = "--no-public-connectivity")]
     public bool? PublicConnectivity { get; set; }
@@ -123,6 +123,15 @@ public record AwsNeptuneGraphRestoreGraphFromSnapshotOptions : AwsOptions, IVali
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

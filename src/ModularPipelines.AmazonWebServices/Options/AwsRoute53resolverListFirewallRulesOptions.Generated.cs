@@ -11,13 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves the firewall rules that you have defined for the specified firewall rule group. DNS Firewall uses the rules in a rule group to filter DNS network traffic for a VPC. A single call might return only a partial list of the rules. For infor- mation, see MaxResults . For rules that require asynchronous provisioning, the response includes Status (see FirewallRuleStatus ) and, on failure, StatusMessage with the reason. See also: AWS API Documentation list-firewall-rules is a paginated operatio...
+/// Retrieves the firewall rules that you have defined for the specified firewall rule group. DNS Firewall uses the rules in a rule group to filter DNS network traffic for a VPC. A single call might return only a partial list of the rules. For information, see MaxResults . For rules that require asynchronous provisioning, the response includes Status (see FirewallRuleStatus ) and, on failure, StatusMessage with the reason. See also: AWS API Documentation list-firewall-rules is a paginated operation....
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,9 +28,9 @@ public record AwsRoute53resolverListFirewallRulesOptions : AwsOptions, IValidata
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Retrieves the firewall rules that you have defined for the specified firewall rule group. DNS Firewall uses the rules in a rule group to filter DNS network traffic for a VPC. A single call might return only a partial list of the rules. For infor- mation, see MaxResults . For rules that require asynchronous provisioning, the response includes Status (see FirewallRuleStatus ) and, on failure, StatusMessage with the reason. See also: AWS API Documentation list-firewall-rules is a paginated operatio...
+    /// Retrieves the firewall rules that you have defined for the specified firewall rule group. DNS Firewall uses the rules in a rule group to filter DNS network traffic for a VPC. A single call might return only a partial list of the rules. For information, see MaxResults . For rules that require asynchronous provisioning, the response includes Status (see FirewallRuleStatus ) and, on failure, StatusMessage with the reason. See also: AWS API Documentation list-firewall-rules is a paginated operation....
     /// </summary>
-    /// <param name="FirewallRuleGroupId">The unique identifier of the firewall rule group that you want to retrieve the rules for. Constraints: o min: 1 o max: 64</param>
+    /// <param name="FirewallRuleGroupId">The unique identifier of the firewall rule group that you want to retrieve the rules for. Constraints: • min: 1 • max: 64</param>
     public AwsRoute53resolverListFirewallRulesOptions(
         string FirewallRuleGroupId
     )
@@ -58,28 +59,25 @@ public record AwsRoute53resolverListFirewallRulesOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the firewall rule group that you want to retrieve the rules for. Constraints: o min: 1 o max: 64
+    /// The unique identifier of the firewall rule group that you want to retrieve the rules for. Constraints: • min: 1 • max: 64
     /// </summary>
     [CliOption("--firewall-rule-group-id")]
     public string? FirewallRuleGroupId { get; private init; }
 
     /// <summary>
-    /// Optional additional filter for the rules to retrieve. The setting that determines the processing order of the rules in a rule group. DNS Firewall processes the rules in a rule group by or- der of priority, starting from the lowest setting.
+    /// Optional additional filter for the rules to retrieve. The setting that determines the processing order of the rules in a rule group. DNS Firewall processes the rules in a rule group by order of priority, starting from the lowest setting.
     /// </summary>
     [CliOption("--priority")]
     public int? Priority { get; set; }
 
     /// <summary>
-    /// Optional additional filter for the rules to retrieve. The action that DNS Firewall should take on a DNS query when it matches one of the domains in the rule's domain list, or a threat in a DNS Firewall Advanced rule: o ALLOW - Permit the request to go through. Not availabe for DNS Firewall Advanced rules. o ALERT - Permit the request to go through but send an alert to the logs. o BLOCK - Disallow the request. If this is specified, additional handling details are provided in the rule's BlockResponse setting. Possible values: o ALLOW o BLOCK o ALERT
+    /// Optional additional filter for the rules to retrieve. The action that DNS Firewall should take on a DNS query when it matches one of the domains in the rule's domain list, or a threat in a DNS Firewall Advanced rule: • ALLOW - Permit the request to go through. Not availabe for DNS Firewall Advanced rules. • ALERT - Permit the request to go through but send an alert to the logs. • BLOCK - Disallow the request. If this is specified, additional handling details are provided in the rule's BlockResponse setting. Possible values: • ALLOW • BLOCK • ALERT
     /// </summary>
     [CliOption("--action")]
     public AwsRoute53resolverListFirewallRulesAction? Action { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -89,16 +87,19 @@ public record AwsRoute53resolverListFirewallRulesOptions : AwsOptions, IValidata
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 100
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
@@ -115,6 +116,15 @@ public record AwsRoute53resolverListFirewallRulesOptions : AwsOptions, IValidata
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

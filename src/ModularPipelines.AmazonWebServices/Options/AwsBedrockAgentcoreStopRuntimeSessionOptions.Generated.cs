@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +29,7 @@ public record AwsBedrockAgentcoreStopRuntimeSessionOptions : AwsOptions, IValida
     /// <summary>
     /// Stops a session that is running in an running AgentCore Runtime agent. See also: AWS API Documentation
     /// </summary>
-    /// <param name="RuntimeSessionId">The ID of the session that you want to stop. Constraints: o min: 33 o max: 256</param>
+    /// <param name="RuntimeSessionId">The ID of the session that you want to stop. Constraints: • min: 33 • max: 256</param>
     /// <param name="AgentRuntimeArn">The ARN of the agent that contains the session that you want to stop.</param>
     public AwsBedrockAgentcoreStopRuntimeSessionOptions(
         string RuntimeSessionId,
@@ -61,7 +62,7 @@ public record AwsBedrockAgentcoreStopRuntimeSessionOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the session that you want to stop. Constraints: o min: 33 o max: 256
+    /// The ID of the session that you want to stop. Constraints: • min: 33 • max: 256
     /// </summary>
     [CliOption("--runtime-session-id")]
     public string? RuntimeSessionId { get; private init; }
@@ -79,7 +80,7 @@ public record AwsBedrockAgentcoreStopRuntimeSessionOptions : AwsOptions, IValida
     public string? Qualifier { get; set; }
 
     /// <summary>
-    /// Idempotent token used to identify the request. If you use the same token with multiple requests, the same response is returned. Use ClientToken to prevent the same request from being processed more than once. Constraints: o min: 33 o max: 256 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,256}
+    /// Idempotent token used to identify the request. If you use the same token with multiple requests, the same response is returned. Use ClientToken to prevent the same request from being processed more than once. Constraints: • min: 33 • max: 256 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,256}
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
@@ -106,6 +107,15 @@ public record AwsBedrockAgentcoreStopRuntimeSessionOptions : AwsOptions, IValida
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

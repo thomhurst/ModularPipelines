@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,8 +29,8 @@ public record AwsWickrUpdateNetworkOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Updates the properties of an existing Wickr network, such as its name or encryption key configuration. See also: AWS API Documentation
     /// </summary>
-    /// <param name="NetworkId">The ID of the Wickr network to update. Constraints: o min: 8 o max: 8 o pattern: [0-9]{8}</param>
-    /// <param name="NetworkName">The new name for the network. Must be between 1 and 20 characters. Constraints: o pattern: [\S\s]*</param>
+    /// <param name="NetworkId">The ID of the Wickr network to update. Constraints: • min: 8 • max: 8 • pattern: [0-9]{8}</param>
+    /// <param name="NetworkName">The new name for the network. Must be between 1 and 20 characters. Constraints: • pattern: [\S\s]*</param>
     public AwsWickrUpdateNetworkOptions(
         string NetworkId,
         string NetworkName
@@ -61,26 +62,26 @@ public record AwsWickrUpdateNetworkOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the Wickr network to update. Constraints: o min: 8 o max: 8 o pattern: [0-9]{8}
+    /// The ID of the Wickr network to update. Constraints: • min: 8 • max: 8 • pattern: [0-9]{8}
     /// </summary>
     [CliOption("--network-id")]
     public string? NetworkId { get; private init; }
 
     /// <summary>
-    /// The new name for the network. Must be between 1 and 20 characters. Constraints: o pattern: [\S\s]*
+    /// The new name for the network. Must be between 1 and 20 characters. Constraints: • pattern: [\S\s]*
     /// </summary>
     [CliOption("--network-name")]
     public string? NetworkName { get; private init; }
 
     /// <summary>
-    /// A unique identifier for this request to ensure idempotency. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9-_:]+
+    /// A unique identifier for this request to ensure idempotency. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9-_:]+
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// The ARN of the Amazon Web Services KMS customer managed key to use for encrypting sensitive data in the network. Constraints: o pattern: [\S\s]*
+    /// The ARN of the Amazon Web Services KMS customer managed key to use for encrypting sensitive data in the network. Constraints: • pattern: [\S\s]*
     /// </summary>
     [CliOption("--encryption-key-arn")]
     public string? EncryptionKeyArn { get; set; }
@@ -106,6 +107,15 @@ public record AwsWickrUpdateNetworkOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

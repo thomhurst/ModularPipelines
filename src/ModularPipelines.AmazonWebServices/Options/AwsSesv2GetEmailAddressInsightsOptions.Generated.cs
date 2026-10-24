@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Provides validation insights about a specific email address, including syntax validation, DNS record checks, mailbox existence, and other de- liverability factors. See also: AWS API Documentation
+/// Provides validation insights about a specific email address, including syntax validation, DNS record checks, mailbox existence, and other deliverability factors. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +26,7 @@ public record AwsSesv2GetEmailAddressInsightsOptions : AwsOptions, IValidatableO
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Provides validation insights about a specific email address, including syntax validation, DNS record checks, mailbox existence, and other de- liverability factors. See also: AWS API Documentation
+    /// Provides validation insights about a specific email address, including syntax validation, DNS record checks, mailbox existence, and other deliverability factors. See also: AWS API Documentation
     /// </summary>
     /// <param name="EmailAddress">The email address to analyze for validation insights.</param>
     public AwsSesv2GetEmailAddressInsightsOptions(
@@ -82,6 +83,15 @@ public record AwsSesv2GetEmailAddressInsightsOptions : AwsOptions, IValidatableO
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

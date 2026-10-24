@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsInspector2DeleteCisScanConfigurationOptions : AwsOptions, IVali
     /// <summary>
     /// Deletes a CIS scan configuration. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ScanConfigurationArn">The ARN of the CIS scan configuration. Constraints: o pattern: arn:aws(-us-gov|-cn)?:inspec- tor2:[a-z]{2}(-gov)?-[a-z]+-[0-9]{1}:[0-9]{12}:owner/(o-[a-z0-9]+|[0-9]{12})/cis-con- figuration/[0-9a-fA-F-]+</param>
+    /// <param name="ScanConfigurationArn">The ARN of the CIS scan configuration. Constraints: • pattern: arn:aws(-us-gov|-cn)?:inspector2:[a-z]{2}(-gov)?-[a-z]+-[0-9]{1}:[0-9]{12}:owner/(o-[a-z0-9]+|[0-9]{12})/cis-configuration/[0-9a-fA-F-]+</param>
     public AwsInspector2DeleteCisScanConfigurationOptions(
         string ScanConfigurationArn
     )
@@ -56,7 +57,7 @@ public record AwsInspector2DeleteCisScanConfigurationOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the CIS scan configuration. Constraints: o pattern: arn:aws(-us-gov|-cn)?:inspec- tor2:[a-z]{2}(-gov)?-[a-z]+-[0-9]{1}:[0-9]{12}:owner/(o-[a-z0-9]+|[0-9]{12})/cis-con- figuration/[0-9a-fA-F-]+
+    /// The ARN of the CIS scan configuration. Constraints: • pattern: arn:aws(-us-gov|-cn)?:inspector2:[a-z]{2}(-gov)?-[a-z]+-[0-9]{1}:[0-9]{12}:owner/(o-[a-z0-9]+|[0-9]{12})/cis-configuration/[0-9a-fA-F-]+
     /// </summary>
     [CliOption("--scan-configuration-arn")]
     public string? ScanConfigurationArn { get; private init; }
@@ -82,6 +83,15 @@ public record AwsInspector2DeleteCisScanConfigurationOptions : AwsOptions, IVali
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Modifies the flag, ChangeProtection , which indicates whether it is possible to change the firewall. If the flag is set to TRUE , the fire- wall is protected from changes. This setting helps protect against ac- cidentally changing a firewall that's in use. See also: AWS API Documentation
+/// Modifies the flag, ChangeProtection , which indicates whether it is possible to change the firewall. If the flag is set to TRUE , the firewall is protected from changes. This setting helps protect against accidentally changing a firewall that's in use. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +27,9 @@ public record AwsNetworkFirewallUpdateFirewallPolicyChangeProtectionOptions : Aw
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Modifies the flag, ChangeProtection , which indicates whether it is possible to change the firewall. If the flag is set to TRUE , the fire- wall is protected from changes. This setting helps protect against ac- cidentally changing a firewall that's in use. See also: AWS API Documentation
+    /// Modifies the flag, ChangeProtection , which indicates whether it is possible to change the firewall. If the flag is set to TRUE , the firewall is protected from changes. This setting helps protect against accidentally changing a firewall that's in use. See also: AWS API Documentation
     /// </summary>
-    /// <param name="FirewallPolicyChangeProtection">tection (boolean) [required] A setting indicating whether the firewall is protected against a change to the firewall policy association. Use this setting to pro- tect against accidentally modifying the firewall policy for a fire- wall that is in use. When you create a firewall, the operation ini- tializes this setting to TRUE .</param>
+    /// <param name="FirewallPolicyChangeProtection">A setting indicating whether the firewall is protected against a change to the firewall policy association. Use this setting to protect against accidentally modifying the firewall policy for a firewall that is in use. When you create a firewall, the operation initializes this setting to TRUE .</param>
     public AwsNetworkFirewallUpdateFirewallPolicyChangeProtectionOptions(
         bool FirewallPolicyChangeProtection
     )
@@ -56,26 +57,26 @@ public record AwsNetworkFirewallUpdateFirewallPolicyChangeProtectionOptions : Aw
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// tection (boolean) [required] A setting indicating whether the firewall is protected against a change to the firewall policy association. Use this setting to pro- tect against accidentally modifying the firewall policy for a fire- wall that is in use. When you create a firewall, the operation ini- tializes this setting to TRUE .
+    /// A setting indicating whether the firewall is protected against a change to the firewall policy association. Use this setting to protect against accidentally modifying the firewall policy for a firewall that is in use. When you create a firewall, the operation initializes this setting to TRUE .
     /// </summary>
     [CliFlag("--firewall-policy-change-protection", NegatedName = "--no-firewall-policy-change-protection")]
     public bool? FirewallPolicyChangeProtection { get; private init; }
 
     /// <summary>
-    /// An optional token that you can use for optimistic locking. Network Firewall returns a token to your requests that access the firewall. The token marks the state of the firewall resource at the time of the request. To make an unconditional change to the firewall, omit the token in your update request. Without the token, Network Firewall performs your updates regardless of whether the firewall has changed since you last retrieved it. To make a conditional change to the firewall, provide the token in your update request. Network Firewall uses the token to ensure that the firewall hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException . If this happens, retrieve the firewall again to get a current copy of it with a new token. Reapply your changes as needed, then try the oper- ation again using the new token. Constraints: o min: 1 o max: 1024 o pattern: ^([0-9a-f]{8})-([0-9a-f]{4}-){3}([0-9a-f]{12})$
+    /// An optional token that you can use for optimistic locking. Network Firewall returns a token to your requests that access the firewall. The token marks the state of the firewall resource at the time of the request. To make an unconditional change to the firewall, omit the token in your update request. Without the token, Network Firewall performs your updates regardless of whether the firewall has changed since you last retrieved it. To make a conditional change to the firewall, provide the token in your update request. Network Firewall uses the token to ensure that the firewall hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException . If this happens, retrieve the firewall again to get a current copy of it with a new token. Reapply your changes as needed, then try the operation again using the new token. Constraints: • min: 1 • max: 1024 • pattern: ^([0-9a-f]{8})-([0-9a-f]{4}-){3}([0-9a-f]{12})$
     /// </summary>
     [SecretValue]
     [CliOption("--update-token")]
     public string? UpdateToken { get; set; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the firewall. You must specify the ARN or the name, and you can specify both. Constraints: o min: 1 o max: 256 o pattern: ^arn:aws.*
+    /// The Amazon Resource Name (ARN) of the firewall. You must specify the ARN or the name, and you can specify both. Constraints: • min: 1 • max: 256 • pattern: ^arn:aws.*
     /// </summary>
     [CliOption("--firewall-arn")]
     public string? FirewallArn { get; set; }
 
     /// <summary>
-    /// The descriptive name of the firewall. You can't change the name of a firewall after you create it. You must specify the ARN or the name, and you can specify both. Constraints: o min: 1 o max: 128 o pattern: ^[a-zA-Z0-9-]+$
+    /// The descriptive name of the firewall. You can't change the name of a firewall after you create it. You must specify the ARN or the name, and you can specify both. Constraints: • min: 1 • max: 128 • pattern: ^[a-zA-Z0-9-]+$
     /// </summary>
     [CliOption("--firewall-name")]
     public string? FirewallName { get; set; }
@@ -101,6 +102,15 @@ public record AwsNetworkFirewallUpdateFirewallPolicyChangeProtectionOptions : Aw
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

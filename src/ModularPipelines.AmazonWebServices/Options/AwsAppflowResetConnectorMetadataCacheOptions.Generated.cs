@@ -22,31 +22,31 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsAppflowResetConnectorMetadataCacheOptions : AwsOptions
 {
     /// <summary>
-    /// The name of the connector profile that you want to reset cached metadata for. You can omit this parameter if you're resetting the cache for any of the following connectors: Connect Customer, Amazon EventBridge, Ama- zon Lookout for Metrics, Amazon S3, or Upsolver. If you're resetting the cache for any other connector, you must include this parameter in your request. Constraints: o max: 256 o pattern: [\w/!@#+=.-]+
+    /// The name of the connector profile that you want to reset cached metadata for. You can omit this parameter if you're resetting the cache for any of the following connectors: Connect Customer, Amazon EventBridge, Amazon Lookout for Metrics, Amazon S3, or Upsolver. If you're resetting the cache for any other connector, you must include this parameter in your request. Constraints: • max: 256 • pattern: [\w/!@#+=.-]+
     /// </summary>
     [CliOption("--connector-profile-name")]
     public string? ConnectorProfileName { get; set; }
 
     /// <summary>
-    /// The type of connector to reset cached metadata for. You must include this parameter in your request if you're resetting the cache for any of the following connectors: Connect Customer, Amazon EventBridge, Amazon Lookout for Metrics, Amazon S3, or Up- solver. If you're resetting the cache for any other connector, you can omit this parameter from your request. Possible values: o Salesforce o Singular o Slack o Redshift o S3 o Marketo o Googleanalytics o Zendesk o Servicenow o Datadog o Trendmicro o Snowflake o Dynatrace o Infornexus o Amplitude o Veeva o EventBridge o LookoutMetrics o Upsolver o Honeycode o CustomerProfiles o SAPOData o CustomConnector o Pardot
+    /// The type of connector to reset cached metadata for. You must include this parameter in your request if you're resetting the cache for any of the following connectors: Connect Customer, Amazon EventBridge, Amazon Lookout for Metrics, Amazon S3, or Upsolver. If you're resetting the cache for any other connector, you can omit this parameter from your request. Possible values: • Salesforce • Singular • Slack • Redshift • S3 • Marketo • Googleanalytics • Zendesk • Servicenow • Datadog • Trendmicro • Snowflake • Dynatrace • Infornexus • Amplitude • Veeva • EventBridge • LookoutMetrics • Upsolver • Honeycode • CustomerProfiles • SAPOData • CustomConnector • Pardot
     /// </summary>
     [CliOption("--connector-type")]
     public string? ConnectorType { get; set; }
 
     /// <summary>
-    /// Use this parameter if you want to reset cached metadata about the details for an individual entity. If you don't include this parameter in your request, Amazon AppFlow only resets cached metadata about entity names, not entity details. Constraints: o max: 1024 o pattern: \S+
+    /// Use this parameter if you want to reset cached metadata about the details for an individual entity. If you don't include this parameter in your request, Amazon AppFlow only resets cached metadata about entity names, not entity details. Constraints: • max: 1024 • pattern: \S+
     /// </summary>
     [CliOption("--connector-entity-name")]
     public string? ConnectorEntityName { get; set; }
 
     /// <summary>
-    /// Use this parameter only if youre resetting the cached metadata about a nested entity. Only some connectors support nested entities. A nested entity is one that has another entity as a parent. To use this parameter, specify the name of the parent entity. To look up the parent-child relationship of entities, you can send a ListConnectorEntities request that omits the entitiesPath parameter. Amazon AppFlow will return a list of top-level entities. For each one, it indicates whether the entity has nested entities. Then, in a subsequent ListConnectorEntities request, you can specify a parent entity name for the entitiesPath parameter. Amazon AppFlow will re- turn a list of the child entities for that parent. Constraints: o max: 256 o pattern: [\s\w/!@#+=,.-]*
+    /// Use this parameter only if youre resetting the cached metadata about a nested entity. Only some connectors support nested entities. A nested entity is one that has another entity as a parent. To use this parameter, specify the name of the parent entity. To look up the parent-child relationship of entities, you can send a ListConnectorEntities request that omits the entitiesPath parameter. Amazon AppFlow will return a list of top-level entities. For each one, it indicates whether the entity has nested entities. Then, in a subsequent ListConnectorEntities request, you can specify a parent entity name for the entitiesPath parameter. Amazon AppFlow will return a list of the child entities for that parent. Constraints: • max: 256 • pattern: [\s\w/!@#+=,.-]*
     /// </summary>
     [CliOption("--entities-path")]
     public string? EntitiesPath { get; set; }
 
     /// <summary>
-    /// The API version that you specified in the connector profile that youre resetting cached metadata for. You must use this parameter only if the connector supports multiple API versions or if the con- nector type is CustomConnector. To look up how many versions a connector supports, use the De- scribeConnectors action. In the response, find the value that Amazon AppFlow returns for the connectorVersion parameter. To look up the connector type, use the DescribeConnectorProfiles ac- tion. In the response, find the value that Amazon AppFlow returns for the connectorType parameter. To look up the API version that you specified in a connector pro- file, use the DescribeConnectorProfiles action. Constraints: o max: 256 o pattern: \S+
+    /// The API version that you specified in the connector profile that youre resetting cached metadata for. You must use this parameter only if the connector supports multiple API versions or if the connector type is CustomConnector. To look up how many versions a connector supports, use the DescribeConnectors action. In the response, find the value that Amazon AppFlow returns for the connectorVersion parameter. To look up the connector type, use the DescribeConnectorProfiles action. In the response, find the value that Amazon AppFlow returns for the connectorType parameter. To look up the API version that you specified in a connector profile, use the DescribeConnectorProfiles action. Constraints: • max: 256 • pattern: \S+
     /// </summary>
     [CliOption("--api-version")]
     public string? ApiVersion { get; set; }
@@ -56,5 +56,14 @@ public record AwsAppflowResetConnectorMetadataCacheOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

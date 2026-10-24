@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// The related resources of an Audit finding. The following resources can be returned from calling this API: o DEVICE_CERTIFICATE o CA_CERTIFICATE o IOT_POLICY o COGNITO_IDENTITY_POOL o CLIENT_ID o ACCOUNT_SETTINGS o ROLE_ALIAS o IAM_ROLE o ISSUER_CERTIFICATE NOTE: This API is similar to DescribeAuditFinding's RelatedResources but provides pagination and is not limited to 10 resources. When calling DescribeAuditFinding for the intermediate CA revoked for active de- vice certificates check, RelatedR...
+/// The related resources of an Audit finding. The following resources can be returned from calling this API: • DEVICE_CERTIFICATE • CA_CERTIFICATE • IOT_POLICY • COGNITO_IDENTITY_POOL • CLIENT_ID • ACCOUNT_SETTINGS • ROLE_ALIAS • IAM_ROLE • ISSUER_CERTIFICATE NOTE: This API is similar to DescribeAuditFinding's RelatedResources but provides pagination and is not limited to 10 resources. When calling DescribeAuditFinding for the intermediate CA revoked for active device certificates check, RelatedRes...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +27,9 @@ public record AwsIotListRelatedResourcesForAuditFindingOptions : AwsOptions, IVa
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// The related resources of an Audit finding. The following resources can be returned from calling this API: o DEVICE_CERTIFICATE o CA_CERTIFICATE o IOT_POLICY o COGNITO_IDENTITY_POOL o CLIENT_ID o ACCOUNT_SETTINGS o ROLE_ALIAS o IAM_ROLE o ISSUER_CERTIFICATE NOTE: This API is similar to DescribeAuditFinding's RelatedResources but provides pagination and is not limited to 10 resources. When calling DescribeAuditFinding for the intermediate CA revoked for active de- vice certificates check, RelatedR...
+    /// The related resources of an Audit finding. The following resources can be returned from calling this API: • DEVICE_CERTIFICATE • CA_CERTIFICATE • IOT_POLICY • COGNITO_IDENTITY_POOL • CLIENT_ID • ACCOUNT_SETTINGS • ROLE_ALIAS • IAM_ROLE • ISSUER_CERTIFICATE NOTE: This API is similar to DescribeAuditFinding's RelatedResources but provides pagination and is not limited to 10 resources. When calling DescribeAuditFinding for the intermediate CA revoked for active device certificates check, RelatedRes...
     /// </summary>
-    /// <param name="FindingId">The finding Id. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_-]+</param>
+    /// <param name="FindingId">The finding Id. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9_-]+</param>
     public AwsIotListRelatedResourcesForAuditFindingOptions(
         string FindingId
     )
@@ -57,16 +58,13 @@ public record AwsIotListRelatedResourcesForAuditFindingOptions : AwsOptions, IVa
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The finding Id. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_-]+
+    /// The finding Id. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9_-]+
     /// </summary>
     [CliOption("--finding-id")]
     public string? FindingId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -76,16 +74,19 @@ public record AwsIotListRelatedResourcesForAuditFindingOptions : AwsOptions, IVa
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 250
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 250
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
@@ -102,6 +103,15 @@ public record AwsIotListRelatedResourcesForAuditFindingOptions : AwsOptions, IVa
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -6,14 +6,14 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using ModularPipelines.Models;
+using ModularPipelines;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
 namespace ModularPipelines.AmazonWebServices.Services;
 
 /// <summary>
-/// aws bedrockruntime commands.
+/// aws bedrock-runtime commands.
 /// </summary>
 /// <remarks>
 /// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
@@ -28,28 +28,25 @@ public interface IAwsBedrockRuntime
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ApplyGuardrailAsync(AwsBedrockRuntimeApplyGuardrailOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ApplyGuardrailAsync(AwsBedrockRuntimeApplyGuardrailOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Sends messages to the specified Amazon Bedrock model. Converse provides a consistent interface that works with all models that support mes- sages. This allows you to write code once and use it with different models. If a model has unique inference parameters, you can also pass those unique parameters to the model. Amazon Bedrock doesn't store any text, images, or documents that you provide as content. The data is only used to generate the response. You can submit a prompt by including it in the ...
+    /// Sends messages to the specified Amazon Bedrock model. Converse provides a consistent interface that works with all models that support messages. This allows you to write code once and use it with different models. If a model has unique inference parameters, you can also pass those unique parameters to the model. Amazon Bedrock doesn't store any text, images, or documents that you provide as content. The data is only used to generate the response. You can submit a prompt by including it in the me...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ConverseAsync(AwsBedrockRuntimeConverseOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ConverseAsync(AwsBedrockRuntimeConverseOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Returns the token count for a given inference request. This operation helps you estimate token usage before sending requests to foundation models by returning the token count that would be used if the same in- put were sent to the model in an inference request. Token counting is model-specific because different models use different tokenization strategies. The token count returned by this operation will match the token count that would be charged if the same input were sent to the model in an In...
+    /// Returns the token count for a given inference request. This operation helps you estimate token usage before sending requests to foundation models by returning the token count that would be used if the same input were sent to the model in an inference request. Token counting is model-specific because different models use different tokenization strategies. The token count returned by this operation will match the token count that would be charged if the same input were sent to the model in an Invo...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CountTokensAsync(AwsBedrockRuntimeCountTokensOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CountTokensAsync(AwsBedrockRuntimeCountTokensOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieve information about an asynchronous invocation. See also: AWS API Documentation
@@ -58,18 +55,16 @@ public interface IAwsBedrockRuntime
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetAsyncInvokeAsync(AwsBedrockRuntimeGetAsyncInvokeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetAsyncInvokeAsync(AwsBedrockRuntimeGetAsyncInvokeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Evaluates messages against inline guardrail checks. You specify the check configurations directly in the request, and Amazon Bedrock re- turns per-check results with severity or confidence scores. See also: AWS API Documentation
+    /// Evaluates messages against inline guardrail checks. You specify the check configurations directly in the request, and Amazon Bedrock returns per-check results with severity or confidence scores. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> InvokeGuardrailChecksAsync(AwsBedrockRuntimeInvokeGuardrailChecksOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> InvokeGuardrailChecksAsync(AwsBedrockRuntimeInvokeGuardrailChecksOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Invokes the specified Amazon Bedrock model to run inference using the prompt and inference parameters provided in the request body. You use model inference to generate text, images, and embeddings. For example code, see Invoke model code examples in the Amazon Bedrock User Guide . This operation requires permission for the bedrock:InvokeModel action. WARNING: To deny all inference access to resources that you specify in the modelId field, you need to deny access to the bedrock:InvokeModel and be...
@@ -78,8 +73,7 @@ public interface IAwsBedrockRuntime
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> InvokeModelAsync(AwsBedrockRuntimeInvokeModelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> InvokeModelAsync(AwsBedrockRuntimeInvokeModelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists asynchronous invocations. See also: AWS API Documentation list-async-invokes is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: asyncInvokeSummaries
@@ -88,17 +82,15 @@ public interface IAwsBedrockRuntime
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListAsyncInvokesAsync(AwsBedrockRuntimeListAsyncInvokesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListAsyncInvokesAsync(AwsBedrockRuntimeListAsyncInvokesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Starts an asynchronous invocation. This operation requires permission for the bedrock:InvokeModel action. WARNING: To deny all inference access to resources that you specify in the modelId field, you need to deny access to the bedrock:InvokeModel and bedrock:InvokeModelWithResponseStream actions. Doing this also denies access to the resource through the Converse API actions (- Converse and ConverseStream ). For more information see Deny access for inference on specific models . See also: AWS API...
+    /// Starts an asynchronous invocation. This operation requires permission for the bedrock:InvokeModel action. WARNING: To deny all inference access to resources that you specify in the modelId field, you need to deny access to the bedrock:InvokeModel and bedrock:InvokeModelWithResponseStream actions. Doing this also denies access to the resource through the Converse API actions (Converse and ConverseStream ). For more information see Deny access for inference on specific models . See also: AWS API D...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartAsyncInvokeAsync(AwsBedrockRuntimeStartAsyncInvokeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartAsyncInvokeAsync(AwsBedrockRuntimeStartAsyncInvokeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

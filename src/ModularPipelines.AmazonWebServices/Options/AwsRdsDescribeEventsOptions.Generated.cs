@@ -16,7 +16,7 @@ using ModularPipelines.AmazonWebServices.Enums;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns events related to DB instances, DB clusters, DB parameter groups, DB security groups, DB snapshots, DB cluster snapshots, and RDS Proxies for the past 14 days. Events specific to a particular DB in- stance, DB cluster, DB parameter group, DB security group, DB snapshot, DB cluster snapshot group, or RDS Proxy can be obtained by providing the name as a parameter. For more information on working with events, see Monitoring Amazon RDS events in the Amazon RDS User Guide and Monitoring Amazo...
+/// Returns events related to DB instances, DB clusters, DB parameter groups, DB security groups, DB snapshots, DB cluster snapshots, and RDS Proxies for the past 14 days. Events specific to a particular DB instance, DB cluster, DB parameter group, DB security group, DB snapshot, DB cluster snapshot group, or RDS Proxy can be obtained by providing the name as a parameter. For more information on working with events, see Monitoring Amazon RDS events in the Amazon RDS User Guide and Monitoring Amazon ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -24,13 +24,13 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsRdsDescribeEventsOptions : AwsOptions
 {
     /// <summary>
-    /// The identifier of the event source for which events are returned. If not specified, then all sources are included in the response. Constraints: o If SourceIdentifier is supplied, SourceType must also be provided. o If the source type is a DB instance, a DBInstanceIdentifier value must be supplied. o If the source type is a DB cluster, a DBClusterIdentifier value must be supplied. o If the source type is a DB parameter group, a DBParameterGroupName value must be supplied. o If the source type is a DB security group, a DBSecurityGroupName value must be supplied. o If the source type is a DB snapshot, a DBSnapshotIdentifier value must be supplied. o If the source type is a DB cluster snapshot, a DBClusterSnapshotI- dentifier value must be supplied. o If the source type is an RDS Proxy, a DBProxyName value must be supplied. o Can't end with a hyphen or contain two consecutive hyphens.
+    /// The identifier of the event source for which events are returned. If not specified, then all sources are included in the response. Constraints: • If SourceIdentifier is supplied, SourceType must also be provided. • If the source type is a DB instance, a DBInstanceIdentifier value must be supplied. • If the source type is a DB cluster, a DBClusterIdentifier value must be supplied. • If the source type is a DB parameter group, a DBParameterGroupName value must be supplied. • If the source type is a DB security group, a DBSecurityGroupName value must be supplied. • If the source type is a DB snapshot, a DBSnapshotIdentifier value must be supplied. • If the source type is a DB cluster snapshot, a DBClusterSnapshotIdentifier value must be supplied. • If the source type is an RDS Proxy, a DBProxyName value must be supplied. • Can't end with a hyphen or contain two consecutive hyphens.
     /// </summary>
     [CliOption("--source-identifier")]
     public string? SourceIdentifier { get; set; }
 
     /// <summary>
-    /// The event source to retrieve events for. If no value is specified, all events are returned. Possible values: o db-instance o db-parameter-group o db-security-group o db-snapshot o db-cluster o db-cluster-snapshot o custom-engine-version o db-proxy o blue-green-deployment o db-shard-group o zero-etl
+    /// The event source to retrieve events for. If no value is specified, all events are returned. Possible values: • db-instance • db-parameter-group • db-security-group • db-snapshot • db-cluster • db-cluster-snapshot • custom-engine-version • db-proxy • blue-green-deployment • db-shard-group • zero-etl
     /// </summary>
     [CliOption("--source-type")]
     public AwsRdsDescribeEventsSourceType? SourceType { get; set; }
@@ -60,16 +60,13 @@ public record AwsRdsDescribeEventsOptions : AwsOptions
     public IEnumerable<string>? EventCategories { get; set; }
 
     /// <summary>
-    /// This parameter isn't currently supported. (structure) A filter name and value pair that is used to return a more spe- cific list of results from a describe operation. Filters can be used to match a set of resources by specific criteria, such as IDs. The filters supported by a describe operation are docu- mented with the describe operation. NOTE: Currently, wildcards are not supported in filters. The following actions can be filtered: o DescribeDBClusterBacktracks o DescribeDBClusterEndpoints o DescribeDBClusters o DescribeDBInstances o DescribeDBRecommendations o DescribeDBShardGroups o DescribePendingMaintenanceActions Name -&gt; (string) [required] The name of the filter. Filter names are case-sensitive. Values -&gt; (list) [required] One or more filter values. Filter values are case-sensitive. (string) Shorthand Syntax: Name=string,Values=string,string ... JSON Syntax: [ { "Name": "string", "Values": ["string", ...] } ... ]
+    /// This parameter isn't currently supported. (structure) A filter name and value pair that is used to return a more specific list of results from a describe operation. Filters can be used to match a set of resources by specific criteria, such as IDs. The filters supported by a describe operation are documented with the describe operation. NOTE: Currently, wildcards are not supported in filters. The following actions can be filtered: • DescribeDBClusterBacktracks • DescribeDBClusterEndpoints • DescribeDBClusters • DescribeDBInstances • DescribeDBRecommendations • DescribeDBShardGroups • DescribePendingMaintenanceActions Name -&gt; (string) [required] The name of the filter. Filter names are case-sensitive. Values -&gt; (list) [required] One or more filter values. Filter values are case-sensitive. (string) Shorthand Syntax: Name=string,Values=string,string ... JSON Syntax: [ { "Name": "string", "Values": ["string", ...] } ... ]
     /// </summary>
     [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -79,15 +76,27 @@ public record AwsRdsDescribeEventsOptions : AwsOptions
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

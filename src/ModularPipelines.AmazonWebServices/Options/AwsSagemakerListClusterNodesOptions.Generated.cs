@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -29,7 +30,7 @@ public record AwsSagemakerListClusterNodesOptions : AwsOptions, IValidatableObje
     /// <summary>
     /// Retrieves the list of instances (also called nodes interchangeably) in a SageMaker HyperPod cluster. See also: AWS API Documentation list-cluster-nodes is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: C...
     /// </summary>
-    /// <param name="ClusterName">The string name or the Amazon Resource Name (ARN) of the SageMaker HyperPod cluster in which you want to retrieve the list of nodes. Constraints: o min: 0 o max: 256 o pattern: (arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:clus- ter/[a-z0-9]{12})|([a-zA-Z0-9](-*[a-zA-Z0-9]){0,62})</param>
+    /// <param name="ClusterName">The string name or the Amazon Resource Name (ARN) of the SageMaker HyperPod cluster in which you want to retrieve the list of nodes. Constraints: • min: 0 • max: 256 • pattern: (arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:cluster/[a-z0-9]{12})|([a-zA-Z0-9](-*[a-zA-Z0-9]){0,62})</param>
     public AwsSagemakerListClusterNodesOptions(
         string ClusterName
     )
@@ -58,13 +59,13 @@ public record AwsSagemakerListClusterNodesOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The string name or the Amazon Resource Name (ARN) of the SageMaker HyperPod cluster in which you want to retrieve the list of nodes. Constraints: o min: 0 o max: 256 o pattern: (arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:clus- ter/[a-z0-9]{12})|([a-zA-Z0-9](-*[a-zA-Z0-9]){0,62})
+    /// The string name or the Amazon Resource Name (ARN) of the SageMaker HyperPod cluster in which you want to retrieve the list of nodes. Constraints: • min: 0 • max: 256 • pattern: (arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:cluster/[a-z0-9]{12})|([a-zA-Z0-9](-*[a-zA-Z0-9]){0,62})
     /// </summary>
     [CliOption("--cluster-name")]
     public string? ClusterName { get; private init; }
 
     /// <summary>
-    /// A filter that returns nodes in a SageMaker HyperPod cluster created after the specified time. Timestamps are formatted according to the ISO 8601 standard. Acceptable formats include: o YYYY-MM-DDThh:mm:ss.sssTZD (UTC), for example, 2014-10-01T20:30:00.000Z o YYYY-MM-DDThh:mm:ss.sssTZD (with offset), for example, 2014-10-01T12:30:00.000-08:00 o YYYY-MM-DD , for example, 2014-10-01 o Unix time in seconds, for example, 1412195400 . This is also re- ferred to as Unix Epoch time and represents the number of seconds since midnight, January 1, 1970 UTC. For more information about the timestamp format, see Timestamp in the Amazon Web Services Command Line Interface User Guide .
+    /// A filter that returns nodes in a SageMaker HyperPod cluster created after the specified time. Timestamps are formatted according to the ISO 8601 standard. Acceptable formats include: • YYYY-MM-DDThh:mm:ss.sssTZD (UTC), for example, 2014-10-01T20:30:00.000Z • YYYY-MM-DDThh:mm:ss.sssTZD (with offset), for example, 2014-10-01T12:30:00.000-08:00 • YYYY-MM-DD , for example, 2014-10-01 • Unix time in seconds, for example, 1412195400 . This is also referred to as Unix Epoch time and represents the number of seconds since midnight, January 1, 1970 UTC. For more information about the timestamp format, see Timestamp in the Amazon Web Services Command Line Interface User Guide .
     /// </summary>
     [CliOption("--creation-time-after")]
     public string? CreationTimeAfter { get; set; }
@@ -76,34 +77,31 @@ public record AwsSagemakerListClusterNodesOptions : AwsOptions, IValidatableObje
     public string? CreationTimeBefore { get; set; }
 
     /// <summary>
-    /// A filter that returns the instance groups whose name contain a spec- ified string. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9])*
+    /// A filter that returns the instance groups whose name contain a specified string. Constraints: • min: 1 • max: 63 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9])*
     /// </summary>
     [CliOption("--instance-group-name-contains")]
     public string? InstanceGroupNameContains { get; set; }
 
     /// <summary>
-    /// The field by which to sort results. The default value is CRE- ATION_TIME . Possible values: o CREATION_TIME o NAME
+    /// The field by which to sort results. The default value is CREATION_TIME . Possible values: • CREATION_TIME • NAME
     /// </summary>
     [CliOption("--sort-by")]
     public AwsSagemakerListClusterNodesSortBy? SortBy { get; set; }
 
     /// <summary>
-    /// The sort order for results. The default value is Ascending . Possible values: o Ascending o Descending
+    /// The sort order for results. The default value is Ascending . Possible values: • Ascending • Descending
     /// </summary>
     [CliOption("--sort-order")]
     public AwsSagemakerListClusterNodesSortOrder? SortOrder { get; set; }
 
     /// <summary>
-    /// Specifies whether to include nodes that are still being provisioned in the response. When set to true, the response includes all nodes regardless of their provisioning status. When set to False (de- fault), only nodes with assigned InstanceIds are returned.
+    /// Specifies whether to include nodes that are still being provisioned in the response. When set to true, the response includes all nodes regardless of their provisioning status. When set to False (default), only nodes with assigned InstanceIds are returned.
     /// </summary>
     [CliFlag("--include-node-logical-ids", NegatedName = "--no-include-node-logical-ids")]
     public bool? IncludeNodeLogicalIds { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -113,16 +111,19 @@ public record AwsSagemakerListClusterNodesOptions : AwsOptions, IValidatableObje
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 100
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
@@ -139,6 +140,15 @@ public record AwsSagemakerListClusterNodesOptions : AwsOptions, IValidatableObje
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,7 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -29,8 +29,8 @@ public record AwsAthenaUpdateDataCatalogOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Updates the data catalog that has the specified name. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">The name of the data catalog to update. The catalog name must be unique for the Amazon Web Services account and can use a maximum of 127 alphanumeric, underscore, at sign, or hyphen characters. The re- mainder of the length constraint of 256 is reserved for use by Athena. Constraints: o min: 1 o max: 256 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*</param>
-    /// <param name="Type">Specifies the type of data catalog to update. Specify LAMBDA for a federated catalog, HIVE for an external hive metastore, or GLUE for an Glue Data Catalog. Possible values: o LAMBDA o GLUE o HIVE o FEDERATED</param>
+    /// <param name="Name">The name of the data catalog to update. The catalog name must be unique for the Amazon Web Services account and can use a maximum of 127 alphanumeric, underscore, at sign, or hyphen characters. The remainder of the length constraint of 256 is reserved for use by Athena. Constraints: • min: 1 • max: 256 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*</param>
+    /// <param name="Type">Specifies the type of data catalog to update. Specify LAMBDA for a federated catalog, HIVE for an external hive metastore, or GLUE for an Glue Data Catalog. Possible values: • LAMBDA • GLUE • HIVE • FEDERATED</param>
     public AwsAthenaUpdateDataCatalogOptions(
         string Name,
         AwsAthenaUpdateDataCatalogType Type
@@ -61,25 +61,25 @@ public record AwsAthenaUpdateDataCatalogOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the data catalog to update. The catalog name must be unique for the Amazon Web Services account and can use a maximum of 127 alphanumeric, underscore, at sign, or hyphen characters. The re- mainder of the length constraint of 256 is reserved for use by Athena. Constraints: o min: 1 o max: 256 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
+    /// The name of the data catalog to update. The catalog name must be unique for the Amazon Web Services account and can use a maximum of 127 alphanumeric, underscore, at sign, or hyphen characters. The remainder of the length constraint of 256 is reserved for use by Athena. Constraints: • min: 1 • max: 256 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// Specifies the type of data catalog to update. Specify LAMBDA for a federated catalog, HIVE for an external hive metastore, or GLUE for an Glue Data Catalog. Possible values: o LAMBDA o GLUE o HIVE o FEDERATED
+    /// Specifies the type of data catalog to update. Specify LAMBDA for a federated catalog, HIVE for an external hive metastore, or GLUE for an Glue Data Catalog. Possible values: • LAMBDA • GLUE • HIVE • FEDERATED
     /// </summary>
     [CliOption("--type")]
     public AwsAthenaUpdateDataCatalogType? Type { get; private init; }
 
     /// <summary>
-    /// New or modified text that describes the data catalog. Constraints: o min: 1 o max: 1024
+    /// New or modified text that describes the data catalog. Constraints: • min: 1 • max: 1024
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// Specifies the Lambda function or functions to use for updating the data catalog. This is a mapping whose values depend on the catalog type. o For the HIVE data catalog type, use the following syntax. The metadata-function parameter is required. The sdk-version parameter is optional and defaults to the currently supported version. `` metadata-function=*lambda_arn* , sdk-version=*version_number* `` System Message: WARNING/2 (&lt;string&gt;:, line 142) Inline literal start-string without end-string. o For the LAMBDA data catalog type, use one of the following sets of required parameters, but not both. o If you have one Lambda function that processes metadata and an- other for reading the actual data, use the following syntax. Both parameters are required. `` metadata-function=*lambda_arn* , record-function=*lambda_arn* `` System Message: WARNING/2 (&lt;string&gt;:, line 147) Inline literal start-string without end-string. o If you have a composite Lambda function that processes both metadata and data, use the following syntax to specify your Lambda function. `` function=*lambda_arn* `` System Message: WARNING/2 (&lt;string&gt;:, line 149) Inline literal start-string without end-string. key -&gt; (string) Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* value -&gt; (string) Constraints: o max: 51200 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// Specifies the Lambda function or functions to use for updating the data catalog. This is a mapping whose values depend on the catalog type. • For the HIVE data catalog type, use the following syntax. The metadata-function parameter is required. The sdk-version parameter is optional and defaults to the currently supported version. `` metadata-function=*lambda_arn* , sdk-version=*version_number* `` System Message: WARNING/2 (&lt;string&gt;:, line 142) Inline literal start-string without end-string. • For the LAMBDA data catalog type, use one of the following sets of required parameters, but not both. • If you have one Lambda function that processes metadata and another for reading the actual data, use the following syntax. Both parameters are required. `` metadata-function=*lambda_arn* , record-function=*lambda_arn* `` System Message: WARNING/2 (&lt;string&gt;:, line 147) Inline literal start-string without end-string. • If you have a composite Lambda function that processes both metadata and data, use the following syntax to specify your Lambda function. `` function=*lambda_arn* `` System Message: WARNING/2 (&lt;string&gt;:, line 149) Inline literal start-string without end-string. key -&gt; (string) Constraints: • min: 1 • max: 255 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* value -&gt; (string) Constraints: • max: 51200 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--parameters", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Parameters { get; set; }
@@ -105,6 +105,15 @@ public record AwsAthenaUpdateDataCatalogOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

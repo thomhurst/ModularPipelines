@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsFrauddetectorBatchCreateVariableOptions : AwsOptions, IValidata
     /// <summary>
     /// Creates a batch of variables. See also: AWS API Documentation
     /// </summary>
-    /// <param name="VariableEntries">The list of variables for the batch create variable request. Constraints: o min: 1 o max: 25 (structure) A variable in the list of variables for the batch create vari- able request. name -&gt; (string) The name of the variable. dataType -&gt; (string) The data type of the variable. dataSource -&gt; (string) The data source of the variable. defaultValue -&gt; (string) The default value of the variable. description -&gt; (string) The description of the variable. variableType -&gt; (string) The type of the variable. For more information see Variable types . Valid Values: AUTH_CODE | AVS | BILLING_ADDRESS_L1 | BILLING_ADDRESS_L2 | BILLING_CITY | BILLING_COUNTRY | BILLING_NAME | BILLING_PHONE | BILLING_STATE | BILLING_ZIP | CARD_BIN | CATEGORICAL | CURRENCY_CODE | EMAIL_ADDRESS | FIN- GERPRINT | FRAUD_LABEL | FREE_FORM_TEXT | IP_ADDRESS | NU- MERIC | ORDER_ID | PAYMENT_TYPE | PHONE_NUMBER | PRICE | PRODUCT_CATEGORY | SHIPPING_ADDRESS_L1 | SHIPPING_ADDRESS_L2 | SHIPPING_CITY | SHIPPING_COUNTRY | SHIPPING_NAME | SHIP- PING_PHONE | SHIPPING_STATE | SHIPPING_ZIP | USERAGENT Shorthand Syntax: name=string,dataType=string,dataSource=string,defaultValue=string,description=string,variableType=string ... JSON Syntax: [ { "name": "string", "dataType": "string", "dataSource": "string", "defaultValue": "string", "description": "string", "variableType": "string" } ... ]</param>
+    /// <param name="VariableEntries">The list of variables for the batch create variable request. Constraints: • min: 1 • max: 25 (structure) A variable in the list of variables for the batch create variable request. name -&gt; (string) The name of the variable. dataType -&gt; (string) The data type of the variable. dataSource -&gt; (string) The data source of the variable. defaultValue -&gt; (string) The default value of the variable. description -&gt; (string) The description of the variable. variableType -&gt; (string) The type of the variable. For more information see Variable types . Valid Values: AUTH_CODE | AVS | BILLING_ADDRESS_L1 | BILLING_ADDRESS_L2 | BILLING_CITY | BILLING_COUNTRY | BILLING_NAME | BILLING_PHONE | BILLING_STATE | BILLING_ZIP | CARD_BIN | CATEGORICAL | CURRENCY_CODE | EMAIL_ADDRESS | FINGERPRINT | FRAUD_LABEL | FREE_FORM_TEXT | IP_ADDRESS | NUMERIC | ORDER_ID | PAYMENT_TYPE | PHONE_NUMBER | PRICE | PRODUCT_CATEGORY | SHIPPING_ADDRESS_L1 | SHIPPING_ADDRESS_L2 | SHIPPING_CITY | SHIPPING_COUNTRY | SHIPPING_NAME | SHIPPING_PHONE | SHIPPING_STATE | SHIPPING_ZIP | USERAGENT Shorthand Syntax: name=string,dataType=string,dataSource=string,defaultValue=string,description=string,variableType=string ... JSON Syntax: [ { "name": "string", "dataType": "string", "dataSource": "string", "defaultValue": "string", "description": "string", "variableType": "string" } ... ]</param>
     public AwsFrauddetectorBatchCreateVariableOptions(
         IEnumerable<string> VariableEntries
     )
@@ -67,13 +68,13 @@ public record AwsFrauddetectorBatchCreateVariableOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The list of variables for the batch create variable request. Constraints: o min: 1 o max: 25 (structure) A variable in the list of variables for the batch create vari- able request. name -&gt; (string) The name of the variable. dataType -&gt; (string) The data type of the variable. dataSource -&gt; (string) The data source of the variable. defaultValue -&gt; (string) The default value of the variable. description -&gt; (string) The description of the variable. variableType -&gt; (string) The type of the variable. For more information see Variable types . Valid Values: AUTH_CODE | AVS | BILLING_ADDRESS_L1 | BILLING_ADDRESS_L2 | BILLING_CITY | BILLING_COUNTRY | BILLING_NAME | BILLING_PHONE | BILLING_STATE | BILLING_ZIP | CARD_BIN | CATEGORICAL | CURRENCY_CODE | EMAIL_ADDRESS | FIN- GERPRINT | FRAUD_LABEL | FREE_FORM_TEXT | IP_ADDRESS | NU- MERIC | ORDER_ID | PAYMENT_TYPE | PHONE_NUMBER | PRICE | PRODUCT_CATEGORY | SHIPPING_ADDRESS_L1 | SHIPPING_ADDRESS_L2 | SHIPPING_CITY | SHIPPING_COUNTRY | SHIPPING_NAME | SHIP- PING_PHONE | SHIPPING_STATE | SHIPPING_ZIP | USERAGENT Shorthand Syntax: name=string,dataType=string,dataSource=string,defaultValue=string,description=string,variableType=string ... JSON Syntax: [ { "name": "string", "dataType": "string", "dataSource": "string", "defaultValue": "string", "description": "string", "variableType": "string" } ... ]
+    /// The list of variables for the batch create variable request. Constraints: • min: 1 • max: 25 (structure) A variable in the list of variables for the batch create variable request. name -&gt; (string) The name of the variable. dataType -&gt; (string) The data type of the variable. dataSource -&gt; (string) The data source of the variable. defaultValue -&gt; (string) The default value of the variable. description -&gt; (string) The description of the variable. variableType -&gt; (string) The type of the variable. For more information see Variable types . Valid Values: AUTH_CODE | AVS | BILLING_ADDRESS_L1 | BILLING_ADDRESS_L2 | BILLING_CITY | BILLING_COUNTRY | BILLING_NAME | BILLING_PHONE | BILLING_STATE | BILLING_ZIP | CARD_BIN | CATEGORICAL | CURRENCY_CODE | EMAIL_ADDRESS | FINGERPRINT | FRAUD_LABEL | FREE_FORM_TEXT | IP_ADDRESS | NUMERIC | ORDER_ID | PAYMENT_TYPE | PHONE_NUMBER | PRICE | PRODUCT_CATEGORY | SHIPPING_ADDRESS_L1 | SHIPPING_ADDRESS_L2 | SHIPPING_CITY | SHIPPING_COUNTRY | SHIPPING_NAME | SHIPPING_PHONE | SHIPPING_STATE | SHIPPING_ZIP | USERAGENT Shorthand Syntax: name=string,dataType=string,dataSource=string,defaultValue=string,description=string,variableType=string ... JSON Syntax: [ { "name": "string", "dataType": "string", "dataSource": "string", "defaultValue": "string", "description": "string", "variableType": "string" } ... ]
     /// </summary>
     [CliOption("--variable-entries", GroupValues = true)]
     public IEnumerable<string>? VariableEntries { get; private init; }
 
     /// <summary>
-    /// A collection of key and value pairs. Constraints: o min: 0 o max: 200 (structure) A key and value pair. key -&gt; (string) [required] A tag key. Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ value -&gt; (string) [required] A value assigned to a tag key. Constraints: o min: 0 o max: 256 Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
+    /// A collection of key and value pairs. Constraints: • min: 0 • max: 200 (structure) A key and value pair. key -&gt; (string) [required] A tag key. Constraints: • min: 1 • max: 128 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ value -&gt; (string) [required] A value assigned to a tag key. Constraints: • min: 0 • max: 256 Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
@@ -99,6 +100,15 @@ public record AwsFrauddetectorBatchCreateVariableOptions : AwsOptions, IValidata
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

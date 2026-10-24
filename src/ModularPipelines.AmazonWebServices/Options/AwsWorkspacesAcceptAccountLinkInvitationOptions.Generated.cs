@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Accepts the account link invitation. WARNING: There's currently no unlinking capability after you accept the ac- count linking invitation. See also: AWS API Documentation
+/// Accepts the account link invitation. WARNING: There's currently no unlinking capability after you accept the account linking invitation. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +27,9 @@ public record AwsWorkspacesAcceptAccountLinkInvitationOptions : AwsOptions, IVal
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Accepts the account link invitation. WARNING: There's currently no unlinking capability after you accept the ac- count linking invitation. See also: AWS API Documentation
+    /// Accepts the account link invitation. WARNING: There's currently no unlinking capability after you accept the account linking invitation. See also: AWS API Documentation
     /// </summary>
-    /// <param name="LinkId">The identifier of the account link. Constraints: o pattern: ^link-.{8,24}$</param>
+    /// <param name="LinkId">The identifier of the account link. Constraints: • pattern: ^link-.{8,24}$</param>
     public AwsWorkspacesAcceptAccountLinkInvitationOptions(
         string LinkId
     )
@@ -57,13 +58,13 @@ public record AwsWorkspacesAcceptAccountLinkInvitationOptions : AwsOptions, IVal
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the account link. Constraints: o pattern: ^link-.{8,24}$
+    /// The identifier of the account link. Constraints: • pattern: ^link-.{8,24}$
     /// </summary>
     [CliOption("--link-id")]
     public string? LinkId { get; private init; }
 
     /// <summary>
-    /// A string of up to 64 ASCII characters that Amazon WorkSpaces uses to ensure idempotent creation. Constraints: o pattern: ^.{1,64}$
+    /// A string of up to 64 ASCII characters that Amazon WorkSpaces uses to ensure idempotent creation. Constraints: • pattern: ^.{1,64}$
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
@@ -90,6 +91,15 @@ public record AwsWorkspacesAcceptAccountLinkInvitationOptions : AwsOptions, IVal
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

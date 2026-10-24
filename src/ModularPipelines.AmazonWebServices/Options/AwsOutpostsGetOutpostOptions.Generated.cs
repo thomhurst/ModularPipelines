@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsOutpostsGetOutpostOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Gets information about the specified Outpost. See also: AWS API Documentation
     /// </summary>
-    /// <param name="OutpostId">The ID or ARN of the Outpost. Constraints: o min: 1 o max: 180 o pattern: ^(arn:aws([a-z-]+)?:outposts:[a-z\d-]+:\d{12}:out- post/)?op-[a-f0-9]{17}$</param>
+    /// <param name="OutpostId">The ID or ARN of the Outpost. Constraints: • min: 1 • max: 180 • pattern: ^(arn:aws([a-z-]+)?:outposts:[a-z\d-]+:\d{12}:outpost/)?op-[a-f0-9]{17}$</param>
     public AwsOutpostsGetOutpostOptions(
         string OutpostId
     )
@@ -56,7 +57,7 @@ public record AwsOutpostsGetOutpostOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID or ARN of the Outpost. Constraints: o min: 1 o max: 180 o pattern: ^(arn:aws([a-z-]+)?:outposts:[a-z\d-]+:\d{12}:out- post/)?op-[a-f0-9]{17}$
+    /// The ID or ARN of the Outpost. Constraints: • min: 1 • max: 180 • pattern: ^(arn:aws([a-z-]+)?:outposts:[a-z\d-]+:\d{12}:outpost/)?op-[a-f0-9]{17}$
     /// </summary>
     [CliOption("--outpost-id")]
     public string? OutpostId { get; private init; }
@@ -82,6 +83,15 @@ public record AwsOutpostsGetOutpostOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

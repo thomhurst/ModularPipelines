@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Cancels all runs within a specified batch. This operation prevents not-yet-submitted runs from starting and submits CancelRun requests for runs that have already started. Cancel is only allowed on batches in PENDING , SUBMITTING , or IN- PROGRESS state. Cancel operations are non-atomic and may be partially successful. Use GetBatch to review successfulCancelSubmissionCount and failedCancelSubmissionCount in the submissionSummary . Only one cancel or delete operation per batch is allowed at a time...
+/// Cancels all runs within a specified batch. This operation prevents not-yet-submitted runs from starting and submits CancelRun requests for runs that have already started. Cancel is only allowed on batches in PENDING , SUBMITTING , or INPROGRESS state. Cancel operations are non-atomic and may be partially successful. Use GetBatch to review successfulCancelSubmissionCount and failedCancelSubmissionCount in the submissionSummary . Only one cancel or delete operation per batch is allowed at a time. ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsOmicsCancelRunBatchOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Cancels all runs within a specified batch. This operation prevents not-yet-submitted runs from starting and submits CancelRun requests for runs that have already started. Cancel is only allowed on batches in PENDING , SUBMITTING , or IN- PROGRESS state. Cancel operations are non-atomic and may be partially successful. Use GetBatch to review successfulCancelSubmissionCount and failedCancelSubmissionCount in the submissionSummary . Only one cancel or delete operation per batch is allowed at a time...
+    /// Cancels all runs within a specified batch. This operation prevents not-yet-submitted runs from starting and submits CancelRun requests for runs that have already started. Cancel is only allowed on batches in PENDING , SUBMITTING , or INPROGRESS state. Cancel operations are non-atomic and may be partially successful. Use GetBatch to review successfulCancelSubmissionCount and failedCancelSubmissionCount in the submissionSummary . Only one cancel or delete operation per batch is allowed at a time. ...
     /// </summary>
-    /// <param name="BatchId">The identifier portion of the run batch ARN. Constraints: o min: 1 o max: 18 o pattern: [0-9]+</param>
+    /// <param name="BatchId">The identifier portion of the run batch ARN. Constraints: • min: 1 • max: 18 • pattern: [0-9]+</param>
     public AwsOmicsCancelRunBatchOptions(
         string BatchId
     )
@@ -56,7 +57,7 @@ public record AwsOmicsCancelRunBatchOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier portion of the run batch ARN. Constraints: o min: 1 o max: 18 o pattern: [0-9]+
+    /// The identifier portion of the run batch ARN. Constraints: • min: 1 • max: 18 • pattern: [0-9]+
     /// </summary>
     [CliOption("--batch-id")]
     public string? BatchId { get; private init; }
@@ -82,6 +83,15 @@ public record AwsOmicsCancelRunBatchOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

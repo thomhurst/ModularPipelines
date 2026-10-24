@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsFrauddetectorCreateListOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Creates a list. List is a set of input data for a variable in your event dataset. You use the input data in a rule that's associated with your detector. For more information, see Lists . See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">The name of the list. Constraints: o min: 1 o max: 64 o pattern: ^[0-9a-z_]+$</param>
+    /// <param name="Name">The name of the list. Constraints: • min: 1 • max: 64 • pattern: ^[0-9a-z_]+$</param>
     public AwsFrauddetectorCreateListOptions(
         string Name
     )
@@ -56,31 +57,31 @@ public record AwsFrauddetectorCreateListOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the list. Constraints: o min: 1 o max: 64 o pattern: ^[0-9a-z_]+$
+    /// The name of the list. Constraints: • min: 1 • max: 64 • pattern: ^[0-9a-z_]+$
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The names of the elements, if providing. You can also create an empty list and add elements later using the UpdateList API. Constraints: o min: 0 o max: 100000 (string) Constraints: o min: 1 o max: 320 o pattern: ^\S+( +\S+)*$ Syntax: "string" "string" ...
+    /// The names of the elements, if providing. You can also create an empty list and add elements later using the UpdateList API. Constraints: • min: 0 • max: 100000 (string) Constraints: • min: 1 • max: 320 • pattern: ^\S+( +\S+)*$ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--elements", GroupValues = true)]
     public IEnumerable<string>? Elements { get; set; }
 
     /// <summary>
-    /// The variable type of the list. You can only assign the variable type with String data type. For more information, see Variable types . Constraints: o min: 1 o max: 64 o pattern: ^[A-Z_]{1,64}$
+    /// The variable type of the list. You can only assign the variable type with String data type. For more information, see Variable types . Constraints: • min: 1 • max: 64 • pattern: ^[A-Z_]{1,64}$
     /// </summary>
     [CliOption("--variable-type")]
     public string? VariableType { get; set; }
 
     /// <summary>
-    /// The description of the list. Constraints: o min: 1 o max: 128
+    /// The description of the list. Constraints: • min: 1 • max: 128
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// A collection of the key and value pairs. Constraints: o min: 0 o max: 200 (structure) A key and value pair. key -&gt; (string) [required] A tag key. Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ value -&gt; (string) [required] A value assigned to a tag key. Constraints: o min: 0 o max: 256 Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
+    /// A collection of the key and value pairs. Constraints: • min: 0 • max: 200 (structure) A key and value pair. key -&gt; (string) [required] A tag key. Constraints: • min: 1 • max: 128 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ value -&gt; (string) [required] A value assigned to a tag key. Constraints: • min: 0 • max: 256 Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
@@ -106,6 +107,15 @@ public record AwsFrauddetectorCreateListOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

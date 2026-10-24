@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,8 +29,8 @@ public record AwsAmpPutRuleGroupsNamespaceOptions : AwsOptions, IValidatableObje
     /// <summary>
     /// Updates an existing rule groups namespace within a workspace. A rule groups namespace is associated with exactly one rules file. A workspace can have multiple rule groups namespaces. WARNING: The combined length of a rule group namespace and a rule group name cannot exceed 721 UTF-8 bytes. Use this operation only to update existing rule groups namespaces. To create a new rule groups namespace, use CreateRuleGroupsNamespace . You can't use this operation to add tags to an existing rule groups nam...
     /// </summary>
-    /// <param name="WorkspaceId">The ID of the workspace where you are updating the rule groups name- space. Constraints: o min: 1 o max: 64 o pattern: .*[0-9A-Za-z][-.0-9A-Z_a-z]*.*</param>
-    /// <param name="Name">The name of the rule groups namespace that you are updating. Constraints: o min: 1 o max: 128 o pattern: .*[0-9A-Za-z][-.0-9A-Z_a-z]*.*</param>
+    /// <param name="WorkspaceId">The ID of the workspace where you are updating the rule groups namespace. Constraints: • min: 1 • max: 64 • pattern: .*[0-9A-Za-z][-.0-9A-Z_a-z]*.*</param>
+    /// <param name="Name">The name of the rule groups namespace that you are updating. Constraints: • min: 1 • max: 128 • pattern: .*[0-9A-Za-z][-.0-9A-Z_a-z]*.*</param>
     /// <param name="Data">The new rules file to use in the namespace. A base64-encoded version of the YAML rule groups file. For details about the rule groups namespace structure, see RuleGroupsNamespaceData .</param>
     public AwsAmpPutRuleGroupsNamespaceOptions(
         string WorkspaceId,
@@ -65,13 +66,13 @@ public record AwsAmpPutRuleGroupsNamespaceOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the workspace where you are updating the rule groups name- space. Constraints: o min: 1 o max: 64 o pattern: .*[0-9A-Za-z][-.0-9A-Z_a-z]*.*
+    /// The ID of the workspace where you are updating the rule groups namespace. Constraints: • min: 1 • max: 64 • pattern: .*[0-9A-Za-z][-.0-9A-Z_a-z]*.*
     /// </summary>
     [CliOption("--workspace-id")]
     public string? WorkspaceId { get; private init; }
 
     /// <summary>
-    /// The name of the rule groups namespace that you are updating. Constraints: o min: 1 o max: 128 o pattern: .*[0-9A-Za-z][-.0-9A-Z_a-z]*.*
+    /// The name of the rule groups namespace that you are updating. Constraints: • min: 1 • max: 128 • pattern: .*[0-9A-Za-z][-.0-9A-Z_a-z]*.*
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
@@ -83,7 +84,7 @@ public record AwsAmpPutRuleGroupsNamespaceOptions : AwsOptions, IValidatableObje
     public string? Data { get; private init; }
 
     /// <summary>
-    /// A unique identifier that you can provide to ensure the idempotency of the request. Case-sensitive. Constraints: o min: 1 o max: 64 o pattern: [!-~]+
+    /// A unique identifier that you can provide to ensure the idempotency of the request. Case-sensitive. Constraints: • min: 1 • max: 64 • pattern: [!-~]+
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
@@ -110,6 +111,15 @@ public record AwsAmpPutRuleGroupsNamespaceOptions : AwsOptions, IValidatableObje
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

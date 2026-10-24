@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsDataexchangeUntagResourceOptions : AwsOptions, IValidatableObje
     /// <summary>
     /// This operation removes one or more tags from a resource. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">An Amazon Resource Name (ARN) that uniquely identifies an AWS re- source.</param>
+    /// <param name="ResourceArn">An Amazon Resource Name (ARN) that uniquely identifies an AWS resource.</param>
     /// <param name="TagKeys">The key tags. (string) Syntax: "string" "string" ...</param>
     public AwsDataexchangeUntagResourceOptions(
         string ResourceArn,
@@ -71,7 +72,7 @@ public record AwsDataexchangeUntagResourceOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// An Amazon Resource Name (ARN) that uniquely identifies an AWS re- source.
+    /// An Amazon Resource Name (ARN) that uniquely identifies an AWS resource.
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
@@ -103,6 +104,15 @@ public record AwsDataexchangeUntagResourceOptions : AwsOptions, IValidatableObje
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

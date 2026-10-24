@@ -28,13 +28,13 @@ public record AwsLogsDeleteResourcePolicyOptions : AwsOptions
     public string? PolicyName { get; set; }
 
     /// <summary>
-    /// The ARN of the CloudWatch Logs resource for which the resource pol- icy needs to be deleted
+    /// The ARN of the CloudWatch Logs resource for which the resource policy needs to be deleted
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; set; }
 
     /// <summary>
-    /// The expected revision ID of the resource policy. Required when deleting a resource-scoped policy to prevent concurrent modifica- tions. Constraints: o min: 1
+    /// The expected revision ID of the resource policy. Required when deleting a resource-scoped policy to prevent concurrent modifications. Constraints: • min: 1
     /// </summary>
     [CliOption("--expected-revision-id")]
     public string? ExpectedRevisionId { get; set; }
@@ -44,5 +44,14 @@ public record AwsLogsDeleteResourcePolicyOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

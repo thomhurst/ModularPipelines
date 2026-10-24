@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Provisions a wireless gateway. NOTE: When provisioning a wireless gateway, you might run into duplication errors for the following reasons. o If you specify a GatewayEui value that already exists. o If you used a ClientRequestToken with the same parameters within the last 10 minutes. To avoid this error, make sure that you use unique identifiers and parameters for each request within the specified time period. See also: AWS API Documentation
+/// Provisions a wireless gateway. NOTE: When provisioning a wireless gateway, you might run into duplication errors for the following reasons. • If you specify a GatewayEui value that already exists. • If you used a ClientRequestToken with the same parameters within the last 10 minutes. To avoid this error, make sure that you use unique identifiers and parameters for each request within the specified time period. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +27,9 @@ public record AwsIotwirelessCreateWirelessGatewayOptions : AwsOptions, IValidata
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Provisions a wireless gateway. NOTE: When provisioning a wireless gateway, you might run into duplication errors for the following reasons. o If you specify a GatewayEui value that already exists. o If you used a ClientRequestToken with the same parameters within the last 10 minutes. To avoid this error, make sure that you use unique identifiers and parameters for each request within the specified time period. See also: AWS API Documentation
+    /// Provisions a wireless gateway. NOTE: When provisioning a wireless gateway, you might run into duplication errors for the following reasons. • If you specify a GatewayEui value that already exists. • If you used a ClientRequestToken with the same parameters within the last 10 minutes. To avoid this error, make sure that you use unique identifiers and parameters for each request within the specified time period. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Lorawan">The gateway configuration information to use to create the wireless gateway. GatewayEui -&gt; (string) The gateway's EUI value. Constraints: o pattern: ^(([0-9A-Fa-f]{2}-){7}|([0-9A-Fa-f]{2}:){7}|([0-9A-Fa-f]{2}\s){7}|([0-9A-Fa-f]{2}){7})([0-9A-Fa-f]{2})$ RfRegion -&gt; (string) The frequency band (RFRegion) value. Constraints: o max: 64 JoinEuiFilters -&gt; (list) A list of JoinEuiRange used by LoRa gateways to filter LoRa frames. Constraints: o min: 0 o max: 3 (list) A pair of join EUI describing a range [BegEui, EndEui], both ends are inclusive. Constraints: o min: 2 o max: 2 (string) Constraints: o pattern: [a-fA-F0-9]{16} NetIdFilters -&gt; (list) A list of NetId values that are used by LoRa gateways to filter the uplink frames. Constraints: o min: 0 o max: 10 (string) LoRaWAN network ID. Constraints: o pattern: [a-fA-F0-9]{6} SubBands -&gt; (list) A list of integer indicating which sub bands are supported by LoRa gateway. Constraints: o min: 0 o max: 8 (integer) A subset of supported frequency channels in a certain RFRe- gion. Constraints: o min: 1 o max: 8 Beaconing -&gt; (structure) Beaconing object information, which consists of the data rate and frequency parameters. DataRate -&gt; (integer) The data rate for gateways that are sending the beacons. Constraints: o min: 0 o max: 15 Frequencies -&gt; (list) The frequency list for the gateways to send the beacons. Constraints: o min: 0 o max: 10 (integer) Constraints: o min: 100000000 o max: 1000000000 MaxEirp -&gt; (float) The MaxEIRP value. Constraints: o min: 0 o max: 30 Shorthand Syntax: GatewayEui=string,RfRegion=string,JoinEuiFilters=[[string,string],[string,string]],NetIdFilters=string,string,SubBands=integer,integer,Beaconing={DataRate=integer,Frequencies=[integer,integer]},MaxEirp=float JSON Syntax: { "GatewayEui": "string", "RfRegion": "string", "JoinEuiFilters": [ ["string", ...] ... ], "NetIdFilters": ["string", ...], "SubBands": [integer, ...], "Beaconing": { "DataRate": integer, "Frequencies": [integer, ...] }, "MaxEirp": float }</param>
+    /// <param name="Lorawan">The gateway configuration information to use to create the wireless gateway. GatewayEui -&gt; (string) The gateway's EUI value. Constraints: • pattern: ^(([0-9A-Fa-f]{2}-){7}|([0-9A-Fa-f]{2}:){7}|([0-9A-Fa-f]{2}\s){7}|([0-9A-Fa-f]{2}){7})([0-9A-Fa-f]{2})$ RfRegion -&gt; (string) The frequency band (RFRegion) value. Constraints: • max: 64 JoinEuiFilters -&gt; (list) A list of JoinEuiRange used by LoRa gateways to filter LoRa frames. Constraints: • min: 0 • max: 3 (list) A pair of join EUI describing a range [BegEui, EndEui], both ends are inclusive. Constraints: • min: 2 • max: 2 (string) Constraints: • pattern: [a-fA-F0-9]{16} NetIdFilters -&gt; (list) A list of NetId values that are used by LoRa gateways to filter the uplink frames. Constraints: • min: 0 • max: 10 (string) LoRaWAN network ID. Constraints: • pattern: [a-fA-F0-9]{6} SubBands -&gt; (list) A list of integer indicating which sub bands are supported by LoRa gateway. Constraints: • min: 0 • max: 8 (integer) A subset of supported frequency channels in a certain RFRegion. Constraints: • min: 1 • max: 8 Beaconing -&gt; (structure) Beaconing object information, which consists of the data rate and frequency parameters. DataRate -&gt; (integer) The data rate for gateways that are sending the beacons. Constraints: • min: 0 • max: 15 Frequencies -&gt; (list) The frequency list for the gateways to send the beacons. Constraints: • min: 0 • max: 10 (integer) Constraints: • min: 100000000 • max: 1000000000 MaxEirp -&gt; (float) The MaxEIRP value. Constraints: • min: 0 • max: 30 Shorthand Syntax: GatewayEui=string,RfRegion=string,JoinEuiFilters=[[string,string],[string,string]],NetIdFilters=string,string,SubBands=integer,integer,Beaconing={DataRate=integer,Frequencies=[integer,integer]},MaxEirp=float JSON Syntax: { "GatewayEui": "string", "RfRegion": "string", "JoinEuiFilters": [ ["string", ...] ... ], "NetIdFilters": ["string", ...], "SubBands": [integer, ...], "Beaconing": { "DataRate": integer, "Frequencies": [integer, ...] }, "MaxEirp": float }</param>
     public AwsIotwirelessCreateWirelessGatewayOptions(
         string Lorawan
     )
@@ -57,31 +58,31 @@ public record AwsIotwirelessCreateWirelessGatewayOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The gateway configuration information to use to create the wireless gateway. GatewayEui -&gt; (string) The gateway's EUI value. Constraints: o pattern: ^(([0-9A-Fa-f]{2}-){7}|([0-9A-Fa-f]{2}:){7}|([0-9A-Fa-f]{2}\s){7}|([0-9A-Fa-f]{2}){7})([0-9A-Fa-f]{2})$ RfRegion -&gt; (string) The frequency band (RFRegion) value. Constraints: o max: 64 JoinEuiFilters -&gt; (list) A list of JoinEuiRange used by LoRa gateways to filter LoRa frames. Constraints: o min: 0 o max: 3 (list) A pair of join EUI describing a range [BegEui, EndEui], both ends are inclusive. Constraints: o min: 2 o max: 2 (string) Constraints: o pattern: [a-fA-F0-9]{16} NetIdFilters -&gt; (list) A list of NetId values that are used by LoRa gateways to filter the uplink frames. Constraints: o min: 0 o max: 10 (string) LoRaWAN network ID. Constraints: o pattern: [a-fA-F0-9]{6} SubBands -&gt; (list) A list of integer indicating which sub bands are supported by LoRa gateway. Constraints: o min: 0 o max: 8 (integer) A subset of supported frequency channels in a certain RFRe- gion. Constraints: o min: 1 o max: 8 Beaconing -&gt; (structure) Beaconing object information, which consists of the data rate and frequency parameters. DataRate -&gt; (integer) The data rate for gateways that are sending the beacons. Constraints: o min: 0 o max: 15 Frequencies -&gt; (list) The frequency list for the gateways to send the beacons. Constraints: o min: 0 o max: 10 (integer) Constraints: o min: 100000000 o max: 1000000000 MaxEirp -&gt; (float) The MaxEIRP value. Constraints: o min: 0 o max: 30 Shorthand Syntax: GatewayEui=string,RfRegion=string,JoinEuiFilters=[[string,string],[string,string]],NetIdFilters=string,string,SubBands=integer,integer,Beaconing={DataRate=integer,Frequencies=[integer,integer]},MaxEirp=float JSON Syntax: { "GatewayEui": "string", "RfRegion": "string", "JoinEuiFilters": [ ["string", ...] ... ], "NetIdFilters": ["string", ...], "SubBands": [integer, ...], "Beaconing": { "DataRate": integer, "Frequencies": [integer, ...] }, "MaxEirp": float }
+    /// The gateway configuration information to use to create the wireless gateway. GatewayEui -&gt; (string) The gateway's EUI value. Constraints: • pattern: ^(([0-9A-Fa-f]{2}-){7}|([0-9A-Fa-f]{2}:){7}|([0-9A-Fa-f]{2}\s){7}|([0-9A-Fa-f]{2}){7})([0-9A-Fa-f]{2})$ RfRegion -&gt; (string) The frequency band (RFRegion) value. Constraints: • max: 64 JoinEuiFilters -&gt; (list) A list of JoinEuiRange used by LoRa gateways to filter LoRa frames. Constraints: • min: 0 • max: 3 (list) A pair of join EUI describing a range [BegEui, EndEui], both ends are inclusive. Constraints: • min: 2 • max: 2 (string) Constraints: • pattern: [a-fA-F0-9]{16} NetIdFilters -&gt; (list) A list of NetId values that are used by LoRa gateways to filter the uplink frames. Constraints: • min: 0 • max: 10 (string) LoRaWAN network ID. Constraints: • pattern: [a-fA-F0-9]{6} SubBands -&gt; (list) A list of integer indicating which sub bands are supported by LoRa gateway. Constraints: • min: 0 • max: 8 (integer) A subset of supported frequency channels in a certain RFRegion. Constraints: • min: 1 • max: 8 Beaconing -&gt; (structure) Beaconing object information, which consists of the data rate and frequency parameters. DataRate -&gt; (integer) The data rate for gateways that are sending the beacons. Constraints: • min: 0 • max: 15 Frequencies -&gt; (list) The frequency list for the gateways to send the beacons. Constraints: • min: 0 • max: 10 (integer) Constraints: • min: 100000000 • max: 1000000000 MaxEirp -&gt; (float) The MaxEIRP value. Constraints: • min: 0 • max: 30 Shorthand Syntax: GatewayEui=string,RfRegion=string,JoinEuiFilters=[[string,string],[string,string]],NetIdFilters=string,string,SubBands=integer,integer,Beaconing={DataRate=integer,Frequencies=[integer,integer]},MaxEirp=float JSON Syntax: { "GatewayEui": "string", "RfRegion": "string", "JoinEuiFilters": [ ["string", ...] ... ], "NetIdFilters": ["string", ...], "SubBands": [integer, ...], "Beaconing": { "DataRate": integer, "Frequencies": [integer, ...] }, "MaxEirp": float }
     /// </summary>
     [CliOption("--lorawan")]
     public string? Lorawan { get; private init; }
 
     /// <summary>
-    /// The name of the new resource. NOTE: The following special characters aren't accepted: &lt;&gt;^#~$ Constraints: o max: 256
+    /// The name of the new resource. NOTE: The following special characters aren't accepted: &lt;&gt;^#~$ Constraints: • max: 256
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
 
     /// <summary>
-    /// The description of the new resource. Constraints: o max: 2048
+    /// The description of the new resource. Constraints: • max: 2048
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The tags to attach to the new wireless gateway. Tags are metadata that you can use to manage a resource. Constraints: o min: 0 o max: 200 (structure) A simple label consisting of a customer-defined key-value pair Key -&gt; (string) [required] The tag's key value. Constraints: o min: 1 o max: 128 Value -&gt; (string) [required] The tag's value. Constraints: o min: 0 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// The tags to attach to the new wireless gateway. Tags are metadata that you can use to manage a resource. Constraints: • min: 0 • max: 200 (structure) A simple label consisting of a customer-defined key-value pair Key -&gt; (string) [required] The tag's key value. Constraints: • min: 1 • max: 128 Value -&gt; (string) [required] The tag's value. Constraints: • min: 0 • max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
-    /// Each resource must have a unique client request token. The client token is used to implement idempotency. It ensures that the request completes no more than one time. If you retry a request with the same token and the same parameters, the request will complete suc- cessfully. However, if you try to create a new resource using the same token but different parameters, an HTTP 409 conflict occurs. If you omit this value, AWS SDKs will automatically generate a unique client request. For more information about idempotency, see Ensuring idempotency in Amazon EC2 API requests . Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9-_]+$
+    /// Each resource must have a unique client request token. The client token is used to implement idempotency. It ensures that the request completes no more than one time. If you retry a request with the same token and the same parameters, the request will complete successfully. However, if you try to create a new resource using the same token but different parameters, an HTTP 409 conflict occurs. If you omit this value, AWS SDKs will automatically generate a unique client request. For more information about idempotency, see Ensuring idempotency in Amazon EC2 API requests . Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9-_]+$
     /// </summary>
     [SecretValue]
     [CliOption("--client-request-token")]
@@ -108,6 +109,15 @@ public record AwsIotwirelessCreateWirelessGatewayOptions : AwsOptions, IValidata
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves information of a node (also called a instance interchange- ably) of a SageMaker HyperPod cluster. See also: AWS API Documentation
+/// Retrieves information of a node (also called a instance interchangeably) of a SageMaker HyperPod cluster. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsSagemakerDescribeClusterNodeOptions : AwsOptions, IValidatableO
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Retrieves information of a node (also called a instance interchange- ably) of a SageMaker HyperPod cluster. See also: AWS API Documentation
+    /// Retrieves information of a node (also called a instance interchangeably) of a SageMaker HyperPod cluster. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ClusterName">The string name or the Amazon Resource Name (ARN) of the SageMaker HyperPod cluster in which the node is. Constraints: o min: 0 o max: 256 o pattern: (arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:clus- ter/[a-z0-9]{12})|([a-zA-Z0-9](-*[a-zA-Z0-9]){0,62})</param>
+    /// <param name="ClusterName">The string name or the Amazon Resource Name (ARN) of the SageMaker HyperPod cluster in which the node is. Constraints: • min: 0 • max: 256 • pattern: (arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:cluster/[a-z0-9]{12})|([a-zA-Z0-9](-*[a-zA-Z0-9]){0,62})</param>
     public AwsSagemakerDescribeClusterNodeOptions(
         string ClusterName
     )
@@ -56,19 +57,19 @@ public record AwsSagemakerDescribeClusterNodeOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The string name or the Amazon Resource Name (ARN) of the SageMaker HyperPod cluster in which the node is. Constraints: o min: 0 o max: 256 o pattern: (arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:clus- ter/[a-z0-9]{12})|([a-zA-Z0-9](-*[a-zA-Z0-9]){0,62})
+    /// The string name or the Amazon Resource Name (ARN) of the SageMaker HyperPod cluster in which the node is. Constraints: • min: 0 • max: 256 • pattern: (arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:cluster/[a-z0-9]{12})|([a-zA-Z0-9](-*[a-zA-Z0-9]){0,62})
     /// </summary>
     [CliOption("--cluster-name")]
     public string? ClusterName { get; private init; }
 
     /// <summary>
-    /// The ID of the SageMaker HyperPod cluster node. Constraints: o min: 1 o max: 256 o pattern: i-[a-f0-9]{8}(?:[a-f0-9]{9})?
+    /// The ID of the SageMaker HyperPod cluster node. Constraints: • min: 1 • max: 256 • pattern: i-[a-f0-9]{8}(?:[a-f0-9]{9})?
     /// </summary>
     [CliOption("--node-id")]
     public string? NodeId { get; set; }
 
     /// <summary>
-    /// The logical identifier of the node to describe. You can specify ei- ther NodeLogicalId or InstanceId , but not both. NodeLogicalId can be used to describe nodes that are still being provisioned and don't yet have an InstanceId assigned. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9][a-zA-Z0-9\-]*[a-zA-Z0-9]
+    /// The logical identifier of the node to describe. You can specify either NodeLogicalId or InstanceId , but not both. NodeLogicalId can be used to describe nodes that are still being provisioned and don't yet have an InstanceId assigned. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9][a-zA-Z0-9\-]*[a-zA-Z0-9]
     /// </summary>
     [CliOption("--node-logical-id")]
     public string? NodeLogicalId { get; set; }
@@ -94,6 +95,15 @@ public record AwsSagemakerDescribeClusterNodeOptions : AwsOptions, IValidatableO
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a new Amazon ElastiCache cache parameter group. An ElastiCache cache parameter group is a collection of parameters and their values that are applied to all of the nodes in any cluster or replication group using the CacheParameterGroup. A newly created CacheParameterGroup is an exact duplicate of the de- fault parameter group for the CacheParameterGroupFamily. To customize the newly created CacheParameterGroup you can change the values of spe- cific parameters. For more information, see: ...
+/// Creates a new Amazon ElastiCache cache parameter group. An ElastiCache cache parameter group is a collection of parameters and their values that are applied to all of the nodes in any cluster or replication group using the CacheParameterGroup. A newly created CacheParameterGroup is an exact duplicate of the default parameter group for the CacheParameterGroupFamily. To customize the newly created CacheParameterGroup you can change the values of specific parameters. For more information, see: • Mo...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsElasticacheCreateCacheParameterGroupOptions : AwsOptions, IVali
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a new Amazon ElastiCache cache parameter group. An ElastiCache cache parameter group is a collection of parameters and their values that are applied to all of the nodes in any cluster or replication group using the CacheParameterGroup. A newly created CacheParameterGroup is an exact duplicate of the de- fault parameter group for the CacheParameterGroupFamily. To customize the newly created CacheParameterGroup you can change the values of spe- cific parameters. For more information, see: ...
+    /// Creates a new Amazon ElastiCache cache parameter group. An ElastiCache cache parameter group is a collection of parameters and their values that are applied to all of the nodes in any cluster or replication group using the CacheParameterGroup. A newly created CacheParameterGroup is an exact duplicate of the default parameter group for the CacheParameterGroupFamily. To customize the newly created CacheParameterGroup you can change the values of specific parameters. For more information, see: • Mo...
     /// </summary>
     /// <param name="CacheParameterGroupName">A user-specified name for the cache parameter group. This value is stored as a lowercase string.</param>
-    /// <param name="CacheParameterGroupFamily">The name of the cache parameter group family that the cache parame- ter group can be used with. Valid values are: valkey8 | valkey7 | memcached1.4 | memcached1.5 | memcached1.6 | redis2.6 | redis2.8 | redis3.2 | redis4.0 | redis5.0 | redis6.x | redis7</param>
+    /// <param name="CacheParameterGroupFamily">The name of the cache parameter group family that the cache parameter group can be used with. Valid values are: valkey8 | valkey7 | memcached1.4 | memcached1.5 | memcached1.6 | redis2.6 | redis2.8 | redis3.2 | redis4.0 | redis5.0 | redis6.x | redis7</param>
     /// <param name="Description">A user-specified description for the cache parameter group.</param>
     public AwsElasticacheCreateCacheParameterGroupOptions(
         string CacheParameterGroupName,
@@ -70,7 +71,7 @@ public record AwsElasticacheCreateCacheParameterGroupOptions : AwsOptions, IVali
     public string? CacheParameterGroupName { get; private init; }
 
     /// <summary>
-    /// The name of the cache parameter group family that the cache parame- ter group can be used with. Valid values are: valkey8 | valkey7 | memcached1.4 | memcached1.5 | memcached1.6 | redis2.6 | redis2.8 | redis3.2 | redis4.0 | redis5.0 | redis6.x | redis7
+    /// The name of the cache parameter group family that the cache parameter group can be used with. Valid values are: valkey8 | valkey7 | memcached1.4 | memcached1.5 | memcached1.6 | redis2.6 | redis2.8 | redis3.2 | redis4.0 | redis5.0 | redis6.x | redis7
     /// </summary>
     [CliOption("--cache-parameter-group-family")]
     public string? CacheParameterGroupFamily { get; private init; }
@@ -108,6 +109,15 @@ public record AwsElasticacheCreateCacheParameterGroupOptions : AwsOptions, IVali
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

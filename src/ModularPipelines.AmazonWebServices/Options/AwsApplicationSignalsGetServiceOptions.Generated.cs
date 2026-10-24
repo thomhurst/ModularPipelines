@@ -10,7 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -29,8 +29,8 @@ public record AwsApplicationSignalsGetServiceOptions : AwsOptions, IValidatableO
     /// Returns information about a service discovered by Application Signals. See also: AWS API Documentation
     /// </summary>
     /// <param name="StartTime">The start of the time period to retrieve information about. When used in a raw HTTP Query API, it is formatted as be epoch time in seconds. For example: 1698778057 Your requested start time will be rounded to the nearest hour.</param>
-    /// <param name="EndTime">The end of the time period to retrieve information about. When used in a raw HTTP Query API, it is formatted as be epoch time in sec- onds. For example: 1698778057 Your requested start time will be rounded to the nearest hour.</param>
-    /// <param name="KeyAttributes">Use this field to specify which service you want to retrieve infor- mation for. You must specify at least the Type , Name , and Environ- ment attributes. This is a string-to-string map. It can include the following fields. o Type designates the type of object this is. o ResourceType specifies the type of the resource. This field is used only when the value of the Type field is Resource or AWS::Re- source . o Name specifies the name of the object. This is used only if the value of the Type field is Service , RemoteService , or AWS::Ser- vice . o Identifier identifies the resource objects of this resource. This is used only if the value of the Type field is Resource or AWS::Resource . o Environment specifies the location where this object is hosted, or what it belongs to. Constraints: o min: 1 o max: 4 key -&gt; (string) Constraints: o pattern: [a-zA-Z]{1,50} value -&gt; (string) Constraints: o min: 1 o max: 1024 o pattern: [ -~]*[!-~]+[ -~]* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}</param>
+    /// <param name="EndTime">The end of the time period to retrieve information about. When used in a raw HTTP Query API, it is formatted as be epoch time in seconds. For example: 1698778057 Your requested start time will be rounded to the nearest hour.</param>
+    /// <param name="KeyAttributes">Use this field to specify which service you want to retrieve information for. You must specify at least the Type , Name , and Environment attributes. This is a string-to-string map. It can include the following fields. • Type designates the type of object this is. • ResourceType specifies the type of the resource. This field is used only when the value of the Type field is Resource or AWS::Resource . • Name specifies the name of the object. This is used only if the value of the Type field is Service , RemoteService , or AWS::Service . • Identifier identifies the resource objects of this resource. This is used only if the value of the Type field is Resource or AWS::Resource . • Environment specifies the location where this object is hosted, or what it belongs to. Constraints: • min: 1 • max: 4 key -&gt; (string) Constraints: • pattern: [a-zA-Z]{1,50} value -&gt; (string) Constraints: • min: 1 • max: 1024 • pattern: [ -~]*[!-~]+[ -~]* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}</param>
     public AwsApplicationSignalsGetServiceOptions(
         string StartTime,
         string EndTime,
@@ -82,13 +82,13 @@ public record AwsApplicationSignalsGetServiceOptions : AwsOptions, IValidatableO
     public string? StartTime { get; private init; }
 
     /// <summary>
-    /// The end of the time period to retrieve information about. When used in a raw HTTP Query API, it is formatted as be epoch time in sec- onds. For example: 1698778057 Your requested start time will be rounded to the nearest hour.
+    /// The end of the time period to retrieve information about. When used in a raw HTTP Query API, it is formatted as be epoch time in seconds. For example: 1698778057 Your requested start time will be rounded to the nearest hour.
     /// </summary>
     [CliOption("--end-time")]
     public string? EndTime { get; private init; }
 
     /// <summary>
-    /// Use this field to specify which service you want to retrieve infor- mation for. You must specify at least the Type , Name , and Environ- ment attributes. This is a string-to-string map. It can include the following fields. o Type designates the type of object this is. o ResourceType specifies the type of the resource. This field is used only when the value of the Type field is Resource or AWS::Re- source . o Name specifies the name of the object. This is used only if the value of the Type field is Service , RemoteService , or AWS::Ser- vice . o Identifier identifies the resource objects of this resource. This is used only if the value of the Type field is Resource or AWS::Resource . o Environment specifies the location where this object is hosted, or what it belongs to. Constraints: o min: 1 o max: 4 key -&gt; (string) Constraints: o pattern: [a-zA-Z]{1,50} value -&gt; (string) Constraints: o min: 1 o max: 1024 o pattern: [ -~]*[!-~]+[ -~]* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// Use this field to specify which service you want to retrieve information for. You must specify at least the Type , Name , and Environment attributes. This is a string-to-string map. It can include the following fields. • Type designates the type of object this is. • ResourceType specifies the type of the resource. This field is used only when the value of the Type field is Resource or AWS::Resource . • Name specifies the name of the object. This is used only if the value of the Type field is Service , RemoteService , or AWS::Service . • Identifier identifies the resource objects of this resource. This is used only if the value of the Type field is Resource or AWS::Resource . • Environment specifies the location where this object is hosted, or what it belongs to. Constraints: • min: 1 • max: 4 key -&gt; (string) Constraints: • pattern: [a-zA-Z]{1,50} value -&gt; (string) Constraints: • min: 1 • max: 1024 • pattern: [ -~]*[!-~]+[ -~]* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--key-attributes", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? KeyAttributes { get; private init; }
@@ -114,6 +114,15 @@ public record AwsApplicationSignalsGetServiceOptions : AwsOptions, IValidatableO
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

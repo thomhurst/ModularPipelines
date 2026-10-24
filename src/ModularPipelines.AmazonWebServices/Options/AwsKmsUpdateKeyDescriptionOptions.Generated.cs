@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates the description of a KMS key. To see the description of a KMS key, use DescribeKey . The KMS key that you use for this operation must be in a compatible key state. For details, see Key states of KMS keys in the Key Management Service Developer Guide . Cross-account use : No. You cannot perform this operation on a KMS key in a different Amazon Web Services account. Required permissions : kms:UpdateKeyDescription (key policy) Related operations o CreateKey o DescribeKey Eventual consistenc...
+/// Updates the description of a KMS key. To see the description of a KMS key, use DescribeKey . The KMS key that you use for this operation must be in a compatible key state. For details, see Key states of KMS keys in the Key Management Service Developer Guide . Cross-account use : No. You cannot perform this operation on a KMS key in a different Amazon Web Services account. Required permissions : kms:UpdateKeyDescription (key policy) Related operations • CreateKey • DescribeKey Eventual consistenc...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsKmsUpdateKeyDescriptionOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates the description of a KMS key. To see the description of a KMS key, use DescribeKey . The KMS key that you use for this operation must be in a compatible key state. For details, see Key states of KMS keys in the Key Management Service Developer Guide . Cross-account use : No. You cannot perform this operation on a KMS key in a different Amazon Web Services account. Required permissions : kms:UpdateKeyDescription (key policy) Related operations o CreateKey o DescribeKey Eventual consistenc...
+    /// Updates the description of a KMS key. To see the description of a KMS key, use DescribeKey . The KMS key that you use for this operation must be in a compatible key state. For details, see Key states of KMS keys in the Key Management Service Developer Guide . Cross-account use : No. You cannot perform this operation on a KMS key in a different Amazon Web Services account. Required permissions : kms:UpdateKeyDescription (key policy) Related operations • CreateKey • DescribeKey Eventual consistenc...
     /// </summary>
-    /// <param name="KeyId">Updates the description of the specified KMS key. Specify the key ID or key ARN of the KMS key. For example: o Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab o Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab To get the key ID and key ARN for a KMS key, use ListKeys or De- scribeKey . Constraints: o min: 1 o max: 2048</param>
-    /// <param name="Description">New description for the KMS key. WARNING: Do not include confidential or sensitive information in this field. This field may be displayed in plaintext in CloudTrail logs and other output. Constraints: o min: 0 o max: 8192</param>
+    /// <param name="KeyId">Updates the description of the specified KMS key. Specify the key ID or key ARN of the KMS key. For example: • Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab • Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab To get the key ID and key ARN for a KMS key, use ListKeys or DescribeKey . Constraints: • min: 1 • max: 2048</param>
+    /// <param name="Description">New description for the KMS key. WARNING: Do not include confidential or sensitive information in this field. This field may be displayed in plaintext in CloudTrail logs and other output. Constraints: • min: 0 • max: 8192</param>
     public AwsKmsUpdateKeyDescriptionOptions(
         string KeyId,
         string Description
@@ -60,13 +61,13 @@ public record AwsKmsUpdateKeyDescriptionOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Updates the description of the specified KMS key. Specify the key ID or key ARN of the KMS key. For example: o Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab o Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab To get the key ID and key ARN for a KMS key, use ListKeys or De- scribeKey . Constraints: o min: 1 o max: 2048
+    /// Updates the description of the specified KMS key. Specify the key ID or key ARN of the KMS key. For example: • Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab • Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab To get the key ID and key ARN for a KMS key, use ListKeys or DescribeKey . Constraints: • min: 1 • max: 2048
     /// </summary>
     [CliOption("--key-id")]
     public string? KeyId { get; private init; }
 
     /// <summary>
-    /// New description for the KMS key. WARNING: Do not include confidential or sensitive information in this field. This field may be displayed in plaintext in CloudTrail logs and other output. Constraints: o min: 0 o max: 8192
+    /// New description for the KMS key. WARNING: Do not include confidential or sensitive information in this field. This field may be displayed in plaintext in CloudTrail logs and other output. Constraints: • min: 0 • max: 8192
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; private init; }
@@ -92,6 +93,15 @@ public record AwsKmsUpdateKeyDescriptionOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

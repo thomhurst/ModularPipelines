@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates an existing policy with a new name, description, or content. If you don't supply any parameter, that value remains unchanged. You can't change a policy's type. You can only call this operation from the management account or a mem- ber account that is a delegated administrator. See also: AWS API Documentation
+/// Updates an existing policy with a new name, description, or content. If you don't supply any parameter, that value remains unchanged. You can't change a policy's type. You can only call this operation from the management account or a member account that is a delegated administrator. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsOrganizationsUpdatePolicyOptions : AwsOptions, IValidatableObje
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates an existing policy with a new name, description, or content. If you don't supply any parameter, that value remains unchanged. You can't change a policy's type. You can only call this operation from the management account or a mem- ber account that is a delegated administrator. See also: AWS API Documentation
+    /// Updates an existing policy with a new name, description, or content. If you don't supply any parameter, that value remains unchanged. You can't change a policy's type. You can only call this operation from the management account or a member account that is a delegated administrator. See also: AWS API Documentation
     /// </summary>
-    /// <param name="PolicyId">ID for the policy that you want to update. The regex pattern for a policy ID string requires "p-" followed by from 8 to 128 lowercase or uppercase letters, digits, or the under- score character (_). Constraints: o max: 130 o pattern: ^p-[0-9a-zA-Z_]{8,128}$</param>
+    /// <param name="PolicyId">ID for the policy that you want to update. The regex pattern for a policy ID string requires "p-" followed by from 8 to 128 lowercase or uppercase letters, digits, or the underscore character (_). Constraints: • max: 130 • pattern: ^p-[0-9a-zA-Z_]{8,128}$</param>
     public AwsOrganizationsUpdatePolicyOptions(
         string PolicyId
     )
@@ -56,25 +57,25 @@ public record AwsOrganizationsUpdatePolicyOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// ID for the policy that you want to update. The regex pattern for a policy ID string requires "p-" followed by from 8 to 128 lowercase or uppercase letters, digits, or the under- score character (_). Constraints: o max: 130 o pattern: ^p-[0-9a-zA-Z_]{8,128}$
+    /// ID for the policy that you want to update. The regex pattern for a policy ID string requires "p-" followed by from 8 to 128 lowercase or uppercase letters, digits, or the underscore character (_). Constraints: • max: 130 • pattern: ^p-[0-9a-zA-Z_]{8,128}$
     /// </summary>
     [CliOption("--policy-id")]
     public string? PolicyId { get; private init; }
 
     /// <summary>
-    /// If provided, the new name for the policy. The regex pattern that is used to validate this parameter is a string of any of the characters in the ASCII character range. Constraints: o min: 1 o max: 128 o pattern: [\s\S]*
+    /// If provided, the new name for the policy. The regex pattern that is used to validate this parameter is a string of any of the characters in the ASCII character range. Constraints: • min: 1 • max: 128 • pattern: [\s\S]*
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
 
     /// <summary>
-    /// If provided, the new description for the policy. Constraints: o max: 512 o pattern: [\s\S]*
+    /// If provided, the new description for the policy. Constraints: • max: 512 • pattern: [\s\S]*
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// If provided, the new content for the policy. The text must be cor- rectly formatted JSON that complies with the syntax for the policy's type. For more information, see SCP syntax in the Organizations User Guide . The maximum size of a policy document depends on the policy's type. For more information, see Maximum and minimum values in the Organi- zations User Guide . Constraints: o min: 1 o pattern: [\s\S]*
+    /// If provided, the new content for the policy. The text must be correctly formatted JSON that complies with the syntax for the policy's type. For more information, see SCP syntax in the Organizations User Guide . The maximum size of a policy document depends on the policy's type. For more information, see Maximum and minimum values in the Organizations User Guide . Constraints: • min: 1 • pattern: [\s\S]*
     /// </summary>
     [CliOption("--content")]
     public string? Content { get; set; }
@@ -100,6 +101,15 @@ public record AwsOrganizationsUpdatePolicyOptions : AwsOptions, IValidatableObje
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

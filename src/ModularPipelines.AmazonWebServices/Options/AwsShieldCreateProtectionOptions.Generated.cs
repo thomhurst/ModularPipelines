@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Enables Shield Advanced for a specific Amazon Web Services resource. The resource can be an Amazon CloudFront distribution, Amazon Route 53 hosted zone, Global Accelerator standard accelerator, Elastic IP Ad- dress, Application Load Balancer, or a Classic Load Balancer. You can protect Amazon EC2 instances and Network Load Balancers by association with protected Amazon EC2 Elastic IP addresses. You can add protection to only a single resource with each CreatePro- tection request. You can add pro...
+/// Enables Shield Advanced for a specific Amazon Web Services resource. The resource can be an Amazon CloudFront distribution, Amazon Route 53 hosted zone, Global Accelerator standard accelerator, Elastic IP Address, Application Load Balancer, or a Classic Load Balancer. You can protect Amazon EC2 instances and Network Load Balancers by association with protected Amazon EC2 Elastic IP addresses. You can add protection to only a single resource with each CreateProtection request. You can add protect...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsShieldCreateProtectionOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Enables Shield Advanced for a specific Amazon Web Services resource. The resource can be an Amazon CloudFront distribution, Amazon Route 53 hosted zone, Global Accelerator standard accelerator, Elastic IP Ad- dress, Application Load Balancer, or a Classic Load Balancer. You can protect Amazon EC2 instances and Network Load Balancers by association with protected Amazon EC2 Elastic IP addresses. You can add protection to only a single resource with each CreatePro- tection request. You can add pro...
+    /// Enables Shield Advanced for a specific Amazon Web Services resource. The resource can be an Amazon CloudFront distribution, Amazon Route 53 hosted zone, Global Accelerator standard accelerator, Elastic IP Address, Application Load Balancer, or a Classic Load Balancer. You can protect Amazon EC2 instances and Network Load Balancers by association with protected Amazon EC2 Elastic IP addresses. You can add protection to only a single resource with each CreateProtection request. You can add protect...
     /// </summary>
-    /// <param name="Name">Friendly name for the Protection you are creating. Constraints: o min: 1 o max: 128 o pattern: [ a-zA-Z0-9_\\.\\-]*</param>
-    /// <param name="ResourceArn">The ARN (Amazon Resource Name) of the resource to be protected. The ARN should be in one of the following formats: o For an Application Load Balancer: `` arn:aws:elasticloadbalancing:region :account-id :loadbal- ancer/app/load-balancer-name /load-balancer-id `` System Message: WARNING/2 (&lt;string&gt;:, line 105) Inline literal start-string without end-string. o For an Elastic Load Balancer (Classic Load Balancer): `` arn:aws:elasticloadbalancing:region :account-id :loadbal- ancer/load-balancer-name `` System Message: WARNING/2 (&lt;string&gt;:, line 107) Inline literal start-string without end-string. o For an Amazon CloudFront distribution: `` arn:aws:cloudfront::account-id :distribution/distribution-id `` System Message: WARNING/2 (&lt;string&gt;:, line 109) Inline literal start-string without end-string. o For an Global Accelerator standard accelerator: `` arn:aws:globalaccelerator::account-id :accelerator/accelerator-id `` System Message: WARNING/2 (&lt;string&gt;:, line 111) Inline literal start-string without end-string. o For Amazon Route 53: `` arn:aws:route53:::hostedzone/hosted-zone-id `` System Message: WARNING/2 (&lt;string&gt;:, line 113) Inline literal start-string without end-string. o For an Elastic IP address: `` arn:aws:ec2:region :account-id :eip-allocation/allocation-id `` System Message: WARNING/2 (&lt;string&gt;:, line 115) Inline literal start-string without end-string. Constraints: o min: 1 o max: 2048 o pattern: ^arn:aws.*</param>
+    /// <param name="Name">Friendly name for the Protection you are creating. Constraints: • min: 1 • max: 128 • pattern: [ a-zA-Z0-9_\\.\\-]*</param>
+    /// <param name="ResourceArn">The ARN (Amazon Resource Name) of the resource to be protected. The ARN should be in one of the following formats: • For an Application Load Balancer: `` arn:aws:elasticloadbalancing:region :account-id :loadbalancer/app/load-balancer-name /load-balancer-id `` System Message: WARNING/2 (&lt;string&gt;:, line 105) Inline literal start-string without end-string. • For an Elastic Load Balancer (Classic Load Balancer): `` arn:aws:elasticloadbalancing:region :account-id :loadbalancer/load-balancer-name `` System Message: WARNING/2 (&lt;string&gt;:, line 107) Inline literal start-string without end-string. • For an Amazon CloudFront distribution: `` arn:aws:cloudfront::account-id :distribution/distribution-id `` System Message: WARNING/2 (&lt;string&gt;:, line 109) Inline literal start-string without end-string. • For an Global Accelerator standard accelerator: `` arn:aws:globalaccelerator::account-id :accelerator/accelerator-id `` System Message: WARNING/2 (&lt;string&gt;:, line 111) Inline literal start-string without end-string. • For Amazon Route 53: `` arn:aws:route53:::hostedzone/hosted-zone-id `` System Message: WARNING/2 (&lt;string&gt;:, line 113) Inline literal start-string without end-string. • For an Elastic IP address: `` arn:aws:ec2:region :account-id :eip-allocation/allocation-id `` System Message: WARNING/2 (&lt;string&gt;:, line 115) Inline literal start-string without end-string. Constraints: • min: 1 • max: 2048 • pattern: ^arn:aws.*</param>
     public AwsShieldCreateProtectionOptions(
         string Name,
         string ResourceArn
@@ -60,19 +61,19 @@ public record AwsShieldCreateProtectionOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Friendly name for the Protection you are creating. Constraints: o min: 1 o max: 128 o pattern: [ a-zA-Z0-9_\\.\\-]*
+    /// Friendly name for the Protection you are creating. Constraints: • min: 1 • max: 128 • pattern: [ a-zA-Z0-9_\\.\\-]*
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The ARN (Amazon Resource Name) of the resource to be protected. The ARN should be in one of the following formats: o For an Application Load Balancer: `` arn:aws:elasticloadbalancing:region :account-id :loadbal- ancer/app/load-balancer-name /load-balancer-id `` System Message: WARNING/2 (&lt;string&gt;:, line 105) Inline literal start-string without end-string. o For an Elastic Load Balancer (Classic Load Balancer): `` arn:aws:elasticloadbalancing:region :account-id :loadbal- ancer/load-balancer-name `` System Message: WARNING/2 (&lt;string&gt;:, line 107) Inline literal start-string without end-string. o For an Amazon CloudFront distribution: `` arn:aws:cloudfront::account-id :distribution/distribution-id `` System Message: WARNING/2 (&lt;string&gt;:, line 109) Inline literal start-string without end-string. o For an Global Accelerator standard accelerator: `` arn:aws:globalaccelerator::account-id :accelerator/accelerator-id `` System Message: WARNING/2 (&lt;string&gt;:, line 111) Inline literal start-string without end-string. o For Amazon Route 53: `` arn:aws:route53:::hostedzone/hosted-zone-id `` System Message: WARNING/2 (&lt;string&gt;:, line 113) Inline literal start-string without end-string. o For an Elastic IP address: `` arn:aws:ec2:region :account-id :eip-allocation/allocation-id `` System Message: WARNING/2 (&lt;string&gt;:, line 115) Inline literal start-string without end-string. Constraints: o min: 1 o max: 2048 o pattern: ^arn:aws.*
+    /// The ARN (Amazon Resource Name) of the resource to be protected. The ARN should be in one of the following formats: • For an Application Load Balancer: `` arn:aws:elasticloadbalancing:region :account-id :loadbalancer/app/load-balancer-name /load-balancer-id `` System Message: WARNING/2 (&lt;string&gt;:, line 105) Inline literal start-string without end-string. • For an Elastic Load Balancer (Classic Load Balancer): `` arn:aws:elasticloadbalancing:region :account-id :loadbalancer/load-balancer-name `` System Message: WARNING/2 (&lt;string&gt;:, line 107) Inline literal start-string without end-string. • For an Amazon CloudFront distribution: `` arn:aws:cloudfront::account-id :distribution/distribution-id `` System Message: WARNING/2 (&lt;string&gt;:, line 109) Inline literal start-string without end-string. • For an Global Accelerator standard accelerator: `` arn:aws:globalaccelerator::account-id :accelerator/accelerator-id `` System Message: WARNING/2 (&lt;string&gt;:, line 111) Inline literal start-string without end-string. • For Amazon Route 53: `` arn:aws:route53:::hostedzone/hosted-zone-id `` System Message: WARNING/2 (&lt;string&gt;:, line 113) Inline literal start-string without end-string. • For an Elastic IP address: `` arn:aws:ec2:region :account-id :eip-allocation/allocation-id `` System Message: WARNING/2 (&lt;string&gt;:, line 115) Inline literal start-string without end-string. Constraints: • min: 1 • max: 2048 • pattern: ^arn:aws.*
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
 
     /// <summary>
-    /// One or more tag key-value pairs for the Protection object that is created. Constraints: o min: 0 o max: 200 (structure) A tag associated with an Amazon Web Services resource. Tags are key:value pairs that you can use to categorize and manage your resources, for purposes like billing or other management. Typi- cally, the tag key represents a category, such as "environment", and the tag value represents a specific value within that cate- gory, such as "test," "development," or "production". Or you might set the tag key to "customer" and the value to the cus- tomer name or ID. You can specify one or more tags to add to each Amazon Web Services resource, up to 50 tags for a resource. Key -&gt; (string) Part of the key:value pair that defines a tag. You can use a tag key to describe a category of information, such as "cus- tomer." Tag keys are case-sensitive. Constraints: o min: 1 o max: 128 Value -&gt; (string) Part of the key:value pair that defines a tag. You can use a tag value to describe a specific value within a category, such as "companyA" or "companyB." Tag values are case-sensi- tive. Constraints: o min: 0 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// One or more tag key-value pairs for the Protection object that is created. Constraints: • min: 0 • max: 200 (structure) A tag associated with an Amazon Web Services resource. Tags are key:value pairs that you can use to categorize and manage your resources, for purposes like billing or other management. Typically, the tag key represents a category, such as "environment", and the tag value represents a specific value within that category, such as "test," "development," or "production". Or you might set the tag key to "customer" and the value to the customer name or ID. You can specify one or more tags to add to each Amazon Web Services resource, up to 50 tags for a resource. Key -&gt; (string) Part of the key:value pair that defines a tag. You can use a tag key to describe a category of information, such as "customer." Tag keys are case-sensitive. Constraints: • min: 1 • max: 128 Value -&gt; (string) Part of the key:value pair that defines a tag. You can use a tag value to describe a specific value within a category, such as "companyA" or "companyB." Tag values are case-sensitive. Constraints: • min: 0 • max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
@@ -98,6 +99,15 @@ public record AwsShieldCreateProtectionOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,13 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Defines the information necessary to create an audience model. An audi- ence model is a machine learning model that Clean Rooms ML trains to measure similarity between users. Clean Rooms ML manages training and storing the audience model. The audience model can be used in multiple calls to the StartAudienceGenerationJob API. See also: AWS API Documentation
+/// Defines the information necessary to create an audience model. An audience model is a machine learning model that Clean Rooms ML trains to measure similarity between users. Clean Rooms ML manages training and storing the audience model. The audience model can be used in multiple calls to the StartAudienceGenerationJob API. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +26,10 @@ public record AwsCleanroomsmlCreateAudienceModelOptions : AwsOptions, IValidatab
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Defines the information necessary to create an audience model. An audi- ence model is a machine learning model that Clean Rooms ML trains to measure similarity between users. Clean Rooms ML manages training and storing the audience model. The audience model can be used in multiple calls to the StartAudienceGenerationJob API. See also: AWS API Documentation
+    /// Defines the information necessary to create an audience model. An audience model is a machine learning model that Clean Rooms ML trains to measure similarity between users. Clean Rooms ML manages training and storing the audience model. The audience model can be used in multiple calls to the StartAudienceGenerationJob API. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">The name of the audience model resource. Constraints: o min: 1 o max: 63 o pattern: (?!\s*$)[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDBFF-\uDC00\uDFFF\t]*</param>
-    /// <param name="TrainingDataSetArn">The Amazon Resource Name (ARN) of the training dataset for this au- dience model. Constraints: o min: 20 o max: 2048 o pattern: arn:aws[-a-z]*:cleanrooms-ml:[-a-z0-9]+:[0-9]{12}:train- ing-dataset/[-a-zA-Z0-9_/.]+</param>
+    /// <param name="Name">The name of the audience model resource. Constraints: • min: 1 • max: 63 • pattern: (?!\s*$)[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDBFF-\uDC00\uDFFF\t]*</param>
+    /// <param name="TrainingDataSetArn">The Amazon Resource Name (ARN) of the training dataset for this audience model. Constraints: • min: 20 • max: 2048 • pattern: arn:aws[-a-z]*:cleanrooms-ml:[-a-z0-9]+:[0-9]{12}:training-dataset/[-a-zA-Z0-9_/.]+</param>
     public AwsCleanroomsmlCreateAudienceModelOptions(
         string Name,
         string TrainingDataSetArn
@@ -61,13 +61,13 @@ public record AwsCleanroomsmlCreateAudienceModelOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the audience model resource. Constraints: o min: 1 o max: 63 o pattern: (?!\s*$)[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDBFF-\uDC00\uDFFF\t]*
+    /// The name of the audience model resource. Constraints: • min: 1 • max: 63 • pattern: (?!\s*$)[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDBFF-\uDC00\uDFFF\t]*
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the training dataset for this au- dience model. Constraints: o min: 20 o max: 2048 o pattern: arn:aws[-a-z]*:cleanrooms-ml:[-a-z0-9]+:[0-9]{12}:train- ing-dataset/[-a-zA-Z0-9_/.]+
+    /// The Amazon Resource Name (ARN) of the training dataset for this audience model. Constraints: • min: 20 • max: 2048 • pattern: arn:aws[-a-z]*:cleanrooms-ml:[-a-z0-9]+:[0-9]{12}:training-dataset/[-a-zA-Z0-9_/.]+
     /// </summary>
     [CliOption("--training-dataset-arn")]
     public string? TrainingDataSetArn { get; private init; }
@@ -85,19 +85,19 @@ public record AwsCleanroomsmlCreateAudienceModelOptions : AwsOptions, IValidatab
     public string? TrainingDataEndTime { get; set; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the KMS key. This key is used to encrypt and decrypt customer-owned data in the trained ML model and the associated data. Constraints: o min: 20 o max: 2048 o pattern: arn:aws[-a-z]*:kms:[-a-z0-9]+:[0-9]{12}:key/.+
+    /// The Amazon Resource Name (ARN) of the KMS key. This key is used to encrypt and decrypt customer-owned data in the trained ML model and the associated data. Constraints: • min: 20 • max: 2048 • pattern: arn:aws[-a-z]*:kms:[-a-z0-9]+:[0-9]{12}:key/.+
     /// </summary>
     [CliOption("--kms-key-arn")]
     public string? KmsKeyArn { get; set; }
 
     /// <summary>
-    /// The optional metadata that you apply to the resource to help you categorize and organize them. Each tag consists of a key and an op- tional value, both of which you define. The following basic restrictions apply to tags: o Maximum number of tags per resource - 50. o For each resource, each tag key must be unique, and each tag key can have only one value. o Maximum key length - 128 Unicode characters in UTF-8. o Maximum value length - 256 Unicode characters in UTF-8. o If your tagging schema is used across multiple services and re- sources, remember that other services may have restrictions on al- lowed characters. Generally allowed characters are: letters, num- bers, and spaces representable in UTF-8, and the following charac- ters: + - = . _ : / @. o Tag keys and values are case sensitive. o Do not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for keys as it is reserved for AWS use. You can- not edit or delete tag keys with this prefix. Values can have this prefix. If a tag value has aws as its prefix but the key does not, then Clean Rooms ML considers it to be a user tag and will count against the limit of 50 tags. Tags with only the key prefix of aws do not count against your tags per resource limit. Constraints: o min: 0 o max: 200 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The optional metadata that you apply to the resource to help you categorize and organize them. Each tag consists of a key and an optional value, both of which you define. The following basic restrictions apply to tags: • Maximum number of tags per resource - 50. • For each resource, each tag key must be unique, and each tag key can have only one value. • Maximum key length - 128 Unicode characters in UTF-8. • Maximum value length - 256 Unicode characters in UTF-8. • If your tagging schema is used across multiple services and resources, remember that other services may have restrictions on allowed characters. Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following characters: + - = . _ : / @. • Tag keys and values are case sensitive. • Do not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for keys as it is reserved for AWS use. You cannot edit or delete tag keys with this prefix. Values can have this prefix. If a tag value has aws as its prefix but the key does not, then Clean Rooms ML considers it to be a user tag and will count against the limit of 50 tags. Tags with only the key prefix of aws do not count against your tags per resource limit. Constraints: • min: 0 • max: 200 key -&gt; (string) Constraints: • min: 1 • max: 128 value -&gt; (string) Constraints: • min: 0 • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>
-    /// The description of the audience model. Constraints: o min: 0 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDBFF-\uDC00\uDFFF\t\r\n]*
+    /// The description of the audience model. Constraints: • min: 0 • max: 255 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDBFF-\uDC00\uDFFF\t\r\n]*
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
@@ -123,6 +123,15 @@ public record AwsCleanroomsmlCreateAudienceModelOptions : AwsOptions, IValidatab
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

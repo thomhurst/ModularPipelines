@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,9 +29,9 @@ public record AwsDatazoneUpdateSubscriptionTargetOptions : AwsOptions, IValidata
     /// <summary>
     /// Updates the specified subscription target in Amazon DataZone. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DomainIdentifier">The identifier of the Amazon DataZone domain in which a subscription target is to be updated. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}</param>
-    /// <param name="EnvironmentIdentifier">The identifier of the environment in which a subscription target is to be updated. Constraints: o pattern: [a-zA-Z0-9_-]{1,36}</param>
-    /// <param name="Identifier">Identifier of the subscription target that is to be updated. Constraints: o pattern: [a-zA-Z0-9_-]{1,36}</param>
+    /// <param name="DomainIdentifier">The identifier of the Amazon DataZone domain in which a subscription target is to be updated. Constraints: • pattern: dzd[-_][a-zA-Z0-9_-]{1,36}</param>
+    /// <param name="EnvironmentIdentifier">The identifier of the environment in which a subscription target is to be updated. Constraints: • pattern: [a-zA-Z0-9_-]{1,36}</param>
+    /// <param name="Identifier">Identifier of the subscription target that is to be updated. Constraints: • pattern: [a-zA-Z0-9_-]{1,36}</param>
     public AwsDatazoneUpdateSubscriptionTargetOptions(
         string DomainIdentifier,
         string EnvironmentIdentifier,
@@ -65,49 +66,49 @@ public record AwsDatazoneUpdateSubscriptionTargetOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the Amazon DataZone domain in which a subscription target is to be updated. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}
+    /// The identifier of the Amazon DataZone domain in which a subscription target is to be updated. Constraints: • pattern: dzd[-_][a-zA-Z0-9_-]{1,36}
     /// </summary>
     [CliOption("--domain-identifier")]
     public string? DomainIdentifier { get; private init; }
 
     /// <summary>
-    /// The identifier of the environment in which a subscription target is to be updated. Constraints: o pattern: [a-zA-Z0-9_-]{1,36}
+    /// The identifier of the environment in which a subscription target is to be updated. Constraints: • pattern: [a-zA-Z0-9_-]{1,36}
     /// </summary>
     [CliOption("--environment-identifier")]
     public string? EnvironmentIdentifier { get; private init; }
 
     /// <summary>
-    /// Identifier of the subscription target that is to be updated. Constraints: o pattern: [a-zA-Z0-9_-]{1,36}
+    /// Identifier of the subscription target that is to be updated. Constraints: • pattern: [a-zA-Z0-9_-]{1,36}
     /// </summary>
     [CliOption("--identifier")]
     public string? Identifier { get; private init; }
 
     /// <summary>
-    /// The name to be updated as part of the UpdateSubscriptionTarget ac- tion. Constraints: o min: 1 o max: 256
+    /// The name to be updated as part of the UpdateSubscriptionTarget action. Constraints: • min: 1 • max: 256
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
 
     /// <summary>
-    /// The authorized principals to be updated as part of the UpdateSub- scriptionTarget action. Constraints: o min: 1 o max: 20 (string) Constraints: o pattern: [a-zA-Z0-9:/._-]* Syntax: "string" "string" ...
+    /// The authorized principals to be updated as part of the UpdateSubscriptionTarget action. Constraints: • min: 1 • max: 20 (string) Constraints: • pattern: [a-zA-Z0-9:/._-]* Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--authorized-principals", GroupValues = true)]
     public IEnumerable<string>? AuthorizedPrincipals { get; set; }
 
     /// <summary>
-    /// The applicable asset types to be updated as part of the UpdateSub- scriptionTarget action. (string) Constraints: o min: 1 o max: 256 o pattern: [^\.]*.* Syntax: "string" "string" ...
+    /// The applicable asset types to be updated as part of the UpdateSubscriptionTarget action. (string) Constraints: • min: 1 • max: 256 • pattern: [^\.]*.* Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--applicable-asset-types", GroupValues = true)]
     public IEnumerable<string>? ApplicableAssetTypes { get; set; }
 
     /// <summary>
-    /// The configuration to be updated as part of the UpdateSubscription- Target action. (structure) The details of the subscription target configuration. formName -&gt; (string) [required] The form name included in the subscription target configura- tion. Constraints: o min: 1 o max: 128 o pattern: (?![0-9_])\w+$|^_\w*[a-zA-Z0-9]\w* content -&gt; (string) [required] The content of the subscription target configuration. Shorthand Syntax: formName=string,content=string ... JSON Syntax: [ { "formName": "string", "content": "string" } ... ]
+    /// The configuration to be updated as part of the UpdateSubscriptionTarget action. (structure) The details of the subscription target configuration. formName -&gt; (string) [required] The form name included in the subscription target configuration. Constraints: • min: 1 • max: 128 • pattern: (?![0-9_])\w+$|^_\w*[a-zA-Z0-9]\w* content -&gt; (string) [required] The content of the subscription target configuration. Shorthand Syntax: formName=string,content=string ... JSON Syntax: [ { "formName": "string", "content": "string" } ... ]
     /// </summary>
     [CliOption("--subscription-target-config", GroupValues = true)]
     public IEnumerable<string>? SubscriptionTargetConfig { get; set; }
 
     /// <summary>
-    /// The manage access role to be updated as part of the UpdateSubscrip- tionTarget action. Constraints: o pattern: arn:aws(|-cn|-us-gov):iam::\d{12}:(role|role/ser- vice-role)/[\w+=,.@-]*
+    /// The manage access role to be updated as part of the UpdateSubscriptionTarget action. Constraints: • pattern: arn:aws(|-cn|-us-gov):iam::\d{12}:(role|role/service-role)/[\w+=,.@-]*
     /// </summary>
     [CliOption("--manage-access-role")]
     public string? ManageAccessRole { get; set; }
@@ -119,7 +120,7 @@ public record AwsDatazoneUpdateSubscriptionTargetOptions : AwsOptions, IValidata
     public string? Provider { get; set; }
 
     /// <summary>
-    /// Determines the subscription grant creation mode for this target, defining if grants are auto-created upon subscription approval or managed manually. Possible values: o AUTOMATIC o MANUAL
+    /// Determines the subscription grant creation mode for this target, defining if grants are auto-created upon subscription approval or managed manually. Possible values: • AUTOMATIC • MANUAL
     /// </summary>
     [CliOption("--subscription-grant-creation-mode")]
     public AwsDatazoneUpdateSubscriptionTargetSubscriptionGrantCreationMode? SubscriptionGrantCreationMode { get; set; }
@@ -145,6 +146,15 @@ public record AwsDatazoneUpdateSubscriptionTargetOptions : AwsOptions, IValidata
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

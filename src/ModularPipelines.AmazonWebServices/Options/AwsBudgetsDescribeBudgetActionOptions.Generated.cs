@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,9 +28,9 @@ public record AwsBudgetsDescribeBudgetActionOptions : AwsOptions, IValidatableOb
     /// <summary>
     /// Describes a budget action detail. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AccountId">The account ID of the user. It's a 12-digit number. Constraints: o min: 12 o max: 12 o pattern: \d{12}</param>
-    /// <param name="BudgetName">A string that represents the budget name. The ":" and "" characters, and the "/action/" substring, aren't allowed. Budget names are validated for content. Names that contain phone numbers, URLs, or email addresses combined with certain terms may be rejected. Constraints: o min: 1 o max: 100 o pattern: ^(?![^:\\]*/action/|(?i).*&lt;script&gt;.*&lt;/script&gt;.*)[^:\\]+$</param>
-    /// <param name="ActionId">A system-generated universally unique identifier (UUID) for the ac- tion. Constraints: o min: 36 o max: 36 o pattern: ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$</param>
+    /// <param name="AccountId">The account ID of the user. It's a 12-digit number. Constraints: • min: 12 • max: 12 • pattern: \d{12}</param>
+    /// <param name="BudgetName">A string that represents the budget name. The ":" and "" characters, and the "/action/" substring, aren't allowed. Budget names are validated for content. Names that contain phone numbers, URLs, or email addresses combined with certain terms may be rejected. Constraints: • min: 1 • max: 100 • pattern: ^(?![^:\\]*/action/|(?i).*&lt;script&gt;.*&lt;/script&gt;.*)[^:\\]+$</param>
+    /// <param name="ActionId">A system-generated universally unique identifier (UUID) for the action. Constraints: • min: 36 • max: 36 • pattern: ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$</param>
     public AwsBudgetsDescribeBudgetActionOptions(
         string AccountId,
         string BudgetName,
@@ -64,19 +65,19 @@ public record AwsBudgetsDescribeBudgetActionOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The account ID of the user. It's a 12-digit number. Constraints: o min: 12 o max: 12 o pattern: \d{12}
+    /// The account ID of the user. It's a 12-digit number. Constraints: • min: 12 • max: 12 • pattern: \d{12}
     /// </summary>
     [CliOption("--account-id")]
     public string? AccountId { get; private init; }
 
     /// <summary>
-    /// A string that represents the budget name. The ":" and "" characters, and the "/action/" substring, aren't allowed. Budget names are validated for content. Names that contain phone numbers, URLs, or email addresses combined with certain terms may be rejected. Constraints: o min: 1 o max: 100 o pattern: ^(?![^:\\]*/action/|(?i).*&lt;script&gt;.*&lt;/script&gt;.*)[^:\\]+$
+    /// A string that represents the budget name. The ":" and "" characters, and the "/action/" substring, aren't allowed. Budget names are validated for content. Names that contain phone numbers, URLs, or email addresses combined with certain terms may be rejected. Constraints: • min: 1 • max: 100 • pattern: ^(?![^:\\]*/action/|(?i).*&lt;script&gt;.*&lt;/script&gt;.*)[^:\\]+$
     /// </summary>
     [CliOption("--budget-name")]
     public string? BudgetName { get; private init; }
 
     /// <summary>
-    /// A system-generated universally unique identifier (UUID) for the ac- tion. Constraints: o min: 36 o max: 36 o pattern: ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$
+    /// A system-generated universally unique identifier (UUID) for the action. Constraints: • min: 36 • max: 36 • pattern: ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$
     /// </summary>
     [CliOption("--action-id")]
     public string? ActionId { get; private init; }
@@ -102,6 +103,15 @@ public record AwsBudgetsDescribeBudgetActionOptions : AwsOptions, IValidatableOb
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

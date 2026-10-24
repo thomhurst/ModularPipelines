@@ -10,13 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// This API works with the following fleet types: EC2, Anywhere, Con- tainer Reserves open slots in a game session for a group of players. New player sessions can be created in any game session with an open slot that is in ACTIVE status and has a player creation policy of ACCEPT_ALL . To add a single player to a game session, use CreatePlayerSession To create player sessions, specify a game session ID and a list of player IDs. Optionally, provide a set of player data for each player ID. If successf...
+/// This API works with the following fleet types: EC2, Anywhere, Container Reserves open slots in a game session for a group of players. New player sessions can be created in any game session with an open slot that is in ACTIVE status and has a player creation policy of ACCEPT_ALL . To add a single player to a game session, use CreatePlayerSession To create player sessions, specify a game session ID and a list of player IDs. Optionally, provide a set of player data for each player ID. If successful...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +26,10 @@ public record AwsGameliftCreatePlayerSessionsOptions : AwsOptions, IValidatableO
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// This API works with the following fleet types: EC2, Anywhere, Con- tainer Reserves open slots in a game session for a group of players. New player sessions can be created in any game session with an open slot that is in ACTIVE status and has a player creation policy of ACCEPT_ALL . To add a single player to a game session, use CreatePlayerSession To create player sessions, specify a game session ID and a list of player IDs. Optionally, provide a set of player data for each player ID. If successf...
+    /// This API works with the following fleet types: EC2, Anywhere, Container Reserves open slots in a game session for a group of players. New player sessions can be created in any game session with an open slot that is in ACTIVE status and has a player creation policy of ACCEPT_ALL . To add a single player to a game session, use CreatePlayerSession To create player sessions, specify a game session ID and a list of player IDs. Optionally, provide a set of player data for each player ID. If successful...
     /// </summary>
-    /// <param name="GameSessionId">An identifier for the game session that is unique across all regions to add players to. The value is always a full ARN in the following format: For Home Region game session - arn:aws:gamelift:&lt;home_re- gion&gt;::gamesession/&lt;fleet ID&gt;/&lt;ID string&gt; . For Remote Location game session - arn:aws:gamelift:&lt;home_region&gt;::gamesession/&lt;fleet ID&gt;/&lt;location&gt;/&lt;ID string&gt; . Constraints: o min: 1 o max: 512 o pattern: ^[a-zA-Z0-9:/-]+$</param>
-    /// <param name="PlayerIds">List of unique identifiers for the players to be added. Constraints: o min: 1 o max: 25 (string) Constraints: o min: 1 o max: 1024 Syntax: "string" "string" ...</param>
+    /// <param name="GameSessionId">An identifier for the game session that is unique across all regions to add players to. The value is always a full ARN in the following format: For Home Region game session - arn:aws:gamelift:&lt;home_region&gt;::gamesession/&lt;fleet ID&gt;/&lt;ID string&gt; . For Remote Location game session - arn:aws:gamelift:&lt;home_region&gt;::gamesession/&lt;fleet ID&gt;/&lt;location&gt;/&lt;ID string&gt; . Constraints: • min: 1 • max: 512 • pattern: ^[a-zA-Z0-9:/-]+$</param>
+    /// <param name="PlayerIds">List of unique identifiers for the players to be added. Constraints: • min: 1 • max: 25 (string) Constraints: • min: 1 • max: 1024 Syntax: "string" "string" ...</param>
     public AwsGameliftCreatePlayerSessionsOptions(
         string GameSessionId,
         IEnumerable<string> PlayerIds
@@ -72,19 +72,19 @@ public record AwsGameliftCreatePlayerSessionsOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// An identifier for the game session that is unique across all regions to add players to. The value is always a full ARN in the following format: For Home Region game session - arn:aws:gamelift:&lt;home_re- gion&gt;::gamesession/&lt;fleet ID&gt;/&lt;ID string&gt; . For Remote Location game session - arn:aws:gamelift:&lt;home_region&gt;::gamesession/&lt;fleet ID&gt;/&lt;location&gt;/&lt;ID string&gt; . Constraints: o min: 1 o max: 512 o pattern: ^[a-zA-Z0-9:/-]+$
+    /// An identifier for the game session that is unique across all regions to add players to. The value is always a full ARN in the following format: For Home Region game session - arn:aws:gamelift:&lt;home_region&gt;::gamesession/&lt;fleet ID&gt;/&lt;ID string&gt; . For Remote Location game session - arn:aws:gamelift:&lt;home_region&gt;::gamesession/&lt;fleet ID&gt;/&lt;location&gt;/&lt;ID string&gt; . Constraints: • min: 1 • max: 512 • pattern: ^[a-zA-Z0-9:/-]+$
     /// </summary>
     [CliOption("--game-session-id")]
     public string? GameSessionId { get; private init; }
 
     /// <summary>
-    /// List of unique identifiers for the players to be added. Constraints: o min: 1 o max: 25 (string) Constraints: o min: 1 o max: 1024 Syntax: "string" "string" ...
+    /// List of unique identifiers for the players to be added. Constraints: • min: 1 • max: 25 (string) Constraints: • min: 1 • max: 1024 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--player-ids", GroupValues = true)]
     public IEnumerable<string>? PlayerIds { get; private init; }
 
     /// <summary>
-    /// Map of string pairs, each specifying a player ID and a set of devel- oper-defined information related to the player. Amazon GameLift Servers does not use this data, so it can be formatted as needed for use in the game. Any player data strings for player IDs that are not included in the PlayerIds parameter are ignored. key -&gt; (string) Constraints: o min: 1 o max: 1024 value -&gt; (string) Constraints: o min: 1 o max: 2048 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// Map of string pairs, each specifying a player ID and a set of developer-defined information related to the player. Amazon GameLift Servers does not use this data, so it can be formatted as needed for use in the game. Any player data strings for player IDs that are not included in the PlayerIds parameter are ignored. key -&gt; (string) Constraints: • min: 1 • max: 1024 value -&gt; (string) Constraints: • min: 1 • max: 2048 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--player-data-map", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? PlayerDataMap { get; set; }
@@ -110,6 +110,15 @@ public record AwsGameliftCreatePlayerSessionsOptions : AwsOptions, IValidatableO
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Associates Elastic IP addresses (EIPs) and private IPv4 addresses with a public NAT gateway. For more information, see Work with NAT gateways in the Amazon VPC User Guide . By default, you can associate up to 2 Elastic IP addresses per public NAT gateway. You can increase the limit by requesting a quota adjust- ment. For more information, see Elastic IP address quotas in the Amazon VPC User Guide . WARNING: When you associate an EIP or secondary EIPs with a public NAT gate- way, the network bord...
+/// Associates Elastic IP addresses (EIPs) and private IPv4 addresses with a public NAT gateway. For more information, see Work with NAT gateways in the Amazon VPC User Guide . By default, you can associate up to 2 Elastic IP addresses per public NAT gateway. You can increase the limit by requesting a quota adjustment. For more information, see Elastic IP address quotas in the Amazon VPC User Guide . WARNING: When you associate an EIP or secondary EIPs with a public NAT gateway, the network border g...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +26,7 @@ public record AwsEc2AssociateNatGatewayAddressOptions : AwsOptions, IValidatable
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Associates Elastic IP addresses (EIPs) and private IPv4 addresses with a public NAT gateway. For more information, see Work with NAT gateways in the Amazon VPC User Guide . By default, you can associate up to 2 Elastic IP addresses per public NAT gateway. You can increase the limit by requesting a quota adjust- ment. For more information, see Elastic IP address quotas in the Amazon VPC User Guide . WARNING: When you associate an EIP or secondary EIPs with a public NAT gate- way, the network bord...
+    /// Associates Elastic IP addresses (EIPs) and private IPv4 addresses with a public NAT gateway. For more information, see Work with NAT gateways in the Amazon VPC User Guide . By default, you can associate up to 2 Elastic IP addresses per public NAT gateway. You can increase the limit by requesting a quota adjustment. For more information, see Elastic IP address quotas in the Amazon VPC User Guide . WARNING: When you associate an EIP or secondary EIPs with a public NAT gateway, the network border g...
     /// </summary>
     /// <param name="NatGatewayId">The ID of the NAT gateway.</param>
     /// <param name="AllocationIds">The allocation IDs of EIPs that you want to associate with your NAT gateway. (string) Syntax: "string" "string" ...</param>
@@ -83,13 +84,13 @@ public record AwsEc2AssociateNatGatewayAddressOptions : AwsOptions, IValidatable
     public IEnumerable<string>? AllocationIds { get; private init; }
 
     /// <summary>
-    /// The private IPv4 addresses that you want to assign to the NAT gate- way. (string) Syntax: "string" "string" ...
+    /// The private IPv4 addresses that you want to assign to the NAT gateway. (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--private-ip-addresses", GroupValues = true)]
     public IEnumerable<string>? PrivateIpAddresses { get; set; }
 
     /// <summary>
-    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation . Otherwise, it is UnauthorizedOperation .
     /// </summary>
     [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
@@ -101,7 +102,7 @@ public record AwsEc2AssociateNatGatewayAddressOptions : AwsOptions, IValidatable
     public string? AvailabilityZone { get; set; }
 
     /// <summary>
-    /// For regional NAT gateways only: The ID of the Availability Zone where you want to associate an Elastic IP address (EIP). The re- gional NAT gateway uses a separate EIP in each AZ to handle outbound NAT traffic from that AZ. Use this instead of AvailabilityZone for consistent identification of AZs across Amazon Web Services Regions. A regional NAT gateway is a single NAT Gateway that works across multiple availability zones (AZs) in your VPC, providing redundancy, scalability and availability across all the AZs in a Region.
+    /// For regional NAT gateways only: The ID of the Availability Zone where you want to associate an Elastic IP address (EIP). The regional NAT gateway uses a separate EIP in each AZ to handle outbound NAT traffic from that AZ. Use this instead of AvailabilityZone for consistent identification of AZs across Amazon Web Services Regions. A regional NAT gateway is a single NAT Gateway that works across multiple availability zones (AZs) in your VPC, providing redundancy, scalability and availability across all the AZs in a Region.
     /// </summary>
     [CliOption("--availability-zone-id")]
     public string? AvailabilityZoneId { get; set; }
@@ -127,6 +128,15 @@ public record AwsEc2AssociateNatGatewayAddressOptions : AwsOptions, IValidatable
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

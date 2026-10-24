@@ -15,7 +15,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns a list of Fragment objects from the specified stream and time- stamp range within the archived data. Listing fragments is eventually consistent. This means that even if the producer receives an acknowledgment that a fragment is persisted, the result might not be returned immediately from a request to ListFrag- ments . However, results are typically available in less than one sec- ond. NOTE: You must first call the GetDataEndpoint API to get an endpoint. Then send the ListFragments reques...
+/// Returns a list of Fragment objects from the specified stream and timestamp range within the archived data. Listing fragments is eventually consistent. This means that even if the producer receives an acknowledgment that a fragment is persisted, the result might not be returned immediately from a request to ListFragments . However, results are typically available in less than one second. NOTE: You must first call the GetDataEndpoint API to get an endpoint. Then send the ListFragments requests to ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -23,28 +23,25 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsKinesisVideoArchivedMediaListFragmentsOptions : AwsOptions
 {
     /// <summary>
-    /// The name of the stream from which to retrieve a fragment list. Spec- ify either this parameter or the StreamARN parameter. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9_.-]+
+    /// The name of the stream from which to retrieve a fragment list. Specify either this parameter or the StreamARN parameter. Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9_.-]+
     /// </summary>
     [CliOption("--stream-name")]
     public string? StreamName { get; set; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the stream from which to retrieve a fragment list. Specify either this parameter or the StreamName pa- rameter. Constraints: o min: 1 o max: 1024 o pattern: arn:[a-z\d-]+:kine- sisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+
+    /// The Amazon Resource Name (ARN) of the stream from which to retrieve a fragment list. Specify either this parameter or the StreamName parameter. Constraints: • min: 1 • max: 1024 • pattern: arn:[a-z\d-]+:kinesisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+
     /// </summary>
     [CliOption("--stream-arn")]
     public string? StreamArn { get; set; }
 
     /// <summary>
-    /// Describes the timestamp range and timestamp origin for the range of fragments to return. NOTE: This is only required when the NextToken isn't passed in the API. FragmentSelectorType -&gt; (string) [required] The origin of the timestamps to use (Server or Producer). Possible values: o PRODUCER_TIMESTAMP o SERVER_TIMESTAMP TimestampRange -&gt; (structure) [required] The range of timestamps to return. StartTimestamp -&gt; (timestamp) [required] The starting timestamp in the range of timestamps for which to return fragments. EndTimestamp -&gt; (timestamp) [required] The ending timestamp in the range of timestamps for which to return fragments. Shorthand Syntax: FragmentSelectorType=string,TimestampRange={StartTimestamp=timestamp,EndTimestamp=timestamp} JSON Syntax: { "FragmentSelectorType": "PRODUCER_TIMESTAMP"|"SERVER_TIMESTAMP", "TimestampRange": { "StartTimestamp": timestamp, "EndTimestamp": timestamp } }
+    /// Describes the timestamp range and timestamp origin for the range of fragments to return. NOTE: This is only required when the NextToken isn't passed in the API. FragmentSelectorType -&gt; (string) [required] The origin of the timestamps to use (Server or Producer). Possible values: • PRODUCER_TIMESTAMP • SERVER_TIMESTAMP TimestampRange -&gt; (structure) [required] The range of timestamps to return. StartTimestamp -&gt; (timestamp) [required] The starting timestamp in the range of timestamps for which to return fragments. EndTimestamp -&gt; (timestamp) [required] The ending timestamp in the range of timestamps for which to return fragments. Shorthand Syntax: FragmentSelectorType=string,TimestampRange={StartTimestamp=timestamp,EndTimestamp=timestamp} JSON Syntax: { "FragmentSelectorType": "PRODUCER_TIMESTAMP"|"SERVER_TIMESTAMP", "TimestampRange": { "StartTimestamp": timestamp, "EndTimestamp": timestamp } }
     /// </summary>
     [CliOption("--fragment-selector")]
     public string? FragmentSelector { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -54,15 +51,27 @@ public record AwsKinesisVideoArchivedMediaListFragmentsOptions : AwsOptions
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 1000
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 1000
     /// </summary>
     [CliOption("--page-size")]
-    public int? PageSize { get; set; }
+    public long? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
-    public int? MaxItems { get; set; }
+    public long? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

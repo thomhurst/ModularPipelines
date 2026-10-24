@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsNetworkflowmonitorDeleteScopeOptions : AwsOptions, IValidatable
     /// <summary>
     /// Deletes a scope that has been defined. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ScopeId">The identifier for the scope that includes the resources you want to get data results for. A scope ID is an internally-generated identi- fier that includes all the resources for a specific root account.</param>
+    /// <param name="ScopeId">The identifier for the scope that includes the resources you want to get data results for. A scope ID is an internally-generated identifier that includes all the resources for a specific root account.</param>
     public AwsNetworkflowmonitorDeleteScopeOptions(
         string ScopeId
     )
@@ -56,7 +57,7 @@ public record AwsNetworkflowmonitorDeleteScopeOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier for the scope that includes the resources you want to get data results for. A scope ID is an internally-generated identi- fier that includes all the resources for a specific root account.
+    /// The identifier for the scope that includes the resources you want to get data results for. A scope ID is an internally-generated identifier that includes all the resources for a specific root account.
     /// </summary>
     [CliOption("--scope-id")]
     public string? ScopeId { get; private init; }
@@ -82,6 +83,15 @@ public record AwsNetworkflowmonitorDeleteScopeOptions : AwsOptions, IValidatable
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

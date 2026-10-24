@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,8 +29,8 @@ public record AwsRoute53resolverCreateResolverRuleOptions : AwsOptions, IValidat
     /// <summary>
     /// For DNS queries that originate in your VPCs, specifies which Resolver endpoint the queries pass through, one domain name that you want to forward to your network, and the IP addresses of the DNS resolvers in your network. See also: AWS API Documentation
     /// </summary>
-    /// <param name="CreatorRequestId">A unique string that identifies the request and that allows failed requests to be retried without the risk of running the operation twice. CreatorRequestId can be any unique string, for example, a date/time stamp. Constraints: o min: 1 o max: 255</param>
-    /// <param name="RuleType">When you want to forward DNS queries for specified domain name to resolvers on your network, specify FORWARD or DELEGATE . When you have a forwarding rule to forward DNS queries for a domain to your network and you want Resolver to process queries for a sub- domain of that domain, specify SYSTEM . For example, to forward DNS queries for example.com to resolvers on your network, you create a rule and specify FORWARD for RuleType . To then have Resolver process queries for apex.example.com, you cre- ate a rule and specify SYSTEM for RuleType . Currently, only Resolver can create rules that have a value of RE- CURSIVE for RuleType . Possible values: o FORWARD o SYSTEM o RECURSIVE o DELEGATE</param>
+    /// <param name="CreatorRequestId">A unique string that identifies the request and that allows failed requests to be retried without the risk of running the operation twice. CreatorRequestId can be any unique string, for example, a date/time stamp. Constraints: • min: 1 • max: 255</param>
+    /// <param name="RuleType">When you want to forward DNS queries for specified domain name to resolvers on your network, specify FORWARD or DELEGATE . When you have a forwarding rule to forward DNS queries for a domain to your network and you want Resolver to process queries for a subdomain of that domain, specify SYSTEM . For example, to forward DNS queries for example.com to resolvers on your network, you create a rule and specify FORWARD for RuleType . To then have Resolver process queries for apex.example.com, you create a rule and specify SYSTEM for RuleType . Currently, only Resolver can create rules that have a value of RECURSIVE for RuleType . Possible values: • FORWARD • SYSTEM • RECURSIVE • DELEGATE</param>
     public AwsRoute53resolverCreateResolverRuleOptions(
         string CreatorRequestId,
         AwsRoute53resolverCreateResolverRuleRuleType RuleType
@@ -60,49 +61,49 @@ public record AwsRoute53resolverCreateResolverRuleOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A unique string that identifies the request and that allows failed requests to be retried without the risk of running the operation twice. CreatorRequestId can be any unique string, for example, a date/time stamp. Constraints: o min: 1 o max: 255
+    /// A unique string that identifies the request and that allows failed requests to be retried without the risk of running the operation twice. CreatorRequestId can be any unique string, for example, a date/time stamp. Constraints: • min: 1 • max: 255
     /// </summary>
     [CliOption("--creator-request-id")]
     public string? CreatorRequestId { get; private init; }
 
     /// <summary>
-    /// When you want to forward DNS queries for specified domain name to resolvers on your network, specify FORWARD or DELEGATE . When you have a forwarding rule to forward DNS queries for a domain to your network and you want Resolver to process queries for a sub- domain of that domain, specify SYSTEM . For example, to forward DNS queries for example.com to resolvers on your network, you create a rule and specify FORWARD for RuleType . To then have Resolver process queries for apex.example.com, you cre- ate a rule and specify SYSTEM for RuleType . Currently, only Resolver can create rules that have a value of RE- CURSIVE for RuleType . Possible values: o FORWARD o SYSTEM o RECURSIVE o DELEGATE
+    /// When you want to forward DNS queries for specified domain name to resolvers on your network, specify FORWARD or DELEGATE . When you have a forwarding rule to forward DNS queries for a domain to your network and you want Resolver to process queries for a subdomain of that domain, specify SYSTEM . For example, to forward DNS queries for example.com to resolvers on your network, you create a rule and specify FORWARD for RuleType . To then have Resolver process queries for apex.example.com, you create a rule and specify SYSTEM for RuleType . Currently, only Resolver can create rules that have a value of RECURSIVE for RuleType . Possible values: • FORWARD • SYSTEM • RECURSIVE • DELEGATE
     /// </summary>
     [CliOption("--rule-type")]
     public AwsRoute53resolverCreateResolverRuleRuleType? RuleType { get; private init; }
 
     /// <summary>
-    /// A friendly name that lets you easily find a rule in the Resolver dashboard in the Route 53 console. The name can be up to 64 characters long and can contain letters (a-z, A-Z), numbers (0-9), hyphens (-), underscores (_), and spaces. The name cannot consist of only numbers. Constraints: o max: 64 o pattern: (?!^[0-9]+$)([a-zA-Z0-9\-_' ']+)
+    /// A friendly name that lets you easily find a rule in the Resolver dashboard in the Route 53 console. The name can be up to 64 characters long and can contain letters (a-z, A-Z), numbers (0-9), hyphens (-), underscores (_), and spaces. The name cannot consist of only numbers. Constraints: • max: 64 • pattern: (?!^[0-9]+$)([a-zA-Z0-9\-_' ']+)
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
 
     /// <summary>
-    /// DNS queries for this domain name are forwarded to the IP addresses that you specify in TargetIps . If a query matches multiple Resolver rules (example.com and www.example.com), outbound DNS queries are routed using the Resolver rule that contains the most specific do- main name (www.example.com). Constraints: o min: 1 o max: 256
+    /// DNS queries for this domain name are forwarded to the IP addresses that you specify in TargetIps . If a query matches multiple Resolver rules (example.com and www.example.com), outbound DNS queries are routed using the Resolver rule that contains the most specific domain name (www.example.com). Constraints: • min: 1 • max: 256
     /// </summary>
     [CliOption("--domain-name")]
     public string? DomainName { get; set; }
 
     /// <summary>
-    /// The IPs that you want Resolver to forward DNS queries to. You can specify either Ipv4 or Ipv6 addresses but not both in the same rule. Separate IP addresses with a space. TargetIps is available only when the value of Rule type is FOR- WARD . You should not provide TargetIps when the Rule type is DELEGATE . NOTE: when creating a DELEGATE rule, you must not provide the Tar- getIps parameter. If you provide the TargetIps , you may receive an ERROR message similar to "Delegate resolver rules need to specify a nameserver name". This error means you should not pro- vide TargetIps . Constraints: o min: 1 (structure) In a CreateResolverRule request, an array of the IPs that you want to forward DNS queries to. Ip -&gt; (string) One IPv4 address that you want to forward DNS queries to. Constraints: o min: 7 o max: 36 Port -&gt; (integer) The port at Ip that you want to forward DNS queries to. Constraints: o min: 0 o max: 65535 Ipv6 -&gt; (string) One IPv6 address that you want to forward DNS queries to. Constraints: o min: 7 o max: 39 Protocol -&gt; (string) The protocols for the target address. The protocol you choose needs to be supported by the outbound endpoint of the Re- solver rule. Possible values: o DoH o Do53 o DoH-FIPS ServerNameIndication -&gt; (string) The Server Name Indication of the DoH server that you want to forward queries to. This is only used if the Protocol of the TargetAddress is DoH . Constraints: o min: 0 o max: 255 Shorthand Syntax: Ip=string,Port=integer,Ipv6=string,Protocol=string,ServerNameIndication=string ... JSON Syntax: [ { "Ip": "string", "Port": integer, "Ipv6": "string", "Protocol": "DoH"|"Do53"|"DoH-FIPS", "ServerNameIndication": "string" } ... ]
+    /// The IPs that you want Resolver to forward DNS queries to. You can specify either Ipv4 or Ipv6 addresses but not both in the same rule. Separate IP addresses with a space. TargetIps is available only when the value of Rule type is FORWARD . You should not provide TargetIps when the Rule type is DELEGATE . NOTE: when creating a DELEGATE rule, you must not provide the TargetIps parameter. If you provide the TargetIps , you may receive an ERROR message similar to "Delegate resolver rules need to specify a nameserver name". This error means you should not provide TargetIps . Constraints: • min: 1 (structure) In a CreateResolverRule request, an array of the IPs that you want to forward DNS queries to. Ip -&gt; (string) One IPv4 address that you want to forward DNS queries to. Constraints: • min: 7 • max: 36 Port -&gt; (integer) The port at Ip that you want to forward DNS queries to. Constraints: • min: 0 • max: 65535 Ipv6 -&gt; (string) One IPv6 address that you want to forward DNS queries to. Constraints: • min: 7 • max: 39 Protocol -&gt; (string) The protocols for the target address. The protocol you choose needs to be supported by the outbound endpoint of the Resolver rule. Possible values: • DoH • Do53 • DoH-FIPS ServerNameIndication -&gt; (string) The Server Name Indication of the DoH server that you want to forward queries to. This is only used if the Protocol of the TargetAddress is DoH . Constraints: • min: 0 • max: 255 Shorthand Syntax: Ip=string,Port=integer,Ipv6=string,Protocol=string,ServerNameIndication=string ... JSON Syntax: [ { "Ip": "string", "Port": integer, "Ipv6": "string", "Protocol": "DoH"|"Do53"|"DoH-FIPS", "ServerNameIndication": "string" } ... ]
     /// </summary>
     [CliOption("--target-ips", GroupValues = true)]
     public IEnumerable<string>? TargetIps { get; set; }
 
     /// <summary>
-    /// The ID of the outbound Resolver endpoint that you want to use to route DNS queries to the IP addresses that you specify in TargetIps . Constraints: o min: 1 o max: 64
+    /// The ID of the outbound Resolver endpoint that you want to use to route DNS queries to the IP addresses that you specify in TargetIps . Constraints: • min: 1 • max: 64
     /// </summary>
     [CliOption("--resolver-endpoint-id")]
     public string? ResolverEndpointId { get; set; }
 
     /// <summary>
-    /// A list of the tag keys and values that you want to associate with the endpoint. Constraints: o max: 200 (structure) One tag that you want to add to the specified resource. A tag consists of a Key (a name for the tag) and a Value . Key -&gt; (string) [required] The name for the tag. For example, if you want to associate Resolver resources with the account IDs of your customers for billing purposes, the value of Key might be account-id . Constraints: o min: 1 o max: 128 Value -&gt; (string) [required] The value for the tag. For example, if Key is account-id , then Value might be the ID of the customer account that you're creating the resource for. Constraints: o min: 0 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// A list of the tag keys and values that you want to associate with the endpoint. Constraints: • max: 200 (structure) One tag that you want to add to the specified resource. A tag consists of a Key (a name for the tag) and a Value . Key -&gt; (string) [required] The name for the tag. For example, if you want to associate Resolver resources with the account IDs of your customers for billing purposes, the value of Key might be account-id . Constraints: • min: 1 • max: 128 Value -&gt; (string) [required] The value for the tag. For example, if Key is account-id , then Value might be the ID of the customer account that you're creating the resource for. Constraints: • min: 0 • max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
-    /// DNS queries with the delegation records that match this domain name are forwarded to the resolvers on your network. Constraints: o min: 1 o max: 256
+    /// DNS queries with the delegation records that match this domain name are forwarded to the resolvers on your network. Constraints: • min: 1 • max: 256
     /// </summary>
     [CliOption("--delegation-record")]
     public string? DelegationRecord { get; set; }
@@ -128,6 +129,15 @@ public record AwsRoute53resolverCreateResolverRuleOptions : AwsOptions, IValidat
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

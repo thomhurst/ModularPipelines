@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes the key material and metadata associated with Amazon Web Ser- vices Payment Cryptography key. Key deletion is irreversible. After a key is deleted, you can't perform cryptographic operations using the key. For example, you can't decrypt data that was encrypted by a deleted Amazon Web Services Payment Cryp- tography key, and the data may become unrecoverable. Because key dele- tion is destructive, Amazon Web Services Payment Cryptography has a safety mechanism to prevent accidental deleti...
+/// Deletes the key material and metadata associated with Amazon Web Services Payment Cryptography key. Key deletion is irreversible. After a key is deleted, you can't perform cryptographic operations using the key. For example, you can't decrypt data that was encrypted by a deleted Amazon Web Services Payment Cryptography key, and the data may become unrecoverable. Because key deletion is destructive, Amazon Web Services Payment Cryptography has a safety mechanism to prevent accidental deletion of ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsPaymentCryptographyDeleteKeyOptions : AwsOptions, IValidatableO
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes the key material and metadata associated with Amazon Web Ser- vices Payment Cryptography key. Key deletion is irreversible. After a key is deleted, you can't perform cryptographic operations using the key. For example, you can't decrypt data that was encrypted by a deleted Amazon Web Services Payment Cryp- tography key, and the data may become unrecoverable. Because key dele- tion is destructive, Amazon Web Services Payment Cryptography has a safety mechanism to prevent accidental deleti...
+    /// Deletes the key material and metadata associated with Amazon Web Services Payment Cryptography key. Key deletion is irreversible. After a key is deleted, you can't perform cryptographic operations using the key. For example, you can't decrypt data that was encrypted by a deleted Amazon Web Services Payment Cryptography key, and the data may become unrecoverable. Because key deletion is destructive, Amazon Web Services Payment Cryptography has a safety mechanism to prevent accidental deletion of ...
     /// </summary>
-    /// <param name="KeyIdentifier">The KeyARN of the key that is scheduled for deletion. Constraints: o min: 7 o max: 322 o pattern: arn:aws:payment-cryptogra- phy:[a-z]{2}-[a-z]{1,16}-[0-9]+:[0-9]{12}:(key/[0-9a-zA-Z]{16,64}|alias/[a-zA-Z0-9/_-]+)$|^alias/[a-zA-Z0-9/_-]+</param>
+    /// <param name="KeyIdentifier">The KeyARN of the key that is scheduled for deletion. Constraints: • min: 7 • max: 322 • pattern: arn:aws:payment-cryptography:[a-z]{2}-[a-z]{1,16}-[0-9]+:[0-9]{12}:(key/[0-9a-zA-Z]{16,64}|alias/[a-zA-Z0-9/_-]+)$|^alias/[a-zA-Z0-9/_-]+</param>
     public AwsPaymentCryptographyDeleteKeyOptions(
         string KeyIdentifier
     )
@@ -56,13 +57,13 @@ public record AwsPaymentCryptographyDeleteKeyOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The KeyARN of the key that is scheduled for deletion. Constraints: o min: 7 o max: 322 o pattern: arn:aws:payment-cryptogra- phy:[a-z]{2}-[a-z]{1,16}-[0-9]+:[0-9]{12}:(key/[0-9a-zA-Z]{16,64}|alias/[a-zA-Z0-9/_-]+)$|^alias/[a-zA-Z0-9/_-]+
+    /// The KeyARN of the key that is scheduled for deletion. Constraints: • min: 7 • max: 322 • pattern: arn:aws:payment-cryptography:[a-z]{2}-[a-z]{1,16}-[0-9]+:[0-9]{12}:(key/[0-9a-zA-Z]{16,64}|alias/[a-zA-Z0-9/_-]+)$|^alias/[a-zA-Z0-9/_-]+
     /// </summary>
     [CliOption("--key-identifier")]
     public string? KeyIdentifier { get; private init; }
 
     /// <summary>
-    /// The waiting period for key deletion. The default value is seven days. Constraints: o min: 3 o max: 180
+    /// The waiting period for key deletion. The default value is seven days. Constraints: • min: 3 • max: 180
     /// </summary>
     [CliOption("--delete-key-in-days")]
     public int? DeleteKeyInDays { get; set; }
@@ -88,6 +89,15 @@ public record AwsPaymentCryptographyDeleteKeyOptions : AwsOptions, IValidatableO
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,8 +29,8 @@ public record AwsResiliencehubv2UpdateServiceFunctionOptions : AwsOptions, IVali
     /// <summary>
     /// Updates a service function. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ServiceArn">ARN identifier. Constraints: o min: 31 o pattern: arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:([a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]):[0-9]{12}:[A-Za-z0-9/][A-Za-z0-9:_/+.-]{0,1023}</param>
-    /// <param name="ServiceFunctionId">The identifier of the service function to update. Constraints: o min: 1 o max: 255 o pattern: \S{1,255}</param>
+    /// <param name="ServiceArn">ARN identifier. Constraints: • min: 31 • pattern: arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:([a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]):[0-9]{12}:[A-Za-z0-9/][A-Za-z0-9:_/+.-]{0,1023}</param>
+    /// <param name="ServiceFunctionId">The identifier of the service function to update. Constraints: • min: 1 • max: 255 • pattern: \S{1,255}</param>
     public AwsResiliencehubv2UpdateServiceFunctionOptions(
         string ServiceArn,
         string ServiceFunctionId
@@ -61,31 +62,31 @@ public record AwsResiliencehubv2UpdateServiceFunctionOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// ARN identifier. Constraints: o min: 31 o pattern: arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:([a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]):[0-9]{12}:[A-Za-z0-9/][A-Za-z0-9:_/+.-]{0,1023}
+    /// ARN identifier. Constraints: • min: 31 • pattern: arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:([a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]):[0-9]{12}:[A-Za-z0-9/][A-Za-z0-9:_/+.-]{0,1023}
     /// </summary>
     [CliOption("--service-arn")]
     public string? ServiceArn { get; private init; }
 
     /// <summary>
-    /// The identifier of the service function to update. Constraints: o min: 1 o max: 255 o pattern: \S{1,255}
+    /// The identifier of the service function to update. Constraints: • min: 1 • max: 255 • pattern: \S{1,255}
     /// </summary>
     [CliOption("--service-function-id")]
     public string? ServiceFunctionId { get; private init; }
 
     /// <summary>
-    /// Entity label (not part of ARN spaces allowed). Constraints: o min: 2 o max: 60 o pattern: [A-Za-z0-9][A-Za-z0-9 _\-]{1,59}
+    /// Entity label (not part of ARN spaces allowed). Constraints: • min: 2 • max: 60 • pattern: [A-Za-z0-9][A-Za-z0-9 _\-]{1,59}
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
 
     /// <summary>
-    /// Resource description. Constraints: o min: 0 o max: 500
+    /// Resource description. Constraints: • min: 0 • max: 500
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The updated criticality level of the service function. Possible values: o PRIMARY o SUPPLEMENTAL
+    /// The updated criticality level of the service function. Possible values: • PRIMARY • SUPPLEMENTAL
     /// </summary>
     [CliOption("--criticality")]
     public AwsResiliencehubv2UpdateServiceFunctionCriticality? Criticality { get; set; }
@@ -111,6 +112,15 @@ public record AwsResiliencehubv2UpdateServiceFunctionOptions : AwsOptions, IVali
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Shares a Amazon Web Services Systems Manager document (SSM docu- ment)publicly or privately. If you share a document privately, you must specify the Amazon Web Services user IDs for those people who can use the document. If you share a document publicly, you must specify All as the account ID. See also: AWS API Documentation
+/// Shares a Amazon Web Services Systems Manager document (SSM document)publicly or privately. If you share a document privately, you must specify the Amazon Web Services user IDs for those people who can use the document. If you share a document publicly, you must specify All as the account ID. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsSsmModifyDocumentPermissionOptions : AwsOptions, IValidatableOb
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Shares a Amazon Web Services Systems Manager document (SSM docu- ment)publicly or privately. If you share a document privately, you must specify the Amazon Web Services user IDs for those people who can use the document. If you share a document publicly, you must specify All as the account ID. See also: AWS API Documentation
+    /// Shares a Amazon Web Services Systems Manager document (SSM document)publicly or privately. If you share a document privately, you must specify the Amazon Web Services user IDs for those people who can use the document. If you share a document publicly, you must specify All as the account ID. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">The name of the document that you want to share. Constraints: o pattern: ^[a-zA-Z0-9_\-.]{3,128}$</param>
-    /// <param name="PermissionType">The permission type for the document. The permission type can be Share . Possible values: o Share</param>
+    /// <param name="Name">The name of the document that you want to share. Constraints: • pattern: ^[a-zA-Z0-9_\-.]{3,128}$</param>
+    /// <param name="PermissionType">The permission type for the document. The permission type can be Share . Possible values: • Share</param>
     public AwsSsmModifyDocumentPermissionOptions(
         string Name,
         string PermissionType
@@ -60,31 +61,31 @@ public record AwsSsmModifyDocumentPermissionOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the document that you want to share. Constraints: o pattern: ^[a-zA-Z0-9_\-.]{3,128}$
+    /// The name of the document that you want to share. Constraints: • pattern: ^[a-zA-Z0-9_\-.]{3,128}$
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The permission type for the document. The permission type can be Share . Possible values: o Share
+    /// The permission type for the document. The permission type can be Share . Possible values: • Share
     /// </summary>
     [CliOption("--permission-type")]
     public string? PermissionType { get; private init; }
 
     /// <summary>
-    /// The Amazon Web Services users that should have access to the docu- ment. The account IDs can either be a group of account IDs or All . You must specify a value for this parameter or the AccountIdsToRe- move parameter. Constraints: o max: 20 (string) Constraints: o pattern: (?i)all|[0-9]{12} Syntax: "string" "string" ...
+    /// The Amazon Web Services users that should have access to the document. The account IDs can either be a group of account IDs or All . You must specify a value for this parameter or the AccountIdsToRemove parameter. Constraints: • max: 20 (string) Constraints: • pattern: (?i)all|[0-9]{12} Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--account-ids-to-add", GroupValues = true)]
     public IEnumerable<string>? AccountIdsToAdd { get; set; }
 
     /// <summary>
-    /// The Amazon Web Services users that should no longer have access to the document. The Amazon Web Services user can either be a group of account IDs or All . This action has a higher priority than Accoun- tIdsToAdd . If you specify an ID to add and the same ID to remove, the system removes access to the document. You must specify a value for this parameter or the AccountIdsToAdd parameter. Constraints: o max: 20 (string) Constraints: o pattern: (?i)all|[0-9]{12} Syntax: "string" "string" ...
+    /// The Amazon Web Services users that should no longer have access to the document. The Amazon Web Services user can either be a group of account IDs or All . This action has a higher priority than AccountIdsToAdd . If you specify an ID to add and the same ID to remove, the system removes access to the document. You must specify a value for this parameter or the AccountIdsToAdd parameter. Constraints: • max: 20 (string) Constraints: • pattern: (?i)all|[0-9]{12} Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--account-ids-to-remove", GroupValues = true)]
     public IEnumerable<string>? AccountIdsToRemove { get; set; }
 
     /// <summary>
-    /// (Optional) The version of the document to share. If it isn't speci- fied, the system choose the Default version to share. Constraints: o max: 8 o pattern: ([$]LATEST|[$]DEFAULT|[$]ALL)
+    /// (Optional) The version of the document to share. If it isn't specified, the system choose the Default version to share. Constraints: • max: 8 • pattern: ([$]LATEST|[$]DEFAULT|[$]ALL)
     /// </summary>
     [CliOption("--shared-document-version")]
     public string? SharedDocumentVersion { get; set; }
@@ -110,6 +111,15 @@ public record AwsSsmModifyDocumentPermissionOptions : AwsOptions, IValidatableOb
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

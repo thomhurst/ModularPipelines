@@ -6,8 +6,8 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
+using ModularPipelines;
 using ModularPipelines.Context;
-using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
@@ -47,7 +47,7 @@ public class AwsIotfleetwise : IAwsIotfleetwise
     }
 
     /// <summary>
-    /// Creates a group, or batch, of vehicles. NOTE: You must specify a decoder manifest and a vehicle model (model mani- fest) for each vehicle. For more information, see Create multiple vehicles (AWS CLI) in the Amazon Web Services IoT FleetWise Developer Guide . See also: AWS API Documentation
+    /// Creates a group, or batch, of vehicles. NOTE: You must specify a decoder manifest and a vehicle model (model manifest) for each vehicle. For more information, see Create multiple vehicles (AWS CLI) in the Amazon Web Services IoT FleetWise Developer Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -62,7 +62,7 @@ public class AwsIotfleetwise : IAwsIotfleetwise
     }
 
     /// <summary>
-    /// Updates a group, or batch, of vehicles. NOTE: You must specify a decoder manifest and a vehicle model (model mani- fest) for each vehicle. For more information, see Update multiple vehicles (AWS CLI) in the Amazon Web Services IoT FleetWise Developer Guide . See also: AWS API Documentation
+    /// Updates a group, or batch, of vehicles. NOTE: You must specify a decoder manifest and a vehicle model (model manifest) for each vehicle. For more information, see Update multiple vehicles (AWS CLI) in the Amazon Web Services IoT FleetWise Developer Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -77,7 +77,7 @@ public class AwsIotfleetwise : IAwsIotfleetwise
     }
 
     /// <summary>
-    /// Creates an orchestration of data collection rules. The Amazon Web Ser- vices IoT FleetWise Edge Agent software running in vehicles uses cam- paigns to decide how to collect and transfer data to the cloud. You create campaigns in the cloud. After you or your team approve cam- paigns, Amazon Web Services IoT FleetWise automatically deploys them to vehicles. For more information, see Collect and transfer data with campaigns in the Amazon Web Services IoT FleetWise Developer Guide . WARNING: Access ...
+    /// Creates an orchestration of data collection rules. The Amazon Web Services IoT FleetWise Edge Agent software running in vehicles uses campaigns to decide how to collect and transfer data to the cloud. You create campaigns in the cloud. After you or your team approve campaigns, Amazon Web Services IoT FleetWise automatically deploys them to vehicles. For more information, see Collect and transfer data with campaigns in the Amazon Web Services IoT FleetWise Developer Guide . WARNING: Access to cer...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -92,7 +92,7 @@ public class AwsIotfleetwise : IAwsIotfleetwise
     }
 
     /// <summary>
-    /// Creates the decoder manifest associated with a model manifest. To cre- ate a decoder manifest, the following must be true: o Every signal decoder has a unique name. o Each signal decoder is associated with a network interface. o Each network interface has a unique ID. o The signal decoders are specified in the model manifest. See also: AWS API Documentation
+    /// Creates the decoder manifest associated with a model manifest. To create a decoder manifest, the following must be true: • Every signal decoder has a unique name. • Each signal decoder is associated with a network interface. • Each network interface has a unique ID. • The signal decoders are specified in the model manifest. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -107,7 +107,7 @@ public class AwsIotfleetwise : IAwsIotfleetwise
     }
 
     /// <summary>
-    /// Creates a fleet that represents a group of vehicles. NOTE: You must create both a signal catalog and vehicles before you can create a fleet. For more information, see Fleets in the Amazon Web Services IoT Fleet- Wise Developer Guide . See also: AWS API Documentation
+    /// Creates a fleet that represents a group of vehicles. NOTE: You must create both a signal catalog and vehicles before you can create a fleet. For more information, see Fleets in the Amazon Web Services IoT FleetWise Developer Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -122,7 +122,7 @@ public class AwsIotfleetwise : IAwsIotfleetwise
     }
 
     /// <summary>
-    /// Creates a vehicle model (model manifest) that specifies signals (at- tributes, branches, sensors, and actuators). For more information, see Vehicle models in the Amazon Web Services IoT FleetWise Developer Guide . See also: AWS API Documentation
+    /// Creates a vehicle model (model manifest) that specifies signals (attributes, branches, sensors, and actuators). For more information, see Vehicle models in the Amazon Web Services IoT FleetWise Developer Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -137,7 +137,7 @@ public class AwsIotfleetwise : IAwsIotfleetwise
     }
 
     /// <summary>
-    /// Creates a collection of standardized signals that can be reused to cre- ate vehicle models. See also: AWS API Documentation
+    /// Creates a collection of standardized signals that can be reused to create vehicle models. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -152,7 +152,7 @@ public class AwsIotfleetwise : IAwsIotfleetwise
     }
 
     /// <summary>
-    /// Creates a state template. State templates contain state properties, which are signals that belong to a signal catalog that is synchronized between the Amazon Web Services IoT FleetWise Edge and the Amazon Web Services Cloud. WARNING: Access to certain Amazon Web Services IoT FleetWise features is cur- rently gated. For more information, see Amazon Web Services Region and feature availability in the Amazon Web Services IoT FleetWise Developer Guide . See also: AWS API Documentation
+    /// Creates a state template. State templates contain state properties, which are signals that belong to a signal catalog that is synchronized between the Amazon Web Services IoT FleetWise Edge and the Amazon Web Services Cloud. WARNING: Access to certain Amazon Web Services IoT FleetWise features is currently gated. For more information, see Amazon Web Services Region and feature availability in the Amazon Web Services IoT FleetWise Developer Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -167,7 +167,7 @@ public class AwsIotfleetwise : IAwsIotfleetwise
     }
 
     /// <summary>
-    /// Creates a vehicle, which is an instance of a vehicle model (model mani- fest). Vehicles created from the same vehicle model consist of the same signals inherited from the vehicle model. NOTE: If you have an existing Amazon Web Services IoT thing, you can use Amazon Web Services IoT FleetWise to create a vehicle and collect data from your thing. For more information, see Create a vehicle (AWS CLI) in the Amazon Web Services IoT FleetWise Developer Guide . See also: AWS API Documentation
+    /// Creates a vehicle, which is an instance of a vehicle model (model manifest). Vehicles created from the same vehicle model consist of the same signals inherited from the vehicle model. NOTE: If you have an existing Amazon Web Services IoT thing, you can use Amazon Web Services IoT FleetWise to create a vehicle and collect data from your thing. For more information, see Create a vehicle (AWS CLI) in the Amazon Web Services IoT FleetWise Developer Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -212,7 +212,7 @@ public class AwsIotfleetwise : IAwsIotfleetwise
     }
 
     /// <summary>
-    /// Deletes a fleet. Before you delete a fleet, all vehicles must be disso- ciated from the fleet. For more information, see Delete a fleet (AWS CLI) in the Amazon Web Services IoT FleetWise Developer Guide . See also: AWS API Documentation
+    /// Deletes a fleet. Before you delete a fleet, all vehicles must be dissociated from the fleet. For more information, see Delete a fleet (AWS CLI) in the Amazon Web Services IoT FleetWise Developer Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -287,7 +287,7 @@ public class AwsIotfleetwise : IAwsIotfleetwise
     }
 
     /// <summary>
-    /// Removes, or disassociates, a vehicle from a fleet. Disassociating a ve- hicle from a fleet doesn't delete the vehicle. See also: AWS API Documentation
+    /// Removes, or disassociates, a vehicle from a fleet. Disassociating a vehicle from a fleet doesn't delete the vehicle. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -302,7 +302,7 @@ public class AwsIotfleetwise : IAwsIotfleetwise
     }
 
     /// <summary>
-    /// Retrieves information about a campaign. WARNING: Access to certain Amazon Web Services IoT FleetWise features is cur- rently gated. For more information, see Amazon Web Services Region and feature availability in the Amazon Web Services IoT FleetWise Developer Guide . See also: AWS API Documentation
+    /// Retrieves information about a campaign. WARNING: Access to certain Amazon Web Services IoT FleetWise features is currently gated. For more information, see Amazon Web Services Region and feature availability in the Amazon Web Services IoT FleetWise Developer Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -422,7 +422,7 @@ public class AwsIotfleetwise : IAwsIotfleetwise
     }
 
     /// <summary>
-    /// Retrieves information about a state template. WARNING: Access to certain Amazon Web Services IoT FleetWise features is cur- rently gated. For more information, see Amazon Web Services Region and feature availability in the Amazon Web Services IoT FleetWise Developer Guide . See also: AWS API Documentation
+    /// Retrieves information about a state template. WARNING: Access to certain Amazon Web Services IoT FleetWise features is currently gated. For more information, see Amazon Web Services Region and feature availability in the Amazon Web Services IoT FleetWise Developer Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -497,7 +497,7 @@ public class AwsIotfleetwise : IAwsIotfleetwise
     }
 
     /// <summary>
-    /// Lists information about created campaigns. NOTE: This API operation uses pagination. Specify the nextToken parameter in the request to return more results. See also: AWS API Documentation list-campaigns is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data...
+    /// Lists information about created campaigns. NOTE: This API operation uses pagination. Specify the nextToken parameter in the request to return more results. See also: AWS API Documentation list-campaigns is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data fro...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -512,7 +512,7 @@ public class AwsIotfleetwise : IAwsIotfleetwise
     }
 
     /// <summary>
-    /// Lists the network interfaces specified in a decoder manifest. NOTE: This API operation uses pagination. Specify the nextToken parameter in the request to return more results. See also: AWS API Documentation list-decoder-manifest-network-interfaces is a paginated operation. Mul- tiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a pagi- nated res...
+    /// Lists the network interfaces specified in a decoder manifest. NOTE: This API operation uses pagination. Specify the nextToken parameter in the request to return more results. See also: AWS API Documentation list-decoder-manifest-network-interfaces is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated respons...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -527,7 +527,7 @@ public class AwsIotfleetwise : IAwsIotfleetwise
     }
 
     /// <summary>
-    /// A list of information about signal decoders specified in a decoder man- ifest. NOTE: This API operation uses pagination. Specify the nextToken parameter in the request to return more results. See also: AWS API Documentation list-decoder-manifest-signals is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginat...
+    /// A list of information about signal decoders specified in a decoder manifest. NOTE: This API operation uses pagination. Specify the nextToken parameter in the request to return more results. See also: AWS API Documentation list-decoder-manifest-signals is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated res...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -572,7 +572,7 @@ public class AwsIotfleetwise : IAwsIotfleetwise
     }
 
     /// <summary>
-    /// Retrieves information for each created fleet in an Amazon Web Services account. NOTE: This API operation uses pagination. Specify the nextToken parameter in the request to return more results. See also: AWS API Documentation list-fleets is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --...
+    /// Retrieves information for each created fleet in an Amazon Web Services account. NOTE: This API operation uses pagination. Specify the nextToken parameter in the request to return more results. See also: AWS API Documentation list-fleets is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --qu...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -587,7 +587,7 @@ public class AwsIotfleetwise : IAwsIotfleetwise
     }
 
     /// <summary>
-    /// Lists information about nodes specified in a vehicle model (model mani- fest). NOTE: This API operation uses pagination. Specify the nextToken parameter in the request to return more results. See also: AWS API Documentation list-model-manifest-nodes is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated respo...
+    /// Lists information about nodes specified in a vehicle model (model manifest). NOTE: This API operation uses pagination. Specify the nextToken parameter in the request to return more results. See also: AWS API Documentation list-model-manifest-nodes is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated respons...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -632,7 +632,7 @@ public class AwsIotfleetwise : IAwsIotfleetwise
     }
 
     /// <summary>
-    /// Lists all the created signal catalogs in an Amazon Web Services ac- count. You can use to list information about each signal (node) specified in a signal catalog. NOTE: This API operation uses pagination. Specify the nextToken parameter in the request to return more results. See also: AWS API Documentation list-signal-catalogs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate a...
+    /// Lists all the created signal catalogs in an Amazon Web Services account. You can use to list information about each signal (node) specified in a signal catalog. NOTE: This API operation uses pagination. Specify the nextToken parameter in the request to return more results. See also: AWS API Documentation list-signal-catalogs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate arg...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -647,7 +647,7 @@ public class AwsIotfleetwise : IAwsIotfleetwise
     }
 
     /// <summary>
-    /// Lists information about created state templates. WARNING: Access to certain Amazon Web Services IoT FleetWise features is cur- rently gated. For more information, see Amazon Web Services Region and feature availability in the Amazon Web Services IoT FleetWise Developer Guide . See also: AWS API Documentation list-state-templates is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate...
+    /// Lists information about created state templates. WARNING: Access to certain Amazon Web Services IoT FleetWise features is currently gated. For more information, see Amazon Web Services Region and feature availability in the Amazon Web Services IoT FleetWise Developer Guide . See also: AWS API Documentation list-state-templates is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate a...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -692,7 +692,7 @@ public class AwsIotfleetwise : IAwsIotfleetwise
     }
 
     /// <summary>
-    /// Retrieves a list of summaries of created vehicles. NOTE: This API operation uses pagination. Specify the nextToken parameter in the request to return more results. See also: AWS API Documentation list-vehicles is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extra...
+    /// Retrieves a list of summaries of created vehicles. NOTE: This API operation uses pagination. Specify the nextToken parameter in the request to return more results. See also: AWS API Documentation list-vehicles is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract d...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -707,7 +707,7 @@ public class AwsIotfleetwise : IAwsIotfleetwise
     }
 
     /// <summary>
-    /// Creates or updates the encryption configuration. Amazon Web Services IoT FleetWise can encrypt your data and resources using an Amazon Web Services managed key. Or, you can use a KMS key that you own and man- age. For more information, see Data encryption in the Amazon Web Ser- vices IoT FleetWise Developer Guide . See also: AWS API Documentation
+    /// Creates or updates the encryption configuration. Amazon Web Services IoT FleetWise can encrypt your data and resources using an Amazon Web Services managed key. Or, you can use a KMS key that you own and manage. For more information, see Data encryption in the Amazon Web Services IoT FleetWise Developer Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -737,7 +737,7 @@ public class AwsIotfleetwise : IAwsIotfleetwise
     }
 
     /// <summary>
-    /// WARNING: This API operation contains deprecated parameters. Register your ac- count again without the Timestream resources parameter so that Ama- zon Web Services IoT FleetWise can remove the Timestream metadata stored. You should then pass the data destination into the CreateCampaign API operation. You must delete any existing campaigns that include an empty data destination before you register your account again. For more infor- mation, see the DeleteCampaign API operation. If you want to dele...
+    /// WARNING: This API operation contains deprecated parameters. Register your account again without the Timestream resources parameter so that Amazon Web Services IoT FleetWise can remove the Timestream metadata stored. You should then pass the data destination into the CreateCampaign API operation. You must delete any existing campaigns that include an empty data destination before you register your account again. For more information, see the DeleteCampaign API operation. If you want to delete the...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -827,7 +827,7 @@ public class AwsIotfleetwise : IAwsIotfleetwise
     }
 
     /// <summary>
-    /// Updates a vehicle model (model manifest). If created vehicles are asso- ciated with a vehicle model, it can't be updated. See also: AWS API Documentation
+    /// Updates a vehicle model (model manifest). If created vehicles are associated with a vehicle model, it can't be updated. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -857,7 +857,7 @@ public class AwsIotfleetwise : IAwsIotfleetwise
     }
 
     /// <summary>
-    /// Updates a state template. WARNING: Access to certain Amazon Web Services IoT FleetWise features is cur- rently gated. For more information, see Amazon Web Services Region and feature availability in the Amazon Web Services IoT FleetWise Developer Guide . See also: AWS API Documentation
+    /// Updates a state template. WARNING: Access to certain Amazon Web Services IoT FleetWise features is currently gated. For more information, see Amazon Web Services Region and feature availability in the Amazon Web Services IoT FleetWise Developer Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -872,7 +872,7 @@ public class AwsIotfleetwise : IAwsIotfleetwise
     }
 
     /// <summary>
-    /// Updates a vehicle. WARNING: Access to certain Amazon Web Services IoT FleetWise features is cur- rently gated. For more information, see Amazon Web Services Region and feature availability in the Amazon Web Services IoT FleetWise Developer Guide . See also: AWS API Documentation
+    /// Updates a vehicle. WARNING: Access to certain Amazon Web Services IoT FleetWise features is currently gated. For more information, see Amazon Web Services Region and feature availability in the Amazon Web Services IoT FleetWise Developer Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

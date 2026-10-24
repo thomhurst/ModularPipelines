@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,8 +29,8 @@ public record AwsSecurityagentUpdateIntegrationOptions : AwsOptions, IValidatabl
     /// <summary>
     /// Creates an integration's webhook, or rotates the HMAC signing secret of an existing one. The secret is returned only once, in this response, and cannot be retrieved again. See also: AWS API Documentation
     /// </summary>
-    /// <param name="IntegrationId">The ID of the integration whose webhook you want to create or ro- tate.</param>
-    /// <param name="WebhookAction">The action to perform on the integration's webhook. Possible values: o CREATE_IF_ABSENT o ROTATE</param>
+    /// <param name="IntegrationId">The ID of the integration whose webhook you want to create or rotate.</param>
+    /// <param name="WebhookAction">The action to perform on the integration's webhook. Possible values: • CREATE_IF_ABSENT • ROTATE</param>
     public AwsSecurityagentUpdateIntegrationOptions(
         string IntegrationId,
         AwsSecurityagentUpdateIntegrationWebhookAction WebhookAction
@@ -60,13 +61,13 @@ public record AwsSecurityagentUpdateIntegrationOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the integration whose webhook you want to create or ro- tate.
+    /// The ID of the integration whose webhook you want to create or rotate.
     /// </summary>
     [CliOption("--integration-id")]
     public string? IntegrationId { get; private init; }
 
     /// <summary>
-    /// The action to perform on the integration's webhook. Possible values: o CREATE_IF_ABSENT o ROTATE
+    /// The action to perform on the integration's webhook. Possible values: • CREATE_IF_ABSENT • ROTATE
     /// </summary>
     [CliOption("--webhook-action")]
     public AwsSecurityagentUpdateIntegrationWebhookAction? WebhookAction { get; private init; }
@@ -92,6 +93,15 @@ public record AwsSecurityagentUpdateIntegrationOptions : AwsOptions, IValidatabl
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -23,7 +23,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsTaxsettingsPutTaxInheritanceOptions : AwsOptions
 {
     /// <summary>
-    /// The tax inheritance status. Possible values: o OptIn o OptOut
+    /// The tax inheritance status. Possible values: • OptIn • OptOut
     /// </summary>
     [CliOption("--heritage-status")]
     public AwsTaxsettingsPutTaxInheritanceHeritageStatus? HeritageStatus { get; set; }
@@ -33,5 +33,14 @@ public record AwsTaxsettingsPutTaxInheritanceOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

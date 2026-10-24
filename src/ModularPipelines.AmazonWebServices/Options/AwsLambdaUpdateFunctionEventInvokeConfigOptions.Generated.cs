@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates the configuration for asynchronous invocation for a function, version, or alias. To configure options for asynchronous invocation, use PutFunction- EventInvokeConfig . See also: AWS API Documentation
+/// Updates the configuration for asynchronous invocation for a function, version, or alias. To configure options for asynchronous invocation, use PutFunctionEventInvokeConfig . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsLambdaUpdateFunctionEventInvokeConfigOptions : AwsOptions, IVal
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates the configuration for asynchronous invocation for a function, version, or alias. To configure options for asynchronous invocation, use PutFunction- EventInvokeConfig . See also: AWS API Documentation
+    /// Updates the configuration for asynchronous invocation for a function, version, or alias. To configure options for asynchronous invocation, use PutFunctionEventInvokeConfig . See also: AWS API Documentation
     /// </summary>
-    /// <param name="FunctionName">The name or ARN of the Lambda function, version, or alias. Name formats o Function name - my-function (name-only), my-function:v1 (with alias). o Function ARN - arn:aws:lambda:us-west-2:123456789012:func- tion:my-function . o Partial ARN - 123456789012:function:my-function . You can append a version number or alias to any of the formats. The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length. Constraints: o min: 1 o max: 256 o pattern: (arn:(aws[a-zA-Z-]*)?:lambda:)?((eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\d{1}:)?(\d{12}:)?(func- tion:)?([a-zA-Z0-9-_\.]+)(:(\$LATEST(\.PUB- LISHED)?|[a-zA-Z0-9-_]+))?</param>
+    /// <param name="FunctionName">The name or ARN of the Lambda function, version, or alias. Name formats • Function name - my-function (name-only), my-function:v1 (with alias). • Function ARN - arn:aws:lambda:us-west-2:123456789012:function:my-function . • Partial ARN - 123456789012:function:my-function . You can append a version number or alias to any of the formats. The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length. Constraints: • min: 1 • max: 256 • pattern: (arn:(aws[a-zA-Z-]*)?:lambda:)?((eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\d{1}:)?(\d{12}:)?(function:)?([a-zA-Z0-9-_\.]+)(:(\$LATEST(\.PUBLISHED)?|[a-zA-Z0-9-_]+))?</param>
     public AwsLambdaUpdateFunctionEventInvokeConfigOptions(
         string FunctionName
     )
@@ -56,31 +57,31 @@ public record AwsLambdaUpdateFunctionEventInvokeConfigOptions : AwsOptions, IVal
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name or ARN of the Lambda function, version, or alias. Name formats o Function name - my-function (name-only), my-function:v1 (with alias). o Function ARN - arn:aws:lambda:us-west-2:123456789012:func- tion:my-function . o Partial ARN - 123456789012:function:my-function . You can append a version number or alias to any of the formats. The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length. Constraints: o min: 1 o max: 256 o pattern: (arn:(aws[a-zA-Z-]*)?:lambda:)?((eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\d{1}:)?(\d{12}:)?(func- tion:)?([a-zA-Z0-9-_\.]+)(:(\$LATEST(\.PUB- LISHED)?|[a-zA-Z0-9-_]+))?
+    /// The name or ARN of the Lambda function, version, or alias. Name formats • Function name - my-function (name-only), my-function:v1 (with alias). • Function ARN - arn:aws:lambda:us-west-2:123456789012:function:my-function . • Partial ARN - 123456789012:function:my-function . You can append a version number or alias to any of the formats. The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length. Constraints: • min: 1 • max: 256 • pattern: (arn:(aws[a-zA-Z-]*)?:lambda:)?((eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\d{1}:)?(\d{12}:)?(function:)?([a-zA-Z0-9-_\.]+)(:(\$LATEST(\.PUBLISHED)?|[a-zA-Z0-9-_]+))?
     /// </summary>
     [CliOption("--function-name")]
     public string? FunctionName { get; private init; }
 
     /// <summary>
-    /// A version number or alias name. Constraints: o min: 1 o max: 128 o pattern: \$(LATEST(\.PUBLISHED)?)|[a-zA-Z0-9-_$]+
+    /// A version number or alias name. Constraints: • min: 1 • max: 128 • pattern: \$(LATEST(\.PUBLISHED)?)|[a-zA-Z0-9-_$]+
     /// </summary>
     [CliOption("--qualifier")]
     public string? Qualifier { get; set; }
 
     /// <summary>
-    /// The maximum number of times to retry when the function returns an error. Constraints: o min: 0 o max: 2
+    /// The maximum number of times to retry when the function returns an error. Constraints: • min: 0 • max: 2
     /// </summary>
     [CliOption("--maximum-retry-attempts")]
     public int? MaximumRetryAttempts { get; set; }
 
     /// <summary>
-    /// The maximum age of a request that Lambda sends to a function for processing. Constraints: o min: 60 o max: 21600
+    /// The maximum age of a request that Lambda sends to a function for processing. Constraints: • min: 60 • max: 21600
     /// </summary>
     [CliOption("--maximum-event-age-in-seconds")]
     public int? MaximumEventAgeInSeconds { get; set; }
 
     /// <summary>
-    /// A destination for events after they have been sent to a function for processing. Destinations o Function - The Amazon Resource Name (ARN) of a Lambda function. o Queue - The ARN of a standard SQS queue. o Bucket - The ARN of an Amazon S3 bucket. o Topic - The ARN of a standard SNS topic. o Event Bus - The ARN of an Amazon EventBridge event bus. NOTE: S3 buckets are supported only for on-failure destinations. To retain records of successful invocations, use another destina- tion type. OnSuccess -&gt; (structure) The destination configuration for successful invocations. Not supported in CreateEventSourceMapping or UpdateEventSourceMap- ping . Destination -&gt; (string) The Amazon Resource Name (ARN) of the destination resource. NOTE: Amazon SNS destinations have a message size limit of 256 KB. If the combined size of the function request and re- sponse payload exceeds the limit, Lambda will drop the payload when sending OnFailure event to the destination. For details on this behavior, refer to Retaining records of asynchronous invocations . Constraints: o min: 0 o max: 350 o pattern: $|kafka://([^.]([a-zA-Z0-9\-_.]{0,248}))|arn:(aws[a-zA-Z0-9-]*):([a-zA-Z0-9\-])+:((eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\d{1})?:(\d{12})?:(.*) OnFailure -&gt; (structure) The destination configuration for failed invocations. Destination -&gt; (string) The Amazon Resource Name (ARN) of the destination resource. To retain records of failed invocations from Kinesis , DynamoDB , self-managed Apache Kafka , or Amazon MSK , you can configure an Amazon SNS topic, Amazon SQS queue, Amazon S3 bucket, or Kafka topic as the destination. NOTE: Amazon SNS destinations have a message size limit of 256 KB. If the combined size of the function request and re- sponse payload exceeds the limit, Lambda will drop the payload when sending OnFailure event to the destination. For details on this behavior, refer to Retaining records of asynchronous invocations . To retain records of failed invocations from Kinesis , DynamoDB , self-managed Kafka or Amazon MSK , you can config- ure an Amazon SNS topic, Amazon SQS queue, or Amazon S3 bucket as the destination. Constraints: o min: 0 o max: 350 o pattern: $|kafka://([^.]([a-zA-Z0-9\-_.]{0,248}))|arn:(aws[a-zA-Z0-9-]*):([a-zA-Z0-9\-])+:((eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\d{1})?:(\d{12})?:(.*) Shorthand Syntax: OnSuccess={Destination=string},OnFailure={Destination=string} JSON Syntax: { "OnSuccess": { "Destination": "string" }, "OnFailure": { "Destination": "string" } }
+    /// A destination for events after they have been sent to a function for processing. Destinations • Function - The Amazon Resource Name (ARN) of a Lambda function. • Queue - The ARN of a standard SQS queue. • Bucket - The ARN of an Amazon S3 bucket. • Topic - The ARN of a standard SNS topic. • Event Bus - The ARN of an Amazon EventBridge event bus. NOTE: S3 buckets are supported only for on-failure destinations. To retain records of successful invocations, use another destination type. OnSuccess -&gt; (structure) The destination configuration for successful invocations. Not supported in CreateEventSourceMapping or UpdateEventSourceMapping . Destination -&gt; (string) The Amazon Resource Name (ARN) of the destination resource. NOTE: Amazon SNS destinations have a message size limit of 256 KB. If the combined size of the function request and response payload exceeds the limit, Lambda will drop the payload when sending OnFailure event to the destination. For details on this behavior, refer to Retaining records of asynchronous invocations . Constraints: • min: 0 • max: 350 • pattern: $|kafka://([^.]([a-zA-Z0-9\-_.]{0,248}))|arn:(aws[a-zA-Z0-9-]*):([a-zA-Z0-9\-])+:((eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\d{1})?:(\d{12})?:(.*) OnFailure -&gt; (structure) The destination configuration for failed invocations. Destination -&gt; (string) The Amazon Resource Name (ARN) of the destination resource. To retain records of failed invocations from Kinesis , DynamoDB , self-managed Apache Kafka , or Amazon MSK , you can configure an Amazon SNS topic, Amazon SQS queue, Amazon S3 bucket, or Kafka topic as the destination. NOTE: Amazon SNS destinations have a message size limit of 256 KB. If the combined size of the function request and response payload exceeds the limit, Lambda will drop the payload when sending OnFailure event to the destination. For details on this behavior, refer to Retaining records of asynchronous invocations . To retain records of failed invocations from Kinesis , DynamoDB , self-managed Kafka or Amazon MSK , you can configure an Amazon SNS topic, Amazon SQS queue, or Amazon S3 bucket as the destination. Constraints: • min: 0 • max: 350 • pattern: $|kafka://([^.]([a-zA-Z0-9\-_.]{0,248}))|arn:(aws[a-zA-Z0-9-]*):([a-zA-Z0-9\-])+:((eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\d{1})?:(\d{12})?:(.*) Shorthand Syntax: OnSuccess={Destination=string},OnFailure={Destination=string} JSON Syntax: { "OnSuccess": { "Destination": "string" }, "OnFailure": { "Destination": "string" } }
     /// </summary>
     [CliOption("--destination-config")]
     public string? DestinationConfig { get; set; }
@@ -106,6 +107,15 @@ public record AwsLambdaUpdateFunctionEventInvokeConfigOptions : AwsOptions, IVal
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

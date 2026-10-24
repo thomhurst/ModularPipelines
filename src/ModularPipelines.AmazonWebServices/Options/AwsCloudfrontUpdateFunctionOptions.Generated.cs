@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates a CloudFront function. You can update a function's code or the comment that describes the function. You cannot update a function's name. To update a function, you provide the function's name and version (ETag value) along with the updated function code. To get the name and ver- sion, you can use ListFunctions and DescribeFunction . See also: AWS API Documentation
+/// Updates a CloudFront function. You can update a function's code or the comment that describes the function. You cannot update a function's name. To update a function, you provide the function's name and version (ETag value) along with the updated function code. To get the name and version, you can use ListFunctions and DescribeFunction . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,12 +26,12 @@ public record AwsCloudfrontUpdateFunctionOptions : AwsOptions, IValidatableObjec
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates a CloudFront function. You can update a function's code or the comment that describes the function. You cannot update a function's name. To update a function, you provide the function's name and version (ETag value) along with the updated function code. To get the name and ver- sion, you can use ListFunctions and DescribeFunction . See also: AWS API Documentation
+    /// Updates a CloudFront function. You can update a function's code or the comment that describes the function. You cannot update a function's name. To update a function, you provide the function's name and version (ETag value) along with the updated function code. To get the name and version, you can use ListFunctions and DescribeFunction . See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">The name of the function that you are updating. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9-_]{1,64}</param>
-    /// <param name="IfMatch">The current version (ETag value) of the function that you are updat- ing, which you can get using DescribeFunction .</param>
-    /// <param name="FunctionConfig">Configuration information about the function. Comment -&gt; (string) [required] A comment to describe the function. Runtime -&gt; (string) [required] The function's runtime environment version. Possible values: o cloudfront-js-1.0 o cloudfront-js-2.0 KeyValueStoreAssociations -&gt; (structure) The configuration for the key value store associations. Quantity -&gt; (integer) [required] The quantity of key value store associations. Items -&gt; (list) The items of the key value store association. (structure) The key value store association. KeyValueStoreARN -&gt; (string) [required] The Amazon Resource Name (ARN) of the key value store association. Constraints: o min: 0 o max: 85 o pattern: arn:aws:cloud- front::[0-9]{12}:key-value-store\/[0-9a-fA-F-]{36} JSON Syntax: { "Comment": "string", "Runtime": "cloudfront-js-1.0"|"cloudfront-js-2.0", "KeyValueStoreAssociations": { "Quantity": integer, "Items": [ { "KeyValueStoreARN": "string" } ... ] } }</param>
-    /// <param name="FunctionCode">The function code. For more information about writing a CloudFront function, see Writing function code for CloudFront Functions in the Amazon CloudFront Developer Guide . Constraints: o min: 1 o max: 40960</param>
+    /// <param name="Name">The name of the function that you are updating. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9-_]{1,64}</param>
+    /// <param name="IfMatch">The current version (ETag value) of the function that you are updating, which you can get using DescribeFunction .</param>
+    /// <param name="FunctionConfig">Configuration information about the function. Comment -&gt; (string) [required] A comment to describe the function. Runtime -&gt; (string) [required] The function's runtime environment version. Possible values: • cloudfront-js-1.0 • cloudfront-js-2.0 KeyValueStoreAssociations -&gt; (structure) The configuration for the key value store associations. Quantity -&gt; (integer) [required] The quantity of key value store associations. Items -&gt; (list) The items of the key value store association. (structure) The key value store association. KeyValueStoreARN -&gt; (string) [required] The Amazon Resource Name (ARN) of the key value store association. Constraints: • min: 0 • max: 85 • pattern: arn:aws:cloudfront::[0-9]{12}:key-value-store\/[0-9a-fA-F-]{36} JSON Syntax: { "Comment": "string", "Runtime": "cloudfront-js-1.0"|"cloudfront-js-2.0", "KeyValueStoreAssociations": { "Quantity": integer, "Items": [ { "KeyValueStoreARN": "string" } ... ] } }</param>
+    /// <param name="FunctionCode">The function code. For more information about writing a CloudFront function, see Writing function code for CloudFront Functions in the Amazon CloudFront Developer Guide . Constraints: • min: 1 • max: 40960</param>
     public AwsCloudfrontUpdateFunctionOptions(
         string Name,
         string IfMatch,
@@ -68,25 +69,25 @@ public record AwsCloudfrontUpdateFunctionOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the function that you are updating. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9-_]{1,64}
+    /// The name of the function that you are updating. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9-_]{1,64}
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The current version (ETag value) of the function that you are updat- ing, which you can get using DescribeFunction .
+    /// The current version (ETag value) of the function that you are updating, which you can get using DescribeFunction .
     /// </summary>
     [CliOption("--if-match")]
     public string? IfMatch { get; private init; }
 
     /// <summary>
-    /// Configuration information about the function. Comment -&gt; (string) [required] A comment to describe the function. Runtime -&gt; (string) [required] The function's runtime environment version. Possible values: o cloudfront-js-1.0 o cloudfront-js-2.0 KeyValueStoreAssociations -&gt; (structure) The configuration for the key value store associations. Quantity -&gt; (integer) [required] The quantity of key value store associations. Items -&gt; (list) The items of the key value store association. (structure) The key value store association. KeyValueStoreARN -&gt; (string) [required] The Amazon Resource Name (ARN) of the key value store association. Constraints: o min: 0 o max: 85 o pattern: arn:aws:cloud- front::[0-9]{12}:key-value-store\/[0-9a-fA-F-]{36} JSON Syntax: { "Comment": "string", "Runtime": "cloudfront-js-1.0"|"cloudfront-js-2.0", "KeyValueStoreAssociations": { "Quantity": integer, "Items": [ { "KeyValueStoreARN": "string" } ... ] } }
+    /// Configuration information about the function. Comment -&gt; (string) [required] A comment to describe the function. Runtime -&gt; (string) [required] The function's runtime environment version. Possible values: • cloudfront-js-1.0 • cloudfront-js-2.0 KeyValueStoreAssociations -&gt; (structure) The configuration for the key value store associations. Quantity -&gt; (integer) [required] The quantity of key value store associations. Items -&gt; (list) The items of the key value store association. (structure) The key value store association. KeyValueStoreARN -&gt; (string) [required] The Amazon Resource Name (ARN) of the key value store association. Constraints: • min: 0 • max: 85 • pattern: arn:aws:cloudfront::[0-9]{12}:key-value-store\/[0-9a-fA-F-]{36} JSON Syntax: { "Comment": "string", "Runtime": "cloudfront-js-1.0"|"cloudfront-js-2.0", "KeyValueStoreAssociations": { "Quantity": integer, "Items": [ { "KeyValueStoreARN": "string" } ... ] } }
     /// </summary>
     [CliOption("--function-config")]
     public string? FunctionConfig { get; private init; }
 
     /// <summary>
-    /// The function code. For more information about writing a CloudFront function, see Writing function code for CloudFront Functions in the Amazon CloudFront Developer Guide . Constraints: o min: 1 o max: 40960
+    /// The function code. For more information about writing a CloudFront function, see Writing function code for CloudFront Functions in the Amazon CloudFront Developer Guide . Constraints: • min: 1 • max: 40960
     /// </summary>
     [CliOption("--function-code")]
     public string? FunctionCode { get; private init; }
@@ -112,6 +113,15 @@ public record AwsCloudfrontUpdateFunctionOptions : AwsOptions, IValidatableObjec
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

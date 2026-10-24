@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsDynamodbCreateBackupOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Creates a backup for an existing table. Each time you create an on-demand backup, the entire table data is backed up. There is no limit to the number of on-demand backups that can be taken. When you create an on-demand backup, a time marker of the request is cataloged, and the backup is created asynchronously, by applying all changes until the time of the request to the last full table snapshot. Backup requests are processed instantaneously and become available for restore within minutes. You ca...
     /// </summary>
-    /// <param name="TableName">The name of the table. You can also provide the Amazon Resource Name (ARN) of the table in this parameter. Constraints: o min: 1 o max: 1024</param>
-    /// <param name="BackupName">Specified name for the backup. Constraints: o min: 3 o max: 255 o pattern: [a-zA-Z0-9_.-]+</param>
+    /// <param name="TableName">The name of the table. You can also provide the Amazon Resource Name (ARN) of the table in this parameter. Constraints: • min: 1 • max: 1024</param>
+    /// <param name="BackupName">Specified name for the backup. Constraints: • min: 3 • max: 255 • pattern: [a-zA-Z0-9_.-]+</param>
     public AwsDynamodbCreateBackupOptions(
         string TableName,
         string BackupName
@@ -60,13 +61,13 @@ public record AwsDynamodbCreateBackupOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the table. You can also provide the Amazon Resource Name (ARN) of the table in this parameter. Constraints: o min: 1 o max: 1024
+    /// The name of the table. You can also provide the Amazon Resource Name (ARN) of the table in this parameter. Constraints: • min: 1 • max: 1024
     /// </summary>
     [CliOption("--table-name")]
     public string? TableName { get; private init; }
 
     /// <summary>
-    /// Specified name for the backup. Constraints: o min: 3 o max: 255 o pattern: [a-zA-Z0-9_.-]+
+    /// Specified name for the backup. Constraints: • min: 3 • max: 255 • pattern: [a-zA-Z0-9_.-]+
     /// </summary>
     [CliOption("--backup-name")]
     public string? BackupName { get; private init; }
@@ -92,6 +93,15 @@ public record AwsDynamodbCreateBackupOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

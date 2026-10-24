@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsSsmContactsDeleteRotationOptions : AwsOptions, IValidatableObje
     /// <summary>
     /// Deletes a rotation from the system. If a rotation belongs to more than one on-call schedule, this operation deletes it from all of them. See also: AWS API Documentation
     /// </summary>
-    /// <param name="RotationId">The Amazon Resource Name (ARN) of the on-call rotation to delete. Constraints: o min: 1 o max: 2048 o pattern: arn:(aws|aws-cn|aws-us-gov):ssm-con- tacts:[-\w+=\/,.@]*:[0-9]+:([\w+=\/,.@:-]+)*</param>
+    /// <param name="RotationId">The Amazon Resource Name (ARN) of the on-call rotation to delete. Constraints: • min: 1 • max: 2048 • pattern: arn:(aws|aws-cn|aws-us-gov):ssm-contacts:[-\w+=\/,.@]*:[0-9]+:([\w+=\/,.@:-]+)*</param>
     public AwsSsmContactsDeleteRotationOptions(
         string RotationId
     )
@@ -56,7 +57,7 @@ public record AwsSsmContactsDeleteRotationOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the on-call rotation to delete. Constraints: o min: 1 o max: 2048 o pattern: arn:(aws|aws-cn|aws-us-gov):ssm-con- tacts:[-\w+=\/,.@]*:[0-9]+:([\w+=\/,.@:-]+)*
+    /// The Amazon Resource Name (ARN) of the on-call rotation to delete. Constraints: • min: 1 • max: 2048 • pattern: arn:(aws|aws-cn|aws-us-gov):ssm-contacts:[-\w+=\/,.@]*:[0-9]+:([\w+=\/,.@:-]+)*
     /// </summary>
     [CliOption("--rotation-id")]
     public string? RotationId { get; private init; }
@@ -82,6 +83,15 @@ public record AwsSsmContactsDeleteRotationOptions : AwsOptions, IValidatableObje
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

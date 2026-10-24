@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates the specified dataview. The dataviews get automatically updated when any new changesets are ingested. Each update of the dataview cre- ates a new version, including changeset details and cache configura- tions See also: AWS API Documentation
+/// Updates the specified dataview. The dataviews get automatically updated when any new changesets are ingested. Each update of the dataview creates a new version, including changeset details and cache configurations See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,11 +27,11 @@ public record AwsFinspaceUpdateKxDataviewOptions : AwsOptions, IValidatableObjec
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates the specified dataview. The dataviews get automatically updated when any new changesets are ingested. Each update of the dataview cre- ates a new version, including changeset details and cache configura- tions See also: AWS API Documentation
+    /// Updates the specified dataview. The dataviews get automatically updated when any new changesets are ingested. Each update of the dataview creates a new version, including changeset details and cache configurations See also: AWS API Documentation
     /// </summary>
-    /// <param name="EnvironmentId">A unique identifier for the kdb environment, where you want to up- date the dataview. Constraints: o min: 1 o max: 32 o pattern: .*\S.*</param>
-    /// <param name="DatabaseName">The name of the database. Constraints: o min: 3 o max: 63 o pattern: ^[a-zA-Z0-9][a-zA-Z0-9-_]*[a-zA-Z0-9]$</param>
-    /// <param name="DataviewName">The name of the dataview that you want to update. Constraints: o min: 3 o max: 63 o pattern: ^[a-zA-Z0-9][a-zA-Z0-9-_]*[a-zA-Z0-9]$</param>
+    /// <param name="EnvironmentId">A unique identifier for the kdb environment, where you want to update the dataview. Constraints: • min: 1 • max: 32 • pattern: .*\S.*</param>
+    /// <param name="DatabaseName">The name of the database. Constraints: • min: 3 • max: 63 • pattern: ^[a-zA-Z0-9][a-zA-Z0-9-_]*[a-zA-Z0-9]$</param>
+    /// <param name="DataviewName">The name of the dataview that you want to update. Constraints: • min: 3 • max: 63 • pattern: ^[a-zA-Z0-9][a-zA-Z0-9-_]*[a-zA-Z0-9]$</param>
     public AwsFinspaceUpdateKxDataviewOptions(
         string EnvironmentId,
         string DatabaseName,
@@ -65,43 +66,43 @@ public record AwsFinspaceUpdateKxDataviewOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A unique identifier for the kdb environment, where you want to up- date the dataview. Constraints: o min: 1 o max: 32 o pattern: .*\S.*
+    /// A unique identifier for the kdb environment, where you want to update the dataview. Constraints: • min: 1 • max: 32 • pattern: .*\S.*
     /// </summary>
     [CliOption("--environment-id")]
     public string? EnvironmentId { get; private init; }
 
     /// <summary>
-    /// The name of the database. Constraints: o min: 3 o max: 63 o pattern: ^[a-zA-Z0-9][a-zA-Z0-9-_]*[a-zA-Z0-9]$
+    /// The name of the database. Constraints: • min: 3 • max: 63 • pattern: ^[a-zA-Z0-9][a-zA-Z0-9-_]*[a-zA-Z0-9]$
     /// </summary>
     [CliOption("--database-name")]
     public string? DatabaseName { get; private init; }
 
     /// <summary>
-    /// The name of the dataview that you want to update. Constraints: o min: 3 o max: 63 o pattern: ^[a-zA-Z0-9][a-zA-Z0-9-_]*[a-zA-Z0-9]$
+    /// The name of the dataview that you want to update. Constraints: • min: 3 • max: 63 • pattern: ^[a-zA-Z0-9][a-zA-Z0-9-_]*[a-zA-Z0-9]$
     /// </summary>
     [CliOption("--dataview-name")]
     public string? DataviewName { get; private init; }
 
     /// <summary>
-    /// The description for a dataview. Constraints: o min: 1 o max: 1000 o pattern: ^[a-zA-Z0-9. ]{1,1000}$
+    /// The description for a dataview. Constraints: • min: 1 • max: 1000 • pattern: ^[a-zA-Z0-9. ]{1,1000}$
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// A unique identifier for the changeset. Constraints: o min: 1 o max: 26 o pattern: ^[a-zA-Z0-9]+$
+    /// A unique identifier for the changeset. Constraints: • min: 1 • max: 26 • pattern: ^[a-zA-Z0-9]+$
     /// </summary>
     [CliOption("--changeset-id")]
     public string? ChangeSetId { get; set; }
 
     /// <summary>
-    /// The configuration that contains the database path of the data that you want to place on each selected volume. Each segment must have a unique database path for each volume. If you do not explicitly spec- ify any database path for a volume, they are accessible from the cluster through the default S3/object store segment. Constraints: o min: 0 o max: 50 (structure) The configuration that contains the database path of the data that you want to place on each selected volume. Each segment must have a unique database path for each volume. If you do not explicitly specify any database path for a volume, they are ac- cessible from the cluster through the default S3/object store segment. dbPaths -&gt; (list) [required] The database path of the data that you want to place on each selected volume for the segment. Each segment must have a unique database path for each volume. Constraints: o min: 1 o max: 30 (string) Constraints: o min: 1 o max: 1025 o pattern: ^(\*)*[\/\?\*]([^\/]+\/){0,2}[^\/]*$ volumeName -&gt; (string) [required] The name of the volume where you want to add data. Constraints: o min: 3 o max: 63 o pattern: ^[a-zA-Z0-9][a-zA-Z0-9-_]*[a-zA-Z0-9]$ onDemand -&gt; (boolean) Enables on-demand caching on the selected database path when a particular file or a column of the database is accessed. When on demand caching is True , dataviews perform minimal loading of files on the filesystem as needed. When it is set to False , everything is cached. The default value is False . Shorthand Syntax: dbPaths=string,string,volumeName=string,onDemand=boolean ... JSON Syntax: [ { "dbPaths": ["string", ...], "volumeName": "string", "onDemand": true|false } ... ]
+    /// The configuration that contains the database path of the data that you want to place on each selected volume. Each segment must have a unique database path for each volume. If you do not explicitly specify any database path for a volume, they are accessible from the cluster through the default S3/object store segment. Constraints: • min: 0 • max: 50 (structure) The configuration that contains the database path of the data that you want to place on each selected volume. Each segment must have a unique database path for each volume. If you do not explicitly specify any database path for a volume, they are accessible from the cluster through the default S3/object store segment. dbPaths -&gt; (list) [required] The database path of the data that you want to place on each selected volume for the segment. Each segment must have a unique database path for each volume. Constraints: • min: 1 • max: 30 (string) Constraints: • min: 1 • max: 1025 • pattern: ^(\*)*[\/\?\*]([^\/]+\/){0,2}[^\/]*$ volumeName -&gt; (string) [required] The name of the volume where you want to add data. Constraints: • min: 3 • max: 63 • pattern: ^[a-zA-Z0-9][a-zA-Z0-9-_]*[a-zA-Z0-9]$ onDemand -&gt; (boolean) Enables on-demand caching on the selected database path when a particular file or a column of the database is accessed. When on demand caching is True , dataviews perform minimal loading of files on the filesystem as needed. When it is set to False , everything is cached. The default value is False . Shorthand Syntax: dbPaths=string,string,volumeName=string,onDemand=boolean ... JSON Syntax: [ { "dbPaths": ["string", ...], "volumeName": "string", "onDemand": true|false } ... ]
     /// </summary>
     [CliOption("--segment-configurations", GroupValues = true)]
     public IEnumerable<string>? SegmentConfigurations { get; set; }
 
     /// <summary>
-    /// A token that ensures idempotency. This token expires in 10 minutes. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9-]+$
+    /// A token that ensures idempotency. This token expires in 10 minutes. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9-]+$
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
@@ -128,6 +129,15 @@ public record AwsFinspaceUpdateKxDataviewOptions : AwsOptions, IValidatableObjec
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

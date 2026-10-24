@@ -24,8 +24,8 @@ public record AwsDatazoneGetLineageEventOptions : AwsOptions
     /// <summary>
     /// Describes the lineage event. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DomainIdentifier">The ID of the domain. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}</param>
-    /// <param name="Identifier">The ID of the lineage event. Constraints: o pattern: [a-z0-9]{14} outfile (string) [required] Filename where the content will be saved</param>
+    /// <param name="DomainIdentifier">The ID of the domain. Constraints: • pattern: dzd[-_][a-zA-Z0-9_-]{1,36}</param>
+    /// <param name="Identifier">The ID of the lineage event. Constraints: • pattern: [a-z0-9]{14} outfile (string) [required] Filename where the content will be saved</param>
     /// <param name="Outfile">The &lt;outfile&gt; operand.</param>
     public AwsDatazoneGetLineageEventOptions(
         string DomainIdentifier,
@@ -49,13 +49,13 @@ public record AwsDatazoneGetLineageEventOptions : AwsOptions
     }
 
     /// <summary>
-    /// The ID of the domain. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}
+    /// The ID of the domain. Constraints: • pattern: dzd[-_][a-zA-Z0-9_-]{1,36}
     /// </summary>
     [CliOption("--domain-identifier")]
     public string DomainIdentifier { get; private init; }
 
     /// <summary>
-    /// The ID of the lineage event. Constraints: o pattern: [a-z0-9]{14} outfile (string) [required] Filename where the content will be saved
+    /// The ID of the lineage event. Constraints: • pattern: [a-z0-9]{14} outfile (string) [required] Filename where the content will be saved
     /// </summary>
     [CliOption("--identifier")]
     public string Identifier { get; private init; }
@@ -65,5 +65,14 @@ public record AwsDatazoneGetLineageEventOptions : AwsOptions
     /// </summary>
     [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
     public string Outfile { get; private init; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

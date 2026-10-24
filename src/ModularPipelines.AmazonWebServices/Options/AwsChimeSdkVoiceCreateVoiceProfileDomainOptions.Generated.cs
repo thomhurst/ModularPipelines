@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,8 +29,8 @@ public record AwsChimeSdkVoiceCreateVoiceProfileDomainOptions : AwsOptions, IVal
     /// <summary>
     /// Creates a voice profile domain, a collection of voice profiles, their voice prints, and encrypted enrollment audio. WARNING: Before creating any voice profiles, you must provide all notices and obtain all consents from the speaker as required under applicable privacy and biometrics laws, and as required under the AWS service terms for the Amazon Chime SDK. For more information about voice profile domains, see Using Amazon Chime SDK Voice Analytics in the Amazon Chime SDK Developer Guide . See al...
     /// </summary>
-    /// <param name="Name">The name of the voice profile domain. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9 _.-]+</param>
-    /// <param name="ServerSideEncryptionConfiguration">The server-side encryption configuration for the request. KmsKeyArn -&gt; (string) [required] The ARN of the KMS key used to encrypt the enrollment data in a voice profile domain. Asymmetric customer managed keys are not supported. Constraints: o min: 1 o max: 1024 o pattern: ^arn[\/\:\-\_\.a-zA-Z0-9]+$ Shorthand Syntax: KmsKeyArn=string JSON Syntax: { "KmsKeyArn": "string" }</param>
+    /// <param name="Name">The name of the voice profile domain. Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9 _.-]+</param>
+    /// <param name="ServerSideEncryptionConfiguration">The server-side encryption configuration for the request. KmsKeyArn -&gt; (string) [required] The ARN of the KMS key used to encrypt the enrollment data in a voice profile domain. Asymmetric customer managed keys are not supported. Constraints: • min: 1 • max: 1024 • pattern: ^arn[\/\:\-\_\.a-zA-Z0-9]+$ Shorthand Syntax: KmsKeyArn=string JSON Syntax: { "KmsKeyArn": "string" }</param>
     public AwsChimeSdkVoiceCreateVoiceProfileDomainOptions(
         string Name,
         string ServerSideEncryptionConfiguration
@@ -61,32 +62,32 @@ public record AwsChimeSdkVoiceCreateVoiceProfileDomainOptions : AwsOptions, IVal
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the voice profile domain. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9 _.-]+
+    /// The name of the voice profile domain. Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9 _.-]+
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The server-side encryption configuration for the request. KmsKeyArn -&gt; (string) [required] The ARN of the KMS key used to encrypt the enrollment data in a voice profile domain. Asymmetric customer managed keys are not supported. Constraints: o min: 1 o max: 1024 o pattern: ^arn[\/\:\-\_\.a-zA-Z0-9]+$ Shorthand Syntax: KmsKeyArn=string JSON Syntax: { "KmsKeyArn": "string" }
+    /// The server-side encryption configuration for the request. KmsKeyArn -&gt; (string) [required] The ARN of the KMS key used to encrypt the enrollment data in a voice profile domain. Asymmetric customer managed keys are not supported. Constraints: • min: 1 • max: 1024 • pattern: ^arn[\/\:\-\_\.a-zA-Z0-9]+$ Shorthand Syntax: KmsKeyArn=string JSON Syntax: { "KmsKeyArn": "string" }
     /// </summary>
     [CliOption("--server-side-encryption-configuration")]
     public string? ServerSideEncryptionConfiguration { get; private init; }
 
     /// <summary>
-    /// A description of the voice profile domain. Constraints: o min: 0 o max: 1024
+    /// A description of the voice profile domain. Constraints: • min: 0 • max: 1024
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The unique identifier for the client request. Use a different token for different domain creation requests. Constraints: o pattern: ^[-_a-zA-Z0-9]*${2,64}$
+    /// The unique identifier for the client request. Use a different token for different domain creation requests. Constraints: • pattern: ^[-_a-zA-Z0-9]*${2,64}$
     /// </summary>
     [SecretValue]
     [CliOption("--client-request-token")]
     public string? ClientRequestToken { get; set; }
 
     /// <summary>
-    /// The tags assigned to the domain. Constraints: o min: 1 o max: 50 (structure) Describes a tag applied to a resource. Key -&gt; (string) [required] The tag's key. Constraints: o min: 1 o max: 128 Value -&gt; (string) [required] The tag's value. Constraints: o min: 0 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// The tags assigned to the domain. Constraints: • min: 1 • max: 50 (structure) Describes a tag applied to a resource. Key -&gt; (string) [required] The tag's key. Constraints: • min: 1 • max: 128 Value -&gt; (string) [required] The tag's value. Constraints: • min: 0 • max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
@@ -112,6 +113,15 @@ public record AwsChimeSdkVoiceCreateVoiceProfileDomainOptions : AwsOptions, IVal
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns the field index policies of the specified log group. For more information about field index policies, see PutIndexPolicy . If a specified log group has a log-group level index policy, that pol- icy is returned by this operation. If a specified log group doesn't have a log-group level index policy, but an account-wide index policy applies to it, that account-wide pol- icy is returned by this operation. To find information about only account-level policies, use DescribeAccountPolicies inst...
+/// Returns the field index policies of the specified log group. For more information about field index policies, see PutIndexPolicy . If a specified log group has a log-group level index policy, that policy is returned by this operation. If a specified log group doesn't have a log-group level index policy, but an account-wide index policy applies to it, that account-wide policy is returned by this operation. To find information about only account-level policies, use DescribeAccountPolicies instead....
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +27,9 @@ public record AwsLogsDescribeIndexPoliciesOptions : AwsOptions, IValidatableObje
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns the field index policies of the specified log group. For more information about field index policies, see PutIndexPolicy . If a specified log group has a log-group level index policy, that pol- icy is returned by this operation. If a specified log group doesn't have a log-group level index policy, but an account-wide index policy applies to it, that account-wide pol- icy is returned by this operation. To find information about only account-level policies, use DescribeAccountPolicies inst...
+    /// Returns the field index policies of the specified log group. For more information about field index policies, see PutIndexPolicy . If a specified log group has a log-group level index policy, that policy is returned by this operation. If a specified log group doesn't have a log-group level index policy, but an account-wide index policy applies to it, that account-wide policy is returned by this operation. To find information about only account-level policies, use DescribeAccountPolicies instead....
     /// </summary>
-    /// <param name="LogGroupIdentifiers">An array containing the name or ARN of the log group that you want to retrieve field index policies for. Constraints: o min: 1 o max: 1 (string) Constraints: o min: 1 o max: 2048 o pattern: [\w#+=/:,.@-]* Syntax: "string" "string" ...</param>
+    /// <param name="LogGroupIdentifiers">An array containing the name or ARN of the log group that you want to retrieve field index policies for. Constraints: • min: 1 • max: 1 (string) Constraints: • min: 1 • max: 2048 • pattern: [\w#+=/:,.@-]* Syntax: "string" "string" ...</param>
     public AwsLogsDescribeIndexPoliciesOptions(
         IEnumerable<string> LogGroupIdentifiers
     )
@@ -68,13 +69,13 @@ public record AwsLogsDescribeIndexPoliciesOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// An array containing the name or ARN of the log group that you want to retrieve field index policies for. Constraints: o min: 1 o max: 1 (string) Constraints: o min: 1 o max: 2048 o pattern: [\w#+=/:,.@-]* Syntax: "string" "string" ...
+    /// An array containing the name or ARN of the log group that you want to retrieve field index policies for. Constraints: • min: 1 • max: 1 (string) Constraints: • min: 1 • max: 2048 • pattern: [\w#+=/:,.@-]* Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--log-group-identifiers", GroupValues = true)]
     public IEnumerable<string>? LogGroupIdentifiers { get; private init; }
 
     /// <summary>
-    /// The token for the next set of items to return. The token expires af- ter 24 hours. Constraints: o min: 1
+    /// The token for the next set of items to return. The token expires after 24 hours. Constraints: • min: 1
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
@@ -101,6 +102,15 @@ public record AwsLogsDescribeIndexPoliciesOptions : AwsOptions, IValidatableObje
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

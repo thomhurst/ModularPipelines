@@ -10,13 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Initiates a Job for launching the machine that is being failed back to from the specified Recovery Instance. This will run conversion on the failback client and will reboot your machine, thus completing the fail- back process. See also: AWS API Documentation
+/// Initiates a Job for launching the machine that is being failed back to from the specified Recovery Instance. This will run conversion on the failback client and will reboot your machine, thus completing the failback process. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +26,9 @@ public record AwsDrsStartFailbackLaunchOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Initiates a Job for launching the machine that is being failed back to from the specified Recovery Instance. This will run conversion on the failback client and will reboot your machine, thus completing the fail- back process. See also: AWS API Documentation
+    /// Initiates a Job for launching the machine that is being failed back to from the specified Recovery Instance. This will run conversion on the failback client and will reboot your machine, thus completing the failback process. See also: AWS API Documentation
     /// </summary>
-    /// <param name="RecoveryInstanceIds">The IDs of the Recovery Instance whose failback launch we want to request. Constraints: o min: 1 o max: 200 (string) Constraints: o min: 10 o max: 19 o pattern: i-[0-9a-fA-F]{8,} Syntax: "string" "string" ...</param>
+    /// <param name="RecoveryInstanceIds">The IDs of the Recovery Instance whose failback launch we want to request. Constraints: • min: 1 • max: 200 (string) Constraints: • min: 10 • max: 19 • pattern: i-[0-9a-fA-F]{8,} Syntax: "string" "string" ...</param>
     public AwsDrsStartFailbackLaunchOptions(
         IEnumerable<string> RecoveryInstanceIds
     )
@@ -68,13 +68,13 @@ public record AwsDrsStartFailbackLaunchOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The IDs of the Recovery Instance whose failback launch we want to request. Constraints: o min: 1 o max: 200 (string) Constraints: o min: 10 o max: 19 o pattern: i-[0-9a-fA-F]{8,} Syntax: "string" "string" ...
+    /// The IDs of the Recovery Instance whose failback launch we want to request. Constraints: • min: 1 • max: 200 (string) Constraints: • min: 10 • max: 19 • pattern: i-[0-9a-fA-F]{8,} Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--recovery-instance-ids", GroupValues = true)]
     public IEnumerable<string>? RecoveryInstanceIds { get; private init; }
 
     /// <summary>
-    /// The tags to be associated with the failback launch Job. key -&gt; (string) Constraints: o min: 0 o max: 256 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The tags to be associated with the failback launch Job. key -&gt; (string) Constraints: • min: 0 • max: 256 value -&gt; (string) Constraints: • min: 0 • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
@@ -100,6 +100,15 @@ public record AwsDrsStartFailbackLaunchOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

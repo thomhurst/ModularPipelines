@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// NOTE: This operation is not supported for directory buckets. Removes the PublicAccessBlock configuration for an Amazon S3 bucket. This operation removes the bucket-level configuration only. The effec- tive public access behavior will still be governed by account-level settings (which may inherit from organization-level policies). To use this operation, you must have the s3:PutBucketPublicAccessBlock permis- sion. For more information about permissions, see Permissions Related to Bucket Subresour...
+/// NOTE: This operation is not supported for directory buckets. Removes the PublicAccessBlock configuration for an Amazon S3 bucket. This operation removes the bucket-level configuration only. The effective public access behavior will still be governed by account-level settings (which may inherit from organization-level policies). To use this operation, you must have the s3:PutBucketPublicAccessBlock permission. For more information about permissions, see Permissions Related to Bucket Subresource O...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +26,7 @@ public record AwsS3apiDeletePublicAccessBlockOptions : AwsOptions, IValidatableO
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// NOTE: This operation is not supported for directory buckets. Removes the PublicAccessBlock configuration for an Amazon S3 bucket. This operation removes the bucket-level configuration only. The effec- tive public access behavior will still be governed by account-level settings (which may inherit from organization-level policies). To use this operation, you must have the s3:PutBucketPublicAccessBlock permis- sion. For more information about permissions, see Permissions Related to Bucket Subresour...
+    /// NOTE: This operation is not supported for directory buckets. Removes the PublicAccessBlock configuration for an Amazon S3 bucket. This operation removes the bucket-level configuration only. The effective public access behavior will still be governed by account-level settings (which may inherit from organization-level policies). To use this operation, you must have the s3:PutBucketPublicAccessBlock permission. For more information about permissions, see Permissions Related to Bucket Subresource O...
     /// </summary>
     /// <param name="Bucket">The Amazon S3 bucket whose PublicAccessBlock configuration you want to delete.</param>
     public AwsS3apiDeletePublicAccessBlockOptions(
@@ -62,7 +63,7 @@ public record AwsS3apiDeletePublicAccessBlockOptions : AwsOptions, IValidatableO
     public string? Bucket { get; private init; }
 
     /// <summary>
-    /// The account ID of the expected bucket owner. If the account ID that you provide does not match the actual owner of the bucket, the re- quest fails with the HTTP status code 403 Forbidden (access denied).
+    /// The account ID of the expected bucket owner. If the account ID that you provide does not match the actual owner of the bucket, the request fails with the HTTP status code 403 Forbidden (access denied).
     /// </summary>
     [CliOption("--expected-bucket-owner")]
     public string? ExpectedBucketOwner { get; set; }
@@ -88,6 +89,15 @@ public record AwsS3apiDeletePublicAccessBlockOptions : AwsOptions, IValidatableO
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

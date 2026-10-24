@@ -10,7 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -63,7 +63,7 @@ public record AwsSchemasCreateRegistryOptions : AwsOptions, IValidatableObject
     public string? RegistryName { get; private init; }
 
     /// <summary>
-    /// A description of the registry to be created. Constraints: o min: 0 o max: 256
+    /// A description of the registry to be created. Constraints: • min: 0 • max: 256
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
@@ -95,6 +95,15 @@ public record AwsSchemasCreateRegistryOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

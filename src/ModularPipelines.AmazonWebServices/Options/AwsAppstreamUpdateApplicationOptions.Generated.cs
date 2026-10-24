@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsAppstreamUpdateApplicationOptions : AwsOptions, IValidatableObj
     /// <summary>
     /// Updates the specified application. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">The name of the application. This name is visible to users when dis- play name is not specified. Constraints: o pattern: ^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$</param>
+    /// <param name="Name">The name of the application. This name is visible to users when display name is not specified. Constraints: • pattern: ^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$</param>
     public AwsAppstreamUpdateApplicationOptions(
         string Name
     )
@@ -56,55 +57,55 @@ public record AwsAppstreamUpdateApplicationOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the application. This name is visible to users when dis- play name is not specified. Constraints: o pattern: ^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$
+    /// The name of the application. This name is visible to users when display name is not specified. Constraints: • pattern: ^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The display name of the application. This name is visible to users in the application catalog. Constraints: o max: 100
+    /// The display name of the application. This name is visible to users in the application catalog. Constraints: • max: 100
     /// </summary>
     [CliOption("--display-name")]
     public string? DisplayName { get; set; }
 
     /// <summary>
-    /// The description of the application. Constraints: o max: 256
+    /// The description of the application. Constraints: • max: 256
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The icon S3 location of the application. S3Bucket -&gt; (string) [required] The S3 bucket of the S3 object. Constraints: o min: 3 o max: 63 o pattern: ^[0-9a-z\.\-]*(?&lt;!\.)$ S3Key -&gt; (string) The S3 key of the S3 object. This is required when used for the following: o IconS3Location (Actions: CreateApplication and UpdateApplica- tion) o SessionScriptS3Location (Actions: CreateFleet and UpdateFleet) o ScriptDetails (Actions: CreateAppBlock) o SourceS3Location when creating an app block with CUSTOM Pack- agingType (Actions: CreateAppBlock) o SourceS3Location when creating an app block with APPSTREAM2 PackagingType, and using an existing application package (VHD file). In this case, S3Key refers to the VHD file. If a new application package is required, then S3Key is not required. (Actions: CreateAppBlock) Constraints: o min: 1 o max: 1024 Shorthand Syntax: S3Bucket=string,S3Key=string JSON Syntax: { "S3Bucket": "string", "S3Key": "string" }
+    /// The icon S3 location of the application. S3Bucket -&gt; (string) [required] The S3 bucket of the S3 object. Constraints: • min: 3 • max: 63 • pattern: ^[0-9a-z\.\-]*(?&lt;!\.)$ S3Key -&gt; (string) The S3 key of the S3 object. This is required when used for the following: • IconS3Location (Actions: CreateApplication and UpdateApplication) • SessionScriptS3Location (Actions: CreateFleet and UpdateFleet) • ScriptDetails (Actions: CreateAppBlock) • SourceS3Location when creating an app block with CUSTOM PackagingType (Actions: CreateAppBlock) • SourceS3Location when creating an app block with APPSTREAM2 PackagingType, and using an existing application package (VHD file). In this case, S3Key refers to the VHD file. If a new application package is required, then S3Key is not required. (Actions: CreateAppBlock) Constraints: • min: 1 • max: 1024 Shorthand Syntax: S3Bucket=string,S3Key=string JSON Syntax: { "S3Bucket": "string", "S3Key": "string" }
     /// </summary>
     [CliOption("--icon-s3-location")]
     public string? IconS3Location { get; set; }
 
     /// <summary>
-    /// The launch path of the application. Constraints: o min: 1
+    /// The launch path of the application. Constraints: • min: 1
     /// </summary>
     [CliOption("--launch-path")]
     public string? LaunchPath { get; set; }
 
     /// <summary>
-    /// The working directory of the application. Constraints: o min: 1
+    /// The working directory of the application. Constraints: • min: 1
     /// </summary>
     [CliOption("--working-directory")]
     public string? WorkingDirectory { get; set; }
 
     /// <summary>
-    /// The launch parameters of the application. Constraints: o min: 1
+    /// The launch parameters of the application. Constraints: • min: 1
     /// </summary>
     [CliOption("--launch-parameters")]
     public string? LaunchParameters { get; set; }
 
     /// <summary>
-    /// The ARN of the app block. Constraints: o pattern: ^arn:aws(?:\-cn|\-iso\-b|\-iso|\-us\-gov)?:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.\\-]{0,1023}$
+    /// The ARN of the app block. Constraints: • pattern: ^arn:aws(?:\-cn|\-iso\-b|\-iso|\-us\-gov)?:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.\\-]{0,1023}$
     /// </summary>
     [CliOption("--app-block-arn")]
     public string? AppBlockArn { get; set; }
 
     /// <summary>
-    /// The attributes to delete for an application. Constraints: o max: 2 (string) Possible values: o LAUNCH_PARAMETERS o WORKING_DIRECTORY Syntax: "string" "string" ...
+    /// The attributes to delete for an application. Constraints: • max: 2 (string) Possible values: • LAUNCH_PARAMETERS • WORKING_DIRECTORY Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--attributes-to-delete", GroupValues = true)]
     public IEnumerable<string>? AttributesToDelete { get; set; }
@@ -130,6 +131,15 @@ public record AwsAppstreamUpdateApplicationOptions : AwsOptions, IValidatableObj
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

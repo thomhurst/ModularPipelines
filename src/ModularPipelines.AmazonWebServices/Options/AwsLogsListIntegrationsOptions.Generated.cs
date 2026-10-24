@@ -15,7 +15,7 @@ using ModularPipelines.AmazonWebServices.Enums;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns a list of integrations between CloudWatch Logs and other ser- vices in this account. Currently, only one integration can be created in an account, and this integration must be with OpenSearch Service. See also: AWS API Documentation
+/// Returns a list of integrations between CloudWatch Logs and other services in this account. Currently, only one integration can be created in an account, and this integration must be with OpenSearch Service. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -23,19 +23,19 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsLogsListIntegrationsOptions : AwsOptions
 {
     /// <summary>
-    /// To limit the results to integrations that start with a certain name prefix, specify that name prefix here. Constraints: o min: 1 o max: 50 o pattern: [\.\-_/#A-Za-z0-9]+
+    /// To limit the results to integrations that start with a certain name prefix, specify that name prefix here. Constraints: • min: 1 • max: 50 • pattern: [\.\-_/#A-Za-z0-9]+
     /// </summary>
     [CliOption("--integration-name-prefix")]
     public string? IntegrationNamePrefix { get; set; }
 
     /// <summary>
-    /// To limit the results to integrations of a certain type, specify that type here. Possible values: o OPENSEARCH
+    /// To limit the results to integrations of a certain type, specify that type here. Possible values: • OPENSEARCH
     /// </summary>
     [CliOption("--integration-type")]
     public string? IntegrationType { get; set; }
 
     /// <summary>
-    /// To limit the results to integrations with a certain status, specify that status here. Possible values: o PROVISIONING o ACTIVE o FAILED
+    /// To limit the results to integrations with a certain status, specify that status here. Possible values: • PROVISIONING • ACTIVE • FAILED
     /// </summary>
     [CliOption("--integration-status")]
     public AwsLogsListIntegrationsIntegrationStatus? IntegrationStatus { get; set; }
@@ -45,5 +45,14 @@ public record AwsLogsListIntegrationsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

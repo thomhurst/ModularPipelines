@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsElementalinferenceGetFeedPolicyOptions : AwsOptions, IValidatab
     /// <summary>
     /// Retrieves the resource-based policy attached to the specified feed. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Id">The ID of the feed whose policy you want to retrieve. Constraints: o pattern: [a-z0-9]{19}</param>
+    /// <param name="Id">The ID of the feed whose policy you want to retrieve. Constraints: • pattern: [a-z0-9]{19}</param>
     public AwsElementalinferenceGetFeedPolicyOptions(
         string Id
     )
@@ -56,7 +57,7 @@ public record AwsElementalinferenceGetFeedPolicyOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the feed whose policy you want to retrieve. Constraints: o pattern: [a-z0-9]{19}
+    /// The ID of the feed whose policy you want to retrieve. Constraints: • pattern: [a-z0-9]{19}
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; private init; }
@@ -82,6 +83,15 @@ public record AwsElementalinferenceGetFeedPolicyOptions : AwsOptions, IValidatab
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

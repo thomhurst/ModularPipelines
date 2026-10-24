@@ -11,7 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -29,8 +29,8 @@ public record AwsMediaconnectCreateRouterNetworkInterfaceOptions : AwsOptions, I
     /// <summary>
     /// Creates a new router network interface in AWS Elemental MediaConnect. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">The name of the router network interface. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9]([a-zA-Z0-9\-_]*[a-zA-Z0-9])?</param>
-    /// <param name="Configuration">The configuration settings for the router network interface. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: Public, Vpc. Public -&gt; (structure) The configuration settings for a public router network inter- face, including the list of allowed CIDR blocks. AllowRules -&gt; (list) [required] The list of allowed CIDR blocks for the public router network interface. Constraints: o min: 0 o max: 10 (structure) A rule that allows a specific CIDR block to access the public router network interface. Cidr -&gt; (string) [required] The CIDR block that is allowed to access the public router network interface. Constraints: o pattern: (?:[0-9]{1,3}\.){3}[0-9]{1,3}/([0-9]|[12][0-9]|3[0-2]) Vpc -&gt; (structure) The configuration settings for a router network interface within a VPC, including the security group IDs and subnet ID. SecurityGroupIds -&gt; (list) [required] The IDs of the security groups to associate with the router network interface within the VPC. Constraints: o min: 1 o max: 5 (string) SubnetId -&gt; (string) [required] The ID of the subnet within the VPC to associate the router network interface with. JSON Syntax: { "Public": { "AllowRules": [ { "Cidr": "string" } ... ] }, "Vpc": { "SecurityGroupIds": ["string", ...], "SubnetId": "string" } }</param>
+    /// <param name="Name">The name of the router network interface. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9]([a-zA-Z0-9\-_]*[a-zA-Z0-9])?</param>
+    /// <param name="Configuration">The configuration settings for the router network interface. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: Public, Vpc. Public -&gt; (structure) The configuration settings for a public router network interface, including the list of allowed CIDR blocks. AllowRules -&gt; (list) [required] The list of allowed CIDR blocks for the public router network interface. Constraints: • min: 0 • max: 10 (structure) A rule that allows a specific CIDR block to access the public router network interface. Cidr -&gt; (string) [required] The CIDR block that is allowed to access the public router network interface. Constraints: • pattern: (?:[0-9]{1,3}\.){3}[0-9]{1,3}/([0-9]|[12][0-9]|3[0-2]) Vpc -&gt; (structure) The configuration settings for a router network interface within a VPC, including the security group IDs and subnet ID. SecurityGroupIds -&gt; (list) [required] The IDs of the security groups to associate with the router network interface within the VPC. Constraints: • min: 1 • max: 5 (string) SubnetId -&gt; (string) [required] The ID of the subnet within the VPC to associate the router network interface with. JSON Syntax: { "Public": { "AllowRules": [ { "Cidr": "string" } ... ] }, "Vpc": { "SecurityGroupIds": ["string", ...], "SubnetId": "string" } }</param>
     public AwsMediaconnectCreateRouterNetworkInterfaceOptions(
         string Name,
         string Configuration
@@ -62,19 +62,19 @@ public record AwsMediaconnectCreateRouterNetworkInterfaceOptions : AwsOptions, I
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the router network interface. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9]([a-zA-Z0-9\-_]*[a-zA-Z0-9])?
+    /// The name of the router network interface. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9]([a-zA-Z0-9\-_]*[a-zA-Z0-9])?
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The configuration settings for the router network interface. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: Public, Vpc. Public -&gt; (structure) The configuration settings for a public router network inter- face, including the list of allowed CIDR blocks. AllowRules -&gt; (list) [required] The list of allowed CIDR blocks for the public router network interface. Constraints: o min: 0 o max: 10 (structure) A rule that allows a specific CIDR block to access the public router network interface. Cidr -&gt; (string) [required] The CIDR block that is allowed to access the public router network interface. Constraints: o pattern: (?:[0-9]{1,3}\.){3}[0-9]{1,3}/([0-9]|[12][0-9]|3[0-2]) Vpc -&gt; (structure) The configuration settings for a router network interface within a VPC, including the security group IDs and subnet ID. SecurityGroupIds -&gt; (list) [required] The IDs of the security groups to associate with the router network interface within the VPC. Constraints: o min: 1 o max: 5 (string) SubnetId -&gt; (string) [required] The ID of the subnet within the VPC to associate the router network interface with. JSON Syntax: { "Public": { "AllowRules": [ { "Cidr": "string" } ... ] }, "Vpc": { "SecurityGroupIds": ["string", ...], "SubnetId": "string" } }
+    /// The configuration settings for the router network interface. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: Public, Vpc. Public -&gt; (structure) The configuration settings for a public router network interface, including the list of allowed CIDR blocks. AllowRules -&gt; (list) [required] The list of allowed CIDR blocks for the public router network interface. Constraints: • min: 0 • max: 10 (structure) A rule that allows a specific CIDR block to access the public router network interface. Cidr -&gt; (string) [required] The CIDR block that is allowed to access the public router network interface. Constraints: • pattern: (?:[0-9]{1,3}\.){3}[0-9]{1,3}/([0-9]|[12][0-9]|3[0-2]) Vpc -&gt; (structure) The configuration settings for a router network interface within a VPC, including the security group IDs and subnet ID. SecurityGroupIds -&gt; (list) [required] The IDs of the security groups to associate with the router network interface within the VPC. Constraints: • min: 1 • max: 5 (string) SubnetId -&gt; (string) [required] The ID of the subnet within the VPC to associate the router network interface with. JSON Syntax: { "Public": { "AllowRules": [ { "Cidr": "string" } ... ] }, "Vpc": { "SecurityGroupIds": ["string", ...], "SubnetId": "string" } }
     /// </summary>
     [CliOption("--configuration")]
     public string? Configuration { get; private init; }
 
     /// <summary>
-    /// The Amazon Web Services Region for the router network interface. De- faults to the current region if not specified.
+    /// The Amazon Web Services Region for the router network interface. Defaults to the current region if not specified.
     /// </summary>
     [CliOption("--region-name")]
     public string? RegionName { get; set; }
@@ -86,7 +86,7 @@ public record AwsMediaconnectCreateRouterNetworkInterfaceOptions : AwsOptions, I
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>
-    /// A unique identifier for the request to ensure idempotency. Constraints: o min: 0 o max: 256 o pattern: [!-~]+
+    /// A unique identifier for the request to ensure idempotency. Constraints: • min: 0 • max: 256 • pattern: [!-~]+
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
@@ -113,6 +113,15 @@ public record AwsMediaconnectCreateRouterNetworkInterfaceOptions : AwsOptions, I
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -11,13 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Starts a chat contact with an AI agent. Use the returned ParticipantToken with the CreateParticipantConnection operation. For more information about chat, see the following topics in the Con- nect Customer Administrator Guide : o Concepts: Web and mobile messaging capabilities in Connect Customer o Connect Customer Chat security best practices See also: AWS API Documentation
+/// Starts a chat contact with an AI agent. Use the returned ParticipantToken with the CreateParticipantConnection operation. For more information about chat, see the following topics in the Connect Customer Administrator Guide : • Concepts: Web and mobile messaging capabilities in Connect Customer • Connect Customer Chat security best practices See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,11 +27,11 @@ public record AwsConnectStartAssistantContactOptions : AwsOptions, IValidatableO
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Starts a chat contact with an AI agent. Use the returned ParticipantToken with the CreateParticipantConnection operation. For more information about chat, see the following topics in the Con- nect Customer Administrator Guide : o Concepts: Web and mobile messaging capabilities in Connect Customer o Connect Customer Chat security best practices See also: AWS API Documentation
+    /// Starts a chat contact with an AI agent. Use the returned ParticipantToken with the CreateParticipantConnection operation. For more information about chat, see the following topics in the Connect Customer Administrator Guide : • Concepts: Web and mobile messaging capabilities in Connect Customer • Connect Customer Chat security best practices See also: AWS API Documentation
     /// </summary>
-    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100</param>
-    /// <param name="AiAgent">The AI agent configuration for this contact. AiAgentId -&gt; (string) [required] The identifier of the AI agent that participates in the contact. Constraints: o min: 0 o max: 128 o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(:[A-Z0-9_$]+){0,1}$|^arn:[a-z-]*?:wis- dom:[a-z0-9-]*?:[0-9]{12}:[a-z-]*?/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(?:/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}){0,2}(:[A-Z0-9_$]+){0,1} Shorthand Syntax: AiAgentId=string JSON Syntax: { "AiAgentId": "string" }</param>
-    /// <param name="ParticipantDetails">The display name and other details that identify the chat partici- pant. DisplayName -&gt; (string) [required] Display name of the participant. Constraints: o min: 1 o max: 256 Shorthand Syntax: DisplayName=string JSON Syntax: { "DisplayName": "string" }</param>
+    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: • min: 1 • max: 100</param>
+    /// <param name="AiAgent">The AI agent configuration for this contact. AiAgentId -&gt; (string) [required] The identifier of the AI agent that participates in the contact. Constraints: • min: 0 • max: 128 • pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(:[A-Z0-9_$]+){0,1}$|^arn:[a-z-]*?:wisdom:[a-z0-9-]*?:[0-9]{12}:[a-z-]*?/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(?:/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}){0,2}(:[A-Z0-9_$]+){0,1} Shorthand Syntax: AiAgentId=string JSON Syntax: { "AiAgentId": "string" }</param>
+    /// <param name="ParticipantDetails">The display name and other details that identify the chat participant. DisplayName -&gt; (string) [required] Display name of the participant. Constraints: • min: 1 • max: 256 Shorthand Syntax: DisplayName=string JSON Syntax: { "DisplayName": "string" }</param>
     public AwsConnectStartAssistantContactOptions(
         string InstanceId,
         string AiAgent,
@@ -66,50 +66,50 @@ public record AwsConnectStartAssistantContactOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100
+    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--instance-id")]
     public string? InstanceId { get; private init; }
 
     /// <summary>
-    /// The AI agent configuration for this contact. AiAgentId -&gt; (string) [required] The identifier of the AI agent that participates in the contact. Constraints: o min: 0 o max: 128 o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(:[A-Z0-9_$]+){0,1}$|^arn:[a-z-]*?:wis- dom:[a-z0-9-]*?:[0-9]{12}:[a-z-]*?/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(?:/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}){0,2}(:[A-Z0-9_$]+){0,1} Shorthand Syntax: AiAgentId=string JSON Syntax: { "AiAgentId": "string" }
+    /// The AI agent configuration for this contact. AiAgentId -&gt; (string) [required] The identifier of the AI agent that participates in the contact. Constraints: • min: 0 • max: 128 • pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(:[A-Z0-9_$]+){0,1}$|^arn:[a-z-]*?:wisdom:[a-z0-9-]*?:[0-9]{12}:[a-z-]*?/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(?:/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}){0,2}(:[A-Z0-9_$]+){0,1} Shorthand Syntax: AiAgentId=string JSON Syntax: { "AiAgentId": "string" }
     /// </summary>
     [CliOption("--ai-agent")]
     public string? AiAgent { get; private init; }
 
     /// <summary>
-    /// The display name and other details that identify the chat partici- pant. DisplayName -&gt; (string) [required] Display name of the participant. Constraints: o min: 1 o max: 256 Shorthand Syntax: DisplayName=string JSON Syntax: { "DisplayName": "string" }
+    /// The display name and other details that identify the chat participant. DisplayName -&gt; (string) [required] Display name of the participant. Constraints: • min: 1 • max: 256 Shorthand Syntax: DisplayName=string JSON Syntax: { "DisplayName": "string" }
     /// </summary>
     [CliOption("--participant-details")]
     public string? ParticipantDetails { get; private init; }
 
     /// <summary>
-    /// The initial message to send to the newly created chat. ContentType -&gt; (string) [required] The type of the content. Supported types are text/plain , text/markdown , application/json , and application/vnd.amazon- aws.connect.message.interactive.response . Constraints: o min: 1 o max: 100 Content -&gt; (string) [required] The content of the chat message. Maximum of 16,384 bytes for all content types (text/plain , text/markdown , application/json , and application/vnd.amazonaws.connect.message.interactive.re- sponse ). Some messaging channels enforce lower limits. For channel-spe- cific message size limits, see Chat message size limits by chan- nel in the Amazon Connect Customer Administrator Guide . Constraints: o min: 1 o max: 16384 Shorthand Syntax: ContentType=string,Content=string JSON Syntax: { "ContentType": "string", "Content": "string" }
+    /// The initial message to send to the newly created chat. ContentType -&gt; (string) [required] The type of the content. Supported types are text/plain , text/markdown , application/json , and application/vnd.amazonaws.connect.message.interactive.response . Constraints: • min: 1 • max: 100 Content -&gt; (string) [required] The content of the chat message. Maximum of 16,384 bytes for all content types (text/plain , text/markdown , application/json , and application/vnd.amazonaws.connect.message.interactive.response ). Some messaging channels enforce lower limits. For channel-specific message size limits, see Chat message size limits by channel in the Amazon Connect Customer Administrator Guide . Constraints: • min: 1 • max: 16384 Shorthand Syntax: ContentType=string,Content=string JSON Syntax: { "ContentType": "string", "Content": "string" }
     /// </summary>
     [CliOption("--initial-message")]
     public string? InitialMessage { get; set; }
 
     /// <summary>
-    /// A map of key-value pairs to associate with the contact. We make these attributes available to flows as standard contact attributes. You can provide up to 32,768 UTF-8 bytes across all key-value pairs for each contact. key -&gt; (string) Constraints: o min: 1 o max: 32767 value -&gt; (string) Constraints: o min: 0 o max: 32767 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// A map of key-value pairs to associate with the contact. We make these attributes available to flows as standard contact attributes. You can provide up to 32,768 UTF-8 bytes across all key-value pairs for each contact. key -&gt; (string) Constraints: • min: 1 • max: 32767 value -&gt; (string) Constraints: • min: 0 • max: 32767 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--attributes", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Attributes { get; set; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs . Constraints: o max: 500
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs . Constraints: • max: 500
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// The configuration that enables persistent chat. For more information about persistent chat and its use cases, see Enable persistent chat . RehydrationType -&gt; (string) The contactId that is used for rehydration depends on the rehy- dration type. RehydrationType is required for persistent chat. o ENTIRE_PAST_SESSION : Rehydrates a chat from the most recently terminated past chat contact of the specified past ended chat session. To use this type, provide the initialContactId of the past ended chat session in the sourceContactId field. In this type, Connect Customer determines the most recent chat contact on the specified chat session that has ended, and uses it to start a persistent chat. o FROM_SEGMENT : Rehydrates a chat from the past chat contact that is specified in the sourceContactId field. The actual contactId used for rehydration is provided in the re- sponse of this API. Possible values: o ENTIRE_PAST_SESSION o FROM_SEGMENT SourceContactId -&gt; (string) The contactId from which a persistent chat session must be started. Constraints: o min: 1 o max: 256 Shorthand Syntax: RehydrationType=string,SourceContactId=string JSON Syntax: { "RehydrationType": "ENTIRE_PAST_SESSION"|"FROM_SEGMENT", "SourceContactId": "string" }
+    /// The configuration that enables persistent chat. For more information about persistent chat and its use cases, see Enable persistent chat . RehydrationType -&gt; (string) The contactId that is used for rehydration depends on the rehydration type. RehydrationType is required for persistent chat. • ENTIRE_PAST_SESSION : Rehydrates a chat from the most recently terminated past chat contact of the specified past ended chat session. To use this type, provide the initialContactId of the past ended chat session in the sourceContactId field. In this type, Connect Customer determines the most recent chat contact on the specified chat session that has ended, and uses it to start a persistent chat. • FROM_SEGMENT : Rehydrates a chat from the past chat contact that is specified in the sourceContactId field. The actual contactId used for rehydration is provided in the response of this API. Possible values: • ENTIRE_PAST_SESSION • FROM_SEGMENT SourceContactId -&gt; (string) The contactId from which a persistent chat session must be started. Constraints: • min: 1 • max: 256 Shorthand Syntax: RehydrationType=string,SourceContactId=string JSON Syntax: { "RehydrationType": "ENTIRE_PAST_SESSION"|"FROM_SEGMENT", "SourceContactId": "string" }
     /// </summary>
     [CliOption("--persistent-chat")]
     public string? PersistentChat { get; set; }
 
     /// <summary>
-    /// The identifier of an Connect Customer contact related to the new as- sistant contact. NOTE: You cannot provide both RelatedContactId and PersistentChat . Constraints: o min: 1 o max: 256
+    /// The identifier of an Connect Customer contact related to the new assistant contact. NOTE: You cannot provide both RelatedContactId and PersistentChat . Constraints: • min: 1 • max: 256
     /// </summary>
     [CliOption("--related-contact-id")]
     public string? RelatedContactId { get; set; }
@@ -135,6 +135,15 @@ public record AwsConnectStartAssistantContactOptions : AwsOptions, IValidatableO
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

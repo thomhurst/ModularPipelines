@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,10 +28,10 @@ public record AwsDatazoneCreateEnvironmentProfileOptions : AwsOptions, IValidata
     /// <summary>
     /// Creates an Amazon DataZone environment profile. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DomainIdentifier">The ID of the Amazon DataZone domain in which this environment pro- file is created. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}</param>
-    /// <param name="Name">The name of this Amazon DataZone environment profile. Constraints: o min: 1 o max: 64 o pattern: [\w -]+</param>
-    /// <param name="EnvironmentBlueprintIdentifier">The ID of the blueprint with which this environment profile is cre- ated. Constraints: o pattern: [a-zA-Z0-9_-]{1,36}</param>
-    /// <param name="ProjectIdentifier">The identifier of the project in which to create the environment profile. Constraints: o pattern: [a-zA-Z0-9_-]{1,36}</param>
+    /// <param name="DomainIdentifier">The ID of the Amazon DataZone domain in which this environment profile is created. Constraints: • pattern: dzd[-_][a-zA-Z0-9_-]{1,36}</param>
+    /// <param name="Name">The name of this Amazon DataZone environment profile. Constraints: • min: 1 • max: 64 • pattern: [\w -]+</param>
+    /// <param name="EnvironmentBlueprintIdentifier">The ID of the blueprint with which this environment profile is created. Constraints: • pattern: [a-zA-Z0-9_-]{1,36}</param>
+    /// <param name="ProjectIdentifier">The identifier of the project in which to create the environment profile. Constraints: • pattern: [a-zA-Z0-9_-]{1,36}</param>
     public AwsDatazoneCreateEnvironmentProfileOptions(
         string DomainIdentifier,
         string Name,
@@ -68,31 +69,31 @@ public record AwsDatazoneCreateEnvironmentProfileOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the Amazon DataZone domain in which this environment pro- file is created. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}
+    /// The ID of the Amazon DataZone domain in which this environment profile is created. Constraints: • pattern: dzd[-_][a-zA-Z0-9_-]{1,36}
     /// </summary>
     [CliOption("--domain-identifier")]
     public string? DomainIdentifier { get; private init; }
 
     /// <summary>
-    /// The name of this Amazon DataZone environment profile. Constraints: o min: 1 o max: 64 o pattern: [\w -]+
+    /// The name of this Amazon DataZone environment profile. Constraints: • min: 1 • max: 64 • pattern: [\w -]+
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The ID of the blueprint with which this environment profile is cre- ated. Constraints: o pattern: [a-zA-Z0-9_-]{1,36}
+    /// The ID of the blueprint with which this environment profile is created. Constraints: • pattern: [a-zA-Z0-9_-]{1,36}
     /// </summary>
     [CliOption("--environment-blueprint-identifier")]
     public string? EnvironmentBlueprintIdentifier { get; private init; }
 
     /// <summary>
-    /// The identifier of the project in which to create the environment profile. Constraints: o pattern: [a-zA-Z0-9_-]{1,36}
+    /// The identifier of the project in which to create the environment profile. Constraints: • pattern: [a-zA-Z0-9_-]{1,36}
     /// </summary>
     [CliOption("--project-identifier")]
     public string? ProjectIdentifier { get; private init; }
 
     /// <summary>
-    /// The description of this Amazon DataZone environment profile. Constraints: o min: 0 o max: 2048
+    /// The description of this Amazon DataZone environment profile. Constraints: • min: 0 • max: 2048
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
@@ -104,13 +105,13 @@ public record AwsDatazoneCreateEnvironmentProfileOptions : AwsOptions, IValidata
     public IEnumerable<string>? UserParameters { get; set; }
 
     /// <summary>
-    /// The Amazon Web Services account in which the Amazon DataZone envi- ronment is created. Constraints: o pattern: \d{12}
+    /// The Amazon Web Services account in which the Amazon DataZone environment is created. Constraints: • pattern: \d{12}
     /// </summary>
     [CliOption("--aws-account-id")]
     public string? AwsAccountId { get; set; }
 
     /// <summary>
-    /// The Amazon Web Services region in which this environment profile is created. Constraints: o pattern: [a-z]{2}-[a-z]{4,10}-\d
+    /// The Amazon Web Services region in which this environment profile is created. Constraints: • pattern: [a-z]{2}-[a-z]{4,10}-\d
     /// </summary>
     [CliOption("--aws-account-region")]
     public string? AwsAccountRegion { get; set; }
@@ -136,6 +137,15 @@ public record AwsDatazoneCreateEnvironmentProfileOptions : AwsOptions, IValidata
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

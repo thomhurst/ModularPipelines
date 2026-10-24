@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,11 +28,11 @@ public record AwsLambdaDeleteLayerVersionOptions : AwsOptions, IValidatableObjec
     /// <summary>
     /// Deletes a version of an Lambda layer . Deleted versions can no longer be viewed or added to functions. To avoid breaking functions, a copy of the version remains in Lambda until no functions refer to it. See also: AWS API Documentation
     /// </summary>
-    /// <param name="LayerName">The name or Amazon Resource Name (ARN) of the layer. Constraints: o min: 1 o max: 140 o pattern: (arn:(aws[a-zA-Z-]*)?:lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\d{1}:\d{12}:layer:[a-zA-Z0-9-_]+)|[a-zA-Z0-9-_]+</param>
+    /// <param name="LayerName">The name or Amazon Resource Name (ARN) of the layer. Constraints: • min: 1 • max: 140 • pattern: (arn:(aws[a-zA-Z-]*)?:lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\d{1}:\d{12}:layer:[a-zA-Z0-9-_]+)|[a-zA-Z0-9-_]+</param>
     /// <param name="VersionNumber">The version number.</param>
     public AwsLambdaDeleteLayerVersionOptions(
         string LayerName,
-        int VersionNumber
+        long VersionNumber
     )
     {
         global::System.ArgumentNullException.ThrowIfNull(LayerName);
@@ -59,7 +60,7 @@ public record AwsLambdaDeleteLayerVersionOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name or Amazon Resource Name (ARN) of the layer. Constraints: o min: 1 o max: 140 o pattern: (arn:(aws[a-zA-Z-]*)?:lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\d{1}:\d{12}:layer:[a-zA-Z0-9-_]+)|[a-zA-Z0-9-_]+
+    /// The name or Amazon Resource Name (ARN) of the layer. Constraints: • min: 1 • max: 140 • pattern: (arn:(aws[a-zA-Z-]*)?:lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\d{1}:\d{12}:layer:[a-zA-Z0-9-_]+)|[a-zA-Z0-9-_]+
     /// </summary>
     [CliOption("--layer-name")]
     public string? LayerName { get; private init; }
@@ -68,7 +69,7 @@ public record AwsLambdaDeleteLayerVersionOptions : AwsOptions, IValidatableObjec
     /// The version number.
     /// </summary>
     [CliOption("--version-number")]
-    public int? VersionNumber { get; private init; }
+    public long? VersionNumber { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
@@ -91,6 +92,15 @@ public record AwsLambdaDeleteLayerVersionOptions : AwsOptions, IValidatableObjec
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes one or more attributes associated with an item. If all attrib- utes of the item are deleted, the item is deleted. DeleteAttributes is an idempotent operation; running it multiple times on the same item or attribute does not result in an error re- sponse. Because Amazon SimpleDB makes multiple copies of item data and uses an eventual consistency update model, performing a GetAttributes or Se- lect operation (read) immediately after a DeleteAttributes or PutAt- tributes operation (write) m...
+/// Deletes one or more attributes associated with an item. If all attributes of the item are deleted, the item is deleted. DeleteAttributes is an idempotent operation; running it multiple times on the same item or attribute does not result in an error response. Because Amazon SimpleDB makes multiple copies of item data and uses an eventual consistency update model, performing a GetAttributes or Select operation (read) immediately after a DeleteAttributes or PutAttributes operation (write) might not...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +26,7 @@ public record AwsSdbDeleteAttributesOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes one or more attributes associated with an item. If all attrib- utes of the item are deleted, the item is deleted. DeleteAttributes is an idempotent operation; running it multiple times on the same item or attribute does not result in an error re- sponse. Because Amazon SimpleDB makes multiple copies of item data and uses an eventual consistency update model, performing a GetAttributes or Se- lect operation (read) immediately after a DeleteAttributes or PutAt- tributes operation (write) m...
+    /// Deletes one or more attributes associated with an item. If all attributes of the item are deleted, the item is deleted. DeleteAttributes is an idempotent operation; running it multiple times on the same item or attribute does not result in an error response. Because Amazon SimpleDB makes multiple copies of item data and uses an eventual consistency update model, performing a GetAttributes or Select operation (read) immediately after a DeleteAttributes or PutAttributes operation (write) might not...
     /// </summary>
     /// <param name="DomainName"></param>
     /// <param name="ItemName"></param>
@@ -92,6 +93,15 @@ public record AwsSdbDeleteAttributesOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

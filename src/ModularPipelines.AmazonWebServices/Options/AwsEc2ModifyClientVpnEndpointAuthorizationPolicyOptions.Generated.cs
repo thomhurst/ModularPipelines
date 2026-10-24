@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -64,7 +65,7 @@ public record AwsEc2ModifyClientVpnEndpointAuthorizationPolicyOptions : AwsOptio
     public string? ClientVpnEndpointId { get; private init; }
 
     /// <summary>
-    /// The authorization policy document, written in the Cedar policy lan- guage. This parameter is required when you create the authorization policy for a Client VPN endpoint that does not already have one.
+    /// The authorization policy document, written in the Cedar policy language. This parameter is required when you create the authorization policy for a Client VPN endpoint that does not already have one.
     /// </summary>
     [CliOption("--policy-document")]
     public string? PolicyDocument { get; set; }
@@ -76,20 +77,20 @@ public record AwsEc2ModifyClientVpnEndpointAuthorizationPolicyOptions : AwsOptio
     public string? Description { get; set; }
 
     /// <summary>
-    /// Specifies whether the authorization policy is evaluated in shadow mode. Possible values include: o enabled - The authorization policy is evaluated and the results are logged, but access is not enforced. o disabled - The authorization policy is enforced. The default value is disabled . Possible values: o enabled o disabled
+    /// Specifies whether the authorization policy is evaluated in shadow mode. Possible values include: • enabled - The authorization policy is evaluated and the results are logged, but access is not enforced. • disabled - The authorization policy is enforced. The default value is disabled . Possible values: • enabled • disabled
     /// </summary>
     [CliOption("--shadow-mode")]
     public AwsEc2ModifyClientVpnEndpointAuthorizationPolicyShadowMode? ShadowMode { get; set; }
 
     /// <summary>
-    /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. For more information, see Ensuring idem- potency .
+    /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. For more information, see Ensuring idempotency .
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation . Otherwise, it is UnauthorizedOperation .
     /// </summary>
     [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
@@ -115,6 +116,15 @@ public record AwsEc2ModifyClientVpnEndpointAuthorizationPolicyOptions : AwsOptio
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

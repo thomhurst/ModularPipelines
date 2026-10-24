@@ -10,7 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,8 +28,8 @@ public record AwsEntityresolutionGetMatchIdOptions : AwsOptions, IValidatableObj
     /// <summary>
     /// Returns the corresponding Match ID of a customer record if the record has been processed in a rule-based matching workflow. You can call this API as a dry run of an incremental load on the rule-based matching workflow. See also: AWS API Documentation
     /// </summary>
-    /// <param name="WorkflowName">The name of the workflow. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z_0-9-]*</param>
-    /// <param name="Record">The record to fetch the Match ID for. key -&gt; (string) Constraints: o min: 0 o max: 255 o pattern: [a-zA-Z_0-9- \t]* value -&gt; (string) Constraints: o min: 0 o max: 255 o pattern: [a-zA-Z_0-9-./@ ()+\t]* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}</param>
+    /// <param name="WorkflowName">The name of the workflow. Constraints: • min: 1 • max: 255 • pattern: [a-zA-Z_0-9-]*</param>
+    /// <param name="Record">The record to fetch the Match ID for. key -&gt; (string) Constraints: • min: 0 • max: 255 • pattern: [a-zA-Z_0-9- \t]* value -&gt; (string) Constraints: • min: 0 • max: 255 • pattern: [a-zA-Z_0-9-./@ ()+\t]* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}</param>
     public AwsEntityresolutionGetMatchIdOptions(
         string WorkflowName,
         IReadOnlyList<KeyValue> Record
@@ -72,13 +72,13 @@ public record AwsEntityresolutionGetMatchIdOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the workflow. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z_0-9-]*
+    /// The name of the workflow. Constraints: • min: 1 • max: 255 • pattern: [a-zA-Z_0-9-]*
     /// </summary>
     [CliOption("--workflow-name")]
     public string? WorkflowName { get; private init; }
 
     /// <summary>
-    /// The record to fetch the Match ID for. key -&gt; (string) Constraints: o min: 0 o max: 255 o pattern: [a-zA-Z_0-9- \t]* value -&gt; (string) Constraints: o min: 0 o max: 255 o pattern: [a-zA-Z_0-9-./@ ()+\t]* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The record to fetch the Match ID for. key -&gt; (string) Constraints: • min: 0 • max: 255 • pattern: [a-zA-Z_0-9- \t]* value -&gt; (string) Constraints: • min: 0 • max: 255 • pattern: [a-zA-Z_0-9-./@ ()+\t]* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--record", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Record { get; private init; }
@@ -110,6 +110,15 @@ public record AwsEntityresolutionGetMatchIdOptions : AwsOptions, IValidatableObj
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

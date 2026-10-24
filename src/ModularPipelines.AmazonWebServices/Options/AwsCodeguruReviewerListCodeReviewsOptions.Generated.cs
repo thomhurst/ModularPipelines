@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -29,7 +30,7 @@ public record AwsCodeguruReviewerListCodeReviewsOptions : AwsOptions, IValidatab
     /// <summary>
     /// Lists all the code reviews that the customer has created in the past 90 days. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Type">The type of code reviews to list in the response. Possible values: o PullRequest o RepositoryAnalysis</param>
+    /// <param name="Type">The type of code reviews to list in the response. Possible values: • PullRequest • RepositoryAnalysis</param>
     public AwsCodeguruReviewerListCodeReviewsOptions(
         AwsCodeguruReviewerListCodeReviewsType Type
     )
@@ -57,37 +58,37 @@ public record AwsCodeguruReviewerListCodeReviewsOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The type of code reviews to list in the response. Possible values: o PullRequest o RepositoryAnalysis
+    /// The type of code reviews to list in the response. Possible values: • PullRequest • RepositoryAnalysis
     /// </summary>
     [CliOption("--type")]
     public AwsCodeguruReviewerListCodeReviewsType? Type { get; private init; }
 
     /// <summary>
-    /// List of provider types for filtering that needs to be applied before displaying the result. For example, providerTypes=[GitHub] lists code reviews from GitHub. Constraints: o min: 1 o max: 3 (string) Possible values: o CodeCommit o GitHub o Bitbucket o GitHubEnterpriseServer o S3Bucket Syntax: "string" "string" ...
+    /// List of provider types for filtering that needs to be applied before displaying the result. For example, providerTypes=[GitHub] lists code reviews from GitHub. Constraints: • min: 1 • max: 3 (string) Possible values: • CodeCommit • GitHub • Bitbucket • GitHubEnterpriseServer • S3Bucket Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--provider-types", GroupValues = true)]
     public IEnumerable<string>? ProviderTypes { get; set; }
 
     /// <summary>
-    /// List of states for filtering that needs to be applied before dis- playing the result. For example, states=[Pending] lists code reviews in the Pending state. The valid code review states are: o Completed : The code review is complete. o Pending : The code review started and has not completed or failed. o Failed : The code review failed. o Deleting : The code review is being deleted. Constraints: o min: 1 o max: 3 (string) Possible values: o Completed o Pending o Failed o Deleting Syntax: "string" "string" ...
+    /// List of states for filtering that needs to be applied before displaying the result. For example, states=[Pending] lists code reviews in the Pending state. The valid code review states are: • Completed : The code review is complete. • Pending : The code review started and has not completed or failed. • Failed : The code review failed. • Deleting : The code review is being deleted. Constraints: • min: 1 • max: 3 (string) Possible values: • Completed • Pending • Failed • Deleting Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--states", GroupValues = true)]
     public IEnumerable<string>? States { get; set; }
 
     /// <summary>
-    /// List of repository names for filtering that needs to be applied be- fore displaying the result. Constraints: o min: 1 o max: 100 (string) Constraints: o min: 1 o max: 100 o pattern: ^\S[\w.-]*$ Syntax: "string" "string" ...
+    /// List of repository names for filtering that needs to be applied before displaying the result. Constraints: • min: 1 • max: 100 (string) Constraints: • min: 1 • max: 100 • pattern: ^\S[\w.-]*$ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--repository-names", GroupValues = true)]
     public IEnumerable<string>? RepositoryNames { get; set; }
 
     /// <summary>
-    /// The maximum number of results that are returned per call. The de- fault is 100. Constraints: o min: 1 o max: 100
+    /// The maximum number of results that are returned per call. The default is 100. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
     /// <summary>
-    /// If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Constraints: o min: 1 o max: 2048
+    /// If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Constraints: • min: 1 • max: 2048
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
@@ -114,6 +115,15 @@ public record AwsCodeguruReviewerListCodeReviewsOptions : AwsOptions, IValidatab
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

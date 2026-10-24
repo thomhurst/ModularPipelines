@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Dismisses contacts from an agents CCP and returns the agent to an available state, which allows the agent to receive a new routed con- tact. Contacts can only be dismissed if they are in a MISSED , ERROR , ENDED , or REJECTED state in the Agent Event Stream . See also: AWS API Documentation
+/// Dismisses contacts from an agents CCP and returns the agent to an available state, which allows the agent to receive a new routed contact. Contacts can only be dismissed if they are in a MISSED , ERROR , ENDED , or REJECTED state in the Agent Event Stream . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,11 +26,11 @@ public record AwsConnectDismissUserContactOptions : AwsOptions, IValidatableObje
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Dismisses contacts from an agents CCP and returns the agent to an available state, which allows the agent to receive a new routed con- tact. Contacts can only be dismissed if they are in a MISSED , ERROR , ENDED , or REJECTED state in the Agent Event Stream . See also: AWS API Documentation
+    /// Dismisses contacts from an agents CCP and returns the agent to an available state, which allows the agent to receive a new routed contact. Contacts can only be dismissed if they are in a MISSED , ERROR , ENDED , or REJECTED state in the Agent Event Stream . See also: AWS API Documentation
     /// </summary>
     /// <param name="UserId">The identifier of the user account.</param>
-    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instanceId in the ARN of the instance. Constraints: o min: 1 o max: 100</param>
-    /// <param name="ContactId">The identifier of the contact. Constraints: o min: 1 o max: 256</param>
+    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instanceId in the ARN of the instance. Constraints: • min: 1 • max: 100</param>
+    /// <param name="ContactId">The identifier of the contact. Constraints: • min: 1 • max: 256</param>
     public AwsConnectDismissUserContactOptions(
         string UserId,
         string InstanceId,
@@ -70,13 +71,13 @@ public record AwsConnectDismissUserContactOptions : AwsOptions, IValidatableObje
     public string? UserId { get; private init; }
 
     /// <summary>
-    /// The identifier of the Connect Customer instance. You can find the instanceId in the ARN of the instance. Constraints: o min: 1 o max: 100
+    /// The identifier of the Connect Customer instance. You can find the instanceId in the ARN of the instance. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--instance-id")]
     public string? InstanceId { get; private init; }
 
     /// <summary>
-    /// The identifier of the contact. Constraints: o min: 1 o max: 256
+    /// The identifier of the contact. Constraints: • min: 1 • max: 256
     /// </summary>
     [CliOption("--contact-id")]
     public string? ContactId { get; private init; }
@@ -102,6 +103,15 @@ public record AwsConnectDismissUserContactOptions : AwsOptions, IValidatableObje
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

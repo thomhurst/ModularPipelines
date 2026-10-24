@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Renames a table or a namespace. For more information, see S3 Tables in the Amazon Simple Storage Service User Guide . Permissions You must have the s3tables:RenameTable permission to use this opera- tion. See also: AWS API Documentation
+/// Renames a table or a namespace. For more information, see S3 Tables in the Amazon Simple Storage Service User Guide . Permissions You must have the s3tables:RenameTable permission to use this operation. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,11 +27,11 @@ public record AwsS3tablesRenameTableOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Renames a table or a namespace. For more information, see S3 Tables in the Amazon Simple Storage Service User Guide . Permissions You must have the s3tables:RenameTable permission to use this opera- tion. See also: AWS API Documentation
+    /// Renames a table or a namespace. For more information, see S3 Tables in the Amazon Simple Storage Service User Guide . Permissions You must have the s3tables:RenameTable permission to use this operation. See also: AWS API Documentation
     /// </summary>
-    /// <param name="TableBucketArn">The Amazon Resource Name (ARN) of the table bucket. Constraints: o pattern: (arn:aws[-a-z0-9]*:[a-z0-9]+:[-a-z0-9]*:[0-9]{12}:bucket/[a-z0-9_-]{3,63})</param>
-    /// <param name="Namespace">The namespace associated with the table. Constraints: o min: 1 o max: 255 o pattern: [0-9a-z_]*</param>
-    /// <param name="Name">The current name of the table. Constraints: o min: 1 o max: 255 o pattern: [0-9a-z_]*</param>
+    /// <param name="TableBucketArn">The Amazon Resource Name (ARN) of the table bucket. Constraints: • pattern: (arn:aws[-a-z0-9]*:[a-z0-9]+:[-a-z0-9]*:[0-9]{12}:bucket/[a-z0-9_-]{3,63})</param>
+    /// <param name="Namespace">The namespace associated with the table. Constraints: • min: 1 • max: 255 • pattern: [0-9a-z_]*</param>
+    /// <param name="Name">The current name of the table. Constraints: • min: 1 • max: 255 • pattern: [0-9a-z_]*</param>
     public AwsS3tablesRenameTableOptions(
         string TableBucketArn,
         string Namespace,
@@ -65,37 +66,37 @@ public record AwsS3tablesRenameTableOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the table bucket. Constraints: o pattern: (arn:aws[-a-z0-9]*:[a-z0-9]+:[-a-z0-9]*:[0-9]{12}:bucket/[a-z0-9_-]{3,63})
+    /// The Amazon Resource Name (ARN) of the table bucket. Constraints: • pattern: (arn:aws[-a-z0-9]*:[a-z0-9]+:[-a-z0-9]*:[0-9]{12}:bucket/[a-z0-9_-]{3,63})
     /// </summary>
     [CliOption("--table-bucket-arn")]
     public string? TableBucketArn { get; private init; }
 
     /// <summary>
-    /// The namespace associated with the table. Constraints: o min: 1 o max: 255 o pattern: [0-9a-z_]*
+    /// The namespace associated with the table. Constraints: • min: 1 • max: 255 • pattern: [0-9a-z_]*
     /// </summary>
     [CliOption("--namespace")]
     public string? Namespace { get; private init; }
 
     /// <summary>
-    /// The current name of the table. Constraints: o min: 1 o max: 255 o pattern: [0-9a-z_]*
+    /// The current name of the table. Constraints: • min: 1 • max: 255 • pattern: [0-9a-z_]*
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The new name for the namespace. Constraints: o min: 1 o max: 255 o pattern: [0-9a-z_]*
+    /// The new name for the namespace. Constraints: • min: 1 • max: 255 • pattern: [0-9a-z_]*
     /// </summary>
     [CliOption("--new-namespace-name")]
     public string? NewNamespaceName { get; set; }
 
     /// <summary>
-    /// The new name for the table. Constraints: o min: 1 o max: 255 o pattern: [0-9a-z_]*
+    /// The new name for the table. Constraints: • min: 1 • max: 255 • pattern: [0-9a-z_]*
     /// </summary>
     [CliOption("--new-name")]
     public string? NewName { get; set; }
 
     /// <summary>
-    /// The version token of the table. Constraints: o min: 1 o max: 2048
+    /// The version token of the table. Constraints: • min: 1 • max: 2048
     /// </summary>
     [SecretValue]
     [CliOption("--version-token")]
@@ -122,6 +123,15 @@ public record AwsS3tablesRenameTableOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

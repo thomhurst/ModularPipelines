@@ -15,7 +15,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Lists the Outposts for your Amazon Web Services account. Use filters to return specific results. If you specify multiple fil- ters, the results include only the resources that match all of the specified filters. For a filter where you can specify multiple values, the results include items that match any of the values that you specify for the filter. See also: AWS API Documentation list-outposts is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set ...
+/// Lists the Outposts for your Amazon Web Services account. Use filters to return specific results. If you specify multiple filters, the results include only the resources that match all of the specified filters. For a filter where you can specify multiple values, the results include items that match any of the values that you specify for the filter. See also: AWS API Documentation list-outposts is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of r...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -23,28 +23,25 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsOutpostsListOutpostsOptions : AwsOptions
 {
     /// <summary>
-    /// Filters the results by the lifecycle status. Constraints: o min: 1 o max: 5 (string) The life cycle status. Constraints: o min: 1 o max: 20 o pattern: ^[ A-Za-z]+$ Syntax: "string" "string" ...
+    /// Filters the results by the lifecycle status. Constraints: • min: 1 • max: 5 (string) The life cycle status. Constraints: • min: 1 • max: 20 • pattern: ^[ A-Za-z]+$ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--life-cycle-status-filter", GroupValues = true)]
     public IEnumerable<string>? LifeCycleStatusFilter { get; set; }
 
     /// <summary>
-    /// Filters the results by Availability Zone (for example, us-east-1a ). Constraints: o min: 1 o max: 5 (string) The Availability Zone. Constraints: o min: 1 o max: 1000 o pattern: ^([a-zA-Z]+-){1,3}([a-zA-Z]+)?(\d+[a-zA-Z]?)?$ Syntax: "string" "string" ...
+    /// Filters the results by Availability Zone (for example, us-east-1a ). Constraints: • min: 1 • max: 5 (string) The Availability Zone. Constraints: • min: 1 • max: 1000 • pattern: ^([a-zA-Z]+-){1,3}([a-zA-Z]+)?(\d+[a-zA-Z]?)?$ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--availability-zone-filter", GroupValues = true)]
     public IEnumerable<string>? AvailabilityZoneFilter { get; set; }
 
     /// <summary>
-    /// Filters the results by AZ ID (for example, use1-az1 ). Constraints: o min: 1 o max: 5 (string) The ID of the Availability Zone. Constraints: o min: 1 o max: 255 o pattern: ^[a-zA-Z]+\d-[a-zA-Z]+\d$ Syntax: "string" "string" ...
+    /// Filters the results by AZ ID (for example, use1-az1 ). Constraints: • min: 1 • max: 5 (string) The ID of the Availability Zone. Constraints: • min: 1 • max: 255 • pattern: ^[a-zA-Z]+\d-[a-zA-Z]+\d$ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--availability-zone-id-filter", GroupValues = true)]
     public IEnumerable<string>? AvailabilityZoneIdFilter { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -54,15 +51,27 @@ public record AwsOutpostsListOutpostsOptions : AwsOptions
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 1000
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 1000
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

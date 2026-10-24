@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsCleanroomsBatchGetCollaborationAnalysisTemplateOptions : AwsOpt
     /// <summary>
     /// Retrieves multiple analysis templates within a collaboration by their Amazon Resource Names (ARNs). See also: AWS API Documentation
     /// </summary>
-    /// <param name="CollaborationIdentifier">A unique identifier for the collaboration that the analysis tem- plates belong to. Currently accepts collaboration ID. Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
-    /// <param name="AnalysisTemplateArns">The Amazon Resource Name (ARN) associated with the analysis template within a collaboration. Constraints: o min: 1 o max: 10 (string) Constraints: o min: 0 o max: 200 o pattern: arn:aws[-a-z]*:clean- rooms:[\w]{2}-[\w]{4,9}-[\d]:[\d]{12}:member- ship/[\d\w-]+/analysistemplate/[\d\w-]+ Syntax: "string" "string" ...</param>
+    /// <param name="CollaborationIdentifier">A unique identifier for the collaboration that the analysis templates belong to. Currently accepts collaboration ID. Constraints: • min: 36 • max: 36 • pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
+    /// <param name="AnalysisTemplateArns">The Amazon Resource Name (ARN) associated with the analysis template within a collaboration. Constraints: • min: 1 • max: 10 (string) Constraints: • min: 0 • max: 200 • pattern: arn:aws[-a-z]*:cleanrooms:[\w]{2}-[\w]{4,9}-[\d]:[\d]{12}:membership/[\d\w-]+/analysistemplate/[\d\w-]+ Syntax: "string" "string" ...</param>
     public AwsCleanroomsBatchGetCollaborationAnalysisTemplateOptions(
         string CollaborationIdentifier,
         IEnumerable<string> AnalysisTemplateArns
@@ -71,13 +72,13 @@ public record AwsCleanroomsBatchGetCollaborationAnalysisTemplateOptions : AwsOpt
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A unique identifier for the collaboration that the analysis tem- plates belong to. Currently accepts collaboration ID. Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
+    /// A unique identifier for the collaboration that the analysis templates belong to. Currently accepts collaboration ID. Constraints: • min: 36 • max: 36 • pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
     /// </summary>
     [CliOption("--collaboration-identifier")]
     public string? CollaborationIdentifier { get; private init; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) associated with the analysis template within a collaboration. Constraints: o min: 1 o max: 10 (string) Constraints: o min: 0 o max: 200 o pattern: arn:aws[-a-z]*:clean- rooms:[\w]{2}-[\w]{4,9}-[\d]:[\d]{12}:member- ship/[\d\w-]+/analysistemplate/[\d\w-]+ Syntax: "string" "string" ...
+    /// The Amazon Resource Name (ARN) associated with the analysis template within a collaboration. Constraints: • min: 1 • max: 10 (string) Constraints: • min: 0 • max: 200 • pattern: arn:aws[-a-z]*:cleanrooms:[\w]{2}-[\w]{4,9}-[\d]:[\d]{12}:membership/[\d\w-]+/analysistemplate/[\d\w-]+ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--analysis-template-arns", GroupValues = true)]
     public IEnumerable<string>? AnalysisTemplateArns { get; private init; }
@@ -103,6 +104,15 @@ public record AwsCleanroomsBatchGetCollaborationAnalysisTemplateOptions : AwsOpt
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

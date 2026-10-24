@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsSagemakerDeleteAssociationOptions : AwsOptions, IValidatableObj
     /// <summary>
     /// Deletes an association. See also: AWS API Documentation
     /// </summary>
-    /// <param name="SourceArn">The ARN of the source. Constraints: o min: 0 o max: 256 o pattern: arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:(experi- ment|experiment-trial-component|artifact|action|context)/.*</param>
-    /// <param name="DestinationArn">The Amazon Resource Name (ARN) of the destination. Constraints: o min: 0 o max: 256 o pattern: arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:(experi- ment|experiment-trial-component|artifact|action|context)/.*</param>
+    /// <param name="SourceArn">The ARN of the source. Constraints: • min: 0 • max: 256 • pattern: arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:(experiment|experiment-trial-component|artifact|action|context)/.*</param>
+    /// <param name="DestinationArn">The Amazon Resource Name (ARN) of the destination. Constraints: • min: 0 • max: 256 • pattern: arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:(experiment|experiment-trial-component|artifact|action|context)/.*</param>
     public AwsSagemakerDeleteAssociationOptions(
         string SourceArn,
         string DestinationArn
@@ -60,13 +61,13 @@ public record AwsSagemakerDeleteAssociationOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the source. Constraints: o min: 0 o max: 256 o pattern: arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:(experi- ment|experiment-trial-component|artifact|action|context)/.*
+    /// The ARN of the source. Constraints: • min: 0 • max: 256 • pattern: arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:(experiment|experiment-trial-component|artifact|action|context)/.*
     /// </summary>
     [CliOption("--source-arn")]
     public string? SourceArn { get; private init; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the destination. Constraints: o min: 0 o max: 256 o pattern: arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:(experi- ment|experiment-trial-component|artifact|action|context)/.*
+    /// The Amazon Resource Name (ARN) of the destination. Constraints: • min: 0 • max: 256 • pattern: arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:(experiment|experiment-trial-component|artifact|action|context)/.*
     /// </summary>
     [CliOption("--destination-arn")]
     public string? DestinationArn { get; private init; }
@@ -92,6 +93,15 @@ public record AwsSagemakerDeleteAssociationOptions : AwsOptions, IValidatableObj
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

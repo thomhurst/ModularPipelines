@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +29,7 @@ public record AwsCodecommitUpdatePullRequestDescriptionOptions : AwsOptions, IVa
     /// Replaces the contents of the description of a pull request. See also: AWS API Documentation
     /// </summary>
     /// <param name="PullRequestId">The system-generated ID of the pull request. To get this ID, use ListPullRequests .</param>
-    /// <param name="Description">The updated content of the description for the pull request. This content replaces the existing description. Constraints: o max: 10240</param>
+    /// <param name="Description">The updated content of the description for the pull request. This content replaces the existing description. Constraints: • max: 10240</param>
     public AwsCodecommitUpdatePullRequestDescriptionOptions(
         string PullRequestId,
         string Description
@@ -66,7 +67,7 @@ public record AwsCodecommitUpdatePullRequestDescriptionOptions : AwsOptions, IVa
     public string? PullRequestId { get; private init; }
 
     /// <summary>
-    /// The updated content of the description for the pull request. This content replaces the existing description. Constraints: o max: 10240
+    /// The updated content of the description for the pull request. This content replaces the existing description. Constraints: • max: 10240
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; private init; }
@@ -92,6 +93,15 @@ public record AwsCodecommitUpdatePullRequestDescriptionOptions : AwsOptions, IVa
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

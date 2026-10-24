@@ -11,7 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -29,12 +29,12 @@ public record AwsMediapackagev2CreateHarvestJobOptions : AwsOptions, IValidatabl
     /// <summary>
     /// Creates a new harvest job to export content from a MediaPackage v2 channel to an S3 bucket. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ChannelGroupName">The name of the channel group containing the channel from which to harvest content. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9_-]+</param>
-    /// <param name="ChannelName">The name of the channel from which to harvest content. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9_-]+</param>
-    /// <param name="OriginEndpointName">The name of the origin endpoint from which to harvest content. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9_-]+</param>
-    /// <param name="HarvestedManifests">A list of manifests to be harvested. HlsManifests -&gt; (list) A list of harvested HLS manifests. (structure) Information about a harvested HLS manifest. ManifestName -&gt; (string) [required] The name of the harvested HLS manifest. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9_-]+ DashManifests -&gt; (list) A list of harvested DASH manifests. (structure) Information about a harvested DASH manifest. ManifestName -&gt; (string) [required] The name of the harvested DASH manifest. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9_-]+ LowLatencyHlsManifests -&gt; (list) A list of harvested Low-Latency HLS manifests. (structure) Information about a harvested Low-Latency HLS manifest. ManifestName -&gt; (string) [required] The name of the harvested Low-Latency HLS manifest. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9_-]+ Shorthand Syntax: HlsManifests=[{ManifestName=string},{ManifestName=string}],DashManifests=[{ManifestName=string},{ManifestName=string}],LowLatencyHlsManifests=[{ManifestName=string},{ManifestName=string}] JSON Syntax: { "HlsManifests": [ { "ManifestName": "string" } ... ], "DashManifests": [ { "ManifestName": "string" } ... ], "LowLatencyHlsManifests": [ { "ManifestName": "string" } ... ] }</param>
+    /// <param name="ChannelGroupName">The name of the channel group containing the channel from which to harvest content. Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9_-]+</param>
+    /// <param name="ChannelName">The name of the channel from which to harvest content. Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9_-]+</param>
+    /// <param name="OriginEndpointName">The name of the origin endpoint from which to harvest content. Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9_-]+</param>
+    /// <param name="HarvestedManifests">A list of manifests to be harvested. HlsManifests -&gt; (list) A list of harvested HLS manifests. (structure) Information about a harvested HLS manifest. ManifestName -&gt; (string) [required] The name of the harvested HLS manifest. Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9_-]+ DashManifests -&gt; (list) A list of harvested DASH manifests. (structure) Information about a harvested DASH manifest. ManifestName -&gt; (string) [required] The name of the harvested DASH manifest. Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9_-]+ LowLatencyHlsManifests -&gt; (list) A list of harvested Low-Latency HLS manifests. (structure) Information about a harvested Low-Latency HLS manifest. ManifestName -&gt; (string) [required] The name of the harvested Low-Latency HLS manifest. Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9_-]+ Shorthand Syntax: HlsManifests=[{ManifestName=string},{ManifestName=string}],DashManifests=[{ManifestName=string},{ManifestName=string}],LowLatencyHlsManifests=[{ManifestName=string},{ManifestName=string}] JSON Syntax: { "HlsManifests": [ { "ManifestName": "string" } ... ], "DashManifests": [ { "ManifestName": "string" } ... ], "LowLatencyHlsManifests": [ { "ManifestName": "string" } ... ] }</param>
     /// <param name="ScheduleConfiguration">The configuration for when the harvest job should run, including start and end times. StartTime -&gt; (timestamp) [required] The start time for the harvest job. EndTime -&gt; (timestamp) [required] The end time for the harvest job. Shorthand Syntax: StartTime=timestamp,EndTime=timestamp JSON Syntax: { "StartTime": timestamp, "EndTime": timestamp }</param>
-    /// <param name="Destination">The S3 destination where the harvested content will be placed. S3Destination -&gt; (structure) [required] The configuration for exporting harvested content to an S3 bucket. This includes details such as the bucket name and desti- nation path within the bucket. BucketName -&gt; (string) [required] The name of an S3 bucket within which harvested content will be exported. Constraints: o min: 3 o max: 63 DestinationPath -&gt; (string) [required] The path within the specified S3 bucket where the harvested content will be placed. Constraints: o min: 1 o max: 1024 o pattern: [\S]+ Shorthand Syntax: S3Destination={BucketName=string,DestinationPath=string} JSON Syntax: { "S3Destination": { "BucketName": "string", "DestinationPath": "string" } }</param>
+    /// <param name="Destination">The S3 destination where the harvested content will be placed. S3Destination -&gt; (structure) [required] The configuration for exporting harvested content to an S3 bucket. This includes details such as the bucket name and destination path within the bucket. BucketName -&gt; (string) [required] The name of an S3 bucket within which harvested content will be exported. Constraints: • min: 3 • max: 63 DestinationPath -&gt; (string) [required] The path within the specified S3 bucket where the harvested content will be placed. Constraints: • min: 1 • max: 1024 • pattern: [\S]+ Shorthand Syntax: S3Destination={BucketName=string,DestinationPath=string} JSON Syntax: { "S3Destination": { "BucketName": "string", "DestinationPath": "string" } }</param>
     public AwsMediapackagev2CreateHarvestJobOptions(
         string ChannelGroupName,
         string ChannelName,
@@ -78,25 +78,25 @@ public record AwsMediapackagev2CreateHarvestJobOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the channel group containing the channel from which to harvest content. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9_-]+
+    /// The name of the channel group containing the channel from which to harvest content. Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9_-]+
     /// </summary>
     [CliOption("--channel-group-name")]
     public string? ChannelGroupName { get; private init; }
 
     /// <summary>
-    /// The name of the channel from which to harvest content. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9_-]+
+    /// The name of the channel from which to harvest content. Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9_-]+
     /// </summary>
     [CliOption("--channel-name")]
     public string? ChannelName { get; private init; }
 
     /// <summary>
-    /// The name of the origin endpoint from which to harvest content. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9_-]+
+    /// The name of the origin endpoint from which to harvest content. Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9_-]+
     /// </summary>
     [CliOption("--origin-endpoint-name")]
     public string? OriginEndpointName { get; private init; }
 
     /// <summary>
-    /// A list of manifests to be harvested. HlsManifests -&gt; (list) A list of harvested HLS manifests. (structure) Information about a harvested HLS manifest. ManifestName -&gt; (string) [required] The name of the harvested HLS manifest. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9_-]+ DashManifests -&gt; (list) A list of harvested DASH manifests. (structure) Information about a harvested DASH manifest. ManifestName -&gt; (string) [required] The name of the harvested DASH manifest. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9_-]+ LowLatencyHlsManifests -&gt; (list) A list of harvested Low-Latency HLS manifests. (structure) Information about a harvested Low-Latency HLS manifest. ManifestName -&gt; (string) [required] The name of the harvested Low-Latency HLS manifest. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9_-]+ Shorthand Syntax: HlsManifests=[{ManifestName=string},{ManifestName=string}],DashManifests=[{ManifestName=string},{ManifestName=string}],LowLatencyHlsManifests=[{ManifestName=string},{ManifestName=string}] JSON Syntax: { "HlsManifests": [ { "ManifestName": "string" } ... ], "DashManifests": [ { "ManifestName": "string" } ... ], "LowLatencyHlsManifests": [ { "ManifestName": "string" } ... ] }
+    /// A list of manifests to be harvested. HlsManifests -&gt; (list) A list of harvested HLS manifests. (structure) Information about a harvested HLS manifest. ManifestName -&gt; (string) [required] The name of the harvested HLS manifest. Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9_-]+ DashManifests -&gt; (list) A list of harvested DASH manifests. (structure) Information about a harvested DASH manifest. ManifestName -&gt; (string) [required] The name of the harvested DASH manifest. Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9_-]+ LowLatencyHlsManifests -&gt; (list) A list of harvested Low-Latency HLS manifests. (structure) Information about a harvested Low-Latency HLS manifest. ManifestName -&gt; (string) [required] The name of the harvested Low-Latency HLS manifest. Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9_-]+ Shorthand Syntax: HlsManifests=[{ManifestName=string},{ManifestName=string}],DashManifests=[{ManifestName=string},{ManifestName=string}],LowLatencyHlsManifests=[{ManifestName=string},{ManifestName=string}] JSON Syntax: { "HlsManifests": [ { "ManifestName": "string" } ... ], "DashManifests": [ { "ManifestName": "string" } ... ], "LowLatencyHlsManifests": [ { "ManifestName": "string" } ... ] }
     /// </summary>
     [CliOption("--harvested-manifests")]
     public string? HarvestedManifests { get; private init; }
@@ -108,26 +108,26 @@ public record AwsMediapackagev2CreateHarvestJobOptions : AwsOptions, IValidatabl
     public string? ScheduleConfiguration { get; private init; }
 
     /// <summary>
-    /// The S3 destination where the harvested content will be placed. S3Destination -&gt; (structure) [required] The configuration for exporting harvested content to an S3 bucket. This includes details such as the bucket name and desti- nation path within the bucket. BucketName -&gt; (string) [required] The name of an S3 bucket within which harvested content will be exported. Constraints: o min: 3 o max: 63 DestinationPath -&gt; (string) [required] The path within the specified S3 bucket where the harvested content will be placed. Constraints: o min: 1 o max: 1024 o pattern: [\S]+ Shorthand Syntax: S3Destination={BucketName=string,DestinationPath=string} JSON Syntax: { "S3Destination": { "BucketName": "string", "DestinationPath": "string" } }
+    /// The S3 destination where the harvested content will be placed. S3Destination -&gt; (structure) [required] The configuration for exporting harvested content to an S3 bucket. This includes details such as the bucket name and destination path within the bucket. BucketName -&gt; (string) [required] The name of an S3 bucket within which harvested content will be exported. Constraints: • min: 3 • max: 63 DestinationPath -&gt; (string) [required] The path within the specified S3 bucket where the harvested content will be placed. Constraints: • min: 1 • max: 1024 • pattern: [\S]+ Shorthand Syntax: S3Destination={BucketName=string,DestinationPath=string} JSON Syntax: { "S3Destination": { "BucketName": "string", "DestinationPath": "string" } }
     /// </summary>
     [CliOption("--destination")]
     public string? Destination { get; private init; }
 
     /// <summary>
-    /// An optional description for the harvest job. Constraints: o min: 0 o max: 1024
+    /// An optional description for the harvest job. Constraints: • min: 0 • max: 1024
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Constraints: o min: 1 o max: 256 o pattern: [\S]+
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Constraints: • min: 1 • max: 256 • pattern: [\S]+
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// A name for the harvest job. This name must be unique within the channel. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9_-]+
+    /// A name for the harvest job. This name must be unique within the channel. Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9_-]+
     /// </summary>
     [CliOption("--harvest-job-name")]
     public string? HarvestJobName { get; set; }
@@ -159,6 +159,15 @@ public record AwsMediapackagev2CreateHarvestJobOptions : AwsOptions, IValidatabl
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

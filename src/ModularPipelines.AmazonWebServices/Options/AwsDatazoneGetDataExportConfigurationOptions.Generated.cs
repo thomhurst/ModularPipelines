@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsDatazoneGetDataExportConfigurationOptions : AwsOptions, IValida
     /// <summary>
     /// Gets data export configuration details. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DomainIdentifier">The ID of the domain where you want to get the data export configu- ration details. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}</param>
+    /// <param name="DomainIdentifier">The ID of the domain where you want to get the data export configuration details. Constraints: • pattern: dzd[-_][a-zA-Z0-9_-]{1,36}</param>
     public AwsDatazoneGetDataExportConfigurationOptions(
         string DomainIdentifier
     )
@@ -56,7 +57,7 @@ public record AwsDatazoneGetDataExportConfigurationOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the domain where you want to get the data export configu- ration details. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}
+    /// The ID of the domain where you want to get the data export configuration details. Constraints: • pattern: dzd[-_][a-zA-Z0-9_-]{1,36}
     /// </summary>
     [CliOption("--domain-identifier")]
     public string? DomainIdentifier { get; private init; }
@@ -82,6 +83,15 @@ public record AwsDatazoneGetDataExportConfigurationOptions : AwsOptions, IValida
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

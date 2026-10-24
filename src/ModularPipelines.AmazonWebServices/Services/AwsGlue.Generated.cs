@@ -6,8 +6,8 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
+using ModularPipelines;
 using ModularPipelines.Context;
-using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
@@ -32,7 +32,7 @@ public class AwsGlue : IAwsGlue
     #region Commands
 
     /// <summary>
-    /// Associates one or more glossary terms with an asset in Glue Data Cata- log. See also: AWS API Documentation
+    /// Associates one or more glossary terms with an asset in Glue Data Catalog. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -92,7 +92,7 @@ public class AwsGlue : IAwsGlue
     }
 
     /// <summary>
-    /// Deletes multiple tables at once. NOTE: After completing this operation, you no longer have access to the table versions and partitions that belong to the deleted table. Glue deletes these "orphaned" resources asynchronously in a timely man- ner, at the discretion of the service. To ensure the immediate deletion of all related resources, before calling BatchDeleteTable , use DeleteTableVersion or BatchDeleteTableVersion , and DeletePartition or BatchDeleteParti- tion , to delete any resources tha...
+    /// Deletes multiple tables at once. NOTE: After completing this operation, you no longer have access to the table versions and partitions that belong to the deleted table. Glue deletes these "orphaned" resources asynchronously in a timely manner, at the discretion of the service. To ensure the immediate deletion of all related resources, before calling BatchDeleteTable , use DeleteTableVersion or BatchDeleteTableVersion , and DeletePartition or BatchDeletePartition , to delete any resources that be...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -137,7 +137,7 @@ public class AwsGlue : IAwsGlue
     }
 
     /// <summary>
-    /// Returns a list of resource metadata for a given list of crawler names. After calling the ListCrawlers operation, you can call this operation to access the data to which you have been granted permissions. This op- eration supports all IAM permissions, including permission conditions that uses tags. See also: AWS API Documentation
+    /// Returns a list of resource metadata for a given list of crawler names. After calling the ListCrawlers operation, you can call this operation to access the data to which you have been granted permissions. This operation supports all IAM permissions, including permission conditions that uses tags. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -175,6 +175,21 @@ public class AwsGlue : IAwsGlue
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> BatchGetDataQualityResultAsync(
         AwsGlueBatchGetDataQualityResultOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Retrieves a list of data quality results for the specified result IDs. You can specify up to 100 result IDs in a single request. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> BatchGetDataQualityResultV2Async(
+        AwsGlueBatchGetDataQualityResultV2Options options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
@@ -227,7 +242,7 @@ public class AwsGlue : IAwsGlue
     }
 
     /// <summary>
-    /// Returns a list of resource metadata for a given list of job names. Af- ter calling the ListJobs operation, you can call this operation to ac- cess the data to which you have been granted permissions. This opera- tion supports all IAM permissions, including permission conditions that uses tags. See also: AWS API Documentation
+    /// Returns a list of resource metadata for a given list of job names. After calling the ListJobs operation, you can call this operation to access the data to which you have been granted permissions. This operation supports all IAM permissions, including permission conditions that uses tags. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -272,7 +287,7 @@ public class AwsGlue : IAwsGlue
     }
 
     /// <summary>
-    /// Returns a list of resource metadata for a given list of trigger names. After calling the ListTriggers operation, you can call this operation to access the data to which you have been granted permissions. This op- eration supports all IAM permissions, including permission conditions that uses tags. See also: AWS API Documentation
+    /// Returns a list of resource metadata for a given list of trigger names. After calling the ListTriggers operation, you can call this operation to access the data to which you have been granted permissions. This operation supports all IAM permissions, including permission conditions that uses tags. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -287,7 +302,7 @@ public class AwsGlue : IAwsGlue
     }
 
     /// <summary>
-    /// Returns a list of resource metadata for a given list of workflow names. After calling the ListWorkflows operation, you can call this operation to access the data to which you have been granted permissions. This op- eration supports all IAM permissions, including permission conditions that uses tags. See also: AWS API Documentation
+    /// Returns a list of resource metadata for a given list of workflow names. After calling the ListWorkflows operation, you can call this operation to access the data to which you have been granted permissions. This operation supports all IAM permissions, including permission conditions that uses tags. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -302,7 +317,7 @@ public class AwsGlue : IAwsGlue
     }
 
     /// <summary>
-    /// Annotate datapoints over time for a specific data quality statistic. The API requires both profileID and statisticID as part of the Inclu- sionAnnotation input. The API only works for a single statisticId across multiple profiles. See also: AWS API Documentation
+    /// Annotate datapoints over time for a specific data quality statistic. The API requires both profileID and statisticID as part of the InclusionAnnotation input. The API only works for a single statisticId across multiple profiles. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -347,7 +362,7 @@ public class AwsGlue : IAwsGlue
     }
 
     /// <summary>
-    /// Cancels the specified recommendation run that was being used to gener- ate rules. See also: AWS API Documentation
+    /// Cancels the specified recommendation run that was being used to generate rules. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -377,7 +392,7 @@ public class AwsGlue : IAwsGlue
     }
 
     /// <summary>
-    /// Cancels (stops) a task run. Machine learning task runs are asynchronous tasks that Glue runs on your behalf as part of various machine learning workflows. You can cancel a machine learning task run at any time by calling CancelMLTaskRun with a task run's parent transform's Trans- formID and the task run's TaskRunId . See also: AWS API Documentation
+    /// Cancels (stops) a task run. Machine learning task runs are asynchronous tasks that Glue runs on your behalf as part of various machine learning workflows. You can cancel a machine learning task run at any time by calling CancelMLTaskRun with a task run's parent transform's TransformID and the task run's TaskRunId . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -452,7 +467,7 @@ public class AwsGlue : IAwsGlue
     }
 
     /// <summary>
-    /// Creates a classifier in the user's account. This can be a GrokClassi- fier , an XMLClassifier , a JsonClassifier , or a CsvClassifier , de- pending on which field of the request is present. See also: AWS API Documentation
+    /// Creates a classifier in the user's account. This can be a GrokClassifier , an XMLClassifier , a JsonClassifier , or a CsvClassifier , depending on which field of the request is present. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -527,21 +542,6 @@ public class AwsGlue : IAwsGlue
     }
 
     /// <summary>
-    /// Creates a new database in a Data Catalog. See also: AWS API Documentation
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> CreateDatabaseAsync(
-        AwsGlueCreateDatabaseOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
     /// Creates a data quality ruleset with DQDL rules applied to a specified Glue table. You create the ruleset using the Data Quality Definition Language (DQDL). For more information, see the Glue developer guide. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -550,6 +550,21 @@ public class AwsGlue : IAwsGlue
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateDataQualityRulesetAsync(
         AwsGlueCreateDataQualityRulesetOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Creates a new database in a Data Catalog. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> CreateDatabaseAsync(
+        AwsGlueCreateDatabaseOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
@@ -572,7 +587,7 @@ public class AwsGlue : IAwsGlue
     }
 
     /// <summary>
-    /// Creates a business glossary in Glue Data Catalog. A glossary is a con- tainer for glossary terms that define business concepts. See also: AWS API Documentation
+    /// Creates a business glossary in Glue Data Catalog. A glossary is a container for glossary terms that define business concepts. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -587,7 +602,7 @@ public class AwsGlue : IAwsGlue
     }
 
     /// <summary>
-    /// Creates a glossary term within a business glossary in Glue Data Cata- log. See also: AWS API Documentation
+    /// Creates a glossary term within a business glossary in Glue Data Catalog. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -602,7 +617,7 @@ public class AwsGlue : IAwsGlue
     }
 
     /// <summary>
-    /// Creates a new Glue Identity Center configuration to enable integration between Glue and Amazon Web Services IAM Identity Center for authenti- cation and authorization. See also: AWS API Documentation
+    /// Creates a new Glue Identity Center configuration to enable integration between Glue and Amazon Web Services IAM Identity Center for authentication and authorization. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -617,7 +632,7 @@ public class AwsGlue : IAwsGlue
     }
 
     /// <summary>
-    /// Creates a Zero-ETL integration in the caller's account between two re- sources with Amazon Resource Names (ARNs): the SourceArn and TargetArn . See also: AWS API Documentation
+    /// Creates a Zero-ETL integration in the caller's account between two resources with Amazon Resource Names (ARNs): the SourceArn and TargetArn . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -632,7 +647,7 @@ public class AwsGlue : IAwsGlue
     }
 
     /// <summary>
-    /// This API can be used for setting up the ResourceProperty of the Glue connection (for the source) or Glue database ARN (for the target). These properties can include the role to access the connection or data- base. To set both source and target properties the same API needs to be invoked with the Glue connection ARN as ResourceArn with SourceProcess- ingProperties and the Glue database ARN as ResourceArn with TargetPro- cessingProperties respectively. See also: AWS API Documentation
+    /// This API can be used for setting up the ResourceProperty of the Glue connection (for the source) or Glue database ARN (for the target). These properties can include the role to access the connection or database. To set both source and target properties the same API needs to be invoked with the Glue connection ARN as ResourceArn with SourceProcessingProperties and the Glue database ARN as ResourceArn with TargetProcessingProperties respectively. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -647,7 +662,7 @@ public class AwsGlue : IAwsGlue
     }
 
     /// <summary>
-    /// This API is used to provide optional override properties for the the tables that need to be replicated. These properties can include proper- ties for filtering and partitioning for the source and target tables. To set both source and target properties the same API need to be in- voked with the Glue connection ARN as ResourceArn with SourceTableCon- fig , and the Glue database ARN as ResourceArn with TargetTableConfig respectively. See also: AWS API Documentation
+    /// This API is used to provide optional override properties for the the tables that need to be replicated. These properties can include properties for filtering and partitioning for the source and target tables. To set both source and target properties the same API need to be invoked with the Glue connection ARN as ResourceArn with SourceTableConfig , and the Glue database ARN as ResourceArn with TargetTableConfig respectively. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -677,7 +692,7 @@ public class AwsGlue : IAwsGlue
     }
 
     /// <summary>
-    /// Creates an Glue machine learning transform. This operation creates the transform and all the necessary parameters to train it. Call this operation as the first step in the process of using a machine learning transform (such as the FindMatches transform) for deduplicat- ing data. You can provide an optional Description , in addition to the parameters that you want to use for your algorithm. You must also specify certain parameters for the tasks that Glue runs on your behalf as part of learning fr...
+    /// Creates an Glue machine learning transform. This operation creates the transform and all the necessary parameters to train it. Call this operation as the first step in the process of using a machine learning transform (such as the FindMatches transform) for deduplicating data. You can provide an optional Description , in addition to the parameters that you want to use for your algorithm. You must also specify certain parameters for the tasks that Glue runs on your behalf as part of learning from...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -767,7 +782,7 @@ public class AwsGlue : IAwsGlue
     }
 
     /// <summary>
-    /// Creates a new security configuration. A security configuration is a set of security properties that can be used by Glue. You can use a security configuration to encrypt data at rest. For information about using se- curity configurations in Glue, see Encrypting Data Written by Crawlers, Jobs, and Development Endpoints . See also: AWS API Documentation
+    /// Creates a new security configuration. A security configuration is a set of security properties that can be used by Glue. You can use a security configuration to encrypt data at rest. For information about using security configurations in Glue, see Encrypting Data Written by Crawlers, Jobs, and Development Endpoints . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -827,7 +842,7 @@ public class AwsGlue : IAwsGlue
     }
 
     /// <summary>
-    /// Creates a new trigger. Job arguments may be logged. Do not pass plaintext secrets as argu- ments. Retrieve secrets from a Glue Connection, Amazon Web Services Se- crets Manager or other secret management mechanism if you intend to keep them within the Job. See also: AWS API Documentation
+    /// Creates a new trigger. Job arguments may be logged. Do not pass plaintext secrets as arguments. Retrieve secrets from a Glue Connection, Amazon Web Services Secrets Manager or other secret management mechanism if you intend to keep them within the Job. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -947,7 +962,7 @@ public class AwsGlue : IAwsGlue
     }
 
     /// <summary>
-    /// Removes the specified catalog from the Glue Data Catalog. After completing this operation, you no longer have access to the data- bases, tables (and all table versions and partitions that might belong to the tables) and the user-defined functions in the deleted catalog. Glue deletes these "orphaned" resources asynchronously in a timely man- ner, at the discretion of the service. To ensure the immediate deletion of all related resources before call- ing the DeleteCatalog operation, use DeleteTabl...
+    /// Removes the specified catalog from the Glue Data Catalog. After completing this operation, you no longer have access to the databases, tables (and all table versions and partitions that might belong to the tables) and the user-defined functions in the deleted catalog. Glue deletes these "orphaned" resources asynchronously in a timely manner, at the discretion of the service. To ensure the immediate deletion of all related resources before calling the DeleteCatalog operation, use DeleteTableVersi...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1082,21 +1097,6 @@ public class AwsGlue : IAwsGlue
     }
 
     /// <summary>
-    /// Removes a specified database from a Data Catalog. NOTE: After completing this operation, you no longer have access to the tables (and all table versions and partitions that might belong to the tables) and the user-defined functions in the deleted database. Glue deletes these "orphaned" resources asynchronously in a timely manner, at the discretion of the service. To ensure the immediate deletion of all related resources, before calling DeleteDatabase , use DeleteTableVersion or BatchDeleteTableV...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> DeleteDatabaseAsync(
-        AwsGlueDeleteDatabaseOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
     /// Deletes a data quality ruleset. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -1105,6 +1105,21 @@ public class AwsGlue : IAwsGlue
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteDataQualityRulesetAsync(
         AwsGlueDeleteDataQualityRulesetOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Removes a specified database from a Data Catalog. NOTE: After completing this operation, you no longer have access to the tables (and all table versions and partitions that might belong to the tables) and the user-defined functions in the deleted database. Glue deletes these "orphaned" resources asynchronously in a timely manner, at the discretion of the service. To ensure the immediate deletion of all related resources, before calling DeleteDatabase , use DeleteTableVersion or BatchDeleteTableV...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> DeleteDatabaseAsync(
+        AwsGlueDeleteDatabaseOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
@@ -1202,7 +1217,7 @@ public class AwsGlue : IAwsGlue
     }
 
     /// <summary>
-    /// This API is used for deleting the ResourceProperty of the Glue connec- tion (for the source) or Glue database ARN (for the target). See also: AWS API Documentation
+    /// This API is used for deleting the ResourceProperty of the Glue connection (for the source) or Glue database ARN (for the target). See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1247,7 +1262,7 @@ public class AwsGlue : IAwsGlue
     }
 
     /// <summary>
-    /// Deletes an Glue machine learning transform. Machine learning transforms are a special type of transform that use machine learning to learn the details of the transformation to be performed by learning from examples provided by humans. These transformations are then saved by Glue. If you no longer need a transform, you can delete it by calling DeleteML- Transforms . However, any Glue jobs that still reference the deleted transform will no longer succeed. See also: AWS API Documentation
+    /// Deletes an Glue machine learning transform. Machine learning transforms are a special type of transform that use machine learning to learn the details of the transformation to be performed by learning from examples provided by humans. These transformations are then saved by Glue. If you no longer need a transform, you can delete it by calling DeleteMLTransforms . However, any Glue jobs that still reference the deleted transform will no longer succeed. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1322,7 +1337,7 @@ public class AwsGlue : IAwsGlue
     }
 
     /// <summary>
-    /// Deletes the entire schema set, including the schema set and all of its versions. To get the status of the delete operation, you can call GetSchema API after the asynchronous call. Deleting a registry will de- activate all online operations for the schema, such as the GetSchemaBy- Definition , and RegisterSchemaVersion APIs. See also: AWS API Documentation
+    /// Deletes the entire schema set, including the schema set and all of its versions. To get the status of the delete operation, you can call GetSchema API after the asynchronous call. Deleting a registry will deactivate all online operations for the schema, such as the GetSchemaByDefinition , and RegisterSchemaVersion APIs. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1337,7 +1352,7 @@ public class AwsGlue : IAwsGlue
     }
 
     /// <summary>
-    /// Remove versions from the specified schema. A version number or range may be supplied. If the compatibility mode forbids deleting of a ver- sion that is necessary, such as BACKWARDS_FULL, an error is returned. Calling the GetSchemaVersions API after this call will list the status of the deleted versions. When the range of version numbers contain check pointed version, the API will return a 409 conflict and will not proceed with the deletion. You have to remove the checkpoint first using the Delet...
+    /// Remove versions from the specified schema. A version number or range may be supplied. If the compatibility mode forbids deleting of a version that is necessary, such as BACKWARDS_FULL, an error is returned. Calling the GetSchemaVersions API after this call will list the status of the deleted versions. When the range of version numbers contain check pointed version, the API will return a 409 conflict and will not proceed with the deletion. You have to remove the checkpoint first using the DeleteS...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1382,7 +1397,7 @@ public class AwsGlue : IAwsGlue
     }
 
     /// <summary>
-    /// Deletes an optimizer and all associated metadata for a table. The opti- mization will no longer be performed on the table. See also: AWS API Documentation
+    /// Deletes an optimizer and all associated metadata for a table. The optimization will no longer be performed on the table. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1397,7 +1412,7 @@ public class AwsGlue : IAwsGlue
     }
 
     /// <summary>
-    /// Removes a table definition from the Data Catalog. NOTE: After completing this operation, you no longer have access to the table versions and partitions that belong to the deleted table. Glue deletes these "orphaned" resources asynchronously in a timely man- ner, at the discretion of the service. To ensure the immediate deletion of all related resources, before calling DeleteTable , use DeleteTableVersion or BatchDeleteTableVer- sion , and DeletePartition or BatchDeletePartition , to delete any r...
+    /// Removes a table definition from the Data Catalog. NOTE: After completing this operation, you no longer have access to the table versions and partitions that belong to the deleted table. Glue deletes these "orphaned" resources asynchronously in a timely manner, at the discretion of the service. To ensure the immediate deletion of all related resources, before calling DeleteTable , use DeleteTableVersion or BatchDeleteTableVersion , and DeletePartition or BatchDeletePartition , to delete any resou...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1487,7 +1502,7 @@ public class AwsGlue : IAwsGlue
     }
 
     /// <summary>
-    /// The DescribeConnectionType API provides full details of the supported options for a given connection type in Glue. The response includes au- thentication configuration details that show supported authentication types and properties, and RestConfiguration for custom REST-based con- nection types registered via RegisterConnectionType . See also: ListConnectionTypes , RegisterConnectionType , DeleteConnec- tionType See also: AWS API Documentation
+    /// The DescribeConnectionType API provides full details of the supported options for a given connection type in Glue. The response includes authentication configuration details that show supported authentication types and properties, and RestConfiguration for custom REST-based connection types registered via RegisterConnectionType . See also: ListConnectionTypes , RegisterConnectionType , DeleteConnectionType See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1502,7 +1517,7 @@ public class AwsGlue : IAwsGlue
     }
 
     /// <summary>
-    /// Provides details regarding the entity used with the connection type, with a description of the data model for each field in the selected en- tity. The response includes all the fields which make up the entity. See also: AWS API Documentation describe-entity is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a pag...
+    /// Provides details regarding the entity used with the connection type, with a description of the data model for each field in the selected entity. The response includes all the fields which make up the entity. See also: AWS API Documentation describe-entity is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1697,7 +1712,7 @@ public class AwsGlue : IAwsGlue
     }
 
     /// <summary>
-    /// Lists all classifier objects in the Data Catalog. See also: AWS API Documentation get-classifiers is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Classifiers
+    /// Lists all classifier objects in the Data Catalog. See also: AWS API Documentation get-classifiers is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Classifiers
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1757,7 +1772,7 @@ public class AwsGlue : IAwsGlue
     }
 
     /// <summary>
-    /// Retrieves information about all runs associated with the specified ta- ble. See also: AWS API Documentation
+    /// Retrieves information about all runs associated with the specified table. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1802,7 +1817,7 @@ public class AwsGlue : IAwsGlue
     }
 
     /// <summary>
-    /// Retrieves a list of connection definitions from the Data Catalog. See also: AWS API Documentation get-connections is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: ConnectionList
+    /// Retrieves a list of connection definitions from the Data Catalog. See also: AWS API Documentation get-connections is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: ConnectionList
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1847,7 +1862,7 @@ public class AwsGlue : IAwsGlue
     }
 
     /// <summary>
-    /// Retrieves metadata for all crawlers defined in the customer account. See also: AWS API Documentation get-crawlers is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex- pressions: Crawlers
+    /// Retrieves metadata for all crawlers defined in the customer account. See also: AWS API Documentation get-crawlers is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Crawlers
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1877,7 +1892,7 @@ public class AwsGlue : IAwsGlue
     }
 
     /// <summary>
-    /// Retrieves the URL for the Spark monitoring dashboard for a Glue re- source. See also: AWS API Documentation
+    /// Retrieves the URL for the Spark monitoring dashboard for a Glue resource. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1889,36 +1904,6 @@ public class AwsGlue : IAwsGlue
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
-    /// Retrieves the definition of a specified database. See also: AWS API Documentation
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> GetDatabaseAsync(
-        AwsGlueGetDatabaseOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
-    /// Retrieves all databases defined in a given Data Catalog. See also: AWS API Documentation get-databases is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: DatabaseList
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> GetDatabasesAsync(
-        AwsGlueGetDatabasesOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsGlueGetDatabasesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1949,21 +1934,6 @@ public class AwsGlue : IAwsGlue
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new AwsGlueGetDataCatalogExportConfigurationOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
-    /// Transforms a Python script into a directed acyclic graph (DAG). See also: AWS API Documentation
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> GetDataflowGraphAsync(
-        AwsGlueGetDataflowGraphOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsGlueGetDataflowGraphOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -2005,6 +1975,21 @@ public class AwsGlue : IAwsGlue
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetDataQualityResultAsync(
         AwsGlueGetDataQualityResultOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Retrieves the result of a data quality rule evaluation published from any supported data platform. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> GetDataQualityResultV2Async(
+        AwsGlueGetDataQualityResultV2Options options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
@@ -2057,7 +2042,52 @@ public class AwsGlue : IAwsGlue
     }
 
     /// <summary>
-    /// Retrieves information about a specified development endpoint. NOTE: When you create a development endpoint in a virtual private cloud (VPC), Glue returns only a private IP address, and the public IP ad- dress field is not populated. When you create a non-VPC development endpoint, Glue returns only a public IP address. See also: AWS API Documentation
+    /// Retrieves the definition of a specified database. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> GetDatabaseAsync(
+        AwsGlueGetDatabaseOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Retrieves all databases defined in a given Data Catalog. See also: AWS API Documentation get-databases is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: DatabaseList
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> GetDatabasesAsync(
+        AwsGlueGetDatabasesOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsGlueGetDatabasesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Transforms a Python script into a directed acyclic graph (DAG). See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> GetDataflowGraphAsync(
+        AwsGlueGetDataflowGraphOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsGlueGetDataflowGraphOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Retrieves information about a specified development endpoint. NOTE: When you create a development endpoint in a virtual private cloud (VPC), Glue returns only a private IP address, and the public IP address field is not populated. When you create a non-VPC development endpoint, Glue returns only a public IP address. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2072,7 +2102,7 @@ public class AwsGlue : IAwsGlue
     }
 
     /// <summary>
-    /// Retrieves all the development endpoints in this Amazon Web Services ac- count. NOTE: When you create a development endpoint in a virtual private cloud (VPC), Glue returns only a private IP address and the public IP ad- dress field is not populated. When you create a non-VPC development endpoint, Glue returns only a public IP address. See also: AWS API Documentation get-dev-endpoints is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. Yo...
+    /// Retrieves all the development endpoints in this Amazon Web Services account. NOTE: When you create a development endpoint in a virtual private cloud (VPC), Glue returns only a private IP address and the public IP address field is not populated. When you create a non-VPC development endpoint, Glue returns only a public IP address. See also: AWS API Documentation get-dev-endpoints is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You ca...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2087,7 +2117,7 @@ public class AwsGlue : IAwsGlue
     }
 
     /// <summary>
-    /// This API is used to query preview data from a given connection type or from a native Amazon S3 based Glue Data Catalog. Returns records as an array of JSON blobs. Each record is formatted us- ing Jackson JsonNode based on the field type defined by the DescribeEn- tity API. Spark connectors generate schemas according to the same data type map- ping as in the DescribeEntity API. Spark connectors convert data to the appropriate data types matching the schema when returning rows. See also: AWS API D...
+    /// This API is used to query preview data from a given connection type or from a native Amazon S3 based Glue Data Catalog. Returns records as an array of JSON blobs. Each record is formatted using Jackson JsonNode based on the field type defined by the DescribeEntity API. Spark connectors generate schemas according to the same data type mapping as in the DescribeEntity API. Spark connectors convert data to the appropriate data types matching the schema when returning rows. See also: AWS API Documen...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2147,7 +2177,7 @@ public class AwsGlue : IAwsGlue
     }
 
     /// <summary>
-    /// Retrieves the current Glue Identity Center configuration details, in- cluding the associated Identity Center instance and application infor- mation. See also: AWS API Documentation
+    /// Retrieves the current Glue Identity Center configuration details, including the associated Identity Center instance and application information. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2162,7 +2192,7 @@ public class AwsGlue : IAwsGlue
     }
 
     /// <summary>
-    /// This API is used for fetching the ResourceProperty of the Glue connec- tion (for the source) or Glue database ARN (for the target) See also: AWS API Documentation
+    /// This API is used for fetching the ResourceProperty of the Glue connection (for the source) or Glue database ARN (for the target) See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2177,7 +2207,7 @@ public class AwsGlue : IAwsGlue
     }
 
     /// <summary>
-    /// This API is used to retrieve optional override properties for the ta- bles that need to be replicated. These properties can include proper- ties for filtering and partition for source and target tables. See also: AWS API Documentation
+    /// This API is used to retrieve optional override properties for the tables that need to be replicated. These properties can include properties for filtering and partition for source and target tables. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2192,7 +2222,7 @@ public class AwsGlue : IAwsGlue
     }
 
     /// <summary>
-    /// Returns information on a job bookmark entry. For more information about enabling and using job bookmarks, see: o Tracking processed data using job bookmarks o Job parameters used by Glue o Job structure See also: AWS API Documentation
+    /// Returns information on a job bookmark entry. For more information about enabling and using job bookmarks, see: • Tracking processed data using job bookmarks • Job parameters used by Glue • Job structure See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2222,7 +2252,7 @@ public class AwsGlue : IAwsGlue
     }
 
     /// <summary>
-    /// Retrieves the metadata for a given job run. Job run history is accessi- ble for 365 days for your workflow and job run. See also: AWS API Documentation
+    /// Retrieves the metadata for a given job run. Job run history is accessible for 365 days for your workflow and job run. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2237,7 +2267,7 @@ public class AwsGlue : IAwsGlue
     }
 
     /// <summary>
-    /// Retrieves metadata for all runs of a given job definition. GetJobRuns returns the job runs in chronological order, with the newest jobs returned first. See also: AWS API Documentation get-job-runs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from th...
+    /// Retrieves metadata for all runs of a given job definition. GetJobRuns returns the job runs in chronological order, with the newest jobs returned first. See also: AWS API Documentation get-job-runs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2252,7 +2282,7 @@ public class AwsGlue : IAwsGlue
     }
 
     /// <summary>
-    /// Retrieves all current job definitions. See also: AWS API Documentation get-jobs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagi- nation by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query ar- gument must extract data from the results of the following query ex- pressions: Jobs
+    /// Retrieves all current job definitions. See also: AWS API Documentation get-jobs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Jobs
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2312,7 +2342,7 @@ public class AwsGlue : IAwsGlue
     }
 
     /// <summary>
-    /// Gets a list of runs for a machine learning transform. Machine learning task runs are asynchronous tasks that Glue runs on your behalf as part of various machine learning workflows. You can get a sortable, filter- able list of machine learning task runs by calling GetMLTaskRuns with their parent transform's TransformID and other optional parameters as documented in this section. This operation returns a list of historic runs and must be paginated. See also: AWS API Documentation
+    /// Gets a list of runs for a machine learning transform. Machine learning task runs are asynchronous tasks that Glue runs on your behalf as part of various machine learning workflows. You can get a sortable, filterable list of machine learning task runs by calling GetMLTaskRuns with their parent transform's TransformID and other optional parameters as documented in this section. This operation returns a list of historic runs and must be paginated. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2327,7 +2357,7 @@ public class AwsGlue : IAwsGlue
     }
 
     /// <summary>
-    /// Gets an Glue machine learning transform artifact and all its corre- sponding metadata. Machine learning transforms are a special type of transform that use machine learning to learn the details of the trans- formation to be performed by learning from examples provided by humans. These transformations are then saved by Glue. You can retrieve their metadata by calling GetMLTransform . See also: AWS API Documentation
+    /// Gets an Glue machine learning transform artifact and all its corresponding metadata. Machine learning transforms are a special type of transform that use machine learning to learn the details of the transformation to be performed by learning from examples provided by humans. These transformations are then saved by Glue. You can retrieve their metadata by calling GetMLTransform . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2342,7 +2372,7 @@ public class AwsGlue : IAwsGlue
     }
 
     /// <summary>
-    /// Gets a sortable, filterable list of existing Glue machine learning transforms. Machine learning transforms are a special type of transform that use machine learning to learn the details of the transformation to be performed by learning from examples provided by humans. These trans- formations are then saved by Glue, and you can retrieve their metadata by calling GetMLTransforms . See also: AWS API Documentation
+    /// Gets a sortable, filterable list of existing Glue machine learning transforms. Machine learning transforms are a special type of transform that use machine learning to learn the details of the transformation to be performed by learning from examples provided by humans. These transformations are then saved by Glue, and you can retrieve their metadata by calling GetMLTransforms . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2387,7 +2417,7 @@ public class AwsGlue : IAwsGlue
     }
 
     /// <summary>
-    /// Retrieves information about the partitions in a table. See also: AWS API Documentation get-partitions is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Partitions
+    /// Retrieves information about the partitions in a table. See also: AWS API Documentation get-partitions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Partitions
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2462,7 +2492,7 @@ public class AwsGlue : IAwsGlue
     }
 
     /// <summary>
-    /// Retrieves a schema by the SchemaDefinition . The schema definition is sent to the Schema Registry, canonicalized, and hashed. If the hash is matched within the scope of the SchemaName or ARN (or the default reg- istry, if none is supplied), that schemas metadata is returned. Other- wise, a 404 or NotFound error is returned. Schema versions in Deleted statuses will not be included in the results. See also: AWS API Documentation
+    /// Retrieves a schema by the SchemaDefinition . The schema definition is sent to the Schema Registry, canonicalized, and hashed. If the hash is matched within the scope of the SchemaName or ARN (or the default registry, if none is supplied), that schemas metadata is returned. Otherwise, a 404 or NotFound error is returned. Schema versions in Deleted statuses will not be included in the results. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2537,7 +2567,7 @@ public class AwsGlue : IAwsGlue
     }
 
     /// <summary>
-    /// Retrieves a list of all security configurations. See also: AWS API Documentation get-security-configurations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: SecurityConfigurations
+    /// Retrieves a list of all security configurations. See also: AWS API Documentation get-security-configurations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: SecurityConfigurations
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2597,6 +2627,36 @@ public class AwsGlue : IAwsGlue
     }
 
     /// <summary>
+    /// Retrieves the system logs for a job run. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> GetSystemLogsForJobRunAsync(
+        AwsGlueGetSystemLogsForJobRunOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Retrieves the system logs for an interactive session. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> GetSystemLogsForSessionAsync(
+        AwsGlueGetSystemLogsForSessionOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
     /// Returns the configuration of all optimizers associated with a specified table. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -2627,22 +2687,7 @@ public class AwsGlue : IAwsGlue
     }
 
     /// <summary>
-    /// Retrieves the definitions of some or all of the tables in a given Data- base . See also: AWS API Documentation get-tables uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types. get-tables is a paginated operation. Multiple API calls may be is...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> GetTablesAsync(
-        AwsGlueGetTablesOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
-    /// Retrieves a specified version of a table. See also: AWS API Documentation get-table-version uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested para- meters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
+    /// Retrieves a specified version of a table. See also: AWS API Documentation get-table-version uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2657,7 +2702,7 @@ public class AwsGlue : IAwsGlue
     }
 
     /// <summary>
-    /// Retrieves a list of strings that identify available versions of a spec- ified table. See also: AWS API Documentation get-table-versions uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested para- meters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types. get-table-versions is a paginated operation. Mult...
+    /// Retrieves a list of strings that identify available versions of a specified table. See also: AWS API Documentation get-table-versions uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types. get-table-versions is a paginated operation. Multiple...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2665,6 +2710,21 @@ public class AwsGlue : IAwsGlue
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetTableVersionsAsync(
         AwsGlueGetTableVersionsOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Retrieves the definitions of some or all of the tables in a given Database . See also: AWS API Documentation get-tables uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types. get-tables is a paginated operation. Multiple API calls may be issu...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> GetTablesAsync(
+        AwsGlueGetTablesOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
@@ -2702,7 +2762,7 @@ public class AwsGlue : IAwsGlue
     }
 
     /// <summary>
-    /// Gets all the triggers associated with a job. See also: AWS API Documentation get-triggers is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex- pressions: Triggers
+    /// Gets all the triggers associated with a job. See also: AWS API Documentation get-triggers is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Triggers
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2717,7 +2777,7 @@ public class AwsGlue : IAwsGlue
     }
 
     /// <summary>
-    /// Retrieves partition metadata from the Data Catalog that contains unfil- tered metadata. For IAM authorization, the public IAM action associated with this API is glue:GetPartition . See also: AWS API Documentation
+    /// Retrieves partition metadata from the Data Catalog that contains unfiltered metadata. For IAM authorization, the public IAM action associated with this API is glue:GetPartition . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2732,7 +2792,7 @@ public class AwsGlue : IAwsGlue
     }
 
     /// <summary>
-    /// Retrieves partition metadata from the Data Catalog that contains unfil- tered metadata. For IAM authorization, the public IAM action associated with this API is glue:GetPartitions . See also: AWS API Documentation
+    /// Retrieves partition metadata from the Data Catalog that contains unfiltered metadata. For IAM authorization, the public IAM action associated with this API is glue:GetPartitions . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2747,7 +2807,7 @@ public class AwsGlue : IAwsGlue
     }
 
     /// <summary>
-    /// Allows a third-party analytical engine to retrieve unfiltered table metadata from the Data Catalog. For IAM authorization, the public IAM action associated with this API is glue:GetTable . See also: AWS API Documentation get-unfiltered-table-metadata uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be pro-...
+    /// Allows a third-party analytical engine to retrieve unfiltered table metadata from the Data Catalog. For IAM authorization, the public IAM action associated with this API is glue:GetTable . See also: AWS API Documentation get-unfiltered-table-metadata uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be prov...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2792,7 +2852,7 @@ public class AwsGlue : IAwsGlue
     }
 
     /// <summary>
-    /// Retrieves multiple function definitions from the Data Catalog. See also: AWS API Documentation get-user-defined-functions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: UserDefinedFunctions
+    /// Retrieves multiple function definitions from the Data Catalog. See also: AWS API Documentation get-user-defined-functions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: UserDefinedFunctions
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2822,7 +2882,7 @@ public class AwsGlue : IAwsGlue
     }
 
     /// <summary>
-    /// Retrieves the metadata for a given workflow run. Job run history is ac- cessible for 90 days for your workflow and job run. See also: AWS API Documentation
+    /// Retrieves the metadata for a given workflow run. Job run history is accessible for 90 days for your workflow and job run. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2897,7 +2957,7 @@ public class AwsGlue : IAwsGlue
     }
 
     /// <summary>
-    /// Lists all the blueprint names in an account. See also: AWS API Documentation list-blueprints is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Blueprints
+    /// Lists all the blueprint names in an account. See also: AWS API Documentation list-blueprints is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Blueprints
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2942,7 +3002,7 @@ public class AwsGlue : IAwsGlue
     }
 
     /// <summary>
-    /// Retrieves the names of all crawler resources in this Amazon Web Ser- vices account, or the resources with the specified tag. This operation allows you to see which resources are available in your account, and their names. This operation takes the optional Tags field, which you can use as a filter on the response so that tagged resources can be retrieved as a group. If you choose to use tags filtering, only resources with the tag are retrieved. See also: AWS API Documentation
+    /// Retrieves the names of all crawler resources in this Amazon Web Services account, or the resources with the specified tag. This operation allows you to see which resources are available in your account, and their names. This operation takes the optional Tags field, which you can use as a filter on the response so that tagged resources can be retrieved as a group. If you choose to use tags filtering, only resources with the tag are retrieved. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2957,7 +3017,7 @@ public class AwsGlue : IAwsGlue
     }
 
     /// <summary>
-    /// Returns all the crawls of a specified crawler. Returns only the crawls that have occurred since the launch date of the crawler history fea- ture, and only retains up to 12 months of crawls. Older crawls will not be returned. You may use this API to: o Retrive all the crawls of a specified crawler. o Retrieve all the crawls of a specified crawler within a limited count. o Retrieve all the crawls of a specified crawler in a specific time range. o Retrieve all the crawls of a specified crawler with...
+    /// Returns all the crawls of a specified crawler. Returns only the crawls that have occurred since the launch date of the crawler history feature, and only retains up to 12 months of crawls. Older crawls will not be returned. You may use this API to: • Retrive all the crawls of a specified crawler. • Retrieve all the crawls of a specified crawler within a limited count. • Retrieve all the crawls of a specified crawler in a specific time range. • Retrieve all the crawls of a specified crawler with a...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -3002,6 +3062,21 @@ public class AwsGlue : IAwsGlue
     }
 
     /// <summary>
+    /// Returns a paginated list of data quality execution results for your account, filtered by the specified criteria. Use the NextToken parameter to retrieve additional results. See also: AWS API Documentation list-data-quality-results-v2 is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListDataQualityResultsV2Async(
+        AwsGlueListDataQualityResultsV2Options? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsGlueListDataQualityResultsV2Options(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
     /// Lists the recommendation runs meeting the filter criteria. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -3032,7 +3107,7 @@ public class AwsGlue : IAwsGlue
     }
 
     /// <summary>
-    /// Returns a paginated list of rulesets for the specified list of Glue ta- bles. See also: AWS API Documentation
+    /// Returns a paginated list of rulesets for the specified list of Glue tables. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -3077,7 +3152,7 @@ public class AwsGlue : IAwsGlue
     }
 
     /// <summary>
-    /// Retrieves the names of all DevEndpoint resources in this Amazon Web Services account, or the resources with the specified tag. This opera- tion allows you to see which resources are available in your account, and their names. This operation takes the optional Tags field, which you can use as a filter on the response so that tagged resources can be retrieved as a group. If you choose to use tags filtering, only resources with the tag are retrieved. See also: AWS API Documentation
+    /// Retrieves the names of all DevEndpoint resources in this Amazon Web Services account, or the resources with the specified tag. This operation allows you to see which resources are available in your account, and their names. This operation takes the optional Tags field, which you can use as a filter on the response so that tagged resources can be retrieved as a group. If you choose to use tags filtering, only resources with the tag are retrieved. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -3092,7 +3167,7 @@ public class AwsGlue : IAwsGlue
     }
 
     /// <summary>
-    /// Returns the available entities supported by the connection type. See also: AWS API Documentation list-entities is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Entities
+    /// Returns the available entities supported by the connection type. See also: AWS API Documentation list-entities is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Entities
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -3107,7 +3182,7 @@ public class AwsGlue : IAwsGlue
     }
 
     /// <summary>
-    /// Lists the form types defined in Glue Data Catalog. See also: AWS API Documentation list-form-types is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Items
+    /// Lists the form types defined in Glue Data Catalog. See also: AWS API Documentation list-form-types is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Items
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -3122,7 +3197,7 @@ public class AwsGlue : IAwsGlue
     }
 
     /// <summary>
-    /// Lists business glossaries in Glue Data Catalog. See also: AWS API Documentation list-glossaries is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Items
+    /// Lists business glossaries in Glue Data Catalog. See also: AWS API Documentation list-glossaries is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Items
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -3212,7 +3287,7 @@ public class AwsGlue : IAwsGlue
     }
 
     /// <summary>
-    /// List all task runs for a particular account. See also: AWS API Documentation list-materialized-view-refresh-task-runs is a paginated operation. Mul- tiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a pagi- nated response, the --query argument must extract data from the results of the following query expressions: MaterializedViewRefreshTaskRuns
+    /// List all task runs for a particular account. See also: AWS API Documentation list-materialized-view-refresh-task-runs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: MaterializedViewRefreshTaskRuns
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -3227,7 +3302,7 @@ public class AwsGlue : IAwsGlue
     }
 
     /// <summary>
-    /// Retrieves a sortable, filterable list of existing Glue machine learning transforms in this Amazon Web Services account, or the resources with the specified tag. This operation takes the optional Tags field, which you can use as a filter of the responses so that tagged resources can be retrieved as a group. If you choose to use tag filtering, only re- sources with the tags are retrieved. See also: AWS API Documentation
+    /// Retrieves a sortable, filterable list of existing Glue machine learning transforms in this Amazon Web Services account, or the resources with the specified tag. This operation takes the optional Tags field, which you can use as a filter of the responses so that tagged resources can be retrieved as a group. If you choose to use tag filtering, only resources with the tags are retrieved. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -3242,7 +3317,7 @@ public class AwsGlue : IAwsGlue
     }
 
     /// <summary>
-    /// Returns a list of registries that you have created, with minimal reg- istry information. Registries in the Deleting status will not be in- cluded in the results. Empty results will be returned if there are no registries available. See also: AWS API Documentation list-registries is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --qu...
+    /// Returns a list of registries that you have created, with minimal registry information. Registries in the Deleting status will not be included in the results. Empty results will be returned if there are no registries available. See also: AWS API Documentation list-registries is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argu...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -3257,22 +3332,7 @@ public class AwsGlue : IAwsGlue
     }
 
     /// <summary>
-    /// Returns a list of schemas with minimal details. Schemas in Deleting status will not be included in the results. Empty results will be re- turned if there are no schemas available. When the RegistryId is not provided, all the schemas across registries will be part of the API response. See also: AWS API Documentation list-schemas is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate ...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListSchemasAsync(
-        AwsGlueListSchemasOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsGlueListSchemasOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
-    /// Returns a list of schema versions that you have created, with minimal information. Schema versions in Deleted status will not be included in the results. Empty results will be returned if there are no schema ver- sions available. See also: AWS API Documentation list-schema-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --qu...
+    /// Returns a list of schema versions that you have created, with minimal information. Schema versions in Deleted status will not be included in the results. Empty results will be returned if there are no schema versions available. See also: AWS API Documentation list-schema-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --quer...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -3284,6 +3344,21 @@ public class AwsGlue : IAwsGlue
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Returns a list of schemas with minimal details. Schemas in Deleting status will not be included in the results. Empty results will be returned if there are no schemas available. When the RegistryId is not provided, all the schemas across registries will be part of the API response. See also: AWS API Documentation list-schemas is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate ar...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListSchemasAsync(
+        AwsGlueListSchemasOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsGlueListSchemasOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -3317,7 +3392,7 @@ public class AwsGlue : IAwsGlue
     }
 
     /// <summary>
-    /// Lists the history of previous optimizer runs for a specific table. See also: AWS API Documentation list-table-optimizer-runs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: TableOptimizerRuns
+    /// Lists the history of previous optimizer runs for a specific table. See also: AWS API Documentation list-table-optimizer-runs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: TableOptimizerRuns
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -3332,7 +3407,7 @@ public class AwsGlue : IAwsGlue
     }
 
     /// <summary>
-    /// Retrieves the names of all trigger resources in this Amazon Web Ser- vices account, or the resources with the specified tag. This operation allows you to see which resources are available in your account, and their names. This operation takes the optional Tags field, which you can use as a filter on the response so that tagged resources can be retrieved as a group. If you choose to use tags filtering, only resources with the tag are retrieved. See also: AWS API Documentation list-triggers is a p...
+    /// Retrieves the names of all trigger resources in this Amazon Web Services account, or the resources with the specified tag. This operation allows you to see which resources are available in your account, and their names. This operation takes the optional Tags field, which you can use as a filter on the response so that tagged resources can be retrieved as a group. If you choose to use tags filtering, only resources with the tag are retrieved. See also: AWS API Documentation list-triggers is a pag...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -3362,7 +3437,7 @@ public class AwsGlue : IAwsGlue
     }
 
     /// <summary>
-    /// Lists names of workflows created in the account. See also: AWS API Documentation list-workflows is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Workflows
+    /// Lists names of workflows created in the account. See also: AWS API Documentation list-workflows is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Workflows
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -3385,6 +3460,21 @@ public class AwsGlue : IAwsGlue
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ModifyIntegrationAsync(
         AwsGlueModifyIntegrationOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// NOTE: This operation is intended for internal use. Do not call it directly. AWS Glue Data Quality uses this operation to publish a data quality result. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> PublishDataQualityResultV2Async(
+        AwsGluePublishDataQualityResultV2Options options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
@@ -3422,7 +3512,7 @@ public class AwsGlue : IAwsGlue
     }
 
     /// <summary>
-    /// Attaches a form to an asset or an iterable form item in Glue Data Cata- log. If an attachment with the same name already exists, it is over- written. See also: AWS API Documentation
+    /// Attaches a form to an asset or an iterable form item in Glue Data Catalog. If an attachment with the same name already exists, it is overwritten. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -3437,7 +3527,7 @@ public class AwsGlue : IAwsGlue
     }
 
     /// <summary>
-    /// Sets the security configuration for a specified catalog. After the con- figuration has been set, the specified encryption is applied to every catalog write thereafter. See also: AWS API Documentation
+    /// Sets the security configuration for a specified catalog. After the configuration has been set, the specified encryption is applied to every catalog write thereafter. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -3482,7 +3572,7 @@ public class AwsGlue : IAwsGlue
     }
 
     /// <summary>
-    /// Creates or updates a form type in Glue Data Catalog. A form type de- fines the schema for structured metadata that can be attached to as- sets. See also: AWS API Documentation
+    /// Creates or updates a form type in Glue Data Catalog. A form type defines the schema for structured metadata that can be attached to assets. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -3557,7 +3647,7 @@ public class AwsGlue : IAwsGlue
     }
 
     /// <summary>
-    /// Registers a custom connection type in Glue based on the configuration provided. This operation enables customers to configure custom connec- tors for any data source with REST-based APIs, eliminating the need for building custom Lambda connectors. The registered connection type stores details about how requests and responses are interpreted by REST sources, including connection proper- ties, authentication configuration, and REST configuration with entity definitions. Once registered, customers ...
+    /// Registers a custom connection type in Glue based on the configuration provided. This operation enables customers to configure custom connectors for any data source with REST-based APIs, eliminating the need for building custom Lambda connectors. The registered connection type stores details about how requests and responses are interpreted by REST sources, including connection properties, authentication configuration, and REST configuration with entity definitions. Once registered, customers can ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -3572,7 +3662,7 @@ public class AwsGlue : IAwsGlue
     }
 
     /// <summary>
-    /// Adds a new version to the existing schema. Returns an error if new ver- sion of schema does not meet the compatibility requirements of the schema set. This API will not create a new schema set and will return a 404 error if the schema set is not already present in the Schema Reg- istry. If this is the first schema definition to be registered in the Schema Registry, this API will store the schema version and return immedi- ately. Otherwise, this call has the potential to run longer than other ope...
+    /// Adds a new version to the existing schema. Returns an error if new version of schema does not meet the compatibility requirements of the schema set. This API will not create a new schema set and will return a 404 error if the schema set is not already present in the Schema Registry. If this is the first schema definition to be registered in the Schema Registry, this API will store the schema version and return immediately. Otherwise, this call has the potential to run longer than other operation...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -3587,7 +3677,7 @@ public class AwsGlue : IAwsGlue
     }
 
     /// <summary>
-    /// Removes a key value pair from the schema version metadata for the spec- ified schema version ID. See also: AWS API Documentation
+    /// Removes a key value pair from the schema version metadata for the specified schema version ID. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -3602,7 +3692,7 @@ public class AwsGlue : IAwsGlue
     }
 
     /// <summary>
-    /// Resets a bookmark entry. For more information about enabling and using job bookmarks, see: o Tracking processed data using job bookmarks o Job parameters used by Glue o Job structure See also: AWS API Documentation
+    /// Resets a bookmark entry. For more information about enabling and using job bookmarks, see: • Tracking processed data using job bookmarks • Job parameters used by Glue • Job structure See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -3647,7 +3737,7 @@ public class AwsGlue : IAwsGlue
     }
 
     /// <summary>
-    /// Searches for assets in Glue Data Catalog using full-text search, fil- ters, sorting, and aggregations. Returns matching assets with rele- vance-ranked results. See also: AWS API Documentation search-assets is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract d...
+    /// Searches for assets in Glue Data Catalog using full-text search, filters, sorting, and aggregations. Returns matching assets with relevance-ranked results. See also: AWS API Documentation search-assets is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -3662,7 +3752,7 @@ public class AwsGlue : IAwsGlue
     }
 
     /// <summary>
-    /// Searches a set of tables based on properties in the table metadata as well as on the parent database. You can search against text or filter conditions. You can only get tables that you have access to based on the security policies defined in Lake Formation. You need at least a read-only ac- cess to the table for it to be returned. If you do not have access to all the columns in the table, these columns will not be searched against when returning the list of tables back to you. If you have ac- ce...
+    /// Searches a set of tables based on properties in the table metadata as well as on the parent database. You can search against text or filter conditions. You can only get tables that you have access to based on the security policies defined in Lake Formation. You need at least a read-only access to the table for it to be returned. If you do not have access to all the columns in the table, these columns will not be searched against when returning the list of tables back to you. If you have access t...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -3737,7 +3827,7 @@ public class AwsGlue : IAwsGlue
     }
 
     /// <summary>
-    /// Changes the schedule state of the specified crawler to SCHEDULED , un- less the crawler is already running or the schedule state is already SCHEDULED . See also: AWS API Documentation
+    /// Changes the schedule state of the specified crawler to SCHEDULED , unless the crawler is already running or the schedule state is already SCHEDULED . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -3782,7 +3872,7 @@ public class AwsGlue : IAwsGlue
     }
 
     /// <summary>
-    /// Begins an asynchronous task to export all labeled data for a particular transform. This task is the only label-related API call that is not part of the typical active learning workflow. You typically use Start- ExportLabelsTaskRun when you want to work with all of your existing la- bels at the same time, such as when you want to remove or change labels that were previously submitted as truth. This API operation accepts the TransformId whose labels you want to export and an Amazon Simple Stor- ag...
+    /// Begins an asynchronous task to export all labeled data for a particular transform. This task is the only label-related API call that is not part of the typical active learning workflow. You typically use StartExportLabelsTaskRun when you want to work with all of your existing labels at the same time, such as when you want to remove or change labels that were previously submitted as truth. This API operation accepts the TransformId whose labels you want to export and an Amazon Simple Storage Serv...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -3827,7 +3917,7 @@ public class AwsGlue : IAwsGlue
     }
 
     /// <summary>
-    /// Starts a materialized view refresh task run for a specified material- ized view. See also: AWS API Documentation
+    /// Starts a materialized view refresh task run for a specified materialized view. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -4037,7 +4127,7 @@ public class AwsGlue : IAwsGlue
     }
 
     /// <summary>
-    /// Tests a connection to a service to validate the service credentials that you provide. You can either provide an existing connection name or a TestConnection- Input for testing a non-existing connection input. Providing both at the same time will cause an error. If the action is successful, the service sends back an HTTP 200 re- sponse. See also: AWS API Documentation
+    /// Tests a connection to a service to validate the service credentials that you provide. You can either provide an existing connection name or a TestConnectionInput for testing a non-existing connection input. Providing both at the same time will cause an error. If the action is successful, the service sends back an HTTP 200 response. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -4067,7 +4157,7 @@ public class AwsGlue : IAwsGlue
     }
 
     /// <summary>
-    /// Updates the name and description of an existing asset in Glue Data Cat- alog. Only the fields that you provide are updated. See also: AWS API Documentation
+    /// Updates the name and description of an existing asset in Glue Data Catalog. Only the fields that you provide are updated. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -4217,21 +4307,6 @@ public class AwsGlue : IAwsGlue
     }
 
     /// <summary>
-    /// Updates an existing database definition in a Data Catalog. See also: AWS API Documentation
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> UpdateDatabaseAsync(
-        AwsGlueUpdateDatabaseOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
     /// Updates the specified data quality ruleset. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -4240,6 +4315,21 @@ public class AwsGlue : IAwsGlue
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateDataQualityRulesetAsync(
         AwsGlueUpdateDataQualityRulesetOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Updates an existing database definition in a Data Catalog. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> UpdateDatabaseAsync(
+        AwsGlueUpdateDatabaseOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
@@ -4292,7 +4382,7 @@ public class AwsGlue : IAwsGlue
     }
 
     /// <summary>
-    /// Updates the existing Glue Identity Center configuration, allowing modi- fication of scopes and permissions for the integration. See also: AWS API Documentation
+    /// Updates the existing Glue Identity Center configuration, allowing modification of scopes and permissions for the integration. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -4307,7 +4397,7 @@ public class AwsGlue : IAwsGlue
     }
 
     /// <summary>
-    /// This API can be used for updating the ResourceProperty of the Glue con- nection (for the source) or Glue database ARN (for the target). These properties can include the role to access the connection or database. Since the same resource can be used across multiple integrations, up- dating resource properties will impact all the integrations using it. See also: AWS API Documentation
+    /// This API can be used for updating the ResourceProperty of the Glue connection (for the source) or Glue database ARN (for the target). These properties can include the role to access the connection or database. Since the same resource can be used across multiple integrations, updating resource properties will impact all the integrations using it. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -4337,7 +4427,7 @@ public class AwsGlue : IAwsGlue
     }
 
     /// <summary>
-    /// Synchronizes a job from the source control repository. This operation takes the job artifacts that are located in the remote repository and updates the Glue internal stores with these artifacts. This API supports optional parameters which take in the repository in- formation. See also: AWS API Documentation
+    /// Synchronizes a job from the source control repository. This operation takes the job artifacts that are located in the remote repository and updates the Glue internal stores with these artifacts. This API supports optional parameters which take in the repository information. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -4352,7 +4442,7 @@ public class AwsGlue : IAwsGlue
     }
 
     /// <summary>
-    /// Updates an existing job definition. The previous job definition is com- pletely overwritten by this information. See also: AWS API Documentation
+    /// Updates an existing job definition. The previous job definition is completely overwritten by this information. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -4397,7 +4487,7 @@ public class AwsGlue : IAwsGlue
     }
 
     /// <summary>
-    /// Updates an existing registry which is used to hold a collection of schemas. The updated properties relate to the registry, and do not mod- ify any of the schemas within the registry. See also: AWS API Documentation
+    /// Updates an existing registry which is used to hold a collection of schemas. The updated properties relate to the registry, and do not modify any of the schemas within the registry. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -4412,7 +4502,7 @@ public class AwsGlue : IAwsGlue
     }
 
     /// <summary>
-    /// Updates the description, compatibility setting, or version checkpoint for a schema set. For updating the compatibility setting, the call will not validate com- patibility for the entire set of schema versions with the new compati- bility setting. If the value for Compatibility is provided, the Ver- sionNumber (a checkpoint) is also required. The API will validate the checkpoint version number for consistency. If the value for the VersionNumber (checkpoint) is provided, Compati- bility is optiona...
+    /// Updates the description, compatibility setting, or version checkpoint for a schema set. For updating the compatibility setting, the call will not validate compatibility for the entire set of schema versions with the new compatibility setting. If the value for Compatibility is provided, the VersionNumber (a checkpoint) is also required. The API will validate the checkpoint version number for consistency. If the value for the VersionNumber (checkpoint) is provided, Compatibility is optional and th...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -4427,7 +4517,7 @@ public class AwsGlue : IAwsGlue
     }
 
     /// <summary>
-    /// Synchronizes a job to the source control repository. This operation takes the job artifacts from the Glue internal stores and makes a com- mit to the remote repository that is configured on the job. This API supports optional parameters which take in the repository in- formation. See also: AWS API Documentation
+    /// Synchronizes a job to the source control repository. This operation takes the job artifacts from the Glue internal stores and makes a commit to the remote repository that is configured on the job. This API supports optional parameters which take in the repository information. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -4472,7 +4562,7 @@ public class AwsGlue : IAwsGlue
     }
 
     /// <summary>
-    /// Updates a trigger definition. Job arguments may be logged. Do not pass plaintext secrets as argu- ments. Retrieve secrets from a Glue Connection, Amazon Web Services Se- crets Manager or other secret management mechanism if you intend to keep them within the Job. See also: AWS API Documentation
+    /// Updates a trigger definition. Job arguments may be logged. Do not pass plaintext secrets as arguments. Retrieve secrets from a Glue Connection, Amazon Web Services Secrets Manager or other secret management mechanism if you intend to keep them within the Job. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

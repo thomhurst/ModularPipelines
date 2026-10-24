@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsWorkmailUpdateAvailabilityConfigurationOptions : AwsOptions, IV
     /// <summary>
     /// Updates an existing AvailabilityConfiguration for the given WorkMail organization and domain. See also: AWS API Documentation
     /// </summary>
-    /// <param name="OrganizationId">The WorkMail organization for which the AvailabilityConfiguration will be updated. Constraints: o min: 34 o max: 34 o pattern: ^m-[0-9a-f]{32}$</param>
-    /// <param name="DomainName">The domain to which the provider applies the availability configura- tion. Constraints: o min: 3 o max: 255 o pattern: [a-zA-Z0-9.-]+</param>
+    /// <param name="OrganizationId">The WorkMail organization for which the AvailabilityConfiguration will be updated. Constraints: • min: 34 • max: 34 • pattern: ^m-[0-9a-f]{32}$</param>
+    /// <param name="DomainName">The domain to which the provider applies the availability configuration. Constraints: • min: 3 • max: 255 • pattern: [a-zA-Z0-9.-]+</param>
     public AwsWorkmailUpdateAvailabilityConfigurationOptions(
         string OrganizationId,
         string DomainName
@@ -60,25 +61,25 @@ public record AwsWorkmailUpdateAvailabilityConfigurationOptions : AwsOptions, IV
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The WorkMail organization for which the AvailabilityConfiguration will be updated. Constraints: o min: 34 o max: 34 o pattern: ^m-[0-9a-f]{32}$
+    /// The WorkMail organization for which the AvailabilityConfiguration will be updated. Constraints: • min: 34 • max: 34 • pattern: ^m-[0-9a-f]{32}$
     /// </summary>
     [CliOption("--organization-id")]
     public string? OrganizationId { get; private init; }
 
     /// <summary>
-    /// The domain to which the provider applies the availability configura- tion. Constraints: o min: 3 o max: 255 o pattern: [a-zA-Z0-9.-]+
+    /// The domain to which the provider applies the availability configuration. Constraints: • min: 3 • max: 255 • pattern: [a-zA-Z0-9.-]+
     /// </summary>
     [CliOption("--domain-name")]
     public string? DomainName { get; private init; }
 
     /// <summary>
-    /// The EWS availability provider definition. The request must contain exactly one provider definition, either EwsProvider or Lamb- daProvider . The previously stored provider will be overridden by the one provided. EwsEndpoint -&gt; (string) [required] The endpoint of the remote EWS server. Constraints: o max: 256 o pattern: https?://[A-Za-z0-9.-]+(:[0-9]+)?/.* EwsUsername -&gt; (string) [required] The username used to authenticate the remote EWS server. Constraints: o max: 256 o pattern: [\u0020-\u00FF]+ EwsPassword -&gt; (string) [required] The password used to authenticate the remote EWS server. Constraints: o max: 256 o pattern: [\u0020-\u00FF]+ Shorthand Syntax: EwsEndpoint=string,EwsUsername=string,EwsPassword=string JSON Syntax: { "EwsEndpoint": "string", "EwsUsername": "string", "EwsPassword": "string" }
+    /// The EWS availability provider definition. The request must contain exactly one provider definition, either EwsProvider or LambdaProvider . The previously stored provider will be overridden by the one provided. EwsEndpoint -&gt; (string) [required] The endpoint of the remote EWS server. Constraints: • max: 256 • pattern: https?://[A-Za-z0-9.-]+(:[0-9]+)?/.* EwsUsername -&gt; (string) [required] The username used to authenticate the remote EWS server. Constraints: • max: 256 • pattern: [\u0020-\u00FF]+ EwsPassword -&gt; (string) [required] The password used to authenticate the remote EWS server. Constraints: • max: 256 • pattern: [\u0020-\u00FF]+ Shorthand Syntax: EwsEndpoint=string,EwsUsername=string,EwsPassword=string JSON Syntax: { "EwsEndpoint": "string", "EwsUsername": "string", "EwsPassword": "string" }
     /// </summary>
     [CliOption("--ews-provider")]
     public string? EwsProvider { get; set; }
 
     /// <summary>
-    /// The Lambda availability provider definition. The request must con- tain exactly one provider definition, either EwsProvider or Lamb- daProvider . The previously stored provider will be overridden by the one provided. LambdaArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the Lambda that acts as the availability provider. Constraints: o min: 49 o max: 256 o pattern: arn:aws:lambda:[a-z]{2}-[a-z]+-\d{1}:\d{12}:func- tion:[a-zA-Z0-9\-_\.]+(:(\$LATEST|[a-zA-Z0-9\-_]+))? Shorthand Syntax: LambdaArn=string JSON Syntax: { "LambdaArn": "string" }
+    /// The Lambda availability provider definition. The request must contain exactly one provider definition, either EwsProvider or LambdaProvider . The previously stored provider will be overridden by the one provided. LambdaArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the Lambda that acts as the availability provider. Constraints: • min: 49 • max: 256 • pattern: arn:aws:lambda:[a-z]{2}-[a-z]+-\d{1}:\d{12}:function:[a-zA-Z0-9\-_\.]+(:(\$LATEST|[a-zA-Z0-9\-_]+))? Shorthand Syntax: LambdaArn=string JSON Syntax: { "LambdaArn": "string" }
     /// </summary>
     [CliOption("--lambda-provider")]
     public string? LambdaProvider { get; set; }
@@ -104,6 +105,15 @@ public record AwsWorkmailUpdateAvailabilityConfigurationOptions : AwsOptions, IV
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

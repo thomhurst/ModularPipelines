@@ -23,40 +23,37 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsWorkspacesDescribeWorkspacesOptions : AwsOptions
 {
     /// <summary>
-    /// The identifiers of the WorkSpaces. You cannot combine this parameter with any other filter. Because the CreateWorkspaces operation is asynchronous, the identi- fier it returns is not immediately available. If you immediately call DescribeWorkspaces with this identifier, no information is re- turned. Constraints: o min: 1 o max: 25 (string) Constraints: o pattern: ^ws-[0-9a-z]{8,63}$ Syntax: "string" "string" ...
+    /// The identifiers of the WorkSpaces. You cannot combine this parameter with any other filter. Because the CreateWorkspaces operation is asynchronous, the identifier it returns is not immediately available. If you immediately call DescribeWorkspaces with this identifier, no information is returned. Constraints: • min: 1 • max: 25 (string) Constraints: • pattern: ^ws-[0-9a-z]{8,63}$ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--workspace-ids", GroupValues = true)]
     public IEnumerable<string>? WorkspaceIds { get; set; }
 
     /// <summary>
-    /// The identifier of the directory. In addition, you can optionally specify a specific directory user (see UserName ). You cannot com- bine this parameter with any other filter. Constraints: o min: 10 o max: 65 o pattern: ^(d-[0-9a-f]{8,63}$)|(wsd-[0-9a-z]{8,63}$)
+    /// The identifier of the directory. In addition, you can optionally specify a specific directory user (see UserName ). You cannot combine this parameter with any other filter. Constraints: • min: 10 • max: 65 • pattern: ^(d-[0-9a-f]{8,63}$)|(wsd-[0-9a-z]{8,63}$)
     /// </summary>
     [CliOption("--directory-id")]
     public string? DirectoryId { get; set; }
 
     /// <summary>
-    /// The name of the directory user. You must specify this parameter with DirectoryId . Constraints: o min: 1 o max: 63
+    /// The name of the directory user. You must specify this parameter with DirectoryId . Constraints: • min: 1 • max: 63
     /// </summary>
     [CliOption("--user-name")]
     public string? UserName { get; set; }
 
     /// <summary>
-    /// The identifier of the bundle. All WorkSpaces that are created from this bundle are retrieved. You cannot combine this parameter with any other filter. Constraints: o pattern: ^wsb-[0-9a-z]{8,63}$
+    /// The identifier of the bundle. All WorkSpaces that are created from this bundle are retrieved. You cannot combine this parameter with any other filter. Constraints: • pattern: ^wsb-[0-9a-z]{8,63}$
     /// </summary>
     [CliOption("--bundle-id")]
     public string? BundleId { get; set; }
 
     /// <summary>
-    /// The name of the user-decoupled WorkSpace. Constraints: o pattern: ^[a-zA-Z0-9_()][a-zA-Z0-9_.()-]{1,63}$
+    /// The name of the user-decoupled WorkSpace. Constraints: • pattern: ^[a-zA-Z0-9_()][a-zA-Z0-9_.()-]{1,63}$
     /// </summary>
     [CliOption("--workspace-name")]
     public string? WorkspaceName { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -66,15 +63,27 @@ public record AwsWorkspacesDescribeWorkspacesOptions : AwsOptions
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 25
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 25
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

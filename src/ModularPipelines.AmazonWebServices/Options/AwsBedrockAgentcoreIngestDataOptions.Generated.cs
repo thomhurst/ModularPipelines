@@ -11,7 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -29,10 +29,10 @@ public record AwsBedrockAgentcoreIngestDataOptions : AwsOptions, IValidatableObj
     /// <summary>
     /// Submits content directly for ingestion to generate long-term memory records in a AgentCore Memory resource. To use this operation, you must have the bedrock-agentcore:IngestData permission. See also: AWS API Documentation ingest-data uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Sho...
     /// </summary>
-    /// <param name="MemoryId">The identifier of the AgentCore Memory resource to ingest content into. Constraints: o min: 12 o pattern: (arn:(aws|aws-cn|aws-us-gov):bedrock-agent- core:[a-z0-9-]+:[0-9]{12}:mem- ory/)?[a-zA-Z][a-zA-Z0-9-_]{0,99}-[a-zA-Z0-9]{10}</param>
-    /// <param name="Source">The content to ingest. Only inline content is supported. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: inline. inline -&gt; (structure) The content included directly in the request. payload -&gt; (list) [required] The list of content payload items to ingest. Constraints: o min: 1 o max: 100 (tagged union structure) A single content payload item to ingest. A payload item contains either conversational or JSON content. NOTE: This is a Tagged Union structure. Only one of the fol- lowing top level keys can be set: conversational, json. conversational -&gt; (structure) The conversational content for this payload item. content -&gt; (tagged union structure) [required] The content of the conversation message. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: text. text -&gt; (string) The text content of the memory item. Constraints: o min: 1 o max: 100000 role -&gt; (string) [required] The role of the participant in the conversation (for example, "user" or "assistant"). Possible values: o ASSISTANT o USER o TOOL o OTHER json -&gt; (structure) The JSON content for this payload item. content -&gt; (document) [required] The JSON content of the payload. Accepts any JSON value, including objects, arrays, strings, num- bers, booleans, and null. The maximum size is 100 KB. JSON Syntax: { "inline": { "payload": [ { "conversational": { "content": { "text": "string" }, "role": "ASSISTANT"|"USER"|"TOOL"|"OTHER" }, "json": { "content": {...} } } ... ] } }</param>
+    /// <param name="MemoryId">The identifier of the AgentCore Memory resource to ingest content into. Constraints: • min: 12 • pattern: (arn:(aws|aws-cn|aws-us-gov):bedrock-agentcore:[a-z0-9-]+:[0-9]{12}:memory/)?[a-zA-Z][a-zA-Z0-9-_]{0,99}-[a-zA-Z0-9]{10}</param>
+    /// <param name="Source">The content to ingest. Only inline content is supported. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: inline. inline -&gt; (structure) The content included directly in the request. payload -&gt; (list) [required] The list of content payload items to ingest. Constraints: • min: 1 • max: 100 (tagged union structure) A single content payload item to ingest. A payload item contains either conversational or JSON content. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: conversational, json. conversational -&gt; (structure) The conversational content for this payload item. content -&gt; (tagged union structure) [required] The content of the conversation message. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: text. text -&gt; (string) The text content of the memory item. Constraints: • min: 1 • max: 100000 role -&gt; (string) [required] The role of the participant in the conversation (for example, "user" or "assistant"). Possible values: • ASSISTANT • USER • TOOL • OTHER json -&gt; (structure) The JSON content for this payload item. content -&gt; (document) [required] The JSON content of the payload. Accepts any JSON value, including objects, arrays, strings, numbers, booleans, and null. The maximum size is 100 KB. JSON Syntax: { "inline": { "payload": [ { "conversational": { "content": { "text": "string" }, "role": "ASSISTANT"|"USER"|"TOOL"|"OTHER" }, "json": { "content": {...} } } ... ] } }</param>
     /// <param name="ContentTimestamp">The timestamp of when the content occurred.</param>
-    /// <param name="ActorId">The identifier of the actor associated with this content. An actor represents an entity that participates in sessions and generates content. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9][a-zA-Z0-9-_/]*(?::[a-zA-Z0-9-_/]+)*[a-zA-Z0-9-_/]*</param>
+    /// <param name="ActorId">The identifier of the actor associated with this content. An actor represents an entity that participates in sessions and generates content. Constraints: • min: 1 • max: 255 • pattern: [a-zA-Z0-9][a-zA-Z0-9-_/]*(?::[a-zA-Z0-9-_/]+)*[a-zA-Z0-9-_/]*</param>
     public AwsBedrockAgentcoreIngestDataOptions(
         string MemoryId,
         string Source,
@@ -70,13 +70,13 @@ public record AwsBedrockAgentcoreIngestDataOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the AgentCore Memory resource to ingest content into. Constraints: o min: 12 o pattern: (arn:(aws|aws-cn|aws-us-gov):bedrock-agent- core:[a-z0-9-]+:[0-9]{12}:mem- ory/)?[a-zA-Z][a-zA-Z0-9-_]{0,99}-[a-zA-Z0-9]{10}
+    /// The identifier of the AgentCore Memory resource to ingest content into. Constraints: • min: 12 • pattern: (arn:(aws|aws-cn|aws-us-gov):bedrock-agentcore:[a-z0-9-]+:[0-9]{12}:memory/)?[a-zA-Z][a-zA-Z0-9-_]{0,99}-[a-zA-Z0-9]{10}
     /// </summary>
     [CliOption("--memory-id")]
     public string? MemoryId { get; private init; }
 
     /// <summary>
-    /// The content to ingest. Only inline content is supported. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: inline. inline -&gt; (structure) The content included directly in the request. payload -&gt; (list) [required] The list of content payload items to ingest. Constraints: o min: 1 o max: 100 (tagged union structure) A single content payload item to ingest. A payload item contains either conversational or JSON content. NOTE: This is a Tagged Union structure. Only one of the fol- lowing top level keys can be set: conversational, json. conversational -&gt; (structure) The conversational content for this payload item. content -&gt; (tagged union structure) [required] The content of the conversation message. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: text. text -&gt; (string) The text content of the memory item. Constraints: o min: 1 o max: 100000 role -&gt; (string) [required] The role of the participant in the conversation (for example, "user" or "assistant"). Possible values: o ASSISTANT o USER o TOOL o OTHER json -&gt; (structure) The JSON content for this payload item. content -&gt; (document) [required] The JSON content of the payload. Accepts any JSON value, including objects, arrays, strings, num- bers, booleans, and null. The maximum size is 100 KB. JSON Syntax: { "inline": { "payload": [ { "conversational": { "content": { "text": "string" }, "role": "ASSISTANT"|"USER"|"TOOL"|"OTHER" }, "json": { "content": {...} } } ... ] } }
+    /// The content to ingest. Only inline content is supported. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: inline. inline -&gt; (structure) The content included directly in the request. payload -&gt; (list) [required] The list of content payload items to ingest. Constraints: • min: 1 • max: 100 (tagged union structure) A single content payload item to ingest. A payload item contains either conversational or JSON content. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: conversational, json. conversational -&gt; (structure) The conversational content for this payload item. content -&gt; (tagged union structure) [required] The content of the conversation message. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: text. text -&gt; (string) The text content of the memory item. Constraints: • min: 1 • max: 100000 role -&gt; (string) [required] The role of the participant in the conversation (for example, "user" or "assistant"). Possible values: • ASSISTANT • USER • TOOL • OTHER json -&gt; (structure) The JSON content for this payload item. content -&gt; (document) [required] The JSON content of the payload. Accepts any JSON value, including objects, arrays, strings, numbers, booleans, and null. The maximum size is 100 KB. JSON Syntax: { "inline": { "payload": [ { "conversational": { "content": { "text": "string" }, "role": "ASSISTANT"|"USER"|"TOOL"|"OTHER" }, "json": { "content": {...} } } ... ] } }
     /// </summary>
     [CliOption("--source")]
     public string? Source { get; private init; }
@@ -88,31 +88,31 @@ public record AwsBedrockAgentcoreIngestDataOptions : AwsOptions, IValidatableObj
     public string? ContentTimestamp { get; private init; }
 
     /// <summary>
-    /// The identifier of the actor associated with this content. An actor represents an entity that participates in sessions and generates content. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9][a-zA-Z0-9-_/]*(?::[a-zA-Z0-9-_/]+)*[a-zA-Z0-9-_/]*
+    /// The identifier of the actor associated with this content. An actor represents an entity that participates in sessions and generates content. Constraints: • min: 1 • max: 255 • pattern: [a-zA-Z0-9][a-zA-Z0-9-_/]*(?::[a-zA-Z0-9-_/]+)*[a-zA-Z0-9-_/]*
     /// </summary>
     [CliOption("--actor-id")]
     public string? ActorId { get; private init; }
 
     /// <summary>
-    /// The identifier of the session that the content belongs to. If not provided, a session identifier is generated and returned in the re- sponse. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z0-9][a-zA-Z0-9-_]*
+    /// The identifier of the session that the content belongs to. If not provided, a session identifier is generated and returned in the response. Constraints: • min: 1 • max: 100 • pattern: [a-zA-Z0-9][a-zA-Z0-9-_]*
     /// </summary>
     [CliOption("--session-id")]
     public string? SessionId { get; set; }
 
     /// <summary>
-    /// The extraction configuration for long-term memory records. Use this parameter to specify namespace variable keys and their values for namespace substitution during extraction. namespaceVariables -&gt; (map) A map of namespaceKeys to their values. The service substitutes these values into namespaceTemplates during long-term memory ex- traction to control namespace hierarchy. Constraints: o min: 1 o max: 5 key -&gt; (string) The name of the namespace variable key. The name cannot be a built-in variable name (actorId , sessionId , or memoryStrat- egyId ). Constraints: o min: 1 o max: 32 o pattern: (?!memoryStrategyId$|actorId$|ses- sionId$)[a-z][a-z0-9]* value -&gt; (string) The value of a namespace variable key. Constraints: o min: 1 o max: 64 o pattern: [a-z0-9][a-z0-9-_]* Shorthand Syntax: namespaceVariables={KeyName1=string,KeyName2=string} JSON Syntax: { "namespaceVariables": {"string": "string" ...} }
+    /// The extraction configuration for long-term memory records. Use this parameter to specify namespace variable keys and their values for namespace substitution during extraction. namespaceVariables -&gt; (map) A map of namespaceKeys to their values. The service substitutes these values into namespaceTemplates during long-term memory extraction to control namespace hierarchy. Constraints: • min: 1 • max: 5 key -&gt; (string) The name of the namespace variable key. The name cannot be a built-in variable name (actorId , sessionId , or memoryStrategyId ). Constraints: • min: 1 • max: 32 • pattern: (?!memoryStrategyId$|actorId$|sessionId$)[a-z][a-z0-9]* value -&gt; (string) The value of a namespace variable key. Constraints: • min: 1 • max: 64 • pattern: [a-z0-9][a-z0-9-_]* Shorthand Syntax: namespaceVariables={KeyName1=string,KeyName2=string} JSON Syntax: { "namespaceVariables": {"string": "string" ...} }
     /// </summary>
     [CliOption("--extraction-config")]
     public string? ExtractionConfig { get; set; }
 
     /// <summary>
-    /// The key-value metadata to attach to the content. Constraints: o min: 0 o max: 15 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9\s._:/=+@-]* value -&gt; (tagged union structure) Value associated with the eventMetadata key. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: stringValue. stringValue -&gt; (string) Value associated with the eventMetadata key. Constraints: o min: 0 o max: 256 o pattern: [a-zA-Z0-9\s._:/=+@-]* Shorthand Syntax: KeyName1={stringValue=string},KeyName2={stringValue=string} JSON Syntax: {"string": { "stringValue": "string" } ...}
+    /// The key-value metadata to attach to the content. Constraints: • min: 0 • max: 15 key -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9\s._:/=+@-]* value -&gt; (tagged union structure) Value associated with the eventMetadata key. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: stringValue. stringValue -&gt; (string) Value associated with the eventMetadata key. Constraints: • min: 0 • max: 256 • pattern: [a-zA-Z0-9\s._:/=+@-]* Shorthand Syntax: KeyName1={stringValue=string},KeyName2={stringValue=string} JSON Syntax: {"string": { "stringValue": "string" } ...}
     /// </summary>
     [CliOption("--metadata", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Metadata { get; set; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier to ensure that the operation completes no more than one time. If this token matches a previous request, AgentCore ignores the request, but does not return an er- ror.
+    /// A unique, case-sensitive identifier to ensure that the operation completes no more than one time. If this token matches a previous request, AgentCore ignores the request, but does not return an error.
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
@@ -139,6 +139,15 @@ public record AwsBedrockAgentcoreIngestDataOptions : AwsOptions, IValidatableObj
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsLogsGetTransformerOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Returns the information about the log transformer associated with this log group. This operation returns data only for transformers created at the log group level. To get information for an account-level transformer, use DescribeAccountPolicies . See also: AWS API Documentation
     /// </summary>
-    /// <param name="LogGroupIdentifier">Specify either the name or ARN of the log group to return trans- former information for. If the log group is in a source account and you are using a monitoring account, you must use the log group ARN. Constraints: o min: 1 o max: 2048 o pattern: [\w#+=/:,.@-]*</param>
+    /// <param name="LogGroupIdentifier">Specify either the name or ARN of the log group to return transformer information for. If the log group is in a source account and you are using a monitoring account, you must use the log group ARN. Constraints: • min: 1 • max: 2048 • pattern: [\w#+=/:,.@-]*</param>
     public AwsLogsGetTransformerOptions(
         string LogGroupIdentifier
     )
@@ -56,7 +57,7 @@ public record AwsLogsGetTransformerOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Specify either the name or ARN of the log group to return trans- former information for. If the log group is in a source account and you are using a monitoring account, you must use the log group ARN. Constraints: o min: 1 o max: 2048 o pattern: [\w#+=/:,.@-]*
+    /// Specify either the name or ARN of the log group to return transformer information for. If the log group is in a source account and you are using a monitoring account, you must use the log group ARN. Constraints: • min: 1 • max: 2048 • pattern: [\w#+=/:,.@-]*
     /// </summary>
     [CliOption("--log-group-identifier")]
     public string? LogGroupIdentifier { get; private init; }
@@ -82,6 +83,15 @@ public record AwsLogsGetTransformerOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

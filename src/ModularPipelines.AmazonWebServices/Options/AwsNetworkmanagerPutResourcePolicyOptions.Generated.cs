@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsNetworkmanagerPutResourcePolicyOptions : AwsOptions, IValidatab
     /// <summary>
     /// Creates or updates a resource policy. See also: AWS API Documentation
     /// </summary>
-    /// <param name="PolicyDocument">The JSON resource policy document. Constraints: o min: 0 o max: 10000000 o pattern: [\s\S]*</param>
-    /// <param name="ResourceArn">The ARN of the resource policy. Constraints: o min: 0 o max: 1500 o pattern: [\s\S]*</param>
+    /// <param name="PolicyDocument">The JSON resource policy document. Constraints: • min: 0 • max: 10000000 • pattern: [\s\S]*</param>
+    /// <param name="ResourceArn">The ARN of the resource policy. Constraints: • min: 0 • max: 1500 • pattern: [\s\S]*</param>
     public AwsNetworkmanagerPutResourcePolicyOptions(
         string PolicyDocument,
         string ResourceArn
@@ -60,13 +61,13 @@ public record AwsNetworkmanagerPutResourcePolicyOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The JSON resource policy document. Constraints: o min: 0 o max: 10000000 o pattern: [\s\S]*
+    /// The JSON resource policy document. Constraints: • min: 0 • max: 10000000 • pattern: [\s\S]*
     /// </summary>
     [CliOption("--policy-document")]
     public string? PolicyDocument { get; private init; }
 
     /// <summary>
-    /// The ARN of the resource policy. Constraints: o min: 0 o max: 1500 o pattern: [\s\S]*
+    /// The ARN of the resource policy. Constraints: • min: 0 • max: 1500 • pattern: [\s\S]*
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
@@ -92,6 +93,15 @@ public record AwsNetworkmanagerPutResourcePolicyOptions : AwsOptions, IValidatab
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

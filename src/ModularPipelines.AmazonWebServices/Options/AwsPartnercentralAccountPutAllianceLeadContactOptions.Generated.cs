@@ -6,10 +6,12 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,9 +29,9 @@ public record AwsPartnercentralAccountPutAllianceLeadContactOptions : AwsOptions
     /// <summary>
     /// Creates or updates the alliance lead contact information for a partner account. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Catalog">The catalog identifier for the partner account. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9-]+</param>
-    /// <param name="Identifier">The unique identifier of the partner account. Constraints: o min: 1 o max: 200 o pattern: (partner-[A-Za-z0-9]{13}|arn:[a-z-]+:partner- central:[a-z0-9-]+:[0-9]{12}:catalog/[A-Za-z-_]+/partner/part- ner-[A-Za-z0-9]{13})</param>
-    /// <param name="AllianceLeadContact">The alliance lead contact information to set for the partner ac- count. FirstName -&gt; (string) [required] The first name of the alliance lead contact person. Constraints: o min: 1 o max: 80 o pattern: [\u0020-\u007E\u00A0-\uD7FF\uE000-\uFFFD]+ LastName -&gt; (string) [required] The last name of the alliance lead contact person. Constraints: o min: 1 o max: 80 o pattern: [\u0020-\u007E\u00A0-\uD7FF\uE000-\uFFFD]+ Email -&gt; (string) [required] The email address of the alliance lead contact person. Constraints: o min: 1 o max: 320 o pattern: [a-zA-Z0-9.!#$%&amp;'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)* BusinessTitle -&gt; (string) [required] The business title or role of the alliance lead contact person. Constraints: o min: 1 o max: 80 o pattern: [\u0020-\u007E\u00A0-\uD7FF\uE000-\uFFFD]+ Shorthand Syntax: FirstName=string,LastName=string,Email=string,BusinessTitle=string JSON Syntax: { "FirstName": "string", "LastName": "string", "Email": "string", "BusinessTitle": "string" }</param>
+    /// <param name="Catalog">The catalog identifier for the partner account. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9-]+</param>
+    /// <param name="Identifier">The unique identifier of the partner account. Constraints: • min: 1 • max: 200 • pattern: (partner-[A-Za-z0-9]{13}|arn:[a-z-]+:partnercentral:[a-z0-9-]+:[0-9]{12}:catalog/[A-Za-z-_]+/partner/partner-[A-Za-z0-9]{13})</param>
+    /// <param name="AllianceLeadContact">The alliance lead contact information to set for the partner account. FirstName -&gt; (string) [required] The first name of the alliance lead contact person. Constraints: • min: 1 • max: 80 • pattern: [\u0020-\u007E\u00A0-\uD7FF\uE000-\uFFFD]+ LastName -&gt; (string) [required] The last name of the alliance lead contact person. Constraints: • min: 1 • max: 80 • pattern: [\u0020-\u007E\u00A0-\uD7FF\uE000-\uFFFD]+ Email -&gt; (string) [required] The email address of the alliance lead contact person. Constraints: • min: 1 • max: 320 • pattern: [a-zA-Z0-9.!#$%&amp;'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)* BusinessTitle -&gt; (string) [required] The business title or role of the alliance lead contact person. Constraints: • min: 1 • max: 80 • pattern: [\u0020-\u007E\u00A0-\uD7FF\uE000-\uFFFD]+ Shorthand Syntax: FirstName=string,LastName=string,Email=string,BusinessTitle=string JSON Syntax: { "FirstName": "string", "LastName": "string", "Email": "string", "BusinessTitle": "string" }</param>
     public AwsPartnercentralAccountPutAllianceLeadContactOptions(
         string Catalog,
         string Identifier,
@@ -64,26 +66,27 @@ public record AwsPartnercentralAccountPutAllianceLeadContactOptions : AwsOptions
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The catalog identifier for the partner account. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9-]+
+    /// The catalog identifier for the partner account. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9-]+
     /// </summary>
     [CliOption("--catalog")]
     public string? Catalog { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the partner account. Constraints: o min: 1 o max: 200 o pattern: (partner-[A-Za-z0-9]{13}|arn:[a-z-]+:partner- central:[a-z0-9-]+:[0-9]{12}:catalog/[A-Za-z-_]+/partner/part- ner-[A-Za-z0-9]{13})
+    /// The unique identifier of the partner account. Constraints: • min: 1 • max: 200 • pattern: (partner-[A-Za-z0-9]{13}|arn:[a-z-]+:partnercentral:[a-z0-9-]+:[0-9]{12}:catalog/[A-Za-z-_]+/partner/partner-[A-Za-z0-9]{13})
     /// </summary>
     [CliOption("--identifier")]
     public string? Identifier { get; private init; }
 
     /// <summary>
-    /// The alliance lead contact information to set for the partner ac- count. FirstName -&gt; (string) [required] The first name of the alliance lead contact person. Constraints: o min: 1 o max: 80 o pattern: [\u0020-\u007E\u00A0-\uD7FF\uE000-\uFFFD]+ LastName -&gt; (string) [required] The last name of the alliance lead contact person. Constraints: o min: 1 o max: 80 o pattern: [\u0020-\u007E\u00A0-\uD7FF\uE000-\uFFFD]+ Email -&gt; (string) [required] The email address of the alliance lead contact person. Constraints: o min: 1 o max: 320 o pattern: [a-zA-Z0-9.!#$%&amp;'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)* BusinessTitle -&gt; (string) [required] The business title or role of the alliance lead contact person. Constraints: o min: 1 o max: 80 o pattern: [\u0020-\u007E\u00A0-\uD7FF\uE000-\uFFFD]+ Shorthand Syntax: FirstName=string,LastName=string,Email=string,BusinessTitle=string JSON Syntax: { "FirstName": "string", "LastName": "string", "Email": "string", "BusinessTitle": "string" }
+    /// The alliance lead contact information to set for the partner account. FirstName -&gt; (string) [required] The first name of the alliance lead contact person. Constraints: • min: 1 • max: 80 • pattern: [\u0020-\u007E\u00A0-\uD7FF\uE000-\uFFFD]+ LastName -&gt; (string) [required] The last name of the alliance lead contact person. Constraints: • min: 1 • max: 80 • pattern: [\u0020-\u007E\u00A0-\uD7FF\uE000-\uFFFD]+ Email -&gt; (string) [required] The email address of the alliance lead contact person. Constraints: • min: 1 • max: 320 • pattern: [a-zA-Z0-9.!#$%&amp;'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)* BusinessTitle -&gt; (string) [required] The business title or role of the alliance lead contact person. Constraints: • min: 1 • max: 80 • pattern: [\u0020-\u007E\u00A0-\uD7FF\uE000-\uFFFD]+ Shorthand Syntax: FirstName=string,LastName=string,Email=string,BusinessTitle=string JSON Syntax: { "FirstName": "string", "LastName": "string", "Email": "string", "BusinessTitle": "string" }
     /// </summary>
     [CliOption("--alliance-lead-contact")]
     public string? AllianceLeadContact { get; private init; }
 
     /// <summary>
-    /// The verification code sent to the alliance lead contact's email to confirm the update. Constraints: o min: 6 o max: 6 o pattern: [0-9]+
+    /// The verification code sent to the alliance lead contact's email to confirm the update. Constraints: • min: 6 • max: 6 • pattern: [0-9]+
     /// </summary>
+    [SecretValue]
     [CliOption("--email-verification-code")]
     public string? EmailVerificationCode { get; set; }
 
@@ -108,6 +111,15 @@ public record AwsPartnercentralAccountPutAllianceLeadContactOptions : AwsOptions
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

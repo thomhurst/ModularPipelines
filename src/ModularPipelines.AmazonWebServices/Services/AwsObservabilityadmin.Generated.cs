@@ -6,8 +6,8 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
+using ModularPipelines;
 using ModularPipelines.Context;
-using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
@@ -32,7 +32,7 @@ public class AwsObservabilityadmin : IAwsObservabilityadmin
     #region Commands
 
     /// <summary>
-    /// Creates a centralization rule that applies across an Amazon Web Ser- vices Organization. This operation can only be called by the organiza- tion's management account or a delegated administrator account. See also: AWS API Documentation
+    /// Creates a centralization rule that applies across an Amazon Web Services Organization. This operation can only be called by the organization's management account or a delegated administrator account. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -47,7 +47,7 @@ public class AwsObservabilityadmin : IAwsObservabilityadmin
     }
 
     /// <summary>
-    /// Creates a dataset integration for the caller's account in the current region and returns its ARN. To use this operation, you must have permission to access the dataset integration resources through the IAM role specified in the RoleArn pa- rameter. If a dataset integration already exists for the account, this operation fails with a ConflictException . See also: AWS API Documentation
+    /// Creates a dataset integration for the caller's account in the current region and returns its ARN. To use this operation, you must have permission to access the dataset integration resources through the IAM role specified in the RoleArn parameter. If a dataset integration already exists for the account, this operation fails with a ConflictException . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -62,7 +62,7 @@ public class AwsObservabilityadmin : IAwsObservabilityadmin
     }
 
     /// <summary>
-    /// Creates an integration between CloudWatch and S3 Tables for analytics. This integration enables querying CloudWatch telemetry data using ana- lytics engines like Amazon Athena, Amazon Redshift, and Apache Spark. See also: AWS API Documentation
+    /// Creates an integration between CloudWatch and S3 Tables for analytics. This integration enables querying CloudWatch telemetry data using analytics engines like Amazon Athena, Amazon Redshift, and Apache Spark. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -77,7 +77,7 @@ public class AwsObservabilityadmin : IAwsObservabilityadmin
     }
 
     /// <summary>
-    /// Creates a telemetry pipeline for processing and transforming telemetry data. The pipeline defines how data flows from sources through proces- sors to destinations, enabling data transformation and delivering capa- bilities. See also: AWS API Documentation
+    /// Creates a telemetry pipeline for processing and transforming telemetry data. The pipeline defines how data flows from sources through processors to destinations, enabling data transformation and delivering capabilities. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -92,7 +92,7 @@ public class AwsObservabilityadmin : IAwsObservabilityadmin
     }
 
     /// <summary>
-    /// Creates a telemetry rule that applies across an Amazon Web Services Or- ganization. This operation can only be called by the organization's management account or a delegated administrator account. See also: AWS API Documentation
+    /// Creates a telemetry rule that applies across an Amazon Web Services Organization. This operation can only be called by the organization's management account or a delegated administrator account. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -107,7 +107,7 @@ public class AwsObservabilityadmin : IAwsObservabilityadmin
     }
 
     /// <summary>
-    /// Creates a telemetry rule that defines how telemetry should be config- ured for Amazon Web Services resources in your account. The rule speci- fies which resources should have telemetry enabled and how that teleme- try data should be collected based on resource type, telemetry type, and selection criteria. See also: AWS API Documentation
+    /// Creates a telemetry rule that defines how telemetry should be configured for Amazon Web Services resources in your account. The rule specifies which resources should have telemetry enabled and how that telemetry data should be collected based on resource type, telemetry type, and selection criteria. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -167,7 +167,7 @@ public class AwsObservabilityadmin : IAwsObservabilityadmin
     }
 
     /// <summary>
-    /// Deletes a telemetry pipeline and its associated resources. This opera- tion stops data processing and removes the pipeline configuration. See also: AWS API Documentation
+    /// Deletes a telemetry pipeline and its associated resources. This operation stops data processing and removes the pipeline configuration. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -182,7 +182,7 @@ public class AwsObservabilityadmin : IAwsObservabilityadmin
     }
 
     /// <summary>
-    /// Deletes an organization-wide telemetry rule. This operation can only be called by the organization's management account or a delegated adminis- trator account. See also: AWS API Documentation
+    /// Deletes an organization-wide telemetry rule. This operation can only be called by the organization's management account or a delegated administrator account. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -197,7 +197,7 @@ public class AwsObservabilityadmin : IAwsObservabilityadmin
     }
 
     /// <summary>
-    /// Deletes a telemetry rule from your account. Any telemetry configura- tions previously created by the rule will remain but no new resources will be configured by this rule. See also: AWS API Documentation
+    /// Deletes a telemetry rule from your account. Any telemetry configurations previously created by the rule will remain but no new resources will be configured by this rule. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -212,7 +212,7 @@ public class AwsObservabilityadmin : IAwsObservabilityadmin
     }
 
     /// <summary>
-    /// Retrieves the details of a specific organization centralization rule. This operation can only be called by the organization's management ac- count or a delegated administrator account. See also: AWS API Documentation
+    /// Retrieves the details of a specific organization centralization rule. This operation can only be called by the organization's management account or a delegated administrator account. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -272,7 +272,7 @@ public class AwsObservabilityadmin : IAwsObservabilityadmin
     }
 
     /// <summary>
-    /// This returns the onboarding status of the telemetry configuration fea- ture for the organization. It can only be called by a Management Ac- count of an Amazon Web Services Organization or an assigned Delegated Admin Account of Amazon CloudWatch telemetry config. See also: AWS API Documentation
+    /// This returns the onboarding status of the telemetry configuration feature for the organization. It can only be called by a Management Account of an Amazon Web Services Organization or an assigned Delegated Admin Account of Amazon CloudWatch telemetry config. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -347,7 +347,7 @@ public class AwsObservabilityadmin : IAwsObservabilityadmin
     }
 
     /// <summary>
-    /// Lists all centralization rules in your organization. This operation can only be called by the organization's management account or a delegated administrator account. See also: AWS API Documentation list-centralization-rules-for-organization is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-pagi- nate argument. When using --output text and the --query argument on a paginated response, th...
+    /// Lists all centralization rules in your organization. This operation can only be called by the organization's management account or a delegated administrator account. See also: AWS API Documentation list-centralization-rules-for-organization is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -362,7 +362,7 @@ public class AwsObservabilityadmin : IAwsObservabilityadmin
     }
 
     /// <summary>
-    /// Returns the dataset integrations in your account. See also: AWS API Documentation list-dataset-integrations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: DatasetIntegrationSummaries
+    /// Returns the dataset integrations in your account. See also: AWS API Documentation list-dataset-integrations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: DatasetIntegrationSummaries
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -377,7 +377,7 @@ public class AwsObservabilityadmin : IAwsObservabilityadmin
     }
 
     /// <summary>
-    /// Returns a list of telemetry configurations for Amazon Web Services re- sources supported by telemetry config in the organization. See also: AWS API Documentation list-resource-telemetry-for-organization is a paginated operation. Mul- tiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a pagi- nated response, the --query argument must extract data...
+    /// Returns a list of telemetry configurations for Amazon Web Services resources supported by telemetry config in the organization. See also: AWS API Documentation list-resource-telemetry-for-organization is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -392,7 +392,7 @@ public class AwsObservabilityadmin : IAwsObservabilityadmin
     }
 
     /// <summary>
-    /// Returns a list of telemetry configurations for Amazon Web Services re- sources supported by telemetry config. For more information, see Auditing CloudWatch telemetry configurations . See also: AWS API Documentation list-resource-telemetry is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --...
+    /// Returns a list of telemetry configurations for Amazon Web Services resources supported by telemetry config. For more information, see Auditing CloudWatch telemetry configurations . See also: AWS API Documentation list-resource-telemetry is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --qu...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -407,7 +407,7 @@ public class AwsObservabilityadmin : IAwsObservabilityadmin
     }
 
     /// <summary>
-    /// Lists all S3 Table integrations in your account. We recommend using pagination to ensure that the operation returns quickly and success- fully. See also: AWS API Documentation list-s3-table-integrations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data fro...
+    /// Lists all S3 Table integrations in your account. We recommend using pagination to ensure that the operation returns quickly and successfully. See also: AWS API Documentation list-s3-table-integrations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -452,7 +452,7 @@ public class AwsObservabilityadmin : IAwsObservabilityadmin
     }
 
     /// <summary>
-    /// Lists all telemetry rules in your organization. This operation can only be called by the organization's management account or a delegated ad- ministrator account. See also: AWS API Documentation list-telemetry-rules-for-organization is a paginated operation. Multi- ple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate ar- gument. When using --output text and the --query argument on a pagi- nated response, the --...
+    /// Lists all telemetry rules in your organization. This operation can only be called by the organization's management account or a delegated administrator account. See also: AWS API Documentation list-telemetry-rules-for-organization is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query ar...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -542,7 +542,7 @@ public class AwsObservabilityadmin : IAwsObservabilityadmin
     }
 
     /// <summary>
-    /// This action offboards the Organization of the caller Amazon Web Ser- vices account from the telemetry config feature. See also: AWS API Documentation
+    /// This action offboards the Organization of the caller Amazon Web Services account from the telemetry config feature. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -617,7 +617,7 @@ public class AwsObservabilityadmin : IAwsObservabilityadmin
     }
 
     /// <summary>
-    /// Updates an existing centralization rule that applies across an Amazon Web Services Organization. This operation can only be called by the or- ganization's management account or a delegated administrator account. See also: AWS API Documentation
+    /// Updates an existing centralization rule that applies across an Amazon Web Services Organization. This operation can only be called by the organization's management account or a delegated administrator account. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -647,7 +647,7 @@ public class AwsObservabilityadmin : IAwsObservabilityadmin
     }
 
     /// <summary>
-    /// Updates the configuration of an existing telemetry pipeline. NOTE: The following attributes cannot be updated after pipeline cre- ation: o Pipeline name - The pipeline name is immutable o Pipeline ARN - The ARN is automatically generated and cannot be changed o Source type - Once a pipeline is created with a specific source type (such as S3, CloudWatch Logs, GitHub, or third-party sources), it cannot be changed to a different source type Processors can be added, removed, or modified. However, so...
+    /// Updates the configuration of an existing telemetry pipeline. NOTE: The following attributes cannot be updated after pipeline creation: • Pipeline name - The pipeline name is immutable • Pipeline ARN - The ARN is automatically generated and cannot be changed • Source type - Once a pipeline is created with a specific source type (such as S3, CloudWatch Logs, GitHub, or third-party sources), it cannot be changed to a different source type Processors can be added, removed, or modified. However, some...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -662,7 +662,7 @@ public class AwsObservabilityadmin : IAwsObservabilityadmin
     }
 
     /// <summary>
-    /// Updates an existing telemetry rule that applies across an Amazon Web Services Organization. This operation can only be called by the organi- zation's management account or a delegated administrator account. See also: AWS API Documentation
+    /// Updates an existing telemetry rule that applies across an Amazon Web Services Organization. This operation can only be called by the organization's management account or a delegated administrator account. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -677,7 +677,7 @@ public class AwsObservabilityadmin : IAwsObservabilityadmin
     }
 
     /// <summary>
-    /// Updates an existing telemetry rule in your account. If multiple users attempt to modify the same telemetry rule simultaneously, a ConflictEx- ception is returned to provide specific error information for concur- rent modification scenarios. See also: AWS API Documentation
+    /// Updates an existing telemetry rule in your account. If multiple users attempt to modify the same telemetry rule simultaneously, a ConflictException is returned to provide specific error information for concurrent modification scenarios. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

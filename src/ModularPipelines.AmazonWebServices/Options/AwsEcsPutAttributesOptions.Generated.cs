@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Create or update an attribute on an Amazon ECS resource. If the at- tribute doesn't exist, it's created. If the attribute exists, its value is replaced with the specified value. To delete an attribute, use DeleteAttributes . For more information, see Attributes in the Amazon Elastic Container Service Developer Guide . See also: AWS API Documentation
+/// Create or update an attribute on an Amazon ECS resource. If the attribute doesn't exist, it's created. If the attribute exists, its value is replaced with the specified value. To delete an attribute, use DeleteAttributes . For more information, see Attributes in the Amazon Elastic Container Service Developer Guide . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsEcsPutAttributesOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Create or update an attribute on an Amazon ECS resource. If the at- tribute doesn't exist, it's created. If the attribute exists, its value is replaced with the specified value. To delete an attribute, use DeleteAttributes . For more information, see Attributes in the Amazon Elastic Container Service Developer Guide . See also: AWS API Documentation
+    /// Create or update an attribute on an Amazon ECS resource. If the attribute doesn't exist, it's created. If the attribute exists, its value is replaced with the specified value. To delete an attribute, use DeleteAttributes . For more information, see Attributes in the Amazon Elastic Container Service Developer Guide . See also: AWS API Documentation
     /// </summary>
-    /// <param name="Attributes">The attributes to apply to your resource. You can specify up to 10 custom attributes for each resource. You can specify up to 10 at- tributes in a single call. (structure) An attribute is a name-value pair that's associated with an Ama- zon ECS object. Use attributes to extend the Amazon ECS data model by adding custom metadata to your resources. For more in- formation, see Attributes in the Amazon Elastic Container Ser- vice Developer Guide . name -&gt; (string) [required] The name of the attribute. The name must contain between 1 and 128 characters. The name may contain letters (uppercase and lowercase), numbers, hyphens (-), underscores (_), for- ward slashes (/), back slashes (), or periods (.). value -&gt; (string) The value of the attribute. The value must contain between 1 and 128 characters. It can contain letters (uppercase and lowercase), numbers, hyphens (-), underscores (_), periods (.), at signs (@), forward slashes (/), back slashes (), colons (:), or spaces. The value can't start or end with a space. targetType -&gt; (string) The type of the target to attach the attribute with. This pa- rameter is required if you use the short form ID for a re- source instead of the full ARN. Possible values: o container-instance targetId -&gt; (string) The ID of the target. You can specify the short form ID for a resource or the full Amazon Resource Name (ARN). Shorthand Syntax: name=string,value=string,targetType=string,targetId=string ... JSON Syntax: [ { "name": "string", "value": "string", "targetType": "container-instance", "targetId": "string" } ... ]</param>
+    /// <param name="Attributes">The attributes to apply to your resource. You can specify up to 10 custom attributes for each resource. You can specify up to 10 attributes in a single call. (structure) An attribute is a name-value pair that's associated with an Amazon ECS object. Use attributes to extend the Amazon ECS data model by adding custom metadata to your resources. For more information, see Attributes in the Amazon Elastic Container Service Developer Guide . name -&gt; (string) [required] The name of the attribute. The name must contain between 1 and 128 characters. The name may contain letters (uppercase and lowercase), numbers, hyphens (-), underscores (_), forward slashes (/), back slashes (), or periods (.). value -&gt; (string) The value of the attribute. The value must contain between 1 and 128 characters. It can contain letters (uppercase and lowercase), numbers, hyphens (-), underscores (_), periods (.), at signs (@), forward slashes (/), back slashes (), colons (:), or spaces. The value can't start or end with a space. targetType -&gt; (string) The type of the target to attach the attribute with. This parameter is required if you use the short form ID for a resource instead of the full ARN. Possible values: • container-instance targetId -&gt; (string) The ID of the target. You can specify the short form ID for a resource or the full Amazon Resource Name (ARN). Shorthand Syntax: name=string,value=string,targetType=string,targetId=string ... JSON Syntax: [ { "name": "string", "value": "string", "targetType": "container-instance", "targetId": "string" } ... ]</param>
     public AwsEcsPutAttributesOptions(
         IEnumerable<string> Attributes
     )
@@ -67,13 +68,13 @@ public record AwsEcsPutAttributesOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The attributes to apply to your resource. You can specify up to 10 custom attributes for each resource. You can specify up to 10 at- tributes in a single call. (structure) An attribute is a name-value pair that's associated with an Ama- zon ECS object. Use attributes to extend the Amazon ECS data model by adding custom metadata to your resources. For more in- formation, see Attributes in the Amazon Elastic Container Ser- vice Developer Guide . name -&gt; (string) [required] The name of the attribute. The name must contain between 1 and 128 characters. The name may contain letters (uppercase and lowercase), numbers, hyphens (-), underscores (_), for- ward slashes (/), back slashes (), or periods (.). value -&gt; (string) The value of the attribute. The value must contain between 1 and 128 characters. It can contain letters (uppercase and lowercase), numbers, hyphens (-), underscores (_), periods (.), at signs (@), forward slashes (/), back slashes (), colons (:), or spaces. The value can't start or end with a space. targetType -&gt; (string) The type of the target to attach the attribute with. This pa- rameter is required if you use the short form ID for a re- source instead of the full ARN. Possible values: o container-instance targetId -&gt; (string) The ID of the target. You can specify the short form ID for a resource or the full Amazon Resource Name (ARN). Shorthand Syntax: name=string,value=string,targetType=string,targetId=string ... JSON Syntax: [ { "name": "string", "value": "string", "targetType": "container-instance", "targetId": "string" } ... ]
+    /// The attributes to apply to your resource. You can specify up to 10 custom attributes for each resource. You can specify up to 10 attributes in a single call. (structure) An attribute is a name-value pair that's associated with an Amazon ECS object. Use attributes to extend the Amazon ECS data model by adding custom metadata to your resources. For more information, see Attributes in the Amazon Elastic Container Service Developer Guide . name -&gt; (string) [required] The name of the attribute. The name must contain between 1 and 128 characters. The name may contain letters (uppercase and lowercase), numbers, hyphens (-), underscores (_), forward slashes (/), back slashes (), or periods (.). value -&gt; (string) The value of the attribute. The value must contain between 1 and 128 characters. It can contain letters (uppercase and lowercase), numbers, hyphens (-), underscores (_), periods (.), at signs (@), forward slashes (/), back slashes (), colons (:), or spaces. The value can't start or end with a space. targetType -&gt; (string) The type of the target to attach the attribute with. This parameter is required if you use the short form ID for a resource instead of the full ARN. Possible values: • container-instance targetId -&gt; (string) The ID of the target. You can specify the short form ID for a resource or the full Amazon Resource Name (ARN). Shorthand Syntax: name=string,value=string,targetType=string,targetId=string ... JSON Syntax: [ { "name": "string", "value": "string", "targetType": "container-instance", "targetId": "string" } ... ]
     /// </summary>
     [CliOption("--attributes", GroupValues = true)]
     public IEnumerable<string>? Attributes { get; private init; }
 
     /// <summary>
-    /// The short name or full Amazon Resource Name (ARN) of the cluster that contains the resource to apply attributes. If you do not spec- ify a cluster, the default cluster is assumed.
+    /// The short name or full Amazon Resource Name (ARN) of the cluster that contains the resource to apply attributes. If you do not specify a cluster, the default cluster is assumed.
     /// </summary>
     [CliOption("--cluster")]
     public string? Cluster { get; set; }
@@ -99,6 +100,15 @@ public record AwsEcsPutAttributesOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

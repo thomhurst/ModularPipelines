@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +29,7 @@ public record AwsBedrockAgentcoreControlDeleteMemoryOptions : AwsOptions, IValid
     /// <summary>
     /// Deletes an Amazon Bedrock AgentCore Memory resource. When you delete a memory resource, it is permanently removed. See also: AWS API Documentation
     /// </summary>
-    /// <param name="MemoryId">The unique identifier of the memory to delete. Constraints: o min: 12 o pattern: [a-zA-Z][a-zA-Z0-9-_]{0,99}-[a-zA-Z0-9]{10}</param>
+    /// <param name="MemoryId">The unique identifier of the memory to delete. Constraints: • min: 12 • pattern: [a-zA-Z][a-zA-Z0-9-_]{0,99}-[a-zA-Z0-9]{10}</param>
     public AwsBedrockAgentcoreControlDeleteMemoryOptions(
         string MemoryId
     )
@@ -57,13 +58,13 @@ public record AwsBedrockAgentcoreControlDeleteMemoryOptions : AwsOptions, IValid
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the memory to delete. Constraints: o min: 12 o pattern: [a-zA-Z][a-zA-Z0-9-_]{0,99}-[a-zA-Z0-9]{10}
+    /// The unique identifier of the memory to delete. Constraints: • min: 12 • pattern: [a-zA-Z][a-zA-Z0-9-_]{0,99}-[a-zA-Z0-9]{10}
     /// </summary>
     [CliOption("--memory-id")]
     public string? MemoryId { get; private init; }
 
     /// <summary>
-    /// A client token is used for keeping track of idempotent requests. It can contain a session id which can be around 250 chars, combined with a unique AWS identifier. Constraints: o min: 0 o max: 500
+    /// A client token is used for keeping track of idempotent requests. It can contain a session id which can be around 250 chars, combined with a unique Amazon Web Services identifier. Constraints: • min: 0 • max: 500
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
@@ -90,6 +91,15 @@ public record AwsBedrockAgentcoreControlDeleteMemoryOptions : AwsOptions, IValid
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

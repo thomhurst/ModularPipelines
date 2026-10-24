@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates network-level settings for a Wickr network. You can modify set- tings such as client metrics, data retention, and other network-wide options. See also: AWS API Documentation
+/// Updates network-level settings for a Wickr network. You can modify settings such as client metrics, data retention, and other network-wide options. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsWickrUpdateNetworkSettingsOptions : AwsOptions, IValidatableObj
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates network-level settings for a Wickr network. You can modify set- tings such as client metrics, data retention, and other network-wide options. See also: AWS API Documentation
+    /// Updates network-level settings for a Wickr network. You can modify settings such as client metrics, data retention, and other network-wide options. See also: AWS API Documentation
     /// </summary>
-    /// <param name="NetworkId">The ID of the Wickr network whose settings will be updated. Constraints: o min: 8 o max: 8 o pattern: [0-9]{8}</param>
-    /// <param name="Settings">A map of setting names to their new values. Each setting should be provided with its appropriate type (boolean, string, number, etc.). enableClientMetrics -&gt; (boolean) Allows Wickr clients to send anonymized performance and usage metrics to the Wickr backend server for service improvement and troubleshooting. readReceiptConfig -&gt; (structure) Configuration for read receipts at the network level, control- ling the default behavior for whether senders can see when their messages have been read. status -&gt; (string) The read receipt status mode for the network. Possible values: o DISABLED o ENABLED o FORCE_ENABLED dataRetention -&gt; (boolean) Indicates whether the data retention feature is enabled for the network. When true, messages are captured by the data retention bot for compliance and archiving purposes. enableTrustedDataFormat -&gt; (boolean) Configuration for OpenTDF integration at the network level, en- forcing ABAC decision making when operating in TDF enabled rooms. consentPopup -&gt; (structure) Consent popup configuration for the network, displayed to users on login. enabled -&gt; (boolean) [required] Whether the consent popup is enabled. When set to true, the popup is displayed to users on login. header -&gt; (string) Header text displayed at the top of the consent popup. Maxi- mum 100 characters. Constraints: o min: 0 o max: 100 o pattern: [\S\s]* content -&gt; (string) Body content of the consent popup in Markdown format. Maximum 5000 characters. Constraints: o min: 0 o max: 5000 o pattern: [\S\s]* closeButtonLabel -&gt; (string) Label for the close button on the consent popup. Maximum 20 characters. Defaults to "Acknowledge" if not provided. Constraints: o min: 0 o max: 20 o pattern: [\S\s]* Shorthand Syntax: enableClientMetrics=boolean,readReceiptConfig={status=string},dataRetention=boolean,enableTrustedDataFormat=boolean,consentPopup={enabled=boolean,header=string,content=string,closeButtonLabel=string} JSON Syntax: { "enableClientMetrics": true|false, "readReceiptConfig": { "status": "DISABLED"|"ENABLED"|"FORCE_ENABLED" }, "dataRetention": true|false, "enableTrustedDataFormat": true|false, "consentPopup": { "enabled": true|false, "header": "string", "content": "string", "closeButtonLabel": "string" } }</param>
+    /// <param name="NetworkId">The ID of the Wickr network whose settings will be updated. Constraints: • min: 8 • max: 8 • pattern: [0-9]{8}</param>
+    /// <param name="Settings">A map of setting names to their new values. Each setting should be provided with its appropriate type (boolean, string, number, etc.). enableClientMetrics -&gt; (boolean) Allows Wickr clients to send anonymized performance and usage metrics to the Wickr backend server for service improvement and troubleshooting. readReceiptConfig -&gt; (structure) Configuration for read receipts at the network level, controlling the default behavior for whether senders can see when their messages have been read. status -&gt; (string) The read receipt status mode for the network. Possible values: • DISABLED • ENABLED • FORCE_ENABLED dataRetention -&gt; (boolean) Indicates whether the data retention feature is enabled for the network. When true, messages are captured by the data retention bot for compliance and archiving purposes. enableTrustedDataFormat -&gt; (boolean) Configuration for OpenTDF integration at the network level, enforcing ABAC decision making when operating in TDF enabled rooms. consentPopup -&gt; (structure) Consent popup configuration for the network, displayed to users on login. enabled -&gt; (boolean) [required] Whether the consent popup is enabled. When set to true, the popup is displayed to users on login. header -&gt; (string) Header text displayed at the top of the consent popup. Maximum 100 characters. Constraints: • min: 0 • max: 100 • pattern: [\S\s]* content -&gt; (string) Body content of the consent popup in Markdown format. Maximum 5000 characters. Constraints: • min: 0 • max: 5000 • pattern: [\S\s]* closeButtonLabel -&gt; (string) Label for the close button on the consent popup. Maximum 20 characters. Defaults to "Acknowledge" if not provided. Constraints: • min: 0 • max: 20 • pattern: [\S\s]* Shorthand Syntax: enableClientMetrics=boolean,readReceiptConfig={status=string},dataRetention=boolean,enableTrustedDataFormat=boolean,consentPopup={enabled=boolean,header=string,content=string,closeButtonLabel=string} JSON Syntax: { "enableClientMetrics": true|false, "readReceiptConfig": { "status": "DISABLED"|"ENABLED"|"FORCE_ENABLED" }, "dataRetention": true|false, "enableTrustedDataFormat": true|false, "consentPopup": { "enabled": true|false, "header": "string", "content": "string", "closeButtonLabel": "string" } }</param>
     public AwsWickrUpdateNetworkSettingsOptions(
         string NetworkId,
         string Settings
@@ -60,13 +61,13 @@ public record AwsWickrUpdateNetworkSettingsOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the Wickr network whose settings will be updated. Constraints: o min: 8 o max: 8 o pattern: [0-9]{8}
+    /// The ID of the Wickr network whose settings will be updated. Constraints: • min: 8 • max: 8 • pattern: [0-9]{8}
     /// </summary>
     [CliOption("--network-id")]
     public string? NetworkId { get; private init; }
 
     /// <summary>
-    /// A map of setting names to their new values. Each setting should be provided with its appropriate type (boolean, string, number, etc.). enableClientMetrics -&gt; (boolean) Allows Wickr clients to send anonymized performance and usage metrics to the Wickr backend server for service improvement and troubleshooting. readReceiptConfig -&gt; (structure) Configuration for read receipts at the network level, control- ling the default behavior for whether senders can see when their messages have been read. status -&gt; (string) The read receipt status mode for the network. Possible values: o DISABLED o ENABLED o FORCE_ENABLED dataRetention -&gt; (boolean) Indicates whether the data retention feature is enabled for the network. When true, messages are captured by the data retention bot for compliance and archiving purposes. enableTrustedDataFormat -&gt; (boolean) Configuration for OpenTDF integration at the network level, en- forcing ABAC decision making when operating in TDF enabled rooms. consentPopup -&gt; (structure) Consent popup configuration for the network, displayed to users on login. enabled -&gt; (boolean) [required] Whether the consent popup is enabled. When set to true, the popup is displayed to users on login. header -&gt; (string) Header text displayed at the top of the consent popup. Maxi- mum 100 characters. Constraints: o min: 0 o max: 100 o pattern: [\S\s]* content -&gt; (string) Body content of the consent popup in Markdown format. Maximum 5000 characters. Constraints: o min: 0 o max: 5000 o pattern: [\S\s]* closeButtonLabel -&gt; (string) Label for the close button on the consent popup. Maximum 20 characters. Defaults to "Acknowledge" if not provided. Constraints: o min: 0 o max: 20 o pattern: [\S\s]* Shorthand Syntax: enableClientMetrics=boolean,readReceiptConfig={status=string},dataRetention=boolean,enableTrustedDataFormat=boolean,consentPopup={enabled=boolean,header=string,content=string,closeButtonLabel=string} JSON Syntax: { "enableClientMetrics": true|false, "readReceiptConfig": { "status": "DISABLED"|"ENABLED"|"FORCE_ENABLED" }, "dataRetention": true|false, "enableTrustedDataFormat": true|false, "consentPopup": { "enabled": true|false, "header": "string", "content": "string", "closeButtonLabel": "string" } }
+    /// A map of setting names to their new values. Each setting should be provided with its appropriate type (boolean, string, number, etc.). enableClientMetrics -&gt; (boolean) Allows Wickr clients to send anonymized performance and usage metrics to the Wickr backend server for service improvement and troubleshooting. readReceiptConfig -&gt; (structure) Configuration for read receipts at the network level, controlling the default behavior for whether senders can see when their messages have been read. status -&gt; (string) The read receipt status mode for the network. Possible values: • DISABLED • ENABLED • FORCE_ENABLED dataRetention -&gt; (boolean) Indicates whether the data retention feature is enabled for the network. When true, messages are captured by the data retention bot for compliance and archiving purposes. enableTrustedDataFormat -&gt; (boolean) Configuration for OpenTDF integration at the network level, enforcing ABAC decision making when operating in TDF enabled rooms. consentPopup -&gt; (structure) Consent popup configuration for the network, displayed to users on login. enabled -&gt; (boolean) [required] Whether the consent popup is enabled. When set to true, the popup is displayed to users on login. header -&gt; (string) Header text displayed at the top of the consent popup. Maximum 100 characters. Constraints: • min: 0 • max: 100 • pattern: [\S\s]* content -&gt; (string) Body content of the consent popup in Markdown format. Maximum 5000 characters. Constraints: • min: 0 • max: 5000 • pattern: [\S\s]* closeButtonLabel -&gt; (string) Label for the close button on the consent popup. Maximum 20 characters. Defaults to "Acknowledge" if not provided. Constraints: • min: 0 • max: 20 • pattern: [\S\s]* Shorthand Syntax: enableClientMetrics=boolean,readReceiptConfig={status=string},dataRetention=boolean,enableTrustedDataFormat=boolean,consentPopup={enabled=boolean,header=string,content=string,closeButtonLabel=string} JSON Syntax: { "enableClientMetrics": true|false, "readReceiptConfig": { "status": "DISABLED"|"ENABLED"|"FORCE_ENABLED" }, "dataRetention": true|false, "enableTrustedDataFormat": true|false, "consentPopup": { "enabled": true|false, "header": "string", "content": "string", "closeButtonLabel": "string" } }
     /// </summary>
     [CliOption("--settings")]
     public string? Settings { get; private init; }
@@ -92,6 +93,15 @@ public record AwsWickrUpdateNetworkSettingsOptions : AwsOptions, IValidatableObj
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

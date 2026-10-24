@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Restores a cluster to an arbitrary point in time. Users can restore to any point in time before LatestRestorableTime for up to BackupReten- tionPeriod days. The target cluster is created from the source cluster with the same configuration as the original cluster, except that the new cluster is created with the default security group. See also: AWS API Documentation
+/// Restores a cluster to an arbitrary point in time. Users can restore to any point in time before LatestRestorableTime for up to BackupRetentionPeriod days. The target cluster is created from the source cluster with the same configuration as the original cluster, except that the new cluster is created with the default security group. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsDocdbRestoreDbClusterToPointInTimeOptions : AwsOptions, IValida
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Restores a cluster to an arbitrary point in time. Users can restore to any point in time before LatestRestorableTime for up to BackupReten- tionPeriod days. The target cluster is created from the source cluster with the same configuration as the original cluster, except that the new cluster is created with the default security group. See also: AWS API Documentation
+    /// Restores a cluster to an arbitrary point in time. Users can restore to any point in time before LatestRestorableTime for up to BackupRetentionPeriod days. The target cluster is created from the source cluster with the same configuration as the original cluster, except that the new cluster is created with the default security group. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DbClusterIdentifier">The name of the new cluster to be created. Constraints: o Must contain from 1 to 63 letters, numbers, or hyphens. o The first character must be a letter. o Cannot end with a hyphen or contain two consecutive hyphens.</param>
-    /// <param name="SourceDbClusterIdentifier">The identifier of the source cluster from which to restore. Constraints: o Must match the identifier of an existing DBCluster .</param>
+    /// <param name="DbClusterIdentifier">The name of the new cluster to be created. Constraints: • Must contain from 1 to 63 letters, numbers, or hyphens. • The first character must be a letter. • Cannot end with a hyphen or contain two consecutive hyphens.</param>
+    /// <param name="SourceDbClusterIdentifier">The identifier of the source cluster from which to restore. Constraints: • Must match the identifier of an existing DBCluster .</param>
     public AwsDocdbRestoreDbClusterToPointInTimeOptions(
         string DbClusterIdentifier,
         string SourceDbClusterIdentifier
@@ -60,31 +61,31 @@ public record AwsDocdbRestoreDbClusterToPointInTimeOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the new cluster to be created. Constraints: o Must contain from 1 to 63 letters, numbers, or hyphens. o The first character must be a letter. o Cannot end with a hyphen or contain two consecutive hyphens.
+    /// The name of the new cluster to be created. Constraints: • Must contain from 1 to 63 letters, numbers, or hyphens. • The first character must be a letter. • Cannot end with a hyphen or contain two consecutive hyphens.
     /// </summary>
     [CliOption("--db-cluster-identifier")]
     public string? DbClusterIdentifier { get; private init; }
 
     /// <summary>
-    /// The identifier of the source cluster from which to restore. Constraints: o Must match the identifier of an existing DBCluster .
+    /// The identifier of the source cluster from which to restore. Constraints: • Must match the identifier of an existing DBCluster .
     /// </summary>
     [CliOption("--source-db-cluster-identifier")]
     public string? SourceDbClusterIdentifier { get; private init; }
 
     /// <summary>
-    /// The type of restore to be performed. You can specify one of the fol- lowing values: o full-copy - The new DB cluster is restored as a full copy of the source DB cluster. o copy-on-write - The new DB cluster is restored as a clone of the source DB cluster. Constraints: You can't specify copy-on-write if the engine version of the source DB cluster is earlier than 1.11. If you don't specify a RestoreType value, then the new DB cluster is restored as a full copy of the source DB cluster.
+    /// The type of restore to be performed. You can specify one of the following values: • full-copy - The new DB cluster is restored as a full copy of the source DB cluster. • copy-on-write - The new DB cluster is restored as a clone of the source DB cluster. Constraints: You can't specify copy-on-write if the engine version of the source DB cluster is earlier than 1.11. If you don't specify a RestoreType value, then the new DB cluster is restored as a full copy of the source DB cluster.
     /// </summary>
     [CliOption("--restore-type")]
     public string? RestoreType { get; set; }
 
     /// <summary>
-    /// The date and time to restore the cluster to. Valid values: A time in Universal Coordinated Time (UTC) format. Constraints: o Must be before the latest restorable time for the instance. o Must be specified if the UseLatestRestorableTime parameter is not provided. o Cannot be specified if the UseLatestRestorableTime parameter is true . o Cannot be specified if the RestoreType parameter is copy-on-write . Example: 2015-03-07T23:45:00Z
+    /// The date and time to restore the cluster to. Valid values: A time in Universal Coordinated Time (UTC) format. Constraints: • Must be before the latest restorable time for the instance. • Must be specified if the UseLatestRestorableTime parameter is not provided. • Cannot be specified if the UseLatestRestorableTime parameter is true . • Cannot be specified if the RestoreType parameter is copy-on-write . Example: 2015-03-07T23:45:00Z
     /// </summary>
     [CliOption("--restore-to-time")]
     public string? RestoreToTime { get; set; }
 
     /// <summary>
-    /// A value that is set to true to restore the cluster to the latest re- storable backup time, and false otherwise. Default: false Constraints: Cannot be specified if the RestoreToTime parameter is provided.
+    /// A value that is set to true to restore the cluster to the latest restorable backup time, and false otherwise. Default: false Constraints: Cannot be specified if the RestoreToTime parameter is provided.
     /// </summary>
     [CliFlag("--use-latest-restorable-time", NegatedName = "--no-use-latest-restorable-time")]
     public bool? UseLatestRestorableTime { get; set; }
@@ -96,7 +97,7 @@ public record AwsDocdbRestoreDbClusterToPointInTimeOptions : AwsOptions, IValida
     public int? Port { get; set; }
 
     /// <summary>
-    /// The subnet group name to use for the new cluster. Constraints: If provided, must match the name of an existing DBSub- netGroup . Example: mySubnetgroup
+    /// The subnet group name to use for the new cluster. Constraints: If provided, must match the name of an existing DBSubnetGroup . Example: mySubnetgroup
     /// </summary>
     [CliOption("--db-subnet-group-name")]
     public string? DbSubnetGroupName { get; set; }
@@ -114,7 +115,7 @@ public record AwsDocdbRestoreDbClusterToPointInTimeOptions : AwsOptions, IValida
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
-    /// The KMS key identifier to use when restoring an encrypted cluster from an encrypted cluster. The KMS key identifier is the Amazon Resource Name (ARN) for the KMS encryption key. If you are restoring a cluster with the same Amazon Web Services account that owns the KMS encryption key used to en- crypt the new cluster, then you can use the KMS key alias instead of the ARN for the KMS encryption key. You can restore to a new cluster and encrypt the new cluster with an KMS key that is different from the KMS key used to encrypt the source cluster. The new DB cluster is encrypted with the KMS key identified by the KmsKeyId parameter. If you do not specify a value for the KmsKeyId parameter, then the following occurs: o If the cluster is encrypted, then the restored cluster is en- crypted using the KMS key that was used to encrypt the source cluster. o If the cluster is not encrypted, then the restored cluster is not encrypted. If DBClusterIdentifier refers to a cluster that is not encrypted, then the restore request is rejected.
+    /// The KMS key identifier to use when restoring an encrypted cluster from an encrypted cluster. The KMS key identifier is the Amazon Resource Name (ARN) for the KMS encryption key. If you are restoring a cluster with the same Amazon Web Services account that owns the KMS encryption key used to encrypt the new cluster, then you can use the KMS key alias instead of the ARN for the KMS encryption key. You can restore to a new cluster and encrypt the new cluster with an KMS key that is different from the KMS key used to encrypt the source cluster. The new DB cluster is encrypted with the KMS key identified by the KmsKeyId parameter. If you do not specify a value for the KmsKeyId parameter, then the following occurs: • If the cluster is encrypted, then the restored cluster is encrypted using the KMS key that was used to encrypt the source cluster. • If the cluster is not encrypted, then the restored cluster is not encrypted. If DBClusterIdentifier refers to a cluster that is not encrypted, then the restore request is rejected.
     /// </summary>
     [CliOption("--kms-key-id")]
     public string? KmsKeyId { get; set; }
@@ -132,7 +133,7 @@ public record AwsDocdbRestoreDbClusterToPointInTimeOptions : AwsOptions, IValida
     public bool? DeletionProtection { get; set; }
 
     /// <summary>
-    /// Contains the scaling configuration of an Amazon DocumentDB Server- less cluster. MinCapacity -&gt; (double) The minimum number of Amazon DocumentDB capacity units (DCUs) for an instance in an Amazon DocumentDB Serverless cluster. You can specify DCU values in half-step increments, such as 8, 8.5, 9, and so on. MaxCapacity -&gt; (double) The maximum number of Amazon DocumentDB capacity units (DCUs) for an instance in an Amazon DocumentDB Serverless cluster. You can specify DCU values in half-step increments, such as 32, 32.5, 33, and so on. Shorthand Syntax: MinCapacity=double,MaxCapacity=double JSON Syntax: { "MinCapacity": double, "MaxCapacity": double }
+    /// Contains the scaling configuration of an Amazon DocumentDB Serverless cluster. MinCapacity -&gt; (double) The minimum number of Amazon DocumentDB capacity units (DCUs) for an instance in an Amazon DocumentDB Serverless cluster. You can specify DCU values in half-step increments, such as 8, 8.5, 9, and so on. MaxCapacity -&gt; (double) The maximum number of Amazon DocumentDB capacity units (DCUs) for an instance in an Amazon DocumentDB Serverless cluster. You can specify DCU values in half-step increments, such as 32, 32.5, 33, and so on. Shorthand Syntax: MinCapacity=double,MaxCapacity=double JSON Syntax: { "MinCapacity": double, "MaxCapacity": double }
     /// </summary>
     [CliOption("--serverless-v2-scaling-configuration")]
     public string? ServerlessV2ScalingConfiguration { get; set; }
@@ -176,6 +177,15 @@ public record AwsDocdbRestoreDbClusterToPointInTimeOptions : AwsOptions, IValida
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -22,7 +22,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsRedshiftDescribeAccountAttributesOptions : AwsOptions
 {
     /// <summary>
-    /// A list of attribute names. (string) Constraints: o max: 2147483647 Syntax: "string" "string" ...
+    /// A list of attribute names. (string) Constraints: • max: 2147483647 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--attribute-names", GroupValues = true)]
     public IEnumerable<string>? AttributeNames { get; set; }
@@ -32,5 +32,14 @@ public record AwsRedshiftDescribeAccountAttributesOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

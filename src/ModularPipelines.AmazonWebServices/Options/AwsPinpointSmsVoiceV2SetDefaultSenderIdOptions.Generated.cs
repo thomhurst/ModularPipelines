@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsPinpointSmsVoiceV2SetDefaultSenderIdOptions : AwsOptions, IVali
     /// <summary>
     /// Sets default sender ID on a configuration set. When sending a text message to a destination country that supports sender IDs, the default sender ID on the configuration set specified will be used if no dedicated origination phone numbers or registered sender IDs are available in your account. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ConfigurationSetName">The configuration set to updated with a new default SenderId. This field can be the ConsigurationSetName or ConfigurationSetArn. Constraints: o min: 1 o max: 256 o pattern: [A-Za-z0-9_:/-]+</param>
-    /// <param name="SenderId">The current sender ID for the configuration set. When sending a text message to a destination country which supports SenderIds, the de- fault sender ID on the configuration set specified on SendTextMes- sage will be used if no dedicated origination phone numbers or reg- istered SenderIds are available in your account, instead of a generic sender ID, such as 'NOTICE'. Constraints: o min: 1 o max: 11 o pattern: [A-Za-z0-9_-]+</param>
+    /// <param name="ConfigurationSetName">The configuration set to updated with a new default SenderId. This field can be the ConsigurationSetName or ConfigurationSetArn. Constraints: • min: 1 • max: 256 • pattern: [A-Za-z0-9_:/-]+</param>
+    /// <param name="SenderId">The current sender ID for the configuration set. When sending a text message to a destination country which supports SenderIds, the default sender ID on the configuration set specified on SendTextMessage will be used if no dedicated origination phone numbers or registered SenderIds are available in your account, instead of a generic sender ID, such as 'NOTICE'. Constraints: • min: 1 • max: 11 • pattern: [A-Za-z0-9_-]+</param>
     public AwsPinpointSmsVoiceV2SetDefaultSenderIdOptions(
         string ConfigurationSetName,
         string SenderId
@@ -60,13 +61,13 @@ public record AwsPinpointSmsVoiceV2SetDefaultSenderIdOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The configuration set to updated with a new default SenderId. This field can be the ConsigurationSetName or ConfigurationSetArn. Constraints: o min: 1 o max: 256 o pattern: [A-Za-z0-9_:/-]+
+    /// The configuration set to updated with a new default SenderId. This field can be the ConsigurationSetName or ConfigurationSetArn. Constraints: • min: 1 • max: 256 • pattern: [A-Za-z0-9_:/-]+
     /// </summary>
     [CliOption("--configuration-set-name")]
     public string? ConfigurationSetName { get; private init; }
 
     /// <summary>
-    /// The current sender ID for the configuration set. When sending a text message to a destination country which supports SenderIds, the de- fault sender ID on the configuration set specified on SendTextMes- sage will be used if no dedicated origination phone numbers or reg- istered SenderIds are available in your account, instead of a generic sender ID, such as 'NOTICE'. Constraints: o min: 1 o max: 11 o pattern: [A-Za-z0-9_-]+
+    /// The current sender ID for the configuration set. When sending a text message to a destination country which supports SenderIds, the default sender ID on the configuration set specified on SendTextMessage will be used if no dedicated origination phone numbers or registered SenderIds are available in your account, instead of a generic sender ID, such as 'NOTICE'. Constraints: • min: 1 • max: 11 • pattern: [A-Za-z0-9_-]+
     /// </summary>
     [CliOption("--sender-id")]
     public string? SenderId { get; private init; }
@@ -92,6 +93,15 @@ public record AwsPinpointSmsVoiceV2SetDefaultSenderIdOptions : AwsOptions, IVali
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

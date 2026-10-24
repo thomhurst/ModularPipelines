@@ -6,8 +6,8 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
+using ModularPipelines;
 using ModularPipelines.Context;
-using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
@@ -32,7 +32,7 @@ public class AwsS3Outposts : IAwsS3Outposts
     #region Commands
 
     /// <summary>
-    /// Creates an endpoint and associates it with the specified Outpost. NOTE: It can take up to 5 minutes for this action to finish. Related actions include: o DeleteEndpoint o ListEndpoints See also: AWS API Documentation
+    /// Creates an endpoint and associates it with the specified Outpost. NOTE: It can take up to 5 minutes for this action to finish. Related actions include: • DeleteEndpoint • ListEndpoints See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -47,7 +47,7 @@ public class AwsS3Outposts : IAwsS3Outposts
     }
 
     /// <summary>
-    /// Deletes an endpoint. NOTE: It can take up to 5 minutes for this action to finish. Related actions include: o CreateEndpoint o ListEndpoints See also: AWS API Documentation
+    /// Deletes an endpoint. NOTE: It can take up to 5 minutes for this action to finish. Related actions include: • CreateEndpoint • ListEndpoints See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -62,7 +62,7 @@ public class AwsS3Outposts : IAwsS3Outposts
     }
 
     /// <summary>
-    /// Lists endpoints associated with the specified Outpost. Related actions include: o CreateEndpoint o DeleteEndpoint See also: AWS API Documentation list-endpoints is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query e...
+    /// Lists endpoints associated with the specified Outpost. Related actions include: • CreateEndpoint • DeleteEndpoint See also: AWS API Documentation list-endpoints is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expre...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -92,7 +92,7 @@ public class AwsS3Outposts : IAwsS3Outposts
     }
 
     /// <summary>
-    /// Lists all endpoints associated with an Outpost that has been shared by Amazon Web Services Resource Access Manager (RAM). Related actions include: o CreateEndpoint o DeleteEndpoint See also: AWS API Documentation list-shared-endpoints is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --quer...
+    /// Lists all endpoints associated with an Outpost that has been shared by Amazon Web Services Resource Access Manager (RAM). Related actions include: • CreateEndpoint • DeleteEndpoint See also: AWS API Documentation list-shared-endpoints is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --quer...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,9 +29,9 @@ public record AwsOpensearchUpdateDataSourceOptions : AwsOptions, IValidatableObj
     /// <summary>
     /// Updates a direct-query data source. For more information, see Working with Amazon OpenSearch Service data source integrations with Amazon S3 . See also: AWS API Documentation
     /// </summary>
-    /// <param name="DomainName">The name of the domain. Constraints: o min: 3 o max: 28 o pattern: [a-z][a-z0-9\-]+</param>
-    /// <param name="Name">The name of the data source to modify. Constraints: o min: 3 o max: 80 o pattern: [a-z][a-z0-9_]+</param>
-    /// <param name="DataSourceType">The type of data source. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: S3GlueDataCatalog. S3GlueDataCatalog -&gt; (structure) An Amazon S3 data source. RoleArn -&gt; (string) &gt;The Amazon Resource Name (ARN) for the S3 Glue Data Catalog. Constraints: o min: 20 o max: 2048 o pattern: arn:(aws|aws\-cn|aws\-us\-gov|aws\-iso|aws\-iso\-b):iam::[0-9]+:role\/.* Shorthand Syntax: S3GlueDataCatalog={RoleArn=string} JSON Syntax: { "S3GlueDataCatalog": { "RoleArn": "string" } }</param>
+    /// <param name="DomainName">The name of the domain. Constraints: • min: 3 • max: 28 • pattern: [a-z][a-z0-9\-]+</param>
+    /// <param name="Name">The name of the data source to modify. Constraints: • min: 3 • max: 80 • pattern: [a-z][a-z0-9_]+</param>
+    /// <param name="DataSourceType">The type of data source. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: S3GlueDataCatalog. S3GlueDataCatalog -&gt; (structure) An Amazon S3 data source. RoleArn -&gt; (string) &gt;The Amazon Resource Name (ARN) for the S3 Glue Data Catalog. Constraints: • min: 20 • max: 2048 • pattern: arn:(aws|aws\-cn|aws\-us\-gov|aws\-iso|aws\-iso\-b):iam::[0-9]+:role\/.* Shorthand Syntax: S3GlueDataCatalog={RoleArn=string} JSON Syntax: { "S3GlueDataCatalog": { "RoleArn": "string" } }</param>
     public AwsOpensearchUpdateDataSourceOptions(
         string DomainName,
         string Name,
@@ -65,31 +66,31 @@ public record AwsOpensearchUpdateDataSourceOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the domain. Constraints: o min: 3 o max: 28 o pattern: [a-z][a-z0-9\-]+
+    /// The name of the domain. Constraints: • min: 3 • max: 28 • pattern: [a-z][a-z0-9\-]+
     /// </summary>
     [CliOption("--domain-name")]
     public string? DomainName { get; private init; }
 
     /// <summary>
-    /// The name of the data source to modify. Constraints: o min: 3 o max: 80 o pattern: [a-z][a-z0-9_]+
+    /// The name of the data source to modify. Constraints: • min: 3 • max: 80 • pattern: [a-z][a-z0-9_]+
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The type of data source. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: S3GlueDataCatalog. S3GlueDataCatalog -&gt; (structure) An Amazon S3 data source. RoleArn -&gt; (string) &gt;The Amazon Resource Name (ARN) for the S3 Glue Data Catalog. Constraints: o min: 20 o max: 2048 o pattern: arn:(aws|aws\-cn|aws\-us\-gov|aws\-iso|aws\-iso\-b):iam::[0-9]+:role\/.* Shorthand Syntax: S3GlueDataCatalog={RoleArn=string} JSON Syntax: { "S3GlueDataCatalog": { "RoleArn": "string" } }
+    /// The type of data source. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: S3GlueDataCatalog. S3GlueDataCatalog -&gt; (structure) An Amazon S3 data source. RoleArn -&gt; (string) &gt;The Amazon Resource Name (ARN) for the S3 Glue Data Catalog. Constraints: • min: 20 • max: 2048 • pattern: arn:(aws|aws\-cn|aws\-us\-gov|aws\-iso|aws\-iso\-b):iam::[0-9]+:role\/.* Shorthand Syntax: S3GlueDataCatalog={RoleArn=string} JSON Syntax: { "S3GlueDataCatalog": { "RoleArn": "string" } }
     /// </summary>
     [CliOption("--data-source-type")]
     public string? DataSourceType { get; private init; }
 
     /// <summary>
-    /// A new description of the data source. Constraints: o max: 1000 o pattern: ^([a-zA-Z0-9_])*[\\a-zA-Z0-9_@#%*+=:?./!\s-]*$
+    /// A new description of the data source. Constraints: • max: 1000 • pattern: ^([a-zA-Z0-9_])*[\\a-zA-Z0-9_@#%*+=:?./!\s-]*$
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The status of the data source update. Possible values: o ACTIVE o DISABLED
+    /// The status of the data source update. Possible values: • ACTIVE • DISABLED
     /// </summary>
     [CliOption("--status")]
     public AwsOpensearchUpdateDataSourceStatus? Status { get; set; }
@@ -115,6 +116,15 @@ public record AwsOpensearchUpdateDataSourceOptions : AwsOptions, IValidatableObj
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

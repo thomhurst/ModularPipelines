@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsWorkdocsDeleteNotificationSubscriptionOptions : AwsOptions, IVa
     /// <summary>
     /// Deletes the specified subscription from the specified organization. See also: AWS API Documentation
     /// </summary>
-    /// <param name="SubscriptionId">The ID of the subscription. Constraints: o min: 1 o max: 256 o pattern: [&amp;\w+-.@]+</param>
-    /// <param name="OrganizationId">The ID of the organization. Constraints: o min: 1 o max: 256 o pattern: [&amp;\w+-.@]+</param>
+    /// <param name="SubscriptionId">The ID of the subscription. Constraints: • min: 1 • max: 256 • pattern: [&amp;\w+-.@]+</param>
+    /// <param name="OrganizationId">The ID of the organization. Constraints: • min: 1 • max: 256 • pattern: [&amp;\w+-.@]+</param>
     public AwsWorkdocsDeleteNotificationSubscriptionOptions(
         string SubscriptionId,
         string OrganizationId
@@ -60,13 +61,13 @@ public record AwsWorkdocsDeleteNotificationSubscriptionOptions : AwsOptions, IVa
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the subscription. Constraints: o min: 1 o max: 256 o pattern: [&amp;\w+-.@]+
+    /// The ID of the subscription. Constraints: • min: 1 • max: 256 • pattern: [&amp;\w+-.@]+
     /// </summary>
     [CliOption("--subscription-id")]
     public string? SubscriptionId { get; private init; }
 
     /// <summary>
-    /// The ID of the organization. Constraints: o min: 1 o max: 256 o pattern: [&amp;\w+-.@]+
+    /// The ID of the organization. Constraints: • min: 1 • max: 256 • pattern: [&amp;\w+-.@]+
     /// </summary>
     [CliOption("--organization-id")]
     public string? OrganizationId { get; private init; }
@@ -92,6 +93,15 @@ public record AwsWorkdocsDeleteNotificationSubscriptionOptions : AwsOptions, IVa
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Enables you to create a formal association between an Opportunity and various related entities, enriching the context and details of the op- portunity for better collaboration and decision making. You can asso- ciate an opportunity with the following entity types: o Partner Solution: A software product or consulting practice created and delivered by Partners. Partner Solutions help customers address business challenges using Amazon Web Services services. o Amazon Web Services Products: Amazon We...
+/// Enables you to create a formal association between an Opportunity and various related entities, enriching the context and details of the opportunity for better collaboration and decision making. You can associate an opportunity with the following entity types: • Partner Solution: A software product or consulting practice created and delivered by Partners. Partner Solutions help customers address business challenges using Amazon Web Services services. • Amazon Web Services Products: Amazon Web Se...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,12 +27,12 @@ public record AwsPartnercentralSellingAssociateOpportunityOptions : AwsOptions, 
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Enables you to create a formal association between an Opportunity and various related entities, enriching the context and details of the op- portunity for better collaboration and decision making. You can asso- ciate an opportunity with the following entity types: o Partner Solution: A software product or consulting practice created and delivered by Partners. Partner Solutions help customers address business challenges using Amazon Web Services services. o Amazon Web Services Products: Amazon We...
+    /// Enables you to create a formal association between an Opportunity and various related entities, enriching the context and details of the opportunity for better collaboration and decision making. You can associate an opportunity with the following entity types: • Partner Solution: A software product or consulting practice created and delivered by Partners. Partner Solutions help customers address business challenges using Amazon Web Services services. • Amazon Web Services Products: Amazon Web Se...
     /// </summary>
-    /// <param name="Catalog">Specifies the catalog associated with the request. This field takes a string value from a predefined list: AWS or Sandbox . The catalog determines which environment the opportunity association is made in. Use AWS to associate opportunities in the Amazon Web Services cata- log, and Sandbox for testing in secure, isolated environments. Constraints: o pattern: [a-zA-Z]+</param>
-    /// <param name="OpportunityIdentifier">Requires the Opportunity 's unique identifier when you want to asso- ciate it with a related entity. Provide the correct identifier so the intended opportunity is updated with the association. Constraints: o pattern: O[0-9]{1,19}</param>
-    /// <param name="RelatedEntityType">Specifies the entity type that you're associating with the Opportu- nity . This helps to categorize and properly process the associa- tion. Possible values: o Solutions o AwsProducts o AwsMarketplaceOffers o AwsMarketplaceOfferSets o AwsMarketplaceSolutions o AwsMarketplaceProducts</param>
-    /// <param name="RelatedEntityIdentifier">Requires the related entity's unique identifier when you want to as- sociate it with the Opportunity . For Amazon Web Services Market- place entities, provide the Amazon Resource Name (ARN). Use the Amazon Web Services Marketplace API to obtain the ARN. Constraints: o pattern: (?s).{1,255}</param>
+    /// <param name="Catalog">Specifies the catalog associated with the request. This field takes a string value from a predefined list: AWS or Sandbox . The catalog determines which environment the opportunity association is made in. Use AWS to associate opportunities in the Amazon Web Services catalog, and Sandbox for testing in secure, isolated environments. Constraints: • pattern: [a-zA-Z]+</param>
+    /// <param name="OpportunityIdentifier">Requires the Opportunity 's unique identifier when you want to associate it with a related entity. Provide the correct identifier so the intended opportunity is updated with the association. Constraints: • pattern: O[0-9]{1,19}</param>
+    /// <param name="RelatedEntityType">Specifies the entity type that you're associating with the Opportunity . This helps to categorize and properly process the association. Possible values: • Solutions • AwsProducts • AwsMarketplaceOffers • AwsMarketplaceOfferSets • AwsMarketplaceSolutions • AwsMarketplaceProducts</param>
+    /// <param name="RelatedEntityIdentifier">Requires the related entity's unique identifier when you want to associate it with the Opportunity . For Amazon Web Services Marketplace entities, provide the Amazon Resource Name (ARN). Use the Amazon Web Services Marketplace API to obtain the ARN. Constraints: • pattern: (?s).{1,255}</param>
     public AwsPartnercentralSellingAssociateOpportunityOptions(
         string Catalog,
         string OpportunityIdentifier,
@@ -68,25 +69,25 @@ public record AwsPartnercentralSellingAssociateOpportunityOptions : AwsOptions, 
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Specifies the catalog associated with the request. This field takes a string value from a predefined list: AWS or Sandbox . The catalog determines which environment the opportunity association is made in. Use AWS to associate opportunities in the Amazon Web Services cata- log, and Sandbox for testing in secure, isolated environments. Constraints: o pattern: [a-zA-Z]+
+    /// Specifies the catalog associated with the request. This field takes a string value from a predefined list: AWS or Sandbox . The catalog determines which environment the opportunity association is made in. Use AWS to associate opportunities in the Amazon Web Services catalog, and Sandbox for testing in secure, isolated environments. Constraints: • pattern: [a-zA-Z]+
     /// </summary>
     [CliOption("--catalog")]
     public string? Catalog { get; private init; }
 
     /// <summary>
-    /// Requires the Opportunity 's unique identifier when you want to asso- ciate it with a related entity. Provide the correct identifier so the intended opportunity is updated with the association. Constraints: o pattern: O[0-9]{1,19}
+    /// Requires the Opportunity 's unique identifier when you want to associate it with a related entity. Provide the correct identifier so the intended opportunity is updated with the association. Constraints: • pattern: O[0-9]{1,19}
     /// </summary>
     [CliOption("--opportunity-identifier")]
     public string? OpportunityIdentifier { get; private init; }
 
     /// <summary>
-    /// Specifies the entity type that you're associating with the Opportu- nity . This helps to categorize and properly process the associa- tion. Possible values: o Solutions o AwsProducts o AwsMarketplaceOffers o AwsMarketplaceOfferSets o AwsMarketplaceSolutions o AwsMarketplaceProducts
+    /// Specifies the entity type that you're associating with the Opportunity . This helps to categorize and properly process the association. Possible values: • Solutions • AwsProducts • AwsMarketplaceOffers • AwsMarketplaceOfferSets • AwsMarketplaceSolutions • AwsMarketplaceProducts
     /// </summary>
     [CliOption("--related-entity-type")]
     public AwsPartnercentralSellingAssociateOpportunityRelatedEntityType? RelatedEntityType { get; private init; }
 
     /// <summary>
-    /// Requires the related entity's unique identifier when you want to as- sociate it with the Opportunity . For Amazon Web Services Market- place entities, provide the Amazon Resource Name (ARN). Use the Amazon Web Services Marketplace API to obtain the ARN. Constraints: o pattern: (?s).{1,255}
+    /// Requires the related entity's unique identifier when you want to associate it with the Opportunity . For Amazon Web Services Marketplace entities, provide the Amazon Resource Name (ARN). Use the Amazon Web Services Marketplace API to obtain the ARN. Constraints: • pattern: (?s).{1,255}
     /// </summary>
     [CliOption("--related-entity-identifier")]
     public string? RelatedEntityIdentifier { get; private init; }
@@ -112,6 +113,15 @@ public record AwsPartnercentralSellingAssociateOpportunityOptions : AwsOptions, 
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

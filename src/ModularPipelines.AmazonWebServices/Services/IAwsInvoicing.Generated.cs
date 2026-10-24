@@ -6,7 +6,7 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using ModularPipelines.Models;
+using ModularPipelines;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
@@ -28,8 +28,7 @@ public interface IAwsInvoicing
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> BatchGetInvoiceProfileAsync(AwsInvoicingBatchGetInvoiceProfileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> BatchGetInvoiceProfileAsync(AwsInvoicingBatchGetInvoiceProfileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// This creates a new invoice unit with the provided definition. See also: AWS API Documentation
@@ -38,18 +37,16 @@ public interface IAwsInvoicing
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateInvoiceUnitAsync(AwsInvoicingCreateInvoiceUnitOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateInvoiceUnitAsync(AwsInvoicingCreateInvoiceUnitOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// o This feature API is subject to changing at any time. For more in- formation, see the `Amazon Web Services Service Terms &lt;https://aws.amazon.com/service-terms/&gt;`__ (Betas and Previews). * Creates a procurement portal preference configuration for e-invoice de- livery and purchase order retrieval. This preference defines how in- voices are delivered to a procurement portal and how purchase orders are retrieved. See also: AWS API Documentation
+    /// • This feature API is subject to changing at any time. For more information, see the `Amazon Web Services Service Terms &lt;https://aws.amazon.com/service-terms/&gt;`__ (Betas and Previews). * Creates a procurement portal preference configuration for e-invoice delivery and purchase order retrieval. This preference defines how invoices are delivered to a procurement portal and how purchase orders are retrieved. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateProcurementPortalPreferenceAsync(AwsInvoicingCreateProcurementPortalPreferenceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateProcurementPortalPreferenceAsync(AwsInvoicingCreateProcurementPortalPreferenceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// This deletes an invoice unit with the provided invoice unit ARN. See also: AWS API Documentation
@@ -58,28 +55,25 @@ public interface IAwsInvoicing
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteInvoiceUnitAsync(AwsInvoicingDeleteInvoiceUnitOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteInvoiceUnitAsync(AwsInvoicingDeleteInvoiceUnitOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// o This feature API is subject to changing at any time. For more in- formation, see the `Amazon Web Services Service Terms &lt;https://aws.amazon.com/service-terms/&gt;`__ (Betas and Previews). * Deletes an existing procurement portal preference. This action cannot be undone. Active e-invoice delivery and PO retrieval configurations will be terminated. See also: AWS API Documentation
+    /// • This feature API is subject to changing at any time. For more information, see the `Amazon Web Services Service Terms &lt;https://aws.amazon.com/service-terms/&gt;`__ (Betas and Previews). * Deletes an existing procurement portal preference. This action cannot be undone. Active e-invoice delivery and PO retrieval configurations will be terminated. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteProcurementPortalPreferenceAsync(AwsInvoicingDeleteProcurementPortalPreferenceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteProcurementPortalPreferenceAsync(AwsInvoicingDeleteProcurementPortalPreferenceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Returns a URL to download the invoice document and supplemental docu- ments associated with an invoice. The URLs are pre-signed and have ex- piration time. For special cases like Brazil, where Amazon Web Services generated invoice identifiers and government provided identifiers do not match, use the Amazon Web Services generated invoice identifier when making API requests. To grant IAM permission to use this opera- tion, the caller needs the invoicing:GetInvoicePDF policy action. See also: AWS A...
+    /// Returns a URL to download the invoice document and supplemental documents associated with an invoice. The URLs are pre-signed and have expiration time. For special cases like Brazil, where Amazon Web Services generated invoice identifiers and government provided identifiers do not match, use the Amazon Web Services generated invoice identifier when making API requests. To grant IAM permission to use this operation, the caller needs the invoicing:GetInvoicePDF policy action. See also: AWS API Doc...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetInvoicePdfAsync(AwsInvoicingGetInvoicePdfOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetInvoicePdfAsync(AwsInvoicingGetInvoicePdfOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// This retrieves the invoice unit definition. See also: AWS API Documentation
@@ -88,68 +82,61 @@ public interface IAwsInvoicing
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetInvoiceUnitAsync(AwsInvoicingGetInvoiceUnitOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetInvoiceUnitAsync(AwsInvoicingGetInvoiceUnitOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// o This feature API is subject to changing at any time. For more in- formation, see the `Amazon Web Services Service Terms &lt;https://aws.amazon.com/service-terms/&gt;`__ (Betas and Previews). * Retrieves the details of a specific procurement portal preference con- figuration. See also: AWS API Documentation
+    /// • This feature API is subject to changing at any time. For more information, see the `Amazon Web Services Service Terms &lt;https://aws.amazon.com/service-terms/&gt;`__ (Betas and Previews). * Retrieves the details of a specific procurement portal preference configuration. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetProcurementPortalPreferenceAsync(AwsInvoicingGetProcurementPortalPreferenceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetProcurementPortalPreferenceAsync(AwsInvoicingGetProcurementPortalPreferenceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Retrieves your invoice details programmatically, without line item de- tails. See also: AWS API Documentation list-invoice-summaries is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: InvoiceSummaries
+    /// Retrieves your invoice details programmatically, without line item details. See also: AWS API Documentation list-invoice-summaries is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: InvoiceSummaries
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListInvoiceSummariesAsync(AwsInvoicingListInvoiceSummariesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListInvoiceSummariesAsync(AwsInvoicingListInvoiceSummariesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// This fetches a list of all invoice unit definitions for a given ac- count, as of the provided AsOf date. See also: AWS API Documentation list-invoice-units is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expression...
+    /// This fetches a list of all invoice unit definitions for a given account, as of the provided AsOf date. See also: AWS API Documentation list-invoice-units is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions:...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListInvoiceUnitsAsync(AwsInvoicingListInvoiceUnitsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListInvoiceUnitsAsync(AwsInvoicingListInvoiceUnitsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// o This feature API is subject to changing at any time. For more in- formation, see the `Amazon Web Services Service Terms &lt;https://aws.amazon.com/service-terms/&gt;`__ (Betas and Previews). * Retrieves a list of procurement portal preferences associated with the Amazon Web Services account. See also: AWS API Documentation list-procurement-portal-preferences is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by...
+    /// • This feature API is subject to changing at any time. For more information, see the `Amazon Web Services Service Terms &lt;https://aws.amazon.com/service-terms/&gt;`__ (Betas and Previews). * Retrieves a list of procurement portal preferences associated with the Amazon Web Services account. See also: AWS API Documentation list-procurement-portal-preferences is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by pro...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListProcurementPortalPreferencesAsync(AwsInvoicingListProcurementPortalPreferencesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListProcurementPortalPreferencesAsync(AwsInvoicingListProcurementPortalPreferencesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Returns the Amazon Web Services-supported procurement portals for e-in- voice delivery and purchase order retrieval. Each entry includes the portal identifier, name, and default feature configurations, which de- fine the supported document and attachment types. For faster, more re- liable responses, use pagination. See also: AWS API Documentation list-procurement-portals is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disabl...
+    /// Returns the suppliers configured for a specified procurement portal, including supplier identifiers and associated metadata. For faster, more reliable responses, use pagination. See also: AWS API Documentation list-procurement-portal-suppliers is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, t...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListProcurementPortalsAsync(AwsInvoicingListProcurementPortalsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListProcurementPortalSuppliersAsync(AwsInvoicingListProcurementPortalSuppliersOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Returns the suppliers configured for a specified procurement portal, including supplier identifiers and associated metadata. For faster, more reliable responses, use pagination. See also: AWS API Documentation list-procurement-portal-suppliers is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated respons...
+    /// Returns the Amazon Web Services-supported procurement portals for e-invoice delivery and purchase order retrieval. Each entry includes the portal identifier, name, and default feature configurations, which define the supported document and attachment types. For faster, more reliable responses, use pagination. See also: AWS API Documentation list-procurement-portals is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagi...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListProcurementPortalSuppliersAsync(AwsInvoicingListProcurementPortalSuppliersOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListProcurementPortalsAsync(AwsInvoicingListProcurementPortalsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the tags for a resource. See also: AWS API Documentation
@@ -158,28 +145,25 @@ public interface IAwsInvoicing
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTagsForResourceAsync(AwsInvoicingListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListTagsForResourceAsync(AwsInvoicingListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// o This feature API is subject to changing at any time. For more in- formation, see the `Amazon Web Services Service Terms &lt;https://aws.amazon.com/service-terms/&gt;`__ (Betas and Previews). * Updates an existing procurement portal preference configuration. This operation can modify settings for e-invoice delivery and purchase order retrieval. See also: AWS API Documentation
+    /// • This feature API is subject to changing at any time. For more information, see the `Amazon Web Services Service Terms &lt;https://aws.amazon.com/service-terms/&gt;`__ (Betas and Previews). * Updates an existing procurement portal preference configuration. This operation can modify settings for e-invoice delivery and purchase order retrieval. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutProcurementPortalPreferenceAsync(AwsInvoicingPutProcurementPortalPreferenceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutProcurementPortalPreferenceAsync(AwsInvoicingPutProcurementPortalPreferenceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// o This feature API is subject to changing at any time. For more in- formation, see the `Amazon Web Services Service Terms &lt;https://aws.amazon.com/service-terms/&gt;`__ (Betas and Previews). * Sends a validation request for a procurement portal preference. This operation initiates the validation process by issuing a validation code that confirms ownership and connectivity of the configured procurement portal endpoint. Use VerifyProcurementPortalValidation to submit the received code and complete val...
+    /// • This feature API is subject to changing at any time. For more information, see the `Amazon Web Services Service Terms &lt;https://aws.amazon.com/service-terms/&gt;`__ (Betas and Previews). * Sends a validation request for a procurement portal preference. This operation initiates the validation process by issuing a validation code that confirms ownership and connectivity of the configured procurement portal endpoint. Use VerifyProcurementPortalValidation to submit the received code and complete valid...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> SendProcurementPortalValidationAsync(AwsInvoicingSendProcurementPortalValidationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> SendProcurementPortalValidationAsync(AwsInvoicingSendProcurementPortalValidationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Adds a tag to a resource. See also: AWS API Documentation
@@ -188,8 +172,7 @@ public interface IAwsInvoicing
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> TagResourceAsync(AwsInvoicingTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> TagResourceAsync(AwsInvoicingTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Removes a tag from a resource. See also: AWS API Documentation
@@ -198,8 +181,7 @@ public interface IAwsInvoicing
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UntagResourceAsync(AwsInvoicingUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UntagResourceAsync(AwsInvoicingUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// You can update the invoice unit configuration at any time, and Amazon Web Services will use the latest configuration at the end of the month. See also: AWS API Documentation
@@ -208,27 +190,24 @@ public interface IAwsInvoicing
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateInvoiceUnitAsync(AwsInvoicingUpdateInvoiceUnitOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateInvoiceUnitAsync(AwsInvoicingUpdateInvoiceUnitOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// o This feature API is subject to changing at any time. For more in- formation, see the `Amazon Web Services Service Terms &lt;https://aws.amazon.com/service-terms/&gt;`__ (Betas and Previews). * Updates the status of a procurement portal preference, including the activation state of e-invoice delivery and purchase order retrieval features. See also: AWS API Documentation
+    /// • This feature API is subject to changing at any time. For more information, see the `Amazon Web Services Service Terms &lt;https://aws.amazon.com/service-terms/&gt;`__ (Betas and Previews). * Updates the status of a procurement portal preference, including the activation state of e-invoice delivery and purchase order retrieval features. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateProcurementPortalPreferenceStatusAsync(AwsInvoicingUpdateProcurementPortalPreferenceStatusOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateProcurementPortalPreferenceStatusAsync(AwsInvoicingUpdateProcurementPortalPreferenceStatusOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// o This feature API is subject to changing at any time. For more in- formation, see the `Amazon Web Services Service Terms &lt;https://aws.amazon.com/service-terms/&gt;`__ (Betas and Previews). * Submits a validation code to complete the validation of a procurement portal preference. Use this operation after calling SendProcurementPor- talValidation to confirm ownership and connectivity of the configured procurement portal endpoint. See also: AWS API Documentation
+    /// • This feature API is subject to changing at any time. For more information, see the `Amazon Web Services Service Terms &lt;https://aws.amazon.com/service-terms/&gt;`__ (Betas and Previews). * Submits a validation code to complete the validation of a procurement portal preference. Use this operation after calling SendProcurementPortalValidation to confirm ownership and connectivity of the configured procurement portal endpoint. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> VerifyProcurementPortalValidationAsync(AwsInvoicingVerifyProcurementPortalValidationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> VerifyProcurementPortalValidationAsync(AwsInvoicingVerifyProcurementPortalValidationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

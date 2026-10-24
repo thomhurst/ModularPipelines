@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsOpensearchGetDataSourceOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Retrieves information about a direct query data source. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DomainName">The name of the domain. Constraints: o min: 3 o max: 28 o pattern: [a-z][a-z0-9\-]+</param>
-    /// <param name="Name">The name of the data source to get information about. Constraints: o min: 3 o max: 80 o pattern: [a-z][a-z0-9_]+</param>
+    /// <param name="DomainName">The name of the domain. Constraints: • min: 3 • max: 28 • pattern: [a-z][a-z0-9\-]+</param>
+    /// <param name="Name">The name of the data source to get information about. Constraints: • min: 3 • max: 80 • pattern: [a-z][a-z0-9_]+</param>
     public AwsOpensearchGetDataSourceOptions(
         string DomainName,
         string Name
@@ -60,13 +61,13 @@ public record AwsOpensearchGetDataSourceOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the domain. Constraints: o min: 3 o max: 28 o pattern: [a-z][a-z0-9\-]+
+    /// The name of the domain. Constraints: • min: 3 • max: 28 • pattern: [a-z][a-z0-9\-]+
     /// </summary>
     [CliOption("--domain-name")]
     public string? DomainName { get; private init; }
 
     /// <summary>
-    /// The name of the data source to get information about. Constraints: o min: 3 o max: 80 o pattern: [a-z][a-z0-9_]+
+    /// The name of the data source to get information about. Constraints: • min: 3 • max: 80 • pattern: [a-z][a-z0-9_]+
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
@@ -92,6 +93,15 @@ public record AwsOpensearchGetDataSourceOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

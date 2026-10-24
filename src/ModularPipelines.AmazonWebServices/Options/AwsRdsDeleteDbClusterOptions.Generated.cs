@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// The DeleteDBCluster action deletes a previously provisioned DB cluster. When you delete a DB cluster, all automated backups for that DB cluster are deleted and can't be recovered. Manual DB cluster snapshots of the specified DB cluster are not deleted. If you're deleting a Multi-AZ DB cluster with read replicas, all clus- ter members are terminated and read replicas are promoted to standalone instances. For more information on Amazon Aurora, see What is Amazon Aurora? in the Amazon Aurora User G...
+/// The DeleteDBCluster action deletes a previously provisioned DB cluster. When you delete a DB cluster, all automated backups for that DB cluster are deleted and can't be recovered. Manual DB cluster snapshots of the specified DB cluster are not deleted. If you're deleting a Multi-AZ DB cluster with read replicas, all cluster members are terminated and read replicas are promoted to standalone instances. For more information on Amazon Aurora, see What is Amazon Aurora? in the Amazon Aurora User Gui...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsRdsDeleteDbClusterOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// The DeleteDBCluster action deletes a previously provisioned DB cluster. When you delete a DB cluster, all automated backups for that DB cluster are deleted and can't be recovered. Manual DB cluster snapshots of the specified DB cluster are not deleted. If you're deleting a Multi-AZ DB cluster with read replicas, all clus- ter members are terminated and read replicas are promoted to standalone instances. For more information on Amazon Aurora, see What is Amazon Aurora? in the Amazon Aurora User G...
+    /// The DeleteDBCluster action deletes a previously provisioned DB cluster. When you delete a DB cluster, all automated backups for that DB cluster are deleted and can't be recovered. Manual DB cluster snapshots of the specified DB cluster are not deleted. If you're deleting a Multi-AZ DB cluster with read replicas, all cluster members are terminated and read replicas are promoted to standalone instances. For more information on Amazon Aurora, see What is Amazon Aurora? in the Amazon Aurora User Gui...
     /// </summary>
-    /// <param name="DbClusterIdentifier">The DB cluster identifier for the DB cluster to be deleted. This pa- rameter isn't case-sensitive. Constraints: o Must match an existing DBClusterIdentifier.</param>
+    /// <param name="DbClusterIdentifier">The DB cluster identifier for the DB cluster to be deleted. This parameter isn't case-sensitive. Constraints: • Must match an existing DBClusterIdentifier.</param>
     public AwsRdsDeleteDbClusterOptions(
         string DbClusterIdentifier
     )
@@ -56,25 +57,25 @@ public record AwsRdsDeleteDbClusterOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The DB cluster identifier for the DB cluster to be deleted. This pa- rameter isn't case-sensitive. Constraints: o Must match an existing DBClusterIdentifier.
+    /// The DB cluster identifier for the DB cluster to be deleted. This parameter isn't case-sensitive. Constraints: • Must match an existing DBClusterIdentifier.
     /// </summary>
     [CliOption("--db-cluster-identifier")]
     public string? DbClusterIdentifier { get; private init; }
 
     /// <summary>
-    /// Specifies whether to skip the creation of a final DB cluster snap- shot before RDS deletes the DB cluster. If you set this value to true , RDS doesn't create a final DB cluster snapshot. If you set this value to false or don't specify it, RDS creates a DB cluster snapshot before it deletes the DB cluster. By default, this parame- ter is disabled, so RDS creates a final DB cluster snapshot. NOTE: If SkipFinalSnapshot is disabled, you must specify a value for the FinalDBSnapshotIdentifier parameter.
+    /// Specifies whether to skip the creation of a final DB cluster snapshot before RDS deletes the DB cluster. If you set this value to true , RDS doesn't create a final DB cluster snapshot. If you set this value to false or don't specify it, RDS creates a DB cluster snapshot before it deletes the DB cluster. By default, this parameter is disabled, so RDS creates a final DB cluster snapshot. NOTE: If SkipFinalSnapshot is disabled, you must specify a value for the FinalDBSnapshotIdentifier parameter.
     /// </summary>
     [CliFlag("--skip-final-snapshot", NegatedName = "--no-skip-final-snapshot")]
     public bool? SkipFinalSnapshot { get; set; }
 
     /// <summary>
-    /// The DB cluster snapshot identifier of the new DB cluster snapshot created when SkipFinalSnapshot is disabled. NOTE: If you specify this parameter and also skip the creation of a final DB cluster snapshot with the SkipFinalShapshot parameter, the request results in an error. Constraints: o Must be 1 to 255 letters, numbers, or hyphens. o First character must be a letter o Can't end with a hyphen or contain two consecutive hyphens
+    /// The DB cluster snapshot identifier of the new DB cluster snapshot created when SkipFinalSnapshot is disabled. NOTE: If you specify this parameter and also skip the creation of a final DB cluster snapshot with the SkipFinalShapshot parameter, the request results in an error. Constraints: • Must be 1 to 255 letters, numbers, or hyphens. • First character must be a letter • Can't end with a hyphen or contain two consecutive hyphens
     /// </summary>
     [CliOption("--final-db-snapshot-identifier")]
     public string? FinalDbSnapshotIdentifier { get; set; }
 
     /// <summary>
-    /// Specifies whether to remove automated backups immediately after the DB cluster is deleted. This parameter isn't case-sensitive. The de- fault is to remove automated backups immediately after the DB clus- ter is deleted, unless the Amazon Web Services Backup policy speci- fies a point-in-time restore rule.
+    /// Specifies whether to remove automated backups immediately after the DB cluster is deleted. This parameter isn't case-sensitive. The default is to remove automated backups immediately after the DB cluster is deleted, unless the Amazon Web Services Backup policy specifies a point-in-time restore rule.
     /// </summary>
     [CliFlag("--delete-automated-backups", NegatedName = "--no-delete-automated-backups")]
     public bool? DeleteAutomatedBackups { get; set; }
@@ -100,6 +101,15 @@ public record AwsRdsDeleteDbClusterOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

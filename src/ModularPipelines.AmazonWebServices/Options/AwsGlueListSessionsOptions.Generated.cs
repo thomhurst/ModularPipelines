@@ -11,7 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -24,26 +24,26 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsGlueListSessionsOptions : AwsOptions
 {
     /// <summary>
-    /// The token for the next set of results, or null if there are no more result. Constraints: o max: 400000
+    /// The token for the next set of results, or null if there are no more result. Constraints: • max: 400000
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// The maximum number of results. Constraints: o min: 1 o max: 1000
+    /// The maximum number of results. Constraints: • min: 1 • max: 1000
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
     /// <summary>
-    /// Tags belonging to the session. Constraints: o min: 0 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// Tags belonging to the session. Constraints: • min: 0 • max: 50 key -&gt; (string) Constraints: • min: 1 • max: 128 value -&gt; (string) Constraints: • min: 0 • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>
-    /// The origin of the request. Constraints: o min: 1 o max: 128 o pattern: [\.\-_A-Za-z0-9]+
+    /// The origin of the request. Constraints: • min: 1 • max: 128 • pattern: [\.\-_A-Za-z0-9]+
     /// </summary>
     [CliOption("--request-origin")]
     public string? RequestOrigin { get; set; }
@@ -53,5 +53,14 @@ public record AwsGlueListSessionsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

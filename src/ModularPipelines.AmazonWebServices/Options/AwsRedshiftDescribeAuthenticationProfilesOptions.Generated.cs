@@ -22,7 +22,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsRedshiftDescribeAuthenticationProfilesOptions : AwsOptions
 {
     /// <summary>
-    /// The name of the authentication profile to describe. If not specified then all authentication profiles owned by the account are listed. Constraints: o max: 63 o pattern: ^[a-zA-Z0-9\-]+$
+    /// The name of the authentication profile to describe. If not specified then all authentication profiles owned by the account are listed. Constraints: • max: 63 • pattern: ^[a-zA-Z0-9\-]+$
     /// </summary>
     [CliOption("--authentication-profile-name")]
     public string? AuthenticationProfileName { get; set; }
@@ -32,5 +32,14 @@ public record AwsRedshiftDescribeAuthenticationProfilesOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

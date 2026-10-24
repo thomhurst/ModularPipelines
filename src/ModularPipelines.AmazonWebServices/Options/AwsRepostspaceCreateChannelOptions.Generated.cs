@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +29,7 @@ public record AwsRepostspaceCreateChannelOptions : AwsOptions, IValidatableObjec
     /// Creates a channel in an AWS re:Post Private private re:Post. See also: AWS API Documentation
     /// </summary>
     /// <param name="SpaceId">The unique ID of the private re:Post.</param>
-    /// <param name="ChannelName">The name for the channel. This must be unique per private re:Post. Constraints: o min: 1 o max: 64</param>
+    /// <param name="ChannelName">The name for the channel. This must be unique per private re:Post. Constraints: • min: 1 • max: 64</param>
     public AwsRepostspaceCreateChannelOptions(
         string SpaceId,
         string ChannelName
@@ -66,13 +67,13 @@ public record AwsRepostspaceCreateChannelOptions : AwsOptions, IValidatableObjec
     public string? SpaceId { get; private init; }
 
     /// <summary>
-    /// The name for the channel. This must be unique per private re:Post. Constraints: o min: 1 o max: 64
+    /// The name for the channel. This must be unique per private re:Post. Constraints: • min: 1 • max: 64
     /// </summary>
     [CliOption("--channel-name")]
     public string? ChannelName { get; private init; }
 
     /// <summary>
-    /// A description for the channel. This is used only to help you iden- tify this channel. Constraints: o min: 1 o max: 255
+    /// A description for the channel. This is used only to help you identify this channel. Constraints: • min: 1 • max: 255
     /// </summary>
     [CliOption("--channel-description")]
     public string? ChannelDescription { get; set; }
@@ -98,6 +99,15 @@ public record AwsRepostspaceCreateChannelOptions : AwsOptions, IValidatableObjec
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

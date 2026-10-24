@@ -15,7 +15,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns a list of connector-profile details matching the provided con- nector-profile names and connector-types . Both input lists are op- tional, and you can use them to filter the result. If no names or connector-types are provided, returns all connector pro- files in a paginated form. If there is no match, this operation returns an empty list. See also: AWS API Documentation
+/// Returns a list of connector-profile details matching the provided connector-profile names and connector-types . Both input lists are optional, and you can use them to filter the result. If no names or connector-types are provided, returns all connector profiles in a paginated form. If there is no match, this operation returns an empty list. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -23,31 +23,31 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsAppflowDescribeConnectorProfilesOptions : AwsOptions
 {
     /// <summary>
-    /// The name of the connector profile. The name is unique for each Con- nectorProfile in the Amazon Web Services account. Constraints: o min: 0 o max: 100 (string) Constraints: o max: 256 o pattern: [\w/!@#+=.-]+ Syntax: "string" "string" ...
+    /// The name of the connector profile. The name is unique for each ConnectorProfile in the Amazon Web Services account. Constraints: • min: 0 • max: 100 (string) Constraints: • max: 256 • pattern: [\w/!@#+=.-]+ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--connector-profile-names", GroupValues = true)]
     public IEnumerable<string>? ConnectorProfileNames { get; set; }
 
     /// <summary>
-    /// The type of connector, such as Salesforce, Amplitude, and so on. Possible values: o Salesforce o Singular o Slack o Redshift o S3 o Marketo o Googleanalytics o Zendesk o Servicenow o Datadog o Trendmicro o Snowflake o Dynatrace o Infornexus o Amplitude o Veeva o EventBridge o LookoutMetrics o Upsolver o Honeycode o CustomerProfiles o SAPOData o CustomConnector o Pardot
+    /// The type of connector, such as Salesforce, Amplitude, and so on. Possible values: • Salesforce • Singular • Slack • Redshift • S3 • Marketo • Googleanalytics • Zendesk • Servicenow • Datadog • Trendmicro • Snowflake • Dynatrace • Infornexus • Amplitude • Veeva • EventBridge • LookoutMetrics • Upsolver • Honeycode • CustomerProfiles • SAPOData • CustomConnector • Pardot
     /// </summary>
     [CliOption("--connector-type")]
     public string? ConnectorType { get; set; }
 
     /// <summary>
-    /// The name of the connector. The name is unique for each ConnectorReg- istration in your Amazon Web Services account. Only needed if call- ing for CUSTOMCONNECTOR connector type/. Constraints: o max: 256 o pattern: [a-zA-Z0-9][\w!@#.-]+
+    /// The name of the connector. The name is unique for each ConnectorRegistration in your Amazon Web Services account. Only needed if calling for CUSTOMCONNECTOR connector type/. Constraints: • max: 256 • pattern: [a-zA-Z0-9][\w!@#.-]+
     /// </summary>
     [CliOption("--connector-label")]
     public string? ConnectorLabel { get; set; }
 
     /// <summary>
-    /// Specifies the maximum number of items that should be returned in the result set. The default for maxResults is 20 (for all paginated API operations). Constraints: o min: 1 o max: 100
+    /// Specifies the maximum number of items that should be returned in the result set. The default for maxResults is 20 (for all paginated API operations). Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
     /// <summary>
-    /// The pagination token for the next page of data. Constraints: o max: 2048 o pattern: \S+
+    /// The pagination token for the next page of data. Constraints: • max: 2048 • pattern: \S+
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
@@ -58,5 +58,14 @@ public record AwsAppflowDescribeConnectorProfilesOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

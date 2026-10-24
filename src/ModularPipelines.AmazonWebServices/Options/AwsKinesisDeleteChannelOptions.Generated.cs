@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes the specified channel. Deleting a channel stops delivery from the source stream to the destination. Data already delivered to the destination is not deleted. A stream cannot be deleted while it has active channels. Use ListChan- nels with a stream filter to find the channels attached to a stream be- fore deleting it. This operation has a call limit of 5 transactions per second (TPS) for each Amazon Web Services account. Exceeding 5 TPS results in a LimitEx- ceededException . See also: AW...
+/// Deletes the specified channel. Deleting a channel stops delivery from the source stream to the destination. Data already delivered to the destination is not deleted. A stream cannot be deleted while it has active channels. Use ListChannels with a stream filter to find the channels attached to a stream before deleting it. This operation has a call limit of 5 transactions per second (TPS) for each Amazon Web Services account. Exceeding 5 TPS results in a LimitExceededException . See also: AWS API ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsKinesisDeleteChannelOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes the specified channel. Deleting a channel stops delivery from the source stream to the destination. Data already delivered to the destination is not deleted. A stream cannot be deleted while it has active channels. Use ListChan- nels with a stream filter to find the channels attached to a stream be- fore deleting it. This operation has a call limit of 5 transactions per second (TPS) for each Amazon Web Services account. Exceeding 5 TPS results in a LimitEx- ceededException . See also: AW...
+    /// Deletes the specified channel. Deleting a channel stops delivery from the source stream to the destination. Data already delivered to the destination is not deleted. A stream cannot be deleted while it has active channels. Use ListChannels with a stream filter to find the channels attached to a stream before deleting it. This operation has a call limit of 5 transactions per second (TPS) for each Amazon Web Services account. Exceeding 5 TPS results in a LimitExceededException . See also: AWS API ...
     /// </summary>
-    /// <param name="ChannelArn">The Amazon Resource Name (ARN) of the channel to delete. Constraints: o min: 1 o max: 2048 o pattern: arn:aws.*:kinesis:.*:\d{12}:channel/\S+</param>
+    /// <param name="ChannelArn">The Amazon Resource Name (ARN) of the channel to delete. Constraints: • min: 1 • max: 2048 • pattern: arn:aws.*:kinesis:.*:\d{12}:channel/\S+</param>
     public AwsKinesisDeleteChannelOptions(
         string ChannelArn
     )
@@ -56,7 +57,7 @@ public record AwsKinesisDeleteChannelOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the channel to delete. Constraints: o min: 1 o max: 2048 o pattern: arn:aws.*:kinesis:.*:\d{12}:channel/\S+
+    /// The Amazon Resource Name (ARN) of the channel to delete. Constraints: • min: 1 • max: 2048 • pattern: arn:aws.*:kinesis:.*:\d{12}:channel/\S+
     /// </summary>
     [CliOption("--channel-arn")]
     public string? ChannelArn { get; private init; }
@@ -82,6 +83,15 @@ public record AwsKinesisDeleteChannelOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

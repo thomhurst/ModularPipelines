@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,8 +29,8 @@ public record AwsGrafanaDisassociateLicenseOptions : AwsOptions, IValidatableObj
     /// <summary>
     /// Removes the Grafana Enterprise license from a workspace. See also: AWS API Documentation
     /// </summary>
-    /// <param name="WorkspaceId">The ID of the workspace to remove the Grafana Enterprise license from. Constraints: o pattern: g-[0-9a-f]{10}</param>
-    /// <param name="LicenseType">The type of license to remove from the workspace. Possible values: o ENTERPRISE o ENTERPRISE_FREE_TRIAL</param>
+    /// <param name="WorkspaceId">The ID of the workspace to remove the Grafana Enterprise license from. Constraints: • pattern: g-[0-9a-f]{10}</param>
+    /// <param name="LicenseType">The type of license to remove from the workspace. Possible values: • ENTERPRISE • ENTERPRISE_FREE_TRIAL</param>
     public AwsGrafanaDisassociateLicenseOptions(
         string WorkspaceId,
         AwsGrafanaDisassociateLicenseLicenseType LicenseType
@@ -60,13 +61,13 @@ public record AwsGrafanaDisassociateLicenseOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the workspace to remove the Grafana Enterprise license from. Constraints: o pattern: g-[0-9a-f]{10}
+    /// The ID of the workspace to remove the Grafana Enterprise license from. Constraints: • pattern: g-[0-9a-f]{10}
     /// </summary>
     [CliOption("--workspace-id")]
     public string? WorkspaceId { get; private init; }
 
     /// <summary>
-    /// The type of license to remove from the workspace. Possible values: o ENTERPRISE o ENTERPRISE_FREE_TRIAL
+    /// The type of license to remove from the workspace. Possible values: • ENTERPRISE • ENTERPRISE_FREE_TRIAL
     /// </summary>
     [CliOption("--license-type")]
     public AwsGrafanaDisassociateLicenseLicenseType? LicenseType { get; private init; }
@@ -92,6 +93,15 @@ public record AwsGrafanaDisassociateLicenseOptions : AwsOptions, IValidatableObj
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// NOTE: End of support notice: On December 31, 2027, Amazon Web Services will end support for Amazon WorkSpaces Pools. After December 31, 2027, you will no longer be able to access the Amazon WorkSpaces Pools console or Amazon WorkSpaces Pools resources. For more infor- mation, see Amazon WorkSpaces Pools end of support . Stops the specified pool. You cannot stop a WorkSpace pool unless it has a running mode of Au- toStop and a state of AVAILABLE , IMPAIRED , UNHEALTHY , or ERROR . See also: AWS A...
+/// NOTE: End of support notice: On December 31, 2027, Amazon Web Services will end support for Amazon WorkSpaces Pools. After December 31, 2027, you will no longer be able to access the Amazon WorkSpaces Pools console or Amazon WorkSpaces Pools resources. For more information, see Amazon WorkSpaces Pools end of support . Stops the specified pool. You cannot stop a WorkSpace pool unless it has a running mode of AutoStop and a state of AVAILABLE , IMPAIRED , UNHEALTHY , or ERROR . See also: AWS API D...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsWorkspacesStopWorkspacesPoolOptions : AwsOptions, IValidatableO
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// NOTE: End of support notice: On December 31, 2027, Amazon Web Services will end support for Amazon WorkSpaces Pools. After December 31, 2027, you will no longer be able to access the Amazon WorkSpaces Pools console or Amazon WorkSpaces Pools resources. For more infor- mation, see Amazon WorkSpaces Pools end of support . Stops the specified pool. You cannot stop a WorkSpace pool unless it has a running mode of Au- toStop and a state of AVAILABLE , IMPAIRED , UNHEALTHY , or ERROR . See also: AWS A...
+    /// NOTE: End of support notice: On December 31, 2027, Amazon Web Services will end support for Amazon WorkSpaces Pools. After December 31, 2027, you will no longer be able to access the Amazon WorkSpaces Pools console or Amazon WorkSpaces Pools resources. For more information, see Amazon WorkSpaces Pools end of support . Stops the specified pool. You cannot stop a WorkSpace pool unless it has a running mode of AutoStop and a state of AVAILABLE , IMPAIRED , UNHEALTHY , or ERROR . See also: AWS API D...
     /// </summary>
-    /// <param name="PoolId">The identifier of the pool. Constraints: o pattern: ^wspool-[0-9a-z]{9}$</param>
+    /// <param name="PoolId">The identifier of the pool. Constraints: • pattern: ^wspool-[0-9a-z]{9}$</param>
     public AwsWorkspacesStopWorkspacesPoolOptions(
         string PoolId
     )
@@ -56,7 +57,7 @@ public record AwsWorkspacesStopWorkspacesPoolOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the pool. Constraints: o pattern: ^wspool-[0-9a-z]{9}$
+    /// The identifier of the pool. Constraints: • pattern: ^wspool-[0-9a-z]{9}$
     /// </summary>
     [CliOption("--pool-id")]
     public string? PoolId { get; private init; }
@@ -82,6 +83,15 @@ public record AwsWorkspacesStopWorkspacesPoolOptions : AwsOptions, IValidatableO
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

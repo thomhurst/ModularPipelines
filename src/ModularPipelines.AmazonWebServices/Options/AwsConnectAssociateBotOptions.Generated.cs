@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +29,7 @@ public record AwsConnectAssociateBotOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// This API is in preview release for Connect Customer and is subject to change. Allows the specified Connect Customer instance to access the specified Amazon Lex or Amazon Lex V2 bot. See also: AWS API Documentation
     /// </summary>
-    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100</param>
+    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: • min: 1 • max: 100</param>
     public AwsConnectAssociateBotOptions(
         string InstanceId
     )
@@ -57,25 +58,25 @@ public record AwsConnectAssociateBotOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100
+    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--instance-id")]
     public string? InstanceId { get; private init; }
 
     /// <summary>
-    /// Configuration information of an Amazon Lex bot. Name -&gt; (string) [required] The name of the Amazon Lex bot. Constraints: o max: 50 LexRegion -&gt; (string) [required] The Amazon Web Services Region where the Amazon Lex bot was cre- ated. Constraints: o max: 60 Shorthand Syntax: Name=string,LexRegion=string JSON Syntax: { "Name": "string", "LexRegion": "string" }
+    /// Configuration information of an Amazon Lex bot. Name -&gt; (string) [required] The name of the Amazon Lex bot. Constraints: • max: 50 LexRegion -&gt; (string) [required] The Amazon Web Services Region where the Amazon Lex bot was created. Constraints: • max: 60 Shorthand Syntax: Name=string,LexRegion=string JSON Syntax: { "Name": "string", "LexRegion": "string" }
     /// </summary>
     [CliOption("--lex-bot")]
     public string? LexBot { get; set; }
 
     /// <summary>
-    /// The Amazon Lex V2 bot to associate with the instance. AliasArn -&gt; (string) The Amazon Resource Name (ARN) of the Amazon Lex V2 bot. Constraints: o min: 1 o max: 100 Shorthand Syntax: AliasArn=string JSON Syntax: { "AliasArn": "string" }
+    /// The Amazon Lex V2 bot to associate with the instance. AliasArn -&gt; (string) The Amazon Resource Name (ARN) of the Amazon Lex V2 bot. Constraints: • min: 1 • max: 100 Shorthand Syntax: AliasArn=string JSON Syntax: { "AliasArn": "string" }
     /// </summary>
     [CliOption("--lex-v2-bot")]
     public string? LexV2Bot { get; set; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs . Constraints: o max: 500
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs . Constraints: • max: 500
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
@@ -102,6 +103,15 @@ public record AwsConnectAssociateBotOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

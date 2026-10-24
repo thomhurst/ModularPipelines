@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Describes the specified keywords or all keywords on your origination phone number or pool. A keyword is a word that you can search for on a particular phone num- ber or pool. It is also a specific word or phrase that an end user can send to your number to elicit a response, such as an informational mes- sage or a special offer. When your number receives a message that be- gins with a keyword, End User Messaging SMS responds with a customiz- able message. If you specify a keyword that isn't valid...
+/// Describes the specified keywords or all keywords on your origination phone number or pool. A keyword is a word that you can search for on a particular phone number or pool. It is also a specific word or phrase that an end user can send to your number to elicit a response, such as an informational message or a special offer. When your number receives a message that begins with a keyword, End User Messaging SMS responds with a customizable message. If you specify a keyword that isn't valid, an err...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +27,9 @@ public record AwsPinpointSmsVoiceV2DescribeKeywordsOptions : AwsOptions, IValida
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Describes the specified keywords or all keywords on your origination phone number or pool. A keyword is a word that you can search for on a particular phone num- ber or pool. It is also a specific word or phrase that an end user can send to your number to elicit a response, such as an informational mes- sage or a special offer. When your number receives a message that be- gins with a keyword, End User Messaging SMS responds with a customiz- able message. If you specify a keyword that isn't valid...
+    /// Describes the specified keywords or all keywords on your origination phone number or pool. A keyword is a word that you can search for on a particular phone number or pool. It is also a specific word or phrase that an end user can send to your number to elicit a response, such as an informational message or a special offer. When your number receives a message that begins with a keyword, End User Messaging SMS responds with a customizable message. If you specify a keyword that isn't valid, an err...
     /// </summary>
-    /// <param name="OriginationIdentity">The origination identity to use such as a PhoneNumberId, PhoneNum- berArn, SenderId or SenderIdArn. You can use DescribePhoneNumbers to find the values for PhoneNumberId and PhoneNumberArn while De- scribeSenderIds can be used to get the values for SenderId and SenderIdArn. WARNING: If you are using a shared End User Messaging SMS resource then you must use the full Amazon Resource Name(ARN). Constraints: o min: 1 o max: 256 o pattern: [A-Za-z0-9_:/-]+</param>
+    /// <param name="OriginationIdentity">The origination identity to use such as a PhoneNumberId, PhoneNumberArn, SenderId or SenderIdArn. You can use DescribePhoneNumbers to find the values for PhoneNumberId and PhoneNumberArn while DescribeSenderIds can be used to get the values for SenderId and SenderIdArn. WARNING: If you are using a shared End User Messaging SMS resource then you must use the full Amazon Resource Name(ARN). Constraints: • min: 1 • max: 256 • pattern: [A-Za-z0-9_:/-]+</param>
     public AwsPinpointSmsVoiceV2DescribeKeywordsOptions(
         string OriginationIdentity
     )
@@ -57,28 +58,25 @@ public record AwsPinpointSmsVoiceV2DescribeKeywordsOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The origination identity to use such as a PhoneNumberId, PhoneNum- berArn, SenderId or SenderIdArn. You can use DescribePhoneNumbers to find the values for PhoneNumberId and PhoneNumberArn while De- scribeSenderIds can be used to get the values for SenderId and SenderIdArn. WARNING: If you are using a shared End User Messaging SMS resource then you must use the full Amazon Resource Name(ARN). Constraints: o min: 1 o max: 256 o pattern: [A-Za-z0-9_:/-]+
+    /// The origination identity to use such as a PhoneNumberId, PhoneNumberArn, SenderId or SenderIdArn. You can use DescribePhoneNumbers to find the values for PhoneNumberId and PhoneNumberArn while DescribeSenderIds can be used to get the values for SenderId and SenderIdArn. WARNING: If you are using a shared End User Messaging SMS resource then you must use the full Amazon Resource Name(ARN). Constraints: • min: 1 • max: 256 • pattern: [A-Za-z0-9_:/-]+
     /// </summary>
     [CliOption("--origination-identity")]
     public string? OriginationIdentity { get; private init; }
 
     /// <summary>
-    /// An array of keywords to search for. Constraints: o min: 0 o max: 5 (string) Constraints: o min: 1 o max: 30 o pattern: [ \S]+ Syntax: "string" "string" ...
+    /// An array of keywords to search for. Constraints: • min: 0 • max: 5 (string) Constraints: • min: 1 • max: 30 • pattern: [ \S]+ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--keywords", GroupValues = true)]
     public IEnumerable<string>? Keywords { get; set; }
 
     /// <summary>
-    /// An array of keyword filters to filter the results. Constraints: o min: 0 o max: 20 (structure) The information for keywords that meet a specified criteria. Name -&gt; (string) [required] The name of the attribute to filter on. Possible values: o keyword-action Values -&gt; (list) [required] An array values to filter for. Constraints: o min: 1 o max: 20 (string) Constraints: o min: 1 o max: 128 o pattern: [/\.:A-Za-z0-9+_-]+ Shorthand Syntax: Name=string,Values=string,string ... JSON Syntax: [ { "Name": "keyword-action", "Values": ["string", ...] } ... ]
+    /// An array of keyword filters to filter the results. Constraints: • min: 0 • max: 20 (structure) The information for keywords that meet a specified criteria. Name -&gt; (string) [required] The name of the attribute to filter on. Possible values: • keyword-action Values -&gt; (list) [required] An array values to filter for. Constraints: • min: 1 • max: 20 (string) Constraints: • min: 1 • max: 128 • pattern: [/\.:A-Za-z0-9+_-]+ Shorthand Syntax: Name=string,Values=string,string ... JSON Syntax: [ { "Name": "keyword-action", "Values": ["string", ...] } ... ]
     /// </summary>
     [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -88,16 +86,19 @@ public record AwsPinpointSmsVoiceV2DescribeKeywordsOptions : AwsOptions, IValida
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 100
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
@@ -114,6 +115,15 @@ public record AwsPinpointSmsVoiceV2DescribeKeywordsOptions : AwsOptions, IValida
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

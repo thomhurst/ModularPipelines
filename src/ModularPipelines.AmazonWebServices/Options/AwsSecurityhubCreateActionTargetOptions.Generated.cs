@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,9 +28,9 @@ public record AwsSecurityhubCreateActionTargetOptions : AwsOptions, IValidatable
     /// <summary>
     /// Creates a custom action target in Security Hub CSPM. You can use custom actions on findings and insights in Security Hub CSPM to trigger target actions in Amazon CloudWatch Events. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">The name of the custom action target. Can contain up to 20 charac- ters. Constraints: o pattern: .*\S.*</param>
-    /// <param name="Description">The description for the custom action target. Constraints: o pattern: .*\S.*</param>
-    /// <param name="Id">The ID for the custom action target. Can contain up to 20 alphanu- meric characters. Constraints: o pattern: .*\S.*</param>
+    /// <param name="Name">The name of the custom action target. Can contain up to 20 characters. Constraints: • pattern: .*\S.*</param>
+    /// <param name="Description">The description for the custom action target. Constraints: • pattern: .*\S.*</param>
+    /// <param name="Id">The ID for the custom action target. Can contain up to 20 alphanumeric characters. Constraints: • pattern: .*\S.*</param>
     public AwsSecurityhubCreateActionTargetOptions(
         string Name,
         string Description,
@@ -64,19 +65,19 @@ public record AwsSecurityhubCreateActionTargetOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the custom action target. Can contain up to 20 charac- ters. Constraints: o pattern: .*\S.*
+    /// The name of the custom action target. Can contain up to 20 characters. Constraints: • pattern: .*\S.*
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The description for the custom action target. Constraints: o pattern: .*\S.*
+    /// The description for the custom action target. Constraints: • pattern: .*\S.*
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; private init; }
 
     /// <summary>
-    /// The ID for the custom action target. Can contain up to 20 alphanu- meric characters. Constraints: o pattern: .*\S.*
+    /// The ID for the custom action target. Can contain up to 20 alphanumeric characters. Constraints: • pattern: .*\S.*
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; private init; }
@@ -102,6 +103,15 @@ public record AwsSecurityhubCreateActionTargetOptions : AwsOptions, IValidatable
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

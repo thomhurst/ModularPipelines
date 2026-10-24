@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -29,8 +30,8 @@ public record AwsLicenseManagerCreateGrantVersionOptions : AwsOptions, IValidata
     /// <summary>
     /// Creates a new version of the specified grant. For more information, see Granted licenses in License Manager in the License Manager User Guide . See also: AWS API Documentation
     /// </summary>
-    /// <param name="ClientToken">Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Constraints: o max: 2048 o pattern: \S+</param>
-    /// <param name="GrantArn">Amazon Resource Name (ARN) of the grant. Constraints: o max: 2048 o pattern: ^arn:aws[a-zA-Z-]*:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$</param>
+    /// <param name="ClientToken">Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Constraints: • max: 2048 • pattern: \S+</param>
+    /// <param name="GrantArn">Amazon Resource Name (ARN) of the grant. Constraints: • max: 2048 • pattern: ^arn:aws[a-zA-Z-]*:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$</param>
     public AwsLicenseManagerCreateGrantVersionOptions(
         string ClientToken,
         string GrantArn
@@ -62,14 +63,14 @@ public record AwsLicenseManagerCreateGrantVersionOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Constraints: o max: 2048 o pattern: \S+
+    /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Constraints: • max: 2048 • pattern: \S+
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; private init; }
 
     /// <summary>
-    /// Amazon Resource Name (ARN) of the grant. Constraints: o max: 2048 o pattern: ^arn:aws[a-zA-Z-]*:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$
+    /// Amazon Resource Name (ARN) of the grant. Constraints: • max: 2048 • pattern: ^arn:aws[a-zA-Z-]*:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$
     /// </summary>
     [CliOption("--grant-arn")]
     public string? GrantArn { get; private init; }
@@ -81,19 +82,19 @@ public record AwsLicenseManagerCreateGrantVersionOptions : AwsOptions, IValidata
     public string? GrantName { get; set; }
 
     /// <summary>
-    /// Allowed operations for the grant. Constraints: o min: 1 o max: 8 (string) Possible values: o CreateGrant o CheckoutLicense o CheckoutBorrowLicense o CheckInLicense o ExtendConsumptionLicense o ListPurchasedLicenses o CreateToken Syntax: "string" "string" ...
+    /// Allowed operations for the grant. Constraints: • min: 1 • max: 8 (string) Possible values: • CreateGrant • CheckoutLicense • CheckoutBorrowLicense • CheckInLicense • ExtendConsumptionLicense • ListPurchasedLicenses • CreateToken Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--allowed-operations", GroupValues = true)]
     public IEnumerable<string>? AllowedOperations { get; set; }
 
     /// <summary>
-    /// Grant status. Possible values: o PENDING_WORKFLOW o PENDING_ACCEPT o REJECTED o ACTIVE o FAILED_WORKFLOW o DELETED o PENDING_DELETE o DISABLED o WORKFLOW_COMPLETED
+    /// Grant status. Possible values: • PENDING_WORKFLOW • PENDING_ACCEPT • REJECTED • ACTIVE • FAILED_WORKFLOW • DELETED • PENDING_DELETE • DISABLED • WORKFLOW_COMPLETED
     /// </summary>
     [CliOption("--status")]
     public AwsLicenseManagerCreateGrantVersionStatus? Status { get; set; }
 
     /// <summary>
-    /// Grant status reason. Constraints: o max: 400 o pattern: [\s\S]+
+    /// Grant status reason. Constraints: • max: 400 • pattern: [\s\S]+
     /// </summary>
     [CliOption("--status-reason")]
     public string? StatusReason { get; set; }
@@ -105,7 +106,7 @@ public record AwsLicenseManagerCreateGrantVersionOptions : AwsOptions, IValidata
     public string? SourceVersion { get; set; }
 
     /// <summary>
-    /// The options specified for the grant. ActivationOverrideBehavior -&gt; (string) An activation option for your grant that determines the behavior of activating a grant. Activation options can only be used with granted licenses sourced from the Amazon Web Services Market- place. Additionally, the operation must specify the value of AC- TIVE for the Status parameter. o As a license administrator, you can optionally specify an Ac- tivationOverrideBehavior when activating a grant. o As a grantor, you can optionally specify an ActivationOver- rideBehavior when you activate a grant for a grantee account in your organization. o As a grantee, if the grantor creating the distributed grant doesnt specify an ActivationOverrideBehavior , you can option- ally specify one when you are activating the grant. DISTRIBUTED_GRANTS_ONLY Use this value to activate a grant without replacing any member accounts active grants for the same product. ALL_GRANTS_PERMITTED_BY_ISSUER Use this value to activate a grant and disable other active grants in any member accounts for the same product. This action will also replace their previously activated grants with this activated grant. Possible values: o DISTRIBUTED_GRANTS_ONLY o ALL_GRANTS_PERMITTED_BY_ISSUER Shorthand Syntax: ActivationOverrideBehavior=string JSON Syntax: { "ActivationOverrideBehavior": "DISTRIBUTED_GRANTS_ONLY"|"ALL_GRANTS_PERMITTED_BY_ISSUER" }
+    /// The options specified for the grant. ActivationOverrideBehavior -&gt; (string) An activation option for your grant that determines the behavior of activating a grant. Activation options can only be used with granted licenses sourced from the Amazon Web Services Marketplace. Additionally, the operation must specify the value of ACTIVE for the Status parameter. • As a license administrator, you can optionally specify an ActivationOverrideBehavior when activating a grant. • As a grantor, you can optionally specify an ActivationOverrideBehavior when you activate a grant for a grantee account in your organization. • As a grantee, if the grantor creating the distributed grant doesnt specify an ActivationOverrideBehavior , you can optionally specify one when you are activating the grant. DISTRIBUTED_GRANTS_ONLY Use this value to activate a grant without replacing any member accounts active grants for the same product. ALL_GRANTS_PERMITTED_BY_ISSUER Use this value to activate a grant and disable other active grants in any member accounts for the same product. This action will also replace their previously activated grants with this activated grant. Possible values: • DISTRIBUTED_GRANTS_ONLY • ALL_GRANTS_PERMITTED_BY_ISSUER Shorthand Syntax: ActivationOverrideBehavior=string JSON Syntax: { "ActivationOverrideBehavior": "DISTRIBUTED_GRANTS_ONLY"|"ALL_GRANTS_PERMITTED_BY_ISSUER" }
     /// </summary>
     [CliOption("--options")]
     public string? Options { get; set; }
@@ -131,6 +132,15 @@ public record AwsLicenseManagerCreateGrantVersionOptions : AwsOptions, IValidata
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

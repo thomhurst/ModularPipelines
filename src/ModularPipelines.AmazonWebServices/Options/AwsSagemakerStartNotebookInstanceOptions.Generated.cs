@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Launches an ML compute instance with the latest version of the li- braries and attaches your ML storage volume. After configuring the notebook instance, SageMaker AI sets the notebook instance status to InService . A notebook instance's status must be InService before you can connect to your Jupyter notebook. See also: AWS API Documentation
+/// Launches an ML compute instance with the latest version of the libraries and attaches your ML storage volume. After configuring the notebook instance, SageMaker AI sets the notebook instance status to InService . A notebook instance's status must be InService before you can connect to your Jupyter notebook. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsSagemakerStartNotebookInstanceOptions : AwsOptions, IValidatabl
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Launches an ML compute instance with the latest version of the li- braries and attaches your ML storage volume. After configuring the notebook instance, SageMaker AI sets the notebook instance status to InService . A notebook instance's status must be InService before you can connect to your Jupyter notebook. See also: AWS API Documentation
+    /// Launches an ML compute instance with the latest version of the libraries and attaches your ML storage volume. After configuring the notebook instance, SageMaker AI sets the notebook instance status to InService . A notebook instance's status must be InService before you can connect to your Jupyter notebook. See also: AWS API Documentation
     /// </summary>
-    /// <param name="NotebookInstanceName">The name of the notebook instance to start. Constraints: o min: 0 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9])*</param>
+    /// <param name="NotebookInstanceName">The name of the notebook instance to start. Constraints: • min: 0 • max: 63 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9])*</param>
     public AwsSagemakerStartNotebookInstanceOptions(
         string NotebookInstanceName
     )
@@ -56,7 +57,7 @@ public record AwsSagemakerStartNotebookInstanceOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the notebook instance to start. Constraints: o min: 0 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9])*
+    /// The name of the notebook instance to start. Constraints: • min: 0 • max: 63 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9])*
     /// </summary>
     [CliOption("--notebook-instance-name")]
     public string? NotebookInstanceName { get; private init; }
@@ -82,6 +83,15 @@ public record AwsSagemakerStartNotebookInstanceOptions : AwsOptions, IValidatabl
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

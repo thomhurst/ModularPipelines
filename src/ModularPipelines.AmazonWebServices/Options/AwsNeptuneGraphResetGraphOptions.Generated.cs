@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsNeptuneGraphResetGraphOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Empties the data from a specified Neptune Analytics graph. See also: AWS API Documentation
     /// </summary>
-    /// <param name="GraphIdentifier">ID of the graph to reset. Constraints: o pattern: g-[a-z0-9]{10}</param>
-    /// <param name="SkipSnapshot">Determines whether a final graph snapshot is created before the graph data is deleted. If set to true , no graph snapshot is cre- ated. If set to false , a graph snapshot is created before the data is deleted.</param>
+    /// <param name="GraphIdentifier">ID of the graph to reset. Constraints: • pattern: g-[a-z0-9]{10}</param>
+    /// <param name="SkipSnapshot">Determines whether a final graph snapshot is created before the graph data is deleted. If set to true , no graph snapshot is created. If set to false , a graph snapshot is created before the data is deleted.</param>
     public AwsNeptuneGraphResetGraphOptions(
         string GraphIdentifier,
         bool SkipSnapshot
@@ -59,13 +60,13 @@ public record AwsNeptuneGraphResetGraphOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// ID of the graph to reset. Constraints: o pattern: g-[a-z0-9]{10}
+    /// ID of the graph to reset. Constraints: • pattern: g-[a-z0-9]{10}
     /// </summary>
     [CliOption("--graph-identifier")]
     public string? GraphIdentifier { get; private init; }
 
     /// <summary>
-    /// Determines whether a final graph snapshot is created before the graph data is deleted. If set to true , no graph snapshot is cre- ated. If set to false , a graph snapshot is created before the data is deleted.
+    /// Determines whether a final graph snapshot is created before the graph data is deleted. If set to true , no graph snapshot is created. If set to false , a graph snapshot is created before the data is deleted.
     /// </summary>
     [CliFlag("--skip-snapshot", NegatedName = "--no-skip-snapshot")]
     public bool? SkipSnapshot { get; private init; }
@@ -91,6 +92,15 @@ public record AwsNeptuneGraphResetGraphOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

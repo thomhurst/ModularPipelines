@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Removes metadata tags from an DMS resource, including replication in- stance, endpoint, subnet group, and migration task. For more informa- tion, see ` Tag https://docs.aws.amazon.com/dms/latest/APIReference/API_Tag.html`__ data type description. See also: AWS API Documentation
+/// Removes metadata tags from an DMS resource, including replication instance, endpoint, subnet group, and migration task. For more information, see ` Tag https://docs.aws.amazon.com/dms/latest/APIReference/API_Tag.html`__ data type description. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +26,7 @@ public record AwsDmsRemoveTagsFromResourceOptions : AwsOptions, IValidatableObje
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Removes metadata tags from an DMS resource, including replication in- stance, endpoint, subnet group, and migration task. For more informa- tion, see ` Tag https://docs.aws.amazon.com/dms/latest/APIReference/API_Tag.html`__ data type description. See also: AWS API Documentation
+    /// Removes metadata tags from an DMS resource, including replication instance, endpoint, subnet group, and migration task. For more information, see ` Tag https://docs.aws.amazon.com/dms/latest/APIReference/API_Tag.html`__ data type description. See also: AWS API Documentation
     /// </summary>
     /// <param name="ResourceArn">An DMS resource from which you want to remove tag(s). The value for this parameter is an Amazon Resource Name (ARN).</param>
     /// <param name="TagKeys">The tag key (name) of the tag to be removed. (string) Syntax: "string" "string" ...</param>
@@ -103,6 +104,15 @@ public record AwsDmsRemoveTagsFromResourceOptions : AwsOptions, IValidatableObje
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

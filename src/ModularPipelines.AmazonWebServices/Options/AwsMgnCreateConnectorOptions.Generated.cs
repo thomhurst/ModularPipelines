@@ -10,7 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,8 +28,8 @@ public record AwsMgnCreateConnectorOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Create Connector. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">Create Connector request name. Constraints: o min: 1 o max: 256 o pattern: [A-Za-z0-9_-]+</param>
-    /// <param name="SsmInstanceId">Create Connector request SSM instance ID. Constraints: o min: 19 o max: 20 o pattern: .*(^i-[0-9a-zA-Z]{17}$)|(^mi-[0-9a-zA-Z]{17}$).*</param>
+    /// <param name="Name">Create Connector request name. Constraints: • min: 1 • max: 256 • pattern: [A-Za-z0-9_-]+</param>
+    /// <param name="SsmInstanceId">Create Connector request SSM instance ID. Constraints: • min: 19 • max: 20 • pattern: .*(^i-[0-9a-zA-Z]{17}$)|(^mi-[0-9a-zA-Z]{17}$).*</param>
     public AwsMgnCreateConnectorOptions(
         string Name,
         string SsmInstanceId
@@ -61,25 +61,25 @@ public record AwsMgnCreateConnectorOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Create Connector request name. Constraints: o min: 1 o max: 256 o pattern: [A-Za-z0-9_-]+
+    /// Create Connector request name. Constraints: • min: 1 • max: 256 • pattern: [A-Za-z0-9_-]+
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// Create Connector request SSM instance ID. Constraints: o min: 19 o max: 20 o pattern: .*(^i-[0-9a-zA-Z]{17}$)|(^mi-[0-9a-zA-Z]{17}$).*
+    /// Create Connector request SSM instance ID. Constraints: • min: 19 • max: 20 • pattern: .*(^i-[0-9a-zA-Z]{17}$)|(^mi-[0-9a-zA-Z]{17}$).*
     /// </summary>
     [CliOption("--ssm-instance-id")]
     public string? SsmInstanceId { get; private init; }
 
     /// <summary>
-    /// Create Connector request tags. Constraints: o min: 0 o max: 50 key -&gt; (string) Constraints: o min: 0 o max: 256 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// Create Connector request tags. Constraints: • min: 0 • max: 50 key -&gt; (string) Constraints: • min: 0 • max: 256 value -&gt; (string) Constraints: • min: 0 • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>
-    /// Create Connector request SSM command config. s3OutputEnabled -&gt; (boolean) [required] Connector SSM command config S3 output enabled. outputS3BucketName -&gt; (string) Connector SSM command config output S3 bucket name. Constraints: o pattern: [a-zA-Z0-9.\-_]{1,255} cloudWatchOutputEnabled -&gt; (boolean) [required] Connector SSM command config CloudWatch output enabled. cloudWatchLogGroupName -&gt; (string) Connector SSM command config CloudWatch log group name. Constraints: o min: 1 o max: 512 o pattern: [\.\-_/#A-Za-z0-9]+ Shorthand Syntax: s3OutputEnabled=boolean,outputS3BucketName=string,cloudWatchOutputEnabled=boolean,cloudWatchLogGroupName=string JSON Syntax: { "s3OutputEnabled": true|false, "outputS3BucketName": "string", "cloudWatchOutputEnabled": true|false, "cloudWatchLogGroupName": "string" }
+    /// Create Connector request SSM command config. s3OutputEnabled -&gt; (boolean) [required] Connector SSM command config S3 output enabled. outputS3BucketName -&gt; (string) Connector SSM command config output S3 bucket name. Constraints: • pattern: [a-zA-Z0-9.\-_]{1,255} cloudWatchOutputEnabled -&gt; (boolean) [required] Connector SSM command config CloudWatch output enabled. cloudWatchLogGroupName -&gt; (string) Connector SSM command config CloudWatch log group name. Constraints: • min: 1 • max: 512 • pattern: [\.\-_/#A-Za-z0-9]+ Shorthand Syntax: s3OutputEnabled=boolean,outputS3BucketName=string,cloudWatchOutputEnabled=boolean,cloudWatchLogGroupName=string JSON Syntax: { "s3OutputEnabled": true|false, "outputS3BucketName": "string", "cloudWatchOutputEnabled": true|false, "cloudWatchLogGroupName": "string" }
     /// </summary>
     [CliOption("--ssm-command-config")]
     public string? SsmCommandConfig { get; set; }
@@ -105,6 +105,15 @@ public record AwsMgnCreateConnectorOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

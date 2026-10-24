@@ -11,13 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a managed endpoint. A managed endpoint is a gateway that con- nects Amazon EMR Studio to Amazon EMR on EKS so that Amazon EMR Studio can communicate with your virtual cluster. See also: AWS API Documentation
+/// Creates a managed endpoint. A managed endpoint is a gateway that connects Amazon EMR Studio to Amazon EMR on EKS so that Amazon EMR Studio can communicate with your virtual cluster. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,13 +27,13 @@ public record AwsEmrContainersCreateManagedEndpointOptions : AwsOptions, IValida
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a managed endpoint. A managed endpoint is a gateway that con- nects Amazon EMR Studio to Amazon EMR on EKS so that Amazon EMR Studio can communicate with your virtual cluster. See also: AWS API Documentation
+    /// Creates a managed endpoint. A managed endpoint is a gateway that connects Amazon EMR Studio to Amazon EMR on EKS so that Amazon EMR Studio can communicate with your virtual cluster. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">The name of the managed endpoint. Constraints: o min: 1 o max: 64 o pattern: [\.\-_/#A-Za-z0-9]+</param>
-    /// <param name="VirtualClusterId">The ID of the virtual cluster for which a managed endpoint is cre- ated. Constraints: o min: 1 o max: 64 o pattern: [0-9a-z]+</param>
-    /// <param name="Type">The type of the managed endpoint. Constraints: o min: 1 o max: 64 o pattern: .*\S.*</param>
-    /// <param name="ReleaseLabel">The Amazon EMR release version. Constraints: o min: 1 o max: 64 o pattern: [\.\-_/A-Za-z0-9]+</param>
-    /// <param name="ExecutionRoleArn">The ARN of the execution role. Constraints: o min: 20 o max: 2048 o pattern: ^arn:(aws[a-zA-Z0-9-]*):iam::(\d{12})?:(role((\u002F)|(\u002F[\u0021-\u007F]+\u002F))[\w+=,.@-]+)$</param>
+    /// <param name="Name">The name of the managed endpoint. Constraints: • min: 1 • max: 64 • pattern: [\.\-_/#A-Za-z0-9]+</param>
+    /// <param name="VirtualClusterId">The ID of the virtual cluster for which a managed endpoint is created. Constraints: • min: 1 • max: 64 • pattern: [0-9a-z]+</param>
+    /// <param name="Type">The type of the managed endpoint. Constraints: • min: 1 • max: 64 • pattern: .*\S.*</param>
+    /// <param name="ReleaseLabel">The Amazon EMR release version. Constraints: • min: 1 • max: 64 • pattern: [\.\-_/A-Za-z0-9]+</param>
+    /// <param name="ExecutionRoleArn">The ARN of the execution role. Constraints: • min: 20 • max: 2048 • pattern: ^arn:(aws[a-zA-Z0-9-]*):iam::(\d{12})?:(role((\u002F)|(\u002F[\u0021-\u007F]+\u002F))[\w+=,.@-]+)$</param>
     public AwsEmrContainersCreateManagedEndpointOptions(
         string Name,
         string VirtualClusterId,
@@ -74,56 +74,56 @@ public record AwsEmrContainersCreateManagedEndpointOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the managed endpoint. Constraints: o min: 1 o max: 64 o pattern: [\.\-_/#A-Za-z0-9]+
+    /// The name of the managed endpoint. Constraints: • min: 1 • max: 64 • pattern: [\.\-_/#A-Za-z0-9]+
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The ID of the virtual cluster for which a managed endpoint is cre- ated. Constraints: o min: 1 o max: 64 o pattern: [0-9a-z]+
+    /// The ID of the virtual cluster for which a managed endpoint is created. Constraints: • min: 1 • max: 64 • pattern: [0-9a-z]+
     /// </summary>
     [CliOption("--virtual-cluster-id")]
     public string? VirtualClusterId { get; private init; }
 
     /// <summary>
-    /// The type of the managed endpoint. Constraints: o min: 1 o max: 64 o pattern: .*\S.*
+    /// The type of the managed endpoint. Constraints: • min: 1 • max: 64 • pattern: .*\S.*
     /// </summary>
     [CliOption("--type")]
     public string? Type { get; private init; }
 
     /// <summary>
-    /// The Amazon EMR release version. Constraints: o min: 1 o max: 64 o pattern: [\.\-_/A-Za-z0-9]+
+    /// The Amazon EMR release version. Constraints: • min: 1 • max: 64 • pattern: [\.\-_/A-Za-z0-9]+
     /// </summary>
     [CliOption("--release-label")]
     public string? ReleaseLabel { get; private init; }
 
     /// <summary>
-    /// The ARN of the execution role. Constraints: o min: 20 o max: 2048 o pattern: ^arn:(aws[a-zA-Z0-9-]*):iam::(\d{12})?:(role((\u002F)|(\u002F[\u0021-\u007F]+\u002F))[\w+=,.@-]+)$
+    /// The ARN of the execution role. Constraints: • min: 20 • max: 2048 • pattern: ^arn:(aws[a-zA-Z0-9-]*):iam::(\d{12})?:(role((\u002F)|(\u002F[\u0021-\u007F]+\u002F))[\w+=,.@-]+)$
     /// </summary>
     [CliOption("--execution-role-arn")]
     public string? ExecutionRoleArn { get; private init; }
 
     /// <summary>
-    /// The certificate ARN provided by users for the managed endpoint. This field is under deprecation and will be removed in future releases. Constraints: o min: 44 o max: 2048 o pattern: ^arn:(aws[a-zA-Z0-9-]*):acm:.+:(\d{12}):certificate/.+$
+    /// The certificate ARN provided by users for the managed endpoint. This field is under deprecation and will be removed in future releases. Constraints: • min: 44 • max: 2048 • pattern: ^arn:(aws[a-zA-Z0-9-]*):acm:.+:(\d{12}):certificate/.+$
     /// </summary>
     [CliOption("--certificate-arn")]
     public string? CertificateArn { get; set; }
 
     /// <summary>
-    /// The configuration settings that will be used to override existing configurations. applicationConfiguration -&gt; (list) The configurations for the application running by the job run. Constraints: o max: 100 (structure) A configuration specification to be used when provisioning virtual clusters, which can include configurations for appli- cations and software bundled with Amazon EMR on EKS. A con- figuration consists of a classification, properties, and op- tional nested configurations. A classification refers to an application-specific configuration file. Properties are the settings you want to change in that file. classification -&gt; (string) [required] The classification within a configuration. Constraints: o min: 1 o max: 1024 o pattern: .*\S.* properties -&gt; (map) A set of properties specified within a configuration classification. Constraints: o max: 100 key -&gt; (string) Constraints: o min: 1 o max: 1024 o pattern: .*\S.* value -&gt; (string) Constraints: o min: 1 o max: 1024 o pattern: .*\S.* configurations -&gt; (list) A list of additional configurations to apply within a configuration object. Constraints: o max: 100 (structure) A configuration specification to be used when provi- sioning virtual clusters, which can include configura- tions for applications and software bundled with Ama- zon EMR on EKS. A configuration consists of a classi- fication, properties, and optional nested configura- tions. A classification refers to an application-spe- cific configuration file. Properties are the settings you want to change in that file. classification -&gt; (string) [required] The classification within a configuration. Constraints: o min: 1 o max: 1024 o pattern: .*\S.* properties -&gt; (map) A set of properties specified within a configura- tion classification. Constraints: o max: 100 key -&gt; (string) Constraints: o min: 1 o max: 1024 o pattern: .*\S.* value -&gt; (string) Constraints: o min: 1 o max: 1024 o pattern: .*\S.* monitoringConfiguration -&gt; (structure) The configurations for monitoring. managedLogs -&gt; (structure) The entity that controls configuration for managed logs. allowAWSToRetainLogs -&gt; (string) Determines whether Amazon Web Services can retain logs. Possible values: o ENABLED o DISABLED encryptionKeyArn -&gt; (string) The Amazon resource name (ARN) of the encryption key for logs. Constraints: o min: 3 o max: 2048 o pattern: ^(arn:(aws[a-zA-Z0-9-]*):kms:.+:(\d{12})?:key\/[(0-9a-zA-Z)-?]+|\$\{[a-zA-Z]\w*\})$ persistentAppUI -&gt; (string) Monitoring configurations for the persistent application UI. Possible values: o ENABLED o DISABLED cloudWatchMonitoringConfiguration -&gt; (structure) Monitoring configurations for CloudWatch. logGroupName -&gt; (string) [required] The name of the log group for log publishing. Constraints: o min: 1 o max: 512 o pattern: [\.\-_/#A-Za-z0-9]+ logStreamNamePrefix -&gt; (string) The specified name prefix for log streams. Constraints: o min: 1 o max: 256 o pattern: .*\S.* s3MonitoringConfiguration -&gt; (structure) Amazon S3 configuration for monitoring log publishing. logUri -&gt; (string) [required] Amazon S3 destination URI for log publishing. Constraints: o min: 1 o max: 10280 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDBFF-\uDC00\uDFFF\r\n\t]* encryptionKeyArn -&gt; (string) The Amazon Resource Name (ARN) of the encryption key for logs. Constraints: o min: 3 o max: 2048 o pattern: ^(arn:(aws[a-zA-Z0-9-]*):kms:.+:(\d{12})?:key\/[(0-9a-zA-Z)-?]+|\$\{[a-zA-Z]\w*\})$ containerLogRotationConfiguration -&gt; (structure) Enable or disable container log rotation. rotationSize -&gt; (string) [required] The file size at which to rotate logs. Minimum of 2KB, Maximum of 2GB. Constraints: o min: 3 o max: 12 o pattern: ^\d+(\.\d+)?[KMG][Bb]?$ maxFilesToKeep -&gt; (integer) [required] The number of files to keep in container after rotation. Constraints: o min: 1 o max: 50 JSON Syntax: { "applicationConfiguration": [ { "classification": "string", "properties": {"string": "string" ...}, "configurations": [ { "classification": "string", "properties": {"string": "string" ...}, "configurations": } ... ] } ... ], "monitoringConfiguration": { "managedLogs": { "allowAWSToRetainLogs": "ENABLED"|"DISABLED", "encryptionKeyArn": "string" }, "persistentAppUI": "ENABLED"|"DISABLED", "cloudWatchMonitoringConfiguration": { "logGroupName": "string", "logStreamNamePrefix": "string" }, "s3MonitoringConfiguration": { "logUri": "string", "encryptionKeyArn": "string" }, "containerLogRotationConfiguration": { "rotationSize": "string", "maxFilesToKeep": integer } } }
+    /// The configuration settings that will be used to override existing configurations. applicationConfiguration -&gt; (list) The configurations for the application running by the job run. Constraints: • max: 100 (structure) A configuration specification to be used when provisioning virtual clusters, which can include configurations for applications and software bundled with Amazon EMR on EKS. A configuration consists of a classification, properties, and optional nested configurations. A classification refers to an application-specific configuration file. Properties are the settings you want to change in that file. classification -&gt; (string) [required] The classification within a configuration. Constraints: • min: 1 • max: 1024 • pattern: .*\S.* properties -&gt; (map) A set of properties specified within a configuration classification. Constraints: • max: 100 key -&gt; (string) Constraints: • min: 1 • max: 1024 • pattern: .*\S.* value -&gt; (string) Constraints: • min: 1 • max: 1024 • pattern: .*\S.* configurations -&gt; (list) A list of additional configurations to apply within a configuration object. Constraints: • max: 100 (structure) A configuration specification to be used when provisioning virtual clusters, which can include configurations for applications and software bundled with Amazon EMR on EKS. A configuration consists of a classification, properties, and optional nested configurations. A classification refers to an application-specific configuration file. Properties are the settings you want to change in that file. classification -&gt; (string) [required] The classification within a configuration. Constraints: • min: 1 • max: 1024 • pattern: .*\S.* properties -&gt; (map) A set of properties specified within a configuration classification. Constraints: • max: 100 key -&gt; (string) Constraints: • min: 1 • max: 1024 • pattern: .*\S.* value -&gt; (string) Constraints: • min: 1 • max: 1024 • pattern: .*\S.* monitoringConfiguration -&gt; (structure) The configurations for monitoring. managedLogs -&gt; (structure) The entity that controls configuration for managed logs. allowAWSToRetainLogs -&gt; (string) Determines whether Amazon Web Services can retain logs. Possible values: • ENABLED • DISABLED encryptionKeyArn -&gt; (string) The Amazon resource name (ARN) of the encryption key for logs. Constraints: • min: 3 • max: 2048 • pattern: ^(arn:(aws[a-zA-Z0-9-]*):kms:.+:(\d{12})?:key\/[(0-9a-zA-Z)-?]+|\$\{[a-zA-Z]\w*\})$ persistentAppUI -&gt; (string) Monitoring configurations for the persistent application UI. Possible values: • ENABLED • DISABLED cloudWatchMonitoringConfiguration -&gt; (structure) Monitoring configurations for CloudWatch. logGroupName -&gt; (string) [required] The name of the log group for log publishing. Constraints: • min: 1 • max: 512 • pattern: [\.\-_/#A-Za-z0-9]+ logStreamNamePrefix -&gt; (string) The specified name prefix for log streams. Constraints: • min: 1 • max: 256 • pattern: .*\S.* s3MonitoringConfiguration -&gt; (structure) Amazon S3 configuration for monitoring log publishing. logUri -&gt; (string) [required] Amazon S3 destination URI for log publishing. Constraints: • min: 1 • max: 10280 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDBFF-\uDC00\uDFFF\r\n\t]* encryptionKeyArn -&gt; (string) The Amazon Resource Name (ARN) of the encryption key for logs. Constraints: • min: 3 • max: 2048 • pattern: ^(arn:(aws[a-zA-Z0-9-]*):kms:.+:(\d{12})?:key\/[(0-9a-zA-Z)-?]+|\$\{[a-zA-Z]\w*\})$ containerLogRotationConfiguration -&gt; (structure) Enable or disable container log rotation. rotationSize -&gt; (string) [required] The file size at which to rotate logs. Minimum of 2KB, Maximum of 2GB. Constraints: • min: 3 • max: 12 • pattern: ^\d+(\.\d+)?[KMG][Bb]?$ maxFilesToKeep -&gt; (integer) [required] The number of files to keep in container after rotation. Constraints: • min: 1 • max: 50 JSON Syntax: { "applicationConfiguration": [ { "classification": "string", "properties": {"string": "string" ...}, "configurations": [ { "classification": "string", "properties": {"string": "string" ...}, "configurations": } ... ] } ... ], "monitoringConfiguration": { "managedLogs": { "allowAWSToRetainLogs": "ENABLED"|"DISABLED", "encryptionKeyArn": "string" }, "persistentAppUI": "ENABLED"|"DISABLED", "cloudWatchMonitoringConfiguration": { "logGroupName": "string", "logStreamNamePrefix": "string" }, "s3MonitoringConfiguration": { "logUri": "string", "encryptionKeyArn": "string" }, "containerLogRotationConfiguration": { "rotationSize": "string", "maxFilesToKeep": integer } } }
     /// </summary>
     [CliOption("--configuration-overrides")]
     public string? ConfigurationOverrides { get; set; }
 
     /// <summary>
-    /// The client idempotency token for this create call. Constraints: o min: 1 o max: 64 o pattern: .*\S.*
+    /// The client idempotency token for this create call. Constraints: • min: 1 • max: 64 • pattern: .*\S.*
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// The tags of the managed endpoint. Constraints: o min: 0 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: .*\S.* value -&gt; (string) Constraints: o min: 0 o max: 256 o pattern: .*\S.* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The tags of the managed endpoint. Constraints: • min: 0 • max: 50 key -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: .*\S.* value -&gt; (string) Constraints: • min: 0 • max: 256 • pattern: .*\S.* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
@@ -155,6 +155,15 @@ public record AwsEmrContainersCreateManagedEndpointOptions : AwsOptions, IValida
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

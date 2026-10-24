@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a static route associated with a VPN connection between an ex- isting virtual private gateway and a VPN customer gateway. The static route allows traffic to be routed from the virtual private gateway to the VPN customer gateway. For more information, see Amazon Web Services Site-to-Site VPN in the Amazon Web Services Site-to-Site VPN User Guide . See also: AWS API Documentation
+/// Creates a static route associated with a VPN connection between an existing virtual private gateway and a VPN customer gateway. The static route allows traffic to be routed from the virtual private gateway to the VPN customer gateway. For more information, see Amazon Web Services Site-to-Site VPN in the Amazon Web Services Site-to-Site VPN User Guide . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsEc2CreateVpnConnectionRouteOptions : AwsOptions, IValidatableOb
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a static route associated with a VPN connection between an ex- isting virtual private gateway and a VPN customer gateway. The static route allows traffic to be routed from the virtual private gateway to the VPN customer gateway. For more information, see Amazon Web Services Site-to-Site VPN in the Amazon Web Services Site-to-Site VPN User Guide . See also: AWS API Documentation
+    /// Creates a static route associated with a VPN connection between an existing virtual private gateway and a VPN customer gateway. The static route allows traffic to be routed from the virtual private gateway to the VPN customer gateway. For more information, see Amazon Web Services Site-to-Site VPN in the Amazon Web Services Site-to-Site VPN User Guide . See also: AWS API Documentation
     /// </summary>
-    /// <param name="DestinationCidrBlock">The CIDR block associated with the local subnet of the customer net- work.</param>
+    /// <param name="DestinationCidrBlock">The CIDR block associated with the local subnet of the customer network.</param>
     /// <param name="VpnConnectionId">The ID of the VPN connection.</param>
     public AwsEc2CreateVpnConnectionRouteOptions(
         string DestinationCidrBlock,
@@ -60,7 +61,7 @@ public record AwsEc2CreateVpnConnectionRouteOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The CIDR block associated with the local subnet of the customer net- work.
+    /// The CIDR block associated with the local subnet of the customer network.
     /// </summary>
     [CliOption("--destination-cidr-block")]
     public string? DestinationCidrBlock { get; private init; }
@@ -92,6 +93,15 @@ public record AwsEc2CreateVpnConnectionRouteOptions : AwsOptions, IValidatableOb
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

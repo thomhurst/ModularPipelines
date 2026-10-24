@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,9 +28,9 @@ public record AwsFrauddetectorUpdateDetectorVersionMetadataOptions : AwsOptions,
     /// <summary>
     /// Updates the detector version's description. You can update the metadata for any detector version (DRAFT, ACTIVE, or INACTIVE ). See also: AWS API Documentation
     /// </summary>
-    /// <param name="DetectorId">The detector ID. Constraints: o min: 1 o max: 64 o pattern: ^[0-9a-z_-]+$</param>
-    /// <param name="DetectorVersionId">The detector version ID. Constraints: o min: 1 o max: 5 o pattern: ^([1-9][0-9]*)$</param>
-    /// <param name="Description">The description. Constraints: o min: 1 o max: 128</param>
+    /// <param name="DetectorId">The detector ID. Constraints: • min: 1 • max: 64 • pattern: ^[0-9a-z_-]+$</param>
+    /// <param name="DetectorVersionId">The detector version ID. Constraints: • min: 1 • max: 5 • pattern: ^([1-9][0-9]*)$</param>
+    /// <param name="Description">The description. Constraints: • min: 1 • max: 128</param>
     public AwsFrauddetectorUpdateDetectorVersionMetadataOptions(
         string DetectorId,
         string DetectorVersionId,
@@ -64,19 +65,19 @@ public record AwsFrauddetectorUpdateDetectorVersionMetadataOptions : AwsOptions,
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The detector ID. Constraints: o min: 1 o max: 64 o pattern: ^[0-9a-z_-]+$
+    /// The detector ID. Constraints: • min: 1 • max: 64 • pattern: ^[0-9a-z_-]+$
     /// </summary>
     [CliOption("--detector-id")]
     public string? DetectorId { get; private init; }
 
     /// <summary>
-    /// The detector version ID. Constraints: o min: 1 o max: 5 o pattern: ^([1-9][0-9]*)$
+    /// The detector version ID. Constraints: • min: 1 • max: 5 • pattern: ^([1-9][0-9]*)$
     /// </summary>
     [CliOption("--detector-version-id")]
     public string? DetectorVersionId { get; private init; }
 
     /// <summary>
-    /// The description. Constraints: o min: 1 o max: 128
+    /// The description. Constraints: • min: 1 • max: 128
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; private init; }
@@ -102,6 +103,15 @@ public record AwsFrauddetectorUpdateDetectorVersionMetadataOptions : AwsOptions,
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

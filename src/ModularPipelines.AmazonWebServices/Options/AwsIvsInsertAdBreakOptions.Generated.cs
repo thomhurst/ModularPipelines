@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Inserts an ad marker in the playlist for the specified channel and du- ration using the ad configuration associated with the channel. Note: AWS Elemental MediaTailor (EMT), the service that handles ad requests, provides CloudWatch metrics to help you monitor the suc- cess or failure of each InsertAdBreak operation. See Monitoring AWS Elemental MediaTailor with Amazon CloudWatch metrics in the AWS Ele- mental MediaTailor User Guide for details on available metrics. See also: AWS API Documentation
+/// Inserts an ad marker in the playlist for the specified channel and duration using the ad configuration associated with the channel. Note: AWS Elemental MediaTailor (EMT), the service that handles ad requests, provides CloudWatch metrics to help you monitor the success or failure of each InsertAdBreak operation. See Monitoring AWS Elemental MediaTailor with Amazon CloudWatch metrics in the AWS Elemental MediaTailor User Guide for details on available metrics. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsIvsInsertAdBreakOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Inserts an ad marker in the playlist for the specified channel and du- ration using the ad configuration associated with the channel. Note: AWS Elemental MediaTailor (EMT), the service that handles ad requests, provides CloudWatch metrics to help you monitor the suc- cess or failure of each InsertAdBreak operation. See Monitoring AWS Elemental MediaTailor with Amazon CloudWatch metrics in the AWS Ele- mental MediaTailor User Guide for details on available metrics. See also: AWS API Documentation
+    /// Inserts an ad marker in the playlist for the specified channel and duration using the ad configuration associated with the channel. Note: AWS Elemental MediaTailor (EMT), the service that handles ad requests, provides CloudWatch metrics to help you monitor the success or failure of each InsertAdBreak operation. See Monitoring AWS Elemental MediaTailor with Amazon CloudWatch metrics in the AWS Elemental MediaTailor User Guide for details on available metrics. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ChannelArn">ARN of the channel into which the ad break is inserted. Constraints: o min: 1 o max: 128 o pattern: arn:aws:ivs:[a-z0-9-]+:[0-9]+:channel/[a-zA-Z0-9-]+</param>
-    /// <param name="DurationSeconds">Duration of the ad break, in seconds. Constraints: o min: 1 o max: 300</param>
+    /// <param name="ChannelArn">ARN of the channel into which the ad break is inserted. Constraints: • min: 1 • max: 128 • pattern: arn:aws:ivs:[a-z0-9-]+:[0-9]+:channel/[a-zA-Z0-9-]+</param>
+    /// <param name="DurationSeconds">Duration of the ad break, in seconds. Constraints: • min: 1 • max: 300</param>
     public AwsIvsInsertAdBreakOptions(
         string ChannelArn,
         int DurationSeconds
@@ -59,13 +60,13 @@ public record AwsIvsInsertAdBreakOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// ARN of the channel into which the ad break is inserted. Constraints: o min: 1 o max: 128 o pattern: arn:aws:ivs:[a-z0-9-]+:[0-9]+:channel/[a-zA-Z0-9-]+
+    /// ARN of the channel into which the ad break is inserted. Constraints: • min: 1 • max: 128 • pattern: arn:aws:ivs:[a-z0-9-]+:[0-9]+:channel/[a-zA-Z0-9-]+
     /// </summary>
     [CliOption("--channel-arn")]
     public string? ChannelArn { get; private init; }
 
     /// <summary>
-    /// Duration of the ad break, in seconds. Constraints: o min: 1 o max: 300
+    /// Duration of the ad break, in seconds. Constraints: • min: 1 • max: 300
     /// </summary>
     [CliOption("--duration-seconds")]
     public int? DurationSeconds { get; private init; }
@@ -91,6 +92,15 @@ public record AwsIvsInsertAdBreakOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

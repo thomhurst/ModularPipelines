@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsEcrUpdatePullThroughCacheRuleOptions : AwsOptions, IValidatable
     /// <summary>
     /// Updates an existing pull through cache rule. See also: AWS API Documentation
     /// </summary>
-    /// <param name="EcrRepositoryPrefix">The repository name prefix to use when caching images from the source registry. Constraints: o min: 2 o max: 30 o pattern: ^([a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*(\/[a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*)*\/?|ROOT)$</param>
+    /// <param name="EcrRepositoryPrefix">The repository name prefix to use when caching images from the source registry. Constraints: • min: 2 • max: 30 • pattern: ^([a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*(\/[a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*)*\/?|ROOT)$</param>
     public AwsEcrUpdatePullThroughCacheRuleOptions(
         string EcrRepositoryPrefix
     )
@@ -56,25 +57,25 @@ public record AwsEcrUpdatePullThroughCacheRuleOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The repository name prefix to use when caching images from the source registry. Constraints: o min: 2 o max: 30 o pattern: ^([a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*(\/[a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*)*\/?|ROOT)$
+    /// The repository name prefix to use when caching images from the source registry. Constraints: • min: 2 • max: 30 • pattern: ^([a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*(\/[a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*)*\/?|ROOT)$
     /// </summary>
     [CliOption("--ecr-repository-prefix")]
     public string? EcrRepositoryPrefix { get; private init; }
 
     /// <summary>
-    /// The Amazon Web Services account ID associated with the registry as- sociated with the pull through cache rule. If you do not specify a registry, the default registry is assumed. Constraints: o pattern: [0-9]{12}
+    /// The Amazon Web Services account ID associated with the registry associated with the pull through cache rule. If you do not specify a registry, the default registry is assumed. Constraints: • pattern: [0-9]{12}
     /// </summary>
     [CliOption("--registry-id")]
     public string? RegistryId { get; set; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the Amazon Web Services Secrets Manager secret that identifies the credentials to authenticate to the upstream registry. Constraints: o min: 50 o max: 612 o pattern: ^arn:aws(-\w+)*:secretsmanager:[a-zA-Z0-9-:]+:se- cret:ecr\-pullthroughcache\/[a-zA-Z0-9\/_+=.@-]+$
+    /// The Amazon Resource Name (ARN) of the Amazon Web Services Secrets Manager secret that identifies the credentials to authenticate to the upstream registry. Constraints: • min: 50 • max: 612 • pattern: ^arn:aws(-\w+)*:secretsmanager:[a-zA-Z0-9-:]+:secret:ecr\-pullthroughcache\/[a-zA-Z0-9\/_+=.@-]+$
     /// </summary>
     [CliOption("--credential-arn")]
     public string? CredentialArn { get; set; }
 
     /// <summary>
-    /// Amazon Resource Name (ARN) of the IAM role to be assumed by Amazon ECR to authenticate to the ECR upstream registry. This role must be in the same account as the registry that you are configuring. Constraints: o max: 2048
+    /// Amazon Resource Name (ARN) of the IAM role to be assumed by Amazon ECR to authenticate to the ECR upstream registry. This role must be in the same account as the registry that you are configuring. Constraints: • max: 2048
     /// </summary>
     [CliOption("--custom-role-arn")]
     public string? CustomRoleArn { get; set; }
@@ -100,6 +101,15 @@ public record AwsEcrUpdatePullThroughCacheRuleOptions : AwsOptions, IValidatable
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

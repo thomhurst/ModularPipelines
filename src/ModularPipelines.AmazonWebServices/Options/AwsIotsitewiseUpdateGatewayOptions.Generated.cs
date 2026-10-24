@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsIotsitewiseUpdateGatewayOptions : AwsOptions, IValidatableObjec
     /// <summary>
     /// Updates a gateway's name. See also: AWS API Documentation
     /// </summary>
-    /// <param name="GatewayId">The ID of the gateway to update. Constraints: o min: 36 o max: 36 o pattern: ^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$</param>
-    /// <param name="GatewayName">A unique name for the gateway. Constraints: o min: 1 o max: 256 o pattern: [^\u0000-\u001F\u007F]+</param>
+    /// <param name="GatewayId">The ID of the gateway to update. Constraints: • min: 36 • max: 36 • pattern: ^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$</param>
+    /// <param name="GatewayName">A unique name for the gateway. Constraints: • min: 1 • max: 256 • pattern: [^\u0000-\u001F\u007F]+</param>
     public AwsIotsitewiseUpdateGatewayOptions(
         string GatewayId,
         string GatewayName
@@ -60,13 +61,13 @@ public record AwsIotsitewiseUpdateGatewayOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the gateway to update. Constraints: o min: 36 o max: 36 o pattern: ^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$
+    /// The ID of the gateway to update. Constraints: • min: 36 • max: 36 • pattern: ^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$
     /// </summary>
     [CliOption("--gateway-id")]
     public string? GatewayId { get; private init; }
 
     /// <summary>
-    /// A unique name for the gateway. Constraints: o min: 1 o max: 256 o pattern: [^\u0000-\u001F\u007F]+
+    /// A unique name for the gateway. Constraints: • min: 1 • max: 256 • pattern: [^\u0000-\u001F\u007F]+
     /// </summary>
     [CliOption("--gateway-name")]
     public string? GatewayName { get; private init; }
@@ -92,6 +93,15 @@ public record AwsIotsitewiseUpdateGatewayOptions : AwsOptions, IValidatableObjec
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

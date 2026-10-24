@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsDatabrewListTagsForResourceOptions : AwsOptions, IValidatableOb
     /// <summary>
     /// Lists all the tags for a DataBrew resource. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The Amazon Resource Name (ARN) string that uniquely identifies the DataBrew resource. Constraints: o min: 20 o max: 2048</param>
+    /// <param name="ResourceArn">The Amazon Resource Name (ARN) string that uniquely identifies the DataBrew resource. Constraints: • min: 20 • max: 2048</param>
     public AwsDatabrewListTagsForResourceOptions(
         string ResourceArn
     )
@@ -56,7 +57,7 @@ public record AwsDatabrewListTagsForResourceOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) string that uniquely identifies the DataBrew resource. Constraints: o min: 20 o max: 2048
+    /// The Amazon Resource Name (ARN) string that uniquely identifies the DataBrew resource. Constraints: • min: 20 • max: 2048
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
@@ -82,6 +83,15 @@ public record AwsDatabrewListTagsForResourceOptions : AwsOptions, IValidatableOb
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

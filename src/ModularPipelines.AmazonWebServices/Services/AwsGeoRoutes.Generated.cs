@@ -6,15 +6,15 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
+using ModularPipelines;
 using ModularPipelines.Context;
-using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
 namespace ModularPipelines.AmazonWebServices.Services;
 
 /// <summary>
-/// aws georoutes commands.
+/// aws geo-routes commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AwsGeoRoutes : IAwsGeoRoutes
@@ -32,7 +32,7 @@ public class AwsGeoRoutes : IAwsGeoRoutes
     #region Commands
 
     /// <summary>
-    /// Calculates areas that can be reached within specified time or distance thresholds from a given point. For example, you can use this operation to determine the area within a 30-minute drive of a store location, find neighborhoods within walking distance of a school, or identify de- livery zones based on drive time. Isolines (also known as isochrones for time-based calculations) are useful for various applications including: o Service area visualization - Show customers the area you can serve with...
+    /// Calculates areas that can be reached within specified time or distance thresholds from a given point. For example, you can use this operation to determine the area within a 30-minute drive of a store location, find neighborhoods within walking distance of a school, or identify delivery zones based on drive time. Isolines (also known as isochrones for time-based calculations) are useful for various applications including: • Service area visualization - Show customers the area you can serve within...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -62,7 +62,7 @@ public class AwsGeoRoutes : IAwsGeoRoutes
     }
 
     /// <summary>
-    /// CalculateRoutes computes routes given the following required parame- ters: Origin and Destination . For more information, see Calculate routes in the Amazon Location Ser- vice Developer Guide . See also: AWS API Documentation
+    /// CalculateRoutes computes routes given the following required parameters: Origin and Destination . For more information, see Calculate routes in the Amazon Location Service Developer Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

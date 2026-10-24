@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsSagemakerDescribeArtifactOptions : AwsOptions, IValidatableObje
     /// <summary>
     /// Describes an artifact. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ArtifactArn">The Amazon Resource Name (ARN) of the artifact to describe. Constraints: o min: 0 o max: 256 o pattern: arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:arti- fact/.*</param>
+    /// <param name="ArtifactArn">The Amazon Resource Name (ARN) of the artifact to describe. Constraints: • min: 0 • max: 256 • pattern: arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:artifact/.*</param>
     public AwsSagemakerDescribeArtifactOptions(
         string ArtifactArn
     )
@@ -56,7 +57,7 @@ public record AwsSagemakerDescribeArtifactOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the artifact to describe. Constraints: o min: 0 o max: 256 o pattern: arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:arti- fact/.*
+    /// The Amazon Resource Name (ARN) of the artifact to describe. Constraints: • min: 0 • max: 256 • pattern: arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:artifact/.*
     /// </summary>
     [CliOption("--artifact-arn")]
     public string? ArtifactArn { get; private init; }
@@ -82,6 +83,15 @@ public record AwsSagemakerDescribeArtifactOptions : AwsOptions, IValidatableObje
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

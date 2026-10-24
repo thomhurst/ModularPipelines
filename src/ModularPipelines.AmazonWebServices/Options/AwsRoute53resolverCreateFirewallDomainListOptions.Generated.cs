@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates an empty firewall domain list for use in DNS Firewall rules. You can populate the domains for the new list with a file, using Im- portFirewallDomains , or with domain strings, using UpdateFirewallDo- mains . See also: AWS API Documentation
+/// Creates an empty firewall domain list for use in DNS Firewall rules. You can populate the domains for the new list with a file, using ImportFirewallDomains , or with domain strings, using UpdateFirewallDomains . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsRoute53resolverCreateFirewallDomainListOptions : AwsOptions, IV
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates an empty firewall domain list for use in DNS Firewall rules. You can populate the domains for the new list with a file, using Im- portFirewallDomains , or with domain strings, using UpdateFirewallDo- mains . See also: AWS API Documentation
+    /// Creates an empty firewall domain list for use in DNS Firewall rules. You can populate the domains for the new list with a file, using ImportFirewallDomains , or with domain strings, using UpdateFirewallDomains . See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">A name that lets you identify the domain list to manage and use it. Constraints: o max: 64 o pattern: (?!^[0-9]+$)([a-zA-Z0-9\-_' ']+)</param>
+    /// <param name="Name">A name that lets you identify the domain list to manage and use it. Constraints: • max: 64 • pattern: (?!^[0-9]+$)([a-zA-Z0-9\-_' ']+)</param>
     public AwsRoute53resolverCreateFirewallDomainListOptions(
         string Name
     )
@@ -56,19 +57,19 @@ public record AwsRoute53resolverCreateFirewallDomainListOptions : AwsOptions, IV
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A name that lets you identify the domain list to manage and use it. Constraints: o max: 64 o pattern: (?!^[0-9]+$)([a-zA-Z0-9\-_' ']+)
+    /// A name that lets you identify the domain list to manage and use it. Constraints: • max: 64 • pattern: (?!^[0-9]+$)([a-zA-Z0-9\-_' ']+)
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// A unique string that identifies the request and that allows you to retry failed requests without the risk of running the operation twice. CreatorRequestId can be any unique string, for example, a date/time stamp. Constraints: o min: 1 o max: 255
+    /// A unique string that identifies the request and that allows you to retry failed requests without the risk of running the operation twice. CreatorRequestId can be any unique string, for example, a date/time stamp. Constraints: • min: 1 • max: 255
     /// </summary>
     [CliOption("--creator-request-id")]
     public string? CreatorRequestId { get; set; }
 
     /// <summary>
-    /// A list of the tag keys and values that you want to associate with the domain list. Constraints: o max: 200 (structure) One tag that you want to add to the specified resource. A tag consists of a Key (a name for the tag) and a Value . Key -&gt; (string) [required] The name for the tag. For example, if you want to associate Resolver resources with the account IDs of your customers for billing purposes, the value of Key might be account-id . Constraints: o min: 1 o max: 128 Value -&gt; (string) [required] The value for the tag. For example, if Key is account-id , then Value might be the ID of the customer account that you're creating the resource for. Constraints: o min: 0 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// A list of the tag keys and values that you want to associate with the domain list. Constraints: • max: 200 (structure) One tag that you want to add to the specified resource. A tag consists of a Key (a name for the tag) and a Value . Key -&gt; (string) [required] The name for the tag. For example, if you want to associate Resolver resources with the account IDs of your customers for billing purposes, the value of Key might be account-id . Constraints: • min: 1 • max: 128 Value -&gt; (string) [required] The value for the tag. For example, if Key is account-id , then Value might be the ID of the customer account that you're creating the resource for. Constraints: • min: 0 • max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
@@ -94,6 +95,15 @@ public record AwsRoute53resolverCreateFirewallDomainListOptions : AwsOptions, IV
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

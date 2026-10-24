@@ -11,14 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a policy store. A policy store is a container for policy re- sources. NOTE: As of May 2026, Verified Permissions has aligned with Cedar and now supports multiple namespaces. NOTE: Verified Permissions is * eventually consistent * . It can take a few seconds for a new or changed element to propagate through the service and be visible in the results of other Verified Permissions operations. See also: AWS API Documentation
+/// Creates a policy store. A policy store is a container for policy resources. NOTE: As of May 2026, Verified Permissions has aligned with Cedar and now supports multiple namespaces. NOTE: Verified Permissions is * eventually consistent * . It can take a few seconds for a new or changed element to propagate through the service and be visible in the results of other Verified Permissions operations. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -28,9 +28,9 @@ public record AwsVerifiedpermissionsCreatePolicyStoreOptions : AwsOptions, IVali
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a policy store. A policy store is a container for policy re- sources. NOTE: As of May 2026, Verified Permissions has aligned with Cedar and now supports multiple namespaces. NOTE: Verified Permissions is * eventually consistent * . It can take a few seconds for a new or changed element to propagate through the service and be visible in the results of other Verified Permissions operations. See also: AWS API Documentation
+    /// Creates a policy store. A policy store is a container for policy resources. NOTE: As of May 2026, Verified Permissions has aligned with Cedar and now supports multiple namespaces. NOTE: Verified Permissions is * eventually consistent * . It can take a few seconds for a new or changed element to propagate through the service and be visible in the results of other Verified Permissions operations. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ValidationSettings">Specifies the validation setting for this policy store. Currently, the only valid and required value is Mode . WARNING: We recommend that you turn on STRICT mode only after you define a schema. If a schema doesn't exist, then STRICT mode causes any policy to fail validation, and Verified Permissions rejects the policy. You can turn off validation by using the UpdatePolicyStore . Then, when you have a schema defined, use UpdatePolicyStore again to turn validation back on. mode -&gt; (string) [required] The validation mode currently configured for this policy store. The valid values are: o OFF Neither Verified Permissions nor Cedar perform any vali- dation on policies. No validation errors are reported by ei- ther service. o STRICT Requires a schema to be present in the policy store. Cedar performs validation on all submitted new or updated sta- tic policies and policy templates. Any that fail validation are rejected and Cedar doesn't store them in the policy store. WARNING: If Mode=STRICT and the policy store doesn't contain a schema, Verified Permissions rejects all static policies and policy templates because there is no schema to validate against. To submit a static policy or policy template without a schema, you must turn off validation. Possible values: o OFF o STRICT Shorthand Syntax: mode=string JSON Syntax: { "mode": "OFF"|"STRICT" }</param>
+    /// <param name="ValidationSettings">Specifies the validation setting for this policy store. Currently, the only valid and required value is Mode . WARNING: We recommend that you turn on STRICT mode only after you define a schema. If a schema doesn't exist, then STRICT mode causes any policy to fail validation, and Verified Permissions rejects the policy. You can turn off validation by using the UpdatePolicyStore . Then, when you have a schema defined, use UpdatePolicyStore again to turn validation back on. mode -&gt; (string) [required] The validation mode currently configured for this policy store. The valid values are: • OFF Neither Verified Permissions nor Cedar perform any validation on policies. No validation errors are reported by either service. • STRICT Requires a schema to be present in the policy store. Cedar performs validation on all submitted new or updated static policies and policy templates. Any that fail validation are rejected and Cedar doesn't store them in the policy store. WARNING: If Mode=STRICT and the policy store doesn't contain a schema, Verified Permissions rejects all static policies and policy templates because there is no schema to validate against. To submit a static policy or policy template without a schema, you must turn off validation. Possible values: • OFF • STRICT Shorthand Syntax: mode=string JSON Syntax: { "mode": "OFF"|"STRICT" }</param>
     public AwsVerifiedpermissionsCreatePolicyStoreOptions(
         string ValidationSettings
     )
@@ -59,38 +59,38 @@ public record AwsVerifiedpermissionsCreatePolicyStoreOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Specifies the validation setting for this policy store. Currently, the only valid and required value is Mode . WARNING: We recommend that you turn on STRICT mode only after you define a schema. If a schema doesn't exist, then STRICT mode causes any policy to fail validation, and Verified Permissions rejects the policy. You can turn off validation by using the UpdatePolicyStore . Then, when you have a schema defined, use UpdatePolicyStore again to turn validation back on. mode -&gt; (string) [required] The validation mode currently configured for this policy store. The valid values are: o OFF Neither Verified Permissions nor Cedar perform any vali- dation on policies. No validation errors are reported by ei- ther service. o STRICT Requires a schema to be present in the policy store. Cedar performs validation on all submitted new or updated sta- tic policies and policy templates. Any that fail validation are rejected and Cedar doesn't store them in the policy store. WARNING: If Mode=STRICT and the policy store doesn't contain a schema, Verified Permissions rejects all static policies and policy templates because there is no schema to validate against. To submit a static policy or policy template without a schema, you must turn off validation. Possible values: o OFF o STRICT Shorthand Syntax: mode=string JSON Syntax: { "mode": "OFF"|"STRICT" }
+    /// Specifies the validation setting for this policy store. Currently, the only valid and required value is Mode . WARNING: We recommend that you turn on STRICT mode only after you define a schema. If a schema doesn't exist, then STRICT mode causes any policy to fail validation, and Verified Permissions rejects the policy. You can turn off validation by using the UpdatePolicyStore . Then, when you have a schema defined, use UpdatePolicyStore again to turn validation back on. mode -&gt; (string) [required] The validation mode currently configured for this policy store. The valid values are: • OFF Neither Verified Permissions nor Cedar perform any validation on policies. No validation errors are reported by either service. • STRICT Requires a schema to be present in the policy store. Cedar performs validation on all submitted new or updated static policies and policy templates. Any that fail validation are rejected and Cedar doesn't store them in the policy store. WARNING: If Mode=STRICT and the policy store doesn't contain a schema, Verified Permissions rejects all static policies and policy templates because there is no schema to validate against. To submit a static policy or policy template without a schema, you must turn off validation. Possible values: • OFF • STRICT Shorthand Syntax: mode=string JSON Syntax: { "mode": "OFF"|"STRICT" }
     /// </summary>
     [CliOption("--validation-settings")]
     public string? ValidationSettings { get; private init; }
 
     /// <summary>
-    /// Specifies a unique, case-sensitive ID that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a UUID type of value. . If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same ClientToken , but with dif- ferent parameters, the retry fails with an ConflictException error. Verified Permissions recognizes a ClientToken for eight hours. After eight hours, the next request with the same parameters performs the operation again regardless of the value of ClientToken . Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9-]*
+    /// Specifies a unique, case-sensitive ID that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a UUID type of value. . If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same ClientToken , but with different parameters, the retry fails with an ConflictException error. Verified Permissions recognizes a ClientToken for eight hours. After eight hours, the next request with the same parameters performs the operation again regardless of the value of ClientToken . Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9-]*
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// Descriptive text that you can provide to help with identification of the current policy store. Constraints: o min: 0 o max: 150
+    /// Descriptive text that you can provide to help with identification of the current policy store. Constraints: • min: 0 • max: 150
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// Specifies whether the policy store can be deleted. If enabled, the policy store can't be deleted. The default state is DISABLED . Possible values: o ENABLED o DISABLED
+    /// Specifies whether the policy store can be deleted. If enabled, the policy store can't be deleted. The default state is DISABLED . Possible values: • ENABLED • DISABLED
     /// </summary>
     [CliOption("--deletion-protection")]
     public AwsVerifiedpermissionsCreatePolicyStoreDeletionProtection? DeletionProtection { get; set; }
 
     /// <summary>
-    /// Specifies the encryption settings used to encrypt the policy store and their child resources. Allows for the ability to use a customer owned KMS key for encryption of data. This is an optional field to be used when providing a customer-man- aged KMS key for encryption. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: kmsEncryptionSettings, default. kmsEncryptionSettings -&gt; (structure) The KMS encryption settings for this policy store to encrypt data with. It will contain the customer-managed KMS key, and a user-defined encryption context. key -&gt; (string) [required] The customer-managed KMS key Amazon Resource Name (ARN) , alias or ID to be used for encryption processes. Users can provide the full KMS key ARN, a KMS key alias, or a KMS key ID, but it will be mapped to the full KMS key ARN af- ter policy store creation, and referenced when encrypting child resources. Constraints: o pattern: [a-zA-Z0-9:/_-]+ encryptionContext -&gt; (map) User-defined, additional context to be added to encryption processes. Constraints: o min: 0 o max: 8192 key -&gt; (string) Constraints: o min: 1 value -&gt; (string) Constraints: o min: 1 default -&gt; (structure) This is the default encryption setting. The policy store uses an Amazon Web Services owned key for encrypting data. Shorthand Syntax: kmsEncryptionSettings={key=string,encryptionContext={KeyName1=string,KeyName2=string}},default={} JSON Syntax: { "kmsEncryptionSettings": { "key": "string", "encryptionContext": {"string": "string" ...} }, "default": { } }
+    /// Specifies the encryption settings used to encrypt the policy store and their child resources. Allows for the ability to use a customer owned KMS key for encryption of data. This is an optional field to be used when providing a customer-managed KMS key for encryption. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: kmsEncryptionSettings, default. kmsEncryptionSettings -&gt; (structure) The KMS encryption settings for this policy store to encrypt data with. It will contain the customer-managed KMS key, and a user-defined encryption context. key -&gt; (string) [required] The customer-managed KMS key Amazon Resource Name (ARN) , alias or ID to be used for encryption processes. Users can provide the full KMS key ARN, a KMS key alias, or a KMS key ID, but it will be mapped to the full KMS key ARN after policy store creation, and referenced when encrypting child resources. Constraints: • pattern: [a-zA-Z0-9:/_-]+ encryptionContext -&gt; (map) User-defined, additional context to be added to encryption processes. Constraints: • min: 0 • max: 8192 key -&gt; (string) Constraints: • min: 1 value -&gt; (string) Constraints: • min: 1 default -&gt; (structure) This is the default encryption setting. The policy store uses an Amazon Web Services owned key for encrypting data. Shorthand Syntax: kmsEncryptionSettings={key=string,encryptionContext={KeyName1=string,KeyName2=string}},default={} JSON Syntax: { "kmsEncryptionSettings": { "key": "string", "encryptionContext": {"string": "string" ...} }, "default": { } }
     /// </summary>
     [CliOption("--encryption-settings")]
     public string? EncryptionSettings { get; set; }
 
     /// <summary>
-    /// The list of key-value pairs to associate with the policy store. Constraints: o min: 0 o max: 200 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The list of key-value pairs to associate with the policy store. Constraints: • min: 0 • max: 200 key -&gt; (string) Constraints: • min: 1 • max: 128 value -&gt; (string) Constraints: • min: 0 • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
@@ -116,6 +116,15 @@ public record AwsVerifiedpermissionsCreatePolicyStoreOptions : AwsOptions, IVali
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

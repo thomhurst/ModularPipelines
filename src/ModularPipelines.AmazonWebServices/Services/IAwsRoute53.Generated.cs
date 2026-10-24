@@ -6,7 +6,7 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using ModularPipelines.Models;
+using ModularPipelines;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
@@ -22,9 +22,9 @@ namespace ModularPipelines.AmazonWebServices.Services;
 public interface IAwsRoute53
 {
     /// <summary>
-    /// aws wait sub-commands.
+    /// aws route53 wait sub-commands.
     /// </summary>
-    AwsRoute53Wait Wait => throw new System.NotSupportedException();
+    AwsRoute53Wait Wait { get; }
 
     /// <summary>
     /// Activates a key-signing key (KSK) so that it can be used for signing by DNSSEC. This operation changes the KSK status to ACTIVE . See also: AWS API Documentation
@@ -33,38 +33,34 @@ public interface IAwsRoute53
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ActivateKeySigningKeyAsync(AwsRoute53ActivateKeySigningKeyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ActivateKeySigningKeyAsync(AwsRoute53ActivateKeySigningKeyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Associates an Amazon VPC with a private hosted zone. WARNING: To perform the association, the VPC and the private hosted zone must already exist. You can't convert a public hosted zone into a private hosted zone. NOTE: If you want to associate a VPC that was created by using one Amazon Web Services account with a private hosted zone that was created by using a different account, the Amazon Web Services account that cre- ated the private hosted zone must first submit a CreateVPCAssocia- tionAutho...
+    /// Associates an Amazon VPC with a private hosted zone. WARNING: To perform the association, the VPC and the private hosted zone must already exist. You can't convert a public hosted zone into a private hosted zone. NOTE: If you want to associate a VPC that was created by using one Amazon Web Services account with a private hosted zone that was created by using a different account, the Amazon Web Services account that created the private hosted zone must first submit a CreateVPCAssociationAuthoriza...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AssociateVpcWithHostedZoneAsync(AwsRoute53AssociateVpcWithHostedZoneOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AssociateVpcWithHostedZoneAsync(AwsRoute53AssociateVpcWithHostedZoneOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Creates, changes, or deletes CIDR blocks within a collection. Contains authoritative IP information mapping blocks to one or multiple loca- tions. A change request can update multiple locations in a collection at a time, which is helpful if you want to move one or more CIDR blocks from one location to another in one transaction, without downtime. Limits The max number of CIDR blocks included in the request is 1000. As a re- sult, big updates require multiple API calls. PUT and DELETE_IF_EXISTS U...
+    /// Creates, changes, or deletes CIDR blocks within a collection. Contains authoritative IP information mapping blocks to one or multiple locations. A change request can update multiple locations in a collection at a time, which is helpful if you want to move one or more CIDR blocks from one location to another in one transaction, without downtime. Limits The max number of CIDR blocks included in the request is 1000. As a result, big updates require multiple API calls. PUT and DELETE_IF_EXISTS Use C...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ChangeCidrCollectionAsync(AwsRoute53ChangeCidrCollectionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ChangeCidrCollectionAsync(AwsRoute53ChangeCidrCollectionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Creates, changes, or deletes a resource record set, which contains au- thoritative DNS information for a specified domain name or subdomain name. For example, you can use ChangeResourceRecordSets to create a re- source record set that routes traffic for test.example.com to a web server that has an IP address of 192.0.2.44. Deleting Resource Record Sets To delete a resource record set, you must specify all the same values that you specified when you created it. Change Batches and Transactional Ch...
+    /// Creates, changes, or deletes a resource record set, which contains authoritative DNS information for a specified domain name or subdomain name. For example, you can use ChangeResourceRecordSets to create a resource record set that routes traffic for test.example.com to a web server that has an IP address of 192.0.2.44. Deleting Resource Record Sets To delete a resource record set, you must specify all the same values that you specified when you created it. Change Batches and Transactional Change...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ChangeResourceRecordSetsAsync(AwsRoute53ChangeResourceRecordSetsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ChangeResourceRecordSetsAsync(AwsRoute53ChangeResourceRecordSetsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Adds, edits, or deletes tags for a health check or a hosted zone. For information about using tags for cost allocation, see Using Cost Allocation Tags in the Billing and Cost Management User Guide . See also: AWS API Documentation
@@ -73,8 +69,7 @@ public interface IAwsRoute53
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ChangeTagsForResourceAsync(AwsRoute53ChangeTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ChangeTagsForResourceAsync(AwsRoute53ChangeTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a CIDR collection in the current Amazon Web Services account. See also: AWS API Documentation
@@ -83,28 +78,25 @@ public interface IAwsRoute53
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateCidrCollectionAsync(AwsRoute53CreateCidrCollectionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateCidrCollectionAsync(AwsRoute53CreateCidrCollectionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Creates a new health check. For information about adding health checks to resource record sets, see HealthCheckId in ChangeResourceRecordSets . ELB Load Balancers If you're registering EC2 instances with an Elastic Load Balancing (ELB) load balancer, do not create Amazon Route 53 health checks for the EC2 instances. When you register an EC2 instance with a load bal- ancer, you configure settings for an ELB health check, which performs a similar function to a Route 53 health check. Private Hosted...
+    /// Creates a new health check. For information about adding health checks to resource record sets, see HealthCheckId in ChangeResourceRecordSets . ELB Load Balancers If you're registering EC2 instances with an Elastic Load Balancing (ELB) load balancer, do not create Amazon Route 53 health checks for the EC2 instances. When you register an EC2 instance with a load balancer, you configure settings for an ELB health check, which performs a similar function to a Route 53 health check. Private Hosted Z...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateHealthCheckAsync(AwsRoute53CreateHealthCheckOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateHealthCheckAsync(AwsRoute53CreateHealthCheckOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Creates a new public or private hosted zone. You create records in a public hosted zone to define how you want to route traffic on the in- ternet for a domain, such as example.com, and its subdomains (apex.ex- ample.com, acme.example.com). You create records in a private hosted zone to define how you want to route traffic for a domain and its sub- domains within one or more Amazon Virtual Private Clouds (Amazon VPCs). WARNING: You can't convert a public hosted zone to a private hosted zone or vi...
+    /// Creates a new public or private hosted zone. You create records in a public hosted zone to define how you want to route traffic on the internet for a domain, such as example.com, and its subdomains (apex.example.com, acme.example.com). You create records in a private hosted zone to define how you want to route traffic for a domain and its subdomains within one or more Amazon Virtual Private Clouds (Amazon VPCs). WARNING: You can't convert a public hosted zone to a private hosted zone or vice ver...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateHostedZoneAsync(AwsRoute53CreateHostedZoneOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateHostedZoneAsync(AwsRoute53CreateHostedZoneOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a new key-signing key (KSK) associated with a hosted zone. You can only have two KSKs per hosted zone. See also: AWS API Documentation
@@ -113,18 +105,16 @@ public interface IAwsRoute53
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateKeySigningKeyAsync(AwsRoute53CreateKeySigningKeyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateKeySigningKeyAsync(AwsRoute53CreateKeySigningKeyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Creates a configuration for DNS query logging. After you create a query logging configuration, Amazon Route 53 begins to publish log data to an Amazon CloudWatch Logs log group. DNS query logs contain information about the queries that Route 53 re- ceives for a specified public hosted zone, such as the following: o Route 53 edge location that responded to the DNS query o Domain or subdomain that was requested o DNS record type, such as A or AAAA o DNS response code, such as NoError or ServFail L...
+    /// Creates a configuration for DNS query logging. After you create a query logging configuration, Amazon Route 53 begins to publish log data to an Amazon CloudWatch Logs log group. DNS query logs contain information about the queries that Route 53 receives for a specified public hosted zone, such as the following: • Route 53 edge location that responded to the DNS query • Domain or subdomain that was requested • DNS record type, such as A or AAAA • DNS response code, such as NoError or ServFail Log...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateQueryLoggingConfigAsync(AwsRoute53CreateQueryLoggingConfigOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateQueryLoggingConfigAsync(AwsRoute53CreateQueryLoggingConfigOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a delegation set (a group of four name servers) that can be reused by multiple hosted zones that were created by the same Amazon Web Services account. You can also create a reusable delegation set that uses the four name servers that are associated with an existing hosted zone. Specify the hosted zone ID in the CreateReusableDelegationSet request. NOTE: You can't associate a reusable delegation set with a private hosted zone. For information about using a reusable delegation set to confi...
@@ -133,18 +123,16 @@ public interface IAwsRoute53
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateReusableDelegationSetAsync(AwsRoute53CreateReusableDelegationSetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateReusableDelegationSetAsync(AwsRoute53CreateReusableDelegationSetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Creates resource record sets in a specified hosted zone based on the settings in a specified traffic policy version. In addition, Create- TrafficPolicyInstance associates the resource record sets with a speci- fied domain name (such as example.com) or subdomain name (such as www.example.com). Amazon Route 53 responds to DNS queries for the do- main or subdomain name by using the resource record sets that Create- TrafficPolicyInstance created. NOTE: After you submit an CreateTrafficPolicyInstance...
+    /// Creates resource record sets in a specified hosted zone based on the settings in a specified traffic policy version. In addition, CreateTrafficPolicyInstance associates the resource record sets with a specified domain name (such as example.com) or subdomain name (such as www.example.com). Amazon Route 53 responds to DNS queries for the domain or subdomain name by using the resource record sets that CreateTrafficPolicyInstance created. NOTE: After you submit an CreateTrafficPolicyInstance request...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateTrafficPolicyInstanceAsync(AwsRoute53CreateTrafficPolicyInstanceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateTrafficPolicyInstanceAsync(AwsRoute53CreateTrafficPolicyInstanceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a traffic policy, which you use to create multiple DNS resource record sets for one domain name (such as example.com) or one subdomain name (such as www.example.com). See also: AWS API Documentation
@@ -153,28 +141,25 @@ public interface IAwsRoute53
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateTrafficPolicyAsync(AwsRoute53CreateTrafficPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateTrafficPolicyAsync(AwsRoute53CreateTrafficPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Creates a new version of an existing traffic policy. When you create a new version of a traffic policy, you specify the ID of the traffic pol- icy that you want to update and a JSON-formatted document that de- scribes the new version. You use traffic policies to create multiple DNS resource record sets for one domain name (such as example.com) or one subdomain name (such as www.example.com). You can create a maximum of 1000 versions of a traffic policy. If you reach the limit and need to create ...
+    /// Creates a new version of an existing traffic policy. When you create a new version of a traffic policy, you specify the ID of the traffic policy that you want to update and a JSON-formatted document that describes the new version. You use traffic policies to create multiple DNS resource record sets for one domain name (such as example.com) or one subdomain name (such as www.example.com). You can create a maximum of 1000 versions of a traffic policy. If you reach the limit and need to create anot...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateTrafficPolicyVersionAsync(AwsRoute53CreateTrafficPolicyVersionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateTrafficPolicyVersionAsync(AwsRoute53CreateTrafficPolicyVersionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Authorizes the Amazon Web Services account that created a specified VPC to submit an AssociateVPCWithHostedZone request to associate the VPC with a specified hosted zone that was created by a different account. To submit a CreateVPCAssociationAuthorization request, you must use the account that created the hosted zone. After you authorize the associa- tion, use the account that created the VPC to submit an Associat- eVPCWithHostedZone request. NOTE: If you want to associate multiple VPCs that yo...
+    /// Authorizes the Amazon Web Services account that created a specified VPC to submit an AssociateVPCWithHostedZone request to associate the VPC with a specified hosted zone that was created by a different account. To submit a CreateVPCAssociationAuthorization request, you must use the account that created the hosted zone. After you authorize the association, use the account that created the VPC to submit an AssociateVPCWithHostedZone request. NOTE: If you want to associate multiple VPCs that you cr...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateVpcAssociationAuthorizationAsync(AwsRoute53CreateVpcAssociationAuthorizationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateVpcAssociationAuthorizationAsync(AwsRoute53CreateVpcAssociationAuthorizationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deactivates a key-signing key (KSK) so that it will not be used for signing by DNSSEC. This operation changes the KSK status to INACTIVE . See also: AWS API Documentation
@@ -183,8 +168,7 @@ public interface IAwsRoute53
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeactivateKeySigningKeyAsync(AwsRoute53DeactivateKeySigningKeyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeactivateKeySigningKeyAsync(AwsRoute53DeactivateKeySigningKeyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a CIDR collection in the current Amazon Web Services account. The collection must be empty before it can be deleted. See also: AWS API Documentation
@@ -193,48 +177,43 @@ public interface IAwsRoute53
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteCidrCollectionAsync(AwsRoute53DeleteCidrCollectionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteCidrCollectionAsync(AwsRoute53DeleteCidrCollectionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Deletes a health check. WARNING: Amazon Route 53 does not prevent you from deleting a health check even if the health check is associated with one or more resource record sets. If you delete a health check and you don't update the associated resource record sets, the future status of the health check can't be predicted and may change. This will affect the rout- ing of DNS queries for your DNS failover configuration. For more in- formation, see Replacing and Deleting Health Checks in the Amazon R...
+    /// Deletes a health check. WARNING: Amazon Route 53 does not prevent you from deleting a health check even if the health check is associated with one or more resource record sets. If you delete a health check and you don't update the associated resource record sets, the future status of the health check can't be predicted and may change. This will affect the routing of DNS queries for your DNS failover configuration. For more information, see Replacing and Deleting Health Checks in the Amazon Route...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteHealthCheckAsync(AwsRoute53DeleteHealthCheckOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteHealthCheckAsync(AwsRoute53DeleteHealthCheckOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Deletes a hosted zone. If the hosted zone was created by another service, such as Cloud Map, see Deleting Public Hosted Zones That Were Created by Another Service in the Amazon Route 53 Developer Guide for information about how to delete it. (The process is the same for public and private hosted zones that were created by another service.) If you want to keep your domain registration but you want to stop rout- ing internet traffic to your website or web application, we recommend that you delete ...
+    /// Deletes a hosted zone. If the hosted zone was created by another service, such as Cloud Map, see Deleting Public Hosted Zones That Were Created by Another Service in the Amazon Route 53 Developer Guide for information about how to delete it. (The process is the same for public and private hosted zones that were created by another service.) If you want to keep your domain registration but you want to stop routing internet traffic to your website or web application, we recommend that you delete re...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteHostedZoneAsync(AwsRoute53DeleteHostedZoneOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteHostedZoneAsync(AwsRoute53DeleteHostedZoneOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Deletes a key-signing key (KSK). Before you can delete a KSK, you must deactivate it. The KSK must be deactivated before you can delete it re- gardless of whether the hosted zone is enabled for DNSSEC signing. You can use DeactivateKeySigningKey to deactivate the key before you delete it. Use GetDNSSEC to verify that the KSK is in an INACTIVE status. See also: AWS API Documentation
+    /// Deletes a key-signing key (KSK). Before you can delete a KSK, you must deactivate it. The KSK must be deactivated before you can delete it regardless of whether the hosted zone is enabled for DNSSEC signing. You can use DeactivateKeySigningKey to deactivate the key before you delete it. Use GetDNSSEC to verify that the KSK is in an INACTIVE status. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteKeySigningKeyAsync(AwsRoute53DeleteKeySigningKeyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteKeySigningKeyAsync(AwsRoute53DeleteKeySigningKeyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Deletes a configuration for DNS query logging. If you delete a configu- ration, Amazon Route 53 stops sending query logs to CloudWatch Logs. Route 53 doesn't delete any logs that are already in CloudWatch Logs. For more information about DNS query logs, see CreateQueryLoggingConfig . See also: AWS API Documentation
+    /// Deletes a configuration for DNS query logging. If you delete a configuration, Amazon Route 53 stops sending query logs to CloudWatch Logs. Route 53 doesn't delete any logs that are already in CloudWatch Logs. For more information about DNS query logs, see CreateQueryLoggingConfig . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteQueryLoggingConfigAsync(AwsRoute53DeleteQueryLoggingConfigOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteQueryLoggingConfigAsync(AwsRoute53DeleteQueryLoggingConfigOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a reusable delegation set. WARNING: You can delete a reusable delegation set only if it isn't associated with any hosted zones. To verify that the reusable delegation set is not associated with any hosted zones, submit a GetReusableDelegationSet request and specify the ID of the reusable delegation set that you want to delete. See also: AWS API Documentation
@@ -243,28 +222,25 @@ public interface IAwsRoute53
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteReusableDelegationSetAsync(AwsRoute53DeleteReusableDelegationSetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteReusableDelegationSetAsync(AwsRoute53DeleteReusableDelegationSetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Deletes a traffic policy instance and all of the resource record sets that Amazon Route 53 created when you created the instance. NOTE: In the Route 53 console, traffic policy instances are known as pol- icy records. See also: AWS API Documentation
+    /// Deletes a traffic policy instance and all of the resource record sets that Amazon Route 53 created when you created the instance. NOTE: In the Route 53 console, traffic policy instances are known as policy records. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteTrafficPolicyInstanceAsync(AwsRoute53DeleteTrafficPolicyInstanceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteTrafficPolicyInstanceAsync(AwsRoute53DeleteTrafficPolicyInstanceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Deletes a traffic policy. When you delete a traffic policy, Route 53 sets a flag on the policy to indicate that it has been deleted. However, Route 53 never fully deletes the traffic policy. Note the following: o Deleted traffic policies aren't listed if you run ListTrafficPolicies . o There's no way to get a list of deleted policies. o If you retain the ID of the policy, you can get information about the policy, including the traffic policy document, by running GetTrafficPolicy . See also: AWS ...
+    /// Deletes a traffic policy. When you delete a traffic policy, Route 53 sets a flag on the policy to indicate that it has been deleted. However, Route 53 never fully deletes the traffic policy. Note the following: • Deleted traffic policies aren't listed if you run ListTrafficPolicies . • There's no way to get a list of deleted policies. • If you retain the ID of the policy, you can get information about the policy, including the traffic policy document, by running GetTrafficPolicy . See also: AWS ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteTrafficPolicyAsync(AwsRoute53DeleteTrafficPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteTrafficPolicyAsync(AwsRoute53DeleteTrafficPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Removes authorization to submit an AssociateVPCWithHostedZone request to associate a specified VPC with a hosted zone that was created by a different account. You must use the account that created the hosted zone to submit a DeleteVPCAssociationAuthorization request. WARNING: Sending this request only prevents the Amazon Web Services account that created the VPC from associating the VPC with the Amazon Route 53 hosted zone in the future. If the VPC is already associated with the hosted zone, Del...
@@ -273,8 +249,7 @@ public interface IAwsRoute53
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteVpcAssociationAuthorizationAsync(AwsRoute53DeleteVpcAssociationAuthorizationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteVpcAssociationAuthorizationAsync(AwsRoute53DeleteVpcAssociationAuthorizationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Disables DNSSEC signing in a specific hosted zone. This action does not deactivate any key-signing keys (KSKs) that are active in the hosted zone. See also: AWS API Documentation
@@ -283,18 +258,16 @@ public interface IAwsRoute53
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DisableHostedZoneDnssecAsync(AwsRoute53DisableHostedZoneDnssecOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DisableHostedZoneDnssecAsync(AwsRoute53DisableHostedZoneDnssecOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Disassociates an Amazon Virtual Private Cloud (Amazon VPC) from an Ama- zon Route 53 private hosted zone. Note the following: o You can't disassociate the last Amazon VPC from a private hosted zone. o You can't convert a private hosted zone into a public hosted zone. o You can submit a DisassociateVPCFromHostedZone request using either the account that created the hosted zone or the account that created the Amazon VPC. o Some services, such as Cloud Map and Amazon Elastic File System (Ama- zon E...
+    /// Disassociates an Amazon Virtual Private Cloud (Amazon VPC) from an Amazon Route 53 private hosted zone. Note the following: • You can't disassociate the last Amazon VPC from a private hosted zone. • You can't convert a private hosted zone into a public hosted zone. • You can submit a DisassociateVPCFromHostedZone request using either the account that created the hosted zone or the account that created the Amazon VPC. • Some services, such as Cloud Map and Amazon Elastic File System (Amazon EFS) ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DisassociateVpcFromHostedZoneAsync(AwsRoute53DisassociateVpcFromHostedZoneOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DisassociateVpcFromHostedZoneAsync(AwsRoute53DisassociateVpcFromHostedZoneOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Enables DNSSEC signing in a specific hosted zone. See also: AWS API Documentation
@@ -303,38 +276,34 @@ public interface IAwsRoute53
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> EnableHostedZoneDnssecAsync(AwsRoute53EnableHostedZoneDnssecOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> EnableHostedZoneDnssecAsync(AwsRoute53EnableHostedZoneDnssecOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Gets the specified limit for the current account, for example, the max- imum number of health checks that you can create using the account. For the default limit, see Limits in the Amazon Route 53 Developer Guide . To request a higher limit, open a case . NOTE: You can also view account limits in Amazon Web Services Trusted Ad- visor. Sign in to the Amazon Web Services Management Console and open the Trusted Advisor console at https://console.aws.amazon.com/trustedadvisor/ . Then choose Service ...
+    /// Gets the specified limit for the current account, for example, the maximum number of health checks that you can create using the account. For the default limit, see Limits in the Amazon Route 53 Developer Guide . To request a higher limit, open a case . NOTE: You can also view account limits in Amazon Web Services Trusted Advisor. Sign in to the Amazon Web Services Management Console and open the Trusted Advisor console at https://console.aws.amazon.com/trustedadvisor/ . Then choose Service limi...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetAccountLimitAsync(AwsRoute53GetAccountLimitOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetAccountLimitAsync(AwsRoute53GetAccountLimitOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Returns the current status of a change batch request. The status is one of the following values: o PENDING indicates that the changes in this request have not propa- gated to all Amazon Route 53 DNS servers managing the hosted zone. This is the initial status of all change batch requests. o INSYNC indicates that the changes have propagated to all Route 53 DNS servers managing the hosted zone. See also: AWS API Documentation
+    /// Returns the current status of a change batch request. The status is one of the following values: • PENDING indicates that the changes in this request have not propagated to all Amazon Route 53 DNS servers managing the hosted zone. This is the initial status of all change batch requests. • INSYNC indicates that the changes have propagated to all Route 53 DNS servers managing the hosted zone. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetChangeAsync(AwsRoute53GetChangeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetChangeAsync(AwsRoute53GetChangeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Route 53 does not perform authorization for this API because it re- trieves information that is already available to the public. WARNING: GetCheckerIpRanges still works, but we recommend that you download ip-ranges.json, which includes IP address ranges for all Amazon Web Services services. For more information, see IP Address Ranges of Amazon Route 53 Servers in the Amazon Route 53 Developer Guide . See also: AWS API Documentation
+    /// Route 53 does not perform authorization for this API because it retrieves information that is already available to the public. WARNING: GetCheckerIpRanges still works, but we recommend that you download ip-ranges.json, which includes IP address ranges for all Amazon Web Services services. For more information, see IP Address Ranges of Amazon Route 53 Servers in the Amazon Route 53 Developer Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetCheckerIpRangesAsync(AwsRoute53GetCheckerIpRangesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetCheckerIpRangesAsync(AwsRoute53GetCheckerIpRangesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns information about DNSSEC for a specific hosted zone, including the key-signing keys (KSKs) in the hosted zone. See also: AWS API Documentation
@@ -343,28 +312,25 @@ public interface IAwsRoute53
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetDnssecAsync(AwsRoute53GetDnssecOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetDnssecAsync(AwsRoute53GetDnssecOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Gets information about whether a specified geographic location is sup- ported for Amazon Route 53 geolocation resource record sets. Route 53 does not perform authorization for this API because it re- trieves information that is already available to the public. Use the following syntax to determine whether a continent is supported for geolocation: `` GET /2013-04-01/geolocation?continentcode=*two-letter abbreviation for a continent* `` System Message: WARNING/2 (&lt;string&gt;:, line 33) Inline literal...
+    /// Gets information about whether a specified geographic location is supported for Amazon Route 53 geolocation resource record sets. Route 53 does not perform authorization for this API because it retrieves information that is already available to the public. Use the following syntax to determine whether a continent is supported for geolocation: `` GET /2013-04-01/geolocation?continentcode=*two-letter abbreviation for a continent* `` System Message: WARNING/2 (&lt;string&gt;:, line 33) Inline literal sta...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetGeoLocationAsync(AwsRoute53GetGeoLocationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetGeoLocationAsync(AwsRoute53GetGeoLocationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Retrieves the number of health checks that are associated with the cur- rent Amazon Web Services account. See also: AWS API Documentation
+    /// Retrieves the number of health checks that are associated with the current Amazon Web Services account. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetHealthCheckCountAsync(AwsRoute53GetHealthCheckCountOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetHealthCheckCountAsync(AwsRoute53GetHealthCheckCountOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets the reason that a specified health check failed most recently. See also: AWS API Documentation
@@ -373,8 +339,7 @@ public interface IAwsRoute53
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetHealthCheckLastFailureReasonAsync(AwsRoute53GetHealthCheckLastFailureReasonOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetHealthCheckLastFailureReasonAsync(AwsRoute53GetHealthCheckLastFailureReasonOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets information about a specified health check. See also: AWS API Documentation
@@ -383,28 +348,25 @@ public interface IAwsRoute53
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetHealthCheckAsync(AwsRoute53GetHealthCheckOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetHealthCheckAsync(AwsRoute53GetHealthCheckOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Gets status of a specified health check. WARNING: This API is intended for use during development to diagnose behav- ior. It doesnt support production use-cases with high query rates that require immediate and actionable responses. See also: AWS API Documentation
+    /// Gets status of a specified health check. WARNING: This API is intended for use during development to diagnose behavior. It doesnt support production use-cases with high query rates that require immediate and actionable responses. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetHealthCheckStatusAsync(AwsRoute53GetHealthCheckStatusOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetHealthCheckStatusAsync(AwsRoute53GetHealthCheckStatusOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Retrieves the number of hosted zones that are associated with the cur- rent Amazon Web Services account. See also: AWS API Documentation
+    /// Retrieves the number of hosted zones that are associated with the current Amazon Web Services account. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetHostedZoneCountAsync(AwsRoute53GetHostedZoneCountOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetHostedZoneCountAsync(AwsRoute53GetHostedZoneCountOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets the specified limit for a specified hosted zone, for example, the maximum number of records that you can create in the hosted zone. For the default limit, see Limits in the Amazon Route 53 Developer Guide . To request a higher limit, open a case . See also: AWS API Documentation
@@ -413,8 +375,7 @@ public interface IAwsRoute53
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetHostedZoneLimitAsync(AwsRoute53GetHostedZoneLimitOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetHostedZoneLimitAsync(AwsRoute53GetHostedZoneLimitOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets information about a specified hosted zone including the four name servers assigned to the hosted zone. returns the VPCs associated with the specified hosted zone and does not reflect the VPC associations by Route 53 Profiles. To get the associations to a Profile, call the ListProfileAssociations API. See also: AWS API Documentation
@@ -423,8 +384,7 @@ public interface IAwsRoute53
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetHostedZoneAsync(AwsRoute53GetHostedZoneOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetHostedZoneAsync(AwsRoute53GetHostedZoneOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets information about a specified configuration for DNS query logging. For more information about DNS query logs, see CreateQueryLoggingConfig and Logging DNS Queries . See also: AWS API Documentation
@@ -433,8 +393,7 @@ public interface IAwsRoute53
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetQueryLoggingConfigAsync(AwsRoute53GetQueryLoggingConfigOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetQueryLoggingConfigAsync(AwsRoute53GetQueryLoggingConfigOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets the maximum number of hosted zones that you can associate with the specified reusable delegation set. For the default limit, see Limits in the Amazon Route 53 Developer Guide . To request a higher limit, open a case . See also: AWS API Documentation
@@ -443,18 +402,16 @@ public interface IAwsRoute53
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetReusableDelegationSetLimitAsync(AwsRoute53GetReusableDelegationSetLimitOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetReusableDelegationSetLimitAsync(AwsRoute53GetReusableDelegationSetLimitOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Retrieves information about a specified reusable delegation set, in- cluding the four name servers that are assigned to the delegation set. See also: AWS API Documentation
+    /// Retrieves information about a specified reusable delegation set, including the four name servers that are assigned to the delegation set. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetReusableDelegationSetAsync(AwsRoute53GetReusableDelegationSetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetReusableDelegationSetAsync(AwsRoute53GetReusableDelegationSetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets the number of traffic policy instances that are associated with the current Amazon Web Services account. See also: AWS API Documentation
@@ -463,28 +420,25 @@ public interface IAwsRoute53
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetTrafficPolicyInstanceCountAsync(AwsRoute53GetTrafficPolicyInstanceCountOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetTrafficPolicyInstanceCountAsync(AwsRoute53GetTrafficPolicyInstanceCountOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Gets information about a specified traffic policy instance. NOTE: Use GetTrafficPolicyInstance with the id of new traffic policy in- stance to confirm that the CreateTrafficPolicyInstance or an Update- TrafficPolicyInstance request completed successfully. For more in- formation, see the State response element. NOTE: In the Route 53 console, traffic policy instances are known as pol- icy records. See also: AWS API Documentation
+    /// Gets information about a specified traffic policy instance. NOTE: Use GetTrafficPolicyInstance with the id of new traffic policy instance to confirm that the CreateTrafficPolicyInstance or an UpdateTrafficPolicyInstance request completed successfully. For more information, see the State response element. NOTE: In the Route 53 console, traffic policy instances are known as policy records. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetTrafficPolicyInstanceAsync(AwsRoute53GetTrafficPolicyInstanceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetTrafficPolicyInstanceAsync(AwsRoute53GetTrafficPolicyInstanceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Gets information about a specific traffic policy version. For information about how of deleting a traffic policy affects the re- sponse from GetTrafficPolicy , see DeleteTrafficPolicy . See also: AWS API Documentation
+    /// Gets information about a specific traffic policy version. For information about how of deleting a traffic policy affects the response from GetTrafficPolicy , see DeleteTrafficPolicy . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetTrafficPolicyAsync(AwsRoute53GetTrafficPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetTrafficPolicyAsync(AwsRoute53GetTrafficPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a paginated list of location objects and their CIDR blocks. See also: AWS API Documentation list-cidr-blocks is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: CidrBlocks
@@ -493,8 +447,7 @@ public interface IAwsRoute53
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListCidrBlocksAsync(AwsRoute53ListCidrBlocksOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListCidrBlocksAsync(AwsRoute53ListCidrBlocksOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a paginated list of CIDR collections in the Amazon Web Services account (metadata only). See also: AWS API Documentation list-cidr-collections is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Ci...
@@ -503,8 +456,7 @@ public interface IAwsRoute53
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListCidrCollectionsAsync(AwsRoute53ListCidrCollectionsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListCidrCollectionsAsync(AwsRoute53ListCidrCollectionsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a paginated list of CIDR locations for the given collection (metadata only, does not include CIDR blocks). See also: AWS API Documentation list-cidr-locations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query...
@@ -513,78 +465,70 @@ public interface IAwsRoute53
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListCidrLocationsAsync(AwsRoute53ListCidrLocationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListCidrLocationsAsync(AwsRoute53ListCidrLocationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Retrieves a list of supported geographic locations. Countries are listed first, and continents are listed last. If Amazon Route 53 supports subdivisions for a country (for example, states or provinces), the subdivisions for that country are listed in alphabeti- cal order immediately after the corresponding country. Route 53 does not perform authorization for this API because it re- trieves information that is already available to the public. For a list of supported geolocation codes, see the Geo...
+    /// Retrieves a list of supported geographic locations. Countries are listed first, and continents are listed last. If Amazon Route 53 supports subdivisions for a country (for example, states or provinces), the subdivisions for that country are listed in alphabetical order immediately after the corresponding country. Route 53 does not perform authorization for this API because it retrieves information that is already available to the public. For a list of supported geolocation codes, see the GeoLoca...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListGeoLocationsAsync(AwsRoute53ListGeoLocationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListGeoLocationsAsync(AwsRoute53ListGeoLocationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Retrieve a list of the health checks that are associated with the cur- rent Amazon Web Services account. See also: AWS API Documentation list-health-checks is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expression...
+    /// Retrieve a list of the health checks that are associated with the current Amazon Web Services account. See also: AWS API Documentation list-health-checks is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions:...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListHealthChecksAsync(AwsRoute53ListHealthChecksOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListHealthChecksAsync(AwsRoute53ListHealthChecksOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Retrieves a list of your hosted zones in lexicographic order. The re- sponse includes a HostedZones child element for each hosted zone cre- ated by the current Amazon Web Services account. ListHostedZonesByName sorts hosted zones by name with the labels re- versed. For example: com.example.www. Note the trailing dot, which can change the sort order in some circum- stances. If the domain name includes escape characters or Punycode, ListHosted- ZonesByName alphabetizes the domain name using the es...
+    /// Retrieves a list of your hosted zones in lexicographic order. The response includes a HostedZones child element for each hosted zone created by the current Amazon Web Services account. ListHostedZonesByName sorts hosted zones by name with the labels reversed. For example: com.example.www. Note the trailing dot, which can change the sort order in some circumstances. If the domain name includes escape characters or Punycode, ListHostedZonesByName alphabetizes the domain name using the escaped or P...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListHostedZonesByNameAsync(AwsRoute53ListHostedZonesByNameOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListHostedZonesByNameAsync(AwsRoute53ListHostedZonesByNameOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Lists all the private hosted zones that a specified VPC is associated with, regardless of which Amazon Web Services account or Amazon Web Services service owns the hosted zones. The HostedZoneOwner structure in the response contains one of the following values: o An OwningAccount element, which contains the account number of either the current Amazon Web Services account or another Amazon Web Ser- vices account. Some services, such as Cloud Map, create hosted zones using the current account. o A...
+    /// Lists all the private hosted zones that a specified VPC is associated with, regardless of which Amazon Web Services account or Amazon Web Services service owns the hosted zones. The HostedZoneOwner structure in the response contains one of the following values: • An OwningAccount element, which contains the account number of either the current Amazon Web Services account or another Amazon Web Services account. Some services, such as Cloud Map, create hosted zones using the current account. • An ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListHostedZonesByVpcAsync(AwsRoute53ListHostedZonesByVpcOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListHostedZonesByVpcAsync(AwsRoute53ListHostedZonesByVpcOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Retrieves a list of the public and private hosted zones that are asso- ciated with the current Amazon Web Services account. The response in- cludes a HostedZones child element for each hosted zone. Amazon Route 53 returns a maximum of 100 items in each response. If you have a lot of hosted zones, you can use the maxitems parameter to list them in groups of up to 100. See also: AWS API Documentation list-hosted-zones is a paginated operation. Multiple API calls may be issued in order to retrieve ...
+    /// Retrieves a list of the public and private hosted zones that are associated with the current Amazon Web Services account. The response includes a HostedZones child element for each hosted zone. Amazon Route 53 returns a maximum of 100 items in each response. If you have a lot of hosted zones, you can use the maxitems parameter to list them in groups of up to 100. See also: AWS API Documentation list-hosted-zones is a paginated operation. Multiple API calls may be issued in order to retrieve the ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListHostedZonesAsync(AwsRoute53ListHostedZonesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListHostedZonesAsync(AwsRoute53ListHostedZonesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Lists the configurations for DNS query logging that are associated with the current Amazon Web Services account or the configuration that is associated with a specified hosted zone. For more information about DNS query logs, see CreateQueryLoggingConfig . Additional information, including the format of DNS query logs, ap- pears in Logging DNS Queries in the Amazon Route 53 Developer Guide . See also: AWS API Documentation list-query-logging-configs is a paginated operation. Multiple API calls ma...
+    /// Lists the configurations for DNS query logging that are associated with the current Amazon Web Services account or the configuration that is associated with a specified hosted zone. For more information about DNS query logs, see CreateQueryLoggingConfig . Additional information, including the format of DNS query logs, appears in Logging DNS Queries in the Amazon Route 53 Developer Guide . See also: AWS API Documentation list-query-logging-configs is a paginated operation. Multiple API calls may ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListQueryLoggingConfigsAsync(AwsRoute53ListQueryLoggingConfigsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListQueryLoggingConfigsAsync(AwsRoute53ListQueryLoggingConfigsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Lists the resource record sets in a specified hosted zone. ListResourceRecordSets returns up to 300 resource record sets at a time in ASCII order, beginning at a position specified by the name and type elements. Sort order ListResourceRecordSets sorts results first by DNS name with the la- bels reversed, for example: com.example.www. Note the trailing dot, which can change the sort order when the record name contains characters that appear before . (decimal 46) in the ASCII table. These characte...
+    /// Lists the resource record sets in a specified hosted zone. ListResourceRecordSets returns up to 300 resource record sets at a time in ASCII order, beginning at a position specified by the name and type elements. Sort order ListResourceRecordSets sorts results first by DNS name with the labels reversed, for example: com.example.www. Note the trailing dot, which can change the sort order when the record name contains characters that appear before . (decimal 46) in the ASCII table. These characters...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListResourceRecordSetsAsync(AwsRoute53ListResourceRecordSetsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListResourceRecordSetsAsync(AwsRoute53ListResourceRecordSetsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves a list of the reusable delegation sets that are associated with the current Amazon Web Services account. See also: AWS API Documentation
@@ -593,8 +537,7 @@ public interface IAwsRoute53
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListReusableDelegationSetsAsync(AwsRoute53ListReusableDelegationSetsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListReusableDelegationSetsAsync(AwsRoute53ListReusableDelegationSetsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists tags for one health check or hosted zone. For information about using tags for cost allocation, see Using Cost Allocation Tags in the Billing and Cost Management User Guide . See also: AWS API Documentation
@@ -603,8 +546,7 @@ public interface IAwsRoute53
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTagsForResourceAsync(AwsRoute53ListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListTagsForResourceAsync(AwsRoute53ListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists tags for up to 10 health checks or hosted zones. For information about using tags for cost allocation, see Using Cost Allocation Tags in the Billing and Cost Management User Guide . See also: AWS API Documentation
@@ -613,88 +555,79 @@ public interface IAwsRoute53
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTagsForResourcesAsync(AwsRoute53ListTagsForResourcesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListTagsForResourcesAsync(AwsRoute53ListTagsForResourcesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Gets information about the latest version for every traffic policy that is associated with the current Amazon Web Services account. Policies are listed in the order that they were created in. For information about how of deleting a traffic policy affects the re- sponse from ListTrafficPolicies , see DeleteTrafficPolicy . See also: AWS API Documentation
+    /// Gets information about the latest version for every traffic policy that is associated with the current Amazon Web Services account. Policies are listed in the order that they were created in. For information about how of deleting a traffic policy affects the response from ListTrafficPolicies , see DeleteTrafficPolicy . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTrafficPoliciesAsync(AwsRoute53ListTrafficPoliciesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListTrafficPoliciesAsync(AwsRoute53ListTrafficPoliciesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Gets information about the traffic policy instances that you created in a specified hosted zone. NOTE: After you submit a CreateTrafficPolicyInstance or an UpdateTraf- ficPolicyInstance request, there's a brief delay while Amazon Route 53 creates the resource record sets that are specified in the traf- fic policy definition. For more information, see the State response element. Route 53 returns a maximum of 100 items in each response. If you have a lot of traffic policy instances, you can use th...
+    /// Gets information about the traffic policy instances that you created in a specified hosted zone. NOTE: After you submit a CreateTrafficPolicyInstance or an UpdateTrafficPolicyInstance request, there's a brief delay while Amazon Route 53 creates the resource record sets that are specified in the traffic policy definition. For more information, see the State response element. Route 53 returns a maximum of 100 items in each response. If you have a lot of traffic policy instances, you can use the Ma...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTrafficPolicyInstancesByHostedZoneAsync(AwsRoute53ListTrafficPolicyInstancesByHostedZoneOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListTrafficPolicyInstancesByHostedZoneAsync(AwsRoute53ListTrafficPolicyInstancesByHostedZoneOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Gets information about the traffic policy instances that you created by using a specify traffic policy version. NOTE: After you submit a CreateTrafficPolicyInstance or an UpdateTraf- ficPolicyInstance request, there's a brief delay while Amazon Route 53 creates the resource record sets that are specified in the traf- fic policy definition. For more information, see the State response element. Route 53 returns a maximum of 100 items in each response. If you have a lot of traffic policy instances,...
+    /// Gets information about the traffic policy instances that you created by using a specify traffic policy version. NOTE: After you submit a CreateTrafficPolicyInstance or an UpdateTrafficPolicyInstance request, there's a brief delay while Amazon Route 53 creates the resource record sets that are specified in the traffic policy definition. For more information, see the State response element. Route 53 returns a maximum of 100 items in each response. If you have a lot of traffic policy instances, you...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTrafficPolicyInstancesByPolicyAsync(AwsRoute53ListTrafficPolicyInstancesByPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListTrafficPolicyInstancesByPolicyAsync(AwsRoute53ListTrafficPolicyInstancesByPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Gets information about the traffic policy instances that you created by using the current Amazon Web Services account. NOTE: After you submit an UpdateTrafficPolicyInstance request, there's a brief delay while Amazon Route 53 creates the resource record sets that are specified in the traffic policy definition. For more infor- mation, see the State response element. Route 53 returns a maximum of 100 items in each response. If you have a lot of traffic policy instances, you can use the MaxItems pa...
+    /// Gets information about the traffic policy instances that you created by using the current Amazon Web Services account. NOTE: After you submit an UpdateTrafficPolicyInstance request, there's a brief delay while Amazon Route 53 creates the resource record sets that are specified in the traffic policy definition. For more information, see the State response element. Route 53 returns a maximum of 100 items in each response. If you have a lot of traffic policy instances, you can use the MaxItems para...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTrafficPolicyInstancesAsync(AwsRoute53ListTrafficPolicyInstancesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListTrafficPolicyInstancesAsync(AwsRoute53ListTrafficPolicyInstancesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Gets information about all of the versions for a specified traffic pol- icy. Traffic policy versions are listed in numerical order by VersionNumber . See also: AWS API Documentation
+    /// Gets information about all of the versions for a specified traffic policy. Traffic policy versions are listed in numerical order by VersionNumber . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTrafficPolicyVersionsAsync(AwsRoute53ListTrafficPolicyVersionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListTrafficPolicyVersionsAsync(AwsRoute53ListTrafficPolicyVersionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Gets a list of the VPCs that were created by other accounts and that can be associated with a specified hosted zone because you've submitted one or more CreateVPCAssociationAuthorization requests. The response includes a VPCs element with a VPC child element for each VPC that can be associated with the hosted zone. See also: AWS API Documentation list-vpc-association-authorizations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. Y...
+    /// Gets a list of the VPCs that were created by other accounts and that can be associated with a specified hosted zone because you've submitted one or more CreateVPCAssociationAuthorization requests. The response includes a VPCs element with a VPC child element for each VPC that can be associated with the hosted zone. See also: AWS API Documentation list-vpc-association-authorizations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListVpcAssociationAuthorizationsAsync(AwsRoute53ListVpcAssociationAuthorizationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListVpcAssociationAuthorizationsAsync(AwsRoute53ListVpcAssociationAuthorizationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Gets the value that Amazon Route 53 returns in response to a DNS re- quest for a specified record name and type. You can optionally specify the IP address of a DNS resolver, an EDNS0 client subnet IP address, and a subnet mask. This call only supports querying public hosted zones. NOTE: The TestDnsAnswer returns information similar to what you would ex- pect from the answer section of the dig command. Therefore, if you query for the name servers of a subdomain that point to the parent name serve...
+    /// Gets the value that Amazon Route 53 returns in response to a DNS request for a specified record name and type. You can optionally specify the IP address of a DNS resolver, an EDNS0 client subnet IP address, and a subnet mask. This call only supports querying public hosted zones. NOTE: The TestDnsAnswer returns information similar to what you would expect from the answer section of the dig command. Therefore, if you query for the name servers of a subdomain that point to the parent name servers, ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> TestDnsAnswerAsync(AwsRoute53TestDnsAnswerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> TestDnsAnswerAsync(AwsRoute53TestDnsAnswerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Updates an existing health check. Note that some values can't be up- dated. For more information about updating health checks, see Creating, Updat- ing, and Deleting Health Checks in the Amazon Route 53 Developer Guide . See also: AWS API Documentation
+    /// Updates an existing health check. Note that some values can't be updated. For more information about updating health checks, see Creating, Updating, and Deleting Health Checks in the Amazon Route 53 Developer Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateHealthCheckAsync(AwsRoute53UpdateHealthCheckOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateHealthCheckAsync(AwsRoute53UpdateHealthCheckOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the comment for a specified hosted zone. See also: AWS API Documentation
@@ -703,8 +636,7 @@ public interface IAwsRoute53
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateHostedZoneCommentAsync(AwsRoute53UpdateHostedZoneCommentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateHostedZoneCommentAsync(AwsRoute53UpdateHostedZoneCommentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the features configuration for a hosted zone. This operation allows you to enable or disable specific features for your hosted zone, such as accelerated recovery. Accelerated recovery enables you to update DNS records in your public hosted zone even when the us-east-1 region is unavailable. See also: AWS API Documentation
@@ -713,8 +645,7 @@ public interface IAwsRoute53
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateHostedZoneFeaturesAsync(AwsRoute53UpdateHostedZoneFeaturesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateHostedZoneFeaturesAsync(AwsRoute53UpdateHostedZoneFeaturesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the comment for a specified traffic policy version. See also: AWS API Documentation
@@ -723,17 +654,15 @@ public interface IAwsRoute53
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateTrafficPolicyCommentAsync(AwsRoute53UpdateTrafficPolicyCommentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateTrafficPolicyCommentAsync(AwsRoute53UpdateTrafficPolicyCommentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// NOTE: After you submit a UpdateTrafficPolicyInstance request, there's a brief delay while Route 53 creates the resource record sets that are specified in the traffic policy definition. Use GetTrafficPolicyIn- stance with the id of updated traffic policy instance confirm that the UpdateTrafficPolicyInstance request completed successfully. For more information, see the State response element. Updates the resource record sets in a specified hosted zone that were created based on the settings in a s...
+    /// NOTE: After you submit a UpdateTrafficPolicyInstance request, there's a brief delay while Route 53 creates the resource record sets that are specified in the traffic policy definition. Use GetTrafficPolicyInstance with the id of updated traffic policy instance confirm that the UpdateTrafficPolicyInstance request completed successfully. For more information, see the State response element. Updates the resource record sets in a specified hosted zone that were created based on the settings in a spe...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateTrafficPolicyInstanceAsync(AwsRoute53UpdateTrafficPolicyInstanceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateTrafficPolicyInstanceAsync(AwsRoute53UpdateTrafficPolicyInstanceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

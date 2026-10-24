@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,9 +29,9 @@ public record AwsLexv2ModelsStartTestExecutionOptions : AwsOptions, IValidatable
     /// <summary>
     /// The action to start test set execution. See also: AWS API Documentation
     /// </summary>
-    /// <param name="TestSetId">The test set Id for the test set execution. Constraints: o min: 10 o max: 10 o pattern: ^[0-9a-zA-Z]+$</param>
-    /// <param name="Target">The target bot for the test set execution. botAliasTarget -&gt; (structure) Contains information about the bot alias used for the test exe- cution. botId -&gt; (string) [required] The bot Id of the bot alias used in the test set execution. Constraints: o min: 10 o max: 10 o pattern: ^[0-9a-zA-Z]+$ botAliasId -&gt; (string) [required] The bot alias Id of the bot alias used in the test set execu- tion. Constraints: o min: 10 o max: 10 o pattern: ^(\bTSTALIASID\b|[0-9a-zA-Z]+)$ localeId -&gt; (string) [required] The locale Id of the bot alias used in the test set execu- tion. Shorthand Syntax: botAliasTarget={botId=string,botAliasId=string,localeId=string} JSON Syntax: { "botAliasTarget": { "botId": "string", "botAliasId": "string", "localeId": "string" } }</param>
-    /// <param name="ApiMode">Indicates whether we use streaming or non-streaming APIs for the test set execution. For streaming, StartConversation Runtime API is used. Whereas, for non-streaming, RecognizeUtterance and Recognize- Text Amazon Lex Runtime API are used. Possible values: o Streaming o NonStreaming</param>
+    /// <param name="TestSetId">The test set Id for the test set execution. Constraints: • min: 10 • max: 10 • pattern: ^[0-9a-zA-Z]+$</param>
+    /// <param name="Target">The target bot for the test set execution. botAliasTarget -&gt; (structure) Contains information about the bot alias used for the test execution. botId -&gt; (string) [required] The bot Id of the bot alias used in the test set execution. Constraints: • min: 10 • max: 10 • pattern: ^[0-9a-zA-Z]+$ botAliasId -&gt; (string) [required] The bot alias Id of the bot alias used in the test set execution. Constraints: • min: 10 • max: 10 • pattern: ^(\bTSTALIASID\b|[0-9a-zA-Z]+)$ localeId -&gt; (string) [required] The locale Id of the bot alias used in the test set execution. Shorthand Syntax: botAliasTarget={botId=string,botAliasId=string,localeId=string} JSON Syntax: { "botAliasTarget": { "botId": "string", "botAliasId": "string", "localeId": "string" } }</param>
+    /// <param name="ApiMode">Indicates whether we use streaming or non-streaming APIs for the test set execution. For streaming, StartConversation Runtime API is used. Whereas, for non-streaming, RecognizeUtterance and RecognizeText Amazon Lex Runtime API are used. Possible values: • Streaming • NonStreaming</param>
     public AwsLexv2ModelsStartTestExecutionOptions(
         string TestSetId,
         string Target,
@@ -64,25 +65,25 @@ public record AwsLexv2ModelsStartTestExecutionOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The test set Id for the test set execution. Constraints: o min: 10 o max: 10 o pattern: ^[0-9a-zA-Z]+$
+    /// The test set Id for the test set execution. Constraints: • min: 10 • max: 10 • pattern: ^[0-9a-zA-Z]+$
     /// </summary>
     [CliOption("--test-set-id")]
     public string? TestSetId { get; private init; }
 
     /// <summary>
-    /// The target bot for the test set execution. botAliasTarget -&gt; (structure) Contains information about the bot alias used for the test exe- cution. botId -&gt; (string) [required] The bot Id of the bot alias used in the test set execution. Constraints: o min: 10 o max: 10 o pattern: ^[0-9a-zA-Z]+$ botAliasId -&gt; (string) [required] The bot alias Id of the bot alias used in the test set execu- tion. Constraints: o min: 10 o max: 10 o pattern: ^(\bTSTALIASID\b|[0-9a-zA-Z]+)$ localeId -&gt; (string) [required] The locale Id of the bot alias used in the test set execu- tion. Shorthand Syntax: botAliasTarget={botId=string,botAliasId=string,localeId=string} JSON Syntax: { "botAliasTarget": { "botId": "string", "botAliasId": "string", "localeId": "string" } }
+    /// The target bot for the test set execution. botAliasTarget -&gt; (structure) Contains information about the bot alias used for the test execution. botId -&gt; (string) [required] The bot Id of the bot alias used in the test set execution. Constraints: • min: 10 • max: 10 • pattern: ^[0-9a-zA-Z]+$ botAliasId -&gt; (string) [required] The bot alias Id of the bot alias used in the test set execution. Constraints: • min: 10 • max: 10 • pattern: ^(\bTSTALIASID\b|[0-9a-zA-Z]+)$ localeId -&gt; (string) [required] The locale Id of the bot alias used in the test set execution. Shorthand Syntax: botAliasTarget={botId=string,botAliasId=string,localeId=string} JSON Syntax: { "botAliasTarget": { "botId": "string", "botAliasId": "string", "localeId": "string" } }
     /// </summary>
     [CliOption("--target")]
     public string? Target { get; private init; }
 
     /// <summary>
-    /// Indicates whether we use streaming or non-streaming APIs for the test set execution. For streaming, StartConversation Runtime API is used. Whereas, for non-streaming, RecognizeUtterance and Recognize- Text Amazon Lex Runtime API are used. Possible values: o Streaming o NonStreaming
+    /// Indicates whether we use streaming or non-streaming APIs for the test set execution. For streaming, StartConversation Runtime API is used. Whereas, for non-streaming, RecognizeUtterance and RecognizeText Amazon Lex Runtime API are used. Possible values: • Streaming • NonStreaming
     /// </summary>
     [CliOption("--api-mode")]
     public AwsLexv2ModelsStartTestExecutionApiMode? ApiMode { get; private init; }
 
     /// <summary>
-    /// Indicates whether audio or text is used. Possible values: o Text o Audio
+    /// Indicates whether audio or text is used. Possible values: • Text • Audio
     /// </summary>
     [CliOption("--test-execution-modality")]
     public AwsLexv2ModelsStartTestExecutionTestExecutionModality? TestExecutionModality { get; set; }
@@ -108,6 +109,15 @@ public record AwsLexv2ModelsStartTestExecutionOptions : AwsOptions, IValidatable
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

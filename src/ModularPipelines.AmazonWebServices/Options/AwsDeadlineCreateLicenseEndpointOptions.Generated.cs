@@ -11,7 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -29,9 +29,9 @@ public record AwsDeadlineCreateLicenseEndpointOptions : AwsOptions, IValidatable
     /// <summary>
     /// Creates a license endpoint to integrate your various licensed software used for rendering on Deadline Cloud. See also: AWS API Documentation
     /// </summary>
-    /// <param name="VpcId">The VPC (virtual private cloud) ID to use with the license endpoint. Constraints: o min: 1 o max: 32 o pattern: vpc-[\w]{1,120}</param>
-    /// <param name="SubnetIds">The subnet IDs. Constraints: o min: 1 o max: 10 (string) Constraints: o min: 1 o max: 32 o pattern: subnet-[\w]{1,120} Syntax: "string" "string" ...</param>
-    /// <param name="SecurityGroupIds">The security group IDs. Constraints: o min: 1 o max: 10 (string) Constraints: o pattern: sg-[\w]{1,120} Syntax: "string" "string" ...</param>
+    /// <param name="VpcId">The VPC (virtual private cloud) ID to use with the license endpoint. Constraints: • min: 1 • max: 32 • pattern: vpc-[\w]{1,120}</param>
+    /// <param name="SubnetIds">The subnet IDs. Constraints: • min: 1 • max: 10 (string) Constraints: • min: 1 • max: 32 • pattern: subnet-[\w]{1,120} Syntax: "string" "string" ...</param>
+    /// <param name="SecurityGroupIds">The security group IDs. Constraints: • min: 1 • max: 10 (string) Constraints: • pattern: sg-[\w]{1,120} Syntax: "string" "string" ...</param>
     public AwsDeadlineCreateLicenseEndpointOptions(
         string VpcId,
         IEnumerable<string> SubnetIds,
@@ -88,25 +88,25 @@ public record AwsDeadlineCreateLicenseEndpointOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The VPC (virtual private cloud) ID to use with the license endpoint. Constraints: o min: 1 o max: 32 o pattern: vpc-[\w]{1,120}
+    /// The VPC (virtual private cloud) ID to use with the license endpoint. Constraints: • min: 1 • max: 32 • pattern: vpc-[\w]{1,120}
     /// </summary>
     [CliOption("--vpc-id")]
     public string? VpcId { get; private init; }
 
     /// <summary>
-    /// The subnet IDs. Constraints: o min: 1 o max: 10 (string) Constraints: o min: 1 o max: 32 o pattern: subnet-[\w]{1,120} Syntax: "string" "string" ...
+    /// The subnet IDs. Constraints: • min: 1 • max: 10 (string) Constraints: • min: 1 • max: 32 • pattern: subnet-[\w]{1,120} Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--subnet-ids", GroupValues = true)]
     public IEnumerable<string>? SubnetIds { get; private init; }
 
     /// <summary>
-    /// The security group IDs. Constraints: o min: 1 o max: 10 (string) Constraints: o pattern: sg-[\w]{1,120} Syntax: "string" "string" ...
+    /// The security group IDs. Constraints: • min: 1 • max: 10 (string) Constraints: • pattern: sg-[\w]{1,120} Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--security-group-ids", GroupValues = true)]
     public IEnumerable<string>? SecurityGroupIds { get; private init; }
 
     /// <summary>
-    /// The unique token which the server uses to recognize retries of the same request. Constraints: o min: 1 o max: 64
+    /// The unique token which the server uses to recognize retries of the same request. Constraints: • min: 1 • max: 64
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
@@ -139,6 +139,15 @@ public record AwsDeadlineCreateLicenseEndpointOptions : AwsOptions, IValidatable
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

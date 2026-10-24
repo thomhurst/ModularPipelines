@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves a list of policies that the IAM identity (user, group, or role) can use to access each specified service. NOTE: This operation does not use other policy types when determining whether a resource could access a service. These other policy types include resource-based policies, access control lists, Organizations policies, IAM permissions boundaries, and STS assume role policies. It only applies permissions policy logic. For more about the evalua- tion of policy types, see Evaluating pol...
+/// Retrieves a list of policies that the IAM identity (user, group, or role) can use to access each specified service. NOTE: This operation does not use other policy types when determining whether a resource could access a service. These other policy types include resource-based policies, access control lists, Organizations policies, IAM permissions boundaries, and STS assume role policies. It only applies permissions policy logic. For more about the evaluation of policy types, see Evaluating polic...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsIamListPoliciesGrantingServiceAccessOptions : AwsOptions, IVali
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Retrieves a list of policies that the IAM identity (user, group, or role) can use to access each specified service. NOTE: This operation does not use other policy types when determining whether a resource could access a service. These other policy types include resource-based policies, access control lists, Organizations policies, IAM permissions boundaries, and STS assume role policies. It only applies permissions policy logic. For more about the evalua- tion of policy types, see Evaluating pol...
+    /// Retrieves a list of policies that the IAM identity (user, group, or role) can use to access each specified service. NOTE: This operation does not use other policy types when determining whether a resource could access a service. These other policy types include resource-based policies, access control lists, Organizations policies, IAM permissions boundaries, and STS assume role policies. It only applies permissions policy logic. For more about the evaluation of policy types, see Evaluating polic...
     /// </summary>
-    /// <param name="Arn">The ARN of the IAM identity (user, group, or role) whose policies you want to list. Constraints: o min: 20 o max: 2048</param>
-    /// <param name="ServiceNamespaces">The service namespace for the Amazon Web Services services whose policies you want to list. To learn the service namespace for a service, see Actions, re- sources, and condition keys for Amazon Web Services services in the IAM User Guide . Choose the name of the service to view details for that service. In the first paragraph, find the service prefix. For example, (service prefix: a4b) . For more information about service namespaces, see Amazon Web Services service namespaces in the Amazon Web Services General Reference . Constraints: o min: 1 o max: 200 (string) Constraints: o min: 1 o max: 64 o pattern: [\w-]* Syntax: "string" "string" ...</param>
+    /// <param name="Arn">The ARN of the IAM identity (user, group, or role) whose policies you want to list. Constraints: • min: 20 • max: 2048</param>
+    /// <param name="ServiceNamespaces">The service namespace for the Amazon Web Services services whose policies you want to list. To learn the service namespace for a service, see Actions, resources, and condition keys for Amazon Web Services services in the IAM User Guide . Choose the name of the service to view details for that service. In the first paragraph, find the service prefix. For example, (service prefix: a4b) . For more information about service namespaces, see Amazon Web Services service namespaces in the Amazon Web Services General Reference . Constraints: • min: 1 • max: 200 (string) Constraints: • min: 1 • max: 64 • pattern: [\w-]* Syntax: "string" "string" ...</param>
     public AwsIamListPoliciesGrantingServiceAccessOptions(
         string Arn,
         IEnumerable<string> ServiceNamespaces
@@ -71,19 +72,19 @@ public record AwsIamListPoliciesGrantingServiceAccessOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the IAM identity (user, group, or role) whose policies you want to list. Constraints: o min: 20 o max: 2048
+    /// The ARN of the IAM identity (user, group, or role) whose policies you want to list. Constraints: • min: 20 • max: 2048
     /// </summary>
     [CliOption("--arn")]
     public string? Arn { get; private init; }
 
     /// <summary>
-    /// The service namespace for the Amazon Web Services services whose policies you want to list. To learn the service namespace for a service, see Actions, re- sources, and condition keys for Amazon Web Services services in the IAM User Guide . Choose the name of the service to view details for that service. In the first paragraph, find the service prefix. For example, (service prefix: a4b) . For more information about service namespaces, see Amazon Web Services service namespaces in the Amazon Web Services General Reference . Constraints: o min: 1 o max: 200 (string) Constraints: o min: 1 o max: 64 o pattern: [\w-]* Syntax: "string" "string" ...
+    /// The service namespace for the Amazon Web Services services whose policies you want to list. To learn the service namespace for a service, see Actions, resources, and condition keys for Amazon Web Services services in the IAM User Guide . Choose the name of the service to view details for that service. In the first paragraph, find the service prefix. For example, (service prefix: a4b) . For more information about service namespaces, see Amazon Web Services service namespaces in the Amazon Web Services General Reference . Constraints: • min: 1 • max: 200 (string) Constraints: • min: 1 • max: 64 • pattern: [\w-]* Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--service-namespaces", GroupValues = true)]
     public IEnumerable<string>? ServiceNamespaces { get; private init; }
 
     /// <summary>
-    /// Use this parameter only when paginating results and only after you receive a response indicating that the results are truncated. Set it to the value of the Marker element in the response that you received to indicate where the next call should start. Constraints: o min: 1 o max: 320 o pattern: [\u0020-\u00FF]+
+    /// Use this parameter only when paginating results and only after you receive a response indicating that the results are truncated. Set it to the value of the Marker element in the response that you received to indicate where the next call should start. Constraints: • min: 1 • max: 320 • pattern: [\u0020-\u00FF]+
     /// </summary>
     [CliOption("--marker")]
     public string? Marker { get; set; }
@@ -109,6 +110,15 @@ public record AwsIamListPoliciesGrantingServiceAccessOptions : AwsOptions, IVali
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

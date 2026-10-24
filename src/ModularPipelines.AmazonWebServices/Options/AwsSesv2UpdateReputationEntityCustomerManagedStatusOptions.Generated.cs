@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Update the customer-managed sending status for a reputation entity. This allows you to enable, disable, or reinstate sending for the en- tity. The customer-managed status works in conjunction with the Amazon Web Services Amazon SES-managed status to determine the overall sending ca- pability. When you update the customer-managed status, the Amazon Web Services Amazon SES-managed status remains unchanged. If Amazon Web Services Amazon SES has disabled the entity, it will not be allowed to send re...
+/// Update the customer-managed sending status for a reputation entity. This allows you to enable, disable, or reinstate sending for the entity. The customer-managed status works in conjunction with the Amazon Web Services Amazon SES-managed status to determine the overall sending capability. When you update the customer-managed status, the Amazon Web Services Amazon SES-managed status remains unchanged. If Amazon Web Services Amazon SES has disabled the entity, it will not be allowed to send regard...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,11 +27,11 @@ public record AwsSesv2UpdateReputationEntityCustomerManagedStatusOptions : AwsOp
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Update the customer-managed sending status for a reputation entity. This allows you to enable, disable, or reinstate sending for the en- tity. The customer-managed status works in conjunction with the Amazon Web Services Amazon SES-managed status to determine the overall sending ca- pability. When you update the customer-managed status, the Amazon Web Services Amazon SES-managed status remains unchanged. If Amazon Web Services Amazon SES has disabled the entity, it will not be allowed to send re...
+    /// Update the customer-managed sending status for a reputation entity. This allows you to enable, disable, or reinstate sending for the entity. The customer-managed status works in conjunction with the Amazon Web Services Amazon SES-managed status to determine the overall sending capability. When you update the customer-managed status, the Amazon Web Services Amazon SES-managed status remains unchanged. If Amazon Web Services Amazon SES has disabled the entity, it will not be allowed to send regard...
     /// </summary>
-    /// <param name="ReputationEntityType">The type of reputation entity. Currently, only RESOURCE type enti- ties are supported. Possible values: o RESOURCE</param>
-    /// <param name="ReputationEntityReference">The unique identifier for the reputation entity. For resource-type entities, this is the Amazon Resource Name (ARN) of the resource. Constraints: o min: 1</param>
-    /// <param name="SendingStatus">The new customer-managed sending status for the reputation entity. This can be one of the following: o ENABLED Allow sending for this entity. o DISABLED Prevent sending for this entity. o REINSTATED Allow sending even if there are active reputation findings. Possible values: o ENABLED o REINSTATED o DISABLED</param>
+    /// <param name="ReputationEntityType">The type of reputation entity. Currently, only RESOURCE type entities are supported. Possible values: • RESOURCE</param>
+    /// <param name="ReputationEntityReference">The unique identifier for the reputation entity. For resource-type entities, this is the Amazon Resource Name (ARN) of the resource. Constraints: • min: 1</param>
+    /// <param name="SendingStatus">The new customer-managed sending status for the reputation entity. This can be one of the following: • ENABLED Allow sending for this entity. • DISABLED Prevent sending for this entity. • REINSTATED Allow sending even if there are active reputation findings. Possible values: • ENABLED • REINSTATED • DISABLED</param>
     public AwsSesv2UpdateReputationEntityCustomerManagedStatusOptions(
         string ReputationEntityType,
         string ReputationEntityReference,
@@ -64,19 +65,19 @@ public record AwsSesv2UpdateReputationEntityCustomerManagedStatusOptions : AwsOp
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The type of reputation entity. Currently, only RESOURCE type enti- ties are supported. Possible values: o RESOURCE
+    /// The type of reputation entity. Currently, only RESOURCE type entities are supported. Possible values: • RESOURCE
     /// </summary>
     [CliOption("--reputation-entity-type")]
     public string? ReputationEntityType { get; private init; }
 
     /// <summary>
-    /// The unique identifier for the reputation entity. For resource-type entities, this is the Amazon Resource Name (ARN) of the resource. Constraints: o min: 1
+    /// The unique identifier for the reputation entity. For resource-type entities, this is the Amazon Resource Name (ARN) of the resource. Constraints: • min: 1
     /// </summary>
     [CliOption("--reputation-entity-reference")]
     public string? ReputationEntityReference { get; private init; }
 
     /// <summary>
-    /// The new customer-managed sending status for the reputation entity. This can be one of the following: o ENABLED Allow sending for this entity. o DISABLED Prevent sending for this entity. o REINSTATED Allow sending even if there are active reputation findings. Possible values: o ENABLED o REINSTATED o DISABLED
+    /// The new customer-managed sending status for the reputation entity. This can be one of the following: • ENABLED Allow sending for this entity. • DISABLED Prevent sending for this entity. • REINSTATED Allow sending even if there are active reputation findings. Possible values: • ENABLED • REINSTATED • DISABLED
     /// </summary>
     [CliOption("--sending-status")]
     public AwsSesv2UpdateReputationEntityCustomerManagedStatusSendingStatus? SendingStatus { get; private init; }
@@ -102,6 +103,15 @@ public record AwsSesv2UpdateReputationEntityCustomerManagedStatusOptions : AwsOp
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Detaches a key-value pair from a resource, as identified by its Amazon Resource Name (ARN). Taggable resources in AWS User Notifications Con- tacts include email contacts.. See also: AWS API Documentation
+/// Detaches a key-value pair from a resource, as identified by its Amazon Resource Name (ARN). Taggable resources in AWS User Notifications Contacts include email contacts.. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsNotificationscontactsUntagResourceOptions : AwsOptions, IValida
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Detaches a key-value pair from a resource, as identified by its Amazon Resource Name (ARN). Taggable resources in AWS User Notifications Con- tacts include email contacts.. See also: AWS API Documentation
+    /// Detaches a key-value pair from a resource, as identified by its Amazon Resource Name (ARN). Taggable resources in AWS User Notifications Contacts include email contacts.. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Arn">The value of the resource that will have the tag removed. An Amazon Resource Name (ARN) is an identifier for a specific AWS resource, such as a server, user, or role. Constraints: o pattern: arn:aws:notifications-contacts::[0-9]{12}:emailcon- tact/[a-z0-9]{27}</param>
-    /// <param name="TagKeys">Specifies a list of tag keys that you want to remove from the speci- fied resources. (string) Constraints: o pattern: (?!aws:).{1,128} Syntax: "string" "string" ...</param>
+    /// <param name="Arn">The value of the resource that will have the tag removed. An Amazon Resource Name (ARN) is an identifier for a specific AWS resource, such as a server, user, or role. Constraints: • pattern: arn:aws:notifications-contacts::[0-9]{12}:emailcontact/[a-z0-9]{27}</param>
+    /// <param name="TagKeys">Specifies a list of tag keys that you want to remove from the specified resources. (string) Constraints: • pattern: (?!aws:).{1,128} Syntax: "string" "string" ...</param>
     public AwsNotificationscontactsUntagResourceOptions(
         string Arn,
         IEnumerable<string> TagKeys
@@ -71,13 +72,13 @@ public record AwsNotificationscontactsUntagResourceOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The value of the resource that will have the tag removed. An Amazon Resource Name (ARN) is an identifier for a specific AWS resource, such as a server, user, or role. Constraints: o pattern: arn:aws:notifications-contacts::[0-9]{12}:emailcon- tact/[a-z0-9]{27}
+    /// The value of the resource that will have the tag removed. An Amazon Resource Name (ARN) is an identifier for a specific AWS resource, such as a server, user, or role. Constraints: • pattern: arn:aws:notifications-contacts::[0-9]{12}:emailcontact/[a-z0-9]{27}
     /// </summary>
     [CliOption("--arn")]
     public string? Arn { get; private init; }
 
     /// <summary>
-    /// Specifies a list of tag keys that you want to remove from the speci- fied resources. (string) Constraints: o pattern: (?!aws:).{1,128} Syntax: "string" "string" ...
+    /// Specifies a list of tag keys that you want to remove from the specified resources. (string) Constraints: • pattern: (?!aws:).{1,128} Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--tag-keys", GroupValues = true)]
     public IEnumerable<string>? TagKeys { get; private init; }
@@ -103,6 +104,15 @@ public record AwsNotificationscontactsUntagResourceOptions : AwsOptions, IValida
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

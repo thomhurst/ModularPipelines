@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -87,7 +88,7 @@ public record AwsEc2AttachNetworkInterfaceOptions : AwsOptions, IValidatableObje
     public int? NetworkCardIndex { get; set; }
 
     /// <summary>
-    /// Configures ENA Express for the network interface that this action attaches to the instance. EnaSrdEnabled -&gt; (boolean) Indicates whether ENA Express is enabled for the network inter- face. EnaSrdUdpSpecification -&gt; (structure) Configures ENA Express for UDP network traffic. EnaSrdUdpEnabled -&gt; (boolean) Indicates whether UDP traffic to and from the instance uses ENA Express. To specify this setting, you must first enable ENA Express. Shorthand Syntax: EnaSrdEnabled=boolean,EnaSrdUdpSpecification={EnaSrdUdpEnabled=boolean} JSON Syntax: { "EnaSrdEnabled": true|false, "EnaSrdUdpSpecification": { "EnaSrdUdpEnabled": true|false } }
+    /// Configures ENA Express for the network interface that this action attaches to the instance. EnaSrdEnabled -&gt; (boolean) Indicates whether ENA Express is enabled for the network interface. EnaSrdUdpSpecification -&gt; (structure) Configures ENA Express for UDP network traffic. EnaSrdUdpEnabled -&gt; (boolean) Indicates whether UDP traffic to and from the instance uses ENA Express. To specify this setting, you must first enable ENA Express. Shorthand Syntax: EnaSrdEnabled=boolean,EnaSrdUdpSpecification={EnaSrdUdpEnabled=boolean} JSON Syntax: { "EnaSrdEnabled": true|false, "EnaSrdUdpSpecification": { "EnaSrdUdpEnabled": true|false } }
     /// </summary>
     [CliOption("--ena-srd-specification")]
     public string? EnaSrdSpecification { get; set; }
@@ -99,7 +100,7 @@ public record AwsEc2AttachNetworkInterfaceOptions : AwsOptions, IValidatableObje
     public int? EnaQueueCount { get; set; }
 
     /// <summary>
-    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation . Otherwise, it is UnauthorizedOperation .
     /// </summary>
     [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
@@ -125,6 +126,15 @@ public record AwsEc2AttachNetworkInterfaceOptions : AwsOptions, IValidatableObje
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

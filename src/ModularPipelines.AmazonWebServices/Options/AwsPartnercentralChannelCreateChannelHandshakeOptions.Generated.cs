@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -29,9 +30,9 @@ public record AwsPartnercentralChannelCreateChannelHandshakeOptions : AwsOptions
     /// <summary>
     /// Creates a new channel handshake request to establish a partnership with another AWS account. See also: AWS API Documentation
     /// </summary>
-    /// <param name="HandshakeType">The type of handshake to create (e.g., start service period, revoke service period). Possible values: o START_SERVICE_PERIOD o REVOKE_SERVICE_PERIOD o PROGRAM_MANAGEMENT_ACCOUNT</param>
-    /// <param name="Catalog">The catalog identifier for the handshake request. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z]*</param>
-    /// <param name="AssociatedResourceIdentifier">The identifier of the resource associated with this handshake. Constraints: o min: 16 o max: 1011 o pattern: ((arn:[a-z-]+:partnercentral:[a-z0-9-]+:[0-9]{12}:cata- log/[a-zA-Z]+/program-management-account/pma-[a-z0-9]{13}(/rela- tionship/rs-[a-z0-9]{13})?)|(pma|rs)-[a-z0-9]{13})</param>
+    /// <param name="HandshakeType">The type of handshake to create (e.g., start service period, revoke service period). Possible values: • START_SERVICE_PERIOD • REVOKE_SERVICE_PERIOD • PROGRAM_MANAGEMENT_ACCOUNT</param>
+    /// <param name="Catalog">The catalog identifier for the handshake request. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z]*</param>
+    /// <param name="AssociatedResourceIdentifier">The identifier of the resource associated with this handshake. Constraints: • min: 16 • max: 1011 • pattern: ((arn:[a-z-]+:partnercentral:[a-z0-9-]+:[0-9]{12}:catalog/[a-zA-Z]+/program-management-account/pma-[a-z0-9]{13}(/relationship/rs-[a-z0-9]{13})?)|(pma|rs)-[a-z0-9]{13})</param>
     public AwsPartnercentralChannelCreateChannelHandshakeOptions(
         AwsPartnercentralChannelCreateChannelHandshakeHandshakeType HandshakeType,
         string Catalog,
@@ -65,38 +66,38 @@ public record AwsPartnercentralChannelCreateChannelHandshakeOptions : AwsOptions
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The type of handshake to create (e.g., start service period, revoke service period). Possible values: o START_SERVICE_PERIOD o REVOKE_SERVICE_PERIOD o PROGRAM_MANAGEMENT_ACCOUNT
+    /// The type of handshake to create (e.g., start service period, revoke service period). Possible values: • START_SERVICE_PERIOD • REVOKE_SERVICE_PERIOD • PROGRAM_MANAGEMENT_ACCOUNT
     /// </summary>
     [CliOption("--handshake-type")]
     public AwsPartnercentralChannelCreateChannelHandshakeHandshakeType? HandshakeType { get; private init; }
 
     /// <summary>
-    /// The catalog identifier for the handshake request. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z]*
+    /// The catalog identifier for the handshake request. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z]*
     /// </summary>
     [CliOption("--catalog")]
     public string? Catalog { get; private init; }
 
     /// <summary>
-    /// The identifier of the resource associated with this handshake. Constraints: o min: 16 o max: 1011 o pattern: ((arn:[a-z-]+:partnercentral:[a-z0-9-]+:[0-9]{12}:cata- log/[a-zA-Z]+/program-management-account/pma-[a-z0-9]{13}(/rela- tionship/rs-[a-z0-9]{13})?)|(pma|rs)-[a-z0-9]{13})
+    /// The identifier of the resource associated with this handshake. Constraints: • min: 16 • max: 1011 • pattern: ((arn:[a-z-]+:partnercentral:[a-z0-9-]+:[0-9]{12}:catalog/[a-zA-Z]+/program-management-account/pma-[a-z0-9]{13}(/relationship/rs-[a-z0-9]{13})?)|(pma|rs)-[a-z0-9]{13})
     /// </summary>
     [CliOption("--associated-resource-identifier")]
     public string? AssociatedResourceIdentifier { get; private init; }
 
     /// <summary>
-    /// The payload containing specific details for the handshake type. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: startServicePeriodPayload, revokeServi- cePeriodPayload. startServicePeriodPayload -&gt; (structure) Payload for starting a service period handshake. programManagementAccountIdentifier -&gt; (string) [required] The identifier of the program management account. Constraints: o min: 17 o max: 1011 o pattern: (arn:[a-z-]+:partner- central:[a-z0-9-]+:[0-9]{12}:catalog/[a-zA-Z]+/program-man- agement-account/)?pma-[a-z0-9]{13} note -&gt; (string) A note providing additional information about the service pe- riod. Constraints: o min: 1 o max: 300 o pattern: [^\x00-\x1F\x7F]* servicePeriodType -&gt; (string) [required] The type of service period being started. Possible values: o MINIMUM_NOTICE_PERIOD o FIXED_COMMITMENT_PERIOD minimumNoticeDays -&gt; (string) The minimum number of days notice required for changes. Constraints: o min: 1 o max: 10 o pattern: [0-9]* endDate -&gt; (timestamp) The end date of the service period. revokeServicePeriodPayload -&gt; (structure) Payload for revoking a service period handshake. programManagementAccountIdentifier -&gt; (string) [required] The identifier of the program management account. Constraints: o min: 17 o max: 1011 o pattern: (arn:[a-z-]+:partner- central:[a-z0-9-]+:[0-9]{12}:catalog/[a-zA-Z]+/program-man- agement-account/)?pma-[a-z0-9]{13} note -&gt; (string) A note explaining the reason for revoking the service period. Constraints: o min: 1 o max: 300 o pattern: [^\x00-\x1F\x7F]* Shorthand Syntax: startServicePeriodPayload={programManagementAccountIdentifier=string,note=string,servicePeriodType=string,minimumNoticeDays=string,endDate=timestamp},revokeServicePeriodPayload={programManagementAccountIdentifier=string,note=string} JSON Syntax: { "startServicePeriodPayload": { "programManagementAccountIdentifier": "string", "note": "string", "servicePeriodType": "MINIMUM_NOTICE_PERIOD"|"FIXED_COMMITMENT_PERIOD", "minimumNoticeDays": "string", "endDate": timestamp }, "revokeServicePeriodPayload": { "programManagementAccountIdentifier": "string", "note": "string" } }
+    /// The payload containing specific details for the handshake type. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: startServicePeriodPayload, revokeServicePeriodPayload. startServicePeriodPayload -&gt; (structure) Payload for starting a service period handshake. programManagementAccountIdentifier -&gt; (string) [required] The identifier of the program management account. Constraints: • min: 17 • max: 1011 • pattern: (arn:[a-z-]+:partnercentral:[a-z0-9-]+:[0-9]{12}:catalog/[a-zA-Z]+/program-management-account/)?pma-[a-z0-9]{13} note -&gt; (string) A note providing additional information about the service period. Constraints: • min: 1 • max: 300 • pattern: [^\x00-\x1F\x7F]* servicePeriodType -&gt; (string) [required] The type of service period being started. Possible values: • MINIMUM_NOTICE_PERIOD • FIXED_COMMITMENT_PERIOD minimumNoticeDays -&gt; (string) The minimum number of days notice required for changes. Constraints: • min: 1 • max: 10 • pattern: [0-9]* endDate -&gt; (timestamp) The end date of the service period. revokeServicePeriodPayload -&gt; (structure) Payload for revoking a service period handshake. programManagementAccountIdentifier -&gt; (string) [required] The identifier of the program management account. Constraints: • min: 17 • max: 1011 • pattern: (arn:[a-z-]+:partnercentral:[a-z0-9-]+:[0-9]{12}:catalog/[a-zA-Z]+/program-management-account/)?pma-[a-z0-9]{13} note -&gt; (string) A note explaining the reason for revoking the service period. Constraints: • min: 1 • max: 300 • pattern: [^\x00-\x1F\x7F]* Shorthand Syntax: startServicePeriodPayload={programManagementAccountIdentifier=string,note=string,servicePeriodType=string,minimumNoticeDays=string,endDate=timestamp},revokeServicePeriodPayload={programManagementAccountIdentifier=string,note=string} JSON Syntax: { "startServicePeriodPayload": { "programManagementAccountIdentifier": "string", "note": "string", "servicePeriodType": "MINIMUM_NOTICE_PERIOD"|"FIXED_COMMITMENT_PERIOD", "minimumNoticeDays": "string", "endDate": timestamp }, "revokeServicePeriodPayload": { "programManagementAccountIdentifier": "string", "note": "string" } }
     /// </summary>
     [CliOption("--payload")]
     public string? Payload { get; set; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier to ensure idempotency of the re- quest. Constraints: o min: 1 o max: 64 o pattern: [!-~]*
+    /// A unique, case-sensitive identifier to ensure idempotency of the request. Constraints: • min: 1 • max: 64 • pattern: [!-~]*
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// Key-value pairs to associate with the channel handshake. (structure) A key-value pair that can be associated with a resource. key -&gt; (string) [required] The key of the tag. Constraints: o min: 1 o max: 128 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) value -&gt; (string) [required] The value of the tag. Constraints: o min: 0 o max: 256 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
+    /// Key-value pairs to associate with the channel handshake. (structure) A key-value pair that can be associated with a resource. key -&gt; (string) [required] The key of the tag. Constraints: • min: 1 • max: 128 • pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) value -&gt; (string) [required] The value of the tag. Constraints: • min: 0 • max: 256 • pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
@@ -122,6 +123,15 @@ public record AwsPartnercentralChannelCreateChannelHandshakeOptions : AwsOptions
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

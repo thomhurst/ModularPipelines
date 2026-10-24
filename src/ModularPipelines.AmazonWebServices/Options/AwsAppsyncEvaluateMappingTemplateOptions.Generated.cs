@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Evaluates a given template and returns the response. The mapping tem- plate can be a request or response template. Request templates take the incoming request after a GraphQL operation is parsed and convert it into a request configuration for the selected data source operation. Response templates interpret responses from the data source and map it to the shape of the GraphQL field output type. Mapping templates are written in the Apache Velocity Template Language (VTL). See also: AWS API Documen...
+/// Evaluates a given template and returns the response. The mapping template can be a request or response template. Request templates take the incoming request after a GraphQL operation is parsed and convert it into a request configuration for the selected data source operation. Response templates interpret responses from the data source and map it to the shape of the GraphQL field output type. Mapping templates are written in the Apache Velocity Template Language (VTL). See also: AWS API Documenta...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsAppsyncEvaluateMappingTemplateOptions : AwsOptions, IValidatabl
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Evaluates a given template and returns the response. The mapping tem- plate can be a request or response template. Request templates take the incoming request after a GraphQL operation is parsed and convert it into a request configuration for the selected data source operation. Response templates interpret responses from the data source and map it to the shape of the GraphQL field output type. Mapping templates are written in the Apache Velocity Template Language (VTL). See also: AWS API Documen...
+    /// Evaluates a given template and returns the response. The mapping template can be a request or response template. Request templates take the incoming request after a GraphQL operation is parsed and convert it into a request configuration for the selected data source operation. Response templates interpret responses from the data source and map it to the shape of the GraphQL field output type. Mapping templates are written in the Apache Velocity Template Language (VTL). See also: AWS API Documenta...
     /// </summary>
-    /// <param name="Template">The mapping template; this can be a request or response template. A template is required for this action. Constraints: o min: 2 o max: 65536 o pattern: ^[\s\S]*$</param>
-    /// <param name="Context">The map that holds all of the contextual information for your re- solver invocation. A context is required for this action. Constraints: o min: 2 o max: 28000 o pattern: ^[\s\S]*$</param>
+    /// <param name="Template">The mapping template; this can be a request or response template. A template is required for this action. Constraints: • min: 2 • max: 65536 • pattern: ^[\s\S]*$</param>
+    /// <param name="Context">The map that holds all of the contextual information for your resolver invocation. A context is required for this action. Constraints: • min: 2 • max: 28000 • pattern: ^[\s\S]*$</param>
     public AwsAppsyncEvaluateMappingTemplateOptions(
         string Template,
         string Context
@@ -60,13 +61,13 @@ public record AwsAppsyncEvaluateMappingTemplateOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The mapping template; this can be a request or response template. A template is required for this action. Constraints: o min: 2 o max: 65536 o pattern: ^[\s\S]*$
+    /// The mapping template; this can be a request or response template. A template is required for this action. Constraints: • min: 2 • max: 65536 • pattern: ^[\s\S]*$
     /// </summary>
     [CliOption("--template")]
     public string? Template { get; private init; }
 
     /// <summary>
-    /// The map that holds all of the contextual information for your re- solver invocation. A context is required for this action. Constraints: o min: 2 o max: 28000 o pattern: ^[\s\S]*$
+    /// The map that holds all of the contextual information for your resolver invocation. A context is required for this action. Constraints: • min: 2 • max: 28000 • pattern: ^[\s\S]*$
     /// </summary>
     [CliOption("--context")]
     public string? Context { get; private init; }
@@ -92,6 +93,15 @@ public record AwsAppsyncEvaluateMappingTemplateOptions : AwsOptions, IValidatabl
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

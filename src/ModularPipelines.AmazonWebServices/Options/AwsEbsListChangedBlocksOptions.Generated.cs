@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns information about the blocks that are different between two Amazon Elastic Block Store snapshots of the same volume/snapshot lin- eage. NOTE: You should always retry requests that receive server (5xx ) error responses, and ThrottlingException and RequestThrottledException client error responses. For more information see Error retries in the Amazon Elastic Compute Cloud User Guide . See also: AWS API Documentation
+/// Returns information about the blocks that are different between two Amazon Elastic Block Store snapshots of the same volume/snapshot lineage. NOTE: You should always retry requests that receive server (5xx ) error responses, and ThrottlingException and RequestThrottledException client error responses. For more information see Error retries in the Amazon Elastic Compute Cloud User Guide . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +27,9 @@ public record AwsEbsListChangedBlocksOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns information about the blocks that are different between two Amazon Elastic Block Store snapshots of the same volume/snapshot lin- eage. NOTE: You should always retry requests that receive server (5xx ) error responses, and ThrottlingException and RequestThrottledException client error responses. For more information see Error retries in the Amazon Elastic Compute Cloud User Guide . See also: AWS API Documentation
+    /// Returns information about the blocks that are different between two Amazon Elastic Block Store snapshots of the same volume/snapshot lineage. NOTE: You should always retry requests that receive server (5xx ) error responses, and ThrottlingException and RequestThrottledException client error responses. For more information see Error retries in the Amazon Elastic Compute Cloud User Guide . See also: AWS API Documentation
     /// </summary>
-    /// <param name="SecondSnapshotId">The ID of the second snapshot to use for the comparison. WARNING: The SecondSnapshotId parameter must be specified with a First- SnapshotID parameter; otherwise, an error occurs. Constraints: o min: 1 o max: 64 o pattern: ^snap-[0-9a-f]+$</param>
+    /// <param name="SecondSnapshotId">The ID of the second snapshot to use for the comparison. WARNING: The SecondSnapshotId parameter must be specified with a FirstSnapshotID parameter; otherwise, an error occurs. Constraints: • min: 1 • max: 64 • pattern: ^snap-[0-9a-f]+$</param>
     public AwsEbsListChangedBlocksOptions(
         string SecondSnapshotId
     )
@@ -57,32 +58,32 @@ public record AwsEbsListChangedBlocksOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the second snapshot to use for the comparison. WARNING: The SecondSnapshotId parameter must be specified with a First- SnapshotID parameter; otherwise, an error occurs. Constraints: o min: 1 o max: 64 o pattern: ^snap-[0-9a-f]+$
+    /// The ID of the second snapshot to use for the comparison. WARNING: The SecondSnapshotId parameter must be specified with a FirstSnapshotID parameter; otherwise, an error occurs. Constraints: • min: 1 • max: 64 • pattern: ^snap-[0-9a-f]+$
     /// </summary>
     [CliOption("--second-snapshot-id")]
     public string? SecondSnapshotId { get; private init; }
 
     /// <summary>
-    /// The ID of the first snapshot to use for the comparison. WARNING: The FirstSnapshotID parameter must be specified with a Second- SnapshotId parameter; otherwise, an error occurs. Constraints: o min: 1 o max: 64 o pattern: ^snap-[0-9a-f]+$
+    /// The ID of the first snapshot to use for the comparison. WARNING: The FirstSnapshotID parameter must be specified with a SecondSnapshotId parameter; otherwise, an error occurs. Constraints: • min: 1 • max: 64 • pattern: ^snap-[0-9a-f]+$
     /// </summary>
     [CliOption("--first-snapshot-id")]
     public string? FirstSnapshotId { get; set; }
 
     /// <summary>
-    /// The token to request the next page of results. If you specify NextToken , then StartingBlockIndex is ignored. Constraints: o max: 256 o pattern: ^[A-Za-z0-9+/=]+$
+    /// The token to request the next page of results. If you specify NextToken , then StartingBlockIndex is ignored. Constraints: • max: 256 • pattern: ^[A-Za-z0-9+/=]+$
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// The maximum number of blocks to be returned by the request. Even if additional blocks can be retrieved from the snapshot, the request can return less blocks than MaxResults or an empty array of blocks. To retrieve the next set of blocks from the snapshot, make another request with the returned NextToken value. The value of NextToken is null when there are no more blocks to return. Constraints: o min: 100 o max: 10000
+    /// The maximum number of blocks to be returned by the request. Even if additional blocks can be retrieved from the snapshot, the request can return less blocks than MaxResults or an empty array of blocks. To retrieve the next set of blocks from the snapshot, make another request with the returned NextToken value. The value of NextToken is null when there are no more blocks to return. Constraints: • min: 100 • max: 10000
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
     /// <summary>
-    /// The block index from which the comparison should start. The list in the response will start from this block index or the next valid block index in the snapshots. If you specify NextToken , then StartingBlockIndex is ignored. Constraints: o min: 0
+    /// The block index from which the comparison should start. The list in the response will start from this block index or the next valid block index in the snapshots. If you specify NextToken , then StartingBlockIndex is ignored. Constraints: • min: 0
     /// </summary>
     [CliOption("--starting-block-index")]
     public int? StartingBlockIndex { get; set; }
@@ -108,6 +109,15 @@ public record AwsEbsListChangedBlocksOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

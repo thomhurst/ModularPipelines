@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +29,7 @@ public record AwsIotwirelessListMulticastGroupsByFuotaTaskOptions : AwsOptions, 
     /// <summary>
     /// List all multicast groups associated with a FUOTA task. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Id">The ID of a FUOTA task. Constraints: o max: 256</param>
+    /// <param name="Id">The ID of a FUOTA task. Constraints: • max: 256</param>
     public AwsIotwirelessListMulticastGroupsByFuotaTaskOptions(
         string Id
     )
@@ -57,20 +58,20 @@ public record AwsIotwirelessListMulticastGroupsByFuotaTaskOptions : AwsOptions, 
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of a FUOTA task. Constraints: o max: 256
+    /// The ID of a FUOTA task. Constraints: • max: 256
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; private init; }
 
     /// <summary>
-    /// To retrieve the next set of results, the nextToken value from a pre- vious response; otherwise null to receive the first set of results. Constraints: o max: 4096
+    /// To retrieve the next set of results, the nextToken value from a previous response; otherwise null to receive the first set of results. Constraints: • max: 4096
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// The maximum number of results to return in this operation. Constraints: o min: 0 o max: 250
+    /// The maximum number of results to return in this operation. Constraints: • min: 0 • max: 250
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
@@ -96,6 +97,15 @@ public record AwsIotwirelessListMulticastGroupsByFuotaTaskOptions : AwsOptions, 
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

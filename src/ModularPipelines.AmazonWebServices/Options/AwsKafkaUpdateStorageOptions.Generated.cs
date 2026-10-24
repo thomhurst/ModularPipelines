@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -79,7 +80,7 @@ public record AwsKafkaUpdateStorageOptions : AwsOptions, IValidatableObject
     public string? ProvisionedThroughput { get; set; }
 
     /// <summary>
-    /// Controls storage mode for supported storage tiers. Possible values: o LOCAL o TIERED
+    /// Controls storage mode for supported storage tiers. Possible values: • LOCAL • TIERED
     /// </summary>
     [CliOption("--storage-mode")]
     public AwsKafkaUpdateStorageStorageMode? StorageMode { get; set; }
@@ -111,6 +112,15 @@ public record AwsKafkaUpdateStorageOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

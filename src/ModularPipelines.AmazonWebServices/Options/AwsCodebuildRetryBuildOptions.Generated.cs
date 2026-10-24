@@ -23,13 +23,13 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsCodebuildRetryBuildOptions : AwsOptions
 {
     /// <summary>
-    /// Specifies the identifier of the build to restart. Constraints: o min: 1
+    /// Specifies the identifier of the build to restart. Constraints: • min: 1
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; set; }
 
     /// <summary>
-    /// A unique, case sensitive identifier you provide to ensure the idem- potency of the RetryBuild request. The token is included in the RetryBuild request and is valid for five minutes. If you repeat the RetryBuild request with the same token, but change a parameter, CodeBuild returns a parameter mismatch error.
+    /// A unique, case sensitive identifier you provide to ensure the idempotency of the RetryBuild request. The token is included in the RetryBuild request and is valid for five minutes. If you repeat the RetryBuild request with the same token, but change a parameter, CodeBuild returns a parameter mismatch error.
     /// </summary>
     [SecretValue]
     [CliOption("--idempotency-token")]
@@ -40,5 +40,14 @@ public record AwsCodebuildRetryBuildOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

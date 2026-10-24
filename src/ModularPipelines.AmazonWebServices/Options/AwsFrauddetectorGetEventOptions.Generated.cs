@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves details of events stored with Amazon Fraud Detector. This ac- tion does not retrieve prediction results. See also: AWS API Documentation
+/// Retrieves details of events stored with Amazon Fraud Detector. This action does not retrieve prediction results. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +26,7 @@ public record AwsFrauddetectorGetEventOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Retrieves details of events stored with Amazon Fraud Detector. This ac- tion does not retrieve prediction results. See also: AWS API Documentation
+    /// Retrieves details of events stored with Amazon Fraud Detector. This action does not retrieve prediction results. See also: AWS API Documentation
     /// </summary>
     /// <param name="EventId">The ID of the event to retrieve.</param>
     /// <param name="EventTypeName">The event type of the event to retrieve.</param>
@@ -92,6 +93,15 @@ public record AwsFrauddetectorGetEventOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

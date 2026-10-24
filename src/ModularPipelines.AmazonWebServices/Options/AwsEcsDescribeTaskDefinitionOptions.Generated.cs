@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsEcsDescribeTaskDefinitionOptions : AwsOptions, IValidatableObje
     /// <summary>
     /// Describes a task definition. You can specify a family and revision to find information about a specific task definition, or you can simply specify the family to find the latest ACTIVE revision in that family. NOTE: You can only describe INACTIVE task definitions while an active task or service references them. See also: AWS API Documentation
     /// </summary>
-    /// <param name="TaskDefinition">The family for the latest ACTIVE revision, family and revision (fam- ily:revision ) for a specific revision in the family, or full Amazon Resource Name (ARN) of the task definition to describe.</param>
+    /// <param name="TaskDefinition">The family for the latest ACTIVE revision, family and revision (family:revision ) for a specific revision in the family, or full Amazon Resource Name (ARN) of the task definition to describe.</param>
     public AwsEcsDescribeTaskDefinitionOptions(
         string TaskDefinition
     )
@@ -56,13 +57,13 @@ public record AwsEcsDescribeTaskDefinitionOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The family for the latest ACTIVE revision, family and revision (fam- ily:revision ) for a specific revision in the family, or full Amazon Resource Name (ARN) of the task definition to describe.
+    /// The family for the latest ACTIVE revision, family and revision (family:revision ) for a specific revision in the family, or full Amazon Resource Name (ARN) of the task definition to describe.
     /// </summary>
     [CliOption("--task-definition")]
     public string? TaskDefinition { get; private init; }
 
     /// <summary>
-    /// Determines whether to see the resource tags for the task definition. If TAGS is specified, the tags are included in the response. If this field is omitted, tags aren't included in the response. (string) Possible values: o TAGS Syntax: "string" "string" ...
+    /// Determines whether to see the resource tags for the task definition. If TAGS is specified, the tags are included in the response. If this field is omitted, tags aren't included in the response. (string) Possible values: • TAGS Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--include", GroupValues = true)]
     public IEnumerable<string>? Include { get; set; }
@@ -88,6 +89,15 @@ public record AwsEcsDescribeTaskDefinitionOptions : AwsOptions, IValidatableObje
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

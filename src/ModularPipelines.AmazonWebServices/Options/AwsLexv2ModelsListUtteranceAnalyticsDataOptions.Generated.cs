@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// NOTE: To use this API operation, your IAM role must have permissions to perform the ListAggregatedUtterances operation, which provides ac- cess to utterance-related analytics. See Viewing utterance statis- tics for the IAM policy to apply to the IAM role. Retrieves a list of metadata for individual user utterances to your bot. The following fields are required: o startDateTime and endDateTime Define a time range for which you want to retrieve results. Of the optional fields, you can organize the...
+/// NOTE: To use this API operation, your IAM role must have permissions to perform the ListAggregatedUtterances operation, which provides access to utterance-related analytics. See Viewing utterance statistics for the IAM policy to apply to the IAM role. Retrieves a list of metadata for individual user utterances to your bot. The following fields are required: • startDateTime and endDateTime Define a time range for which you want to retrieve results. Of the optional fields, you can organize the res...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +27,9 @@ public record AwsLexv2ModelsListUtteranceAnalyticsDataOptions : AwsOptions, IVal
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// NOTE: To use this API operation, your IAM role must have permissions to perform the ListAggregatedUtterances operation, which provides ac- cess to utterance-related analytics. See Viewing utterance statis- tics for the IAM policy to apply to the IAM role. Retrieves a list of metadata for individual user utterances to your bot. The following fields are required: o startDateTime and endDateTime Define a time range for which you want to retrieve results. Of the optional fields, you can organize the...
+    /// NOTE: To use this API operation, your IAM role must have permissions to perform the ListAggregatedUtterances operation, which provides access to utterance-related analytics. See Viewing utterance statistics for the IAM policy to apply to the IAM role. Retrieves a list of metadata for individual user utterances to your bot. The following fields are required: • startDateTime and endDateTime Define a time range for which you want to retrieve results. Of the optional fields, you can organize the res...
     /// </summary>
-    /// <param name="BotId">The identifier for the bot for which you want to retrieve utterance analytics. Constraints: o min: 10 o max: 10 o pattern: ^[0-9a-zA-Z]+$</param>
+    /// <param name="BotId">The identifier for the bot for which you want to retrieve utterance analytics. Constraints: • min: 10 • max: 10 • pattern: ^[0-9a-zA-Z]+$</param>
     /// <param name="StartDateTime">The date and time that marks the beginning of the range of time for which you want to see utterance analytics.</param>
     /// <param name="EndDateTime">The date and time that marks the end of the range of time for which you want to see utterance analytics.</param>
     public AwsLexv2ModelsListUtteranceAnalyticsDataOptions(
@@ -65,7 +66,7 @@ public record AwsLexv2ModelsListUtteranceAnalyticsDataOptions : AwsOptions, IVal
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier for the bot for which you want to retrieve utterance analytics. Constraints: o min: 10 o max: 10 o pattern: ^[0-9a-zA-Z]+$
+    /// The identifier for the bot for which you want to retrieve utterance analytics. Constraints: • min: 10 • max: 10 • pattern: ^[0-9a-zA-Z]+$
     /// </summary>
     [CliOption("--bot-id")]
     public string? BotId { get; private init; }
@@ -83,25 +84,25 @@ public record AwsLexv2ModelsListUtteranceAnalyticsDataOptions : AwsOptions, IVal
     public string? EndDateTime { get; private init; }
 
     /// <summary>
-    /// An object specifying the measure and method by which to sort the ut- terance analytics data. name -&gt; (string) [required] The measure by which to sort the utterance analytics data. o Count The number of utterances. o UtteranceTimestamp The date and time of the utterance. Possible values: o UtteranceTimestamp order -&gt; (string) [required] Specifies whether to sort the results in ascending or descending order. Possible values: o Ascending o Descending Shorthand Syntax: name=string,order=string JSON Syntax: { "name": "UtteranceTimestamp", "order": "Ascending"|"Descending" }
+    /// An object specifying the measure and method by which to sort the utterance analytics data. name -&gt; (string) [required] The measure by which to sort the utterance analytics data. • Count The number of utterances. • UtteranceTimestamp The date and time of the utterance. Possible values: • UtteranceTimestamp order -&gt; (string) [required] Specifies whether to sort the results in ascending or descending order. Possible values: • Ascending • Descending Shorthand Syntax: name=string,order=string JSON Syntax: { "name": "UtteranceTimestamp", "order": "Ascending"|"Descending" }
     /// </summary>
     [CliOption("--sort-by")]
     public string? SortBy { get; set; }
 
     /// <summary>
-    /// A list of objects, each of which describes a condition by which you want to filter the results. Constraints: o min: 1 o max: 9 (structure) Contains fields describing a condition by which to filter the utterances. The expression may be understood as name operator values . For example: o LocaleId EQ Book The locale is the string "en". o UtteranceText CO help The text of the utterance contains the string "help". The operators that each filter supports are listed below: o BotAlias EQ . o BotVersion EQ . o LocaleId EQ . o Modality EQ . o Channel EQ . o SessionId EQ . o OriginatingRequestId EQ . o UtteranceState EQ . o UtteranceText EQ , CO . name -&gt; (string) [required] The category by which to filter the utterances. The descrip- tions for each option are as follows: o BotAlias The name of the bot alias. o BotVersion The version of the bot. o LocaleId The locale of the bot. o Modality The modality of the session with the bot (audio, DTMF, or text). o Channel The channel that the bot is integrated with. o SessionId The identifier of the session with the bot. o OriginatingRequestId The identifier of the first request in a session. o UtteranceState The state of the utterance. o UtteranceText The text in the utterance. Possible values: o BotAliasId o BotVersion o LocaleId o Modality o Channel o SessionId o OriginatingRequestId o UtteranceState o UtteranceText operator -&gt; (string) [required] The operation by which to filter the category. The following operations are possible: o CO Contains o EQ Equals o GT Greater than o LT Less than The operators that each filter supports are listed below: o BotAlias EQ . o BotVersion EQ . o LocaleId EQ . o Modality EQ . o Channel EQ . o SessionId EQ . o OriginatingRequestId EQ . o UtteranceState EQ . o UtteranceText EQ , CO . Possible values: o EQ o GT o LT values -&gt; (list) [required] An array containing the values of the category by which to apply the operator to filter the results. You can provide multiple values if the operator is EQ or CO . If you provide multiple values, you filter for results that equal/contain any of the values. For example, if the name , operator , and values fields are Modality , EQ , and [Speech, Text] , the operation filters for results where the modality was either Speech or Text . Constraints: o min: 1 o max: 5 (string) Shorthand Syntax: name=string,operator=string,values=string,string ... JSON Syntax: [ { "name": "BotAliasId"|"BotVersion"|"LocaleId"|"Modality"|"Channel"|"SessionId"|"OriginatingRequestId"|"UtteranceState"|"UtteranceText", "operator": "EQ"|"GT"|"LT", "values": ["string", ...] } ... ]
+    /// A list of objects, each of which describes a condition by which you want to filter the results. Constraints: • min: 1 • max: 9 (structure) Contains fields describing a condition by which to filter the utterances. The expression may be understood as name operator values . For example: • LocaleId EQ Book The locale is the string "en". • UtteranceText CO help The text of the utterance contains the string "help". The operators that each filter supports are listed below: • BotAlias EQ . • BotVersion EQ . • LocaleId EQ . • Modality EQ . • Channel EQ . • SessionId EQ . • OriginatingRequestId EQ . • UtteranceState EQ . • UtteranceText EQ , CO . name -&gt; (string) [required] The category by which to filter the utterances. The descriptions for each option are as follows: • BotAlias The name of the bot alias. • BotVersion The version of the bot. • LocaleId The locale of the bot. • Modality The modality of the session with the bot (audio, DTMF, or text). • Channel The channel that the bot is integrated with. • SessionId The identifier of the session with the bot. • OriginatingRequestId The identifier of the first request in a session. • UtteranceState The state of the utterance. • UtteranceText The text in the utterance. Possible values: • BotAliasId • BotVersion • LocaleId • Modality • Channel • SessionId • OriginatingRequestId • UtteranceState • UtteranceText operator -&gt; (string) [required] The operation by which to filter the category. The following operations are possible: • CO Contains • EQ Equals • GT Greater than • LT Less than The operators that each filter supports are listed below: • BotAlias EQ . • BotVersion EQ . • LocaleId EQ . • Modality EQ . • Channel EQ . • SessionId EQ . • OriginatingRequestId EQ . • UtteranceState EQ . • UtteranceText EQ , CO . Possible values: • EQ • GT • LT values -&gt; (list) [required] An array containing the values of the category by which to apply the operator to filter the results. You can provide multiple values if the operator is EQ or CO . If you provide multiple values, you filter for results that equal/contain any of the values. For example, if the name , operator , and values fields are Modality , EQ , and [Speech, Text] , the operation filters for results where the modality was either Speech or Text . Constraints: • min: 1 • max: 5 (string) Shorthand Syntax: name=string,operator=string,values=string,string ... JSON Syntax: [ { "name": "BotAliasId"|"BotVersion"|"LocaleId"|"Modality"|"Channel"|"SessionId"|"OriginatingRequestId"|"UtteranceState"|"UtteranceText", "operator": "EQ"|"GT"|"LT", "values": ["string", ...] } ... ]
     /// </summary>
     [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     /// <summary>
-    /// The maximum number of results to return in each page of results. If there are fewer results than the maximum page size, only the actual number of results are returned. Constraints: o min: 1 o max: 1000
+    /// The maximum number of results to return in each page of results. If there are fewer results than the maximum page size, only the actual number of results are returned. Constraints: • min: 1 • max: 1000
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
     /// <summary>
-    /// If the response from the ListUtteranceAnalyticsData operation con- tains more results than specified in the maxResults parameter, a to- ken is returned in the response. Use the returned token in the nextToken parameter of a ListUtter- anceAnalyticsData request to return the next page of results. For a complete set of results, call the ListUtteranceAnalyticsData opera- tion until the nextToken returned in the response is null.
+    /// If the response from the ListUtteranceAnalyticsData operation contains more results than specified in the maxResults parameter, a token is returned in the response. Use the returned token in the nextToken parameter of a ListUtteranceAnalyticsData request to return the next page of results. For a complete set of results, call the ListUtteranceAnalyticsData operation until the nextToken returned in the response is null.
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
@@ -128,6 +129,15 @@ public record AwsLexv2ModelsListUtteranceAnalyticsDataOptions : AwsOptions, IVal
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,7 +29,7 @@ public record AwsCloudfrontCreateAnycastIpListOptions : AwsOptions, IValidatable
     /// <summary>
     /// Creates an Anycast static IP list. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">Name of the Anycast static IP list. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9-_]{1,64}</param>
+    /// <param name="Name">Name of the Anycast static IP list. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9-_]{1,64}</param>
     /// <param name="IpCount">The number of static IP addresses that are allocated to the Anycast static IP list. Valid values: 21 or 3.</param>
     public AwsCloudfrontCreateAnycastIpListOptions(
         string Name,
@@ -60,7 +61,7 @@ public record AwsCloudfrontCreateAnycastIpListOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Name of the Anycast static IP list. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9-_]{1,64}
+    /// Name of the Anycast static IP list. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9-_]{1,64}
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
@@ -72,19 +73,19 @@ public record AwsCloudfrontCreateAnycastIpListOptions : AwsOptions, IValidatable
     public int? IpCount { get; private init; }
 
     /// <summary>
-    /// A complex type that contains zero or more Tag elements. Items -&gt; (list) A complex type that contains Tag elements. (structure) A complex type that contains Tag key and Tag value. Key -&gt; (string) [required] A string that contains Tag key. The string length should be between 1 and 128 characters. Valid characters include a-z , A-Z , 0-9 , space, and the special characters _ - . : / = + @ . Constraints: o min: 1 o max: 128 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Value -&gt; (string) A string that contains an optional Tag value. The string length should be between 0 and 256 characters. Valid characters include a-z , A-Z , 0-9 , space, and the special characters _ - . : / = + @ . Constraints: o min: 0 o max: 256 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Shorthand Syntax: Items=[{Key=string,Value=string},{Key=string,Value=string}] JSON Syntax: { "Items": [ { "Key": "string", "Value": "string" } ... ] }
+    /// A complex type that contains zero or more Tag elements. Items -&gt; (list) A complex type that contains Tag elements. (structure) A complex type that contains Tag key and Tag value. Key -&gt; (string) [required] A string that contains Tag key. The string length should be between 1 and 128 characters. Valid characters include a-z , A-Z , 0-9 , space, and the special characters _ - . : / = + @ . Constraints: • min: 1 • max: 128 • pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Value -&gt; (string) A string that contains an optional Tag value. The string length should be between 0 and 256 characters. Valid characters include a-z , A-Z , 0-9 , space, and the special characters _ - . : / = + @ . Constraints: • min: 0 • max: 256 • pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Shorthand Syntax: Items=[{Key=string,Value=string},{Key=string,Value=string}] JSON Syntax: { "Items": [ { "Key": "string", "Value": "string" } ... ] }
     /// </summary>
     [CliOption("--tags")]
     public string? Tags { get; set; }
 
     /// <summary>
-    /// The IP address type for the Anycast static IP list. You can specify one of the following options: o ipv4 only o ipv6 only o dualstack - Allocate a list of both IPv4 and IPv6 addresses Possible values: o ipv4 o ipv6 o dualstack
+    /// The IP address type for the Anycast static IP list. You can specify one of the following options: • ipv4 only • ipv6 only • dualstack - Allocate a list of both IPv4 and IPv6 addresses Possible values: • ipv4 • ipv6 • dualstack
     /// </summary>
     [CliOption("--ip-address-type")]
     public AwsCloudfrontCreateAnycastIpListIpAddressType? IpAddressType { get; set; }
 
     /// <summary>
-    /// A list of IPAM CIDR configurations that specify the IP address ranges and IPAM pool settings for creating the Anycast static IP list. (structure) Configuration for an IPAM CIDR that defines a specific IP ad- dress range, IPAM pool, and associated Anycast IP address. Cidr -&gt; (string) [required] The CIDR that specifies the IP address range for this IPAM configuration. IpamPoolArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the IPAM pool that the CIDR block is assigned to. AnycastIp -&gt; (string) The specified Anycast IP address allocated from the IPAM pool for this CIDR configuration. Status -&gt; (string) The current status of the IPAM CIDR configuration. Possible values: o provisioned o failed-provision o provisioning o deprovisioned o failed-deprovision o deprovisioning o advertised o failed-advertise o advertising o withdrawn o failed-withdraw o withdrawing Shorthand Syntax: Cidr=string,IpamPoolArn=string,AnycastIp=string,Status=string ... JSON Syntax: [ { "Cidr": "string", "IpamPoolArn": "string", "AnycastIp": "string", "Status": "provisioned"|"failed-provision"|"provisioning"|"deprovisioned"|"failed-deprovision"|"deprovisioning"|"advertised"|"failed-advertise"|"advertising"|"withdrawn"|"failed-withdraw"|"withdrawing" } ... ]
+    /// A list of IPAM CIDR configurations that specify the IP address ranges and IPAM pool settings for creating the Anycast static IP list. (structure) Configuration for an IPAM CIDR that defines a specific IP address range, IPAM pool, and associated Anycast IP address. Cidr -&gt; (string) [required] The CIDR that specifies the IP address range for this IPAM configuration. IpamPoolArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the IPAM pool that the CIDR block is assigned to. AnycastIp -&gt; (string) The specified Anycast IP address allocated from the IPAM pool for this CIDR configuration. Status -&gt; (string) The current status of the IPAM CIDR configuration. Possible values: • provisioned • failed-provision • provisioning • deprovisioned • failed-deprovision • deprovisioning • advertised • failed-advertise • advertising • withdrawn • failed-withdraw • withdrawing Shorthand Syntax: Cidr=string,IpamPoolArn=string,AnycastIp=string,Status=string ... JSON Syntax: [ { "Cidr": "string", "IpamPoolArn": "string", "AnycastIp": "string", "Status": "provisioned"|"failed-provision"|"provisioning"|"deprovisioned"|"failed-deprovision"|"deprovisioning"|"advertised"|"failed-advertise"|"advertising"|"withdrawn"|"failed-withdraw"|"withdrawing" } ... ]
     /// </summary>
     [CliOption("--ipam-cidr-configs", GroupValues = true)]
     public IEnumerable<string>? IpamCidrConfigs { get; set; }
@@ -110,6 +111,15 @@ public record AwsCloudfrontCreateAnycastIpListOptions : AwsOptions, IValidatable
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

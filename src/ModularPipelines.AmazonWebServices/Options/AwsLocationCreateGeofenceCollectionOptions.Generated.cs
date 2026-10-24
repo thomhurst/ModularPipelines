@@ -10,7 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -29,7 +29,7 @@ public record AwsLocationCreateGeofenceCollectionOptions : AwsOptions, IValidata
     /// <summary>
     /// Creates a geofence collection, which manages and stores geofences. See also: AWS API Documentation
     /// </summary>
-    /// <param name="CollectionName">A custom name for the geofence collection. Requirements: o Contain only alphanumeric characters (AZ, az, 09), hyphens (-), periods (.), and underscores (_). o Must be a unique geofence collection name. o No spaces allowed. For example, ExampleGeofenceCollection . Constraints: o min: 1 o max: 100 o pattern: [-._\w]+</param>
+    /// <param name="CollectionName">A custom name for the geofence collection. Requirements: • Contain only alphanumeric characters (AZ, az, 09), hyphens (-), periods (.), and underscores (_). • Must be a unique geofence collection name. • No spaces allowed. For example, ExampleGeofenceCollection . Constraints: • min: 1 • max: 100 • pattern: [-._\w]+</param>
     public AwsLocationCreateGeofenceCollectionOptions(
         string CollectionName
     )
@@ -58,13 +58,13 @@ public record AwsLocationCreateGeofenceCollectionOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A custom name for the geofence collection. Requirements: o Contain only alphanumeric characters (AZ, az, 09), hyphens (-), periods (.), and underscores (_). o Must be a unique geofence collection name. o No spaces allowed. For example, ExampleGeofenceCollection . Constraints: o min: 1 o max: 100 o pattern: [-._\w]+
+    /// A custom name for the geofence collection. Requirements: • Contain only alphanumeric characters (AZ, az, 09), hyphens (-), periods (.), and underscores (_). • Must be a unique geofence collection name. • No spaces allowed. For example, ExampleGeofenceCollection . Constraints: • min: 1 • max: 100 • pattern: [-._\w]+
     /// </summary>
     [CliOption("--collection-name")]
     public string? CollectionName { get; private init; }
 
     /// <summary>
-    /// No longer used. If included, the only allowed value is RequestBase- dUsage . Possible values: o RequestBasedUsage o MobileAssetTracking o MobileAssetManagement
+    /// No longer used. If included, the only allowed value is RequestBasedUsage . Possible values: • RequestBasedUsage • MobileAssetTracking • MobileAssetManagement
     /// </summary>
     [CliOption("--pricing-plan")]
     public AwsLocationCreateGeofenceCollectionPricingPlan? PricingPlan { get; set; }
@@ -76,19 +76,19 @@ public record AwsLocationCreateGeofenceCollectionOptions : AwsOptions, IValidata
     public string? PricingPlanDataSource { get; set; }
 
     /// <summary>
-    /// An optional description for the geofence collection. Constraints: o min: 0 o max: 1000
+    /// An optional description for the geofence collection. Constraints: • min: 0 • max: 1000
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// Applies one or more tags to the geofence collection. A tag is a key-value pair helps manage, identify, search, and filter your re- sources by labelling them. Format: "key" : "value" Restrictions: o Maximum 50 tags per resource o Each resource tag must be unique with a maximum of one value. o Maximum key length: 128 Unicode characters in UTF-8 o Maximum value length: 256 Unicode characters in UTF-8 o Can use alphanumeric characters (AZ, az, 09), and the following characters: + - = . _ : / @. o Cannot use "aws:" as a prefix for a key. Constraints: o min: 0 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ([\p{L}\p{Z}\p{N}_.,:/=+\-@]*) value -&gt; (string) Constraints: o min: 0 o max: 256 o pattern: ([\p{L}\p{Z}\p{N}_.,:/=+\-@]*) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// Applies one or more tags to the geofence collection. A tag is a key-value pair helps manage, identify, search, and filter your resources by labelling them. Format: "key" : "value" Restrictions: • Maximum 50 tags per resource • Each resource tag must be unique with a maximum of one value. • Maximum key length: 128 Unicode characters in UTF-8 • Maximum value length: 256 Unicode characters in UTF-8 • Can use alphanumeric characters (AZ, az, 09), and the following characters: + - = . _ : / @. • Cannot use "aws:" as a prefix for a key. Constraints: • min: 0 • max: 50 key -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: ([\p{L}\p{Z}\p{N}_.,:/=+\-@]*) value -&gt; (string) Constraints: • min: 0 • max: 256 • pattern: ([\p{L}\p{Z}\p{N}_.,:/=+\-@]*) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>
-    /// A key identifier for an Amazon Web Services KMS customer managed key . Enter a key ID, key ARN, alias name, or alias ARN. Constraints: o min: 1 o max: 2048
+    /// A key identifier for an Amazon Web Services KMS customer managed key . Enter a key ID, key ARN, alias name, or alias ARN. Constraints: • min: 1 • max: 2048
     /// </summary>
     [CliOption("--kms-key-id")]
     public string? KmsKeyId { get; set; }
@@ -114,6 +114,15 @@ public record AwsLocationCreateGeofenceCollectionOptions : AwsOptions, IValidata
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

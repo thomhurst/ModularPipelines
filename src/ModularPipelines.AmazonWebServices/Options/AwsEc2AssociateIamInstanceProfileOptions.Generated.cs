@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Associates an IAM instance profile with a running or stopped instance. You cannot associate more than one IAM instance profile with an in- stance. See also: AWS API Documentation
+/// Associates an IAM instance profile with a running or stopped instance. You cannot associate more than one IAM instance profile with an instance. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +26,7 @@ public record AwsEc2AssociateIamInstanceProfileOptions : AwsOptions, IValidatabl
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Associates an IAM instance profile with a running or stopped instance. You cannot associate more than one IAM instance profile with an in- stance. See also: AWS API Documentation
+    /// Associates an IAM instance profile with a running or stopped instance. You cannot associate more than one IAM instance profile with an instance. See also: AWS API Documentation
     /// </summary>
     /// <param name="IamInstanceProfile">The IAM instance profile. Arn -&gt; (string) The Amazon Resource Name (ARN) of the instance profile. Name -&gt; (string) The name of the instance profile. Shorthand Syntax: Arn=string,Name=string JSON Syntax: { "Arn": "string", "Name": "string" }</param>
     /// <param name="InstanceId">The ID of the instance.</param>
@@ -92,6 +93,15 @@ public record AwsEc2AssociateIamInstanceProfileOptions : AwsOptions, IValidatabl
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

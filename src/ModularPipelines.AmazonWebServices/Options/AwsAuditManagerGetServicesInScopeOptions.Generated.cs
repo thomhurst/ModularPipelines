@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Gets a list of the Amazon Web Services services from which Audit Man- ager can collect evidence. Audit Manager defines which Amazon Web Services services are in scope for an assessment. Audit Manager infers this scope by examining the as- sessments controls and their data sources, and then mapping this infor- mation to one or more of the corresponding Amazon Web Services services that are in this list. NOTE: For information about why it's no longer possible to specify ser- vices in scope manuall...
+/// Gets a list of the Amazon Web Services services from which Audit Manager can collect evidence. Audit Manager defines which Amazon Web Services services are in scope for an assessment. Audit Manager infers this scope by examining the assessments controls and their data sources, and then mapping this information to one or more of the corresponding Amazon Web Services services that are in this list. NOTE: For information about why it's no longer possible to specify services in scope manually, see I...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,5 +26,14 @@ public record AwsAuditManagerGetServicesInScopeOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

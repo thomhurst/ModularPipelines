@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Delete a cell. When successful, the response code is 204, with no re- sponse body. See also: AWS API Documentation
+/// Delete a cell. When successful, the response code is 204, with no response body. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +26,7 @@ public record AwsRoute53RecoveryReadinessDeleteCellOptions : AwsOptions, IValida
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Delete a cell. When successful, the response code is 204, with no re- sponse body. See also: AWS API Documentation
+    /// Delete a cell. When successful, the response code is 204, with no response body. See also: AWS API Documentation
     /// </summary>
     /// <param name="CellName">The name of the cell.</param>
     public AwsRoute53RecoveryReadinessDeleteCellOptions(
@@ -82,6 +83,15 @@ public record AwsRoute53RecoveryReadinessDeleteCellOptions : AwsOptions, IValida
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

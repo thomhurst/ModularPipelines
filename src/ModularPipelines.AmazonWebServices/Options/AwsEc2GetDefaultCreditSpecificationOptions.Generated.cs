@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Describes the default credit option for CPU usage of a burstable per- formance instance family. For more information, see Burstable performance instances in the Amazon EC2 User Guide . See also: AWS API Documentation
+/// Describes the default credit option for CPU usage of a burstable performance instance family. For more information, see Burstable performance instances in the Amazon EC2 User Guide . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +27,9 @@ public record AwsEc2GetDefaultCreditSpecificationOptions : AwsOptions, IValidata
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Describes the default credit option for CPU usage of a burstable per- formance instance family. For more information, see Burstable performance instances in the Amazon EC2 User Guide . See also: AWS API Documentation
+    /// Describes the default credit option for CPU usage of a burstable performance instance family. For more information, see Burstable performance instances in the Amazon EC2 User Guide . See also: AWS API Documentation
     /// </summary>
-    /// <param name="InstanceFamily">The instance family. Possible values: o t2 o t3 o t3a o t4g o t8i</param>
+    /// <param name="InstanceFamily">The instance family. Possible values: • t2 • t3 • t3a • t4g • t8i</param>
     public AwsEc2GetDefaultCreditSpecificationOptions(
         AwsEc2GetDefaultCreditSpecificationInstanceFamily InstanceFamily
     )
@@ -56,13 +57,13 @@ public record AwsEc2GetDefaultCreditSpecificationOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The instance family. Possible values: o t2 o t3 o t3a o t4g o t8i
+    /// The instance family. Possible values: • t2 • t3 • t3a • t4g • t8i
     /// </summary>
     [CliOption("--instance-family")]
     public AwsEc2GetDefaultCreditSpecificationInstanceFamily? InstanceFamily { get; private init; }
 
     /// <summary>
-    /// Checks whether you have the required permissions for the operation, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// Checks whether you have the required permissions for the operation, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation . Otherwise, it is UnauthorizedOperation .
     /// </summary>
     [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
@@ -88,6 +89,15 @@ public record AwsEc2GetDefaultCreditSpecificationOptions : AwsOptions, IValidata
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsIotManagedIntegrationsStartAccountAssociationRefreshOptions : A
     /// <summary>
     /// Initiates a refresh of an existing account association to update its authorization and connection status. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AccountAssociationId">The unique identifier of the account association to refresh. Constraints: o min: 1 o max: 64 o pattern: [0-9a-zA-Z]+</param>
+    /// <param name="AccountAssociationId">The unique identifier of the account association to refresh. Constraints: • min: 1 • max: 64 • pattern: [0-9a-zA-Z]+</param>
     public AwsIotManagedIntegrationsStartAccountAssociationRefreshOptions(
         string AccountAssociationId
     )
@@ -56,7 +57,7 @@ public record AwsIotManagedIntegrationsStartAccountAssociationRefreshOptions : A
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the account association to refresh. Constraints: o min: 1 o max: 64 o pattern: [0-9a-zA-Z]+
+    /// The unique identifier of the account association to refresh. Constraints: • min: 1 • max: 64 • pattern: [0-9a-zA-Z]+
     /// </summary>
     [CliOption("--account-association-id")]
     public string? AccountAssociationId { get; private init; }
@@ -82,6 +83,15 @@ public record AwsIotManagedIntegrationsStartAccountAssociationRefreshOptions : A
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

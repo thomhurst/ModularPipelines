@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -79,7 +80,7 @@ public record AwsSecurityagentUpdateThreatOptions : AwsOptions, IValidatableObje
     public string? Title { get; set; }
 
     /// <summary>
-    /// The updated status of the threat. Possible values: o OPEN o RESOLVED o DISMISSED
+    /// The updated status of the threat. Possible values: • OPEN • RESOLVED • DISMISSED
     /// </summary>
     [CliOption("--status")]
     public AwsSecurityagentUpdateThreatStatus? Status { get; set; }
@@ -97,7 +98,7 @@ public record AwsSecurityagentUpdateThreatOptions : AwsOptions, IValidatableObje
     public string? Statement { get; set; }
 
     /// <summary>
-    /// The updated severity level of the threat. Possible values: o CRITICAL o HIGH o MEDIUM o LOW o INFO
+    /// The updated severity level of the threat. Possible values: • CRITICAL • HIGH • MEDIUM • LOW • INFO
     /// </summary>
     [CliOption("--severity")]
     public AwsSecurityagentUpdateThreatSeverity? Severity { get; set; }
@@ -177,6 +178,15 @@ public record AwsSecurityagentUpdateThreatOptions : AwsOptions, IValidatableObje
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -15,7 +15,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a new RCS agent for sending rich messages through the RCS chan- nel. The RCS agent serves as an origination identity for sending RCS messages to your recipients. See also: AWS API Documentation
+/// Creates a new RCS agent for sending rich messages through the RCS channel. The RCS agent serves as an origination identity for sending RCS messages to your recipients. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -23,25 +23,25 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsPinpointSmsVoiceV2CreateRcsAgentOptions : AwsOptions
 {
     /// <summary>
-    /// By default this is set to false. When set to true the RCS agent can't be deleted. You can change this value using the UpdateRc- sAgent action.
+    /// By default this is set to false. When set to true the RCS agent can't be deleted. You can change this value using the UpdateRcsAgent action.
     /// </summary>
     [CliFlag("--deletion-protection-enabled", NegatedName = "--no-deletion-protection-enabled")]
     public bool? DeletionProtectionEnabled { get; set; }
 
     /// <summary>
-    /// The OptOutList to associate with the RCS agent. Valid values are ei- ther OptOutListName or OptOutListArn. Constraints: o min: 1 o max: 256 o pattern: [A-Za-z0-9_:/-]+
+    /// The OptOutList to associate with the RCS agent. Valid values are either OptOutListName or OptOutListArn. Constraints: • min: 1 • max: 256 • pattern: [A-Za-z0-9_:/-]+
     /// </summary>
     [CliOption("--opt-out-list-name")]
     public string? OptOutListName { get; set; }
 
     /// <summary>
-    /// An array of tags (key and value pairs) associated with the RCS agent. Constraints: o min: 0 o max: 200 (structure) The list of tags to be added to the specified topic. Key -&gt; (string) [required] The key identifier, or name, of the tag. Constraints: o min: 1 o max: 128 o pattern: .+ Value -&gt; (string) [required] The string value associated with the key of the tag. Constraints: o min: 0 o max: 256 o pattern: .* Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// An array of tags (key and value pairs) associated with the RCS agent. Constraints: • min: 0 • max: 200 (structure) The list of tags to be added to the specified topic. Key -&gt; (string) [required] The key identifier, or name, of the tag. Constraints: • min: 1 • max: 128 • pattern: .+ Value -&gt; (string) [required] The string value associated with the key of the tag. Constraints: • min: 0 • max: 256 • pattern: .* Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
-    /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don't specify a client token, a randomly generated token is used for the request to ensure idempo- tency. Constraints: o min: 1 o max: 64 o pattern: [!-~]+
+    /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don't specify a client token, a randomly generated token is used for the request to ensure idempotency. Constraints: • min: 1 • max: 64 • pattern: [!-~]+
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
@@ -52,5 +52,14 @@ public record AwsPinpointSmsVoiceV2CreateRcsAgentOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsChimeSdkMediaPipelinesDeleteMediaInsightsPipelineConfigurationO
     /// <summary>
     /// Deletes the specified configuration settings. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Identifier">The unique identifier of the resource to be deleted. Valid values include the name and ARN of the media insights pipeline configura- tion. Constraints: o max: 1024 o pattern: .*\S.*</param>
+    /// <param name="Identifier">The unique identifier of the resource to be deleted. Valid values include the name and ARN of the media insights pipeline configuration. Constraints: • max: 1024 • pattern: .*\S.*</param>
     public AwsChimeSdkMediaPipelinesDeleteMediaInsightsPipelineConfigurationOptions(
         string Identifier
     )
@@ -56,7 +57,7 @@ public record AwsChimeSdkMediaPipelinesDeleteMediaInsightsPipelineConfigurationO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the resource to be deleted. Valid values include the name and ARN of the media insights pipeline configura- tion. Constraints: o max: 1024 o pattern: .*\S.*
+    /// The unique identifier of the resource to be deleted. Valid values include the name and ARN of the media insights pipeline configuration. Constraints: • max: 1024 • pattern: .*\S.*
     /// </summary>
     [CliOption("--identifier")]
     public string? Identifier { get; private init; }
@@ -82,6 +83,15 @@ public record AwsChimeSdkMediaPipelinesDeleteMediaInsightsPipelineConfigurationO
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

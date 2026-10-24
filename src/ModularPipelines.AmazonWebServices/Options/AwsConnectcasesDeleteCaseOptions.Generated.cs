@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// The DeleteCase API permanently deletes a case and all its associated resources from the cases data store. After a successful deletion, you cannot: o Retrieve related items o Access audit history o Perform any operations that require the CaseID WARNING: This action is irreversible. After you delete a case, you cannot re- cover its data. See also: AWS API Documentation
+/// The DeleteCase API permanently deletes a case and all its associated resources from the cases data store. After a successful deletion, you cannot: • Retrieve related items • Access audit history • Perform any operations that require the CaseID WARNING: This action is irreversible. After you delete a case, you cannot recover its data. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsConnectcasesDeleteCaseOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// The DeleteCase API permanently deletes a case and all its associated resources from the cases data store. After a successful deletion, you cannot: o Retrieve related items o Access audit history o Perform any operations that require the CaseID WARNING: This action is irreversible. After you delete a case, you cannot re- cover its data. See also: AWS API Documentation
+    /// The DeleteCase API permanently deletes a case and all its associated resources from the cases data store. After a successful deletion, you cannot: • Retrieve related items • Access audit history • Perform any operations that require the CaseID WARNING: This action is irreversible. After you delete a case, you cannot recover its data. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DomainId">A unique identifier of the Cases domain. Constraints: o min: 1 o max: 500</param>
-    /// <param name="CaseId">A unique identifier of the case. Constraints: o min: 1 o max: 500</param>
+    /// <param name="DomainId">A unique identifier of the Cases domain. Constraints: • min: 1 • max: 500</param>
+    /// <param name="CaseId">A unique identifier of the case. Constraints: • min: 1 • max: 500</param>
     public AwsConnectcasesDeleteCaseOptions(
         string DomainId,
         string CaseId
@@ -60,13 +61,13 @@ public record AwsConnectcasesDeleteCaseOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A unique identifier of the Cases domain. Constraints: o min: 1 o max: 500
+    /// A unique identifier of the Cases domain. Constraints: • min: 1 • max: 500
     /// </summary>
     [CliOption("--domain-id")]
     public string? DomainId { get; private init; }
 
     /// <summary>
-    /// A unique identifier of the case. Constraints: o min: 1 o max: 500
+    /// A unique identifier of the case. Constraints: • min: 1 • max: 500
     /// </summary>
     [CliOption("--case-id")]
     public string? CaseId { get; private init; }
@@ -92,6 +93,15 @@ public record AwsConnectcasesDeleteCaseOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

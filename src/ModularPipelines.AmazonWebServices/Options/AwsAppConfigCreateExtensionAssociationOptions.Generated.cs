@@ -10,13 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// When you create an extension or configure an Amazon Web Services au- thored extension, you associate the extension with an AppConfig appli- cation, environment, or configuration profile. For example, you can choose to run the AppConfig deployment events to Amazon SNS Amazon Web Services authored extension and receive notifications on an Amazon SNS topic anytime a configuration deployment is started for a specific ap- plication. Defining which extension to associate with an AppConfig re- source i...
+/// When you create an extension or configure an Amazon Web Services authored extension, you associate the extension with an AppConfig application, environment, or configuration profile. For example, you can choose to run the AppConfig deployment events to Amazon SNS Amazon Web Services authored extension and receive notifications on an Amazon SNS topic anytime a configuration deployment is started for a specific application. Defining which extension to associate with an AppConfig resource is called...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +26,10 @@ public record AwsAppConfigCreateExtensionAssociationOptions : AwsOptions, IValid
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// When you create an extension or configure an Amazon Web Services au- thored extension, you associate the extension with an AppConfig appli- cation, environment, or configuration profile. For example, you can choose to run the AppConfig deployment events to Amazon SNS Amazon Web Services authored extension and receive notifications on an Amazon SNS topic anytime a configuration deployment is started for a specific ap- plication. Defining which extension to associate with an AppConfig re- source i...
+    /// When you create an extension or configure an Amazon Web Services authored extension, you associate the extension with an AppConfig application, environment, or configuration profile. For example, you can choose to run the AppConfig deployment events to Amazon SNS Amazon Web Services authored extension and receive notifications on an Amazon SNS topic anytime a configuration deployment is started for a specific application. Defining which extension to associate with an AppConfig resource is called...
     /// </summary>
-    /// <param name="ExtensionIdentifier">The name, the ID, or the Amazon Resource Name (ARN) of the exten- sion. Constraints: o min: 1 o max: 2048</param>
-    /// <param name="ResourceIdentifier">The ARN of an application, configuration profile, or environment. Constraints: o min: 1 o max: 2048</param>
+    /// <param name="ExtensionIdentifier">The name, the ID, or the Amazon Resource Name (ARN) of the extension. Constraints: • min: 1 • max: 2048</param>
+    /// <param name="ResourceIdentifier">The ARN of an application, configuration profile, or environment. Constraints: • min: 1 • max: 2048</param>
     public AwsAppConfigCreateExtensionAssociationOptions(
         string ExtensionIdentifier,
         string ResourceIdentifier
@@ -61,13 +61,13 @@ public record AwsAppConfigCreateExtensionAssociationOptions : AwsOptions, IValid
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name, the ID, or the Amazon Resource Name (ARN) of the exten- sion. Constraints: o min: 1 o max: 2048
+    /// The name, the ID, or the Amazon Resource Name (ARN) of the extension. Constraints: • min: 1 • max: 2048
     /// </summary>
     [CliOption("--extension-identifier")]
     public string? ExtensionIdentifier { get; private init; }
 
     /// <summary>
-    /// The ARN of an application, configuration profile, or environment. Constraints: o min: 1 o max: 2048
+    /// The ARN of an application, configuration profile, or environment. Constraints: • min: 1 • max: 2048
     /// </summary>
     [CliOption("--resource-identifier")]
     public string? ResourceIdentifier { get; private init; }
@@ -79,13 +79,13 @@ public record AwsAppConfigCreateExtensionAssociationOptions : AwsOptions, IValid
     public int? ExtensionVersionNumber { get; set; }
 
     /// <summary>
-    /// The parameter names and values defined in the extensions. Extension parameters marked Required must be entered for this field. Constraints: o min: 0 o max: 10 key -&gt; (string) Constraints: o pattern: ^[^\/#:\n]{1,64}$ value -&gt; (string) Constraints: o min: 1 o max: 2048 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The parameter names and values defined in the extensions. Extension parameters marked Required must be entered for this field. Constraints: • min: 0 • max: 10 key -&gt; (string) Constraints: • pattern: ^[^\/#:\n]{1,64}$ value -&gt; (string) Constraints: • min: 1 • max: 2048 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--parameters", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Parameters { get; set; }
 
     /// <summary>
-    /// Adds one or more tags for the specified extension association. Tags are metadata that help you categorize resources in different ways, for example, by purpose, owner, or environment. Each tag consists of a key and an optional value, both of which you define. Constraints: o min: 0 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// Adds one or more tags for the specified extension association. Tags are metadata that help you categorize resources in different ways, for example, by purpose, owner, or environment. Each tag consists of a key and an optional value, both of which you define. Constraints: • min: 0 • max: 50 key -&gt; (string) Constraints: • min: 1 • max: 128 value -&gt; (string) Constraints: • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
@@ -111,6 +111,15 @@ public record AwsAppConfigCreateExtensionAssociationOptions : AwsOptions, IValid
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

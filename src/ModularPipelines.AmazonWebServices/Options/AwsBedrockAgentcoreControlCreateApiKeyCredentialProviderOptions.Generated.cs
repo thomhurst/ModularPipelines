@@ -11,7 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -30,7 +30,7 @@ public record AwsBedrockAgentcoreControlCreateApiKeyCredentialProviderOptions : 
     /// <summary>
     /// Creates a new API key credential provider. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">The name of the API key credential provider. The name must be unique within your account. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9\-_]+</param>
+    /// <param name="Name">The name of the API key credential provider. The name must be unique within your account. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9\-_]+</param>
     public AwsBedrockAgentcoreControlCreateApiKeyCredentialProviderOptions(
         string Name
     )
@@ -59,33 +59,33 @@ public record AwsBedrockAgentcoreControlCreateApiKeyCredentialProviderOptions : 
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the API key credential provider. The name must be unique within your account. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9\-_]+
+    /// The name of the API key credential provider. The name must be unique within your account. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9\-_]+
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The API key to use for authentication. This value is encrypted and stored securely. Constraints: o min: 0 o max: 65536
+    /// The API key to use for authentication. This value is encrypted and stored securely. Constraints: • min: 0 • max: 65536
     /// </summary>
     [SecretValue]
     [CliOption("--api-key")]
     public string? ApiKey { get; set; }
 
     /// <summary>
-    /// A reference to the Amazon Web Services Secrets Manager secret that stores the API key. This includes the secret ID and the JSON key used to extract the API key value from the secret. Required when apiKeySecretSource is set to EXTERNAL . secretId -&gt; (string) [required] The ID of the Amazon Web Services Secrets Manager secret that stores the secret value. Constraints: o min: 1 o max: 2048 jsonKey -&gt; (string) [required] The JSON key used to extract the secret value from the Amazon Web Services Secrets Manager secret. Constraints: o min: 1 o max: 128 Shorthand Syntax: secretId=string,jsonKey=string JSON Syntax: { "secretId": "string", "jsonKey": "string" }
+    /// A reference to the Amazon Web Services Secrets Manager secret that stores the API key. This includes the secret ID and the JSON key used to extract the API key value from the secret. Required when apiKeySecretSource is set to EXTERNAL . secretId -&gt; (string) [required] The ID of the Amazon Web Services Secrets Manager secret that stores the secret value. Constraints: • min: 1 • max: 2048 jsonKey -&gt; (string) [required] The JSON key used to extract the secret value from the Amazon Web Services Secrets Manager secret. Constraints: • min: 1 • max: 128 Shorthand Syntax: secretId=string,jsonKey=string JSON Syntax: { "secretId": "string", "jsonKey": "string" }
     /// </summary>
     [SecretValue]
     [CliOption("--api-key-secret-config")]
     public string? ApiKeySecretConfig { get; set; }
 
     /// <summary>
-    /// The source type of the API key secret. Use MANAGED if the secret is managed by the service, or EXTERNAL if you manage the secret your- self in Amazon Web Services Secrets Manager. Possible values: o MANAGED o EXTERNAL
+    /// The source type of the API key secret. Use MANAGED if the secret is managed by the service, or EXTERNAL if you manage the secret yourself in Amazon Web Services Secrets Manager. Possible values: • MANAGED • EXTERNAL
     /// </summary>
     [CliOption("--api-key-secret-source")]
     public AwsBedrockAgentcoreControlCreateApiKeyCredentialProviderApiKeySecretSource? ApiKeySecretSource { get; set; }
 
     /// <summary>
-    /// A map of tag keys and values to assign to the API key credential provider. Tags enable you to categorize your resources in different ways, for example, by purpose, owner, or environment. Constraints: o min: 0 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9\s._:/=+@-]* value -&gt; (string) Constraints: o min: 0 o max: 256 o pattern: [a-zA-Z0-9\s._:/=+@-]* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// A map of tag keys and values to assign to the API key credential provider. Tags enable you to categorize your resources in different ways, for example, by purpose, owner, or environment. Constraints: • min: 0 • max: 50 key -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9\s._:/=+@-]* value -&gt; (string) Constraints: • min: 0 • max: 256 • pattern: [a-zA-Z0-9\s._:/=+@-]* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
@@ -111,6 +111,15 @@ public record AwsBedrockAgentcoreControlCreateApiKeyCredentialProviderOptions : 
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

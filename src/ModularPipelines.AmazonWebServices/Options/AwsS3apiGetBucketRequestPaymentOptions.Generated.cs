@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// NOTE: This operation is not supported for directory buckets. Returns the request payment configuration of a bucket. To use this ver- sion of the operation, you must be the bucket owner. For more informa- tion, see Requester Pays Buckets . The following operations are related to GetBucketRequestPayment : o ListObjects WARNING: You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt , containing two spaces after my , you must URL encode th...
+/// NOTE: This operation is not supported for directory buckets. Returns the request payment configuration of a bucket. To use this version of the operation, you must be the bucket owner. For more information, see Requester Pays Buckets . The following operations are related to GetBucketRequestPayment : • ListObjects WARNING: You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt , containing two spaces after my , you must URL encode this v...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsS3apiGetBucketRequestPaymentOptions : AwsOptions, IValidatableO
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// NOTE: This operation is not supported for directory buckets. Returns the request payment configuration of a bucket. To use this ver- sion of the operation, you must be the bucket owner. For more informa- tion, see Requester Pays Buckets . The following operations are related to GetBucketRequestPayment : o ListObjects WARNING: You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt , containing two spaces after my , you must URL encode th...
+    /// NOTE: This operation is not supported for directory buckets. Returns the request payment configuration of a bucket. To use this version of the operation, you must be the bucket owner. For more information, see Requester Pays Buckets . The following operations are related to GetBucketRequestPayment : • ListObjects WARNING: You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt , containing two spaces after my , you must URL encode this v...
     /// </summary>
-    /// <param name="Bucket">The name of the bucket for which to get the payment request configu- ration</param>
+    /// <param name="Bucket">The name of the bucket for which to get the payment request configuration</param>
     public AwsS3apiGetBucketRequestPaymentOptions(
         string Bucket
     )
@@ -56,13 +57,13 @@ public record AwsS3apiGetBucketRequestPaymentOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the bucket for which to get the payment request configu- ration
+    /// The name of the bucket for which to get the payment request configuration
     /// </summary>
     [CliOption("--bucket")]
     public string? Bucket { get; private init; }
 
     /// <summary>
-    /// The account ID of the expected bucket owner. If the account ID that you provide does not match the actual owner of the bucket, the re- quest fails with the HTTP status code 403 Forbidden (access denied).
+    /// The account ID of the expected bucket owner. If the account ID that you provide does not match the actual owner of the bucket, the request fails with the HTTP status code 403 Forbidden (access denied).
     /// </summary>
     [CliOption("--expected-bucket-owner")]
     public string? ExpectedBucketOwner { get; set; }
@@ -88,6 +89,15 @@ public record AwsS3apiGetBucketRequestPaymentOptions : AwsOptions, IValidatableO
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -6,15 +6,15 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
+using ModularPipelines;
 using ModularPipelines.Context;
-using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
 namespace ModularPipelines.AmazonWebServices.Services;
 
 /// <summary>
-/// aws pcaconnectorad commands.
+/// aws pca-connector-ad commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AwsPcaConnectorAd : IAwsPcaConnectorAd
@@ -32,7 +32,7 @@ public class AwsPcaConnectorAd : IAwsPcaConnectorAd
     #region Commands
 
     /// <summary>
-    /// Creates a connector between Amazon Web Services Private CA and an Ac- tive Directory. You must specify the private CA, directory ID, and se- curity groups. See also: AWS API Documentation
+    /// Creates a connector between Amazon Web Services Private CA and an Active Directory. You must specify the private CA, directory ID, and security groups. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -62,7 +62,7 @@ public class AwsPcaConnectorAd : IAwsPcaConnectorAd
     }
 
     /// <summary>
-    /// Creates a service principal name (SPN) for the service account in Ac- tive Directory. Kerberos authentication uses SPNs to associate a ser- vice instance with a service sign-in account. See also: AWS API Documentation
+    /// Creates a service principal name (SPN) for the service account in Active Directory. Kerberos authentication uses SPNs to associate a service instance with a service sign-in account. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -92,7 +92,7 @@ public class AwsPcaConnectorAd : IAwsPcaConnectorAd
     }
 
     /// <summary>
-    /// Creates an Active Directory compatible certificate template. The con- nectors issues certificates using these templates based on the re- questers Active Directory group membership. See also: AWS API Documentation
+    /// Creates an Active Directory compatible certificate template. The connectors issues certificates using these templates based on the requesters Active Directory group membership. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -137,7 +137,7 @@ public class AwsPcaConnectorAd : IAwsPcaConnectorAd
     }
 
     /// <summary>
-    /// Deletes the service principal name (SPN) used by a connector to authen- ticate with your Active Directory. See also: AWS API Documentation
+    /// Deletes the service principal name (SPN) used by a connector to authenticate with your Active Directory. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -197,7 +197,7 @@ public class AwsPcaConnectorAd : IAwsPcaConnectorAd
     }
 
     /// <summary>
-    /// A structure that contains information about your directory registra- tion. See also: AWS API Documentation
+    /// A structure that contains information about your directory registration. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -212,7 +212,7 @@ public class AwsPcaConnectorAd : IAwsPcaConnectorAd
     }
 
     /// <summary>
-    /// Lists the service principal name that the connector uses to authenti- cate with Active Directory. See also: AWS API Documentation
+    /// Lists the service principal name that the connector uses to authenticate with Active Directory. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -242,7 +242,7 @@ public class AwsPcaConnectorAd : IAwsPcaConnectorAd
     }
 
     /// <summary>
-    /// Retrieves a certificate template that the connector uses to issue cer- tificates from a private CA. See also: AWS API Documentation
+    /// Retrieves a certificate template that the connector uses to issue certificates from a private CA. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -257,7 +257,7 @@ public class AwsPcaConnectorAd : IAwsPcaConnectorAd
     }
 
     /// <summary>
-    /// Lists the connectors that you created by using the https://docs.aws.amazon.com/pca-connector-ad/latest/APIReference/API_CreateConnector action. See also: AWS API Documentation list-connectors is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the r...
+    /// Lists the connectors that you created by using the https://docs.aws.amazon.com/pca-connector-ad/latest/APIReference/API_CreateConnector action. See also: AWS API Documentation list-connectors is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the resul...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -272,7 +272,7 @@ public class AwsPcaConnectorAd : IAwsPcaConnectorAd
     }
 
     /// <summary>
-    /// Lists the directory registrations that you created by using the https://docs.aws.amazon.com/pca-connector-ad/latest/APIReference/API_CreateDirectoryRegistration action. See also: AWS API Documentation list-directory-registrations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query...
+    /// Lists the directory registrations that you created by using the https://docs.aws.amazon.com/pca-connector-ad/latest/APIReference/API_CreateDirectoryRegistration action. See also: AWS API Documentation list-directory-registrations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query arg...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -287,7 +287,7 @@ public class AwsPcaConnectorAd : IAwsPcaConnectorAd
     }
 
     /// <summary>
-    /// Lists the service principal names that the connector uses to authenti- cate with Active Directory. See also: AWS API Documentation list-service-principal-names is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex...
+    /// Lists the service principal names that the connector uses to authenticate with Active Directory. See also: AWS API Documentation list-service-principal-names is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressi...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -317,7 +317,7 @@ public class AwsPcaConnectorAd : IAwsPcaConnectorAd
     }
 
     /// <summary>
-    /// Lists group access control entries you created. See also: AWS API Documentation list-template-group-access-control-entries is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-pagi- nate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the re- sults of the following query expressions: AccessControlEntries
+    /// Lists group access control entries you created. See also: AWS API Documentation list-template-group-access-control-entries is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: AccessControlEntries
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -332,7 +332,7 @@ public class AwsPcaConnectorAd : IAwsPcaConnectorAd
     }
 
     /// <summary>
-    /// Lists the templates, if any, that are associated with a connector. See also: AWS API Documentation list-templates is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Templates
+    /// Lists the templates, if any, that are associated with a connector. See also: AWS API Documentation list-templates is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Templates
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsOpensearchDeletePackageOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Deletes an Amazon OpenSearch Service package. For more information, see Custom packages for Amazon OpenSearch Service . See also: AWS API Documentation
     /// </summary>
-    /// <param name="PackageId">The internal ID of the package you want to delete. Use DescribePack- ages to find this value. Constraints: o pattern: ^([FG][0-9]+)$|^(pkg-[a-f0-9]+)$</param>
+    /// <param name="PackageId">The internal ID of the package you want to delete. Use DescribePackages to find this value. Constraints: • pattern: ^([FG][0-9]+)$|^(pkg-[a-f0-9]+)$</param>
     public AwsOpensearchDeletePackageOptions(
         string PackageId
     )
@@ -56,7 +57,7 @@ public record AwsOpensearchDeletePackageOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The internal ID of the package you want to delete. Use DescribePack- ages to find this value. Constraints: o pattern: ^([FG][0-9]+)$|^(pkg-[a-f0-9]+)$
+    /// The internal ID of the package you want to delete. Use DescribePackages to find this value. Constraints: • pattern: ^([FG][0-9]+)$|^(pkg-[a-f0-9]+)$
     /// </summary>
     [CliOption("--package-id")]
     public string? PackageId { get; private init; }
@@ -82,6 +83,15 @@ public record AwsOpensearchDeletePackageOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

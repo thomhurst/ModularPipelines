@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Allows the management account or delegated administrator to perform privileged tasks on member accounts in your organization. For more in- formation, see Centrally manage root access for member accounts in the Identity and Access Management User Guide . Before you enable this feature, you must have an account configured with the following settings: o You must manage your Amazon Web Services accounts in Organizations . o Enable trusted access for Identity and Access Management in Organiza- tions....
+/// Allows the management account or delegated administrator to perform privileged tasks on member accounts in your organization. For more information, see Centrally manage root access for member accounts in the Identity and Access Management User Guide . Before you enable this feature, you must have an account configured with the following settings: • You must manage your Amazon Web Services accounts in Organizations . • Enable trusted access for Identity and Access Management in Organizations. For...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,5 +26,14 @@ public record AwsIamEnableOrganizationsRootSessionsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

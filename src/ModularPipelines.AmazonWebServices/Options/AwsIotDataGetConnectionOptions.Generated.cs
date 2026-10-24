@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves connection information for the specified MQTT client. Requires permission to access the GetConnection action. See also: AWS API Documentation NOTE: For production code it is strongly recommended to use the custom endpoint for your account (retrievable via the iot describe-endpoint command) to ensure best availability and reachability of the ser- vice. The default endpoints (intended for testing purposes only) can be found at https://docs.aws.amazon.com/general/latest/gr/iot-core.html#i...
+/// Retrieves connection information for the specified MQTT client. Requires permission to access the GetConnection action. See also: AWS API Documentation NOTE: For production code it is strongly recommended to use the custom endpoint for your account (retrievable via the iot describe-endpoint command) to ensure best availability and reachability of the service. The default endpoints (intended for testing purposes only) can be found at https://docs.aws.amazon.com/general/latest/gr/iot-core.html#iot...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsIotDataGetConnectionOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Retrieves connection information for the specified MQTT client. Requires permission to access the GetConnection action. See also: AWS API Documentation NOTE: For production code it is strongly recommended to use the custom endpoint for your account (retrievable via the iot describe-endpoint command) to ensure best availability and reachability of the ser- vice. The default endpoints (intended for testing purposes only) can be found at https://docs.aws.amazon.com/general/latest/gr/iot-core.html#i...
+    /// Retrieves connection information for the specified MQTT client. Requires permission to access the GetConnection action. See also: AWS API Documentation NOTE: For production code it is strongly recommended to use the custom endpoint for your account (retrievable via the iot describe-endpoint command) to ensure best availability and reachability of the service. The default endpoints (intended for testing purposes only) can be found at https://docs.aws.amazon.com/general/latest/gr/iot-core.html#iot...
     /// </summary>
-    /// <param name="ClientId">The unique identifier of the MQTT client to retrieve connection in- formation. The client ID can't start with a dollar sign ($). MQTT client IDs must be URL encoded (percent-encoded) when they con- tain characters that are not valid in HTTP requests, such as spaces, forward slashes (/), and UTF-8 characters. Constraints: o min: 1 o max: 128 o pattern: ^[^$].*</param>
+    /// <param name="ClientId">The unique identifier of the MQTT client to retrieve connection information. The client ID can't start with a dollar sign ($). MQTT client IDs must be URL encoded (percent-encoded) when they contain characters that are not valid in HTTP requests, such as spaces, forward slashes (/), and UTF-8 characters. Constraints: • min: 1 • max: 128 • pattern: ^[^$].*</param>
     public AwsIotDataGetConnectionOptions(
         string ClientId
     )
@@ -56,13 +57,13 @@ public record AwsIotDataGetConnectionOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the MQTT client to retrieve connection in- formation. The client ID can't start with a dollar sign ($). MQTT client IDs must be URL encoded (percent-encoded) when they con- tain characters that are not valid in HTTP requests, such as spaces, forward slashes (/), and UTF-8 characters. Constraints: o min: 1 o max: 128 o pattern: ^[^$].*
+    /// The unique identifier of the MQTT client to retrieve connection information. The client ID can't start with a dollar sign ($). MQTT client IDs must be URL encoded (percent-encoded) when they contain characters that are not valid in HTTP requests, such as spaces, forward slashes (/), and UTF-8 characters. Constraints: • min: 1 • max: 128 • pattern: ^[^$].*
     /// </summary>
     [CliOption("--client-id")]
     public string? ClientId { get; private init; }
 
     /// <summary>
-    /// Specifies if socket information (sourcePort, targetPort, sourceIp, targetIp) should be included in the GetConnection response. Set to TRUE to include socket information. Set to FALSE to omit socket in- formation. By default, this is set to FALSE . See the developer guide for how to authorize this parameter.
+    /// Specifies if socket information (sourcePort, targetPort, sourceIp, targetIp) should be included in the GetConnection response. Set to TRUE to include socket information. Set to FALSE to omit socket information. By default, this is set to FALSE . See the developer guide for how to authorize this parameter.
     /// </summary>
     [CliFlag("--include-socket-information", NegatedName = "--no-include-socket-information")]
     public bool? IncludeSocketInformation { get; set; }
@@ -88,6 +89,15 @@ public record AwsIotDataGetConnectionOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

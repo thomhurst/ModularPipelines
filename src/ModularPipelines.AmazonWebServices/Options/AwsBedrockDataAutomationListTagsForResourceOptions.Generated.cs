@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsBedrockDataAutomationListTagsForResourceOptions : AwsOptions, I
     /// <summary>
     /// List tags for an Amazon Bedrock Data Automation resource See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">ARN of a taggable resource Constraints: o min: 20 o max: 1011 o pattern: arn:aws(|-cn|-iso|-iso-[a-z]|-us-gov):bedrock:[a-z0-9-]*:[0-9]{12}:(blue- print|data-automation-project|blueprint-optimization-invoca- tion|data-automation-library|data-automation-library-inges- tion-job)/[a-zA-Z0-9-]{12,36}</param>
+    /// <param name="ResourceArn">ARN of a taggable resource Constraints: • min: 20 • max: 1011 • pattern: arn:aws(|-cn|-iso|-iso-[a-z]|-us-gov):bedrock:[a-z0-9-]*:[0-9]{12}:(blueprint|data-automation-project|blueprint-optimization-invocation|data-automation-library|data-automation-library-ingestion-job)/[a-zA-Z0-9-]{12,36}</param>
     public AwsBedrockDataAutomationListTagsForResourceOptions(
         string ResourceArn
     )
@@ -56,7 +57,7 @@ public record AwsBedrockDataAutomationListTagsForResourceOptions : AwsOptions, I
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// ARN of a taggable resource Constraints: o min: 20 o max: 1011 o pattern: arn:aws(|-cn|-iso|-iso-[a-z]|-us-gov):bedrock:[a-z0-9-]*:[0-9]{12}:(blue- print|data-automation-project|blueprint-optimization-invoca- tion|data-automation-library|data-automation-library-inges- tion-job)/[a-zA-Z0-9-]{12,36}
+    /// ARN of a taggable resource Constraints: • min: 20 • max: 1011 • pattern: arn:aws(|-cn|-iso|-iso-[a-z]|-us-gov):bedrock:[a-z0-9-]*:[0-9]{12}:(blueprint|data-automation-project|blueprint-optimization-invocation|data-automation-library|data-automation-library-ingestion-job)/[a-zA-Z0-9-]{12,36}
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
@@ -82,6 +83,15 @@ public record AwsBedrockDataAutomationListTagsForResourceOptions : AwsOptions, I
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

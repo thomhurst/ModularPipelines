@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsAppsyncUpdateDomainNameOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Updates a custom DomainName object. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DomainName">The domain name. Constraints: o min: 1 o max: 253 o pattern: ^(\*[\w\d-]*\.)?([\w\d-]+\.)+[\w\d-]+$</param>
+    /// <param name="DomainName">The domain name. Constraints: • min: 1 • max: 253 • pattern: ^(\*[\w\d-]*\.)?([\w\d-]+\.)+[\w\d-]+$</param>
     public AwsAppsyncUpdateDomainNameOptions(
         string DomainName
     )
@@ -56,13 +57,13 @@ public record AwsAppsyncUpdateDomainNameOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The domain name. Constraints: o min: 1 o max: 253 o pattern: ^(\*[\w\d-]*\.)?([\w\d-]+\.)+[\w\d-]+$
+    /// The domain name. Constraints: • min: 1 • max: 253 • pattern: ^(\*[\w\d-]*\.)?([\w\d-]+\.)+[\w\d-]+$
     /// </summary>
     [CliOption("--domain-name")]
     public string? DomainName { get; private init; }
 
     /// <summary>
-    /// A description of the DomainName . Constraints: o min: 0 o max: 255 o pattern: ^.*$
+    /// A description of the DomainName . Constraints: • min: 0 • max: 255 • pattern: ^.*$
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
@@ -88,6 +89,15 @@ public record AwsAppsyncUpdateDomainNameOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

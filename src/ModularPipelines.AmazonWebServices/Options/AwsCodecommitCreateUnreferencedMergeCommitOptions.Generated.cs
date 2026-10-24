@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates an unreferenced commit that represents the result of merging two branches using a specified merge strategy. This can help you deter- mine the outcome of a potential merge. This API cannot be used with the fast-forward merge strategy because that strategy does not create a merge commit. NOTE: This unreferenced merge commit can only be accessed using the Get- Commit API or through git commands such as git fetch. To retrieve this commit, you must specify its commit ID or otherwise reference...
+/// Creates an unreferenced commit that represents the result of merging two branches using a specified merge strategy. This can help you determine the outcome of a potential merge. This API cannot be used with the fast-forward merge strategy because that strategy does not create a merge commit. NOTE: This unreferenced merge commit can only be accessed using the GetCommit API or through git commands such as git fetch. To retrieve this commit, you must specify its commit ID or otherwise reference it....
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,12 +27,12 @@ public record AwsCodecommitCreateUnreferencedMergeCommitOptions : AwsOptions, IV
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates an unreferenced commit that represents the result of merging two branches using a specified merge strategy. This can help you deter- mine the outcome of a potential merge. This API cannot be used with the fast-forward merge strategy because that strategy does not create a merge commit. NOTE: This unreferenced merge commit can only be accessed using the Get- Commit API or through git commands such as git fetch. To retrieve this commit, you must specify its commit ID or otherwise reference...
+    /// Creates an unreferenced commit that represents the result of merging two branches using a specified merge strategy. This can help you determine the outcome of a potential merge. This API cannot be used with the fast-forward merge strategy because that strategy does not create a merge commit. NOTE: This unreferenced merge commit can only be accessed using the GetCommit API or through git commands such as git fetch. To retrieve this commit, you must specify its commit ID or otherwise reference it....
     /// </summary>
-    /// <param name="RepositoryName">The name of the repository where you want to create the unreferenced merge commit. Constraints: o min: 1 o max: 100 o pattern: [\w\.-]+</param>
+    /// <param name="RepositoryName">The name of the repository where you want to create the unreferenced merge commit. Constraints: • min: 1 • max: 100 • pattern: [\w\.-]+</param>
     /// <param name="SourceCommitSpecifier">The branch, tag, HEAD, or other fully qualified reference used to identify a commit (for example, a branch name or a full commit ID).</param>
     /// <param name="DestinationCommitSpecifier">The branch, tag, HEAD, or other fully qualified reference used to identify a commit (for example, a branch name or a full commit ID).</param>
-    /// <param name="MergeOption">The merge option or strategy you want to use to merge the code. Possible values: o FAST_FORWARD_MERGE o SQUASH_MERGE o THREE_WAY_MERGE</param>
+    /// <param name="MergeOption">The merge option or strategy you want to use to merge the code. Possible values: • FAST_FORWARD_MERGE • SQUASH_MERGE • THREE_WAY_MERGE</param>
     public AwsCodecommitCreateUnreferencedMergeCommitOptions(
         string RepositoryName,
         string SourceCommitSpecifier,
@@ -68,7 +69,7 @@ public record AwsCodecommitCreateUnreferencedMergeCommitOptions : AwsOptions, IV
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the repository where you want to create the unreferenced merge commit. Constraints: o min: 1 o max: 100 o pattern: [\w\.-]+
+    /// The name of the repository where you want to create the unreferenced merge commit. Constraints: • min: 1 • max: 100 • pattern: [\w\.-]+
     /// </summary>
     [CliOption("--repository-name")]
     public string? RepositoryName { get; private init; }
@@ -86,31 +87,31 @@ public record AwsCodecommitCreateUnreferencedMergeCommitOptions : AwsOptions, IV
     public string? DestinationCommitSpecifier { get; private init; }
 
     /// <summary>
-    /// The merge option or strategy you want to use to merge the code. Possible values: o FAST_FORWARD_MERGE o SQUASH_MERGE o THREE_WAY_MERGE
+    /// The merge option or strategy you want to use to merge the code. Possible values: • FAST_FORWARD_MERGE • SQUASH_MERGE • THREE_WAY_MERGE
     /// </summary>
     [CliOption("--merge-option")]
     public AwsCodecommitCreateUnreferencedMergeCommitMergeOption? MergeOption { get; private init; }
 
     /// <summary>
-    /// The level of conflict detail to use. If unspecified, the default FILE_LEVEL is used, which returns a not-mergeable result if the same file has differences in both branches. If LINE_LEVEL is specified, a conflict is considered not mergeable if the same file in both branches has differences on the same line. Possible values: o FILE_LEVEL o LINE_LEVEL
+    /// The level of conflict detail to use. If unspecified, the default FILE_LEVEL is used, which returns a not-mergeable result if the same file has differences in both branches. If LINE_LEVEL is specified, a conflict is considered not mergeable if the same file in both branches has differences on the same line. Possible values: • FILE_LEVEL • LINE_LEVEL
     /// </summary>
     [CliOption("--conflict-detail-level")]
     public AwsCodecommitCreateUnreferencedMergeCommitConflictDetailLevel? ConflictDetailLevel { get; set; }
 
     /// <summary>
-    /// Specifies which branch to use when resolving conflicts, or whether to attempt automatically merging two versions of a file. The default is NONE, which requires any conflicts to be resolved manually before the merge operation is successful. Possible values: o NONE o ACCEPT_SOURCE o ACCEPT_DESTINATION o AUTOMERGE
+    /// Specifies which branch to use when resolving conflicts, or whether to attempt automatically merging two versions of a file. The default is NONE, which requires any conflicts to be resolved manually before the merge operation is successful. Possible values: • NONE • ACCEPT_SOURCE • ACCEPT_DESTINATION • AUTOMERGE
     /// </summary>
     [CliOption("--conflict-resolution-strategy")]
     public AwsCodecommitCreateUnreferencedMergeCommitConflictResolutionStrategy? ConflictResolutionStrategy { get; set; }
 
     /// <summary>
-    /// The name of the author who created the unreferenced commit. This in- formation is used as both the author and committer for the commit.
+    /// The name of the author who created the unreferenced commit. This information is used as both the author and committer for the commit.
     /// </summary>
     [CliOption("--author-name")]
     public string? AuthorName { get; set; }
 
     /// <summary>
-    /// The email address for the person who created the unreferenced com- mit.
+    /// The email address for the person who created the unreferenced commit.
     /// </summary>
     [CliOption("--email")]
     public string? Email { get; set; }
@@ -122,13 +123,13 @@ public record AwsCodecommitCreateUnreferencedMergeCommitOptions : AwsOptions, IV
     public string? CommitMessage { get; set; }
 
     /// <summary>
-    /// If the commit contains deletions, whether to keep a folder or folder structure if the changes leave the folders empty. If this is speci- fied as true, a .gitkeep file is created for empty folders. The de- fault is false.
+    /// If the commit contains deletions, whether to keep a folder or folder structure if the changes leave the folders empty. If this is specified as true, a .gitkeep file is created for empty folders. The default is false.
     /// </summary>
     [CliFlag("--keep-empty-folders", NegatedName = "--no-keep-empty-folders")]
     public bool? KeepEmptyFolders { get; set; }
 
     /// <summary>
-    /// If AUTOMERGE is the conflict resolution strategy, a list of inputs to use when resolving conflicts during a merge. replaceContents -&gt; (list) Files to have content replaced as part of the merge conflict resolution. (structure) Information about a replacement content entry in the conflict of a merge or pull request operation. filePath -&gt; (string) [required] The path of the conflicting file. replacementType -&gt; (string) [required] The replacement type to use when determining how to re- solve the conflict. Possible values: o KEEP_BASE o KEEP_SOURCE o KEEP_DESTINATION o USE_NEW_CONTENT content -&gt; (blob) The base-64 encoded content to use when the replacement type is USE_NEW_CONTENT. Constraints: o max: 6291456 fileMode -&gt; (string) The file mode to apply during conflict resoltion. Possible values: o EXECUTABLE o NORMAL o SYMLINK deleteFiles -&gt; (list) Files to be deleted as part of the merge conflict resolution. (structure) A file that is deleted as part of a commit. filePath -&gt; (string) [required] The full path of the file to be deleted, including the name of the file. setFileModes -&gt; (list) File modes that are set as part of the merge conflict resolu- tion. (structure) Information about the file mode changes. filePath -&gt; (string) [required] The full path to the file, including the name of the file. fileMode -&gt; (string) [required] The file mode for the file. Possible values: o EXECUTABLE o NORMAL o SYMLINK Shorthand Syntax: replaceContents=[{filePath=string,replacementType=string,content=blob,fileMode=string},{filePath=string,replacementType=string,content=blob,fileMode=string}],deleteFiles=[{filePath=string},{filePath=string}],setFileModes=[{filePath=string,fileMode=string},{filePath=string,fileMode=string}] JSON Syntax: { "replaceContents": [ { "filePath": "string", "replacementType": "KEEP_BASE"|"KEEP_SOURCE"|"KEEP_DESTINATION"|"USE_NEW_CONTENT", "content": blob, "fileMode": "EXECUTABLE"|"NORMAL"|"SYMLINK" } ... ], "deleteFiles": [ { "filePath": "string" } ... ], "setFileModes": [ { "filePath": "string", "fileMode": "EXECUTABLE"|"NORMAL"|"SYMLINK" } ... ] }
+    /// If AUTOMERGE is the conflict resolution strategy, a list of inputs to use when resolving conflicts during a merge. replaceContents -&gt; (list) Files to have content replaced as part of the merge conflict resolution. (structure) Information about a replacement content entry in the conflict of a merge or pull request operation. filePath -&gt; (string) [required] The path of the conflicting file. replacementType -&gt; (string) [required] The replacement type to use when determining how to resolve the conflict. Possible values: • KEEP_BASE • KEEP_SOURCE • KEEP_DESTINATION • USE_NEW_CONTENT content -&gt; (blob) The base-64 encoded content to use when the replacement type is USE_NEW_CONTENT. Constraints: • max: 6291456 fileMode -&gt; (string) The file mode to apply during conflict resoltion. Possible values: • EXECUTABLE • NORMAL • SYMLINK deleteFiles -&gt; (list) Files to be deleted as part of the merge conflict resolution. (structure) A file that is deleted as part of a commit. filePath -&gt; (string) [required] The full path of the file to be deleted, including the name of the file. setFileModes -&gt; (list) File modes that are set as part of the merge conflict resolution. (structure) Information about the file mode changes. filePath -&gt; (string) [required] The full path to the file, including the name of the file. fileMode -&gt; (string) [required] The file mode for the file. Possible values: • EXECUTABLE • NORMAL • SYMLINK Shorthand Syntax: replaceContents=[{filePath=string,replacementType=string,content=blob,fileMode=string},{filePath=string,replacementType=string,content=blob,fileMode=string}],deleteFiles=[{filePath=string},{filePath=string}],setFileModes=[{filePath=string,fileMode=string},{filePath=string,fileMode=string}] JSON Syntax: { "replaceContents": [ { "filePath": "string", "replacementType": "KEEP_BASE"|"KEEP_SOURCE"|"KEEP_DESTINATION"|"USE_NEW_CONTENT", "content": blob, "fileMode": "EXECUTABLE"|"NORMAL"|"SYMLINK" } ... ], "deleteFiles": [ { "filePath": "string" } ... ], "setFileModes": [ { "filePath": "string", "fileMode": "EXECUTABLE"|"NORMAL"|"SYMLINK" } ... ] }
     /// </summary>
     [CliOption("--conflict-resolution")]
     public string? ConflictResolution { get; set; }
@@ -154,6 +155,15 @@ public record AwsCodecommitCreateUnreferencedMergeCommitOptions : AwsOptions, IV
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

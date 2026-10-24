@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +29,7 @@ public record AwsEmrAddTagsOptions : AwsOptions, IValidatableObject
     /// Adds tags to an Amazon EMR resource, such as a cluster or an Amazon EMR Studio. Tags make it easier to associate resources in various ways, such as grouping clusters to track your Amazon EMR resource allocation costs. For more information, see Tag Clusters . See also: AWS API Documentation
     /// </summary>
     /// <param name="ResourceId">The Amazon EMR resource identifier to which tags will be added. For example, a cluster identifier or an Amazon EMR Studio ID.</param>
-    /// <param name="Tags">A list of tags to associate with a cluster, which apply to each Ama- zon EC2 instance in the cluster. Tags are key-value pairs that con- sist of a required key string with a maximum of 128 characters, and an optional value string with a maximum of 256 characters. You can specify tags in key=value format or you can add a tag with- out a value using only the key name, for example key . Use a space to separate multiple tags.</param>
+    /// <param name="Tags">A list of tags to associate with a cluster, which apply to each Amazon EC2 instance in the cluster. Tags are key-value pairs that consist of a required key string with a maximum of 128 characters, and an optional value string with a maximum of 256 characters. You can specify tags in key=value format or you can add a tag without a value using only the key name, for example key . Use a space to separate multiple tags.</param>
     public AwsEmrAddTagsOptions(
         string ResourceId,
         string Tags
@@ -66,13 +67,13 @@ public record AwsEmrAddTagsOptions : AwsOptions, IValidatableObject
     public string? ResourceId { get; private init; }
 
     /// <summary>
-    /// A list of tags to associate with a cluster, which apply to each Ama- zon EC2 instance in the cluster. Tags are key-value pairs that con- sist of a required key string with a maximum of 128 characters, and an optional value string with a maximum of 256 characters. You can specify tags in key=value format or you can add a tag with- out a value using only the key name, for example key . Use a space to separate multiple tags.
+    /// A list of tags to associate with a cluster, which apply to each Amazon EC2 instance in the cluster. Tags are key-value pairs that consist of a required key string with a maximum of 128 characters, and an optional value string with a maximum of 256 characters. You can specify tags in key=value format or you can add a tag without a value using only the key name, for example key . Use a space to separate multiple tags.
     /// </summary>
     [CliOption("--tags")]
     public string? Tags { get; private init; }
 
     /// <summary>
-    /// The ID of the cluster that scopes the tag operation. Required when the resource being tagged is a session-scoped resource. Constraints: o max: 256
+    /// The ID of the cluster that scopes the tag operation. Required when the resource being tagged is a session-scoped resource. Constraints: • max: 256
     /// </summary>
     [CliOption("--cluster-id")]
     public string? ClusterId { get; set; }
@@ -98,6 +99,15 @@ public record AwsEmrAddTagsOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

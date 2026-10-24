@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsFmsBatchDisassociateResourceOptions : AwsOptions, IValidatableO
     /// <summary>
     /// Disassociates resources from a Firewall Manager resource set. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceSetIdentifier">A unique identifier for the resource set, used in a request to refer to the resource set. Constraints: o min: 1 o max: 2048 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$</param>
-    /// <param name="Items">The uniform resource identifiers (URI) of resources that should be disassociated from the resource set. The URIs must be Amazon Re- source Names (ARNs). (string) Constraints: o min: 1 o max: 2048 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Syntax: "string" "string" ...</param>
+    /// <param name="ResourceSetIdentifier">A unique identifier for the resource set, used in a request to refer to the resource set. Constraints: • min: 1 • max: 2048 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$</param>
+    /// <param name="Items">The uniform resource identifiers (URI) of resources that should be disassociated from the resource set. The URIs must be Amazon Resource Names (ARNs). (string) Constraints: • min: 1 • max: 2048 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Syntax: "string" "string" ...</param>
     public AwsFmsBatchDisassociateResourceOptions(
         string ResourceSetIdentifier,
         IEnumerable<string> Items
@@ -71,13 +72,13 @@ public record AwsFmsBatchDisassociateResourceOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A unique identifier for the resource set, used in a request to refer to the resource set. Constraints: o min: 1 o max: 2048 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$
+    /// A unique identifier for the resource set, used in a request to refer to the resource set. Constraints: • min: 1 • max: 2048 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$
     /// </summary>
     [CliOption("--resource-set-identifier")]
     public string? ResourceSetIdentifier { get; private init; }
 
     /// <summary>
-    /// The uniform resource identifiers (URI) of resources that should be disassociated from the resource set. The URIs must be Amazon Re- source Names (ARNs). (string) Constraints: o min: 1 o max: 2048 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Syntax: "string" "string" ...
+    /// The uniform resource identifiers (URI) of resources that should be disassociated from the resource set. The URIs must be Amazon Resource Names (ARNs). (string) Constraints: • min: 1 • max: 2048 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--items", GroupValues = true)]
     public IEnumerable<string>? Items { get; private init; }
@@ -103,6 +104,15 @@ public record AwsFmsBatchDisassociateResourceOptions : AwsOptions, IValidatableO
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns a description of the specified algorithm that is in your ac- count. See also: AWS API Documentation
+/// Returns a description of the specified algorithm that is in your account. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsSagemakerDescribeAlgorithmOptions : AwsOptions, IValidatableObj
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns a description of the specified algorithm that is in your ac- count. See also: AWS API Documentation
+    /// Returns a description of the specified algorithm that is in your account. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AlgorithmName">The name of the algorithm to describe. Constraints: o min: 1 o max: 170 o pattern: (arn:aws[a-z\-]*:sage- maker:[a-z0-9\-]*:[0-9]{12}:[a-z\-]*\/)?([a-zA-Z0-9]([a-zA-Z0-9-]){0,62})(?&lt;!-)</param>
+    /// <param name="AlgorithmName">The name of the algorithm to describe. Constraints: • min: 1 • max: 170 • pattern: (arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:[a-z\-]*\/)?([a-zA-Z0-9]([a-zA-Z0-9-]){0,62})(?&lt;!-)</param>
     public AwsSagemakerDescribeAlgorithmOptions(
         string AlgorithmName
     )
@@ -56,7 +57,7 @@ public record AwsSagemakerDescribeAlgorithmOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the algorithm to describe. Constraints: o min: 1 o max: 170 o pattern: (arn:aws[a-z\-]*:sage- maker:[a-z0-9\-]*:[0-9]{12}:[a-z\-]*\/)?([a-zA-Z0-9]([a-zA-Z0-9-]){0,62})(?&lt;!-)
+    /// The name of the algorithm to describe. Constraints: • min: 1 • max: 170 • pattern: (arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:[a-z\-]*\/)?([a-zA-Z0-9]([a-zA-Z0-9-]){0,62})(?&lt;!-)
     /// </summary>
     [CliOption("--algorithm-name")]
     public string? AlgorithmName { get; private init; }
@@ -82,6 +83,15 @@ public record AwsSagemakerDescribeAlgorithmOptions : AwsOptions, IValidatableObj
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

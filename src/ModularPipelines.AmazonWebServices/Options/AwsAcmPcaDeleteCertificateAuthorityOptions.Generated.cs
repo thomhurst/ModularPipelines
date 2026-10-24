@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes a private certificate authority (CA). You must provide the Ama- zon Resource Name (ARN) of the private CA that you want to delete. You can find the ARN by calling the ListCertificateAuthorities action. NOTE: Deleting a CA will invalidate other CAs and certificates below it in your CA hierarchy. Before you can delete a CA that you have created and activated, you must disable it. To do this, call the UpdateCertificateAuthority action and set the CertificateAuthorityStatus parameter to DISA...
+/// Deletes a private certificate authority (CA). You must provide the Amazon Resource Name (ARN) of the private CA that you want to delete. You can find the ARN by calling the ListCertificateAuthorities action. NOTE: Deleting a CA will invalidate other CAs and certificates below it in your CA hierarchy. Before you can delete a CA that you have created and activated, you must disable it. To do this, call the UpdateCertificateAuthority action and set the CertificateAuthorityStatus parameter to DISABL...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsAcmPcaDeleteCertificateAuthorityOptions : AwsOptions, IValidata
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes a private certificate authority (CA). You must provide the Ama- zon Resource Name (ARN) of the private CA that you want to delete. You can find the ARN by calling the ListCertificateAuthorities action. NOTE: Deleting a CA will invalidate other CAs and certificates below it in your CA hierarchy. Before you can delete a CA that you have created and activated, you must disable it. To do this, call the UpdateCertificateAuthority action and set the CertificateAuthorityStatus parameter to DISA...
+    /// Deletes a private certificate authority (CA). You must provide the Amazon Resource Name (ARN) of the private CA that you want to delete. You can find the ARN by calling the ListCertificateAuthorities action. NOTE: Deleting a CA will invalidate other CAs and certificates below it in your CA hierarchy. Before you can delete a CA that you have created and activated, you must disable it. To do this, call the UpdateCertificateAuthority action and set the CertificateAuthorityStatus parameter to DISABL...
     /// </summary>
-    /// <param name="CertificateAuthorityArn">The Amazon Resource Name (ARN) that was returned when you called CreateCertificateAuthority . This must have the following form: `` arn:aws:acm-pca:region :account :certificate-author- ity/12345678-1234-1234-1234-123456789012 `` . System Message: WARNING/2 (&lt;string&gt;:, line 105) Inline literal start-string without end-string. Constraints: o min: 5 o max: 200 o pattern: arn:[\w+=/,.@-]+:acm-pca:[\w+=/,.@-]*:[0-9]*:[\w+=,.@-]+(/[\w+=,.@-]+)*</param>
+    /// <param name="CertificateAuthorityArn">The Amazon Resource Name (ARN) that was returned when you called CreateCertificateAuthority . This must have the following form: `` arn:aws:acm-pca:region :account :certificate-authority/12345678-1234-1234-1234-123456789012 `` . System Message: WARNING/2 (&lt;string&gt;:, line 105) Inline literal start-string without end-string. Constraints: • min: 5 • max: 200 • pattern: arn:[\w+=/,.@-]+:acm-pca:[\w+=/,.@-]*:[0-9]*:[\w+=,.@-]+(/[\w+=,.@-]+)*</param>
     public AwsAcmPcaDeleteCertificateAuthorityOptions(
         string CertificateAuthorityArn
     )
@@ -56,13 +57,13 @@ public record AwsAcmPcaDeleteCertificateAuthorityOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) that was returned when you called CreateCertificateAuthority . This must have the following form: `` arn:aws:acm-pca:region :account :certificate-author- ity/12345678-1234-1234-1234-123456789012 `` . System Message: WARNING/2 (&lt;string&gt;:, line 105) Inline literal start-string without end-string. Constraints: o min: 5 o max: 200 o pattern: arn:[\w+=/,.@-]+:acm-pca:[\w+=/,.@-]*:[0-9]*:[\w+=,.@-]+(/[\w+=,.@-]+)*
+    /// The Amazon Resource Name (ARN) that was returned when you called CreateCertificateAuthority . This must have the following form: `` arn:aws:acm-pca:region :account :certificate-authority/12345678-1234-1234-1234-123456789012 `` . System Message: WARNING/2 (&lt;string&gt;:, line 105) Inline literal start-string without end-string. Constraints: • min: 5 • max: 200 • pattern: arn:[\w+=/,.@-]+:acm-pca:[\w+=/,.@-]*:[0-9]*:[\w+=,.@-]+(/[\w+=,.@-]+)*
     /// </summary>
     [CliOption("--certificate-authority-arn")]
     public string? CertificateAuthorityArn { get; private init; }
 
     /// <summary>
-    /// The number of days to make a CA restorable after it has been deleted. This can be anywhere from 7 to 30 days, with 30 being the default. Constraints: o min: 7 o max: 30
+    /// The number of days to make a CA restorable after it has been deleted. This can be anywhere from 7 to 30 days, with 30 being the default. Constraints: • min: 7 • max: 30
     /// </summary>
     [CliOption("--permanent-deletion-time-in-days")]
     public int? PermanentDeletionTimeInDays { get; set; }
@@ -88,6 +89,15 @@ public record AwsAcmPcaDeleteCertificateAuthorityOptions : AwsOptions, IValidata
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

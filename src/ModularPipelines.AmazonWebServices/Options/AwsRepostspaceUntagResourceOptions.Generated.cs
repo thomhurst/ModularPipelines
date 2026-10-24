@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Removes the association of the tag with the AWS re:Post Private re- source. See also: AWS API Documentation
+/// Removes the association of the tag with the AWS re:Post Private resource. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsRepostspaceUntagResourceOptions : AwsOptions, IValidatableObjec
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Removes the association of the tag with the AWS re:Post Private re- source. See also: AWS API Documentation
+    /// Removes the association of the tag with the AWS re:Post Private resource. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The ARN of the resource. Constraints: o min: 20 o max: 2048</param>
-    /// <param name="TagKeys">The key values of the tag. Constraints: o min: 1 o max: 50 (string) Constraints: o min: 1 o max: 128 o pattern: (?!aws:)[a-zA-Z+-=._:/]+ Syntax: "string" "string" ...</param>
+    /// <param name="ResourceArn">The ARN of the resource. Constraints: • min: 20 • max: 2048</param>
+    /// <param name="TagKeys">The key values of the tag. Constraints: • min: 1 • max: 50 (string) Constraints: • min: 1 • max: 128 • pattern: (?!aws:)[a-zA-Z+-=._:/]+ Syntax: "string" "string" ...</param>
     public AwsRepostspaceUntagResourceOptions(
         string ResourceArn,
         IEnumerable<string> TagKeys
@@ -71,13 +72,13 @@ public record AwsRepostspaceUntagResourceOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the resource. Constraints: o min: 20 o max: 2048
+    /// The ARN of the resource. Constraints: • min: 20 • max: 2048
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
 
     /// <summary>
-    /// The key values of the tag. Constraints: o min: 1 o max: 50 (string) Constraints: o min: 1 o max: 128 o pattern: (?!aws:)[a-zA-Z+-=._:/]+ Syntax: "string" "string" ...
+    /// The key values of the tag. Constraints: • min: 1 • max: 50 (string) Constraints: • min: 1 • max: 128 • pattern: (?!aws:)[a-zA-Z+-=._:/]+ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--tag-keys", GroupValues = true)]
     public IEnumerable<string>? TagKeys { get; private init; }
@@ -103,6 +104,15 @@ public record AwsRepostspaceUntagResourceOptions : AwsOptions, IValidatableObjec
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

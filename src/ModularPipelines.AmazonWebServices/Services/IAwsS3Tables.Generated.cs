@@ -6,7 +6,7 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using ModularPipelines.Models;
+using ModularPipelines;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
@@ -22,44 +22,40 @@ namespace ModularPipelines.AmazonWebServices.Services;
 public interface IAwsS3Tables
 {
     /// <summary>
-    /// Creates a namespace. A namespace is a logical grouping of tables within your table bucket, which you can use to organize tables. For more in- formation, see Create a namespace in the Amazon Simple Storage Service User Guide . Permissions You must have the s3tables:CreateNamespace permission to use this oper- ation. See also: AWS API Documentation
+    /// Creates a namespace. A namespace is a logical grouping of tables within your table bucket, which you can use to organize tables. For more information, see Create a namespace in the Amazon Simple Storage Service User Guide . Permissions You must have the s3tables:CreateNamespace permission to use this operation. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateNamespaceAsync(AwsS3tablesCreateNamespaceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateNamespaceAsync(AwsS3tablesCreateNamespaceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Creates a table bucket. For more information, see Creating a table bucket in the Amazon Simple Storage Service User Guide . Permissions o You must have the s3tables:CreateTableBucket permission to use this operation. o If you use this operation with the optional encryptionConfiguration parameter you must have the s3tables:PutTableBucketEncryption permis- sion. o If you use this operation with the storageClassConfiguration request parameter, you must have the s3tables:PutTableBucketStorageClass p...
+    /// Creates a table bucket. For more information, see Creating a table bucket in the Amazon Simple Storage Service User Guide . Permissions • You must have the s3tables:CreateTableBucket permission to use this operation. • If you use this operation with the optional encryptionConfiguration parameter you must have the s3tables:PutTableBucketEncryption permission. • If you use this operation with the storageClassConfiguration request parameter, you must have the s3tables:PutTableBucketStorageClass per...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateTableBucketAsync(AwsS3tablesCreateTableBucketOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateTableBucketAsync(AwsS3tablesCreateTableBucketOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Creates a new table associated with the given namespace in a table bucket. For more information, see Creating an Amazon S3 table in the Amazon Simple Storage Service User Guide . Permissions o You must have the s3tables:CreateTable permission to use this opera- tion. o If you use this operation with the optional metadata request parame- ter you must have the s3tables:PutTableData permission. o If you use this operation with the optional encryptionConfiguration request parameter you must have the...
+    /// Creates a new table associated with the given namespace in a table bucket. For more information, see Creating an Amazon S3 table in the Amazon Simple Storage Service User Guide . Permissions • You must have the s3tables:CreateTable permission to use this operation. • If you use this operation with the optional metadata request parameter you must have the s3tables:PutTableData permission. • If you use this operation with the optional encryptionConfiguration request parameter you must have the s3t...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateTableAsync(AwsS3tablesCreateTableOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateTableAsync(AwsS3tablesCreateTableOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Deletes a namespace. For more information, see Delete a namespace in the Amazon Simple Storage Service User Guide . Permissions You must have the s3tables:DeleteNamespace permission to use this oper- ation. See also: AWS API Documentation
+    /// Deletes a namespace. For more information, see Delete a namespace in the Amazon Simple Storage Service User Guide . Permissions You must have the s3tables:DeleteNamespace permission to use this operation. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteNamespaceAsync(AwsS3tablesDeleteNamespaceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteNamespaceAsync(AwsS3tablesDeleteNamespaceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the encryption configuration for a table bucket. Permissions You must have the s3tables:DeleteTableBucketEncryption permission to use this operation. See also: AWS API Documentation
@@ -68,88 +64,79 @@ public interface IAwsS3Tables
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteTableBucketEncryptionAsync(AwsS3tablesDeleteTableBucketEncryptionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteTableBucketEncryptionAsync(AwsS3tablesDeleteTableBucketEncryptionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Deletes the metrics configuration for a table bucket. Permissions You must have the s3tables:DeleteTableBucketMetricsConfiguration per- mission to use this operation. See also: AWS API Documentation
+    /// Deletes the metrics configuration for a table bucket. Permissions You must have the s3tables:DeleteTableBucketMetricsConfiguration permission to use this operation. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteTableBucketMetricsConfigurationAsync(AwsS3tablesDeleteTableBucketMetricsConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteTableBucketMetricsConfigurationAsync(AwsS3tablesDeleteTableBucketMetricsConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Deletes a table bucket. For more information, see Deleting a table bucket in the Amazon Simple Storage Service User Guide . Permissions You must have the s3tables:DeleteTableBucket permission to use this op- eration. See also: AWS API Documentation
+    /// Deletes a table bucket. For more information, see Deleting a table bucket in the Amazon Simple Storage Service User Guide . Permissions You must have the s3tables:DeleteTableBucket permission to use this operation. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteTableBucketAsync(AwsS3tablesDeleteTableBucketOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteTableBucketAsync(AwsS3tablesDeleteTableBucketOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Deletes a table bucket policy. For more information, see Deleting a ta- ble bucket policy in the Amazon Simple Storage Service User Guide . Permissions You must have the s3tables:DeleteTableBucketPolicy permission to use this operation. See also: AWS API Documentation
+    /// Deletes a table bucket policy. For more information, see Deleting a table bucket policy in the Amazon Simple Storage Service User Guide . Permissions You must have the s3tables:DeleteTableBucketPolicy permission to use this operation. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteTableBucketPolicyAsync(AwsS3tablesDeleteTableBucketPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteTableBucketPolicyAsync(AwsS3tablesDeleteTableBucketPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Deletes the replication configuration for a table bucket. After dele- tion, new table updates will no longer be replicated to destination buckets, though existing replicated tables will remain in destination buckets. Permissions You must have the s3tables:DeleteTableBucketReplication permission to use this operation. See also: AWS API Documentation
+    /// Deletes the replication configuration for a table bucket. After deletion, new table updates will no longer be replicated to destination buckets, though existing replicated tables will remain in destination buckets. Permissions You must have the s3tables:DeleteTableBucketReplication permission to use this operation. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteTableBucketReplicationAsync(AwsS3tablesDeleteTableBucketReplicationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteTableBucketReplicationAsync(AwsS3tablesDeleteTableBucketReplicationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Deletes a table. For more information, see Deleting an Amazon S3 table in the Amazon Simple Storage Service User Guide . Permissions You must have the s3tables:DeleteTable permission to use this opera- tion. See also: AWS API Documentation
+    /// Deletes a table. For more information, see Deleting an Amazon S3 table in the Amazon Simple Storage Service User Guide . Permissions You must have the s3tables:DeleteTable permission to use this operation. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteTableAsync(AwsS3tablesDeleteTableOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteTableAsync(AwsS3tablesDeleteTableOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Deletes a table policy. For more information, see Deleting a table pol- icy in the Amazon Simple Storage Service User Guide . Permissions You must have the s3tables:DeleteTablePolicy permission to use this op- eration. See also: AWS API Documentation
+    /// Deletes a table policy. For more information, see Deleting a table policy in the Amazon Simple Storage Service User Guide . Permissions You must have the s3tables:DeleteTablePolicy permission to use this operation. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteTablePolicyAsync(AwsS3tablesDeleteTablePolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteTablePolicyAsync(AwsS3tablesDeleteTablePolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Deletes the replication configuration for a specific table. After dele- tion, new updates to this table will no longer be replicated to desti- nation tables, though existing replicated copies will remain in desti- nation buckets. Permissions You must have the s3tables:DeleteTableReplication permission to use this operation. See also: AWS API Documentation
+    /// Deletes the replication configuration for a specific table. After deletion, new updates to this table will no longer be replicated to destination tables, though existing replicated copies will remain in destination buckets. Permissions You must have the s3tables:DeleteTableReplication permission to use this operation. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteTableReplicationAsync(AwsS3tablesDeleteTableReplicationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteTableReplicationAsync(AwsS3tablesDeleteTableReplicationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Gets details about a namespace. For more information, see Table name- spaces in the Amazon Simple Storage Service User Guide . Permissions You must have the s3tables:GetNamespace permission to use this opera- tion. See also: AWS API Documentation
+    /// Gets details about a namespace. For more information, see Table namespaces in the Amazon Simple Storage Service User Guide . Permissions You must have the s3tables:GetNamespace permission to use this operation. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetNamespaceAsync(AwsS3tablesGetNamespaceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetNamespaceAsync(AwsS3tablesGetNamespaceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets the encryption configuration for a table bucket. Permissions You must have the s3tables:GetTableBucketEncryption permission to use this operation. See also: AWS API Documentation
@@ -158,38 +145,34 @@ public interface IAwsS3Tables
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetTableBucketEncryptionAsync(AwsS3tablesGetTableBucketEncryptionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetTableBucketEncryptionAsync(AwsS3tablesGetTableBucketEncryptionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Gets details about a maintenance configuration for a given table bucket. For more information, see Amazon S3 table bucket maintenance in the Amazon Simple Storage Service User Guide . Permissions You must have the s3tables:GetTableBucketMaintenanceConfiguration per- mission to use this operation. See also: AWS API Documentation
+    /// Gets details about a maintenance configuration for a given table bucket. For more information, see Amazon S3 table bucket maintenance in the Amazon Simple Storage Service User Guide . Permissions You must have the s3tables:GetTableBucketMaintenanceConfiguration permission to use this operation. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetTableBucketMaintenanceConfigurationAsync(AwsS3tablesGetTableBucketMaintenanceConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetTableBucketMaintenanceConfigurationAsync(AwsS3tablesGetTableBucketMaintenanceConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Gets the metrics configuration for a table bucket. Permissions You must have the s3tables:GetTableBucketMetricsConfiguration permis- sion to use this operation. See also: AWS API Documentation
+    /// Gets the metrics configuration for a table bucket. Permissions You must have the s3tables:GetTableBucketMetricsConfiguration permission to use this operation. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetTableBucketMetricsConfigurationAsync(AwsS3tablesGetTableBucketMetricsConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetTableBucketMetricsConfigurationAsync(AwsS3tablesGetTableBucketMetricsConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Gets details on a table bucket. For more information, see Viewing de- tails about an Amazon S3 table bucket in the Amazon Simple Storage Ser- vice User Guide . Permissions You must have the s3tables:GetTableBucket permission to use this opera- tion. See also: AWS API Documentation
+    /// Gets details on a table bucket. For more information, see Viewing details about an Amazon S3 table bucket in the Amazon Simple Storage Service User Guide . Permissions You must have the s3tables:GetTableBucket permission to use this operation. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetTableBucketAsync(AwsS3tablesGetTableBucketOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetTableBucketAsync(AwsS3tablesGetTableBucketOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets details about a table bucket policy. For more information, see Viewing a table bucket policy in the Amazon Simple Storage Service User Guide . Permissions You must have the s3tables:GetTableBucketPolicy permission to use this operation. See also: AWS API Documentation
@@ -198,28 +181,25 @@ public interface IAwsS3Tables
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetTableBucketPolicyAsync(AwsS3tablesGetTableBucketPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetTableBucketPolicyAsync(AwsS3tablesGetTableBucketPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Retrieves the replication configuration for a table bucket.This opera- tion returns the IAM role, versionToken , and replication rules that define how tables in this bucket are replicated to other buckets. Permissions You must have the s3tables:GetTableBucketReplication permission to use this operation. See also: AWS API Documentation
+    /// Retrieves the replication configuration for a table bucket.This operation returns the IAM role, versionToken , and replication rules that define how tables in this bucket are replicated to other buckets. Permissions You must have the s3tables:GetTableBucketReplication permission to use this operation. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetTableBucketReplicationAsync(AwsS3tablesGetTableBucketReplicationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetTableBucketReplicationAsync(AwsS3tablesGetTableBucketReplicationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Retrieves the storage class configuration for a specific table. This allows you to view the storage class settings that apply to an individ- ual table, which may differ from the table bucket's default configura- tion. Permissions You must have the s3tables:GetTableBucketStorageClass permission to use this operation. See also: AWS API Documentation
+    /// Retrieves the storage class configuration for a specific table. This allows you to view the storage class settings that apply to an individual table, which may differ from the table bucket's default configuration. Permissions You must have the s3tables:GetTableBucketStorageClass permission to use this operation. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetTableBucketStorageClassAsync(AwsS3tablesGetTableBucketStorageClassOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetTableBucketStorageClassAsync(AwsS3tablesGetTableBucketStorageClassOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets the encryption configuration for a table. Permissions You must have the s3tables:GetTableEncryption permission to use this operation. See also: AWS API Documentation
@@ -228,18 +208,16 @@ public interface IAwsS3Tables
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetTableEncryptionAsync(AwsS3tablesGetTableEncryptionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetTableEncryptionAsync(AwsS3tablesGetTableEncryptionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Gets details about the maintenance configuration of a table. For more information, see S3 Tables maintenance in the Amazon Simple Storage Service User Guide . Permissions o You must have the s3tables:GetTableMaintenanceConfiguration permis- sion to use this operation. o You must have the s3tables:GetTableData permission to use set the compaction strategy to sort or zorder . See also: AWS API Documentation
+    /// Gets details about the maintenance configuration of a table. For more information, see S3 Tables maintenance in the Amazon Simple Storage Service User Guide . Permissions • You must have the s3tables:GetTableMaintenanceConfiguration permission to use this operation. • You must have the s3tables:GetTableData permission to use set the compaction strategy to sort or zorder . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetTableMaintenanceConfigurationAsync(AwsS3tablesGetTableMaintenanceConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetTableMaintenanceConfigurationAsync(AwsS3tablesGetTableMaintenanceConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets the status of a maintenance job for a table. For more information, see S3 Tables maintenance in the Amazon Simple Storage Service User Guide . Permissions You must have the s3tables:GetTableMaintenanceJobStatus permission to use this operation. See also: AWS API Documentation
@@ -248,8 +226,7 @@ public interface IAwsS3Tables
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetTableMaintenanceJobStatusAsync(AwsS3tablesGetTableMaintenanceJobStatusOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetTableMaintenanceJobStatusAsync(AwsS3tablesGetTableMaintenanceJobStatusOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets the location of the table metadata. Permissions You must have the s3tables:GetTableMetadataLocation permission to use this operation. See also: AWS API Documentation
@@ -258,8 +235,7 @@ public interface IAwsS3Tables
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetTableMetadataLocationAsync(AwsS3tablesGetTableMetadataLocationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetTableMetadataLocationAsync(AwsS3tablesGetTableMetadataLocationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets details about a table. For more information, see S3 Tables in the Amazon Simple Storage Service User Guide . Permissions You must have the s3tables:GetTable permission to use this operation. See also: AWS API Documentation
@@ -268,38 +244,34 @@ public interface IAwsS3Tables
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetTableAsync(AwsS3tablesGetTableOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetTableAsync(AwsS3tablesGetTableOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Gets details about a table policy. For more information, see Viewing a table policy in the Amazon Simple Storage Service User Guide . Permissions You must have the s3tables:GetTablePolicy permission to use this opera- tion. See also: AWS API Documentation
+    /// Gets details about a table policy. For more information, see Viewing a table policy in the Amazon Simple Storage Service User Guide . Permissions You must have the s3tables:GetTablePolicy permission to use this operation. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetTablePolicyAsync(AwsS3tablesGetTablePolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetTablePolicyAsync(AwsS3tablesGetTablePolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Retrieves the expiration configuration settings for records in a table, and the status of the configuration. If the status of the configuration is enabled , records expire and are automatically removed from the ta- ble after the specified number of days. Permissions You must have the s3tables:GetTableRecordExpirationConfiguration per- mission to use this operation. See also: AWS API Documentation
+    /// Retrieves the expiration configuration settings for records in a table, and the status of the configuration. If the status of the configuration is enabled , records expire and are automatically removed from the table after the specified number of days. Permissions You must have the s3tables:GetTableRecordExpirationConfiguration permission to use this operation. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetTableRecordExpirationConfigurationAsync(AwsS3tablesGetTableRecordExpirationConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetTableRecordExpirationConfigurationAsync(AwsS3tablesGetTableRecordExpirationConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Retrieves the status, metrics, and details of the latest record expira- tion job for a table. This includes when the job ran, and whether it succeeded or failed. If the job ran successfully, this also includes statistics about the records that were removed. Permissions You must have the s3tables:GetTableRecordExpirationJobStatus permission to use this operation. See also: AWS API Documentation
+    /// Retrieves the status, metrics, and details of the latest record expiration job for a table. This includes when the job ran, and whether it succeeded or failed. If the job ran successfully, this also includes statistics about the records that were removed. Permissions You must have the s3tables:GetTableRecordExpirationJobStatus permission to use this operation. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetTableRecordExpirationJobStatusAsync(AwsS3tablesGetTableRecordExpirationJobStatusOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetTableRecordExpirationJobStatusAsync(AwsS3tablesGetTableRecordExpirationJobStatusOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the replication configuration for a specific table. Permissions You must have the s3tables:GetTableReplication permission to use this operation. See also: AWS API Documentation
@@ -308,8 +280,7 @@ public interface IAwsS3Tables
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetTableReplicationAsync(AwsS3tablesGetTableReplicationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetTableReplicationAsync(AwsS3tablesGetTableReplicationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the replication status for a table, including the status of replication to each destination. This operation provides visibility into replication health and progress. Permissions You must have the s3tables:GetTableReplicationStatus permission to use this operation. See also: AWS API Documentation
@@ -318,88 +289,79 @@ public interface IAwsS3Tables
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetTableReplicationStatusAsync(AwsS3tablesGetTableReplicationStatusOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetTableReplicationStatusAsync(AwsS3tablesGetTableReplicationStatusOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Retrieves the storage class configuration for a specific table. This allows you to view the storage class settings that apply to an individ- ual table, which may differ from the table bucket's default configura- tion. Permissions You must have the s3tables:GetTableStorageClass permission to use this operation. See also: AWS API Documentation
+    /// Retrieves the storage class configuration for a specific table. This allows you to view the storage class settings that apply to an individual table, which may differ from the table bucket's default configuration. Permissions You must have the s3tables:GetTableStorageClass permission to use this operation. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetTableStorageClassAsync(AwsS3tablesGetTableStorageClassOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetTableStorageClassAsync(AwsS3tablesGetTableStorageClassOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Lists the namespaces within a table bucket. For more information, see Table namespaces in the Amazon Simple Storage Service User Guide . Permissions You must have the s3tables:ListNamespaces permission to use this opera- tion. See also: AWS API Documentation list-namespaces is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query ...
+    /// Lists the namespaces within a table bucket. For more information, see Table namespaces in the Amazon Simple Storage Service User Guide . Permissions You must have the s3tables:ListNamespaces permission to use this operation. See also: AWS API Documentation list-namespaces is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argume...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListNamespacesAsync(AwsS3tablesListNamespacesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListNamespacesAsync(AwsS3tablesListNamespacesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Lists table buckets for your account. For more information, see S3 Ta- ble buckets in the Amazon Simple Storage Service User Guide . Permissions You must have the s3tables:ListTableBuckets permission to use this op- eration. See also: AWS API Documentation list-table-buckets is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query arg...
+    /// Lists table buckets for your account. For more information, see S3 Table buckets in the Amazon Simple Storage Service User Guide . Permissions You must have the s3tables:ListTableBuckets permission to use this operation. See also: AWS API Documentation list-table-buckets is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argumen...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTableBucketsAsync(AwsS3tablesListTableBucketsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListTableBucketsAsync(AwsS3tablesListTableBucketsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// List tables in the given table bucket. For more information, see S3 Ta- bles in the Amazon Simple Storage Service User Guide . Permissions You must have the s3tables:ListTables permission to use this operation. See also: AWS API Documentation list-tables is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginate...
+    /// List tables in the given table bucket. For more information, see S3 Tables in the Amazon Simple Storage Service User Guide . Permissions You must have the s3tables:ListTables permission to use this operation. See also: AWS API Documentation list-tables is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated re...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTablesAsync(AwsS3tablesListTablesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListTablesAsync(AwsS3tablesListTablesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Lists all of the tags applied to a specified Amazon S3 Tables resource. Each tag is a label consisting of a key and value pair. Tags can help you organize, track costs for, and control access to resources. NOTE: For a list of S3 resources that support tagging, see Managing tags for Amazon S3 resources . Permissions For tables and table buckets, you must have the s3tables:ListTagsForRe- source permission to use this operation. See also: AWS API Documentation
+    /// Lists all of the tags applied to a specified Amazon S3 Tables resource. Each tag is a label consisting of a key and value pair. Tags can help you organize, track costs for, and control access to resources. NOTE: For a list of S3 resources that support tagging, see Managing tags for Amazon S3 resources . Permissions For tables and table buckets, you must have the s3tables:ListTagsForResource permission to use this operation. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTagsForResourceAsync(AwsS3tablesListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListTagsForResourceAsync(AwsS3tablesListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Sets the encryption configuration for a table bucket. Permissions You must have the s3tables:PutTableBucketEncryption permission to use this operation. NOTE: If you choose SSE-KMS encryption you must grant the S3 Tables main- tenance principal access to your KMS key. For more information, see Permissions requirements for S3 Tables SSE-KMS encryption in the Amazon Simple Storage Service User Guide . See also: AWS API Documentation
+    /// Sets the encryption configuration for a table bucket. Permissions You must have the s3tables:PutTableBucketEncryption permission to use this operation. NOTE: If you choose SSE-KMS encryption you must grant the S3 Tables maintenance principal access to your KMS key. For more information, see Permissions requirements for S3 Tables SSE-KMS encryption in the Amazon Simple Storage Service User Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutTableBucketEncryptionAsync(AwsS3tablesPutTableBucketEncryptionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutTableBucketEncryptionAsync(AwsS3tablesPutTableBucketEncryptionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Creates a new maintenance configuration or replaces an existing mainte- nance configuration for a table bucket. For more information, see Amazon S3 table bucket maintenance in the Amazon Simple Storage Service User Guide . Permissions You must have the s3tables:PutTableBucketMaintenanceConfiguration per- mission to use this operation. See also: AWS API Documentation
+    /// Creates a new maintenance configuration or replaces an existing maintenance configuration for a table bucket. For more information, see Amazon S3 table bucket maintenance in the Amazon Simple Storage Service User Guide . Permissions You must have the s3tables:PutTableBucketMaintenanceConfiguration permission to use this operation. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutTableBucketMaintenanceConfigurationAsync(AwsS3tablesPutTableBucketMaintenanceConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutTableBucketMaintenanceConfigurationAsync(AwsS3tablesPutTableBucketMaintenanceConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Sets the metrics configuration for a table bucket. Permissions You must have the s3tables:PutTableBucketMetricsConfiguration permis- sion to use this operation. See also: AWS API Documentation
+    /// Sets the metrics configuration for a table bucket. Permissions You must have the s3tables:PutTableBucketMetricsConfiguration permission to use this operation. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutTableBucketMetricsConfigurationAsync(AwsS3tablesPutTableBucketMetricsConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutTableBucketMetricsConfigurationAsync(AwsS3tablesPutTableBucketMetricsConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a new table bucket policy or replaces an existing table bucket policy for a table bucket. For more information, see Adding a table bucket policy in the Amazon Simple Storage Service User Guide . Permissions You must have the s3tables:PutTableBucketPolicy permission to use this operation. See also: AWS API Documentation
@@ -408,107 +370,96 @@ public interface IAwsS3Tables
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutTableBucketPolicyAsync(AwsS3tablesPutTableBucketPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutTableBucketPolicyAsync(AwsS3tablesPutTableBucketPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Creates or updates the replication configuration for a table bucket. This operation defines how tables in the source bucket are replicated to destination buckets. Replication helps ensure data availability and disaster recovery across regions or accounts. Permissions o You must have the s3tables:PutTableBucketReplication permission to use this operation. The IAM role specified in the configuration must have permissions to read from the source bucket and write permissions to all destination bucke...
+    /// Creates or updates the replication configuration for a table bucket. This operation defines how tables in the source bucket are replicated to destination buckets. Replication helps ensure data availability and disaster recovery across regions or accounts. Permissions • You must have the s3tables:PutTableBucketReplication permission to use this operation. The IAM role specified in the configuration must have permissions to read from the source bucket and write permissions to all destination bucke...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutTableBucketReplicationAsync(AwsS3tablesPutTableBucketReplicationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutTableBucketReplicationAsync(AwsS3tablesPutTableBucketReplicationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Sets or updates the storage class configuration for a table bucket. This configuration serves as the default storage class for all new ta- bles created in the bucket, allowing you to optimize storage costs at the bucket level. Permissions You must have the s3tables:PutTableBucketStorageClass permission to use this operation. See also: AWS API Documentation
+    /// Sets or updates the storage class configuration for a table bucket. This configuration serves as the default storage class for all new tables created in the bucket, allowing you to optimize storage costs at the bucket level. Permissions You must have the s3tables:PutTableBucketStorageClass permission to use this operation. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutTableBucketStorageClassAsync(AwsS3tablesPutTableBucketStorageClassOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutTableBucketStorageClassAsync(AwsS3tablesPutTableBucketStorageClassOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Creates a new maintenance configuration or replaces an existing mainte- nance configuration for a table. For more information, see S3 Tables maintenance in the Amazon Simple Storage Service User Guide . Permissions You must have the s3tables:PutTableMaintenanceConfiguration permission to use this operation. See also: AWS API Documentation
+    /// Creates a new maintenance configuration or replaces an existing maintenance configuration for a table. For more information, see S3 Tables maintenance in the Amazon Simple Storage Service User Guide . Permissions You must have the s3tables:PutTableMaintenanceConfiguration permission to use this operation. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutTableMaintenanceConfigurationAsync(AwsS3tablesPutTableMaintenanceConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutTableMaintenanceConfigurationAsync(AwsS3tablesPutTableMaintenanceConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Creates a new table policy or replaces an existing table policy for a table. For more information, see Adding a table policy in the Amazon Simple Storage Service User Guide . Permissions You must have the s3tables:PutTablePolicy permission to use this opera- tion. See also: AWS API Documentation
+    /// Creates a new table policy or replaces an existing table policy for a table. For more information, see Adding a table policy in the Amazon Simple Storage Service User Guide . Permissions You must have the s3tables:PutTablePolicy permission to use this operation. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutTablePolicyAsync(AwsS3tablesPutTablePolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutTablePolicyAsync(AwsS3tablesPutTablePolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Creates or updates the expiration configuration settings for records in a table, including the status of the configuration. If you enable record expiration for a table, records expire and are automatically re- moved from the table after the number of days that you specify. Permissions You must have the s3tables:PutTableRecordExpirationConfiguration per- mission to use this operation. See also: AWS API Documentation
+    /// Creates or updates the expiration configuration settings for records in a table, including the status of the configuration. If you enable record expiration for a table, records expire and are automatically removed from the table after the number of days that you specify. Permissions You must have the s3tables:PutTableRecordExpirationConfiguration permission to use this operation. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutTableRecordExpirationConfigurationAsync(AwsS3tablesPutTableRecordExpirationConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutTableRecordExpirationConfigurationAsync(AwsS3tablesPutTableRecordExpirationConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Creates or updates the replication configuration for a specific table. This operation allows you to define table-level replication indepen- dently of bucket-level replication, providing granular control over which tables are replicated and where. Permissions o You must have the s3tables:PutTableReplication permission to use this operation. The IAM role specified in the configuration must have per- missions to read from the source table and write to all destination tables. o You must also have th...
+    /// Creates or updates the replication configuration for a specific table. This operation allows you to define table-level replication independently of bucket-level replication, providing granular control over which tables are replicated and where. Permissions • You must have the s3tables:PutTableReplication permission to use this operation. The IAM role specified in the configuration must have permissions to read from the source table and write to all destination tables. • You must also have the fo...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutTableReplicationAsync(AwsS3tablesPutTableReplicationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutTableReplicationAsync(AwsS3tablesPutTableReplicationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Renames a table or a namespace. For more information, see S3 Tables in the Amazon Simple Storage Service User Guide . Permissions You must have the s3tables:RenameTable permission to use this opera- tion. See also: AWS API Documentation
+    /// Renames a table or a namespace. For more information, see S3 Tables in the Amazon Simple Storage Service User Guide . Permissions You must have the s3tables:RenameTable permission to use this operation. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RenameTableAsync(AwsS3tablesRenameTableOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> RenameTableAsync(AwsS3tablesRenameTableOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Applies one or more user-defined tags to an Amazon S3 Tables resource or updates existing tags. Each tag is a label consisting of a key and value pair. Tags can help you organize, track costs for, and control access to your resources. You can add up to 50 tags for each S3 re- source. NOTE: For a list of S3 resources that support tagging, see Managing tags for Amazon S3 resources . Permissions For tables and table buckets, you must have the s3tables:TagResource permission to use this operation. S...
+    /// Applies one or more user-defined tags to an Amazon S3 Tables resource or updates existing tags. Each tag is a label consisting of a key and value pair. Tags can help you organize, track costs for, and control access to your resources. You can add up to 50 tags for each S3 resource. NOTE: For a list of S3 resources that support tagging, see Managing tags for Amazon S3 resources . Permissions For tables and table buckets, you must have the s3tables:TagResource permission to use this operation. See...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> TagResourceAsync(AwsS3tablesTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> TagResourceAsync(AwsS3tablesTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Removes the specified user-defined tags from an Amazon S3 Tables re- source. You can pass one or more tag keys. NOTE: For a list of S3 resources that support tagging, see Managing tags for Amazon S3 resources . Permissions For tables and table buckets, you must have the s3tables:UntagResource permission to use this operation. See also: AWS API Documentation
+    /// Removes the specified user-defined tags from an Amazon S3 Tables resource. You can pass one or more tag keys. NOTE: For a list of S3 resources that support tagging, see Managing tags for Amazon S3 resources . Permissions For tables and table buckets, you must have the s3tables:UntagResource permission to use this operation. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UntagResourceAsync(AwsS3tablesUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UntagResourceAsync(AwsS3tablesUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Updates the metadata location for a table. The metadata location of a table must be an S3 URI that begins with the table's warehouse loca- tion. The metadata location for an Apache Iceberg table must end with .metadata.json , or if the metadata file is Gzip-compressed, .meta- data.json.gz . Permissions You must have the s3tables:UpdateTableMetadataLocation permission to use this operation. See also: AWS API Documentation
+    /// Updates the metadata location for a table. The metadata location of a table must be an S3 URI that begins with the table's warehouse location. The metadata location for an Apache Iceberg table must end with .metadata.json , or if the metadata file is Gzip-compressed, .metadata.json.gz . Permissions You must have the s3tables:UpdateTableMetadataLocation permission to use this operation. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateTableMetadataLocationAsync(AwsS3tablesUpdateTableMetadataLocationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateTableMetadataLocationAsync(AwsS3tablesUpdateTableMetadataLocationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a policy template. A template can use placeholders for the principal and resource. A template must be instantiated into a policy by associating it with specific principals and resources to use for the placeholders. That instantiated policy can then be considered in autho- rization decisions. The instantiated policy works identically to any other policy, except that it is dynamically linked to the template. If the template changes, then any policies that are linked to that tem- plate are ...
+/// Creates a policy template. A template can use placeholders for the principal and resource. A template must be instantiated into a policy by associating it with specific principals and resources to use for the placeholders. That instantiated policy can then be considered in authorization decisions. The instantiated policy works identically to any other policy, except that it is dynamically linked to the template. If the template changes, then any policies that are linked to that template are imme...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +27,10 @@ public record AwsVerifiedpermissionsCreatePolicyTemplateOptions : AwsOptions, IV
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a policy template. A template can use placeholders for the principal and resource. A template must be instantiated into a policy by associating it with specific principals and resources to use for the placeholders. That instantiated policy can then be considered in autho- rization decisions. The instantiated policy works identically to any other policy, except that it is dynamically linked to the template. If the template changes, then any policies that are linked to that tem- plate are ...
+    /// Creates a policy template. A template can use placeholders for the principal and resource. A template must be instantiated into a policy by associating it with specific principals and resources to use for the placeholders. That instantiated policy can then be considered in authorization decisions. The instantiated policy works identically to any other policy, except that it is dynamically linked to the template. If the template changes, then any policies that are linked to that template are imme...
     /// </summary>
-    /// <param name="PolicyStoreId">The ID of the policy store in which to create the policy template. To specify a policy store, use its ID or alias name. When using an alias name, prefix it with policy-store-alias/ . For example: o ID: PSEXAMPLEabcdefg111111 o Alias name: policy-store-alias/example-policy-store To view aliases, use ListPolicyStoreAliases . Constraints: o min: 1 o max: 200 o pattern: [a-zA-Z0-9-/_]*</param>
-    /// <param name="Statement">Specifies the content that you want to use for the new policy tem- plate, written in the Cedar policy language. Constraints: o min: 1</param>
+    /// <param name="PolicyStoreId">The ID of the policy store in which to create the policy template. To specify a policy store, use its ID or alias name. When using an alias name, prefix it with policy-store-alias/ . For example: • ID: PSEXAMPLEabcdefg111111 • Alias name: policy-store-alias/example-policy-store To view aliases, use ListPolicyStoreAliases . Constraints: • min: 1 • max: 200 • pattern: [a-zA-Z0-9-/_]*</param>
+    /// <param name="Statement">Specifies the content that you want to use for the new policy template, written in the Cedar policy language. Constraints: • min: 1</param>
     public AwsVerifiedpermissionsCreatePolicyTemplateOptions(
         string PolicyStoreId,
         string Statement
@@ -61,32 +62,32 @@ public record AwsVerifiedpermissionsCreatePolicyTemplateOptions : AwsOptions, IV
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the policy store in which to create the policy template. To specify a policy store, use its ID or alias name. When using an alias name, prefix it with policy-store-alias/ . For example: o ID: PSEXAMPLEabcdefg111111 o Alias name: policy-store-alias/example-policy-store To view aliases, use ListPolicyStoreAliases . Constraints: o min: 1 o max: 200 o pattern: [a-zA-Z0-9-/_]*
+    /// The ID of the policy store in which to create the policy template. To specify a policy store, use its ID or alias name. When using an alias name, prefix it with policy-store-alias/ . For example: • ID: PSEXAMPLEabcdefg111111 • Alias name: policy-store-alias/example-policy-store To view aliases, use ListPolicyStoreAliases . Constraints: • min: 1 • max: 200 • pattern: [a-zA-Z0-9-/_]*
     /// </summary>
     [CliOption("--policy-store-id")]
     public string? PolicyStoreId { get; private init; }
 
     /// <summary>
-    /// Specifies the content that you want to use for the new policy tem- plate, written in the Cedar policy language. Constraints: o min: 1
+    /// Specifies the content that you want to use for the new policy template, written in the Cedar policy language. Constraints: • min: 1
     /// </summary>
     [CliOption("--statement")]
     public string? Statement { get; private init; }
 
     /// <summary>
-    /// Specifies a unique, case-sensitive ID that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a UUID type of value. . If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same ClientToken , but with dif- ferent parameters, the retry fails with an ConflictException error. Verified Permissions recognizes a ClientToken for eight hours. After eight hours, the next request with the same parameters performs the operation again regardless of the value of ClientToken . Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9-]*
+    /// Specifies a unique, case-sensitive ID that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a UUID type of value. . If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same ClientToken , but with different parameters, the retry fails with an ConflictException error. Verified Permissions recognizes a ClientToken for eight hours. After eight hours, the next request with the same parameters performs the operation again regardless of the value of ClientToken . Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9-]*
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// Specifies a description for the policy template. Constraints: o min: 0 o max: 150
+    /// Specifies a description for the policy template. Constraints: • min: 0 • max: 150
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// Specifies a name for the policy template that is unique among all policy templates within the policy store. You can use the name in place of the policy template ID in API operations that reference the policy template. The name must be prefixed with name/ . If you specify a name that is already associated with another policy template in the policy store, you receive a ConflictException error. Constraints: o min: 0 o max: 150 o pattern: [a-zA-Z0-9-/_]*
+    /// Specifies a name for the policy template that is unique among all policy templates within the policy store. You can use the name in place of the policy template ID in API operations that reference the policy template. The name must be prefixed with name/ . If you specify a name that is already associated with another policy template in the policy store, you receive a ConflictException error. Constraints: • min: 0 • max: 150 • pattern: [a-zA-Z0-9-/_]*
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
@@ -112,6 +113,15 @@ public record AwsVerifiedpermissionsCreatePolicyTemplateOptions : AwsOptions, IV
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

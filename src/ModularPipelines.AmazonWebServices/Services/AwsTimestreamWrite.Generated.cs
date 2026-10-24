@@ -6,15 +6,15 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
+using ModularPipelines;
 using ModularPipelines.Context;
-using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
 namespace ModularPipelines.AmazonWebServices.Services;
 
 /// <summary>
-/// aws timestreamwrite commands.
+/// aws timestream-write commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AwsTimestreamWrite : IAwsTimestreamWrite
@@ -32,7 +32,7 @@ public class AwsTimestreamWrite : IAwsTimestreamWrite
     #region Commands
 
     /// <summary>
-    /// Creates a new Timestream batch load task. A batch load task processes data from a CSV source in an S3 location and writes to a Timestream ta- ble. A mapping from source to target is defined in a batch load task. Errors and events are written to a report at an S3 location. For the report, if the KMS key is not specified, the report will be encrypted with an S3 managed key when SSE_S3 is the option. Otherwise an error is thrown. For more information, see Amazon Web Services managed keys . Service ...
+    /// Creates a new Timestream batch load task. A batch load task processes data from a CSV source in an S3 location and writes to a Timestream table. A mapping from source to target is defined in a batch load task. Errors and events are written to a report at an S3 location. For the report, if the KMS key is not specified, the report will be encrypted with an S3 managed key when SSE_S3 is the option. Otherwise an error is thrown. For more information, see Amazon Web Services managed keys . Service qu...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -77,7 +77,7 @@ public class AwsTimestreamWrite : IAwsTimestreamWrite
     }
 
     /// <summary>
-    /// Deletes a given Timestream database. This is an irreversible operation. After a database is deleted, the time-series data from its tables can- not be recovered. NOTE: All tables in the database must be deleted first, or a ValidationEx- ception error will be thrown. Due to the nature of distributed retries, the operation can return either success or a ResourceNotFoundException. Clients should con- sider them equivalent. See code sample for details. See also: AWS API Documentation
+    /// Deletes a given Timestream database. This is an irreversible operation. After a database is deleted, the time-series data from its tables cannot be recovered. NOTE: All tables in the database must be deleted first, or a ValidationException error will be thrown. Due to the nature of distributed retries, the operation can return either success or a ResourceNotFoundException. Clients should consider them equivalent. See code sample for details. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -92,7 +92,7 @@ public class AwsTimestreamWrite : IAwsTimestreamWrite
     }
 
     /// <summary>
-    /// Deletes a given Timestream table. This is an irreversible operation. After a Timestream database table is deleted, the time-series data stored in the table cannot be recovered. NOTE: Due to the nature of distributed retries, the operation can return either success or a ResourceNotFoundException. Clients should con- sider them equivalent. See code sample for details. See also: AWS API Documentation
+    /// Deletes a given Timestream table. This is an irreversible operation. After a Timestream database table is deleted, the time-series data stored in the table cannot be recovered. NOTE: Due to the nature of distributed retries, the operation can return either success or a ResourceNotFoundException. Clients should consider them equivalent. See code sample for details. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -107,7 +107,7 @@ public class AwsTimestreamWrite : IAwsTimestreamWrite
     }
 
     /// <summary>
-    /// Returns information about the batch load task, including configura- tions, mappings, progress, and other details. Service quotas apply . See code sample for details. See also: AWS API Documentation
+    /// Returns information about the batch load task, including configurations, mappings, progress, and other details. Service quotas apply . See code sample for details. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -137,7 +137,7 @@ public class AwsTimestreamWrite : IAwsTimestreamWrite
     }
 
     /// <summary>
-    /// Returns a list of available endpoints to make Timestream API calls against. This API operation is available through both the Write and Query APIs. Because the Timestream SDKs are designed to transparently work with the services architecture, including the management and mapping of the ser- vice endpoints, we don't recommend that you use this API operation un- less : o You are using VPC endpoints (Amazon Web Services PrivateLink) with Timestream o Your application uses a programming language that...
+    /// Returns a list of available endpoints to make Timestream API calls against. This API operation is available through both the Write and Query APIs. Because the Timestream SDKs are designed to transparently work with the services architecture, including the management and mapping of the service endpoints, we don't recommend that you use this API operation unless : • You are using VPC endpoints (Amazon Web Services PrivateLink) with Timestream • Your application uses a programming language that doe...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -167,7 +167,7 @@ public class AwsTimestreamWrite : IAwsTimestreamWrite
     }
 
     /// <summary>
-    /// Provides a list of batch load tasks, along with the name, status, when the task is resumable until, and other details. See code sample for de- tails. See also: AWS API Documentation
+    /// Provides a list of batch load tasks, along with the name, status, when the task is resumable until, and other details. See code sample for details. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -242,7 +242,7 @@ public class AwsTimestreamWrite : IAwsTimestreamWrite
     }
 
     /// <summary>
-    /// Associates a set of tags with a Timestream resource. You can then acti- vate these user-defined tags so that they appear on the Billing and Cost Management console for cost allocation tracking. See also: AWS API Documentation
+    /// Associates a set of tags with a Timestream resource. You can then activate these user-defined tags so that they appear on the Billing and Cost Management console for cost allocation tracking. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -272,7 +272,7 @@ public class AwsTimestreamWrite : IAwsTimestreamWrite
     }
 
     /// <summary>
-    /// Modifies the KMS key for an existing database. While updating the data- base, you must specify the database name and the identifier of the new KMS key to be used (KmsKeyId ). If there are any concurrent UpdateData- base requests, first writer wins. See code sample for details. See also: AWS API Documentation
+    /// Modifies the KMS key for an existing database. While updating the database, you must specify the database name and the identifier of the new KMS key to be used (KmsKeyId ). If there are any concurrent UpdateDatabase requests, first writer wins. See code sample for details. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -302,7 +302,7 @@ public class AwsTimestreamWrite : IAwsTimestreamWrite
     }
 
     /// <summary>
-    /// Enables you to write your time-series data into Timestream. You can specify a single data point or a batch of data points to be inserted into the system. Timestream offers you a flexible schema that auto de- tects the column names and data types for your Timestream tables based on the dimension names and data types of the data points you specify when invoking writes into the database. Timestream supports eventual consistency read semantics. This means that when you query data immediately after w...
+    /// Enables you to write your time-series data into Timestream. You can specify a single data point or a batch of data points to be inserted into the system. Timestream offers you a flexible schema that auto detects the column names and data types for your Timestream tables based on the dimension names and data types of the data points you specify when invoking writes into the database. Timestream supports eventual consistency read semantics. This means that when you query data immediately after wri...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

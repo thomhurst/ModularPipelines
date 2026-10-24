@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +29,7 @@ public record AwsDevopsAgentUpdateGoalOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Update an existing goal See also: AWS API Documentation
     /// </summary>
-    /// <param name="AgentSpaceId">The unique identifier for the agent space containing the goal Constraints: o min: 1 o max: 2048</param>
+    /// <param name="AgentSpaceId">The unique identifier for the agent space containing the goal Constraints: • min: 1 • max: 2048</param>
     /// <param name="GoalId">The unique identifier of the goal to update</param>
     public AwsDevopsAgentUpdateGoalOptions(
         string AgentSpaceId,
@@ -61,7 +62,7 @@ public record AwsDevopsAgentUpdateGoalOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier for the agent space containing the goal Constraints: o min: 1 o max: 2048
+    /// The unique identifier for the agent space containing the goal Constraints: • min: 1 • max: 2048
     /// </summary>
     [CliOption("--agent-space-id")]
     public string? AgentSpaceId { get; private init; }
@@ -73,13 +74,13 @@ public record AwsDevopsAgentUpdateGoalOptions : AwsOptions, IValidatableObject
     public string? GoalId { get; private init; }
 
     /// <summary>
-    /// Update goal schedule state state -&gt; (string) [required] Whether the schedule is enabled or disabled Possible values: o ENABLED o DISABLED Shorthand Syntax: state=string JSON Syntax: { "state": "ENABLED"|"DISABLED" }
+    /// Update goal schedule state state -&gt; (string) [required] Whether the schedule is enabled or disabled Possible values: • ENABLED • DISABLED Shorthand Syntax: state=string JSON Syntax: { "state": "ENABLED"|"DISABLED" }
     /// </summary>
     [CliOption("--evaluation-schedule")]
     public string? EvaluationSchedule { get; set; }
 
     /// <summary>
-    /// Client-provided token for idempotent operations Constraints: o min: 1 o max: 64 o pattern: [\x21-\x7E]+
+    /// Client-provided token for idempotent operations Constraints: • min: 1 • max: 64 • pattern: [\x21-\x7E]+
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
@@ -106,6 +107,15 @@ public record AwsDevopsAgentUpdateGoalOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

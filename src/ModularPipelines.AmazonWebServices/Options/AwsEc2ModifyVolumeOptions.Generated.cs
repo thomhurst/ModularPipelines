@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// You can modify several parameters of an existing EBS volume, including volume size, volume type, and IOPS capacity. If your EBS volume is at- tached to a current-generation EC2 instance type, you might be able to apply these changes without stopping the instance or detaching the vol- ume from it. For more information about modifying EBS volumes, see Amazon EBS Elastic Volumes in the Amazon EBS User Guide . When you complete a resize operation on your volume, you need to extend the volume's file-...
+/// You can modify several parameters of an existing EBS volume, including volume size, volume type, and IOPS capacity. If your EBS volume is attached to a current-generation EC2 instance type, you might be able to apply these changes without stopping the instance or detaching the volume from it. For more information about modifying EBS volumes, see Amazon EBS Elastic Volumes in the Amazon EBS User Guide . When you complete a resize operation on your volume, you need to extend the volume's file-syst...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,7 +27,7 @@ public record AwsEc2ModifyVolumeOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// You can modify several parameters of an existing EBS volume, including volume size, volume type, and IOPS capacity. If your EBS volume is at- tached to a current-generation EC2 instance type, you might be able to apply these changes without stopping the instance or detaching the vol- ume from it. For more information about modifying EBS volumes, see Amazon EBS Elastic Volumes in the Amazon EBS User Guide . When you complete a resize operation on your volume, you need to extend the volume's file-...
+    /// You can modify several parameters of an existing EBS volume, including volume size, volume type, and IOPS capacity. If your EBS volume is attached to a current-generation EC2 instance type, you might be able to apply these changes without stopping the instance or detaching the volume from it. For more information about modifying EBS volumes, see Amazon EBS Elastic Volumes in the Amazon EBS User Guide . When you complete a resize operation on your volume, you need to extend the volume's file-syst...
     /// </summary>
     /// <param name="VolumeId">The ID of the volume.</param>
     public AwsEc2ModifyVolumeOptions(
@@ -63,25 +64,25 @@ public record AwsEc2ModifyVolumeOptions : AwsOptions, IValidatableObject
     public string? VolumeId { get; private init; }
 
     /// <summary>
-    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation . Otherwise, it is UnauthorizedOperation .
     /// </summary>
     [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     /// <summary>
-    /// The target size of the volume, in GiB. The target volume size must be greater than or equal to the existing size of the volume. The following are the supported volumes sizes for each volume type: o gp2 : 1 - 16,384 GiB o gp3 : 1 - 65,536 GiB o io1 : 4 - 16,384 GiB o io2 : 4 - 65,536 GiB o st1 and sc1 : 125 - 16,384 GiB o standard : 1 - 1024 GiB Default: The existing size is retained.
+    /// The target size of the volume, in GiB. The target volume size must be greater than or equal to the existing size of the volume. The following are the supported volumes sizes for each volume type: • gp2 : 1 - 16,384 GiB • gp3 : 1 - 65,536 GiB • io1 : 4 - 16,384 GiB • io2 : 4 - 65,536 GiB • st1 and sc1 : 125 - 16,384 GiB • standard : 1 - 1024 GiB Default: The existing size is retained.
     /// </summary>
     [CliOption("--size")]
     public int? Size { get; set; }
 
     /// <summary>
-    /// The target EBS volume type of the volume. For more information, see Amazon EBS volume types in the Amazon EBS User Guide . Default: The existing type is retained. Possible values: o standard o io1 o io2 o gp2 o sc1 o st1 o gp3
+    /// The target EBS volume type of the volume. For more information, see Amazon EBS volume types in the Amazon EBS User Guide . Default: The existing type is retained. Possible values: • standard • io1 • io2 • gp2 • sc1 • st1 • gp3
     /// </summary>
     [CliOption("--volume-type")]
     public AwsEc2ModifyVolumeVolumeType? VolumeType { get; set; }
 
     /// <summary>
-    /// The target IOPS rate of the volume. This parameter is valid only for gp3 , io1 , and io2 volumes. The following are the supported values for each volume type: o gp3 : 3,000 - 80,000 IOPS o io1 : 100 - 64,000 IOPS o io2 : 100 - 256,000 IOPS NOTE: Instances built on the Nitro System can support up to 256,000 IOPS. Other instances can support up to 32,000 IOPS. Default: The existing value is retained if you keep the same volume type. If you change the volume type to io1 , io2 , or gp3 , the de- fault is 3,000.
+    /// The target IOPS rate of the volume. This parameter is valid only for gp3 , io1 , and io2 volumes. The following are the supported values for each volume type: • gp3 : 3,000 - 80,000 IOPS • io1 : 100 - 64,000 IOPS • io2 : 100 - 256,000 IOPS NOTE: Instances built on the Nitro System can support up to 256,000 IOPS. Other instances can support up to 32,000 IOPS. Default: The existing value is retained if you keep the same volume type. If you change the volume type to io1 , io2 , or gp3 , the default is 3,000.
     /// </summary>
     [CliOption("--iops")]
     public int? Iops { get; set; }
@@ -93,7 +94,7 @@ public record AwsEc2ModifyVolumeOptions : AwsOptions, IValidatableObject
     public int? Throughput { get; set; }
 
     /// <summary>
-    /// Specifies whether to enable Amazon EBS Multi-Attach. If you enable Multi-Attach, you can attach the volume to up to 16 Nitro-based in- stances in the same Availability Zone. This parameter is supported with io1 and io2 volumes only. For more information, see Amazon EBS Multi-Attach in the Amazon EBS User Guide .
+    /// Specifies whether to enable Amazon EBS Multi-Attach. If you enable Multi-Attach, you can attach the volume to up to 16 Nitro-based instances in the same Availability Zone. This parameter is supported with io1 and io2 volumes only. For more information, see Amazon EBS Multi-Attach in the Amazon EBS User Guide .
     /// </summary>
     [CliFlag("--multi-attach-enabled", NegatedName = "--no-multi-attach-enabled")]
     public bool? MultiAttachEnabled { get; set; }
@@ -119,6 +120,15 @@ public record AwsEc2ModifyVolumeOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

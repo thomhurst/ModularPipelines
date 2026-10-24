@@ -22,19 +22,19 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsSsmSapGetApplicationOptions : AwsOptions
 {
     /// <summary>
-    /// The ID of the application. Constraints: o min: 1 o max: 60 o pattern: [\w\d\.-]+
+    /// The ID of the application. Constraints: • min: 1 • max: 60 • pattern: [\w\d\.-]+
     /// </summary>
     [CliOption("--application-id")]
     public string? ApplicationId { get; set; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the application. Constraints: o pattern: arn:(.+:){2,4}.+$|^arn:(.+:){1,3}.+\/.+
+    /// The Amazon Resource Name (ARN) of the application. Constraints: • pattern: arn:(.+:){2,4}.+$|^arn:(.+:){1,3}.+\/.+
     /// </summary>
     [CliOption("--application-arn")]
     public string? ApplicationArn { get; set; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the application registry. Constraints: o pattern: arn:aws:servicecatalog:[a-z0-9:\/-]+
+    /// The Amazon Resource Name (ARN) of the application registry. Constraints: • pattern: arn:aws:servicecatalog:[a-z0-9:\/-]+
     /// </summary>
     [CliOption("--app-registry-arn")]
     public string? AppRegistryArn { get; set; }
@@ -44,5 +44,14 @@ public record AwsSsmSapGetApplicationOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

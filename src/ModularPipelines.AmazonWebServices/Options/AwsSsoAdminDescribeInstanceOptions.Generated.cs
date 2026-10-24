@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns the details of an instance of IAM Identity Center. The status can be one of the following: o CREATE_IN_PROGRESS - The instance is in the process of being created. When the instance is ready for use, DescribeInstance returns the sta- tus of ACTIVE . While the instance is in the CREATE_IN_PROGRESS state, you can call only DescribeInstance and DeleteInstance opera- tions. o DELETE_IN_PROGRESS - The instance is being deleted. Returns AccessDe- niedException after the delete operation complet...
+/// Returns the details of an instance of IAM Identity Center. The status can be one of the following: • CREATE_IN_PROGRESS - The instance is in the process of being created. When the instance is ready for use, DescribeInstance returns the status of ACTIVE . While the instance is in the CREATE_IN_PROGRESS state, you can call only DescribeInstance and DeleteInstance operations. • DELETE_IN_PROGRESS - The instance is being deleted. Returns AccessDeniedException after the delete operation completes. • ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsSsoAdminDescribeInstanceOptions : AwsOptions, IValidatableObjec
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns the details of an instance of IAM Identity Center. The status can be one of the following: o CREATE_IN_PROGRESS - The instance is in the process of being created. When the instance is ready for use, DescribeInstance returns the sta- tus of ACTIVE . While the instance is in the CREATE_IN_PROGRESS state, you can call only DescribeInstance and DeleteInstance opera- tions. o DELETE_IN_PROGRESS - The instance is being deleted. Returns AccessDe- niedException after the delete operation complet...
+    /// Returns the details of an instance of IAM Identity Center. The status can be one of the following: • CREATE_IN_PROGRESS - The instance is in the process of being created. When the instance is ready for use, DescribeInstance returns the status of ACTIVE . While the instance is in the CREATE_IN_PROGRESS state, you can call only DescribeInstance and DeleteInstance operations. • DELETE_IN_PROGRESS - The instance is being deleted. Returns AccessDeniedException after the delete operation completes. • ...
     /// </summary>
-    /// <param name="InstanceArn">The ARN of the instance of IAM Identity Center under which the oper- ation will run. Constraints: o min: 10 o max: 1224 o pattern: arn:aws(-[a-z]{1,5}){0,3}:sso:::in- stance/(sso)?ins-[a-zA-Z0-9-.]{16}</param>
+    /// <param name="InstanceArn">The ARN of the instance of IAM Identity Center under which the operation will run. Constraints: • min: 10 • max: 1224 • pattern: arn:aws(-[a-z]{1,5}){0,3}:sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}</param>
     public AwsSsoAdminDescribeInstanceOptions(
         string InstanceArn
     )
@@ -56,7 +57,7 @@ public record AwsSsoAdminDescribeInstanceOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the instance of IAM Identity Center under which the oper- ation will run. Constraints: o min: 10 o max: 1224 o pattern: arn:aws(-[a-z]{1,5}){0,3}:sso:::in- stance/(sso)?ins-[a-zA-Z0-9-.]{16}
+    /// The ARN of the instance of IAM Identity Center under which the operation will run. Constraints: • min: 10 • max: 1224 • pattern: arn:aws(-[a-z]{1,5}){0,3}:sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}
     /// </summary>
     [CliOption("--instance-arn")]
     public string? InstanceArn { get; private init; }
@@ -82,6 +83,15 @@ public record AwsSsoAdminDescribeInstanceOptions : AwsOptions, IValidatableObjec
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

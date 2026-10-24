@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsConnectAssociateAnalyticsDataSetOptions : AwsOptions, IValidata
     /// <summary>
     /// Associates the specified dataset for a Connect Customer instance with the target account. You can associate only one dataset in a single call. See also: AWS API Documentation
     /// </summary>
-    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100</param>
-    /// <param name="DataSetId">The identifier of the dataset to associate with the target account. Constraints: o min: 1 o max: 255</param>
+    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: • min: 1 • max: 100</param>
+    /// <param name="DataSetId">The identifier of the dataset to associate with the target account. Constraints: • min: 1 • max: 255</param>
     public AwsConnectAssociateAnalyticsDataSetOptions(
         string InstanceId,
         string DataSetId
@@ -60,19 +61,19 @@ public record AwsConnectAssociateAnalyticsDataSetOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100
+    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--instance-id")]
     public string? InstanceId { get; private init; }
 
     /// <summary>
-    /// The identifier of the dataset to associate with the target account. Constraints: o min: 1 o max: 255
+    /// The identifier of the dataset to associate with the target account. Constraints: • min: 1 • max: 255
     /// </summary>
     [CliOption("--data-set-id")]
     public string? DataSetId { get; private init; }
 
     /// <summary>
-    /// The identifier of the target account. Use to associate a dataset to a different account than the one containing the Connect Customer in- stance. If not specified, by default this value is the Amazon Web Services account that has the Connect Customer instance.
+    /// The identifier of the target account. Use to associate a dataset to a different account than the one containing the Connect Customer instance. If not specified, by default this value is the Amazon Web Services account that has the Connect Customer instance.
     /// </summary>
     [CliOption("--target-account-id")]
     public string? TargetAccountId { get; set; }
@@ -98,6 +99,15 @@ public record AwsConnectAssociateAnalyticsDataSetOptions : AwsOptions, IValidata
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

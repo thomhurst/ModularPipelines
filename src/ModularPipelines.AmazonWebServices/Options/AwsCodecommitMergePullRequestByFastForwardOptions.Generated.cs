@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Attempts to merge the source commit of a pull request into the speci- fied destination branch for that pull request at the specified commit using the fast-forward merge strategy. If the merge is successful, it closes the pull request. See also: AWS API Documentation
+/// Attempts to merge the source commit of a pull request into the specified destination branch for that pull request at the specified commit using the fast-forward merge strategy. If the merge is successful, it closes the pull request. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsCodecommitMergePullRequestByFastForwardOptions : AwsOptions, IV
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Attempts to merge the source commit of a pull request into the speci- fied destination branch for that pull request at the specified commit using the fast-forward merge strategy. If the merge is successful, it closes the pull request. See also: AWS API Documentation
+    /// Attempts to merge the source commit of a pull request into the specified destination branch for that pull request at the specified commit using the fast-forward merge strategy. If the merge is successful, it closes the pull request. See also: AWS API Documentation
     /// </summary>
     /// <param name="PullRequestId">The system-generated ID of the pull request. To get this ID, use ListPullRequests .</param>
-    /// <param name="RepositoryName">The name of the repository where the pull request was created. Constraints: o min: 1 o max: 100 o pattern: [\w\.-]+</param>
+    /// <param name="RepositoryName">The name of the repository where the pull request was created. Constraints: • min: 1 • max: 100 • pattern: [\w\.-]+</param>
     public AwsCodecommitMergePullRequestByFastForwardOptions(
         string PullRequestId,
         string RepositoryName
@@ -66,13 +67,13 @@ public record AwsCodecommitMergePullRequestByFastForwardOptions : AwsOptions, IV
     public string? PullRequestId { get; private init; }
 
     /// <summary>
-    /// The name of the repository where the pull request was created. Constraints: o min: 1 o max: 100 o pattern: [\w\.-]+
+    /// The name of the repository where the pull request was created. Constraints: • min: 1 • max: 100 • pattern: [\w\.-]+
     /// </summary>
     [CliOption("--repository-name")]
     public string? RepositoryName { get; private init; }
 
     /// <summary>
-    /// The full commit ID of the original or updated commit in the pull re- quest source branch. Pass this value if you want an exception thrown if the current commit ID of the tip of the source branch does not match this commit ID.
+    /// The full commit ID of the original or updated commit in the pull request source branch. Pass this value if you want an exception thrown if the current commit ID of the tip of the source branch does not match this commit ID.
     /// </summary>
     [CliOption("--source-commit-id")]
     public string? SourceCommitId { get; set; }
@@ -98,6 +99,15 @@ public record AwsCodecommitMergePullRequestByFastForwardOptions : AwsOptions, IV
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

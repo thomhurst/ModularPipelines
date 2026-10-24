@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// This API works with the following fleet types: EC2, Anywhere, Con- tainer Deletes a game session queue. Once a queue is successfully deleted, un- fulfilled StartGameSessionPlacement requests that reference the queue will fail. To delete a queue, specify the queue name. See also: AWS API Documentation
+/// This API works with the following fleet types: EC2, Anywhere, Container Deletes a game session queue. Once a queue is successfully deleted, unfulfilled StartGameSessionPlacement requests that reference the queue will fail. To delete a queue, specify the queue name. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsGameliftDeleteGameSessionQueueOptions : AwsOptions, IValidatabl
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// This API works with the following fleet types: EC2, Anywhere, Con- tainer Deletes a game session queue. Once a queue is successfully deleted, un- fulfilled StartGameSessionPlacement requests that reference the queue will fail. To delete a queue, specify the queue name. See also: AWS API Documentation
+    /// This API works with the following fleet types: EC2, Anywhere, Container Deletes a game session queue. Once a queue is successfully deleted, unfulfilled StartGameSessionPlacement requests that reference the queue will fail. To delete a queue, specify the queue name. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">A descriptive label that is associated with game session queue. Queue names must be unique within each Region. You can use either the queue ID or ARN value. Constraints: o min: 1 o max: 256 o pattern: ^([a-zA-Z0-9-]+|arn:.*:gamesessionqueue\/[a-zA-Z0-9-]+)$</param>
+    /// <param name="Name">A descriptive label that is associated with game session queue. Queue names must be unique within each Region. You can use either the queue ID or ARN value. Constraints: • min: 1 • max: 256 • pattern: ^([a-zA-Z0-9-]+|arn:.*:gamesessionqueue\/[a-zA-Z0-9-]+)$</param>
     public AwsGameliftDeleteGameSessionQueueOptions(
         string Name
     )
@@ -56,7 +57,7 @@ public record AwsGameliftDeleteGameSessionQueueOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A descriptive label that is associated with game session queue. Queue names must be unique within each Region. You can use either the queue ID or ARN value. Constraints: o min: 1 o max: 256 o pattern: ^([a-zA-Z0-9-]+|arn:.*:gamesessionqueue\/[a-zA-Z0-9-]+)$
+    /// A descriptive label that is associated with game session queue. Queue names must be unique within each Region. You can use either the queue ID or ARN value. Constraints: • min: 1 • max: 256 • pattern: ^([a-zA-Z0-9-]+|arn:.*:gamesessionqueue\/[a-zA-Z0-9-]+)$
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
@@ -82,6 +83,15 @@ public record AwsGameliftDeleteGameSessionQueueOptions : AwsOptions, IValidatabl
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Removes the specified tags from the specified resources. When you spec- ify a tag key, the action removes both that key and its associated value. The operation succeeds even if you attempt to remove tags from a resource that were already removed. Note the following: o To remove tags from a resource, you need the necessary permissions for the service that the resource belongs to as well as permissions for removing tags. For more information, see the documentation for the service whose resource yo...
+/// Removes the specified tags from the specified resources. When you specify a tag key, the action removes both that key and its associated value. The operation succeeds even if you attempt to remove tags from a resource that were already removed. Note the following: • To remove tags from a resource, you need the necessary permissions for the service that the resource belongs to as well as permissions for removing tags. For more information, see the documentation for the service whose resource you ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsChimeSdkMeetingsUntagResourceOptions : AwsOptions, IValidatable
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Removes the specified tags from the specified resources. When you spec- ify a tag key, the action removes both that key and its associated value. The operation succeeds even if you attempt to remove tags from a resource that were already removed. Note the following: o To remove tags from a resource, you need the necessary permissions for the service that the resource belongs to as well as permissions for removing tags. For more information, see the documentation for the service whose resource yo...
+    /// Removes the specified tags from the specified resources. When you specify a tag key, the action removes both that key and its associated value. The operation succeeds even if you attempt to remove tags from a resource that were already removed. Note the following: • To remove tags from a resource, you need the necessary permissions for the service that the resource belongs to as well as permissions for removing tags. For more information, see the documentation for the service whose resource you ...
     /// </summary>
-    /// <param name="ResourceArn">The ARN of the resource that you're removing tags from. Constraints: o min: 1 o max: 1011 o pattern: ^arn:.*</param>
-    /// <param name="TagKeys">The tag keys being removed from the resources. Constraints: o min: 0 o max: 50 (string) Constraints: o min: 1 o max: 128 o pattern: ^[a-zA-Z+-=._:/]+$ Syntax: "string" "string" ...</param>
+    /// <param name="ResourceArn">The ARN of the resource that you're removing tags from. Constraints: • min: 1 • max: 1011 • pattern: ^arn:.*</param>
+    /// <param name="TagKeys">The tag keys being removed from the resources. Constraints: • min: 0 • max: 50 (string) Constraints: • min: 1 • max: 128 • pattern: ^[a-zA-Z+-=._:/]+$ Syntax: "string" "string" ...</param>
     public AwsChimeSdkMeetingsUntagResourceOptions(
         string ResourceArn,
         IEnumerable<string> TagKeys
@@ -71,13 +72,13 @@ public record AwsChimeSdkMeetingsUntagResourceOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the resource that you're removing tags from. Constraints: o min: 1 o max: 1011 o pattern: ^arn:.*
+    /// The ARN of the resource that you're removing tags from. Constraints: • min: 1 • max: 1011 • pattern: ^arn:.*
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
 
     /// <summary>
-    /// The tag keys being removed from the resources. Constraints: o min: 0 o max: 50 (string) Constraints: o min: 1 o max: 128 o pattern: ^[a-zA-Z+-=._:/]+$ Syntax: "string" "string" ...
+    /// The tag keys being removed from the resources. Constraints: • min: 0 • max: 50 (string) Constraints: • min: 1 • max: 128 • pattern: ^[a-zA-Z+-=._:/]+$ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--tag-keys", GroupValues = true)]
     public IEnumerable<string>? TagKeys { get; private init; }
@@ -103,6 +104,15 @@ public record AwsChimeSdkMeetingsUntagResourceOptions : AwsOptions, IValidatable
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

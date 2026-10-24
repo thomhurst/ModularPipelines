@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +29,7 @@ public record AwsGuarddutyListPublishingDestinationsOptions : AwsOptions, IValid
     /// <summary>
     /// Returns a list of publishing destinations associated with the specified detectorId . See also: AWS API Documentation
     /// </summary>
-    /// <param name="DetectorId">The detector ID for which you want to retrieve the publishing desti- nation. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the ListDetectors API. Constraints: o min: 1 o max: 300</param>
+    /// <param name="DetectorId">The detector ID for which you want to retrieve the publishing destination. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the ListDetectors API. Constraints: • min: 1 • max: 300</param>
     public AwsGuarddutyListPublishingDestinationsOptions(
         string DetectorId
     )
@@ -57,19 +58,19 @@ public record AwsGuarddutyListPublishingDestinationsOptions : AwsOptions, IValid
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The detector ID for which you want to retrieve the publishing desti- nation. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the ListDetectors API. Constraints: o min: 1 o max: 300
+    /// The detector ID for which you want to retrieve the publishing destination. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the ListDetectors API. Constraints: • min: 1 • max: 300
     /// </summary>
     [CliOption("--detector-id")]
     public string? DetectorId { get; private init; }
 
     /// <summary>
-    /// The maximum number of results to return in the response. Constraints: o min: 1 o max: 50
+    /// The maximum number of results to return in the response. Constraints: • min: 1 • max: 50
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
     /// <summary>
-    /// A token to use for paginating results that are returned in the re- sponse. Set the value of this parameter to null for the first re- quest to a list action. For subsequent calls, use the NextToken value returned from the previous request to continue listing results after the first page.
+    /// A token to use for paginating results that are returned in the response. Set the value of this parameter to null for the first request to a list action. For subsequent calls, use the NextToken value returned from the previous request to continue listing results after the first page.
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
@@ -96,6 +97,15 @@ public record AwsGuarddutyListPublishingDestinationsOptions : AwsOptions, IValid
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Lists specific permissions of users and groups with access to your Ama- zon Kendra experience. See also: AWS API Documentation
+/// Lists specific permissions of users and groups with access to your Amazon Kendra experience. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +27,10 @@ public record AwsKendraListEntityPersonasOptions : AwsOptions, IValidatableObjec
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Lists specific permissions of users and groups with access to your Ama- zon Kendra experience. See also: AWS API Documentation
+    /// Lists specific permissions of users and groups with access to your Amazon Kendra experience. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Id">The identifier of your Amazon Kendra experience. Constraints: o min: 1 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9_-]*</param>
-    /// <param name="IndexId">The identifier of the index for your Amazon Kendra experience. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]*</param>
+    /// <param name="Id">The identifier of your Amazon Kendra experience. Constraints: • min: 1 • max: 36 • pattern: [a-zA-Z0-9][a-zA-Z0-9_-]*</param>
+    /// <param name="IndexId">The identifier of the index for your Amazon Kendra experience. Constraints: • min: 36 • max: 36 • pattern: [a-zA-Z0-9][a-zA-Z0-9-]*</param>
     public AwsKendraListEntityPersonasOptions(
         string Id,
         string IndexId
@@ -61,26 +62,26 @@ public record AwsKendraListEntityPersonasOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of your Amazon Kendra experience. Constraints: o min: 1 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9_-]*
+    /// The identifier of your Amazon Kendra experience. Constraints: • min: 1 • max: 36 • pattern: [a-zA-Z0-9][a-zA-Z0-9_-]*
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; private init; }
 
     /// <summary>
-    /// The identifier of the index for your Amazon Kendra experience. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]*
+    /// The identifier of the index for your Amazon Kendra experience. Constraints: • min: 36 • max: 36 • pattern: [a-zA-Z0-9][a-zA-Z0-9-]*
     /// </summary>
     [CliOption("--index-id")]
     public string? IndexId { get; private init; }
 
     /// <summary>
-    /// If the previous response was incomplete (because there is more data to retrieve), Amazon Kendra returns a pagination token in the re- sponse. You can use this pagination token to retrieve the next set of users or groups. Constraints: o min: 1 o max: 800
+    /// If the previous response was incomplete (because there is more data to retrieve), Amazon Kendra returns a pagination token in the response. You can use this pagination token to retrieve the next set of users or groups. Constraints: • min: 1 • max: 800
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// The maximum number of returned users or groups. Constraints: o min: 1 o max: 100
+    /// The maximum number of returned users or groups. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
@@ -106,6 +107,15 @@ public record AwsKendraListEntityPersonasOptions : AwsOptions, IValidatableObjec
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsVpcLatticeGetDomainVerificationOptions : AwsOptions, IValidatab
     /// <summary>
     /// Retrieves information about a domain verification. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DomainVerificationIdentifier">The ID or ARN of the domain verification to retrieve. Constraints: o min: 20 o max: 2048 o pattern: ((dv-[0-9a-z]{17})|(arn:[a-z0-9\-]+:vpc-lat- tice:[a-zA-Z0-9\-]+:\d{12}:domainverification/dv-[a-fA-F0-9]{17}))</param>
+    /// <param name="DomainVerificationIdentifier">The ID or ARN of the domain verification to retrieve. Constraints: • min: 20 • max: 2048 • pattern: ((dv-[0-9a-z]{17})|(arn:[a-z0-9\-]+:vpc-lattice:[a-zA-Z0-9\-]+:\d{12}:domainverification/dv-[a-fA-F0-9]{17}))</param>
     public AwsVpcLatticeGetDomainVerificationOptions(
         string DomainVerificationIdentifier
     )
@@ -56,7 +57,7 @@ public record AwsVpcLatticeGetDomainVerificationOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID or ARN of the domain verification to retrieve. Constraints: o min: 20 o max: 2048 o pattern: ((dv-[0-9a-z]{17})|(arn:[a-z0-9\-]+:vpc-lat- tice:[a-zA-Z0-9\-]+:\d{12}:domainverification/dv-[a-fA-F0-9]{17}))
+    /// The ID or ARN of the domain verification to retrieve. Constraints: • min: 20 • max: 2048 • pattern: ((dv-[0-9a-z]{17})|(arn:[a-z0-9\-]+:vpc-lattice:[a-zA-Z0-9\-]+:\d{12}:domainverification/dv-[a-fA-F0-9]{17}))
     /// </summary>
     [CliOption("--domain-verification-identifier")]
     public string? DomainVerificationIdentifier { get; private init; }
@@ -82,6 +83,15 @@ public record AwsVpcLatticeGetDomainVerificationOptions : AwsOptions, IValidatab
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

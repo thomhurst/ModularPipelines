@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsBedrockBatchDeleteEvaluationJobOptions : AwsOptions, IValidatab
     /// <summary>
     /// Deletes a batch of evaluation jobs. An evaluation job can only be deleted if it has following status FAILED , COMPLETED , and STOPPED . You can request up to 25 model evaluation jobs be deleted in a single request. See also: AWS API Documentation
     /// </summary>
-    /// <param name="JobIdentifiers">A list of one or more evaluation job Amazon Resource Names (ARNs) you want to delete. Constraints: o min: 1 o max: 25 (string) Constraints: o min: 0 o max: 1011 o pattern: (arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:evalua- tion-job/[a-z0-9]{12}) Syntax: "string" "string" ...</param>
+    /// <param name="JobIdentifiers">A list of one or more evaluation job Amazon Resource Names (ARNs) you want to delete. Constraints: • min: 1 • max: 25 (string) Constraints: • min: 0 • max: 1011 • pattern: (arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:evaluation-job/[a-z0-9]{12}) Syntax: "string" "string" ...</param>
     public AwsBedrockBatchDeleteEvaluationJobOptions(
         IEnumerable<string> JobIdentifiers
     )
@@ -67,7 +68,7 @@ public record AwsBedrockBatchDeleteEvaluationJobOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A list of one or more evaluation job Amazon Resource Names (ARNs) you want to delete. Constraints: o min: 1 o max: 25 (string) Constraints: o min: 0 o max: 1011 o pattern: (arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:evalua- tion-job/[a-z0-9]{12}) Syntax: "string" "string" ...
+    /// A list of one or more evaluation job Amazon Resource Names (ARNs) you want to delete. Constraints: • min: 1 • max: 25 (string) Constraints: • min: 0 • max: 1011 • pattern: (arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:evaluation-job/[a-z0-9]{12}) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--job-identifiers", GroupValues = true)]
     public IEnumerable<string>? JobIdentifiers { get; private init; }
@@ -93,6 +94,15 @@ public record AwsBedrockBatchDeleteEvaluationJobOptions : AwsOptions, IValidatab
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Get information about one or more parameters by specifying multiple pa- rameter names. NOTE: To get information about a single parameter, you can use the GetPa- rameter operation instead. Parameter names can't contain spaces. The service removes any spaces specified for the beginning or end of a parameter name. If the speci- fied name for a parameter contains spaces between characters, the re- quest fails with a ValidationException error. NOTE: Parameter Store throughput defines the number of AP...
+/// Get information about one or more parameters by specifying multiple parameter names. NOTE: To get information about a single parameter, you can use the GetParameter operation instead. Parameter names can't contain spaces. The service removes any spaces specified for the beginning or end of a parameter name. If the specified name for a parameter contains spaces between characters, the request fails with a ValidationException error. NOTE: Parameter Store throughput defines the number of API transa...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsSsmGetParametersOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Get information about one or more parameters by specifying multiple pa- rameter names. NOTE: To get information about a single parameter, you can use the GetPa- rameter operation instead. Parameter names can't contain spaces. The service removes any spaces specified for the beginning or end of a parameter name. If the speci- fied name for a parameter contains spaces between characters, the re- quest fails with a ValidationException error. NOTE: Parameter Store throughput defines the number of AP...
+    /// Get information about one or more parameters by specifying multiple parameter names. NOTE: To get information about a single parameter, you can use the GetParameter operation instead. Parameter names can't contain spaces. The service removes any spaces specified for the beginning or end of a parameter name. If the specified name for a parameter contains spaces between characters, the request fails with a ValidationException error. NOTE: Parameter Store throughput defines the number of API transa...
     /// </summary>
-    /// <param name="Names">The names or Amazon Resource Names (ARNs) of the parameters that you want to query. For parameters shared with you from another account, you must use the full ARNs. To query by parameter label, use "Name": "name:label" . To query by parameter version, use "Name": "name:version" . NOTE: The results for GetParameters requests are listed in alphabeti- cal order in query responses. For information about shared parameters, see Working with shared pa- rameters in the Amazon Web Services Systems Manager User Guide . Constraints: o min: 1 o max: 10 (string) Constraints: o min: 1 o max: 2048 Syntax: "string" "string" ...</param>
+    /// <param name="Names">The names or Amazon Resource Names (ARNs) of the parameters that you want to query. For parameters shared with you from another account, you must use the full ARNs. To query by parameter label, use "Name": "name:label" . To query by parameter version, use "Name": "name:version" . NOTE: The results for GetParameters requests are listed in alphabetical order in query responses. For information about shared parameters, see Working with shared parameters in the Amazon Web Services Systems Manager User Guide . Constraints: • min: 1 • max: 10 (string) Constraints: • min: 1 • max: 2048 Syntax: "string" "string" ...</param>
     public AwsSsmGetParametersOptions(
         IEnumerable<string> Names
     )
@@ -67,7 +68,7 @@ public record AwsSsmGetParametersOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The names or Amazon Resource Names (ARNs) of the parameters that you want to query. For parameters shared with you from another account, you must use the full ARNs. To query by parameter label, use "Name": "name:label" . To query by parameter version, use "Name": "name:version" . NOTE: The results for GetParameters requests are listed in alphabeti- cal order in query responses. For information about shared parameters, see Working with shared pa- rameters in the Amazon Web Services Systems Manager User Guide . Constraints: o min: 1 o max: 10 (string) Constraints: o min: 1 o max: 2048 Syntax: "string" "string" ...
+    /// The names or Amazon Resource Names (ARNs) of the parameters that you want to query. For parameters shared with you from another account, you must use the full ARNs. To query by parameter label, use "Name": "name:label" . To query by parameter version, use "Name": "name:version" . NOTE: The results for GetParameters requests are listed in alphabetical order in query responses. For information about shared parameters, see Working with shared parameters in the Amazon Web Services Systems Manager User Guide . Constraints: • min: 1 • max: 10 (string) Constraints: • min: 1 • max: 2048 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--names", GroupValues = true)]
     public IEnumerable<string>? Names { get; private init; }
@@ -99,6 +100,15 @@ public record AwsSsmGetParametersOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

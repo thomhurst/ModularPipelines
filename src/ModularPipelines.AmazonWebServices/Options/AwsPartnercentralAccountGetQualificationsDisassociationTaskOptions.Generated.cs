@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves the status and details of the most recent qualifications dis- association task for your partner account. Use this operation to poll the progress of a disassociation task initiated by StartQualifications- DisassociationTask . See also: AWS API Documentation
+/// Retrieves the status and details of the most recent qualifications disassociation task for your partner account. Use this operation to poll the progress of a disassociation task initiated by StartQualificationsDisassociationTask . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +27,10 @@ public record AwsPartnercentralAccountGetQualificationsDisassociationTaskOptions
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Retrieves the status and details of the most recent qualifications dis- association task for your partner account. Use this operation to poll the progress of a disassociation task initiated by StartQualifications- DisassociationTask . See also: AWS API Documentation
+    /// Retrieves the status and details of the most recent qualifications disassociation task for your partner account. Use this operation to poll the progress of a disassociation task initiated by StartQualificationsDisassociationTask . See also: AWS API Documentation
     /// </summary>
-    /// <param name="Catalog">The catalog in which to look up the qualifications disassociation task. Valid values: AWS , Sandbox . Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9-]+</param>
-    /// <param name="Identifier">Your partner identifier. You can provide either a partner ID (for example, partner-abc123 ) or a partner ARN. You must own this iden- tifier. Constraints: o min: 1 o max: 200 o pattern: (partner-[A-Za-z0-9]{13}|arn:[a-z-]+:partner- central:[a-z0-9-]+:[0-9]{12}:catalog/[A-Za-z-_]+/partner/part- ner-[A-Za-z0-9]{13})</param>
+    /// <param name="Catalog">The catalog in which to look up the qualifications disassociation task. Valid values: AWS , Sandbox . Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9-]+</param>
+    /// <param name="Identifier">Your partner identifier. You can provide either a partner ID (for example, partner-abc123 ) or a partner ARN. You must own this identifier. Constraints: • min: 1 • max: 200 • pattern: (partner-[A-Za-z0-9]{13}|arn:[a-z-]+:partnercentral:[a-z0-9-]+:[0-9]{12}:catalog/[A-Za-z-_]+/partner/partner-[A-Za-z0-9]{13})</param>
     public AwsPartnercentralAccountGetQualificationsDisassociationTaskOptions(
         AwsPartnercentralAccountGetQualificationsDisassociationTaskCatalog Catalog,
         string Identifier
@@ -60,13 +61,13 @@ public record AwsPartnercentralAccountGetQualificationsDisassociationTaskOptions
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The catalog in which to look up the qualifications disassociation task. Valid values: AWS , Sandbox . Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9-]+
+    /// The catalog in which to look up the qualifications disassociation task. Valid values: AWS , Sandbox . Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9-]+
     /// </summary>
     [CliOption("--catalog")]
     public AwsPartnercentralAccountGetQualificationsDisassociationTaskCatalog? Catalog { get; private init; }
 
     /// <summary>
-    /// Your partner identifier. You can provide either a partner ID (for example, partner-abc123 ) or a partner ARN. You must own this iden- tifier. Constraints: o min: 1 o max: 200 o pattern: (partner-[A-Za-z0-9]{13}|arn:[a-z-]+:partner- central:[a-z0-9-]+:[0-9]{12}:catalog/[A-Za-z-_]+/partner/part- ner-[A-Za-z0-9]{13})
+    /// Your partner identifier. You can provide either a partner ID (for example, partner-abc123 ) or a partner ARN. You must own this identifier. Constraints: • min: 1 • max: 200 • pattern: (partner-[A-Za-z0-9]{13}|arn:[a-z-]+:partnercentral:[a-z0-9-]+:[0-9]{12}:catalog/[A-Za-z-_]+/partner/partner-[A-Za-z0-9]{13})
     /// </summary>
     [CliOption("--identifier")]
     public string? Identifier { get; private init; }
@@ -92,6 +93,15 @@ public record AwsPartnercentralAccountGetQualificationsDisassociationTaskOptions
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Removes a limit from the specified farm. Before you delete a limit you must use the DeleteQueueLimitAssociation operation to remove the asso- ciation with any queues. See also: AWS API Documentation
+/// Removes a limit from the specified farm. Before you delete a limit you must use the DeleteQueueLimitAssociation operation to remove the association with any queues. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsDeadlineDeleteLimitOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Removes a limit from the specified farm. Before you delete a limit you must use the DeleteQueueLimitAssociation operation to remove the asso- ciation with any queues. See also: AWS API Documentation
+    /// Removes a limit from the specified farm. Before you delete a limit you must use the DeleteQueueLimitAssociation operation to remove the association with any queues. See also: AWS API Documentation
     /// </summary>
-    /// <param name="FarmId">The unique identifier of the farm that contains the limit to delete. Constraints: o pattern: farm-[0-9a-f]{32}</param>
-    /// <param name="LimitId">The unique identifier of the limit to delete. Constraints: o pattern: limit-[0-9a-f]{32}</param>
+    /// <param name="FarmId">The unique identifier of the farm that contains the limit to delete. Constraints: • pattern: farm-[0-9a-f]{32}</param>
+    /// <param name="LimitId">The unique identifier of the limit to delete. Constraints: • pattern: limit-[0-9a-f]{32}</param>
     public AwsDeadlineDeleteLimitOptions(
         string FarmId,
         string LimitId
@@ -60,13 +61,13 @@ public record AwsDeadlineDeleteLimitOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the farm that contains the limit to delete. Constraints: o pattern: farm-[0-9a-f]{32}
+    /// The unique identifier of the farm that contains the limit to delete. Constraints: • pattern: farm-[0-9a-f]{32}
     /// </summary>
     [CliOption("--farm-id")]
     public string? FarmId { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the limit to delete. Constraints: o pattern: limit-[0-9a-f]{32}
+    /// The unique identifier of the limit to delete. Constraints: • pattern: limit-[0-9a-f]{32}
     /// </summary>
     [CliOption("--limit-id")]
     public string? LimitId { get; private init; }
@@ -92,6 +93,15 @@ public record AwsDeadlineDeleteLimitOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

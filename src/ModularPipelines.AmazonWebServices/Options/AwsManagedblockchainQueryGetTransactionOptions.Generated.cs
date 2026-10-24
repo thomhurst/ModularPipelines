@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,7 +29,7 @@ public record AwsManagedblockchainQueryGetTransactionOptions : AwsOptions, IVali
     /// <summary>
     /// Gets the details of a transaction. NOTE: This action will return transaction details for all transactions that are confirmed on the blockchain, even if they have not reached finality . See also: AWS API Documentation
     /// </summary>
-    /// <param name="Network">The blockchain network where the transaction occurred. Possible values: o ETHEREUM_MAINNET o ETHEREUM_SEPOLIA_TESTNET o BITCOIN_MAINNET o BITCOIN_TESTNET</param>
+    /// <param name="Network">The blockchain network where the transaction occurred. Possible values: • ETHEREUM_MAINNET • ETHEREUM_SEPOLIA_TESTNET • BITCOIN_MAINNET • BITCOIN_TESTNET</param>
     public AwsManagedblockchainQueryGetTransactionOptions(
         AwsManagedblockchainQueryGetTransactionNetwork Network
     )
@@ -56,19 +57,19 @@ public record AwsManagedblockchainQueryGetTransactionOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The blockchain network where the transaction occurred. Possible values: o ETHEREUM_MAINNET o ETHEREUM_SEPOLIA_TESTNET o BITCOIN_MAINNET o BITCOIN_TESTNET
+    /// The blockchain network where the transaction occurred. Possible values: • ETHEREUM_MAINNET • ETHEREUM_SEPOLIA_TESTNET • BITCOIN_MAINNET • BITCOIN_TESTNET
     /// </summary>
     [CliOption("--network")]
     public AwsManagedblockchainQueryGetTransactionNetwork? Network { get; private init; }
 
     /// <summary>
-    /// The hash of a transaction. It is generated when a transaction is created. Constraints: o pattern: (0x[A-Fa-f0-9]{64}|[A-Fa-f0-9]{64})
+    /// The hash of a transaction. It is generated when a transaction is created. Constraints: • pattern: (0x[A-Fa-f0-9]{64}|[A-Fa-f0-9]{64})
     /// </summary>
     [CliOption("--transaction-hash")]
     public string? TransactionHash { get; set; }
 
     /// <summary>
-    /// The identifier of a Bitcoin transaction. It is generated when a transaction is created. NOTE: transactionId is only supported on the Bitcoin networks. Constraints: o pattern: (0x[A-Fa-f0-9]{64}|[A-Fa-f0-9]{64})
+    /// The identifier of a Bitcoin transaction. It is generated when a transaction is created. NOTE: transactionId is only supported on the Bitcoin networks. Constraints: • pattern: (0x[A-Fa-f0-9]{64}|[A-Fa-f0-9]{64})
     /// </summary>
     [CliOption("--transaction-id")]
     public string? TransactionId { get; set; }
@@ -94,6 +95,15 @@ public record AwsManagedblockchainQueryGetTransactionOptions : AwsOptions, IVali
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

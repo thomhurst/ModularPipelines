@@ -15,7 +15,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Provides information about one or more of your managed nodes, including the operating system platform, SSM Agent version, association status, and IP address. This operation does not return information for nodes that are either Stopped or Terminated. If you specify one or more node IDs, the operation returns information for those managed nodes. If you don't specify node IDs, it returns in- formation for all your managed nodes. If you specify a node ID that isn't valid or a node that you don't own...
+/// Provides information about one or more of your managed nodes, including the operating system platform, SSM Agent version, association status, and IP address. This operation does not return information for nodes that are either Stopped or Terminated. If you specify one or more node IDs, the operation returns information for those managed nodes. If you don't specify node IDs, it returns information for all your managed nodes. If you specify a node ID that isn't valid or a node that you don't own, ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -23,22 +23,19 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsSsmDescribeInstanceInformationOptions : AwsOptions
 {
     /// <summary>
-    /// This is a legacy method. We recommend that you don't use this method. Instead, use the Filters data type. Filters enables you to return node information by filtering based on tags applied to man- aged nodes. NOTE: Attempting to use InstanceInformationFilterList and Filters leads to an exception error. Constraints: o min: 0 (structure) Describes a filter for a specific list of managed nodes. You can filter node information by using tags. You specify tags by using a key-value mapping. Use this operation instead of the DescribeInstanceInformation- Request$InstanceInformationFilterList method. The InstanceInfor- mationFilterList method is a legacy method and doesn't support tags. key -&gt; (string) [required] The name of the filter. Possible values: o InstanceIds o AgentVersion o PingStatus o PlatformTypes o ActivationIds o IamRole o ResourceType o AssociationStatus valueSet -&gt; (list) [required] The filter values. Constraints: o min: 1 o max: 100 (string) Constraints: o min: 1 Shorthand Syntax: key=string,valueSet=string,string ... JSON Syntax: [ { "key": "InstanceIds"|"AgentVersion"|"PingStatus"|"PlatformTypes"|"ActivationIds"|"IamRole"|"ResourceType"|"AssociationStatus", "valueSet": ["string", ...] } ... ]
+    /// This is a legacy method. We recommend that you don't use this method. Instead, use the Filters data type. Filters enables you to return node information by filtering based on tags applied to managed nodes. NOTE: Attempting to use InstanceInformationFilterList and Filters leads to an exception error. Constraints: • min: 0 (structure) Describes a filter for a specific list of managed nodes. You can filter node information by using tags. You specify tags by using a key-value mapping. Use this operation instead of the DescribeInstanceInformationRequest$InstanceInformationFilterList method. The InstanceInformationFilterList method is a legacy method and doesn't support tags. key -&gt; (string) [required] The name of the filter. Possible values: • InstanceIds • AgentVersion • PingStatus • PlatformTypes • ActivationIds • IamRole • ResourceType • AssociationStatus valueSet -&gt; (list) [required] The filter values. Constraints: • min: 1 • max: 100 (string) Constraints: • min: 1 Shorthand Syntax: key=string,valueSet=string,string ... JSON Syntax: [ { "key": "InstanceIds"|"AgentVersion"|"PingStatus"|"PlatformTypes"|"ActivationIds"|"IamRole"|"ResourceType"|"AssociationStatus", "valueSet": ["string", ...] } ... ]
     /// </summary>
     [CliOption("--instance-information-filter-list", GroupValues = true)]
     public IEnumerable<string>? InstanceInformationFilterList { get; set; }
 
     /// <summary>
-    /// One or more filters. Use a filter to return a more specific list of managed nodes. You can filter based on tags applied to your managed nodes. Tag filters can't be combined with other filter types. Use this Filters data type instead of InstanceInformationFilterList , which is deprecated. Constraints: o min: 0 (structure) The filters to describe or get information about your managed nodes. Key -&gt; (string) [required] The filter key name to describe your managed nodes. Valid filter key values: ActivationIds | AgentVersion | Asso- ciationStatus | IamRole | InstanceIds | PingStatus | Plat- formTypes | ResourceType | SourceIds | SourceTypes | "tag-key" | "tag:{keyname} o Valid values for the AssociationStatus filter key: Success | Pending | Failed o Valid values for the PingStatus filter key: Online | Con- nectionLost | Inactive (deprecated) o Valid values for the PlatformTypes filter key: Windows | Linux | MacOS o Valid values for the ResourceType filter key: EC2Instance | ManagedInstance o Valid values for the SourceType filter key: AWS::EC2::In- stance | AWS::SSM::ManagedInstance | AWS::IoT::Thing | Mi- crosoft.Compute/virtualMachines o Valid tag examples: Key=tag-key,Values=Purpose | Key=tag:Purpose,Values=Test . Constraints: o min: 1 Values -&gt; (list) [required] The filter values. Constraints: o min: 1 o max: 100 (string) Constraints: o min: 1 Shorthand Syntax: Key=string,Values=string,string ... JSON Syntax: [ { "Key": "string", "Values": ["string", ...] } ... ]
+    /// One or more filters. Use a filter to return a more specific list of managed nodes. You can filter based on tags applied to your managed nodes. Tag filters can't be combined with other filter types. Use this Filters data type instead of InstanceInformationFilterList , which is deprecated. Constraints: • min: 0 (structure) The filters to describe or get information about your managed nodes. Key -&gt; (string) [required] The filter key name to describe your managed nodes. Valid filter key values: ActivationIds | AgentVersion | AssociationStatus | IamRole | InstanceIds | PingStatus | PlatformTypes | ResourceType | SourceIds | SourceTypes | "tag-key" | "tag:{keyname} • Valid values for the AssociationStatus filter key: Success | Pending | Failed • Valid values for the PingStatus filter key: Online | ConnectionLost | Inactive (deprecated) • Valid values for the PlatformTypes filter key: Windows | Linux | MacOS • Valid values for the ResourceType filter key: EC2Instance | ManagedInstance • Valid values for the SourceType filter key: AWS::EC2::Instance | AWS::SSM::ManagedInstance | AWS::IoT::Thing | Microsoft.Compute/virtualMachines • Valid tag examples: Key=tag-key,Values=Purpose | Key=tag:Purpose,Values=Test . Constraints: • min: 1 Values -&gt; (list) [required] The filter values. Constraints: • min: 1 • max: 100 (string) Constraints: • min: 1 Shorthand Syntax: Key=string,Values=string,string ... JSON Syntax: [ { "Key": "string", "Values": ["string", ...] } ... ]
     /// </summary>
     [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -48,15 +45,27 @@ public record AwsSsmDescribeInstanceInformationOptions : AwsOptions
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 5 o max: 50
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 5 • max: 50
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

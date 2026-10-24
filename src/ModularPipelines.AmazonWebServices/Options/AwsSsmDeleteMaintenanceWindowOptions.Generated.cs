@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsSsmDeleteMaintenanceWindowOptions : AwsOptions, IValidatableObj
     /// <summary>
     /// Deletes a maintenance window. See also: AWS API Documentation
     /// </summary>
-    /// <param name="WindowId">The ID of the maintenance window to delete. Constraints: o min: 20 o max: 20 o pattern: ^mw-[0-9a-f]{17}$</param>
+    /// <param name="WindowId">The ID of the maintenance window to delete. Constraints: • min: 20 • max: 20 • pattern: ^mw-[0-9a-f]{17}$</param>
     public AwsSsmDeleteMaintenanceWindowOptions(
         string WindowId
     )
@@ -56,7 +57,7 @@ public record AwsSsmDeleteMaintenanceWindowOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the maintenance window to delete. Constraints: o min: 20 o max: 20 o pattern: ^mw-[0-9a-f]{17}$
+    /// The ID of the maintenance window to delete. Constraints: • min: 20 • max: 20 • pattern: ^mw-[0-9a-f]{17}$
     /// </summary>
     [CliOption("--window-id")]
     public string? WindowId { get; private init; }
@@ -82,6 +83,15 @@ public record AwsSsmDeleteMaintenanceWindowOptions : AwsOptions, IValidatableObj
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

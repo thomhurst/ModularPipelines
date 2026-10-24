@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Gets information about the latest version for every traffic policy that is associated with the current Amazon Web Services account. Policies are listed in the order that they were created in. For information about how of deleting a traffic policy affects the re- sponse from ListTrafficPolicies , see DeleteTrafficPolicy . See also: AWS API Documentation
+/// Gets information about the latest version for every traffic policy that is associated with the current Amazon Web Services account. Policies are listed in the order that they were created in. For information about how of deleting a traffic policy affects the response from ListTrafficPolicies , see DeleteTrafficPolicy . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -22,13 +22,13 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsRoute53ListTrafficPoliciesOptions : AwsOptions
 {
     /// <summary>
-    /// (Conditional) For your first request to ListTrafficPolicies , don't include the TrafficPolicyIdMarker parameter. If you have more traffic policies than the value of MaxItems , List- TrafficPolicies returns only the first MaxItems traffic policies. To get the next group of policies, submit another request to ListTraf- ficPolicies . For the value of TrafficPolicyIdMarker , specify the value of TrafficPolicyIdMarker that was returned in the previous re- sponse. Constraints: o min: 1 o max: 36
+    /// (Conditional) For your first request to ListTrafficPolicies , don't include the TrafficPolicyIdMarker parameter. If you have more traffic policies than the value of MaxItems , ListTrafficPolicies returns only the first MaxItems traffic policies. To get the next group of policies, submit another request to ListTrafficPolicies . For the value of TrafficPolicyIdMarker , specify the value of TrafficPolicyIdMarker that was returned in the previous response. Constraints: • min: 1 • max: 36
     /// </summary>
     [CliOption("--traffic-policy-id-marker")]
     public string? TrafficPolicyIdMarker { get; set; }
 
     /// <summary>
-    /// (Optional) The maximum number of traffic policies that you want Ama- zon Route 53 to return in response to this request. If you have more than MaxItems traffic policies, the value of IsTruncated in the re- sponse is true , and the value of TrafficPolicyIdMarker is the ID of the first traffic policy that Route 53 will return if you submit an- other request.
+    /// (Optional) The maximum number of traffic policies that you want Amazon Route 53 to return in response to this request. If you have more than MaxItems traffic policies, the value of IsTruncated in the response is true , and the value of TrafficPolicyIdMarker is the ID of the first traffic policy that Route 53 will return if you submit another request.
     /// </summary>
     [CliOption("--max-items")]
     public string? MaxItems { get; set; }
@@ -38,5 +38,14 @@ public record AwsRoute53ListTrafficPoliciesOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes an empty S3 bucket. A bucket must be completely empty of ob- jects and versioned objects before it can be deleted. However, the --force parameter can be used to delete the non-versioned objects in the bucket before the bucket is deleted.
+/// Deletes an empty S3 bucket. A bucket must be completely empty of objects and versioned objects before it can be deleted. However, the --force parameter can be used to delete the non-versioned objects in the bucket before the bucket is deleted.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -22,7 +22,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsS3RbOptions : AwsOptions
 {
     /// <summary>
-    /// Deletes an empty S3 bucket. A bucket must be completely empty of ob- jects and versioned objects before it can be deleted. However, the --force parameter can be used to delete the non-versioned objects in the bucket before the bucket is deleted.
+    /// Deletes an empty S3 bucket. A bucket must be completely empty of objects and versioned objects before it can be deleted. However, the --force parameter can be used to delete the non-versioned objects in the bucket before the bucket is deleted.
     /// </summary>
     /// <param name="S3Uri">S3 URI to operate on.</param>
     public AwsS3RbOptions(
@@ -46,5 +46,14 @@ public record AwsS3RbOptions : AwsOptions
     /// </summary>
     [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
     public string S3Uri { get; private init; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

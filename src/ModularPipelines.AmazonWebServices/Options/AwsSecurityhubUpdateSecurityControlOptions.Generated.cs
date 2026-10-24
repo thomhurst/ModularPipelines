@@ -10,7 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,8 +28,8 @@ public record AwsSecurityhubUpdateSecurityControlOptions : AwsOptions, IValidata
     /// <summary>
     /// Updates the properties of a security control. See also: AWS API Documentation
     /// </summary>
-    /// <param name="SecurityControlId">The Amazon Resource Name (ARN) or ID of the control to update. Constraints: o pattern: .*\S.*</param>
-    /// <param name="Parameters">An object that specifies which security control parameters to up- date. key -&gt; (string) Constraints: o pattern: .*\S.* value -&gt; (structure) An object that provides the current value of a security control parameter and identifies whether it has been customized. ValueType -&gt; (string) [required] Identifies whether a control parameter uses a custom user-de- fined value or subscribes to the default Security Hub CSPM behavior. When ValueType is set equal to DEFAULT , the default behavior can be a specific Security Hub CSPM default value, or the de- fault behavior can be to ignore a specific parameter. When ValueType is set equal to DEFAULT , Security Hub CSPM ignores user-provided input for the Value field. When ValueType is set equal to CUSTOM , the Value field can't be empty. Possible values: o DEFAULT o CUSTOM Value -&gt; (tagged union structure) The current value of a control parameter. NOTE: This is a Tagged Union structure. Only one of the follow- ing top level keys can be set: Integer, IntegerList, Dou- ble, String, StringList, Boolean, Enum, EnumList. Integer -&gt; (integer) A control parameter that is an integer. IntegerList -&gt; (list) A control parameter that is a list of integers. (integer) Double -&gt; (double) A control parameter that is a double. String -&gt; (string) A control parameter that is a string. Constraints: o pattern: .*\S.* StringList -&gt; (list) A control parameter that is a list of strings. (string) Constraints: o pattern: .*\S.* Boolean -&gt; (boolean) A control parameter that is a boolean. Enum -&gt; (string) A control parameter that is an enum. Constraints: o pattern: .*\S.* EnumList -&gt; (list) A control parameter that is a list of enums. (string) Constraints: o pattern: .*\S.* JSON Syntax: {"string": { "ValueType": "DEFAULT"|"CUSTOM", "Value": { "Integer": integer, "IntegerList": [integer, ...], "Double": double, "String": "string", "StringList": ["string", ...], "Boolean": true|false, "Enum": "string", "EnumList": ["string", ...] } } ...}</param>
+    /// <param name="SecurityControlId">The Amazon Resource Name (ARN) or ID of the control to update. Constraints: • pattern: .*\S.*</param>
+    /// <param name="Parameters">An object that specifies which security control parameters to update. key -&gt; (string) Constraints: • pattern: .*\S.* value -&gt; (structure) An object that provides the current value of a security control parameter and identifies whether it has been customized. ValueType -&gt; (string) [required] Identifies whether a control parameter uses a custom user-defined value or subscribes to the default Security Hub CSPM behavior. When ValueType is set equal to DEFAULT , the default behavior can be a specific Security Hub CSPM default value, or the default behavior can be to ignore a specific parameter. When ValueType is set equal to DEFAULT , Security Hub CSPM ignores user-provided input for the Value field. When ValueType is set equal to CUSTOM , the Value field can't be empty. Possible values: • DEFAULT • CUSTOM Value -&gt; (tagged union structure) The current value of a control parameter. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: Integer, IntegerList, Double, String, StringList, Boolean, Enum, EnumList. Integer -&gt; (integer) A control parameter that is an integer. IntegerList -&gt; (list) A control parameter that is a list of integers. (integer) Double -&gt; (double) A control parameter that is a double. String -&gt; (string) A control parameter that is a string. Constraints: • pattern: .*\S.* StringList -&gt; (list) A control parameter that is a list of strings. (string) Constraints: • pattern: .*\S.* Boolean -&gt; (boolean) A control parameter that is a boolean. Enum -&gt; (string) A control parameter that is an enum. Constraints: • pattern: .*\S.* EnumList -&gt; (list) A control parameter that is a list of enums. (string) Constraints: • pattern: .*\S.* JSON Syntax: {"string": { "ValueType": "DEFAULT"|"CUSTOM", "Value": { "Integer": integer, "IntegerList": [integer, ...], "Double": double, "String": "string", "StringList": ["string", ...], "Boolean": true|false, "Enum": "string", "EnumList": ["string", ...] } } ...}</param>
     public AwsSecurityhubUpdateSecurityControlOptions(
         string SecurityControlId,
         IReadOnlyList<KeyValue> Parameters
@@ -72,19 +72,19 @@ public record AwsSecurityhubUpdateSecurityControlOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) or ID of the control to update. Constraints: o pattern: .*\S.*
+    /// The Amazon Resource Name (ARN) or ID of the control to update. Constraints: • pattern: .*\S.*
     /// </summary>
     [CliOption("--security-control-id")]
     public string? SecurityControlId { get; private init; }
 
     /// <summary>
-    /// An object that specifies which security control parameters to up- date. key -&gt; (string) Constraints: o pattern: .*\S.* value -&gt; (structure) An object that provides the current value of a security control parameter and identifies whether it has been customized. ValueType -&gt; (string) [required] Identifies whether a control parameter uses a custom user-de- fined value or subscribes to the default Security Hub CSPM behavior. When ValueType is set equal to DEFAULT , the default behavior can be a specific Security Hub CSPM default value, or the de- fault behavior can be to ignore a specific parameter. When ValueType is set equal to DEFAULT , Security Hub CSPM ignores user-provided input for the Value field. When ValueType is set equal to CUSTOM , the Value field can't be empty. Possible values: o DEFAULT o CUSTOM Value -&gt; (tagged union structure) The current value of a control parameter. NOTE: This is a Tagged Union structure. Only one of the follow- ing top level keys can be set: Integer, IntegerList, Dou- ble, String, StringList, Boolean, Enum, EnumList. Integer -&gt; (integer) A control parameter that is an integer. IntegerList -&gt; (list) A control parameter that is a list of integers. (integer) Double -&gt; (double) A control parameter that is a double. String -&gt; (string) A control parameter that is a string. Constraints: o pattern: .*\S.* StringList -&gt; (list) A control parameter that is a list of strings. (string) Constraints: o pattern: .*\S.* Boolean -&gt; (boolean) A control parameter that is a boolean. Enum -&gt; (string) A control parameter that is an enum. Constraints: o pattern: .*\S.* EnumList -&gt; (list) A control parameter that is a list of enums. (string) Constraints: o pattern: .*\S.* JSON Syntax: {"string": { "ValueType": "DEFAULT"|"CUSTOM", "Value": { "Integer": integer, "IntegerList": [integer, ...], "Double": double, "String": "string", "StringList": ["string", ...], "Boolean": true|false, "Enum": "string", "EnumList": ["string", ...] } } ...}
+    /// An object that specifies which security control parameters to update. key -&gt; (string) Constraints: • pattern: .*\S.* value -&gt; (structure) An object that provides the current value of a security control parameter and identifies whether it has been customized. ValueType -&gt; (string) [required] Identifies whether a control parameter uses a custom user-defined value or subscribes to the default Security Hub CSPM behavior. When ValueType is set equal to DEFAULT , the default behavior can be a specific Security Hub CSPM default value, or the default behavior can be to ignore a specific parameter. When ValueType is set equal to DEFAULT , Security Hub CSPM ignores user-provided input for the Value field. When ValueType is set equal to CUSTOM , the Value field can't be empty. Possible values: • DEFAULT • CUSTOM Value -&gt; (tagged union structure) The current value of a control parameter. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: Integer, IntegerList, Double, String, StringList, Boolean, Enum, EnumList. Integer -&gt; (integer) A control parameter that is an integer. IntegerList -&gt; (list) A control parameter that is a list of integers. (integer) Double -&gt; (double) A control parameter that is a double. String -&gt; (string) A control parameter that is a string. Constraints: • pattern: .*\S.* StringList -&gt; (list) A control parameter that is a list of strings. (string) Constraints: • pattern: .*\S.* Boolean -&gt; (boolean) A control parameter that is a boolean. Enum -&gt; (string) A control parameter that is an enum. Constraints: • pattern: .*\S.* EnumList -&gt; (list) A control parameter that is a list of enums. (string) Constraints: • pattern: .*\S.* JSON Syntax: {"string": { "ValueType": "DEFAULT"|"CUSTOM", "Value": { "Integer": integer, "IntegerList": [integer, ...], "Double": double, "String": "string", "StringList": ["string", ...], "Boolean": true|false, "Enum": "string", "EnumList": ["string", ...] } } ...}
     /// </summary>
     [CliOption("--parameters", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Parameters { get; private init; }
 
     /// <summary>
-    /// The most recent reason for updating the properties of the security control. This field accepts alphanumeric characters in addition to white spaces, dashes, and underscores. Constraints: o pattern: ^([^\u0000-\u007F]|[-_ a-zA-Z0-9])+$
+    /// The most recent reason for updating the properties of the security control. This field accepts alphanumeric characters in addition to white spaces, dashes, and underscores. Constraints: • pattern: ^([^\u0000-\u007F]|[-_ a-zA-Z0-9])+$
     /// </summary>
     [CliOption("--last-update-reason")]
     public string? LastUpdateReason { get; set; }
@@ -110,6 +110,15 @@ public record AwsSecurityhubUpdateSecurityControlOptions : AwsOptions, IValidata
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

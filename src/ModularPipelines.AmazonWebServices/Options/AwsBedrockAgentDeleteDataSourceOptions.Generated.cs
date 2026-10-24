@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsBedrockAgentDeleteDataSourceOptions : AwsOptions, IValidatableO
     /// <summary>
     /// Deletes a data source from a knowledge base. See also: AWS API Documentation
     /// </summary>
-    /// <param name="KnowledgeBaseId">The unique identifier of the knowledge base from which to delete the data source. Constraints: o pattern: [0-9a-zA-Z]{10}</param>
-    /// <param name="DataSourceId">The unique identifier of the data source to delete. Constraints: o pattern: [0-9a-zA-Z]{10}</param>
+    /// <param name="KnowledgeBaseId">The unique identifier of the knowledge base from which to delete the data source. Constraints: • pattern: [0-9a-zA-Z]{10}</param>
+    /// <param name="DataSourceId">The unique identifier of the data source to delete. Constraints: • pattern: [0-9a-zA-Z]{10}</param>
     public AwsBedrockAgentDeleteDataSourceOptions(
         string KnowledgeBaseId,
         string DataSourceId
@@ -60,13 +61,13 @@ public record AwsBedrockAgentDeleteDataSourceOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the knowledge base from which to delete the data source. Constraints: o pattern: [0-9a-zA-Z]{10}
+    /// The unique identifier of the knowledge base from which to delete the data source. Constraints: • pattern: [0-9a-zA-Z]{10}
     /// </summary>
     [CliOption("--knowledge-base-id")]
     public string? KnowledgeBaseId { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the data source to delete. Constraints: o pattern: [0-9a-zA-Z]{10}
+    /// The unique identifier of the data source to delete. Constraints: • pattern: [0-9a-zA-Z]{10}
     /// </summary>
     [CliOption("--data-source-id")]
     public string? DataSourceId { get; private init; }
@@ -92,6 +93,15 @@ public record AwsBedrockAgentDeleteDataSourceOptions : AwsOptions, IValidatableO
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

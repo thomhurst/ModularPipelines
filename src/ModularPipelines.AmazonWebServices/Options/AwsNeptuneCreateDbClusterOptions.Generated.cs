@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a new Amazon Neptune DB cluster. You can use the ReplicationSourceIdentifier parameter to create the DB cluster as a Read Replica of another DB cluster or Amazon Neptune DB instance. Note that when you create a new cluster using CreateDBCluster directly, deletion protection is disabled by default (when you create a new pro- duction cluster in the console, deletion protection is enabled by de- fault). You can only delete a DB cluster if its DeletionProtection field is set to false . See a...
+/// Creates a new Amazon Neptune DB cluster. You can use the ReplicationSourceIdentifier parameter to create the DB cluster as a Read Replica of another DB cluster or Amazon Neptune DB instance. Note that when you create a new cluster using CreateDBCluster directly, deletion protection is disabled by default (when you create a new production cluster in the console, deletion protection is enabled by default). You can only delete a DB cluster if its DeletionProtection field is set to false . See also:...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +27,9 @@ public record AwsNeptuneCreateDbClusterOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a new Amazon Neptune DB cluster. You can use the ReplicationSourceIdentifier parameter to create the DB cluster as a Read Replica of another DB cluster or Amazon Neptune DB instance. Note that when you create a new cluster using CreateDBCluster directly, deletion protection is disabled by default (when you create a new pro- duction cluster in the console, deletion protection is enabled by de- fault). You can only delete a DB cluster if its DeletionProtection field is set to false . See a...
+    /// Creates a new Amazon Neptune DB cluster. You can use the ReplicationSourceIdentifier parameter to create the DB cluster as a Read Replica of another DB cluster or Amazon Neptune DB instance. Note that when you create a new cluster using CreateDBCluster directly, deletion protection is disabled by default (when you create a new production cluster in the console, deletion protection is enabled by default). You can only delete a DB cluster if its DeletionProtection field is set to false . See also:...
     /// </summary>
-    /// <param name="DbClusterIdentifier">The DB cluster identifier. This parameter is stored as a lowercase string. Constraints: o Must contain from 1 to 63 letters, numbers, or hyphens. o First character must be a letter. o Cannot end with a hyphen or contain two consecutive hyphens. Example: my-cluster1</param>
+    /// <param name="DbClusterIdentifier">The DB cluster identifier. This parameter is stored as a lowercase string. Constraints: • Must contain from 1 to 63 letters, numbers, or hyphens. • First character must be a letter. • Cannot end with a hyphen or contain two consecutive hyphens. Example: my-cluster1</param>
     /// <param name="Engine">The name of the database engine to be used for this DB cluster. Valid Values: neptune</param>
     public AwsNeptuneCreateDbClusterOptions(
         string DbClusterIdentifier,
@@ -61,7 +62,7 @@ public record AwsNeptuneCreateDbClusterOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The DB cluster identifier. This parameter is stored as a lowercase string. Constraints: o Must contain from 1 to 63 letters, numbers, or hyphens. o First character must be a letter. o Cannot end with a hyphen or contain two consecutive hyphens. Example: my-cluster1
+    /// The DB cluster identifier. This parameter is stored as a lowercase string. Constraints: • Must contain from 1 to 63 letters, numbers, or hyphens. • First character must be a letter. • Cannot end with a hyphen or contain two consecutive hyphens. Example: my-cluster1
     /// </summary>
     [CliOption("--db-cluster-identifier")]
     public string? DbClusterIdentifier { get; private init; }
@@ -79,7 +80,7 @@ public record AwsNeptuneCreateDbClusterOptions : AwsOptions, IValidatableObject
     public IEnumerable<string>? AvailabilityZones { get; set; }
 
     /// <summary>
-    /// The number of days for which automated backups are retained. You must specify a minimum value of 1. Default: 1 Constraints: o Must be a value from 1 to 35
+    /// The number of days for which automated backups are retained. You must specify a minimum value of 1. Default: 1 Constraints: • Must be a value from 1 to 35
     /// </summary>
     [CliOption("--backup-retention-period")]
     public int? BackupRetentionPeriod { get; set; }
@@ -91,7 +92,7 @@ public record AwsNeptuneCreateDbClusterOptions : AwsOptions, IValidatableObject
     public string? CharacterSetName { get; set; }
 
     /// <summary>
-    /// If set to ``true`` , tags are copied to any snapshot of the DB clus- ter that is created.
+    /// If set to ``true`` , tags are copied to any snapshot of the DB cluster that is created.
     /// </summary>
     [CliFlag("--copy-tags-to-snapshot", NegatedName = "--no-copy-tags-to-snapshot")]
     public bool? CopyTagsToSnapshot { get; set; }
@@ -103,7 +104,7 @@ public record AwsNeptuneCreateDbClusterOptions : AwsOptions, IValidatableObject
     public string? DatabaseName { get; set; }
 
     /// <summary>
-    /// The name of the DB cluster parameter group to associate with this DB cluster. If this argument is omitted, the default is used. Constraints: o If supplied, must match the name of an existing DBClusterParame- terGroup.
+    /// The name of the DB cluster parameter group to associate with this DB cluster. If this argument is omitted, the default is used. Constraints: • If supplied, must match the name of an existing DBClusterParameterGroup.
     /// </summary>
     [CliOption("--db-cluster-parameter-group-name")]
     public string? DbClusterParameterGroupName { get; set; }
@@ -127,7 +128,7 @@ public record AwsNeptuneCreateDbClusterOptions : AwsOptions, IValidatableObject
     public string? EngineVersion { get; set; }
 
     /// <summary>
-    /// The port number on which the instances in the DB cluster accept con- nections. Default: 8182
+    /// The port number on which the instances in the DB cluster accept connections. Default: 8182
     /// </summary>
     [CliOption("--port")]
     public int? Port { get; set; }
@@ -152,7 +153,7 @@ public record AwsNeptuneCreateDbClusterOptions : AwsOptions, IValidatableObject
     public string? OptionGroupName { get; set; }
 
     /// <summary>
-    /// The daily time range during which automated backups are created if automated backups are enabled using the BackupRetentionPeriod para- meter. The default is a 30-minute window selected at random from an 8-hour block of time for each Amazon Region. To see the time blocks avail- able, see Neptune Maintenance Window in the Amazon Neptune User Guide. Constraints: o Must be in the format hh24:mi-hh24:mi . o Must be in Universal Coordinated Time (UTC). o Must not conflict with the preferred maintenance window. o Must be at least 30 minutes.
+    /// The daily time range during which automated backups are created if automated backups are enabled using the BackupRetentionPeriod parameter. The default is a 30-minute window selected at random from an 8-hour block of time for each Amazon Region. To see the time blocks available, see Neptune Maintenance Window in the Amazon Neptune User Guide. Constraints: • Must be in the format hh24:mi-hh24:mi . • Must be in Universal Coordinated Time (UTC). • Must not conflict with the preferred maintenance window. • Must be at least 30 minutes.
     /// </summary>
     [CliOption("--preferred-backup-window")]
     public string? PreferredBackupWindow { get; set; }
@@ -164,7 +165,7 @@ public record AwsNeptuneCreateDbClusterOptions : AwsOptions, IValidatableObject
     public string? PreferredMaintenanceWindow { get; set; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the source DB instance or DB clus- ter if this DB cluster is created as a Read Replica.
+    /// The Amazon Resource Name (ARN) of the source DB instance or DB cluster if this DB cluster is created as a Read Replica.
     /// </summary>
     [CliOption("--replication-source-identifier")]
     public string? ReplicationSourceIdentifier { get; set; }
@@ -182,7 +183,7 @@ public record AwsNeptuneCreateDbClusterOptions : AwsOptions, IValidatableObject
     public bool? StorageEncrypted { get; set; }
 
     /// <summary>
-    /// The Amazon KMS key identifier for an encrypted DB cluster. The KMS key identifier is the Amazon Resource Name (ARN) for the KMS encryption key. If you are creating a DB cluster with the same Ama- zon account that owns the KMS encryption key used to encrypt the new DB cluster, then you can use the KMS key alias instead of the ARN for the KMS encryption key. If an encryption key is not specified in KmsKeyId : o If ReplicationSourceIdentifier identifies an encrypted source, then Amazon Neptune will use the encryption key used to encrypt the source. Otherwise, Amazon Neptune will use your default en- cryption key. o If the StorageEncrypted parameter is true and ReplicationSourceI- dentifier is not specified, then Amazon Neptune will use your de- fault encryption key. Amazon KMS creates the default encryption key for your Amazon ac- count. Your Amazon account has a different default encryption key for each Amazon Region. If you create a Read Replica of an encrypted DB cluster in another Amazon Region, you must set KmsKeyId to a KMS key ID that is valid in the destination Amazon Region. This key is used to encrypt the Read Replica in that Amazon Region.
+    /// The Amazon KMS key identifier for an encrypted DB cluster. The KMS key identifier is the Amazon Resource Name (ARN) for the KMS encryption key. If you are creating a DB cluster with the same Amazon account that owns the KMS encryption key used to encrypt the new DB cluster, then you can use the KMS key alias instead of the ARN for the KMS encryption key. If an encryption key is not specified in KmsKeyId : • If ReplicationSourceIdentifier identifies an encrypted source, then Amazon Neptune will use the encryption key used to encrypt the source. Otherwise, Amazon Neptune will use your default encryption key. • If the StorageEncrypted parameter is true and ReplicationSourceIdentifier is not specified, then Amazon Neptune will use your default encryption key. Amazon KMS creates the default encryption key for your Amazon account. Your Amazon account has a different default encryption key for each Amazon Region. If you create a Read Replica of an encrypted DB cluster in another Amazon Region, you must set KmsKeyId to a KMS key ID that is valid in the destination Amazon Region. This key is used to encrypt the Read Replica in that Amazon Region.
     /// </summary>
     [CliOption("--kms-key-id")]
     public string? KmsKeyId { get; set; }
@@ -194,43 +195,43 @@ public record AwsNeptuneCreateDbClusterOptions : AwsOptions, IValidatableObject
     public string? PreSignedUrl { get; set; }
 
     /// <summary>
-    /// tication (boolean) If set to true , enables Amazon Identity and Access Management (IAM) authentication for the entire DB cluster (this cannot be set at an instance level). Default: false .
+    /// If set to true , enables Amazon Identity and Access Management (IAM) authentication for the entire DB cluster (this cannot be set at an instance level). Default: false .
     /// </summary>
     [CliFlag("--enable-iam-database-authentication", NegatedName = "--no-enable-iam-database-authentication")]
     public bool? EnableIamDatabaseAuthentication { get; set; }
 
     /// <summary>
-    /// A list of the log types that this DB cluster should export to Cloud- Watch Logs. Valid log types are: audit (to publish audit logs) and slowquery (to publish slow-query logs). See Publishing Neptune logs to Amazon CloudWatch logs . (string) Syntax: "string" "string" ...
+    /// A list of the log types that this DB cluster should export to CloudWatch Logs. Valid log types are: audit (to publish audit logs) and slowquery (to publish slow-query logs). See Publishing Neptune logs to Amazon CloudWatch logs . (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--enable-cloudwatch-logs-exports", GroupValues = true)]
     public IEnumerable<string>? EnableCloudwatchLogsExports { get; set; }
 
     /// <summary>
-    /// A value that indicates whether the DB cluster has deletion protec- tion enabled. The database can't be deleted when deletion protection is enabled. By default, deletion protection is enabled.
+    /// A value that indicates whether the DB cluster has deletion protection enabled. The database can't be deleted when deletion protection is enabled. By default, deletion protection is enabled.
     /// </summary>
     [CliFlag("--deletion-protection", NegatedName = "--no-deletion-protection")]
     public bool? DeletionProtection { get; set; }
 
     /// <summary>
-    /// Contains the scaling configuration of a Neptune Serverless DB clus- ter. For more information, see Using Amazon Neptune Serverless in the Amazon Neptune User Guide . MinCapacity -&gt; (double) The minimum number of Neptune capacity units (NCUs) for a DB in- stance in a Neptune Serverless cluster. You can specify NCU val- ues in half-step increments, such as 8, 8.5, 9, and so on. MaxCapacity -&gt; (double) The maximum number of Neptune capacity units (NCUs) for a DB in- stance in a Neptune Serverless cluster. You can specify NCU val- ues in half-step increments, such as 40, 40.5, 41, and so on. Shorthand Syntax: MinCapacity=double,MaxCapacity=double JSON Syntax: { "MinCapacity": double, "MaxCapacity": double }
+    /// Contains the scaling configuration of a Neptune Serverless DB cluster. For more information, see Using Amazon Neptune Serverless in the Amazon Neptune User Guide . MinCapacity -&gt; (double) The minimum number of Neptune capacity units (NCUs) for a DB instance in a Neptune Serverless cluster. You can specify NCU values in half-step increments, such as 8, 8.5, 9, and so on. MaxCapacity -&gt; (double) The maximum number of Neptune capacity units (NCUs) for a DB instance in a Neptune Serverless cluster. You can specify NCU values in half-step increments, such as 40, 40.5, 41, and so on. Shorthand Syntax: MinCapacity=double,MaxCapacity=double JSON Syntax: { "MinCapacity": double, "MaxCapacity": double }
     /// </summary>
     [CliOption("--serverless-v2-scaling-configuration")]
     public string? ServerlessV2ScalingConfiguration { get; set; }
 
     /// <summary>
-    /// The ID of the Neptune global database to which this new DB cluster should be added. Constraints: o min: 1 o max: 255 o pattern: [A-Za-z][0-9A-Za-z-:._]*
+    /// The ID of the Neptune global database to which this new DB cluster should be added. Constraints: • min: 1 • max: 255 • pattern: [A-Za-z][0-9A-Za-z-:._]*
     /// </summary>
     [CliOption("--global-cluster-identifier")]
     public string? GlobalClusterIdentifier { get; set; }
 
     /// <summary>
-    /// The storage type for the new DB cluster. Valid Values: o ** standard ** ( the default ) Configures cost-effective database storage for applications with moderate to small I/O usage. When set to standard , the storage type is not returned in the re- sponse. System Message: WARNING/2 (&lt;string&gt;:, line 579) Inline strong start-string without end-string. o ** iopt1 ** Enables I/O-Optimized storage that's designed to meet the needs of I/O-intensive graph workloads that require pre- dictable pricing with low I/O latency and consistent I/O through- put. Neptune I/O-Optimized storage is only available starting with engine release 1.3.0.0. System Message: WARNING/2 (&lt;string&gt;:, line 581) Inline strong start-string without end-string.
+    /// The storage type for the new DB cluster. Valid Values: o ** standard ** ( the default ) Configures cost-effective database storage for applications with moderate to small I/O usage. When set to standard , the storage type is not returned in the response. System Message: WARNING/2 (&lt;string&gt;:, line 579) Inline strong start-string without end-string. o ** iopt1 ** Enables I/O-Optimized storage that's designed to meet the needs of I/O-intensive graph workloads that require predictable pricing with low I/O latency and consistent I/O throughput. Neptune I/O-Optimized storage is only available starting with engine release 1.3.0.0. System Message: WARNING/2 (&lt;string&gt;:, line 581) Inline strong start-string without end-string.
     /// </summary>
     [CliOption("--storage-type")]
     public string? StorageType { get; set; }
 
     /// <summary>
-    /// The network type of the DB cluster. Valid Values: o ** IPV4 ** ( the default ) The DB cluster uses only IPv4 addresses for communication. System Message: WARNING/2 (&lt;string&gt;:, line 598) Inline strong start-string without end-string. o ** DUAL ** The DB cluster uses both IPv4 and IPv6 addresses for com- munication. The DB subnet group associated with the cluster must support IPv6. System Message: WARNING/2 (&lt;string&gt;:, line 600) Inline strong start-string without end-string.
+    /// The network type of the DB cluster. Valid Values: o ** IPV4 ** ( the default ) The DB cluster uses only IPv4 addresses for communication. System Message: WARNING/2 (&lt;string&gt;:, line 598) Inline strong start-string without end-string. o ** DUAL ** The DB cluster uses both IPv4 and IPv6 addresses for communication. The DB subnet group associated with the cluster must support IPv6. System Message: WARNING/2 (&lt;string&gt;:, line 600) Inline strong start-string without end-string.
     /// </summary>
     [CliOption("--network-type")]
     public string? NetworkType { get; set; }
@@ -262,6 +263,15 @@ public record AwsNeptuneCreateDbClusterOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

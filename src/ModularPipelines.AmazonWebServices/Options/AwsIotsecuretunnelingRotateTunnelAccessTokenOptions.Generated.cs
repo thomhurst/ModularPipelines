@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,8 +29,8 @@ public record AwsIotsecuretunnelingRotateTunnelAccessTokenOptions : AwsOptions, 
     /// <summary>
     /// Revokes the current client access token (CAT) and returns new CAT for clients to use when reconnecting to secure tunneling to access the same tunnel. Requires permission to access the RotateTunnelAccessToken action. NOTE: Rotating the CAT doesn't extend the tunnel duration. For example, say the tunnel duration is 12 hours and the tunnel has already been open for 4 hours. When you rotate the access tokens, the new tokens that are generated can only be used for the remaining 8 hours. See also: AWS...
     /// </summary>
-    /// <param name="TunnelId">The tunnel for which you want to rotate the access tokens. Constraints: o pattern: [a-zA-Z0-9_\-+=:]{1,128}</param>
-    /// <param name="ClientMode">The mode of the client that will use the client token, which can be either the source or destination, or both source and destination. Possible values: o SOURCE o DESTINATION o ALL</param>
+    /// <param name="TunnelId">The tunnel for which you want to rotate the access tokens. Constraints: • pattern: [a-zA-Z0-9_\-+=:]{1,128}</param>
+    /// <param name="ClientMode">The mode of the client that will use the client token, which can be either the source or destination, or both source and destination. Possible values: • SOURCE • DESTINATION • ALL</param>
     public AwsIotsecuretunnelingRotateTunnelAccessTokenOptions(
         string TunnelId,
         AwsIotsecuretunnelingRotateTunnelAccessTokenClientMode ClientMode
@@ -60,19 +61,19 @@ public record AwsIotsecuretunnelingRotateTunnelAccessTokenOptions : AwsOptions, 
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The tunnel for which you want to rotate the access tokens. Constraints: o pattern: [a-zA-Z0-9_\-+=:]{1,128}
+    /// The tunnel for which you want to rotate the access tokens. Constraints: • pattern: [a-zA-Z0-9_\-+=:]{1,128}
     /// </summary>
     [CliOption("--tunnel-id")]
     public string? TunnelId { get; private init; }
 
     /// <summary>
-    /// The mode of the client that will use the client token, which can be either the source or destination, or both source and destination. Possible values: o SOURCE o DESTINATION o ALL
+    /// The mode of the client that will use the client token, which can be either the source or destination, or both source and destination. Possible values: • SOURCE • DESTINATION • ALL
     /// </summary>
     [CliOption("--client-mode")]
     public AwsIotsecuretunnelingRotateTunnelAccessTokenClientMode? ClientMode { get; private init; }
 
     /// <summary>
-    /// The destination configuration. thingName -&gt; (string) The name of the IoT thing to which you want to connect. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9:_-]+ services -&gt; (list) [required] A list of service names that identify the target application. The IoT client running on the destination device reads this value and uses it to look up a port or an IP address and a port. The IoT client instantiates the local proxy, which uses this in- formation to connect to the destination application. Constraints: o min: 1 (string) Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9:_-]+ Shorthand Syntax: thingName=string,services=string,string JSON Syntax: { "thingName": "string", "services": ["string", ...] }
+    /// The destination configuration. thingName -&gt; (string) The name of the IoT thing to which you want to connect. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9:_-]+ services -&gt; (list) [required] A list of service names that identify the target application. The IoT client running on the destination device reads this value and uses it to look up a port or an IP address and a port. The IoT client instantiates the local proxy, which uses this information to connect to the destination application. Constraints: • min: 1 (string) Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9:_-]+ Shorthand Syntax: thingName=string,services=string,string JSON Syntax: { "thingName": "string", "services": ["string", ...] }
     /// </summary>
     [CliOption("--destination-config")]
     public string? DestinationConfig { get; set; }
@@ -98,6 +99,15 @@ public record AwsIotsecuretunnelingRotateTunnelAccessTokenOptions : AwsOptions, 
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

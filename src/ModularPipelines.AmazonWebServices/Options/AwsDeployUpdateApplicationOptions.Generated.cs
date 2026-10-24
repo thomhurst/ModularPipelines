@@ -22,13 +22,13 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsDeployUpdateApplicationOptions : AwsOptions
 {
     /// <summary>
-    /// The current name of the application you want to change. Constraints: o min: 1 o max: 100 o pattern: [A-Za-z0-9+=,.@_-]*
+    /// The current name of the application you want to change. Constraints: • min: 1 • max: 100 • pattern: [A-Za-z0-9+=,.@_-]*
     /// </summary>
     [CliOption("--application-name")]
     public string? ApplicationName { get; set; }
 
     /// <summary>
-    /// The new name to give the application. Constraints: o min: 1 o max: 100 o pattern: [A-Za-z0-9+=,.@_-]*
+    /// The new name to give the application. Constraints: • min: 1 • max: 100 • pattern: [A-Za-z0-9+=,.@_-]*
     /// </summary>
     [CliOption("--new-application-name")]
     public string? NewApplicationName { get; set; }
@@ -38,5 +38,14 @@ public record AwsDeployUpdateApplicationOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

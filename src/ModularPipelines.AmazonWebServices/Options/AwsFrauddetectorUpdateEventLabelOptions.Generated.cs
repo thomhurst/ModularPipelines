@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,10 +28,10 @@ public record AwsFrauddetectorUpdateEventLabelOptions : AwsOptions, IValidatable
     /// <summary>
     /// Updates the specified event with a new label. See also: AWS API Documentation
     /// </summary>
-    /// <param name="EventId">The ID of the event associated with the label to update. Constraints: o min: 1 o max: 64 o pattern: ^[0-9a-z_-]+$</param>
-    /// <param name="EventTypeName">The event type of the event associated with the label to update. Constraints: o min: 1 o max: 64 o pattern: ^[0-9a-z_-]+$</param>
-    /// <param name="AssignedLabel">The new label to assign to the event. Constraints: o min: 1 o max: 64 o pattern: ^[0-9a-z_-]+$</param>
-    /// <param name="LabelTimestamp">The timestamp associated with the label. The timestamp must be spec- ified using ISO 8601 standard in UTC. Constraints: o min: 10 o max: 30</param>
+    /// <param name="EventId">The ID of the event associated with the label to update. Constraints: • min: 1 • max: 64 • pattern: ^[0-9a-z_-]+$</param>
+    /// <param name="EventTypeName">The event type of the event associated with the label to update. Constraints: • min: 1 • max: 64 • pattern: ^[0-9a-z_-]+$</param>
+    /// <param name="AssignedLabel">The new label to assign to the event. Constraints: • min: 1 • max: 64 • pattern: ^[0-9a-z_-]+$</param>
+    /// <param name="LabelTimestamp">The timestamp associated with the label. The timestamp must be specified using ISO 8601 standard in UTC. Constraints: • min: 10 • max: 30</param>
     public AwsFrauddetectorUpdateEventLabelOptions(
         string EventId,
         string EventTypeName,
@@ -68,25 +69,25 @@ public record AwsFrauddetectorUpdateEventLabelOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the event associated with the label to update. Constraints: o min: 1 o max: 64 o pattern: ^[0-9a-z_-]+$
+    /// The ID of the event associated with the label to update. Constraints: • min: 1 • max: 64 • pattern: ^[0-9a-z_-]+$
     /// </summary>
     [CliOption("--event-id")]
     public string? EventId { get; private init; }
 
     /// <summary>
-    /// The event type of the event associated with the label to update. Constraints: o min: 1 o max: 64 o pattern: ^[0-9a-z_-]+$
+    /// The event type of the event associated with the label to update. Constraints: • min: 1 • max: 64 • pattern: ^[0-9a-z_-]+$
     /// </summary>
     [CliOption("--event-type-name")]
     public string? EventTypeName { get; private init; }
 
     /// <summary>
-    /// The new label to assign to the event. Constraints: o min: 1 o max: 64 o pattern: ^[0-9a-z_-]+$
+    /// The new label to assign to the event. Constraints: • min: 1 • max: 64 • pattern: ^[0-9a-z_-]+$
     /// </summary>
     [CliOption("--assigned-label")]
     public string? AssignedLabel { get; private init; }
 
     /// <summary>
-    /// The timestamp associated with the label. The timestamp must be spec- ified using ISO 8601 standard in UTC. Constraints: o min: 10 o max: 30
+    /// The timestamp associated with the label. The timestamp must be specified using ISO 8601 standard in UTC. Constraints: • min: 10 • max: 30
     /// </summary>
     [CliOption("--label-timestamp")]
     public string? LabelTimestamp { get; private init; }
@@ -112,6 +113,15 @@ public record AwsFrauddetectorUpdateEventLabelOptions : AwsOptions, IValidatable
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,13 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates an experiment definition in AppConfig. An experiment definition describes the purpose, scope, and operational configuration of an ex- periment, including the target audience, feature flag, and treatment configurations. See also: AWS API Documentation
+/// Creates an experiment definition in AppConfig. An experiment definition describes the purpose, scope, and operational configuration of an experiment, including the target audience, feature flag, and treatment configurations. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,16 +26,16 @@ public record AwsAppConfigCreateExperimentDefinitionOptions : AwsOptions, IValid
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates an experiment definition in AppConfig. An experiment definition describes the purpose, scope, and operational configuration of an ex- periment, including the target audience, feature flag, and treatment configurations. See also: AWS API Documentation
+    /// Creates an experiment definition in AppConfig. An experiment definition describes the purpose, scope, and operational configuration of an experiment, including the target audience, feature flag, and treatment configurations. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ApplicationIdentifier">The application ID or name. Constraints: o min: 1 o max: 2048</param>
-    /// <param name="Name">A name for the experiment definition. Constraints: o pattern: ^(?!AWS\.).{1,64}$</param>
-    /// <param name="ConfigurationProfileIdentifier">The configuration profile ID or name that stores the feature flag. Constraints: o min: 1 o max: 2048</param>
-    /// <param name="EnvironmentIdentifier">The environment ID or name where the experiment will run. Constraints: o min: 1 o max: 2048</param>
-    /// <param name="FlagKey">The key of the existing feature flag to use with the experiment. Constraints: o pattern: ^[a-z][a-zA-Z0-9_-]{1,64}</param>
-    /// <param name="Treatments">A list of treatments to evaluate during the experiment. Each treat- ment defines a distinct variation compared to the control. Constraints: o min: 1 o max: 5 (structure) Input structure for defining a treatment when creating or updat- ing an experiment definition. Weight -&gt; (float) [required] The traffic allocation weight for this treatment. Constraints: o min: 0.0 Description -&gt; (string) A description of the treatment. Constraints: o min: 0 o max: 1024 FlagValue -&gt; (structure) [required] The feature flag value to serve to users assigned to this treatment. Enabled -&gt; (boolean) [required] Specifies whether the feature flag is enabled for this treatment. AttributeValues -&gt; (map) The attribute values associated with this flag value. Constraints: o min: 0 o max: 25 key -&gt; (string) Constraints: o pattern: (?!enabled$)[a-z][a-zA-Z0-9_-]{0,63} value -&gt; (tagged union structure) A value for a feature flag attribute. Only one of the members can be set. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: StringValue, NumberValue, BooleanValue, StringArray, NumberAr- ray. StringValue -&gt; (string) A string value for the attribute. Constraints: o min: 0 o max: 1024 NumberValue -&gt; (double) A numeric value for the attribute. BooleanValue -&gt; (boolean) A Boolean value for the attribute. StringArray -&gt; (list) An array of string values for the attribute. Constraints: o min: 0 o max: 25 (string) Constraints: o min: 0 o max: 1024 NumberArray -&gt; (list) An array of numeric values for the attribute. Constraints: o min: 0 o max: 25 (double) JSON Syntax: [ { "Weight": float, "Description": "string", "FlagValue": { "Enabled": true|false, "AttributeValues": {"string": { "StringValue": "string", "NumberValue": double, "BooleanValue": true|false, "StringArray": ["string", ...], "NumberArray": [double, ...] } ...} } } ... ]</param>
-    /// <param name="Control">The control treatment that represents the baseline experience for comparison. Weight -&gt; (float) [required] The traffic allocation weight for this treatment. Constraints: o min: 0.0 Description -&gt; (string) A description of the treatment. Constraints: o min: 0 o max: 1024 FlagValue -&gt; (structure) [required] The feature flag value to serve to users assigned to this treat- ment. Enabled -&gt; (boolean) [required] Specifies whether the feature flag is enabled for this treat- ment. AttributeValues -&gt; (map) The attribute values associated with this flag value. Constraints: o min: 0 o max: 25 key -&gt; (string) Constraints: o pattern: (?!enabled$)[a-z][a-zA-Z0-9_-]{0,63} value -&gt; (tagged union structure) A value for a feature flag attribute. Only one of the members can be set. NOTE: This is a Tagged Union structure. Only one of the fol- lowing top level keys can be set: StringValue, Number- Value, BooleanValue, StringArray, NumberArray. StringValue -&gt; (string) A string value for the attribute. Constraints: o min: 0 o max: 1024 NumberValue -&gt; (double) A numeric value for the attribute. BooleanValue -&gt; (boolean) A Boolean value for the attribute. StringArray -&gt; (list) An array of string values for the attribute. Constraints: o min: 0 o max: 25 (string) Constraints: o min: 0 o max: 1024 NumberArray -&gt; (list) An array of numeric values for the attribute. Constraints: o min: 0 o max: 25 (double) JSON Syntax: { "Weight": float, "Description": "string", "FlagValue": { "Enabled": true|false, "AttributeValues": {"string": { "StringValue": "string", "NumberValue": double, "BooleanValue": true|false, "StringArray": ["string", ...], "NumberArray": [double, ...] } ...} } }</param>
-    /// <param name="AudienceRule">A rule that defines which users are eligible to be assigned to treatments during the experiment. Constraints: o min: 1 o max: 16384</param>
+    /// <param name="ApplicationIdentifier">The application ID or name. Constraints: • min: 1 • max: 2048</param>
+    /// <param name="Name">A name for the experiment definition. Constraints: • pattern: ^(?!AWS\.).{1,64}$</param>
+    /// <param name="ConfigurationProfileIdentifier">The configuration profile ID or name that stores the feature flag. Constraints: • min: 1 • max: 2048</param>
+    /// <param name="EnvironmentIdentifier">The environment ID or name where the experiment will run. Constraints: • min: 1 • max: 2048</param>
+    /// <param name="FlagKey">The key of the existing feature flag to use with the experiment. Constraints: • pattern: ^[a-z][a-zA-Z0-9_-]{1,64}</param>
+    /// <param name="Treatments">A list of treatments to evaluate during the experiment. Each treatment defines a distinct variation compared to the control. Constraints: • min: 1 • max: 5 (structure) Input structure for defining a treatment when creating or updating an experiment definition. Weight -&gt; (float) [required] The traffic allocation weight for this treatment. Constraints: • min: 0.0 Description -&gt; (string) A description of the treatment. Constraints: • min: 0 • max: 1024 FlagValue -&gt; (structure) [required] The feature flag value to serve to users assigned to this treatment. Enabled -&gt; (boolean) [required] Specifies whether the feature flag is enabled for this treatment. AttributeValues -&gt; (map) The attribute values associated with this flag value. Constraints: • min: 0 • max: 25 key -&gt; (string) Constraints: • pattern: (?!enabled$)[a-z][a-zA-Z0-9_-]{0,63} value -&gt; (tagged union structure) A value for a feature flag attribute. Only one of the members can be set. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: StringValue, NumberValue, BooleanValue, StringArray, NumberArray. StringValue -&gt; (string) A string value for the attribute. Constraints: • min: 0 • max: 1024 NumberValue -&gt; (double) A numeric value for the attribute. BooleanValue -&gt; (boolean) A Boolean value for the attribute. StringArray -&gt; (list) An array of string values for the attribute. Constraints: • min: 0 • max: 25 (string) Constraints: • min: 0 • max: 1024 NumberArray -&gt; (list) An array of numeric values for the attribute. Constraints: • min: 0 • max: 25 (double) JSON Syntax: [ { "Weight": float, "Description": "string", "FlagValue": { "Enabled": true|false, "AttributeValues": {"string": { "StringValue": "string", "NumberValue": double, "BooleanValue": true|false, "StringArray": ["string", ...], "NumberArray": [double, ...] } ...} } } ... ]</param>
+    /// <param name="Control">The control treatment that represents the baseline experience for comparison. Weight -&gt; (float) [required] The traffic allocation weight for this treatment. Constraints: • min: 0.0 Description -&gt; (string) A description of the treatment. Constraints: • min: 0 • max: 1024 FlagValue -&gt; (structure) [required] The feature flag value to serve to users assigned to this treatment. Enabled -&gt; (boolean) [required] Specifies whether the feature flag is enabled for this treatment. AttributeValues -&gt; (map) The attribute values associated with this flag value. Constraints: • min: 0 • max: 25 key -&gt; (string) Constraints: • pattern: (?!enabled$)[a-z][a-zA-Z0-9_-]{0,63} value -&gt; (tagged union structure) A value for a feature flag attribute. Only one of the members can be set. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: StringValue, NumberValue, BooleanValue, StringArray, NumberArray. StringValue -&gt; (string) A string value for the attribute. Constraints: • min: 0 • max: 1024 NumberValue -&gt; (double) A numeric value for the attribute. BooleanValue -&gt; (boolean) A Boolean value for the attribute. StringArray -&gt; (list) An array of string values for the attribute. Constraints: • min: 0 • max: 25 (string) Constraints: • min: 0 • max: 1024 NumberArray -&gt; (list) An array of numeric values for the attribute. Constraints: • min: 0 • max: 25 (double) JSON Syntax: { "Weight": float, "Description": "string", "FlagValue": { "Enabled": true|false, "AttributeValues": {"string": { "StringValue": "string", "NumberValue": double, "BooleanValue": true|false, "StringArray": ["string", ...], "NumberArray": [double, ...] } ...} } }</param>
+    /// <param name="AudienceRule">A rule that defines which users are eligible to be assigned to treatments during the experiment. Constraints: • min: 1 • max: 16384</param>
     public AwsAppConfigCreateExperimentDefinitionOptions(
         string ApplicationIdentifier,
         string Name,
@@ -96,73 +96,73 @@ public record AwsAppConfigCreateExperimentDefinitionOptions : AwsOptions, IValid
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The application ID or name. Constraints: o min: 1 o max: 2048
+    /// The application ID or name. Constraints: • min: 1 • max: 2048
     /// </summary>
     [CliOption("--application-identifier")]
     public string? ApplicationIdentifier { get; private init; }
 
     /// <summary>
-    /// A name for the experiment definition. Constraints: o pattern: ^(?!AWS\.).{1,64}$
+    /// A name for the experiment definition. Constraints: • pattern: ^(?!AWS\.).{1,64}$
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The configuration profile ID or name that stores the feature flag. Constraints: o min: 1 o max: 2048
+    /// The configuration profile ID or name that stores the feature flag. Constraints: • min: 1 • max: 2048
     /// </summary>
     [CliOption("--configuration-profile-identifier")]
     public string? ConfigurationProfileIdentifier { get; private init; }
 
     /// <summary>
-    /// The environment ID or name where the experiment will run. Constraints: o min: 1 o max: 2048
+    /// The environment ID or name where the experiment will run. Constraints: • min: 1 • max: 2048
     /// </summary>
     [CliOption("--environment-identifier")]
     public string? EnvironmentIdentifier { get; private init; }
 
     /// <summary>
-    /// The key of the existing feature flag to use with the experiment. Constraints: o pattern: ^[a-z][a-zA-Z0-9_-]{1,64}
+    /// The key of the existing feature flag to use with the experiment. Constraints: • pattern: ^[a-z][a-zA-Z0-9_-]{1,64}
     /// </summary>
     [CliOption("--flag-key")]
     public string? FlagKey { get; private init; }
 
     /// <summary>
-    /// A list of treatments to evaluate during the experiment. Each treat- ment defines a distinct variation compared to the control. Constraints: o min: 1 o max: 5 (structure) Input structure for defining a treatment when creating or updat- ing an experiment definition. Weight -&gt; (float) [required] The traffic allocation weight for this treatment. Constraints: o min: 0.0 Description -&gt; (string) A description of the treatment. Constraints: o min: 0 o max: 1024 FlagValue -&gt; (structure) [required] The feature flag value to serve to users assigned to this treatment. Enabled -&gt; (boolean) [required] Specifies whether the feature flag is enabled for this treatment. AttributeValues -&gt; (map) The attribute values associated with this flag value. Constraints: o min: 0 o max: 25 key -&gt; (string) Constraints: o pattern: (?!enabled$)[a-z][a-zA-Z0-9_-]{0,63} value -&gt; (tagged union structure) A value for a feature flag attribute. Only one of the members can be set. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: StringValue, NumberValue, BooleanValue, StringArray, NumberAr- ray. StringValue -&gt; (string) A string value for the attribute. Constraints: o min: 0 o max: 1024 NumberValue -&gt; (double) A numeric value for the attribute. BooleanValue -&gt; (boolean) A Boolean value for the attribute. StringArray -&gt; (list) An array of string values for the attribute. Constraints: o min: 0 o max: 25 (string) Constraints: o min: 0 o max: 1024 NumberArray -&gt; (list) An array of numeric values for the attribute. Constraints: o min: 0 o max: 25 (double) JSON Syntax: [ { "Weight": float, "Description": "string", "FlagValue": { "Enabled": true|false, "AttributeValues": {"string": { "StringValue": "string", "NumberValue": double, "BooleanValue": true|false, "StringArray": ["string", ...], "NumberArray": [double, ...] } ...} } } ... ]
+    /// A list of treatments to evaluate during the experiment. Each treatment defines a distinct variation compared to the control. Constraints: • min: 1 • max: 5 (structure) Input structure for defining a treatment when creating or updating an experiment definition. Weight -&gt; (float) [required] The traffic allocation weight for this treatment. Constraints: • min: 0.0 Description -&gt; (string) A description of the treatment. Constraints: • min: 0 • max: 1024 FlagValue -&gt; (structure) [required] The feature flag value to serve to users assigned to this treatment. Enabled -&gt; (boolean) [required] Specifies whether the feature flag is enabled for this treatment. AttributeValues -&gt; (map) The attribute values associated with this flag value. Constraints: • min: 0 • max: 25 key -&gt; (string) Constraints: • pattern: (?!enabled$)[a-z][a-zA-Z0-9_-]{0,63} value -&gt; (tagged union structure) A value for a feature flag attribute. Only one of the members can be set. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: StringValue, NumberValue, BooleanValue, StringArray, NumberArray. StringValue -&gt; (string) A string value for the attribute. Constraints: • min: 0 • max: 1024 NumberValue -&gt; (double) A numeric value for the attribute. BooleanValue -&gt; (boolean) A Boolean value for the attribute. StringArray -&gt; (list) An array of string values for the attribute. Constraints: • min: 0 • max: 25 (string) Constraints: • min: 0 • max: 1024 NumberArray -&gt; (list) An array of numeric values for the attribute. Constraints: • min: 0 • max: 25 (double) JSON Syntax: [ { "Weight": float, "Description": "string", "FlagValue": { "Enabled": true|false, "AttributeValues": {"string": { "StringValue": "string", "NumberValue": double, "BooleanValue": true|false, "StringArray": ["string", ...], "NumberArray": [double, ...] } ...} } } ... ]
     /// </summary>
     [CliOption("--treatments", GroupValues = true)]
     public IEnumerable<string>? Treatments { get; private init; }
 
     /// <summary>
-    /// The control treatment that represents the baseline experience for comparison. Weight -&gt; (float) [required] The traffic allocation weight for this treatment. Constraints: o min: 0.0 Description -&gt; (string) A description of the treatment. Constraints: o min: 0 o max: 1024 FlagValue -&gt; (structure) [required] The feature flag value to serve to users assigned to this treat- ment. Enabled -&gt; (boolean) [required] Specifies whether the feature flag is enabled for this treat- ment. AttributeValues -&gt; (map) The attribute values associated with this flag value. Constraints: o min: 0 o max: 25 key -&gt; (string) Constraints: o pattern: (?!enabled$)[a-z][a-zA-Z0-9_-]{0,63} value -&gt; (tagged union structure) A value for a feature flag attribute. Only one of the members can be set. NOTE: This is a Tagged Union structure. Only one of the fol- lowing top level keys can be set: StringValue, Number- Value, BooleanValue, StringArray, NumberArray. StringValue -&gt; (string) A string value for the attribute. Constraints: o min: 0 o max: 1024 NumberValue -&gt; (double) A numeric value for the attribute. BooleanValue -&gt; (boolean) A Boolean value for the attribute. StringArray -&gt; (list) An array of string values for the attribute. Constraints: o min: 0 o max: 25 (string) Constraints: o min: 0 o max: 1024 NumberArray -&gt; (list) An array of numeric values for the attribute. Constraints: o min: 0 o max: 25 (double) JSON Syntax: { "Weight": float, "Description": "string", "FlagValue": { "Enabled": true|false, "AttributeValues": {"string": { "StringValue": "string", "NumberValue": double, "BooleanValue": true|false, "StringArray": ["string", ...], "NumberArray": [double, ...] } ...} } }
+    /// The control treatment that represents the baseline experience for comparison. Weight -&gt; (float) [required] The traffic allocation weight for this treatment. Constraints: • min: 0.0 Description -&gt; (string) A description of the treatment. Constraints: • min: 0 • max: 1024 FlagValue -&gt; (structure) [required] The feature flag value to serve to users assigned to this treatment. Enabled -&gt; (boolean) [required] Specifies whether the feature flag is enabled for this treatment. AttributeValues -&gt; (map) The attribute values associated with this flag value. Constraints: • min: 0 • max: 25 key -&gt; (string) Constraints: • pattern: (?!enabled$)[a-z][a-zA-Z0-9_-]{0,63} value -&gt; (tagged union structure) A value for a feature flag attribute. Only one of the members can be set. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: StringValue, NumberValue, BooleanValue, StringArray, NumberArray. StringValue -&gt; (string) A string value for the attribute. Constraints: • min: 0 • max: 1024 NumberValue -&gt; (double) A numeric value for the attribute. BooleanValue -&gt; (boolean) A Boolean value for the attribute. StringArray -&gt; (list) An array of string values for the attribute. Constraints: • min: 0 • max: 25 (string) Constraints: • min: 0 • max: 1024 NumberArray -&gt; (list) An array of numeric values for the attribute. Constraints: • min: 0 • max: 25 (double) JSON Syntax: { "Weight": float, "Description": "string", "FlagValue": { "Enabled": true|false, "AttributeValues": {"string": { "StringValue": "string", "NumberValue": double, "BooleanValue": true|false, "StringArray": ["string", ...], "NumberArray": [double, ...] } ...} } }
     /// </summary>
     [CliOption("--control")]
     public string? Control { get; private init; }
 
     /// <summary>
-    /// A rule that defines which users are eligible to be assigned to treatments during the experiment. Constraints: o min: 1 o max: 16384
+    /// A rule that defines which users are eligible to be assigned to treatments during the experiment. Constraints: • min: 1 • max: 16384
     /// </summary>
     [CliOption("--audience-rule")]
     public string? AudienceRule { get; private init; }
 
     /// <summary>
-    /// A description of the goal or hypothesis the experiment is designed to validate. Constraints: o min: 0 o max: 1024
+    /// A description of the goal or hypothesis the experiment is designed to validate. Constraints: • min: 0 • max: 1024
     /// </summary>
     [CliOption("--hypothesis")]
     public string? Hypothesis { get; set; }
 
     /// <summary>
-    /// A description of the intended audience for the experiment. Constraints: o min: 0 o max: 1024
+    /// A description of the intended audience for the experiment. Constraints: • min: 0 • max: 1024
     /// </summary>
     [CliOption("--audience-description")]
     public string? AudienceDescription { get; set; }
 
     /// <summary>
-    /// Information about the conditions under which you would launch the winning treatment. Constraints: o min: 0 o max: 1024
+    /// Information about the conditions under which you would launch the winning treatment. Constraints: • min: 0 • max: 1024
     /// </summary>
     [CliOption("--launch-criteria")]
     public string? LaunchCriteria { get; set; }
 
     /// <summary>
-    /// The tags to assign to the experiment definition. Tags help organize and categorize your AppConfig resources. Constraints: o min: 0 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The tags to assign to the experiment definition. Tags help organize and categorize your AppConfig resources. Constraints: • min: 0 • max: 50 key -&gt; (string) Constraints: • min: 1 • max: 128 value -&gt; (string) Constraints: • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
@@ -188,6 +188,15 @@ public record AwsAppConfigCreateExperimentDefinitionOptions : AwsOptions, IValid
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

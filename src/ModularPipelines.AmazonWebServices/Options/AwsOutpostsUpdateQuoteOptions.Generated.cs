@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsOutpostsUpdateQuoteOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Updates the specified quote. You can modify the requested capacities, constraints, payment options, payment terms, or Outpost association. See also: AWS API Documentation
     /// </summary>
-    /// <param name="QuoteIdentifier">The ID of the quote. Constraints: o min: 1 o max: 255 o pattern: ^(arn:aws([a-z-]+)?:out- posts:[a-z\d-]+:\d{12}:quote/)?oq-[a-f0-9]{17}$</param>
+    /// <param name="QuoteIdentifier">The ID of the quote. Constraints: • min: 1 • max: 255 • pattern: ^(arn:aws([a-z-]+)?:outposts:[a-z\d-]+:\d{12}:quote/)?oq-[a-f0-9]{17}$</param>
     public AwsOutpostsUpdateQuoteOptions(
         string QuoteIdentifier
     )
@@ -56,49 +57,49 @@ public record AwsOutpostsUpdateQuoteOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the quote. Constraints: o min: 1 o max: 255 o pattern: ^(arn:aws([a-z-]+)?:out- posts:[a-z\d-]+:\d{12}:quote/)?oq-[a-f0-9]{17}$
+    /// The ID of the quote. Constraints: • min: 1 • max: 255 • pattern: ^(arn:aws([a-z-]+)?:outposts:[a-z\d-]+:\d{12}:quote/)?oq-[a-f0-9]{17}$
     /// </summary>
     [CliOption("--quote-identifier")]
     public string? QuoteIdentifier { get; private init; }
 
     /// <summary>
-    /// The ID or ARN of the Outpost to associate with the quote. Specify an empty string to remove the Outpost association. Constraints: o min: 0 o max: 180 o pattern: ^((arn:aws([a-z-]+)?:outposts:[a-z\d-]+:\d{12}:out- post/)?op-[a-f0-9]{17})?$
+    /// The ID or ARN of the Outpost to associate with the quote. Specify an empty string to remove the Outpost association. Constraints: • min: 0 • max: 180 • pattern: ^((arn:aws([a-z-]+)?:outposts:[a-z\d-]+:\d{12}:outpost/)?op-[a-f0-9]{17})?$
     /// </summary>
     [CliOption("--outpost-identifier")]
     public string? OutpostIdentifier { get; set; }
 
     /// <summary>
-    /// The country code for the Outpost site location. Constraints: o min: 2 o max: 2 o pattern: ^[A-Z]{2}$
+    /// The country code for the Outpost site location. Constraints: • min: 2 • max: 2 • pattern: ^[A-Z]{2}$
     /// </summary>
     [CliOption("--country-code")]
     public string? CountryCode { get; set; }
 
     /// <summary>
-    /// The updated capacity requirements for the quote. Constraints: o max: 2000 (structure) A capacity requirement for a quote. Specifies the type of capac- ity, the unit, and the quantity. QuoteCapacityType -&gt; (string) The type of capacity. Valid values are EC2 , EBS , and S3 . Possible values: o EC2 o EBS o S3 Unit -&gt; (string) The unit of measurement for the capacity. For Amazon EC2, this is the instance type (for example, c5.24xlarge ). For Amazon EBS and Amazon S3, this is the storage unit (for exam- ple, TiB for tebibytes). Constraints: o min: 1 o max: 1000 o pattern: ^[\S \n]+$ Quantity -&gt; (float) The quantity of the specified capacity unit. For Amazon EC2, this is the number of additional instances to add to the Out- post. For Amazon EBS and Amazon S3, this is the total desired end-state capacity of the Outpost. Shorthand Syntax: QuoteCapacityType=string,Unit=string,Quantity=float ... JSON Syntax: [ { "QuoteCapacityType": "EC2"|"EBS"|"S3", "Unit": "string", "Quantity": float } ... ]
+    /// The updated capacity requirements for the quote. Constraints: • max: 2000 (structure) A capacity requirement for a quote. Specifies the type of capacity, the unit, and the quantity. QuoteCapacityType -&gt; (string) The type of capacity. Valid values are EC2 , EBS , and S3 . Possible values: • EC2 • EBS • S3 Unit -&gt; (string) The unit of measurement for the capacity. For Amazon EC2, this is the instance type (for example, c5.24xlarge ). For Amazon EBS and Amazon S3, this is the storage unit (for example, TiB for tebibytes). Constraints: • min: 1 • max: 1000 • pattern: ^[\S \n]+$ Quantity -&gt; (float) The quantity of the specified capacity unit. For Amazon EC2, this is the number of additional instances to add to the Outpost. For Amazon EBS and Amazon S3, this is the total desired end-state capacity of the Outpost. Shorthand Syntax: QuoteCapacityType=string,Unit=string,Quantity=float ... JSON Syntax: [ { "QuoteCapacityType": "EC2"|"EBS"|"S3", "Unit": "string", "Quantity": float } ... ]
     /// </summary>
     [CliOption("--requested-capacities", GroupValues = true)]
     public IEnumerable<string>? RequestedCapacities { get; set; }
 
     /// <summary>
-    /// The updated physical constraints for the quote. Constraints: o max: 10 (structure) A physical constraint for a quote. QuoteConstraintType -&gt; (string) The type of constraint. Valid values are RACK_MAXIMUM , RACK_MAX_POWER_KVA , RACK_MAX_WEIGHT_LBS , and RACK_SPACE_CONSTRAINED . Possible values: o RACK_MAXIMUM o RACK_MAX_POWER_KVA o RACK_MAX_WEIGHT_LBS o RACK_SPACE_CONSTRAINED Value -&gt; (string) The value of the constraint. Constraints: o min: 1 o max: 2048 o pattern: ^[\S \n]+$ Shorthand Syntax: QuoteConstraintType=string,Value=string ... JSON Syntax: [ { "QuoteConstraintType": "RACK_MAXIMUM"|"RACK_MAX_POWER_KVA"|"RACK_MAX_WEIGHT_LBS"|"RACK_SPACE_CONSTRAINED", "Value": "string" } ... ]
+    /// The updated physical constraints for the quote. Constraints: • max: 10 (structure) A physical constraint for a quote. QuoteConstraintType -&gt; (string) The type of constraint. Valid values are RACK_MAXIMUM , RACK_MAX_POWER_KVA , RACK_MAX_WEIGHT_LBS , and RACK_SPACE_CONSTRAINED . Possible values: • RACK_MAXIMUM • RACK_MAX_POWER_KVA • RACK_MAX_WEIGHT_LBS • RACK_SPACE_CONSTRAINED Value -&gt; (string) The value of the constraint. Constraints: • min: 1 • max: 2048 • pattern: ^[\S \n]+$ Shorthand Syntax: QuoteConstraintType=string,Value=string ... JSON Syntax: [ { "QuoteConstraintType": "RACK_MAXIMUM"|"RACK_MAX_POWER_KVA"|"RACK_MAX_WEIGHT_LBS"|"RACK_SPACE_CONSTRAINED", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--requested-constraints", GroupValues = true)]
     public IEnumerable<string>? RequestedConstraints { get; set; }
 
     /// <summary>
-    /// The updated payment options to include in the quote pricing. Constraints: o max: 3 (string) Possible values: o ALL_UPFRONT o NO_UPFRONT o PARTIAL_UPFRONT Syntax: "string" "string" ...
+    /// The updated payment options to include in the quote pricing. Constraints: • max: 3 (string) Possible values: • ALL_UPFRONT • NO_UPFRONT • PARTIAL_UPFRONT Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--requested-payment-options", GroupValues = true)]
     public IEnumerable<string>? RequestedPaymentOptions { get; set; }
 
     /// <summary>
-    /// The updated payment terms to include in the quote pricing. Constraints: o max: 3 (string) Possible values: o THREE_YEARS o ONE_YEAR o FIVE_YEARS Syntax: "string" "string" ...
+    /// The updated payment terms to include in the quote pricing. Constraints: • max: 3 (string) Possible values: • THREE_YEARS • ONE_YEAR • FIVE_YEARS Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--requested-payment-terms", GroupValues = true)]
     public IEnumerable<string>? RequestedPaymentTerms { get; set; }
 
     /// <summary>
-    /// A description for the quote. Constraints: o min: 0 o max: 1024 o pattern: ^[\S \n]*$
+    /// A description for the quote. Constraints: • min: 0 • max: 1024 • pattern: ^[\S \n]*$
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
@@ -124,6 +125,15 @@ public record AwsOutpostsUpdateQuoteOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

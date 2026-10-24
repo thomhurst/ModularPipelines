@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsNotificationscontactsSendActivationCodeOptions : AwsOptions, IV
     /// <summary>
     /// Sends an activation email to the email address associated with the specified email contact. NOTE: It might take a few minutes for the activation email to arrive. If it doesn't arrive, check in your spam folder or try sending another activation email. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Arn">The Amazon Resource Name (ARN) of the resource. Constraints: o pattern: arn:aws:notifications-contacts::[0-9]{12}:emailcon- tact/[a-z0-9]{27}</param>
+    /// <param name="Arn">The Amazon Resource Name (ARN) of the resource. Constraints: • pattern: arn:aws:notifications-contacts::[0-9]{12}:emailcontact/[a-z0-9]{27}</param>
     public AwsNotificationscontactsSendActivationCodeOptions(
         string Arn
     )
@@ -56,7 +57,7 @@ public record AwsNotificationscontactsSendActivationCodeOptions : AwsOptions, IV
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the resource. Constraints: o pattern: arn:aws:notifications-contacts::[0-9]{12}:emailcon- tact/[a-z0-9]{27}
+    /// The Amazon Resource Name (ARN) of the resource. Constraints: • pattern: arn:aws:notifications-contacts::[0-9]{12}:emailcontact/[a-z0-9]{27}
     /// </summary>
     [CliOption("--arn")]
     public string? Arn { get; private init; }
@@ -82,6 +83,15 @@ public record AwsNotificationscontactsSendActivationCodeOptions : AwsOptions, IV
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

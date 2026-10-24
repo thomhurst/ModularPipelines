@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a group that can be used in WorkMail by calling the Register- ToWorkMail operation. See also: AWS API Documentation
+/// Creates a group that can be used in WorkMail by calling the RegisterToWorkMail operation. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsWorkmailCreateGroupOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a group that can be used in WorkMail by calling the Register- ToWorkMail operation. See also: AWS API Documentation
+    /// Creates a group that can be used in WorkMail by calling the RegisterToWorkMail operation. See also: AWS API Documentation
     /// </summary>
-    /// <param name="OrganizationId">The organization under which the group is to be created. Constraints: o min: 34 o max: 34 o pattern: ^m-[0-9a-f]{32}$</param>
-    /// <param name="Name">The name of the group. Constraints: o min: 1 o max: 256 o pattern: [\u0020-\u00FF]+</param>
+    /// <param name="OrganizationId">The organization under which the group is to be created. Constraints: • min: 34 • max: 34 • pattern: ^m-[0-9a-f]{32}$</param>
+    /// <param name="Name">The name of the group. Constraints: • min: 1 • max: 256 • pattern: [\u0020-\u00FF]+</param>
     public AwsWorkmailCreateGroupOptions(
         string OrganizationId,
         string Name
@@ -60,19 +61,19 @@ public record AwsWorkmailCreateGroupOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The organization under which the group is to be created. Constraints: o min: 34 o max: 34 o pattern: ^m-[0-9a-f]{32}$
+    /// The organization under which the group is to be created. Constraints: • min: 34 • max: 34 • pattern: ^m-[0-9a-f]{32}$
     /// </summary>
     [CliOption("--organization-id")]
     public string? OrganizationId { get; private init; }
 
     /// <summary>
-    /// The name of the group. Constraints: o min: 1 o max: 256 o pattern: [\u0020-\u00FF]+
+    /// The name of the group. Constraints: • min: 1 • max: 256 • pattern: [\u0020-\u00FF]+
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// dress-list (boolean) If this parameter is enabled, the group will be hidden from the ad- dress book.
+    /// If this parameter is enabled, the group will be hidden from the address book.
     /// </summary>
     [CliFlag("--hidden-from-global-address-list", NegatedName = "--no-hidden-from-global-address-list")]
     public bool? HiddenFromGlobalAddressList { get; set; }
@@ -98,6 +99,15 @@ public record AwsWorkmailCreateGroupOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

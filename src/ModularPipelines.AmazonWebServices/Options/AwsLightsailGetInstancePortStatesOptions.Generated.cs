@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns the firewall port states for a specific Amazon Lightsail in- stance, the IP addresses allowed to connect to the instance through the ports, and the protocol. See also: AWS API Documentation
+/// Returns the firewall port states for a specific Amazon Lightsail instance, the IP addresses allowed to connect to the instance through the ports, and the protocol. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsLightsailGetInstancePortStatesOptions : AwsOptions, IValidatabl
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns the firewall port states for a specific Amazon Lightsail in- stance, the IP addresses allowed to connect to the instance through the ports, and the protocol. See also: AWS API Documentation
+    /// Returns the firewall port states for a specific Amazon Lightsail instance, the IP addresses allowed to connect to the instance through the ports, and the protocol. See also: AWS API Documentation
     /// </summary>
-    /// <param name="InstanceName">The name of the instance for which to return firewall port states. Constraints: o pattern: \w[\w\-]*\w</param>
+    /// <param name="InstanceName">The name of the instance for which to return firewall port states. Constraints: • pattern: \w[\w\-]*\w</param>
     public AwsLightsailGetInstancePortStatesOptions(
         string InstanceName
     )
@@ -56,7 +57,7 @@ public record AwsLightsailGetInstancePortStatesOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the instance for which to return firewall port states. Constraints: o pattern: \w[\w\-]*\w
+    /// The name of the instance for which to return firewall port states. Constraints: • pattern: \w[\w\-]*\w
     /// </summary>
     [CliOption("--instance-name")]
     public string? InstanceName { get; private init; }
@@ -82,6 +83,15 @@ public record AwsLightsailGetInstancePortStatesOptions : AwsOptions, IValidatabl
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

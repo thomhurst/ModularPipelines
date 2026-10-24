@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Removes the specified tags from the IAM virtual multi-factor authenti- cation (MFA) device. For more information about tagging, see Tagging IAM resources in the IAM User Guide . See also: AWS API Documentation
+/// Removes the specified tags from the IAM virtual multi-factor authentication (MFA) device. For more information about tagging, see Tagging IAM resources in the IAM User Guide . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsIamUntagMfaDeviceOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Removes the specified tags from the IAM virtual multi-factor authenti- cation (MFA) device. For more information about tagging, see Tagging IAM resources in the IAM User Guide . See also: AWS API Documentation
+    /// Removes the specified tags from the IAM virtual multi-factor authentication (MFA) device. For more information about tagging, see Tagging IAM resources in the IAM User Guide . See also: AWS API Documentation
     /// </summary>
-    /// <param name="SerialNumber">The unique identifier for the IAM virtual MFA device from which you want to remove tags. For virtual MFA devices, the serial number is the same as the ARN. This parameter allows (through its regex pattern ) a string of char- acters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following charac- ters: _+=,.@- Constraints: o min: 9 o max: 256 o pattern: [\w+=/:,.@-]+</param>
-    /// <param name="TagKeys">A list of key names as a simple array of strings. The tags with matching keys are removed from the specified instance profile. Constraints: o max: 50 (string) Constraints: o min: 1 o max: 128 o pattern: [\p{L}\p{Z}\p{N}_.:/=+\-@]+ Syntax: "string" "string" ...</param>
+    /// <param name="SerialNumber">The unique identifier for the IAM virtual MFA device from which you want to remove tags. For virtual MFA devices, the serial number is the same as the ARN. This parameter allows (through its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@- Constraints: • min: 9 • max: 256 • pattern: [\w+=/:,.@-]+</param>
+    /// <param name="TagKeys">A list of key names as a simple array of strings. The tags with matching keys are removed from the specified instance profile. Constraints: • max: 50 (string) Constraints: • min: 1 • max: 128 • pattern: [\p{L}\p{Z}\p{N}_.:/=+\-@]+ Syntax: "string" "string" ...</param>
     public AwsIamUntagMfaDeviceOptions(
         string SerialNumber,
         IEnumerable<string> TagKeys
@@ -71,13 +72,13 @@ public record AwsIamUntagMfaDeviceOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier for the IAM virtual MFA device from which you want to remove tags. For virtual MFA devices, the serial number is the same as the ARN. This parameter allows (through its regex pattern ) a string of char- acters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following charac- ters: _+=,.@- Constraints: o min: 9 o max: 256 o pattern: [\w+=/:,.@-]+
+    /// The unique identifier for the IAM virtual MFA device from which you want to remove tags. For virtual MFA devices, the serial number is the same as the ARN. This parameter allows (through its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@- Constraints: • min: 9 • max: 256 • pattern: [\w+=/:,.@-]+
     /// </summary>
     [CliOption("--serial-number")]
     public string? SerialNumber { get; private init; }
 
     /// <summary>
-    /// A list of key names as a simple array of strings. The tags with matching keys are removed from the specified instance profile. Constraints: o max: 50 (string) Constraints: o min: 1 o max: 128 o pattern: [\p{L}\p{Z}\p{N}_.:/=+\-@]+ Syntax: "string" "string" ...
+    /// A list of key names as a simple array of strings. The tags with matching keys are removed from the specified instance profile. Constraints: • max: 50 (string) Constraints: • min: 1 • max: 128 • pattern: [\p{L}\p{Z}\p{N}_.:/=+\-@]+ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--tag-keys", GroupValues = true)]
     public IEnumerable<string>? TagKeys { get; private init; }
@@ -103,6 +104,15 @@ public record AwsIamUntagMfaDeviceOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Generates a session URL and authorization code that you can use to em- bed the Amazon Amazon Quick Sight console in your web server code. Use GetSessionEmbedUrl where you want to provide an authoring portal that allows users to create data sources, datasets, analyses, and dash- boards. The users who access an embedded Amazon Quick Sight console need belong to the author or admin security cohort. If you want to re- strict permissions to some of these features, add a custom permissions profile to ...
+/// Generates a session URL and authorization code that you can use to embed the Amazon Amazon Quick Sight console in your web server code. Use GetSessionEmbedUrl where you want to provide an authoring portal that allows users to create data sources, datasets, analyses, and dashboards. The users who access an embedded Amazon Quick Sight console need belong to the author or admin security cohort. If you want to restrict permissions to some of these features, add a custom permissions profile to the us...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsQuicksightGetSessionEmbedUrlOptions : AwsOptions, IValidatableO
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Generates a session URL and authorization code that you can use to em- bed the Amazon Amazon Quick Sight console in your web server code. Use GetSessionEmbedUrl where you want to provide an authoring portal that allows users to create data sources, datasets, analyses, and dash- boards. The users who access an embedded Amazon Quick Sight console need belong to the author or admin security cohort. If you want to re- strict permissions to some of these features, add a custom permissions profile to ...
+    /// Generates a session URL and authorization code that you can use to embed the Amazon Amazon Quick Sight console in your web server code. Use GetSessionEmbedUrl where you want to provide an authoring portal that allows users to create data sources, datasets, analyses, and dashboards. The users who access an embedded Amazon Quick Sight console need belong to the author or admin security cohort. If you want to restrict permissions to some of these features, add a custom permissions profile to the us...
     /// </summary>
-    /// <param name="AwsAccountId">The ID for the Amazon Web Services account associated with your Ama- zon Quick Sight subscription. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$</param>
+    /// <param name="AwsAccountId">The ID for the Amazon Web Services account associated with your Amazon Quick Sight subscription. Constraints: • min: 12 • max: 12 • pattern: ^[0-9]{12}$</param>
     public AwsQuicksightGetSessionEmbedUrlOptions(
         string AwsAccountId
     )
@@ -56,25 +57,25 @@ public record AwsQuicksightGetSessionEmbedUrlOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID for the Amazon Web Services account associated with your Ama- zon Quick Sight subscription. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$
+    /// The ID for the Amazon Web Services account associated with your Amazon Quick Sight subscription. Constraints: • min: 12 • max: 12 • pattern: ^[0-9]{12}$
     /// </summary>
     [CliOption("--aws-account-id")]
     public string? AwsAccountId { get; private init; }
 
     /// <summary>
-    /// The URL you use to access the embedded session. The entry point URL is constrained to the following paths: o /start o /start/analyses o /start/dashboards o /start/favorites o /dashboards/*DashboardId* `` - where ``DashboardId is the actual ID key from the Amazon Quick Sight console URL of the dashboard o /analyses/*AnalysisId* `` - where ``AnalysisId is the actual ID key from the Amazon Quick Sight console URL of the analysis Constraints: o min: 1 o max: 1000
+    /// The URL you use to access the embedded session. The entry point URL is constrained to the following paths: • /start • /start/analyses • /start/dashboards • /start/favorites • /dashboards/*DashboardId* `` - where ``DashboardId is the actual ID key from the Amazon Quick Sight console URL of the dashboard • /analyses/*AnalysisId* `` - where ``AnalysisId is the actual ID key from the Amazon Quick Sight console URL of the analysis Constraints: • min: 1 • max: 1000
     /// </summary>
     [CliOption("--entry-point")]
     public string? EntryPoint { get; set; }
 
     /// <summary>
-    /// How many minutes the session is valid. The session lifetime must be 15-600 minutes. Constraints: o min: 15 o max: 600
+    /// How many minutes the session is valid. The session lifetime must be 15-600 minutes. Constraints: • min: 15 • max: 600
     /// </summary>
     [CliOption("--session-lifetime-in-minutes")]
-    public int? SessionLifetimeInMinutes { get; set; }
+    public long? SessionLifetimeInMinutes { get; set; }
 
     /// <summary>
-    /// The Amazon Quick user's Amazon Resource Name (ARN), for use with QUICKSIGHT identity type. You can use this for any type of Amazon Quick users in your account (readers, authors, or admins). They need to be authenticated as one of the following: o Active Directory (AD) users or group members o Invited nonfederated users o IAM users and IAM role-based sessions authenticated through Feder- ated Single Sign-On using SAML, OpenID Connect, or IAM federation Omit this parameter for users in the third group, IAM users and IAM role-based sessions.
+    /// The Amazon Quick user's Amazon Resource Name (ARN), for use with QUICKSIGHT identity type. You can use this for any type of Amazon Quick users in your account (readers, authors, or admins). They need to be authenticated as one of the following: • Active Directory (AD) users or group members • Invited nonfederated users • IAM users and IAM role-based sessions authenticated through Federated Single Sign-On using SAML, OpenID Connect, or IAM federation Omit this parameter for users in the third group, IAM users and IAM role-based sessions.
     /// </summary>
     [CliOption("--user-arn")]
     public string? UserArn { get; set; }
@@ -100,6 +101,15 @@ public record AwsQuicksightGetSessionEmbedUrlOptions : AwsOptions, IValidatableO
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

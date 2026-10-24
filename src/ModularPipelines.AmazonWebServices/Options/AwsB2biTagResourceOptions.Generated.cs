@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsB2biTagResourceOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Attaches a key-value pair to a resource, as identified by its Amazon Resource Name (ARN). Resources are capability, partnership, profile, transformers and other entities. There is no response returned from this call. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">Specifies an Amazon Resource Name (ARN) for a specific Amazon Web Services resource, such as a capability, partnership, profile, or transformer. Constraints: o min: 1 o max: 1011</param>
-    /// <param name="Tags">Specifies the key-value pairs assigned to ARNs that you can use to group and search for resources by type. You can attach this metadata to resources (capabilities, partnerships, and so on) for any pur- pose. Constraints: o min: 0 o max: 200 (structure) Creates a key-value pair for a specific resource. Tags are meta- data that you can use to search for and group a resource for various purposes. You can apply tags to capabilities, partner- ships, profiles and transformers. A tag key can take more than one value. For example, to group capabilities for accounting purposes, you might create a tag called Group and assign the values Research and Accounting to that group. Key -&gt; (string) [required] Specifies the name assigned to the tag that you create. Constraints: o min: 1 o max: 128 Value -&gt; (string) [required] Contains one or more values that you assigned to the key name that you create. Constraints: o min: 0 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]</param>
+    /// <param name="ResourceArn">Specifies an Amazon Resource Name (ARN) for a specific Amazon Web Services resource, such as a capability, partnership, profile, or transformer. Constraints: • min: 1 • max: 1011</param>
+    /// <param name="Tags">Specifies the key-value pairs assigned to ARNs that you can use to group and search for resources by type. You can attach this metadata to resources (capabilities, partnerships, and so on) for any purpose. Constraints: • min: 0 • max: 200 (structure) Creates a key-value pair for a specific resource. Tags are metadata that you can use to search for and group a resource for various purposes. You can apply tags to capabilities, partnerships, profiles and transformers. A tag key can take more than one value. For example, to group capabilities for accounting purposes, you might create a tag called Group and assign the values Research and Accounting to that group. Key -&gt; (string) [required] Specifies the name assigned to the tag that you create. Constraints: • min: 1 • max: 128 Value -&gt; (string) [required] Contains one or more values that you assigned to the key name that you create. Constraints: • min: 0 • max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]</param>
     public AwsB2biTagResourceOptions(
         string ResourceArn,
         IEnumerable<string> Tags
@@ -71,13 +72,13 @@ public record AwsB2biTagResourceOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Specifies an Amazon Resource Name (ARN) for a specific Amazon Web Services resource, such as a capability, partnership, profile, or transformer. Constraints: o min: 1 o max: 1011
+    /// Specifies an Amazon Resource Name (ARN) for a specific Amazon Web Services resource, such as a capability, partnership, profile, or transformer. Constraints: • min: 1 • max: 1011
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
 
     /// <summary>
-    /// Specifies the key-value pairs assigned to ARNs that you can use to group and search for resources by type. You can attach this metadata to resources (capabilities, partnerships, and so on) for any pur- pose. Constraints: o min: 0 o max: 200 (structure) Creates a key-value pair for a specific resource. Tags are meta- data that you can use to search for and group a resource for various purposes. You can apply tags to capabilities, partner- ships, profiles and transformers. A tag key can take more than one value. For example, to group capabilities for accounting purposes, you might create a tag called Group and assign the values Research and Accounting to that group. Key -&gt; (string) [required] Specifies the name assigned to the tag that you create. Constraints: o min: 1 o max: 128 Value -&gt; (string) [required] Contains one or more values that you assigned to the key name that you create. Constraints: o min: 0 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// Specifies the key-value pairs assigned to ARNs that you can use to group and search for resources by type. You can attach this metadata to resources (capabilities, partnerships, and so on) for any purpose. Constraints: • min: 0 • max: 200 (structure) Creates a key-value pair for a specific resource. Tags are metadata that you can use to search for and group a resource for various purposes. You can apply tags to capabilities, partnerships, profiles and transformers. A tag key can take more than one value. For example, to group capabilities for accounting purposes, you might create a tag called Group and assign the values Research and Accounting to that group. Key -&gt; (string) [required] Specifies the name assigned to the tag that you create. Constraints: • min: 1 • max: 128 Value -&gt; (string) [required] Contains one or more values that you assigned to the key name that you create. Constraints: • min: 0 • max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; private init; }
@@ -103,6 +104,15 @@ public record AwsB2biTagResourceOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

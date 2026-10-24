@@ -11,13 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a snapshot of the current published version of the specified rule. A snapshot is an immutable, versioned copy that other resources can reference. See also: AWS API Documentation create-rule-snapshot uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested para- meters that are labeled with the type document must be provided as JSON. Shorthand syntax does not su...
+/// Creates a snapshot of the current published version of the specified rule. A snapshot is an immutable, versioned copy that other resources can reference. See also: AWS API Documentation create-rule-snapshot uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not supp...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,9 +27,9 @@ public record AwsNetworkSecurityManagerCreateRuleSnapshotOptions : AwsOptions, I
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a snapshot of the current published version of the specified rule. A snapshot is an immutable, versioned copy that other resources can reference. See also: AWS API Documentation create-rule-snapshot uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested para- meters that are labeled with the type document must be provided as JSON. Shorthand syntax does not su...
+    /// Creates a snapshot of the current published version of the specified rule. A snapshot is an immutable, versioned copy that other resources can reference. See also: AWS API Documentation create-rule-snapshot uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not supp...
     /// </summary>
-    /// <param name="RuleIdentifier">The identifier of the rule. This is the rule's Amazon Resource Name (ARN). Constraints: o min: 1 o max: 1010</param>
+    /// <param name="RuleIdentifier">The identifier of the rule. This is the rule's Amazon Resource Name (ARN). Constraints: • min: 1 • max: 1010</param>
     public AwsNetworkSecurityManagerCreateRuleSnapshotOptions(
         string RuleIdentifier
     )
@@ -58,20 +58,20 @@ public record AwsNetworkSecurityManagerCreateRuleSnapshotOptions : AwsOptions, I
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the rule. This is the rule's Amazon Resource Name (ARN). Constraints: o min: 1 o max: 1010
+    /// The identifier of the rule. This is the rule's Amazon Resource Name (ARN). Constraints: • min: 1 • max: 1010
     /// </summary>
     [CliOption("--rule-identifier")]
     public string? RuleIdentifier { get; private init; }
 
     /// <summary>
-    /// A unique, case-sensitive token that you provide to ensure that the operation completes no more than one time. If you retry a request with the same client token and the same parameters, the service re- turns the result of the original successful request. Constraints: o min: 1 o max: 64 o pattern: [\x21-\x7E]+
+    /// A unique, case-sensitive token that you provide to ensure that the operation completes no more than one time. If you retry a request with the same client token and the same parameters, the service returns the result of the original successful request. Constraints: • min: 1 • max: 64 • pattern: [\x21-\x7E]+
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// The tags to add to the snapshot when it is created. Constraints: o min: 0 o max: 200 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The tags to add to the snapshot when it is created. Constraints: • min: 0 • max: 200 key -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) value -&gt; (string) Constraints: • min: 0 • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
@@ -97,6 +97,15 @@ public record AwsNetworkSecurityManagerCreateRuleSnapshotOptions : AwsOptions, I
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

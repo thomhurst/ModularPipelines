@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsMediaconnectAddBridgeOutputsOptions : AwsOptions, IValidatableO
     /// <summary>
     /// Adds outputs to an existing bridge. See also: AWS API Documentation
     /// </summary>
-    /// <param name="BridgeArn">The Amazon Resource Name (ARN) of the bridge that you want to up- date. Constraints: o pattern: arn:.+:mediaconnect.+:bridge:.+</param>
-    /// <param name="Outputs">The outputs that you want to add to this bridge. (structure) Add outputs to the specified bridge. NetworkOutput -&gt; (structure) The network output of the bridge. A network output is deliv- ered to your premises. IpAddress -&gt; (string) [required] The network output IP Address. Name -&gt; (string) [required] The network output name. This name is used to reference the output and must be unique among outputs in this bridge. NetworkName -&gt; (string) [required] The network output's gateway network name. Port -&gt; (integer) [required] The network output port. Protocol -&gt; (string) [required] The network output protocol. NOTE: Elemental MediaConnect no longer supports the Fujitsu QoS protocol. This reference is maintained for legacy purposes only. Possible values: o zixi-push o rtp-fec o rtp o zixi-pull o rist o st2110-jpegxs o cdi o srt-listener o srt-caller o fujitsu-qos o udp o ndi-speed-hq Ttl -&gt; (integer) [required] The network output TTL. Shorthand Syntax: NetworkOutput={IpAddress=string,Name=string,NetworkName=string,Port=integer,Protocol=string,Ttl=integer} ... JSON Syntax: [ { "NetworkOutput": { "IpAddress": "string", "Name": "string", "NetworkName": "string", "Port": integer, "Protocol": "zixi-push"|"rtp-fec"|"rtp"|"zixi-pull"|"rist"|"st2110-jpegxs"|"cdi"|"srt-listener"|"srt-caller"|"fujitsu-qos"|"udp"|"ndi-speed-hq", "Ttl": integer } } ... ]</param>
+    /// <param name="BridgeArn">The Amazon Resource Name (ARN) of the bridge that you want to update. Constraints: • pattern: arn:.+:mediaconnect.+:bridge:.+</param>
+    /// <param name="Outputs">The outputs that you want to add to this bridge. (structure) Add outputs to the specified bridge. NetworkOutput -&gt; (structure) The network output of the bridge. A network output is delivered to your premises. IpAddress -&gt; (string) [required] The network output IP Address. Name -&gt; (string) [required] The network output name. This name is used to reference the output and must be unique among outputs in this bridge. NetworkName -&gt; (string) [required] The network output's gateway network name. Port -&gt; (integer) [required] The network output port. Protocol -&gt; (string) [required] The network output protocol. NOTE: Elemental MediaConnect no longer supports the Fujitsu QoS protocol. This reference is maintained for legacy purposes only. Possible values: • zixi-push • rtp-fec • rtp • zixi-pull • rist • st2110-jpegxs • cdi • srt-listener • srt-caller • fujitsu-qos • udp • ndi-speed-hq Ttl -&gt; (integer) [required] The network output TTL. Shorthand Syntax: NetworkOutput={IpAddress=string,Name=string,NetworkName=string,Port=integer,Protocol=string,Ttl=integer} ... JSON Syntax: [ { "NetworkOutput": { "IpAddress": "string", "Name": "string", "NetworkName": "string", "Port": integer, "Protocol": "zixi-push"|"rtp-fec"|"rtp"|"zixi-pull"|"rist"|"st2110-jpegxs"|"cdi"|"srt-listener"|"srt-caller"|"fujitsu-qos"|"udp"|"ndi-speed-hq", "Ttl": integer } } ... ]</param>
     public AwsMediaconnectAddBridgeOutputsOptions(
         string BridgeArn,
         IEnumerable<string> Outputs
@@ -71,13 +72,13 @@ public record AwsMediaconnectAddBridgeOutputsOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the bridge that you want to up- date. Constraints: o pattern: arn:.+:mediaconnect.+:bridge:.+
+    /// The Amazon Resource Name (ARN) of the bridge that you want to update. Constraints: • pattern: arn:.+:mediaconnect.+:bridge:.+
     /// </summary>
     [CliOption("--bridge-arn")]
     public string? BridgeArn { get; private init; }
 
     /// <summary>
-    /// The outputs that you want to add to this bridge. (structure) Add outputs to the specified bridge. NetworkOutput -&gt; (structure) The network output of the bridge. A network output is deliv- ered to your premises. IpAddress -&gt; (string) [required] The network output IP Address. Name -&gt; (string) [required] The network output name. This name is used to reference the output and must be unique among outputs in this bridge. NetworkName -&gt; (string) [required] The network output's gateway network name. Port -&gt; (integer) [required] The network output port. Protocol -&gt; (string) [required] The network output protocol. NOTE: Elemental MediaConnect no longer supports the Fujitsu QoS protocol. This reference is maintained for legacy purposes only. Possible values: o zixi-push o rtp-fec o rtp o zixi-pull o rist o st2110-jpegxs o cdi o srt-listener o srt-caller o fujitsu-qos o udp o ndi-speed-hq Ttl -&gt; (integer) [required] The network output TTL. Shorthand Syntax: NetworkOutput={IpAddress=string,Name=string,NetworkName=string,Port=integer,Protocol=string,Ttl=integer} ... JSON Syntax: [ { "NetworkOutput": { "IpAddress": "string", "Name": "string", "NetworkName": "string", "Port": integer, "Protocol": "zixi-push"|"rtp-fec"|"rtp"|"zixi-pull"|"rist"|"st2110-jpegxs"|"cdi"|"srt-listener"|"srt-caller"|"fujitsu-qos"|"udp"|"ndi-speed-hq", "Ttl": integer } } ... ]
+    /// The outputs that you want to add to this bridge. (structure) Add outputs to the specified bridge. NetworkOutput -&gt; (structure) The network output of the bridge. A network output is delivered to your premises. IpAddress -&gt; (string) [required] The network output IP Address. Name -&gt; (string) [required] The network output name. This name is used to reference the output and must be unique among outputs in this bridge. NetworkName -&gt; (string) [required] The network output's gateway network name. Port -&gt; (integer) [required] The network output port. Protocol -&gt; (string) [required] The network output protocol. NOTE: Elemental MediaConnect no longer supports the Fujitsu QoS protocol. This reference is maintained for legacy purposes only. Possible values: • zixi-push • rtp-fec • rtp • zixi-pull • rist • st2110-jpegxs • cdi • srt-listener • srt-caller • fujitsu-qos • udp • ndi-speed-hq Ttl -&gt; (integer) [required] The network output TTL. Shorthand Syntax: NetworkOutput={IpAddress=string,Name=string,NetworkName=string,Port=integer,Protocol=string,Ttl=integer} ... JSON Syntax: [ { "NetworkOutput": { "IpAddress": "string", "Name": "string", "NetworkName": "string", "Port": integer, "Protocol": "zixi-push"|"rtp-fec"|"rtp"|"zixi-pull"|"rist"|"st2110-jpegxs"|"cdi"|"srt-listener"|"srt-caller"|"fujitsu-qos"|"udp"|"ndi-speed-hq", "Ttl": integer } } ... ]
     /// </summary>
     [CliOption("--outputs", GroupValues = true)]
     public IEnumerable<string>? Outputs { get; private init; }
@@ -103,6 +104,15 @@ public record AwsMediaconnectAddBridgeOutputsOptions : AwsOptions, IValidatableO
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

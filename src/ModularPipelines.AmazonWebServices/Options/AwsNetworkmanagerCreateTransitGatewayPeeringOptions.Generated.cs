@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,8 +29,8 @@ public record AwsNetworkmanagerCreateTransitGatewayPeeringOptions : AwsOptions, 
     /// <summary>
     /// Creates a transit gateway peering connection. See also: AWS API Documentation
     /// </summary>
-    /// <param name="CoreNetworkId">The ID of a core network. Constraints: o min: 0 o max: 50 o pattern: ^core-network-([0-9a-f]{8,17})$</param>
-    /// <param name="TransitGatewayArn">The ARN of the transit gateway for the peering request. Constraints: o min: 0 o max: 500 o pattern: [\s\S]*</param>
+    /// <param name="CoreNetworkId">The ID of a core network. Constraints: • min: 0 • max: 50 • pattern: ^core-network-([0-9a-f]{8,17})$</param>
+    /// <param name="TransitGatewayArn">The ARN of the transit gateway for the peering request. Constraints: • min: 0 • max: 500 • pattern: [\s\S]*</param>
     public AwsNetworkmanagerCreateTransitGatewayPeeringOptions(
         string CoreNetworkId,
         string TransitGatewayArn
@@ -61,25 +62,25 @@ public record AwsNetworkmanagerCreateTransitGatewayPeeringOptions : AwsOptions, 
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of a core network. Constraints: o min: 0 o max: 50 o pattern: ^core-network-([0-9a-f]{8,17})$
+    /// The ID of a core network. Constraints: • min: 0 • max: 50 • pattern: ^core-network-([0-9a-f]{8,17})$
     /// </summary>
     [CliOption("--core-network-id")]
     public string? CoreNetworkId { get; private init; }
 
     /// <summary>
-    /// The ARN of the transit gateway for the peering request. Constraints: o min: 0 o max: 500 o pattern: [\s\S]*
+    /// The ARN of the transit gateway for the peering request. Constraints: • min: 0 • max: 500 • pattern: [\s\S]*
     /// </summary>
     [CliOption("--transit-gateway-arn")]
     public string? TransitGatewayArn { get; private init; }
 
     /// <summary>
-    /// The list of key-value tags associated with the request. (structure) Describes a tag. Key -&gt; (string) The tag key. Constraints: Maximum length of 128 characters. Constraints: o min: 0 o max: 10000000 o pattern: [\s\S]* Value -&gt; (string) The tag value. Constraints: Maximum length of 256 characters. Constraints: o min: 0 o max: 10000000 o pattern: [\s\S]* Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// The list of key-value tags associated with the request. (structure) Describes a tag. Key -&gt; (string) The tag key. Constraints: Maximum length of 128 characters. Constraints: • min: 0 • max: 10000000 • pattern: [\s\S]* Value -&gt; (string) The tag value. Constraints: Maximum length of 256 characters. Constraints: • min: 0 • max: 10000000 • pattern: [\s\S]* Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
-    /// The client token associated with the request. Constraints: o min: 0 o max: 256 o pattern: [\s\S]*
+    /// The client token associated with the request. Constraints: • min: 0 • max: 256 • pattern: [\s\S]*
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
@@ -106,6 +107,15 @@ public record AwsNetworkmanagerCreateTransitGatewayPeeringOptions : AwsOptions, 
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

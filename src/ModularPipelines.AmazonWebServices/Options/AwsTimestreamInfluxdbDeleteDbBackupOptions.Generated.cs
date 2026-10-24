@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsTimestreamInfluxdbDeleteDbBackupOptions : AwsOptions, IValidata
     /// <summary>
     /// Deletes a Timestream for InfluxDB backup. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Identifier">The identifier of the backup to delete. Constraints: o min: 3 o max: 64 o pattern: [a-zA-Z0-9]+</param>
+    /// <param name="Identifier">The identifier of the backup to delete. Constraints: • min: 3 • max: 64 • pattern: [a-zA-Z0-9]+</param>
     public AwsTimestreamInfluxdbDeleteDbBackupOptions(
         string Identifier
     )
@@ -56,7 +57,7 @@ public record AwsTimestreamInfluxdbDeleteDbBackupOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the backup to delete. Constraints: o min: 3 o max: 64 o pattern: [a-zA-Z0-9]+
+    /// The identifier of the backup to delete. Constraints: • min: 3 • max: 64 • pattern: [a-zA-Z0-9]+
     /// </summary>
     [CliOption("--identifier")]
     public string? Identifier { get; private init; }
@@ -82,6 +83,15 @@ public record AwsTimestreamInfluxdbDeleteDbBackupOptions : AwsOptions, IValidata
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

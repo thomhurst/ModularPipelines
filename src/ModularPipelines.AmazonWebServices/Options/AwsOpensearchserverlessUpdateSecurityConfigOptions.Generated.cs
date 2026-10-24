@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,8 +29,8 @@ public record AwsOpensearchserverlessUpdateSecurityConfigOptions : AwsOptions, I
     /// <summary>
     /// Updates a security configuration for OpenSearch Serverless. For more information, see SAML authentication for Amazon OpenSearch Serverless . See also: AWS API Documentation
     /// </summary>
-    /// <param name="Id">The security configuration identifier. For SAML the ID will be saml/&lt;accountId&gt;/&lt;idpProviderName&gt; . For example, saml/123456789123/OKTADev . Constraints: o min: 1 o max: 100</param>
-    /// <param name="ConfigVersion">The version of the security configuration to be updated. You can find the most recent version of a security configuration using the GetSecurityPolicy command. Constraints: o min: 20 o max: 36 o pattern: ([0-9a-zA-Z+/]{4})*(([0-9a-zA-Z+/]{2}==)|([0-9a-zA-Z+/]{3}=))?</param>
+    /// <param name="Id">The security configuration identifier. For SAML the ID will be saml/&lt;accountId&gt;/&lt;idpProviderName&gt; . For example, saml/123456789123/OKTADev . Constraints: • min: 1 • max: 100</param>
+    /// <param name="ConfigVersion">The version of the security configuration to be updated. You can find the most recent version of a security configuration using the GetSecurityPolicy command. Constraints: • min: 20 • max: 36 • pattern: ([0-9a-zA-Z+/]{4})*(([0-9a-zA-Z+/]{2}==)|([0-9a-zA-Z+/]{3}=))?</param>
     public AwsOpensearchserverlessUpdateSecurityConfigOptions(
         string Id,
         string ConfigVersion
@@ -61,43 +62,43 @@ public record AwsOpensearchserverlessUpdateSecurityConfigOptions : AwsOptions, I
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The security configuration identifier. For SAML the ID will be saml/&lt;accountId&gt;/&lt;idpProviderName&gt; . For example, saml/123456789123/OKTADev . Constraints: o min: 1 o max: 100
+    /// The security configuration identifier. For SAML the ID will be saml/&lt;accountId&gt;/&lt;idpProviderName&gt; . For example, saml/123456789123/OKTADev . Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; private init; }
 
     /// <summary>
-    /// The version of the security configuration to be updated. You can find the most recent version of a security configuration using the GetSecurityPolicy command. Constraints: o min: 20 o max: 36 o pattern: ([0-9a-zA-Z+/]{4})*(([0-9a-zA-Z+/]{2}==)|([0-9a-zA-Z+/]{3}=))?
+    /// The version of the security configuration to be updated. You can find the most recent version of a security configuration using the GetSecurityPolicy command. Constraints: • min: 20 • max: 36 • pattern: ([0-9a-zA-Z+/]{4})*(([0-9a-zA-Z+/]{2}==)|([0-9a-zA-Z+/]{3}=))?
     /// </summary>
     [CliOption("--config-version")]
     public string? ConfigVersion { get; private init; }
 
     /// <summary>
-    /// A description of the security configuration. Constraints: o min: 1 o max: 1000
+    /// A description of the security configuration. Constraints: • min: 1 • max: 1000
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// SAML options in in the form of a key-value map. metadata -&gt; (string) [required] The XML IdP metadata file generated from your identity provider. Constraints: o min: 1 o max: 51200 o pattern: .*[\u0009\u000A\u000D\u0020-\u007E\u00A1-\u00FF]+.* userAttribute -&gt; (string) A user attribute for this SAML integration. Constraints: o min: 1 o max: 2048 o pattern: .*[\w+=,.@-]+.* groupAttribute -&gt; (string) The group attribute for this SAML integration. Constraints: o min: 1 o max: 2048 o pattern: .*[\w+=,.@-]+.* openSearchServerlessEntityId -&gt; (string) Custom entity ID attribute to override the default entity ID for this SAML integration. Constraints: o min: 1 o max: 1024 o pattern: aws:opensearch:[0-9]{12}:*.* sessionTimeout -&gt; (integer) The session timeout, in minutes. Default is 60 minutes (12 hours). Constraints: o min: 5 o max: 720 Shorthand Syntax: metadata=string,userAttribute=string,groupAttribute=string,openSearchServerlessEntityId=string,sessionTimeout=integer JSON Syntax: { "metadata": "string", "userAttribute": "string", "groupAttribute": "string", "openSearchServerlessEntityId": "string", "sessionTimeout": integer }
+    /// SAML options in in the form of a key-value map. metadata -&gt; (string) [required] The XML IdP metadata file generated from your identity provider. Constraints: • min: 1 • max: 51200 • pattern: .*[\u0009\u000A\u000D\u0020-\u007E\u00A1-\u00FF]+.* userAttribute -&gt; (string) A user attribute for this SAML integration. Constraints: • min: 1 • max: 2048 • pattern: .*[\w+=,.@-]+.* groupAttribute -&gt; (string) The group attribute for this SAML integration. Constraints: • min: 1 • max: 2048 • pattern: .*[\w+=,.@-]+.* openSearchServerlessEntityId -&gt; (string) Custom entity ID attribute to override the default entity ID for this SAML integration. Constraints: • min: 1 • max: 1024 • pattern: aws:opensearch:[0-9]{12}:*.* sessionTimeout -&gt; (integer) The session timeout, in minutes. Default is 60 minutes (12 hours). Constraints: • min: 5 • max: 720 Shorthand Syntax: metadata=string,userAttribute=string,groupAttribute=string,openSearchServerlessEntityId=string,sessionTimeout=integer JSON Syntax: { "metadata": "string", "userAttribute": "string", "groupAttribute": "string", "openSearchServerlessEntityId": "string", "sessionTimeout": integer }
     /// </summary>
     [CliOption("--saml-options")]
     public string? SamlOptions { get; set; }
 
     /// <summary>
-    /// Describes IAM Identity Center options in the form of a key-value map. userAttribute -&gt; (string) The user attribute for this IAM Identity Center integration. De- faults to UserId . Possible values: o UserId o UserName o Email groupAttribute -&gt; (string) The group attribute for this IAM Identity Center integration. Defaults to GroupId . Possible values: o GroupId o GroupName Shorthand Syntax: userAttribute=string,groupAttribute=string JSON Syntax: { "userAttribute": "UserId"|"UserName"|"Email", "groupAttribute": "GroupId"|"GroupName" }
+    /// Describes IAM Identity Center options in the form of a key-value map. userAttribute -&gt; (string) The user attribute for this IAM Identity Center integration. Defaults to UserId . Possible values: • UserId • UserName • Email groupAttribute -&gt; (string) The group attribute for this IAM Identity Center integration. Defaults to GroupId . Possible values: • GroupId • GroupName Shorthand Syntax: userAttribute=string,groupAttribute=string JSON Syntax: { "userAttribute": "UserId"|"UserName"|"Email", "groupAttribute": "GroupId"|"GroupName" }
     /// </summary>
     [CliOption("--iam-identity-center-options-updates")]
     public string? IamIdentityCenterOptionsUpdates { get; set; }
 
     /// <summary>
-    /// Describes IAM federation options in the form of a key-value map for updating an existing security configuration. Use this field to mod- ify IAM federation settings for the security configuration. groupAttribute -&gt; (string) The group attribute for this IAM federation integration. This attribute is used to map identity provider groups to OpenSearch Serverless permissions. Constraints: o min: 1 o max: 64 o pattern: [A-Za-z][A-Za-z0-9_.:/=+\-@]* userAttribute -&gt; (string) The user attribute for this IAM federation integration. This at- tribute is used to identify users in the federated authentica- tion process. Constraints: o min: 1 o max: 64 o pattern: [A-Za-z][A-Za-z0-9_.:/=+\-@]* Shorthand Syntax: groupAttribute=string,userAttribute=string JSON Syntax: { "groupAttribute": "string", "userAttribute": "string" }
+    /// Describes IAM federation options in the form of a key-value map for updating an existing security configuration. Use this field to modify IAM federation settings for the security configuration. groupAttribute -&gt; (string) The group attribute for this IAM federation integration. This attribute is used to map identity provider groups to OpenSearch Serverless permissions. Constraints: • min: 1 • max: 64 • pattern: [A-Za-z][A-Za-z0-9_.:/=+\-@]* userAttribute -&gt; (string) The user attribute for this IAM federation integration. This attribute is used to identify users in the federated authentication process. Constraints: • min: 1 • max: 64 • pattern: [A-Za-z][A-Za-z0-9_.:/=+\-@]* Shorthand Syntax: groupAttribute=string,userAttribute=string JSON Syntax: { "groupAttribute": "string", "userAttribute": "string" }
     /// </summary>
     [CliOption("--iam-federation-options")]
     public string? IamFederationOptions { get; set; }
 
     /// <summary>
-    /// Unique, case-sensitive identifier to ensure idempotency of the re- quest. Constraints: o min: 1 o max: 512
+    /// Unique, case-sensitive identifier to ensure idempotency of the request. Constraints: • min: 1 • max: 512
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
@@ -124,6 +125,15 @@ public record AwsOpensearchserverlessUpdateSecurityConfigOptions : AwsOptions, I
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

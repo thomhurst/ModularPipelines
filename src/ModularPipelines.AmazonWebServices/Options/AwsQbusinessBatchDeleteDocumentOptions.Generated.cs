@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Asynchronously deletes one or more documents added using the BatchPut- Document API from an Amazon Q Business index. You can see the progress of the deletion, and any error messages re- lated to the process, by using CloudWatch. See also: AWS API Documentation
+/// Asynchronously deletes one or more documents added using the BatchPutDocument API from an Amazon Q Business index. You can see the progress of the deletion, and any error messages related to the process, by using CloudWatch. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,11 +26,11 @@ public record AwsQbusinessBatchDeleteDocumentOptions : AwsOptions, IValidatableO
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Asynchronously deletes one or more documents added using the BatchPut- Document API from an Amazon Q Business index. You can see the progress of the deletion, and any error messages re- lated to the process, by using CloudWatch. See also: AWS API Documentation
+    /// Asynchronously deletes one or more documents added using the BatchPutDocument API from an Amazon Q Business index. You can see the progress of the deletion, and any error messages related to the process, by using CloudWatch. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ApplicationId">The identifier of the Amazon Q Business application. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]{35}</param>
-    /// <param name="IndexId">The identifier of the Amazon Q Business index that contains the doc- uments to delete. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]{35}</param>
-    /// <param name="Documents">Documents deleted from the Amazon Q Business index. (structure) A document deleted from an Amazon Q Business data source connec- tor. documentId -&gt; (string) [required] The identifier of the deleted document. Constraints: o min: 1 o max: 1825 o pattern: \P{C}* Shorthand Syntax: documentId=string ... JSON Syntax: [ { "documentId": "string" } ... ]</param>
+    /// <param name="ApplicationId">The identifier of the Amazon Q Business application. Constraints: • min: 36 • max: 36 • pattern: [a-zA-Z0-9][a-zA-Z0-9-]{35}</param>
+    /// <param name="IndexId">The identifier of the Amazon Q Business index that contains the documents to delete. Constraints: • min: 36 • max: 36 • pattern: [a-zA-Z0-9][a-zA-Z0-9-]{35}</param>
+    /// <param name="Documents">Documents deleted from the Amazon Q Business index. (structure) A document deleted from an Amazon Q Business data source connector. documentId -&gt; (string) [required] The identifier of the deleted document. Constraints: • min: 1 • max: 1825 • pattern: \P{C}* Shorthand Syntax: documentId=string ... JSON Syntax: [ { "documentId": "string" } ... ]</param>
     public AwsQbusinessBatchDeleteDocumentOptions(
         string ApplicationId,
         string IndexId,
@@ -75,25 +76,25 @@ public record AwsQbusinessBatchDeleteDocumentOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the Amazon Q Business application. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]{35}
+    /// The identifier of the Amazon Q Business application. Constraints: • min: 36 • max: 36 • pattern: [a-zA-Z0-9][a-zA-Z0-9-]{35}
     /// </summary>
     [CliOption("--application-id")]
     public string? ApplicationId { get; private init; }
 
     /// <summary>
-    /// The identifier of the Amazon Q Business index that contains the doc- uments to delete. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]{35}
+    /// The identifier of the Amazon Q Business index that contains the documents to delete. Constraints: • min: 36 • max: 36 • pattern: [a-zA-Z0-9][a-zA-Z0-9-]{35}
     /// </summary>
     [CliOption("--index-id")]
     public string? IndexId { get; private init; }
 
     /// <summary>
-    /// Documents deleted from the Amazon Q Business index. (structure) A document deleted from an Amazon Q Business data source connec- tor. documentId -&gt; (string) [required] The identifier of the deleted document. Constraints: o min: 1 o max: 1825 o pattern: \P{C}* Shorthand Syntax: documentId=string ... JSON Syntax: [ { "documentId": "string" } ... ]
+    /// Documents deleted from the Amazon Q Business index. (structure) A document deleted from an Amazon Q Business data source connector. documentId -&gt; (string) [required] The identifier of the deleted document. Constraints: • min: 1 • max: 1825 • pattern: \P{C}* Shorthand Syntax: documentId=string ... JSON Syntax: [ { "documentId": "string" } ... ]
     /// </summary>
     [CliOption("--documents", GroupValues = true)]
     public IEnumerable<string>? Documents { get; private init; }
 
     /// <summary>
-    /// The identifier of the data source sync during which the documents were deleted. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]{35}
+    /// The identifier of the data source sync during which the documents were deleted. Constraints: • min: 36 • max: 36 • pattern: [a-zA-Z0-9][a-zA-Z0-9-]{35}
     /// </summary>
     [CliOption("--data-source-sync-id")]
     public string? DataSourceSyncId { get; set; }
@@ -119,6 +120,15 @@ public record AwsQbusinessBatchDeleteDocumentOptions : AwsOptions, IValidatableO
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

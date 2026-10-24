@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsGrafanaUpdateWorkspaceAuthenticationOptions : AwsOptions, IVali
     /// <summary>
     /// Use this operation to define the identity provider (IdP) that this workspace authenticates users from, using SAML. You can also map SAML assertion attributes to workspace user information and define which groups in the assertion attribute are to have the Admin and Editor roles in the workspace. NOTE: Changes to the authentication method for a workspace may take a few minutes to take effect. See also: AWS API Documentation
     /// </summary>
-    /// <param name="WorkspaceId">The ID of the workspace to update the authentication for. Constraints: o pattern: g-[0-9a-f]{10}</param>
-    /// <param name="AuthenticationProviders">Specifies whether this workspace uses SAML 2.0, IAM Identity Center, or both to authenticate users for using the Grafana console within a workspace. For more information, see User authentication in Amazon Managed Grafana . (string) Possible values: o AWS_SSO o SAML Syntax: "string" "string" ...</param>
+    /// <param name="WorkspaceId">The ID of the workspace to update the authentication for. Constraints: • pattern: g-[0-9a-f]{10}</param>
+    /// <param name="AuthenticationProviders">Specifies whether this workspace uses SAML 2.0, IAM Identity Center, or both to authenticate users for using the Grafana console within a workspace. For more information, see User authentication in Amazon Managed Grafana . (string) Possible values: • AWS_SSO • SAML Syntax: "string" "string" ...</param>
     public AwsGrafanaUpdateWorkspaceAuthenticationOptions(
         string WorkspaceId,
         IEnumerable<string> AuthenticationProviders
@@ -71,19 +72,19 @@ public record AwsGrafanaUpdateWorkspaceAuthenticationOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the workspace to update the authentication for. Constraints: o pattern: g-[0-9a-f]{10}
+    /// The ID of the workspace to update the authentication for. Constraints: • pattern: g-[0-9a-f]{10}
     /// </summary>
     [CliOption("--workspace-id")]
     public string? WorkspaceId { get; private init; }
 
     /// <summary>
-    /// Specifies whether this workspace uses SAML 2.0, IAM Identity Center, or both to authenticate users for using the Grafana console within a workspace. For more information, see User authentication in Amazon Managed Grafana . (string) Possible values: o AWS_SSO o SAML Syntax: "string" "string" ...
+    /// Specifies whether this workspace uses SAML 2.0, IAM Identity Center, or both to authenticate users for using the Grafana console within a workspace. For more information, see User authentication in Amazon Managed Grafana . (string) Possible values: • AWS_SSO • SAML Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--authentication-providers", GroupValues = true)]
     public IEnumerable<string>? AuthenticationProviders { get; private init; }
 
     /// <summary>
-    /// If the workspace uses SAML, use this structure to map SAML assertion attributes to workspace user information and define which groups in the assertion attribute are to have the Admin and Editor roles in the workspace. idpMetadata -&gt; (tagged union structure) [required] A structure containing the identity provider (IdP) metadata used to integrate the identity provider with this workspace. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: url, xml. url -&gt; (string) The URL of the location containing the IdP metadata. Constraints: o min: 1 o max: 2048 xml -&gt; (string) The full IdP metadata, in XML format. assertionAttributes -&gt; (structure) A structure that defines which attributes in the SAML assertion are to be used to define information about the users authenti- cated by that IdP to use the workspace. name -&gt; (string) The name of the attribute within the SAML assertion to use as the user full "friendly" names for SAML users. Constraints: o min: 1 o max: 256 login -&gt; (string) The name of the attribute within the SAML assertion to use as the login names for SAML users. Constraints: o min: 1 o max: 256 email -&gt; (string) The name of the attribute within the SAML assertion to use as the email names for SAML users. Constraints: o min: 1 o max: 256 groups -&gt; (string) The name of the attribute within the SAML assertion to use as the user full "friendly" names for user groups. Constraints: o min: 1 o max: 256 role -&gt; (string) The name of the attribute within the SAML assertion to use as the user roles. Constraints: o min: 1 o max: 256 org -&gt; (string) The name of the attribute within the SAML assertion to use as the user full "friendly" names for the users' organizations. Constraints: o min: 1 o max: 256 roleValues -&gt; (structure) A structure containing arrays that map group names in the SAML assertion to the Grafana Admin and Editor roles in the work- space. editor -&gt; (list) A list of groups from the SAML assertion attribute to grant the Grafana Editor role to. (string) Constraints: o min: 1 o max: 256 admin -&gt; (list) A list of groups from the SAML assertion attribute to grant the Grafana Admin role to. (string) Constraints: o min: 1 o max: 256 allowedOrganizations -&gt; (list) Lists which organizations defined in the SAML assertion are al- lowed to use the Amazon Managed Grafana workspace. If this is empty, all organizations in the assertion attribute have access. (string) Constraints: o min: 1 o max: 256 loginValidityDuration -&gt; (integer) How long a sign-on session by a SAML user is valid, before the user has to sign on again. Shorthand Syntax: idpMetadata={url=string,xml=string},assertionAttributes={name=string,login=string,email=string,groups=string,role=string,org=string},roleValues={editor=[string,string],admin=[string,string]},allowedOrganizations=string,string,loginValidityDuration=integer JSON Syntax: { "idpMetadata": { "url": "string", "xml": "string" }, "assertionAttributes": { "name": "string", "login": "string", "email": "string", "groups": "string", "role": "string", "org": "string" }, "roleValues": { "editor": ["string", ...], "admin": ["string", ...] }, "allowedOrganizations": ["string", ...], "loginValidityDuration": integer }
+    /// If the workspace uses SAML, use this structure to map SAML assertion attributes to workspace user information and define which groups in the assertion attribute are to have the Admin and Editor roles in the workspace. idpMetadata -&gt; (tagged union structure) [required] A structure containing the identity provider (IdP) metadata used to integrate the identity provider with this workspace. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: url, xml. url -&gt; (string) The URL of the location containing the IdP metadata. Constraints: • min: 1 • max: 2048 xml -&gt; (string) The full IdP metadata, in XML format. assertionAttributes -&gt; (structure) A structure that defines which attributes in the SAML assertion are to be used to define information about the users authenticated by that IdP to use the workspace. name -&gt; (string) The name of the attribute within the SAML assertion to use as the user full "friendly" names for SAML users. Constraints: • min: 1 • max: 256 login -&gt; (string) The name of the attribute within the SAML assertion to use as the login names for SAML users. Constraints: • min: 1 • max: 256 email -&gt; (string) The name of the attribute within the SAML assertion to use as the email names for SAML users. Constraints: • min: 1 • max: 256 groups -&gt; (string) The name of the attribute within the SAML assertion to use as the user full "friendly" names for user groups. Constraints: • min: 1 • max: 256 role -&gt; (string) The name of the attribute within the SAML assertion to use as the user roles. Constraints: • min: 1 • max: 256 org -&gt; (string) The name of the attribute within the SAML assertion to use as the user full "friendly" names for the users' organizations. Constraints: • min: 1 • max: 256 roleValues -&gt; (structure) A structure containing arrays that map group names in the SAML assertion to the Grafana Admin and Editor roles in the workspace. editor -&gt; (list) A list of groups from the SAML assertion attribute to grant the Grafana Editor role to. (string) Constraints: • min: 1 • max: 256 admin -&gt; (list) A list of groups from the SAML assertion attribute to grant the Grafana Admin role to. (string) Constraints: • min: 1 • max: 256 allowedOrganizations -&gt; (list) Lists which organizations defined in the SAML assertion are allowed to use the Amazon Managed Grafana workspace. If this is empty, all organizations in the assertion attribute have access. (string) Constraints: • min: 1 • max: 256 loginValidityDuration -&gt; (integer) How long a sign-on session by a SAML user is valid, before the user has to sign on again. Shorthand Syntax: idpMetadata={url=string,xml=string},assertionAttributes={name=string,login=string,email=string,groups=string,role=string,org=string},roleValues={editor=[string,string],admin=[string,string]},allowedOrganizations=string,string,loginValidityDuration=integer JSON Syntax: { "idpMetadata": { "url": "string", "xml": "string" }, "assertionAttributes": { "name": "string", "login": "string", "email": "string", "groups": "string", "role": "string", "org": "string" }, "roleValues": { "editor": ["string", ...], "admin": ["string", ...] }, "allowedOrganizations": ["string", ...], "loginValidityDuration": integer }
     /// </summary>
     [CliOption("--saml-configuration")]
     public string? SamlConfiguration { get; set; }
@@ -109,6 +110,15 @@ public record AwsGrafanaUpdateWorkspaceAuthenticationOptions : AwsOptions, IVali
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

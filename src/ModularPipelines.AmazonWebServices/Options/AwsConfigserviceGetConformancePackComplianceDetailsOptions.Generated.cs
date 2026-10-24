@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +29,7 @@ public record AwsConfigserviceGetConformancePackComplianceDetailsOptions : AwsOp
     /// <summary>
     /// Returns compliance details of a conformance pack for all Amazon Web Services resources that are monitered by conformance pack. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ConformancePackName">Name of the conformance pack. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z][-a-zA-Z0-9]*</param>
+    /// <param name="ConformancePackName">Name of the conformance pack. Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z][-a-zA-Z0-9]*</param>
     public AwsConfigserviceGetConformancePackComplianceDetailsOptions(
         string ConformancePackName
     )
@@ -57,19 +58,19 @@ public record AwsConfigserviceGetConformancePackComplianceDetailsOptions : AwsOp
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Name of the conformance pack. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z][-a-zA-Z0-9]*
+    /// Name of the conformance pack. Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z][-a-zA-Z0-9]*
     /// </summary>
     [CliOption("--conformance-pack-name")]
     public string? ConformancePackName { get; private init; }
 
     /// <summary>
-    /// A ConformancePackEvaluationFilters object. ConfigRuleNames -&gt; (list) Filters the results by Config rule names. Constraints: o min: 0 o max: 10 (string) Constraints: o min: 1 o max: 64 ComplianceType -&gt; (string) Filters the results by compliance. The allowed values are COMPLIANT and NON_COMPLIANT . INSUFFI- CIENT_DATA is not supported. Possible values: o COMPLIANT o NON_COMPLIANT o INSUFFICIENT_DATA ResourceType -&gt; (string) Filters the results by the resource type (for example, "AWS::EC2::Instance" ). Constraints: o min: 1 o max: 256 ResourceIds -&gt; (list) Filters the results by resource IDs. NOTE: This is valid only when you provide resource type. If there is no resource type, you will see an error. Constraints: o min: 0 o max: 5 (string) Constraints: o min: 1 o max: 256 Shorthand Syntax: ConfigRuleNames=string,string,ComplianceType=string,ResourceType=string,ResourceIds=string,string JSON Syntax: { "ConfigRuleNames": ["string", ...], "ComplianceType": "COMPLIANT"|"NON_COMPLIANT"|"INSUFFICIENT_DATA", "ResourceType": "string", "ResourceIds": ["string", ...] }
+    /// A ConformancePackEvaluationFilters object. ConfigRuleNames -&gt; (list) Filters the results by Config rule names. Constraints: • min: 0 • max: 10 (string) Constraints: • min: 1 • max: 64 ComplianceType -&gt; (string) Filters the results by compliance. The allowed values are COMPLIANT and NON_COMPLIANT . INSUFFICIENT_DATA is not supported. Possible values: • COMPLIANT • NON_COMPLIANT • INSUFFICIENT_DATA ResourceType -&gt; (string) Filters the results by the resource type (for example, "AWS::EC2::Instance" ). Constraints: • min: 1 • max: 256 ResourceIds -&gt; (list) Filters the results by resource IDs. NOTE: This is valid only when you provide resource type. If there is no resource type, you will see an error. Constraints: • min: 0 • max: 5 (string) Constraints: • min: 1 • max: 256 Shorthand Syntax: ConfigRuleNames=string,string,ComplianceType=string,ResourceType=string,ResourceIds=string,string JSON Syntax: { "ConfigRuleNames": ["string", ...], "ComplianceType": "COMPLIANT"|"NON_COMPLIANT"|"INSUFFICIENT_DATA", "ResourceType": "string", "ResourceIds": ["string", ...] }
     /// </summary>
     [CliOption("--filters")]
     public string? Filters { get; set; }
 
     /// <summary>
-    /// The maximum number of evaluation results returned on each page. If you do no specify a number, Config uses the default. The default is 100. Constraints: o min: 0 o max: 100
+    /// The maximum number of evaluation results returned on each page. If you do no specify a number, Config uses the default. The default is 100. Constraints: • min: 0 • max: 100
     /// </summary>
     [CliOption("--limit")]
     public int? Limit { get; set; }
@@ -102,6 +103,15 @@ public record AwsConfigserviceGetConformancePackComplianceDetailsOptions : AwsOp
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

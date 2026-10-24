@@ -6,8 +6,8 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
+using ModularPipelines;
 using ModularPipelines.Context;
-using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
@@ -47,7 +47,7 @@ public class AwsApprunner : IAwsApprunner
     }
 
     /// <summary>
-    /// Create an App Runner automatic scaling configuration resource. App Run- ner requires this resource when you create or update App Runner ser- vices and you require non-default auto scaling settings. You can share an auto scaling configuration across multiple services. Create multiple revisions of a configuration by calling this action multiple times using the same AutoScalingConfigurationName . The call returns incremental AutoScalingConfigurationRevision values. When you create a service and con...
+    /// Create an App Runner automatic scaling configuration resource. App Runner requires this resource when you create or update App Runner services and you require non-default auto scaling settings. You can share an auto scaling configuration across multiple services. Create multiple revisions of a configuration by calling this action multiple times using the same AutoScalingConfigurationName . The call returns incremental AutoScalingConfigurationRevision values. When you create a service and configu...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -62,7 +62,7 @@ public class AwsApprunner : IAwsApprunner
     }
 
     /// <summary>
-    /// Create an App Runner connection resource. App Runner requires a connec- tion resource when you create App Runner services that access private repositories from certain third-party providers. You can share a con- nection across multiple services. A connection resource is needed to access GitHub and Bitbucket reposi- tories. Both require a user interface approval process through the App Runner console before you can use the connection. See also: AWS API Documentation
+    /// Create an App Runner connection resource. App Runner requires a connection resource when you create App Runner services that access private repositories from certain third-party providers. You can share a connection across multiple services. A connection resource is needed to access GitHub and Bitbucket repositories. Both require a user interface approval process through the App Runner console before you can use the connection. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -92,7 +92,7 @@ public class AwsApprunner : IAwsApprunner
     }
 
     /// <summary>
-    /// Create an App Runner service. After the service is created, the action also automatically starts a deployment. This is an asynchronous operation. On a successful call, you can use the returned OperationId and the ListOperations call to track the oper- ation's progress. See also: AWS API Documentation
+    /// Create an App Runner service. After the service is created, the action also automatically starts a deployment. This is an asynchronous operation. On a successful call, you can use the returned OperationId and the ListOperations call to track the operation's progress. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -122,7 +122,7 @@ public class AwsApprunner : IAwsApprunner
     }
 
     /// <summary>
-    /// Create an App Runner VPC Ingress Connection resource. App Runner re- quires this resource when you want to associate your App Runner service with an Amazon VPC endpoint. See also: AWS API Documentation
+    /// Create an App Runner VPC Ingress Connection resource. App Runner requires this resource when you want to associate your App Runner service with an Amazon VPC endpoint. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -182,7 +182,7 @@ public class AwsApprunner : IAwsApprunner
     }
 
     /// <summary>
-    /// Delete an App Runner service. This is an asynchronous operation. On a successful call, you can use the returned OperationId and the ListOperations call to track the op- eration's progress. NOTE: Make sure that you don't have any active VPCIngressConnections asso- ciated with the service you want to delete. See also: AWS API Documentation
+    /// Delete an App Runner service. This is an asynchronous operation. On a successful call, you can use the returned OperationId and the ListOperations call to track the operation's progress. NOTE: Make sure that you don't have any active VPCIngressConnections associated with the service you want to delete. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -197,7 +197,7 @@ public class AwsApprunner : IAwsApprunner
     }
 
     /// <summary>
-    /// Delete an App Runner VPC connector resource. You can't delete a connec- tor that's used by one or more App Runner services. See also: AWS API Documentation
+    /// Delete an App Runner VPC connector resource. You can't delete a connector that's used by one or more App Runner services. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -212,7 +212,7 @@ public class AwsApprunner : IAwsApprunner
     }
 
     /// <summary>
-    /// Delete an App Runner VPC Ingress Connection resource that's associated with an App Runner service. The VPC Ingress Connection must be in one of the following states to be deleted: o AVAILABLE o FAILED_CREATION o FAILED_UPDATE o FAILED_DELETION See also: AWS API Documentation
+    /// Delete an App Runner VPC Ingress Connection resource that's associated with an App Runner service. The VPC Ingress Connection must be in one of the following states to be deleted: • AVAILABLE • FAILED_CREATION • FAILED_UPDATE • FAILED_DELETION See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -227,7 +227,7 @@ public class AwsApprunner : IAwsApprunner
     }
 
     /// <summary>
-    /// Return a full description of an App Runner automatic scaling configura- tion resource. See also: AWS API Documentation
+    /// Return a full description of an App Runner automatic scaling configuration resource. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -302,7 +302,7 @@ public class AwsApprunner : IAwsApprunner
     }
 
     /// <summary>
-    /// Return a full description of an App Runner VPC Ingress Connection re- source. See also: AWS API Documentation
+    /// Return a full description of an App Runner VPC Ingress Connection resource. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -317,7 +317,7 @@ public class AwsApprunner : IAwsApprunner
     }
 
     /// <summary>
-    /// Disassociate a custom domain name from an App Runner service. Certificates tracking domain validity are associated with a custom do- main and are stored in AWS Certificate Manager (ACM) . These certifi- cates aren't deleted as part of this action. App Runner delays certifi- cate deletion for 30 days after a domain is disassociated from your service. See also: AWS API Documentation
+    /// Disassociate a custom domain name from an App Runner service. Certificates tracking domain validity are associated with a custom domain and are stored in AWS Certificate Manager (ACM) . These certificates aren't deleted as part of this action. App Runner delays certificate deletion for 30 days after a domain is disassociated from your service. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -332,7 +332,7 @@ public class AwsApprunner : IAwsApprunner
     }
 
     /// <summary>
-    /// Returns a list of active App Runner automatic scaling configurations in your Amazon Web Services account. You can query the revisions for a specific configuration name or the revisions for all active configura- tions in your account. You can optionally query only the latest revi- sion of each requested name. To retrieve a full description of a particular configuration revision, call and provide one of the ARNs returned by ListAutoScalingConfigura- tions . See also: AWS API Documentation
+    /// Returns a list of active App Runner automatic scaling configurations in your Amazon Web Services account. You can query the revisions for a specific configuration name or the revisions for all active configurations in your account. You can optionally query only the latest revision of each requested name. To retrieve a full description of a particular configuration revision, call and provide one of the ARNs returned by ListAutoScalingConfigurations . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -362,7 +362,7 @@ public class AwsApprunner : IAwsApprunner
     }
 
     /// <summary>
-    /// Returns a list of active App Runner observability configurations in your Amazon Web Services account. You can query the revisions for a specific configuration name or the revisions for all active configura- tions in your account. You can optionally query only the latest revi- sion of each requested name. To retrieve a full description of a particular configuration revision, call and provide one of the ARNs returned by ListObservabilityConfigu- rations . See also: AWS API Documentation
+    /// Returns a list of active App Runner observability configurations in your Amazon Web Services account. You can query the revisions for a specific configuration name or the revisions for all active configurations in your account. You can optionally query only the latest revision of each requested name. To retrieve a full description of a particular configuration revision, call and provide one of the ARNs returned by ListObservabilityConfigurations . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -407,7 +407,7 @@ public class AwsApprunner : IAwsApprunner
     }
 
     /// <summary>
-    /// Returns a list of running App Runner services in your Amazon Web Ser- vices account. See also: AWS API Documentation
+    /// Returns a list of running App Runner services in your Amazon Web Services account. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -422,7 +422,7 @@ public class AwsApprunner : IAwsApprunner
     }
 
     /// <summary>
-    /// List tags that are associated with for an App Runner resource. The re- sponse contains a list of tag key-value pairs. See also: AWS API Documentation
+    /// List tags that are associated with for an App Runner resource. The response contains a list of tag key-value pairs. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -467,7 +467,7 @@ public class AwsApprunner : IAwsApprunner
     }
 
     /// <summary>
-    /// Pause an active App Runner service. App Runner reduces compute capacity for the service to zero and loses state (for example, ephemeral storage is removed). This is an asynchronous operation. On a successful call, you can use the returned OperationId and the ListOperations call to track the op- eration's progress. See also: AWS API Documentation
+    /// Pause an active App Runner service. App Runner reduces compute capacity for the service to zero and loses state (for example, ephemeral storage is removed). This is an asynchronous operation. On a successful call, you can use the returned OperationId and the ListOperations call to track the operation's progress. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -482,7 +482,7 @@ public class AwsApprunner : IAwsApprunner
     }
 
     /// <summary>
-    /// Resume an active App Runner service. App Runner provisions compute ca- pacity for the service. This is an asynchronous operation. On a successful call, you can use the returned OperationId and the ListOperations call to track the op- eration's progress. See also: AWS API Documentation
+    /// Resume an active App Runner service. App Runner provisions compute capacity for the service. This is an asynchronous operation. On a successful call, you can use the returned OperationId and the ListOperations call to track the operation's progress. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -497,7 +497,7 @@ public class AwsApprunner : IAwsApprunner
     }
 
     /// <summary>
-    /// Initiate a manual deployment of the latest commit in a source code repository or the latest image in a source image repository to an App Runner service. For a source code repository, App Runner retrieves the commit and builds a Docker image. For a source image repository, App Runner re- trieves the latest Docker image. In both cases, App Runner then deploys the new image to your service and starts a new container instance. This is an asynchronous operation. On a successful call, you can use the ...
+    /// Initiate a manual deployment of the latest commit in a source code repository or the latest image in a source image repository to an App Runner service. For a source code repository, App Runner retrieves the commit and builds a Docker image. For a source image repository, App Runner retrieves the latest Docker image. In both cases, App Runner then deploys the new image to your service and starts a new container instance. This is an asynchronous operation. On a successful call, you can use the re...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -542,7 +542,7 @@ public class AwsApprunner : IAwsApprunner
     }
 
     /// <summary>
-    /// Update an auto scaling configuration to be the default. The existing default auto scaling configuration will be set to non-default automati- cally. See also: AWS API Documentation
+    /// Update an auto scaling configuration to be the default. The existing default auto scaling configuration will be set to non-default automatically. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -557,7 +557,7 @@ public class AwsApprunner : IAwsApprunner
     }
 
     /// <summary>
-    /// Update an App Runner service. You can update the source configuration and instance configuration of the service. You can also update the ARN of the auto scaling configuration resource that's associated with the service. However, you can't change the name or the encryption configu- ration of the service. These can be set only when you create the ser- vice. To update the tags applied to your service, use the separate actions TagResource and UntagResource . This is an asynchronous operation. On a s...
+    /// Update an App Runner service. You can update the source configuration and instance configuration of the service. You can also update the ARN of the auto scaling configuration resource that's associated with the service. However, you can't change the name or the encryption configuration of the service. These can be set only when you create the service. To update the tags applied to your service, use the separate actions TagResource and UntagResource . This is an asynchronous operation. On a succe...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -572,7 +572,7 @@ public class AwsApprunner : IAwsApprunner
     }
 
     /// <summary>
-    /// Update an existing App Runner VPC Ingress Connection resource. The VPC Ingress Connection must be in one of the following states to be up- dated: o AVAILABLE o FAILED_CREATION o FAILED_UPDATE See also: AWS API Documentation
+    /// Update an existing App Runner VPC Ingress Connection resource. The VPC Ingress Connection must be in one of the following states to be updated: • AVAILABLE • FAILED_CREATION • FAILED_UPDATE See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

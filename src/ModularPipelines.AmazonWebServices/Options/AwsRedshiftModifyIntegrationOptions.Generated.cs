@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsRedshiftModifyIntegrationOptions : AwsOptions, IValidatableObje
     /// <summary>
     /// Modifies a zero-ETL integration or S3 event integration with Amazon Redshift. See also: AWS API Documentation
     /// </summary>
-    /// <param name="IntegrationArn">The unique identifier of the integration to modify. Constraints: o min: 1 o max: 255 o pattern: ^arn:aws[a-z\-]*:redshift:[a-z0-9\-]*:[0-9]*:integra- tion:[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$</param>
+    /// <param name="IntegrationArn">The unique identifier of the integration to modify. Constraints: • min: 1 • max: 255 • pattern: ^arn:aws[a-z\-]*:redshift:[a-z0-9\-]*:[0-9]*:integration:[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$</param>
     public AwsRedshiftModifyIntegrationOptions(
         string IntegrationArn
     )
@@ -56,19 +57,19 @@ public record AwsRedshiftModifyIntegrationOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the integration to modify. Constraints: o min: 1 o max: 255 o pattern: ^arn:aws[a-z\-]*:redshift:[a-z0-9\-]*:[0-9]*:integra- tion:[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$
+    /// The unique identifier of the integration to modify. Constraints: • min: 1 • max: 255 • pattern: ^arn:aws[a-z\-]*:redshift:[a-z0-9\-]*:[0-9]*:integration:[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$
     /// </summary>
     [CliOption("--integration-arn")]
     public string? IntegrationArn { get; private init; }
 
     /// <summary>
-    /// A new description for the integration. Constraints: o min: 0 o max: 1000 o pattern: ^.*$
+    /// A new description for the integration. Constraints: • min: 0 • max: 1000 • pattern: ^.*$
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// A new name for the integration. Constraints: o min: 1 o max: 63 o pattern: ^[a-zA-Z][a-zA-Z0-9]*(-[a-zA-Z0-9]+)*$
+    /// A new name for the integration. Constraints: • min: 1 • max: 63 • pattern: ^[a-zA-Z][a-zA-Z0-9]*(-[a-zA-Z0-9]+)*$
     /// </summary>
     [CliOption("--integration-name")]
     public string? IntegrationName { get; set; }
@@ -94,6 +95,15 @@ public record AwsRedshiftModifyIntegrationOptions : AwsOptions, IValidatableObje
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

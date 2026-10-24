@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,8 +29,8 @@ public record AwsResiliencehubv2CreateUserJourneyOptions : AwsOptions, IValidata
     /// <summary>
     /// Creates a user journey within a system. See also: AWS API Documentation
     /// </summary>
-    /// <param name="SystemArn">ARN identifier. Constraints: o min: 31 o pattern: arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:([a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]):[0-9]{12}:[A-Za-z0-9/][A-Za-z0-9:_/+.-]{0,1023}</param>
-    /// <param name="Name">Entity label (not part of ARN spaces allowed). Constraints: o min: 2 o max: 60 o pattern: [A-Za-z0-9][A-Za-z0-9 _\-]{1,59}</param>
+    /// <param name="SystemArn">ARN identifier. Constraints: • min: 31 • pattern: arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:([a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]):[0-9]{12}:[A-Za-z0-9/][A-Za-z0-9:_/+.-]{0,1023}</param>
+    /// <param name="Name">Entity label (not part of ARN spaces allowed). Constraints: • min: 2 • max: 60 • pattern: [A-Za-z0-9][A-Za-z0-9 _\-]{1,59}</param>
     public AwsResiliencehubv2CreateUserJourneyOptions(
         string SystemArn,
         string Name
@@ -61,31 +62,31 @@ public record AwsResiliencehubv2CreateUserJourneyOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// ARN identifier. Constraints: o min: 31 o pattern: arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:([a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]):[0-9]{12}:[A-Za-z0-9/][A-Za-z0-9:_/+.-]{0,1023}
+    /// ARN identifier. Constraints: • min: 31 • pattern: arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:([a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]):[0-9]{12}:[A-Za-z0-9/][A-Za-z0-9:_/+.-]{0,1023}
     /// </summary>
     [CliOption("--system-arn")]
     public string? SystemArn { get; private init; }
 
     /// <summary>
-    /// Entity label (not part of ARN spaces allowed). Constraints: o min: 2 o max: 60 o pattern: [A-Za-z0-9][A-Za-z0-9 _\-]{1,59}
+    /// Entity label (not part of ARN spaces allowed). Constraints: • min: 2 • max: 60 • pattern: [A-Za-z0-9][A-Za-z0-9 _\-]{1,59}
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// Resource description. Constraints: o min: 0 o max: 500
+    /// Resource description. Constraints: • min: 0 • max: 500
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// ARN identifier. Constraints: o min: 31 o pattern: arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:([a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]):[0-9]{12}:[A-Za-z0-9/][A-Za-z0-9:_/+.-]{0,1023}
+    /// ARN identifier. Constraints: • min: 31 • pattern: arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:([a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]):[0-9]{12}:[A-Za-z0-9/][A-Za-z0-9:_/+.-]{0,1023}
     /// </summary>
     [CliOption("--policy-arn")]
     public string? PolicyArn { get; set; }
 
     /// <summary>
-    /// Idempotency token. Constraints: o min: 1 o max: 63 o pattern: [A-Za-z0-9_.-]{0,63}
+    /// Idempotency token. Constraints: • min: 1 • max: 63 • pattern: [A-Za-z0-9_.-]{0,63}
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
@@ -112,6 +113,15 @@ public record AwsResiliencehubv2CreateUserJourneyOptions : AwsOptions, IValidata
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

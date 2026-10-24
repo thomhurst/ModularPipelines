@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Adds additional customer communication to a Amazon Web Services Support case. Use the caseId parameter to identify the case to which to add communication. To list a set of email addresses to copy on the communi- cation, use the ccEmailAddresses parameter. The communicationBody value contains the text of the communication. To attach files larger than 5 MB to the communication, use the upload- Ids parameter. WARNING: Amazon Web Services Support automatically redacts sensitive informa- tion from su...
+/// Adds additional customer communication to a Amazon Web Services Support case. Use the caseId parameter to identify the case to which to add communication. To list a set of email addresses to copy on the communication, use the ccEmailAddresses parameter. The communicationBody value contains the text of the communication. To attach files larger than 5 MB to the communication, use the uploadIds parameter. WARNING: Amazon Web Services Support automatically redacts sensitive information from support ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsSupportAddCommunicationToCaseOptions : AwsOptions, IValidatable
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Adds additional customer communication to a Amazon Web Services Support case. Use the caseId parameter to identify the case to which to add communication. To list a set of email addresses to copy on the communi- cation, use the ccEmailAddresses parameter. The communicationBody value contains the text of the communication. To attach files larger than 5 MB to the communication, use the upload- Ids parameter. WARNING: Amazon Web Services Support automatically redacts sensitive informa- tion from su...
+    /// Adds additional customer communication to a Amazon Web Services Support case. Use the caseId parameter to identify the case to which to add communication. To list a set of email addresses to copy on the communication, use the ccEmailAddresses parameter. The communicationBody value contains the text of the communication. To attach files larger than 5 MB to the communication, use the uploadIds parameter. WARNING: Amazon Web Services Support automatically redacts sensitive information from support ...
     /// </summary>
-    /// <param name="CommunicationBody">The body of an email communication to add to the support case. Constraints: o min: 1 o max: 8000</param>
+    /// <param name="CommunicationBody">The body of an email communication to add to the support case. Constraints: • min: 1 • max: 8000</param>
     public AwsSupportAddCommunicationToCaseOptions(
         string CommunicationBody
     )
@@ -56,7 +57,7 @@ public record AwsSupportAddCommunicationToCaseOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The body of an email communication to add to the support case. Constraints: o min: 1 o max: 8000
+    /// The body of an email communication to add to the support case. Constraints: • min: 1 • max: 8000
     /// </summary>
     [CliOption("--communication-body")]
     public string? CommunicationBody { get; private init; }
@@ -68,7 +69,7 @@ public record AwsSupportAddCommunicationToCaseOptions : AwsOptions, IValidatable
     public string? CaseId { get; set; }
 
     /// <summary>
-    /// The email addresses in the CC line of an email to be added to the support case. Constraints: o min: 0 o max: 10 (string) Syntax: "string" "string" ...
+    /// The email addresses in the CC line of an email to be added to the support case. Constraints: • min: 0 • max: 10 (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--cc-email-addresses", GroupValues = true)]
     public IEnumerable<string>? CcEmailAddresses { get; set; }
@@ -80,13 +81,13 @@ public record AwsSupportAddCommunicationToCaseOptions : AwsOptions, IValidatable
     public string? AttachmentSetId { get; set; }
 
     /// <summary>
-    /// A list of upload IDs that identify attachments to add to the case. Each uploadId is returned by the GetAttachmentUploadLinks opera- tion. The upload must reach the attachment-ready state by calling CompleteAttachmentUpload before it can be passed here. Use uploadIds to attach files of any supported size, including files larger than 5 MB. Constraints: o min: 0 o max: 10 (string) Constraints: o min: 1 o max: 2048 Syntax: "string" "string" ...
+    /// A list of upload IDs that identify attachments to add to the case. Each uploadId is returned by the GetAttachmentUploadLinks operation. The upload must reach the attachment-ready state by calling CompleteAttachmentUpload before it can be passed here. Use uploadIds to attach files of any supported size, including files larger than 5 MB. Constraints: • min: 0 • max: 10 (string) Constraints: • min: 1 • max: 2048 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--upload-ids", GroupValues = true)]
     public IEnumerable<string>? UploadIds { get; set; }
 
     /// <summary>
-    /// Specifies whether to validate the request without actually adding the communication to the case. When set to true , the request is validated but the communication isn't added, and the operation re- turns a DryRunOperationException . When omitted or set to false , the request runs normally.
+    /// Specifies whether to validate the request without actually adding the communication to the case. When set to true , the request is validated but the communication isn't added, and the operation returns a DryRunOperationException . When omitted or set to false , the request runs normally.
     /// </summary>
     [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
@@ -112,6 +113,15 @@ public record AwsSupportAddCommunicationToCaseOptions : AwsOptions, IValidatable
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Uploads an artifact to an agent space. Artifacts provide additional context for security testing, such as architecture diagrams, API speci- fications, or configuration files. See also: AWS API Documentation
+/// Uploads an artifact to an agent space. Artifacts provide additional context for security testing, such as architecture diagrams, API specifications, or configuration files. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,11 +27,11 @@ public record AwsSecurityagentAddArtifactOptions : AwsOptions, IValidatableObjec
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Uploads an artifact to an agent space. Artifacts provide additional context for security testing, such as architecture diagrams, API speci- fications, or configuration files. See also: AWS API Documentation
+    /// Uploads an artifact to an agent space. Artifacts provide additional context for security testing, such as architecture diagrams, API specifications, or configuration files. See also: AWS API Documentation
     /// </summary>
     /// <param name="AgentSpaceId">The unique identifier of the agent space to add the artifact to.</param>
     /// <param name="ArtifactContent">The binary content of the artifact to upload.</param>
-    /// <param name="ArtifactType">The file type of the artifact. Valid values include TXT, PNG, JPEG, MD, PDF, DOCX, DOC, JSON, and YAML. Possible values: o TXT o PNG o JPEG o MD o PDF o DOCX o DOC o JSON o YAML</param>
+    /// <param name="ArtifactType">The file type of the artifact. Valid values include TXT, PNG, JPEG, MD, PDF, DOCX, DOC, JSON, and YAML. Possible values: • TXT • PNG • JPEG • MD • PDF • DOCX • DOC • JSON • YAML</param>
     /// <param name="FileName">The file name of the artifact.</param>
     public AwsSecurityagentAddArtifactOptions(
         string AgentSpaceId,
@@ -80,7 +81,7 @@ public record AwsSecurityagentAddArtifactOptions : AwsOptions, IValidatableObjec
     public string? ArtifactContent { get; private init; }
 
     /// <summary>
-    /// The file type of the artifact. Valid values include TXT, PNG, JPEG, MD, PDF, DOCX, DOC, JSON, and YAML. Possible values: o TXT o PNG o JPEG o MD o PDF o DOCX o DOC o JSON o YAML
+    /// The file type of the artifact. Valid values include TXT, PNG, JPEG, MD, PDF, DOCX, DOC, JSON, and YAML. Possible values: • TXT • PNG • JPEG • MD • PDF • DOCX • DOC • JSON • YAML
     /// </summary>
     [CliOption("--artifact-type")]
     public AwsSecurityagentAddArtifactArtifactType? ArtifactType { get; private init; }
@@ -112,6 +113,15 @@ public record AwsSecurityagentAddArtifactOptions : AwsOptions, IValidatableObjec
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

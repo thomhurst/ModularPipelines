@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsCloudfrontCreateCloudFrontOriginAccessIdentityOptions : AwsOpti
     /// <summary>
     /// Creates a new origin access identity. If you're using Amazon S3 for your origin, you can use an origin access identity to require users to access your content using a CloudFront URL instead of the Amazon S3 URL. For more information about how to use origin access identities, see Serving Private Content through CloudFront in the Amazon CloudFront Developer Guide . See also: AWS API Documentation
     /// </summary>
-    /// <param name="CloudFrontOriginAccessIdentityConfig">The current configuration information for the identity. CallerReference -&gt; (string) [required] A unique value (for example, a date-time stamp) that ensures that the request can't be replayed. If the value of CallerReference is new (regardless of the con- tent of the CloudFrontOriginAccessIdentityConfig object), a new origin access identity is created. If the CallerReference is a value already sent in a previous identity request, and the content of the CloudFrontOriginAcces- sIdentityConfig is identical to the original request (ignoring white space), the response includes the same information re- turned to the original request. If the CallerReference is a value you already sent in a previous request to create an identity, but the content of the CloudFron- tOriginAccessIdentityConfig is different from the original re- quest, CloudFront returns a CloudFrontOriginAccessIdentityAl- readyExists error. Comment -&gt; (string) [required] A comment to describe the origin access identity. The comment cannot be longer than 128 characters. Shorthand Syntax: CallerReference=string,Comment=string JSON Syntax: { "CallerReference": "string", "Comment": "string" }</param>
+    /// <param name="CloudFrontOriginAccessIdentityConfig">The current configuration information for the identity. CallerReference -&gt; (string) [required] A unique value (for example, a date-time stamp) that ensures that the request can't be replayed. If the value of CallerReference is new (regardless of the content of the CloudFrontOriginAccessIdentityConfig object), a new origin access identity is created. If the CallerReference is a value already sent in a previous identity request, and the content of the CloudFrontOriginAccessIdentityConfig is identical to the original request (ignoring white space), the response includes the same information returned to the original request. If the CallerReference is a value you already sent in a previous request to create an identity, but the content of the CloudFrontOriginAccessIdentityConfig is different from the original request, CloudFront returns a CloudFrontOriginAccessIdentityAlreadyExists error. Comment -&gt; (string) [required] A comment to describe the origin access identity. The comment cannot be longer than 128 characters. Shorthand Syntax: CallerReference=string,Comment=string JSON Syntax: { "CallerReference": "string", "Comment": "string" }</param>
     public AwsCloudfrontCreateCloudFrontOriginAccessIdentityOptions(
         string CloudFrontOriginAccessIdentityConfig
     )
@@ -56,7 +57,7 @@ public record AwsCloudfrontCreateCloudFrontOriginAccessIdentityOptions : AwsOpti
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The current configuration information for the identity. CallerReference -&gt; (string) [required] A unique value (for example, a date-time stamp) that ensures that the request can't be replayed. If the value of CallerReference is new (regardless of the con- tent of the CloudFrontOriginAccessIdentityConfig object), a new origin access identity is created. If the CallerReference is a value already sent in a previous identity request, and the content of the CloudFrontOriginAcces- sIdentityConfig is identical to the original request (ignoring white space), the response includes the same information re- turned to the original request. If the CallerReference is a value you already sent in a previous request to create an identity, but the content of the CloudFron- tOriginAccessIdentityConfig is different from the original re- quest, CloudFront returns a CloudFrontOriginAccessIdentityAl- readyExists error. Comment -&gt; (string) [required] A comment to describe the origin access identity. The comment cannot be longer than 128 characters. Shorthand Syntax: CallerReference=string,Comment=string JSON Syntax: { "CallerReference": "string", "Comment": "string" }
+    /// The current configuration information for the identity. CallerReference -&gt; (string) [required] A unique value (for example, a date-time stamp) that ensures that the request can't be replayed. If the value of CallerReference is new (regardless of the content of the CloudFrontOriginAccessIdentityConfig object), a new origin access identity is created. If the CallerReference is a value already sent in a previous identity request, and the content of the CloudFrontOriginAccessIdentityConfig is identical to the original request (ignoring white space), the response includes the same information returned to the original request. If the CallerReference is a value you already sent in a previous request to create an identity, but the content of the CloudFrontOriginAccessIdentityConfig is different from the original request, CloudFront returns a CloudFrontOriginAccessIdentityAlreadyExists error. Comment -&gt; (string) [required] A comment to describe the origin access identity. The comment cannot be longer than 128 characters. Shorthand Syntax: CallerReference=string,Comment=string JSON Syntax: { "CallerReference": "string", "Comment": "string" }
     /// </summary>
     [CliOption("--cloud-front-origin-access-identity-config")]
     public string? CloudFrontOriginAccessIdentityConfig { get; private init; }
@@ -82,6 +83,15 @@ public record AwsCloudfrontCreateCloudFrontOriginAccessIdentityOptions : AwsOpti
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

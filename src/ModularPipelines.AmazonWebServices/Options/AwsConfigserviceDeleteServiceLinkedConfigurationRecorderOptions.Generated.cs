@@ -22,13 +22,13 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsConfigserviceDeleteServiceLinkedConfigurationRecorderOptions : AwsOptions
 {
     /// <summary>
-    /// The service principal of the Amazon Web Services service for the service-linked configuration recorder that you want to delete. This field is only supported for Amazon Web Services service principals. For third-party service-linked configuration recorders, use Arn in- stead. Constraints: o min: 1 o max: 128 o pattern: [\w+=,.@-]+
+    /// The service principal of the Amazon Web Services service for the service-linked configuration recorder that you want to delete. This field is only supported for Amazon Web Services service principals. For third-party service-linked configuration recorders, use Arn instead. Constraints: • min: 1 • max: 128 • pattern: [\w+=,.@-]+
     /// </summary>
     [CliOption("--service-principal")]
     public string? ServicePrincipal { get; set; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the service-linked configuration recorder that you want to delete. For third-party service-linked configuration recorders, you must use Arn . You must specify exactly one of Arn or ServicePrincipal . Constraints: o min: 1 o max: 1000
+    /// The Amazon Resource Name (ARN) of the service-linked configuration recorder that you want to delete. For third-party service-linked configuration recorders, you must use Arn . You must specify exactly one of Arn or ServicePrincipal . Constraints: • min: 1 • max: 1000
     /// </summary>
     [CliOption("--arn")]
     public string? Arn { get; set; }
@@ -38,5 +38,14 @@ public record AwsConfigserviceDeleteServiceLinkedConfigurationRecorderOptions : 
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

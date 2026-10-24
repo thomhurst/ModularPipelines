@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Attaches an annotation to an Amazon S3 object. An annotation is a named payload of 1 byte to 1 MiB that you can associate with a specific ob- ject or object version. Each object can have up to 1,000 annotations. For annotation naming rules and restrictions, see Annotation naming guidelines in the Amazon S3 User Guide . Annotations inherit the encryption of their parent object. For objects without server-side encryption, annotations are encrypted with SSE-S3 (the default for new objects). Objects...
+/// Attaches an annotation to an Amazon S3 object. An annotation is a named payload of 1 byte to 1 MiB that you can associate with a specific object or object version. Each object can have up to 1,000 annotations. For annotation naming rules and restrictions, see Annotation naming guidelines in the Amazon S3 User Guide . Annotations inherit the encryption of their parent object. For objects without server-side encryption, annotations are encrypted with SSE-S3 (the default for new objects). Objects e...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,12 +27,12 @@ public record AwsS3apiPutObjectAnnotationOptions : AwsOptions, IValidatableObjec
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Attaches an annotation to an Amazon S3 object. An annotation is a named payload of 1 byte to 1 MiB that you can associate with a specific ob- ject or object version. Each object can have up to 1,000 annotations. For annotation naming rules and restrictions, see Annotation naming guidelines in the Amazon S3 User Guide . Annotations inherit the encryption of their parent object. For objects without server-side encryption, annotations are encrypted with SSE-S3 (the default for new objects). Objects...
+    /// Attaches an annotation to an Amazon S3 object. An annotation is a named payload of 1 byte to 1 MiB that you can associate with a specific object or object version. Each object can have up to 1,000 annotations. For annotation naming rules and restrictions, see Annotation naming guidelines in the Amazon S3 User Guide . Annotations inherit the encryption of their parent object. For objects without server-side encryption, annotations are encrypted with SSE-S3 (the default for new objects). Objects e...
     /// </summary>
     /// <param name="Bucket">The name of the bucket that contains the object.</param>
-    /// <param name="Key">The object key. Constraints: o min: 1</param>
+    /// <param name="Key">The object key. Constraints: • min: 1</param>
     /// <param name="AnnotationName">The name of the annotation. Length Constraints: Minimum length of 1. Maximum length of 512 bytes.</param>
-    /// <param name="AnnotationPayload">The annotation payload. Must be between 1 byte and 1 MiB in size, and must be valid UTF-8 encoded text. If the payload contains in- valid UTF-8 bytes, the request fails with HTTP 415 (Unsupported Me- dia Type). To store binary data, encode the payload using Base64 be- fore uploading. NOTE: This argument is of type: streaming blob. Its value must be the path to a file (e.g. path/to/file) and must not be prefixed with file:// or fileb://</param>
+    /// <param name="AnnotationPayload">The annotation payload. Must be between 1 byte and 1 MiB in size, and must be valid UTF-8 encoded text. If the payload contains invalid UTF-8 bytes, the request fails with HTTP 415 (Unsupported Media Type). To store binary data, encode the payload using Base64 before uploading. NOTE: This argument is of type: streaming blob. Its value must be the path to a file (e.g. path/to/file) and must not be prefixed with file:// or fileb://</param>
     public AwsS3apiPutObjectAnnotationOptions(
         string Bucket,
         string Key,
@@ -75,7 +76,7 @@ public record AwsS3apiPutObjectAnnotationOptions : AwsOptions, IValidatableObjec
     public string? Bucket { get; private init; }
 
     /// <summary>
-    /// The object key. Constraints: o min: 1
+    /// The object key. Constraints: • min: 1
     /// </summary>
     [CliOption("--key")]
     public string? Key { get; private init; }
@@ -87,7 +88,7 @@ public record AwsS3apiPutObjectAnnotationOptions : AwsOptions, IValidatableObjec
     public string? AnnotationName { get; private init; }
 
     /// <summary>
-    /// The annotation payload. Must be between 1 byte and 1 MiB in size, and must be valid UTF-8 encoded text. If the payload contains in- valid UTF-8 bytes, the request fails with HTTP 415 (Unsupported Me- dia Type). To store binary data, encode the payload using Base64 be- fore uploading. NOTE: This argument is of type: streaming blob. Its value must be the path to a file (e.g. path/to/file) and must not be prefixed with file:// or fileb://
+    /// The annotation payload. Must be between 1 byte and 1 MiB in size, and must be valid UTF-8 encoded text. If the payload contains invalid UTF-8 bytes, the request fails with HTTP 415 (Unsupported Media Type). To store binary data, encode the payload using Base64 before uploading. NOTE: This argument is of type: streaming blob. Its value must be the path to a file (e.g. path/to/file) and must not be prefixed with file:// or fileb://
     /// </summary>
     [CliOption("--annotation-payload")]
     public string? AnnotationPayload { get; private init; }
@@ -105,7 +106,7 @@ public record AwsS3apiPutObjectAnnotationOptions : AwsOptions, IValidatableObjec
     public string? ObjectIfMatch { get; set; }
 
     /// <summary>
-    /// The checksum algorithm to use. Supported values: CRC32 , CRC32C , CRC64NVME , SHA1 , SHA256 , SHA512 , MD5 , XXHASH64 , XXHASH3 , XXHASH128 . Possible values: o CRC32 o CRC32C o SHA1 o SHA256 o CRC64NVME o SHA512 o MD5 o XXHASH64 o XXHASH3 o XXHASH128
+    /// The checksum algorithm to use. Supported values: CRC32 , CRC32C , CRC64NVME , SHA1 , SHA256 , SHA512 , MD5 , XXHASH64 , XXHASH3 , XXHASH128 . Possible values: • CRC32 • CRC32C • SHA1 • SHA256 • CRC64NVME • SHA512 • MD5 • XXHASH64 • XXHASH3 • XXHASH128
     /// </summary>
     [CliOption("--checksum-algorithm")]
     public AwsS3apiPutObjectAnnotationChecksumAlgorithm? ChecksumAlgorithm { get; set; }
@@ -177,7 +178,7 @@ public record AwsS3apiPutObjectAnnotationOptions : AwsOptions, IValidatableObjec
     public string? ContentMd5 { get; set; }
 
     /// <summary>
-    /// Confirms that the requester knows that they will be charged for the request. Bucket owners need not specify this parameter in their re- quests. If either the source or destination S3 bucket has Requester Pays enabled, the requester will pay for the corresponding charges. For information about downloading objects from Requester Pays buck- ets, see Downloading Objects in Requester Pays Buckets in the Amazon S3 User Guide . NOTE: This functionality is not supported for directory buckets. Possible values: o requester
+    /// Confirms that the requester knows that they will be charged for the request. Bucket owners need not specify this parameter in their requests. If either the source or destination S3 bucket has Requester Pays enabled, the requester will pay for the corresponding charges. For information about downloading objects from Requester Pays buckets, see Downloading Objects in Requester Pays Buckets in the Amazon S3 User Guide . NOTE: This functionality is not supported for directory buckets. Possible values: • requester
     /// </summary>
     [CliOption("--request-payer")]
     public string? RequestPayer { get; set; }
@@ -209,6 +210,15 @@ public record AwsS3apiPutObjectAnnotationOptions : AwsOptions, IValidatableObjec
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

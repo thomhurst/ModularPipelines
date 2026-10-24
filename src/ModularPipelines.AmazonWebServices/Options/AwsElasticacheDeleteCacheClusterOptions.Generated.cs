@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes a previously provisioned cluster. DeleteCacheCluster deletes all associated cache nodes, node endpoints and the cluster itself. When you receive a successful response from this operation, Amazon Elasti- Cache immediately begins deleting the cluster; you cannot cancel or re- vert this operation. This operation is not valid for: o Valkey or Redis OSS (cluster mode enabled) clusters o Valkey or Redis OSS (cluster mode disabled) clusters o A cluster that is the last read replica of a replica...
+/// Deletes a previously provisioned cluster. DeleteCacheCluster deletes all associated cache nodes, node endpoints and the cluster itself. When you receive a successful response from this operation, Amazon ElastiCache immediately begins deleting the cluster; you cannot cancel or revert this operation. This operation is not valid for: • Valkey or Redis OSS (cluster mode enabled) clusters • Valkey or Redis OSS (cluster mode disabled) clusters • A cluster that is the last read replica of a replication...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +26,7 @@ public record AwsElasticacheDeleteCacheClusterOptions : AwsOptions, IValidatable
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes a previously provisioned cluster. DeleteCacheCluster deletes all associated cache nodes, node endpoints and the cluster itself. When you receive a successful response from this operation, Amazon Elasti- Cache immediately begins deleting the cluster; you cannot cancel or re- vert this operation. This operation is not valid for: o Valkey or Redis OSS (cluster mode enabled) clusters o Valkey or Redis OSS (cluster mode disabled) clusters o A cluster that is the last read replica of a replica...
+    /// Deletes a previously provisioned cluster. DeleteCacheCluster deletes all associated cache nodes, node endpoints and the cluster itself. When you receive a successful response from this operation, Amazon ElastiCache immediately begins deleting the cluster; you cannot cancel or revert this operation. This operation is not valid for: • Valkey or Redis OSS (cluster mode enabled) clusters • Valkey or Redis OSS (cluster mode disabled) clusters • A cluster that is the last read replica of a replication...
     /// </summary>
     /// <param name="CacheClusterId">The cluster identifier for the cluster to be deleted. This parameter is not case sensitive.</param>
     public AwsElasticacheDeleteCacheClusterOptions(
@@ -88,6 +89,15 @@ public record AwsElasticacheDeleteCacheClusterOptions : AwsOptions, IValidatable
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

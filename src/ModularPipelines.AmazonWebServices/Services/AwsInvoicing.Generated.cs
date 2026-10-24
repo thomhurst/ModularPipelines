@@ -6,8 +6,8 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
+using ModularPipelines;
 using ModularPipelines.Context;
-using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
@@ -62,7 +62,7 @@ public class AwsInvoicing : IAwsInvoicing
     }
 
     /// <summary>
-    /// o This feature API is subject to changing at any time. For more in- formation, see the `Amazon Web Services Service Terms &lt;https://aws.amazon.com/service-terms/&gt;`__ (Betas and Previews). * Creates a procurement portal preference configuration for e-invoice de- livery and purchase order retrieval. This preference defines how in- voices are delivered to a procurement portal and how purchase orders are retrieved. See also: AWS API Documentation
+    /// • This feature API is subject to changing at any time. For more information, see the `Amazon Web Services Service Terms &lt;https://aws.amazon.com/service-terms/&gt;`__ (Betas and Previews). * Creates a procurement portal preference configuration for e-invoice delivery and purchase order retrieval. This preference defines how invoices are delivered to a procurement portal and how purchase orders are retrieved. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -92,7 +92,7 @@ public class AwsInvoicing : IAwsInvoicing
     }
 
     /// <summary>
-    /// o This feature API is subject to changing at any time. For more in- formation, see the `Amazon Web Services Service Terms &lt;https://aws.amazon.com/service-terms/&gt;`__ (Betas and Previews). * Deletes an existing procurement portal preference. This action cannot be undone. Active e-invoice delivery and PO retrieval configurations will be terminated. See also: AWS API Documentation
+    /// • This feature API is subject to changing at any time. For more information, see the `Amazon Web Services Service Terms &lt;https://aws.amazon.com/service-terms/&gt;`__ (Betas and Previews). * Deletes an existing procurement portal preference. This action cannot be undone. Active e-invoice delivery and PO retrieval configurations will be terminated. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -107,7 +107,7 @@ public class AwsInvoicing : IAwsInvoicing
     }
 
     /// <summary>
-    /// Returns a URL to download the invoice document and supplemental docu- ments associated with an invoice. The URLs are pre-signed and have ex- piration time. For special cases like Brazil, where Amazon Web Services generated invoice identifiers and government provided identifiers do not match, use the Amazon Web Services generated invoice identifier when making API requests. To grant IAM permission to use this opera- tion, the caller needs the invoicing:GetInvoicePDF policy action. See also: AWS A...
+    /// Returns a URL to download the invoice document and supplemental documents associated with an invoice. The URLs are pre-signed and have expiration time. For special cases like Brazil, where Amazon Web Services generated invoice identifiers and government provided identifiers do not match, use the Amazon Web Services generated invoice identifier when making API requests. To grant IAM permission to use this operation, the caller needs the invoicing:GetInvoicePDF policy action. See also: AWS API Doc...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -137,7 +137,7 @@ public class AwsInvoicing : IAwsInvoicing
     }
 
     /// <summary>
-    /// o This feature API is subject to changing at any time. For more in- formation, see the `Amazon Web Services Service Terms &lt;https://aws.amazon.com/service-terms/&gt;`__ (Betas and Previews). * Retrieves the details of a specific procurement portal preference con- figuration. See also: AWS API Documentation
+    /// • This feature API is subject to changing at any time. For more information, see the `Amazon Web Services Service Terms &lt;https://aws.amazon.com/service-terms/&gt;`__ (Betas and Previews). * Retrieves the details of a specific procurement portal preference configuration. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -152,7 +152,7 @@ public class AwsInvoicing : IAwsInvoicing
     }
 
     /// <summary>
-    /// Retrieves your invoice details programmatically, without line item de- tails. See also: AWS API Documentation list-invoice-summaries is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: InvoiceSummaries
+    /// Retrieves your invoice details programmatically, without line item details. See also: AWS API Documentation list-invoice-summaries is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: InvoiceSummaries
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -167,7 +167,7 @@ public class AwsInvoicing : IAwsInvoicing
     }
 
     /// <summary>
-    /// This fetches a list of all invoice unit definitions for a given ac- count, as of the provided AsOf date. See also: AWS API Documentation list-invoice-units is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expression...
+    /// This fetches a list of all invoice unit definitions for a given account, as of the provided AsOf date. See also: AWS API Documentation list-invoice-units is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions:...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -182,7 +182,7 @@ public class AwsInvoicing : IAwsInvoicing
     }
 
     /// <summary>
-    /// o This feature API is subject to changing at any time. For more in- formation, see the `Amazon Web Services Service Terms &lt;https://aws.amazon.com/service-terms/&gt;`__ (Betas and Previews). * Retrieves a list of procurement portal preferences associated with the Amazon Web Services account. See also: AWS API Documentation list-procurement-portal-preferences is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by...
+    /// • This feature API is subject to changing at any time. For more information, see the `Amazon Web Services Service Terms &lt;https://aws.amazon.com/service-terms/&gt;`__ (Betas and Previews). * Retrieves a list of procurement portal preferences associated with the Amazon Web Services account. See also: AWS API Documentation list-procurement-portal-preferences is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by pro...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -197,22 +197,7 @@ public class AwsInvoicing : IAwsInvoicing
     }
 
     /// <summary>
-    /// Returns the Amazon Web Services-supported procurement portals for e-in- voice delivery and purchase order retrieval. Each entry includes the portal identifier, name, and default feature configurations, which de- fine the supported document and attachment types. For faster, more re- liable responses, use pagination. See also: AWS API Documentation list-procurement-portals is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disabl...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListProcurementPortalsAsync(
-        AwsInvoicingListProcurementPortalsOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsInvoicingListProcurementPortalsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
-    /// Returns the suppliers configured for a specified procurement portal, including supplier identifiers and associated metadata. For faster, more reliable responses, use pagination. See also: AWS API Documentation list-procurement-portal-suppliers is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated respons...
+    /// Returns the suppliers configured for a specified procurement portal, including supplier identifiers and associated metadata. For faster, more reliable responses, use pagination. See also: AWS API Documentation list-procurement-portal-suppliers is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, t...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -224,6 +209,21 @@ public class AwsInvoicing : IAwsInvoicing
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Returns the Amazon Web Services-supported procurement portals for e-invoice delivery and purchase order retrieval. Each entry includes the portal identifier, name, and default feature configurations, which define the supported document and attachment types. For faster, more reliable responses, use pagination. See also: AWS API Documentation list-procurement-portals is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagi...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListProcurementPortalsAsync(
+        AwsInvoicingListProcurementPortalsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsInvoicingListProcurementPortalsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -242,7 +242,7 @@ public class AwsInvoicing : IAwsInvoicing
     }
 
     /// <summary>
-    /// o This feature API is subject to changing at any time. For more in- formation, see the `Amazon Web Services Service Terms &lt;https://aws.amazon.com/service-terms/&gt;`__ (Betas and Previews). * Updates an existing procurement portal preference configuration. This operation can modify settings for e-invoice delivery and purchase order retrieval. See also: AWS API Documentation
+    /// • This feature API is subject to changing at any time. For more information, see the `Amazon Web Services Service Terms &lt;https://aws.amazon.com/service-terms/&gt;`__ (Betas and Previews). * Updates an existing procurement portal preference configuration. This operation can modify settings for e-invoice delivery and purchase order retrieval. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -257,7 +257,7 @@ public class AwsInvoicing : IAwsInvoicing
     }
 
     /// <summary>
-    /// o This feature API is subject to changing at any time. For more in- formation, see the `Amazon Web Services Service Terms &lt;https://aws.amazon.com/service-terms/&gt;`__ (Betas and Previews). * Sends a validation request for a procurement portal preference. This operation initiates the validation process by issuing a validation code that confirms ownership and connectivity of the configured procurement portal endpoint. Use VerifyProcurementPortalValidation to submit the received code and complete val...
+    /// • This feature API is subject to changing at any time. For more information, see the `Amazon Web Services Service Terms &lt;https://aws.amazon.com/service-terms/&gt;`__ (Betas and Previews). * Sends a validation request for a procurement portal preference. This operation initiates the validation process by issuing a validation code that confirms ownership and connectivity of the configured procurement portal endpoint. Use VerifyProcurementPortalValidation to submit the received code and complete valid...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -317,7 +317,7 @@ public class AwsInvoicing : IAwsInvoicing
     }
 
     /// <summary>
-    /// o This feature API is subject to changing at any time. For more in- formation, see the `Amazon Web Services Service Terms &lt;https://aws.amazon.com/service-terms/&gt;`__ (Betas and Previews). * Updates the status of a procurement portal preference, including the activation state of e-invoice delivery and purchase order retrieval features. See also: AWS API Documentation
+    /// • This feature API is subject to changing at any time. For more information, see the `Amazon Web Services Service Terms &lt;https://aws.amazon.com/service-terms/&gt;`__ (Betas and Previews). * Updates the status of a procurement portal preference, including the activation state of e-invoice delivery and purchase order retrieval features. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -332,7 +332,7 @@ public class AwsInvoicing : IAwsInvoicing
     }
 
     /// <summary>
-    /// o This feature API is subject to changing at any time. For more in- formation, see the `Amazon Web Services Service Terms &lt;https://aws.amazon.com/service-terms/&gt;`__ (Betas and Previews). * Submits a validation code to complete the validation of a procurement portal preference. Use this operation after calling SendProcurementPor- talValidation to confirm ownership and connectivity of the configured procurement portal endpoint. See also: AWS API Documentation
+    /// • This feature API is subject to changing at any time. For more information, see the `Amazon Web Services Service Terms &lt;https://aws.amazon.com/service-terms/&gt;`__ (Betas and Previews). * Submits a validation code to complete the validation of a procurement portal preference. Use this operation after calling SendProcurementPortalValidation to confirm ownership and connectivity of the configured procurement portal endpoint. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

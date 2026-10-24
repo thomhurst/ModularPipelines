@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Describes the certificate that's identified by the CertificateId . NOTE: Transfer Family automatically publishes a Amazon CloudWatch metric called DaysUntilExpiry for imported certificates. This metric tracks the number of days until the certificate expires based on the Inac- tiveDate . The metric is available in the AWS/Transfer namespace and includes the CertificateId as a dimension. See also: AWS API Documentation
+/// Describes the certificate that's identified by the CertificateId . NOTE: Transfer Family automatically publishes a Amazon CloudWatch metric called DaysUntilExpiry for imported certificates. This metric tracks the number of days until the certificate expires based on the InactiveDate . The metric is available in the AWS/Transfer namespace and includes the CertificateId as a dimension. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsTransferDescribeCertificateOptions : AwsOptions, IValidatableOb
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Describes the certificate that's identified by the CertificateId . NOTE: Transfer Family automatically publishes a Amazon CloudWatch metric called DaysUntilExpiry for imported certificates. This metric tracks the number of days until the certificate expires based on the Inac- tiveDate . The metric is available in the AWS/Transfer namespace and includes the CertificateId as a dimension. See also: AWS API Documentation
+    /// Describes the certificate that's identified by the CertificateId . NOTE: Transfer Family automatically publishes a Amazon CloudWatch metric called DaysUntilExpiry for imported certificates. This metric tracks the number of days until the certificate expires based on the InactiveDate . The metric is available in the AWS/Transfer namespace and includes the CertificateId as a dimension. See also: AWS API Documentation
     /// </summary>
-    /// <param name="CertificateId">An array of identifiers for the imported certificates. You use this identifier for working with profiles and partner profiles. Constraints: o min: 22 o max: 22 o pattern: cert-([0-9a-f]{17})</param>
+    /// <param name="CertificateId">An array of identifiers for the imported certificates. You use this identifier for working with profiles and partner profiles. Constraints: • min: 22 • max: 22 • pattern: cert-([0-9a-f]{17})</param>
     public AwsTransferDescribeCertificateOptions(
         string CertificateId
     )
@@ -56,7 +57,7 @@ public record AwsTransferDescribeCertificateOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// An array of identifiers for the imported certificates. You use this identifier for working with profiles and partner profiles. Constraints: o min: 22 o max: 22 o pattern: cert-([0-9a-f]{17})
+    /// An array of identifiers for the imported certificates. You use this identifier for working with profiles and partner profiles. Constraints: • min: 22 • max: 22 • pattern: cert-([0-9a-f]{17})
     /// </summary>
     [CliOption("--certificate-id")]
     public string? CertificateId { get; private init; }
@@ -82,6 +83,15 @@ public record AwsTransferDescribeCertificateOptions : AwsOptions, IValidatableOb
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

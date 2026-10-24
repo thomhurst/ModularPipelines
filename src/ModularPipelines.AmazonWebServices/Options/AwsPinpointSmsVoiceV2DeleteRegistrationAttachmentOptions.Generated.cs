@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsPinpointSmsVoiceV2DeleteRegistrationAttachmentOptions : AwsOpti
     /// <summary>
     /// Permanently delete the specified registration attachment. See also: AWS API Documentation
     /// </summary>
-    /// <param name="RegistrationAttachmentId">The unique identifier for the registration attachment. Constraints: o min: 1 o max: 256 o pattern: [A-Za-z0-9_:/-]+</param>
+    /// <param name="RegistrationAttachmentId">The unique identifier for the registration attachment. Constraints: • min: 1 • max: 256 • pattern: [A-Za-z0-9_:/-]+</param>
     public AwsPinpointSmsVoiceV2DeleteRegistrationAttachmentOptions(
         string RegistrationAttachmentId
     )
@@ -56,7 +57,7 @@ public record AwsPinpointSmsVoiceV2DeleteRegistrationAttachmentOptions : AwsOpti
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier for the registration attachment. Constraints: o min: 1 o max: 256 o pattern: [A-Za-z0-9_:/-]+
+    /// The unique identifier for the registration attachment. Constraints: • min: 1 • max: 256 • pattern: [A-Za-z0-9_:/-]+
     /// </summary>
     [CliOption("--registration-attachment-id")]
     public string? RegistrationAttachmentId { get; private init; }
@@ -82,6 +83,15 @@ public record AwsPinpointSmsVoiceV2DeleteRegistrationAttachmentOptions : AwsOpti
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsOdbUpdateOdbPeeringConnectionOptions : AwsOptions, IValidatable
     /// <summary>
     /// Modifies the settings of an Oracle Database@Amazon Web Services peering connection. You can update the display name and add or remove CIDR blocks from the peering connection. See also: AWS API Documentation
     /// </summary>
-    /// <param name="OdbPeeringConnectionId">The identifier of the Oracle Database@Amazon Web Services peering connection to update. Constraints: o min: 6 o max: 2048 o pattern: (arn:(?:aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):[a-z0-9-]+:[a-z0-9-]*:[0-9]+:[a-z0-9-]+/[a-zA-Z0-9_~.-]{6,64}|[a-zA-Z0-9_~.-]{6,64})</param>
+    /// <param name="OdbPeeringConnectionId">The identifier of the Oracle Database@Amazon Web Services peering connection to update. Constraints: • min: 6 • max: 2048 • pattern: (arn:(?:aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):[a-z0-9-]+:[a-z0-9-]*:[0-9]+:[a-z0-9-]+/[a-zA-Z0-9_~.-]{6,64}|[a-zA-Z0-9_~.-]{6,64})</param>
     public AwsOdbUpdateOdbPeeringConnectionOptions(
         string OdbPeeringConnectionId
     )
@@ -56,25 +57,25 @@ public record AwsOdbUpdateOdbPeeringConnectionOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the Oracle Database@Amazon Web Services peering connection to update. Constraints: o min: 6 o max: 2048 o pattern: (arn:(?:aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):[a-z0-9-]+:[a-z0-9-]*:[0-9]+:[a-z0-9-]+/[a-zA-Z0-9_~.-]{6,64}|[a-zA-Z0-9_~.-]{6,64})
+    /// The identifier of the Oracle Database@Amazon Web Services peering connection to update. Constraints: • min: 6 • max: 2048 • pattern: (arn:(?:aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):[a-z0-9-]+:[a-z0-9-]*:[0-9]+:[a-z0-9-]+/[a-zA-Z0-9_~.-]{6,64}|[a-zA-Z0-9_~.-]{6,64})
     /// </summary>
     [CliOption("--odb-peering-connection-id")]
     public string? OdbPeeringConnectionId { get; private init; }
 
     /// <summary>
-    /// A new display name for the peering connection. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z_](?!.*--)[a-zA-Z0-9_-]*
+    /// A new display name for the peering connection. Constraints: • min: 1 • max: 255 • pattern: [a-zA-Z_](?!.*--)[a-zA-Z0-9_-]*
     /// </summary>
     [CliOption("--display-name")]
     public string? DisplayName { get; set; }
 
     /// <summary>
-    /// A list of CIDR blocks to add to the peering connection. These CIDR blocks define the IP address ranges that can communicate through the peering connection. The CIDR blocks must not overlap with existing CIDR blocks in the Oracle Database@Amazon Web Services network. (string) Constraints: o min: 1 o max: 18 o pattern: (?:(?:\d|[01]?\d\d|2[0-4]\d|25[0-5])\.){3}(?:25[0-5]|2[0-4]\d|[01]?\d\d|\d)\/(?:[1-2][0-9]|3[0-2]|[1-9]) Syntax: "string" "string" ...
+    /// A list of CIDR blocks to add to the peering connection. These CIDR blocks define the IP address ranges that can communicate through the peering connection. The CIDR blocks must not overlap with existing CIDR blocks in the Oracle Database@Amazon Web Services network. (string) Constraints: • min: 1 • max: 18 • pattern: (?:(?:\d|[01]?\d\d|2[0-4]\d|25[0-5])\.){3}(?:25[0-5]|2[0-4]\d|[01]?\d\d|\d)\/(?:[1-2][0-9]|3[0-2]|[1-9]) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--peer-network-cidrs-to-be-added", GroupValues = true)]
     public IEnumerable<string>? PeerNetworkCidrsToBeAdded { get; set; }
 
     /// <summary>
-    /// A list of CIDR blocks to remove from the peering connection. The CIDR blocks must currently exist in the peering connection. (string) Constraints: o min: 1 o max: 18 o pattern: (?:(?:\d|[01]?\d\d|2[0-4]\d|25[0-5])\.){3}(?:25[0-5]|2[0-4]\d|[01]?\d\d|\d)\/(?:[1-2][0-9]|3[0-2]|[1-9]) Syntax: "string" "string" ...
+    /// A list of CIDR blocks to remove from the peering connection. The CIDR blocks must currently exist in the peering connection. (string) Constraints: • min: 1 • max: 18 • pattern: (?:(?:\d|[01]?\d\d|2[0-4]\d|25[0-5])\.){3}(?:25[0-5]|2[0-4]\d|[01]?\d\d|\d)\/(?:[1-2][0-9]|3[0-2]|[1-9]) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--peer-network-cidrs-to-be-removed", GroupValues = true)]
     public IEnumerable<string>? PeerNetworkCidrsToBeRemoved { get; set; }
@@ -100,6 +101,15 @@ public record AwsOdbUpdateOdbPeeringConnectionOptions : AwsOptions, IValidatable
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

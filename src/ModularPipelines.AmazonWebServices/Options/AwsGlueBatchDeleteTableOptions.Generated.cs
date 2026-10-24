@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes multiple tables at once. NOTE: After completing this operation, you no longer have access to the table versions and partitions that belong to the deleted table. Glue deletes these "orphaned" resources asynchronously in a timely man- ner, at the discretion of the service. To ensure the immediate deletion of all related resources, before calling BatchDeleteTable , use DeleteTableVersion or BatchDeleteTableVersion , and DeletePartition or BatchDeleteParti- tion , to delete any resources tha...
+/// Deletes multiple tables at once. NOTE: After completing this operation, you no longer have access to the table versions and partitions that belong to the deleted table. Glue deletes these "orphaned" resources asynchronously in a timely manner, at the discretion of the service. To ensure the immediate deletion of all related resources, before calling BatchDeleteTable , use DeleteTableVersion or BatchDeleteTableVersion , and DeletePartition or BatchDeletePartition , to delete any resources that be...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsGlueBatchDeleteTableOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes multiple tables at once. NOTE: After completing this operation, you no longer have access to the table versions and partitions that belong to the deleted table. Glue deletes these "orphaned" resources asynchronously in a timely man- ner, at the discretion of the service. To ensure the immediate deletion of all related resources, before calling BatchDeleteTable , use DeleteTableVersion or BatchDeleteTableVersion , and DeletePartition or BatchDeleteParti- tion , to delete any resources tha...
+    /// Deletes multiple tables at once. NOTE: After completing this operation, you no longer have access to the table versions and partitions that belong to the deleted table. Glue deletes these "orphaned" resources asynchronously in a timely manner, at the discretion of the service. To ensure the immediate deletion of all related resources, before calling BatchDeleteTable , use DeleteTableVersion or BatchDeleteTableVersion , and DeletePartition or BatchDeletePartition , to delete any resources that be...
     /// </summary>
-    /// <param name="DatabaseName">The name of the catalog database in which the tables to delete re- side. For Hive compatibility, this name is entirely lowercase. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*</param>
-    /// <param name="TablesToDelete">A list of the table to delete. Constraints: o min: 0 o max: 100 (string) Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* Syntax: "string" "string" ...</param>
+    /// <param name="DatabaseName">The name of the catalog database in which the tables to delete reside. For Hive compatibility, this name is entirely lowercase. Constraints: • min: 1 • max: 255 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*</param>
+    /// <param name="TablesToDelete">A list of the table to delete. Constraints: • min: 0 • max: 100 (string) Constraints: • min: 1 • max: 255 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* Syntax: "string" "string" ...</param>
     public AwsGlueBatchDeleteTableOptions(
         string DatabaseName,
         IEnumerable<string> TablesToDelete
@@ -71,25 +72,25 @@ public record AwsGlueBatchDeleteTableOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the catalog database in which the tables to delete re- side. For Hive compatibility, this name is entirely lowercase. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
+    /// The name of the catalog database in which the tables to delete reside. For Hive compatibility, this name is entirely lowercase. Constraints: • min: 1 • max: 255 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
     /// </summary>
     [CliOption("--database-name")]
     public string? DatabaseName { get; private init; }
 
     /// <summary>
-    /// A list of the table to delete. Constraints: o min: 0 o max: 100 (string) Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* Syntax: "string" "string" ...
+    /// A list of the table to delete. Constraints: • min: 0 • max: 100 (string) Constraints: • min: 1 • max: 255 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--tables-to-delete", GroupValues = true)]
     public IEnumerable<string>? TablesToDelete { get; private init; }
 
     /// <summary>
-    /// The ID of the Data Catalog where the table resides. If none is pro- vided, the Amazon Web Services account ID is used by default. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
+    /// The ID of the Data Catalog where the table resides. If none is provided, the Amazon Web Services account ID is used by default. Constraints: • min: 1 • max: 255 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
     /// </summary>
     [CliOption("--catalog-id")]
     public string? CatalogId { get; set; }
 
     /// <summary>
-    /// The transaction ID at which to delete the table contents. Constraints: o min: 1 o max: 255 o pattern: [\p{L}\p{N}\p{P}]*
+    /// The transaction ID at which to delete the table contents. Constraints: • min: 1 • max: 255 • pattern: [\p{L}\p{N}\p{P}]*
     /// </summary>
     [CliOption("--transaction-id")]
     public string? TransactionId { get; set; }
@@ -115,6 +116,15 @@ public record AwsGlueBatchDeleteTableOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

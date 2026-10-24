@@ -11,7 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -30,8 +30,8 @@ public record AwsIotManagedIntegrationsCreateOtaTaskOptions : AwsOptions, IValid
     /// <summary>
     /// Create an over-the-air (OTA) task to target a device. See also: AWS API Documentation
     /// </summary>
-    /// <param name="S3Url">The URL to the Amazon S3 bucket where the over-the-air (OTA) task is stored. Constraints: o min: 1 o max: 1000</param>
-    /// <param name="OtaType">The frequency type for the over-the-air (OTA) task. Possible values: o ONE_TIME o CONTINUOUS</param>
+    /// <param name="S3Url">The URL to the Amazon S3 bucket where the over-the-air (OTA) task is stored. Constraints: • min: 1 • max: 1000</param>
+    /// <param name="OtaType">The frequency type for the over-the-air (OTA) task. Possible values: • ONE_TIME • CONTINUOUS</param>
     public AwsIotManagedIntegrationsCreateOtaTaskOptions(
         string S3Url,
         AwsIotManagedIntegrationsCreateOtaTaskOtaType OtaType
@@ -62,25 +62,25 @@ public record AwsIotManagedIntegrationsCreateOtaTaskOptions : AwsOptions, IValid
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The URL to the Amazon S3 bucket where the over-the-air (OTA) task is stored. Constraints: o min: 1 o max: 1000
+    /// The URL to the Amazon S3 bucket where the over-the-air (OTA) task is stored. Constraints: • min: 1 • max: 1000
     /// </summary>
     [CliOption("--s3-url")]
     public string? S3Url { get; private init; }
 
     /// <summary>
-    /// The frequency type for the over-the-air (OTA) task. Possible values: o ONE_TIME o CONTINUOUS
+    /// The frequency type for the over-the-air (OTA) task. Possible values: • ONE_TIME • CONTINUOUS
     /// </summary>
     [CliOption("--ota-type")]
     public AwsIotManagedIntegrationsCreateOtaTaskOtaType? OtaType { get; private init; }
 
     /// <summary>
-    /// The description of the over-the-air (OTA) task. Constraints: o min: 1 o max: 256 o pattern: [0-9A-Za-z_\- ]+
+    /// The description of the over-the-air (OTA) task. Constraints: • min: 1 • max: 256 • pattern: [0-9A-Za-z_\- ]+
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The connection protocol the over-the-air (OTA) task uses to update the device. Possible values: o HTTP
+    /// The connection protocol the over-the-air (OTA) task uses to update the device. Possible values: • HTTP
     /// </summary>
     [CliOption("--protocol")]
     public string? Protocol { get; set; }
@@ -92,13 +92,13 @@ public record AwsIotManagedIntegrationsCreateOtaTaskOptions : AwsOptions, IValid
     public IEnumerable<string>? Target { get; set; }
 
     /// <summary>
-    /// The identifier for the over-the-air (OTA) task configuration. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9]*
+    /// The identifier for the over-the-air (OTA) task configuration. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9]*
     /// </summary>
     [CliOption("--task-configuration-id")]
     public string? TaskConfigurationId { get; set; }
 
     /// <summary>
-    /// The deployment mechanism for the over-the-air (OTA) task. Possible values: o PUSH
+    /// The deployment mechanism for the over-the-air (OTA) task. Possible values: • PUSH
     /// </summary>
     [CliOption("--ota-mechanism")]
     public string? OtaMechanism { get; set; }
@@ -110,26 +110,26 @@ public record AwsIotManagedIntegrationsCreateOtaTaskOptions : AwsOptions, IValid
     public string? OtaTargetQueryString { get; set; }
 
     /// <summary>
-    /// An idempotency token. If you retry a request that completed success- fully initially using the same client token and parameters, then the retry attempt will succeed without performing any further actions. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9=_-]+
+    /// An idempotency token. If you retry a request that completed successfully initially using the same client token and parameters, then the retry attempt will succeed without performing any further actions. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9=_-]+
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// Over-the-air (OTA) task scheduling config. EndBehavior -&gt; (string) Specifies the end behavior for all task executions after a task reaches the selected endTime . If endTime is not selected when creating the task, then endBehavior does not apply. Possible values: o STOP_ROLLOUT o CANCEL o FORCE_CANCEL EndTime -&gt; (string) The time an over-the-air (OTA) task will stop. MaintenanceWindows -&gt; (list) Maintenance window list for over-the-air (OTA) task scheduling config. (structure) Structure representing scheduling maintenance window. DurationInMinutes -&gt; (integer) Displays the duration of the next maintenance window. Constraints: o min: 1 o max: 1430 StartTime -&gt; (string) Displays the start time of the next maintenance window. StartTime -&gt; (string) The time an over-the-air (OTA) task will start. Shorthand Syntax: EndBehavior=string,EndTime=string,MaintenanceWindows=[{DurationInMinutes=integer,StartTime=string},{DurationInMinutes=integer,StartTime=string}],StartTime=string JSON Syntax: { "EndBehavior": "STOP_ROLLOUT"|"CANCEL"|"FORCE_CANCEL", "EndTime": "string", "MaintenanceWindows": [ { "DurationInMinutes": integer, "StartTime": "string" } ... ], "StartTime": "string" }
+    /// Over-the-air (OTA) task scheduling config. EndBehavior -&gt; (string) Specifies the end behavior for all task executions after a task reaches the selected endTime . If endTime is not selected when creating the task, then endBehavior does not apply. Possible values: • STOP_ROLLOUT • CANCEL • FORCE_CANCEL EndTime -&gt; (string) The time an over-the-air (OTA) task will stop. MaintenanceWindows -&gt; (list) Maintenance window list for over-the-air (OTA) task scheduling config. (structure) Structure representing scheduling maintenance window. DurationInMinutes -&gt; (integer) Displays the duration of the next maintenance window. Constraints: • min: 1 • max: 1430 StartTime -&gt; (string) Displays the start time of the next maintenance window. StartTime -&gt; (string) The time an over-the-air (OTA) task will start. Shorthand Syntax: EndBehavior=string,EndTime=string,MaintenanceWindows=[{DurationInMinutes=integer,StartTime=string},{DurationInMinutes=integer,StartTime=string}],StartTime=string JSON Syntax: { "EndBehavior": "STOP_ROLLOUT"|"CANCEL"|"FORCE_CANCEL", "EndTime": "string", "MaintenanceWindows": [ { "DurationInMinutes": integer, "StartTime": "string" } ... ], "StartTime": "string" }
     /// </summary>
     [CliOption("--ota-scheduling-config")]
     public string? OtaSchedulingConfig { get; set; }
 
     /// <summary>
-    /// Over-the-air (OTA) task retry config. RetryConfigCriteria -&gt; (list) The list of retry config criteria. (structure) Structure representing one retry config criteria. FailureType -&gt; (string) Over-the-air (OTA) retry criteria failure type. Possible values: o FAILED o TIMED_OUT o ALL MinNumberOfRetries -&gt; (integer) The number of retries allowed for a failure type for the over-the-air (OTA) task. Constraints: o min: 0 o max: 10 Shorthand Syntax: RetryConfigCriteria=[{FailureType=string,MinNumberOfRetries=integer},{FailureType=string,MinNumberOfRetries=integer}] JSON Syntax: { "RetryConfigCriteria": [ { "FailureType": "FAILED"|"TIMED_OUT"|"ALL", "MinNumberOfRetries": integer } ... ] }
+    /// Over-the-air (OTA) task retry config. RetryConfigCriteria -&gt; (list) The list of retry config criteria. (structure) Structure representing one retry config criteria. FailureType -&gt; (string) Over-the-air (OTA) retry criteria failure type. Possible values: • FAILED • TIMED_OUT • ALL MinNumberOfRetries -&gt; (integer) The number of retries allowed for a failure type for the over-the-air (OTA) task. Constraints: • min: 0 • max: 10 Shorthand Syntax: RetryConfigCriteria=[{FailureType=string,MinNumberOfRetries=integer},{FailureType=string,MinNumberOfRetries=integer}] JSON Syntax: { "RetryConfigCriteria": [ { "FailureType": "FAILED"|"TIMED_OUT"|"ALL", "MinNumberOfRetries": integer } ... ] }
     /// </summary>
     [CliOption("--ota-task-execution-retry-config")]
     public string? OtaTaskExecutionRetryConfig { get; set; }
 
     /// <summary>
-    /// A set of key/value pairs that are used to manage the over-the-air (OTA) task. Constraints: o min: 1 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// A set of key/value pairs that are used to manage the over-the-air (OTA) task. Constraints: • min: 1 • max: 50 key -&gt; (string) Constraints: • min: 1 • max: 128 value -&gt; (string) Constraints: • min: 0 • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
@@ -155,6 +155,15 @@ public record AwsIotManagedIntegrationsCreateOtaTaskOptions : AwsOptions, IValid
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

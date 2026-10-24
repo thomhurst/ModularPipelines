@@ -22,19 +22,19 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsDynamodbstreamsListStreamsOptions : AwsOptions
 {
     /// <summary>
-    /// If this parameter is provided, then only the streams associated with this table name are returned. Constraints: o min: 3 o max: 255 o pattern: [a-zA-Z0-9_.-]+
+    /// If this parameter is provided, then only the streams associated with this table name are returned. Constraints: • min: 3 • max: 255 • pattern: [a-zA-Z0-9_.-]+
     /// </summary>
     [CliOption("--table-name")]
     public string? TableName { get; set; }
 
     /// <summary>
-    /// The maximum number of streams to return. The upper limit is 100. Constraints: o min: 1
+    /// The maximum number of streams to return. The upper limit is 100. Constraints: • min: 1
     /// </summary>
     [CliOption("--limit")]
     public int? Limit { get; set; }
 
     /// <summary>
-    /// The ARN (Amazon Resource Name) of the first item that this operation will evaluate. Use the value that was returned for LastEvaluated- StreamArn in the previous operation. Constraints: o min: 37 o max: 1024
+    /// The ARN (Amazon Resource Name) of the first item that this operation will evaluate. Use the value that was returned for LastEvaluatedStreamArn in the previous operation. Constraints: • min: 37 • max: 1024
     /// </summary>
     [CliOption("--exclusive-start-stream-arn")]
     public string? ExclusiveStartStreamArn { get; set; }
@@ -44,5 +44,14 @@ public record AwsDynamodbstreamsListStreamsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

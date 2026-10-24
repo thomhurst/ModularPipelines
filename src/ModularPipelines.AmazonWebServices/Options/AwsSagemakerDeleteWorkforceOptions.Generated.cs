@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Use this operation to delete a workforce. If you want to create a new workforce in an Amazon Web Services Region where a workforce already exists, use this operation to delete the ex- isting workforce and then use CreateWorkforce to create a new work- force. WARNING: If a private workforce contains one or more work teams, you must use the DeleteWorkteam operation to delete all work teams before you delete the workforce. If you try to delete a workforce that contains one or more work teams, you w...
+/// Use this operation to delete a workforce. If you want to create a new workforce in an Amazon Web Services Region where a workforce already exists, use this operation to delete the existing workforce and then use CreateWorkforce to create a new workforce. WARNING: If a private workforce contains one or more work teams, you must use the DeleteWorkteam operation to delete all work teams before you delete the workforce. If you try to delete a workforce that contains one or more work teams, you will ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsSagemakerDeleteWorkforceOptions : AwsOptions, IValidatableObjec
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Use this operation to delete a workforce. If you want to create a new workforce in an Amazon Web Services Region where a workforce already exists, use this operation to delete the ex- isting workforce and then use CreateWorkforce to create a new work- force. WARNING: If a private workforce contains one or more work teams, you must use the DeleteWorkteam operation to delete all work teams before you delete the workforce. If you try to delete a workforce that contains one or more work teams, you w...
+    /// Use this operation to delete a workforce. If you want to create a new workforce in an Amazon Web Services Region where a workforce already exists, use this operation to delete the existing workforce and then use CreateWorkforce to create a new workforce. WARNING: If a private workforce contains one or more work teams, you must use the DeleteWorkteam operation to delete all work teams before you delete the workforce. If you try to delete a workforce that contains one or more work teams, you will ...
     /// </summary>
-    /// <param name="WorkforceName">The name of the workforce. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z0-9]([a-zA-Z0-9\-]){0,62}</param>
+    /// <param name="WorkforceName">The name of the workforce. Constraints: • min: 1 • max: 63 • pattern: [a-zA-Z0-9]([a-zA-Z0-9\-]){0,62}</param>
     public AwsSagemakerDeleteWorkforceOptions(
         string WorkforceName
     )
@@ -56,7 +57,7 @@ public record AwsSagemakerDeleteWorkforceOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the workforce. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z0-9]([a-zA-Z0-9\-]){0,62}
+    /// The name of the workforce. Constraints: • min: 1 • max: 63 • pattern: [a-zA-Z0-9]([a-zA-Z0-9\-]){0,62}
     /// </summary>
     [CliOption("--workforce-name")]
     public string? WorkforceName { get; private init; }
@@ -82,6 +83,15 @@ public record AwsSagemakerDeleteWorkforceOptions : AwsOptions, IValidatableObjec
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -6,14 +6,14 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using ModularPipelines.Models;
+using ModularPipelines;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
 namespace ModularPipelines.AmazonWebServices.Services;
 
 /// <summary>
-/// aws marketplacereporting commands.
+/// aws marketplace-reporting commands.
 /// </summary>
 /// <remarks>
 /// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
@@ -22,13 +22,12 @@ namespace ModularPipelines.AmazonWebServices.Services;
 public interface IAwsMarketplaceReporting
 {
     /// <summary>
-    /// Generates an embedding URL for an Amazon QuickSight dashboard for an anonymous user. NOTE: This API is available only to Amazon Web Services Organization man- agement accounts or delegated administrators registered for the pro- curement insights (procurement-insights.marketplace.amazonaws.com ) feature. The following rules apply to a generated URL: o It contains a temporary bearer token, valid for 5 minutes after it is generated. Once redeemed within that period, it cannot be re-used again. o It...
+    /// Generates an embedding URL for an Amazon QuickSight dashboard for an anonymous user. NOTE: This API is available only to Amazon Web Services Organization management accounts or delegated administrators registered for the procurement insights (procurement-insights.marketplace.amazonaws.com ) feature. The following rules apply to a generated URL: • It contains a temporary bearer token, valid for 5 minutes after it is generated. Once redeemed within that period, it cannot be re-used again. • It has...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetBuyerDashboardAsync(AwsMarketplaceReportingGetBuyerDashboardOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetBuyerDashboardAsync(AwsMarketplaceReportingGetBuyerDashboardOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

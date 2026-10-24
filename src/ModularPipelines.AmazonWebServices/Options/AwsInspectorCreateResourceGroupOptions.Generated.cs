@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a resource group using the specified set of tags (key and value pairs) that are used to select the EC2 instances to be included in an Amazon Inspector assessment target. The created resource group is then used to create an Amazon Inspector assessment target. For more informa- tion, see CreateAssessmentTarget . See also: AWS API Documentation
+/// Creates a resource group using the specified set of tags (key and value pairs) that are used to select the EC2 instances to be included in an Amazon Inspector assessment target. The created resource group is then used to create an Amazon Inspector assessment target. For more information, see CreateAssessmentTarget . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsInspectorCreateResourceGroupOptions : AwsOptions, IValidatableO
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a resource group using the specified set of tags (key and value pairs) that are used to select the EC2 instances to be included in an Amazon Inspector assessment target. The created resource group is then used to create an Amazon Inspector assessment target. For more informa- tion, see CreateAssessmentTarget . See also: AWS API Documentation
+    /// Creates a resource group using the specified set of tags (key and value pairs) that are used to select the EC2 instances to be included in an Amazon Inspector assessment target. The created resource group is then used to create an Amazon Inspector assessment target. For more information, see CreateAssessmentTarget . See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceGroupTags">A collection of keys and an array of possible values, '[{"key":"key1","values":["Value1","Value2"]},{"key":"Key2","val- ues":["Value3"]}]'. For example,'[{"key":"Name","values":["TestEC2Instance"]}]'. Constraints: o min: 1 o max: 10 (structure) This data type is used as one of the elements of the Resource- Group data type. key -&gt; (string) [required] A tag key. Constraints: o min: 1 o max: 128 value -&gt; (string) The value assigned to a tag key. Constraints: o min: 1 o max: 256 Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]</param>
+    /// <param name="ResourceGroupTags">A collection of keys and an array of possible values, '[{"key":"key1","values":["Value1","Value2"]},{"key":"Key2","values":["Value3"]}]'. For example,'[{"key":"Name","values":["TestEC2Instance"]}]'. Constraints: • min: 1 • max: 10 (structure) This data type is used as one of the elements of the ResourceGroup data type. key -&gt; (string) [required] A tag key. Constraints: • min: 1 • max: 128 value -&gt; (string) The value assigned to a tag key. Constraints: • min: 1 • max: 256 Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]</param>
     public AwsInspectorCreateResourceGroupOptions(
         IEnumerable<string> ResourceGroupTags
     )
@@ -67,7 +68,7 @@ public record AwsInspectorCreateResourceGroupOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A collection of keys and an array of possible values, '[{"key":"key1","values":["Value1","Value2"]},{"key":"Key2","val- ues":["Value3"]}]'. For example,'[{"key":"Name","values":["TestEC2Instance"]}]'. Constraints: o min: 1 o max: 10 (structure) This data type is used as one of the elements of the Resource- Group data type. key -&gt; (string) [required] A tag key. Constraints: o min: 1 o max: 128 value -&gt; (string) The value assigned to a tag key. Constraints: o min: 1 o max: 256 Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
+    /// A collection of keys and an array of possible values, '[{"key":"key1","values":["Value1","Value2"]},{"key":"Key2","values":["Value3"]}]'. For example,'[{"key":"Name","values":["TestEC2Instance"]}]'. Constraints: • min: 1 • max: 10 (structure) This data type is used as one of the elements of the ResourceGroup data type. key -&gt; (string) [required] A tag key. Constraints: • min: 1 • max: 128 value -&gt; (string) The value assigned to a tag key. Constraints: • min: 1 • max: 256 Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
     /// </summary>
     [CliOption("--resource-group-tags", GroupValues = true)]
     public IEnumerable<string>? ResourceGroupTags { get; private init; }
@@ -93,6 +94,15 @@ public record AwsInspectorCreateResourceGroupOptions : AwsOptions, IValidatableO
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsEcrPublicCreateRepositoryOptions : AwsOptions, IValidatableObje
     /// <summary>
     /// Creates a repository in a public registry. For more information, see Amazon ECR repositories in the Amazon Elastic Container Registry User Guide . See also: AWS API Documentation
     /// </summary>
-    /// <param name="RepositoryName">The name to use for the repository. This appears publicly in the Amazon ECR Public Gallery. The repository name can be specified on its own (for example nginx-web-app ) or prepended with a namespace to group the repository into a category (for example project-a/ng- inx-web-app ). Constraints: o min: 2 o max: 205 o pattern: (?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*</param>
+    /// <param name="RepositoryName">The name to use for the repository. This appears publicly in the Amazon ECR Public Gallery. The repository name can be specified on its own (for example nginx-web-app ) or prepended with a namespace to group the repository into a category (for example project-a/nginx-web-app ). Constraints: • min: 2 • max: 205 • pattern: (?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*</param>
     public AwsEcrPublicCreateRepositoryOptions(
         string RepositoryName
     )
@@ -56,19 +57,19 @@ public record AwsEcrPublicCreateRepositoryOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name to use for the repository. This appears publicly in the Amazon ECR Public Gallery. The repository name can be specified on its own (for example nginx-web-app ) or prepended with a namespace to group the repository into a category (for example project-a/ng- inx-web-app ). Constraints: o min: 2 o max: 205 o pattern: (?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*
+    /// The name to use for the repository. This appears publicly in the Amazon ECR Public Gallery. The repository name can be specified on its own (for example nginx-web-app ) or prepended with a namespace to group the repository into a category (for example project-a/nginx-web-app ). Constraints: • min: 2 • max: 205 • pattern: (?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*
     /// </summary>
     [CliOption("--repository-name")]
     public string? RepositoryName { get; private init; }
 
     /// <summary>
-    /// The details about the repository that are publicly visible in the Amazon ECR Public Gallery. description -&gt; (string) A short description of the contents of the repository. This text appears in both the image details and also when searching for repositories on the Amazon ECR Public Gallery. Constraints: o max: 1024 architectures -&gt; (list) The system architecture that the images in the repository are compatible with. On the Amazon ECR Public Gallery, the following supported architectures appear as badges on the repository and are used as search filters. NOTE: If an unsupported tag is added to your repository catalog data, it's associated with the repository and can be re- trieved using the API but isn't discoverable in the Amazon ECR Public Gallery. o ARM o ARM 64 o x86 o x86-64 Constraints: o max: 50 (string) Constraints: o min: 1 o max: 50 operatingSystems -&gt; (list) The operating systems that the images in the repository are com- patible with. On the Amazon ECR Public Gallery, the following supported operating systems appear as badges on the repository and are used as search filters. NOTE: If an unsupported tag is added to your repository catalog data, it's associated with the repository and can be re- trieved using the API but isn't discoverable in the Amazon ECR Public Gallery. o Linux o Windows Constraints: o max: 50 (string) Constraints: o min: 1 o max: 50 logoImageBlob -&gt; (blob) The base64-encoded repository logo payload. NOTE: The repository logo is only publicly visible in the Amazon ECR Public Gallery for verified accounts. Constraints: o min: 0 o max: 512000 aboutText -&gt; (string) A detailed description of the contents of the repository. It's publicly visible in the Amazon ECR Public Gallery. The text must be in markdown format. Constraints: o max: 25600 usageText -&gt; (string) Detailed information about how to use the contents of the repos- itory. It's publicly visible in the Amazon ECR Public Gallery. The usage text provides context, support information, and addi- tional usage details for users of the repository. The text must be in markdown format. Constraints: o max: 25600 Shorthand Syntax: description=string,architectures=string,string,operatingSystems=string,string,logoImageBlob=blob,aboutText=string,usageText=string JSON Syntax: { "description": "string", "architectures": ["string", ...], "operatingSystems": ["string", ...], "logoImageBlob": blob, "aboutText": "string", "usageText": "string" }
+    /// The details about the repository that are publicly visible in the Amazon ECR Public Gallery. description -&gt; (string) A short description of the contents of the repository. This text appears in both the image details and also when searching for repositories on the Amazon ECR Public Gallery. Constraints: • max: 1024 architectures -&gt; (list) The system architecture that the images in the repository are compatible with. On the Amazon ECR Public Gallery, the following supported architectures appear as badges on the repository and are used as search filters. NOTE: If an unsupported tag is added to your repository catalog data, it's associated with the repository and can be retrieved using the API but isn't discoverable in the Amazon ECR Public Gallery. • ARM • ARM 64 • x86 • x86-64 Constraints: • max: 50 (string) Constraints: • min: 1 • max: 50 operatingSystems -&gt; (list) The operating systems that the images in the repository are compatible with. On the Amazon ECR Public Gallery, the following supported operating systems appear as badges on the repository and are used as search filters. NOTE: If an unsupported tag is added to your repository catalog data, it's associated with the repository and can be retrieved using the API but isn't discoverable in the Amazon ECR Public Gallery. • Linux • Windows Constraints: • max: 50 (string) Constraints: • min: 1 • max: 50 logoImageBlob -&gt; (blob) The base64-encoded repository logo payload. NOTE: The repository logo is only publicly visible in the Amazon ECR Public Gallery for verified accounts. Constraints: • min: 0 • max: 512000 aboutText -&gt; (string) A detailed description of the contents of the repository. It's publicly visible in the Amazon ECR Public Gallery. The text must be in markdown format. Constraints: • max: 25600 usageText -&gt; (string) Detailed information about how to use the contents of the repository. It's publicly visible in the Amazon ECR Public Gallery. The usage text provides context, support information, and additional usage details for users of the repository. The text must be in markdown format. Constraints: • max: 25600 Shorthand Syntax: description=string,architectures=string,string,operatingSystems=string,string,logoImageBlob=blob,aboutText=string,usageText=string JSON Syntax: { "description": "string", "architectures": ["string", ...], "operatingSystems": ["string", ...], "logoImageBlob": blob, "aboutText": "string", "usageText": "string" }
     /// </summary>
     [CliOption("--catalog-data")]
     public string? CatalogData { get; set; }
 
     /// <summary>
-    /// The metadata that you apply to each repository to help categorize and organize your repositories. Each tag consists of a key and an optional value. You define both of them. Tag keys can have a maximum character length of 128 characters, and tag values can have a maxi- mum length of 256 characters. Constraints: o min: 0 o max: 200 (structure) The metadata that you apply to a resource to help you categorize and organize them. Each tag consists of a key and an optional value. You define both. Tag keys can have a maximum character length of 128 characters, and tag values can have a maximum length of 256 characters. Key -&gt; (string) One part of a key-value pair that make up a tag. A key is a general label that acts like a category for more specific tag values. Constraints: o min: 1 o max: 128 Value -&gt; (string) The optional part of a key-value pair that make up a tag. A value acts as a descriptor within a tag category (key). Constraints: o min: 0 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// The metadata that you apply to each repository to help categorize and organize your repositories. Each tag consists of a key and an optional value. You define both of them. Tag keys can have a maximum character length of 128 characters, and tag values can have a maximum length of 256 characters. Constraints: • min: 0 • max: 200 (structure) The metadata that you apply to a resource to help you categorize and organize them. Each tag consists of a key and an optional value. You define both. Tag keys can have a maximum character length of 128 characters, and tag values can have a maximum length of 256 characters. Key -&gt; (string) One part of a key-value pair that make up a tag. A key is a general label that acts like a category for more specific tag values. Constraints: • min: 1 • max: 128 Value -&gt; (string) The optional part of a key-value pair that make up a tag. A value acts as a descriptor within a tag category (key). Constraints: • min: 0 • max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
@@ -94,6 +95,15 @@ public record AwsEcrPublicCreateRepositoryOptions : AwsOptions, IValidatableObje
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,7 +29,7 @@ public record AwsVpcLatticeUpdateServiceOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Updates the specified service. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ServiceIdentifier">The ID or ARN of the service. Constraints: o min: 17 o max: 2048 o pattern: ((svc-[0-9a-z]{17})|(arn:[a-z0-9\-]+:vpc-lat- tice:[a-zA-Z0-9\-]+:\d{12}:service/svc-[0-9a-z]{17}))</param>
+    /// <param name="ServiceIdentifier">The ID or ARN of the service. Constraints: • min: 17 • max: 2048 • pattern: ((svc-[0-9a-z]{17})|(arn:[a-z0-9\-]+:vpc-lattice:[a-zA-Z0-9\-]+:\d{12}:service/svc-[0-9a-z]{17}))</param>
     public AwsVpcLatticeUpdateServiceOptions(
         string ServiceIdentifier
     )
@@ -57,25 +58,25 @@ public record AwsVpcLatticeUpdateServiceOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID or ARN of the service. Constraints: o min: 17 o max: 2048 o pattern: ((svc-[0-9a-z]{17})|(arn:[a-z0-9\-]+:vpc-lat- tice:[a-zA-Z0-9\-]+:\d{12}:service/svc-[0-9a-z]{17}))
+    /// The ID or ARN of the service. Constraints: • min: 17 • max: 2048 • pattern: ((svc-[0-9a-z]{17})|(arn:[a-z0-9\-]+:vpc-lattice:[a-zA-Z0-9\-]+:\d{12}:service/svc-[0-9a-z]{17}))
     /// </summary>
     [CliOption("--service-identifier")]
     public string? ServiceIdentifier { get; private init; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the certificate. Constraints: o min: 0 o max: 2048 o pattern: (arn(:[a-z0-9]+([.-][a-z0-9]+)*){2}(:([a-z0-9]+([.-][a-z0-9]+)*)?){2}:cer- tificate/[0-9a-z-]+)?
+    /// The Amazon Resource Name (ARN) of the certificate. Constraints: • min: 0 • max: 2048 • pattern: (arn(:[a-z0-9]+([.-][a-z0-9]+)*){2}(:([a-z0-9]+([.-][a-z0-9]+)*)?){2}:certificate/[0-9a-z-]+)?
     /// </summary>
     [CliOption("--certificate-arn")]
     public string? CertificateArn { get; set; }
 
     /// <summary>
-    /// The type of IAM policy. o NONE : The resource does not use an IAM policy. This is the de- fault. o AWS_IAM : The resource uses an IAM policy. When this type is used, auth is enabled and an auth policy is required. Possible values: o NONE o AWS_IAM
+    /// The type of IAM policy. • NONE : The resource does not use an IAM policy. This is the default. • AWS_IAM : The resource uses an IAM policy. When this type is used, auth is enabled and an auth policy is required. Possible values: • NONE • AWS_IAM
     /// </summary>
     [CliOption("--auth-type")]
     public AwsVpcLatticeUpdateServiceAuthType? AuthType { get; set; }
 
     /// <summary>
-    /// The amount of time, in seconds, that a connection can remain idle (no data sent) before VPC Lattice closes it. The valid range is 60 to 600 seconds. If you don't specify a value, the default is 60 sec- onds. This setting does not change the maximum connection duration of 10 minutes; connections are still closed when they reach that limit. Constraints: o min: 60 o max: 600
+    /// The amount of time, in seconds, that a connection can remain idle (no data sent) before VPC Lattice closes it. The valid range is 60 to 600 seconds. If you don't specify a value, the default is 60 seconds. This setting does not change the maximum connection duration of 10 minutes; connections are still closed when they reach that limit. Constraints: • min: 60 • max: 600
     /// </summary>
     [CliOption("--idle-timeout-seconds")]
     public int? IdleTimeoutSeconds { get; set; }
@@ -101,6 +102,15 @@ public record AwsVpcLatticeUpdateServiceOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

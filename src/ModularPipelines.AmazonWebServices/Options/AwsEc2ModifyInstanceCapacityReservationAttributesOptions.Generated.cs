@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Modifies the Capacity Reservation settings for a stopped instance. Use this action to configure an instance to target a specific Capacity Reservation, run in any open Capacity Reservation with matching attrib- utes, run in On-Demand Instance capacity, or only run in a Capacity Reservation. See also: AWS API Documentation
+/// Modifies the Capacity Reservation settings for a stopped instance. Use this action to configure an instance to target a specific Capacity Reservation, run in any open Capacity Reservation with matching attributes, run in On-Demand Instance capacity, or only run in a Capacity Reservation. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsEc2ModifyInstanceCapacityReservationAttributesOptions : AwsOpti
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Modifies the Capacity Reservation settings for a stopped instance. Use this action to configure an instance to target a specific Capacity Reservation, run in any open Capacity Reservation with matching attrib- utes, run in On-Demand Instance capacity, or only run in a Capacity Reservation. See also: AWS API Documentation
+    /// Modifies the Capacity Reservation settings for a stopped instance. Use this action to configure an instance to target a specific Capacity Reservation, run in any open Capacity Reservation with matching attributes, run in On-Demand Instance capacity, or only run in a Capacity Reservation. See also: AWS API Documentation
     /// </summary>
     /// <param name="InstanceId">The ID of the instance to be modified.</param>
-    /// <param name="CapacityReservationSpecification">Information about the Capacity Reservation targeting option. CapacityReservationPreference -&gt; (string) Indicates the instance's Capacity Reservation preferences. Pos- sible preferences include: o capacity-reservations-only - The instance will only run in a Capacity Reservation or Capacity Reservation group. If capac- ity isn't available, the instance will fail to launch. o open - The instance can run in any open Capacity Reservation that has matching attributes (instance type, platform, Avail- ability Zone, and tenancy). If capacity isn't available, the instance runs as an On-Demand Instance. o none - The instance doesn't run in a Capacity Reservation even if one is available. The instance runs as an On-Demand In- stance. Possible values: o capacity-reservations-only o open o none CapacityReservationTarget -&gt; (structure) Information about the target Capacity Reservation or Capacity Reservation group. CapacityReservationId -&gt; (string) The ID of the Capacity Reservation in which to run the in- stance. CapacityReservationResourceGroupArn -&gt; (string) The ARN of the Capacity Reservation resource group in which to run the instance. Shorthand Syntax: CapacityReservationPreference=string,CapacityReservationTarget={CapacityReservationId=string,CapacityReservationResourceGroupArn=string} JSON Syntax: { "CapacityReservationPreference": "capacity-reservations-only"|"open"|"none", "CapacityReservationTarget": { "CapacityReservationId": "string", "CapacityReservationResourceGroupArn": "string" } }</param>
+    /// <param name="CapacityReservationSpecification">Information about the Capacity Reservation targeting option. CapacityReservationPreference -&gt; (string) Indicates the instance's Capacity Reservation preferences. Possible preferences include: • capacity-reservations-only - The instance will only run in a Capacity Reservation or Capacity Reservation group. If capacity isn't available, the instance will fail to launch. • open - The instance can run in any open Capacity Reservation that has matching attributes (instance type, platform, Availability Zone, and tenancy). If capacity isn't available, the instance runs as an On-Demand Instance. • none - The instance doesn't run in a Capacity Reservation even if one is available. The instance runs as an On-Demand Instance. Possible values: • capacity-reservations-only • open • none CapacityReservationTarget -&gt; (structure) Information about the target Capacity Reservation or Capacity Reservation group. CapacityReservationId -&gt; (string) The ID of the Capacity Reservation in which to run the instance. CapacityReservationResourceGroupArn -&gt; (string) The ARN of the Capacity Reservation resource group in which to run the instance. Shorthand Syntax: CapacityReservationPreference=string,CapacityReservationTarget={CapacityReservationId=string,CapacityReservationResourceGroupArn=string} JSON Syntax: { "CapacityReservationPreference": "capacity-reservations-only"|"open"|"none", "CapacityReservationTarget": { "CapacityReservationId": "string", "CapacityReservationResourceGroupArn": "string" } }</param>
     public AwsEc2ModifyInstanceCapacityReservationAttributesOptions(
         string InstanceId,
         string CapacityReservationSpecification
@@ -66,13 +67,13 @@ public record AwsEc2ModifyInstanceCapacityReservationAttributesOptions : AwsOpti
     public string? InstanceId { get; private init; }
 
     /// <summary>
-    /// Information about the Capacity Reservation targeting option. CapacityReservationPreference -&gt; (string) Indicates the instance's Capacity Reservation preferences. Pos- sible preferences include: o capacity-reservations-only - The instance will only run in a Capacity Reservation or Capacity Reservation group. If capac- ity isn't available, the instance will fail to launch. o open - The instance can run in any open Capacity Reservation that has matching attributes (instance type, platform, Avail- ability Zone, and tenancy). If capacity isn't available, the instance runs as an On-Demand Instance. o none - The instance doesn't run in a Capacity Reservation even if one is available. The instance runs as an On-Demand In- stance. Possible values: o capacity-reservations-only o open o none CapacityReservationTarget -&gt; (structure) Information about the target Capacity Reservation or Capacity Reservation group. CapacityReservationId -&gt; (string) The ID of the Capacity Reservation in which to run the in- stance. CapacityReservationResourceGroupArn -&gt; (string) The ARN of the Capacity Reservation resource group in which to run the instance. Shorthand Syntax: CapacityReservationPreference=string,CapacityReservationTarget={CapacityReservationId=string,CapacityReservationResourceGroupArn=string} JSON Syntax: { "CapacityReservationPreference": "capacity-reservations-only"|"open"|"none", "CapacityReservationTarget": { "CapacityReservationId": "string", "CapacityReservationResourceGroupArn": "string" } }
+    /// Information about the Capacity Reservation targeting option. CapacityReservationPreference -&gt; (string) Indicates the instance's Capacity Reservation preferences. Possible preferences include: • capacity-reservations-only - The instance will only run in a Capacity Reservation or Capacity Reservation group. If capacity isn't available, the instance will fail to launch. • open - The instance can run in any open Capacity Reservation that has matching attributes (instance type, platform, Availability Zone, and tenancy). If capacity isn't available, the instance runs as an On-Demand Instance. • none - The instance doesn't run in a Capacity Reservation even if one is available. The instance runs as an On-Demand Instance. Possible values: • capacity-reservations-only • open • none CapacityReservationTarget -&gt; (structure) Information about the target Capacity Reservation or Capacity Reservation group. CapacityReservationId -&gt; (string) The ID of the Capacity Reservation in which to run the instance. CapacityReservationResourceGroupArn -&gt; (string) The ARN of the Capacity Reservation resource group in which to run the instance. Shorthand Syntax: CapacityReservationPreference=string,CapacityReservationTarget={CapacityReservationId=string,CapacityReservationResourceGroupArn=string} JSON Syntax: { "CapacityReservationPreference": "capacity-reservations-only"|"open"|"none", "CapacityReservationTarget": { "CapacityReservationId": "string", "CapacityReservationResourceGroupArn": "string" } }
     /// </summary>
     [CliOption("--capacity-reservation-specification")]
     public string? CapacityReservationSpecification { get; private init; }
 
     /// <summary>
-    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation . Otherwise, it is UnauthorizedOperation .
     /// </summary>
     [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
@@ -98,6 +99,15 @@ public record AwsEc2ModifyInstanceCapacityReservationAttributesOptions : AwsOpti
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

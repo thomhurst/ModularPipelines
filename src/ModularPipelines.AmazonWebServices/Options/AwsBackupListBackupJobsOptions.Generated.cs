@@ -30,13 +30,13 @@ public record AwsBackupListBackupJobsOptions : AwsOptions
     public string? ByResourceArn { get; set; }
 
     /// <summary>
-    /// Returns only backup jobs that are in the specified state. Completed with issues is a status found only in the Backup con- sole. For API, this status refers to jobs with a state of COM- PLETED and a MessageCategory with a value other than SUCCESS ; that is, the status is completed but comes with a status mes- sage. To obtain the job count for Completed with issues , run two GET re- quests, and subtract the second, smaller number: GET /backup-jobs/?state=COMPLETED GET /backup-jobs/?messageCategory=SUCCESS&amp;state=COMPLETED Possible values: o CREATED o PENDING o RUNNING o ABORTING o ABORTED o COMPLETED o FAILED o EXPIRED o PARTIAL
+    /// Returns only backup jobs that are in the specified state. Completed with issues is a status found only in the Backup console. For API, this status refers to jobs with a state of COMPLETED and a MessageCategory with a value other than SUCCESS ; that is, the status is completed but comes with a status message. To obtain the job count for Completed with issues , run two GET requests, and subtract the second, smaller number: GET /backup-jobs/?state=COMPLETED GET /backup-jobs/?messageCategory=SUCCESS&amp;state=COMPLETED Possible values: • CREATED • PENDING • RUNNING • ABORTING • ABORTED • COMPLETED • FAILED • EXPIRED • PARTIAL
     /// </summary>
     [CliOption("--by-state")]
     public AwsBackupListBackupJobsByState? ByState { get; set; }
 
     /// <summary>
-    /// Returns only backup jobs that will be stored in the specified backup vault. Backup vaults are identified by names that are unique to the account used to create them and the Amazon Web Services Region where they are created. Constraints: o pattern: ^[a-zA-Z0-9\-\_]{2,50}$
+    /// Returns only backup jobs that will be stored in the specified backup vault. Backup vaults are identified by names that are unique to the account used to create them and the Amazon Web Services Region where they are created. Constraints: • pattern: ^[a-zA-Z0-9\-\_]{2,50}$
     /// </summary>
     [CliOption("--by-backup-vault-name")]
     public string? ByBackupVaultName { get; set; }
@@ -54,13 +54,13 @@ public record AwsBackupListBackupJobsOptions : AwsOptions
     public string? ByCreatedAfter { get; set; }
 
     /// <summary>
-    /// Returns only backup jobs for the specified resources: o Aurora for Amazon Aurora o CloudFormation for CloudFormation o DocumentDB for Amazon DocumentDB (with MongoDB compatibility) o DynamoDB for Amazon DynamoDB o EBS for Amazon Elastic Block Store o EC2 for Amazon Elastic Compute Cloud o EFS for Amazon Elastic File System o EKS for Amazon Elastic Kubernetes Service o FSx for Amazon FSx o Neptune for Amazon Neptune o RDS for Amazon Relational Database Service o Redshift for Amazon Redshift o S3 for Amazon Simple Storage Service (Amazon S3) o SAP HANA on Amazon EC2 for SAP HANA databases on Amazon Elastic Compute Cloud instances o Storage Gateway for Storage Gateway o Timestream for Amazon Timestream o VirtualMachine for VMware virtual machines Constraints: o pattern: ^[a-zA-Z0-9\-\_\.]{1,50}$
+    /// Returns only backup jobs for the specified resources: • Aurora for Amazon Aurora • CloudFormation for CloudFormation • DocumentDB for Amazon DocumentDB (with MongoDB compatibility) • DynamoDB for Amazon DynamoDB • EBS for Amazon Elastic Block Store • EC2 for Amazon Elastic Compute Cloud • EFS for Amazon Elastic File System • EKS for Amazon Elastic Kubernetes Service • FSx for Amazon FSx • Neptune for Amazon Neptune • RDS for Amazon Relational Database Service • Redshift for Amazon Redshift • S3 for Amazon Simple Storage Service (Amazon S3) • SAP HANA on Amazon EC2 for SAP HANA databases on Amazon Elastic Compute Cloud instances • Storage Gateway for Storage Gateway • Timestream for Amazon Timestream • VirtualMachine for VMware virtual machines Constraints: • pattern: ^[a-zA-Z0-9\-\_\.]{1,50}$
     /// </summary>
     [CliOption("--by-resource-type")]
     public string? ByResourceType { get; set; }
 
     /// <summary>
-    /// The account ID to list the jobs from. Returns only backup jobs asso- ciated with the specified account ID. If used from an Organizations management account, passing * returns all jobs across the organization. Constraints: o pattern: ^[0-9]{12}$
+    /// The account ID to list the jobs from. Returns only backup jobs associated with the specified account ID. If used from an Organizations management account, passing * returns all jobs across the organization. Constraints: • pattern: ^[0-9]{12}$
     /// </summary>
     [CliOption("--by-account-id")]
     public string? ByAccountId { get; set; }
@@ -92,9 +92,6 @@ public record AwsBackupListBackupJobsOptions : AwsOptions
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
-
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
@@ -103,15 +100,27 @@ public record AwsBackupListBackupJobsOptions : AwsOptions
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 1000
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 1000
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

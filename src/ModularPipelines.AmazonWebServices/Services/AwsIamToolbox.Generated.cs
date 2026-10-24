@@ -6,15 +6,15 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
+using ModularPipelines;
 using ModularPipelines.Context;
-using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
 namespace ModularPipelines.AmazonWebServices.Services;
 
 /// <summary>
-/// aws iamtoolbox commands.
+/// aws iam-toolbox commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AwsIamToolbox : IAwsIamToolbox
@@ -32,7 +32,7 @@ public class AwsIamToolbox : IAwsIamToolbox
     #region Commands
 
     /// <summary>
-    /// Retrieves the authorization details for a specific access denied re- quest. The details include the request context, the evaluations per- formed, and the policies that were evaluated. Use this operation to understand why a request was denied. Supported services include an authorization ID in the access denied error mes- sage. Pass that ID to this operation to retrieve the details. Authorization details are available for at least 24 hours after the de- nial. To use this operation, you must have t...
+    /// Retrieves the authorization details for a specific access denied request. The details include the request context, the evaluations performed, and the policies that were evaluated. Use this operation to understand why a request was denied. Supported services include an authorization ID in the access denied error message. Pass that ID to this operation to retrieve the details. Authorization details are available for at least 24 hours after the denial. To use this operation, you must have the iam:G...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

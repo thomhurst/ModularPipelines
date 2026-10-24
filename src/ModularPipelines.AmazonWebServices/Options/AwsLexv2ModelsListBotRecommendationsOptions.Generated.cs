@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,8 +29,8 @@ public record AwsLexv2ModelsListBotRecommendationsOptions : AwsOptions, IValidat
     /// <summary>
     /// Get a list of bot recommendations that meet the specified criteria. See also: AWS API Documentation
     /// </summary>
-    /// <param name="BotId">The unique identifier of the bot that contains the bot recommenda- tion list. Constraints: o min: 10 o max: 10 o pattern: ^[0-9a-zA-Z]+$</param>
-    /// <param name="BotVersion">The version of the bot that contains the bot recommendation list. Constraints: o min: 5 o max: 5 o pattern: ^DRAFT$</param>
+    /// <param name="BotId">The unique identifier of the bot that contains the bot recommendation list. Constraints: • min: 10 • max: 10 • pattern: ^[0-9a-zA-Z]+$</param>
+    /// <param name="BotVersion">The version of the bot that contains the bot recommendation list. Constraints: • min: 5 • max: 5 • pattern: ^DRAFT$</param>
     /// <param name="LocaleId">The identifier of the language and locale of the bot recommendation list.</param>
     public AwsLexv2ModelsListBotRecommendationsOptions(
         string BotId,
@@ -65,13 +66,13 @@ public record AwsLexv2ModelsListBotRecommendationsOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the bot that contains the bot recommenda- tion list. Constraints: o min: 10 o max: 10 o pattern: ^[0-9a-zA-Z]+$
+    /// The unique identifier of the bot that contains the bot recommendation list. Constraints: • min: 10 • max: 10 • pattern: ^[0-9a-zA-Z]+$
     /// </summary>
     [CliOption("--bot-id")]
     public string? BotId { get; private init; }
 
     /// <summary>
-    /// The version of the bot that contains the bot recommendation list. Constraints: o min: 5 o max: 5 o pattern: ^DRAFT$
+    /// The version of the bot that contains the bot recommendation list. Constraints: • min: 5 • max: 5 • pattern: ^DRAFT$
     /// </summary>
     [CliOption("--bot-version")]
     public string? BotVersion { get; private init; }
@@ -83,7 +84,7 @@ public record AwsLexv2ModelsListBotRecommendationsOptions : AwsOptions, IValidat
     public string? LocaleId { get; private init; }
 
     /// <summary>
-    /// The maximum number of bot recommendations to return in each page of results. If there are fewer results than the max page size, only the actual number of results are returned. Constraints: o min: 1 o max: 1000
+    /// The maximum number of bot recommendations to return in each page of results. If there are fewer results than the max page size, only the actual number of results are returned. Constraints: • min: 1 • max: 1000
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
@@ -116,6 +117,15 @@ public record AwsLexv2ModelsListBotRecommendationsOptions : AwsOptions, IValidat
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

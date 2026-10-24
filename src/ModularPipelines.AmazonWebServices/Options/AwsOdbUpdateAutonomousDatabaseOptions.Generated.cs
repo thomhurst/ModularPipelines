@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -29,7 +30,7 @@ public record AwsOdbUpdateAutonomousDatabaseOptions : AwsOptions, IValidatableOb
     /// <summary>
     /// Updates the properties of an Autonomous Database. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AutonomousDatabaseId">The unique identifier of the Autonomous Database to update. Constraints: o min: 6 o max: 2048 o pattern: (arn:(?:aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):[a-z0-9-]+:[a-z0-9-]*:[0-9]+:[a-z0-9-]+/[a-zA-Z0-9_~.-]{6,64}|[a-zA-Z0-9_~.-]{6,64})</param>
+    /// <param name="AutonomousDatabaseId">The unique identifier of the Autonomous Database to update. Constraints: • min: 6 • max: 2048 • pattern: (arn:(?:aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):[a-z0-9-]+:[a-z0-9-]*:[0-9]+:[a-z0-9-]+/[a-zA-Z0-9_~.-]{6,64}|[a-zA-Z0-9_~.-]{6,64})</param>
     public AwsOdbUpdateAutonomousDatabaseOptions(
         string AutonomousDatabaseId
     )
@@ -58,62 +59,62 @@ public record AwsOdbUpdateAutonomousDatabaseOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the Autonomous Database to update. Constraints: o min: 6 o max: 2048 o pattern: (arn:(?:aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):[a-z0-9-]+:[a-z0-9-]*:[0-9]+:[a-z0-9-]+/[a-zA-Z0-9_~.-]{6,64}|[a-zA-Z0-9_~.-]{6,64})
+    /// The unique identifier of the Autonomous Database to update. Constraints: • min: 6 • max: 2048 • pattern: (arn:(?:aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):[a-z0-9-]+:[a-z0-9-]*:[0-9]+:[a-z0-9-]+/[a-zA-Z0-9_~.-]{6,64}|[a-zA-Z0-9_~.-]{6,64})
     /// </summary>
     [CliOption("--autonomous-database-id")]
     public string? AutonomousDatabaseId { get; private init; }
 
     /// <summary>
-    /// The new password for the ADMIN user of the Autonomous Database. Constraints: o min: 12 o max: 30
+    /// The new password for the ADMIN user of the Autonomous Database. Constraints: • min: 12 • max: 30
     /// </summary>
     [SecretValue]
     [CliOption("--admin-password")]
     public string? AdminPassword { get; set; }
 
     /// <summary>
-    /// The compute capacity, in number of ECPUs or OCPUs, to assign to the Autonomous Database. Constraints: o min: 0.1 o max: 512
+    /// The compute capacity, in number of ECPUs or OCPUs, to assign to the Autonomous Database. Constraints: • min: 0.1 • max: 512
     /// </summary>
     [CliOption("--compute-count")]
-    public int? ComputeCount { get; set; }
+    public double? ComputeCount { get; set; }
 
     /// <summary>
-    /// The number of CPU cores to allocate to the Autonomous Database. Constraints: o min: 1 o max: 128
+    /// The number of CPU cores to allocate to the Autonomous Database. Constraints: • min: 1 • max: 128
     /// </summary>
     [CliOption("--cpu-core-count")]
     public int? CpuCoreCount { get; set; }
 
     /// <summary>
-    /// The size, in terabytes (TB), of the data volume to allocate for the Autonomous Database. Constraints: o min: 1 o max: 384
+    /// The size, in terabytes (TB), of the data volume to allocate for the Autonomous Database. Constraints: • min: 1 • max: 384
     /// </summary>
     [CliOption("--data-storage-size-in-tbs")]
     public int? DataStorageSizeInTbs { get; set; }
 
     /// <summary>
-    /// The size, in gigabytes (GB), of the data volume to allocate for the Autonomous Database. Constraints: o min: 20 o max: 393216
+    /// The size, in gigabytes (GB), of the data volume to allocate for the Autonomous Database. Constraints: • min: 20 • max: 393216
     /// </summary>
     [CliOption("--data-storage-size-in-gbs")]
     public int? DataStorageSizeInGbs { get; set; }
 
     /// <summary>
-    /// The new user-friendly name for the Autonomous Database. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z_](?!.*--)[a-zA-Z0-9_-]*
+    /// The new user-friendly name for the Autonomous Database. Constraints: • min: 1 • max: 255 • pattern: [a-zA-Z_](?!.*--)[a-zA-Z0-9_-]*
     /// </summary>
     [CliOption("--display-name")]
     public string? DisplayName { get; set; }
 
     /// <summary>
-    /// The new name of the Autonomous Database. Constraints: o min: 1 o max: 30
+    /// The new name of the Autonomous Database. Constraints: • min: 1 • max: 30
     /// </summary>
     [CliOption("--db-name")]
     public string? DbName { get; set; }
 
     /// <summary>
-    /// The Oracle Database software version to use for the Autonomous Data- base. Constraints: o min: 1 o max: 255
+    /// The Oracle Database software version to use for the Autonomous Database. Constraints: • min: 1 • max: 255
     /// </summary>
     [CliOption("--db-version")]
     public string? DbVersion { get; set; }
 
     /// <summary>
-    /// The intended use of the Autonomous Database, such as transaction processing, data warehouse, JSON database, or APEX. Possible values: o OLTP o AJD o APEX o LH
+    /// The intended use of the Autonomous Database, such as transaction processing, data warehouse, JSON database, or APEX. Possible values: • OLTP • AJD • APEX • LH
     /// </summary>
     [CliOption("--db-workload")]
     public AwsOdbUpdateAutonomousDatabaseDbWorkload? DbWorkload { get; set; }
@@ -125,37 +126,37 @@ public record AwsOdbUpdateAutonomousDatabaseOptions : AwsOptions, IValidatableOb
     public IEnumerable<string>? DbToolsDetails { get; set; }
 
     /// <summary>
-    /// The Oracle Database edition to apply to the Autonomous Database. Possible values: o STANDARD_EDITION o ENTERPRISE_EDITION
+    /// The Oracle Database edition to apply to the Autonomous Database. Possible values: • STANDARD_EDITION • ENTERPRISE_EDITION
     /// </summary>
     [CliOption("--database-edition")]
     public AwsOdbUpdateAutonomousDatabaseDatabaseEdition? DatabaseEdition { get; set; }
 
     /// <summary>
-    /// The Oracle license model to apply to the Autonomous Database. Possible values: o BRING_YOUR_OWN_LICENSE o LICENSE_INCLUDED
+    /// The Oracle license model to apply to the Autonomous Database. Possible values: • BRING_YOUR_OWN_LICENSE • LICENSE_INCLUDED
     /// </summary>
     [CliOption("--license-model")]
     public AwsOdbUpdateAutonomousDatabaseLicenseModel? LicenseModel { get; set; }
 
     /// <summary>
-    /// Specifies whether to enable automatic scaling of the compute re- sources for the Autonomous Database.
+    /// Specifies whether to enable automatic scaling of the compute resources for the Autonomous Database.
     /// </summary>
     [CliFlag("--is-auto-scaling-enabled", NegatedName = "--no-is-auto-scaling-enabled")]
     public bool? IsAutoScalingEnabled { get; set; }
 
     /// <summary>
-    /// age-enabled (boolean) Specifies whether to enable automatic scaling of the storage for the Autonomous Database.
+    /// Specifies whether to enable automatic scaling of the storage for the Autonomous Database.
     /// </summary>
     [CliFlag("--is-auto-scaling-for-storage-enabled", NegatedName = "--no-is-auto-scaling-for-storage-enabled")]
     public bool? IsAutoScalingForStorageEnabled { get; set; }
 
     /// <summary>
-    /// Specifies whether to lock the backup retention period of the Au- tonomous Database to prevent it from being shortened.
+    /// Specifies whether to lock the backup retention period of the Autonomous Database to prevent it from being shortened.
     /// </summary>
     [CliFlag("--is-backup-retention-locked", NegatedName = "--no-is-backup-retention-locked")]
     public bool? IsBackupRetentionLocked { get; set; }
 
     /// <summary>
-    /// Specifies whether to enable local Oracle Data Guard for the Au- tonomous Database.
+    /// Specifies whether to enable local Oracle Data Guard for the Autonomous Database.
     /// </summary>
     [CliFlag("--is-local-data-guard-enabled", NegatedName = "--no-is-local-data-guard-enabled")]
     public bool? IsLocalDataGuardEnabled { get; set; }
@@ -179,61 +180,61 @@ public record AwsOdbUpdateAutonomousDatabaseOptions : AwsOptions, IValidatableOb
     public bool? IsDisconnectPeer { get; set; }
 
     /// <summary>
-    /// The retention period, in days, for automatic backups of the Au- tonomous Database. Constraints: o min: 1 o max: 60
+    /// The retention period, in days, for automatic backups of the Autonomous Database. Constraints: • min: 1 • max: 60
     /// </summary>
     [CliOption("--backup-retention-period-in-days")]
     public int? BackupRetentionPeriodInDays { get; set; }
 
     /// <summary>
-    /// The maximum number of compute resources that you can allocate to the Autonomous Database under the bring-your-own-license (BYOL) model. Constraints: o min: 2
+    /// The maximum number of compute resources that you can allocate to the Autonomous Database under the bring-your-own-license (BYOL) model. Constraints: • min: 2
     /// </summary>
     [CliOption("--byol-compute-count-limit")]
-    public int? ByolComputeCountLimit { get; set; }
+    public double? ByolComputeCountLimit { get; set; }
 
     /// <summary>
-    /// The maximum data loss limit, in seconds, for automatic failover to the local Oracle Data Guard standby database. Constraints: o min: 0 o max: 3600
+    /// The maximum data loss limit, in seconds, for automatic failover to the local Oracle Data Guard standby database. Constraints: • min: 0 • max: 3600
     /// </summary>
     [CliOption("--local-adg-auto-failover-max-data-loss-limit")]
     public int? LocalAdgAutoFailoverMaxDataLossLimit { get; set; }
 
     /// <summary>
-    /// The maintenance schedule type for the Autonomous Database. Possible values: o EARLY o REGULAR
+    /// The maintenance schedule type for the Autonomous Database. Possible values: • EARLY • REGULAR
     /// </summary>
     [CliOption("--autonomous-maintenance-schedule-type")]
     public AwsOdbUpdateAutonomousDatabaseAutonomousMaintenanceScheduleType? AutonomousMaintenanceScheduleType { get; set; }
 
     /// <summary>
-    /// The list of customer contacts to receive operational notifications from OCI for the Autonomous Database. (structure) A contact to receive notification from Oracle about maintenance updates for a specific Exadata infrastructure. email -&gt; (string) The email address of the contact. Constraints: o min: 1 o max: 320 Shorthand Syntax: email=string ... JSON Syntax: [ { "email": "string" } ... ]
+    /// The list of customer contacts to receive operational notifications from OCI for the Autonomous Database. (structure) A contact to receive notification from Oracle about maintenance updates for a specific Exadata infrastructure. email -&gt; (string) The email address of the contact. Constraints: • min: 1 • max: 320 Shorthand Syntax: email=string ... JSON Syntax: [ { "email": "string" } ... ]
     /// </summary>
     [CliOption("--customer-contacts-to-send-to-oci", GroupValues = true)]
     public IEnumerable<string>? CustomerContactsToSendToOci { get; set; }
 
     /// <summary>
-    /// The list of scheduled start and stop times for the Autonomous Data- base. (structure) The scheduled start and stop times for an Autonomous Database on a specific day of the week. dayOfWeek -&gt; (structure) [required] The day of the week on which the scheduled operation occurs. name -&gt; (string) The name of the day of the week. Possible values: o MONDAY o TUESDAY o WEDNESDAY o THURSDAY o FRIDAY o SATURDAY o SUNDAY scheduledStartTime -&gt; (string) The scheduled start time for the Autonomous Database, in UTC. scheduledStopTime -&gt; (string) The scheduled stop time for the Autonomous Database, in UTC. Shorthand Syntax: dayOfWeek={name=string},scheduledStartTime=string,scheduledStopTime=string ... JSON Syntax: [ { "dayOfWeek": { "name": "MONDAY"|"TUESDAY"|"WEDNESDAY"|"THURSDAY"|"FRIDAY"|"SATURDAY"|"SUNDAY" }, "scheduledStartTime": "string", "scheduledStopTime": "string" } ... ]
+    /// The list of scheduled start and stop times for the Autonomous Database. (structure) The scheduled start and stop times for an Autonomous Database on a specific day of the week. dayOfWeek -&gt; (structure) [required] The day of the week on which the scheduled operation occurs. name -&gt; (string) The name of the day of the week. Possible values: • MONDAY • TUESDAY • WEDNESDAY • THURSDAY • FRIDAY • SATURDAY • SUNDAY scheduledStartTime -&gt; (string) The scheduled start time for the Autonomous Database, in UTC. scheduledStopTime -&gt; (string) The scheduled stop time for the Autonomous Database, in UTC. Shorthand Syntax: dayOfWeek={name=string},scheduledStartTime=string,scheduledStopTime=string ... JSON Syntax: [ { "dayOfWeek": { "name": "MONDAY"|"TUESDAY"|"WEDNESDAY"|"THURSDAY"|"FRIDAY"|"SATURDAY"|"SUNDAY" }, "scheduledStartTime": "string", "scheduledStopTime": "string" } ... ]
     /// </summary>
     [CliOption("--scheduled-operations", GroupValues = true)]
     public IEnumerable<string>? ScheduledOperations { get; set; }
 
     /// <summary>
-    /// The long-term backup schedule for the Autonomous Database. isDisabled -&gt; (boolean) Indicates whether the long-term backup schedule is disabled. repeatCadence -&gt; (string) The cadence at which long-term backups are taken. Possible values: o ONE_TIME o WEEKLY o MONTHLY o YEARLY retentionPeriodInDays -&gt; (integer) The retention period, in days, for long-term backups. Constraints: o min: 90 o max: 3650 timeOfBackup -&gt; (timestamp) The date and time at which the long-term backup is taken. Shorthand Syntax: isDisabled=boolean,repeatCadence=string,retentionPeriodInDays=integer,timeOfBackup=timestamp JSON Syntax: { "isDisabled": true|false, "repeatCadence": "ONE_TIME"|"WEEKLY"|"MONTHLY"|"YEARLY", "retentionPeriodInDays": integer, "timeOfBackup": timestamp }
+    /// The long-term backup schedule for the Autonomous Database. isDisabled -&gt; (boolean) Indicates whether the long-term backup schedule is disabled. repeatCadence -&gt; (string) The cadence at which long-term backups are taken. Possible values: • ONE_TIME • WEEKLY • MONTHLY • YEARLY retentionPeriodInDays -&gt; (integer) The retention period, in days, for long-term backups. Constraints: • min: 90 • max: 3650 timeOfBackup -&gt; (timestamp) The date and time at which the long-term backup is taken. Shorthand Syntax: isDisabled=boolean,repeatCadence=string,retentionPeriodInDays=integer,timeOfBackup=timestamp JSON Syntax: { "isDisabled": true|false, "repeatCadence": "ONE_TIME"|"WEEKLY"|"MONTHLY"|"YEARLY", "retentionPeriodInDays": integer, "timeOfBackup": timestamp }
     /// </summary>
     [CliOption("--long-term-backup-schedule")]
     public string? LongTermBackupSchedule { get; set; }
 
     /// <summary>
-    /// The mode in which to open the Autonomous Database, either read-only or read/write. Possible values: o READ_ONLY o READ_WRITE
+    /// The mode in which to open the Autonomous Database, either read-only or read/write. Possible values: • READ_ONLY • READ_WRITE
     /// </summary>
     [CliOption("--open-mode")]
     public AwsOdbUpdateAutonomousDatabaseOpenMode? OpenMode { get; set; }
 
     /// <summary>
-    /// The permission level of the Autonomous Database. Possible values: o RESTRICTED o UNRESTRICTED
+    /// The permission level of the Autonomous Database. Possible values: • RESTRICTED • UNRESTRICTED
     /// </summary>
     [CliOption("--permission-level")]
     public AwsOdbUpdateAutonomousDatabasePermissionLevel? PermissionLevel { get; set; }
 
     /// <summary>
-    /// The refresh mode of the refreshable clone Autonomous Database. Possible values: o AUTOMATIC o MANUAL
+    /// The refresh mode of the refreshable clone Autonomous Database. Possible values: • AUTOMATIC • MANUAL
     /// </summary>
     [CliOption("--refreshable-mode")]
     public AwsOdbUpdateAutonomousDatabaseRefreshableMode? RefreshableMode { get; set; }
@@ -251,13 +252,13 @@ public record AwsOdbUpdateAutonomousDatabaseOptions : AwsOptions, IValidatableOb
     public string? PrivateEndpointLabel { get; set; }
 
     /// <summary>
-    /// The unique identifier of the peer Autonomous Database. Constraints: o min: 6 o max: 2048 o pattern: (arn:(?:aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):[a-z0-9-]+:[a-z0-9-]*:[0-9]+:[a-z0-9-]+/[a-zA-Z0-9_~.-]{6,64}|[a-zA-Z0-9_~.-]{6,64})
+    /// The unique identifier of the peer Autonomous Database. Constraints: • min: 6 • max: 2048 • pattern: (arn:(?:aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):[a-z0-9-]+:[a-z0-9-]*:[0-9]+:[a-z0-9-]+/[a-zA-Z0-9_~.-]{6,64}|[a-zA-Z0-9_~.-]{6,64})
     /// </summary>
     [CliOption("--peer-db-id")]
     public string? PeerDbId { get; set; }
 
     /// <summary>
-    /// The unique identifier of the resource pool leader Autonomous Data- base. Constraints: o min: 6 o max: 2048 o pattern: (arn:(?:aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):[a-z0-9-]+:[a-z0-9-]*:[0-9]+:[a-z0-9-]+/[a-zA-Z0-9_~.-]{6,64}|[a-zA-Z0-9_~.-]{6,64})
+    /// The unique identifier of the resource pool leader Autonomous Database. Constraints: • min: 6 • max: 2048 • pattern: (arn:(?:aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):[a-z0-9-]+:[a-z0-9-]*:[0-9]+:[a-z0-9-]+/[a-zA-Z0-9_~.-]{6,64}|[a-zA-Z0-9_~.-]{6,64})
     /// </summary>
     [CliOption("--resource-pool-leader-id")]
     public string? ResourcePoolLeaderId { get; set; }
@@ -269,31 +270,31 @@ public record AwsOdbUpdateAutonomousDatabaseOptions : AwsOptions, IValidatableOb
     public string? ResourcePoolSummary { get; set; }
 
     /// <summary>
-    /// The source of the allowlisted IP addresses for the standby Au- tonomous Database. Possible values: o PRIMARY o SEPARATE o NOT_APPLICABLE
+    /// The source of the allowlisted IP addresses for the standby Autonomous Database. Possible values: • PRIMARY • SEPARATE • NOT_APPLICABLE
     /// </summary>
     [CliOption("--standby-allowlisted-ips-source")]
     public AwsOdbUpdateAutonomousDatabaseStandbyAllowlistedIpsSource? StandbyAllowlistedIpsSource { get; set; }
 
     /// <summary>
-    /// The list of IP addresses that are allowed to access the standby Au- tonomous Database. Constraints: o min: 1 o max: 1024 (string) Syntax: "string" "string" ...
+    /// The list of IP addresses that are allowed to access the standby Autonomous Database. Constraints: • min: 1 • max: 1024 (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--standby-allowlisted-ips", GroupValues = true)]
     public IEnumerable<string>? StandbyAllowlistedIps { get; set; }
 
     /// <summary>
-    /// The list of IP addresses that are allowed to access the Autonomous Database. Constraints: o min: 1 o max: 1024 (string) Syntax: "string" "string" ...
+    /// The list of IP addresses that are allowed to access the Autonomous Database. Constraints: • min: 1 • max: 1024 (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--allowlisted-ips", GroupValues = true)]
     public IEnumerable<string>? AllowlistedIps { get; set; }
 
     /// <summary>
-    /// The frequency, in seconds, at which the refreshable clone Autonomous Database is automatically refreshed. Constraints: o min: 3600 o max: 604800
+    /// The frequency, in seconds, at which the refreshable clone Autonomous Database is automatically refreshed. Constraints: • min: 3600 • max: 604800
     /// </summary>
     [CliOption("--auto-refresh-frequency-in-seconds")]
     public int? AutoRefreshFrequencyInSeconds { get; set; }
 
     /// <summary>
-    /// The time lag, in seconds, between the refreshable clone and its source Autonomous Database. Constraints: o min: 0 o max: 604800
+    /// The time lag, in seconds, between the refreshable clone and its source Autonomous Database. Constraints: • min: 0 • max: 604800
     /// </summary>
     [CliOption("--auto-refresh-point-lag-in-seconds")]
     public int? AutoRefreshPointLagInSeconds { get; set; }
@@ -305,25 +306,25 @@ public record AwsOdbUpdateAutonomousDatabaseOptions : AwsOptions, IValidatableOb
     public string? TimeOfAutoRefreshStart { get; set; }
 
     /// <summary>
-    /// The provider of the encryption key to use for the Autonomous Data- base. Possible values: o ORACLE_MANAGED o AWS_KMS
+    /// The provider of the encryption key to use for the Autonomous Database. Possible values: • ORACLE_MANAGED • AWS_KMS
     /// </summary>
     [CliOption("--encryption-key-provider")]
     public AwsOdbUpdateAutonomousDatabaseEncryptionKeyProvider? EncryptionKeyProvider { get; set; }
 
     /// <summary>
-    /// The configuration of the encryption key to use for the Autonomous Database. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: awsEncryptionKey. awsEncryptionKey -&gt; (structure) The configuration of the Amazon Web Services Key Management Ser- vice (KMS) encryption key to use. iamRoleArn -&gt; (string) The Amazon Resource Name (ARN) of the Amazon Web Services Identity and Access Management (IAM) role that grants access to the KMS key. Constraints: o min: 20 o max: 2048 o pattern: arn:(?:aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):iam::[0-9]{12}:role/.+ externalIdType -&gt; (string) The type of external identifier associated with the encryp- tion key. Possible values: o database_ocid o compartment_ocid o tenant_ocid kmsKeyId -&gt; (string) The identifier or ARN of the Amazon Web Services KMS key to use for encryption. Constraints: o min: 1 o max: 2048 o pattern: [a-zA-Z0-9_:./-]+ Shorthand Syntax: awsEncryptionKey={iamRoleArn=string,externalIdType=string,kmsKeyId=string} JSON Syntax: { "awsEncryptionKey": { "iamRoleArn": "string", "externalIdType": "database_ocid"|"compartment_ocid"|"tenant_ocid", "kmsKeyId": "string" } }
+    /// The configuration of the encryption key to use for the Autonomous Database. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: awsEncryptionKey. awsEncryptionKey -&gt; (structure) The configuration of the Amazon Web Services Key Management Service (KMS) encryption key to use. iamRoleArn -&gt; (string) The Amazon Resource Name (ARN) of the Amazon Web Services Identity and Access Management (IAM) role that grants access to the KMS key. Constraints: • min: 20 • max: 2048 • pattern: arn:(?:aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):iam::[0-9]{12}:role/.+ externalIdType -&gt; (string) The type of external identifier associated with the encryption key. Possible values: • database_ocid • compartment_ocid • tenant_ocid kmsKeyId -&gt; (string) The identifier or ARN of the Amazon Web Services KMS key to use for encryption. Constraints: • min: 1 • max: 2048 • pattern: [a-zA-Z0-9_:./-]+ Shorthand Syntax: awsEncryptionKey={iamRoleArn=string,externalIdType=string,kmsKeyId=string} JSON Syntax: { "awsEncryptionKey": { "iamRoleArn": "string", "externalIdType": "database_ocid"|"compartment_ocid"|"tenant_ocid", "kmsKeyId": "string" } }
     /// </summary>
     [CliOption("--encryption-key-configuration")]
     public string? EncryptionKeyConfiguration { get; set; }
 
     /// <summary>
-    /// The source of the admin password for the Autonomous Database. When set to CUSTOMER_MANAGED_AWS_SECRET , the admin password is retrieved from an Amazon Web Services Secrets Manager secret. Possible values: o CUSTOMER_MANAGED_AWS_SECRET o API_REQUEST_PARAMETER
+    /// The source of the admin password for the Autonomous Database. When set to CUSTOMER_MANAGED_AWS_SECRET , the admin password is retrieved from an Amazon Web Services Secrets Manager secret. Possible values: • CUSTOMER_MANAGED_AWS_SECRET • API_REQUEST_PARAMETER
     /// </summary>
     [CliOption("--admin-password-source")]
     public AwsOdbUpdateAutonomousDatabaseAdminPasswordSource? AdminPasswordSource { get; set; }
 
     /// <summary>
-    /// The configuration of the admin password source for the Autonomous Database. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: customerManagedAwsSecret. customerManagedAwsSecret -&gt; (structure) The configuration for using a customer-managed Amazon Web Ser- vices Secrets Manager secret as the admin password source. secretId -&gt; (string) The identifier or ARN of the Amazon Web Services Secrets Man- ager secret that contains the password. Constraints: o min: 1 o max: 2048 iamRoleArn -&gt; (string) The Amazon Resource Name (ARN) of the Amazon Web Services Identity and Access Management (IAM) role that OCI assumes to retrieve the secret value. Constraints: o min: 20 o max: 2048 o pattern: arn:(?:aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):iam::[0-9]{12}:role/.+ externalIdType -&gt; (string) The type of Oracle Cloud Identifier (OCID) used as the exter- nal ID when assuming the IAM role. The valid values depend on the operation. For the CreateAu- tonomousDatabase operation, only compartment_ocid and ten- ant_ocid are allowed. For the UpdateAutonomousDatabase and CreateAutonomousDatabaseWallet operations, database_ocid , compartment_ocid , and tenant_ocid are all allowed. Possible values: o database_ocid o compartment_ocid o tenant_ocid Shorthand Syntax: customerManagedAwsSecret={secretId=string,iamRoleArn=string,externalIdType=string} JSON Syntax: { "customerManagedAwsSecret": { "secretId": "string", "iamRoleArn": "string", "externalIdType": "database_ocid"|"compartment_ocid"|"tenant_ocid" } }
+    /// The configuration of the admin password source for the Autonomous Database. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: customerManagedAwsSecret. customerManagedAwsSecret -&gt; (structure) The configuration for using a customer-managed Amazon Web Services Secrets Manager secret as the admin password source. secretId -&gt; (string) The identifier or ARN of the Amazon Web Services Secrets Manager secret that contains the password. Constraints: • min: 1 • max: 2048 iamRoleArn -&gt; (string) The Amazon Resource Name (ARN) of the Amazon Web Services Identity and Access Management (IAM) role that OCI assumes to retrieve the secret value. Constraints: • min: 20 • max: 2048 • pattern: arn:(?:aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):iam::[0-9]{12}:role/.+ externalIdType -&gt; (string) The type of Oracle Cloud Identifier (OCID) used as the external ID when assuming the IAM role. The valid values depend on the operation. For the CreateAutonomousDatabase operation, only compartment_ocid and tenant_ocid are allowed. For the UpdateAutonomousDatabase and CreateAutonomousDatabaseWallet operations, database_ocid , compartment_ocid , and tenant_ocid are all allowed. Possible values: • database_ocid • compartment_ocid • tenant_ocid Shorthand Syntax: customerManagedAwsSecret={secretId=string,iamRoleArn=string,externalIdType=string} JSON Syntax: { "customerManagedAwsSecret": { "secretId": "string", "iamRoleArn": "string", "externalIdType": "database_ocid"|"compartment_ocid"|"tenant_ocid" } }
     /// </summary>
     [SecretValue]
     [CliOption("--admin-password-source-configuration")]
@@ -350,6 +351,15 @@ public record AwsOdbUpdateAutonomousDatabaseOptions : AwsOptions, IValidatableOb
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

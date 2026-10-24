@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsCleanroomsmlGetAudienceModelOptions : AwsOptions, IValidatableO
     /// <summary>
     /// Returns information about an audience model See also: AWS API Documentation
     /// </summary>
-    /// <param name="AudienceModelArn">The Amazon Resource Name (ARN) of the audience model that you are interested in. Constraints: o min: 20 o max: 2048 o pattern: arn:aws[-a-z]*:cleanrooms-ml:[-a-z0-9]+:[0-9]{12}:audi- ence-model/[-a-zA-Z0-9_/.]+</param>
+    /// <param name="AudienceModelArn">The Amazon Resource Name (ARN) of the audience model that you are interested in. Constraints: • min: 20 • max: 2048 • pattern: arn:aws[-a-z]*:cleanrooms-ml:[-a-z0-9]+:[0-9]{12}:audience-model/[-a-zA-Z0-9_/.]+</param>
     public AwsCleanroomsmlGetAudienceModelOptions(
         string AudienceModelArn
     )
@@ -56,7 +57,7 @@ public record AwsCleanroomsmlGetAudienceModelOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the audience model that you are interested in. Constraints: o min: 20 o max: 2048 o pattern: arn:aws[-a-z]*:cleanrooms-ml:[-a-z0-9]+:[0-9]{12}:audi- ence-model/[-a-zA-Z0-9_/.]+
+    /// The Amazon Resource Name (ARN) of the audience model that you are interested in. Constraints: • min: 20 • max: 2048 • pattern: arn:aws[-a-z]*:cleanrooms-ml:[-a-z0-9]+:[0-9]{12}:audience-model/[-a-zA-Z0-9_/.]+
     /// </summary>
     [CliOption("--audience-model-arn")]
     public string? AudienceModelArn { get; private init; }
@@ -82,6 +83,15 @@ public record AwsCleanroomsmlGetAudienceModelOptions : AwsOptions, IValidatableO
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

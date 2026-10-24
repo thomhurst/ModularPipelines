@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Tails the logs for a CloudWatch Logs group. By default, the command re- turns logs from all associated CloudWatch Logs streams during the past ten minutes. Note that there is no guarantee for exact timestamp order- ing of logs.
+/// Tails the logs for a CloudWatch Logs group. By default, the command returns logs from all associated CloudWatch Logs streams during the past ten minutes. Note that there is no guarantee for exact timestamp ordering of logs.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -22,7 +22,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsLogsTailOptions : AwsOptions
 {
     /// <summary>
-    /// Tails the logs for a CloudWatch Logs group. By default, the command re- turns logs from all associated CloudWatch Logs streams during the past ten minutes. Note that there is no guarantee for exact timestamp order- ing of logs.
+    /// Tails the logs for a CloudWatch Logs group. By default, the command returns logs from all associated CloudWatch Logs streams during the past ten minutes. Note that there is no guarantee for exact timestamp ordering of logs.
     /// </summary>
     /// <param name="GroupName">The group_name operand.</param>
     public AwsLogsTailOptions(
@@ -61,5 +61,14 @@ public record AwsLogsTailOptions : AwsOptions
     /// </summary>
     [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
     public string GroupName { get; private init; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes a DB security group. The specified DB security group must not be associated with any DB in- stances. NOTE: EC2-Classic was retired on August 15, 2022. If you haven't migrated from EC2-Classic to a VPC, we recommend that you migrate as soon as possible. For more information, see Migrate from EC2-Classic to a VPC in the Amazon EC2 User Guide , the blog EC2-Classic Networking is Retiring Heres How to Prepare , and Moving a DB instance not in a VPC into a VPC in the Amazon RDS User Guide . S...
+/// Deletes a DB security group. The specified DB security group must not be associated with any DB instances. NOTE: EC2-Classic was retired on August 15, 2022. If you haven't migrated from EC2-Classic to a VPC, we recommend that you migrate as soon as possible. For more information, see Migrate from EC2-Classic to a VPC in the Amazon EC2 User Guide , the blog EC2-Classic Networking is Retiring Heres How to Prepare , and Moving a DB instance not in a VPC into a VPC in the Amazon RDS User Guide . See...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsRdsDeleteDbSecurityGroupOptions : AwsOptions, IValidatableObjec
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes a DB security group. The specified DB security group must not be associated with any DB in- stances. NOTE: EC2-Classic was retired on August 15, 2022. If you haven't migrated from EC2-Classic to a VPC, we recommend that you migrate as soon as possible. For more information, see Migrate from EC2-Classic to a VPC in the Amazon EC2 User Guide , the blog EC2-Classic Networking is Retiring Heres How to Prepare , and Moving a DB instance not in a VPC into a VPC in the Amazon RDS User Guide . S...
+    /// Deletes a DB security group. The specified DB security group must not be associated with any DB instances. NOTE: EC2-Classic was retired on August 15, 2022. If you haven't migrated from EC2-Classic to a VPC, we recommend that you migrate as soon as possible. For more information, see Migrate from EC2-Classic to a VPC in the Amazon EC2 User Guide , the blog EC2-Classic Networking is Retiring Heres How to Prepare , and Moving a DB instance not in a VPC into a VPC in the Amazon RDS User Guide . See...
     /// </summary>
-    /// <param name="DbSecurityGroupName">The name of the DB security group to delete. NOTE: You can't delete the default DB security group. Constraints: o Must be 1 to 255 letters, numbers, or hyphens. o First character must be a letter o Can't end with a hyphen or contain two consecutive hyphens o Must not be "Default"</param>
+    /// <param name="DbSecurityGroupName">The name of the DB security group to delete. NOTE: You can't delete the default DB security group. Constraints: • Must be 1 to 255 letters, numbers, or hyphens. • First character must be a letter • Can't end with a hyphen or contain two consecutive hyphens • Must not be "Default"</param>
     public AwsRdsDeleteDbSecurityGroupOptions(
         string DbSecurityGroupName
     )
@@ -56,7 +57,7 @@ public record AwsRdsDeleteDbSecurityGroupOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the DB security group to delete. NOTE: You can't delete the default DB security group. Constraints: o Must be 1 to 255 letters, numbers, or hyphens. o First character must be a letter o Can't end with a hyphen or contain two consecutive hyphens o Must not be "Default"
+    /// The name of the DB security group to delete. NOTE: You can't delete the default DB security group. Constraints: • Must be 1 to 255 letters, numbers, or hyphens. • First character must be a letter • Can't end with a hyphen or contain two consecutive hyphens • Must not be "Default"
     /// </summary>
     [CliOption("--db-security-group-name")]
     public string? DbSecurityGroupName { get; private init; }
@@ -82,6 +83,15 @@ public record AwsRdsDeleteDbSecurityGroupOptions : AwsOptions, IValidatableObjec
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

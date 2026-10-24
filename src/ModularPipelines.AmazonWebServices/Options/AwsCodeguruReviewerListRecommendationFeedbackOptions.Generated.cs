@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +29,7 @@ public record AwsCodeguruReviewerListRecommendationFeedbackOptions : AwsOptions,
     /// <summary>
     /// Returns a list of RecommendationFeedbackSummary objects that contain customer recommendation feedback for all CodeGuru Reviewer users. See also: AWS API Documentation
     /// </summary>
-    /// <param name="CodeReviewArn">The Amazon Resource Name (ARN) of the CodeReview object. Constraints: o min: 1 o max: 1600 o pattern: ^arn:aws[^:\s]*:codeguru-re- viewer:[^:\s]+:[\d]{12}:[a-z-]+:[\w-]+$</param>
+    /// <param name="CodeReviewArn">The Amazon Resource Name (ARN) of the CodeReview object. Constraints: • min: 1 • max: 1600 • pattern: ^arn:aws[^:\s]*:codeguru-reviewer:[^:\s]+:[\d]{12}:[a-z-]+:[\w-]+$</param>
     public AwsCodeguruReviewerListRecommendationFeedbackOptions(
         string CodeReviewArn
     )
@@ -57,32 +58,32 @@ public record AwsCodeguruReviewerListRecommendationFeedbackOptions : AwsOptions,
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the CodeReview object. Constraints: o min: 1 o max: 1600 o pattern: ^arn:aws[^:\s]*:codeguru-re- viewer:[^:\s]+:[\d]{12}:[a-z-]+:[\w-]+$
+    /// The Amazon Resource Name (ARN) of the CodeReview object. Constraints: • min: 1 • max: 1600 • pattern: ^arn:aws[^:\s]*:codeguru-reviewer:[^:\s]+:[\d]{12}:[a-z-]+:[\w-]+$
     /// </summary>
     [CliOption("--code-review-arn")]
     public string? CodeReviewArn { get; private init; }
 
     /// <summary>
-    /// If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Constraints: o min: 1 o max: 2048
+    /// If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Constraints: • min: 1 • max: 2048
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// The maximum number of results that are returned per call. The de- fault is 100. Constraints: o min: 1 o max: 100
+    /// The maximum number of results that are returned per call. The default is 100. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
     /// <summary>
-    /// An Amazon Web Services user's account ID or Amazon Resource Name (ARN). Use this ID to query the recommendation feedback for a code review from that user. The UserId is an IAM principal that can be specified as an Amazon Web Services account ID or an Amazon Resource Name (ARN). For more information, see Specifying a Principal in the Amazon Web Services Identity and Access Management User Guide . Constraints: o min: 1 o max: 100 (string) Constraints: o min: 1 o max: 256 Syntax: "string" "string" ...
+    /// An Amazon Web Services user's account ID or Amazon Resource Name (ARN). Use this ID to query the recommendation feedback for a code review from that user. The UserId is an IAM principal that can be specified as an Amazon Web Services account ID or an Amazon Resource Name (ARN). For more information, see Specifying a Principal in the Amazon Web Services Identity and Access Management User Guide . Constraints: • min: 1 • max: 100 (string) Constraints: • min: 1 • max: 256 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--user-ids", GroupValues = true)]
     public IEnumerable<string>? UserIds { get; set; }
 
     /// <summary>
-    /// Used to query the recommendation feedback for a given recommenda- tion. Constraints: o min: 1 o max: 100 (string) Constraints: o min: 1 o max: 64 Syntax: "string" "string" ...
+    /// Used to query the recommendation feedback for a given recommendation. Constraints: • min: 1 • max: 100 (string) Constraints: • min: 1 • max: 64 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--recommendation-ids", GroupValues = true)]
     public IEnumerable<string>? RecommendationIds { get; set; }
@@ -108,6 +109,15 @@ public record AwsCodeguruReviewerListRecommendationFeedbackOptions : AwsOptions,
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

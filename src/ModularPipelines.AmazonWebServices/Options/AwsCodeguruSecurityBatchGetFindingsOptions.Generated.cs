@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsCodeguruSecurityBatchGetFindingsOptions : AwsOptions, IValidata
     /// <summary>
     /// Returns a list of requested findings from standard scans. See also: AWS API Documentation
     /// </summary>
-    /// <param name="FindingIdentifiers">A list of finding identifiers. Each identifier consists of a scan- Name and a findingId . You retrieve the findingId when you call GetFindings . Constraints: o min: 1 o max: 25 (structure) An object that contains information about a finding and the scan that generated it. scanName -&gt; (string) [required] The name of the scan that generated the finding. findingId -&gt; (string) [required] The identifier for a finding. Shorthand Syntax: scanName=string,findingId=string ... JSON Syntax: [ { "scanName": "string", "findingId": "string" } ... ]</param>
+    /// <param name="FindingIdentifiers">A list of finding identifiers. Each identifier consists of a scanName and a findingId . You retrieve the findingId when you call GetFindings . Constraints: • min: 1 • max: 25 (structure) An object that contains information about a finding and the scan that generated it. scanName -&gt; (string) [required] The name of the scan that generated the finding. findingId -&gt; (string) [required] The identifier for a finding. Shorthand Syntax: scanName=string,findingId=string ... JSON Syntax: [ { "scanName": "string", "findingId": "string" } ... ]</param>
     public AwsCodeguruSecurityBatchGetFindingsOptions(
         IEnumerable<string> FindingIdentifiers
     )
@@ -67,7 +68,7 @@ public record AwsCodeguruSecurityBatchGetFindingsOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A list of finding identifiers. Each identifier consists of a scan- Name and a findingId . You retrieve the findingId when you call GetFindings . Constraints: o min: 1 o max: 25 (structure) An object that contains information about a finding and the scan that generated it. scanName -&gt; (string) [required] The name of the scan that generated the finding. findingId -&gt; (string) [required] The identifier for a finding. Shorthand Syntax: scanName=string,findingId=string ... JSON Syntax: [ { "scanName": "string", "findingId": "string" } ... ]
+    /// A list of finding identifiers. Each identifier consists of a scanName and a findingId . You retrieve the findingId when you call GetFindings . Constraints: • min: 1 • max: 25 (structure) An object that contains information about a finding and the scan that generated it. scanName -&gt; (string) [required] The name of the scan that generated the finding. findingId -&gt; (string) [required] The identifier for a finding. Shorthand Syntax: scanName=string,findingId=string ... JSON Syntax: [ { "scanName": "string", "findingId": "string" } ... ]
     /// </summary>
     [CliOption("--finding-identifiers", GroupValues = true)]
     public IEnumerable<string>? FindingIdentifiers { get; private init; }
@@ -93,6 +94,15 @@ public record AwsCodeguruSecurityBatchGetFindingsOptions : AwsOptions, IValidata
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

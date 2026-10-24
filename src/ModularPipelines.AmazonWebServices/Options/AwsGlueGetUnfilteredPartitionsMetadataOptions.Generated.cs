@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves partition metadata from the Data Catalog that contains unfil- tered metadata. For IAM authorization, the public IAM action associated with this API is glue:GetPartitions . See also: AWS API Documentation
+/// Retrieves partition metadata from the Data Catalog that contains unfiltered metadata. For IAM authorization, the public IAM action associated with this API is glue:GetPartitions . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,12 +27,12 @@ public record AwsGlueGetUnfilteredPartitionsMetadataOptions : AwsOptions, IValid
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Retrieves partition metadata from the Data Catalog that contains unfil- tered metadata. For IAM authorization, the public IAM action associated with this API is glue:GetPartitions . See also: AWS API Documentation
+    /// Retrieves partition metadata from the Data Catalog that contains unfiltered metadata. For IAM authorization, the public IAM action associated with this API is glue:GetPartitions . See also: AWS API Documentation
     /// </summary>
-    /// <param name="CatalogId">The ID of the Data Catalog where the partitions in question reside. If none is provided, the AWS account ID is used by default. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*</param>
-    /// <param name="DatabaseName">The name of the catalog database where the partitions reside. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*</param>
-    /// <param name="TableName">The name of the table that contains the partition. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*</param>
-    /// <param name="SupportedPermissionTypes">A list of supported permission types. Constraints: o min: 1 o max: 255 (string) Possible values: o COLUMN_PERMISSION o CELL_FILTER_PERMISSION o NESTED_PERMISSION o NESTED_CELL_PERMISSION Syntax: "string" "string" ...</param>
+    /// <param name="CatalogId">The ID of the Data Catalog where the partitions in question reside. If none is provided, the AWS account ID is used by default. Constraints: • min: 1 • max: 255 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*</param>
+    /// <param name="DatabaseName">The name of the catalog database where the partitions reside. Constraints: • min: 1 • max: 255 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*</param>
+    /// <param name="TableName">The name of the table that contains the partition. Constraints: • min: 1 • max: 255 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*</param>
+    /// <param name="SupportedPermissionTypes">A list of supported permission types. Constraints: • min: 1 • max: 255 (string) Possible values: • COLUMN_PERMISSION • CELL_FILTER_PERMISSION • NESTED_PERMISSION • NESTED_CELL_PERMISSION Syntax: "string" "string" ...</param>
     public AwsGlueGetUnfilteredPartitionsMetadataOptions(
         string CatalogId,
         string DatabaseName,
@@ -80,37 +81,37 @@ public record AwsGlueGetUnfilteredPartitionsMetadataOptions : AwsOptions, IValid
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the Data Catalog where the partitions in question reside. If none is provided, the AWS account ID is used by default. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
+    /// The ID of the Data Catalog where the partitions in question reside. If none is provided, the AWS account ID is used by default. Constraints: • min: 1 • max: 255 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
     /// </summary>
     [CliOption("--catalog-id")]
     public string? CatalogId { get; private init; }
 
     /// <summary>
-    /// The name of the catalog database where the partitions reside. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
+    /// The name of the catalog database where the partitions reside. Constraints: • min: 1 • max: 255 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
     /// </summary>
     [CliOption("--database-name")]
     public string? DatabaseName { get; private init; }
 
     /// <summary>
-    /// The name of the table that contains the partition. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
+    /// The name of the table that contains the partition. Constraints: • min: 1 • max: 255 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
     /// </summary>
     [CliOption("--table-name")]
     public string? TableName { get; private init; }
 
     /// <summary>
-    /// A list of supported permission types. Constraints: o min: 1 o max: 255 (string) Possible values: o COLUMN_PERMISSION o CELL_FILTER_PERMISSION o NESTED_PERMISSION o NESTED_CELL_PERMISSION Syntax: "string" "string" ...
+    /// A list of supported permission types. Constraints: • min: 1 • max: 255 (string) Possible values: • COLUMN_PERMISSION • CELL_FILTER_PERMISSION • NESTED_PERMISSION • NESTED_CELL_PERMISSION Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--supported-permission-types", GroupValues = true)]
     public IEnumerable<string>? SupportedPermissionTypes { get; private init; }
 
     /// <summary>
-    /// An expression that filters the partitions to be returned. The expression uses SQL syntax similar to the SQL WHERE filter clause. The SQL statement parser JSQLParser parses the expression. Operators : The following are the operators that you can use in the Expression API call: = Checks whether the values of the two operands are equal; if yes, then the condition becomes true. Example: Assume 'variable a' holds 10 and 'variable b' holds 20. (a = b) is not true. &lt; &gt; Checks whether the values of two operands are equal; if the values are not equal, then the condition becomes true. Example: (a &lt; &gt; b) is true. &gt; Checks whether the value of the left operand is greater than the value of the right operand; if yes, then the condition becomes true. Example: (a &gt; b) is not true. &lt; Checks whether the value of the left operand is less than the value of the right operand; if yes, then the condition becomes true. Example: (a &lt; b) is true. &gt;= Checks whether the value of the left operand is greater than or equal to the value of the right operand; if yes, then the condition becomes true. Example: (a &gt;= b) is not true. &lt;= Checks whether the value of the left operand is less than or equal to the value of the right operand; if yes, then the condition be- comes true. Example: (a &lt;= b) is true. AND, OR, IN, BETWEEN, LIKE, NOT, IS NULL Logical operators. Supported Partition Key Types : The following are the supported partition keys. o string o date o timestamp o int o bigint o long o tinyint o smallint o decimal If an type is encountered that is not valid, an exception is thrown. Constraints: o min: 0 o max: 2048 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*
+    /// An expression that filters the partitions to be returned. The expression uses SQL syntax similar to the SQL WHERE filter clause. The SQL statement parser JSQLParser parses the expression. Operators : The following are the operators that you can use in the Expression API call: = Checks whether the values of the two operands are equal; if yes, then the condition becomes true. Example: Assume 'variable a' holds 10 and 'variable b' holds 20. (a = b) is not true. &lt; &gt; Checks whether the values of two operands are equal; if the values are not equal, then the condition becomes true. Example: (a &lt; &gt; b) is true. &gt; Checks whether the value of the left operand is greater than the value of the right operand; if yes, then the condition becomes true. Example: (a &gt; b) is not true. &lt; Checks whether the value of the left operand is less than the value of the right operand; if yes, then the condition becomes true. Example: (a &lt; b) is true. &gt;= Checks whether the value of the left operand is greater than or equal to the value of the right operand; if yes, then the condition becomes true. Example: (a &gt;= b) is not true. &lt;= Checks whether the value of the left operand is less than or equal to the value of the right operand; if yes, then the condition becomes true. Example: (a &lt;= b) is true. AND, OR, IN, BETWEEN, LIKE, NOT, IS NULL Logical operators. Supported Partition Key Types : The following are the supported partition keys. • string • date • timestamp • int • bigint • long • tinyint • smallint • decimal If an type is encountered that is not valid, an exception is thrown. Constraints: • min: 0 • max: 2048 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*
     /// </summary>
     [CliOption("--expression")]
     public string? Expression { get; set; }
 
     /// <summary>
-    /// A structure containing Lake Formation audit context information. AdditionalAuditContext -&gt; (string) A string containing the additional audit context information. Constraints: o min: 0 o max: 2048 RequestedColumns -&gt; (list) The requested columns for audit. (string) Constraints: o min: 1 o max: 1024 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* AllColumnsRequested -&gt; (boolean) All columns request for audit. Shorthand Syntax: AdditionalAuditContext=string,RequestedColumns=string,string,AllColumnsRequested=boolean JSON Syntax: { "AdditionalAuditContext": "string", "RequestedColumns": ["string", ...], "AllColumnsRequested": true|false }
+    /// A structure containing Lake Formation audit context information. AdditionalAuditContext -&gt; (string) A string containing the additional audit context information. Constraints: • min: 0 • max: 2048 RequestedColumns -&gt; (list) The requested columns for audit. (string) Constraints: • min: 1 • max: 1024 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* AllColumnsRequested -&gt; (boolean) All columns request for audit. Shorthand Syntax: AdditionalAuditContext=string,RequestedColumns=string,string,AllColumnsRequested=boolean JSON Syntax: { "AdditionalAuditContext": "string", "RequestedColumns": ["string", ...], "AllColumnsRequested": true|false }
     /// </summary>
     [CliOption("--audit-context")]
     public string? AuditContext { get; set; }
@@ -123,25 +124,25 @@ public record AwsGlueGetUnfilteredPartitionsMetadataOptions : AwsOptions, IValid
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// The segment of the table's partitions to scan in this request. SegmentNumber -&gt; (integer) [required] The zero-based index number of the segment. For example, if the total number of segments is 4, SegmentNumber values range from 0 through 3. Constraints: o min: 0 TotalSegments -&gt; (integer) [required] The total number of segments. Constraints: o min: 1 o max: 10 Shorthand Syntax: SegmentNumber=integer,TotalSegments=integer JSON Syntax: { "SegmentNumber": integer, "TotalSegments": integer }
+    /// The segment of the table's partitions to scan in this request. SegmentNumber -&gt; (integer) [required] The zero-based index number of the segment. For example, if the total number of segments is 4, SegmentNumber values range from 0 through 3. Constraints: • min: 0 TotalSegments -&gt; (integer) [required] The total number of segments. Constraints: • min: 1 • max: 10 Shorthand Syntax: SegmentNumber=integer,TotalSegments=integer JSON Syntax: { "SegmentNumber": integer, "TotalSegments": integer }
     /// </summary>
     [CliOption("--segment")]
     public string? Segment { get; set; }
 
     /// <summary>
-    /// The maximum number of partitions to return in a single response. Constraints: o min: 1 o max: 1000
+    /// The maximum number of partitions to return in a single response. Constraints: • min: 1 • max: 1000
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
     /// <summary>
-    /// A structure used as a protocol between query engines and Lake Forma- tion or Glue. Contains both a Lake Formation generated authorization identifier and information from the request's authorization context. QueryId -&gt; (string) A unique identifier generated by the query engine for the query. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* QueryStartTime -&gt; (timestamp) A timestamp provided by the query engine for when the query started. ClusterId -&gt; (string) An identifier string for the consumer cluster. QueryAuthorizationId -&gt; (string) A cryptographically generated query identifier generated by Glue or Lake Formation. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* AdditionalContext -&gt; (map) An opaque string-string map passed by the query engine. key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: QueryId=string,QueryStartTime=timestamp,ClusterId=string,QueryAuthorizationId=string,AdditionalContext={KeyName1=string,KeyName2=string} JSON Syntax: { "QueryId": "string", "QueryStartTime": timestamp, "ClusterId": "string", "QueryAuthorizationId": "string", "AdditionalContext": {"string": "string" ...} }
+    /// A structure used as a protocol between query engines and Lake Formation or Glue. Contains both a Lake Formation generated authorization identifier and information from the request's authorization context. QueryId -&gt; (string) A unique identifier generated by the query engine for the query. Constraints: • min: 1 • max: 255 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* QueryStartTime -&gt; (timestamp) A timestamp provided by the query engine for when the query started. ClusterId -&gt; (string) An identifier string for the consumer cluster. QueryAuthorizationId -&gt; (string) A cryptographically generated query identifier generated by Glue or Lake Formation. Constraints: • min: 1 • max: 255 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* AdditionalContext -&gt; (map) An opaque string-string map passed by the query engine. key -&gt; (string) Constraints: • min: 1 • max: 128 value -&gt; (string) Constraints: • min: 0 • max: 256 Shorthand Syntax: QueryId=string,QueryStartTime=timestamp,ClusterId=string,QueryAuthorizationId=string,AdditionalContext={KeyName1=string,KeyName2=string} JSON Syntax: { "QueryId": "string", "QueryStartTime": timestamp, "ClusterId": "string", "QueryAuthorizationId": "string", "AdditionalContext": {"string": "string" ...} }
     /// </summary>
     [CliOption("--query-session-context")]
     public string? QuerySessionContext { get; set; }
 
     /// <summary>
-    /// Specified only if the base tables belong to a different Amazon Web Services Region. Constraints: o min: 1 o max: 1024
+    /// Specified only if the base tables belong to a different Amazon Web Services Region. Constraints: • min: 1 • max: 1024
     /// </summary>
     [CliOption("--resource-region")]
     public string? ResourceRegion { get; set; }
@@ -167,6 +168,15 @@ public record AwsGlueGetUnfilteredPartitionsMetadataOptions : AwsOptions, IValid
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

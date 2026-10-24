@@ -6,8 +6,8 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
+using ModularPipelines;
 using ModularPipelines.Context;
-using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
@@ -182,7 +182,7 @@ public class AwsKafkaconnect : IAwsKafkaconnect
     }
 
     /// <summary>
-    /// Lists information about a connector's operation(s). See also: AWS API Documentation list-connector-operations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: connectorOperations
+    /// Lists information about a connector's operation(s). See also: AWS API Documentation list-connector-operations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: connectorOperations
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -197,7 +197,7 @@ public class AwsKafkaconnect : IAwsKafkaconnect
     }
 
     /// <summary>
-    /// Returns a list of all the connectors in this account and Region. The list is limited to connectors whose name starts with the specified pre- fix. The response also includes a description of each of the listed connectors. See also: AWS API Documentation list-connectors is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argume...
+    /// Returns a list of all the connectors in this account and Region. The list is limited to connectors whose name starts with the specified prefix. The response also includes a description of each of the listed connectors. See also: AWS API Documentation list-connectors is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -242,7 +242,7 @@ public class AwsKafkaconnect : IAwsKafkaconnect
     }
 
     /// <summary>
-    /// Returns a list of all of the worker configurations in this account and Region. See also: AWS API Documentation list-worker-configurations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: workerConfigu...
+    /// Returns a list of all of the worker configurations in this account and Region. See also: AWS API Documentation list-worker-configurations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: workerConfigura...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -257,7 +257,7 @@ public class AwsKafkaconnect : IAwsKafkaconnect
     }
 
     /// <summary>
-    /// Restarts the specified connector. By default, this operation restarts the connector and all of its tasks. This operation is asynchronous and returns a connector operation ARN that you can pass to DescribeConnec- torOperation to track the state of the restart. See also: AWS API Documentation
+    /// Restarts the specified connector. By default, this operation restarts the connector and all of its tasks. This operation is asynchronous and returns a connector operation ARN that you can pass to DescribeConnectorOperation to track the state of the restart. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -302,7 +302,7 @@ public class AwsKafkaconnect : IAwsKafkaconnect
     }
 
     /// <summary>
-    /// Updates the specified connector. For request body, specify only one pa- rameter: either capacity or connectorConfiguration . See also: AWS API Documentation
+    /// Updates the specified connector. For request body, specify only one parameter: either capacity or connectorConfiguration . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes a list of specified images that are within a repository in a public registry. Images are specified with either an imageTag or im- ageDigest . You can remove a tag from an image by specifying the image's tag in your request. When you remove the last tag from an image, the image is deleted from your repository. You can completely delete an image (and all of its tags) by specifying the digest of the image in your request. See also: AWS API Documentation
+/// Deletes a list of specified images that are within a repository in a public registry. Images are specified with either an imageTag or imageDigest . You can remove a tag from an image by specifying the image's tag in your request. When you remove the last tag from an image, the image is deleted from your repository. You can completely delete an image (and all of its tags) by specifying the digest of the image in your request. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsEcrPublicBatchDeleteImageOptions : AwsOptions, IValidatableObje
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes a list of specified images that are within a repository in a public registry. Images are specified with either an imageTag or im- ageDigest . You can remove a tag from an image by specifying the image's tag in your request. When you remove the last tag from an image, the image is deleted from your repository. You can completely delete an image (and all of its tags) by specifying the digest of the image in your request. See also: AWS API Documentation
+    /// Deletes a list of specified images that are within a repository in a public registry. Images are specified with either an imageTag or imageDigest . You can remove a tag from an image by specifying the image's tag in your request. When you remove the last tag from an image, the image is deleted from your repository. You can completely delete an image (and all of its tags) by specifying the digest of the image in your request. See also: AWS API Documentation
     /// </summary>
-    /// <param name="RepositoryName">The repository in a public registry that contains the image to delete. Constraints: o min: 2 o max: 205 o pattern: (?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*</param>
-    /// <param name="ImageIds">A list of image ID references that correspond to images to delete. The format of the imageIds reference is imageTag=tag or imageDi- gest=digest . Constraints: o min: 1 o max: 100 (structure) An object with identifying information for an Amazon ECR image. imageDigest -&gt; (string) The sha256 digest of the image manifest. imageTag -&gt; (string) The tag that's used for the image. Constraints: o min: 1 o max: 300 Shorthand Syntax: imageDigest=string,imageTag=string ... JSON Syntax: [ { "imageDigest": "string", "imageTag": "string" } ... ]</param>
+    /// <param name="RepositoryName">The repository in a public registry that contains the image to delete. Constraints: • min: 2 • max: 205 • pattern: (?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*</param>
+    /// <param name="ImageIds">A list of image ID references that correspond to images to delete. The format of the imageIds reference is imageTag=tag or imageDigest=digest . Constraints: • min: 1 • max: 100 (structure) An object with identifying information for an Amazon ECR image. imageDigest -&gt; (string) The sha256 digest of the image manifest. imageTag -&gt; (string) The tag that's used for the image. Constraints: • min: 1 • max: 300 Shorthand Syntax: imageDigest=string,imageTag=string ... JSON Syntax: [ { "imageDigest": "string", "imageTag": "string" } ... ]</param>
     public AwsEcrPublicBatchDeleteImageOptions(
         string RepositoryName,
         IEnumerable<string> ImageIds
@@ -71,19 +72,19 @@ public record AwsEcrPublicBatchDeleteImageOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The repository in a public registry that contains the image to delete. Constraints: o min: 2 o max: 205 o pattern: (?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*
+    /// The repository in a public registry that contains the image to delete. Constraints: • min: 2 • max: 205 • pattern: (?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*
     /// </summary>
     [CliOption("--repository-name")]
     public string? RepositoryName { get; private init; }
 
     /// <summary>
-    /// A list of image ID references that correspond to images to delete. The format of the imageIds reference is imageTag=tag or imageDi- gest=digest . Constraints: o min: 1 o max: 100 (structure) An object with identifying information for an Amazon ECR image. imageDigest -&gt; (string) The sha256 digest of the image manifest. imageTag -&gt; (string) The tag that's used for the image. Constraints: o min: 1 o max: 300 Shorthand Syntax: imageDigest=string,imageTag=string ... JSON Syntax: [ { "imageDigest": "string", "imageTag": "string" } ... ]
+    /// A list of image ID references that correspond to images to delete. The format of the imageIds reference is imageTag=tag or imageDigest=digest . Constraints: • min: 1 • max: 100 (structure) An object with identifying information for an Amazon ECR image. imageDigest -&gt; (string) The sha256 digest of the image manifest. imageTag -&gt; (string) The tag that's used for the image. Constraints: • min: 1 • max: 300 Shorthand Syntax: imageDigest=string,imageTag=string ... JSON Syntax: [ { "imageDigest": "string", "imageTag": "string" } ... ]
     /// </summary>
     [CliOption("--image-ids", GroupValues = true)]
     public IEnumerable<string>? ImageIds { get; private init; }
 
     /// <summary>
-    /// The Amazon Web Services account ID, or registry alias, that's asso- ciated with the registry that contains the image to delete. If you do not specify a registry, the default public registry is assumed. Constraints: o min: 2 o max: 50
+    /// The Amazon Web Services account ID, or registry alias, that's associated with the registry that contains the image to delete. If you do not specify a registry, the default public registry is assumed. Constraints: • min: 2 • max: 50
     /// </summary>
     [CliOption("--registry-id")]
     public string? RegistryId { get; set; }
@@ -109,6 +110,15 @@ public record AwsEcrPublicBatchDeleteImageOptions : AwsOptions, IValidatableObje
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Create an App Runner automatic scaling configuration resource. App Run- ner requires this resource when you create or update App Runner ser- vices and you require non-default auto scaling settings. You can share an auto scaling configuration across multiple services. Create multiple revisions of a configuration by calling this action multiple times using the same AutoScalingConfigurationName . The call returns incremental AutoScalingConfigurationRevision values. When you create a service and con...
+/// Create an App Runner automatic scaling configuration resource. App Runner requires this resource when you create or update App Runner services and you require non-default auto scaling settings. You can share an auto scaling configuration across multiple services. Create multiple revisions of a configuration by calling this action multiple times using the same AutoScalingConfigurationName . The call returns incremental AutoScalingConfigurationRevision values. When you create a service and configu...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsApprunnerCreateAutoScalingConfigurationOptions : AwsOptions, IV
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Create an App Runner automatic scaling configuration resource. App Run- ner requires this resource when you create or update App Runner ser- vices and you require non-default auto scaling settings. You can share an auto scaling configuration across multiple services. Create multiple revisions of a configuration by calling this action multiple times using the same AutoScalingConfigurationName . The call returns incremental AutoScalingConfigurationRevision values. When you create a service and con...
+    /// Create an App Runner automatic scaling configuration resource. App Runner requires this resource when you create or update App Runner services and you require non-default auto scaling settings. You can share an auto scaling configuration across multiple services. Create multiple revisions of a configuration by calling this action multiple times using the same AutoScalingConfigurationName . The call returns incremental AutoScalingConfigurationRevision values. When you create a service and configu...
     /// </summary>
-    /// <param name="AutoScalingConfigurationName">A name for the auto scaling configuration. When you use it for the first time in an Amazon Web Services Region, App Runner creates re- vision number 1 of this name. When you use the same name in subse- quent calls, App Runner creates incremental revisions of the config- uration. NOTE: Prior to the release of Auto scale configuration enhancements , the name DefaultConfiguration was reserved. This restriction is no longer in place. You can now manage De- faultConfiguration the same way you manage your custom auto scaling configurations. This means you can do the following with the DefaultConfiguration that App Runner provides: o Create new revisions of the DefaultConfiguration . o Delete the revisions of the DefaultConfiguration . o Delete the auto scaling configuration for which the App Runner DefaultConfiguration was created. o If you delete the auto scaling configuration you can create another custom auto scaling configuration with the same De- faultConfiguration name. The original DefaultConfiguration re- source provided by App Runner remains in your account unless you make changes to it. Constraints: o min: 4 o max: 32 o pattern: [A-Za-z0-9][A-Za-z0-9\-_]{3,31}</param>
+    /// <param name="AutoScalingConfigurationName">A name for the auto scaling configuration. When you use it for the first time in an Amazon Web Services Region, App Runner creates revision number 1 of this name. When you use the same name in subsequent calls, App Runner creates incremental revisions of the configuration. NOTE: Prior to the release of Auto scale configuration enhancements , the name DefaultConfiguration was reserved. This restriction is no longer in place. You can now manage DefaultConfiguration the same way you manage your custom auto scaling configurations. This means you can do the following with the DefaultConfiguration that App Runner provides: • Create new revisions of the DefaultConfiguration . • Delete the revisions of the DefaultConfiguration . • Delete the auto scaling configuration for which the App Runner DefaultConfiguration was created. • If you delete the auto scaling configuration you can create another custom auto scaling configuration with the same DefaultConfiguration name. The original DefaultConfiguration resource provided by App Runner remains in your account unless you make changes to it. Constraints: • min: 4 • max: 32 • pattern: [A-Za-z0-9][A-Za-z0-9\-_]{3,31}</param>
     public AwsApprunnerCreateAutoScalingConfigurationOptions(
         string AutoScalingConfigurationName
     )
@@ -56,31 +57,31 @@ public record AwsApprunnerCreateAutoScalingConfigurationOptions : AwsOptions, IV
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A name for the auto scaling configuration. When you use it for the first time in an Amazon Web Services Region, App Runner creates re- vision number 1 of this name. When you use the same name in subse- quent calls, App Runner creates incremental revisions of the config- uration. NOTE: Prior to the release of Auto scale configuration enhancements , the name DefaultConfiguration was reserved. This restriction is no longer in place. You can now manage De- faultConfiguration the same way you manage your custom auto scaling configurations. This means you can do the following with the DefaultConfiguration that App Runner provides: o Create new revisions of the DefaultConfiguration . o Delete the revisions of the DefaultConfiguration . o Delete the auto scaling configuration for which the App Runner DefaultConfiguration was created. o If you delete the auto scaling configuration you can create another custom auto scaling configuration with the same De- faultConfiguration name. The original DefaultConfiguration re- source provided by App Runner remains in your account unless you make changes to it. Constraints: o min: 4 o max: 32 o pattern: [A-Za-z0-9][A-Za-z0-9\-_]{3,31}
+    /// A name for the auto scaling configuration. When you use it for the first time in an Amazon Web Services Region, App Runner creates revision number 1 of this name. When you use the same name in subsequent calls, App Runner creates incremental revisions of the configuration. NOTE: Prior to the release of Auto scale configuration enhancements , the name DefaultConfiguration was reserved. This restriction is no longer in place. You can now manage DefaultConfiguration the same way you manage your custom auto scaling configurations. This means you can do the following with the DefaultConfiguration that App Runner provides: • Create new revisions of the DefaultConfiguration . • Delete the revisions of the DefaultConfiguration . • Delete the auto scaling configuration for which the App Runner DefaultConfiguration was created. • If you delete the auto scaling configuration you can create another custom auto scaling configuration with the same DefaultConfiguration name. The original DefaultConfiguration resource provided by App Runner remains in your account unless you make changes to it. Constraints: • min: 4 • max: 32 • pattern: [A-Za-z0-9][A-Za-z0-9\-_]{3,31}
     /// </summary>
     [CliOption("--auto-scaling-configuration-name")]
     public string? AutoScalingConfigurationName { get; private init; }
 
     /// <summary>
-    /// The maximum number of concurrent requests that you want an instance to process. If the number of concurrent requests exceeds this limit, App Runner scales up your service. Default: 100 Constraints: o min: 1 o max: 200
+    /// The maximum number of concurrent requests that you want an instance to process. If the number of concurrent requests exceeds this limit, App Runner scales up your service. Default: 100 Constraints: • min: 1 • max: 200
     /// </summary>
     [CliOption("--max-concurrency")]
     public int? MaxConcurrency { get; set; }
 
     /// <summary>
-    /// The minimum number of instances that App Runner provisions for your service. The service always has at least MinSize provisioned in- stances. Some of them actively serve traffic. The rest of them (pro- visioned and inactive instances) are a cost-effective compute capac- ity reserve and are ready to be quickly activated. You pay for mem- ory usage of all the provisioned instances. You pay for CPU usage of only the active subset. App Runner temporarily doubles the number of provisioned instances during deployments, to maintain the same capacity for both old and new code. Default: 1 Constraints: o min: 1 o max: 25
+    /// The minimum number of instances that App Runner provisions for your service. The service always has at least MinSize provisioned instances. Some of them actively serve traffic. The rest of them (provisioned and inactive instances) are a cost-effective compute capacity reserve and are ready to be quickly activated. You pay for memory usage of all the provisioned instances. You pay for CPU usage of only the active subset. App Runner temporarily doubles the number of provisioned instances during deployments, to maintain the same capacity for both old and new code. Default: 1 Constraints: • min: 1 • max: 25
     /// </summary>
     [CliOption("--min-size")]
     public int? MinSize { get; set; }
 
     /// <summary>
-    /// The maximum number of instances that your service scales up to. At most MaxSize instances actively serve traffic for your service. Default: 25 Constraints: o min: 1
+    /// The maximum number of instances that your service scales up to. At most MaxSize instances actively serve traffic for your service. Default: 25 Constraints: • min: 1
     /// </summary>
     [CliOption("--max-size")]
     public int? MaxSize { get; set; }
 
     /// <summary>
-    /// A list of metadata items that you can associate with your auto scal- ing configuration resource. A tag is a key-value pair. (structure) Describes a tag that is applied to an App Runner resource. A tag is a metadata item consisting of a key-value pair. Key -&gt; (string) The key of the tag. Constraints: o min: 1 o max: 128 o pattern: ^(?!aws:).+ Value -&gt; (string) The value of the tag. Constraints: o min: 0 o max: 256 o pattern: .* Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// A list of metadata items that you can associate with your auto scaling configuration resource. A tag is a key-value pair. (structure) Describes a tag that is applied to an App Runner resource. A tag is a metadata item consisting of a key-value pair. Key -&gt; (string) The key of the tag. Constraints: • min: 1 • max: 128 • pattern: ^(?!aws:).+ Value -&gt; (string) The value of the tag. Constraints: • min: 0 • max: 256 • pattern: .* Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
@@ -106,6 +107,15 @@ public record AwsApprunnerCreateAutoScalingConfigurationOptions : AwsOptions, IV
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

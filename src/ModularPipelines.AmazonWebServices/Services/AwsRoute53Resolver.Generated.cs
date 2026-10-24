@@ -6,8 +6,8 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
+using ModularPipelines;
 using ModularPipelines.Context;
-using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
@@ -32,7 +32,7 @@ public class AwsRoute53Resolver : IAwsRoute53Resolver
     #region Commands
 
     /// <summary>
-    /// Associates a FirewallRuleGroup with a VPC, to provide DNS filtering for the VPC. If the rule group contains any rule configured with the PartnerThreat- Protection rule type, the calling account must hold an active Amazon Web Services Marketplace subscription to the named partner. If the sub- scription is missing, the association request is rejected. See also: AWS API Documentation
+    /// Associates a FirewallRuleGroup with a VPC, to provide DNS filtering for the VPC. If the rule group contains any rule configured with the PartnerThreatProtection rule type, the calling account must hold an active Amazon Web Services Marketplace subscription to the named partner. If the subscription is missing, the association request is rejected. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -47,7 +47,7 @@ public class AwsRoute53Resolver : IAwsRoute53Resolver
     }
 
     /// <summary>
-    /// Adds IP addresses to an inbound or an outbound Resolver endpoint. If you want to add more than one IP address, submit one AssociateResolv- erEndpointIpAddress request for each IP address. To remove an IP address from an endpoint, see DisassociateResolverEndpointIpAddress . See also: AWS API Documentation
+    /// Adds IP addresses to an inbound or an outbound Resolver endpoint. If you want to add more than one IP address, submit one AssociateResolverEndpointIpAddress request for each IP address. To remove an IP address from an endpoint, see DisassociateResolverEndpointIpAddress . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -62,7 +62,7 @@ public class AwsRoute53Resolver : IAwsRoute53Resolver
     }
 
     /// <summary>
-    /// Associates an Amazon VPC with a specified query logging configuration. Route 53 Resolver logs DNS queries that originate in all of the Amazon VPCs that are associated with a specified query logging configuration. To associate more than one VPC with a configuration, submit one Associ- ateResolverQueryLogConfig request for each VPC. NOTE: The VPCs that you associate with a query logging configuration must be in the same Region as the configuration. To remove a VPC from a query logging configuratio...
+    /// Associates an Amazon VPC with a specified query logging configuration. Route 53 Resolver logs DNS queries that originate in all of the Amazon VPCs that are associated with a specified query logging configuration. To associate more than one VPC with a configuration, submit one AssociateResolverQueryLogConfig request for each VPC. NOTE: The VPCs that you associate with a query logging configuration must be in the same Region as the configuration. To remove a VPC from a query logging configuration,...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -137,7 +137,7 @@ public class AwsRoute53Resolver : IAwsRoute53Resolver
     }
 
     /// <summary>
-    /// Creates an empty firewall domain list for use in DNS Firewall rules. You can populate the domains for the new list with a file, using Im- portFirewallDomains , or with domain strings, using UpdateFirewallDo- mains . See also: AWS API Documentation
+    /// Creates an empty firewall domain list for use in DNS Firewall rules. You can populate the domains for the new list with a file, using ImportFirewallDomains , or with domain strings, using UpdateFirewallDomains . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -167,7 +167,7 @@ public class AwsRoute53Resolver : IAwsRoute53Resolver
     }
 
     /// <summary>
-    /// Creates a single DNS Firewall rule in the specified rule group. The rule can use any one of the following match sources, and the chosen source must be supplied through the matching request field they are mutually exclusive: o FirewallDomainListId match a customer-managed or Amazon Web Ser- vices-managed domain list. o DnsThreatProtection match a built-in DNS Firewall Advanced threat detector (DGA , DNS_TUNNELING , or DICTIONARY_DGA ). o FirewallRuleType match one of the rule-type variants return...
+    /// Creates a single DNS Firewall rule in the specified rule group. The rule can use any one of the following match sources, and the chosen source must be supplied through the matching request field they are mutually exclusive: • FirewallDomainListId match a customer-managed or Amazon Web Services-managed domain list. • DnsThreatProtection match a built-in DNS Firewall Advanced threat detector (DGA , DNS_TUNNELING , or DICTIONARY_DGA ). • FirewallRuleType match one of the rule-type variants returned...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -182,7 +182,7 @@ public class AwsRoute53Resolver : IAwsRoute53Resolver
     }
 
     /// <summary>
-    /// Creates a Route 53 Resolver on an Outpost. NOTE: This operation applies to first-generation Outposts only. On sec- ond-generation Outposts, Resolver is enabled by default and managed automatically by Amazon Web Services, so you don't need to create it. See also: AWS API Documentation
+    /// Creates a Route 53 Resolver on an Outpost. NOTE: This operation applies to first-generation Outposts only. On second-generation Outposts, Resolver is enabled by default and managed automatically by Amazon Web Services, so you don't need to create it. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -197,7 +197,7 @@ public class AwsRoute53Resolver : IAwsRoute53Resolver
     }
 
     /// <summary>
-    /// Creates a Resolver endpoint. There are two types of Resolver endpoints, inbound and outbound: o An inbound Resolver endpoint forwards DNS queries to the DNS service for a VPC from your network. o An outbound Resolver endpoint forwards DNS queries from the DNS ser- vice for a VPC to your network. See also: AWS API Documentation
+    /// Creates a Resolver endpoint. There are two types of Resolver endpoints, inbound and outbound: • An inbound Resolver endpoint forwards DNS queries to the DNS service for a VPC from your network. • An outbound Resolver endpoint forwards DNS queries from the DNS service for a VPC to your network. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -212,7 +212,7 @@ public class AwsRoute53Resolver : IAwsRoute53Resolver
     }
 
     /// <summary>
-    /// Creates a Resolver query logging configuration, which defines where you want Resolver to save DNS query logs that originate in your VPCs. Re- solver can log queries only for VPCs that are in the same Region as the query logging configuration. To specify which VPCs you want to log queries for, you use AssociateRe- solverQueryLogConfig . For more information, see AssociateResolverQueryLogConfig . You can optionally use Resource Access Manager (RAM) to share a query logging configuration with other...
+    /// Creates a Resolver query logging configuration, which defines where you want Resolver to save DNS query logs that originate in your VPCs. Resolver can log queries only for VPCs that are in the same Region as the query logging configuration. To specify which VPCs you want to log queries for, you use AssociateResolverQueryLogConfig . For more information, see AssociateResolverQueryLogConfig . You can optionally use Resource Access Manager (RAM) to share a query logging configuration with other Ama...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -272,7 +272,7 @@ public class AwsRoute53Resolver : IAwsRoute53Resolver
     }
 
     /// <summary>
-    /// Deletes the specified firewall rule. Identify the rule using either FirewallDomainListId (for domain-list and DNS Firewall Advanced rules) or FirewallThreatProtectionId (for partner-managed and DNS Firewall Ad- vanced rules) together with FirewallRuleGroupId . DeleteFirewallRule is the only operation that succeeds against a rule whose Status is CREATION_FAILED . See also: AWS API Documentation
+    /// Deletes the specified firewall rule. Identify the rule using either FirewallDomainListId (for domain-list and DNS Firewall Advanced rules) or FirewallThreatProtectionId (for partner-managed and DNS Firewall Advanced rules) together with FirewallRuleGroupId . DeleteFirewallRule is the only operation that succeeds against a rule whose Status is CREATION_FAILED . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -287,7 +287,7 @@ public class AwsRoute53Resolver : IAwsRoute53Resolver
     }
 
     /// <summary>
-    /// Deletes a Resolver on the Outpost. NOTE: This operation applies to first-generation Outposts only. On sec- ond-generation Outposts, Resolver is managed automatically by Amazon Web Services and can't be deleted directly. To opt out of Resolver on second-generation Outposts, contact Amazon Web Services Support. See also: AWS API Documentation
+    /// Deletes a Resolver on the Outpost. NOTE: This operation applies to first-generation Outposts only. On second-generation Outposts, Resolver is managed automatically by Amazon Web Services and can't be deleted directly. To opt out of Resolver on second-generation Outposts, contact Amazon Web Services Support. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -302,7 +302,7 @@ public class AwsRoute53Resolver : IAwsRoute53Resolver
     }
 
     /// <summary>
-    /// Deletes a Resolver endpoint. The effect of deleting a Resolver endpoint depends on whether it's an inbound or an outbound Resolver endpoint: o Inbound : DNS queries from your network are no longer routed to the DNS service for the specified VPC. o Outbound : DNS queries from a VPC are no longer routed to your net- work. See also: AWS API Documentation
+    /// Deletes a Resolver endpoint. The effect of deleting a Resolver endpoint depends on whether it's an inbound or an outbound Resolver endpoint: • Inbound : DNS queries from your network are no longer routed to the DNS service for the specified VPC. • Outbound : DNS queries from a VPC are no longer routed to your network. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -317,7 +317,7 @@ public class AwsRoute53Resolver : IAwsRoute53Resolver
     }
 
     /// <summary>
-    /// Deletes a query logging configuration. When you delete a configuration, Resolver stops logging DNS queries for all of the Amazon VPCs that are associated with the configuration. This also applies if the query log- ging configuration is shared with other Amazon Web Services accounts, and the other accounts have associated VPCs with the shared configura- tion. Before you can delete a query logging configuration, you must first disassociate all VPCs from the configuration. See DisassociateResolverQ...
+    /// Deletes a query logging configuration. When you delete a configuration, Resolver stops logging DNS queries for all of the Amazon VPCs that are associated with the configuration. This also applies if the query logging configuration is shared with other Amazon Web Services accounts, and the other accounts have associated VPCs with the shared configuration. Before you can delete a query logging configuration, you must first disassociate all VPCs from the configuration. See DisassociateResolverQuery...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -362,7 +362,7 @@ public class AwsRoute53Resolver : IAwsRoute53Resolver
     }
 
     /// <summary>
-    /// Removes IP addresses from an inbound or an outbound Resolver endpoint. If you want to remove more than one IP address, submit one Disassoci- ateResolverEndpointIpAddress request for each IP address. To add an IP address to an endpoint, see AssociateResolverEndpointIpAddress . See also: AWS API Documentation
+    /// Removes IP addresses from an inbound or an outbound Resolver endpoint. If you want to remove more than one IP address, submit one DisassociateResolverEndpointIpAddress request for each IP address. To add an IP address to an endpoint, see AssociateResolverEndpointIpAddress . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -377,7 +377,7 @@ public class AwsRoute53Resolver : IAwsRoute53Resolver
     }
 
     /// <summary>
-    /// Disassociates a VPC from a query logging configuration. NOTE: Before you can delete a query logging configuration, you must first disassociate all VPCs from the configuration. If you used Resource Access Manager (RAM) to share a query logging configuration with other accounts, VPCs can be disassociated from the configuration in the following ways: o The accounts that you shared the configuration with can disassoci- ate VPCs from the configuration. o You can stop sharing the configuration. See al...
+    /// Disassociates a VPC from a query logging configuration. NOTE: Before you can delete a query logging configuration, you must first disassociate all VPCs from the configuration. If you used Resource Access Manager (RAM) to share a query logging configuration with other accounts, VPCs can be disassociated from the configuration in the following ways: • The accounts that you shared the configuration with can disassociate VPCs from the configuration. • You can stop sharing the configuration. See also...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -392,7 +392,7 @@ public class AwsRoute53Resolver : IAwsRoute53Resolver
     }
 
     /// <summary>
-    /// Removes the association between a specified Resolver rule and a speci- fied VPC. WARNING: If you disassociate a Resolver rule from a VPC, Resolver stops for- warding DNS queries for the domain name that you specified in the Resolver rule. See also: AWS API Documentation
+    /// Removes the association between a specified Resolver rule and a specified VPC. WARNING: If you disassociate a Resolver rule from a VPC, Resolver stops forwarding DNS queries for the domain name that you specified in the Resolver rule. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -437,7 +437,7 @@ public class AwsRoute53Resolver : IAwsRoute53Resolver
     }
 
     /// <summary>
-    /// Retrieves a firewall rule group association, which enables DNS filter- ing for a VPC with one rule group. A VPC can have more than one fire- wall rule group association, and a rule group can be associated with more than one VPC. See also: AWS API Documentation
+    /// Retrieves a firewall rule group association, which enables DNS filtering for a VPC with one rule group. A VPC can have more than one firewall rule group association, and a rule group can be associated with more than one VPC. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -527,7 +527,7 @@ public class AwsRoute53Resolver : IAwsRoute53Resolver
     }
 
     /// <summary>
-    /// Gets information about a specified Resolver endpoint, such as whether it's an inbound or an outbound Resolver endpoint, and the current sta- tus of the endpoint. See also: AWS API Documentation
+    /// Gets information about a specified Resolver endpoint, such as whether it's an inbound or an outbound Resolver endpoint, and the current status of the endpoint. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -557,7 +557,7 @@ public class AwsRoute53Resolver : IAwsRoute53Resolver
     }
 
     /// <summary>
-    /// Gets information about a specified Resolver query logging configura- tion, such as the number of VPCs that the configuration is logging queries for and the location that logs are sent to. See also: AWS API Documentation
+    /// Gets information about a specified Resolver query logging configuration, such as the number of VPCs that the configuration is logging queries for and the location that logs are sent to. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -617,7 +617,7 @@ public class AwsRoute53Resolver : IAwsRoute53Resolver
     }
 
     /// <summary>
-    /// Gets information about the Resolver rule policy for a specified rule. A Resolver rule policy includes the rule that you want to share with an- other account, the account that you want to share the rule with, and the Resolver operations that you want to allow the account to use. See also: AWS API Documentation
+    /// Gets information about the Resolver rule policy for a specified rule. A Resolver rule policy includes the rule that you want to share with another account, the account that you want to share the rule with, and the Resolver operations that you want to allow the account to use. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -632,7 +632,7 @@ public class AwsRoute53Resolver : IAwsRoute53Resolver
     }
 
     /// <summary>
-    /// Imports domain names from a file into a domain list, for use in a DNS firewall rule group. Each domain specification in your domain list must satisfy the follow- ing requirements: o It can optionally start with * (asterisk). o With the exception of the optional starting asterisk, it must only contain the following characters: A-Z , a-z , 0-9 , - (hyphen). o It must be from 1-255 characters in length. See also: AWS API Documentation
+    /// Imports domain names from a file into a domain list, for use in a DNS firewall rule group. Each domain specification in your domain list must satisfy the following requirements: • It can optionally start with * (asterisk). • With the exception of the optional starting asterisk, it must only contain the following characters: A-Z , a-z , 0-9 , - (hyphen). • It must be from 1-255 characters in length. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -647,7 +647,7 @@ public class AwsRoute53Resolver : IAwsRoute53Resolver
     }
 
     /// <summary>
-    /// Retrieves the firewall configurations that you have defined. DNS Fire- wall uses the configurations to manage firewall behavior for your VPCs. A single call might return only a partial list of the configurations. For information, see MaxResults . See also: AWS API Documentation list-firewall-configs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output...
+    /// Retrieves the firewall configurations that you have defined. DNS Firewall uses the configurations to manage firewall behavior for your VPCs. A single call might return only a partial list of the configurations. For information, see MaxResults . See also: AWS API Documentation list-firewall-configs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output t...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -677,7 +677,7 @@ public class AwsRoute53Resolver : IAwsRoute53Resolver
     }
 
     /// <summary>
-    /// Retrieves the domains that you have defined for the specified firewall domain list. A single call might return only a partial list of the domains. For in- formation, see MaxResults . See also: AWS API Documentation list-firewall-domains is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --qu...
+    /// Retrieves the domains that you have defined for the specified firewall domain list. A single call might return only a partial list of the domains. For information, see MaxResults . See also: AWS API Documentation list-firewall-domains is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --quer...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -692,7 +692,7 @@ public class AwsRoute53Resolver : IAwsRoute53Resolver
     }
 
     /// <summary>
-    /// Retrieves the firewall rule group associations that you have defined. Each association enables DNS filtering for a VPC with one rule group. A single call might return only a partial list of the associations. For information, see MaxResults . See also: AWS API Documentation list-firewall-rule-group-associations is a paginated operation. Multi- ple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate ar- gument. When...
+    /// Retrieves the firewall rule group associations that you have defined. Each association enables DNS filtering for a VPC with one rule group. A single call might return only a partial list of the associations. For information, see MaxResults . See also: AWS API Documentation list-firewall-rule-group-associations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When usi...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -722,22 +722,7 @@ public class AwsRoute53Resolver : IAwsRoute53Resolver
     }
 
     /// <summary>
-    /// Retrieves the firewall rules that you have defined for the specified firewall rule group. DNS Firewall uses the rules in a rule group to filter DNS network traffic for a VPC. A single call might return only a partial list of the rules. For infor- mation, see MaxResults . For rules that require asynchronous provisioning, the response includes Status (see FirewallRuleStatus ) and, on failure, StatusMessage with the reason. See also: AWS API Documentation list-firewall-rules is a paginated operatio...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListFirewallRulesAsync(
-        AwsRoute53resolverListFirewallRulesOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
-    /// Retrieves the rule-type variants that can be used in the FirewallRule- Type field of CreateFirewallRule and UpdateFirewallRule . Each re- turned FirewallRuleTypeDefinition identifies one variant + value com- bination for example, FirewallAdvancedContentCategory + VIO- LENCE_AND_HATE_SPEECH , or PartnerThreatProtection + a partner-managed feed. The supported RuleType filter values are FirewallAdvancedContentCate- gory , FirewallAdvancedThreatCategory , DnsThreatProtection , and Part- nerThreatPro...
+    /// Retrieves the rule-type variants that can be used in the FirewallRuleType field of CreateFirewallRule and UpdateFirewallRule . Each returned FirewallRuleTypeDefinition identifies one variant + value combination for example, FirewallAdvancedContentCategory + VIOLENCE_AND_HATE_SPEECH , or PartnerThreatProtection + a partner-managed feed. The supported RuleType filter values are FirewallAdvancedContentCategory , FirewallAdvancedThreatCategory , DnsThreatProtection , and PartnerThreatProtection . Wh...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -749,6 +734,21 @@ public class AwsRoute53Resolver : IAwsRoute53Resolver
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new AwsRoute53resolverListFirewallRuleTypesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Retrieves the firewall rules that you have defined for the specified firewall rule group. DNS Firewall uses the rules in a rule group to filter DNS network traffic for a VPC. A single call might return only a partial list of the rules. For information, see MaxResults . For rules that require asynchronous provisioning, the response includes Status (see FirewallRuleStatus ) and, on failure, StatusMessage with the reason. See also: AWS API Documentation list-firewall-rules is a paginated operation....
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListFirewallRulesAsync(
+        AwsRoute53resolverListFirewallRulesOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -782,7 +782,7 @@ public class AwsRoute53Resolver : IAwsRoute53Resolver
     }
 
     /// <summary>
-    /// Lists the configurations for DNSSEC validation that are associated with the current Amazon Web Services account. See also: AWS API Documentation list-resolver-dnssec-configs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the foll...
+    /// Lists the configurations for DNSSEC validation that are associated with the current Amazon Web Services account. See also: AWS API Documentation list-resolver-dnssec-configs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the followin...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -797,7 +797,7 @@ public class AwsRoute53Resolver : IAwsRoute53Resolver
     }
 
     /// <summary>
-    /// Gets the IP addresses for a specified Resolver endpoint. See also: AWS API Documentation list-resolver-endpoint-ip-addresses is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: IpAddresses
+    /// Gets the IP addresses for a specified Resolver endpoint. See also: AWS API Documentation list-resolver-endpoint-ip-addresses is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: IpAddresses
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -812,7 +812,7 @@ public class AwsRoute53Resolver : IAwsRoute53Resolver
     }
 
     /// <summary>
-    /// Lists all the Resolver endpoints that were created using the current Amazon Web Services account. See also: AWS API Documentation list-resolver-endpoints is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expression...
+    /// Lists all the Resolver endpoints that were created using the current Amazon Web Services account. See also: AWS API Documentation list-resolver-endpoints is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions:...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -827,7 +827,7 @@ public class AwsRoute53Resolver : IAwsRoute53Resolver
     }
 
     /// <summary>
-    /// Lists information about associations between Amazon VPCs and query log- ging configurations. See also: AWS API Documentation list-resolver-query-log-config-associations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-pagi- nate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the re- sults of the following...
+    /// Lists information about associations between Amazon VPCs and query logging configurations. See also: AWS API Documentation list-resolver-query-log-config-associations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -842,7 +842,7 @@ public class AwsRoute53Resolver : IAwsRoute53Resolver
     }
 
     /// <summary>
-    /// Lists information about the specified query logging configurations. Each configuration defines where you want Resolver to save DNS query logs and specifies the VPCs that you want to log queries for. See also: AWS API Documentation list-resolver-query-log-configs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on ...
+    /// Lists information about the specified query logging configurations. Each configuration defines where you want Resolver to save DNS query logs and specifies the VPCs that you want to log queries for. See also: AWS API Documentation list-resolver-query-log-configs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a pa...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -857,7 +857,7 @@ public class AwsRoute53Resolver : IAwsRoute53Resolver
     }
 
     /// <summary>
-    /// Lists the associations that were created between Resolver rules and VPCs using the current Amazon Web Services account. See also: AWS API Documentation list-resolver-rule-associations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results o...
+    /// Lists the associations that were created between Resolver rules and VPCs using the current Amazon Web Services account. See also: AWS API Documentation list-resolver-rule-associations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of th...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -932,7 +932,7 @@ public class AwsRoute53Resolver : IAwsRoute53Resolver
     }
 
     /// <summary>
-    /// Specifies an Amazon Web Services rule that you want to share with an- other account, the account that you want to share the rule with, and the operations that you want the account to be able to perform on the rule. See also: AWS API Documentation
+    /// Specifies an Amazon Web Services rule that you want to share with another account, the account that you want to share the rule with, and the operations that you want the account to be able to perform on the rule. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -992,7 +992,7 @@ public class AwsRoute53Resolver : IAwsRoute53Resolver
     }
 
     /// <summary>
-    /// Updates the firewall domain list from an array of domain specifica- tions. See also: AWS API Documentation
+    /// Updates the firewall domain list from an array of domain specifications. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1007,7 +1007,7 @@ public class AwsRoute53Resolver : IAwsRoute53Resolver
     }
 
     /// <summary>
-    /// Changes the association of a FirewallRuleGroup with a VPC. The associ- ation enables DNS filtering for the VPC. See also: AWS API Documentation
+    /// Changes the association of a FirewallRuleGroup with a VPC. The association enables DNS filtering for the VPC. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1022,7 +1022,7 @@ public class AwsRoute53Resolver : IAwsRoute53Resolver
     }
 
     /// <summary>
-    /// Updates the specified firewall rule. The rule's FirewallRuleType , FirewallDomainListId , and top-level DnsThreatProtection match source cannot be changed after creation. Rules whose Status is CREATING or CREATION_FAILED cannot be updated; remove a failed rule with Delete- FirewallRule . See also: AWS API Documentation
+    /// Updates the specified firewall rule. The rule's FirewallRuleType , FirewallDomainListId , and top-level DnsThreatProtection match source cannot be changed after creation. Rules whose Status is CREATING or CREATION_FAILED cannot be updated; remove a failed rule with DeleteFirewallRule . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1037,7 +1037,7 @@ public class AwsRoute53Resolver : IAwsRoute53Resolver
     }
 
     /// <summary>
-    /// You can use UpdateOutpostResolver to update the instance count, type, or name of a Resolver on an Outpost. NOTE: This operation applies to first-generation Outposts only. On sec- ond-generation Outposts, Resolver is managed automatically by Amazon Web Services and can't be updated directly. See also: AWS API Documentation
+    /// You can use UpdateOutpostResolver to update the instance count, type, or name of a Resolver on an Outpost. NOTE: This operation applies to first-generation Outposts only. On second-generation Outposts, Resolver is managed automatically by Amazon Web Services and can't be updated directly. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1067,7 +1067,7 @@ public class AwsRoute53Resolver : IAwsRoute53Resolver
     }
 
     /// <summary>
-    /// Updates an existing DNSSEC validation configuration. If there is no ex- isting DNSSEC validation configuration, one is created. See also: AWS API Documentation
+    /// Updates an existing DNSSEC validation configuration. If there is no existing DNSSEC validation configuration, one is created. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1082,7 +1082,7 @@ public class AwsRoute53Resolver : IAwsRoute53Resolver
     }
 
     /// <summary>
-    /// Updates the name, or endpoint type for an inbound or an outbound Re- solver endpoint. You can only update between IPV4 and DUALSTACK, IPV6 endpoint type can't be updated to other type. See also: AWS API Documentation
+    /// Updates the name, or endpoint type for an inbound or an outbound Resolver endpoint. You can only update between IPV4 and DUALSTACK, IPV6 endpoint type can't be updated to other type. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1097,7 +1097,7 @@ public class AwsRoute53Resolver : IAwsRoute53Resolver
     }
 
     /// <summary>
-    /// Updates settings for a specified Resolver rule. ResolverRuleId is re- quired, and all other parameters are optional. If you don't specify a parameter, it retains its current value. See also: AWS API Documentation
+    /// Updates settings for a specified Resolver rule. ResolverRuleId is required, and all other parameters are optional. If you don't specify a parameter, it retains its current value. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

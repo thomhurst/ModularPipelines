@@ -6,15 +6,15 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
+using ModularPipelines;
 using ModularPipelines.Context;
-using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
 namespace ModularPipelines.AmazonWebServices.Services;
 
 /// <summary>
-/// aws licensemanagerusersubscriptions commands.
+/// aws license-manager-user-subscriptions commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AwsLicenseManagerUserSubscriptions : IAwsLicenseManagerUserSubscriptions
@@ -32,7 +32,7 @@ public class AwsLicenseManagerUserSubscriptions : IAwsLicenseManagerUserSubscrip
     #region Commands
 
     /// <summary>
-    /// Associates the user to an EC2 instance to utilize user-based subscrip- tions. NOTE: Your estimated bill for charges on the number of users and related costs will take 48 hours to appear for billing periods that haven't closed (marked as Pending billing status) in Amazon Web Services Billing. For more information, see Viewing your monthly charges in the Amazon Web Services Billing User Guide . See also: AWS API Documentation
+    /// Associates the user to an EC2 instance to utilize user-based subscriptions. NOTE: Your estimated bill for charges on the number of users and related costs will take 48 hours to appear for billing periods that haven't closed (marked as Pending billing status) in Amazon Web Services Billing. For more information, see Viewing your monthly charges in the Amazon Web Services Billing User Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -47,7 +47,7 @@ public class AwsLicenseManagerUserSubscriptions : IAwsLicenseManagerUserSubscrip
     }
 
     /// <summary>
-    /// Creates a network endpoint for the Remote Desktop Services (RDS) li- cense server. See also: AWS API Documentation
+    /// Creates a network endpoint for the Remote Desktop Services (RDS) license server. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -92,7 +92,7 @@ public class AwsLicenseManagerUserSubscriptions : IAwsLicenseManagerUserSubscrip
     }
 
     /// <summary>
-    /// Disassociates the user from an EC2 instance providing user-based sub- scriptions. See also: AWS API Documentation
+    /// Disassociates the user from an EC2 instance providing user-based subscriptions. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -107,7 +107,7 @@ public class AwsLicenseManagerUserSubscriptions : IAwsLicenseManagerUserSubscrip
     }
 
     /// <summary>
-    /// Lists the Active Directory identity providers for user-based subscrip- tions. See also: AWS API Documentation list-identity-providers is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: IdentityProviderS...
+    /// Lists the Active Directory identity providers for user-based subscriptions. See also: AWS API Documentation list-identity-providers is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: IdentityProviderSumma...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -122,7 +122,7 @@ public class AwsLicenseManagerUserSubscriptions : IAwsLicenseManagerUserSubscrip
     }
 
     /// <summary>
-    /// Lists the EC2 instances providing user-based subscriptions. See also: AWS API Documentation list-instances is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: InstanceSummaries
+    /// Lists the EC2 instances providing user-based subscriptions. See also: AWS API Documentation list-instances is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: InstanceSummaries
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -137,7 +137,7 @@ public class AwsLicenseManagerUserSubscriptions : IAwsLicenseManagerUserSubscrip
     }
 
     /// <summary>
-    /// List the Remote Desktop Services (RDS) License Server endpoints See also: AWS API Documentation list-license-server-endpoints is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: LicenseServerEndpoints
+    /// List the Remote Desktop Services (RDS) License Server endpoints See also: AWS API Documentation list-license-server-endpoints is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: LicenseServerEndpoints
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -152,7 +152,7 @@ public class AwsLicenseManagerUserSubscriptions : IAwsLicenseManagerUserSubscrip
     }
 
     /// <summary>
-    /// Lists the user-based subscription products available from an identity provider. See also: AWS API Documentation list-product-subscriptions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: ProductUserS...
+    /// Lists the user-based subscription products available from an identity provider. See also: AWS API Documentation list-product-subscriptions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: ProductUserSum...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

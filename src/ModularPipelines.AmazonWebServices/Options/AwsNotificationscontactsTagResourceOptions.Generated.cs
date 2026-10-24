@@ -10,13 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Attaches a key-value pair to a resource, as identified by its Amazon Resource Name (ARN). Taggable resources in AWS User Notifications Con- tacts include email contacts. See also: AWS API Documentation
+/// Attaches a key-value pair to a resource, as identified by its Amazon Resource Name (ARN). Taggable resources in AWS User Notifications Contacts include email contacts. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +26,10 @@ public record AwsNotificationscontactsTagResourceOptions : AwsOptions, IValidata
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Attaches a key-value pair to a resource, as identified by its Amazon Resource Name (ARN). Taggable resources in AWS User Notifications Con- tacts include email contacts. See also: AWS API Documentation
+    /// Attaches a key-value pair to a resource, as identified by its Amazon Resource Name (ARN). Taggable resources in AWS User Notifications Contacts include email contacts. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Arn">The ARN of the configuration. Constraints: o pattern: arn:aws:notifications-contacts::[0-9]{12}:emailcon- tact/[a-z0-9]{27}</param>
-    /// <param name="Tags">A list of tags to apply to the configuration. Constraints: o min: 0 o max: 200 key -&gt; (string) Constraints: o pattern: (?!aws:).{1,128} value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}</param>
+    /// <param name="Arn">The ARN of the configuration. Constraints: • pattern: arn:aws:notifications-contacts::[0-9]{12}:emailcontact/[a-z0-9]{27}</param>
+    /// <param name="Tags">A list of tags to apply to the configuration. Constraints: • min: 0 • max: 200 key -&gt; (string) Constraints: • pattern: (?!aws:).{1,128} value -&gt; (string) Constraints: • min: 0 • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}</param>
     public AwsNotificationscontactsTagResourceOptions(
         string Arn,
         IReadOnlyList<KeyValue> Tags
@@ -72,13 +72,13 @@ public record AwsNotificationscontactsTagResourceOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the configuration. Constraints: o pattern: arn:aws:notifications-contacts::[0-9]{12}:emailcon- tact/[a-z0-9]{27}
+    /// The ARN of the configuration. Constraints: • pattern: arn:aws:notifications-contacts::[0-9]{12}:emailcontact/[a-z0-9]{27}
     /// </summary>
     [CliOption("--arn")]
     public string? Arn { get; private init; }
 
     /// <summary>
-    /// A list of tags to apply to the configuration. Constraints: o min: 0 o max: 200 key -&gt; (string) Constraints: o pattern: (?!aws:).{1,128} value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// A list of tags to apply to the configuration. Constraints: • min: 0 • max: 200 key -&gt; (string) Constraints: • pattern: (?!aws:).{1,128} value -&gt; (string) Constraints: • min: 0 • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; private init; }
@@ -104,6 +104,15 @@ public record AwsNotificationscontactsTagResourceOptions : AwsOptions, IValidata
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

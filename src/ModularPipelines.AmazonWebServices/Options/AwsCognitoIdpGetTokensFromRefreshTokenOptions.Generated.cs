@@ -11,13 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Given a refresh token, issues new ID, access, and optionally refresh tokens for the user who owns the submitted token. This operation issues a new refresh token and invalidates the original refresh token after an optional grace period when refresh token rotation is enabled. If re- fresh token rotation is disabled, issues new ID and access tokens only. See also: AWS API Documentation
+/// Given a refresh token, issues new ID, access, and optionally refresh tokens for the user who owns the submitted token. This operation issues a new refresh token and invalidates the original refresh token after an optional grace period when refresh token rotation is enabled. If refresh token rotation is disabled, issues new ID and access tokens only. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,10 +27,10 @@ public record AwsCognitoIdpGetTokensFromRefreshTokenOptions : AwsOptions, IValid
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Given a refresh token, issues new ID, access, and optionally refresh tokens for the user who owns the submitted token. This operation issues a new refresh token and invalidates the original refresh token after an optional grace period when refresh token rotation is enabled. If re- fresh token rotation is disabled, issues new ID and access tokens only. See also: AWS API Documentation
+    /// Given a refresh token, issues new ID, access, and optionally refresh tokens for the user who owns the submitted token. This operation issues a new refresh token and invalidates the original refresh token after an optional grace period when refresh token rotation is enabled. If refresh token rotation is disabled, issues new ID and access tokens only. See also: AWS API Documentation
     /// </summary>
-    /// <param name="RefreshToken">A valid refresh token that can authorize the request for new tokens. When refresh token rotation is active in the requested app client, this token is invalidated after the request is complete and after an optional grace period. Constraints: o pattern: [A-Za-z0-9-_=.]+</param>
-    /// <param name="ClientId">The app client that issued the refresh token to the user who wants to request new tokens. Constraints: o min: 1 o max: 128 o pattern: [\w+]+</param>
+    /// <param name="RefreshToken">A valid refresh token that can authorize the request for new tokens. When refresh token rotation is active in the requested app client, this token is invalidated after the request is complete and after an optional grace period. Constraints: • pattern: [A-Za-z0-9-_=.]+</param>
+    /// <param name="ClientId">The app client that issued the refresh token to the user who wants to request new tokens. Constraints: • min: 1 • max: 128 • pattern: [\w+]+</param>
     public AwsCognitoIdpGetTokensFromRefreshTokenOptions(
         string RefreshToken,
         string ClientId
@@ -62,33 +62,33 @@ public record AwsCognitoIdpGetTokensFromRefreshTokenOptions : AwsOptions, IValid
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A valid refresh token that can authorize the request for new tokens. When refresh token rotation is active in the requested app client, this token is invalidated after the request is complete and after an optional grace period. Constraints: o pattern: [A-Za-z0-9-_=.]+
+    /// A valid refresh token that can authorize the request for new tokens. When refresh token rotation is active in the requested app client, this token is invalidated after the request is complete and after an optional grace period. Constraints: • pattern: [A-Za-z0-9-_=.]+
     /// </summary>
     [SecretValue]
     [CliOption("--refresh-token")]
     public string? RefreshToken { get; private init; }
 
     /// <summary>
-    /// The app client that issued the refresh token to the user who wants to request new tokens. Constraints: o min: 1 o max: 128 o pattern: [\w+]+
+    /// The app client that issued the refresh token to the user who wants to request new tokens. Constraints: • min: 1 • max: 128 • pattern: [\w+]+
     /// </summary>
     [CliOption("--client-id")]
     public string? ClientId { get; private init; }
 
     /// <summary>
-    /// The client secret of the requested app client, if the client has a secret. Constraints: o min: 24 o max: 64 o pattern: [\w+]+
+    /// The client secret of the requested app client, if the client has a secret. Constraints: • min: 24 • max: 64 • pattern: [\w+]+
     /// </summary>
     [SecretValue]
     [CliOption("--client-secret")]
     public string? ClientSecret { get; set; }
 
     /// <summary>
-    /// When you enable device remembering, Amazon Cognito issues a device key that you can use for device authentication that bypasses multi-factor authentication (MFA). To implement GetTokensFromRe- freshToken in a user pool with device remembering, you must capture the device key from the initial authentication request. If your ap- plication doesn't provide the key of a registered device, Amazon Cognito issues a new one. You must provide the confirmed device key in this request if device remembering is enabled in your user pool. For more information about device remembering, see Working with de- vices . Constraints: o min: 1 o max: 55 o pattern: [\w-]+_[0-9a-f-]+
+    /// When you enable device remembering, Amazon Cognito issues a device key that you can use for device authentication that bypasses multi-factor authentication (MFA). To implement GetTokensFromRefreshToken in a user pool with device remembering, you must capture the device key from the initial authentication request. If your application doesn't provide the key of a registered device, Amazon Cognito issues a new one. You must provide the confirmed device key in this request if device remembering is enabled in your user pool. For more information about device remembering, see Working with devices . Constraints: • min: 1 • max: 55 • pattern: [\w-]+_[0-9a-f-]+
     /// </summary>
     [CliOption("--device-key")]
     public string? DeviceKey { get; set; }
 
     /// <summary>
-    /// A map of custom key-value pairs that you can provide as input for any custom workflows that this action triggers. You create custom workflows by assigning Lambda functions to user pool triggers. When Amazon Cognito invokes any of these functions, it passes a JSON payload, which the function receives as input. This payload contains a clientMetadata attribute that provides the data that you assigned to the ClientMetadata parameter in your request. In your function code, you can process the clientMetadata value to enhance your work- flow for your specific needs. To review the Lambda trigger types that Amazon Cognito invokes at runtime with API requests, see Connecting API actions to Lambda triggers in the Amazon Cognito Developer Guide . NOTE: When you use the ClientMetadata parameter, note that Amazon Cog- nito won't do the following: o Store the ClientMetadata value. This data is available only to Lambda triggers that are assigned to a user pool to support custom workflows. If your user pool configuration doesn't in- clude triggers, the ClientMetadata parameter serves no pur- pose. o Validate the ClientMetadata value. o Encrypt the ClientMetadata value. Don't send sensitive infor- mation in this parameter. key -&gt; (string) Constraints: o min: 0 o max: 131072 value -&gt; (string) Constraints: o min: 0 o max: 131072 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// A map of custom key-value pairs that you can provide as input for any custom workflows that this action triggers. You create custom workflows by assigning Lambda functions to user pool triggers. When Amazon Cognito invokes any of these functions, it passes a JSON payload, which the function receives as input. This payload contains a clientMetadata attribute that provides the data that you assigned to the ClientMetadata parameter in your request. In your function code, you can process the clientMetadata value to enhance your workflow for your specific needs. To review the Lambda trigger types that Amazon Cognito invokes at runtime with API requests, see Connecting API actions to Lambda triggers in the Amazon Cognito Developer Guide . NOTE: When you use the ClientMetadata parameter, note that Amazon Cognito won't do the following: • Store the ClientMetadata value. This data is available only to Lambda triggers that are assigned to a user pool to support custom workflows. If your user pool configuration doesn't include triggers, the ClientMetadata parameter serves no purpose. • Validate the ClientMetadata value. • Encrypt the ClientMetadata value. Don't send sensitive information in this parameter. key -&gt; (string) Constraints: • min: 0 • max: 131072 value -&gt; (string) Constraints: • min: 0 • max: 131072 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--client-metadata", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? ClientMetadata { get; set; }
@@ -114,6 +114,15 @@ public record AwsCognitoIdpGetTokensFromRefreshTokenOptions : AwsOptions, IValid
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

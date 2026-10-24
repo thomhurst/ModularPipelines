@@ -10,14 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a new Amazon Rekognition project. A project is a group of re- sources (datasets, model versions) that you use to create and manage a Amazon Rekognition Custom Labels Model or custom adapter. You can spec- ify a feature to create the project with, if no feature is specified then Custom Labels is used by default. For adapters, you can also choose whether or not to have the project auto update by using the AutoUpdate argument. This operation requires permissions to perform the rekognition:C...
+/// Creates a new Amazon Rekognition project. A project is a group of resources (datasets, model versions) that you use to create and manage a Amazon Rekognition Custom Labels Model or custom adapter. You can specify a feature to create the project with, if no feature is specified then Custom Labels is used by default. For adapters, you can also choose whether or not to have the project auto update by using the AutoUpdate argument. This operation requires permissions to perform the rekognition:Creat...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,9 +27,9 @@ public record AwsRekognitionCreateProjectOptions : AwsOptions, IValidatableObjec
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a new Amazon Rekognition project. A project is a group of re- sources (datasets, model versions) that you use to create and manage a Amazon Rekognition Custom Labels Model or custom adapter. You can spec- ify a feature to create the project with, if no feature is specified then Custom Labels is used by default. For adapters, you can also choose whether or not to have the project auto update by using the AutoUpdate argument. This operation requires permissions to perform the rekognition:C...
+    /// Creates a new Amazon Rekognition project. A project is a group of resources (datasets, model versions) that you use to create and manage a Amazon Rekognition Custom Labels Model or custom adapter. You can specify a feature to create the project with, if no feature is specified then Custom Labels is used by default. For adapters, you can also choose whether or not to have the project auto update by using the AutoUpdate argument. This operation requires permissions to perform the rekognition:Creat...
     /// </summary>
-    /// <param name="ProjectName">The name of the project to create. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9_.\-]+</param>
+    /// <param name="ProjectName">The name of the project to create. Constraints: • min: 1 • max: 255 • pattern: [a-zA-Z0-9_.\-]+</param>
     public AwsRekognitionCreateProjectOptions(
         string ProjectName
     )
@@ -58,25 +58,25 @@ public record AwsRekognitionCreateProjectOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the project to create. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9_.\-]+
+    /// The name of the project to create. Constraints: • min: 1 • max: 255 • pattern: [a-zA-Z0-9_.\-]+
     /// </summary>
     [CliOption("--project-name")]
     public string? ProjectName { get; private init; }
 
     /// <summary>
-    /// Specifies feature that is being customized. If no value is provided CUSTOM_LABELS is used as a default. Possible values: o CONTENT_MODERATION o CUSTOM_LABELS
+    /// Specifies feature that is being customized. If no value is provided CUSTOM_LABELS is used as a default. Possible values: • CONTENT_MODERATION • CUSTOM_LABELS
     /// </summary>
     [CliOption("--feature")]
     public AwsRekognitionCreateProjectFeature? Feature { get; set; }
 
     /// <summary>
-    /// Specifies whether automatic retraining should be attempted for the versions of the project. Automatic retraining is done as a best ef- fort. Required argument for Content Moderation. Applicable only to adapters. Possible values: o ENABLED o DISABLED
+    /// Specifies whether automatic retraining should be attempted for the versions of the project. Automatic retraining is done as a best effort. Required argument for Content Moderation. Applicable only to adapters. Possible values: • ENABLED • DISABLED
     /// </summary>
     [CliOption("--auto-update")]
     public AwsRekognitionCreateProjectAutoUpdate? AutoUpdate { get; set; }
 
     /// <summary>
-    /// A set of tags (key-value pairs) that you want to attach to the project. Constraints: o min: 0 o max: 200 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^(?!aws:)[\p{L}\p{Z}\p{N}_.:/=+\-@]*$ value -&gt; (string) Constraints: o min: 0 o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// A set of tags (key-value pairs) that you want to attach to the project. Constraints: • min: 0 • max: 200 key -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: ^(?!aws:)[\p{L}\p{Z}\p{N}_.:/=+\-@]*$ value -&gt; (string) Constraints: • min: 0 • max: 256 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
@@ -102,6 +102,15 @@ public record AwsRekognitionCreateProjectOptions : AwsOptions, IValidatableObjec
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

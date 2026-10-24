@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsAthenaGetDatabaseOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Returns a database object for the specified database and data catalog. See also: AWS API Documentation
     /// </summary>
-    /// <param name="CatalogName">The name of the data catalog that contains the database to return. Constraints: o min: 1 o max: 256 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*</param>
-    /// <param name="DatabaseName">The name of the database to return. Constraints: o min: 1 o max: 128</param>
+    /// <param name="CatalogName">The name of the data catalog that contains the database to return. Constraints: • min: 1 • max: 256 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*</param>
+    /// <param name="DatabaseName">The name of the database to return. Constraints: • min: 1 • max: 128</param>
     public AwsAthenaGetDatabaseOptions(
         string CatalogName,
         string DatabaseName
@@ -60,19 +61,19 @@ public record AwsAthenaGetDatabaseOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the data catalog that contains the database to return. Constraints: o min: 1 o max: 256 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
+    /// The name of the data catalog that contains the database to return. Constraints: • min: 1 • max: 256 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
     /// </summary>
     [CliOption("--catalog-name")]
     public string? CatalogName { get; private init; }
 
     /// <summary>
-    /// The name of the database to return. Constraints: o min: 1 o max: 128
+    /// The name of the database to return. Constraints: • min: 1 • max: 128
     /// </summary>
     [CliOption("--database-name")]
     public string? DatabaseName { get; private init; }
 
     /// <summary>
-    /// The name of the workgroup for which the metadata is being fetched. Required if requesting an IAM Identity Center enabled Glue Data Cat- alog. Constraints: o pattern: [a-zA-Z0-9._-]{1,128}
+    /// The name of the workgroup for which the metadata is being fetched. Required if requesting an IAM Identity Center enabled Glue Data Catalog. Constraints: • pattern: [a-zA-Z0-9._-]{1,128}
     /// </summary>
     [CliOption("--work-group")]
     public string? WorkGroup { get; set; }
@@ -98,6 +99,15 @@ public record AwsAthenaGetDatabaseOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

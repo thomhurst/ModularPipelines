@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a new version of an existing traffic policy. When you create a new version of a traffic policy, you specify the ID of the traffic pol- icy that you want to update and a JSON-formatted document that de- scribes the new version. You use traffic policies to create multiple DNS resource record sets for one domain name (such as example.com) or one subdomain name (such as www.example.com). You can create a maximum of 1000 versions of a traffic policy. If you reach the limit and need to create ...
+/// Creates a new version of an existing traffic policy. When you create a new version of a traffic policy, you specify the ID of the traffic policy that you want to update and a JSON-formatted document that describes the new version. You use traffic policies to create multiple DNS resource record sets for one domain name (such as example.com) or one subdomain name (such as www.example.com). You can create a maximum of 1000 versions of a traffic policy. If you reach the limit and need to create anot...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsRoute53CreateTrafficPolicyVersionOptions : AwsOptions, IValidat
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a new version of an existing traffic policy. When you create a new version of a traffic policy, you specify the ID of the traffic pol- icy that you want to update and a JSON-formatted document that de- scribes the new version. You use traffic policies to create multiple DNS resource record sets for one domain name (such as example.com) or one subdomain name (such as www.example.com). You can create a maximum of 1000 versions of a traffic policy. If you reach the limit and need to create ...
+    /// Creates a new version of an existing traffic policy. When you create a new version of a traffic policy, you specify the ID of the traffic policy that you want to update and a JSON-formatted document that describes the new version. You use traffic policies to create multiple DNS resource record sets for one domain name (such as example.com) or one subdomain name (such as www.example.com). You can create a maximum of 1000 versions of a traffic policy. If you reach the limit and need to create anot...
     /// </summary>
-    /// <param name="Id">The ID of the traffic policy for which you want to create a new ver- sion. Constraints: o min: 1 o max: 36</param>
-    /// <param name="Document">The definition of this version of the traffic policy, in JSON for- mat. You specified the JSON in the CreateTrafficPolicyVersion re- quest. For more information about the JSON format, see CreateTrafficPolicy . Constraints: o max: 102400</param>
+    /// <param name="Id">The ID of the traffic policy for which you want to create a new version. Constraints: • min: 1 • max: 36</param>
+    /// <param name="Document">The definition of this version of the traffic policy, in JSON format. You specified the JSON in the CreateTrafficPolicyVersion request. For more information about the JSON format, see CreateTrafficPolicy . Constraints: • max: 102400</param>
     public AwsRoute53CreateTrafficPolicyVersionOptions(
         string Id,
         string Document
@@ -60,19 +61,19 @@ public record AwsRoute53CreateTrafficPolicyVersionOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the traffic policy for which you want to create a new ver- sion. Constraints: o min: 1 o max: 36
+    /// The ID of the traffic policy for which you want to create a new version. Constraints: • min: 1 • max: 36
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; private init; }
 
     /// <summary>
-    /// The definition of this version of the traffic policy, in JSON for- mat. You specified the JSON in the CreateTrafficPolicyVersion re- quest. For more information about the JSON format, see CreateTrafficPolicy . Constraints: o max: 102400
+    /// The definition of this version of the traffic policy, in JSON format. You specified the JSON in the CreateTrafficPolicyVersion request. For more information about the JSON format, see CreateTrafficPolicy . Constraints: • max: 102400
     /// </summary>
     [CliOption("--document")]
     public string? Document { get; private init; }
 
     /// <summary>
-    /// The comment that you specified in the CreateTrafficPolicyVersion re- quest, if any. Constraints: o max: 1024
+    /// The comment that you specified in the CreateTrafficPolicyVersion request, if any. Constraints: • max: 1024
     /// </summary>
     [CliOption("--comment")]
     public string? Comment { get; set; }
@@ -98,6 +99,15 @@ public record AwsRoute53CreateTrafficPolicyVersionOptions : AwsOptions, IValidat
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

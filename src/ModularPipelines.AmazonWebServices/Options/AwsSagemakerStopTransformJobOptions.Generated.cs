@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Stops a batch transform job. When Amazon SageMaker receives a StopTransformJob request, the status of the job changes to Stopping . After Amazon SageMaker stops the job, the status is set to Stopped . When you stop a batch transform job be- fore it is completed, Amazon SageMaker doesn't store the job's output in Amazon S3. See also: AWS API Documentation
+/// Stops a batch transform job. When Amazon SageMaker receives a StopTransformJob request, the status of the job changes to Stopping . After Amazon SageMaker stops the job, the status is set to Stopped . When you stop a batch transform job before it is completed, Amazon SageMaker doesn't store the job's output in Amazon S3. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsSagemakerStopTransformJobOptions : AwsOptions, IValidatableObje
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Stops a batch transform job. When Amazon SageMaker receives a StopTransformJob request, the status of the job changes to Stopping . After Amazon SageMaker stops the job, the status is set to Stopped . When you stop a batch transform job be- fore it is completed, Amazon SageMaker doesn't store the job's output in Amazon S3. See also: AWS API Documentation
+    /// Stops a batch transform job. When Amazon SageMaker receives a StopTransformJob request, the status of the job changes to Stopping . After Amazon SageMaker stops the job, the status is set to Stopped . When you stop a batch transform job before it is completed, Amazon SageMaker doesn't store the job's output in Amazon S3. See also: AWS API Documentation
     /// </summary>
-    /// <param name="TransformJobName">The name of the batch transform job to stop. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}</param>
+    /// <param name="TransformJobName">The name of the batch transform job to stop. Constraints: • min: 1 • max: 63 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}</param>
     public AwsSagemakerStopTransformJobOptions(
         string TransformJobName
     )
@@ -56,7 +57,7 @@ public record AwsSagemakerStopTransformJobOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the batch transform job to stop. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}
+    /// The name of the batch transform job to stop. Constraints: • min: 1 • max: 63 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}
     /// </summary>
     [CliOption("--transform-job-name")]
     public string? TransformJobName { get; private init; }
@@ -82,6 +83,15 @@ public record AwsSagemakerStopTransformJobOptions : AwsOptions, IValidatableObje
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

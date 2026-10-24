@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsLexv2ModelsUpdateTestSetOptions : AwsOptions, IValidatableObjec
     /// <summary>
     /// The action to update the test set. See also: AWS API Documentation
     /// </summary>
-    /// <param name="TestSetId">The test set Id for which update test operation to be performed. Constraints: o min: 10 o max: 10 o pattern: ^[0-9a-zA-Z]+$</param>
-    /// <param name="TestSetName">The new test set name. Constraints: o min: 1 o max: 100 o pattern: ^([0-9a-zA-Z][_-]?){1,100}$</param>
+    /// <param name="TestSetId">The test set Id for which update test operation to be performed. Constraints: • min: 10 • max: 10 • pattern: ^[0-9a-zA-Z]+$</param>
+    /// <param name="TestSetName">The new test set name. Constraints: • min: 1 • max: 100 • pattern: ^([0-9a-zA-Z][_-]?){1,100}$</param>
     public AwsLexv2ModelsUpdateTestSetOptions(
         string TestSetId,
         string TestSetName
@@ -60,19 +61,19 @@ public record AwsLexv2ModelsUpdateTestSetOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The test set Id for which update test operation to be performed. Constraints: o min: 10 o max: 10 o pattern: ^[0-9a-zA-Z]+$
+    /// The test set Id for which update test operation to be performed. Constraints: • min: 10 • max: 10 • pattern: ^[0-9a-zA-Z]+$
     /// </summary>
     [CliOption("--test-set-id")]
     public string? TestSetId { get; private init; }
 
     /// <summary>
-    /// The new test set name. Constraints: o min: 1 o max: 100 o pattern: ^([0-9a-zA-Z][_-]?){1,100}$
+    /// The new test set name. Constraints: • min: 1 • max: 100 • pattern: ^([0-9a-zA-Z][_-]?){1,100}$
     /// </summary>
     [CliOption("--test-set-name")]
     public string? TestSetName { get; private init; }
 
     /// <summary>
-    /// The new test set description. Constraints: o min: 0 o max: 2000
+    /// The new test set description. Constraints: • min: 0 • max: 2000
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
@@ -98,6 +99,15 @@ public record AwsLexv2ModelsUpdateTestSetOptions : AwsOptions, IValidatableObjec
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

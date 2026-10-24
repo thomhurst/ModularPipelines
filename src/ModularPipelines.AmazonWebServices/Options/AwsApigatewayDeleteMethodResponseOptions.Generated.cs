@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -30,7 +31,7 @@ public record AwsApigatewayDeleteMethodResponseOptions : AwsOptions, IValidatabl
     /// <param name="RestApiId">The string identifier of the associated RestApi.</param>
     /// <param name="ResourceId">The Resource identifier for the MethodResponse resource.</param>
     /// <param name="HttpMethod">The HTTP verb of the Method resource.</param>
-    /// <param name="StatusCode">The status code identifier for the MethodResponse resource. Constraints: o pattern: [1-5]\d\d</param>
+    /// <param name="StatusCode">The status code identifier for the MethodResponse resource. Constraints: • pattern: [1-5]\d\d</param>
     public AwsApigatewayDeleteMethodResponseOptions(
         string RestApiId,
         string ResourceId,
@@ -86,7 +87,7 @@ public record AwsApigatewayDeleteMethodResponseOptions : AwsOptions, IValidatabl
     public string? HttpMethod { get; private init; }
 
     /// <summary>
-    /// The status code identifier for the MethodResponse resource. Constraints: o pattern: [1-5]\d\d
+    /// The status code identifier for the MethodResponse resource. Constraints: • pattern: [1-5]\d\d
     /// </summary>
     [CliOption("--status-code")]
     public string? StatusCode { get; private init; }
@@ -112,6 +113,15 @@ public record AwsApigatewayDeleteMethodResponseOptions : AwsOptions, IValidatabl
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

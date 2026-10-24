@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes a health check. WARNING: Amazon Route 53 does not prevent you from deleting a health check even if the health check is associated with one or more resource record sets. If you delete a health check and you don't update the associated resource record sets, the future status of the health check can't be predicted and may change. This will affect the rout- ing of DNS queries for your DNS failover configuration. For more in- formation, see Replacing and Deleting Health Checks in the Amazon R...
+/// Deletes a health check. WARNING: Amazon Route 53 does not prevent you from deleting a health check even if the health check is associated with one or more resource record sets. If you delete a health check and you don't update the associated resource record sets, the future status of the health check can't be predicted and may change. This will affect the routing of DNS queries for your DNS failover configuration. For more information, see Replacing and Deleting Health Checks in the Amazon Route...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsRoute53DeleteHealthCheckOptions : AwsOptions, IValidatableObjec
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes a health check. WARNING: Amazon Route 53 does not prevent you from deleting a health check even if the health check is associated with one or more resource record sets. If you delete a health check and you don't update the associated resource record sets, the future status of the health check can't be predicted and may change. This will affect the rout- ing of DNS queries for your DNS failover configuration. For more in- formation, see Replacing and Deleting Health Checks in the Amazon R...
+    /// Deletes a health check. WARNING: Amazon Route 53 does not prevent you from deleting a health check even if the health check is associated with one or more resource record sets. If you delete a health check and you don't update the associated resource record sets, the future status of the health check can't be predicted and may change. This will affect the routing of DNS queries for your DNS failover configuration. For more information, see Replacing and Deleting Health Checks in the Amazon Route...
     /// </summary>
-    /// <param name="HealthCheckId">The ID of the health check that you want to delete. Constraints: o max: 64</param>
+    /// <param name="HealthCheckId">The ID of the health check that you want to delete. Constraints: • max: 64</param>
     public AwsRoute53DeleteHealthCheckOptions(
         string HealthCheckId
     )
@@ -56,7 +57,7 @@ public record AwsRoute53DeleteHealthCheckOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the health check that you want to delete. Constraints: o max: 64
+    /// The ID of the health check that you want to delete. Constraints: • max: 64
     /// </summary>
     [CliOption("--health-check-id")]
     public string? HealthCheckId { get; private init; }
@@ -82,6 +83,15 @@ public record AwsRoute53DeleteHealthCheckOptions : AwsOptions, IValidatableObjec
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

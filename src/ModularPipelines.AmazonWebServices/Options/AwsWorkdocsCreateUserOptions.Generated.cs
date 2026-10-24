@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,10 +29,10 @@ public record AwsWorkdocsCreateUserOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Creates a user in a Simple AD or Microsoft AD directory. The status of a newly created user is "ACTIVE". New users can access Amazon WorkDocs. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Username">The login name of the user. Constraints: o min: 1 o max: 256 o pattern: [\w\-+.]+(@[a-zA-Z0-9.\-]+\.[a-zA-Z]+)?</param>
-    /// <param name="GivenName">The given name of the user. Constraints: o min: 1 o max: 64</param>
-    /// <param name="Surname">The surname of the user. Constraints: o min: 1 o max: 64</param>
-    /// <param name="Password">The password of the user. Constraints: o min: 4 o max: 32 o pattern: [\u0020-\u00FF]+</param>
+    /// <param name="Username">The login name of the user. Constraints: • min: 1 • max: 256 • pattern: [\w\-+.]+(@[a-zA-Z0-9.\-]+\.[a-zA-Z]+)?</param>
+    /// <param name="GivenName">The given name of the user. Constraints: • min: 1 • max: 64</param>
+    /// <param name="Surname">The surname of the user. Constraints: • min: 1 • max: 64</param>
+    /// <param name="Password">The password of the user. Constraints: • min: 4 • max: 32 • pattern: [\u0020-\u00FF]+</param>
     public AwsWorkdocsCreateUserOptions(
         string Username,
         string GivenName,
@@ -69,56 +70,56 @@ public record AwsWorkdocsCreateUserOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The login name of the user. Constraints: o min: 1 o max: 256 o pattern: [\w\-+.]+(@[a-zA-Z0-9.\-]+\.[a-zA-Z]+)?
+    /// The login name of the user. Constraints: • min: 1 • max: 256 • pattern: [\w\-+.]+(@[a-zA-Z0-9.\-]+\.[a-zA-Z]+)?
     /// </summary>
     [CliOption("--username")]
     public string? Username { get; private init; }
 
     /// <summary>
-    /// The given name of the user. Constraints: o min: 1 o max: 64
+    /// The given name of the user. Constraints: • min: 1 • max: 64
     /// </summary>
     [CliOption("--given-name")]
     public string? GivenName { get; private init; }
 
     /// <summary>
-    /// The surname of the user. Constraints: o min: 1 o max: 64
+    /// The surname of the user. Constraints: • min: 1 • max: 64
     /// </summary>
     [CliOption("--surname")]
     public string? Surname { get; private init; }
 
     /// <summary>
-    /// The password of the user. Constraints: o min: 4 o max: 32 o pattern: [\u0020-\u00FF]+
+    /// The password of the user. Constraints: • min: 4 • max: 32 • pattern: [\u0020-\u00FF]+
     /// </summary>
     [SecretValue]
     [CliOption("--password")]
     public string? Password { get; private init; }
 
     /// <summary>
-    /// The ID of the organization. Constraints: o min: 1 o max: 256 o pattern: [&amp;\w+-.@]+
+    /// The ID of the organization. Constraints: • min: 1 • max: 256 • pattern: [&amp;\w+-.@]+
     /// </summary>
     [CliOption("--organization-id")]
     public string? OrganizationId { get; set; }
 
     /// <summary>
-    /// The email address of the user. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}
+    /// The email address of the user. Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}
     /// </summary>
     [CliOption("--email-address")]
     public string? EmailAddress { get; set; }
 
     /// <summary>
-    /// The time zone ID of the user. Constraints: o min: 1 o max: 256
+    /// The time zone ID of the user. Constraints: • min: 1 • max: 256
     /// </summary>
     [CliOption("--time-zone-id")]
     public string? TimeZoneId { get; set; }
 
     /// <summary>
-    /// The amount of storage for the user. StorageAllocatedInBytes -&gt; (long) The amount of storage allocated, in bytes. Constraints: o min: 0 StorageType -&gt; (string) The type of storage. Possible values: o UNLIMITED o QUOTA Shorthand Syntax: StorageAllocatedInBytes=long,StorageType=string JSON Syntax: { "StorageAllocatedInBytes": long, "StorageType": "UNLIMITED"|"QUOTA" }
+    /// The amount of storage for the user. StorageAllocatedInBytes -&gt; (long) The amount of storage allocated, in bytes. Constraints: • min: 0 StorageType -&gt; (string) The type of storage. Possible values: • UNLIMITED • QUOTA Shorthand Syntax: StorageAllocatedInBytes=long,StorageType=string JSON Syntax: { "StorageAllocatedInBytes": long, "StorageType": "UNLIMITED"|"QUOTA" }
     /// </summary>
     [CliOption("--storage-rule")]
     public string? StorageRule { get; set; }
 
     /// <summary>
-    /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API. Constraints: o min: 1 o max: 8199
+    /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API. Constraints: • min: 1 • max: 8199
     /// </summary>
     [SecretValue]
     [CliOption("--authentication-token")]
@@ -145,6 +146,15 @@ public record AwsWorkdocsCreateUserOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

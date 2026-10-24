@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Undeprecates a previously deprecated domain. After a domain has been undeprecated it can be used to create new workflow executions or regis- ter new types. NOTE: This operation is eventually consistent. The results are best effort and may not exactly reflect recent updates and changes. Access Control You can use IAM policies to control this action's access to Amazon SWF resources as follows: o Use a Resource element with the domain name to limit the action to only specified domains. o Use an Act...
+/// Undeprecates a previously deprecated domain. After a domain has been undeprecated it can be used to create new workflow executions or register new types. NOTE: This operation is eventually consistent. The results are best effort and may not exactly reflect recent updates and changes. Access Control You can use IAM policies to control this action's access to Amazon SWF resources as follows: • Use a Resource element with the domain name to limit the action to only specified domains. • Use an Actio...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsSwfUndeprecateDomainOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Undeprecates a previously deprecated domain. After a domain has been undeprecated it can be used to create new workflow executions or regis- ter new types. NOTE: This operation is eventually consistent. The results are best effort and may not exactly reflect recent updates and changes. Access Control You can use IAM policies to control this action's access to Amazon SWF resources as follows: o Use a Resource element with the domain name to limit the action to only specified domains. o Use an Act...
+    /// Undeprecates a previously deprecated domain. After a domain has been undeprecated it can be used to create new workflow executions or register new types. NOTE: This operation is eventually consistent. The results are best effort and may not exactly reflect recent updates and changes. Access Control You can use IAM policies to control this action's access to Amazon SWF resources as follows: • Use a Resource element with the domain name to limit the action to only specified domains. • Use an Actio...
     /// </summary>
-    /// <param name="Name">The name of the domain of the deprecated workflow type. Constraints: o min: 1 o max: 256</param>
+    /// <param name="Name">The name of the domain of the deprecated workflow type. Constraints: • min: 1 • max: 256</param>
     public AwsSwfUndeprecateDomainOptions(
         string Name
     )
@@ -56,7 +57,7 @@ public record AwsSwfUndeprecateDomainOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the domain of the deprecated workflow type. Constraints: o min: 1 o max: 256
+    /// The name of the domain of the deprecated workflow type. Constraints: • min: 1 • max: 256
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
@@ -82,6 +83,15 @@ public record AwsSwfUndeprecateDomainOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

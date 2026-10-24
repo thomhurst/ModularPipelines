@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsGlobalacceleratorDeleteCustomRoutingListenerOptions : AwsOption
     /// <summary>
     /// Delete a listener for a custom routing accelerator. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ListenerArn">The Amazon Resource Name (ARN) of the listener to delete. Constraints: o max: 255</param>
+    /// <param name="ListenerArn">The Amazon Resource Name (ARN) of the listener to delete. Constraints: • max: 255</param>
     public AwsGlobalacceleratorDeleteCustomRoutingListenerOptions(
         string ListenerArn
     )
@@ -56,7 +57,7 @@ public record AwsGlobalacceleratorDeleteCustomRoutingListenerOptions : AwsOption
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the listener to delete. Constraints: o max: 255
+    /// The Amazon Resource Name (ARN) of the listener to delete. Constraints: • max: 255
     /// </summary>
     [CliOption("--listener-arn")]
     public string? ListenerArn { get; private init; }
@@ -82,6 +83,15 @@ public record AwsGlobalacceleratorDeleteCustomRoutingListenerOptions : AwsOption
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

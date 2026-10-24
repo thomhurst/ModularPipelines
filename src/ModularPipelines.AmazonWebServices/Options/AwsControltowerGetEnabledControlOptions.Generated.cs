@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves details about an enabled control. For usage examples, see the ` Controls Reference Guide https://docs.aws.amazon.com/controltower/latest/controlreference/control-api-examples-short.html`__ . See also: AWS API Documentation get-enabled-control uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested para- meters that are labeled with the type document must be ...
+/// Retrieves details about an enabled control. For usage examples, see the ` Controls Reference Guide https://docs.aws.amazon.com/controltower/latest/controlreference/control-api-examples-short.html`__ . See also: AWS API Documentation get-enabled-control uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be pr...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsControltowerGetEnabledControlOptions : AwsOptions, IValidatable
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Retrieves details about an enabled control. For usage examples, see the ` Controls Reference Guide https://docs.aws.amazon.com/controltower/latest/controlreference/control-api-examples-short.html`__ . See also: AWS API Documentation get-enabled-control uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested para- meters that are labeled with the type document must be ...
+    /// Retrieves details about an enabled control. For usage examples, see the ` Controls Reference Guide https://docs.aws.amazon.com/controltower/latest/controlreference/control-api-examples-short.html`__ . See also: AWS API Documentation get-enabled-control uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be pr...
     /// </summary>
-    /// <param name="EnabledControlIdentifier">The controlIdentifier of the enabled control. Constraints: o min: 20 o max: 2048 o pattern: arn:aws[0-9a-zA-Z_\-:\/]+</param>
+    /// <param name="EnabledControlIdentifier">The controlIdentifier of the enabled control. Constraints: • min: 20 • max: 2048 • pattern: arn:aws[0-9a-zA-Z_\-:\/]+</param>
     public AwsControltowerGetEnabledControlOptions(
         string EnabledControlIdentifier
     )
@@ -56,7 +57,7 @@ public record AwsControltowerGetEnabledControlOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The controlIdentifier of the enabled control. Constraints: o min: 20 o max: 2048 o pattern: arn:aws[0-9a-zA-Z_\-:\/]+
+    /// The controlIdentifier of the enabled control. Constraints: • min: 20 • max: 2048 • pattern: arn:aws[0-9a-zA-Z_\-:\/]+
     /// </summary>
     [CliOption("--enabled-control-identifier")]
     public string? EnabledControlIdentifier { get; private init; }
@@ -82,6 +83,15 @@ public record AwsControltowerGetEnabledControlOptions : AwsOptions, IValidatable
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

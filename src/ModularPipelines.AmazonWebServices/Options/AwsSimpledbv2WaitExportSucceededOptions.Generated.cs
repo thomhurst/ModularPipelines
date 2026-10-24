@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsSimpledbv2WaitExportSucceededOptions : AwsOptions, IValidatable
     /// <summary>
     /// Wait until JMESPath query exportStatus returns SUCCEEDED when polling with get-export. It will poll every 30 seconds until a successful state has been reached. This will exit with a return code of 255 after 5 failed checks. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ExportArn">Unique ARN identifier of the export. Constraints: o min: 20 o max: 2048</param>
+    /// <param name="ExportArn">Unique ARN identifier of the export. Constraints: • min: 20 • max: 2048</param>
     public AwsSimpledbv2WaitExportSucceededOptions(
         string ExportArn
     )
@@ -56,7 +57,7 @@ public record AwsSimpledbv2WaitExportSucceededOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Unique ARN identifier of the export. Constraints: o min: 20 o max: 2048
+    /// Unique ARN identifier of the export. Constraints: • min: 20 • max: 2048
     /// </summary>
     [CliOption("--export-arn")]
     public string? ExportArn { get; private init; }
@@ -82,6 +83,15 @@ public record AwsSimpledbv2WaitExportSucceededOptions : AwsOptions, IValidatable
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

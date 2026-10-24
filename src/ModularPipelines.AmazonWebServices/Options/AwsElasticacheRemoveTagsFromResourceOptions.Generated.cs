@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Removes the tags identified by the TagKeys list from the named re- source. A tag is a key-value pair where the key and value are case-sen- sitive. You can use tags to categorize and track all your ElastiCache resources. When you add or remove tags on replication groups, those ac- tions will be replicated to all nodes in the replication group. For more information, see Resource-level permissions . See also: AWS API Documentation
+/// Removes the tags identified by the TagKeys list from the named resource. A tag is a key-value pair where the key and value are case-sensitive. You can use tags to categorize and track all your ElastiCache resources. When you add or remove tags on replication groups, those actions will be replicated to all nodes in the replication group. For more information, see Resource-level permissions . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsElasticacheRemoveTagsFromResourceOptions : AwsOptions, IValidat
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Removes the tags identified by the TagKeys list from the named re- source. A tag is a key-value pair where the key and value are case-sen- sitive. You can use tags to categorize and track all your ElastiCache resources. When you add or remove tags on replication groups, those ac- tions will be replicated to all nodes in the replication group. For more information, see Resource-level permissions . See also: AWS API Documentation
+    /// Removes the tags identified by the TagKeys list from the named resource. A tag is a key-value pair where the key and value are case-sensitive. You can use tags to categorize and track all your ElastiCache resources. When you add or remove tags on replication groups, those actions will be replicated to all nodes in the replication group. For more information, see Resource-level permissions . See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceName">The Amazon Resource Name (ARN) of the resource from which you want the tags removed, for example arn:aws:elasti- cache:us-west-2:0123456789:cluster:myCluster or arn:aws:elasti- cache:us-west-2:0123456789:snapshot:mySnapshot . For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Service Namespaces .</param>
+    /// <param name="ResourceName">The Amazon Resource Name (ARN) of the resource from which you want the tags removed, for example arn:aws:elasticache:us-west-2:0123456789:cluster:myCluster or arn:aws:elasticache:us-west-2:0123456789:snapshot:mySnapshot . For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Service Namespaces .</param>
     /// <param name="TagKeys">A list of TagKeys identifying the tags you want removed from the named resource. (string) Syntax: "string" "string" ...</param>
     public AwsElasticacheRemoveTagsFromResourceOptions(
         string ResourceName,
@@ -71,7 +72,7 @@ public record AwsElasticacheRemoveTagsFromResourceOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the resource from which you want the tags removed, for example arn:aws:elasti- cache:us-west-2:0123456789:cluster:myCluster or arn:aws:elasti- cache:us-west-2:0123456789:snapshot:mySnapshot . For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Service Namespaces .
+    /// The Amazon Resource Name (ARN) of the resource from which you want the tags removed, for example arn:aws:elasticache:us-west-2:0123456789:cluster:myCluster or arn:aws:elasticache:us-west-2:0123456789:snapshot:mySnapshot . For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Service Namespaces .
     /// </summary>
     [CliOption("--resource-name")]
     public string? ResourceName { get; private init; }
@@ -103,6 +104,15 @@ public record AwsElasticacheRemoveTagsFromResourceOptions : AwsOptions, IValidat
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

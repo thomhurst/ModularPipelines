@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns one or more presigned upload URLs for uploading a large file attachment to a support case by using a multipart upload workflow. The maximum file size that you can upload with this workflow is 150 MB, and parts can be up to 100 MB each. Initiate a new upload by providing fileName and fileSizeBytes ; the response returns a unique uploadId , the part size, the total number of parts, and a list of presigned up- load URLs for the requested range of parts. A maximum of 10 upload URLs are retur...
+/// Returns one or more presigned upload URLs for uploading a large file attachment to a support case by using a multipart upload workflow. The maximum file size that you can upload with this workflow is 150 MB, and parts can be up to 100 MB each. Initiate a new upload by providing fileName and fileSizeBytes ; the response returns a unique uploadId , the part size, the total number of parts, and a list of presigned upload URLs for the requested range of parts. A maximum of 10 upload URLs are returne...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +26,7 @@ public record AwsSupportGetAttachmentUploadLinksOptions : AwsOptions, IValidatab
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns one or more presigned upload URLs for uploading a large file attachment to a support case by using a multipart upload workflow. The maximum file size that you can upload with this workflow is 150 MB, and parts can be up to 100 MB each. Initiate a new upload by providing fileName and fileSizeBytes ; the response returns a unique uploadId , the part size, the total number of parts, and a list of presigned up- load URLs for the requested range of parts. A maximum of 10 upload URLs are retur...
+    /// Returns one or more presigned upload URLs for uploading a large file attachment to a support case by using a multipart upload workflow. The maximum file size that you can upload with this workflow is 150 MB, and parts can be up to 100 MB each. Initiate a new upload by providing fileName and fileSizeBytes ; the response returns a unique uploadId , the part size, the total number of parts, and a list of presigned upload URLs for the requested range of parts. A maximum of 10 upload URLs are returne...
     /// </summary>
     /// <param name="FileName">The name of the file to upload, including the file extension. This value is required when you initiate a new upload.</param>
     public AwsSupportGetAttachmentUploadLinksOptions(
@@ -62,25 +63,25 @@ public record AwsSupportGetAttachmentUploadLinksOptions : AwsOptions, IValidatab
     public string? FileName { get; private init; }
 
     /// <summary>
-    /// The total size of the file in bytes. The service uses this value to calculate the total number of parts and the size of each part. Re- quired when you initiate a new upload (when uploadId isn't pro- vided). Valid range: 1 to 157,286,400 bytes (approximately 150 MB). Constraints: o min: 1 o max: 157286400
+    /// The total size of the file in bytes. The service uses this value to calculate the total number of parts and the size of each part. Required when you initiate a new upload (when uploadId isn't provided). Valid range: 1 to 157,286,400 bytes (approximately 150 MB). Constraints: • min: 1 • max: 157286400
     /// </summary>
     [CliOption("--file-size-bytes")]
-    public int? FileSizeBytes { get; set; }
+    public long? FileSizeBytes { get; set; }
 
     /// <summary>
-    /// The unique identifier of an in-progress multipart upload, returned by a previous call to GetAttachmentUploadLinks . Specify uploadId to retrieve additional presigned upload URLs for an upload that has al- ready been initiated. Required when fileSizeBytes isn't provided. Length: 1 to 2,048 characters. Constraints: o min: 1 o max: 2048
+    /// The unique identifier of an in-progress multipart upload, returned by a previous call to GetAttachmentUploadLinks . Specify uploadId to retrieve additional presigned upload URLs for an upload that has already been initiated. Required when fileSizeBytes isn't provided. Length: 1 to 2,048 characters. Constraints: • min: 1 • max: 2048
     /// </summary>
     [CliOption("--upload-id")]
     public string? UploadId { get; set; }
 
     /// <summary>
-    /// The range of part indexes for which to return presigned upload URLs. Use this parameter to page through the upload URLs for a large file across multiple calls. If you omit this parameter, the service de- termines the range to return. startIndex -&gt; (integer) [required] The starting part index of the range, inclusive. Part indexes start at 1. Constraints: o min: 1 endIndex -&gt; (integer) The ending part index of the range, exclusive. The range is half-open: startIndex is inclusive and endIndex is exclusive. For example, a range with startIndex of 1 and endIndex of 4 re- quests URLs for parts 1, 2, and 3. The range size (endIndex - startIndex ) must not exceed 10. If you omit endIndex , the ser- vice defaults to startIndex + 10, capped by the total number of parts. Constraints: o min: 2 Shorthand Syntax: startIndex=integer,endIndex=integer JSON Syntax: { "startIndex": integer, "endIndex": integer }
+    /// The range of part indexes for which to return presigned upload URLs. Use this parameter to page through the upload URLs for a large file across multiple calls. If you omit this parameter, the service determines the range to return. startIndex -&gt; (integer) [required] The starting part index of the range, inclusive. Part indexes start at 1. Constraints: • min: 1 endIndex -&gt; (integer) The ending part index of the range, exclusive. The range is half-open: startIndex is inclusive and endIndex is exclusive. For example, a range with startIndex of 1 and endIndex of 4 requests URLs for parts 1, 2, and 3. The range size (endIndex - startIndex ) must not exceed 10. If you omit endIndex , the service defaults to startIndex + 10, capped by the total number of parts. Constraints: • min: 2 Shorthand Syntax: startIndex=integer,endIndex=integer JSON Syntax: { "startIndex": integer, "endIndex": integer }
     /// </summary>
     [CliOption("--upload-range")]
     public string? UploadRange { get; set; }
 
     /// <summary>
-    /// Specifies whether to validate the request without actually generat- ing upload URLs. When set to true , the request is validated but no URLs are returned, and the operation returns a DryRunOperationExcep- tion . When omitted or set to false , the request runs normally.
+    /// Specifies whether to validate the request without actually generating upload URLs. When set to true , the request is validated but no URLs are returned, and the operation returns a DryRunOperationException . When omitted or set to false , the request runs normally.
     /// </summary>
     [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
@@ -106,6 +107,15 @@ public record AwsSupportGetAttachmentUploadLinksOptions : AwsOptions, IValidatab
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

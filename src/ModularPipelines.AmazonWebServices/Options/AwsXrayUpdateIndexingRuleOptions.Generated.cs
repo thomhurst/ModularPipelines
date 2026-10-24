@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Modifies an indexing rules configuration. Indexing rules are used for determining the sampling rate for spans in- dexed from CloudWatch Logs. For more information, see Transaction Search . See also: AWS API Documentation
+/// Modifies an indexing rules configuration. Indexing rules are used for determining the sampling rate for spans indexed from CloudWatch Logs. For more information, see Transaction Search . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsXrayUpdateIndexingRuleOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Modifies an indexing rules configuration. Indexing rules are used for determining the sampling rate for spans in- dexed from CloudWatch Logs. For more information, see Transaction Search . See also: AWS API Documentation
+    /// Modifies an indexing rules configuration. Indexing rules are used for determining the sampling rate for spans indexed from CloudWatch Logs. For more information, see Transaction Search . See also: AWS API Documentation
     /// </summary>
     /// <param name="Name">Name of the indexing rule to be updated.</param>
-    /// <param name="Rule">Rule configuration to be updated. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: Probabilistic. Probabilistic -&gt; (structure) Indexing rule configuration that is used to probabilistically sample traceIds. DesiredSamplingPercentage -&gt; (double) [required] Configured sampling percentage of traceIds. Note that sam- pling can be subject to limits to ensure completeness of data. Shorthand Syntax: Probabilistic={DesiredSamplingPercentage=double} JSON Syntax: { "Probabilistic": { "DesiredSamplingPercentage": double } }</param>
+    /// <param name="Rule">Rule configuration to be updated. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: Probabilistic. Probabilistic -&gt; (structure) Indexing rule configuration that is used to probabilistically sample traceIds. DesiredSamplingPercentage -&gt; (double) [required] Configured sampling percentage of traceIds. Note that sampling can be subject to limits to ensure completeness of data. Shorthand Syntax: Probabilistic={DesiredSamplingPercentage=double} JSON Syntax: { "Probabilistic": { "DesiredSamplingPercentage": double } }</param>
     public AwsXrayUpdateIndexingRuleOptions(
         string Name,
         string Rule
@@ -66,7 +67,7 @@ public record AwsXrayUpdateIndexingRuleOptions : AwsOptions, IValidatableObject
     public string? Name { get; private init; }
 
     /// <summary>
-    /// Rule configuration to be updated. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: Probabilistic. Probabilistic -&gt; (structure) Indexing rule configuration that is used to probabilistically sample traceIds. DesiredSamplingPercentage -&gt; (double) [required] Configured sampling percentage of traceIds. Note that sam- pling can be subject to limits to ensure completeness of data. Shorthand Syntax: Probabilistic={DesiredSamplingPercentage=double} JSON Syntax: { "Probabilistic": { "DesiredSamplingPercentage": double } }
+    /// Rule configuration to be updated. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: Probabilistic. Probabilistic -&gt; (structure) Indexing rule configuration that is used to probabilistically sample traceIds. DesiredSamplingPercentage -&gt; (double) [required] Configured sampling percentage of traceIds. Note that sampling can be subject to limits to ensure completeness of data. Shorthand Syntax: Probabilistic={DesiredSamplingPercentage=double} JSON Syntax: { "Probabilistic": { "DesiredSamplingPercentage": double } }
     /// </summary>
     [CliOption("--rule")]
     public string? Rule { get; private init; }
@@ -92,6 +93,15 @@ public record AwsXrayUpdateIndexingRuleOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

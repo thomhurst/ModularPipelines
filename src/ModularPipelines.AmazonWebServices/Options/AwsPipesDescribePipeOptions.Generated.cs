@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsPipesDescribePipeOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Get the information about an existing pipe. For more information about pipes, see Amazon EventBridge Pipes in the Amazon EventBridge User Guide. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">The name of the pipe. Constraints: o min: 1 o max: 64 o pattern: [\.\-_A-Za-z0-9]+</param>
+    /// <param name="Name">The name of the pipe. Constraints: • min: 1 • max: 64 • pattern: [\.\-_A-Za-z0-9]+</param>
     public AwsPipesDescribePipeOptions(
         string Name
     )
@@ -56,7 +57,7 @@ public record AwsPipesDescribePipeOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the pipe. Constraints: o min: 1 o max: 64 o pattern: [\.\-_A-Za-z0-9]+
+    /// The name of the pipe. Constraints: • min: 1 • max: 64 • pattern: [\.\-_A-Za-z0-9]+
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
@@ -82,6 +83,15 @@ public record AwsPipesDescribePipeOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

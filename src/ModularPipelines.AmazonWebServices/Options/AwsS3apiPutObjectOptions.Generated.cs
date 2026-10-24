@@ -10,14 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// WARNING: End of support notice: As of October 1, 2025, Amazon S3 has discon- tinued support for Email Grantee Access Control Lists (ACLs). If you attempt to use an Email Grantee ACL in a request after October 1, 2025, the request will receive an HTTP 405 (Method Not Allowed) er- ror. This change affects the following Amazon Web Services Regions: US East (N. Virginia), US West (N. California), US West (Oregon), Asia Pacific (Singapore), Asia Pacific (Sydney), Asia Pacific (Tokyo), Europe (Ireland...
+/// WARNING: End of support notice: As of October 1, 2025, Amazon S3 has discontinued support for Email Grantee Access Control Lists (ACLs). If you attempt to use an Email Grantee ACL in a request after October 1, 2025, the request will receive an HTTP 405 (Method Not Allowed) error. This change affects the following Amazon Web Services Regions: US East (N. Virginia), US West (N. California), US West (Oregon), Asia Pacific (Singapore), Asia Pacific (Sydney), Asia Pacific (Tokyo), Europe (Ireland), a...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,10 +27,10 @@ public record AwsS3apiPutObjectOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// WARNING: End of support notice: As of October 1, 2025, Amazon S3 has discon- tinued support for Email Grantee Access Control Lists (ACLs). If you attempt to use an Email Grantee ACL in a request after October 1, 2025, the request will receive an HTTP 405 (Method Not Allowed) er- ror. This change affects the following Amazon Web Services Regions: US East (N. Virginia), US West (N. California), US West (Oregon), Asia Pacific (Singapore), Asia Pacific (Sydney), Asia Pacific (Tokyo), Europe (Ireland...
+    /// WARNING: End of support notice: As of October 1, 2025, Amazon S3 has discontinued support for Email Grantee Access Control Lists (ACLs). If you attempt to use an Email Grantee ACL in a request after October 1, 2025, the request will receive an HTTP 405 (Method Not Allowed) error. This change affects the following Amazon Web Services Regions: US East (N. Virginia), US West (N. California), US West (Oregon), Asia Pacific (Singapore), Asia Pacific (Sydney), Asia Pacific (Tokyo), Europe (Ireland), a...
     /// </summary>
-    /// <param name="Bucket">The bucket name to which the PUT action was initiated. Directory buckets - When you use this operation with a directory bucket, you must use virtual-hosted-style requests in the format `` Bucket-name .s3express-zone-id .*region-code* .amazon- aws.com`` . Path-style requests are not supported. Directory bucket names must be unique in the chosen Zone (Availability Zone or Local Zone). Bucket names must follow the format `` bucket-base-name --zone-id --x-s3`` (for example, `` amzn-s3-demo-bucket --usw2-az1 --x-s3`` ). For information about bucket naming restrictions, see Directory bucket naming rules in the Amazon S3 User Guide . Access points - When you use this action with an access point for general purpose buckets, you must provide the alias of the access point in place of the bucket name or specify the access point ARN. When you use this action with an access point for di- rectory buckets, you must provide the access point name in place of the bucket name. When using the access point ARN, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName -AccountId .s3-access- point.*Region* .amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more in- formation about access point ARNs, see Using access points in the Amazon S3 User Guide . NOTE: Object Lambda access points are not supported by directory buckets. S3 on Outposts - When you use this action with S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form `` AccessPointName -Accoun- tId .*outpostID* .s3-outposts.*Region* .amazonaws.com`` . When you use this action with S3 on Outposts, the destination bucket must be the Outposts access point ARN or the access point alias. For more information about S3 on Outposts, see What is S3 on Outposts? in the Amazon S3 User Guide .</param>
-    /// <param name="Key">Object key for which the PUT action was initiated. Constraints: o min: 1</param>
+    /// <param name="Bucket">The bucket name to which the PUT action was initiated. Directory buckets - When you use this operation with a directory bucket, you must use virtual-hosted-style requests in the format `` Bucket-name .s3express-zone-id .*region-code* .amazonaws.com`` . Path-style requests are not supported. Directory bucket names must be unique in the chosen Zone (Availability Zone or Local Zone). Bucket names must follow the format `` bucket-base-name --zone-id --x-s3`` (for example, `` amzn-s3-demo-bucket --usw2-az1 --x-s3`` ). For information about bucket naming restrictions, see Directory bucket naming rules in the Amazon S3 User Guide . Access points - When you use this action with an access point for general purpose buckets, you must provide the alias of the access point in place of the bucket name or specify the access point ARN. When you use this action with an access point for directory buckets, you must provide the access point name in place of the bucket name. When using the access point ARN, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName -AccountId .s3-accesspoint.*Region* .amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using access points in the Amazon S3 User Guide . NOTE: Object Lambda access points are not supported by directory buckets. S3 on Outposts - When you use this action with S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form `` AccessPointName -AccountId .*outpostID* .s3-outposts.*Region* .amazonaws.com`` . When you use this action with S3 on Outposts, the destination bucket must be the Outposts access point ARN or the access point alias. For more information about S3 on Outposts, see What is S3 on Outposts? in the Amazon S3 User Guide .</param>
+    /// <param name="Key">Object key for which the PUT action was initiated. Constraints: • min: 1</param>
     public AwsS3apiPutObjectOptions(
         string Bucket,
         string Key
@@ -62,19 +62,19 @@ public record AwsS3apiPutObjectOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The bucket name to which the PUT action was initiated. Directory buckets - When you use this operation with a directory bucket, you must use virtual-hosted-style requests in the format `` Bucket-name .s3express-zone-id .*region-code* .amazon- aws.com`` . Path-style requests are not supported. Directory bucket names must be unique in the chosen Zone (Availability Zone or Local Zone). Bucket names must follow the format `` bucket-base-name --zone-id --x-s3`` (for example, `` amzn-s3-demo-bucket --usw2-az1 --x-s3`` ). For information about bucket naming restrictions, see Directory bucket naming rules in the Amazon S3 User Guide . Access points - When you use this action with an access point for general purpose buckets, you must provide the alias of the access point in place of the bucket name or specify the access point ARN. When you use this action with an access point for di- rectory buckets, you must provide the access point name in place of the bucket name. When using the access point ARN, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName -AccountId .s3-access- point.*Region* .amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more in- formation about access point ARNs, see Using access points in the Amazon S3 User Guide . NOTE: Object Lambda access points are not supported by directory buckets. S3 on Outposts - When you use this action with S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form `` AccessPointName -Accoun- tId .*outpostID* .s3-outposts.*Region* .amazonaws.com`` . When you use this action with S3 on Outposts, the destination bucket must be the Outposts access point ARN or the access point alias. For more information about S3 on Outposts, see What is S3 on Outposts? in the Amazon S3 User Guide .
+    /// The bucket name to which the PUT action was initiated. Directory buckets - When you use this operation with a directory bucket, you must use virtual-hosted-style requests in the format `` Bucket-name .s3express-zone-id .*region-code* .amazonaws.com`` . Path-style requests are not supported. Directory bucket names must be unique in the chosen Zone (Availability Zone or Local Zone). Bucket names must follow the format `` bucket-base-name --zone-id --x-s3`` (for example, `` amzn-s3-demo-bucket --usw2-az1 --x-s3`` ). For information about bucket naming restrictions, see Directory bucket naming rules in the Amazon S3 User Guide . Access points - When you use this action with an access point for general purpose buckets, you must provide the alias of the access point in place of the bucket name or specify the access point ARN. When you use this action with an access point for directory buckets, you must provide the access point name in place of the bucket name. When using the access point ARN, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName -AccountId .s3-accesspoint.*Region* .amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using access points in the Amazon S3 User Guide . NOTE: Object Lambda access points are not supported by directory buckets. S3 on Outposts - When you use this action with S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form `` AccessPointName -AccountId .*outpostID* .s3-outposts.*Region* .amazonaws.com`` . When you use this action with S3 on Outposts, the destination bucket must be the Outposts access point ARN or the access point alias. For more information about S3 on Outposts, see What is S3 on Outposts? in the Amazon S3 User Guide .
     /// </summary>
     [CliOption("--bucket")]
     public string? Bucket { get; private init; }
 
     /// <summary>
-    /// Object key for which the PUT action was initiated. Constraints: o min: 1
+    /// Object key for which the PUT action was initiated. Constraints: • min: 1
     /// </summary>
     [CliOption("--key")]
     public string? Key { get; private init; }
 
     /// <summary>
-    /// The canned ACL to apply to the object. For more information, see Canned ACL in the Amazon S3 User Guide . When adding a new object, you can use headers to grant ACL-based permissions to individual Amazon Web Services accounts or to prede- fined groups defined by Amazon S3. These permissions are then added to the ACL on the object. By default, all objects are private. Only the owner has full access control. For more information, see Access Control List (ACL) Overview and Managing ACLs Using the REST API in the Amazon S3 User Guide . If the bucket that you're uploading objects to uses the bucket owner enforced setting for S3 Object Ownership, ACLs are disabled and no longer affect permissions. Buckets that use this setting only accept PUT requests that don't specify an ACL or PUT requests that specify bucket owner full control ACLs, such as the bucket-owner-full-con- trol canned ACL or an equivalent form of this ACL expressed in the XML format. PUT requests that contain other ACLs (for example, cus- tom grants to certain Amazon Web Services accounts) fail and return a 400 error with the error code AccessControlListNotSupported . For more information, see Controlling ownership of objects and disabling ACLs in the Amazon S3 User Guide . NOTE: o This functionality is not supported for directory buckets. o This functionality is not supported for Amazon S3 on Outposts. Possible values: o private o public-read o public-read-write o authenticated-read o aws-exec-read o bucket-owner-read o bucket-owner-full-control
+    /// The canned ACL to apply to the object. For more information, see Canned ACL in the Amazon S3 User Guide . When adding a new object, you can use headers to grant ACL-based permissions to individual Amazon Web Services accounts or to predefined groups defined by Amazon S3. These permissions are then added to the ACL on the object. By default, all objects are private. Only the owner has full access control. For more information, see Access Control List (ACL) Overview and Managing ACLs Using the REST API in the Amazon S3 User Guide . If the bucket that you're uploading objects to uses the bucket owner enforced setting for S3 Object Ownership, ACLs are disabled and no longer affect permissions. Buckets that use this setting only accept PUT requests that don't specify an ACL or PUT requests that specify bucket owner full control ACLs, such as the bucket-owner-full-control canned ACL or an equivalent form of this ACL expressed in the XML format. PUT requests that contain other ACLs (for example, custom grants to certain Amazon Web Services accounts) fail and return a 400 error with the error code AccessControlListNotSupported . For more information, see Controlling ownership of objects and disabling ACLs in the Amazon S3 User Guide . NOTE: • This functionality is not supported for directory buckets. • This functionality is not supported for Amazon S3 on Outposts. Possible values: • private • public-read • public-read-write • authenticated-read • aws-exec-read • bucket-owner-read • bucket-owner-full-control
     /// </summary>
     [CliOption("--acl")]
     public AwsS3apiPutObjectAcl? Acl { get; set; }
@@ -92,13 +92,13 @@ public record AwsS3apiPutObjectOptions : AwsOptions, IValidatableObject
     public string? CacheControl { get; set; }
 
     /// <summary>
-    /// Specifies presentational information for the object. For more infor- mation, see https://www.rfc-editor.org/rfc/rfc6266#section-4 .
+    /// Specifies presentational information for the object. For more information, see https://www.rfc-editor.org/rfc/rfc6266#section-4 .
     /// </summary>
     [CliOption("--content-disposition")]
     public string? ContentDisposition { get; set; }
 
     /// <summary>
-    /// Specifies what content encodings have been applied to the object and thus what decoding mechanisms must be applied to obtain the me- dia-type referenced by the Content-Type header field. For more in- formation, see https://www.rfc-editor.org/rfc/rfc9110.html#field.content-encoding .
+    /// Specifies what content encodings have been applied to the object and thus what decoding mechanisms must be applied to obtain the media-type referenced by the Content-Type header field. For more information, see https://www.rfc-editor.org/rfc/rfc9110.html#field.content-encoding .
     /// </summary>
     [CliOption("--content-encoding")]
     public string? ContentEncoding { get; set; }
@@ -113,10 +113,10 @@ public record AwsS3apiPutObjectOptions : AwsOptions, IValidatableObject
     /// Size of the body in bytes. This parameter is useful when the size of the body cannot be determined automatically. For more information, see https://www.rfc-editor.org/rfc/rfc9110.html#name-content-length .
     /// </summary>
     [CliOption("--content-length")]
-    public int? ContentLength { get; set; }
+    public long? ContentLength { get; set; }
 
     /// <summary>
-    /// The Base64 encoded 128-bit MD5 digest of the message (without the headers) according to RFC 1864. This header can be used as a message integrity check to verify that the data is the same data that was originally sent. Although it is optional, we recommend using the Content-MD5 mechanism as an end-to-end integrity check. For more in- formation about REST request authentication, see REST Authentication . NOTE: The Content-MD5 or x-amz-sdk-checksum-algorithm header is re- quired for any request to upload an object with a retention pe- riod configured using Amazon S3 Object Lock. For more informa- tion, see Uploading objects to an Object Lock enabled bucket in the Amazon S3 User Guide . NOTE: This functionality is not supported for directory buckets.
+    /// The Base64 encoded 128-bit MD5 digest of the message (without the headers) according to RFC 1864. This header can be used as a message integrity check to verify that the data is the same data that was originally sent. Although it is optional, we recommend using the Content-MD5 mechanism as an end-to-end integrity check. For more information about REST request authentication, see REST Authentication . NOTE: The Content-MD5 or x-amz-sdk-checksum-algorithm header is required for any request to upload an object with a retention period configured using Amazon S3 Object Lock. For more information, see Uploading objects to an Object Lock enabled bucket in the Amazon S3 User Guide . NOTE: This functionality is not supported for directory buckets.
     /// </summary>
     [CliOption("--content-md5")]
     public string? ContentMd5 { get; set; }
@@ -128,7 +128,7 @@ public record AwsS3apiPutObjectOptions : AwsOptions, IValidatableObject
     public string? ContentType { get; set; }
 
     /// <summary>
-    /// Indicates the algorithm used to create the checksum for the object when you use the SDK. This header will not provide any additional functionality if you don't use the SDK. When you send this header, there must be a corresponding x-amz-checksum-*algorithm* `` or ``x-amz-trailer header sent. Otherwise, Amazon S3 fails the request with the HTTP status code 400 Bad Request . For the `` x-amz-checksum-algorithm `` header, replace `` algorithm `` with the supported algorithm from the following list: System Message: WARNING/2 (&lt;string&gt;:, line 418) Inline literal start-string without end-string. o CRC32 o CRC32C o CRC64NVME o MD5 o SHA1 o SHA256 o SHA512 o XXHASH3 o XXHASH64 o XXHASH128 For more information, see Checking object integrity in the Amazon S3 User Guide . If the individual checksum value you provide through x-amz-check- sum-*algorithm* `` doesn't match the checksum algorithm you set through ``x-amz-sdk-checksum-algorithm , Amazon S3 fails the request with a BadDigest error. NOTE: The Content-MD5 or x-amz-sdk-checksum-algorithm header is re- quired for any request to upload an object with a retention pe- riod configured using Amazon S3 Object Lock. For more informa- tion, see Uploading objects to an Object Lock enabled bucket in the Amazon S3 User Guide . For directory buckets, when you use Amazon Web Services SDKs, CRC32 is the default checksum algorithm that's used for performance. Possible values: o CRC32 o CRC32C o SHA1 o SHA256 o CRC64NVME o SHA512 o MD5 o XXHASH64 o XXHASH3 o XXHASH128
+    /// Indicates the algorithm used to create the checksum for the object when you use the SDK. This header will not provide any additional functionality if you don't use the SDK. When you send this header, there must be a corresponding x-amz-checksum-*algorithm* `` or ``x-amz-trailer header sent. Otherwise, Amazon S3 fails the request with the HTTP status code 400 Bad Request . For the `` x-amz-checksum-algorithm `` header, replace `` algorithm `` with the supported algorithm from the following list: System Message: WARNING/2 (&lt;string&gt;:, line 418) Inline literal start-string without end-string. • CRC32 • CRC32C • CRC64NVME • MD5 • SHA1 • SHA256 • SHA512 • XXHASH3 • XXHASH64 • XXHASH128 For more information, see Checking object integrity in the Amazon S3 User Guide . If the individual checksum value you provide through x-amz-checksum-*algorithm* `` doesn't match the checksum algorithm you set through ``x-amz-sdk-checksum-algorithm , Amazon S3 fails the request with a BadDigest error. NOTE: The Content-MD5 or x-amz-sdk-checksum-algorithm header is required for any request to upload an object with a retention period configured using Amazon S3 Object Lock. For more information, see Uploading objects to an Object Lock enabled bucket in the Amazon S3 User Guide . For directory buckets, when you use Amazon Web Services SDKs, CRC32 is the default checksum algorithm that's used for performance. Possible values: • CRC32 • CRC32C • SHA1 • SHA256 • CRC64NVME • SHA512 • MD5 • XXHASH64 • XXHASH3 • XXHASH128
     /// </summary>
     [CliOption("--checksum-algorithm")]
     public AwsS3apiPutObjectChecksumAlgorithm? ChecksumAlgorithm { get; set; }
@@ -146,7 +146,7 @@ public record AwsS3apiPutObjectOptions : AwsOptions, IValidatableObject
     public string? ChecksumCrc32C { get; set; }
 
     /// <summary>
-    /// This header can be used as a data integrity check to verify that the data received is the same data that was originally sent. This header specifies the Base64 encoded, 64-bit CRC64NVME checksum of the ob- ject. The CRC64NVME checksum is always a full object checksum. For more information, see Checking object integrity in the Amazon S3 User Guide .
+    /// This header can be used as a data integrity check to verify that the data received is the same data that was originally sent. This header specifies the Base64 encoded, 64-bit CRC64NVME checksum of the object. The CRC64NVME checksum is always a full object checksum. For more information, see Checking object integrity in the Amazon S3 User Guide .
     /// </summary>
     [CliOption("--checksum-crc64-nvme")]
     public string? ChecksumCrc64Nvme { get; set; }
@@ -176,7 +176,7 @@ public record AwsS3apiPutObjectOptions : AwsOptions, IValidatableObject
     public string? ChecksumMd5 { get; set; }
 
     /// <summary>
-    /// This header can be used as a data integrity check to verify that the data received is the same data that was originally sent. This header specifies the Base64 encoded, 64-bit XXHASH64 checksum of the ob- ject. For more information, see Checking object integrity in the Amazon S3 User Guide .
+    /// This header can be used as a data integrity check to verify that the data received is the same data that was originally sent. This header specifies the Base64 encoded, 64-bit XXHASH64 checksum of the object. For more information, see Checking object integrity in the Amazon S3 User Guide .
     /// </summary>
     [CliOption("--checksum-xxhash64")]
     public string? ChecksumXxhash64 { get; set; }
@@ -188,7 +188,7 @@ public record AwsS3apiPutObjectOptions : AwsOptions, IValidatableObject
     public string? ChecksumXxhash3 { get; set; }
 
     /// <summary>
-    /// This header can be used as a data integrity check to verify that the data received is the same data that was originally sent. This header specifies the Base64 encoded, 128-bit XXHASH128 checksum of the ob- ject. For more information, see Checking object integrity in the Amazon S3 User Guide .
+    /// This header can be used as a data integrity check to verify that the data received is the same data that was originally sent. This header specifies the Base64 encoded, 128-bit XXHASH128 checksum of the object. For more information, see Checking object integrity in the Amazon S3 User Guide .
     /// </summary>
     [CliOption("--checksum-xxhash128")]
     public string? ChecksumXxhash128 { get; set; }
@@ -200,37 +200,37 @@ public record AwsS3apiPutObjectOptions : AwsOptions, IValidatableObject
     public string? Expires { get; set; }
 
     /// <summary>
-    /// Uploads the object only if the ETag (entity tag) value provided dur- ing the WRITE operation matches the ETag of the object in S3. If the ETag values do not match, the operation returns a 412 Precondition Failed error. If a conflicting operation occurs during the upload S3 returns a 409 ConditionalRequestConflict response. On a 409 failure you should fetch the object's ETag and retry the upload. Expects the ETag value as a string. For more information about conditional requests, see RFC 7232 , or Conditional requests in the Amazon S3 User Guide .
+    /// Uploads the object only if the ETag (entity tag) value provided during the WRITE operation matches the ETag of the object in S3. If the ETag values do not match, the operation returns a 412 Precondition Failed error. If a conflicting operation occurs during the upload S3 returns a 409 ConditionalRequestConflict response. On a 409 failure you should fetch the object's ETag and retry the upload. Expects the ETag value as a string. For more information about conditional requests, see RFC 7232 , or Conditional requests in the Amazon S3 User Guide .
     /// </summary>
     [CliOption("--if-match")]
     public string? IfMatch { get; set; }
 
     /// <summary>
-    /// Uploads the object only if the object key name does not already ex- ist in the bucket specified. Otherwise, Amazon S3 returns a 412 Pre- condition Failed error. If a conflicting operation occurs during the upload S3 returns a 409 ConditionalRequestConflict response. On a 409 failure you should retry the upload. Expects the '*' (asterisk) character. For more information about conditional requests, see RFC 7232 , or Conditional requests in the Amazon S3 User Guide .
+    /// Uploads the object only if the object key name does not already exist in the bucket specified. Otherwise, Amazon S3 returns a 412 Precondition Failed error. If a conflicting operation occurs during the upload S3 returns a 409 ConditionalRequestConflict response. On a 409 failure you should retry the upload. Expects the '*' (asterisk) character. For more information about conditional requests, see RFC 7232 , or Conditional requests in the Amazon S3 User Guide .
     /// </summary>
     [CliOption("--if-none-match")]
     public string? IfNoneMatch { get; set; }
 
     /// <summary>
-    /// Gives the grantee READ, READ_ACP, and WRITE_ACP permissions on the object. NOTE: o This functionality is not supported for directory buckets. o This functionality is not supported for Amazon S3 on Outposts.
+    /// Gives the grantee READ, READ_ACP, and WRITE_ACP permissions on the object. NOTE: • This functionality is not supported for directory buckets. • This functionality is not supported for Amazon S3 on Outposts.
     /// </summary>
     [CliOption("--grant-full-control")]
     public string? GrantFullControl { get; set; }
 
     /// <summary>
-    /// Allows grantee to read the object data and its metadata. NOTE: o This functionality is not supported for directory buckets. o This functionality is not supported for Amazon S3 on Outposts.
+    /// Allows grantee to read the object data and its metadata. NOTE: • This functionality is not supported for directory buckets. • This functionality is not supported for Amazon S3 on Outposts.
     /// </summary>
     [CliOption("--grant-read")]
     public string? GrantRead { get; set; }
 
     /// <summary>
-    /// Allows grantee to read the object ACL. NOTE: o This functionality is not supported for directory buckets. o This functionality is not supported for Amazon S3 on Outposts.
+    /// Allows grantee to read the object ACL. NOTE: • This functionality is not supported for directory buckets. • This functionality is not supported for Amazon S3 on Outposts.
     /// </summary>
     [CliOption("--grant-read-acp")]
     public string? GrantReadAcp { get; set; }
 
     /// <summary>
-    /// Allows grantee to write the ACL for the applicable object. NOTE: o This functionality is not supported for directory buckets. o This functionality is not supported for Amazon S3 on Outposts.
+    /// Allows grantee to write the ACL for the applicable object. NOTE: • This functionality is not supported for directory buckets. • This functionality is not supported for Amazon S3 on Outposts.
     /// </summary>
     [CliOption("--grant-write-acp")]
     public string? GrantWriteAcp { get; set; }
@@ -239,7 +239,7 @@ public record AwsS3apiPutObjectOptions : AwsOptions, IValidatableObject
     /// Specifies the offset for appending data to existing objects in bytes. The offset must be equal to the size of the existing object being appended to. If no object exists, setting this header to 0 will create a new object. NOTE: This functionality is only supported for objects in the Amazon S3 Express One Zone storage class in directory buckets.
     /// </summary>
     [CliOption("--write-offset-bytes")]
-    public int? WriteOffsetBytes { get; set; }
+    public long? WriteOffsetBytes { get; set; }
 
     /// <summary>
     /// A map of metadata to store with the object in S3. key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
@@ -248,25 +248,25 @@ public record AwsS3apiPutObjectOptions : AwsOptions, IValidatableObject
     public IReadOnlyList<KeyValue>? Metadata { get; set; }
 
     /// <summary>
-    /// The server-side encryption algorithm that was used when you store this object in Amazon S3 or Amazon FSx. o General purpose buckets - You have four mutually exclusive options to protect data using server-side encryption in Amazon S3, depend- ing on how you choose to manage the encryption keys. Specifically, the encryption key options are Amazon S3 managed keys (SSE-S3), Amazon Web Services KMS keys (SSE-KMS or DSSE-KMS), and cus- tomer-provided keys (SSE-C). Amazon S3 encrypts data with server-side encryption by using Amazon S3 managed keys (SSE-S3) by default. You can optionally tell Amazon S3 to encrypt data at rest by using server-side encryption with other key options. For more information, see Using Server-Side Encryption in the Amazon S3 User Guide . o Directory buckets - For directory buckets, there are only two sup- ported options for server-side encryption: server-side encryption with Amazon S3 managed keys (SSE-S3) (AES256 ) and server-side en- cryption with KMS keys (SSE-KMS) (aws:kms ). We recommend that the bucket's default encryption uses the desired encryption configura- tion and you don't override the bucket default encryption in your CreateSession requests or PUT object requests. Then, new objects are automatically encrypted with the desired encryption settings. For more information, see Protecting data with server-side encryp- tion in the Amazon S3 User Guide . For more information about the encryption overriding behaviors in directory buckets, see Specifying server-side encryption with KMS for new object uploads . In the Zonal endpoint API calls (except CopyObject and UploadPartCopy ) using the REST API, the encryption request head- ers must match the encryption settings that are specified in the CreateSession request. You can't override the values of the en- cryption settings (x-amz-server-side-encryption , x-amz-server-side-encryption-aws-kms-key-id , x-amz-server-side-encryption-context , and x-amz-server-side-en- cryption-bucket-key-enabled ) that are specified in the CreateSes- sion request. You don't need to explicitly specify these encryp- tion settings values in Zonal endpoint API calls, and Amazon S3 will use the encryption settings values from the CreateSession re- quest to protect new objects in the directory bucket. NOTE: When you use the CLI or the Amazon Web Services SDKs, for Cre- ateSession , the session token refreshes automatically to avoid service interruptions when a session expires. The CLI or the Amazon Web Services SDKs use the bucket's default encryption configuration for the CreateSession request. It's not supported to override the encryption settings values in the CreateSession request. So in the Zonal endpoint API calls (except CopyObject and UploadPartCopy ), the encryption request headers must match the default encryption configuration of the directory bucket. o S3 access points for Amazon FSx - When accessing data stored in Amazon FSx file systems using S3 access points, the only valid server side encryption option is aws:fsx . All Amazon FSx file systems have encryption configured by default and are encrypted at rest. Data is automatically encrypted before being written to the file system, and automatically decrypted as it is read. These processes are handled transparently by Amazon FSx. Possible values: o AES256 o aws:fsx o aws:backup o aws:kms o aws:kms:dsse
+    /// The server-side encryption algorithm that was used when you store this object in Amazon S3 or Amazon FSx. • General purpose buckets - You have four mutually exclusive options to protect data using server-side encryption in Amazon S3, depending on how you choose to manage the encryption keys. Specifically, the encryption key options are Amazon S3 managed keys (SSE-S3), Amazon Web Services KMS keys (SSE-KMS or DSSE-KMS), and customer-provided keys (SSE-C). Amazon S3 encrypts data with server-side encryption by using Amazon S3 managed keys (SSE-S3) by default. You can optionally tell Amazon S3 to encrypt data at rest by using server-side encryption with other key options. For more information, see Using Server-Side Encryption in the Amazon S3 User Guide . • Directory buckets - For directory buckets, there are only two supported options for server-side encryption: server-side encryption with Amazon S3 managed keys (SSE-S3) (AES256 ) and server-side encryption with KMS keys (SSE-KMS) (aws:kms ). We recommend that the bucket's default encryption uses the desired encryption configuration and you don't override the bucket default encryption in your CreateSession requests or PUT object requests. Then, new objects are automatically encrypted with the desired encryption settings. For more information, see Protecting data with server-side encryption in the Amazon S3 User Guide . For more information about the encryption overriding behaviors in directory buckets, see Specifying server-side encryption with KMS for new object uploads . In the Zonal endpoint API calls (except CopyObject and UploadPartCopy ) using the REST API, the encryption request headers must match the encryption settings that are specified in the CreateSession request. You can't override the values of the encryption settings (x-amz-server-side-encryption , x-amz-server-side-encryption-aws-kms-key-id , x-amz-server-side-encryption-context , and x-amz-server-side-encryption-bucket-key-enabled ) that are specified in the CreateSession request. You don't need to explicitly specify these encryption settings values in Zonal endpoint API calls, and Amazon S3 will use the encryption settings values from the CreateSession request to protect new objects in the directory bucket. NOTE: When you use the CLI or the Amazon Web Services SDKs, for CreateSession , the session token refreshes automatically to avoid service interruptions when a session expires. The CLI or the Amazon Web Services SDKs use the bucket's default encryption configuration for the CreateSession request. It's not supported to override the encryption settings values in the CreateSession request. So in the Zonal endpoint API calls (except CopyObject and UploadPartCopy ), the encryption request headers must match the default encryption configuration of the directory bucket. • S3 access points for Amazon FSx - When accessing data stored in Amazon FSx file systems using S3 access points, the only valid server side encryption option is aws:fsx . All Amazon FSx file systems have encryption configured by default and are encrypted at rest. Data is automatically encrypted before being written to the file system, and automatically decrypted as it is read. These processes are handled transparently by Amazon FSx. Possible values: • AES256 • aws:fsx • aws:backup • aws:kms • aws:kms:dsse
     /// </summary>
     [CliOption("--server-side-encryption")]
     public string? ServerSideEncryption { get; set; }
 
     /// <summary>
-    /// By default, Amazon S3 uses the STANDARD Storage Class to store newly created objects. The STANDARD storage class provides high durability and high availability. Depending on performance needs, you can spec- ify a different Storage Class. For more information, see Storage Classes in the Amazon S3 User Guide . NOTE: o Directory buckets only support EXPRESS_ONEZONE (the S3 Express One Zone storage class) in Availability Zones and ONEZONE_IA (the S3 One Zone-Infrequent Access storage class) in Dedicated Local Zones. o Amazon S3 on Outposts only uses the OUTPOSTS Storage Class. Possible values: o STANDARD o REDUCED_REDUNDANCY o STANDARD_IA o ONEZONE_IA o INTELLIGENT_TIERING o GLACIER o DEEP_ARCHIVE o OUTPOSTS o GLACIER_IR o SNOW o EXPRESS_ONEZONE o FSX_OPENZFS o FSX_ONTAP o AWS_BACKUP_WARM o AWS_BACKUP_LOW_COST_WARM
+    /// By default, Amazon S3 uses the STANDARD Storage Class to store newly created objects. The STANDARD storage class provides high durability and high availability. Depending on performance needs, you can specify a different Storage Class. For more information, see Storage Classes in the Amazon S3 User Guide . NOTE: • Directory buckets only support EXPRESS_ONEZONE (the S3 Express One Zone storage class) in Availability Zones and ONEZONE_IA (the S3 One Zone-Infrequent Access storage class) in Dedicated Local Zones. • Amazon S3 on Outposts only uses the OUTPOSTS Storage Class. Possible values: • STANDARD • REDUCED_REDUNDANCY • STANDARD_IA • ONEZONE_IA • INTELLIGENT_TIERING • GLACIER • DEEP_ARCHIVE • OUTPOSTS • GLACIER_IR • SNOW • EXPRESS_ONEZONE • FSX_OPENZFS • FSX_ONTAP • AWS_BACKUP_WARM • AWS_BACKUP_LOW_COST_WARM
     /// </summary>
     [CliOption("--storage-class")]
     public AwsS3apiPutObjectStorageClass? StorageClass { get; set; }
 
     /// <summary>
-    /// If the bucket is configured as a website, redirects requests for this object to another object in the same bucket or to an external URL. Amazon S3 stores the value of this header in the object meta- data. For information about object metadata, see Object Key and Metadata in the Amazon S3 User Guide . In the following example, the request header sets the redirect to an object (anotherPage.html) in the same bucket: x-amz-website-redirect-location: /anotherPage.html In the following example, the request header sets the object redi- rect to another website: x-amz-website-redirect-location: http://www.example.com/ For more information about website hosting in Amazon S3, see Hosting Websites on Amazon S3 and How to Configure Website Page Redirects in the Amazon S3 User Guide . NOTE: This functionality is not supported for directory buckets.
+    /// If the bucket is configured as a website, redirects requests for this object to another object in the same bucket or to an external URL. Amazon S3 stores the value of this header in the object metadata. For information about object metadata, see Object Key and Metadata in the Amazon S3 User Guide . In the following example, the request header sets the redirect to an object (anotherPage.html) in the same bucket: x-amz-website-redirect-location: /anotherPage.html In the following example, the request header sets the object redirect to another website: x-amz-website-redirect-location: http://www.example.com/ For more information about website hosting in Amazon S3, see Hosting Websites on Amazon S3 and How to Configure Website Page Redirects in the Amazon S3 User Guide . NOTE: This functionality is not supported for directory buckets.
     /// </summary>
     [CliOption("--website-redirect-location")]
     public string? WebsiteRedirectLocation { get; set; }
 
     /// <summary>
-    /// Specifies the algorithm to use when encrypting the object (for exam- ple, AES256 ). NOTE: This functionality is not supported for directory buckets.
+    /// Specifies the algorithm to use when encrypting the object (for example, AES256 ). NOTE: This functionality is not supported for directory buckets.
     /// </summary>
     [CliOption("--sse-customer-algorithm")]
     public string? SseCustomerAlgorithm { get; set; }
@@ -284,25 +284,25 @@ public record AwsS3apiPutObjectOptions : AwsOptions, IValidatableObject
     public string? SseCustomerKeyMd5 { get; set; }
 
     /// <summary>
-    /// Specifies the KMS key ID (Key ID, Key ARN, or Key Alias) to use for object encryption. If the KMS key doesn't exist in the same account that's issuing the command, you must use the full Key ARN not the Key ID. General purpose buckets - If you specify x-amz-server-side-en- cryption with aws:kms or aws:kms:dsse , this header specifies the ID (Key ID, Key ARN, or Key Alias) of the KMS key to use. If you specify x-amz-server-side-encryption:aws:kms or x-amz-server-side-encryption:aws:kms:dsse , but do not provide x-amz-server-side-encryption-aws-kms-key-id , Amazon S3 uses the Amazon Web Services managed key (aws/s3 ) to protect the data. Directory buckets - To encrypt data using SSE-KMS, it's recom- mended to specify the x-amz-server-side-encryption header to aws:kms . Then, the x-amz-server-side-encryption-aws-kms-key-id header implicitly uses the bucket's default KMS customer managed key ID. If you want to explicitly set the x-amz-server-side-en- cryption-aws-kms-key-id header, it must match the bucket's de- fault customer managed key (using key ID or ARN, not alias). Your SSE-KMS configuration can only support 1 customer managed key per directory bucket's lifetime. The Amazon Web Services managed key (aws/s3 ) isn't supported. Incorrect key specifica- tion results in an HTTP 400 Bad Request error.
+    /// Specifies the KMS key ID (Key ID, Key ARN, or Key Alias) to use for object encryption. If the KMS key doesn't exist in the same account that's issuing the command, you must use the full Key ARN not the Key ID. General purpose buckets - If you specify x-amz-server-side-encryption with aws:kms or aws:kms:dsse , this header specifies the ID (Key ID, Key ARN, or Key Alias) of the KMS key to use. If you specify x-amz-server-side-encryption:aws:kms or x-amz-server-side-encryption:aws:kms:dsse , but do not provide x-amz-server-side-encryption-aws-kms-key-id , Amazon S3 uses the Amazon Web Services managed key (aws/s3 ) to protect the data. Directory buckets - To encrypt data using SSE-KMS, it's recommended to specify the x-amz-server-side-encryption header to aws:kms . Then, the x-amz-server-side-encryption-aws-kms-key-id header implicitly uses the bucket's default KMS customer managed key ID. If you want to explicitly set the x-amz-server-side-encryption-aws-kms-key-id header, it must match the bucket's default customer managed key (using key ID or ARN, not alias). Your SSE-KMS configuration can only support 1 customer managed key per directory bucket's lifetime. The Amazon Web Services managed key (aws/s3 ) isn't supported. Incorrect key specification results in an HTTP 400 Bad Request error.
     /// </summary>
     [CliOption("--ssekms-key-id")]
     public string? SsekmsKeyId { get; set; }
 
     /// <summary>
-    /// Specifies the Amazon Web Services KMS Encryption Context as an addi- tional encryption context to use for object encryption. The value of this header is a Base64 encoded string of a UTF-8 encoded JSON, which contains the encryption context as key-value pairs. This value is stored as object metadata and automatically gets passed on to Amazon Web Services KMS for future GetObject operations on this ob- ject. General purpose buckets - This value must be explicitly added during CopyObject operations if you want an additional encryp- tion context for your object. For more information, see Encryption context in the Amazon S3 User Guide . Directory buckets - You can optionally provide an explicit en- cryption context value. The value must match the default encryp- tion context - the bucket Amazon Resource Name (ARN). An addi- tional encryption context value is not supported.
+    /// Specifies the Amazon Web Services KMS Encryption Context as an additional encryption context to use for object encryption. The value of this header is a Base64 encoded string of a UTF-8 encoded JSON, which contains the encryption context as key-value pairs. This value is stored as object metadata and automatically gets passed on to Amazon Web Services KMS for future GetObject operations on this object. General purpose buckets - This value must be explicitly added during CopyObject operations if you want an additional encryption context for your object. For more information, see Encryption context in the Amazon S3 User Guide . Directory buckets - You can optionally provide an explicit encryption context value. The value must match the default encryption context - the bucket Amazon Resource Name (ARN). An additional encryption context value is not supported.
     /// </summary>
     [CliOption("--ssekms-encryption-context")]
     public string? SsekmsEncryptionContext { get; set; }
 
     /// <summary>
-    /// Specifies whether Amazon S3 should use an S3 Bucket Key for object encryption with server-side encryption using Key Management Service (KMS) keys (SSE-KMS). General purpose buckets - Setting this header to true causes Amazon S3 to use an S3 Bucket Key for object encryption with SSE-KMS. Also, specifying this header with a PUT action doesn't affect bucket-level settings for S3 Bucket Key. Directory buckets - S3 Bucket Keys are always enabled for GET and PUT operations in a directory bucket and cant be disabled. S3 Bucket Keys aren't supported, when you copy SSE-KMS encrypted objects from general purpose buckets to directory buckets, from directory buckets to general purpose buckets, or between direc- tory buckets, through CopyObject , UploadPartCopy , the Copy op- eration in Batch Operations , or the import jobs . In this case, Amazon S3 makes a call to KMS every time a copy request is made for a KMS-encrypted object.
+    /// Specifies whether Amazon S3 should use an S3 Bucket Key for object encryption with server-side encryption using Key Management Service (KMS) keys (SSE-KMS). General purpose buckets - Setting this header to true causes Amazon S3 to use an S3 Bucket Key for object encryption with SSE-KMS. Also, specifying this header with a PUT action doesn't affect bucket-level settings for S3 Bucket Key. Directory buckets - S3 Bucket Keys are always enabled for GET and PUT operations in a directory bucket and cant be disabled. S3 Bucket Keys aren't supported, when you copy SSE-KMS encrypted objects from general purpose buckets to directory buckets, from directory buckets to general purpose buckets, or between directory buckets, through CopyObject , UploadPartCopy , the Copy operation in Batch Operations , or the import jobs . In this case, Amazon S3 makes a call to KMS every time a copy request is made for a KMS-encrypted object.
     /// </summary>
     [CliFlag("--bucket-key-enabled", NegatedName = "--no-bucket-key-enabled")]
     public bool? BucketKeyEnabled { get; set; }
 
     /// <summary>
-    /// Confirms that the requester knows that they will be charged for the request. Bucket owners need not specify this parameter in their re- quests. If either the source or destination S3 bucket has Requester Pays enabled, the requester will pay for the corresponding charges. For information about downloading objects from Requester Pays buck- ets, see Downloading Objects in Requester Pays Buckets in the Amazon S3 User Guide . NOTE: This functionality is not supported for directory buckets. Possible values: o requester
+    /// Confirms that the requester knows that they will be charged for the request. Bucket owners need not specify this parameter in their requests. If either the source or destination S3 bucket has Requester Pays enabled, the requester will pay for the corresponding charges. For information about downloading objects from Requester Pays buckets, see Downloading Objects in Requester Pays Buckets in the Amazon S3 User Guide . NOTE: This functionality is not supported for directory buckets. Possible values: • requester
     /// </summary>
     [CliOption("--request-payer")]
     public string? RequestPayer { get; set; }
@@ -314,7 +314,7 @@ public record AwsS3apiPutObjectOptions : AwsOptions, IValidatableObject
     public string? Tagging { get; set; }
 
     /// <summary>
-    /// The Object Lock mode that you want to apply to this object. NOTE: This functionality is not supported for directory buckets. Possible values: o GOVERNANCE o COMPLIANCE
+    /// The Object Lock mode that you want to apply to this object. NOTE: This functionality is not supported for directory buckets. Possible values: • GOVERNANCE • COMPLIANCE
     /// </summary>
     [CliOption("--object-lock-mode")]
     public AwsS3apiPutObjectObjectLockMode? ObjectLockMode { get; set; }
@@ -326,13 +326,13 @@ public record AwsS3apiPutObjectOptions : AwsOptions, IValidatableObject
     public string? ObjectLockRetainUntilDate { get; set; }
 
     /// <summary>
-    /// Specifies whether a legal hold will be applied to this object. For more information about S3 Object Lock, see Object Lock in the Amazon S3 User Guide . NOTE: This functionality is not supported for directory buckets. Possible values: o ON o OFF
+    /// Specifies whether a legal hold will be applied to this object. For more information about S3 Object Lock, see Object Lock in the Amazon S3 User Guide . NOTE: This functionality is not supported for directory buckets. Possible values: • ON • OFF
     /// </summary>
     [CliOption("--object-lock-legal-hold-status")]
     public AwsS3apiPutObjectObjectLockLegalHoldStatus? ObjectLockLegalHoldStatus { get; set; }
 
     /// <summary>
-    /// Specifies the event hold status to apply to this object. Set to ON to enable or OFF to disable. NOTE: This functionality is not supported for directory buckets. Possible values: o ON o OFF
+    /// Specifies the event hold status to apply to this object. Set to ON to enable or OFF to disable. NOTE: This functionality is not supported for directory buckets. Possible values: • ON • OFF
     /// </summary>
     [CliOption("--object-lock-event-hold")]
     public AwsS3apiPutObjectObjectLockEventHold? ObjectLockEventHold { get; set; }
@@ -350,7 +350,7 @@ public record AwsS3apiPutObjectOptions : AwsOptions, IValidatableObject
     public int? ObjectLockEventHoldDurationYears { get; set; }
 
     /// <summary>
-    /// The account ID of the expected bucket owner. If the account ID that you provide does not match the actual owner of the bucket, the re- quest fails with the HTTP status code 403 Forbidden (access denied).
+    /// The account ID of the expected bucket owner. If the account ID that you provide does not match the actual owner of the bucket, the request fails with the HTTP status code 403 Forbidden (access denied).
     /// </summary>
     [CliOption("--expected-bucket-owner")]
     public string? ExpectedBucketOwner { get; set; }
@@ -376,6 +376,15 @@ public record AwsS3apiPutObjectOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

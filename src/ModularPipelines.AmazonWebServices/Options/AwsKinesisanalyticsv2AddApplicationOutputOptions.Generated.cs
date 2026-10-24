@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Adds an external destination to your SQL-based Kinesis Data Analytics application. If you want Kinesis Data Analytics to deliver data from an in-applica- tion stream within your application to an external destination (such as an Kinesis data stream, a Kinesis Data Firehose delivery stream, or an Amazon Lambda function), you add the relevant configuration to your ap- plication using this operation. You can configure one or more outputs for your application. Each output configuration maps an in-ap...
+/// Adds an external destination to your SQL-based Kinesis Data Analytics application. If you want Kinesis Data Analytics to deliver data from an in-application stream within your application to an external destination (such as an Kinesis data stream, a Kinesis Data Firehose delivery stream, or an Amazon Lambda function), you add the relevant configuration to your application using this operation. You can configure one or more outputs for your application. Each output configuration maps an in-applic...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,14 +26,14 @@ public record AwsKinesisanalyticsv2AddApplicationOutputOptions : AwsOptions, IVa
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Adds an external destination to your SQL-based Kinesis Data Analytics application. If you want Kinesis Data Analytics to deliver data from an in-applica- tion stream within your application to an external destination (such as an Kinesis data stream, a Kinesis Data Firehose delivery stream, or an Amazon Lambda function), you add the relevant configuration to your ap- plication using this operation. You can configure one or more outputs for your application. Each output configuration maps an in-ap...
+    /// Adds an external destination to your SQL-based Kinesis Data Analytics application. If you want Kinesis Data Analytics to deliver data from an in-application stream within your application to an external destination (such as an Kinesis data stream, a Kinesis Data Firehose delivery stream, or an Amazon Lambda function), you add the relevant configuration to your application using this operation. You can configure one or more outputs for your application. Each output configuration maps an in-applic...
     /// </summary>
-    /// <param name="ApplicationName">The name of the application to which you want to add the output con- figuration. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_.-]+</param>
-    /// <param name="CurrentApplicationVersionId">The version of the application to which you want to add the output configuration. You can use the DescribeApplication operation to get the current application version. If the version specified is not the current version, the ConcurrentModificationException is returned. Constraints: o min: 1 o max: 999999999</param>
-    /// <param name="ApplicationOutput">An array of objects, each describing one output configuration. In the output configuration, you specify the name of an in-application stream, a destination (that is, a Kinesis data stream, a Kinesis Data Firehose delivery stream, or an Amazon Lambda function), and record the formation to use when writing to the destination. Name -&gt; (string) [required] The name of the in-application stream. Constraints: o min: 1 o max: 32 o pattern: [^-\s&lt;&gt;&amp;]* KinesisStreamsOutput -&gt; (structure) Identifies a Kinesis data stream as the destination. ResourceARN -&gt; (string) [required] The ARN of the destination Kinesis data stream to write to. Constraints: o min: 1 o max: 2048 o pattern: arn:.* KinesisFirehoseOutput -&gt; (structure) Identifies a Kinesis Data Firehose delivery stream as the desti- nation. ResourceARN -&gt; (string) [required] The ARN of the destination delivery stream to write to. Constraints: o min: 1 o max: 2048 o pattern: arn:.* LambdaOutput -&gt; (structure) Identifies an Amazon Lambda function as the destination. ResourceARN -&gt; (string) [required] The Amazon Resource Name (ARN) of the destination Lambda function to write to. NOTE: To specify an earlier version of the Lambda function than the latest, include the Lambda function version in the Lambda function ARN. For more information about Lambda ARNs, see Example ARNs: Amazon Lambda Constraints: o min: 1 o max: 2048 o pattern: arn:.* DestinationSchema -&gt; (structure) [required] Describes the data format when records are written to the desti- nation. RecordFormatType -&gt; (string) [required] Specifies the format of the records on the output stream. Possible values: o JSON o CSV Shorthand Syntax: Name=string,KinesisStreamsOutput={ResourceARN=string},KinesisFirehoseOutput={ResourceARN=string},LambdaOutput={ResourceARN=string},DestinationSchema={RecordFormatType=string} JSON Syntax: { "Name": "string", "KinesisStreamsOutput": { "ResourceARN": "string" }, "KinesisFirehoseOutput": { "ResourceARN": "string" }, "LambdaOutput": { "ResourceARN": "string" }, "DestinationSchema": { "RecordFormatType": "JSON"|"CSV" } }</param>
+    /// <param name="ApplicationName">The name of the application to which you want to add the output configuration. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9_.-]+</param>
+    /// <param name="CurrentApplicationVersionId">The version of the application to which you want to add the output configuration. You can use the DescribeApplication operation to get the current application version. If the version specified is not the current version, the ConcurrentModificationException is returned. Constraints: • min: 1 • max: 999999999</param>
+    /// <param name="ApplicationOutput">An array of objects, each describing one output configuration. In the output configuration, you specify the name of an in-application stream, a destination (that is, a Kinesis data stream, a Kinesis Data Firehose delivery stream, or an Amazon Lambda function), and record the formation to use when writing to the destination. Name -&gt; (string) [required] The name of the in-application stream. Constraints: • min: 1 • max: 32 • pattern: [^-\s&lt;&gt;&amp;]* KinesisStreamsOutput -&gt; (structure) Identifies a Kinesis data stream as the destination. ResourceARN -&gt; (string) [required] The ARN of the destination Kinesis data stream to write to. Constraints: • min: 1 • max: 2048 • pattern: arn:.* KinesisFirehoseOutput -&gt; (structure) Identifies a Kinesis Data Firehose delivery stream as the destination. ResourceARN -&gt; (string) [required] The ARN of the destination delivery stream to write to. Constraints: • min: 1 • max: 2048 • pattern: arn:.* LambdaOutput -&gt; (structure) Identifies an Amazon Lambda function as the destination. ResourceARN -&gt; (string) [required] The Amazon Resource Name (ARN) of the destination Lambda function to write to. NOTE: To specify an earlier version of the Lambda function than the latest, include the Lambda function version in the Lambda function ARN. For more information about Lambda ARNs, see Example ARNs: Amazon Lambda Constraints: • min: 1 • max: 2048 • pattern: arn:.* DestinationSchema -&gt; (structure) [required] Describes the data format when records are written to the destination. RecordFormatType -&gt; (string) [required] Specifies the format of the records on the output stream. Possible values: • JSON • CSV Shorthand Syntax: Name=string,KinesisStreamsOutput={ResourceARN=string},KinesisFirehoseOutput={ResourceARN=string},LambdaOutput={ResourceARN=string},DestinationSchema={RecordFormatType=string} JSON Syntax: { "Name": "string", "KinesisStreamsOutput": { "ResourceARN": "string" }, "KinesisFirehoseOutput": { "ResourceARN": "string" }, "LambdaOutput": { "ResourceARN": "string" }, "DestinationSchema": { "RecordFormatType": "JSON"|"CSV" } }</param>
     public AwsKinesisanalyticsv2AddApplicationOutputOptions(
         string ApplicationName,
-        int CurrentApplicationVersionId,
+        long CurrentApplicationVersionId,
         string ApplicationOutput
     )
     {
@@ -63,19 +64,19 @@ public record AwsKinesisanalyticsv2AddApplicationOutputOptions : AwsOptions, IVa
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the application to which you want to add the output con- figuration. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_.-]+
+    /// The name of the application to which you want to add the output configuration. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9_.-]+
     /// </summary>
     [CliOption("--application-name")]
     public string? ApplicationName { get; private init; }
 
     /// <summary>
-    /// The version of the application to which you want to add the output configuration. You can use the DescribeApplication operation to get the current application version. If the version specified is not the current version, the ConcurrentModificationException is returned. Constraints: o min: 1 o max: 999999999
+    /// The version of the application to which you want to add the output configuration. You can use the DescribeApplication operation to get the current application version. If the version specified is not the current version, the ConcurrentModificationException is returned. Constraints: • min: 1 • max: 999999999
     /// </summary>
     [CliOption("--current-application-version-id")]
-    public int? CurrentApplicationVersionId { get; private init; }
+    public long? CurrentApplicationVersionId { get; private init; }
 
     /// <summary>
-    /// An array of objects, each describing one output configuration. In the output configuration, you specify the name of an in-application stream, a destination (that is, a Kinesis data stream, a Kinesis Data Firehose delivery stream, or an Amazon Lambda function), and record the formation to use when writing to the destination. Name -&gt; (string) [required] The name of the in-application stream. Constraints: o min: 1 o max: 32 o pattern: [^-\s&lt;&gt;&amp;]* KinesisStreamsOutput -&gt; (structure) Identifies a Kinesis data stream as the destination. ResourceARN -&gt; (string) [required] The ARN of the destination Kinesis data stream to write to. Constraints: o min: 1 o max: 2048 o pattern: arn:.* KinesisFirehoseOutput -&gt; (structure) Identifies a Kinesis Data Firehose delivery stream as the desti- nation. ResourceARN -&gt; (string) [required] The ARN of the destination delivery stream to write to. Constraints: o min: 1 o max: 2048 o pattern: arn:.* LambdaOutput -&gt; (structure) Identifies an Amazon Lambda function as the destination. ResourceARN -&gt; (string) [required] The Amazon Resource Name (ARN) of the destination Lambda function to write to. NOTE: To specify an earlier version of the Lambda function than the latest, include the Lambda function version in the Lambda function ARN. For more information about Lambda ARNs, see Example ARNs: Amazon Lambda Constraints: o min: 1 o max: 2048 o pattern: arn:.* DestinationSchema -&gt; (structure) [required] Describes the data format when records are written to the desti- nation. RecordFormatType -&gt; (string) [required] Specifies the format of the records on the output stream. Possible values: o JSON o CSV Shorthand Syntax: Name=string,KinesisStreamsOutput={ResourceARN=string},KinesisFirehoseOutput={ResourceARN=string},LambdaOutput={ResourceARN=string},DestinationSchema={RecordFormatType=string} JSON Syntax: { "Name": "string", "KinesisStreamsOutput": { "ResourceARN": "string" }, "KinesisFirehoseOutput": { "ResourceARN": "string" }, "LambdaOutput": { "ResourceARN": "string" }, "DestinationSchema": { "RecordFormatType": "JSON"|"CSV" } }
+    /// An array of objects, each describing one output configuration. In the output configuration, you specify the name of an in-application stream, a destination (that is, a Kinesis data stream, a Kinesis Data Firehose delivery stream, or an Amazon Lambda function), and record the formation to use when writing to the destination. Name -&gt; (string) [required] The name of the in-application stream. Constraints: • min: 1 • max: 32 • pattern: [^-\s&lt;&gt;&amp;]* KinesisStreamsOutput -&gt; (structure) Identifies a Kinesis data stream as the destination. ResourceARN -&gt; (string) [required] The ARN of the destination Kinesis data stream to write to. Constraints: • min: 1 • max: 2048 • pattern: arn:.* KinesisFirehoseOutput -&gt; (structure) Identifies a Kinesis Data Firehose delivery stream as the destination. ResourceARN -&gt; (string) [required] The ARN of the destination delivery stream to write to. Constraints: • min: 1 • max: 2048 • pattern: arn:.* LambdaOutput -&gt; (structure) Identifies an Amazon Lambda function as the destination. ResourceARN -&gt; (string) [required] The Amazon Resource Name (ARN) of the destination Lambda function to write to. NOTE: To specify an earlier version of the Lambda function than the latest, include the Lambda function version in the Lambda function ARN. For more information about Lambda ARNs, see Example ARNs: Amazon Lambda Constraints: • min: 1 • max: 2048 • pattern: arn:.* DestinationSchema -&gt; (structure) [required] Describes the data format when records are written to the destination. RecordFormatType -&gt; (string) [required] Specifies the format of the records on the output stream. Possible values: • JSON • CSV Shorthand Syntax: Name=string,KinesisStreamsOutput={ResourceARN=string},KinesisFirehoseOutput={ResourceARN=string},LambdaOutput={ResourceARN=string},DestinationSchema={RecordFormatType=string} JSON Syntax: { "Name": "string", "KinesisStreamsOutput": { "ResourceARN": "string" }, "KinesisFirehoseOutput": { "ResourceARN": "string" }, "LambdaOutput": { "ResourceARN": "string" }, "DestinationSchema": { "RecordFormatType": "JSON"|"CSV" } }
     /// </summary>
     [CliOption("--application-output")]
     public string? ApplicationOutput { get; private init; }
@@ -101,6 +102,15 @@ public record AwsKinesisanalyticsv2AddApplicationOutputOptions : AwsOptions, IVa
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

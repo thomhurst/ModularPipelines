@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Detaches a policy from a target root, organizational unit (OU), or ac- count. WARNING: If the policy being detached is a service control policy (SCP), the changes to permissions for Identity and Access Management (IAM) users and roles in affected accounts are immediate. Every root, OU, and account must have at least one SCP attached. If you want to replace the default FullAWSAccess policy with an SCP that lim- its the permissions that can be delegated, you must attach the replace- ment SCP befor...
+/// Detaches a policy from a target root, organizational unit (OU), or account. WARNING: If the policy being detached is a service control policy (SCP), the changes to permissions for Identity and Access Management (IAM) users and roles in affected accounts are immediate. Every root, OU, and account must have at least one SCP attached. If you want to replace the default FullAWSAccess policy with an SCP that limits the permissions that can be delegated, you must attach the replacement SCP before you ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsOrganizationsDetachPolicyOptions : AwsOptions, IValidatableObje
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Detaches a policy from a target root, organizational unit (OU), or ac- count. WARNING: If the policy being detached is a service control policy (SCP), the changes to permissions for Identity and Access Management (IAM) users and roles in affected accounts are immediate. Every root, OU, and account must have at least one SCP attached. If you want to replace the default FullAWSAccess policy with an SCP that lim- its the permissions that can be delegated, you must attach the replace- ment SCP befor...
+    /// Detaches a policy from a target root, organizational unit (OU), or account. WARNING: If the policy being detached is a service control policy (SCP), the changes to permissions for Identity and Access Management (IAM) users and roles in affected accounts are immediate. Every root, OU, and account must have at least one SCP attached. If you want to replace the default FullAWSAccess policy with an SCP that limits the permissions that can be delegated, you must attach the replacement SCP before you ...
     /// </summary>
-    /// <param name="PolicyId">ID for the policy you want to detach. You can get the ID from the ListPolicies or ListPoliciesForTarget operations. The regex pattern for a policy ID string requires "p-" followed by from 8 to 128 lowercase or uppercase letters, digits, or the under- score character (_). Constraints: o max: 130 o pattern: ^p-[0-9a-zA-Z_]{8,128}$</param>
-    /// <param name="TargetId">ID for the root, OU, or account that you want to detach the policy from. You can get the ID from the ListRoots , ListOrganizationalU- nitsForParent , or ListAccounts operations. The regex pattern for a target ID string requires one of the follow- ing: o Root - A string that begins with "r-" followed by from 4 to 32 lowercase letters or digits. o Account - A string that consists of exactly 12 digits. o Organizational unit (OU) - A string that begins with "ou-" fol- lowed by from 4 to 32 lowercase letters or digits (the ID of the root that the OU is in). This string is followed by a second "-" dash and from 8 to 32 additional lowercase letters or digits. Constraints: o max: 100 o pattern: ^(r-[0-9a-z]{4,32})|(\d{12})|(ou-[0-9a-z]{4,32}-[a-z0-9]{8,32})$</param>
+    /// <param name="PolicyId">ID for the policy you want to detach. You can get the ID from the ListPolicies or ListPoliciesForTarget operations. The regex pattern for a policy ID string requires "p-" followed by from 8 to 128 lowercase or uppercase letters, digits, or the underscore character (_). Constraints: • max: 130 • pattern: ^p-[0-9a-zA-Z_]{8,128}$</param>
+    /// <param name="TargetId">ID for the root, OU, or account that you want to detach the policy from. You can get the ID from the ListRoots , ListOrganizationalUnitsForParent , or ListAccounts operations. The regex pattern for a target ID string requires one of the following: • Root - A string that begins with "r-" followed by from 4 to 32 lowercase letters or digits. • Account - A string that consists of exactly 12 digits. • Organizational unit (OU) - A string that begins with "ou-" followed by from 4 to 32 lowercase letters or digits (the ID of the root that the OU is in). This string is followed by a second "-" dash and from 8 to 32 additional lowercase letters or digits. Constraints: • max: 100 • pattern: ^(r-[0-9a-z]{4,32})|(\d{12})|(ou-[0-9a-z]{4,32}-[a-z0-9]{8,32})$</param>
     public AwsOrganizationsDetachPolicyOptions(
         string PolicyId,
         string TargetId
@@ -60,13 +61,13 @@ public record AwsOrganizationsDetachPolicyOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// ID for the policy you want to detach. You can get the ID from the ListPolicies or ListPoliciesForTarget operations. The regex pattern for a policy ID string requires "p-" followed by from 8 to 128 lowercase or uppercase letters, digits, or the under- score character (_). Constraints: o max: 130 o pattern: ^p-[0-9a-zA-Z_]{8,128}$
+    /// ID for the policy you want to detach. You can get the ID from the ListPolicies or ListPoliciesForTarget operations. The regex pattern for a policy ID string requires "p-" followed by from 8 to 128 lowercase or uppercase letters, digits, or the underscore character (_). Constraints: • max: 130 • pattern: ^p-[0-9a-zA-Z_]{8,128}$
     /// </summary>
     [CliOption("--policy-id")]
     public string? PolicyId { get; private init; }
 
     /// <summary>
-    /// ID for the root, OU, or account that you want to detach the policy from. You can get the ID from the ListRoots , ListOrganizationalU- nitsForParent , or ListAccounts operations. The regex pattern for a target ID string requires one of the follow- ing: o Root - A string that begins with "r-" followed by from 4 to 32 lowercase letters or digits. o Account - A string that consists of exactly 12 digits. o Organizational unit (OU) - A string that begins with "ou-" fol- lowed by from 4 to 32 lowercase letters or digits (the ID of the root that the OU is in). This string is followed by a second "-" dash and from 8 to 32 additional lowercase letters or digits. Constraints: o max: 100 o pattern: ^(r-[0-9a-z]{4,32})|(\d{12})|(ou-[0-9a-z]{4,32}-[a-z0-9]{8,32})$
+    /// ID for the root, OU, or account that you want to detach the policy from. You can get the ID from the ListRoots , ListOrganizationalUnitsForParent , or ListAccounts operations. The regex pattern for a target ID string requires one of the following: • Root - A string that begins with "r-" followed by from 4 to 32 lowercase letters or digits. • Account - A string that consists of exactly 12 digits. • Organizational unit (OU) - A string that begins with "ou-" followed by from 4 to 32 lowercase letters or digits (the ID of the root that the OU is in). This string is followed by a second "-" dash and from 8 to 32 additional lowercase letters or digits. Constraints: • max: 100 • pattern: ^(r-[0-9a-z]{4,32})|(\d{12})|(ou-[0-9a-z]{4,32}-[a-z0-9]{8,32})$
     /// </summary>
     [CliOption("--target-id")]
     public string? TargetId { get; private init; }
@@ -92,6 +93,15 @@ public record AwsOrganizationsDetachPolicyOptions : AwsOptions, IValidatableObje
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

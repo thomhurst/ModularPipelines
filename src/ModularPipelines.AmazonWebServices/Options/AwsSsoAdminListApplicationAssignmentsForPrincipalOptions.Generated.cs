@@ -11,13 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Lists the applications to which a specified principal is assigned. You must provide a filter when calling this action from a member account against your organization instance of IAM Identity Center. A filter is not required when called from the management account against an organi- zation instance of IAM Identity Center, or from a member account against an account instance of IAM Identity Center in the same account. See also: AWS API Documentation list-application-assignments-for-principal is a ...
+/// Lists the applications to which a specified principal is assigned. You must provide a filter when calling this action from a member account against your organization instance of IAM Identity Center. A filter is not required when called from the management account against an organization instance of IAM Identity Center, or from a member account against an account instance of IAM Identity Center in the same account. See also: AWS API Documentation list-application-assignments-for-principal is a pa...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,11 +28,11 @@ public record AwsSsoAdminListApplicationAssignmentsForPrincipalOptions : AwsOpti
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Lists the applications to which a specified principal is assigned. You must provide a filter when calling this action from a member account against your organization instance of IAM Identity Center. A filter is not required when called from the management account against an organi- zation instance of IAM Identity Center, or from a member account against an account instance of IAM Identity Center in the same account. See also: AWS API Documentation list-application-assignments-for-principal is a ...
+    /// Lists the applications to which a specified principal is assigned. You must provide a filter when calling this action from a member account against your organization instance of IAM Identity Center. A filter is not required when called from the management account against an organization instance of IAM Identity Center, or from a member account against an account instance of IAM Identity Center in the same account. See also: AWS API Documentation list-application-assignments-for-principal is a pa...
     /// </summary>
-    /// <param name="InstanceArn">Specifies the instance of IAM Identity Center that contains princi- pal and applications. Constraints: o min: 10 o max: 1224 o pattern: arn:aws(-[a-z]{1,5}){0,3}:sso:::in- stance/(sso)?ins-[a-zA-Z0-9-.]{16}</param>
-    /// <param name="PrincipalId">Specifies the unique identifier of the principal for which you want to retrieve its assignments. Constraints: o min: 1 o max: 47 o pattern: ([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}</param>
-    /// <param name="PrincipalType">Specifies the type of the principal for which you want to retrieve its assignments. Possible values: o USER o GROUP</param>
+    /// <param name="InstanceArn">Specifies the instance of IAM Identity Center that contains principal and applications. Constraints: • min: 10 • max: 1224 • pattern: arn:aws(-[a-z]{1,5}){0,3}:sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}</param>
+    /// <param name="PrincipalId">Specifies the unique identifier of the principal for which you want to retrieve its assignments. Constraints: • min: 1 • max: 47 • pattern: ([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}</param>
+    /// <param name="PrincipalType">Specifies the type of the principal for which you want to retrieve its assignments. Possible values: • USER • GROUP</param>
     public AwsSsoAdminListApplicationAssignmentsForPrincipalOptions(
         string InstanceArn,
         string PrincipalId,
@@ -65,34 +66,31 @@ public record AwsSsoAdminListApplicationAssignmentsForPrincipalOptions : AwsOpti
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Specifies the instance of IAM Identity Center that contains princi- pal and applications. Constraints: o min: 10 o max: 1224 o pattern: arn:aws(-[a-z]{1,5}){0,3}:sso:::in- stance/(sso)?ins-[a-zA-Z0-9-.]{16}
+    /// Specifies the instance of IAM Identity Center that contains principal and applications. Constraints: • min: 10 • max: 1224 • pattern: arn:aws(-[a-z]{1,5}){0,3}:sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}
     /// </summary>
     [CliOption("--instance-arn")]
     public string? InstanceArn { get; private init; }
 
     /// <summary>
-    /// Specifies the unique identifier of the principal for which you want to retrieve its assignments. Constraints: o min: 1 o max: 47 o pattern: ([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}
+    /// Specifies the unique identifier of the principal for which you want to retrieve its assignments. Constraints: • min: 1 • max: 47 • pattern: ([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}
     /// </summary>
     [CliOption("--principal-id")]
     public string? PrincipalId { get; private init; }
 
     /// <summary>
-    /// Specifies the type of the principal for which you want to retrieve its assignments. Possible values: o USER o GROUP
+    /// Specifies the type of the principal for which you want to retrieve its assignments. Possible values: • USER • GROUP
     /// </summary>
     [CliOption("--principal-type")]
     public AwsSsoAdminListApplicationAssignmentsForPrincipalPrincipalType? PrincipalType { get; private init; }
 
     /// <summary>
-    /// Filters the output to include only assignments associated with the application that has the specified ARN. ApplicationArn -&gt; (string) The ARN of an application. Constraints: o min: 10 o max: 1224 o pattern: arn:aws(-[a-z]{1,5}){0,3}:sso::\d{12}:applica- tion/(sso)?ins-[a-zA-Z0-9-.]{16}/apl-[a-zA-Z0-9]{16} Shorthand Syntax: ApplicationArn=string JSON Syntax: { "ApplicationArn": "string" }
+    /// Filters the output to include only assignments associated with the application that has the specified ARN. ApplicationArn -&gt; (string) The ARN of an application. Constraints: • min: 10 • max: 1224 • pattern: arn:aws(-[a-z]{1,5}){0,3}:sso::\d{12}:application/(sso)?ins-[a-zA-Z0-9-.]{16}/apl-[a-zA-Z0-9]{16} Shorthand Syntax: ApplicationArn=string JSON Syntax: { "ApplicationArn": "string" }
     /// </summary>
     [CliOption("--filter")]
     public string? Filter { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -102,16 +100,19 @@ public record AwsSsoAdminListApplicationAssignmentsForPrincipalOptions : AwsOpti
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 100
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
@@ -128,6 +129,15 @@ public record AwsSsoAdminListApplicationAssignmentsForPrincipalOptions : AwsOpti
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

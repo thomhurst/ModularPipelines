@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// NOTE: This operation is not supported by directory buckets. Removes the PublicAccessBlock configuration for an Amazon Web Services account. This operation might be restricted when the account is managed by organization-level Block Public Access policies. Youll get an Access Denied (403) error when the account is managed by organization-level Block Public Access policies. Organization-level policies override ac- count-level settings, preventing direct account-level modifications. For more informa...
+/// NOTE: This operation is not supported by directory buckets. Removes the PublicAccessBlock configuration for an Amazon Web Services account. This operation might be restricted when the account is managed by organization-level Block Public Access policies. Youll get an Access Denied (403) error when the account is managed by organization-level Block Public Access policies. Organization-level policies override account-level settings, preventing direct account-level modifications. For more informati...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsS3controlDeletePublicAccessBlockOptions : AwsOptions, IValidata
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// NOTE: This operation is not supported by directory buckets. Removes the PublicAccessBlock configuration for an Amazon Web Services account. This operation might be restricted when the account is managed by organization-level Block Public Access policies. Youll get an Access Denied (403) error when the account is managed by organization-level Block Public Access policies. Organization-level policies override ac- count-level settings, preventing direct account-level modifications. For more informa...
+    /// NOTE: This operation is not supported by directory buckets. Removes the PublicAccessBlock configuration for an Amazon Web Services account. This operation might be restricted when the account is managed by organization-level Block Public Access policies. Youll get an Access Denied (403) error when the account is managed by organization-level Block Public Access policies. Organization-level policies override account-level settings, preventing direct account-level modifications. For more informati...
     /// </summary>
-    /// <param name="AccountId">The account ID for the Amazon Web Services account whose PublicAc- cessBlock configuration you want to remove. Constraints: o max: 64 o pattern: ^\d{12}$</param>
+    /// <param name="AccountId">The account ID for the Amazon Web Services account whose PublicAccessBlock configuration you want to remove. Constraints: • max: 64 • pattern: ^\d{12}$</param>
     public AwsS3controlDeletePublicAccessBlockOptions(
         string AccountId
     )
@@ -56,7 +57,7 @@ public record AwsS3controlDeletePublicAccessBlockOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The account ID for the Amazon Web Services account whose PublicAc- cessBlock configuration you want to remove. Constraints: o max: 64 o pattern: ^\d{12}$
+    /// The account ID for the Amazon Web Services account whose PublicAccessBlock configuration you want to remove. Constraints: • max: 64 • pattern: ^\d{12}$
     /// </summary>
     [CliOption("--account-id")]
     public string? AccountId { get; private init; }
@@ -82,6 +83,15 @@ public record AwsS3controlDeletePublicAccessBlockOptions : AwsOptions, IValidata
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

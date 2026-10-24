@@ -6,15 +6,15 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
+using ModularPipelines;
 using ModularPipelines.Context;
-using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
 namespace ModularPipelines.AmazonWebServices.Services;
 
 /// <summary>
-/// aws chimesdkidentity commands.
+/// aws chime-sdk-identity commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AwsChimeSdkIdentity : IAwsChimeSdkIdentity
@@ -32,7 +32,7 @@ public class AwsChimeSdkIdentity : IAwsChimeSdkIdentity
     #region Commands
 
     /// <summary>
-    /// Promotes an AppInstanceUser or AppInstanceBot to an AppInstanceAdmin . The promoted entity can perform the following actions. o ChannelModerator actions across all channels in the AppInstance . o DeleteChannelMessage actions. Only an AppInstanceUser and AppInstanceBot can be promoted to an AppIn- stanceAdmin role. See also: AWS API Documentation
+    /// Promotes an AppInstanceUser or AppInstanceBot to an AppInstanceAdmin . The promoted entity can perform the following actions. • ChannelModerator actions across all channels in the AppInstance . • DeleteChannelMessage actions. Only an AppInstanceUser and AppInstanceBot can be promoted to an AppInstanceAdmin role. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -287,22 +287,7 @@ public class AwsChimeSdkIdentity : IAwsChimeSdkIdentity
     }
 
     /// <summary>
-    /// Lists all Amazon Chime AppInstance s created under a single AWS ac- count. See also: AWS API Documentation
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListAppInstancesAsync(
-        AwsChimeSdkIdentityListAppInstancesOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsChimeSdkIdentityListAppInstancesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
-    /// Lists all the AppInstanceUserEndpoints created under a single AppIn- stanceUser . See also: AWS API Documentation
+    /// Lists all the AppInstanceUserEndpoints created under a single AppInstanceUser . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -329,6 +314,21 @@ public class AwsChimeSdkIdentity : IAwsChimeSdkIdentity
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Lists all Amazon Chime AppInstance s created under a single AWS account. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListAppInstancesAsync(
+        AwsChimeSdkIdentityListAppInstancesOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsChimeSdkIdentityListAppInstancesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -377,7 +377,7 @@ public class AwsChimeSdkIdentity : IAwsChimeSdkIdentity
     }
 
     /// <summary>
-    /// Registers an endpoint under an Amazon Chime AppInstanceUser . The end- point receives messages for a user. For push notifications, the end- point is a mobile device used to receive mobile push notifications for a user. See also: AWS API Documentation
+    /// Registers an endpoint under an Amazon Chime AppInstanceUser . The endpoint receives messages for a user. For push notifications, the endpoint is a mobile device used to receive mobile push notifications for a user. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Lists all tags associated with the specified transcription job, vocabu- lary, model, or resource. To learn more about using tags with Amazon Transcribe, refer to Tagging resources . See also: AWS API Documentation
+/// Lists all tags associated with the specified transcription job, vocabulary, model, or resource. To learn more about using tags with Amazon Transcribe, refer to Tagging resources . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsTranscribeListTagsForResourceOptions : AwsOptions, IValidatable
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Lists all tags associated with the specified transcription job, vocabu- lary, model, or resource. To learn more about using tags with Amazon Transcribe, refer to Tagging resources . See also: AWS API Documentation
+    /// Lists all tags associated with the specified transcription job, vocabulary, model, or resource. To learn more about using tags with Amazon Transcribe, refer to Tagging resources . See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">Returns a list of all tags associated with the specified Amazon Re- source Name (ARN). ARNs have the format arn:partition:service:re- gion:account-id:resource-type/resource-id . For example, arn:aws:transcribe:us-west-2:111122223333:transcrip- tion-job/transcription-job-name . Valid values for resource-type are: transcription-job , med- ical-transcription-job , vocabulary , medical-vocabulary , vocabu- lary-filter , and language-model . Constraints: o min: 1 o max: 1011 o pattern: arn:aws(-[^:]+)?:tran- scribe:[a-zA-Z0-9-]*:[0-9]{12}:[a-zA-Z-]*/[0-9a-zA-Z._-]+</param>
+    /// <param name="ResourceArn">Returns a list of all tags associated with the specified Amazon Resource Name (ARN). ARNs have the format arn:partition:service:region:account-id:resource-type/resource-id . For example, arn:aws:transcribe:us-west-2:111122223333:transcription-job/transcription-job-name . Valid values for resource-type are: transcription-job , medical-transcription-job , vocabulary , medical-vocabulary , vocabulary-filter , and language-model . Constraints: • min: 1 • max: 1011 • pattern: arn:aws(-[^:]+)?:transcribe:[a-zA-Z0-9-]*:[0-9]{12}:[a-zA-Z-]*/[0-9a-zA-Z._-]+</param>
     public AwsTranscribeListTagsForResourceOptions(
         string ResourceArn
     )
@@ -56,7 +57,7 @@ public record AwsTranscribeListTagsForResourceOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Returns a list of all tags associated with the specified Amazon Re- source Name (ARN). ARNs have the format arn:partition:service:re- gion:account-id:resource-type/resource-id . For example, arn:aws:transcribe:us-west-2:111122223333:transcrip- tion-job/transcription-job-name . Valid values for resource-type are: transcription-job , med- ical-transcription-job , vocabulary , medical-vocabulary , vocabu- lary-filter , and language-model . Constraints: o min: 1 o max: 1011 o pattern: arn:aws(-[^:]+)?:tran- scribe:[a-zA-Z0-9-]*:[0-9]{12}:[a-zA-Z-]*/[0-9a-zA-Z._-]+
+    /// Returns a list of all tags associated with the specified Amazon Resource Name (ARN). ARNs have the format arn:partition:service:region:account-id:resource-type/resource-id . For example, arn:aws:transcribe:us-west-2:111122223333:transcription-job/transcription-job-name . Valid values for resource-type are: transcription-job , medical-transcription-job , vocabulary , medical-vocabulary , vocabulary-filter , and language-model . Constraints: • min: 1 • max: 1011 • pattern: arn:aws(-[^:]+)?:transcribe:[a-zA-Z0-9-]*:[0-9]{12}:[a-zA-Z-]*/[0-9a-zA-Z._-]+
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
@@ -82,6 +83,15 @@ public record AwsTranscribeListTagsForResourceOptions : AwsOptions, IValidatable
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

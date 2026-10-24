@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +29,7 @@ public record AwsBackupGetBackupSelectionOptions : AwsOptions, IValidatableObjec
     /// Returns selection metadata and a document in JSON format that specifies a list of resources that are associated with a backup plan. See also: AWS API Documentation
     /// </summary>
     /// <param name="BackupPlanId">Uniquely identifies a backup plan.</param>
-    /// <param name="SelectionId">Uniquely identifies the body of a request to assign a set of re- sources to a backup plan.</param>
+    /// <param name="SelectionId">Uniquely identifies the body of a request to assign a set of resources to a backup plan.</param>
     public AwsBackupGetBackupSelectionOptions(
         string BackupPlanId,
         string SelectionId
@@ -66,7 +67,7 @@ public record AwsBackupGetBackupSelectionOptions : AwsOptions, IValidatableObjec
     public string? BackupPlanId { get; private init; }
 
     /// <summary>
-    /// Uniquely identifies the body of a request to assign a set of re- sources to a backup plan.
+    /// Uniquely identifies the body of a request to assign a set of resources to a backup plan.
     /// </summary>
     [CliOption("--selection-id")]
     public string? SelectionId { get; private init; }
@@ -92,6 +93,15 @@ public record AwsBackupGetBackupSelectionOptions : AwsOptions, IValidatableObjec
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

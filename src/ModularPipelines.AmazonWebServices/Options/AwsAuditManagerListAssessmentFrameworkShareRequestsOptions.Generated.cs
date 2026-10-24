@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -29,7 +30,7 @@ public record AwsAuditManagerListAssessmentFrameworkShareRequestsOptions : AwsOp
     /// <summary>
     /// Returns a list of sent or received share requests for custom frameworks in Audit Manager. See also: AWS API Documentation
     /// </summary>
-    /// <param name="RequestType">Specifies whether the share request is a sent request or a received request. Possible values: o SENT o RECEIVED</param>
+    /// <param name="RequestType">Specifies whether the share request is a sent request or a received request. Possible values: • SENT • RECEIVED</param>
     public AwsAuditManagerListAssessmentFrameworkShareRequestsOptions(
         AwsAuditManagerListAssessmentFrameworkShareRequestsRequestType RequestType
     )
@@ -57,20 +58,20 @@ public record AwsAuditManagerListAssessmentFrameworkShareRequestsOptions : AwsOp
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Specifies whether the share request is a sent request or a received request. Possible values: o SENT o RECEIVED
+    /// Specifies whether the share request is a sent request or a received request. Possible values: • SENT • RECEIVED
     /// </summary>
     [CliOption("--request-type")]
     public AwsAuditManagerListAssessmentFrameworkShareRequestsRequestType? RequestType { get; private init; }
 
     /// <summary>
-    /// The pagination token that's used to fetch the next set of results. Constraints: o min: 1 o max: 1000 o pattern: ^[A-Za-z0-9+\/=]*$
+    /// The pagination token that's used to fetch the next set of results. Constraints: • min: 1 • max: 1000 • pattern: ^[A-Za-z0-9+\/=]*$
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// Represents the maximum number of results on a page or for an API re- quest call. Constraints: o min: 1 o max: 1000
+    /// Represents the maximum number of results on a page or for an API request call. Constraints: • min: 1 • max: 1000
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
@@ -96,6 +97,15 @@ public record AwsAuditManagerListAssessmentFrameworkShareRequestsOptions : AwsOp
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

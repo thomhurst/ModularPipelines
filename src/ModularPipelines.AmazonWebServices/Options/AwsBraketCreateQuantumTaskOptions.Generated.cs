@@ -11,7 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -29,14 +29,14 @@ public record AwsBraketCreateQuantumTaskOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Creates a quantum task. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DeviceArn">The ARN of the device to run the quantum task on. Constraints: o min: 1 o max: 256</param>
-    /// <param name="Shots">The number of shots to use for the quantum task. Constraints: o min: 0</param>
-    /// <param name="OutputS3Bucket">The S3 bucket to store quantum task result files in. Constraints: o min: 3 o max: 63</param>
-    /// <param name="OutputS3KeyPrefix">The key prefix for the location in the S3 bucket to store quantum task results in. Constraints: o min: 1 o max: 1024</param>
+    /// <param name="DeviceArn">The ARN of the device to run the quantum task on. Constraints: • min: 1 • max: 256</param>
+    /// <param name="Shots">The number of shots to use for the quantum task. Constraints: • min: 0</param>
+    /// <param name="OutputS3Bucket">The S3 bucket to store quantum task result files in. Constraints: • min: 3 • max: 63</param>
+    /// <param name="OutputS3KeyPrefix">The key prefix for the location in the S3 bucket to store quantum task results in. Constraints: • min: 1 • max: 1024</param>
     /// <param name="Action">The action associated with the quantum task.</param>
     public AwsBraketCreateQuantumTaskOptions(
         string DeviceArn,
-        int Shots,
+        long Shots,
         string OutputS3Bucket,
         string OutputS3KeyPrefix,
         string Action
@@ -73,25 +73,25 @@ public record AwsBraketCreateQuantumTaskOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the device to run the quantum task on. Constraints: o min: 1 o max: 256
+    /// The ARN of the device to run the quantum task on. Constraints: • min: 1 • max: 256
     /// </summary>
     [CliOption("--device-arn")]
     public string? DeviceArn { get; private init; }
 
     /// <summary>
-    /// The number of shots to use for the quantum task. Constraints: o min: 0
+    /// The number of shots to use for the quantum task. Constraints: • min: 0
     /// </summary>
     [CliOption("--shots")]
-    public int? Shots { get; private init; }
+    public long? Shots { get; private init; }
 
     /// <summary>
-    /// The S3 bucket to store quantum task result files in. Constraints: o min: 3 o max: 63
+    /// The S3 bucket to store quantum task result files in. Constraints: • min: 3 • max: 63
     /// </summary>
     [CliOption("--output-s3-bucket")]
     public string? OutputS3Bucket { get; private init; }
 
     /// <summary>
-    /// The key prefix for the location in the S3 bucket to store quantum task results in. Constraints: o min: 1 o max: 1024
+    /// The key prefix for the location in the S3 bucket to store quantum task results in. Constraints: • min: 1 • max: 1024
     /// </summary>
     [CliOption("--output-s3-key-prefix")]
     public string? OutputS3KeyPrefix { get; private init; }
@@ -103,14 +103,14 @@ public record AwsBraketCreateQuantumTaskOptions : AwsOptions, IValidatableObject
     public string? Action { get; private init; }
 
     /// <summary>
-    /// The client token associated with the request. Constraints: o min: 1 o max: 64
+    /// The client token associated with the request. Constraints: • min: 1 • max: 64
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// The parameters for the device to run the quantum task on. Constraints: o min: 1 o max: 48000
+    /// The parameters for the device to run the quantum task on. Constraints: • min: 1 • max: 48000
     /// </summary>
     [CliOption("--device-parameters")]
     public string? DeviceParameters { get; set; }
@@ -122,20 +122,20 @@ public record AwsBraketCreateQuantumTaskOptions : AwsOptions, IValidatableObject
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>
-    /// The token for an Amazon Braket hybrid job that associates it with the quantum task. Constraints: o min: 1 o max: 128
+    /// The token for an Amazon Braket hybrid job that associates it with the quantum task. Constraints: • min: 1 • max: 128
     /// </summary>
     [SecretValue]
     [CliOption("--job-token")]
     public string? JobToken { get; set; }
 
     /// <summary>
-    /// The list of Amazon Braket resources associated with the quantum task. Constraints: o min: 0 o max: 1 (structure) The Amazon Braket resource and the association type. arn -&gt; (string) [required] The Amazon Braket resource arn. Constraints: o pattern: arn:aws[a-z\-]*:braket:[a-z0-9\-]*:[0-9]{12}:.* type -&gt; (string) [required] The association type for the specified Amazon Braket resource arn. Possible values: o RESERVATION_TIME_WINDOW_ARN Shorthand Syntax: arn=string,type=string ... JSON Syntax: [ { "arn": "string", "type": "RESERVATION_TIME_WINDOW_ARN" } ... ]
+    /// The list of Amazon Braket resources associated with the quantum task. Constraints: • min: 0 • max: 1 (structure) The Amazon Braket resource and the association type. arn -&gt; (string) [required] The Amazon Braket resource arn. Constraints: • pattern: arn:aws[a-z\-]*:braket:[a-z0-9\-]*:[0-9]{12}:.* type -&gt; (string) [required] The association type for the specified Amazon Braket resource arn. Possible values: • RESERVATION_TIME_WINDOW_ARN Shorthand Syntax: arn=string,type=string ... JSON Syntax: [ { "arn": "string", "type": "RESERVATION_TIME_WINDOW_ARN" } ... ]
     /// </summary>
     [CliOption("--associations", GroupValues = true)]
     public IEnumerable<string>? Associations { get; set; }
 
     /// <summary>
-    /// Enable experimental capabilities for the quantum task. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: enabled. enabled -&gt; (string) Enabled experimental capabilities. Possible values: o ALL o NONE Shorthand Syntax: enabled=string JSON Syntax: { "enabled": "ALL"|"NONE" }
+    /// Enable experimental capabilities for the quantum task. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: enabled. enabled -&gt; (string) Enabled experimental capabilities. Possible values: • ALL • NONE Shorthand Syntax: enabled=string JSON Syntax: { "enabled": "ALL"|"NONE" }
     /// </summary>
     [CliOption("--experimental-capabilities")]
     public string? ExperimentalCapabilities { get; set; }
@@ -161,6 +161,15 @@ public record AwsBraketCreateQuantumTaskOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

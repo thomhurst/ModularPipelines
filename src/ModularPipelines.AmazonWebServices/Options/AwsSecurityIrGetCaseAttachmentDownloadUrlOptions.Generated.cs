@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsSecurityIrGetCaseAttachmentDownloadUrlOptions : AwsOptions, IVa
     /// <summary>
     /// Returns a Pre-Signed URL for uploading attachments into a case. See also: AWS API Documentation
     /// </summary>
-    /// <param name="CaseId">Required element for GetCaseAttachmentDownloadUrl to identify the case ID for downloading an attachment from. Constraints: o min: 10 o max: 32 o pattern: \d{10,32}.*</param>
-    /// <param name="AttachmentId">Required element for GetCaseAttachmentDownloadUrl to identify the attachment ID for downloading an attachment. Constraints: o pattern: [0-9a-fA-F]{8}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{12}</param>
+    /// <param name="CaseId">Required element for GetCaseAttachmentDownloadUrl to identify the case ID for downloading an attachment from. Constraints: • min: 10 • max: 32 • pattern: \d{10,32}.*</param>
+    /// <param name="AttachmentId">Required element for GetCaseAttachmentDownloadUrl to identify the attachment ID for downloading an attachment. Constraints: • pattern: [0-9a-fA-F]{8}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{12}</param>
     public AwsSecurityIrGetCaseAttachmentDownloadUrlOptions(
         string CaseId,
         string AttachmentId
@@ -60,13 +61,13 @@ public record AwsSecurityIrGetCaseAttachmentDownloadUrlOptions : AwsOptions, IVa
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Required element for GetCaseAttachmentDownloadUrl to identify the case ID for downloading an attachment from. Constraints: o min: 10 o max: 32 o pattern: \d{10,32}.*
+    /// Required element for GetCaseAttachmentDownloadUrl to identify the case ID for downloading an attachment from. Constraints: • min: 10 • max: 32 • pattern: \d{10,32}.*
     /// </summary>
     [CliOption("--case-id")]
     public string? CaseId { get; private init; }
 
     /// <summary>
-    /// Required element for GetCaseAttachmentDownloadUrl to identify the attachment ID for downloading an attachment. Constraints: o pattern: [0-9a-fA-F]{8}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{12}
+    /// Required element for GetCaseAttachmentDownloadUrl to identify the attachment ID for downloading an attachment. Constraints: • pattern: [0-9a-fA-F]{8}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{12}
     /// </summary>
     [CliOption("--attachment-id")]
     public string? AttachmentId { get; private init; }
@@ -92,6 +93,15 @@ public record AwsSecurityIrGetCaseAttachmentDownloadUrlOptions : AwsOptions, IVa
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves a list of the loadIds for all active loader jobs. When invoking this operation in a Neptune cluster that has IAM authen- tication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:ListLoaderJobs IAM action in that cluster.. See also: AWS API Documentation
+/// Retrieves a list of the loadIds for all active loader jobs. When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:ListLoaderJobs IAM action in that cluster.. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -22,7 +22,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsNeptunedataListLoaderJobsOptions : AwsOptions
 {
     /// <summary>
-    /// The number of load IDs to list. Must be a positive integer greater than zero and not more than 100 (which is the default). Constraints: o min: 1 o max: 100
+    /// The number of load IDs to list. Must be a positive integer greater than zero and not more than 100 (which is the default). Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--limit")]
     public int? Limit { get; set; }
@@ -38,5 +38,14 @@ public record AwsNeptunedataListLoaderJobsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

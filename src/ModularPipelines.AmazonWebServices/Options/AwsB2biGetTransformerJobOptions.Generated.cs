@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsB2biGetTransformerJobOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Returns the details of the transformer run, based on the Transformer job ID. NOTE: If 30 days have elapsed since your transformer job was started, the system deletes it. So, if you run GetTransformerJob and supply a transformerId and transformerJobId for a job that was started more than 30 days previously, you receive a 404 response. See also: AWS API Documentation
     /// </summary>
-    /// <param name="TransformerJobId">Specifies the unique, system-generated identifier for a transformer run. Constraints: o min: 25 o max: 25 o pattern: [a-zA-Z0-9_-]+</param>
-    /// <param name="TransformerId">Specifies the system-assigned unique identifier for the transformer. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_-]+</param>
+    /// <param name="TransformerJobId">Specifies the unique, system-generated identifier for a transformer run. Constraints: • min: 25 • max: 25 • pattern: [a-zA-Z0-9_-]+</param>
+    /// <param name="TransformerId">Specifies the system-assigned unique identifier for the transformer. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9_-]+</param>
     public AwsB2biGetTransformerJobOptions(
         string TransformerJobId,
         string TransformerId
@@ -60,13 +61,13 @@ public record AwsB2biGetTransformerJobOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Specifies the unique, system-generated identifier for a transformer run. Constraints: o min: 25 o max: 25 o pattern: [a-zA-Z0-9_-]+
+    /// Specifies the unique, system-generated identifier for a transformer run. Constraints: • min: 25 • max: 25 • pattern: [a-zA-Z0-9_-]+
     /// </summary>
     [CliOption("--transformer-job-id")]
     public string? TransformerJobId { get; private init; }
 
     /// <summary>
-    /// Specifies the system-assigned unique identifier for the transformer. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_-]+
+    /// Specifies the system-assigned unique identifier for the transformer. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9_-]+
     /// </summary>
     [CliOption("--transformer-id")]
     public string? TransformerId { get; private init; }
@@ -92,6 +93,15 @@ public record AwsB2biGetTransformerJobOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Starts a configuration session used to retrieve a deployed configura- tion. For more information about this API action and to view example CLI commands that show how to use it with the GetLatestConfiguration API action, see Retrieving the configuration in the AppConfig User Guide . See also: AWS API Documentation
+/// Starts a configuration session used to retrieve a deployed configuration. For more information about this API action and to view example CLI commands that show how to use it with the GetLatestConfiguration API action, see Retrieving the configuration in the AppConfig User Guide . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,11 +26,11 @@ public record AwsAppconfigdataStartConfigurationSessionOptions : AwsOptions, IVa
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Starts a configuration session used to retrieve a deployed configura- tion. For more information about this API action and to view example CLI commands that show how to use it with the GetLatestConfiguration API action, see Retrieving the configuration in the AppConfig User Guide . See also: AWS API Documentation
+    /// Starts a configuration session used to retrieve a deployed configuration. For more information about this API action and to view example CLI commands that show how to use it with the GetLatestConfiguration API action, see Retrieving the configuration in the AppConfig User Guide . See also: AWS API Documentation
     /// </summary>
-    /// <param name="ApplicationIdentifier">The application ID or the application name. Constraints: o min: 1 o max: 128</param>
-    /// <param name="EnvironmentIdentifier">The environment ID or the environment name. Constraints: o min: 1 o max: 128</param>
-    /// <param name="ConfigurationProfileIdentifier">The configuration profile ID or the configuration profile name. Constraints: o min: 1 o max: 128</param>
+    /// <param name="ApplicationIdentifier">The application ID or the application name. Constraints: • min: 1 • max: 128</param>
+    /// <param name="EnvironmentIdentifier">The environment ID or the environment name. Constraints: • min: 1 • max: 128</param>
+    /// <param name="ConfigurationProfileIdentifier">The configuration profile ID or the configuration profile name. Constraints: • min: 1 • max: 128</param>
     public AwsAppconfigdataStartConfigurationSessionOptions(
         string ApplicationIdentifier,
         string EnvironmentIdentifier,
@@ -64,25 +65,25 @@ public record AwsAppconfigdataStartConfigurationSessionOptions : AwsOptions, IVa
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The application ID or the application name. Constraints: o min: 1 o max: 128
+    /// The application ID or the application name. Constraints: • min: 1 • max: 128
     /// </summary>
     [CliOption("--application-identifier")]
     public string? ApplicationIdentifier { get; private init; }
 
     /// <summary>
-    /// The environment ID or the environment name. Constraints: o min: 1 o max: 128
+    /// The environment ID or the environment name. Constraints: • min: 1 • max: 128
     /// </summary>
     [CliOption("--environment-identifier")]
     public string? EnvironmentIdentifier { get; private init; }
 
     /// <summary>
-    /// The configuration profile ID or the configuration profile name. Constraints: o min: 1 o max: 128
+    /// The configuration profile ID or the configuration profile name. Constraints: • min: 1 • max: 128
     /// </summary>
     [CliOption("--configuration-profile-identifier")]
     public string? ConfigurationProfileIdentifier { get; private init; }
 
     /// <summary>
-    /// Sets a constraint on a session. If you specify a value of, for exam- ple, 60 seconds, then the client that established the session can't call GetLatestConfiguration more frequently than every 60 seconds. Constraints: o min: 15 o max: 86400
+    /// Sets a constraint on a session. If you specify a value of, for example, 60 seconds, then the client that established the session can't call GetLatestConfiguration more frequently than every 60 seconds. Constraints: • min: 15 • max: 86400
     /// </summary>
     [CliOption("--required-minimum-poll-interval-in-seconds")]
     public int? RequiredMinimumPollIntervalInSeconds { get; set; }
@@ -108,6 +109,15 @@ public record AwsAppconfigdataStartConfigurationSessionOptions : AwsOptions, IVa
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

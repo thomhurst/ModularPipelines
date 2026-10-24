@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes an Amazon Lightsail instance. The delete instance operation supports tag-based access control via re- source tags applied to the resource identified by instance name . For more information, see the Amazon Lightsail Developer Guide . See also: AWS API Documentation
+/// Deletes an Amazon Lightsail instance. The delete instance operation supports tag-based access control via resource tags applied to the resource identified by instance name . For more information, see the Amazon Lightsail Developer Guide . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsLightsailDeleteInstanceOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes an Amazon Lightsail instance. The delete instance operation supports tag-based access control via re- source tags applied to the resource identified by instance name . For more information, see the Amazon Lightsail Developer Guide . See also: AWS API Documentation
+    /// Deletes an Amazon Lightsail instance. The delete instance operation supports tag-based access control via resource tags applied to the resource identified by instance name . For more information, see the Amazon Lightsail Developer Guide . See also: AWS API Documentation
     /// </summary>
-    /// <param name="InstanceName">The name of the instance to delete. Constraints: o pattern: \w[\w\-]*\w</param>
+    /// <param name="InstanceName">The name of the instance to delete. Constraints: • pattern: \w[\w\-]*\w</param>
     public AwsLightsailDeleteInstanceOptions(
         string InstanceName
     )
@@ -56,7 +57,7 @@ public record AwsLightsailDeleteInstanceOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the instance to delete. Constraints: o pattern: \w[\w\-]*\w
+    /// The name of the instance to delete. Constraints: • pattern: \w[\w\-]*\w
     /// </summary>
     [CliOption("--instance-name")]
     public string? InstanceName { get; private init; }
@@ -88,6 +89,15 @@ public record AwsLightsailDeleteInstanceOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

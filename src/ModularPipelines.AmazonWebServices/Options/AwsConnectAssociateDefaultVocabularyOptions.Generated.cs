@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Associates an existing vocabulary as the default. Contact Lens for Con- nect Customer uses the vocabulary in post-call and real-time analysis sessions for the given language. See also: AWS API Documentation
+/// Associates an existing vocabulary as the default. Contact Lens for Connect Customer uses the vocabulary in post-call and real-time analysis sessions for the given language. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsConnectAssociateDefaultVocabularyOptions : AwsOptions, IValidat
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Associates an existing vocabulary as the default. Contact Lens for Con- nect Customer uses the vocabulary in post-call and real-time analysis sessions for the given language. See also: AWS API Documentation
+    /// Associates an existing vocabulary as the default. Contact Lens for Connect Customer uses the vocabulary in post-call and real-time analysis sessions for the given language. See also: AWS API Documentation
     /// </summary>
-    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100</param>
-    /// <param name="LanguageCode">The language code of the vocabulary entries. For a list of languages and their corresponding language codes, see What is Amazon Tran- scribe? Possible values: o ar-AE o de-CH o de-DE o en-AB o en-AU o en-GB o en-IE o en-IN o en-US o en-WL o es-ES o es-US o fr-CA o fr-FR o hi-IN o it-IT o ja-JP o ko-KR o pt-BR o pt-PT o zh-CN o en-NZ o en-ZA o ca-ES o da-DK o fi-FI o id-ID o ms-MY o nl-NL o no-NO o pl-PL o sv-SE o tl-PH</param>
+    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: • min: 1 • max: 100</param>
+    /// <param name="LanguageCode">The language code of the vocabulary entries. For a list of languages and their corresponding language codes, see What is Amazon Transcribe? Possible values: • ar-AE • de-CH • de-DE • en-AB • en-AU • en-GB • en-IE • en-IN • en-US • en-WL • es-ES • es-US • fr-CA • fr-FR • hi-IN • it-IT • ja-JP • ko-KR • pt-BR • pt-PT • zh-CN • en-NZ • en-ZA • ca-ES • da-DK • fi-FI • id-ID • ms-MY • nl-NL • no-NO • pl-PL • sv-SE • tl-PH</param>
     public AwsConnectAssociateDefaultVocabularyOptions(
         string InstanceId,
         string LanguageCode
@@ -60,19 +61,19 @@ public record AwsConnectAssociateDefaultVocabularyOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100
+    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--instance-id")]
     public string? InstanceId { get; private init; }
 
     /// <summary>
-    /// The language code of the vocabulary entries. For a list of languages and their corresponding language codes, see What is Amazon Tran- scribe? Possible values: o ar-AE o de-CH o de-DE o en-AB o en-AU o en-GB o en-IE o en-IN o en-US o en-WL o es-ES o es-US o fr-CA o fr-FR o hi-IN o it-IT o ja-JP o ko-KR o pt-BR o pt-PT o zh-CN o en-NZ o en-ZA o ca-ES o da-DK o fi-FI o id-ID o ms-MY o nl-NL o no-NO o pl-PL o sv-SE o tl-PH
+    /// The language code of the vocabulary entries. For a list of languages and their corresponding language codes, see What is Amazon Transcribe? Possible values: • ar-AE • de-CH • de-DE • en-AB • en-AU • en-GB • en-IE • en-IN • en-US • en-WL • es-ES • es-US • fr-CA • fr-FR • hi-IN • it-IT • ja-JP • ko-KR • pt-BR • pt-PT • zh-CN • en-NZ • en-ZA • ca-ES • da-DK • fi-FI • id-ID • ms-MY • nl-NL • no-NO • pl-PL • sv-SE • tl-PH
     /// </summary>
     [CliOption("--language-code")]
     public string? LanguageCode { get; private init; }
 
     /// <summary>
-    /// The identifier of the custom vocabulary. If this is empty, the de- fault is set to none. Constraints: o min: 1 o max: 500
+    /// The identifier of the custom vocabulary. If this is empty, the default is set to none. Constraints: • min: 1 • max: 500
     /// </summary>
     [CliOption("--vocabulary-id")]
     public string? VocabularyId { get; set; }
@@ -98,6 +99,15 @@ public record AwsConnectAssociateDefaultVocabularyOptions : AwsOptions, IValidat
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

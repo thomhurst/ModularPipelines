@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes a layout from a cases template. You can delete up to 100 lay- outs per domain. After a layout is deleted: o You can still retrieve the layout by calling GetLayout . o You cannot update a deleted layout by calling UpdateLayout ; it throws a ValidationException . o Deleted layouts are not included in the ListLayouts response. See also: AWS API Documentation
+/// Deletes a layout from a cases template. You can delete up to 100 layouts per domain. After a layout is deleted: • You can still retrieve the layout by calling GetLayout . • You cannot update a deleted layout by calling UpdateLayout ; it throws a ValidationException . • Deleted layouts are not included in the ListLayouts response. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsConnectcasesDeleteLayoutOptions : AwsOptions, IValidatableObjec
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes a layout from a cases template. You can delete up to 100 lay- outs per domain. After a layout is deleted: o You can still retrieve the layout by calling GetLayout . o You cannot update a deleted layout by calling UpdateLayout ; it throws a ValidationException . o Deleted layouts are not included in the ListLayouts response. See also: AWS API Documentation
+    /// Deletes a layout from a cases template. You can delete up to 100 layouts per domain. After a layout is deleted: • You can still retrieve the layout by calling GetLayout . • You cannot update a deleted layout by calling UpdateLayout ; it throws a ValidationException . • Deleted layouts are not included in the ListLayouts response. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DomainId">The unique identifier of the Cases domain. Constraints: o min: 1 o max: 500</param>
-    /// <param name="LayoutId">The unique identifier of the layout. Constraints: o min: 1 o max: 500</param>
+    /// <param name="DomainId">The unique identifier of the Cases domain. Constraints: • min: 1 • max: 500</param>
+    /// <param name="LayoutId">The unique identifier of the layout. Constraints: • min: 1 • max: 500</param>
     public AwsConnectcasesDeleteLayoutOptions(
         string DomainId,
         string LayoutId
@@ -60,13 +61,13 @@ public record AwsConnectcasesDeleteLayoutOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the Cases domain. Constraints: o min: 1 o max: 500
+    /// The unique identifier of the Cases domain. Constraints: • min: 1 • max: 500
     /// </summary>
     [CliOption("--domain-id")]
     public string? DomainId { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the layout. Constraints: o min: 1 o max: 500
+    /// The unique identifier of the layout. Constraints: • min: 1 • max: 500
     /// </summary>
     [CliOption("--layout-id")]
     public string? LayoutId { get; private init; }
@@ -92,6 +93,15 @@ public record AwsConnectcasesDeleteLayoutOptions : AwsOptions, IValidatableObjec
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

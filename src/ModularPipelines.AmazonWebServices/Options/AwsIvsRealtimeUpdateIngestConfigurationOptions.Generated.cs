@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsIvsRealtimeUpdateIngestConfigurationOptions : AwsOptions, IVali
     /// <summary>
     /// Updates a specified IngestConfiguration. Only the stage ARN attached to the IngestConfiguration can be updated. An IngestConfiguration that is active cannot be updated. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Arn">ARN of the IngestConfiguration, for which the related stage ARN needs to be updated. Constraints: o min: 1 o max: 128 o pattern: arn:aws:ivs:[a-z0-9-]+:[0-9]+:ingest-configura- tion/[a-zA-Z0-9-]+</param>
+    /// <param name="Arn">ARN of the IngestConfiguration, for which the related stage ARN needs to be updated. Constraints: • min: 1 • max: 128 • pattern: arn:aws:ivs:[a-z0-9-]+:[0-9]+:ingest-configuration/[a-zA-Z0-9-]+</param>
     public AwsIvsRealtimeUpdateIngestConfigurationOptions(
         string Arn
     )
@@ -56,19 +57,19 @@ public record AwsIvsRealtimeUpdateIngestConfigurationOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// ARN of the IngestConfiguration, for which the related stage ARN needs to be updated. Constraints: o min: 1 o max: 128 o pattern: arn:aws:ivs:[a-z0-9-]+:[0-9]+:ingest-configura- tion/[a-zA-Z0-9-]+
+    /// ARN of the IngestConfiguration, for which the related stage ARN needs to be updated. Constraints: • min: 1 • max: 128 • pattern: arn:aws:ivs:[a-z0-9-]+:[0-9]+:ingest-configuration/[a-zA-Z0-9-]+
     /// </summary>
     [CliOption("--arn")]
     public string? Arn { get; private init; }
 
     /// <summary>
-    /// Stage ARN that needs to be updated. Constraints: o min: 0 o max: 128 o pattern: ^$|^arn:aws:ivs:[a-z0-9-]+:[0-9]+:stage/[a-zA-Z0-9-]+$
+    /// Stage ARN that needs to be updated. Constraints: • min: 0 • max: 128 • pattern: ^$|^arn:aws:ivs:[a-z0-9-]+:[0-9]+:stage/[a-zA-Z0-9-]+$
     /// </summary>
     [CliOption("--stage-arn")]
     public string? StageArn { get; set; }
 
     /// <summary>
-    /// Indicates whether redundant ingest is enabled for the ingest config- uration. Default: false .
+    /// Indicates whether redundant ingest is enabled for the ingest configuration. Default: false .
     /// </summary>
     [CliFlag("--redundant-ingest", NegatedName = "--no-redundant-ingest")]
     public bool? RedundantIngest { get; set; }
@@ -94,6 +95,15 @@ public record AwsIvsRealtimeUpdateIngestConfigurationOptions : AwsOptions, IVali
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

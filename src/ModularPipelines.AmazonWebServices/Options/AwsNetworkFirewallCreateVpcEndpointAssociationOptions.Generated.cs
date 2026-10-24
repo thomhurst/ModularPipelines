@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,9 +28,9 @@ public record AwsNetworkFirewallCreateVpcEndpointAssociationOptions : AwsOptions
     /// <summary>
     /// Creates a firewall endpoint for an Network Firewall firewall. This type of firewall endpoint is independent of the firewall endpoints that you specify in the Firewall itself, and you define it in addition to those endpoints after the firewall has been created. You can define a VPC endpoint association using a different VPC than the one you used in the firewall specifications. See also: AWS API Documentation
     /// </summary>
-    /// <param name="FirewallArn">The Amazon Resource Name (ARN) of the firewall. Constraints: o min: 1 o max: 256 o pattern: ^arn:aws.*</param>
-    /// <param name="VpcId">The unique identifier of the VPC where you want to create a firewall endpoint. Constraints: o min: 1 o max: 128 o pattern: ^vpc-[0-9a-f]+$</param>
-    /// <param name="SubnetMapping">The ID for a subnet that's used in an association with a firewall. This is used in CreateFirewall , AssociateSubnets , and CreateVp- cEndpointAssociation . Network Firewall creates an instance of the associated firewall in each subnet that you specify, to filter traf- fic in the subnet's Availability Zone. SubnetId -&gt; (string) [required] The unique identifier for the subnet. IPAddressType -&gt; (string) The subnet's IP address type. You can't change the IP address type after you create the subnet. Possible values: o DUALSTACK o IPV4 o IPV6 Shorthand Syntax: SubnetId=string,IPAddressType=string JSON Syntax: { "SubnetId": "string", "IPAddressType": "DUALSTACK"|"IPV4"|"IPV6" }</param>
+    /// <param name="FirewallArn">The Amazon Resource Name (ARN) of the firewall. Constraints: • min: 1 • max: 256 • pattern: ^arn:aws.*</param>
+    /// <param name="VpcId">The unique identifier of the VPC where you want to create a firewall endpoint. Constraints: • min: 1 • max: 128 • pattern: ^vpc-[0-9a-f]+$</param>
+    /// <param name="SubnetMapping">The ID for a subnet that's used in an association with a firewall. This is used in CreateFirewall , AssociateSubnets , and CreateVpcEndpointAssociation . Network Firewall creates an instance of the associated firewall in each subnet that you specify, to filter traffic in the subnet's Availability Zone. SubnetId -&gt; (string) [required] The unique identifier for the subnet. IPAddressType -&gt; (string) The subnet's IP address type. You can't change the IP address type after you create the subnet. Possible values: • DUALSTACK • IPV4 • IPV6 Shorthand Syntax: SubnetId=string,IPAddressType=string JSON Syntax: { "SubnetId": "string", "IPAddressType": "DUALSTACK"|"IPV4"|"IPV6" }</param>
     public AwsNetworkFirewallCreateVpcEndpointAssociationOptions(
         string FirewallArn,
         string VpcId,
@@ -64,31 +65,31 @@ public record AwsNetworkFirewallCreateVpcEndpointAssociationOptions : AwsOptions
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the firewall. Constraints: o min: 1 o max: 256 o pattern: ^arn:aws.*
+    /// The Amazon Resource Name (ARN) of the firewall. Constraints: • min: 1 • max: 256 • pattern: ^arn:aws.*
     /// </summary>
     [CliOption("--firewall-arn")]
     public string? FirewallArn { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the VPC where you want to create a firewall endpoint. Constraints: o min: 1 o max: 128 o pattern: ^vpc-[0-9a-f]+$
+    /// The unique identifier of the VPC where you want to create a firewall endpoint. Constraints: • min: 1 • max: 128 • pattern: ^vpc-[0-9a-f]+$
     /// </summary>
     [CliOption("--vpc-id")]
     public string? VpcId { get; private init; }
 
     /// <summary>
-    /// The ID for a subnet that's used in an association with a firewall. This is used in CreateFirewall , AssociateSubnets , and CreateVp- cEndpointAssociation . Network Firewall creates an instance of the associated firewall in each subnet that you specify, to filter traf- fic in the subnet's Availability Zone. SubnetId -&gt; (string) [required] The unique identifier for the subnet. IPAddressType -&gt; (string) The subnet's IP address type. You can't change the IP address type after you create the subnet. Possible values: o DUALSTACK o IPV4 o IPV6 Shorthand Syntax: SubnetId=string,IPAddressType=string JSON Syntax: { "SubnetId": "string", "IPAddressType": "DUALSTACK"|"IPV4"|"IPV6" }
+    /// The ID for a subnet that's used in an association with a firewall. This is used in CreateFirewall , AssociateSubnets , and CreateVpcEndpointAssociation . Network Firewall creates an instance of the associated firewall in each subnet that you specify, to filter traffic in the subnet's Availability Zone. SubnetId -&gt; (string) [required] The unique identifier for the subnet. IPAddressType -&gt; (string) The subnet's IP address type. You can't change the IP address type after you create the subnet. Possible values: • DUALSTACK • IPV4 • IPV6 Shorthand Syntax: SubnetId=string,IPAddressType=string JSON Syntax: { "SubnetId": "string", "IPAddressType": "DUALSTACK"|"IPV4"|"IPV6" }
     /// </summary>
     [CliOption("--subnet-mapping")]
     public string? SubnetMapping { get; private init; }
 
     /// <summary>
-    /// A description of the VPC endpoint association. Constraints: o max: 512 o pattern: ^.*$
+    /// A description of the VPC endpoint association. Constraints: • max: 512 • pattern: ^.*$
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The key:value pairs to associate with the resource. Constraints: o min: 1 o max: 200 (structure) A key:value pair associated with an Amazon Web Services re- source. The key:value pair can be anything you define. Typi- cally, the tag key represents a category (such as "environment") and the tag value represents a specific value within that cate- gory (such as "test," "development," or "production"). You can add up to 50 tags to each Amazon Web Services resource. Key -&gt; (string) [required] The part of the key:value pair that defines a tag. You can use a tag key to describe a category of information, such as "customer." Tag keys are case-sensitive. Constraints: o min: 1 o max: 128 o pattern: ^.*$ Value -&gt; (string) [required] The part of the key:value pair that defines a tag. You can use a tag value to describe a specific value within a cate- gory, such as "companyA" or "companyB." Tag values are case-sensitive. Constraints: o min: 0 o max: 256 o pattern: ^.*$ Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// The key:value pairs to associate with the resource. Constraints: • min: 1 • max: 200 (structure) A key:value pair associated with an Amazon Web Services resource. The key:value pair can be anything you define. Typically, the tag key represents a category (such as "environment") and the tag value represents a specific value within that category (such as "test," "development," or "production"). You can add up to 50 tags to each Amazon Web Services resource. Key -&gt; (string) [required] The part of the key:value pair that defines a tag. You can use a tag key to describe a category of information, such as "customer." Tag keys are case-sensitive. Constraints: • min: 1 • max: 128 • pattern: ^.*$ Value -&gt; (string) [required] The part of the key:value pair that defines a tag. You can use a tag value to describe a specific value within a category, such as "companyA" or "companyB." Tag values are case-sensitive. Constraints: • min: 0 • max: 256 • pattern: ^.*$ Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
@@ -114,6 +115,15 @@ public record AwsNetworkFirewallCreateVpcEndpointAssociationOptions : AwsOptions
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

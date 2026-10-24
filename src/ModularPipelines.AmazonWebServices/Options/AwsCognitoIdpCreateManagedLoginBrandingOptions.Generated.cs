@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a new set of branding settings for a user pool style and asso- ciates it with an app client. This operation is the programmatic option for the creation of a new style in the branding editor. Provides values for UI customization in a Settings JSON object and im- age files in an Assets array. To send the JSON object Document type pa- rameter in Settings , you might need to update to the most recent ver- sion of your Amazon Web Services SDK. To create a new style with de- fault settings, se...
+/// Creates a new set of branding settings for a user pool style and associates it with an app client. This operation is the programmatic option for the creation of a new style in the branding editor. Provides values for UI customization in a Settings JSON object and image files in an Assets array. To send the JSON object Document type parameter in Settings , you might need to update to the most recent version of your Amazon Web Services SDK. To create a new style with default settings, set UseCogni...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsCognitoIdpCreateManagedLoginBrandingOptions : AwsOptions, IVali
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a new set of branding settings for a user pool style and asso- ciates it with an app client. This operation is the programmatic option for the creation of a new style in the branding editor. Provides values for UI customization in a Settings JSON object and im- age files in an Assets array. To send the JSON object Document type pa- rameter in Settings , you might need to update to the most recent ver- sion of your Amazon Web Services SDK. To create a new style with de- fault settings, se...
+    /// Creates a new set of branding settings for a user pool style and associates it with an app client. This operation is the programmatic option for the creation of a new style in the branding editor. Provides values for UI customization in a Settings JSON object and image files in an Assets array. To send the JSON object Document type parameter in Settings , you might need to update to the most recent version of your Amazon Web Services SDK. To create a new style with default settings, set UseCogni...
     /// </summary>
-    /// <param name="UserPoolId">The ID of the user pool where you want to create a new branding style. Constraints: o min: 1 o max: 55 o pattern: [\w-]+_[0-9a-zA-Z]+</param>
-    /// <param name="ClientId">The app client that you want to create the branding style for. Each style is linked to an app client until you delete it. Constraints: o min: 1 o max: 128 o pattern: [\w+]+</param>
+    /// <param name="UserPoolId">The ID of the user pool where you want to create a new branding style. Constraints: • min: 1 • max: 55 • pattern: [\w-]+_[0-9a-zA-Z]+</param>
+    /// <param name="ClientId">The app client that you want to create the branding style for. Each style is linked to an app client until you delete it. Constraints: • min: 1 • max: 128 • pattern: [\w+]+</param>
     public AwsCognitoIdpCreateManagedLoginBrandingOptions(
         string UserPoolId,
         string ClientId
@@ -60,13 +61,13 @@ public record AwsCognitoIdpCreateManagedLoginBrandingOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the user pool where you want to create a new branding style. Constraints: o min: 1 o max: 55 o pattern: [\w-]+_[0-9a-zA-Z]+
+    /// The ID of the user pool where you want to create a new branding style. Constraints: • min: 1 • max: 55 • pattern: [\w-]+_[0-9a-zA-Z]+
     /// </summary>
     [CliOption("--user-pool-id")]
     public string? UserPoolId { get; private init; }
 
     /// <summary>
-    /// The app client that you want to create the branding style for. Each style is linked to an app client until you delete it. Constraints: o min: 1 o max: 128 o pattern: [\w+]+
+    /// The app client that you want to create the branding style for. Each style is linked to an app client until you delete it. Constraints: • min: 1 • max: 128 • pattern: [\w+]+
     /// </summary>
     [CliOption("--client-id")]
     public string? ClientId { get; private init; }
@@ -78,13 +79,13 @@ public record AwsCognitoIdpCreateManagedLoginBrandingOptions : AwsOptions, IVali
     public bool? UseCognitoProvidedValues { get; set; }
 
     /// <summary>
-    /// A JSON file, encoded as a Document type, with the the settings that you want to apply to your style. The following components are not currently implemented and reserved for future use: o signUp o instructions o sessionTimerDisplay o languageSelector (for localization, see Managed login localiza- tion) JSON Syntax: {...}
+    /// A JSON file, encoded as a Document type, with the the settings that you want to apply to your style. The following components are not currently implemented and reserved for future use: • signUp • instructions • sessionTimerDisplay • languageSelector (for localization, see Managed login localization) JSON Syntax: {...}
     /// </summary>
     [CliOption("--settings")]
     public string? Settings { get; set; }
 
     /// <summary>
-    /// An array of image files that you want to apply to functions like backgrounds, logos, and icons. Each object must also indicate whether it is for dark mode, light mode, or browser-adaptive mode. Constraints: o min: 0 o max: 40 (structure) An image file from a managed login branding style in a user pool. Category -&gt; (string) [required] The category that the image corresponds to in your managed login configuration. Managed login has asset categories for different types of logos, backgrounds, and icons. Possible values: o FAVICON_ICO o FAVICON_SVG o EMAIL_GRAPHIC o SMS_GRAPHIC o AUTH_APP_GRAPHIC o PASSWORD_GRAPHIC o PASSKEY_GRAPHIC o PAGE_HEADER_LOGO o PAGE_HEADER_BACKGROUND o PAGE_FOOTER_LOGO o PAGE_FOOTER_BACKGROUND o PAGE_BACKGROUND o FORM_BACKGROUND o FORM_LOGO o IDP_BUTTON_ICON ColorMode -&gt; (string) [required] The display-mode target of the asset: light, dark, or browser-adaptive. For example, Amazon Cognito displays a dark-mode image only when the browser or application is in dark mode, but displays a browser-adaptive file in all con- texts. Possible values: o LIGHT o DARK o DYNAMIC Extension -&gt; (string) [required] The file type of the image file. Possible values: o ICO o JPEG o PNG o SVG o WEBP Bytes -&gt; (blob) The image file, in Base64-encoded binary. Constraints: o max: 1000000 ResourceId -&gt; (string) The ID of the asset. Constraints: o min: 1 o max: 40 o pattern: ^[\w\- ]+$ Shorthand Syntax: Category=string,ColorMode=string,Extension=string,Bytes=blob,ResourceId=string ... JSON Syntax: [ { "Category": "FAVICON_ICO"|"FAVICON_SVG"|"EMAIL_GRAPHIC"|"SMS_GRAPHIC"|"AUTH_APP_GRAPHIC"|"PASSWORD_GRAPHIC"|"PASSKEY_GRAPHIC"|"PAGE_HEADER_LOGO"|"PAGE_HEADER_BACKGROUND"|"PAGE_FOOTER_LOGO"|"PAGE_FOOTER_BACKGROUND"|"PAGE_BACKGROUND"|"FORM_BACKGROUND"|"FORM_LOGO"|"IDP_BUTTON_ICON", "ColorMode": "LIGHT"|"DARK"|"DYNAMIC", "Extension": "ICO"|"JPEG"|"PNG"|"SVG"|"WEBP", "Bytes": blob, "ResourceId": "string" } ... ]
+    /// An array of image files that you want to apply to functions like backgrounds, logos, and icons. Each object must also indicate whether it is for dark mode, light mode, or browser-adaptive mode. Constraints: • min: 0 • max: 40 (structure) An image file from a managed login branding style in a user pool. Category -&gt; (string) [required] The category that the image corresponds to in your managed login configuration. Managed login has asset categories for different types of logos, backgrounds, and icons. Possible values: • FAVICON_ICO • FAVICON_SVG • EMAIL_GRAPHIC • SMS_GRAPHIC • AUTH_APP_GRAPHIC • PASSWORD_GRAPHIC • PASSKEY_GRAPHIC • PAGE_HEADER_LOGO • PAGE_HEADER_BACKGROUND • PAGE_FOOTER_LOGO • PAGE_FOOTER_BACKGROUND • PAGE_BACKGROUND • FORM_BACKGROUND • FORM_LOGO • IDP_BUTTON_ICON ColorMode -&gt; (string) [required] The display-mode target of the asset: light, dark, or browser-adaptive. For example, Amazon Cognito displays a dark-mode image only when the browser or application is in dark mode, but displays a browser-adaptive file in all contexts. Possible values: • LIGHT • DARK • DYNAMIC Extension -&gt; (string) [required] The file type of the image file. Possible values: • ICO • JPEG • PNG • SVG • WEBP Bytes -&gt; (blob) The image file, in Base64-encoded binary. Constraints: • max: 1000000 ResourceId -&gt; (string) The ID of the asset. Constraints: • min: 1 • max: 40 • pattern: ^[\w\- ]+$ Shorthand Syntax: Category=string,ColorMode=string,Extension=string,Bytes=blob,ResourceId=string ... JSON Syntax: [ { "Category": "FAVICON_ICO"|"FAVICON_SVG"|"EMAIL_GRAPHIC"|"SMS_GRAPHIC"|"AUTH_APP_GRAPHIC"|"PASSWORD_GRAPHIC"|"PASSKEY_GRAPHIC"|"PAGE_HEADER_LOGO"|"PAGE_HEADER_BACKGROUND"|"PAGE_FOOTER_LOGO"|"PAGE_FOOTER_BACKGROUND"|"PAGE_BACKGROUND"|"FORM_BACKGROUND"|"FORM_LOGO"|"IDP_BUTTON_ICON", "ColorMode": "LIGHT"|"DARK"|"DYNAMIC", "Extension": "ICO"|"JPEG"|"PNG"|"SVG"|"WEBP", "Bytes": blob, "ResourceId": "string" } ... ]
     /// </summary>
     [CliOption("--assets", GroupValues = true)]
     public IEnumerable<string>? Assets { get; set; }
@@ -110,6 +111,15 @@ public record AwsCognitoIdpCreateManagedLoginBrandingOptions : AwsOptions, IVali
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

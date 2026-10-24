@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsRoute53domainsCancelDomainTransferToAnotherAwsAccountOptions : 
     /// <summary>
     /// Cancels the transfer of a domain from the current Amazon Web Services account to another Amazon Web Services account. You initiate a transfer betweenAmazon Web Services accounts using TransferDomainToAnotherAwsAccount . WARNING: You must cancel the transfer before the other Amazon Web Services account accepts the transfer using AcceptDomainTransferFromAnotherAwsAccount . Use either ListOperations or GetOperationDetail to determine whether the operation succeeded. GetOperationDetail provides addi...
     /// </summary>
-    /// <param name="DomainName">The name of the domain for which you want to cancel the transfer to another Amazon Web Services account. Constraints: o max: 255</param>
+    /// <param name="DomainName">The name of the domain for which you want to cancel the transfer to another Amazon Web Services account. Constraints: • max: 255</param>
     public AwsRoute53domainsCancelDomainTransferToAnotherAwsAccountOptions(
         string DomainName
     )
@@ -56,7 +57,7 @@ public record AwsRoute53domainsCancelDomainTransferToAnotherAwsAccountOptions : 
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the domain for which you want to cancel the transfer to another Amazon Web Services account. Constraints: o max: 255
+    /// The name of the domain for which you want to cancel the transfer to another Amazon Web Services account. Constraints: • max: 255
     /// </summary>
     [CliOption("--domain-name")]
     public string? DomainName { get; private init; }
@@ -82,6 +83,15 @@ public record AwsRoute53domainsCancelDomainTransferToAnotherAwsAccountOptions : 
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates the private connectivity configuration for the specified Out- post. Private connectivity establishes a service link VPN connection between the Outpost and its home Amazon Web Services Region using a VPC and subnet that you specify, which allows the service link traffic to flow through your VPC and minimizes public internet exposure. See also: AWS API Documentation
+/// Creates the private connectivity configuration for the specified Outpost. Private connectivity establishes a service link VPN connection between the Outpost and its home Amazon Web Services Region using a VPC and subnet that you specify, which allows the service link traffic to flow through your VPC and minimizes public internet exposure. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsOutpostsCreatePrivateConnectivityConfigOptions : AwsOptions, IV
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates the private connectivity configuration for the specified Out- post. Private connectivity establishes a service link VPN connection between the Outpost and its home Amazon Web Services Region using a VPC and subnet that you specify, which allows the service link traffic to flow through your VPC and minimizes public internet exposure. See also: AWS API Documentation
+    /// Creates the private connectivity configuration for the specified Outpost. Private connectivity establishes a service link VPN connection between the Outpost and its home Amazon Web Services Region using a VPC and subnet that you specify, which allows the service link traffic to flow through your VPC and minimizes public internet exposure. See also: AWS API Documentation
     /// </summary>
-    /// <param name="OutpostId">The ID or ARN of the Outpost. Constraints: o min: 1 o max: 180 o pattern: ^(arn:aws([a-z-]+)?:outposts:[a-z\d-]+:\d{12}:out- post/)?op-[a-f0-9]{17}$</param>
-    /// <param name="VpcInformationList">Information about the VPC used for private connectivity, including the VPC, its subnets, and an associated VPC endpoint. You can spec- ify at most one entry. Constraints: o min: 1 o max: 1 (structure) Information about a VPC used for private connectivity, including its subnets and an associated VPC endpoint. VpcId -&gt; (string) The ID of the VPC used for private connectivity. Constraints: o min: 1 o max: 25 o pattern: [a-z0-9-]+ SubnetIds -&gt; (list) The IDs of the subnets associated with the VPC endpoint. Cur- rently, only one subnet is supported. Constraints: o min: 1 o max: 10 (string) Constraints: o min: 1 o max: 25 o pattern: [a-z0-9-]+ VpcEndpointId -&gt; (string) The ID of the interface VPC endpoint for the Amazon Web Ser- vices Outposts service. When specified, the endpoint must be in the available state and the specified subnets must be as- sociated with it. Constraints: o min: 1 o max: 25 o pattern: ^vpce-[a-f0-9]+$ Shorthand Syntax: VpcId=string,SubnetIds=string,string,VpcEndpointId=string ... JSON Syntax: [ { "VpcId": "string", "SubnetIds": ["string", ...], "VpcEndpointId": "string" } ... ]</param>
+    /// <param name="OutpostId">The ID or ARN of the Outpost. Constraints: • min: 1 • max: 180 • pattern: ^(arn:aws([a-z-]+)?:outposts:[a-z\d-]+:\d{12}:outpost/)?op-[a-f0-9]{17}$</param>
+    /// <param name="VpcInformationList">Information about the VPC used for private connectivity, including the VPC, its subnets, and an associated VPC endpoint. You can specify at most one entry. Constraints: • min: 1 • max: 1 (structure) Information about a VPC used for private connectivity, including its subnets and an associated VPC endpoint. VpcId -&gt; (string) The ID of the VPC used for private connectivity. Constraints: • min: 1 • max: 25 • pattern: [a-z0-9-]+ SubnetIds -&gt; (list) The IDs of the subnets associated with the VPC endpoint. Currently, only one subnet is supported. Constraints: • min: 1 • max: 10 (string) Constraints: • min: 1 • max: 25 • pattern: [a-z0-9-]+ VpcEndpointId -&gt; (string) The ID of the interface VPC endpoint for the Amazon Web Services Outposts service. When specified, the endpoint must be in the available state and the specified subnets must be associated with it. Constraints: • min: 1 • max: 25 • pattern: ^vpce-[a-f0-9]+$ Shorthand Syntax: VpcId=string,SubnetIds=string,string,VpcEndpointId=string ... JSON Syntax: [ { "VpcId": "string", "SubnetIds": ["string", ...], "VpcEndpointId": "string" } ... ]</param>
     public AwsOutpostsCreatePrivateConnectivityConfigOptions(
         string OutpostId,
         IEnumerable<string> VpcInformationList
@@ -71,13 +72,13 @@ public record AwsOutpostsCreatePrivateConnectivityConfigOptions : AwsOptions, IV
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID or ARN of the Outpost. Constraints: o min: 1 o max: 180 o pattern: ^(arn:aws([a-z-]+)?:outposts:[a-z\d-]+:\d{12}:out- post/)?op-[a-f0-9]{17}$
+    /// The ID or ARN of the Outpost. Constraints: • min: 1 • max: 180 • pattern: ^(arn:aws([a-z-]+)?:outposts:[a-z\d-]+:\d{12}:outpost/)?op-[a-f0-9]{17}$
     /// </summary>
     [CliOption("--outpost-id")]
     public string? OutpostId { get; private init; }
 
     /// <summary>
-    /// Information about the VPC used for private connectivity, including the VPC, its subnets, and an associated VPC endpoint. You can spec- ify at most one entry. Constraints: o min: 1 o max: 1 (structure) Information about a VPC used for private connectivity, including its subnets and an associated VPC endpoint. VpcId -&gt; (string) The ID of the VPC used for private connectivity. Constraints: o min: 1 o max: 25 o pattern: [a-z0-9-]+ SubnetIds -&gt; (list) The IDs of the subnets associated with the VPC endpoint. Cur- rently, only one subnet is supported. Constraints: o min: 1 o max: 10 (string) Constraints: o min: 1 o max: 25 o pattern: [a-z0-9-]+ VpcEndpointId -&gt; (string) The ID of the interface VPC endpoint for the Amazon Web Ser- vices Outposts service. When specified, the endpoint must be in the available state and the specified subnets must be as- sociated with it. Constraints: o min: 1 o max: 25 o pattern: ^vpce-[a-f0-9]+$ Shorthand Syntax: VpcId=string,SubnetIds=string,string,VpcEndpointId=string ... JSON Syntax: [ { "VpcId": "string", "SubnetIds": ["string", ...], "VpcEndpointId": "string" } ... ]
+    /// Information about the VPC used for private connectivity, including the VPC, its subnets, and an associated VPC endpoint. You can specify at most one entry. Constraints: • min: 1 • max: 1 (structure) Information about a VPC used for private connectivity, including its subnets and an associated VPC endpoint. VpcId -&gt; (string) The ID of the VPC used for private connectivity. Constraints: • min: 1 • max: 25 • pattern: [a-z0-9-]+ SubnetIds -&gt; (list) The IDs of the subnets associated with the VPC endpoint. Currently, only one subnet is supported. Constraints: • min: 1 • max: 10 (string) Constraints: • min: 1 • max: 25 • pattern: [a-z0-9-]+ VpcEndpointId -&gt; (string) The ID of the interface VPC endpoint for the Amazon Web Services Outposts service. When specified, the endpoint must be in the available state and the specified subnets must be associated with it. Constraints: • min: 1 • max: 25 • pattern: ^vpce-[a-f0-9]+$ Shorthand Syntax: VpcId=string,SubnetIds=string,string,VpcEndpointId=string ... JSON Syntax: [ { "VpcId": "string", "SubnetIds": ["string", ...], "VpcEndpointId": "string" } ... ]
     /// </summary>
     [CliOption("--vpc-information-list", GroupValues = true)]
     public IEnumerable<string>? VpcInformationList { get; private init; }
@@ -103,6 +104,15 @@ public record AwsOutpostsCreatePrivateConnectivityConfigOptions : AwsOptions, IV
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

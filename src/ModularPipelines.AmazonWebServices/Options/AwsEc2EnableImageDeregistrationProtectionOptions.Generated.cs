@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Enables deregistration protection for an AMI. When deregistration pro- tection is enabled, the AMI can't be deregistered. To allow the AMI to be deregistered, you must first disable deregistra- tion protection. For more information, see Protect an Amazon EC2 AMI from deregistration in the Amazon EC2 User Guide . See also: AWS API Documentation
+/// Enables deregistration protection for an AMI. When deregistration protection is enabled, the AMI can't be deregistered. To allow the AMI to be deregistered, you must first disable deregistration protection. For more information, see Protect an Amazon EC2 AMI from deregistration in the Amazon EC2 User Guide . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +26,7 @@ public record AwsEc2EnableImageDeregistrationProtectionOptions : AwsOptions, IVa
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Enables deregistration protection for an AMI. When deregistration pro- tection is enabled, the AMI can't be deregistered. To allow the AMI to be deregistered, you must first disable deregistra- tion protection. For more information, see Protect an Amazon EC2 AMI from deregistration in the Amazon EC2 User Guide . See also: AWS API Documentation
+    /// Enables deregistration protection for an AMI. When deregistration protection is enabled, the AMI can't be deregistered. To allow the AMI to be deregistered, you must first disable deregistration protection. For more information, see Protect an Amazon EC2 AMI from deregistration in the Amazon EC2 User Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="ImageId">The ID of the AMI.</param>
     public AwsEc2EnableImageDeregistrationProtectionOptions(
@@ -68,7 +69,7 @@ public record AwsEc2EnableImageDeregistrationProtectionOptions : AwsOptions, IVa
     public bool? WithCooldown { get; set; }
 
     /// <summary>
-    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation . Otherwise, it is UnauthorizedOperation .
     /// </summary>
     [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
@@ -94,6 +95,15 @@ public record AwsEc2EnableImageDeregistrationProtectionOptions : AwsOptions, IVa
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

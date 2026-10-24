@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns details about the sync status for a repository. A repository sync uses Git sync to push and pull changes from your remote reposi- tory. See also: AWS API Documentation
+/// Returns details about the sync status for a repository. A repository sync uses Git sync to push and pull changes from your remote repository. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,11 +26,11 @@ public record AwsCodestarConnectionsGetRepositorySyncStatusOptions : AwsOptions,
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns details about the sync status for a repository. A repository sync uses Git sync to push and pull changes from your remote reposi- tory. See also: AWS API Documentation
+    /// Returns details about the sync status for a repository. A repository sync uses Git sync to push and pull changes from your remote repository. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Branch">The branch of the repository link for the requested repository sync status. Constraints: o min: 1 o max: 255 o pattern: ^.*$</param>
-    /// <param name="RepositoryLinkId">The repository link ID for the requested repository sync status. Constraints: o pattern: ^[0-9a-fA-F]{8}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{12}$</param>
-    /// <param name="SyncType">The sync type of the requested sync status. Possible values: o CFN_STACK_SYNC</param>
+    /// <param name="Branch">The branch of the repository link for the requested repository sync status. Constraints: • min: 1 • max: 255 • pattern: ^.*$</param>
+    /// <param name="RepositoryLinkId">The repository link ID for the requested repository sync status. Constraints: • pattern: ^[0-9a-fA-F]{8}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{12}$</param>
+    /// <param name="SyncType">The sync type of the requested sync status. Possible values: • CFN_STACK_SYNC</param>
     public AwsCodestarConnectionsGetRepositorySyncStatusOptions(
         string Branch,
         string RepositoryLinkId,
@@ -64,19 +65,19 @@ public record AwsCodestarConnectionsGetRepositorySyncStatusOptions : AwsOptions,
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The branch of the repository link for the requested repository sync status. Constraints: o min: 1 o max: 255 o pattern: ^.*$
+    /// The branch of the repository link for the requested repository sync status. Constraints: • min: 1 • max: 255 • pattern: ^.*$
     /// </summary>
     [CliOption("--branch")]
     public string? Branch { get; private init; }
 
     /// <summary>
-    /// The repository link ID for the requested repository sync status. Constraints: o pattern: ^[0-9a-fA-F]{8}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{12}$
+    /// The repository link ID for the requested repository sync status. Constraints: • pattern: ^[0-9a-fA-F]{8}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{12}$
     /// </summary>
     [CliOption("--repository-link-id")]
     public string? RepositoryLinkId { get; private init; }
 
     /// <summary>
-    /// The sync type of the requested sync status. Possible values: o CFN_STACK_SYNC
+    /// The sync type of the requested sync status. Possible values: • CFN_STACK_SYNC
     /// </summary>
     [CliOption("--sync-type")]
     public string? SyncType { get; private init; }
@@ -102,6 +103,15 @@ public record AwsCodestarConnectionsGetRepositorySyncStatusOptions : AwsOptions,
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

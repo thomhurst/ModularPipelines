@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Activates the gateway you previously deployed on your host. In the ac- tivation process, you specify information such as the Amazon Web Ser- vices Region that you want to use for storing snapshots or tapes, the time zone for scheduled snapshots the gateway snapshot schedule window, an activation key, and a name for your gateway. The activation process also associates your gateway with your account. For more information, see UpdateGatewayInformation . NOTE: You must turn on the gateway VM before ...
+/// Activates the gateway you previously deployed on your host. In the activation process, you specify information such as the Amazon Web Services Region that you want to use for storing snapshots or tapes, the time zone for scheduled snapshots the gateway snapshot schedule window, an activation key, and a name for your gateway. The activation process also associates your gateway with your account. For more information, see UpdateGatewayInformation . NOTE: You must turn on the gateway VM before you ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,12 +26,12 @@ public record AwsStoragegatewayActivateGatewayOptions : AwsOptions, IValidatable
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Activates the gateway you previously deployed on your host. In the ac- tivation process, you specify information such as the Amazon Web Ser- vices Region that you want to use for storing snapshots or tapes, the time zone for scheduled snapshots the gateway snapshot schedule window, an activation key, and a name for your gateway. The activation process also associates your gateway with your account. For more information, see UpdateGatewayInformation . NOTE: You must turn on the gateway VM before ...
+    /// Activates the gateway you previously deployed on your host. In the activation process, you specify information such as the Amazon Web Services Region that you want to use for storing snapshots or tapes, the time zone for scheduled snapshots the gateway snapshot schedule window, an activation key, and a name for your gateway. The activation process also associates your gateway with your account. For more information, see UpdateGatewayInformation . NOTE: You must turn on the gateway VM before you ...
     /// </summary>
-    /// <param name="ActivationKey">Your gateway activation key. You can obtain the activation key by sending an HTTP GET request with redirects enabled to the gateway IP address (port 80). The redirect URL returned in the response pro- vides you the activation key for your gateway in the query string parameter activationKey . It may also include other activation-re- lated parameters, however, these are merely defaults -- the argu- ments you pass to the ActivateGateway API call determine the actual configuration of your gateway. For more information, see Getting activation key in the Storage Gateway User Guide . Constraints: o min: 1 o max: 50</param>
-    /// <param name="GatewayName">The name you configured for your gateway. Constraints: o min: 2 o max: 255 o pattern: ^[ -\.0-\[\]-~]*[!-\.0-\[\]-~][ -\.0-\[\]-~]*$</param>
-    /// <param name="GatewayTimezone">A value that indicates the time zone you want to set for the gate- way. The time zone is of the format "GMT", "GMT-hr:mm", or "GMT+hr:mm". For example, GMT indicates Greenwich Mean Time without any offset. GMT-4:00 indicates the time is 4 hours behind GMT. GMT+2:00 indicates the time is 2 hours ahead of GMT. The time zone is used, for example, for scheduling snapshots and your gateway's maintenance schedule. Constraints: o min: 3 o max: 10</param>
-    /// <param name="GatewayRegion">A value that indicates the Amazon Web Services Region where you want to store your data. The gateway Amazon Web Services Region specified must be the same Amazon Web Services Region as the Amazon Web Ser- vices Region in your Host header in the request. For more informa- tion about available Amazon Web Services Regions and endpoints for Storage Gateway, see Storage Gateway endpoints and quotas in the Amazon Web Services General Reference . Valid Values: See Storage Gateway endpoints and quotas in the Amazon Web Services General Reference . Constraints: o min: 1 o max: 25</param>
+    /// <param name="ActivationKey">Your gateway activation key. You can obtain the activation key by sending an HTTP GET request with redirects enabled to the gateway IP address (port 80). The redirect URL returned in the response provides you the activation key for your gateway in the query string parameter activationKey . It may also include other activation-related parameters, however, these are merely defaults -- the arguments you pass to the ActivateGateway API call determine the actual configuration of your gateway. For more information, see Getting activation key in the Storage Gateway User Guide . Constraints: • min: 1 • max: 50</param>
+    /// <param name="GatewayName">The name you configured for your gateway. Constraints: • min: 2 • max: 255 • pattern: ^[ -\.0-\[\]-~]*[!-\.0-\[\]-~][ -\.0-\[\]-~]*$</param>
+    /// <param name="GatewayTimezone">A value that indicates the time zone you want to set for the gateway. The time zone is of the format "GMT", "GMT-hr:mm", or "GMT+hr:mm". For example, GMT indicates Greenwich Mean Time without any offset. GMT-4:00 indicates the time is 4 hours behind GMT. GMT+2:00 indicates the time is 2 hours ahead of GMT. The time zone is used, for example, for scheduling snapshots and your gateway's maintenance schedule. Constraints: • min: 3 • max: 10</param>
+    /// <param name="GatewayRegion">A value that indicates the Amazon Web Services Region where you want to store your data. The gateway Amazon Web Services Region specified must be the same Amazon Web Services Region as the Amazon Web Services Region in your Host header in the request. For more information about available Amazon Web Services Regions and endpoints for Storage Gateway, see Storage Gateway endpoints and quotas in the Amazon Web Services General Reference . Valid Values: See Storage Gateway endpoints and quotas in the Amazon Web Services General Reference . Constraints: • min: 1 • max: 25</param>
     public AwsStoragegatewayActivateGatewayOptions(
         string ActivationKey,
         string GatewayName,
@@ -68,49 +69,49 @@ public record AwsStoragegatewayActivateGatewayOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Your gateway activation key. You can obtain the activation key by sending an HTTP GET request with redirects enabled to the gateway IP address (port 80). The redirect URL returned in the response pro- vides you the activation key for your gateway in the query string parameter activationKey . It may also include other activation-re- lated parameters, however, these are merely defaults -- the argu- ments you pass to the ActivateGateway API call determine the actual configuration of your gateway. For more information, see Getting activation key in the Storage Gateway User Guide . Constraints: o min: 1 o max: 50
+    /// Your gateway activation key. You can obtain the activation key by sending an HTTP GET request with redirects enabled to the gateway IP address (port 80). The redirect URL returned in the response provides you the activation key for your gateway in the query string parameter activationKey . It may also include other activation-related parameters, however, these are merely defaults -- the arguments you pass to the ActivateGateway API call determine the actual configuration of your gateway. For more information, see Getting activation key in the Storage Gateway User Guide . Constraints: • min: 1 • max: 50
     /// </summary>
     [CliOption("--activation-key")]
     public string? ActivationKey { get; private init; }
 
     /// <summary>
-    /// The name you configured for your gateway. Constraints: o min: 2 o max: 255 o pattern: ^[ -\.0-\[\]-~]*[!-\.0-\[\]-~][ -\.0-\[\]-~]*$
+    /// The name you configured for your gateway. Constraints: • min: 2 • max: 255 • pattern: ^[ -\.0-\[\]-~]*[!-\.0-\[\]-~][ -\.0-\[\]-~]*$
     /// </summary>
     [CliOption("--gateway-name")]
     public string? GatewayName { get; private init; }
 
     /// <summary>
-    /// A value that indicates the time zone you want to set for the gate- way. The time zone is of the format "GMT", "GMT-hr:mm", or "GMT+hr:mm". For example, GMT indicates Greenwich Mean Time without any offset. GMT-4:00 indicates the time is 4 hours behind GMT. GMT+2:00 indicates the time is 2 hours ahead of GMT. The time zone is used, for example, for scheduling snapshots and your gateway's maintenance schedule. Constraints: o min: 3 o max: 10
+    /// A value that indicates the time zone you want to set for the gateway. The time zone is of the format "GMT", "GMT-hr:mm", or "GMT+hr:mm". For example, GMT indicates Greenwich Mean Time without any offset. GMT-4:00 indicates the time is 4 hours behind GMT. GMT+2:00 indicates the time is 2 hours ahead of GMT. The time zone is used, for example, for scheduling snapshots and your gateway's maintenance schedule. Constraints: • min: 3 • max: 10
     /// </summary>
     [CliOption("--gateway-timezone")]
     public string? GatewayTimezone { get; private init; }
 
     /// <summary>
-    /// A value that indicates the Amazon Web Services Region where you want to store your data. The gateway Amazon Web Services Region specified must be the same Amazon Web Services Region as the Amazon Web Ser- vices Region in your Host header in the request. For more informa- tion about available Amazon Web Services Regions and endpoints for Storage Gateway, see Storage Gateway endpoints and quotas in the Amazon Web Services General Reference . Valid Values: See Storage Gateway endpoints and quotas in the Amazon Web Services General Reference . Constraints: o min: 1 o max: 25
+    /// A value that indicates the Amazon Web Services Region where you want to store your data. The gateway Amazon Web Services Region specified must be the same Amazon Web Services Region as the Amazon Web Services Region in your Host header in the request. For more information about available Amazon Web Services Regions and endpoints for Storage Gateway, see Storage Gateway endpoints and quotas in the Amazon Web Services General Reference . Valid Values: See Storage Gateway endpoints and quotas in the Amazon Web Services General Reference . Constraints: • min: 1 • max: 25
     /// </summary>
     [CliOption("--gateway-region")]
     public string? GatewayRegion { get; private init; }
 
     /// <summary>
-    /// A value that defines the type of gateway to activate. The type spec- ified is critical to all later functions of the gateway and cannot be changed after activation. The default value is CACHED . WARNING: Amazon FSx File Gateway is no longer available to new customers. Existing customers of FSx File Gateway can continue to use the service normally. For capabilities similar to FSx File Gateway, visit this blog post . Valid Values: STORED | CACHED | VTL | FILE_S3 | FILE_FSX_SMB Constraints: o min: 2 o max: 20
+    /// A value that defines the type of gateway to activate. The type specified is critical to all later functions of the gateway and cannot be changed after activation. The default value is CACHED . WARNING: Amazon FSx File Gateway is no longer available to new customers. Existing customers of FSx File Gateway can continue to use the service normally. For capabilities similar to FSx File Gateway, visit this blog post . Valid Values: STORED | CACHED | VTL | FILE_S3 | FILE_FSX_SMB Constraints: • min: 2 • max: 20
     /// </summary>
     [CliOption("--gateway-type")]
     public string? GatewayType { get; set; }
 
     /// <summary>
-    /// The value that indicates the type of tape drive to use for tape gateway. This field is optional. Valid Values: IBM-ULT3580-TD5 Constraints: o min: 2 o max: 50
+    /// The value that indicates the type of tape drive to use for tape gateway. This field is optional. Valid Values: IBM-ULT3580-TD5 Constraints: • min: 2 • max: 50
     /// </summary>
     [CliOption("--tape-drive-type")]
     public string? TapeDriveType { get; set; }
 
     /// <summary>
-    /// The value that indicates the type of medium changer to use for tape gateway. This field is optional. Valid Values: STK-L700 | AWS-Gateway-VTL | IBM-03584L32-0402 Constraints: o min: 2 o max: 50
+    /// The value that indicates the type of medium changer to use for tape gateway. This field is optional. Valid Values: STK-L700 | AWS-Gateway-VTL | IBM-03584L32-0402 Constraints: • min: 2 • max: 50
     /// </summary>
     [CliOption("--medium-changer-type")]
     public string? MediumChangerType { get; set; }
 
     /// <summary>
-    /// A list of up to 50 tags that you can assign to the gateway. Each tag is a key-value pair. NOTE: Valid characters for key and value are letters, spaces, and num- bers that can be represented in UTF-8 format, and the following special characters: + - = . _ : / @. The maximum length of a tag's key is 128 characters, and the maximum length for a tag's value is 256 characters. (structure) A key-value pair that helps you manage, filter, and search for your resource. Allowed characters: letters, white space, and numbers, representable in UTF-8, and the following characters: + - = . _ : /. Key -&gt; (string) [required] Tag key. The key can't start with aws:. Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Value -&gt; (string) [required] Value of the tag key. Constraints: o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// A list of up to 50 tags that you can assign to the gateway. Each tag is a key-value pair. NOTE: Valid characters for key and value are letters, spaces, and numbers that can be represented in UTF-8 format, and the following special characters: + - = . _ : / @. The maximum length of a tag's key is 128 characters, and the maximum length for a tag's value is 256 characters. (structure) A key-value pair that helps you manage, filter, and search for your resource. Allowed characters: letters, white space, and numbers, representable in UTF-8, and the following characters: + - = . _ : /. Key -&gt; (string) [required] Tag key. The key can't start with aws:. Constraints: • min: 1 • max: 128 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Value -&gt; (string) [required] Value of the tag key. Constraints: • max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
@@ -136,6 +137,15 @@ public record AwsStoragegatewayActivateGatewayOptions : AwsOptions, IValidatable
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

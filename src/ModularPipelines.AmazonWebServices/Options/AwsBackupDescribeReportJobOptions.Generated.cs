@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsBackupDescribeReportJobOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Returns the details associated with creating a report as specified by its ReportJobId . See also: AWS API Documentation
     /// </summary>
-    /// <param name="ReportJobId">The identifier of the report job. A unique, randomly generated, Uni- code, UTF-8 encoded string that is at most 1,024 bytes long. The re- port job ID cannot be edited.</param>
+    /// <param name="ReportJobId">The identifier of the report job. A unique, randomly generated, Unicode, UTF-8 encoded string that is at most 1,024 bytes long. The report job ID cannot be edited.</param>
     public AwsBackupDescribeReportJobOptions(
         string ReportJobId
     )
@@ -56,7 +57,7 @@ public record AwsBackupDescribeReportJobOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the report job. A unique, randomly generated, Uni- code, UTF-8 encoded string that is at most 1,024 bytes long. The re- port job ID cannot be edited.
+    /// The identifier of the report job. A unique, randomly generated, Unicode, UTF-8 encoded string that is at most 1,024 bytes long. The report job ID cannot be edited.
     /// </summary>
     [CliOption("--report-job-id")]
     public string? ReportJobId { get; private init; }
@@ -82,6 +83,15 @@ public record AwsBackupDescribeReportJobOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

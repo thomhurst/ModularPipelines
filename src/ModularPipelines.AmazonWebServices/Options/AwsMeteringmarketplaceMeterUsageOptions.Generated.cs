@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// As a seller, your software hosted in the buyer's Amazon Web Services account uses this API action to emit metering records directly to Ama- zon Web Services Marketplace. You must use the following buyer Amazon Web Services account credentials to sign the API request. o For Amazon EC2 deployments, your software must use the IAM role for Amazon EC2 to sign the API call for MeterUsage API operation. o For Amazon EKS deployments, your software must use IAM roles for ser- vice accounts (IRSA) to sign...
+/// As a seller, your software hosted in the buyer's Amazon Web Services account uses this API action to emit metering records directly to Amazon Web Services Marketplace. You must use the following buyer Amazon Web Services account credentials to sign the API request. • For Amazon EC2 deployments, your software must use the IAM role for Amazon EC2 to sign the API call for MeterUsage API operation. • For Amazon EKS deployments, your software must use IAM roles for service accounts (IRSA) to sign the...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,11 +27,11 @@ public record AwsMeteringmarketplaceMeterUsageOptions : AwsOptions, IValidatable
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// As a seller, your software hosted in the buyer's Amazon Web Services account uses this API action to emit metering records directly to Ama- zon Web Services Marketplace. You must use the following buyer Amazon Web Services account credentials to sign the API request. o For Amazon EC2 deployments, your software must use the IAM role for Amazon EC2 to sign the API call for MeterUsage API operation. o For Amazon EKS deployments, your software must use IAM roles for ser- vice accounts (IRSA) to sign...
+    /// As a seller, your software hosted in the buyer's Amazon Web Services account uses this API action to emit metering records directly to Amazon Web Services Marketplace. You must use the following buyer Amazon Web Services account credentials to sign the API request. • For Amazon EC2 deployments, your software must use the IAM role for Amazon EC2 to sign the API call for MeterUsage API operation. • For Amazon EKS deployments, your software must use IAM roles for service accounts (IRSA) to sign the...
     /// </summary>
-    /// <param name="ProductCode">Product code is used to uniquely identify a product in Amazon Web Services Marketplace. The product code should be the same as the one used during the publishing of a new product. Constraints: o min: 0 o max: 255 o pattern: ^[-a-zA-Z0-9/=:_.@]*$</param>
-    /// <param name="Timestamp">Timestamp, in UTC, for which the usage is being reported. Your ap- plication can meter usage for up to six hours in the past. Make sure the timestamp value is not before the start of the software usage.</param>
-    /// <param name="UsageDimension">It will be one of the fcp dimension name provided during the pub- lishing of the product. Constraints: o min: 1 o max: 255 o pattern: [\s\S]+</param>
+    /// <param name="ProductCode">Product code is used to uniquely identify a product in Amazon Web Services Marketplace. The product code should be the same as the one used during the publishing of a new product. Constraints: • min: 0 • max: 255 • pattern: ^[-a-zA-Z0-9/=:_.@]*$</param>
+    /// <param name="Timestamp">Timestamp, in UTC, for which the usage is being reported. Your application can meter usage for up to six hours in the past. Make sure the timestamp value is not before the start of the software usage.</param>
+    /// <param name="UsageDimension">It will be one of the fcp dimension name provided during the publishing of the product. Constraints: • min: 1 • max: 255 • pattern: [\s\S]+</param>
     public AwsMeteringmarketplaceMeterUsageOptions(
         string ProductCode,
         string Timestamp,
@@ -65,43 +66,43 @@ public record AwsMeteringmarketplaceMeterUsageOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Product code is used to uniquely identify a product in Amazon Web Services Marketplace. The product code should be the same as the one used during the publishing of a new product. Constraints: o min: 0 o max: 255 o pattern: ^[-a-zA-Z0-9/=:_.@]*$
+    /// Product code is used to uniquely identify a product in Amazon Web Services Marketplace. The product code should be the same as the one used during the publishing of a new product. Constraints: • min: 0 • max: 255 • pattern: ^[-a-zA-Z0-9/=:_.@]*$
     /// </summary>
     [CliOption("--product-code")]
     public string? ProductCode { get; private init; }
 
     /// <summary>
-    /// Timestamp, in UTC, for which the usage is being reported. Your ap- plication can meter usage for up to six hours in the past. Make sure the timestamp value is not before the start of the software usage.
+    /// Timestamp, in UTC, for which the usage is being reported. Your application can meter usage for up to six hours in the past. Make sure the timestamp value is not before the start of the software usage.
     /// </summary>
     [CliOption("--timestamp")]
     public string? Timestamp { get; private init; }
 
     /// <summary>
-    /// It will be one of the fcp dimension name provided during the pub- lishing of the product. Constraints: o min: 1 o max: 255 o pattern: [\s\S]+
+    /// It will be one of the fcp dimension name provided during the publishing of the product. Constraints: • min: 1 • max: 255 • pattern: [\s\S]+
     /// </summary>
     [CliOption("--usage-dimension")]
     public string? UsageDimension { get; private init; }
 
     /// <summary>
-    /// Consumption value for the hour. Defaults to 0 if not specified. Constraints: o min: 0 o max: 2147483647
+    /// Consumption value for the hour. Defaults to 0 if not specified. Constraints: • min: 0 • max: 2147483647
     /// </summary>
     [CliOption("--usage-quantity")]
     public int? UsageQuantity { get; set; }
 
     /// <summary>
-    /// Checks whether you have the permissions required for the action, but does not make the request. If you have the permissions, the request returns DryRunOperation ; otherwise, it returns UnauthorizedExcep- tion . Defaults to false if not specified.
+    /// Checks whether you have the permissions required for the action, but does not make the request. If you have the permissions, the request returns DryRunOperation ; otherwise, it returns UnauthorizedException . Defaults to false if not specified.
     /// </summary>
     [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     /// <summary>
-    /// The set of UsageAllocations to submit. The sum of all UsageAllocation quantities must equal the UsageQuan- tity of the MeterUsage request, and each UsageAllocation must have a unique set of tags (include no tags). Constraints: o min: 1 o max: 2500 (structure) Usage allocations allow you to split usage into buckets by tags. Each UsageAllocation indicates the usage quantity for a specific set of tags. AllocatedUsageQuantity -&gt; (integer) [required] The total quantity allocated to this bucket of usage. Constraints: o min: 0 o max: 2147483647 Tags -&gt; (list) The set of tags that define the bucket of usage. For the bucket of items with no tags, this parameter can be left out. Constraints: o min: 1 o max: 5 (structure) Metadata assigned to an allocation. Each tag is made up of a key and a value . Key -&gt; (string) [required] One part of a key-value pair that makes up a tag . A key is a label that acts like a category for the spe- cific tag values. Constraints: o min: 1 o max: 100 o pattern: ^[a-zA-Z0-9+ -=._:\/@]+$ Value -&gt; (string) [required] One part of a key-value pair that makes up a tag . A value acts as a descriptor within a tag category (key). The value can be empty or null. Constraints: o min: 1 o max: 256 o pattern: ^[a-zA-Z0-9+ -=._:\/@]+$ Shorthand Syntax: AllocatedUsageQuantity=integer,Tags=[{Key=string,Value=string},{Key=string,Value=string}] ... JSON Syntax: [ { "AllocatedUsageQuantity": integer, "Tags": [ { "Key": "string", "Value": "string" } ... ] } ... ]
+    /// The set of UsageAllocations to submit. The sum of all UsageAllocation quantities must equal the UsageQuantity of the MeterUsage request, and each UsageAllocation must have a unique set of tags (include no tags). Constraints: • min: 1 • max: 2500 (structure) Usage allocations allow you to split usage into buckets by tags. Each UsageAllocation indicates the usage quantity for a specific set of tags. AllocatedUsageQuantity -&gt; (integer) [required] The total quantity allocated to this bucket of usage. Constraints: • min: 0 • max: 2147483647 Tags -&gt; (list) The set of tags that define the bucket of usage. For the bucket of items with no tags, this parameter can be left out. Constraints: • min: 1 • max: 5 (structure) Metadata assigned to an allocation. Each tag is made up of a key and a value . Key -&gt; (string) [required] One part of a key-value pair that makes up a tag . A key is a label that acts like a category for the specific tag values. Constraints: • min: 1 • max: 100 • pattern: ^[a-zA-Z0-9+ -=._:\/@]+$ Value -&gt; (string) [required] One part of a key-value pair that makes up a tag . A value acts as a descriptor within a tag category (key). The value can be empty or null. Constraints: • min: 1 • max: 256 • pattern: ^[a-zA-Z0-9+ -=._:\/@]+$ Shorthand Syntax: AllocatedUsageQuantity=integer,Tags=[{Key=string,Value=string},{Key=string,Value=string}] ... JSON Syntax: [ { "AllocatedUsageQuantity": integer, "Tags": [ { "Key": "string", "Value": "string" } ... ] } ... ]
     /// </summary>
     [CliOption("--usage-allocations", GroupValues = true)]
     public IEnumerable<string>? UsageAllocations { get; set; }
 
     /// <summary>
-    /// Specifies a unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a UUID type of value . If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same ClientToken , but with dif- ferent parameters, the retry fails with an IdempotencyConflictExcep- tion error. Constraints: o min: 1 o max: 64
+    /// Specifies a unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a UUID type of value . If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same ClientToken , but with different parameters, the retry fails with an IdempotencyConflictException error. Constraints: • min: 1 • max: 64
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
@@ -128,6 +129,15 @@ public record AwsMeteringmarketplaceMeterUsageOptions : AwsOptions, IValidatable
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

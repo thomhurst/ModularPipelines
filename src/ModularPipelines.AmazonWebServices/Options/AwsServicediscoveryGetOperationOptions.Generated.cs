@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsServicediscoveryGetOperationOptions : AwsOptions, IValidatableO
     /// <summary>
     /// Gets information about any operation that returns an operation ID in the response, such as a CreateHttpNamespace request. NOTE: To get a list of operations that match specified criteria, see ListOperations . See also: AWS API Documentation
     /// </summary>
-    /// <param name="OperationId">The ID of the operation that you want to get more information about. Constraints: o max: 255</param>
+    /// <param name="OperationId">The ID of the operation that you want to get more information about. Constraints: • max: 255</param>
     public AwsServicediscoveryGetOperationOptions(
         string OperationId
     )
@@ -56,13 +57,13 @@ public record AwsServicediscoveryGetOperationOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the operation that you want to get more information about. Constraints: o max: 255
+    /// The ID of the operation that you want to get more information about. Constraints: • max: 255
     /// </summary>
     [CliOption("--operation-id")]
     public string? OperationId { get; private init; }
 
     /// <summary>
-    /// The ID of the Amazon Web Services account that owns the namespace associated with the operation, as specified in the namespace Re- sourceOwner field. For operations associated with namespaces that are shared with your account, you must specify an OwnerAccount . Constraints: o min: 12 o max: 12
+    /// The ID of the Amazon Web Services account that owns the namespace associated with the operation, as specified in the namespace ResourceOwner field. For operations associated with namespaces that are shared with your account, you must specify an OwnerAccount . Constraints: • min: 12 • max: 12
     /// </summary>
     [CliOption("--owner-account")]
     public string? OwnerAccount { get; set; }
@@ -88,6 +89,15 @@ public record AwsServicediscoveryGetOperationOptions : AwsOptions, IValidatableO
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

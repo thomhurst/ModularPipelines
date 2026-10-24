@@ -24,8 +24,8 @@ public record AwsEmrInstallApplicationsOptions : AwsOptions
     /// <summary>
     /// Installs applications on a running cluster. Currently only Hive and Pig can be installed using this command, and this command is only supported by AMI versions (3.x and 2.x).
     /// </summary>
-    /// <param name="ClusterId">A unique string that identifies a cluster. The create-cluster com- mand returns this identifier. You can use the list-clusters command to get cluster IDs.</param>
-    /// <param name="Applications">The applications to be installed. Takes the following parameters: Name and Args . (structure) Name -&gt; (string) [required] Application name. Possible values: o MapR o HUE o HIVE o PIG o HBASE o IMPALA o GANGLIA o HADOOP o SPARK Args -&gt; (list) A list of arguments to pass to the application. (string) Shorthand Syntax: Name=string,Args=string,string ... JSON Syntax: [ { "Name": "MapR"|"HUE"|"HIVE"|"PIG"|"HBASE"|"IMPALA"|"GANGLIA"|"HADOOP"|"SPARK", "Args": ["string", ...] } ... ]</param>
+    /// <param name="ClusterId">A unique string that identifies a cluster. The create-cluster command returns this identifier. You can use the list-clusters command to get cluster IDs.</param>
+    /// <param name="Applications">The applications to be installed. Takes the following parameters: Name and Args . (structure) Name -&gt; (string) [required] Application name. Possible values: • MapR • HUE • HIVE • PIG • HBASE • IMPALA • GANGLIA • HADOOP • SPARK Args -&gt; (list) A list of arguments to pass to the application. (string) Shorthand Syntax: Name=string,Args=string,string ... JSON Syntax: [ { "Name": "MapR"|"HUE"|"HIVE"|"PIG"|"HBASE"|"IMPALA"|"GANGLIA"|"HADOOP"|"SPARK", "Args": ["string", ...] } ... ]</param>
     public AwsEmrInstallApplicationsOptions(
         string ClusterId,
         IEnumerable<string> Applications
@@ -55,15 +55,24 @@ public record AwsEmrInstallApplicationsOptions : AwsOptions
     }
 
     /// <summary>
-    /// A unique string that identifies a cluster. The create-cluster com- mand returns this identifier. You can use the list-clusters command to get cluster IDs.
+    /// A unique string that identifies a cluster. The create-cluster command returns this identifier. You can use the list-clusters command to get cluster IDs.
     /// </summary>
     [CliOption("--cluster-id")]
     public string ClusterId { get; private init; }
 
     /// <summary>
-    /// The applications to be installed. Takes the following parameters: Name and Args . (structure) Name -&gt; (string) [required] Application name. Possible values: o MapR o HUE o HIVE o PIG o HBASE o IMPALA o GANGLIA o HADOOP o SPARK Args -&gt; (list) A list of arguments to pass to the application. (string) Shorthand Syntax: Name=string,Args=string,string ... JSON Syntax: [ { "Name": "MapR"|"HUE"|"HIVE"|"PIG"|"HBASE"|"IMPALA"|"GANGLIA"|"HADOOP"|"SPARK", "Args": ["string", ...] } ... ]
+    /// The applications to be installed. Takes the following parameters: Name and Args . (structure) Name -&gt; (string) [required] Application name. Possible values: • MapR • HUE • HIVE • PIG • HBASE • IMPALA • GANGLIA • HADOOP • SPARK Args -&gt; (list) A list of arguments to pass to the application. (string) Shorthand Syntax: Name=string,Args=string,string ... JSON Syntax: [ { "Name": "MapR"|"HUE"|"HIVE"|"PIG"|"HBASE"|"IMPALA"|"GANGLIA"|"HADOOP"|"SPARK", "Args": ["string", ...] } ... ]
     /// </summary>
     [CliOption("--applications", GroupValues = true)]
     public IEnumerable<string> Applications { get; private init; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

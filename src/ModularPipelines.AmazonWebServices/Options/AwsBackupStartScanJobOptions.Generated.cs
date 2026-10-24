@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -31,9 +32,9 @@ public record AwsBackupStartScanJobOptions : AwsOptions, IValidatableObject
     /// </summary>
     /// <param name="BackupVaultName">The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the Amazon Web Services Region where they are created. Pattern: ^[a-zA-Z0-9\-\_]{2,50}$</param>
     /// <param name="IamRoleArn">Specifies the IAM role ARN used to create the target recovery point; for example, arn:aws:iam::123456789012:role/S3Access .</param>
-    /// <param name="MalwareScanner">Specifies the malware scanner used during the scan job. Currently only supports GUARDDUTY . Possible values: o GUARDDUTY</param>
+    /// <param name="MalwareScanner">Specifies the malware scanner used during the scan job. Currently only supports GUARDDUTY . Possible values: • GUARDDUTY</param>
     /// <param name="RecoveryPointArn">An Amazon Resource Name (ARN) that uniquely identifies a recovery point. This is your target recovery point for a full scan. If you are running an incremental scan, this will be your a recovery point which has been created after your base recovery point selection.</param>
-    /// <param name="ScanMode">Specifies the scan type use for the scan job. Includes: o FULL_SCAN will scan the entire data lineage within the backup. o INCREMENTAL_SCAN will scan the data difference between the target recovery point and base recovery point ARN. Possible values: o FULL_SCAN o INCREMENTAL_SCAN</param>
+    /// <param name="ScanMode">Specifies the scan type use for the scan job. Includes: • FULL_SCAN will scan the entire data lineage within the backup. • INCREMENTAL_SCAN will scan the data difference between the target recovery point and base recovery point ARN. Possible values: • FULL_SCAN • INCREMENTAL_SCAN</param>
     /// <param name="ScannerRoleArn">Specified the IAM scanner role ARN.</param>
     public AwsBackupStartScanJobOptions(
         string BackupVaultName,
@@ -89,7 +90,7 @@ public record AwsBackupStartScanJobOptions : AwsOptions, IValidatableObject
     public string? IamRoleArn { get; private init; }
 
     /// <summary>
-    /// Specifies the malware scanner used during the scan job. Currently only supports GUARDDUTY . Possible values: o GUARDDUTY
+    /// Specifies the malware scanner used during the scan job. Currently only supports GUARDDUTY . Possible values: • GUARDDUTY
     /// </summary>
     [CliOption("--malware-scanner")]
     public string? MalwareScanner { get; private init; }
@@ -101,7 +102,7 @@ public record AwsBackupStartScanJobOptions : AwsOptions, IValidatableObject
     public string? RecoveryPointArn { get; private init; }
 
     /// <summary>
-    /// Specifies the scan type use for the scan job. Includes: o FULL_SCAN will scan the entire data lineage within the backup. o INCREMENTAL_SCAN will scan the data difference between the target recovery point and base recovery point ARN. Possible values: o FULL_SCAN o INCREMENTAL_SCAN
+    /// Specifies the scan type use for the scan job. Includes: • FULL_SCAN will scan the entire data lineage within the backup. • INCREMENTAL_SCAN will scan the data difference between the target recovery point and base recovery point ARN. Possible values: • FULL_SCAN • INCREMENTAL_SCAN
     /// </summary>
     [CliOption("--scan-mode")]
     public AwsBackupStartScanJobScanMode? ScanMode { get; private init; }
@@ -152,6 +153,15 @@ public record AwsBackupStartScanJobOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -15,7 +15,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns information about DB cluster snapshots. This API action sup- ports pagination. See also: AWS API Documentation describe-db-cluster-snapshots is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: ...
+/// Returns information about DB cluster snapshots. This API action supports pagination. See also: AWS API Documentation describe-db-cluster-snapshots is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: DBClus...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -23,19 +23,19 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsNeptuneDescribeDbClusterSnapshotsOptions : AwsOptions
 {
     /// <summary>
-    /// The ID of the DB cluster to retrieve the list of DB cluster snap- shots for. This parameter can't be used in conjunction with the DB- ClusterSnapshotIdentifier parameter. This parameter is not case-sen- sitive. Constraints: o If supplied, must match the identifier of an existing DBCluster.
+    /// The ID of the DB cluster to retrieve the list of DB cluster snapshots for. This parameter can't be used in conjunction with the DBClusterSnapshotIdentifier parameter. This parameter is not case-sensitive. Constraints: • If supplied, must match the identifier of an existing DBCluster.
     /// </summary>
     [CliOption("--db-cluster-identifier")]
     public string? DbClusterIdentifier { get; set; }
 
     /// <summary>
-    /// A specific DB cluster snapshot identifier to describe. This parame- ter can't be used in conjunction with the DBClusterIdentifier para- meter. This value is stored as a lowercase string. Constraints: o If supplied, must match the identifier of an existing DBCluster- Snapshot. o If this identifier is for an automated snapshot, the SnapshotType parameter must also be specified.
+    /// A specific DB cluster snapshot identifier to describe. This parameter can't be used in conjunction with the DBClusterIdentifier parameter. This value is stored as a lowercase string. Constraints: • If supplied, must match the identifier of an existing DBClusterSnapshot. • If this identifier is for an automated snapshot, the SnapshotType parameter must also be specified.
     /// </summary>
     [CliOption("--db-cluster-snapshot-identifier")]
     public string? DbClusterSnapshotIdentifier { get; set; }
 
     /// <summary>
-    /// The type of DB cluster snapshots to be returned. You can specify one of the following values: o automated - Return all DB cluster snapshots that have been auto- matically taken by Amazon Neptune for my Amazon account. o manual - Return all DB cluster snapshots that have been taken by my Amazon account. o shared - Return all manual DB cluster snapshots that have been shared to my Amazon account. o public - Return all DB cluster snapshots that have been marked as public. If you don't specify a SnapshotType value, then both automated and manual DB cluster snapshots are returned. You can include shared DB cluster snapshots with these results by setting the IncludeShared parameter to true . You can include public DB cluster snapshots with these results by setting the IncludePublic parameter to true . The IncludeShared and IncludePublic parameters don't apply for Snap- shotType values of manual or automated . The IncludePublic parameter doesn't apply when SnapshotType is set to shared . The IncludeShared parameter doesn't apply when SnapshotType is set to public .
+    /// The type of DB cluster snapshots to be returned. You can specify one of the following values: • automated - Return all DB cluster snapshots that have been automatically taken by Amazon Neptune for my Amazon account. • manual - Return all DB cluster snapshots that have been taken by my Amazon account. • shared - Return all manual DB cluster snapshots that have been shared to my Amazon account. • public - Return all DB cluster snapshots that have been marked as public. If you don't specify a SnapshotType value, then both automated and manual DB cluster snapshots are returned. You can include shared DB cluster snapshots with these results by setting the IncludeShared parameter to true . You can include public DB cluster snapshots with these results by setting the IncludePublic parameter to true . The IncludeShared and IncludePublic parameters don't apply for SnapshotType values of manual or automated . The IncludePublic parameter doesn't apply when SnapshotType is set to shared . The IncludeShared parameter doesn't apply when SnapshotType is set to public .
     /// </summary>
     [CliOption("--snapshot-type")]
     public string? SnapshotType { get; set; }
@@ -47,7 +47,7 @@ public record AwsNeptuneDescribeDbClusterSnapshotsOptions : AwsOptions
     public IEnumerable<string>? Filters { get; set; }
 
     /// <summary>
-    /// True to include shared manual DB cluster snapshots from other Amazon accounts that this Amazon account has been given permission to copy or restore, and otherwise false. The default is false . You can give an Amazon account permission to restore a manual DB cluster snapshot from another Amazon account by the ModifyDBClus- terSnapshotAttribute API action.
+    /// True to include shared manual DB cluster snapshots from other Amazon accounts that this Amazon account has been given permission to copy or restore, and otherwise false. The default is false . You can give an Amazon account permission to restore a manual DB cluster snapshot from another Amazon account by the ModifyDBClusterSnapshotAttribute API action.
     /// </summary>
     [CliFlag("--include-shared", NegatedName = "--no-include-shared")]
     public bool? IncludeShared { get; set; }
@@ -61,9 +61,6 @@ public record AwsNeptuneDescribeDbClusterSnapshotsOptions : AwsOptions
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
-
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
@@ -72,15 +69,27 @@ public record AwsNeptuneDescribeDbClusterSnapshotsOptions : AwsOptions
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

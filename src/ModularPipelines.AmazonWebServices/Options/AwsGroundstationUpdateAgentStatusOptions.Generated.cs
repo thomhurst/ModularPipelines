@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// NOTE: For use by AWS Ground Station Agent and shouldn't be called di- rectly. Update the status of the agent. See also: AWS API Documentation
+/// NOTE: For use by AWS Ground Station Agent and shouldn't be called directly. Update the status of the agent. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,12 +26,12 @@ public record AwsGroundstationUpdateAgentStatusOptions : AwsOptions, IValidatabl
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// NOTE: For use by AWS Ground Station Agent and shouldn't be called di- rectly. Update the status of the agent. See also: AWS API Documentation
+    /// NOTE: For use by AWS Ground Station Agent and shouldn't be called directly. Update the status of the agent. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AgentId">UUID of agent to update. Constraints: o min: 36 o max: 36 o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}</param>
-    /// <param name="TaskId">GUID of agent task. Constraints: o min: 36 o max: 36 o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}</param>
-    /// <param name="AggregateStatus">Aggregate status for agent. status -&gt; (string) [required] Aggregate status. Possible values: o SUCCESS o FAILED o ACTIVE o INACTIVE signatureMap -&gt; (map) Sparse map of failure signatures. key -&gt; (string) value -&gt; (boolean) Shorthand Syntax: status=string,signatureMap={KeyName1=boolean,KeyName2=boolean} JSON Syntax: { "status": "SUCCESS"|"FAILED"|"ACTIVE"|"INACTIVE", "signatureMap": {"string": true|false ...} }</param>
-    /// <param name="ComponentStatuses">List of component statuses for agent. Constraints: o min: 0 o max: 20 (structure) Data on the status of agent components. componentType -&gt; (string) [required] The Component type. Constraints: o pattern: [a-zA-Z0-9_]{1,64} capabilityArn -&gt; (string) [required] Capability ARN of the component. status -&gt; (string) [required] Component status. Possible values: o SUCCESS o FAILED o ACTIVE o INACTIVE bytesSent -&gt; (long) Bytes sent by the component. bytesReceived -&gt; (long) Bytes received by the component. packetsDropped -&gt; (long) Packets dropped by component. dataflowId -&gt; (string) [required] Dataflow UUID associated with the component. Constraints: o min: 36 o max: 36 o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12} Shorthand Syntax: componentType=string,capabilityArn=string,status=string,bytesSent=long,bytesReceived=long,packetsDropped=long,dataflowId=string ... JSON Syntax: [ { "componentType": "string", "capabilityArn": "string", "status": "SUCCESS"|"FAILED"|"ACTIVE"|"INACTIVE", "bytesSent": long, "bytesReceived": long, "packetsDropped": long, "dataflowId": "string" } ... ]</param>
+    /// <param name="AgentId">UUID of agent to update. Constraints: • min: 36 • max: 36 • pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}</param>
+    /// <param name="TaskId">GUID of agent task. Constraints: • min: 36 • max: 36 • pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}</param>
+    /// <param name="AggregateStatus">Aggregate status for agent. status -&gt; (string) [required] Aggregate status. Possible values: • SUCCESS • FAILED • ACTIVE • INACTIVE signatureMap -&gt; (map) Sparse map of failure signatures. key -&gt; (string) value -&gt; (boolean) Shorthand Syntax: status=string,signatureMap={KeyName1=boolean,KeyName2=boolean} JSON Syntax: { "status": "SUCCESS"|"FAILED"|"ACTIVE"|"INACTIVE", "signatureMap": {"string": true|false ...} }</param>
+    /// <param name="ComponentStatuses">List of component statuses for agent. Constraints: • min: 0 • max: 20 (structure) Data on the status of agent components. componentType -&gt; (string) [required] The Component type. Constraints: • pattern: [a-zA-Z0-9_]{1,64} capabilityArn -&gt; (string) [required] Capability ARN of the component. status -&gt; (string) [required] Component status. Possible values: • SUCCESS • FAILED • ACTIVE • INACTIVE bytesSent -&gt; (long) Bytes sent by the component. bytesReceived -&gt; (long) Bytes received by the component. packetsDropped -&gt; (long) Packets dropped by component. dataflowId -&gt; (string) [required] Dataflow UUID associated with the component. Constraints: • min: 36 • max: 36 • pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12} Shorthand Syntax: componentType=string,capabilityArn=string,status=string,bytesSent=long,bytesReceived=long,packetsDropped=long,dataflowId=string ... JSON Syntax: [ { "componentType": "string", "capabilityArn": "string", "status": "SUCCESS"|"FAILED"|"ACTIVE"|"INACTIVE", "bytesSent": long, "bytesReceived": long, "packetsDropped": long, "dataflowId": "string" } ... ]</param>
     public AwsGroundstationUpdateAgentStatusOptions(
         string AgentId,
         string TaskId,
@@ -79,25 +80,25 @@ public record AwsGroundstationUpdateAgentStatusOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// UUID of agent to update. Constraints: o min: 36 o max: 36 o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}
+    /// UUID of agent to update. Constraints: • min: 36 • max: 36 • pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}
     /// </summary>
     [CliOption("--agent-id")]
     public string? AgentId { get; private init; }
 
     /// <summary>
-    /// GUID of agent task. Constraints: o min: 36 o max: 36 o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}
+    /// GUID of agent task. Constraints: • min: 36 • max: 36 • pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}
     /// </summary>
     [CliOption("--task-id")]
     public string? TaskId { get; private init; }
 
     /// <summary>
-    /// Aggregate status for agent. status -&gt; (string) [required] Aggregate status. Possible values: o SUCCESS o FAILED o ACTIVE o INACTIVE signatureMap -&gt; (map) Sparse map of failure signatures. key -&gt; (string) value -&gt; (boolean) Shorthand Syntax: status=string,signatureMap={KeyName1=boolean,KeyName2=boolean} JSON Syntax: { "status": "SUCCESS"|"FAILED"|"ACTIVE"|"INACTIVE", "signatureMap": {"string": true|false ...} }
+    /// Aggregate status for agent. status -&gt; (string) [required] Aggregate status. Possible values: • SUCCESS • FAILED • ACTIVE • INACTIVE signatureMap -&gt; (map) Sparse map of failure signatures. key -&gt; (string) value -&gt; (boolean) Shorthand Syntax: status=string,signatureMap={KeyName1=boolean,KeyName2=boolean} JSON Syntax: { "status": "SUCCESS"|"FAILED"|"ACTIVE"|"INACTIVE", "signatureMap": {"string": true|false ...} }
     /// </summary>
     [CliOption("--aggregate-status")]
     public string? AggregateStatus { get; private init; }
 
     /// <summary>
-    /// List of component statuses for agent. Constraints: o min: 0 o max: 20 (structure) Data on the status of agent components. componentType -&gt; (string) [required] The Component type. Constraints: o pattern: [a-zA-Z0-9_]{1,64} capabilityArn -&gt; (string) [required] Capability ARN of the component. status -&gt; (string) [required] Component status. Possible values: o SUCCESS o FAILED o ACTIVE o INACTIVE bytesSent -&gt; (long) Bytes sent by the component. bytesReceived -&gt; (long) Bytes received by the component. packetsDropped -&gt; (long) Packets dropped by component. dataflowId -&gt; (string) [required] Dataflow UUID associated with the component. Constraints: o min: 36 o max: 36 o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12} Shorthand Syntax: componentType=string,capabilityArn=string,status=string,bytesSent=long,bytesReceived=long,packetsDropped=long,dataflowId=string ... JSON Syntax: [ { "componentType": "string", "capabilityArn": "string", "status": "SUCCESS"|"FAILED"|"ACTIVE"|"INACTIVE", "bytesSent": long, "bytesReceived": long, "packetsDropped": long, "dataflowId": "string" } ... ]
+    /// List of component statuses for agent. Constraints: • min: 0 • max: 20 (structure) Data on the status of agent components. componentType -&gt; (string) [required] The Component type. Constraints: • pattern: [a-zA-Z0-9_]{1,64} capabilityArn -&gt; (string) [required] Capability ARN of the component. status -&gt; (string) [required] Component status. Possible values: • SUCCESS • FAILED • ACTIVE • INACTIVE bytesSent -&gt; (long) Bytes sent by the component. bytesReceived -&gt; (long) Bytes received by the component. packetsDropped -&gt; (long) Packets dropped by component. dataflowId -&gt; (string) [required] Dataflow UUID associated with the component. Constraints: • min: 36 • max: 36 • pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12} Shorthand Syntax: componentType=string,capabilityArn=string,status=string,bytesSent=long,bytesReceived=long,packetsDropped=long,dataflowId=string ... JSON Syntax: [ { "componentType": "string", "capabilityArn": "string", "status": "SUCCESS"|"FAILED"|"ACTIVE"|"INACTIVE", "bytesSent": long, "bytesReceived": long, "packetsDropped": long, "dataflowId": "string" } ... ]
     /// </summary>
     [CliOption("--component-statuses", GroupValues = true)]
     public IEnumerable<string>? ComponentStatuses { get; private init; }
@@ -123,6 +124,15 @@ public record AwsGroundstationUpdateAgentStatusOptions : AwsOptions, IValidatabl
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

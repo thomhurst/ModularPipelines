@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates a hypervisor metadata, including its host, username, and pass- word. Specify which hypervisor to update using the Amazon Resource Name (ARN) of the hypervisor in your request. See also: AWS API Documentation
+/// Updates a hypervisor metadata, including its host, username, and password. Specify which hypervisor to update using the Amazon Resource Name (ARN) of the hypervisor in your request. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +27,9 @@ public record AwsBackupGatewayUpdateHypervisorOptions : AwsOptions, IValidatable
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates a hypervisor metadata, including its host, username, and pass- word. Specify which hypervisor to update using the Amazon Resource Name (ARN) of the hypervisor in your request. See also: AWS API Documentation
+    /// Updates a hypervisor metadata, including its host, username, and password. Specify which hypervisor to update using the Amazon Resource Name (ARN) of the hypervisor in your request. See also: AWS API Documentation
     /// </summary>
-    /// <param name="HypervisorArn">The Amazon Resource Name (ARN) of the hypervisor to update. Constraints: o min: 50 o max: 500 o pattern: arn:(aws|aws-cn|aws-us-gov):backup-gate- way(:[a-zA-Z-0-9]+){3}\/[a-zA-Z-0-9]+</param>
+    /// <param name="HypervisorArn">The Amazon Resource Name (ARN) of the hypervisor to update. Constraints: • min: 50 • max: 500 • pattern: arn:(aws|aws-cn|aws-us-gov):backup-gateway(:[a-zA-Z-0-9]+){3}\/[a-zA-Z-0-9]+</param>
     public AwsBackupGatewayUpdateHypervisorOptions(
         string HypervisorArn
     )
@@ -57,38 +58,38 @@ public record AwsBackupGatewayUpdateHypervisorOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the hypervisor to update. Constraints: o min: 50 o max: 500 o pattern: arn:(aws|aws-cn|aws-us-gov):backup-gate- way(:[a-zA-Z-0-9]+){3}\/[a-zA-Z-0-9]+
+    /// The Amazon Resource Name (ARN) of the hypervisor to update. Constraints: • min: 50 • max: 500 • pattern: arn:(aws|aws-cn|aws-us-gov):backup-gateway(:[a-zA-Z-0-9]+){3}\/[a-zA-Z-0-9]+
     /// </summary>
     [CliOption("--hypervisor-arn")]
     public string? HypervisorArn { get; private init; }
 
     /// <summary>
-    /// The updated host of the hypervisor. This can be either an IP address or a fully-qualified domain name (FQDN). Constraints: o min: 3 o max: 128 o pattern: .+
+    /// The updated host of the hypervisor. This can be either an IP address or a fully-qualified domain name (FQDN). Constraints: • min: 3 • max: 128 • pattern: .+
     /// </summary>
     [CliOption("--host")]
     public string? Host { get; set; }
 
     /// <summary>
-    /// The updated username for the hypervisor. Constraints: o min: 1 o max: 100 o pattern: [ -\.0-\[\]-~]*[!-\.0-\[\]-~][ -\.0-\[\]-~]*
+    /// The updated username for the hypervisor. Constraints: • min: 1 • max: 100 • pattern: [ -\.0-\[\]-~]*[!-\.0-\[\]-~][ -\.0-\[\]-~]*
     /// </summary>
     [CliOption("--username")]
     public string? Username { get; set; }
 
     /// <summary>
-    /// The updated password for the hypervisor. Constraints: o min: 1 o max: 100 o pattern: [ -~]+
+    /// The updated password for the hypervisor. Constraints: • min: 1 • max: 100 • pattern: [ -~]+
     /// </summary>
     [SecretValue]
     [CliOption("--password")]
     public string? Password { get; set; }
 
     /// <summary>
-    /// The updated name for the hypervisor Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z0-9-]*
+    /// The updated name for the hypervisor Constraints: • min: 1 • max: 100 • pattern: [a-zA-Z0-9-]*
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the group of gateways within the requested log. Constraints: o min: 0 o max: 2048 o pattern: $|^arn:(aws|aws-cn|aws-us-gov):logs:([a-zA-Z0-9-]+):([0-9]+):log-group:[a-zA-Z0-9_\-\/\.]+:\*
+    /// The Amazon Resource Name (ARN) of the group of gateways within the requested log. Constraints: • min: 0 • max: 2048 • pattern: $|^arn:(aws|aws-cn|aws-us-gov):logs:([a-zA-Z0-9-]+):([0-9]+):log-group:[a-zA-Z0-9_\-\/\.]+:\*
     /// </summary>
     [CliOption("--log-group-arn")]
     public string? LogGroupArn { get; set; }
@@ -114,6 +115,15 @@ public record AwsBackupGatewayUpdateHypervisorOptions : AwsOptions, IValidatable
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

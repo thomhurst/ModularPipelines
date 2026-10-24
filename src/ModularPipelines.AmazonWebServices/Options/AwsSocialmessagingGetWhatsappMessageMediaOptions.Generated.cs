@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Get a media file from the WhatsApp service. On successful completion the media file is retrieved from Meta and stored in the specified Ama- zon S3 bucket. Use either destinationS3File or destinationS3Presigne- dUrl for the destination. If both are used then an InvalidParameterEx- ception is returned. See also: AWS API Documentation
+/// Get a media file from the WhatsApp service. On successful completion the media file is retrieved from Meta and stored in the specified Amazon S3 bucket. Use either destinationS3File or destinationS3PresignedUrl for the destination. If both are used then an InvalidParameterException is returned. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsSocialmessagingGetWhatsappMessageMediaOptions : AwsOptions, IVa
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Get a media file from the WhatsApp service. On successful completion the media file is retrieved from Meta and stored in the specified Ama- zon S3 bucket. Use either destinationS3File or destinationS3Presigne- dUrl for the destination. If both are used then an InvalidParameterEx- ception is returned. See also: AWS API Documentation
+    /// Get a media file from the WhatsApp service. On successful completion the media file is retrieved from Meta and stored in the specified Amazon S3 bucket. Use either destinationS3File or destinationS3PresignedUrl for the destination. If both are used then an InvalidParameterException is returned. See also: AWS API Documentation
     /// </summary>
-    /// <param name="MediaId">The unique identifier for the media file. Constraints: o min: 1 o max: 100 o pattern: [A-Za-z0-9]+</param>
-    /// <param name="OriginationPhoneNumberId">The unique identifier of the originating phone number for the What- sApp message media. The phone number identifiers are formatted as phone-number-id-01234567890123456789012345678901 . Use GetLinkedWhatsAppBusinessAccount to find a phone number's id. Constraints: o min: 1 o max: 115 o pattern: .*(^phone-number-id-.*$)|(^arn:.*:phone-num- ber-id/[0-9a-zA-Z]+$).*</param>
+    /// <param name="MediaId">The unique identifier for the media file. Constraints: • min: 1 • max: 100 • pattern: [A-Za-z0-9]+</param>
+    /// <param name="OriginationPhoneNumberId">The unique identifier of the originating phone number for the WhatsApp message media. The phone number identifiers are formatted as phone-number-id-01234567890123456789012345678901 . Use GetLinkedWhatsAppBusinessAccount to find a phone number's id. Constraints: • min: 1 • max: 115 • pattern: .*(^phone-number-id-.*$)|(^arn:.*:phone-number-id/[0-9a-zA-Z]+$).*</param>
     public AwsSocialmessagingGetWhatsappMessageMediaOptions(
         string MediaId,
         string OriginationPhoneNumberId
@@ -60,13 +61,13 @@ public record AwsSocialmessagingGetWhatsappMessageMediaOptions : AwsOptions, IVa
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier for the media file. Constraints: o min: 1 o max: 100 o pattern: [A-Za-z0-9]+
+    /// The unique identifier for the media file. Constraints: • min: 1 • max: 100 • pattern: [A-Za-z0-9]+
     /// </summary>
     [CliOption("--media-id")]
     public string? MediaId { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the originating phone number for the What- sApp message media. The phone number identifiers are formatted as phone-number-id-01234567890123456789012345678901 . Use GetLinkedWhatsAppBusinessAccount to find a phone number's id. Constraints: o min: 1 o max: 115 o pattern: .*(^phone-number-id-.*$)|(^arn:.*:phone-num- ber-id/[0-9a-zA-Z]+$).*
+    /// The unique identifier of the originating phone number for the WhatsApp message media. The phone number identifiers are formatted as phone-number-id-01234567890123456789012345678901 . Use GetLinkedWhatsAppBusinessAccount to find a phone number's id. Constraints: • min: 1 • max: 115 • pattern: .*(^phone-number-id-.*$)|(^arn:.*:phone-number-id/[0-9a-zA-Z]+$).*
     /// </summary>
     [CliOption("--origination-phone-number-id")]
     public string? OriginationPhoneNumberId { get; private init; }
@@ -78,13 +79,13 @@ public record AwsSocialmessagingGetWhatsappMessageMediaOptions : AwsOptions, IVa
     public bool? MetadataOnly { get; set; }
 
     /// <summary>
-    /// The presign url of the media file. url -&gt; (string) [required] The presign url to the object. Constraints: o min: 1 o max: 2000 o pattern: https://(.*)s3(.*).amazonaws.com/(.*) headers -&gt; (map) [required] A map of headers and their values. You must specify the Con- tent-Type header when using PostWhatsAppMessageMedia . For a list of common headers, see Common Request Headers in the Amazon S3 API Reference key -&gt; (string) value -&gt; (string) Shorthand Syntax: url=string,headers={KeyName1=string,KeyName2=string} JSON Syntax: { "url": "string", "headers": {"string": "string" ...} }
+    /// The presign url of the media file. url -&gt; (string) [required] The presign url to the object. Constraints: • min: 1 • max: 2000 • pattern: https://(.*)s3(.*).amazonaws.com/(.*) headers -&gt; (map) [required] A map of headers and their values. You must specify the Content-Type header when using PostWhatsAppMessageMedia . For a list of common headers, see Common Request Headers in the Amazon S3 API Reference key -&gt; (string) value -&gt; (string) Shorthand Syntax: url=string,headers={KeyName1=string,KeyName2=string} JSON Syntax: { "url": "string", "headers": {"string": "string" ...} }
     /// </summary>
     [CliOption("--destination-s3-presigned-url")]
     public string? DestinationS3PresignedUrl { get; set; }
 
     /// <summary>
-    /// The bucketName and key of the S3 media file. bucketName -&gt; (string) [required] The bucket name. Constraints: o min: 3 o max: 63 o pattern: [a-z0-9][a-z0-9.-]*[a-z0-9] key -&gt; (string) [required] The S3 key prefix that defines the storage location of your me- dia files. The prefix works like a folder path in S3, and is combined with the WhatsApp mediaId to create the final file path. For example, if a media file's WhatsApp mediaId is 123.ogg , and the key is audio/example.ogg , the final file path is audio/ex- ample.ogg123.ogg . For the same mediaId, a key of audio/ results in the file path audio/123.ogg . Constraints: o min: 0 o max: 1024 Shorthand Syntax: bucketName=string,key=string JSON Syntax: { "bucketName": "string", "key": "string" }
+    /// The bucketName and key of the S3 media file. bucketName -&gt; (string) [required] The bucket name. Constraints: • min: 3 • max: 63 • pattern: [a-z0-9][a-z0-9.-]*[a-z0-9] key -&gt; (string) [required] The S3 key prefix that defines the storage location of your media files. The prefix works like a folder path in S3, and is combined with the WhatsApp mediaId to create the final file path. For example, if a media file's WhatsApp mediaId is 123.ogg , and the key is audio/example.ogg , the final file path is audio/example.ogg123.ogg . For the same mediaId, a key of audio/ results in the file path audio/123.ogg . Constraints: • min: 0 • max: 1024 Shorthand Syntax: bucketName=string,key=string JSON Syntax: { "bucketName": "string", "key": "string" }
     /// </summary>
     [CliOption("--destination-s3-file")]
     public string? DestinationS3File { get; set; }
@@ -110,6 +111,15 @@ public record AwsSocialmessagingGetWhatsappMessageMediaOptions : AwsOptions, IVa
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

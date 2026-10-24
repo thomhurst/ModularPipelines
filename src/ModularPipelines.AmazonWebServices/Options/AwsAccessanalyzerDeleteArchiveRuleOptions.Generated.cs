@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,8 +29,8 @@ public record AwsAccessanalyzerDeleteArchiveRuleOptions : AwsOptions, IValidatab
     /// <summary>
     /// Deletes the specified archive rule. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AnalyzerName">The name of the analyzer that associated with the archive rule to delete. Constraints: o min: 1 o max: 255 o pattern: [A-Za-z_][A-Za-z0-9_.-]*</param>
-    /// <param name="RuleName">The name of the rule to delete. Constraints: o min: 1 o max: 255 o pattern: [A-Za-z][A-Za-z0-9_.-]*</param>
+    /// <param name="AnalyzerName">The name of the analyzer that associated with the archive rule to delete. Constraints: • min: 1 • max: 255 • pattern: [A-Za-z_][A-Za-z0-9_.-]*</param>
+    /// <param name="RuleName">The name of the rule to delete. Constraints: • min: 1 • max: 255 • pattern: [A-Za-z][A-Za-z0-9_.-]*</param>
     public AwsAccessanalyzerDeleteArchiveRuleOptions(
         string AnalyzerName,
         string RuleName
@@ -61,13 +62,13 @@ public record AwsAccessanalyzerDeleteArchiveRuleOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the analyzer that associated with the archive rule to delete. Constraints: o min: 1 o max: 255 o pattern: [A-Za-z_][A-Za-z0-9_.-]*
+    /// The name of the analyzer that associated with the archive rule to delete. Constraints: • min: 1 • max: 255 • pattern: [A-Za-z_][A-Za-z0-9_.-]*
     /// </summary>
     [CliOption("--analyzer-name")]
     public string? AnalyzerName { get; private init; }
 
     /// <summary>
-    /// The name of the rule to delete. Constraints: o min: 1 o max: 255 o pattern: [A-Za-z][A-Za-z0-9_.-]*
+    /// The name of the rule to delete. Constraints: • min: 1 • max: 255 • pattern: [A-Za-z][A-Za-z0-9_.-]*
     /// </summary>
     [CliOption("--rule-name")]
     public string? RuleName { get; private init; }
@@ -100,6 +101,15 @@ public record AwsAccessanalyzerDeleteArchiveRuleOptions : AwsOptions, IValidatab
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -29,8 +30,8 @@ public record AwsIottwinmakerGetPropertyValueHistoryOptions : AwsOptions, IValid
     /// <summary>
     /// Retrieves information about the history of a time series property value for a component, component type, entity, or workspace. You must specify a value for workspaceId . For entity-specific queries, specify values for componentName and entityId . For cross-entity quries, specify a value for componentTypeId . See also: AWS API Documentation
     /// </summary>
-    /// <param name="WorkspaceId">The ID of the workspace. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z_0-9][a-zA-Z_\-0-9]*[a-zA-Z0-9]+</param>
-    /// <param name="SelectedProperties">A list of properties whose value histories the request retrieves. Constraints: o min: 1 o max: 10 (string) Constraints: o min: 1 o max: 256 o pattern: .* Syntax: "string" "string" ...</param>
+    /// <param name="WorkspaceId">The ID of the workspace. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z_0-9][a-zA-Z_\-0-9]*[a-zA-Z0-9]+</param>
+    /// <param name="SelectedProperties">A list of properties whose value histories the request retrieves. Constraints: • min: 1 • max: 10 (string) Constraints: • min: 1 • max: 256 • pattern: .* Syntax: "string" "string" ...</param>
     public AwsIottwinmakerGetPropertyValueHistoryOptions(
         string WorkspaceId,
         IEnumerable<string> SelectedProperties
@@ -73,43 +74,43 @@ public record AwsIottwinmakerGetPropertyValueHistoryOptions : AwsOptions, IValid
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the workspace. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z_0-9][a-zA-Z_\-0-9]*[a-zA-Z0-9]+
+    /// The ID of the workspace. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z_0-9][a-zA-Z_\-0-9]*[a-zA-Z0-9]+
     /// </summary>
     [CliOption("--workspace-id")]
     public string? WorkspaceId { get; private init; }
 
     /// <summary>
-    /// A list of properties whose value histories the request retrieves. Constraints: o min: 1 o max: 10 (string) Constraints: o min: 1 o max: 256 o pattern: .* Syntax: "string" "string" ...
+    /// A list of properties whose value histories the request retrieves. Constraints: • min: 1 • max: 10 (string) Constraints: • min: 1 • max: 256 • pattern: .* Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--selected-properties", GroupValues = true)]
     public IEnumerable<string>? SelectedProperties { get; private init; }
 
     /// <summary>
-    /// The ID of the entity. Constraints: o min: 1 o max: 128 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}|^[a-zA-Z0-9][a-zA-Z_\-0-9.:]*[a-zA-Z0-9]+
+    /// The ID of the entity. Constraints: • min: 1 • max: 128 • pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}|^[a-zA-Z0-9][a-zA-Z_\-0-9.:]*[a-zA-Z0-9]+
     /// </summary>
     [CliOption("--entity-id")]
     public string? EntityId { get; set; }
 
     /// <summary>
-    /// The name of the component. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z_\-0-9]+
+    /// The name of the component. Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z_\-0-9]+
     /// </summary>
     [CliOption("--component-name")]
     public string? ComponentName { get; set; }
 
     /// <summary>
-    /// This string specifies the path to the composite component, starting from the top-level component. Constraints: o min: 1 o max: 2048 o pattern: [a-zA-Z_\-0-9/]+
+    /// This string specifies the path to the composite component, starting from the top-level component. Constraints: • min: 1 • max: 2048 • pattern: [a-zA-Z_\-0-9/]+
     /// </summary>
     [CliOption("--component-path")]
     public string? ComponentPath { get; set; }
 
     /// <summary>
-    /// The ID of the component type. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z_\.\-0-9:]+
+    /// The ID of the component type. Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z_\.\-0-9:]+
     /// </summary>
     [CliOption("--component-type-id")]
     public string? ComponentTypeId { get; set; }
 
     /// <summary>
-    /// A list of objects that filter the property value history request. Constraints: o min: 1 o max: 10 (structure) An object that filters items returned by a property request. propertyName -&gt; (string) The property name associated with this property filter. Constraints: o min: 1 o max: 256 o pattern: .* operator -&gt; (string) The operator associated with this property filter. Constraints: o min: 1 o max: 256 o pattern: .* value -&gt; (structure) The value associated with this property filter. booleanValue -&gt; (boolean) A Boolean value. doubleValue -&gt; (double) A double value. integerValue -&gt; (integer) An integer value. longValue -&gt; (long) A long value. stringValue -&gt; (string) A string value. Constraints: o min: 1 o max: 256 o pattern: .* listValue -&gt; (list) A list of multiple values. Constraints: o min: 0 o max: 50 (structure) An object that specifies a value for a property. booleanValue -&gt; (boolean) A Boolean value. doubleValue -&gt; (double) A double value. integerValue -&gt; (integer) An integer value. longValue -&gt; (long) A long value. stringValue -&gt; (string) A string value. Constraints: o min: 1 o max: 256 o pattern: .* listValue -&gt; (list) A list of multiple values. Constraints: o min: 0 o max: 50 ( ... recursive ... ) mapValue -&gt; (map) An object that maps strings to multiple DataValue objects. Constraints: o min: 0 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 256 o pattern: .* ( ... recursive ... ) relationshipValue -&gt; (structure) A value that relates a component to another compo- nent. targetEntityId -&gt; (string) The ID of the target entity associated with this relationship value. Constraints: o min: 1 o max: 128 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}|^[a-zA-Z0-9][a-zA-Z_\-0-9.:]*[a-zA-Z0-9]+ targetComponentName -&gt; (string) The name of the target component associated with the relationship value. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z_\-0-9]+ expression -&gt; (string) An expression that produces the value. Constraints: o min: 1 o max: 316 o pattern: (^\$\{Parame- ters\.[a-zA-z]+([a-zA-z_0-9]*)}$) mapValue -&gt; (map) An object that maps strings to multiple DataValue ob- jects. Constraints: o min: 0 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 256 o pattern: .* value -&gt; (structure) An object that specifies a value for a property. booleanValue -&gt; (boolean) A Boolean value. doubleValue -&gt; (double) A double value. integerValue -&gt; (integer) An integer value. longValue -&gt; (long) A long value. stringValue -&gt; (string) A string value. Constraints: o min: 1 o max: 256 o pattern: .* listValue -&gt; (list) A list of multiple values. Constraints: o min: 0 o max: 50 ( ... recursive ... ) mapValue -&gt; (map) An object that maps strings to multiple DataValue objects. Constraints: o min: 0 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 256 o pattern: .* ( ... recursive ... ) relationshipValue -&gt; (structure) A value that relates a component to another compo- nent. targetEntityId -&gt; (string) The ID of the target entity associated with this relationship value. Constraints: o min: 1 o max: 128 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}|^[a-zA-Z0-9][a-zA-Z_\-0-9.:]*[a-zA-Z0-9]+ targetComponentName -&gt; (string) The name of the target component associated with the relationship value. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z_\-0-9]+ expression -&gt; (string) An expression that produces the value. Constraints: o min: 1 o max: 316 o pattern: (^\$\{Parame- ters\.[a-zA-z]+([a-zA-z_0-9]*)}$) relationshipValue -&gt; (structure) A value that relates a component to another component. targetEntityId -&gt; (string) The ID of the target entity associated with this rela- tionship value. Constraints: o min: 1 o max: 128 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}|^[a-zA-Z0-9][a-zA-Z_\-0-9.:]*[a-zA-Z0-9]+ targetComponentName -&gt; (string) The name of the target component associated with the relationship value. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z_\-0-9]+ expression -&gt; (string) An expression that produces the value. Constraints: o min: 1 o max: 316 o pattern: (^\$\{Parameters\.[a-zA-z]+([a-zA-z_0-9]*)}$) JSON Syntax: [ { "propertyName": "string", "operator": "string", "value": { "booleanValue": true|false, "doubleValue": double, "integerValue": integer, "longValue": long, "stringValue": "string", "listValue": [ { "booleanValue": true|false, "doubleValue": double, "integerValue": integer, "longValue": long, "stringValue": "string", "listValue": [ { ... recursive ... } ... ], "mapValue": {"string": { ... recursive ... } ...}, "relationshipValue": { "targetEntityId": "string", "targetComponentName": "string" }, "expression": "string" } ... ], "mapValue": {"string": { "booleanValue": true|false, "doubleValue": double, "integerValue": integer, "longValue": long, "stringValue": "string", "listValue": [ { ... recursive ... } ... ], "mapValue": {"string": { ... recursive ... } ...}, "relationshipValue": { "targetEntityId": "string", "targetComponentName": "string" }, "expression": "string" } ...}, "relationshipValue": { "targetEntityId": "string", "targetComponentName": "string" }, "expression": "string" } } ... ]
+    /// A list of objects that filter the property value history request. Constraints: • min: 1 • max: 10 (structure) An object that filters items returned by a property request. propertyName -&gt; (string) The property name associated with this property filter. Constraints: • min: 1 • max: 256 • pattern: .* operator -&gt; (string) The operator associated with this property filter. Constraints: • min: 1 • max: 256 • pattern: .* value -&gt; (structure) The value associated with this property filter. booleanValue -&gt; (boolean) A Boolean value. doubleValue -&gt; (double) A double value. integerValue -&gt; (integer) An integer value. longValue -&gt; (long) A long value. stringValue -&gt; (string) A string value. Constraints: • min: 1 • max: 256 • pattern: .* listValue -&gt; (list) A list of multiple values. Constraints: • min: 0 • max: 50 (structure) An object that specifies a value for a property. booleanValue -&gt; (boolean) A Boolean value. doubleValue -&gt; (double) A double value. integerValue -&gt; (integer) An integer value. longValue -&gt; (long) A long value. stringValue -&gt; (string) A string value. Constraints: • min: 1 • max: 256 • pattern: .* listValue -&gt; (list) A list of multiple values. Constraints: • min: 0 • max: 50 ( ... recursive ... ) mapValue -&gt; (map) An object that maps strings to multiple DataValue objects. Constraints: • min: 0 • max: 50 key -&gt; (string) Constraints: • min: 1 • max: 256 • pattern: .* ( ... recursive ... ) relationshipValue -&gt; (structure) A value that relates a component to another component. targetEntityId -&gt; (string) The ID of the target entity associated with this relationship value. Constraints: • min: 1 • max: 128 • pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}|^[a-zA-Z0-9][a-zA-Z_\-0-9.:]*[a-zA-Z0-9]+ targetComponentName -&gt; (string) The name of the target component associated with the relationship value. Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z_\-0-9]+ expression -&gt; (string) An expression that produces the value. Constraints: • min: 1 • max: 316 • pattern: (^\$\{Parameters\.[a-zA-z]+([a-zA-z_0-9]*)}$) mapValue -&gt; (map) An object that maps strings to multiple DataValue objects. Constraints: • min: 0 • max: 50 key -&gt; (string) Constraints: • min: 1 • max: 256 • pattern: .* value -&gt; (structure) An object that specifies a value for a property. booleanValue -&gt; (boolean) A Boolean value. doubleValue -&gt; (double) A double value. integerValue -&gt; (integer) An integer value. longValue -&gt; (long) A long value. stringValue -&gt; (string) A string value. Constraints: • min: 1 • max: 256 • pattern: .* listValue -&gt; (list) A list of multiple values. Constraints: • min: 0 • max: 50 ( ... recursive ... ) mapValue -&gt; (map) An object that maps strings to multiple DataValue objects. Constraints: • min: 0 • max: 50 key -&gt; (string) Constraints: • min: 1 • max: 256 • pattern: .* ( ... recursive ... ) relationshipValue -&gt; (structure) A value that relates a component to another component. targetEntityId -&gt; (string) The ID of the target entity associated with this relationship value. Constraints: • min: 1 • max: 128 • pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}|^[a-zA-Z0-9][a-zA-Z_\-0-9.:]*[a-zA-Z0-9]+ targetComponentName -&gt; (string) The name of the target component associated with the relationship value. Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z_\-0-9]+ expression -&gt; (string) An expression that produces the value. Constraints: • min: 1 • max: 316 • pattern: (^\$\{Parameters\.[a-zA-z]+([a-zA-z_0-9]*)}$) relationshipValue -&gt; (structure) A value that relates a component to another component. targetEntityId -&gt; (string) The ID of the target entity associated with this relationship value. Constraints: • min: 1 • max: 128 • pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}|^[a-zA-Z0-9][a-zA-Z_\-0-9.:]*[a-zA-Z0-9]+ targetComponentName -&gt; (string) The name of the target component associated with the relationship value. Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z_\-0-9]+ expression -&gt; (string) An expression that produces the value. Constraints: • min: 1 • max: 316 • pattern: (^\$\{Parameters\.[a-zA-z]+([a-zA-z_0-9]*)}$) JSON Syntax: [ { "propertyName": "string", "operator": "string", "value": { "booleanValue": true|false, "doubleValue": double, "integerValue": integer, "longValue": long, "stringValue": "string", "listValue": [ { "booleanValue": true|false, "doubleValue": double, "integerValue": integer, "longValue": long, "stringValue": "string", "listValue": [ { ... recursive ... } ... ], "mapValue": {"string": { ... recursive ... } ...}, "relationshipValue": { "targetEntityId": "string", "targetComponentName": "string" }, "expression": "string" } ... ], "mapValue": {"string": { "booleanValue": true|false, "doubleValue": double, "integerValue": integer, "longValue": long, "stringValue": "string", "listValue": [ { ... recursive ... } ... ], "mapValue": {"string": { ... recursive ... } ...}, "relationshipValue": { "targetEntityId": "string", "targetComponentName": "string" }, "expression": "string" } ...}, "relationshipValue": { "targetEntityId": "string", "targetComponentName": "string" }, "expression": "string" } } ... ]
     /// </summary>
     [CliOption("--property-filters", GroupValues = true)]
     public IEnumerable<string>? PropertyFilters { get; set; }
@@ -127,38 +128,38 @@ public record AwsIottwinmakerGetPropertyValueHistoryOptions : AwsOptions, IValid
     public string? EndDateTime { get; set; }
 
     /// <summary>
-    /// An object that specifies the interpolation type and the interval over which to interpolate data. interpolationType -&gt; (string) The interpolation type. Possible values: o LINEAR intervalInSeconds -&gt; (long) The interpolation time interval in seconds. Shorthand Syntax: interpolationType=string,intervalInSeconds=long JSON Syntax: { "interpolationType": "LINEAR", "intervalInSeconds": long }
+    /// An object that specifies the interpolation type and the interval over which to interpolate data. interpolationType -&gt; (string) The interpolation type. Possible values: • LINEAR intervalInSeconds -&gt; (long) The interpolation time interval in seconds. Shorthand Syntax: interpolationType=string,intervalInSeconds=long JSON Syntax: { "interpolationType": "LINEAR", "intervalInSeconds": long }
     /// </summary>
     [CliOption("--interpolation")]
     public string? Interpolation { get; set; }
 
     /// <summary>
-    /// The string that specifies the next page of results. Constraints: o min: 0 o max: 17880 o pattern: .*
+    /// The string that specifies the next page of results. Constraints: • min: 0 • max: 17880 • pattern: .*
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// The maximum number of results to return at one time. The default is 25. Valid Range: Minimum value of 1. Maximum value of 250. Constraints: o min: 0 o max: 200
+    /// The maximum number of results to return at one time. The default is 25. Valid Range: Minimum value of 1. Maximum value of 250. Constraints: • min: 0 • max: 200
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
     /// <summary>
-    /// The time direction to use in the result order. Possible values: o ASCENDING o DESCENDING
+    /// The time direction to use in the result order. Possible values: • ASCENDING • DESCENDING
     /// </summary>
     [CliOption("--order-by-time")]
     public AwsIottwinmakerGetPropertyValueHistoryOrderByTime? OrderByTime { get; set; }
 
     /// <summary>
-    /// The ISO8601 DateTime of the earliest property value to return. For more information about the ISO8601 DateTime format, see the data type PropertyValue . Constraints: o min: 20 o max: 35
+    /// The ISO8601 DateTime of the earliest property value to return. For more information about the ISO8601 DateTime format, see the data type PropertyValue . Constraints: • min: 20 • max: 35
     /// </summary>
     [CliOption("--start-time")]
     public string? StartTime { get; set; }
 
     /// <summary>
-    /// The ISO8601 DateTime of the latest property value to return. For more information about the ISO8601 DateTime format, see the data type PropertyValue . Constraints: o min: 20 o max: 35
+    /// The ISO8601 DateTime of the latest property value to return. For more information about the ISO8601 DateTime format, see the data type PropertyValue . Constraints: • min: 20 • max: 35
     /// </summary>
     [CliOption("--end-time")]
     public string? EndTime { get; set; }
@@ -184,6 +185,15 @@ public record AwsIottwinmakerGetPropertyValueHistoryOptions : AwsOptions, IValid
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

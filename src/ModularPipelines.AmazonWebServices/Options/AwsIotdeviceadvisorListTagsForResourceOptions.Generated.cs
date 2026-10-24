@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsIotdeviceadvisorListTagsForResourceOptions : AwsOptions, IValid
     /// <summary>
     /// Lists the tags attached to an IoT Device Advisor resource. Requires permission to access the ListTagsForResource action. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The resource ARN of the IoT Device Advisor resource. This can be SuiteDefinition ARN or SuiteRun ARN. Constraints: o min: 20 o max: 2048</param>
+    /// <param name="ResourceArn">The resource ARN of the IoT Device Advisor resource. This can be SuiteDefinition ARN or SuiteRun ARN. Constraints: • min: 20 • max: 2048</param>
     public AwsIotdeviceadvisorListTagsForResourceOptions(
         string ResourceArn
     )
@@ -56,7 +57,7 @@ public record AwsIotdeviceadvisorListTagsForResourceOptions : AwsOptions, IValid
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The resource ARN of the IoT Device Advisor resource. This can be SuiteDefinition ARN or SuiteRun ARN. Constraints: o min: 20 o max: 2048
+    /// The resource ARN of the IoT Device Advisor resource. This can be SuiteDefinition ARN or SuiteRun ARN. Constraints: • min: 20 • max: 2048
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
@@ -82,6 +83,15 @@ public record AwsIotdeviceadvisorListTagsForResourceOptions : AwsOptions, IValid
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

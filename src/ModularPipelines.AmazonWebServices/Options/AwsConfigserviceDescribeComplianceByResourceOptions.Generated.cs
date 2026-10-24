@@ -15,7 +15,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Indicates whether the specified Amazon Web Services resources are com- pliant. If a resource is noncompliant, this operation returns the num- ber of Config rules that the resource does not comply with. A resource is compliant if it complies with all the Config rules that evaluate it. It is noncompliant if it does not comply with one or more of these rules. If Config has no current evaluation results for the resource, it re- turns INSUFFICIENT_DATA . This result might indicate one of the follow- ...
+/// Indicates whether the specified Amazon Web Services resources are compliant. If a resource is noncompliant, this operation returns the number of Config rules that the resource does not comply with. A resource is compliant if it complies with all the Config rules that evaluate it. It is noncompliant if it does not comply with one or more of these rules. If Config has no current evaluation results for the resource, it returns INSUFFICIENT_DATA . This result might indicate one of the following cond...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -23,28 +23,25 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsConfigserviceDescribeComplianceByResourceOptions : AwsOptions
 {
     /// <summary>
-    /// The types of Amazon Web Services resources for which you want com- pliance information (for example, AWS::EC2::Instance ). For this op- eration, you can specify that the resource type is an Amazon Web Services account by specifying AWS::::Account . Constraints: o min: 1 o max: 256
+    /// The types of Amazon Web Services resources for which you want compliance information (for example, AWS::EC2::Instance ). For this operation, you can specify that the resource type is an Amazon Web Services account by specifying AWS::::Account . Constraints: • min: 1 • max: 256
     /// </summary>
     [CliOption("--resource-type")]
     public string? ResourceType { get; set; }
 
     /// <summary>
-    /// The ID of the Amazon Web Services resource for which you want com- pliance information. You can specify only one resource ID. If you specify a resource ID, you must also specify a type for ResourceType . Constraints: o min: 1 o max: 768
+    /// The ID of the Amazon Web Services resource for which you want compliance information. You can specify only one resource ID. If you specify a resource ID, you must also specify a type for ResourceType . Constraints: • min: 1 • max: 768
     /// </summary>
     [CliOption("--resource-id")]
     public string? ResourceId { get; set; }
 
     /// <summary>
-    /// Filters the results by compliance. Constraints: o min: 0 o max: 3 (string) Possible values: o COMPLIANT o NON_COMPLIANT o NOT_APPLICABLE o INSUFFICIENT_DATA Syntax: "string" "string" ...
+    /// Filters the results by compliance. Constraints: • min: 0 • max: 3 (string) Possible values: • COMPLIANT • NON_COMPLIANT • NOT_APPLICABLE • INSUFFICIENT_DATA Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--compliance-types", GroupValues = true)]
     public IEnumerable<string>? ComplianceTypes { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -54,15 +51,27 @@ public record AwsConfigserviceDescribeComplianceByResourceOptions : AwsOptions
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 0 o max: 100
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 0 • max: 100
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

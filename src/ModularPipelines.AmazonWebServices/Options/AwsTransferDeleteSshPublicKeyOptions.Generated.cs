@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,9 +28,9 @@ public record AwsTransferDeleteSshPublicKeyOptions : AwsOptions, IValidatableObj
     /// <summary>
     /// Deletes a user's Secure Shell (SSH) public key. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ServerId">A system-assigned unique identifier for a file transfer protocol-en- abled server instance that has the user assigned to it. Constraints: o min: 19 o max: 19 o pattern: s-([0-9a-f]{17})</param>
-    /// <param name="SshPublicKeyId">A unique identifier used to reference your user's specific SSH key. Constraints: o min: 21 o max: 21 o pattern: key-[0-9a-f]{17}</param>
-    /// <param name="UserName">A unique string that identifies a user whose public key is being deleted. Constraints: o min: 3 o max: 100 o pattern: [\w][\w@.-]{2,99}</param>
+    /// <param name="ServerId">A system-assigned unique identifier for a file transfer protocol-enabled server instance that has the user assigned to it. Constraints: • min: 19 • max: 19 • pattern: s-([0-9a-f]{17})</param>
+    /// <param name="SshPublicKeyId">A unique identifier used to reference your user's specific SSH key. Constraints: • min: 21 • max: 21 • pattern: key-[0-9a-f]{17}</param>
+    /// <param name="UserName">A unique string that identifies a user whose public key is being deleted. Constraints: • min: 3 • max: 100 • pattern: [\w][\w@.-]{2,99}</param>
     public AwsTransferDeleteSshPublicKeyOptions(
         string ServerId,
         string SshPublicKeyId,
@@ -64,19 +65,19 @@ public record AwsTransferDeleteSshPublicKeyOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A system-assigned unique identifier for a file transfer protocol-en- abled server instance that has the user assigned to it. Constraints: o min: 19 o max: 19 o pattern: s-([0-9a-f]{17})
+    /// A system-assigned unique identifier for a file transfer protocol-enabled server instance that has the user assigned to it. Constraints: • min: 19 • max: 19 • pattern: s-([0-9a-f]{17})
     /// </summary>
     [CliOption("--server-id")]
     public string? ServerId { get; private init; }
 
     /// <summary>
-    /// A unique identifier used to reference your user's specific SSH key. Constraints: o min: 21 o max: 21 o pattern: key-[0-9a-f]{17}
+    /// A unique identifier used to reference your user's specific SSH key. Constraints: • min: 21 • max: 21 • pattern: key-[0-9a-f]{17}
     /// </summary>
     [CliOption("--ssh-public-key-id")]
     public string? SshPublicKeyId { get; private init; }
 
     /// <summary>
-    /// A unique string that identifies a user whose public key is being deleted. Constraints: o min: 3 o max: 100 o pattern: [\w][\w@.-]{2,99}
+    /// A unique string that identifies a user whose public key is being deleted. Constraints: • min: 3 • max: 100 • pattern: [\w][\w@.-]{2,99}
     /// </summary>
     [CliOption("--user-name")]
     public string? UserName { get; private init; }
@@ -102,6 +103,15 @@ public record AwsTransferDeleteSshPublicKeyOptions : AwsOptions, IValidatableObj
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes a notification. WARNING: Deleting a notification also deletes the subscribers that are asso- ciated with the notification. See also: AWS API Documentation
+/// Deletes a notification. WARNING: Deleting a notification also deletes the subscribers that are associated with the notification. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,11 +26,11 @@ public record AwsBudgetsDeleteNotificationOptions : AwsOptions, IValidatableObje
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes a notification. WARNING: Deleting a notification also deletes the subscribers that are asso- ciated with the notification. See also: AWS API Documentation
+    /// Deletes a notification. WARNING: Deleting a notification also deletes the subscribers that are associated with the notification. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AccountId">The accountId that is associated with the budget whose notification you want to delete. Constraints: o min: 12 o max: 12 o pattern: \d{12}</param>
-    /// <param name="BudgetName">The name of the budget whose notification you want to delete. Constraints: o min: 1 o max: 100 o pattern: ^(?![^:\\]*/action/|(?i).*&lt;script&gt;.*&lt;/script&gt;.*)[^:\\]+$</param>
-    /// <param name="Notification">The notification that you want to delete. NotificationType -&gt; (string) [required] Specifies whether the notification is for how much you have spent (ACTUAL ) or for how much that you're forecasted to spend (FORECASTED ). Possible values: o ACTUAL o FORECASTED ComparisonOperator -&gt; (string) [required] The comparison that's used for this notification. Possible values: o GREATER_THAN o LESS_THAN o EQUAL_TO Threshold -&gt; (double) [required] The threshold that's associated with a notification. Thresholds are always a percentage, and many customers find value being alerted between 50% - 200% of the budgeted amount. The maximum limit for your threshold is 1,000,000% above the budgeted amount. Constraints: o min: 0 o max: 15000000000000 ThresholdType -&gt; (string) The type of threshold for a notification. For ABSOLUTE_VALUE thresholds, Amazon Web Services notifies you when you go over or are forecasted to go over your total cost threshold. For PER- CENTAGE thresholds, Amazon Web Services notifies you when you go over or are forecasted to go over a certain percentage of your forecasted spend. For example, if you have a budget for 200 dol- lars and you have a PERCENTAGE threshold of 80%, Amazon Web Ser- vices notifies you when you go over 160 dollars. Possible values: o PERCENTAGE o ABSOLUTE_VALUE NotificationState -&gt; (string) Specifies whether this notification is in alarm. If a budget no- tification is in the ALARM state, you passed the set threshold for the budget. Possible values: o OK o ALARM Shorthand Syntax: NotificationType=string,ComparisonOperator=string,Threshold=double,ThresholdType=string,NotificationState=string JSON Syntax: { "NotificationType": "ACTUAL"|"FORECASTED", "ComparisonOperator": "GREATER_THAN"|"LESS_THAN"|"EQUAL_TO", "Threshold": double, "ThresholdType": "PERCENTAGE"|"ABSOLUTE_VALUE", "NotificationState": "OK"|"ALARM" }</param>
+    /// <param name="AccountId">The accountId that is associated with the budget whose notification you want to delete. Constraints: • min: 12 • max: 12 • pattern: \d{12}</param>
+    /// <param name="BudgetName">The name of the budget whose notification you want to delete. Constraints: • min: 1 • max: 100 • pattern: ^(?![^:\\]*/action/|(?i).*&lt;script&gt;.*&lt;/script&gt;.*)[^:\\]+$</param>
+    /// <param name="Notification">The notification that you want to delete. NotificationType -&gt; (string) [required] Specifies whether the notification is for how much you have spent (ACTUAL ) or for how much that you're forecasted to spend (FORECASTED ). Possible values: • ACTUAL • FORECASTED ComparisonOperator -&gt; (string) [required] The comparison that's used for this notification. Possible values: • GREATER_THAN • LESS_THAN • EQUAL_TO Threshold -&gt; (double) [required] The threshold that's associated with a notification. Thresholds are always a percentage, and many customers find value being alerted between 50% - 200% of the budgeted amount. The maximum limit for your threshold is 1,000,000% above the budgeted amount. Constraints: • min: 0 • max: 15000000000000 ThresholdType -&gt; (string) The type of threshold for a notification. For ABSOLUTE_VALUE thresholds, Amazon Web Services notifies you when you go over or are forecasted to go over your total cost threshold. For PERCENTAGE thresholds, Amazon Web Services notifies you when you go over or are forecasted to go over a certain percentage of your forecasted spend. For example, if you have a budget for 200 dollars and you have a PERCENTAGE threshold of 80%, Amazon Web Services notifies you when you go over 160 dollars. Possible values: • PERCENTAGE • ABSOLUTE_VALUE NotificationState -&gt; (string) Specifies whether this notification is in alarm. If a budget notification is in the ALARM state, you passed the set threshold for the budget. Possible values: • OK • ALARM Shorthand Syntax: NotificationType=string,ComparisonOperator=string,Threshold=double,ThresholdType=string,NotificationState=string JSON Syntax: { "NotificationType": "ACTUAL"|"FORECASTED", "ComparisonOperator": "GREATER_THAN"|"LESS_THAN"|"EQUAL_TO", "Threshold": double, "ThresholdType": "PERCENTAGE"|"ABSOLUTE_VALUE", "NotificationState": "OK"|"ALARM" }</param>
     public AwsBudgetsDeleteNotificationOptions(
         string AccountId,
         string BudgetName,
@@ -64,19 +65,19 @@ public record AwsBudgetsDeleteNotificationOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The accountId that is associated with the budget whose notification you want to delete. Constraints: o min: 12 o max: 12 o pattern: \d{12}
+    /// The accountId that is associated with the budget whose notification you want to delete. Constraints: • min: 12 • max: 12 • pattern: \d{12}
     /// </summary>
     [CliOption("--account-id")]
     public string? AccountId { get; private init; }
 
     /// <summary>
-    /// The name of the budget whose notification you want to delete. Constraints: o min: 1 o max: 100 o pattern: ^(?![^:\\]*/action/|(?i).*&lt;script&gt;.*&lt;/script&gt;.*)[^:\\]+$
+    /// The name of the budget whose notification you want to delete. Constraints: • min: 1 • max: 100 • pattern: ^(?![^:\\]*/action/|(?i).*&lt;script&gt;.*&lt;/script&gt;.*)[^:\\]+$
     /// </summary>
     [CliOption("--budget-name")]
     public string? BudgetName { get; private init; }
 
     /// <summary>
-    /// The notification that you want to delete. NotificationType -&gt; (string) [required] Specifies whether the notification is for how much you have spent (ACTUAL ) or for how much that you're forecasted to spend (FORECASTED ). Possible values: o ACTUAL o FORECASTED ComparisonOperator -&gt; (string) [required] The comparison that's used for this notification. Possible values: o GREATER_THAN o LESS_THAN o EQUAL_TO Threshold -&gt; (double) [required] The threshold that's associated with a notification. Thresholds are always a percentage, and many customers find value being alerted between 50% - 200% of the budgeted amount. The maximum limit for your threshold is 1,000,000% above the budgeted amount. Constraints: o min: 0 o max: 15000000000000 ThresholdType -&gt; (string) The type of threshold for a notification. For ABSOLUTE_VALUE thresholds, Amazon Web Services notifies you when you go over or are forecasted to go over your total cost threshold. For PER- CENTAGE thresholds, Amazon Web Services notifies you when you go over or are forecasted to go over a certain percentage of your forecasted spend. For example, if you have a budget for 200 dol- lars and you have a PERCENTAGE threshold of 80%, Amazon Web Ser- vices notifies you when you go over 160 dollars. Possible values: o PERCENTAGE o ABSOLUTE_VALUE NotificationState -&gt; (string) Specifies whether this notification is in alarm. If a budget no- tification is in the ALARM state, you passed the set threshold for the budget. Possible values: o OK o ALARM Shorthand Syntax: NotificationType=string,ComparisonOperator=string,Threshold=double,ThresholdType=string,NotificationState=string JSON Syntax: { "NotificationType": "ACTUAL"|"FORECASTED", "ComparisonOperator": "GREATER_THAN"|"LESS_THAN"|"EQUAL_TO", "Threshold": double, "ThresholdType": "PERCENTAGE"|"ABSOLUTE_VALUE", "NotificationState": "OK"|"ALARM" }
+    /// The notification that you want to delete. NotificationType -&gt; (string) [required] Specifies whether the notification is for how much you have spent (ACTUAL ) or for how much that you're forecasted to spend (FORECASTED ). Possible values: • ACTUAL • FORECASTED ComparisonOperator -&gt; (string) [required] The comparison that's used for this notification. Possible values: • GREATER_THAN • LESS_THAN • EQUAL_TO Threshold -&gt; (double) [required] The threshold that's associated with a notification. Thresholds are always a percentage, and many customers find value being alerted between 50% - 200% of the budgeted amount. The maximum limit for your threshold is 1,000,000% above the budgeted amount. Constraints: • min: 0 • max: 15000000000000 ThresholdType -&gt; (string) The type of threshold for a notification. For ABSOLUTE_VALUE thresholds, Amazon Web Services notifies you when you go over or are forecasted to go over your total cost threshold. For PERCENTAGE thresholds, Amazon Web Services notifies you when you go over or are forecasted to go over a certain percentage of your forecasted spend. For example, if you have a budget for 200 dollars and you have a PERCENTAGE threshold of 80%, Amazon Web Services notifies you when you go over 160 dollars. Possible values: • PERCENTAGE • ABSOLUTE_VALUE NotificationState -&gt; (string) Specifies whether this notification is in alarm. If a budget notification is in the ALARM state, you passed the set threshold for the budget. Possible values: • OK • ALARM Shorthand Syntax: NotificationType=string,ComparisonOperator=string,Threshold=double,ThresholdType=string,NotificationState=string JSON Syntax: { "NotificationType": "ACTUAL"|"FORECASTED", "ComparisonOperator": "GREATER_THAN"|"LESS_THAN"|"EQUAL_TO", "Threshold": double, "ThresholdType": "PERCENTAGE"|"ABSOLUTE_VALUE", "NotificationState": "OK"|"ALARM" }
     /// </summary>
     [CliOption("--notification")]
     public string? Notification { get; private init; }
@@ -102,6 +103,15 @@ public record AwsBudgetsDeleteNotificationOptions : AwsOptions, IValidatableObje
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

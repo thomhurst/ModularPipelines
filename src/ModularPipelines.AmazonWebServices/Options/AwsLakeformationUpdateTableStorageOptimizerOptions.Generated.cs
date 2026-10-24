@@ -10,7 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,9 +28,9 @@ public record AwsLakeformationUpdateTableStorageOptimizerOptions : AwsOptions, I
     /// <summary>
     /// Updates the configuration of the storage optimizers for a table. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DatabaseName">Name of the database where the table is present. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*</param>
-    /// <param name="TableName">Name of the table for which to enable the storage optimizer. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*</param>
-    /// <param name="StorageOptimizerConfig">Name of the configuration for the storage optimizer. key -&gt; (string) Possible values: o COMPACTION o GARBAGE_COLLECTION o ALL value -&gt; (map) key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1={KeyName1=string,KeyName2=string},KeyName2={KeyName1=string,KeyName2=string} Where valid key names are: COMPACTION GARBAGE_COLLECTION ALL JSON Syntax: {"COMPACTION"|"GARBAGE_COLLECTION"|"ALL": {"string": "string" ...} ...}</param>
+    /// <param name="DatabaseName">Name of the database where the table is present. Constraints: • min: 1 • max: 255 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*</param>
+    /// <param name="TableName">Name of the table for which to enable the storage optimizer. Constraints: • min: 1 • max: 255 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*</param>
+    /// <param name="StorageOptimizerConfig">Name of the configuration for the storage optimizer. key -&gt; (string) Possible values: • COMPACTION • GARBAGE_COLLECTION • ALL value -&gt; (map) key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1={KeyName1=string,KeyName2=string},KeyName2={KeyName1=string,KeyName2=string} Where valid key names are: COMPACTION GARBAGE_COLLECTION ALL JSON Syntax: {"COMPACTION"|"GARBAGE_COLLECTION"|"ALL": {"string": "string" ...} ...}</param>
     public AwsLakeformationUpdateTableStorageOptimizerOptions(
         string DatabaseName,
         string TableName,
@@ -76,25 +76,25 @@ public record AwsLakeformationUpdateTableStorageOptimizerOptions : AwsOptions, I
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Name of the database where the table is present. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
+    /// Name of the database where the table is present. Constraints: • min: 1 • max: 255 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
     /// </summary>
     [CliOption("--database-name")]
     public string? DatabaseName { get; private init; }
 
     /// <summary>
-    /// Name of the table for which to enable the storage optimizer. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
+    /// Name of the table for which to enable the storage optimizer. Constraints: • min: 1 • max: 255 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
     /// </summary>
     [CliOption("--table-name")]
     public string? TableName { get; private init; }
 
     /// <summary>
-    /// Name of the configuration for the storage optimizer. key -&gt; (string) Possible values: o COMPACTION o GARBAGE_COLLECTION o ALL value -&gt; (map) key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1={KeyName1=string,KeyName2=string},KeyName2={KeyName1=string,KeyName2=string} Where valid key names are: COMPACTION GARBAGE_COLLECTION ALL JSON Syntax: {"COMPACTION"|"GARBAGE_COLLECTION"|"ALL": {"string": "string" ...} ...}
+    /// Name of the configuration for the storage optimizer. key -&gt; (string) Possible values: • COMPACTION • GARBAGE_COLLECTION • ALL value -&gt; (map) key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1={KeyName1=string,KeyName2=string},KeyName2={KeyName1=string,KeyName2=string} Where valid key names are: COMPACTION GARBAGE_COLLECTION ALL JSON Syntax: {"COMPACTION"|"GARBAGE_COLLECTION"|"ALL": {"string": "string" ...} ...}
     /// </summary>
     [CliOption("--storage-optimizer-config", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? StorageOptimizerConfig { get; private init; }
 
     /// <summary>
-    /// The Catalog ID of the table. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
+    /// The Catalog ID of the table. Constraints: • min: 1 • max: 255 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
     /// </summary>
     [CliOption("--catalog-id")]
     public string? CatalogId { get; set; }
@@ -120,6 +120,15 @@ public record AwsLakeformationUpdateTableStorageOptimizerOptions : AwsOptions, I
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

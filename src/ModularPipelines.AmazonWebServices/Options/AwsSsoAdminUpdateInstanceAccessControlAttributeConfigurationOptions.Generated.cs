@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates the IAM Identity Center identity store attributes that you can use with the IAM Identity Center instance for attributes-based access control (ABAC). When using an external identity provider as an identity source, you can pass attributes through the SAML assertion as an alter- native to configuring attributes from the IAM Identity Center identity store. If a SAML assertion passes any of these attributes, IAM Identity Center replaces the attribute value with the value from the IAM Iden- ti...
+/// Updates the IAM Identity Center identity store attributes that you can use with the IAM Identity Center instance for attributes-based access control (ABAC). When using an external identity provider as an identity source, you can pass attributes through the SAML assertion as an alternative to configuring attributes from the IAM Identity Center identity store. If a SAML assertion passes any of these attributes, IAM Identity Center replaces the attribute value with the value from the IAM Identity C...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsSsoAdminUpdateInstanceAccessControlAttributeConfigurationOption
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates the IAM Identity Center identity store attributes that you can use with the IAM Identity Center instance for attributes-based access control (ABAC). When using an external identity provider as an identity source, you can pass attributes through the SAML assertion as an alter- native to configuring attributes from the IAM Identity Center identity store. If a SAML assertion passes any of these attributes, IAM Identity Center replaces the attribute value with the value from the IAM Iden- ti...
+    /// Updates the IAM Identity Center identity store attributes that you can use with the IAM Identity Center instance for attributes-based access control (ABAC). When using an external identity provider as an identity source, you can pass attributes through the SAML assertion as an alternative to configuring attributes from the IAM Identity Center identity store. If a SAML assertion passes any of these attributes, IAM Identity Center replaces the attribute value with the value from the IAM Identity C...
     /// </summary>
-    /// <param name="InstanceArn">The ARN of the IAM Identity Center instance under which the opera- tion will be executed. Constraints: o min: 10 o max: 1224 o pattern: arn:aws(-[a-z]{1,5}){0,3}:sso:::in- stance/(sso)?ins-[a-zA-Z0-9-.]{16}</param>
-    /// <param name="InstanceAccessControlAttributeConfiguration"></param>
+    /// <param name="InstanceArn">The ARN of the IAM Identity Center instance under which the operation will be executed. Constraints: • min: 10 • max: 1224 • pattern: arn:aws(-[a-z]{1,5}){0,3}:sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}</param>
+    /// <param name="InstanceAccessControlAttributeConfiguration">Updates the attributes for your ABAC configuration. AccessControlAttributes -&gt; (list) [required] Lists the attributes that are configured for ABAC in the specified IAM Identity Center instance. Constraints: • min: 0 • max: 50 (structure) These are IAM Identity Center identity store attributes that you can configure for use in attributes-based access control (ABAC). You can create permissions policies that determine who can access your Amazon Web Services resources based upon the configured attribute values. When you enable ABAC and specify AccessControlAttributes , IAM Identity Center passes the attribute values of the authenticated user into IAM for use in policy evaluation. Key -&gt; (string) [required] The name of the attribute associated with your identities in your identity source. This is used to map a specified attribute in your identity source with an attribute in IAM Identity Center. Constraints: • min: 1 • max: 128 • pattern: [\p{L}\p{Z}\p{N}_.:\/=+\-@]+ Value -&gt; (structure) [required] The value used for mapping a specified attribute to an identity source. Source -&gt; (list) [required] The identity source to use when mapping a specified attribute to IAM Identity Center. Constraints: • min: 1 • max: 1 (string) Constraints: • min: 0 • max: 256 • pattern: [\p{L}\p{Z}\p{N}_.:\/=+\-@\[\]\{\}\$\\"]* JSON Syntax: { "AccessControlAttributes": [ { "Key": "string", "Value": { "Source": ["string", ...] } } ... ] }</param>
     public AwsSsoAdminUpdateInstanceAccessControlAttributeConfigurationOptions(
         string InstanceArn,
         string InstanceAccessControlAttributeConfiguration
@@ -60,11 +61,14 @@ public record AwsSsoAdminUpdateInstanceAccessControlAttributeConfigurationOption
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the IAM Identity Center instance under which the opera- tion will be executed. Constraints: o min: 10 o max: 1224 o pattern: arn:aws(-[a-z]{1,5}){0,3}:sso:::in- stance/(sso)?ins-[a-zA-Z0-9-.]{16}
+    /// The ARN of the IAM Identity Center instance under which the operation will be executed. Constraints: • min: 10 • max: 1224 • pattern: arn:aws(-[a-z]{1,5}){0,3}:sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}
     /// </summary>
     [CliOption("--instance-arn")]
     public string? InstanceArn { get; private init; }
 
+    /// <summary>
+    /// Updates the attributes for your ABAC configuration. AccessControlAttributes -&gt; (list) [required] Lists the attributes that are configured for ABAC in the specified IAM Identity Center instance. Constraints: • min: 0 • max: 50 (structure) These are IAM Identity Center identity store attributes that you can configure for use in attributes-based access control (ABAC). You can create permissions policies that determine who can access your Amazon Web Services resources based upon the configured attribute values. When you enable ABAC and specify AccessControlAttributes , IAM Identity Center passes the attribute values of the authenticated user into IAM for use in policy evaluation. Key -&gt; (string) [required] The name of the attribute associated with your identities in your identity source. This is used to map a specified attribute in your identity source with an attribute in IAM Identity Center. Constraints: • min: 1 • max: 128 • pattern: [\p{L}\p{Z}\p{N}_.:\/=+\-@]+ Value -&gt; (structure) [required] The value used for mapping a specified attribute to an identity source. Source -&gt; (list) [required] The identity source to use when mapping a specified attribute to IAM Identity Center. Constraints: • min: 1 • max: 1 (string) Constraints: • min: 0 • max: 256 • pattern: [\p{L}\p{Z}\p{N}_.:\/=+\-@\[\]\{\}\$\\"]* JSON Syntax: { "AccessControlAttributes": [ { "Key": "string", "Value": { "Source": ["string", ...] } } ... ] }
+    /// </summary>
     [CliOption("--instance-access-control-attribute-configuration")]
     public string? InstanceAccessControlAttributeConfiguration { get; private init; }
 
@@ -89,6 +93,15 @@ public record AwsSsoAdminUpdateInstanceAccessControlAttributeConfigurationOption
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

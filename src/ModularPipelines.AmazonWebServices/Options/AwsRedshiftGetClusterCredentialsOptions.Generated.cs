@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns a database user name and temporary password with temporary au- thorization to log on to an Amazon Redshift database. The action re- turns the database user name prefixed with IAM: if AutoCreate is False or IAMA: if AutoCreate is True . You can optionally specify one or more database user groups that the user will join at log on. By default, the temporary credentials expire in 900 seconds. You can optionally specify a duration between 900 seconds (15 minutes) and 3600 seconds (60 min- ute...
+/// Returns a database user name and temporary password with temporary authorization to log on to an Amazon Redshift database. The action returns the database user name prefixed with IAM: if AutoCreate is False or IAMA: if AutoCreate is True . You can optionally specify one or more database user groups that the user will join at log on. By default, the temporary credentials expire in 900 seconds. You can optionally specify a duration between 900 seconds (15 minutes) and 3600 seconds (60 minutes). Fo...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsRedshiftGetClusterCredentialsOptions : AwsOptions, IValidatable
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns a database user name and temporary password with temporary au- thorization to log on to an Amazon Redshift database. The action re- turns the database user name prefixed with IAM: if AutoCreate is False or IAMA: if AutoCreate is True . You can optionally specify one or more database user groups that the user will join at log on. By default, the temporary credentials expire in 900 seconds. You can optionally specify a duration between 900 seconds (15 minutes) and 3600 seconds (60 min- ute...
+    /// Returns a database user name and temporary password with temporary authorization to log on to an Amazon Redshift database. The action returns the database user name prefixed with IAM: if AutoCreate is False or IAMA: if AutoCreate is True . You can optionally specify one or more database user groups that the user will join at log on. By default, the temporary credentials expire in 900 seconds. You can optionally specify a duration between 900 seconds (15 minutes) and 3600 seconds (60 minutes). Fo...
     /// </summary>
-    /// <param name="DbUser">The name of a database user. If a user name matching DbUser exists in the database, the temporary user credentials have the same per- missions as the existing user. If DbUser doesn't exist in the data- base and Autocreate is True , a new user is created using the value for DbUser with PUBLIC permissions. If a database user matching the value for DbUser doesn't exist and Autocreate is False , then the command succeeds but the connection attempt will fail because the user doesn't exist in the database. For more information, see CREATE USER in the Amazon Redshift Data- base Developer Guide. Constraints: o Must be 1 to 64 alphanumeric characters or hyphens. The user name can't be PUBLIC . o Must contain uppercase or lowercase letters, numbers, underscore, plus sign, period (dot), at symbol (@), or hyphen. o First character must be a letter. o Must not contain a colon ( : ) or slash ( / ). o Cannot be a reserved word. A list of reserved words can be found in Reserved Words in the Amazon Redshift Database Developer Guide. Constraints: o max: 2147483647</param>
+    /// <param name="DbUser">The name of a database user. If a user name matching DbUser exists in the database, the temporary user credentials have the same permissions as the existing user. If DbUser doesn't exist in the database and Autocreate is True , a new user is created using the value for DbUser with PUBLIC permissions. If a database user matching the value for DbUser doesn't exist and Autocreate is False , then the command succeeds but the connection attempt will fail because the user doesn't exist in the database. For more information, see CREATE USER in the Amazon Redshift Database Developer Guide. Constraints: • Must be 1 to 64 alphanumeric characters or hyphens. The user name can't be PUBLIC . • Must contain uppercase or lowercase letters, numbers, underscore, plus sign, period (dot), at symbol (@), or hyphen. • First character must be a letter. • Must not contain a colon ( : ) or slash ( / ). • Cannot be a reserved word. A list of reserved words can be found in Reserved Words in the Amazon Redshift Database Developer Guide. Constraints: • max: 2147483647</param>
     public AwsRedshiftGetClusterCredentialsOptions(
         string DbUser
     )
@@ -56,19 +57,19 @@ public record AwsRedshiftGetClusterCredentialsOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of a database user. If a user name matching DbUser exists in the database, the temporary user credentials have the same per- missions as the existing user. If DbUser doesn't exist in the data- base and Autocreate is True , a new user is created using the value for DbUser with PUBLIC permissions. If a database user matching the value for DbUser doesn't exist and Autocreate is False , then the command succeeds but the connection attempt will fail because the user doesn't exist in the database. For more information, see CREATE USER in the Amazon Redshift Data- base Developer Guide. Constraints: o Must be 1 to 64 alphanumeric characters or hyphens. The user name can't be PUBLIC . o Must contain uppercase or lowercase letters, numbers, underscore, plus sign, period (dot), at symbol (@), or hyphen. o First character must be a letter. o Must not contain a colon ( : ) or slash ( / ). o Cannot be a reserved word. A list of reserved words can be found in Reserved Words in the Amazon Redshift Database Developer Guide. Constraints: o max: 2147483647
+    /// The name of a database user. If a user name matching DbUser exists in the database, the temporary user credentials have the same permissions as the existing user. If DbUser doesn't exist in the database and Autocreate is True , a new user is created using the value for DbUser with PUBLIC permissions. If a database user matching the value for DbUser doesn't exist and Autocreate is False , then the command succeeds but the connection attempt will fail because the user doesn't exist in the database. For more information, see CREATE USER in the Amazon Redshift Database Developer Guide. Constraints: • Must be 1 to 64 alphanumeric characters or hyphens. The user name can't be PUBLIC . • Must contain uppercase or lowercase letters, numbers, underscore, plus sign, period (dot), at symbol (@), or hyphen. • First character must be a letter. • Must not contain a colon ( : ) or slash ( / ). • Cannot be a reserved word. A list of reserved words can be found in Reserved Words in the Amazon Redshift Database Developer Guide. Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--db-user")]
     public string? DbUser { get; private init; }
 
     /// <summary>
-    /// The name of a database that DbUser is authorized to log on to. If DbName is not specified, DbUser can log on to any existing database. Constraints: o Must be 1 to 64 alphanumeric characters or hyphens o Must contain uppercase or lowercase letters, numbers, underscore, plus sign, period (dot), at symbol (@), or hyphen. o First character must be a letter. o Must not contain a colon ( : ) or slash ( / ). o Cannot be a reserved word. A list of reserved words can be found in Reserved Words in the Amazon Redshift Database Developer Guide. Constraints: o max: 2147483647
+    /// The name of a database that DbUser is authorized to log on to. If DbName is not specified, DbUser can log on to any existing database. Constraints: • Must be 1 to 64 alphanumeric characters or hyphens • Must contain uppercase or lowercase letters, numbers, underscore, plus sign, period (dot), at symbol (@), or hyphen. • First character must be a letter. • Must not contain a colon ( : ) or slash ( / ). • Cannot be a reserved word. A list of reserved words can be found in Reserved Words in the Amazon Redshift Database Developer Guide. Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--db-name")]
     public string? DbName { get; set; }
 
     /// <summary>
-    /// The unique identifier of the cluster that contains the database for which you are requesting credentials. This parameter is case sensi- tive. Constraints: o max: 2147483647
+    /// The unique identifier of the cluster that contains the database for which you are requesting credentials. This parameter is case sensitive. Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--cluster-identifier")]
     public string? ClusterIdentifier { get; set; }
@@ -86,13 +87,13 @@ public record AwsRedshiftGetClusterCredentialsOptions : AwsOptions, IValidatable
     public bool? AutoCreate { get; set; }
 
     /// <summary>
-    /// A list of the names of existing database groups that the user named in DbUser will join for the current session, in addition to any group memberships for an existing user. If not specified, a new user is added only to PUBLIC. Database group name constraints o Must be 1 to 64 alphanumeric characters or hyphens o Must contain only lowercase letters, numbers, underscore, plus sign, period (dot), at symbol (@), or hyphen. o First character must be a letter. o Must not contain a colon ( : ) or slash ( / ). o Cannot be a reserved word. A list of reserved words can be found in Reserved Words in the Amazon Redshift Database Developer Guide. (string) Constraints: o max: 2147483647 Syntax: "string" "string" ...
+    /// A list of the names of existing database groups that the user named in DbUser will join for the current session, in addition to any group memberships for an existing user. If not specified, a new user is added only to PUBLIC. Database group name constraints • Must be 1 to 64 alphanumeric characters or hyphens • Must contain only lowercase letters, numbers, underscore, plus sign, period (dot), at symbol (@), or hyphen. • First character must be a letter. • Must not contain a colon ( : ) or slash ( / ). • Cannot be a reserved word. A list of reserved words can be found in Reserved Words in the Amazon Redshift Database Developer Guide. (string) Constraints: • max: 2147483647 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--db-groups", GroupValues = true)]
     public IEnumerable<string>? DbGroups { get; set; }
 
     /// <summary>
-    /// The custom domain name for the cluster credentials. Constraints: o max: 2147483647
+    /// The custom domain name for the cluster credentials. Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--custom-domain-name")]
     public string? CustomDomainName { get; set; }
@@ -118,6 +119,15 @@ public record AwsRedshiftGetClusterCredentialsOptions : AwsOptions, IValidatable
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

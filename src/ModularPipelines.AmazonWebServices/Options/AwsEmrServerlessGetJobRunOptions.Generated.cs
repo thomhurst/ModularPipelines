@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsEmrServerlessGetJobRunOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Displays detailed information about a job run. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ApplicationId">The ID of the application on which the job run is submitted. Constraints: o min: 1 o max: 64 o pattern: [0-9a-z]+</param>
-    /// <param name="JobRunId">The ID of the job run. Constraints: o min: 1 o max: 64 o pattern: [0-9a-z]+</param>
+    /// <param name="ApplicationId">The ID of the application on which the job run is submitted. Constraints: • min: 1 • max: 64 • pattern: [0-9a-z]+</param>
+    /// <param name="JobRunId">The ID of the job run. Constraints: • min: 1 • max: 64 • pattern: [0-9a-z]+</param>
     public AwsEmrServerlessGetJobRunOptions(
         string ApplicationId,
         string JobRunId
@@ -60,19 +61,19 @@ public record AwsEmrServerlessGetJobRunOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the application on which the job run is submitted. Constraints: o min: 1 o max: 64 o pattern: [0-9a-z]+
+    /// The ID of the application on which the job run is submitted. Constraints: • min: 1 • max: 64 • pattern: [0-9a-z]+
     /// </summary>
     [CliOption("--application-id")]
     public string? ApplicationId { get; private init; }
 
     /// <summary>
-    /// The ID of the job run. Constraints: o min: 1 o max: 64 o pattern: [0-9a-z]+
+    /// The ID of the job run. Constraints: • min: 1 • max: 64 • pattern: [0-9a-z]+
     /// </summary>
     [CliOption("--job-run-id")]
     public string? JobRunId { get; private init; }
 
     /// <summary>
-    /// An optimal parameter that indicates the amount of attempts for the job. If not specified, this value defaults to the attempt of the latest job. Constraints: o min: 1
+    /// An optimal parameter that indicates the amount of attempts for the job. If not specified, this value defaults to the attempt of the latest job. Constraints: • min: 1
     /// </summary>
     [CliOption("--attempt")]
     public int? Attempt { get; set; }
@@ -98,6 +99,15 @@ public record AwsEmrServerlessGetJobRunOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

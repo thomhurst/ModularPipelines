@@ -10,7 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,9 +28,9 @@ public record AwsPersonalizeRuntimeGetPersonalizedRankingOptions : AwsOptions, I
     /// <summary>
     /// Re-ranks a list of recommended items for the given user. The first item in the list is deemed the most likely item to be of interest to the user. NOTE: The solution backing the campaign must have been created using a recipe of type PERSONALIZED_RANKING. See also: AWS API Documentation
     /// </summary>
-    /// <param name="CampaignArn">The Amazon Resource Name (ARN) of the campaign to use for generating the personalized ranking. Constraints: o max: 256 o pattern: arn:([a-z\d-]+):personalize:.*:.*:.+</param>
-    /// <param name="InputList">A list of items (by itemId ) to rank. If an item was not included in the training dataset, the item is appended to the end of the reranked list. If you are including metadata in recommendations, the maximum is 50. Otherwise, the maximum is 500. (string) Constraints: o max: 256 Syntax: "string" "string" ...</param>
-    /// <param name="UserId">The user for which you want the campaign to provide a personalized ranking. Constraints: o max: 256</param>
+    /// <param name="CampaignArn">The Amazon Resource Name (ARN) of the campaign to use for generating the personalized ranking. Constraints: • max: 256 • pattern: arn:([a-z\d-]+):personalize:.*:.*:.+</param>
+    /// <param name="InputList">A list of items (by itemId ) to rank. If an item was not included in the training dataset, the item is appended to the end of the reranked list. If you are including metadata in recommendations, the maximum is 50. Otherwise, the maximum is 500. (string) Constraints: • max: 256 Syntax: "string" "string" ...</param>
+    /// <param name="UserId">The user for which you want the campaign to provide a personalized ranking. Constraints: • max: 256</param>
     public AwsPersonalizeRuntimeGetPersonalizedRankingOptions(
         string CampaignArn,
         IEnumerable<string> InputList,
@@ -76,43 +76,43 @@ public record AwsPersonalizeRuntimeGetPersonalizedRankingOptions : AwsOptions, I
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the campaign to use for generating the personalized ranking. Constraints: o max: 256 o pattern: arn:([a-z\d-]+):personalize:.*:.*:.+
+    /// The Amazon Resource Name (ARN) of the campaign to use for generating the personalized ranking. Constraints: • max: 256 • pattern: arn:([a-z\d-]+):personalize:.*:.*:.+
     /// </summary>
     [CliOption("--campaign-arn")]
     public string? CampaignArn { get; private init; }
 
     /// <summary>
-    /// A list of items (by itemId ) to rank. If an item was not included in the training dataset, the item is appended to the end of the reranked list. If you are including metadata in recommendations, the maximum is 50. Otherwise, the maximum is 500. (string) Constraints: o max: 256 Syntax: "string" "string" ...
+    /// A list of items (by itemId ) to rank. If an item was not included in the training dataset, the item is appended to the end of the reranked list. If you are including metadata in recommendations, the maximum is 50. Otherwise, the maximum is 500. (string) Constraints: • max: 256 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--input-list", GroupValues = true)]
     public IEnumerable<string>? InputList { get; private init; }
 
     /// <summary>
-    /// The user for which you want the campaign to provide a personalized ranking. Constraints: o max: 256
+    /// The user for which you want the campaign to provide a personalized ranking. Constraints: • max: 256
     /// </summary>
     [CliOption("--user-id")]
     public string? UserId { get; private init; }
 
     /// <summary>
-    /// The contextual metadata to use when getting recommendations. Contex- tual metadata includes any interaction information that might be relevant when getting a user's recommendations, such as the user's current location or device type. Constraints: o max: 150 key -&gt; (string) Constraints: o max: 150 o pattern: [A-Za-z\d_]+ value -&gt; (string) Constraints: o max: 1000 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The contextual metadata to use when getting recommendations. Contextual metadata includes any interaction information that might be relevant when getting a user's recommendations, such as the user's current location or device type. Constraints: • max: 150 key -&gt; (string) Constraints: • max: 150 • pattern: [A-Za-z\d_]+ value -&gt; (string) Constraints: • max: 1000 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--context", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Context { get; set; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of a filter you created to include items or exclude items from recommendations for a given user. For more information, see Filtering Recommendations . Constraints: o max: 256 o pattern: arn:([a-z\d-]+):personalize:.*:.*:.+
+    /// The Amazon Resource Name (ARN) of a filter you created to include items or exclude items from recommendations for a given user. For more information, see Filtering Recommendations . Constraints: • max: 256 • pattern: arn:([a-z\d-]+):personalize:.*:.*:.+
     /// </summary>
     [CliOption("--filter-arn")]
     public string? FilterArn { get; set; }
 
     /// <summary>
-    /// The values to use when filtering recommendations. For each place- holder parameter in your filter expression, provide the parameter name (in matching case) as a key and the filter value(s) as the cor- responding value. Separate multiple values for one parameter with a comma. For filter expressions that use an INCLUDE element to include items, you must provide values for all parameters that are defined in the expression. For filters with expressions that use an EXCLUDE element to exclude items, you can omit the filter-values .In this case, Ama- zon Personalize doesn't use that portion of the expression to filter recommendations. For more information, see Filtering Recommendations . Constraints: o max: 25 key -&gt; (string) Constraints: o max: 50 o pattern: [A-Za-z0-9_]+ value -&gt; (string) Constraints: o max: 1000 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The values to use when filtering recommendations. For each placeholder parameter in your filter expression, provide the parameter name (in matching case) as a key and the filter value(s) as the corresponding value. Separate multiple values for one parameter with a comma. For filter expressions that use an INCLUDE element to include items, you must provide values for all parameters that are defined in the expression. For filters with expressions that use an EXCLUDE element to exclude items, you can omit the filter-values .In this case, Amazon Personalize doesn't use that portion of the expression to filter recommendations. For more information, see Filtering Recommendations . Constraints: • max: 25 key -&gt; (string) Constraints: • max: 50 • pattern: [A-Za-z0-9_]+ value -&gt; (string) Constraints: • max: 1000 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--filter-values", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? FilterValues { get; set; }
 
     /// <summary>
-    /// If you enabled metadata in recommendations when you created or up- dated the campaign, specify metadata columns from your Items dataset to include in the personalized ranking. The map key is ITEMS and the value is a list of column names from your Items dataset. The maximum number of columns you can provide is 10. For information about enabling metadata for a campaign, see Enabling metadata in recommendations for a campaign . Constraints: o max: 1 key -&gt; (string) Constraints: o max: 256 value -&gt; (list) Constraints: o max: 99 (string) Constraints: o max: 150 Shorthand Syntax: KeyName1=string,string,KeyName2=string,string JSON Syntax: {"string": ["string", ...] ...}
+    /// If you enabled metadata in recommendations when you created or updated the campaign, specify metadata columns from your Items dataset to include in the personalized ranking. The map key is ITEMS and the value is a list of column names from your Items dataset. The maximum number of columns you can provide is 10. For information about enabling metadata for a campaign, see Enabling metadata in recommendations for a campaign . Constraints: • max: 1 key -&gt; (string) Constraints: • max: 256 value -&gt; (list) Constraints: • max: 99 (string) Constraints: • max: 150 Shorthand Syntax: KeyName1=string,string,KeyName2=string,string JSON Syntax: {"string": ["string", ...] ...}
     /// </summary>
     [CliOption("--metadata-columns", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? MetadataColumns { get; set; }
@@ -138,6 +138,15 @@ public record AwsPersonalizeRuntimeGetPersonalizedRankingOptions : AwsOptions, I
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

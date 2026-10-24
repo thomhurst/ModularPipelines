@@ -6,7 +6,7 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using ModularPipelines.Models;
+using ModularPipelines;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
@@ -22,43 +22,39 @@ namespace ModularPipelines.AmazonWebServices.Services;
 public interface IAwsMeteringmarketplace
 {
     /// <summary>
-    /// WARNING: Amazon Web Services Marketplace is introducing Concurrent Agree- ments, enabling buyers to make multiple purchases per Amazon Web Services account. Starting June 1, 2026, new SaaS products must use CustomerAWSAccountId (instead of CustomerIdentifier ), LicenseArn (instead of ProductCode ) to support this feature. BatchMeterUsage does not support CustomerIdentifier for new integrations. Existing integrations continue to work. Review the new integration for Con- current Agreements here . ...
+    /// NOTE: The Amazon Web Services Marketplace AI Metering Agent Skill (aws-marketplace-metering ) helps an AI coding agent integrate your SaaS product's usage reporting with the BatchMeterUsage API. The skill is a curated package of instructions and reference material that guides your AI coding agent through building, deploying, and testing the metering integration. To get the skill on demand without checking it out locally, install the Amazon Web Services MCP Server in your coding agent; the agent ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> BatchMeterUsageAsync(AwsMeteringmarketplaceBatchMeterUsageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> BatchMeterUsageAsync(AwsMeteringmarketplaceBatchMeterUsageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// As a seller, your software hosted in the buyer's Amazon Web Services account uses this API action to emit metering records directly to Ama- zon Web Services Marketplace. You must use the following buyer Amazon Web Services account credentials to sign the API request. o For Amazon EC2 deployments, your software must use the IAM role for Amazon EC2 to sign the API call for MeterUsage API operation. o For Amazon EKS deployments, your software must use IAM roles for ser- vice accounts (IRSA) to sign...
+    /// As a seller, your software hosted in the buyer's Amazon Web Services account uses this API action to emit metering records directly to Amazon Web Services Marketplace. You must use the following buyer Amazon Web Services account credentials to sign the API request. • For Amazon EC2 deployments, your software must use the IAM role for Amazon EC2 to sign the API call for MeterUsage API operation. • For Amazon EKS deployments, your software must use IAM roles for service accounts (IRSA) to sign the...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> MeterUsageAsync(AwsMeteringmarketplaceMeterUsageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> MeterUsageAsync(AwsMeteringmarketplaceMeterUsageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Paid container software products sold through Amazon Web Services Mar- ketplace must integrate with the Amazon Web Services Marketplace Meter- ing Service and call the RegisterUsage operation for software entitle- ment and metering. Free and BYOL products for Amazon ECS or Amazon EKS aren't required to call RegisterUsage , but you may choose to do so if you would like to receive usage data in your seller reports. The sec- tions below explain the behavior of RegisterUsage . RegisterUsage per- for...
+    /// Paid container software products sold through Amazon Web Services Marketplace must integrate with the Amazon Web Services Marketplace Metering Service and call the RegisterUsage operation for software entitlement and metering. Free and BYOL products for Amazon ECS or Amazon EKS aren't required to call RegisterUsage , but you may choose to do so if you would like to receive usage data in your seller reports. The sections below explain the behavior of RegisterUsage . RegisterUsage performs two pri...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RegisterUsageAsync(AwsMeteringmarketplaceRegisterUsageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> RegisterUsageAsync(AwsMeteringmarketplaceRegisterUsageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// ResolveCustomer is called by a SaaS application during the registra- tion process. When a buyer visits your website during the registra- tion process, the buyer submits a registration token through their browser. The registration token is resolved through this API to ob- tain a CustomerIdentifier along with the CustomerAWSAccountId , Pro- ductCode , and LicenseArn . WARNING: For new SaaS product integrations, the CustomerIdentifier field is not populated in the ResolveCustomer API response. New ...
+    /// ResolveCustomer is called by a SaaS application during the registration process. When a buyer visits your website during the registration process, the buyer submits a registration token through their browser. The registration token is resolved through this API to obtain a CustomerIdentifier along with the CustomerAWSAccountId , ProductCode , and LicenseArn . WARNING: For new SaaS product integrations, the CustomerIdentifier field is not populated in the ResolveCustomer API response. New integrat...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ResolveCustomerAsync(AwsMeteringmarketplaceResolveCustomerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ResolveCustomerAsync(AwsMeteringmarketplaceResolveCustomerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

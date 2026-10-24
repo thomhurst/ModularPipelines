@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsDmsImportCertificateOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Uploads the specified certificate. See also: AWS API Documentation
     /// </summary>
-    /// <param name="CertificateIdentifier">A customer-assigned name for the certificate. Identifiers must begin with a letter and must contain only ASCII letters, digits, and hy- phens. They can't end with a hyphen or contain two consecutive hy- phens.</param>
+    /// <param name="CertificateIdentifier">A customer-assigned name for the certificate. Identifiers must begin with a letter and must contain only ASCII letters, digits, and hyphens. They can't end with a hyphen or contain two consecutive hyphens.</param>
     public AwsDmsImportCertificateOptions(
         string CertificateIdentifier
     )
@@ -56,7 +57,7 @@ public record AwsDmsImportCertificateOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A customer-assigned name for the certificate. Identifiers must begin with a letter and must contain only ASCII letters, digits, and hy- phens. They can't end with a hyphen or contain two consecutive hy- phens.
+    /// A customer-assigned name for the certificate. Identifiers must begin with a letter and must contain only ASCII letters, digits, and hyphens. They can't end with a hyphen or contain two consecutive hyphens.
     /// </summary>
     [CliOption("--certificate-identifier")]
     public string? CertificateIdentifier { get; private init; }
@@ -74,7 +75,7 @@ public record AwsDmsImportCertificateOptions : AwsOptions, IValidatableObject
     public string? CertificateWallet { get; set; }
 
     /// <summary>
-    /// The tags associated with the certificate. (structure) A user-defined key-value pair that describes metadata added to an DMS resource and that is used by operations such as the fol- lowing: o AddTagsToResource o ListTagsForResource o RemoveTagsFromResource Key -&gt; (string) A key is the required name of the tag. The string value can be 1-128 Unicode characters in length and can't be prefixed with "aws:" or "dms:". The string can only contain only the set of Unicode letters, digits, white-space, '_', '.', '/', '=', '+', '-' (Java regular expressions: "^([\p{L}\p{Z}\p{N}_.:/=+\-]*)$"). Value -&gt; (string) A value is the optional value of the tag. The string value can be 1-256 Unicode characters in length and can't be pre- fixed with "aws:" or "dms:". The string can only contain only the set of Unicode letters, digits, white-space, '_', '.', '/', '=', '+', '-' (Java regular expressions: "^([\p{L}\p{Z}\p{N}_.:/=+\-]*)$"). ResourceArn -&gt; (string) The Amazon Resource Name (ARN) string that uniquely identi- fies the resource for which the tag is created. Shorthand Syntax: Key=string,Value=string,ResourceArn=string ... JSON Syntax: [ { "Key": "string", "Value": "string", "ResourceArn": "string" } ... ]
+    /// The tags associated with the certificate. (structure) A user-defined key-value pair that describes metadata added to an DMS resource and that is used by operations such as the following: • AddTagsToResource • ListTagsForResource • RemoveTagsFromResource Key -&gt; (string) A key is the required name of the tag. The string value can be 1-128 Unicode characters in length and can't be prefixed with "aws:" or "dms:". The string can only contain only the set of Unicode letters, digits, white-space, '_', '.', '/', '=', '+', '-' (Java regular expressions: "^([\p{L}\p{Z}\p{N}_.:/=+\-]*)$"). Value -&gt; (string) A value is the optional value of the tag. The string value can be 1-256 Unicode characters in length and can't be prefixed with "aws:" or "dms:". The string can only contain only the set of Unicode letters, digits, white-space, '_', '.', '/', '=', '+', '-' (Java regular expressions: "^([\p{L}\p{Z}\p{N}_.:/=+\-]*)$"). ResourceArn -&gt; (string) The Amazon Resource Name (ARN) string that uniquely identifies the resource for which the tag is created. Shorthand Syntax: Key=string,Value=string,ResourceArn=string ... JSON Syntax: [ { "Key": "string", "Value": "string", "ResourceArn": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
@@ -106,6 +107,15 @@ public record AwsDmsImportCertificateOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

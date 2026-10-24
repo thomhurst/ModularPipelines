@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsSagemakerDescribeTrialComponentOptions : AwsOptions, IValidatab
     /// <summary>
     /// Provides a list of a trials component's properties. See also: AWS API Documentation
     /// </summary>
-    /// <param name="TrialComponentName">The name of the trial component to describe. Constraints: o min: 1 o max: 256 o pattern: (arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:(experi- ment|experiment-trial|experiment-trial-component|artifact|ac- tion|context)\/)?([a-zA-Z0-9](-*[a-zA-Z0-9]){0,119})</param>
+    /// <param name="TrialComponentName">The name of the trial component to describe. Constraints: • min: 1 • max: 256 • pattern: (arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:(experiment|experiment-trial|experiment-trial-component|artifact|action|context)\/)?([a-zA-Z0-9](-*[a-zA-Z0-9]){0,119})</param>
     public AwsSagemakerDescribeTrialComponentOptions(
         string TrialComponentName
     )
@@ -56,7 +57,7 @@ public record AwsSagemakerDescribeTrialComponentOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the trial component to describe. Constraints: o min: 1 o max: 256 o pattern: (arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:(experi- ment|experiment-trial|experiment-trial-component|artifact|ac- tion|context)\/)?([a-zA-Z0-9](-*[a-zA-Z0-9]){0,119})
+    /// The name of the trial component to describe. Constraints: • min: 1 • max: 256 • pattern: (arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:(experiment|experiment-trial|experiment-trial-component|artifact|action|context)\/)?([a-zA-Z0-9](-*[a-zA-Z0-9]){0,119})
     /// </summary>
     [CliOption("--trial-component-name")]
     public string? TrialComponentName { get; private init; }
@@ -82,6 +83,15 @@ public record AwsSagemakerDescribeTrialComponentOptions : AwsOptions, IValidatab
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

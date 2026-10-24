@@ -11,13 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Modifies the settings for a replication group. This is limited to Valkey and Redis OSS 7 and above. o Scaling for Valkey or Redis OSS (cluster mode enabled) in the Elasti- Cache User Guide o ModifyReplicationGroupShardConfiguration in the ElastiCache API Ref- erence NOTE: This operation is valid for Valkey or Redis OSS only. See also: AWS API Documentation
+/// Modifies the settings for a replication group. This is limited to Valkey and Redis OSS 7 and above. • Scaling for Valkey or Redis OSS (cluster mode enabled) in the ElastiCache User Guide • ModifyReplicationGroupShardConfiguration in the ElastiCache API Reference NOTE: This operation is valid for Valkey or Redis OSS only. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,7 +28,7 @@ public record AwsElasticacheModifyReplicationGroupOptions : AwsOptions, IValidat
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Modifies the settings for a replication group. This is limited to Valkey and Redis OSS 7 and above. o Scaling for Valkey or Redis OSS (cluster mode enabled) in the Elasti- Cache User Guide o ModifyReplicationGroupShardConfiguration in the ElastiCache API Ref- erence NOTE: This operation is valid for Valkey or Redis OSS only. See also: AWS API Documentation
+    /// Modifies the settings for a replication group. This is limited to Valkey and Redis OSS 7 and above. • Scaling for Valkey or Redis OSS (cluster mode enabled) in the ElastiCache User Guide • ModifyReplicationGroupShardConfiguration in the ElastiCache API Reference NOTE: This operation is valid for Valkey or Redis OSS only. See also: AWS API Documentation
     /// </summary>
     /// <param name="ReplicationGroupId">The identifier of the replication group to modify.</param>
     public AwsElasticacheModifyReplicationGroupOptions(
@@ -64,13 +65,13 @@ public record AwsElasticacheModifyReplicationGroupOptions : AwsOptions, IValidat
     public string? ReplicationGroupId { get; private init; }
 
     /// <summary>
-    /// A description for the replication group. Maximum length is 255 char- acters.
+    /// A description for the replication group. Maximum length is 255 characters.
     /// </summary>
     [CliOption("--replication-group-description")]
     public string? ReplicationGroupDescription { get; set; }
 
     /// <summary>
-    /// For replication groups with a single primary, if this parameter is specified, ElastiCache promotes the specified cluster in the speci- fied replication group to the primary role. The nodes of all other clusters in the replication group are read replicas.
+    /// For replication groups with a single primary, if this parameter is specified, ElastiCache promotes the specified cluster in the specified replication group to the primary role. The nodes of all other clusters in the replication group are read replicas.
     /// </summary>
     [CliOption("--primary-cluster-id")]
     public string? PrimaryClusterId { get; set; }
@@ -112,19 +113,19 @@ public record AwsElasticacheModifyReplicationGroupOptions : AwsOptions, IValidat
     public IEnumerable<string>? SecurityGroupIds { get; set; }
 
     /// <summary>
-    /// Specifies the weekly time range during which maintenance on the cluster is performed. It is specified as a range in the format ddd:hh24:mi-ddd:hh24:mi (24H Clock UTC). The minimum maintenance window is a 60 minute period. Valid values for ddd are: o sun o mon o tue o wed o thu o fri o sat Example: sun:23:00-mon:01:30
+    /// Specifies the weekly time range during which maintenance on the cluster is performed. It is specified as a range in the format ddd:hh24:mi-ddd:hh24:mi (24H Clock UTC). The minimum maintenance window is a 60 minute period. Valid values for ddd are: • sun • mon • tue • wed • thu • fri • sat Example: sun:23:00-mon:01:30
     /// </summary>
     [CliOption("--preferred-maintenance-window")]
     public string? PreferredMaintenanceWindow { get; set; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the Amazon SNS topic to which no- tifications are sent. NOTE: The Amazon SNS topic owner must be same as the replication group owner.
+    /// The Amazon Resource Name (ARN) of the Amazon SNS topic to which notifications are sent. NOTE: The Amazon SNS topic owner must be same as the replication group owner.
     /// </summary>
     [CliOption("--notification-topic-arn")]
     public string? NotificationTopicArn { get; set; }
 
     /// <summary>
-    /// The name of the cache parameter group to apply to all of the clus- ters in this replication group. This change is asynchronously ap- plied as soon as possible for parameters when the ApplyImmediately parameter is specified as true for this request.
+    /// The name of the cache parameter group to apply to all of the clusters in this replication group. This change is asynchronously applied as soon as possible for parameters when the ApplyImmediately parameter is specified as true for this request.
     /// </summary>
     [CliOption("--cache-parameter-group-name")]
     public string? CacheParameterGroupName { get; set; }
@@ -136,25 +137,25 @@ public record AwsElasticacheModifyReplicationGroupOptions : AwsOptions, IValidat
     public string? NotificationTopicStatus { get; set; }
 
     /// <summary>
-    /// If true , this parameter causes the modifications in this request and any pending modifications to be applied, asynchronously and as soon as possible, regardless of the PreferredMaintenanceWindow set- ting for the replication group. If false , changes to the nodes in the replication group are applied on the next maintenance reboot, or the next failure reboot, whichever occurs first. Valid values: true | false Default: false
+    /// If true , this parameter causes the modifications in this request and any pending modifications to be applied, asynchronously and as soon as possible, regardless of the PreferredMaintenanceWindow setting for the replication group. If false , changes to the nodes in the replication group are applied on the next maintenance reboot, or the next failure reboot, whichever occurs first. Valid values: true | false Default: false
     /// </summary>
     [CliFlag("--apply-immediately", NegatedName = "--no-apply-immediately")]
     public bool? ApplyImmediately { get; set; }
 
     /// <summary>
-    /// Modifies the engine listed in a replication group message. The op- tions are valkey, memcached or redis.
+    /// Modifies the engine listed in a replication group message. The options are valkey, memcached or redis.
     /// </summary>
     [CliOption("--engine")]
     public string? Engine { get; set; }
 
     /// <summary>
-    /// The upgraded version of the cache engine to be run on the clusters in the replication group. Important: You can upgrade to a newer engine version (see Selecting a Cache Engine and Version ), but you cannot downgrade to an earlier engine version. If you want to use an earlier en- gine version, you must delete the existing replication group and create it anew with the earlier engine version.
+    /// The upgraded version of the cache engine to be run on the clusters in the replication group. Important: You can upgrade to a newer engine version (see Selecting a Cache Engine and Version ), but you cannot downgrade to an earlier engine version. If you want to use an earlier engine version, you must delete the existing replication group and create it anew with the earlier engine version.
     /// </summary>
     [CliOption("--engine-version")]
     public string? EngineVersion { get; set; }
 
     /// <summary>
-    /// If you are running Valkey or Redis OSS engine version 6.0 or later, set this parameter to yes if you want to opt-in to the next auto mi- nor version upgrade campaign. This parameter is disabled for previ- ous versions.
+    /// If you are running Valkey or Redis OSS engine version 6.0 or later, set this parameter to yes if you want to opt-in to the next auto minor version upgrade campaign. This parameter is disabled for previous versions.
     /// </summary>
     [CliFlag("--auto-minor-version-upgrade", NegatedName = "--no-auto-minor-version-upgrade")]
     public bool? AutoMinorVersionUpgrade { get; set; }
@@ -166,7 +167,7 @@ public record AwsElasticacheModifyReplicationGroupOptions : AwsOptions, IValidat
     public int? SnapshotRetentionLimit { get; set; }
 
     /// <summary>
-    /// The daily time range (in UTC) during which ElastiCache begins taking a daily snapshot of the node group (shard) specified by Snapshot- tingClusterId . Example: 05:00-09:00 If you do not specify this parameter, ElastiCache automatically chooses an appropriate time range.
+    /// The daily time range (in UTC) during which ElastiCache begins taking a daily snapshot of the node group (shard) specified by SnapshottingClusterId . Example: 05:00-09:00 If you do not specify this parameter, ElastiCache automatically chooses an appropriate time range.
     /// </summary>
     [CliOption("--snapshot-window")]
     public string? SnapshotWindow { get; set; }
@@ -178,26 +179,26 @@ public record AwsElasticacheModifyReplicationGroupOptions : AwsOptions, IValidat
     public string? CacheNodeType { get; set; }
 
     /// <summary>
-    /// Reserved parameter. The password used to access a password protected server. This parameter must be specified with the auth-token-up- date-strategy parameter. Password constraints: o Must be only printable ASCII characters o Must be at least 16 characters and no more than 128 characters in length o Cannot contain any of the following characters: '/', '"', or '@', '%' For more information, see AUTH password at AUTH .
+    /// Reserved parameter. The password used to access a password protected server. This parameter must be specified with the auth-token-update-strategy parameter. Password constraints: • Must be only printable ASCII characters • Must be at least 16 characters and no more than 128 characters in length • Cannot contain any of the following characters: '/', '"', or '@', '%' For more information, see AUTH password at AUTH .
     /// </summary>
     [SecretValue]
     [CliOption("--auth-token")]
     public string? AuthToken { get; set; }
 
     /// <summary>
-    /// Specifies the strategy to use to update the AUTH token. This parame- ter must be specified with the auth-token parameter. Possible val- ues: o ROTATE - default, if no update strategy is provided o SET - allowed only after ROTATE o DELETE - allowed only when transitioning to RBAC For more information, see Authenticating Users with AUTH Possible values: o SET o ROTATE o DELETE
+    /// Specifies the strategy to use to update the AUTH token. This parameter must be specified with the auth-token parameter. Possible values: • ROTATE - default, if no update strategy is provided • SET - allowed only after ROTATE • DELETE - allowed only when transitioning to RBAC For more information, see Authenticating Users with AUTH Possible values: • SET • ROTATE • DELETE
     /// </summary>
     [CliOption("--auth-token-update-strategy")]
     public AwsElasticacheModifyReplicationGroupAuthTokenUpdateStrategy? AuthTokenUpdateStrategy { get; set; }
 
     /// <summary>
-    /// The ID of the user group you are associating with the replication group. (string) Constraints: o min: 1 o pattern: [a-zA-Z][a-zA-Z0-9\-]* Syntax: "string" "string" ...
+    /// The ID of the user group you are associating with the replication group. (string) Constraints: • min: 1 • pattern: [a-zA-Z][a-zA-Z0-9\-]* Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--user-group-ids-to-add", GroupValues = true)]
     public IEnumerable<string>? UserGroupIdsToAdd { get; set; }
 
     /// <summary>
-    /// The ID of the user group to disassociate from the replication group, meaning the users in the group no longer can access the replication group. (string) Constraints: o min: 1 o pattern: [a-zA-Z][a-zA-Z0-9\-]* Syntax: "string" "string" ...
+    /// The ID of the user group to disassociate from the replication group, meaning the users in the group no longer can access the replication group. (string) Constraints: • min: 1 • pattern: [a-zA-Z][a-zA-Z0-9\-]* Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--user-group-ids-to-remove", GroupValues = true)]
     public IEnumerable<string>? UserGroupIdsToRemove { get; set; }
@@ -209,13 +210,13 @@ public record AwsElasticacheModifyReplicationGroupOptions : AwsOptions, IValidat
     public bool? RemoveUserGroups { get; set; }
 
     /// <summary>
-    /// Specifies the destination, format and type of the logs. (structure) Specifies the destination, format and type of the logs. LogType -&gt; (string) Refers to slow-log or engine-log.. Possible values: o slow-log o engine-log DestinationType -&gt; (string) Specify either cloudwatch-logs or kinesis-firehose as the destination type. Possible values: o cloudwatch-logs o kinesis-firehose DestinationDetails -&gt; (structure) Configuration details of either a CloudWatch Logs destination or Kinesis Data Firehose destination. CloudWatchLogsDetails -&gt; (structure) The configuration details of the CloudWatch Logs destina- tion. LogGroup -&gt; (string) The name of the CloudWatch Logs log group. KinesisFirehoseDetails -&gt; (structure) The configuration details of the Kinesis Data Firehose destination. DeliveryStream -&gt; (string) The name of the Kinesis Data Firehose delivery stream. LogFormat -&gt; (string) Specifies either JSON or TEXT Possible values: o text o json Enabled -&gt; (boolean) Specify if log delivery is enabled. Default true . Shorthand Syntax: LogType=string,DestinationType=string,DestinationDetails={CloudWatchLogsDetails={LogGroup=string},KinesisFirehoseDetails={DeliveryStream=string}},LogFormat=string,Enabled=boolean ... JSON Syntax: [ { "LogType": "slow-log"|"engine-log", "DestinationType": "cloudwatch-logs"|"kinesis-firehose", "DestinationDetails": { "CloudWatchLogsDetails": { "LogGroup": "string" }, "KinesisFirehoseDetails": { "DeliveryStream": "string" } }, "LogFormat": "text"|"json", "Enabled": true|false } ... ]
+    /// Specifies the destination, format and type of the logs. (structure) Specifies the destination, format and type of the logs. LogType -&gt; (string) Refers to slow-log or engine-log.. Possible values: • slow-log • engine-log DestinationType -&gt; (string) Specify either cloudwatch-logs or kinesis-firehose as the destination type. Possible values: • cloudwatch-logs • kinesis-firehose DestinationDetails -&gt; (structure) Configuration details of either a CloudWatch Logs destination or Kinesis Data Firehose destination. CloudWatchLogsDetails -&gt; (structure) The configuration details of the CloudWatch Logs destination. LogGroup -&gt; (string) The name of the CloudWatch Logs log group. KinesisFirehoseDetails -&gt; (structure) The configuration details of the Kinesis Data Firehose destination. DeliveryStream -&gt; (string) The name of the Kinesis Data Firehose delivery stream. LogFormat -&gt; (string) Specifies either JSON or TEXT Possible values: • text • json Enabled -&gt; (boolean) Specify if log delivery is enabled. Default true . Shorthand Syntax: LogType=string,DestinationType=string,DestinationDetails={CloudWatchLogsDetails={LogGroup=string},KinesisFirehoseDetails={DeliveryStream=string}},LogFormat=string,Enabled=boolean ... JSON Syntax: [ { "LogType": "slow-log"|"engine-log", "DestinationType": "cloudwatch-logs"|"kinesis-firehose", "DestinationDetails": { "CloudWatchLogsDetails": { "LogGroup": "string" }, "KinesisFirehoseDetails": { "DeliveryStream": "string" } }, "LogFormat": "text"|"json", "Enabled": true|false } ... ]
     /// </summary>
     [CliOption("--log-delivery-configurations", GroupValues = true)]
     public IEnumerable<string>? LogDeliveryConfigurations { get; set; }
 
     /// <summary>
-    /// The network type you choose when modifying a cluster, either ipv4 | ipv6 . IPv6 is supported for workloads using Valkey 7.2 and above, Redis OSS engine version 6.2 to 7.1 and Memcached engine version 1.6.6 and above on all instances built on the Nitro system . Possible values: o ipv4 o ipv6
+    /// The network type you choose when modifying a cluster, either ipv4 | ipv6 . IPv6 is supported for workloads using Valkey 7.2 and above, Redis OSS engine version 6.2 to 7.1 and Memcached engine version 1.6.6 and above on all instances built on the Nitro system . Possible values: • ipv4 • ipv6
     /// </summary>
     [CliOption("--ip-discovery")]
     public AwsElasticacheModifyReplicationGroupIpDiscovery? IpDiscovery { get; set; }
@@ -227,19 +228,19 @@ public record AwsElasticacheModifyReplicationGroupOptions : AwsOptions, IValidat
     public bool? TransitEncryptionEnabled { get; set; }
 
     /// <summary>
-    /// A setting that allows you to migrate your clients to use in-transit encryption, with no downtime. You must set TransitEncryptionEnabled to true , for your existing cluster, and set TransitEncryptionMode to preferred in the same re- quest to allow both encrypted and unencrypted connections at the same time. Once you migrate all your Valkey or Redis OSS clients to use encrypted connections you can set the value to required to allow encrypted connections only. Setting TransitEncryptionMode to required is a two-step process that requires you to first set the TransitEncryptionMode to preferred , after that you can set TransitEncryptionMode to required . Possible values: o preferred o required
+    /// A setting that allows you to migrate your clients to use in-transit encryption, with no downtime. You must set TransitEncryptionEnabled to true , for your existing cluster, and set TransitEncryptionMode to preferred in the same request to allow both encrypted and unencrypted connections at the same time. Once you migrate all your Valkey or Redis OSS clients to use encrypted connections you can set the value to required to allow encrypted connections only. Setting TransitEncryptionMode to required is a two-step process that requires you to first set the TransitEncryptionMode to preferred , after that you can set TransitEncryptionMode to required . Possible values: • preferred • required
     /// </summary>
     [CliOption("--transit-encryption-mode")]
     public AwsElasticacheModifyReplicationGroupTransitEncryptionMode? TransitEncryptionMode { get; set; }
 
     /// <summary>
-    /// Enabled or Disabled. To modify cluster mode from Disabled to En- abled, you must first set the cluster mode to Compatible. Compatible mode allows your Valkey or Redis OSS clients to connect using both cluster mode enabled and cluster mode disabled. After you migrate all Valkey or Redis OSS clients to use cluster mode enabled, you can then complete cluster mode configuration and set the cluster mode to Enabled. Possible values: o enabled o disabled o compatible
+    /// Enabled or Disabled. To modify cluster mode from Disabled to Enabled, you must first set the cluster mode to Compatible. Compatible mode allows your Valkey or Redis OSS clients to connect using both cluster mode enabled and cluster mode disabled. After you migrate all Valkey or Redis OSS clients to use cluster mode enabled, you can then complete cluster mode configuration and set the cluster mode to Enabled. Possible values: • enabled • disabled • compatible
     /// </summary>
     [CliOption("--cluster-mode")]
     public AwsElasticacheModifyReplicationGroupClusterMode? ClusterMode { get; set; }
 
     /// <summary>
-    /// Specifies the durability setting for the replication group. Use this parameter to change the durability mode of an existing replication group, for example from sync to async or vice versa. For more infor- mation, see Durability . Possible values: o default o async o sync o disabled
+    /// Specifies the durability setting for the replication group. Use this parameter to change the durability mode of an existing replication group, for example from sync to async or vice versa. For more information, see Durability . Possible values: • default • async • sync • disabled
     /// </summary>
     [CliOption("--durability")]
     public AwsElasticacheModifyReplicationGroupDurability? Durability { get; set; }
@@ -265,6 +266,15 @@ public record AwsElasticacheModifyReplicationGroupOptions : AwsOptions, IValidat
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

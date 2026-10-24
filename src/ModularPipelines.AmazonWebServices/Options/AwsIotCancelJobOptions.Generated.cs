@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsIotCancelJobOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Cancels a job. Requires permission to access the CancelJob action. See also: AWS API Documentation
     /// </summary>
-    /// <param name="JobId">The unique identifier you assigned to this job when it was created. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_-]+</param>
+    /// <param name="JobId">The unique identifier you assigned to this job when it was created. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9_-]+</param>
     public AwsIotCancelJobOptions(
         string JobId
     )
@@ -56,19 +57,19 @@ public record AwsIotCancelJobOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier you assigned to this job when it was created. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_-]+
+    /// The unique identifier you assigned to this job when it was created. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9_-]+
     /// </summary>
     [CliOption("--job-id")]
     public string? JobId { get; private init; }
 
     /// <summary>
-    /// (Optional)A reason code string that explains why the job was can- celed. Constraints: o max: 128 o pattern: [\p{Upper}\p{Digit}_]+
+    /// (Optional)A reason code string that explains why the job was canceled. Constraints: • max: 128 • pattern: [\p{Upper}\p{Digit}_]+
     /// </summary>
     [CliOption("--reason-code")]
     public string? ReasonCode { get; set; }
 
     /// <summary>
-    /// An optional comment string describing why the job was canceled. Constraints: o max: 2028 o pattern: [^\p{C}]+
+    /// An optional comment string describing why the job was canceled. Constraints: • max: 2028 • pattern: [^\p{C}]+
     /// </summary>
     [CliOption("--comment")]
     public string? Comment { get; set; }
@@ -100,6 +101,15 @@ public record AwsIotCancelJobOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

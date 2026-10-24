@@ -16,7 +16,7 @@ using ModularPipelines.AmazonWebServices.Enums;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves a list of existing workflows. You can filter for specific workflows by their name and type. Using the type parameter, specify PRIVATE to retrieve a list of private workflows or specify READY2RUN for a list of all Ready2Run workflows. If you do not specify the type of workflow, this operation returns a list of existing workflows. See also: AWS API Documentation list-workflows is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results...
+/// Retrieves a list of existing workflows. You can filter for specific workflows by their name and type. Using the type parameter, specify PRIVATE to retrieve a list of private workflows or specify READY2RUN for a list of all Ready2Run workflows. If you do not specify the type of workflow, this operation returns a list of existing workflows. See also: AWS API Documentation list-workflows is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -24,13 +24,13 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsOmicsListWorkflowsOptions : AwsOptions
 {
     /// <summary>
-    /// Filter the list by workflow type. Possible values: o PRIVATE o READY2RUN Constraints: o min: 1 o max: 64
+    /// Filter the list by workflow type. Possible values: • PRIVATE • READY2RUN Constraints: • min: 1 • max: 64
     /// </summary>
     [CliOption("--type")]
     public AwsOmicsListWorkflowsType? Type { get; set; }
 
     /// <summary>
-    /// Filter the list by workflow name. Constraints: o min: 1 o max: 128 o pattern: [\p{L}||\p{M}||\p{Z}||\p{S}||\p{N}||\p{P}]+
+    /// Filter the list by workflow name. Constraints: • min: 1 • max: 128 • pattern: [\p{L}||\p{M}||\p{Z}||\p{S}||\p{N}||\p{P}]+
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
@@ -45,19 +45,28 @@ public record AwsOmicsListWorkflowsOptions : AwsOptions
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
-
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 100
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

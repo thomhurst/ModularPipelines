@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Task runners call SetTaskStatus to notify AWS Data Pipeline that a task is completed and provide information about the final status. A task runner makes this call regardless of whether the task was sucessful. A task runner does not need to call SetTaskStatus for tasks that are can- celed by the web service during a call to ReportTaskProgress . See also: AWS API Documentation
+/// Task runners call SetTaskStatus to notify AWS Data Pipeline that a task is completed and provide information about the final status. A task runner makes this call regardless of whether the task was sucessful. A task runner does not need to call SetTaskStatus for tasks that are canceled by the web service during a call to ReportTaskProgress . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +27,10 @@ public record AwsDatapipelineSetTaskStatusOptions : AwsOptions, IValidatableObje
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Task runners call SetTaskStatus to notify AWS Data Pipeline that a task is completed and provide information about the final status. A task runner makes this call regardless of whether the task was sucessful. A task runner does not need to call SetTaskStatus for tasks that are can- celed by the web service during a call to ReportTaskProgress . See also: AWS API Documentation
+    /// Task runners call SetTaskStatus to notify AWS Data Pipeline that a task is completed and provide information about the final status. A task runner makes this call regardless of whether the task was sucessful. A task runner does not need to call SetTaskStatus for tasks that are canceled by the web service during a call to ReportTaskProgress . See also: AWS API Documentation
     /// </summary>
-    /// <param name="TaskId">The ID of the task assigned to the task runner. This value is pro- vided in the response for PollForTask . Constraints: o min: 1 o max: 2048 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*</param>
-    /// <param name="TaskStatus">If FINISHED , the task successfully completed. If FAILED , the task ended unsuccessfully. Preconditions use false. Possible values: o FINISHED o FAILED o FALSE</param>
+    /// <param name="TaskId">The ID of the task assigned to the task runner. This value is provided in the response for PollForTask . Constraints: • min: 1 • max: 2048 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*</param>
+    /// <param name="TaskStatus">If FINISHED , the task successfully completed. If FAILED , the task ended unsuccessfully. Preconditions use false. Possible values: • FINISHED • FAILED • FALSE</param>
     public AwsDatapipelineSetTaskStatusOptions(
         string TaskId,
         AwsDatapipelineSetTaskStatusTaskStatus TaskStatus
@@ -60,19 +61,19 @@ public record AwsDatapipelineSetTaskStatusOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the task assigned to the task runner. This value is pro- vided in the response for PollForTask . Constraints: o min: 1 o max: 2048 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*
+    /// The ID of the task assigned to the task runner. This value is provided in the response for PollForTask . Constraints: • min: 1 • max: 2048 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*
     /// </summary>
     [CliOption("--task-id")]
     public string? TaskId { get; private init; }
 
     /// <summary>
-    /// If FINISHED , the task successfully completed. If FAILED , the task ended unsuccessfully. Preconditions use false. Possible values: o FINISHED o FAILED o FALSE
+    /// If FINISHED , the task successfully completed. If FAILED , the task ended unsuccessfully. Preconditions use false. Possible values: • FINISHED • FAILED • FALSE
     /// </summary>
     [CliOption("--task-status")]
     public AwsDatapipelineSetTaskStatusTaskStatus? TaskStatus { get; private init; }
 
     /// <summary>
-    /// If an error occurred during the task, this value specifies the error code. This value is set on the physical attempt object. It is used to display error information to the user. It should not start with string " Service_ " which is reserved by the system. Constraints: o min: 0 o max: 1024 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*
+    /// If an error occurred during the task, this value specifies the error code. This value is set on the physical attempt object. It is used to display error information to the user. It should not start with string " Service_ " which is reserved by the system. Constraints: • min: 0 • max: 1024 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*
     /// </summary>
     [CliOption("--error-id")]
     public string? ErrorId { get; set; }
@@ -84,7 +85,7 @@ public record AwsDatapipelineSetTaskStatusOptions : AwsOptions, IValidatableObje
     public string? ErrorMessage { get; set; }
 
     /// <summary>
-    /// If an error occurred during the task, this value specifies the stack trace associated with the error. This value is set on the physical attempt object. It is used to display error information to the user. The web service does not parse this value. Constraints: o min: 0 o max: 1024 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*
+    /// If an error occurred during the task, this value specifies the stack trace associated with the error. This value is set on the physical attempt object. It is used to display error information to the user. The web service does not parse this value. Constraints: • min: 0 • max: 1024 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*
     /// </summary>
     [CliOption("--error-stack-trace")]
     public string? ErrorStackTrace { get; set; }
@@ -110,6 +111,15 @@ public record AwsDatapipelineSetTaskStatusOptions : AwsOptions, IValidatableObje
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

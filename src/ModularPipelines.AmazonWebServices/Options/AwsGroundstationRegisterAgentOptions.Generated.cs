@@ -10,13 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// NOTE: For use by AWS Ground Station Agent and shouldn't be called di- rectly. Registers a new agent with AWS Ground Station. See also: AWS API Documentation
+/// NOTE: For use by AWS Ground Station Agent and shouldn't be called directly. Registers a new agent with AWS Ground Station. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +26,10 @@ public record AwsGroundstationRegisterAgentOptions : AwsOptions, IValidatableObj
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// NOTE: For use by AWS Ground Station Agent and shouldn't be called di- rectly. Registers a new agent with AWS Ground Station. See also: AWS API Documentation
+    /// NOTE: For use by AWS Ground Station Agent and shouldn't be called directly. Registers a new agent with AWS Ground Station. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DiscoveryData">Data for associating an agent with the capabilities it is managing. publicIpAddresses -&gt; (list) [required] List of public IP addresses to associate with agent. Constraints: o min: 1 o max: 20 (string) Constraints: o min: 7 o max: 16 o pattern: \d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3} privateIpAddresses -&gt; (list) [required] List of private IP addresses to associate with agent. Constraints: o min: 1 o max: 20 (string) Constraints: o min: 7 o max: 16 o pattern: \d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3} capabilityArns -&gt; (list) [required] List of capabilities to associate with agent. Constraints: o min: 1 o max: 20 (string) Shorthand Syntax: publicIpAddresses=string,string,privateIpAddresses=string,string,capabilityArns=string,string JSON Syntax: { "publicIpAddresses": ["string", ...], "privateIpAddresses": ["string", ...], "capabilityArns": ["string", ...] }</param>
-    /// <param name="AgentDetails">Detailed information about the agent being registered. agentVersion -&gt; (string) [required] Current agent version. Constraints: o min: 1 o max: 64 o pattern: (0|[1-9]\d*)(\.(0|[1-9]\d*))* instanceId -&gt; (string) [required] ID of EC2 instance agent is running on. Constraints: o min: 10 o max: 64 o pattern: [a-z0-9-]{10,64} instanceType -&gt; (string) [required] Type of EC2 instance agent is running on. Constraints: o min: 1 o max: 64 o pattern: [a-z0-9.-]{1,64} reservedCpuCores -&gt; (list) NOTE: This field should not be used. Use agentCpuCores instead. List of CPU cores reserved for processes other than the agent running on the EC2 instance. Constraints: o min: 0 o max: 256 (integer) agentCpuCores -&gt; (list) List of CPU cores reserved for the agent. Constraints: o min: 0 o max: 256 (integer) componentVersions -&gt; (list) [required] List of versions being used by agent components. Constraints: o min: 1 o max: 20 (structure) Version information for agent components. componentType -&gt; (string) [required] Component type. Constraints: o pattern: [a-zA-Z0-9_]{1,64} versions -&gt; (list) [required] List of versions. Constraints: o min: 1 o max: 20 (string) Constraints: o min: 1 o max: 64 o pattern: (0|[1-9]\d*)(\.(0|[1-9]\d*))* JSON Syntax: { "agentVersion": "string", "instanceId": "string", "instanceType": "string", "reservedCpuCores": [integer, ...], "agentCpuCores": [integer, ...], "componentVersions": [ { "componentType": "string", "versions": ["string", ...] } ... ] }</param>
+    /// <param name="DiscoveryData">Data for associating an agent with the capabilities it is managing. publicIpAddresses -&gt; (list) [required] List of public IP addresses to associate with agent. Constraints: • min: 1 • max: 20 (string) Constraints: • min: 7 • max: 16 • pattern: \d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3} privateIpAddresses -&gt; (list) [required] List of private IP addresses to associate with agent. Constraints: • min: 1 • max: 20 (string) Constraints: • min: 7 • max: 16 • pattern: \d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3} capabilityArns -&gt; (list) [required] List of capabilities to associate with agent. Constraints: • min: 1 • max: 20 (string) Shorthand Syntax: publicIpAddresses=string,string,privateIpAddresses=string,string,capabilityArns=string,string JSON Syntax: { "publicIpAddresses": ["string", ...], "privateIpAddresses": ["string", ...], "capabilityArns": ["string", ...] }</param>
+    /// <param name="AgentDetails">Detailed information about the agent being registered. agentVersion -&gt; (string) [required] Current agent version. Constraints: • min: 1 • max: 64 • pattern: (0|[1-9]\d*)(\.(0|[1-9]\d*))* instanceId -&gt; (string) [required] ID of EC2 instance agent is running on. Constraints: • min: 10 • max: 64 • pattern: [a-z0-9-]{10,64} instanceType -&gt; (string) [required] Type of EC2 instance agent is running on. Constraints: • min: 1 • max: 64 • pattern: [a-z0-9.-]{1,64} reservedCpuCores -&gt; (list) NOTE: This field should not be used. Use agentCpuCores instead. List of CPU cores reserved for processes other than the agent running on the EC2 instance. Constraints: • min: 0 • max: 256 (integer) agentCpuCores -&gt; (list) List of CPU cores reserved for the agent. Constraints: • min: 0 • max: 256 (integer) componentVersions -&gt; (list) [required] List of versions being used by agent components. Constraints: • min: 1 • max: 20 (structure) Version information for agent components. componentType -&gt; (string) [required] Component type. Constraints: • pattern: [a-zA-Z0-9_]{1,64} versions -&gt; (list) [required] List of versions. Constraints: • min: 1 • max: 20 (string) Constraints: • min: 1 • max: 64 • pattern: (0|[1-9]\d*)(\.(0|[1-9]\d*))* JSON Syntax: { "agentVersion": "string", "instanceId": "string", "instanceType": "string", "reservedCpuCores": [integer, ...], "agentCpuCores": [integer, ...], "componentVersions": [ { "componentType": "string", "versions": ["string", ...] } ... ] }</param>
     public AwsGroundstationRegisterAgentOptions(
         string DiscoveryData,
         string AgentDetails
@@ -61,13 +61,13 @@ public record AwsGroundstationRegisterAgentOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Data for associating an agent with the capabilities it is managing. publicIpAddresses -&gt; (list) [required] List of public IP addresses to associate with agent. Constraints: o min: 1 o max: 20 (string) Constraints: o min: 7 o max: 16 o pattern: \d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3} privateIpAddresses -&gt; (list) [required] List of private IP addresses to associate with agent. Constraints: o min: 1 o max: 20 (string) Constraints: o min: 7 o max: 16 o pattern: \d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3} capabilityArns -&gt; (list) [required] List of capabilities to associate with agent. Constraints: o min: 1 o max: 20 (string) Shorthand Syntax: publicIpAddresses=string,string,privateIpAddresses=string,string,capabilityArns=string,string JSON Syntax: { "publicIpAddresses": ["string", ...], "privateIpAddresses": ["string", ...], "capabilityArns": ["string", ...] }
+    /// Data for associating an agent with the capabilities it is managing. publicIpAddresses -&gt; (list) [required] List of public IP addresses to associate with agent. Constraints: • min: 1 • max: 20 (string) Constraints: • min: 7 • max: 16 • pattern: \d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3} privateIpAddresses -&gt; (list) [required] List of private IP addresses to associate with agent. Constraints: • min: 1 • max: 20 (string) Constraints: • min: 7 • max: 16 • pattern: \d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3} capabilityArns -&gt; (list) [required] List of capabilities to associate with agent. Constraints: • min: 1 • max: 20 (string) Shorthand Syntax: publicIpAddresses=string,string,privateIpAddresses=string,string,capabilityArns=string,string JSON Syntax: { "publicIpAddresses": ["string", ...], "privateIpAddresses": ["string", ...], "capabilityArns": ["string", ...] }
     /// </summary>
     [CliOption("--discovery-data")]
     public string? DiscoveryData { get; private init; }
 
     /// <summary>
-    /// Detailed information about the agent being registered. agentVersion -&gt; (string) [required] Current agent version. Constraints: o min: 1 o max: 64 o pattern: (0|[1-9]\d*)(\.(0|[1-9]\d*))* instanceId -&gt; (string) [required] ID of EC2 instance agent is running on. Constraints: o min: 10 o max: 64 o pattern: [a-z0-9-]{10,64} instanceType -&gt; (string) [required] Type of EC2 instance agent is running on. Constraints: o min: 1 o max: 64 o pattern: [a-z0-9.-]{1,64} reservedCpuCores -&gt; (list) NOTE: This field should not be used. Use agentCpuCores instead. List of CPU cores reserved for processes other than the agent running on the EC2 instance. Constraints: o min: 0 o max: 256 (integer) agentCpuCores -&gt; (list) List of CPU cores reserved for the agent. Constraints: o min: 0 o max: 256 (integer) componentVersions -&gt; (list) [required] List of versions being used by agent components. Constraints: o min: 1 o max: 20 (structure) Version information for agent components. componentType -&gt; (string) [required] Component type. Constraints: o pattern: [a-zA-Z0-9_]{1,64} versions -&gt; (list) [required] List of versions. Constraints: o min: 1 o max: 20 (string) Constraints: o min: 1 o max: 64 o pattern: (0|[1-9]\d*)(\.(0|[1-9]\d*))* JSON Syntax: { "agentVersion": "string", "instanceId": "string", "instanceType": "string", "reservedCpuCores": [integer, ...], "agentCpuCores": [integer, ...], "componentVersions": [ { "componentType": "string", "versions": ["string", ...] } ... ] }
+    /// Detailed information about the agent being registered. agentVersion -&gt; (string) [required] Current agent version. Constraints: • min: 1 • max: 64 • pattern: (0|[1-9]\d*)(\.(0|[1-9]\d*))* instanceId -&gt; (string) [required] ID of EC2 instance agent is running on. Constraints: • min: 10 • max: 64 • pattern: [a-z0-9-]{10,64} instanceType -&gt; (string) [required] Type of EC2 instance agent is running on. Constraints: • min: 1 • max: 64 • pattern: [a-z0-9.-]{1,64} reservedCpuCores -&gt; (list) NOTE: This field should not be used. Use agentCpuCores instead. List of CPU cores reserved for processes other than the agent running on the EC2 instance. Constraints: • min: 0 • max: 256 (integer) agentCpuCores -&gt; (list) List of CPU cores reserved for the agent. Constraints: • min: 0 • max: 256 (integer) componentVersions -&gt; (list) [required] List of versions being used by agent components. Constraints: • min: 1 • max: 20 (structure) Version information for agent components. componentType -&gt; (string) [required] Component type. Constraints: • pattern: [a-zA-Z0-9_]{1,64} versions -&gt; (list) [required] List of versions. Constraints: • min: 1 • max: 20 (string) Constraints: • min: 1 • max: 64 • pattern: (0|[1-9]\d*)(\.(0|[1-9]\d*))* JSON Syntax: { "agentVersion": "string", "instanceId": "string", "instanceType": "string", "reservedCpuCores": [integer, ...], "agentCpuCores": [integer, ...], "componentVersions": [ { "componentType": "string", "versions": ["string", ...] } ... ] }
     /// </summary>
     [CliOption("--agent-details")]
     public string? AgentDetails { get; private init; }
@@ -99,6 +99,15 @@ public record AwsGroundstationRegisterAgentOptions : AwsOptions, IValidatableObj
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

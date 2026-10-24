@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates or updates a segment subscription for membership events. When a subscription is created, an initial snapshot is taken and the system begins monitoring for membership changes. You can optionally set a schedule configuration interval to control how often membership snapshots are run. The interval can be from 1 to 24 hours. If not set, the interval defaults to 24 hours. Scheduled snap- shots run on a best-effort basis. If a scheduled snapshot takes longer than the configured interval, the n...
+/// Creates or updates a segment subscription for membership events. When a subscription is created, an initial snapshot is taken and the system begins monitoring for membership changes. You can optionally set a schedule configuration interval to control how often membership snapshots are run. The interval can be from 1 to 24 hours. If not set, the interval defaults to 24 hours. Scheduled snapshots run on a best-effort basis. If a scheduled snapshot takes longer than the configured interval, the nex...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsCustomerProfilesPutSegmentSubscriptionOptions : AwsOptions, IVa
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates or updates a segment subscription for membership events. When a subscription is created, an initial snapshot is taken and the system begins monitoring for membership changes. You can optionally set a schedule configuration interval to control how often membership snapshots are run. The interval can be from 1 to 24 hours. If not set, the interval defaults to 24 hours. Scheduled snap- shots run on a best-effort basis. If a scheduled snapshot takes longer than the configured interval, the n...
+    /// Creates or updates a segment subscription for membership events. When a subscription is created, an initial snapshot is taken and the system begins monitoring for membership changes. You can optionally set a schedule configuration interval to control how often membership snapshots are run. The interval can be from 1 to 24 hours. If not set, the interval defaults to 24 hours. Scheduled snapshots run on a best-effort basis. If a scheduled snapshot takes longer than the configured interval, the nex...
     /// </summary>
-    /// <param name="DomainName">The unique name of the domain. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$</param>
-    /// <param name="SegmentDefinitionName">The unique name of the segment definition. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$</param>
+    /// <param name="DomainName">The unique name of the domain. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9_-]+$</param>
+    /// <param name="SegmentDefinitionName">The unique name of the segment definition. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9_-]+$</param>
     public AwsCustomerProfilesPutSegmentSubscriptionOptions(
         string DomainName,
         string SegmentDefinitionName
@@ -60,19 +61,19 @@ public record AwsCustomerProfilesPutSegmentSubscriptionOptions : AwsOptions, IVa
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique name of the domain. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$
+    /// The unique name of the domain. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9_-]+$
     /// </summary>
     [CliOption("--domain-name")]
     public string? DomainName { get; private init; }
 
     /// <summary>
-    /// The unique name of the segment definition. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$
+    /// The unique name of the segment definition. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9_-]+$
     /// </summary>
     [CliOption("--segment-definition-name")]
     public string? SegmentDefinitionName { get; private init; }
 
     /// <summary>
-    /// The optional schedule configuration that controls how often member- ship snapshots are run. If not provided, the subscription defaults to a 24-hour interval. Interval -&gt; (integer) [required] The interval between scheduled executions. Constraints: o min: 1 o max: 24 Unit -&gt; (string) The unit for the interval. The following are valid values: o HOURLY : The interval is measured in hours. Possible values: o HOURLY Shorthand Syntax: Interval=integer,Unit=string JSON Syntax: { "Interval": integer, "Unit": "HOURLY" }
+    /// The optional schedule configuration that controls how often membership snapshots are run. If not provided, the subscription defaults to a 24-hour interval. Interval -&gt; (integer) [required] The interval between scheduled executions. Constraints: • min: 1 • max: 24 Unit -&gt; (string) The unit for the interval. The following are valid values: • HOURLY : The interval is measured in hours. Possible values: • HOURLY Shorthand Syntax: Interval=integer,Unit=string JSON Syntax: { "Interval": integer, "Unit": "HOURLY" }
     /// </summary>
     [CliOption("--schedule-configuration")]
     public string? ScheduleConfiguration { get; set; }
@@ -98,6 +99,15 @@ public record AwsCustomerProfilesPutSegmentSubscriptionOptions : AwsOptions, IVa
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsCodebuildUpdateReportGroupOptions : AwsOptions, IValidatableObj
     /// <summary>
     /// Updates a report group. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Arn">The ARN of the report group to update. Constraints: o min: 1</param>
+    /// <param name="Arn">The ARN of the report group to update. Constraints: • min: 1</param>
     public AwsCodebuildUpdateReportGroupOptions(
         string Arn
     )
@@ -56,19 +57,19 @@ public record AwsCodebuildUpdateReportGroupOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the report group to update. Constraints: o min: 1
+    /// The ARN of the report group to update. Constraints: • min: 1
     /// </summary>
     [CliOption("--arn")]
     public string? Arn { get; private init; }
 
     /// <summary>
-    /// Used to specify an updated export type. Valid values are: o S3 : The report results are exported to an S3 bucket. o NO_EXPORT : The report results are not exported. exportConfigType -&gt; (string) The export configuration type. Valid values are: o S3 : The report results are exported to an S3 bucket. o NO_EXPORT : The report results are not exported. Possible values: o S3 o NO_EXPORT s3Destination -&gt; (structure) A S3ReportExportConfig object that contains information about the S3 bucket where the run of a report is exported. bucket -&gt; (string) The name of the S3 bucket where the raw data of a report are exported. Constraints: o min: 1 bucketOwner -&gt; (string) The Amazon Web Services account identifier of the owner of the Amazon S3 bucket. This allows report data to be exported to an Amazon S3 bucket that is owned by an account other than the account running the build. path -&gt; (string) The path to the exported report's raw data results. packaging -&gt; (string) The type of build output artifact to create. Valid values in- clude: o NONE : CodeBuild creates the raw data in the output bucket. This is the default if packaging is not specified. o ZIP : CodeBuild creates a ZIP file with the raw data in the output bucket. Possible values: o ZIP o NONE encryptionKey -&gt; (string) The encryption key for the report's encrypted raw data. Constraints: o min: 1 encryptionDisabled -&gt; (boolean) A boolean value that specifies if the results of a report are encrypted. Shorthand Syntax: exportConfigType=string,s3Destination={bucket=string,bucketOwner=string,path=string,packaging=string,encryptionKey=string,encryptionDisabled=boolean} JSON Syntax: { "exportConfigType": "S3"|"NO_EXPORT", "s3Destination": { "bucket": "string", "bucketOwner": "string", "path": "string", "packaging": "ZIP"|"NONE", "encryptionKey": "string", "encryptionDisabled": true|false } }
+    /// Used to specify an updated export type. Valid values are: • S3 : The report results are exported to an S3 bucket. • NO_EXPORT : The report results are not exported. exportConfigType -&gt; (string) The export configuration type. Valid values are: • S3 : The report results are exported to an S3 bucket. • NO_EXPORT : The report results are not exported. Possible values: • S3 • NO_EXPORT s3Destination -&gt; (structure) A S3ReportExportConfig object that contains information about the S3 bucket where the run of a report is exported. bucket -&gt; (string) The name of the S3 bucket where the raw data of a report are exported. Constraints: • min: 1 bucketOwner -&gt; (string) The Amazon Web Services account identifier of the owner of the Amazon S3 bucket. This allows report data to be exported to an Amazon S3 bucket that is owned by an account other than the account running the build. path -&gt; (string) The path to the exported report's raw data results. packaging -&gt; (string) The type of build output artifact to create. Valid values include: • NONE : CodeBuild creates the raw data in the output bucket. This is the default if packaging is not specified. • ZIP : CodeBuild creates a ZIP file with the raw data in the output bucket. Possible values: • ZIP • NONE encryptionKey -&gt; (string) The encryption key for the report's encrypted raw data. Constraints: • min: 1 encryptionDisabled -&gt; (boolean) A boolean value that specifies if the results of a report are encrypted. Shorthand Syntax: exportConfigType=string,s3Destination={bucket=string,bucketOwner=string,path=string,packaging=string,encryptionKey=string,encryptionDisabled=boolean} JSON Syntax: { "exportConfigType": "S3"|"NO_EXPORT", "s3Destination": { "bucket": "string", "bucketOwner": "string", "path": "string", "packaging": "ZIP"|"NONE", "encryptionKey": "string", "encryptionDisabled": true|false } }
     /// </summary>
     [CliOption("--export-config")]
     public string? ExportConfig { get; set; }
 
     /// <summary>
-    /// An updated list of tag key and value pairs associated with this re- port group. These tags are available for use by Amazon Web Services services that support CodeBuild report group tags. Constraints: o min: 0 o max: 50 (structure) A tag, consisting of a key and a value. This tag is available for use by Amazon Web Services services that support tags in CodeBuild. key -&gt; (string) The tag's key. Constraints: o min: 1 o max: 127 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=@+\-]*)$ value -&gt; (string) The tag's value. Constraints: o min: 0 o max: 255 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=@+\-]*)$ Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
+    /// An updated list of tag key and value pairs associated with this report group. These tags are available for use by Amazon Web Services services that support CodeBuild report group tags. Constraints: • min: 0 • max: 50 (structure) A tag, consisting of a key and a value. This tag is available for use by Amazon Web Services services that support tags in CodeBuild. key -&gt; (string) The tag's key. Constraints: • min: 1 • max: 127 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=@+\-]*)$ value -&gt; (string) The tag's value. Constraints: • min: 0 • max: 255 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=@+\-]*)$ Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
@@ -94,6 +95,15 @@ public record AwsCodebuildUpdateReportGroupOptions : AwsOptions, IValidatableObj
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

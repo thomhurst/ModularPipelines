@@ -6,15 +6,15 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
+using ModularPipelines;
 using ModularPipelines.Context;
-using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
 namespace ModularPipelines.AmazonWebServices.Services;
 
 /// <summary>
-/// aws ivsrealtime commands.
+/// aws ivs-realtime commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AwsIvsRealtime : IAwsIvsRealtime
@@ -62,7 +62,7 @@ public class AwsIvsRealtime : IAwsIvsRealtime
     }
 
     /// <summary>
-    /// Creates an additional token for a specified stage. This can be done af- ter stage creation or when tokens expire. Tokens always are scoped to the stage for which they are created. Encryption keys are owned by Amazon IVS and never used directly by your application. See also: AWS API Documentation
+    /// Creates an additional token for a specified stage. This can be done after stage creation or when tokens expire. Tokens always are scoped to the stage for which they are created. Encryption keys are owned by Amazon IVS and never used directly by your application. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -92,7 +92,7 @@ public class AwsIvsRealtime : IAwsIvsRealtime
     }
 
     /// <summary>
-    /// Creates a new storage configuration, used to enable recording to Amazon S3. When a StorageConfiguration is created, IVS will modify the S3 bucketPolicy of the provided bucket. This will ensure that IVS has suf- ficient permissions to write content to the provided bucket. See also: AWS API Documentation
+    /// Creates a new storage configuration, used to enable recording to Amazon S3. When a StorageConfiguration is created, IVS will modify the S3 bucketPolicy of the provided bucket. This will ensure that IVS has sufficient permissions to write content to the provided bucket. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -152,7 +152,7 @@ public class AwsIvsRealtime : IAwsIvsRealtime
     }
 
     /// <summary>
-    /// Shuts down and deletes the specified stage (disconnecting all partici- pants). This operation also removes the stageArn from the associated IngestConfiguration , if there are participants using the IngestConfig- uration to publish to the stage. See also: AWS API Documentation
+    /// Shuts down and deletes the specified stage (disconnecting all participants). This operation also removes the stageArn from the associated IngestConfiguration , if there are participants using the IngestConfiguration to publish to the stage. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -167,7 +167,7 @@ public class AwsIvsRealtime : IAwsIvsRealtime
     }
 
     /// <summary>
-    /// Deletes the storage configuration for the specified ARN. If you try to delete a storage configuration that is used by a Composi- tion, you will get an error (409 ConflictException). To avoid this, for all Compositions that reference the storage configuration, first use StopComposition and wait for it to complete, then use DeleteStorageCon- figuration. See also: AWS API Documentation
+    /// Deletes the storage configuration for the specified ARN. If you try to delete a storage configuration that is used by a Composition, you will get an error (409 ConflictException). To avoid this, for all Compositions that reference the storage configuration, first use StopComposition and wait for it to complete, then use DeleteStorageConfiguration. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -182,7 +182,7 @@ public class AwsIvsRealtime : IAwsIvsRealtime
     }
 
     /// <summary>
-    /// Disconnects a specified participant from a specified stage. If the par- ticipant is publishing using an IngestConfiguration , DisconnectPar- ticipant also updates the stageArn in the IngestConfiguration to be an empty string. See also: AWS API Documentation
+    /// Disconnects a specified participant from a specified stage. If the participant is publishing using an IngestConfiguration , DisconnectParticipant also updates the stageArn in the IngestConfiguration to be an empty string. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -347,7 +347,7 @@ public class AwsIvsRealtime : IAwsIvsRealtime
     }
 
     /// <summary>
-    /// Gets summary information about all EncoderConfigurations in your ac- count, in the AWS region where the API request is processed. See also: AWS API Documentation
+    /// Gets summary information about all EncoderConfigurations in your account, in the AWS region where the API request is processed. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -362,7 +362,7 @@ public class AwsIvsRealtime : IAwsIvsRealtime
     }
 
     /// <summary>
-    /// Lists all IngestConfigurations in your account, in the AWS region where the API request is processed. See also: AWS API Documentation list-ingest-configurations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query exp...
+    /// Lists all IngestConfigurations in your account, in the AWS region where the API request is processed. See also: AWS API Documentation list-ingest-configurations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expre...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -377,7 +377,7 @@ public class AwsIvsRealtime : IAwsIvsRealtime
     }
 
     /// <summary>
-    /// Lists events for a specified participant that occurred during a speci- fied stage session. See also: AWS API Documentation
+    /// Lists events for a specified participant that occurred during a specified stage session. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -392,7 +392,7 @@ public class AwsIvsRealtime : IAwsIvsRealtime
     }
 
     /// <summary>
-    /// Lists all the replicas for a participant from a source stage. See also: AWS API Documentation list-participant-replicas is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: replicas
+    /// Lists all the replicas for a participant from a source stage. See also: AWS API Documentation list-participant-replicas is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: replicas
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -467,7 +467,7 @@ public class AwsIvsRealtime : IAwsIvsRealtime
     }
 
     /// <summary>
-    /// Gets summary information about all storage configurations in your ac- count, in the AWS region where the API request is processed. See also: AWS API Documentation
+    /// Gets summary information about all storage configurations in your account, in the AWS region where the API request is processed. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -497,7 +497,7 @@ public class AwsIvsRealtime : IAwsIvsRealtime
     }
 
     /// <summary>
-    /// Starts a Composition from a stage based on the configuration provided in the request. A Composition is an ephemeral resource that exists after this operation returns successfully. Composition stops and the resource is deleted: o When StopComposition is called. o After a 1-minute timeout, when all participants are disconnected from the stage. o After a 1-minute timeout, if there are no participants in the stage when StartComposition is called. o When broadcasting to the IVS channel fails and all ...
+    /// Starts a Composition from a stage based on the configuration provided in the request. A Composition is an ephemeral resource that exists after this operation returns successfully. Composition stops and the resource is deleted: • When StopComposition is called. • After a 1-minute timeout, when all participants are disconnected from the stage. • After a 1-minute timeout, if there are no participants in the stage when StartComposition is called. • When broadcasting to the IVS channel fails and all ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -527,7 +527,7 @@ public class AwsIvsRealtime : IAwsIvsRealtime
     }
 
     /// <summary>
-    /// Stops and deletes a Composition resource. Any broadcast from the Compo- sition resource is stopped. See also: AWS API Documentation
+    /// Stops and deletes a Composition resource. Any broadcast from the Composition resource is stopped. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

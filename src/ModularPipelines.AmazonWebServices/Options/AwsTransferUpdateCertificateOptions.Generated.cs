@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsTransferUpdateCertificateOptions : AwsOptions, IValidatableObje
     /// <summary>
     /// Updates the active and inactive dates for a certificate. See also: AWS API Documentation
     /// </summary>
-    /// <param name="CertificateId">The identifier of the certificate object that you are updating. Constraints: o min: 22 o max: 22 o pattern: cert-([0-9a-f]{17})</param>
+    /// <param name="CertificateId">The identifier of the certificate object that you are updating. Constraints: • min: 22 • max: 22 • pattern: cert-([0-9a-f]{17})</param>
     public AwsTransferUpdateCertificateOptions(
         string CertificateId
     )
@@ -56,7 +57,7 @@ public record AwsTransferUpdateCertificateOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the certificate object that you are updating. Constraints: o min: 22 o max: 22 o pattern: cert-([0-9a-f]{17})
+    /// The identifier of the certificate object that you are updating. Constraints: • min: 22 • max: 22 • pattern: cert-([0-9a-f]{17})
     /// </summary>
     [CliOption("--certificate-id")]
     public string? CertificateId { get; private init; }
@@ -68,13 +69,13 @@ public record AwsTransferUpdateCertificateOptions : AwsOptions, IValidatableObje
     public string? ActiveDate { get; set; }
 
     /// <summary>
-    /// An optional date that specifies when the certificate becomes inac- tive. If you do not specify a value, InactiveDate takes the same value as NotAfterDate , which is specified by the CA.
+    /// An optional date that specifies when the certificate becomes inactive. If you do not specify a value, InactiveDate takes the same value as NotAfterDate , which is specified by the CA.
     /// </summary>
     [CliOption("--inactive-date")]
     public string? InactiveDate { get; set; }
 
     /// <summary>
-    /// A short description to help identify the certificate. Constraints: o min: 1 o max: 200 o pattern: [\u0021-\u007E]+
+    /// A short description to help identify the certificate. Constraints: • min: 1 • max: 200 • pattern: [\u0021-\u007E]+
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
@@ -100,6 +101,15 @@ public record AwsTransferUpdateCertificateOptions : AwsOptions, IValidatableObje
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

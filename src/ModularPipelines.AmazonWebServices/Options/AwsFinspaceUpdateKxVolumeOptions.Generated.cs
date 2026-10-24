@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,8 +29,8 @@ public record AwsFinspaceUpdateKxVolumeOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Updates the throughput or capacity of a volume. During the update process, the filesystem might be unavailable for a few minutes. You can retry any operations after the update is complete. See also: AWS API Documentation
     /// </summary>
-    /// <param name="EnvironmentId">A unique identifier for the kdb environment where you created the storage volume. Constraints: o min: 1 o max: 32 o pattern: ^[a-z0-9]+$</param>
-    /// <param name="VolumeName">A unique identifier for the volume. Constraints: o min: 3 o max: 63 o pattern: ^[a-zA-Z0-9][a-zA-Z0-9-_]*[a-zA-Z0-9]$</param>
+    /// <param name="EnvironmentId">A unique identifier for the kdb environment where you created the storage volume. Constraints: • min: 1 • max: 32 • pattern: ^[a-z0-9]+$</param>
+    /// <param name="VolumeName">A unique identifier for the volume. Constraints: • min: 3 • max: 63 • pattern: ^[a-zA-Z0-9][a-zA-Z0-9-_]*[a-zA-Z0-9]$</param>
     public AwsFinspaceUpdateKxVolumeOptions(
         string EnvironmentId,
         string VolumeName
@@ -61,32 +62,32 @@ public record AwsFinspaceUpdateKxVolumeOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A unique identifier for the kdb environment where you created the storage volume. Constraints: o min: 1 o max: 32 o pattern: ^[a-z0-9]+$
+    /// A unique identifier for the kdb environment where you created the storage volume. Constraints: • min: 1 • max: 32 • pattern: ^[a-z0-9]+$
     /// </summary>
     [CliOption("--environment-id")]
     public string? EnvironmentId { get; private init; }
 
     /// <summary>
-    /// A unique identifier for the volume. Constraints: o min: 3 o max: 63 o pattern: ^[a-zA-Z0-9][a-zA-Z0-9-_]*[a-zA-Z0-9]$
+    /// A unique identifier for the volume. Constraints: • min: 3 • max: 63 • pattern: ^[a-zA-Z0-9][a-zA-Z0-9-_]*[a-zA-Z0-9]$
     /// </summary>
     [CliOption("--volume-name")]
     public string? VolumeName { get; private init; }
 
     /// <summary>
-    /// A description of the volume. Constraints: o min: 1 o max: 1000 o pattern: ^[a-zA-Z0-9. ]{1,1000}$
+    /// A description of the volume. Constraints: • min: 1 • max: 1000 • pattern: ^[a-zA-Z0-9. ]{1,1000}$
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// A token that ensures idempotency. This token expires in 10 minutes. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9-]+$
+    /// A token that ensures idempotency. This token expires in 10 minutes. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9-]+$
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// Specifies the configuration for the Network attached storage (NAS_1) file system volume. type -&gt; (string) The type of the network attached storage. Possible values: o SSD_1000 o SSD_250 o HDD_12 size -&gt; (integer) The size of the network attached storage. For storage type SSD_1000 and SSD_250 you can select the minimum size as 1200 GB or increments of 2400 GB. For storage type HDD_12 you can select the minimum size as 6000 GB or increments of 6000 GB. Constraints: o min: 1200 Shorthand Syntax: type=string,size=integer JSON Syntax: { "type": "SSD_1000"|"SSD_250"|"HDD_12", "size": integer }
+    /// Specifies the configuration for the Network attached storage (NAS_1) file system volume. type -&gt; (string) The type of the network attached storage. Possible values: • SSD_1000 • SSD_250 • HDD_12 size -&gt; (integer) The size of the network attached storage. For storage type SSD_1000 and SSD_250 you can select the minimum size as 1200 GB or increments of 2400 GB. For storage type HDD_12 you can select the minimum size as 6000 GB or increments of 6000 GB. Constraints: • min: 1200 Shorthand Syntax: type=string,size=integer JSON Syntax: { "type": "SSD_1000"|"SSD_250"|"HDD_12", "size": integer }
     /// </summary>
     [CliOption("--nas1-configuration")]
     public string? Nas1Configuration { get; set; }
@@ -112,6 +113,15 @@ public record AwsFinspaceUpdateKxVolumeOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

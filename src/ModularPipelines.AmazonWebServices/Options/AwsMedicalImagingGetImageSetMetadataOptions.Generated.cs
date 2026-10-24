@@ -24,8 +24,8 @@ public record AwsMedicalImagingGetImageSetMetadataOptions : AwsOptions
     /// <summary>
     /// Get metadata attributes for an image set. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DatastoreId">The data store identifier. Constraints: o pattern: [0-9a-z]{32}</param>
-    /// <param name="ImageSetId">The image set identifier. Constraints: o pattern: [0-9a-z]{32}</param>
+    /// <param name="DatastoreId">The data store identifier. Constraints: • pattern: [0-9a-z]{32}</param>
+    /// <param name="ImageSetId">The image set identifier. Constraints: • pattern: [0-9a-z]{32}</param>
     /// <param name="Outfile">The &lt;outfile&gt; operand.</param>
     public AwsMedicalImagingGetImageSetMetadataOptions(
         string DatastoreId,
@@ -49,19 +49,19 @@ public record AwsMedicalImagingGetImageSetMetadataOptions : AwsOptions
     }
 
     /// <summary>
-    /// The data store identifier. Constraints: o pattern: [0-9a-z]{32}
+    /// The data store identifier. Constraints: • pattern: [0-9a-z]{32}
     /// </summary>
     [CliOption("--datastore-id")]
     public string DatastoreId { get; private init; }
 
     /// <summary>
-    /// The image set identifier. Constraints: o pattern: [0-9a-z]{32}
+    /// The image set identifier. Constraints: • pattern: [0-9a-z]{32}
     /// </summary>
     [CliOption("--image-set-id")]
     public string ImageSetId { get; private init; }
 
     /// <summary>
-    /// The image set version identifier. Constraints: o pattern: \d+ outfile (string) [required] Filename where the content will be saved
+    /// The image set version identifier. Constraints: • pattern: \d+ outfile (string) [required] Filename where the content will be saved
     /// </summary>
     [CliOption("--version-id")]
     public string? VersionId { get; set; }
@@ -71,5 +71,14 @@ public record AwsMedicalImagingGetImageSetMetadataOptions : AwsOptions
     /// </summary>
     [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
     public string Outfile { get; private init; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

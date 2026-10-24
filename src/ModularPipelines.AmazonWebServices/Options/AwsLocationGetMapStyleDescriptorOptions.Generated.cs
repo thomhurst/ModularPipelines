@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// WARNING: This operation is no longer current and may be deprecated in the fu- ture. We recommend upgrading to ` GetStyleDescriptor https://docs.aws.amazon.com/location/latest/APIReference/API_geomaps_GetStyleDescriptor.html`__ unless you require Grab data. o GetMapStyleDescriptor is part of a previous Amazon Location Ser- vice Maps API (version 1) which has been superseded by a more in- tuitive, powerful, and complete API (version 2). o The version 2 GetStyleDescriptor operation gives a better u...
+/// WARNING: This operation is no longer current and may be deprecated in the future. We recommend upgrading to ` GetStyleDescriptor https://docs.aws.amazon.com/location/latest/APIReference/API_geomaps_GetStyleDescriptor.html`__ unless you require Grab data. • GetMapStyleDescriptor is part of a previous Amazon Location Service Maps API (version 1) which has been superseded by a more intuitive, powerful, and complete API (version 2). • The version 2 GetStyleDescriptor operation gives a better user ex...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -22,9 +22,9 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsLocationGetMapStyleDescriptorOptions : AwsOptions
 {
     /// <summary>
-    /// WARNING: This operation is no longer current and may be deprecated in the fu- ture. We recommend upgrading to ` GetStyleDescriptor https://docs.aws.amazon.com/location/latest/APIReference/API_geomaps_GetStyleDescriptor.html`__ unless you require Grab data. o GetMapStyleDescriptor is part of a previous Amazon Location Ser- vice Maps API (version 1) which has been superseded by a more in- tuitive, powerful, and complete API (version 2). o The version 2 GetStyleDescriptor operation gives a better u...
+    /// WARNING: This operation is no longer current and may be deprecated in the future. We recommend upgrading to ` GetStyleDescriptor https://docs.aws.amazon.com/location/latest/APIReference/API_geomaps_GetStyleDescriptor.html`__ unless you require Grab data. • GetMapStyleDescriptor is part of a previous Amazon Location Service Maps API (version 1) which has been superseded by a more intuitive, powerful, and complete API (version 2). • The version 2 GetStyleDescriptor operation gives a better user ex...
     /// </summary>
-    /// <param name="MapName">The map resource to retrieve the style descriptor from. Constraints: o min: 1 o max: 100 o pattern: [-._\w]+</param>
+    /// <param name="MapName">The map resource to retrieve the style descriptor from. Constraints: • min: 1 • max: 100 • pattern: [-._\w]+</param>
     /// <param name="Outfile">The &lt;outfile&gt; operand.</param>
     public AwsLocationGetMapStyleDescriptorOptions(
         string MapName,
@@ -44,13 +44,13 @@ public record AwsLocationGetMapStyleDescriptorOptions : AwsOptions
     }
 
     /// <summary>
-    /// The map resource to retrieve the style descriptor from. Constraints: o min: 1 o max: 100 o pattern: [-._\w]+
+    /// The map resource to retrieve the style descriptor from. Constraints: • min: 1 • max: 100 • pattern: [-._\w]+
     /// </summary>
     [CliOption("--map-name")]
     public string MapName { get; private init; }
 
     /// <summary>
-    /// The optional API key to authorize the request. Constraints: o min: 0 o max: 1000 outfile (string) [required] Filename where the content will be saved
+    /// The optional API key to authorize the request. Constraints: • min: 0 • max: 1000 outfile (string) [required] Filename where the content will be saved
     /// </summary>
     [CliOption("--key")]
     public string? Key { get; set; }
@@ -60,5 +60,14 @@ public record AwsLocationGetMapStyleDescriptorOptions : AwsOptions
     /// </summary>
     [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
     public string Outfile { get; private init; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

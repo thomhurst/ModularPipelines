@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsEventsv2GetResourcePolicyOptions : AwsOptions, IValidatableObje
     /// <summary>
     /// Returns the named resource policy attached to an event bus. Fails with ResourceNotFoundException when the event bus or the named policy does not exist. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The Amazon Resource Name (ARN) that uniquely identifies an event bus. Constraints: o min: 1 o max: 1011 o pattern: arn:aws(-[a-z0-9]+)*:events:[a-z][a-z0-9]*(-[a-z0-9]+)*:([0-9]{12}):event-busv2\/[A-Za-z0-9][\.\-_A-Za-z0-9]{0,255}\/[a-z0-9]{25}</param>
+    /// <param name="ResourceArn">The Amazon Resource Name (ARN) that uniquely identifies an event bus. Constraints: • min: 1 • max: 1011 • pattern: arn:aws(-[a-z0-9]+)*:events:[a-z][a-z0-9]*(-[a-z0-9]+)*:([0-9]{12}):event-busv2\/[A-Za-z0-9][\.\-_A-Za-z0-9]{0,255}\/[a-z0-9]{25}</param>
     public AwsEventsv2GetResourcePolicyOptions(
         string ResourceArn
     )
@@ -56,13 +57,13 @@ public record AwsEventsv2GetResourcePolicyOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) that uniquely identifies an event bus. Constraints: o min: 1 o max: 1011 o pattern: arn:aws(-[a-z0-9]+)*:events:[a-z][a-z0-9]*(-[a-z0-9]+)*:([0-9]{12}):event-busv2\/[A-Za-z0-9][\.\-_A-Za-z0-9]{0,255}\/[a-z0-9]{25}
+    /// The Amazon Resource Name (ARN) that uniquely identifies an event bus. Constraints: • min: 1 • max: 1011 • pattern: arn:aws(-[a-z0-9]+)*:events:[a-z][a-z0-9]*(-[a-z0-9]+)*:([0-9]{12}):event-busv2\/[A-Za-z0-9][\.\-_A-Za-z0-9]{0,255}\/[a-z0-9]{25}
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
 
     /// <summary>
-    /// Which named policy to read. Defaults to "default" when omitted (a read AWS Resource Access Manager makes on the owner's behalf re- solves to "AWS_RAM" instead). Unlike writing, neither name is re- served on a read: the bus owner can read both. There is no fallback between the two, so a bus shared only through Resource Access Man- ager fails with ResourceNotFoundException until "AWS_RAM" is named explicitly. A well-formed name that is neither of the two fails with InvalidInputException. Constraints: o min: 1 o max: 128 o pattern: [A-Za-z0-9_]+
+    /// Which named policy to read. Defaults to "default" when omitted (a read AWS Resource Access Manager makes on the owner's behalf resolves to "AWS_RAM" instead). Unlike writing, neither name is reserved on a read: the bus owner can read both. There is no fallback between the two, so a bus shared only through Resource Access Manager fails with ResourceNotFoundException until "AWS_RAM" is named explicitly. A well-formed name that is neither of the two fails with InvalidInputException. Constraints: • min: 1 • max: 128 • pattern: [A-Za-z0-9_]+
     /// </summary>
     [CliOption("--policy-name")]
     public string? PolicyName { get; set; }
@@ -88,6 +89,15 @@ public record AwsEventsv2GetResourcePolicyOptions : AwsOptions, IValidatableObje
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

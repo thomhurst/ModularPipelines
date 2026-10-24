@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsLogsGetIntegrationOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Returns information about one integration between CloudWatch Logs and OpenSearch Service. See also: AWS API Documentation
     /// </summary>
-    /// <param name="IntegrationName">The name of the integration that you want to find information about. To find the name of your integration, use ListIntegrations Constraints: o min: 1 o max: 50 o pattern: [\.\-_/#A-Za-z0-9]+</param>
+    /// <param name="IntegrationName">The name of the integration that you want to find information about. To find the name of your integration, use ListIntegrations Constraints: • min: 1 • max: 50 • pattern: [\.\-_/#A-Za-z0-9]+</param>
     public AwsLogsGetIntegrationOptions(
         string IntegrationName
     )
@@ -56,7 +57,7 @@ public record AwsLogsGetIntegrationOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the integration that you want to find information about. To find the name of your integration, use ListIntegrations Constraints: o min: 1 o max: 50 o pattern: [\.\-_/#A-Za-z0-9]+
+    /// The name of the integration that you want to find information about. To find the name of your integration, use ListIntegrations Constraints: • min: 1 • max: 50 • pattern: [\.\-_/#A-Za-z0-9]+
     /// </summary>
     [CliOption("--integration-name")]
     public string? IntegrationName { get; private init; }
@@ -82,6 +83,15 @@ public record AwsLogsGetIntegrationOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

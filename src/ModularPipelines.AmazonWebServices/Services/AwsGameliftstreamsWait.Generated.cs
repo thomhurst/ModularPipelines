@@ -6,15 +6,15 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
+using ModularPipelines;
 using ModularPipelines.Context;
-using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
 namespace ModularPipelines.AmazonWebServices.Services;
 
 /// <summary>
-/// aws wait commands.
+/// aws gameliftstreams wait commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AwsGameliftstreamsWait
@@ -32,7 +32,7 @@ public class AwsGameliftstreamsWait
     #region Commands
 
     /// <summary>
-    /// Waits until an application is deleted It will poll every 2 seconds un- til a successful state has been reached. This will exit with a return code of 255 after 60 failed checks. See also: AWS API Documentation
+    /// Waits until an application is deleted It will poll every 2 seconds until a successful state has been reached. This will exit with a return code of 255 after 60 failed checks. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -62,7 +62,7 @@ public class AwsGameliftstreamsWait
     }
 
     /// <summary>
-    /// Waits until a stream group is active It will poll every 30 seconds un- til a successful state has been reached. This will exit with a return code of 255 after 120 failed checks. See also: AWS API Documentation
+    /// Waits until a stream group is active It will poll every 30 seconds until a successful state has been reached. This will exit with a return code of 255 after 120 failed checks. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -77,7 +77,7 @@ public class AwsGameliftstreamsWait
     }
 
     /// <summary>
-    /// Waits until a stream group is deleted It will poll every 30 seconds un- til a successful state has been reached. This will exit with a return code of 255 after 60 failed checks. See also: AWS API Documentation
+    /// Waits until a stream group is deleted It will poll every 30 seconds until a successful state has been reached. This will exit with a return code of 255 after 60 failed checks. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -92,7 +92,7 @@ public class AwsGameliftstreamsWait
     }
 
     /// <summary>
-    /// Waits until a stream session is active It will poll every 2 seconds un- til a successful state has been reached. This will exit with a return code of 255 after 60 failed checks. See also: AWS API Documentation
+    /// Waits until a stream session is active It will poll every 2 seconds until a successful state has been reached. This will exit with a return code of 255 after 60 failed checks. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

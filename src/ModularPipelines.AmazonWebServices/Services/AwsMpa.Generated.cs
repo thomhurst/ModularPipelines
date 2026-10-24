@@ -6,8 +6,8 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
+using ModularPipelines;
 using ModularPipelines.Context;
-using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
@@ -92,7 +92,7 @@ public class AwsMpa : IAwsMpa
     }
 
     /// <summary>
-    /// Deletes an inactive approval team. For more information, see Team health in the Multi-party approval User Guide . You can also use this operation to delete a team draft. For more infor- mation, see Interacting with drafts in the Multi-party approval User Guide . See also: AWS API Documentation
+    /// Deletes an inactive approval team. For more information, see Team health in the Multi-party approval User Guide . You can also use this operation to delete a team draft. For more information, see Interacting with drafts in the Multi-party approval User Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -137,7 +137,7 @@ public class AwsMpa : IAwsMpa
     }
 
     /// <summary>
-    /// Returns details for the version of a policy. Policies define the per- missions for team resources. See also: AWS API Documentation
+    /// Returns details for the version of a policy. Policies define the permissions for team resources. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -212,7 +212,7 @@ public class AwsMpa : IAwsMpa
     }
 
     /// <summary>
-    /// Returns a list of policies. Policies define the permissions for team resources. See also: AWS API Documentation list-policies is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Policies
+    /// Returns a list of policies. Policies define the permissions for team resources. See also: AWS API Documentation list-policies is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Policies
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -227,7 +227,7 @@ public class AwsMpa : IAwsMpa
     }
 
     /// <summary>
-    /// Returns a list of the versions for policies. Policies define the per- missions for team resources. See also: AWS API Documentation list-policy-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: P...
+    /// Returns a list of the versions for policies. Policies define the permissions for team resources. See also: AWS API Documentation list-policy-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Pol...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -257,7 +257,7 @@ public class AwsMpa : IAwsMpa
     }
 
     /// <summary>
-    /// Returns a list of approval sessions. For more information, see Session in the Multi-party approval User Guide . See also: AWS API Documentation list-sessions is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expr...
+    /// Returns a list of approval sessions. For more information, see Session in the Multi-party approval User Guide . See also: AWS API Documentation list-sessions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressi...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -317,7 +317,7 @@ public class AwsMpa : IAwsMpa
     }
 
     /// <summary>
-    /// Creates or updates a resource tag. Each tag is a label consisting of a user-defined key and value. Tags can help you manage, identify, orga- nize, search for, and filter resources. See also: AWS API Documentation
+    /// Creates or updates a resource tag. Each tag is a label consisting of a user-defined key and value. Tags can help you manage, identify, organize, search for, and filter resources. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -332,7 +332,7 @@ public class AwsMpa : IAwsMpa
     }
 
     /// <summary>
-    /// Removes a resource tag. Each tag is a label consisting of a user-de- fined key and value. Tags can help you manage, identify, organize, search for, and filter resources. See also: AWS API Documentation
+    /// Removes a resource tag. Each tag is a label consisting of a user-defined key and value. Tags can help you manage, identify, organize, search for, and filter resources. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -347,7 +347,7 @@ public class AwsMpa : IAwsMpa
     }
 
     /// <summary>
-    /// Updates an approval team. You can request to update the team descrip- tion, approval threshold, and approvers in the team. NOTE: Updates require team approval Updates to an active team must be approved by the team. See also: AWS API Documentation
+    /// Updates an approval team. You can request to update the team description, approval threshold, and approvers in the team. NOTE: Updates require team approval Updates to an active team must be approved by the team. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

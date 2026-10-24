@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Imports a certificate into Certificate Manager (ACM) to use with ser- vices that are integrated with ACM. Note that integrated services allow only certificate types and keys they support to be associated with their resources. Further, their support differs depending on whether the certificate is imported into IAM or into ACM. For more information, see the documentation for each service. For more information about im- porting certificates into ACM, see Importing Certificates in the Cer- tificate ...
+/// Imports a certificate into Certificate Manager (ACM) to use with services that are integrated with ACM. Note that integrated services allow only certificate types and keys they support to be associated with their resources. Further, their support differs depending on whether the certificate is imported into IAM or into ACM. For more information, see the documentation for each service. For more information about importing certificates into ACM, see Importing Certificates in the Certificate Manage...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +27,10 @@ public record AwsAcmImportCertificateOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Imports a certificate into Certificate Manager (ACM) to use with ser- vices that are integrated with ACM. Note that integrated services allow only certificate types and keys they support to be associated with their resources. Further, their support differs depending on whether the certificate is imported into IAM or into ACM. For more information, see the documentation for each service. For more information about im- porting certificates into ACM, see Importing Certificates in the Cer- tificate ...
+    /// Imports a certificate into Certificate Manager (ACM) to use with services that are integrated with ACM. Note that integrated services allow only certificate types and keys they support to be associated with their resources. Further, their support differs depending on whether the certificate is imported into IAM or into ACM. For more information, see the documentation for each service. For more information about importing certificates into ACM, see Importing Certificates in the Certificate Manage...
     /// </summary>
-    /// <param name="Certificate">The certificate to import. Constraints: o min: 1 o max: 32768</param>
-    /// <param name="PrivateKey">The private key that matches the public key in the certificate. Constraints: o min: 1 o max: 5120</param>
+    /// <param name="Certificate">The certificate to import. Constraints: • min: 1 • max: 32768</param>
+    /// <param name="PrivateKey">The private key that matches the public key in the certificate. Constraints: • min: 1 • max: 5120</param>
     public AwsAcmImportCertificateOptions(
         string Certificate,
         string PrivateKey
@@ -61,32 +62,32 @@ public record AwsAcmImportCertificateOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The certificate to import. Constraints: o min: 1 o max: 32768
+    /// The certificate to import. Constraints: • min: 1 • max: 32768
     /// </summary>
     [CliOption("--certificate")]
     public string? Certificate { get; private init; }
 
     /// <summary>
-    /// The private key that matches the public key in the certificate. Constraints: o min: 1 o max: 5120
+    /// The private key that matches the public key in the certificate. Constraints: • min: 1 • max: 5120
     /// </summary>
     [SecretValue]
     [CliOption("--private-key")]
     public string? PrivateKey { get; private init; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of an imported certificate to re- place. To import a new certificate, omit this field. Constraints: o min: 20 o max: 2048 o pattern: arn:[\w+=/,.@-]+:acm:[\w+=/,.@-]*:[0-9]+:[\w+=,.@-]+(/[\w+=,.@-]+)*
+    /// The Amazon Resource Name (ARN) of an imported certificate to replace. To import a new certificate, omit this field. Constraints: • min: 20 • max: 2048 • pattern: arn:[\w+=/,.@-]+:acm:[\w+=/,.@-]*:[0-9]+:[\w+=,.@-]+(/[\w+=,.@-]+)*
     /// </summary>
     [CliOption("--certificate-arn")]
     public string? CertificateArn { get; set; }
 
     /// <summary>
-    /// The PEM encoded certificate chain. Constraints: o min: 1 o max: 2097152
+    /// The PEM encoded certificate chain. Constraints: • min: 1 • max: 2097152
     /// </summary>
     [CliOption("--certificate-chain")]
     public string? CertificateChain { get; set; }
 
     /// <summary>
-    /// One or more resource tags to associate with the imported certifi- cate. Note: You cannot apply tags when reimporting a certificate. Constraints: o min: 1 o max: 50 (structure) A key-value pair that identifies or specifies metadata about an ACM resource. Key -&gt; (string) [required] The key of the tag. Constraints: o min: 1 o max: 128 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Value -&gt; (string) The value of the tag. Constraints: o min: 0 o max: 256 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// One or more resource tags to associate with the imported certificate. Note: You cannot apply tags when reimporting a certificate. Constraints: • min: 1 • max: 50 (structure) A key-value pair that identifies or specifies metadata about an ACM resource. Key -&gt; (string) [required] The key of the tag. Constraints: • min: 1 • max: 128 • pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Value -&gt; (string) The value of the tag. Constraints: • min: 0 • max: 256 • pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
@@ -112,6 +113,15 @@ public record AwsAcmImportCertificateOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

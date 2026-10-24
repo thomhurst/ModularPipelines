@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes an existing Connection with the supplied identifier. This operation will also inform the remote partner of your intention to delete your connection. Note, the partner may still require you to delete to fully clean up resources, but the network connectivity pro- vided by the Connection will cease to exist. See also: AWS API Documentation
+/// Deletes an existing Connection with the supplied identifier. This operation will also inform the remote partner of your intention to delete your connection. Note, the partner may still require you to delete to fully clean up resources, but the network connectivity provided by the Connection will cease to exist. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +27,9 @@ public record AwsInterconnectDeleteConnectionOptions : AwsOptions, IValidatableO
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes an existing Connection with the supplied identifier. This operation will also inform the remote partner of your intention to delete your connection. Note, the partner may still require you to delete to fully clean up resources, but the network connectivity pro- vided by the Connection will cease to exist. See also: AWS API Documentation
+    /// Deletes an existing Connection with the supplied identifier. This operation will also inform the remote partner of your intention to delete your connection. Note, the partner may still require you to delete to fully clean up resources, but the network connectivity provided by the Connection will cease to exist. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Identifier">The identifier of the Connection to be deleted. Constraints: o min: 1 o max: 32 o pattern: (mcc|lmcc)-[a-z0-9]{8}</param>
+    /// <param name="Identifier">The identifier of the Connection to be deleted. Constraints: • min: 1 • max: 32 • pattern: (mcc|lmcc)-[a-z0-9]{8}</param>
     public AwsInterconnectDeleteConnectionOptions(
         string Identifier
     )
@@ -57,7 +58,7 @@ public record AwsInterconnectDeleteConnectionOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the Connection to be deleted. Constraints: o min: 1 o max: 32 o pattern: (mcc|lmcc)-[a-z0-9]{8}
+    /// The identifier of the Connection to be deleted. Constraints: • min: 1 • max: 32 • pattern: (mcc|lmcc)-[a-z0-9]{8}
     /// </summary>
     [CliOption("--identifier")]
     public string? Identifier { get; private init; }
@@ -90,6 +91,15 @@ public record AwsInterconnectDeleteConnectionOptions : AwsOptions, IValidatableO
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

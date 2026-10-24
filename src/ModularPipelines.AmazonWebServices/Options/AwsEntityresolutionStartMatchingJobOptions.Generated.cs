@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsEntityresolutionStartMatchingJobOptions : AwsOptions, IValidata
     /// <summary>
     /// Starts the MatchingJob of a workflow. The workflow must have previously been created using the CreateMatchingWorkflow endpoint. See also: AWS API Documentation
     /// </summary>
-    /// <param name="WorkflowName">The name of the matching job to be retrieved. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z_0-9-]*</param>
+    /// <param name="WorkflowName">The name of the matching job to be retrieved. Constraints: • min: 1 • max: 255 • pattern: [a-zA-Z_0-9-]*</param>
     public AwsEntityresolutionStartMatchingJobOptions(
         string WorkflowName
     )
@@ -56,7 +57,7 @@ public record AwsEntityresolutionStartMatchingJobOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the matching job to be retrieved. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z_0-9-]*
+    /// The name of the matching job to be retrieved. Constraints: • min: 1 • max: 255 • pattern: [a-zA-Z_0-9-]*
     /// </summary>
     [CliOption("--workflow-name")]
     public string? WorkflowName { get; private init; }
@@ -82,6 +83,15 @@ public record AwsEntityresolutionStartMatchingJobOptions : AwsOptions, IValidata
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

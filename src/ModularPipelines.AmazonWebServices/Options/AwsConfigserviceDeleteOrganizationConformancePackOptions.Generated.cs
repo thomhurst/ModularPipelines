@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes the specified organization conformance pack and all of the Con- fig rules and remediation actions from all member accounts in that or- ganization. Only a management account or a delegated administrator account can delete an organization conformance pack. When calling this API with a delegated administrator, you must ensure Organizations ListDelegatedAd- ministrator permissions are added. Config sets the state of a conformance pack to DELETE_IN_PROGRESS until the deletion is complete. You...
+/// Deletes the specified organization conformance pack and all of the Config rules and remediation actions from all member accounts in that organization. Only a management account or a delegated administrator account can delete an organization conformance pack. When calling this API with a delegated administrator, you must ensure Organizations ListDelegatedAdministrator permissions are added. Config sets the state of a conformance pack to DELETE_IN_PROGRESS until the deletion is complete. You canno...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsConfigserviceDeleteOrganizationConformancePackOptions : AwsOpti
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes the specified organization conformance pack and all of the Con- fig rules and remediation actions from all member accounts in that or- ganization. Only a management account or a delegated administrator account can delete an organization conformance pack. When calling this API with a delegated administrator, you must ensure Organizations ListDelegatedAd- ministrator permissions are added. Config sets the state of a conformance pack to DELETE_IN_PROGRESS until the deletion is complete. You...
+    /// Deletes the specified organization conformance pack and all of the Config rules and remediation actions from all member accounts in that organization. Only a management account or a delegated administrator account can delete an organization conformance pack. When calling this API with a delegated administrator, you must ensure Organizations ListDelegatedAdministrator permissions are added. Config sets the state of a conformance pack to DELETE_IN_PROGRESS until the deletion is complete. You canno...
     /// </summary>
-    /// <param name="OrganizationConformancePackName">The name of organization conformance pack that you want to delete. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z][-a-zA-Z0-9]*</param>
+    /// <param name="OrganizationConformancePackName">The name of organization conformance pack that you want to delete. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z][-a-zA-Z0-9]*</param>
     public AwsConfigserviceDeleteOrganizationConformancePackOptions(
         string OrganizationConformancePackName
     )
@@ -56,7 +57,7 @@ public record AwsConfigserviceDeleteOrganizationConformancePackOptions : AwsOpti
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of organization conformance pack that you want to delete. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z][-a-zA-Z0-9]*
+    /// The name of organization conformance pack that you want to delete. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z][-a-zA-Z0-9]*
     /// </summary>
     [CliOption("--organization-conformance-pack-name")]
     public string? OrganizationConformancePackName { get; private init; }
@@ -82,6 +83,15 @@ public record AwsConfigserviceDeleteOrganizationConformancePackOptions : AwsOpti
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

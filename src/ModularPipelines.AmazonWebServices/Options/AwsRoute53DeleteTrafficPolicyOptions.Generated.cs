@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes a traffic policy. When you delete a traffic policy, Route 53 sets a flag on the policy to indicate that it has been deleted. However, Route 53 never fully deletes the traffic policy. Note the following: o Deleted traffic policies aren't listed if you run ListTrafficPolicies . o There's no way to get a list of deleted policies. o If you retain the ID of the policy, you can get information about the policy, including the traffic policy document, by running GetTrafficPolicy . See also: AWS ...
+/// Deletes a traffic policy. When you delete a traffic policy, Route 53 sets a flag on the policy to indicate that it has been deleted. However, Route 53 never fully deletes the traffic policy. Note the following: • Deleted traffic policies aren't listed if you run ListTrafficPolicies . • There's no way to get a list of deleted policies. • If you retain the ID of the policy, you can get information about the policy, including the traffic policy document, by running GetTrafficPolicy . See also: AWS ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsRoute53DeleteTrafficPolicyOptions : AwsOptions, IValidatableObj
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes a traffic policy. When you delete a traffic policy, Route 53 sets a flag on the policy to indicate that it has been deleted. However, Route 53 never fully deletes the traffic policy. Note the following: o Deleted traffic policies aren't listed if you run ListTrafficPolicies . o There's no way to get a list of deleted policies. o If you retain the ID of the policy, you can get information about the policy, including the traffic policy document, by running GetTrafficPolicy . See also: AWS ...
+    /// Deletes a traffic policy. When you delete a traffic policy, Route 53 sets a flag on the policy to indicate that it has been deleted. However, Route 53 never fully deletes the traffic policy. Note the following: • Deleted traffic policies aren't listed if you run ListTrafficPolicies . • There's no way to get a list of deleted policies. • If you retain the ID of the policy, you can get information about the policy, including the traffic policy document, by running GetTrafficPolicy . See also: AWS ...
     /// </summary>
-    /// <param name="Id">The ID of the traffic policy that you want to delete. Constraints: o min: 1 o max: 36</param>
-    /// <param name="TrafficPolicyVersion">The version number of the traffic policy that you want to delete. Constraints: o min: 1 o max: 1000</param>
+    /// <param name="Id">The ID of the traffic policy that you want to delete. Constraints: • min: 1 • max: 36</param>
+    /// <param name="TrafficPolicyVersion">The version number of the traffic policy that you want to delete. Constraints: • min: 1 • max: 1000</param>
     public AwsRoute53DeleteTrafficPolicyOptions(
         string Id,
         int TrafficPolicyVersion
@@ -59,13 +60,13 @@ public record AwsRoute53DeleteTrafficPolicyOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the traffic policy that you want to delete. Constraints: o min: 1 o max: 36
+    /// The ID of the traffic policy that you want to delete. Constraints: • min: 1 • max: 36
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; private init; }
 
     /// <summary>
-    /// The version number of the traffic policy that you want to delete. Constraints: o min: 1 o max: 1000
+    /// The version number of the traffic policy that you want to delete. Constraints: • min: 1 • max: 1000
     /// </summary>
     [CliOption("--traffic-policy-version")]
     public int? TrafficPolicyVersion { get; private init; }
@@ -91,6 +92,15 @@ public record AwsRoute53DeleteTrafficPolicyOptions : AwsOptions, IValidatableObj
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

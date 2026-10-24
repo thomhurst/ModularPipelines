@@ -6,15 +6,15 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
+using ModularPipelines;
 using ModularPipelines.Context;
-using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
 namespace ModularPipelines.AmazonWebServices.Services;
 
 /// <summary>
-/// aws costoptimizationhub commands.
+/// aws cost-optimization-hub commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AwsCostOptimizationHub : IAwsCostOptimizationHub
@@ -32,7 +32,7 @@ public class AwsCostOptimizationHub : IAwsCostOptimizationHub
     #region Commands
 
     /// <summary>
-    /// Returns a set of preferences for an account in order to add ac- count-specific preferences into the service. These preferences impact how the savings associated with recommendations are presentedestimated savings after discounts or estimated savings before discounts, for ex- ample. See also: AWS API Documentation
+    /// Returns a set of preferences for an account in order to add account-specific preferences into the service. These preferences impact how the savings associated with recommendations are presentedestimated savings after discounts or estimated savings before discounts, for example. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -62,7 +62,7 @@ public class AwsCostOptimizationHub : IAwsCostOptimizationHub
     }
 
     /// <summary>
-    /// Returns cost efficiency metrics aggregated over time and optionally grouped by a specified dimension. The metrics provide insights into your cost optimization progress by tracking estimated savings, spend- ing, and measures how effectively you're optimizing your Cloud re- sources. The operation supports both daily and monthly time granularities and allows grouping results by account ID, Amazon Web Services Region. Re- sults are returned as time-series data, enabling you to analyze trends in your...
+    /// Returns cost efficiency metrics aggregated over time and optionally grouped by a specified dimension. The metrics provide insights into your cost optimization progress by tracking estimated savings, spending, and measures how effectively you're optimizing your Cloud resources. The operation supports both daily and monthly time granularities and allows grouping results by account ID, Amazon Web Services Region. Results are returned as time-series data, enabling you to analyze trends in your cost ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -92,6 +92,21 @@ public class AwsCostOptimizationHub : IAwsCostOptimizationHub
     }
 
     /// <summary>
+    /// Returns a concise representation of savings estimates for resources. Also returns de-duped savings across different types of recommendations. NOTE: The following filters are not supported for this API: recommendationIds , resourceArns , and resourceIds . See also: AWS API Documentation list-recommendation-summaries is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. Whe...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListRecommendationSummariesAsync(
+        AwsCostOptimizationHubListRecommendationSummariesOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
     /// Returns a list of recommendations. See also: AWS API Documentation list-recommendations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: items
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -107,22 +122,7 @@ public class AwsCostOptimizationHub : IAwsCostOptimizationHub
     }
 
     /// <summary>
-    /// Returns a concise representation of savings estimates for resources. Also returns de-duped savings across different types of recommenda- tions. NOTE: The following filters are not supported for this API: recommenda- tionIds , resourceArns , and resourceIds . See also: AWS API Documentation list-recommendation-summaries is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- m...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListRecommendationSummariesAsync(
-        AwsCostOptimizationHubListRecommendationSummariesOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
-    /// Updates the enrollment (opt in and opt out) status of an account to the Cost Optimization Hub service. If the account is a management account of an organization, this action can also be used to enroll member accounts of the organization. You must have the appropriate permissions to opt in to Cost Optimiza- tion Hub and to view its recommendations. When you opt in, Cost Opti- mization Hub automatically creates a service-linked role in your ac- count to access its data. See also: AWS API Documenta...
+    /// Updates the enrollment (opt in and opt out) status of an account to the Cost Optimization Hub service. If the account is a management account of an organization, this action can also be used to enroll member accounts of the organization. You must have the appropriate permissions to opt in to Cost Optimization Hub and to view its recommendations. When you opt in, Cost Optimization Hub automatically creates a service-linked role in your account to access its data. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -137,7 +137,7 @@ public class AwsCostOptimizationHub : IAwsCostOptimizationHub
     }
 
     /// <summary>
-    /// Updates a set of preferences for an account in order to add ac- count-specific preferences into the service. These preferences impact how the savings associated with recommendations are presented. See also: AWS API Documentation
+    /// Updates a set of preferences for an account in order to add account-specific preferences into the service. These preferences impact how the savings associated with recommendations are presented. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

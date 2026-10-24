@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Requests the cancellation of a calculation. A StopCalculationExecution call on a calculation that is already in a terminal state (for example, STOPPED , FAILED , or COMPLETED ) succeeds but has no effect. NOTE: Cancelling a calculation is done on a best effort basis. If a calcu- lation cannot be cancelled, you can be charged for its completion. If you are concerned about being charged for a calculation that can- not be cancelled, consider terminating the session in which the cal- culation is run...
+/// Requests the cancellation of a calculation. A StopCalculationExecution call on a calculation that is already in a terminal state (for example, STOPPED , FAILED , or COMPLETED ) succeeds but has no effect. NOTE: Cancelling a calculation is done on a best effort basis. If a calculation cannot be cancelled, you can be charged for its completion. If you are concerned about being charged for a calculation that cannot be cancelled, consider terminating the session in which the calculation is running. ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsAthenaStopCalculationExecutionOptions : AwsOptions, IValidatabl
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Requests the cancellation of a calculation. A StopCalculationExecution call on a calculation that is already in a terminal state (for example, STOPPED , FAILED , or COMPLETED ) succeeds but has no effect. NOTE: Cancelling a calculation is done on a best effort basis. If a calcu- lation cannot be cancelled, you can be charged for its completion. If you are concerned about being charged for a calculation that can- not be cancelled, consider terminating the session in which the cal- culation is run...
+    /// Requests the cancellation of a calculation. A StopCalculationExecution call on a calculation that is already in a terminal state (for example, STOPPED , FAILED , or COMPLETED ) succeeds but has no effect. NOTE: Cancelling a calculation is done on a best effort basis. If a calculation cannot be cancelled, you can be charged for its completion. If you are concerned about being charged for a calculation that cannot be cancelled, consider terminating the session in which the calculation is running. ...
     /// </summary>
-    /// <param name="CalculationExecutionId">The calculation execution UUID. Constraints: o min: 1 o max: 36</param>
+    /// <param name="CalculationExecutionId">The calculation execution UUID. Constraints: • min: 1 • max: 36</param>
     public AwsAthenaStopCalculationExecutionOptions(
         string CalculationExecutionId
     )
@@ -56,7 +57,7 @@ public record AwsAthenaStopCalculationExecutionOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The calculation execution UUID. Constraints: o min: 1 o max: 36
+    /// The calculation execution UUID. Constraints: • min: 1 • max: 36
     /// </summary>
     [CliOption("--calculation-execution-id")]
     public string? CalculationExecutionId { get; private init; }
@@ -82,6 +83,15 @@ public record AwsAthenaStopCalculationExecutionOptions : AwsOptions, IValidatabl
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

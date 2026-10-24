@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsPartnercentralSellingTagResourceOptions : AwsOptions, IValidata
     /// <summary>
     /// Assigns one or more tags (key-value pairs) to the specified resource. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the resource that you want to tag. Constraints: o pattern: (?=.{1,1000}$)arn:[\w+=/,.@-]+:partner- central:[\w+=/,.@-]*:[0-9]{12}:cata- log/([a-zA-Z]+)/[\w+=,.@-]+(/[\w+=,.@-]+)*</param>
-    /// <param name="Tags">A map of the key-value pairs of the tag or tags to assign. Constraints: o min: 1 o max: 200 (structure) The key-value pair assigned to a specified resource. Key -&gt; (string) [required] The key in the tag. Constraints: o pattern: (?=.{1,128}$)([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Value -&gt; (string) [required] The value in the tag. Constraints: o pattern: (?=.{0,256}$)([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]</param>
+    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the resource that you want to tag. Constraints: • pattern: (?=.{1,1000}$)arn:[\w+=/,.@-]+:partnercentral:[\w+=/,.@-]*:[0-9]{12}:catalog/([a-zA-Z]+)/[\w+=,.@-]+(/[\w+=,.@-]+)*</param>
+    /// <param name="Tags">A map of the key-value pairs of the tag or tags to assign. Constraints: • min: 1 • max: 200 (structure) The key-value pair assigned to a specified resource. Key -&gt; (string) [required] The key in the tag. Constraints: • pattern: (?=.{1,128}$)([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Value -&gt; (string) [required] The value in the tag. Constraints: • pattern: (?=.{0,256}$)([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]</param>
     public AwsPartnercentralSellingTagResourceOptions(
         string ResourceArn,
         IEnumerable<string> Tags
@@ -71,13 +72,13 @@ public record AwsPartnercentralSellingTagResourceOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the resource that you want to tag. Constraints: o pattern: (?=.{1,1000}$)arn:[\w+=/,.@-]+:partner- central:[\w+=/,.@-]*:[0-9]{12}:cata- log/([a-zA-Z]+)/[\w+=,.@-]+(/[\w+=,.@-]+)*
+    /// The Amazon Resource Name (ARN) of the resource that you want to tag. Constraints: • pattern: (?=.{1,1000}$)arn:[\w+=/,.@-]+:partnercentral:[\w+=/,.@-]*:[0-9]{12}:catalog/([a-zA-Z]+)/[\w+=,.@-]+(/[\w+=,.@-]+)*
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
 
     /// <summary>
-    /// A map of the key-value pairs of the tag or tags to assign. Constraints: o min: 1 o max: 200 (structure) The key-value pair assigned to a specified resource. Key -&gt; (string) [required] The key in the tag. Constraints: o pattern: (?=.{1,128}$)([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Value -&gt; (string) [required] The value in the tag. Constraints: o pattern: (?=.{0,256}$)([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// A map of the key-value pairs of the tag or tags to assign. Constraints: • min: 1 • max: 200 (structure) The key-value pair assigned to a specified resource. Key -&gt; (string) [required] The key in the tag. Constraints: • pattern: (?=.{1,128}$)([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Value -&gt; (string) [required] The value in the tag. Constraints: • pattern: (?=.{0,256}$)([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; private init; }
@@ -103,6 +104,15 @@ public record AwsPartnercentralSellingTagResourceOptions : AwsOptions, IValidata
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

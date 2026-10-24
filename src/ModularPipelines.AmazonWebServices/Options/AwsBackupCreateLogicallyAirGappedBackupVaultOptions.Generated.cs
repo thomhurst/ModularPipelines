@@ -10,13 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a logical container to where backups may be copied. This request includes a name, the Region, the maximum number of reten- tion days, the minimum number of retention days, and optionally can in- clude tags and a creator request ID. NOTE: Do not include sensitive data, such as passport numbers, in the name of a backup vault. See also: AWS API Documentation
+/// Creates a logical container to where backups may be copied. This request includes a name, the Region, the maximum number of retention days, the minimum number of retention days, and optionally can include tags and a creator request ID. NOTE: Do not include sensitive data, such as passport numbers, in the name of a backup vault. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,15 +26,15 @@ public record AwsBackupCreateLogicallyAirGappedBackupVaultOptions : AwsOptions, 
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a logical container to where backups may be copied. This request includes a name, the Region, the maximum number of reten- tion days, the minimum number of retention days, and optionally can in- clude tags and a creator request ID. NOTE: Do not include sensitive data, such as passport numbers, in the name of a backup vault. See also: AWS API Documentation
+    /// Creates a logical container to where backups may be copied. This request includes a name, the Region, the maximum number of retention days, the minimum number of retention days, and optionally can include tags and a creator request ID. NOTE: Do not include sensitive data, such as passport numbers, in the name of a backup vault. See also: AWS API Documentation
     /// </summary>
-    /// <param name="BackupVaultName">The name of a logical container where backups are stored. Logically air-gapped backup vaults are identified by names that are unique to the account used to create them and the Region where they are cre- ated. Constraints: o pattern: ^[a-zA-Z0-9\-\_]{2,50}$</param>
+    /// <param name="BackupVaultName">The name of a logical container where backups are stored. Logically air-gapped backup vaults are identified by names that are unique to the account used to create them and the Region where they are created. Constraints: • pattern: ^[a-zA-Z0-9\-\_]{2,50}$</param>
     /// <param name="MinRetentionDays">This setting specifies the minimum retention period that the vault retains its recovery points. The minimum value accepted is 7 days.</param>
     /// <param name="MaxRetentionDays">The maximum retention period that the vault retains its recovery points.</param>
     public AwsBackupCreateLogicallyAirGappedBackupVaultOptions(
         string BackupVaultName,
-        int MinRetentionDays,
-        int MaxRetentionDays
+        long MinRetentionDays,
+        long MaxRetentionDays
     )
     {
         global::System.ArgumentNullException.ThrowIfNull(BackupVaultName);
@@ -63,7 +63,7 @@ public record AwsBackupCreateLogicallyAirGappedBackupVaultOptions : AwsOptions, 
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of a logical container where backups are stored. Logically air-gapped backup vaults are identified by names that are unique to the account used to create them and the Region where they are cre- ated. Constraints: o pattern: ^[a-zA-Z0-9\-\_]{2,50}$
+    /// The name of a logical container where backups are stored. Logically air-gapped backup vaults are identified by names that are unique to the account used to create them and the Region where they are created. Constraints: • pattern: ^[a-zA-Z0-9\-\_]{2,50}$
     /// </summary>
     [CliOption("--backup-vault-name")]
     public string? BackupVaultName { get; private init; }
@@ -72,13 +72,13 @@ public record AwsBackupCreateLogicallyAirGappedBackupVaultOptions : AwsOptions, 
     /// This setting specifies the minimum retention period that the vault retains its recovery points. The minimum value accepted is 7 days.
     /// </summary>
     [CliOption("--min-retention-days")]
-    public int? MinRetentionDays { get; private init; }
+    public long? MinRetentionDays { get; private init; }
 
     /// <summary>
     /// The maximum retention period that the vault retains its recovery points.
     /// </summary>
     [CliOption("--max-retention-days")]
-    public int? MaxRetentionDays { get; private init; }
+    public long? MaxRetentionDays { get; private init; }
 
     /// <summary>
     /// The tags to assign to the vault. key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
@@ -119,6 +119,15 @@ public record AwsBackupCreateLogicallyAirGappedBackupVaultOptions : AwsOptions, 
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

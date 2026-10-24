@@ -10,7 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -32,7 +32,7 @@ public record AwsApigatewayPutIntegrationResponseOptions : AwsOptions, IValidata
     /// <param name="RestApiId">The string identifier of the associated RestApi.</param>
     /// <param name="ResourceId">Specifies a put integration response request's resource identifier.</param>
     /// <param name="HttpMethod">Specifies a put integration response request's HTTP method.</param>
-    /// <param name="StatusCode">Specifies the status code that is used to map the integration re- sponse to an existing MethodResponse. Constraints: o pattern: [1-5]\d\d</param>
+    /// <param name="StatusCode">Specifies the status code that is used to map the integration response to an existing MethodResponse. Constraints: • pattern: [1-5]\d\d</param>
     public AwsApigatewayPutIntegrationResponseOptions(
         string RestApiId,
         string ResourceId,
@@ -88,7 +88,7 @@ public record AwsApigatewayPutIntegrationResponseOptions : AwsOptions, IValidata
     public string? HttpMethod { get; private init; }
 
     /// <summary>
-    /// Specifies the status code that is used to map the integration re- sponse to an existing MethodResponse. Constraints: o pattern: [1-5]\d\d
+    /// Specifies the status code that is used to map the integration response to an existing MethodResponse. Constraints: • pattern: [1-5]\d\d
     /// </summary>
     [CliOption("--status-code")]
     public string? StatusCode { get; private init; }
@@ -100,7 +100,7 @@ public record AwsApigatewayPutIntegrationResponseOptions : AwsOptions, IValidata
     public string? SelectionPattern { get; set; }
 
     /// <summary>
-    /// A key-value map specifying response parameters that are passed to the method response from the back end. The key is a method response header parameter name and the mapped value is an integration re- sponse header value, a static value enclosed within a pair of single quotes, or a JSON expression from the integration response body. The mapping key must match the pattern of method.response.header.{name} , where name is a valid and unique header name. The mapped non-sta- tic value must match the pattern of integration.re- sponse.header.{name} or integration.response.body.{JSON-expression} , where name must be a valid and unique response header name and JSON-expression a valid JSON expression without the $ prefix. key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// A key-value map specifying response parameters that are passed to the method response from the back end. The key is a method response header parameter name and the mapped value is an integration response header value, a static value enclosed within a pair of single quotes, or a JSON expression from the integration response body. The mapping key must match the pattern of method.response.header.{name} , where name is a valid and unique header name. The mapped non-static value must match the pattern of integration.response.header.{name} or integration.response.body.{JSON-expression} , where name must be a valid and unique response header name and JSON-expression a valid JSON expression without the $ prefix. key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--response-parameters", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? ResponseParameters { get; set; }
@@ -112,7 +112,7 @@ public record AwsApigatewayPutIntegrationResponseOptions : AwsOptions, IValidata
     public IReadOnlyList<KeyValue>? ResponseTemplates { get; set; }
 
     /// <summary>
-    /// Specifies how to handle response payload content type conversions. Supported values are CONVERT_TO_BINARY and CONVERT_TO_TEXT , with the following behaviors: If this property is not defined, the response payload will be passed through from the integration response to the method response without modification. Possible values: o CONVERT_TO_BINARY o CONVERT_TO_TEXT
+    /// Specifies how to handle response payload content type conversions. Supported values are CONVERT_TO_BINARY and CONVERT_TO_TEXT , with the following behaviors: If this property is not defined, the response payload will be passed through from the integration response to the method response without modification. Possible values: • CONVERT_TO_BINARY • CONVERT_TO_TEXT
     /// </summary>
     [CliOption("--content-handling")]
     public AwsApigatewayPutIntegrationResponseContentHandling? ContentHandling { get; set; }
@@ -138,6 +138,15 @@ public record AwsApigatewayPutIntegrationResponseOptions : AwsOptions, IValidata
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

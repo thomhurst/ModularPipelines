@@ -6,15 +6,15 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
+using ModularPipelines;
 using ModularPipelines.Context;
-using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
 namespace ModularPipelines.AmazonWebServices.Services;
 
 /// <summary>
-/// aws marketplaceagreement commands.
+/// aws marketplace-agreement commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AwsMarketplaceAgreement : IAwsMarketplaceAgreement
@@ -32,7 +32,7 @@ public class AwsMarketplaceAgreement : IAwsMarketplaceAgreement
     #region Commands
 
     /// <summary>
-    /// Allows buyers (acceptors) to accept a cancellation request that is in PENDING_APPROVAL status. Once accepted, the cancellation request tran- sitions to APPROVED status and the agreement cancellation will be processed. NOTE: Only cancellation requests in PENDING_APPROVAL status can be ac- cepted. A ConflictException is thrown if the cancellation request is in any other status. See also: AWS API Documentation
+    /// Allows buyers (acceptors) to accept a cancellation request that is in PENDING_APPROVAL status. Once accepted, the cancellation request transitions to APPROVED status and the agreement cancellation will be processed. NOTE: Only cancellation requests in PENDING_APPROVAL status can be accepted. A ConflictException is thrown if the cancellation request is in any other status. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -47,7 +47,7 @@ public class AwsMarketplaceAgreement : IAwsMarketplaceAgreement
     }
 
     /// <summary>
-    /// Allows buyers (acceptors) to accept a payment request that is in PEND- ING_APPROVAL status. Once accepted, the payment request transitions to APPROVED status and the charge will be processed. Buyers can optionally provide a purchase order reference for their internal tracking. NOTE: Only payment requests in PENDING_APPROVAL status can be accepted. A ConflictException is thrown if the payment request is in any other status. See also: AWS API Documentation
+    /// Allows buyers (acceptors) to accept a payment request that is in PENDING_APPROVAL status. Once accepted, the payment request transitions to APPROVED status and the charge will be processed. Buyers can optionally provide a purchase order reference for their internal tracking. NOTE: Only payment requests in PENDING_APPROVAL status can be accepted. A ConflictException is thrown if the payment request is in any other status. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -77,7 +77,7 @@ public class AwsMarketplaceAgreement : IAwsMarketplaceAgreement
     }
 
     /// <summary>
-    /// Allows sellers (proposers) to submit billing adjustment requests for one or more invoices within an agreement. Each entry in the batch spec- ifies an invoice and the adjustment amount. The operation returns suc- cessfully created adjustment request IDs and any errors for entries that failed to process. NOTE: Each entry requires a unique clientToken for idempotency. See also: AWS API Documentation
+    /// Allows sellers (proposers) to submit billing adjustment requests for one or more invoices within an agreement. Each entry in the batch specifies an invoice and the adjustment amount. The operation returns successfully created adjustment request IDs and any errors for entries that failed to process. NOTE: Each entry requires a unique clientToken for idempotency. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -92,7 +92,7 @@ public class AwsMarketplaceAgreement : IAwsMarketplaceAgreement
     }
 
     /// <summary>
-    /// Allows sellers (proposers) to withdraw an existing agreement cancella- tion request that is in a pending state. Once cancelled, the cancella- tion request transitions to CANCELLED status and can no longer be ap- proved or rejected by the buyer. NOTE: Only cancellation requests in PENDING_APPROVAL status can be can- celled. A ConflictException is thrown if the cancellation request is in any other status. See also: AWS API Documentation
+    /// Allows sellers (proposers) to withdraw an existing agreement cancellation request that is in a pending state. Once cancelled, the cancellation request transitions to CANCELLED status and can no longer be approved or rejected by the buyer. NOTE: Only cancellation requests in PENDING_APPROVAL status can be cancelled. A ConflictException is thrown if the cancellation request is in any other status. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -122,7 +122,7 @@ public class AwsMarketplaceAgreement : IAwsMarketplaceAgreement
     }
 
     /// <summary>
-    /// Allows sellers (proposers) to cancel a payment request that is in PEND- ING_APPROVAL status. Once cancelled, the payment request transitions to CANCELLED status and can no longer be accepted or rejected by the buyer. NOTE: Only payment requests in PENDING_APPROVAL status can be cancelled. A ConflictException is thrown if the payment request is in any other status. See also: AWS API Documentation
+    /// Allows sellers (proposers) to cancel a payment request that is in PENDING_APPROVAL status. Once cancelled, the payment request transitions to CANCELLED status and can no longer be accepted or rejected by the buyer. NOTE: Only payment requests in PENDING_APPROVAL status can be cancelled. A ConflictException is thrown if the payment request is in any other status. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -167,7 +167,7 @@ public class AwsMarketplaceAgreement : IAwsMarketplaceAgreement
     }
 
     /// <summary>
-    /// Retrieves detailed information about a specific agreement cancellation request. Both sellers (proposers) and buyers (acceptors) can use this operation to view cancellation requests associated with their agree- ments. See also: AWS API Documentation
+    /// Retrieves detailed information about a specific agreement cancellation request. Both sellers (proposers) and buyers (acceptors) can use this operation to view cancellation requests associated with their agreements. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -182,7 +182,7 @@ public class AwsMarketplaceAgreement : IAwsMarketplaceAgreement
     }
 
     /// <summary>
-    /// Obtains details about the entitlements of an agreement. See also: AWS API Documentation get-agreement-entitlements is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: agreementEntitlements
+    /// Obtains details about the entitlements of an agreement. See also: AWS API Documentation get-agreement-entitlements is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: agreementEntitlements
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -197,7 +197,7 @@ public class AwsMarketplaceAgreement : IAwsMarketplaceAgreement
     }
 
     /// <summary>
-    /// Retrieves detailed information about a specific payment request. Both sellers (proposers) and buyers (acceptors) can use this operation to view payment requests associated with their agreements. The response includes the current status, charge details, timestamps, and the charge ID if the request has been approved. NOTE: The calling identity must be either the acceptor or proposer of the payment request. A ResourceNotFoundException is returned if the pay- ment request does not exist. See also: A...
+    /// Retrieves detailed information about a specific payment request. Both sellers (proposers) and buyers (acceptors) can use this operation to view payment requests associated with their agreements. The response includes the current status, charge details, timestamps, and the charge ID if the request has been approved. NOTE: The calling identity must be either the acceptor or proposer of the payment request. A ResourceNotFoundException is returned if the payment request does not exist. See also: AWS...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -212,7 +212,7 @@ public class AwsMarketplaceAgreement : IAwsMarketplaceAgreement
     }
 
     /// <summary>
-    /// Obtains details about the terms in an agreement that you participated in as proposer or acceptor. The details include: o TermType The type of term, such as LegalTerm , RenewalTerm , or Con- figurableUpfrontPricingTerm . o TermID The ID of the particular term, which is common between offer and agreement. o TermPayload The key information contained in the term, such as the EULA for LegalTerm or pricing and dimensions for various pricing terms, such as ConfigurableUpfrontPricingTerm or UsageBasedPr...
+    /// Obtains details about the terms in an agreement that you participated in as proposer or acceptor. The details include: • TermType The type of term, such as LegalTerm , RenewalTerm , or ConfigurableUpfrontPricingTerm . • TermID The ID of the particular term, which is common between offer and agreement. • TermPayload The key information contained in the term, such as the EULA for LegalTerm or pricing and dimensions for various pricing terms, such as ConfigurableUpfrontPricingTerm or UsageBasedPric...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -227,7 +227,7 @@ public class AwsMarketplaceAgreement : IAwsMarketplaceAgreement
     }
 
     /// <summary>
-    /// Retrieves detailed information about a specific billing adjustment re- quest. Sellers (proposers) can use this operation to view the status and details of a billing adjustment request they submitted. See also: AWS API Documentation
+    /// Retrieves detailed information about a specific billing adjustment request. Sellers (proposers) can use this operation to view the status and details of a billing adjustment request they submitted. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -242,7 +242,7 @@ public class AwsMarketplaceAgreement : IAwsMarketplaceAgreement
     }
 
     /// <summary>
-    /// Lists agreement cancellation requests available to you as a seller or buyer. Both sellers (proposers) and buyers (acceptors) can use this op- eration to find cancellation requests by specifying their party type and applying optional filters. NOTE: PartyType is a required parameter. A ValidationException is returned if PartyType is not provided. See also: AWS API Documentation list-agreement-cancellation-requests is a paginated operation. Multiple API calls may be issued in order to retrieve the ...
+    /// Lists agreement cancellation requests available to you as a seller or buyer. Both sellers (proposers) and buyers (acceptors) can use this operation to find cancellation requests by specifying their party type and applying optional filters. NOTE: PartyType is a required parameter. A ValidationException is returned if PartyType is not provided. See also: AWS API Documentation list-agreement-cancellation-requests is a paginated operation. Multiple API calls may be issued in order to retrieve the en...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -257,7 +257,7 @@ public class AwsMarketplaceAgreement : IAwsMarketplaceAgreement
     }
 
     /// <summary>
-    /// Allows acceptors to view charges and purchase orders that are associ- ated with an agreement. The response includes details about all charges regardless of whether a purchase order is linked to each charge. See also: AWS API Documentation list-agreement-charges is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a pag...
+    /// Allows acceptors to view charges and purchase orders that are associated with an agreement. The response includes details about all charges regardless of whether a purchase order is linked to each charge. See also: AWS API Documentation list-agreement-charges is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a pagin...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -287,7 +287,7 @@ public class AwsMarketplaceAgreement : IAwsMarketplaceAgreement
     }
 
     /// <summary>
-    /// Lists payment requests available to you as a seller or buyer. Both sellers (proposers) and buyers (acceptors) can use this operation to find payment requests by specifying their party type and applying op- tional parameters. NOTE: PartyType is a required parameter. A ValidationException is returned if PartyType is not provided. Pagination is supported through maxRe- sults (1-50, default 50) and nextToken parameters. See also: AWS API Documentation list-agreement-payment-requests is a paginated o...
+    /// Lists payment requests available to you as a seller or buyer. Both sellers (proposers) and buyers (acceptors) can use this operation to find payment requests by specifying their party type and applying optional parameters. NOTE: PartyType is a required parameter. A ValidationException is returned if PartyType is not provided. Pagination is supported through maxResults (1-50, default 50) and nextToken parameters. See also: AWS API Documentation list-agreement-payment-requests is a paginated opera...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -302,7 +302,7 @@ public class AwsMarketplaceAgreement : IAwsMarketplaceAgreement
     }
 
     /// <summary>
-    /// Lists billing adjustment requests for a specific agreement. Sellers (proposers) can use this operation to view all billing adjustment re- quests associated with an agreement. See also: AWS API Documentation list-billing-adjustment-requests is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, t...
+    /// Lists billing adjustment requests for a specific agreement. Sellers (proposers) can use this operation to view all billing adjustment requests associated with an agreement. See also: AWS API Documentation list-billing-adjustment-requests is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --q...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -317,7 +317,7 @@ public class AwsMarketplaceAgreement : IAwsMarketplaceAgreement
     }
 
     /// <summary>
-    /// Allows buyers (acceptors) to reject a cancellation request that is in PENDING_APPROVAL status. Once rejected, the cancellation request tran- sitions to REJECTED status and the agreement remains active. Buyers must provide a reason for the rejection. NOTE: Only cancellation requests in PENDING_APPROVAL status can be re- jected. A ConflictException is thrown if the cancellation request is in any other status. See also: AWS API Documentation
+    /// Allows buyers (acceptors) to reject a cancellation request that is in PENDING_APPROVAL status. Once rejected, the cancellation request transitions to REJECTED status and the agreement remains active. Buyers must provide a reason for the rejection. NOTE: Only cancellation requests in PENDING_APPROVAL status can be rejected. A ConflictException is thrown if the cancellation request is in any other status. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -332,7 +332,7 @@ public class AwsMarketplaceAgreement : IAwsMarketplaceAgreement
     }
 
     /// <summary>
-    /// Allows buyers (acceptors) to reject a payment request that is in PEND- ING_APPROVAL status. Once rejected, the payment request transitions to REJECTED status and cannot be accepted. Buyers can optionally provide a reason for the rejection. NOTE: Only payment requests in PENDING_APPROVAL status can be rejected. A ConflictException is thrown if the payment request is in any other status. See also: AWS API Documentation
+    /// Allows buyers (acceptors) to reject a payment request that is in PENDING_APPROVAL status. Once rejected, the payment request transitions to REJECTED status and cannot be accepted. Buyers can optionally provide a reason for the rejection. NOTE: Only payment requests in PENDING_APPROVAL status can be rejected. A ConflictException is thrown if the payment request is in any other status. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -362,7 +362,7 @@ public class AwsMarketplaceAgreement : IAwsMarketplaceAgreement
     }
 
     /// <summary>
-    /// Allows sellers (proposers) to submit a cancellation request for an ac- tive agreement. The cancellation request is created in PENDING_APPROVAL status, at which point the buyer can review it. See also: AWS API Documentation
+    /// Allows sellers (proposers) to submit a cancellation request for an active agreement. The cancellation request is created in PENDING_APPROVAL status, at which point the buyer can review it. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -377,7 +377,7 @@ public class AwsMarketplaceAgreement : IAwsMarketplaceAgreement
     }
 
     /// <summary>
-    /// Allows sellers (proposers) to submit a payment request to buyers (ac- ceptors) for a specific charge amount for an agreement that includes a VariablePaymentTerm . The payment request is created in PENDING_AP- PROVAL status, at which point the buyer can accept or reject it. NOTE: The agreement must be active and have a VariablePaymentTerm to sup- port payment requests. The chargeAmount must not exceed the remain- ing available balance under the VariablePaymentTerm maxTo- talChargeAmount . See als...
+    /// Allows sellers (proposers) to submit a payment request to buyers (acceptors) for a specific charge amount for an agreement that includes a VariablePaymentTerm . The payment request is created in PENDING_APPROVAL status, at which point the buyer can accept or reject it. NOTE: The agreement must be active and have a VariablePaymentTerm to support payment requests. The chargeAmount must not exceed the remaining available balance under the VariablePaymentTerm maxTotalChargeAmount . See also: AWS API...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

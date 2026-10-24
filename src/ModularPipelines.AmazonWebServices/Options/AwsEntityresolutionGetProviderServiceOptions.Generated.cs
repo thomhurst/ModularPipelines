@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns the ProviderService of a given name. See also: AWS API Documentation get-provider-service uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested para- meters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
+/// Returns the ProviderService of a given name. See also: AWS API Documentation get-provider-service uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsEntityresolutionGetProviderServiceOptions : AwsOptions, IValida
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns the ProviderService of a given name. See also: AWS API Documentation get-provider-service uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested para- meters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
+    /// Returns the ProviderService of a given name. See also: AWS API Documentation get-provider-service uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
     /// </summary>
-    /// <param name="ProviderName">The name of the provider. This name is typically the company name. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z_0-9-]*</param>
-    /// <param name="ProviderServiceName">The ARN (Amazon Resource Name) of the product that the provider ser- vice provides. Constraints: o min: 20 o max: 255 o pattern: arn:(aws|aws-us-gov|aws-cn):(entityresolu- tion):([a-z]{2}-[a-z]{1,10}-[0-9])::providerser- vice/([a-zA-Z0-9_-]{1,255})/([a-zA-Z0-9_-]{1,255})</param>
+    /// <param name="ProviderName">The name of the provider. This name is typically the company name. Constraints: • min: 1 • max: 255 • pattern: [a-zA-Z_0-9-]*</param>
+    /// <param name="ProviderServiceName">The ARN (Amazon Resource Name) of the product that the provider service provides. Constraints: • min: 20 • max: 255 • pattern: arn:(aws|aws-us-gov|aws-cn):(entityresolution):([a-z]{2}-[a-z]{1,10}-[0-9])::providerservice/([a-zA-Z0-9_-]{1,255})/([a-zA-Z0-9_-]{1,255})</param>
     public AwsEntityresolutionGetProviderServiceOptions(
         string ProviderName,
         string ProviderServiceName
@@ -60,13 +61,13 @@ public record AwsEntityresolutionGetProviderServiceOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the provider. This name is typically the company name. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z_0-9-]*
+    /// The name of the provider. This name is typically the company name. Constraints: • min: 1 • max: 255 • pattern: [a-zA-Z_0-9-]*
     /// </summary>
     [CliOption("--provider-name")]
     public string? ProviderName { get; private init; }
 
     /// <summary>
-    /// The ARN (Amazon Resource Name) of the product that the provider ser- vice provides. Constraints: o min: 20 o max: 255 o pattern: arn:(aws|aws-us-gov|aws-cn):(entityresolu- tion):([a-z]{2}-[a-z]{1,10}-[0-9])::providerser- vice/([a-zA-Z0-9_-]{1,255})/([a-zA-Z0-9_-]{1,255})
+    /// The ARN (Amazon Resource Name) of the product that the provider service provides. Constraints: • min: 20 • max: 255 • pattern: arn:(aws|aws-us-gov|aws-cn):(entityresolution):([a-z]{2}-[a-z]{1,10}-[0-9])::providerservice/([a-zA-Z0-9_-]{1,255})/([a-zA-Z0-9_-]{1,255})
     /// </summary>
     [CliOption("--provider-service-name")]
     public string? ProviderServiceName { get; private init; }
@@ -92,6 +93,15 @@ public record AwsEntityresolutionGetProviderServiceOptions : AwsOptions, IValida
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

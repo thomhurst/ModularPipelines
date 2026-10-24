@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates an existing OpenSearch index schema and semantic enrichment configuration. This operation allows modification of field mappings and semantic search settings for text fields. Changes to semantic enrich- ment configuration will apply to newly ingested documents. See also: AWS API Documentation update-index uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested ...
+/// Updates an existing OpenSearch index schema and semantic enrichment configuration. This operation allows modification of field mappings and semantic search settings for text fields. Changes to semantic enrichment configuration will apply to newly ingested documents. See also: AWS API Documentation update-index uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested pa...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,11 +26,11 @@ public record AwsOpensearchUpdateIndexOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates an existing OpenSearch index schema and semantic enrichment configuration. This operation allows modification of field mappings and semantic search settings for text fields. Changes to semantic enrich- ment configuration will apply to newly ingested documents. See also: AWS API Documentation update-index uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested ...
+    /// Updates an existing OpenSearch index schema and semantic enrichment configuration. This operation allows modification of field mappings and semantic search settings for text fields. Changes to semantic enrichment configuration will apply to newly ingested documents. See also: AWS API Documentation update-index uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested pa...
     /// </summary>
-    /// <param name="DomainName">The name of an OpenSearch Service domain. Domain names are unique across the domains owned by an account within an Amazon Web Services Region. Constraints: o min: 3 o max: 28 o pattern: [a-z][a-z0-9\-]+</param>
-    /// <param name="IndexName">The name of the index to update. Constraints: o min: 1 o max: 255 o pattern: ^(?!\.\.?$)[^_ ,:"+/*\\|?#&gt;&lt;A-Z-][^ ,:"+/*\\|?#&gt;&lt;A-Z]*$</param>
-    /// <param name="IndexSchema">The updated JSON schema for the index including any changes to map- pings, settings, and semantic enrichment configuration. JSON Syntax: {...}</param>
+    /// <param name="DomainName">The name of an OpenSearch Service domain. Domain names are unique across the domains owned by an account within an Amazon Web Services Region. Constraints: • min: 3 • max: 28 • pattern: [a-z][a-z0-9\-]+</param>
+    /// <param name="IndexName">The name of the index to update. Constraints: • min: 1 • max: 255 • pattern: ^(?!\.\.?$)[^_ ,:"+/*\\|?#&gt;&lt;A-Z-][^ ,:"+/*\\|?#&gt;&lt;A-Z]*$</param>
+    /// <param name="IndexSchema">The updated JSON schema for the index including any changes to mappings, settings, and semantic enrichment configuration. JSON Syntax: {...}</param>
     public AwsOpensearchUpdateIndexOptions(
         string DomainName,
         string IndexName,
@@ -64,19 +65,19 @@ public record AwsOpensearchUpdateIndexOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of an OpenSearch Service domain. Domain names are unique across the domains owned by an account within an Amazon Web Services Region. Constraints: o min: 3 o max: 28 o pattern: [a-z][a-z0-9\-]+
+    /// The name of an OpenSearch Service domain. Domain names are unique across the domains owned by an account within an Amazon Web Services Region. Constraints: • min: 3 • max: 28 • pattern: [a-z][a-z0-9\-]+
     /// </summary>
     [CliOption("--domain-name")]
     public string? DomainName { get; private init; }
 
     /// <summary>
-    /// The name of the index to update. Constraints: o min: 1 o max: 255 o pattern: ^(?!\.\.?$)[^_ ,:"+/*\\|?#&gt;&lt;A-Z-][^ ,:"+/*\\|?#&gt;&lt;A-Z]*$
+    /// The name of the index to update. Constraints: • min: 1 • max: 255 • pattern: ^(?!\.\.?$)[^_ ,:"+/*\\|?#&gt;&lt;A-Z-][^ ,:"+/*\\|?#&gt;&lt;A-Z]*$
     /// </summary>
     [CliOption("--index-name")]
     public string? IndexName { get; private init; }
 
     /// <summary>
-    /// The updated JSON schema for the index including any changes to map- pings, settings, and semantic enrichment configuration. JSON Syntax: {...}
+    /// The updated JSON schema for the index including any changes to mappings, settings, and semantic enrichment configuration. JSON Syntax: {...}
     /// </summary>
     [CliOption("--index-schema")]
     public string? IndexSchema { get; private init; }
@@ -102,6 +103,15 @@ public record AwsOpensearchUpdateIndexOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

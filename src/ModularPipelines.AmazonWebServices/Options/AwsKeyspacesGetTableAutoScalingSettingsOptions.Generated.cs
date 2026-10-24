@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns auto scaling related settings of the specified table in JSON format. If the table is a multi-Region table, the Amazon Web Services Region specific auto scaling settings of the table are included. Amazon Keyspaces auto scaling helps you provision throughput capacity for variable workloads efficiently by increasing and decreasing your table's read and write capacity automatically in response to applica- tion traffic. For more information, see Managing throughput capacity automatically with...
+/// Returns auto scaling related settings of the specified table in JSON format. If the table is a multi-Region table, the Amazon Web Services Region specific auto scaling settings of the table are included. Amazon Keyspaces auto scaling helps you provision throughput capacity for variable workloads efficiently by increasing and decreasing your table's read and write capacity automatically in response to application traffic. For more information, see Managing throughput capacity automatically with A...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsKeyspacesGetTableAutoScalingSettingsOptions : AwsOptions, IVali
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns auto scaling related settings of the specified table in JSON format. If the table is a multi-Region table, the Amazon Web Services Region specific auto scaling settings of the table are included. Amazon Keyspaces auto scaling helps you provision throughput capacity for variable workloads efficiently by increasing and decreasing your table's read and write capacity automatically in response to applica- tion traffic. For more information, see Managing throughput capacity automatically with...
+    /// Returns auto scaling related settings of the specified table in JSON format. If the table is a multi-Region table, the Amazon Web Services Region specific auto scaling settings of the table are included. Amazon Keyspaces auto scaling helps you provision throughput capacity for variable workloads efficiently by increasing and decreasing your table's read and write capacity automatically in response to application traffic. For more information, see Managing throughput capacity automatically with A...
     /// </summary>
-    /// <param name="KeyspaceName">The name of the keyspace. Constraints: o min: 1 o max: 48 o pattern: [a-zA-Z0-9][a-zA-Z0-9_]{0,47}</param>
-    /// <param name="TableName">The name of the table. Constraints: o min: 1 o max: 48 o pattern: [a-zA-Z0-9][a-zA-Z0-9_]{0,47}</param>
+    /// <param name="KeyspaceName">The name of the keyspace. Constraints: • min: 1 • max: 48 • pattern: [a-zA-Z0-9][a-zA-Z0-9_]{0,47}</param>
+    /// <param name="TableName">The name of the table. Constraints: • min: 1 • max: 48 • pattern: [a-zA-Z0-9][a-zA-Z0-9_]{0,47}</param>
     public AwsKeyspacesGetTableAutoScalingSettingsOptions(
         string KeyspaceName,
         string TableName
@@ -60,13 +61,13 @@ public record AwsKeyspacesGetTableAutoScalingSettingsOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the keyspace. Constraints: o min: 1 o max: 48 o pattern: [a-zA-Z0-9][a-zA-Z0-9_]{0,47}
+    /// The name of the keyspace. Constraints: • min: 1 • max: 48 • pattern: [a-zA-Z0-9][a-zA-Z0-9_]{0,47}
     /// </summary>
     [CliOption("--keyspace-name")]
     public string? KeyspaceName { get; private init; }
 
     /// <summary>
-    /// The name of the table. Constraints: o min: 1 o max: 48 o pattern: [a-zA-Z0-9][a-zA-Z0-9_]{0,47}
+    /// The name of the table. Constraints: • min: 1 • max: 48 • pattern: [a-zA-Z0-9][a-zA-Z0-9_]{0,47}
     /// </summary>
     [CliOption("--table-name")]
     public string? TableName { get; private init; }
@@ -92,6 +93,15 @@ public record AwsKeyspacesGetTableAutoScalingSettingsOptions : AwsOptions, IVali
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

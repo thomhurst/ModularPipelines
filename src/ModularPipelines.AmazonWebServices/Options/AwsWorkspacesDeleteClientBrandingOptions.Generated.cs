@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes customized client branding. Client branding allows you to cus- tomize your WorkSpace's client login portal. You can tailor your login portal company logo, the support email address, support link, link to reset password, and a custom message for users trying to sign in. After you delete your customized client branding, your login portal re- verts to the default client branding. See also: AWS API Documentation
+/// Deletes customized client branding. Client branding allows you to customize your WorkSpace's client login portal. You can tailor your login portal company logo, the support email address, support link, link to reset password, and a custom message for users trying to sign in. After you delete your customized client branding, your login portal reverts to the default client branding. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsWorkspacesDeleteClientBrandingOptions : AwsOptions, IValidatabl
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes customized client branding. Client branding allows you to cus- tomize your WorkSpace's client login portal. You can tailor your login portal company logo, the support email address, support link, link to reset password, and a custom message for users trying to sign in. After you delete your customized client branding, your login portal re- verts to the default client branding. See also: AWS API Documentation
+    /// Deletes customized client branding. Client branding allows you to customize your WorkSpace's client login portal. You can tailor your login portal company logo, the support email address, support link, link to reset password, and a custom message for users trying to sign in. After you delete your customized client branding, your login portal reverts to the default client branding. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceId">The directory identifier of the WorkSpace for which you want to delete client branding. Constraints: o min: 10 o max: 65 o pattern: ^(d-[0-9a-f]{8,63}$)|(wsd-[0-9a-z]{8,63}$)</param>
-    /// <param name="Platforms">The device type for which you want to delete client branding. Constraints: o min: 1 o max: 6 (string) Possible values: o DeviceTypeWindows o DeviceTypeOsx o DeviceTypeAndroid o DeviceTypeIos o DeviceTypeLinux o DeviceTypeWeb Syntax: "string" "string" ...</param>
+    /// <param name="ResourceId">The directory identifier of the WorkSpace for which you want to delete client branding. Constraints: • min: 10 • max: 65 • pattern: ^(d-[0-9a-f]{8,63}$)|(wsd-[0-9a-z]{8,63}$)</param>
+    /// <param name="Platforms">The device type for which you want to delete client branding. Constraints: • min: 1 • max: 6 (string) Possible values: • DeviceTypeWindows • DeviceTypeOsx • DeviceTypeAndroid • DeviceTypeIos • DeviceTypeLinux • DeviceTypeWeb Syntax: "string" "string" ...</param>
     public AwsWorkspacesDeleteClientBrandingOptions(
         string ResourceId,
         IEnumerable<string> Platforms
@@ -71,13 +72,13 @@ public record AwsWorkspacesDeleteClientBrandingOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The directory identifier of the WorkSpace for which you want to delete client branding. Constraints: o min: 10 o max: 65 o pattern: ^(d-[0-9a-f]{8,63}$)|(wsd-[0-9a-z]{8,63}$)
+    /// The directory identifier of the WorkSpace for which you want to delete client branding. Constraints: • min: 10 • max: 65 • pattern: ^(d-[0-9a-f]{8,63}$)|(wsd-[0-9a-z]{8,63}$)
     /// </summary>
     [CliOption("--resource-id")]
     public string? ResourceId { get; private init; }
 
     /// <summary>
-    /// The device type for which you want to delete client branding. Constraints: o min: 1 o max: 6 (string) Possible values: o DeviceTypeWindows o DeviceTypeOsx o DeviceTypeAndroid o DeviceTypeIos o DeviceTypeLinux o DeviceTypeWeb Syntax: "string" "string" ...
+    /// The device type for which you want to delete client branding. Constraints: • min: 1 • max: 6 (string) Possible values: • DeviceTypeWindows • DeviceTypeOsx • DeviceTypeAndroid • DeviceTypeIos • DeviceTypeLinux • DeviceTypeWeb Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--platforms", GroupValues = true)]
     public IEnumerable<string>? Platforms { get; private init; }
@@ -103,6 +104,15 @@ public record AwsWorkspacesDeleteClientBrandingOptions : AwsOptions, IValidatabl
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

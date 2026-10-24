@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Disables an add-on for an Amazon Lightsail resource. For more informa- tion, see the Amazon Lightsail Developer Guide . See also: AWS API Documentation
+/// Disables an add-on for an Amazon Lightsail resource. For more information, see the Amazon Lightsail Developer Guide . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +27,10 @@ public record AwsLightsailDisableAddOnOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Disables an add-on for an Amazon Lightsail resource. For more informa- tion, see the Amazon Lightsail Developer Guide . See also: AWS API Documentation
+    /// Disables an add-on for an Amazon Lightsail resource. For more information, see the Amazon Lightsail Developer Guide . See also: AWS API Documentation
     /// </summary>
-    /// <param name="AddOnType">The add-on type to disable. Possible values: o AutoSnapshot o StopInstanceOnIdle</param>
-    /// <param name="ResourceName">The name of the source resource for which to disable the add-on. Constraints: o pattern: \w[\w\-]*\w</param>
+    /// <param name="AddOnType">The add-on type to disable. Possible values: • AutoSnapshot • StopInstanceOnIdle</param>
+    /// <param name="ResourceName">The name of the source resource for which to disable the add-on. Constraints: • pattern: \w[\w\-]*\w</param>
     public AwsLightsailDisableAddOnOptions(
         AwsLightsailDisableAddOnAddOnType AddOnType,
         string ResourceName
@@ -60,13 +61,13 @@ public record AwsLightsailDisableAddOnOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The add-on type to disable. Possible values: o AutoSnapshot o StopInstanceOnIdle
+    /// The add-on type to disable. Possible values: • AutoSnapshot • StopInstanceOnIdle
     /// </summary>
     [CliOption("--add-on-type")]
     public AwsLightsailDisableAddOnAddOnType? AddOnType { get; private init; }
 
     /// <summary>
-    /// The name of the source resource for which to disable the add-on. Constraints: o pattern: \w[\w\-]*\w
+    /// The name of the source resource for which to disable the add-on. Constraints: • pattern: \w[\w\-]*\w
     /// </summary>
     [CliOption("--resource-name")]
     public string? ResourceName { get; private init; }
@@ -92,6 +93,15 @@ public record AwsLightsailDisableAddOnOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

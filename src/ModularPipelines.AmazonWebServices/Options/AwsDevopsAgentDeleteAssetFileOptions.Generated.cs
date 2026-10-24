@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,9 +28,9 @@ public record AwsDevopsAgentDeleteAssetFileOptions : AwsOptions, IValidatableObj
     /// <summary>
     /// Deletes a file from an asset See also: AWS API Documentation
     /// </summary>
-    /// <param name="AgentSpaceId">The unique identifier for the agent space containing the asset Constraints: o min: 1 o max: 2048</param>
-    /// <param name="AssetId">The unique identifier of the asset containing the file Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_.-]+</param>
-    /// <param name="Path">The path of the file within the asset to delete Constraints: o min: 1 o max: 512 o pattern: [a-zA-Z0-9_./ ()-]+</param>
+    /// <param name="AgentSpaceId">The unique identifier for the agent space containing the asset Constraints: • min: 1 • max: 2048</param>
+    /// <param name="AssetId">The unique identifier of the asset containing the file Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9_.-]+</param>
+    /// <param name="Path">The path of the file within the asset to delete Constraints: • min: 1 • max: 512 • pattern: [a-zA-Z0-9_./ ()-]+</param>
     public AwsDevopsAgentDeleteAssetFileOptions(
         string AgentSpaceId,
         string AssetId,
@@ -64,19 +65,19 @@ public record AwsDevopsAgentDeleteAssetFileOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier for the agent space containing the asset Constraints: o min: 1 o max: 2048
+    /// The unique identifier for the agent space containing the asset Constraints: • min: 1 • max: 2048
     /// </summary>
     [CliOption("--agent-space-id")]
     public string? AgentSpaceId { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the asset containing the file Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_.-]+
+    /// The unique identifier of the asset containing the file Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9_.-]+
     /// </summary>
     [CliOption("--asset-id")]
     public string? AssetId { get; private init; }
 
     /// <summary>
-    /// The path of the file within the asset to delete Constraints: o min: 1 o max: 512 o pattern: [a-zA-Z0-9_./ ()-]+
+    /// The path of the file within the asset to delete Constraints: • min: 1 • max: 512 • pattern: [a-zA-Z0-9_./ ()-]+
     /// </summary>
     [CliOption("--path")]
     public string? Path { get; private init; }
@@ -102,6 +103,15 @@ public record AwsDevopsAgentDeleteAssetFileOptions : AwsOptions, IValidatableObj
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -6,15 +6,15 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
+using ModularPipelines;
 using ModularPipelines.Context;
-using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
 namespace ModularPipelines.AmazonWebServices.Services;
 
 /// <summary>
-/// aws partnercentralaccount commands.
+/// aws partnercentral-account commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AwsPartnercentralAccount : IAwsPartnercentralAccount
@@ -47,7 +47,7 @@ public class AwsPartnercentralAccount : IAwsPartnercentralAccount
     }
 
     /// <summary>
-    /// Associates an email domain with AWS training and certification for the partner account, enabling automatic verification of employee certifica- tions. See also: AWS API Documentation
+    /// Associates an email domain with AWS training and certification for the partner account, enabling automatic verification of employee certifications. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -77,7 +77,7 @@ public class AwsPartnercentralAccount : IAwsPartnercentralAccount
     }
 
     /// <summary>
-    /// Cancels an existing connection between partners, terminating the part- nership relationship. See also: AWS API Documentation
+    /// Cancels an existing connection between partners, terminating the partnership relationship. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -107,7 +107,7 @@ public class AwsPartnercentralAccount : IAwsPartnercentralAccount
     }
 
     /// <summary>
-    /// Creates a new connection invitation to establish a partnership with an- other organization. See also: AWS API Documentation
+    /// Creates a new connection invitation to establish a partnership with another organization. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -122,7 +122,7 @@ public class AwsPartnercentralAccount : IAwsPartnercentralAccount
     }
 
     /// <summary>
-    /// Creates a new partner account in the AWS Partner Network with the spec- ified details and configuration. See also: AWS API Documentation
+    /// Creates a new partner account in the AWS Partner Network with the specified details and configuration. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -272,7 +272,7 @@ public class AwsPartnercentralAccount : IAwsPartnercentralAccount
     }
 
     /// <summary>
-    /// Retrieves the status and details of the most recent qualifications as- sociation task for your partner account. Use this operation to poll the progress of an association task initiated by StartQualificationsAssoci- ationTask . See also: AWS API Documentation
+    /// Retrieves the status and details of the most recent qualifications association task for your partner account. Use this operation to poll the progress of an association task initiated by StartQualificationsAssociationTask . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -287,7 +287,7 @@ public class AwsPartnercentralAccount : IAwsPartnercentralAccount
     }
 
     /// <summary>
-    /// Retrieves the status and details of the most recent qualifications dis- association task for your partner account. Use this operation to poll the progress of a disassociation task initiated by StartQualifications- DisassociationTask . See also: AWS API Documentation
+    /// Retrieves the status and details of the most recent qualifications disassociation task for your partner account. Use this operation to poll the progress of a disassociation task initiated by StartQualificationsDisassociationTask . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -317,7 +317,7 @@ public class AwsPartnercentralAccount : IAwsPartnercentralAccount
     }
 
     /// <summary>
-    /// Lists connection invitations for the partner account, with optional filtering by status, type, and other criteria. See also: AWS API Documentation list-connection-invitations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the fol...
+    /// Lists connection invitations for the partner account, with optional filtering by status, type, and other criteria. See also: AWS API Documentation list-connection-invitations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the followi...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -332,7 +332,7 @@ public class AwsPartnercentralAccount : IAwsPartnercentralAccount
     }
 
     /// <summary>
-    /// Lists active connections for the partner account, with optional filter- ing by connection type and participant. See also: AWS API Documentation list-connections is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expre...
+    /// Lists active connections for the partner account, with optional filtering by connection type and participant. See also: AWS API Documentation list-connections is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query express...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -347,7 +347,7 @@ public class AwsPartnercentralAccount : IAwsPartnercentralAccount
     }
 
     /// <summary>
-    /// Lists partner accounts in the catalog, providing a summary view of all partners. See also: AWS API Documentation list-partners is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: PartnerSummaryList
+    /// Lists partner accounts in the catalog, providing a summary view of all partners. See also: AWS API Documentation list-partners is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: PartnerSummaryList
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -422,7 +422,7 @@ public class AwsPartnercentralAccount : IAwsPartnercentralAccount
     }
 
     /// <summary>
-    /// Sends an email verification code to the specified email address for ac- count verification purposes. See also: AWS API Documentation
+    /// Sends an email verification code to the specified email address for account verification purposes. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -452,7 +452,7 @@ public class AwsPartnercentralAccount : IAwsPartnercentralAccount
     }
 
     /// <summary>
-    /// Initiates an asynchronous task to associate your partner qualifications with a primary account. You must be a subsidiary of the primary account with an active subsidiary connection. Use GetQualificationsAssociation- Task to monitor task progress. See also: AWS API Documentation
+    /// Initiates an asynchronous task to associate your partner qualifications with a primary account. You must be a subsidiary of the primary account with an active subsidiary connection. Use GetQualificationsAssociationTask to monitor task progress. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -467,7 +467,7 @@ public class AwsPartnercentralAccount : IAwsPartnercentralAccount
     }
 
     /// <summary>
-    /// Initiates an asynchronous task to disassociate your partner qualifica- tions from a primary account. You must currently be associated and can- not disassociate if you are the primary partner. Use GetQualifications- DisassociationTask to monitor task progress. See also: AWS API Documentation
+    /// Initiates an asynchronous task to disassociate your partner qualifications from a primary account. You must currently be associated and cannot disassociate if you are the primary partner. Use GetQualificationsDisassociationTask to monitor task progress. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -482,7 +482,7 @@ public class AwsPartnercentralAccount : IAwsPartnercentralAccount
     }
 
     /// <summary>
-    /// Initiates a new verification process for a partner account. This opera- tion begins the verification workflow for either business registration or individual registrant identity verification as required by AWS Part- ner Central. See also: AWS API Documentation
+    /// Initiates a new verification process for a partner account. This operation begins the verification workflow for either business registration or individual registrant identity verification as required by AWS Partner Central. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -497,7 +497,7 @@ public class AwsPartnercentralAccount : IAwsPartnercentralAccount
     }
 
     /// <summary>
-    /// Adds or updates tags for a specified AWS Partner Central Account re- source. See also: AWS API Documentation
+    /// Adds or updates tags for a specified AWS Partner Central Account resource. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -527,7 +527,7 @@ public class AwsPartnercentralAccount : IAwsPartnercentralAccount
     }
 
     /// <summary>
-    /// Updates the connection preferences for a partner account, modifying ac- cess settings and exclusions. See also: AWS API Documentation
+    /// Updates the connection preferences for a partner account, modifying access settings and exclusions. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

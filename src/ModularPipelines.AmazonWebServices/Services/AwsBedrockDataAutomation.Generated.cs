@@ -6,15 +6,15 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
+using ModularPipelines;
 using ModularPipelines.Context;
-using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
 namespace ModularPipelines.AmazonWebServices.Services;
 
 /// <summary>
-/// aws bedrockdataautomation commands.
+/// aws bedrock-data-automation commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AwsBedrockDataAutomation : IAwsBedrockDataAutomation
@@ -272,7 +272,7 @@ public class AwsBedrockDataAutomation : IAwsBedrockDataAutomation
     }
 
     /// <summary>
-    /// Lists all existing Amazon Bedrock Data Automation Blueprints See also: AWS API Documentation list-blueprints is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: blueprints
+    /// Lists all existing Amazon Bedrock Data Automation Blueprints See also: AWS API Documentation list-blueprints is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: blueprints
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -287,7 +287,7 @@ public class AwsBedrockDataAutomation : IAwsBedrockDataAutomation
     }
 
     /// <summary>
-    /// Lists all existing Amazon Bedrock Data Automation Libraries See also: AWS API Documentation list-data-automation-libraries is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: libraries
+    /// Lists all existing Amazon Bedrock Data Automation Libraries See also: AWS API Documentation list-data-automation-libraries is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: libraries
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -302,7 +302,7 @@ public class AwsBedrockDataAutomation : IAwsBedrockDataAutomation
     }
 
     /// <summary>
-    /// Lists all stored entities in the library See also: AWS API Documentation list-data-automation-library-entities is a paginated operation. Multi- ple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate ar- gument. When using --output text and the --query argument on a pagi- nated response, the --query argument must extract data from the results of the following query expressions: entities
+    /// Lists all stored entities in the library See also: AWS API Documentation list-data-automation-library-entities is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: entities
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -317,7 +317,7 @@ public class AwsBedrockDataAutomation : IAwsBedrockDataAutomation
     }
 
     /// <summary>
-    /// Lists all data automation library ingestion jobs See also: AWS API Documentation list-data-automation-library-ingestion-jobs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-pagi- nate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the re- sults of the following query expressions: jobs
+    /// Lists all data automation library ingestion jobs See also: AWS API Documentation list-data-automation-library-ingestion-jobs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: jobs
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -332,7 +332,7 @@ public class AwsBedrockDataAutomation : IAwsBedrockDataAutomation
     }
 
     /// <summary>
-    /// Lists all existing Amazon Bedrock Data Automation Projects See also: AWS API Documentation list-data-automation-projects is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: projects
+    /// Lists all existing Amazon Bedrock Data Automation Projects See also: AWS API Documentation list-data-automation-projects is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: projects
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

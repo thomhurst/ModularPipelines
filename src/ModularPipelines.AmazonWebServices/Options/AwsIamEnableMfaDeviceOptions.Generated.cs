@@ -6,10 +6,12 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,10 +29,10 @@ public record AwsIamEnableMfaDeviceOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Enables the specified MFA device and associates it with the specified IAM user. When enabled, the MFA device is required for every subsequent login by the IAM user associated with the device. See also: AWS API Documentation
     /// </summary>
-    /// <param name="UserName">The name of the IAM user for whom you want to enable the MFA device. This parameter allows (through its regex pattern ) a string of char- acters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following charac- ters: _+=,.@- Constraints: o min: 1 o max: 128 o pattern: [\w+=,.@-]+</param>
-    /// <param name="SerialNumber">The serial number that uniquely identifies the MFA device. For vir- tual MFA devices, the serial number is the device ARN. This parameter allows (through its regex pattern ) a string of char- acters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following charac- ters: =,.@:/- Constraints: o min: 9 o max: 256 o pattern: [\w+=/:,.@-]+</param>
-    /// <param name="AuthenticationCode1">An authentication code emitted by the device. The format for this parameter is a string of six digits. WARNING: Submit your request immediately after generating the authentica- tion codes. If you generate the codes and then wait too long to submit the request, the MFA device successfully associates with the user but the MFA device becomes out of sync. This happens because time-based one-time passwords (TOTP) expire after a short period of time. If this happens, you can resync the device . Constraints: o min: 6 o max: 6 o pattern: [\d]+</param>
-    /// <param name="AuthenticationCode2">A subsequent authentication code emitted by the device. The format for this parameter is a string of six digits. WARNING: Submit your request immediately after generating the authentica- tion codes. If you generate the codes and then wait too long to submit the request, the MFA device successfully associates with the user but the MFA device becomes out of sync. This happens because time-based one-time passwords (TOTP) expire after a short period of time. If this happens, you can resync the device . Constraints: o min: 6 o max: 6 o pattern: [\d]+</param>
+    /// <param name="UserName">The name of the IAM user for whom you want to enable the MFA device. This parameter allows (through its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@- Constraints: • min: 1 • max: 128 • pattern: [\w+=,.@-]+</param>
+    /// <param name="SerialNumber">The serial number that uniquely identifies the MFA device. For virtual MFA devices, the serial number is the device ARN. This parameter allows (through its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@:/- Constraints: • min: 9 • max: 256 • pattern: [\w+=/:,.@-]+</param>
+    /// <param name="AuthenticationCode1">An authentication code emitted by the device. The format for this parameter is a string of six digits. WARNING: Submit your request immediately after generating the authentication codes. If you generate the codes and then wait too long to submit the request, the MFA device successfully associates with the user but the MFA device becomes out of sync. This happens because time-based one-time passwords (TOTP) expire after a short period of time. If this happens, you can resync the device . Constraints: • min: 6 • max: 6 • pattern: [\d]+</param>
+    /// <param name="AuthenticationCode2">A subsequent authentication code emitted by the device. The format for this parameter is a string of six digits. WARNING: Submit your request immediately after generating the authentication codes. If you generate the codes and then wait too long to submit the request, the MFA device successfully associates with the user but the MFA device becomes out of sync. This happens because time-based one-time passwords (TOTP) expire after a short period of time. If this happens, you can resync the device . Constraints: • min: 6 • max: 6 • pattern: [\d]+</param>
     public AwsIamEnableMfaDeviceOptions(
         string UserName,
         string SerialNumber,
@@ -68,26 +70,28 @@ public record AwsIamEnableMfaDeviceOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the IAM user for whom you want to enable the MFA device. This parameter allows (through its regex pattern ) a string of char- acters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following charac- ters: _+=,.@- Constraints: o min: 1 o max: 128 o pattern: [\w+=,.@-]+
+    /// The name of the IAM user for whom you want to enable the MFA device. This parameter allows (through its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@- Constraints: • min: 1 • max: 128 • pattern: [\w+=,.@-]+
     /// </summary>
     [CliOption("--user-name")]
     public string? UserName { get; private init; }
 
     /// <summary>
-    /// The serial number that uniquely identifies the MFA device. For vir- tual MFA devices, the serial number is the device ARN. This parameter allows (through its regex pattern ) a string of char- acters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following charac- ters: =,.@:/- Constraints: o min: 9 o max: 256 o pattern: [\w+=/:,.@-]+
+    /// The serial number that uniquely identifies the MFA device. For virtual MFA devices, the serial number is the device ARN. This parameter allows (through its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@:/- Constraints: • min: 9 • max: 256 • pattern: [\w+=/:,.@-]+
     /// </summary>
     [CliOption("--serial-number")]
     public string? SerialNumber { get; private init; }
 
     /// <summary>
-    /// An authentication code emitted by the device. The format for this parameter is a string of six digits. WARNING: Submit your request immediately after generating the authentica- tion codes. If you generate the codes and then wait too long to submit the request, the MFA device successfully associates with the user but the MFA device becomes out of sync. This happens because time-based one-time passwords (TOTP) expire after a short period of time. If this happens, you can resync the device . Constraints: o min: 6 o max: 6 o pattern: [\d]+
+    /// An authentication code emitted by the device. The format for this parameter is a string of six digits. WARNING: Submit your request immediately after generating the authentication codes. If you generate the codes and then wait too long to submit the request, the MFA device successfully associates with the user but the MFA device becomes out of sync. This happens because time-based one-time passwords (TOTP) expire after a short period of time. If this happens, you can resync the device . Constraints: • min: 6 • max: 6 • pattern: [\d]+
     /// </summary>
+    [SecretValue]
     [CliOption("--authentication-code1")]
     public string? AuthenticationCode1 { get; private init; }
 
     /// <summary>
-    /// A subsequent authentication code emitted by the device. The format for this parameter is a string of six digits. WARNING: Submit your request immediately after generating the authentica- tion codes. If you generate the codes and then wait too long to submit the request, the MFA device successfully associates with the user but the MFA device becomes out of sync. This happens because time-based one-time passwords (TOTP) expire after a short period of time. If this happens, you can resync the device . Constraints: o min: 6 o max: 6 o pattern: [\d]+
+    /// A subsequent authentication code emitted by the device. The format for this parameter is a string of six digits. WARNING: Submit your request immediately after generating the authentication codes. If you generate the codes and then wait too long to submit the request, the MFA device successfully associates with the user but the MFA device becomes out of sync. This happens because time-based one-time passwords (TOTP) expire after a short period of time. If this happens, you can resync the device . Constraints: • min: 6 • max: 6 • pattern: [\d]+
     /// </summary>
+    [SecretValue]
     [CliOption("--authentication-code2")]
     public string? AuthenticationCode2 { get; private init; }
 
@@ -112,6 +116,15 @@ public record AwsIamEnableMfaDeviceOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

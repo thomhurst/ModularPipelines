@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes the specified lifecycle policy resource. Deleting the policy removes its schedule, so no further lifecycle runs occur for that pol- icy. If a lifecycle execution is in progress for the policy, Image Builder cancels it. Deletion doesn't revert actions that the policy al- ready applied to your resources. See also: AWS API Documentation
+/// Deletes the specified lifecycle policy resource. Deleting the policy removes its schedule, so no further lifecycle runs occur for that policy. If a lifecycle execution is in progress for the policy, Image Builder cancels it. Deletion doesn't revert actions that the policy already applied to your resources. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsImagebuilderDeleteLifecyclePolicyOptions : AwsOptions, IValidat
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes the specified lifecycle policy resource. Deleting the policy removes its schedule, so no further lifecycle runs occur for that pol- icy. If a lifecycle execution is in progress for the policy, Image Builder cancels it. Deletion doesn't revert actions that the policy al- ready applied to your resources. See also: AWS API Documentation
+    /// Deletes the specified lifecycle policy resource. Deleting the policy removes its schedule, so no further lifecycle runs occur for that policy. If a lifecycle execution is in progress for the policy, Image Builder cancels it. Deletion doesn't revert actions that the policy already applied to your resources. See also: AWS API Documentation
     /// </summary>
-    /// <param name="LifecyclePolicyArn">The Amazon Resource Name (ARN) of the lifecycle policy resource to delete. Constraints: o max: 1024 o pattern: ^arn:aws(?:-[a-z]+)*:image- builder:[a-z]{2,}(?:-[a-z]+)+-[0-9]+:(?:[0-9]{12}|aws):lifecy- cle-policy/[a-z0-9-_]+$</param>
+    /// <param name="LifecyclePolicyArn">The Amazon Resource Name (ARN) of the lifecycle policy resource to delete. Constraints: • max: 1024 • pattern: ^arn:aws(?:-[a-z]+)*:imagebuilder:[a-z]{2,}(?:-[a-z]+)+-[0-9]+:(?:[0-9]{12}|aws):lifecycle-policy/[a-z0-9-_]+$</param>
     public AwsImagebuilderDeleteLifecyclePolicyOptions(
         string LifecyclePolicyArn
     )
@@ -56,7 +57,7 @@ public record AwsImagebuilderDeleteLifecyclePolicyOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the lifecycle policy resource to delete. Constraints: o max: 1024 o pattern: ^arn:aws(?:-[a-z]+)*:image- builder:[a-z]{2,}(?:-[a-z]+)+-[0-9]+:(?:[0-9]{12}|aws):lifecy- cle-policy/[a-z0-9-_]+$
+    /// The Amazon Resource Name (ARN) of the lifecycle policy resource to delete. Constraints: • max: 1024 • pattern: ^arn:aws(?:-[a-z]+)*:imagebuilder:[a-z]{2,}(?:-[a-z]+)+-[0-9]+:(?:[0-9]{12}|aws):lifecycle-policy/[a-z0-9-_]+$
     /// </summary>
     [CliOption("--lifecycle-policy-arn")]
     public string? LifecyclePolicyArn { get; private init; }
@@ -82,6 +83,15 @@ public record AwsImagebuilderDeleteLifecyclePolicyOptions : AwsOptions, IValidat
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

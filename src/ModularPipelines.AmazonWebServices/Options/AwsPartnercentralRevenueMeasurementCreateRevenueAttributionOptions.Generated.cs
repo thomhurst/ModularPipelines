@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -29,9 +30,9 @@ public record AwsPartnercentralRevenueMeasurementCreateRevenueAttributionOptions
     /// <summary>
     /// Creates a new revenue attribution record in the specified catalog. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Catalog">The catalog in which to create the revenue attribution. Possible values: o AWS o Sandbox</param>
-    /// <param name="Name">The name of the revenue attribution. Must be unique within the cata- log and the partner's account. Constraints: o min: 1 o max: 128 o pattern: [\x20-\x7E]+</param>
-    /// <param name="TenancyModel">The tenancy model for this revenue attribution. Possible values: o MULTI_TENANT o SINGLE_TENANT</param>
+    /// <param name="Catalog">The catalog in which to create the revenue attribution. Possible values: • AWS • Sandbox</param>
+    /// <param name="Name">The name of the revenue attribution. Must be unique within the catalog and the partner's account. Constraints: • min: 1 • max: 128 • pattern: [\x20-\x7E]+</param>
+    /// <param name="TenancyModel">The tenancy model for this revenue attribution. Possible values: • MULTI_TENANT • SINGLE_TENANT</param>
     public AwsPartnercentralRevenueMeasurementCreateRevenueAttributionOptions(
         AwsPartnercentralRevenueMeasurementCreateRevenueAttributionCatalog Catalog,
         string Name,
@@ -64,44 +65,44 @@ public record AwsPartnercentralRevenueMeasurementCreateRevenueAttributionOptions
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The catalog in which to create the revenue attribution. Possible values: o AWS o Sandbox
+    /// The catalog in which to create the revenue attribution. Possible values: • AWS • Sandbox
     /// </summary>
     [CliOption("--catalog")]
     public AwsPartnercentralRevenueMeasurementCreateRevenueAttributionCatalog? Catalog { get; private init; }
 
     /// <summary>
-    /// The name of the revenue attribution. Must be unique within the cata- log and the partner's account. Constraints: o min: 1 o max: 128 o pattern: [\x20-\x7E]+
+    /// The name of the revenue attribution. Must be unique within the catalog and the partner's account. Constraints: • min: 1 • max: 128 • pattern: [\x20-\x7E]+
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The tenancy model for this revenue attribution. Possible values: o MULTI_TENANT o SINGLE_TENANT
+    /// The tenancy model for this revenue attribution. Possible values: • MULTI_TENANT • SINGLE_TENANT
     /// </summary>
     [CliOption("--tenancy-model")]
     public AwsPartnercentralRevenueMeasurementCreateRevenueAttributionTenancyModel? TenancyModel { get; private init; }
 
     /// <summary>
-    /// A unique token to ensure idempotency of the create request. Constraints: o min: 1 o max: 64 o pattern: [!-~]{1,64}
+    /// A unique token to ensure idempotency of the create request. Constraints: • min: 1 • max: 64 • pattern: [!-~]{1,64}
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// A description of the revenue attribution. Constraints: o min: 0 o max: 1024 o pattern: [\x20-\x7E]*
+    /// A description of the revenue attribution. Constraints: • min: 0 • max: 1024 • pattern: [\x20-\x7E]*
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The unique product identifier in AWS Marketplace. Accepts a product entity ID (e.g., prod-abc123def4567) or a product ARN. Constraints: o min: 1 o max: 255 o pattern: [\w\-:/.]+
+    /// The unique product identifier in AWS Marketplace. Accepts a product entity ID (e.g., prod-abc123def4567) or a product ARN. Constraints: • min: 1 • max: 255 • pattern: [\w\-:/.]+
     /// </summary>
     [CliOption("--product-identifier")]
     public string? ProductIdentifier { get; set; }
 
     /// <summary>
-    /// Tags to associate with the revenue attribution upon creation. Constraints: o min: 1 o max: 200 (structure) A key-value pair used for organizing and managing resources through metadata tags. Key -&gt; (string) [required] The key portion of the tag. Constraints: o min: 1 o max: 128 o pattern: [^\x00-\x1F\x7F]+ Value -&gt; (string) [required] The value portion of the tag. Constraints: o min: 0 o max: 256 o pattern: [^\x00-\x1F\x7F]* Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// Tags to associate with the revenue attribution upon creation. Constraints: • min: 1 • max: 200 (structure) A key-value pair used for organizing and managing resources through metadata tags. Key -&gt; (string) [required] The key portion of the tag. Constraints: • min: 1 • max: 128 • pattern: [^\x00-\x1F\x7F]+ Value -&gt; (string) [required] The value portion of the tag. Constraints: • min: 0 • max: 256 • pattern: [^\x00-\x1F\x7F]* Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
@@ -127,6 +128,15 @@ public record AwsPartnercentralRevenueMeasurementCreateRevenueAttributionOptions
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

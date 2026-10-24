@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates the configuration of a Lambda function alias . See also: AWS API Documentation
+/// Updates the configuration of a Lambda Event Function alias . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsLambdaUpdateAliasOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates the configuration of a Lambda function alias . See also: AWS API Documentation
+    /// Updates the configuration of a Lambda Event Function alias . See also: AWS API Documentation
     /// </summary>
-    /// <param name="FunctionName">The name or ARN of the Lambda function. Name formats o Function name - MyFunction . o Function ARN - arn:aws:lambda:us-west-2:123456789012:function:My- Function . o Partial ARN - 123456789012:function:MyFunction . The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length. Constraints: o min: 1 o max: 140 o pattern: (arn:(aws[a-zA-Z-]*)?:lambda:)?((eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\d{1}:)?(\d{12}:)?(func- tion:)?([a-zA-Z0-9-_]+)(:(\$LATEST|[a-zA-Z0-9-_]+))?</param>
-    /// <param name="Name">The name of the alias. Constraints: o min: 1 o max: 128 o pattern: (?!^[0-9]+$)([a-zA-Z0-9-_]+)</param>
+    /// <param name="FunctionName">The name or ARN of the Lambda function. Name formats • Function name - MyFunction . • Function ARN - arn:aws:lambda:us-west-2:123456789012:function:MyFunction . • Partial ARN - 123456789012:function:MyFunction . The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length. Constraints: • min: 1 • max: 140 • pattern: (arn:(aws[a-zA-Z-]*)?:lambda:)?((eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\d{1}:)?(\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\$LATEST|[a-zA-Z0-9-_]+))?</param>
+    /// <param name="Name">The name of the alias. Constraints: • min: 1 • max: 128 • pattern: (?!^[0-9]+$)([a-zA-Z0-9-_]+)</param>
     public AwsLambdaUpdateAliasOptions(
         string FunctionName,
         string Name
@@ -60,37 +61,37 @@ public record AwsLambdaUpdateAliasOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name or ARN of the Lambda function. Name formats o Function name - MyFunction . o Function ARN - arn:aws:lambda:us-west-2:123456789012:function:My- Function . o Partial ARN - 123456789012:function:MyFunction . The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length. Constraints: o min: 1 o max: 140 o pattern: (arn:(aws[a-zA-Z-]*)?:lambda:)?((eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\d{1}:)?(\d{12}:)?(func- tion:)?([a-zA-Z0-9-_]+)(:(\$LATEST|[a-zA-Z0-9-_]+))?
+    /// The name or ARN of the Lambda function. Name formats • Function name - MyFunction . • Function ARN - arn:aws:lambda:us-west-2:123456789012:function:MyFunction . • Partial ARN - 123456789012:function:MyFunction . The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length. Constraints: • min: 1 • max: 140 • pattern: (arn:(aws[a-zA-Z-]*)?:lambda:)?((eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\d{1}:)?(\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\$LATEST|[a-zA-Z0-9-_]+))?
     /// </summary>
     [CliOption("--function-name")]
     public string? FunctionName { get; private init; }
 
     /// <summary>
-    /// The name of the alias. Constraints: o min: 1 o max: 128 o pattern: (?!^[0-9]+$)([a-zA-Z0-9-_]+)
+    /// The name of the alias. Constraints: • min: 1 • max: 128 • pattern: (?!^[0-9]+$)([a-zA-Z0-9-_]+)
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The function version that the alias invokes. Constraints: o min: 1 o max: 1024 o pattern: (\$LATEST(\.PUBLISHED)?|[0-9]+)
+    /// The function version that the alias invokes. Constraints: • min: 1 • max: 1024 • pattern: (\$LATEST(\.PUBLISHED)?|[0-9]+)
     /// </summary>
     [CliOption("--function-version")]
     public string? FunctionVersion { get; set; }
 
     /// <summary>
-    /// A description of the alias. Constraints: o min: 0 o max: 256
+    /// A description of the alias. Constraints: • min: 0 • max: 256
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The routing configuration of the alias. AdditionalVersionWeights -&gt; (map) The second version, and the percentage of traffic that's routed to it. key -&gt; (string) Constraints: o min: 1 o max: 1024 o pattern: [0-9]+ value -&gt; (double) Constraints: o min: 0.0 o max: 1.0 Shorthand Syntax: AdditionalVersionWeights={KeyName1=double,KeyName2=double} JSON Syntax: { "AdditionalVersionWeights": {"string": double ...} }
+    /// The routing configuration of the alias. AdditionalVersionWeights -&gt; (map) The second version, and the percentage of traffic that's routed to it. key -&gt; (string) Constraints: • min: 1 • max: 1024 • pattern: [0-9]+ value -&gt; (double) Constraints: • min: 0.0 • max: 1.0 Shorthand Syntax: AdditionalVersionWeights={KeyName1=double,KeyName2=double} JSON Syntax: { "AdditionalVersionWeights": {"string": double ...} }
     /// </summary>
     [CliOption("--routing-config")]
     public string? RoutingConfig { get; set; }
 
     /// <summary>
-    /// Only update the alias if the revision ID matches the ID that's spec- ified. Use this option to avoid modifying an alias that has changed since you last read it.
+    /// Only update the alias if the revision ID matches the ID that's specified. Use this option to avoid modifying an alias that has changed since you last read it.
     /// </summary>
     [CliOption("--revision-id")]
     public string? RevisionId { get; set; }
@@ -116,6 +117,15 @@ public record AwsLambdaUpdateAliasOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

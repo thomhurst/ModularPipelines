@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves a human readable summary for a given entity. At this time, the only supported entity type is delegation-request This method uses a Large Language Model (LLM) to generate the summary. If a delegation request has no owner or owner account, GetHumanRead- ableSummary for that delegation request can be called by any account. If the owner account is assigned but there is no owner id, only identi- ties within that owner account can call GetHumanReadableSummary for the delegation request to re...
+/// Retrieves a human readable summary for a given entity. At this time, the only supported entity type is delegation-request This method uses a Large Language Model (LLM) to generate the summary. If a delegation request has no owner or owner account, GetHumanReadableSummary for that delegation request can be called by any account. If the owner account is assigned but there is no owner id, only identities within that owner account can call GetHumanReadableSummary for the delegation request to retrie...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsIamGetHumanReadableSummaryOptions : AwsOptions, IValidatableObj
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Retrieves a human readable summary for a given entity. At this time, the only supported entity type is delegation-request This method uses a Large Language Model (LLM) to generate the summary. If a delegation request has no owner or owner account, GetHumanRead- ableSummary for that delegation request can be called by any account. If the owner account is assigned but there is no owner id, only identi- ties within that owner account can call GetHumanReadableSummary for the delegation request to re...
+    /// Retrieves a human readable summary for a given entity. At this time, the only supported entity type is delegation-request This method uses a Large Language Model (LLM) to generate the summary. If a delegation request has no owner or owner account, GetHumanReadableSummary for that delegation request can be called by any account. If the owner account is assigned but there is no owner id, only identities within that owner account can call GetHumanReadableSummary for the delegation request to retrie...
     /// </summary>
-    /// <param name="EntityArn">Arn of the entity to be summarized. At this time, the only supported entity type is delegation-request Constraints: o min: 20 o max: 2048</param>
+    /// <param name="EntityArn">Arn of the entity to be summarized. At this time, the only supported entity type is delegation-request Constraints: • min: 20 • max: 2048</param>
     public AwsIamGetHumanReadableSummaryOptions(
         string EntityArn
     )
@@ -56,13 +57,13 @@ public record AwsIamGetHumanReadableSummaryOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Arn of the entity to be summarized. At this time, the only supported entity type is delegation-request Constraints: o min: 20 o max: 2048
+    /// Arn of the entity to be summarized. At this time, the only supported entity type is delegation-request Constraints: • min: 20 • max: 2048
     /// </summary>
     [CliOption("--entity-arn")]
     public string? EntityArn { get; private init; }
 
     /// <summary>
-    /// A string representing the locale to use for the summary generation. The supported locale strings are based on the Supported languages of the Amazon Web Services Management Console . Constraints: o min: 2 o max: 12
+    /// A string representing the locale to use for the summary generation. The supported locale strings are based on the Supported languages of the Amazon Web Services Management Console . Constraints: • min: 2 • max: 12
     /// </summary>
     [CliOption("--locale")]
     public string? Locale { get; set; }
@@ -88,6 +89,15 @@ public record AwsIamGetHumanReadableSummaryOptions : AwsOptions, IValidatableObj
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

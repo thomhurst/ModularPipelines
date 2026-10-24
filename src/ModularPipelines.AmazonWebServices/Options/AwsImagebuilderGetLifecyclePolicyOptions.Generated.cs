@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsImagebuilderGetLifecyclePolicyOptions : AwsOptions, IValidatabl
     /// <summary>
     /// Retrieves details for the specified image lifecycle policy. See also: AWS API Documentation
     /// </summary>
-    /// <param name="LifecyclePolicyArn">Specifies the Amazon Resource Name (ARN) of the image lifecycle pol- icy resource to get. Constraints: o max: 1024 o pattern: ^arn:aws(?:-[a-z]+)*:image- builder:[a-z]{2,}(?:-[a-z]+)+-[0-9]+:(?:[0-9]{12}|aws):lifecy- cle-policy/[a-z0-9-_]+$</param>
+    /// <param name="LifecyclePolicyArn">Specifies the Amazon Resource Name (ARN) of the image lifecycle policy resource to get. Constraints: • max: 1024 • pattern: ^arn:aws(?:-[a-z]+)*:imagebuilder:[a-z]{2,}(?:-[a-z]+)+-[0-9]+:(?:[0-9]{12}|aws):lifecycle-policy/[a-z0-9-_]+$</param>
     public AwsImagebuilderGetLifecyclePolicyOptions(
         string LifecyclePolicyArn
     )
@@ -56,7 +57,7 @@ public record AwsImagebuilderGetLifecyclePolicyOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Specifies the Amazon Resource Name (ARN) of the image lifecycle pol- icy resource to get. Constraints: o max: 1024 o pattern: ^arn:aws(?:-[a-z]+)*:image- builder:[a-z]{2,}(?:-[a-z]+)+-[0-9]+:(?:[0-9]{12}|aws):lifecy- cle-policy/[a-z0-9-_]+$
+    /// Specifies the Amazon Resource Name (ARN) of the image lifecycle policy resource to get. Constraints: • max: 1024 • pattern: ^arn:aws(?:-[a-z]+)*:imagebuilder:[a-z]{2,}(?:-[a-z]+)+-[0-9]+:(?:[0-9]{12}|aws):lifecycle-policy/[a-z0-9-_]+$
     /// </summary>
     [CliOption("--lifecycle-policy-arn")]
     public string? LifecyclePolicyArn { get; private init; }
@@ -82,6 +83,15 @@ public record AwsImagebuilderGetLifecyclePolicyOptions : AwsOptions, IValidatabl
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

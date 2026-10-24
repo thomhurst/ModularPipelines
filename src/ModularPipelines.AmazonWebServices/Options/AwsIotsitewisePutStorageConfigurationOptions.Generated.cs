@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,7 +29,7 @@ public record AwsIotsitewisePutStorageConfigurationOptions : AwsOptions, IValida
     /// <summary>
     /// Configures storage settings for IoT SiteWise. See also: AWS API Documentation
     /// </summary>
-    /// <param name="StorageType">The storage tier that you specified for your data. The storageType parameter can be one of the following values: o SITEWISE_DEFAULT_STORAGE IoT SiteWise saves your data into the hot tier. The hot tier is a service-managed database. o MULTI_LAYER_STORAGE IoT SiteWise saves your data in both the cold tier and the hot tier. The cold tier is a customer-managed Amazon S3 bucket. Possible values: o SITEWISE_DEFAULT_STORAGE o MULTI_LAYER_STORAGE</param>
+    /// <param name="StorageType">The storage tier that you specified for your data. The storageType parameter can be one of the following values: • SITEWISE_DEFAULT_STORAGE IoT SiteWise saves your data into the hot tier. The hot tier is a service-managed database. • MULTI_LAYER_STORAGE IoT SiteWise saves your data in both the cold tier and the hot tier. The cold tier is a customer-managed Amazon S3 bucket. Possible values: • SITEWISE_DEFAULT_STORAGE • MULTI_LAYER_STORAGE</param>
     public AwsIotsitewisePutStorageConfigurationOptions(
         AwsIotsitewisePutStorageConfigurationStorageType StorageType
     )
@@ -56,19 +57,19 @@ public record AwsIotsitewisePutStorageConfigurationOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The storage tier that you specified for your data. The storageType parameter can be one of the following values: o SITEWISE_DEFAULT_STORAGE IoT SiteWise saves your data into the hot tier. The hot tier is a service-managed database. o MULTI_LAYER_STORAGE IoT SiteWise saves your data in both the cold tier and the hot tier. The cold tier is a customer-managed Amazon S3 bucket. Possible values: o SITEWISE_DEFAULT_STORAGE o MULTI_LAYER_STORAGE
+    /// The storage tier that you specified for your data. The storageType parameter can be one of the following values: • SITEWISE_DEFAULT_STORAGE IoT SiteWise saves your data into the hot tier. The hot tier is a service-managed database. • MULTI_LAYER_STORAGE IoT SiteWise saves your data in both the cold tier and the hot tier. The cold tier is a customer-managed Amazon S3 bucket. Possible values: • SITEWISE_DEFAULT_STORAGE • MULTI_LAYER_STORAGE
     /// </summary>
     [CliOption("--storage-type")]
     public AwsIotsitewisePutStorageConfigurationStorageType? StorageType { get; private init; }
 
     /// <summary>
-    /// Identifies a storage destination. If you specified MULTI_LAYER_STOR- AGE for the storage type, you must specify a MultiLayerStorage ob- ject. customerManagedS3Storage -&gt; (structure) [required] Contains information about a customer managed Amazon S3 bucket. s3ResourceArn -&gt; (string) [required] The ARN of the Amazon S3 object. For more information about how to find the ARN for an Amazon S3 object, see Amazon S3 resources in the Amazon Simple Storage Service User Guide . Constraints: o min: 1 o max: 1600 o pattern: ^arn:aws(-cn|-us-gov)?:[a-zA-Z0-9-:\/_\.]+$ roleArn -&gt; (string) [required] The ARN of the Identity and Access Management role that al- lows IoT SiteWise to send data to Amazon S3. Constraints: o min: 1 o max: 1600 o pattern: ^arn:aws(-cn|-us-gov)?:[a-zA-Z0-9-:\/_\.]+$ Shorthand Syntax: customerManagedS3Storage={s3ResourceArn=string,roleArn=string} JSON Syntax: { "customerManagedS3Storage": { "s3ResourceArn": "string", "roleArn": "string" } }
+    /// Identifies a storage destination. If you specified MULTI_LAYER_STORAGE for the storage type, you must specify a MultiLayerStorage object. customerManagedS3Storage -&gt; (structure) [required] Contains information about a customer managed Amazon S3 bucket. s3ResourceArn -&gt; (string) [required] The ARN of the Amazon S3 object. For more information about how to find the ARN for an Amazon S3 object, see Amazon S3 resources in the Amazon Simple Storage Service User Guide . Constraints: • min: 1 • max: 1600 • pattern: ^arn:aws(-cn|-us-gov)?:[a-zA-Z0-9-:\/_\.]+$ roleArn -&gt; (string) [required] The ARN of the Identity and Access Management role that allows IoT SiteWise to send data to Amazon S3. Constraints: • min: 1 • max: 1600 • pattern: ^arn:aws(-cn|-us-gov)?:[a-zA-Z0-9-:\/_\.]+$ Shorthand Syntax: customerManagedS3Storage={s3ResourceArn=string,roleArn=string} JSON Syntax: { "customerManagedS3Storage": { "s3ResourceArn": "string", "roleArn": "string" } }
     /// </summary>
     [CliOption("--multi-layer-storage")]
     public string? MultiLayerStorage { get; set; }
 
     /// <summary>
-    /// Contains the storage configuration for time series (data streams) that aren't associated with asset properties. The disassociated- DataStorage can be one of the following values: o ENABLED IoT SiteWise accepts time series that aren't associated with asset properties. WARNING: After the disassociatedDataStorage is enabled, you can't disable it. o DISABLED IoT SiteWise doesn't accept time series (data streams) that aren't associated with asset properties. For more information, see Data streams in the IoT SiteWise User Guide . Possible values: o ENABLED o DISABLED
+    /// Contains the storage configuration for time series (data streams) that aren't associated with asset properties. The disassociatedDataStorage can be one of the following values: • ENABLED IoT SiteWise accepts time series that aren't associated with asset properties. WARNING: After the disassociatedDataStorage is enabled, you can't disable it. • DISABLED IoT SiteWise doesn't accept time series (data streams) that aren't associated with asset properties. For more information, see Data streams in the IoT SiteWise User Guide . Possible values: • ENABLED • DISABLED
     /// </summary>
     [CliOption("--disassociated-data-storage")]
     public AwsIotsitewisePutStorageConfigurationDisassociatedDataStorage? DisassociatedDataStorage { get; set; }
@@ -80,19 +81,19 @@ public record AwsIotsitewisePutStorageConfigurationOptions : AwsOptions, IValida
     public string? RetentionPeriod { get; set; }
 
     /// <summary>
-    /// A service managed storage tier optimized for analytical queries. It stores periodically uploaded, buffered and historical data ingested with the CreaeBulkImportJob API. Possible values: o ENABLED o DISABLED
+    /// A service managed storage tier optimized for analytical queries. It stores periodically uploaded, buffered and historical data ingested with the CreaeBulkImportJob API. Possible values: • ENABLED • DISABLED
     /// </summary>
     [CliOption("--warm-tier")]
     public AwsIotsitewisePutStorageConfigurationWarmTier? WarmTier { get; set; }
 
     /// <summary>
-    /// Set this period to specify how long your data is stored in the warm tier before it is deleted. You can set this only if cold tier is en- abled. numberOfDays -&gt; (integer) The number of days the data is stored in the warm tier. unlimited -&gt; (boolean) If set to true, the data is stored indefinitely in the warm tier. Shorthand Syntax: numberOfDays=integer,unlimited=boolean JSON Syntax: { "numberOfDays": integer, "unlimited": true|false }
+    /// Set this period to specify how long your data is stored in the warm tier before it is deleted. You can set this only if cold tier is enabled. numberOfDays -&gt; (integer) The number of days the data is stored in the warm tier. unlimited -&gt; (boolean) If set to true, the data is stored indefinitely in the warm tier. Shorthand Syntax: numberOfDays=integer,unlimited=boolean JSON Syntax: { "numberOfDays": integer, "unlimited": true|false }
     /// </summary>
     [CliOption("--warm-tier-retention-period")]
     public string? WarmTierRetentionPeriod { get; set; }
 
     /// <summary>
-    /// Describes the configuration for ingesting NULL and NaN data. By de- fault the feature is allowed. The feature is disallowed if the value is true .
+    /// Describes the configuration for ingesting NULL and NaN data. By default the feature is allowed. The feature is disallowed if the value is true .
     /// </summary>
     [CliFlag("--disallow-ingest-null-na-n", NegatedName = "--no-disallow-ingest-null-na-n")]
     public bool? DisallowIngestNullNaN { get; set; }
@@ -118,6 +119,15 @@ public record AwsIotsitewisePutStorageConfigurationOptions : AwsOptions, IValida
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

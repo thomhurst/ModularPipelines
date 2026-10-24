@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Delete a review template share. After the review template share is deleted, Amazon Web Services ac- counts, users, organizations, and organizational units (OUs) that you shared the review template with will no longer be able to apply it to new workloads. See also: AWS API Documentation
+/// Delete a review template share. After the review template share is deleted, Amazon Web Services accounts, users, organizations, and organizational units (OUs) that you shared the review template with will no longer be able to apply it to new workloads. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +27,10 @@ public record AwsWellarchitectedDeleteTemplateShareOptions : AwsOptions, IValida
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Delete a review template share. After the review template share is deleted, Amazon Web Services ac- counts, users, organizations, and organizational units (OUs) that you shared the review template with will no longer be able to apply it to new workloads. See also: AWS API Documentation
+    /// Delete a review template share. After the review template share is deleted, Amazon Web Services accounts, users, organizations, and organizational units (OUs) that you shared the review template with will no longer be able to apply it to new workloads. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ShareId">The ID associated with the share. Constraints: o pattern: [0-9a-f]{32}</param>
-    /// <param name="TemplateArn">The review template ARN. Constraints: o min: 50 o max: 250 o pattern: arn:aws(-us-gov|-iso(-[a-z])?|-cn)?:wellarchi- tected:[a-z]{2}(-gov|-iso([a-z])?)?-[a-z]+-\d:\d{12}:(review-tem- plate)/[a-f0-9]{32}</param>
+    /// <param name="ShareId">The ID associated with the share. Constraints: • pattern: [0-9a-f]{32}</param>
+    /// <param name="TemplateArn">The review template ARN. Constraints: • min: 50 • max: 250 • pattern: arn:aws(-us-gov|-iso(-[a-z])?|-cn)?:wellarchitected:[a-z]{2}(-gov|-iso([a-z])?)?-[a-z]+-\d:\d{12}:(review-template)/[a-f0-9]{32}</param>
     public AwsWellarchitectedDeleteTemplateShareOptions(
         string ShareId,
         string TemplateArn
@@ -61,19 +62,19 @@ public record AwsWellarchitectedDeleteTemplateShareOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID associated with the share. Constraints: o pattern: [0-9a-f]{32}
+    /// The ID associated with the share. Constraints: • pattern: [0-9a-f]{32}
     /// </summary>
     [CliOption("--share-id")]
     public string? ShareId { get; private init; }
 
     /// <summary>
-    /// The review template ARN. Constraints: o min: 50 o max: 250 o pattern: arn:aws(-us-gov|-iso(-[a-z])?|-cn)?:wellarchi- tected:[a-z]{2}(-gov|-iso([a-z])?)?-[a-z]+-\d:\d{12}:(review-tem- plate)/[a-f0-9]{32}
+    /// The review template ARN. Constraints: • min: 50 • max: 250 • pattern: arn:aws(-us-gov|-iso(-[a-z])?|-cn)?:wellarchitected:[a-z]{2}(-gov|-iso([a-z])?)?-[a-z]+-\d:\d{12}:(review-template)/[a-f0-9]{32}
     /// </summary>
     [CliOption("--template-arn")]
     public string? TemplateArn { get; private init; }
 
     /// <summary>
-    /// A unique case-sensitive string used to ensure that this request is idempotent (executes only once). You should not reuse the same token for other requests. If you retry a request with the same client request token and the same parameters after the original request has completed successfully, the result of the original request is returned. WARNING: This token is listed as required, however, if you do not specify it, the Amazon Web Services SDKs automatically generate one for you. If you are not using the Amazon Web Services SDK or the CLI, you must provide this token or the request will fail. Constraints: o min: 1 o max: 2048 o pattern: [\x00-\x7F]*
+    /// A unique case-sensitive string used to ensure that this request is idempotent (executes only once). You should not reuse the same token for other requests. If you retry a request with the same client request token and the same parameters after the original request has completed successfully, the result of the original request is returned. WARNING: This token is listed as required, however, if you do not specify it, the Amazon Web Services SDKs automatically generate one for you. If you are not using the Amazon Web Services SDK or the CLI, you must provide this token or the request will fail. Constraints: • min: 1 • max: 2048 • pattern: [\x00-\x7F]*
     /// </summary>
     [SecretValue]
     [CliOption("--client-request-token")]
@@ -100,6 +101,15 @@ public record AwsWellarchitectedDeleteTemplateShareOptions : AwsOptions, IValida
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -29,11 +30,11 @@ public record AwsBedrockDataAutomationInvokeDataAutomationLibraryIngestionJobOpt
     /// <summary>
     /// Async API: Invoke data automation library ingestion job See also: AWS API Documentation
     /// </summary>
-    /// <param name="LibraryArn">ARN generated at the server side when a DataAutomationLibrary is created Constraints: o min: 0 o max: 128 o pattern: arn:aws(|-cn|-iso|-iso-[a-z]|-us-gov):bedrock:[a-zA-Z0-9-]*:[0-9]{12}:data-au- tomation-library/[a-zA-Z0-9-]{12,36}</param>
-    /// <param name="InputConfiguration">Input configuration of DataAutomationLibraryIngestionJob request s3Object -&gt; (structure) S3 object s3Uri -&gt; (string) [required] S3 uri. Constraints: o min: 1 o max: 1024 o pattern: s3://[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9](/.*)? version -&gt; (string) S3 object version. Constraints: o min: 1 o max: 1024 inlinePayload -&gt; (tagged union structure) Input Payload NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: upsertEntitiesInfo, deleteEnti- tiesInfo. upsertEntitiesInfo -&gt; (list) List of UpsertEntityInfo for upserting data in a DataAutoma- tionLibraryIngestionJob Constraints: o min: 1 o max: 10 (tagged union structure) Input configuration for upserting data in a DataAutoma- tionLibraryIngestionJob NOTE: This is a Tagged Union structure. Only one of the fol- lowing top level keys can be set: vocabulary. vocabulary -&gt; (structure) Vocabulary entity info with detailed information entityId -&gt; (string) Unique identifier for the entity Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9-_]+ description -&gt; (string) Description of the entity Constraints: o min: 0 o max: 300 o pattern: [a-zA-Z0-9\s!"\#\$%'&amp;\(\)\*\+\,\-\./:;=\?-----]*\^_`\{\|\}~&gt;&lt;-- language -&gt; (string) [required] Supported input languages Possible values: o EN o DE o ES o FR o IT o PT o JA o KO o CN o TW o HK phrases -&gt; (list) [required] List of phrases Constraints: o min: 1 (structure) Phrase structure for vocabulary text -&gt; (string) [required] Text content of the phrase Constraints: o min: 1 o max: 256 o pattern: .*.+.* displayAsText -&gt; (string) Text to configure how phrase is displayed in Transcript Constraints: o min: 1 o max: 256 o pattern: .*.+.* deleteEntitiesInfo -&gt; (structure) Input for entities needed to be deleted entityIds -&gt; (list) [required] List of EntityId Constraints: o min: 1 o max: 1000 (string) Unique identifier for the entity Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9-_]+ JSON Syntax: { "s3Object": { "s3Uri": "string", "version": "string" }, "inlinePayload": { "upsertEntitiesInfo": [ { "vocabulary": { "entityId": "string", "description": "string", "language": "EN"|"DE"|"ES"|"FR"|"IT"|"PT"|"JA"|"KO"|"CN"|"TW"|"HK", "phrases": [ { "text": "string", "displayAsText": "string" } ... ] } } ... ], "deleteEntitiesInfo": { "entityIds": ["string", ...] } } }</param>
-    /// <param name="EntityType">The entity type for which DataAutomationLibraryIngestionJob is being run Possible values: o VOCABULARY</param>
-    /// <param name="OperationType">The operation to be performed by DataAutomationLibraryIngestionJob Possible values: o UPSERT o DELETE</param>
-    /// <param name="OutputConfiguration">Output configuration of DataAutomationLibraryIngestionJob s3Uri -&gt; (string) [required] S3 Uri Constraints: o min: 1 o max: 1024 o pattern: s3://[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9](/.*)? Shorthand Syntax: s3Uri=string JSON Syntax: { "s3Uri": "string" }</param>
+    /// <param name="LibraryArn">ARN generated at the server side when a DataAutomationLibrary is created Constraints: • min: 0 • max: 128 • pattern: arn:aws(|-cn|-iso|-iso-[a-z]|-us-gov):bedrock:[a-zA-Z0-9-]*:[0-9]{12}:data-automation-library/[a-zA-Z0-9-]{12,36}</param>
+    /// <param name="InputConfiguration">Input configuration of DataAutomationLibraryIngestionJob request s3Object -&gt; (structure) S3 object s3Uri -&gt; (string) [required] S3 uri. Constraints: • min: 1 • max: 1024 • pattern: s3://[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9](/.*)? version -&gt; (string) S3 object version. Constraints: • min: 1 • max: 1024 inlinePayload -&gt; (tagged union structure) Input Payload NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: upsertEntitiesInfo, deleteEntitiesInfo. upsertEntitiesInfo -&gt; (list) List of UpsertEntityInfo for upserting data in a DataAutomationLibraryIngestionJob Constraints: • min: 1 • max: 10 (tagged union structure) Input configuration for upserting data in a DataAutomationLibraryIngestionJob NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: vocabulary. vocabulary -&gt; (structure) Vocabulary entity info with detailed information entityId -&gt; (string) Unique identifier for the entity Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9-_]+ description -&gt; (string) Description of the entity Constraints: • min: 0 • max: 300 • pattern: [a-zA-Z0-9\s!"\#\$%'&amp;\(\)\*\+\,\-\./:;=\?@\[\\\]\^_`\{\|\}~&gt;&lt;-- -----]* language -&gt; (string) [required] Supported input languages Possible values: • EN • DE • ES • FR • IT • PT • JA • KO • CN • TW • HK phrases -&gt; (list) [required] List of phrases Constraints: • min: 1 (structure) Phrase structure for vocabulary text -&gt; (string) [required] Text content of the phrase Constraints: • min: 1 • max: 256 • pattern: .*.+.* displayAsText -&gt; (string) Text to configure how phrase is displayed in Transcript Constraints: • min: 1 • max: 256 • pattern: .*.+.* deleteEntitiesInfo -&gt; (structure) Input for entities needed to be deleted entityIds -&gt; (list) [required] List of EntityId Constraints: • min: 1 • max: 1000 (string) Unique identifier for the entity Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9-_]+ JSON Syntax: { "s3Object": { "s3Uri": "string", "version": "string" }, "inlinePayload": { "upsertEntitiesInfo": [ { "vocabulary": { "entityId": "string", "description": "string", "language": "EN"|"DE"|"ES"|"FR"|"IT"|"PT"|"JA"|"KO"|"CN"|"TW"|"HK", "phrases": [ { "text": "string", "displayAsText": "string" } ... ] } } ... ], "deleteEntitiesInfo": { "entityIds": ["string", ...] } } }</param>
+    /// <param name="EntityType">The entity type for which DataAutomationLibraryIngestionJob is being run Possible values: • VOCABULARY</param>
+    /// <param name="OperationType">The operation to be performed by DataAutomationLibraryIngestionJob Possible values: • UPSERT • DELETE</param>
+    /// <param name="OutputConfiguration">Output configuration of DataAutomationLibraryIngestionJob s3Uri -&gt; (string) [required] S3 Uri Constraints: • min: 1 • max: 1024 • pattern: s3://[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9](/.*)? Shorthand Syntax: s3Uri=string JSON Syntax: { "s3Uri": "string" }</param>
     public AwsBedrockDataAutomationInvokeDataAutomationLibraryIngestionJobOptions(
         string LibraryArn,
         string InputConfiguration,
@@ -73,37 +74,37 @@ public record AwsBedrockDataAutomationInvokeDataAutomationLibraryIngestionJobOpt
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// ARN generated at the server side when a DataAutomationLibrary is created Constraints: o min: 0 o max: 128 o pattern: arn:aws(|-cn|-iso|-iso-[a-z]|-us-gov):bedrock:[a-zA-Z0-9-]*:[0-9]{12}:data-au- tomation-library/[a-zA-Z0-9-]{12,36}
+    /// ARN generated at the server side when a DataAutomationLibrary is created Constraints: • min: 0 • max: 128 • pattern: arn:aws(|-cn|-iso|-iso-[a-z]|-us-gov):bedrock:[a-zA-Z0-9-]*:[0-9]{12}:data-automation-library/[a-zA-Z0-9-]{12,36}
     /// </summary>
     [CliOption("--library-arn")]
     public string? LibraryArn { get; private init; }
 
     /// <summary>
-    /// Input configuration of DataAutomationLibraryIngestionJob request s3Object -&gt; (structure) S3 object s3Uri -&gt; (string) [required] S3 uri. Constraints: o min: 1 o max: 1024 o pattern: s3://[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9](/.*)? version -&gt; (string) S3 object version. Constraints: o min: 1 o max: 1024 inlinePayload -&gt; (tagged union structure) Input Payload NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: upsertEntitiesInfo, deleteEnti- tiesInfo. upsertEntitiesInfo -&gt; (list) List of UpsertEntityInfo for upserting data in a DataAutoma- tionLibraryIngestionJob Constraints: o min: 1 o max: 10 (tagged union structure) Input configuration for upserting data in a DataAutoma- tionLibraryIngestionJob NOTE: This is a Tagged Union structure. Only one of the fol- lowing top level keys can be set: vocabulary. vocabulary -&gt; (structure) Vocabulary entity info with detailed information entityId -&gt; (string) Unique identifier for the entity Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9-_]+ description -&gt; (string) Description of the entity Constraints: o min: 0 o max: 300 o pattern: [a-zA-Z0-9\s!"\#\$%'&amp;\(\)\*\+\,\-\./:;=\?-----]*\^_`\{\|\}~&gt;&lt;-- language -&gt; (string) [required] Supported input languages Possible values: o EN o DE o ES o FR o IT o PT o JA o KO o CN o TW o HK phrases -&gt; (list) [required] List of phrases Constraints: o min: 1 (structure) Phrase structure for vocabulary text -&gt; (string) [required] Text content of the phrase Constraints: o min: 1 o max: 256 o pattern: .*.+.* displayAsText -&gt; (string) Text to configure how phrase is displayed in Transcript Constraints: o min: 1 o max: 256 o pattern: .*.+.* deleteEntitiesInfo -&gt; (structure) Input for entities needed to be deleted entityIds -&gt; (list) [required] List of EntityId Constraints: o min: 1 o max: 1000 (string) Unique identifier for the entity Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9-_]+ JSON Syntax: { "s3Object": { "s3Uri": "string", "version": "string" }, "inlinePayload": { "upsertEntitiesInfo": [ { "vocabulary": { "entityId": "string", "description": "string", "language": "EN"|"DE"|"ES"|"FR"|"IT"|"PT"|"JA"|"KO"|"CN"|"TW"|"HK", "phrases": [ { "text": "string", "displayAsText": "string" } ... ] } } ... ], "deleteEntitiesInfo": { "entityIds": ["string", ...] } } }
+    /// Input configuration of DataAutomationLibraryIngestionJob request s3Object -&gt; (structure) S3 object s3Uri -&gt; (string) [required] S3 uri. Constraints: • min: 1 • max: 1024 • pattern: s3://[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9](/.*)? version -&gt; (string) S3 object version. Constraints: • min: 1 • max: 1024 inlinePayload -&gt; (tagged union structure) Input Payload NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: upsertEntitiesInfo, deleteEntitiesInfo. upsertEntitiesInfo -&gt; (list) List of UpsertEntityInfo for upserting data in a DataAutomationLibraryIngestionJob Constraints: • min: 1 • max: 10 (tagged union structure) Input configuration for upserting data in a DataAutomationLibraryIngestionJob NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: vocabulary. vocabulary -&gt; (structure) Vocabulary entity info with detailed information entityId -&gt; (string) Unique identifier for the entity Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9-_]+ description -&gt; (string) Description of the entity Constraints: • min: 0 • max: 300 • pattern: [a-zA-Z0-9\s!"\#\$%'&amp;\(\)\*\+\,\-\./:;=\?@\[\\\]\^_`\{\|\}~&gt;&lt;-- -----]* language -&gt; (string) [required] Supported input languages Possible values: • EN • DE • ES • FR • IT • PT • JA • KO • CN • TW • HK phrases -&gt; (list) [required] List of phrases Constraints: • min: 1 (structure) Phrase structure for vocabulary text -&gt; (string) [required] Text content of the phrase Constraints: • min: 1 • max: 256 • pattern: .*.+.* displayAsText -&gt; (string) Text to configure how phrase is displayed in Transcript Constraints: • min: 1 • max: 256 • pattern: .*.+.* deleteEntitiesInfo -&gt; (structure) Input for entities needed to be deleted entityIds -&gt; (list) [required] List of EntityId Constraints: • min: 1 • max: 1000 (string) Unique identifier for the entity Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9-_]+ JSON Syntax: { "s3Object": { "s3Uri": "string", "version": "string" }, "inlinePayload": { "upsertEntitiesInfo": [ { "vocabulary": { "entityId": "string", "description": "string", "language": "EN"|"DE"|"ES"|"FR"|"IT"|"PT"|"JA"|"KO"|"CN"|"TW"|"HK", "phrases": [ { "text": "string", "displayAsText": "string" } ... ] } } ... ], "deleteEntitiesInfo": { "entityIds": ["string", ...] } } }
     /// </summary>
     [CliOption("--input-configuration")]
     public string? InputConfiguration { get; private init; }
 
     /// <summary>
-    /// The entity type for which DataAutomationLibraryIngestionJob is being run Possible values: o VOCABULARY
+    /// The entity type for which DataAutomationLibraryIngestionJob is being run Possible values: • VOCABULARY
     /// </summary>
     [CliOption("--entity-type")]
     public string? EntityType { get; private init; }
 
     /// <summary>
-    /// The operation to be performed by DataAutomationLibraryIngestionJob Possible values: o UPSERT o DELETE
+    /// The operation to be performed by DataAutomationLibraryIngestionJob Possible values: • UPSERT • DELETE
     /// </summary>
     [CliOption("--operation-type")]
     public AwsBedrockDataAutomationInvokeDataAutomationLibraryIngestionJobOperationType? OperationType { get; private init; }
 
     /// <summary>
-    /// Output configuration of DataAutomationLibraryIngestionJob s3Uri -&gt; (string) [required] S3 Uri Constraints: o min: 1 o max: 1024 o pattern: s3://[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9](/.*)? Shorthand Syntax: s3Uri=string JSON Syntax: { "s3Uri": "string" }
+    /// Output configuration of DataAutomationLibraryIngestionJob s3Uri -&gt; (string) [required] S3 Uri Constraints: • min: 1 • max: 1024 • pattern: s3://[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9](/.*)? Shorthand Syntax: s3Uri=string JSON Syntax: { "s3Uri": "string" }
     /// </summary>
     [CliOption("--output-configuration")]
     public string? OutputConfiguration { get; private init; }
 
     /// <summary>
-    /// Idempotency token Constraints: o min: 33 o max: 256 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,256}
+    /// Idempotency token Constraints: • min: 33 • max: 256 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,256}
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
@@ -116,7 +117,7 @@ public record AwsBedrockDataAutomationInvokeDataAutomationLibraryIngestionJobOpt
     public string? NotificationConfiguration { get; set; }
 
     /// <summary>
-    /// List of tags Constraints: o min: 0 o max: 200 (structure) Key value pair of a tag key -&gt; (string) [required] Defines the context of the tag. Constraints: o min: 1 o max: 128 value -&gt; (string) [required] Defines the value within the context. e.g. &lt;key=reason, value=training&gt;. Constraints: o min: 0 o max: 256 Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
+    /// List of tags Constraints: • min: 0 • max: 200 (structure) Key value pair of a tag key -&gt; (string) [required] Defines the context of the tag. Constraints: • min: 1 • max: 128 value -&gt; (string) [required] Defines the value within the context. e.g. &lt;key=reason, value=training&gt;. Constraints: • min: 0 • max: 256 Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
@@ -142,6 +143,15 @@ public record AwsBedrockDataAutomationInvokeDataAutomationLibraryIngestionJobOpt
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Initiates a trace retrieval process using the specified time range and for the given trace IDs in the Transaction Search generated CloudWatch log group. For more information, see Transaction Search . API returns a RetrievalToken , which can be used with ListRetrieved- Traces or GetRetrievedTracesGraph to fetch results. Retrievals will time out after 60 minutes. To execute long time ranges, consider seg- menting into multiple retrievals. If you are using CloudWatch cross-account observability , y...
+/// Initiates a trace retrieval process using the specified time range and for the given trace IDs in the Transaction Search generated CloudWatch log group. For more information, see Transaction Search . API returns a RetrievalToken , which can be used with ListRetrievedTraces or GetRetrievedTracesGraph to fetch results. Retrievals will time out after 60 minutes. To execute long time ranges, consider segmenting into multiple retrievals. If you are using CloudWatch cross-account observability , you c...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,11 +26,11 @@ public record AwsXrayStartTraceRetrievalOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Initiates a trace retrieval process using the specified time range and for the given trace IDs in the Transaction Search generated CloudWatch log group. For more information, see Transaction Search . API returns a RetrievalToken , which can be used with ListRetrieved- Traces or GetRetrievedTracesGraph to fetch results. Retrievals will time out after 60 minutes. To execute long time ranges, consider seg- menting into multiple retrievals. If you are using CloudWatch cross-account observability , y...
+    /// Initiates a trace retrieval process using the specified time range and for the given trace IDs in the Transaction Search generated CloudWatch log group. For more information, see Transaction Search . API returns a RetrievalToken , which can be used with ListRetrievedTraces or GetRetrievedTracesGraph to fetch results. Retrievals will time out after 60 minutes. To execute long time ranges, consider segmenting into multiple retrievals. If you are using CloudWatch cross-account observability , you c...
     /// </summary>
-    /// <param name="TraceIds">Specify the trace IDs of the traces to be retrieved. Constraints: o min: 0 o max: 100 (string) Constraints: o min: 1 o max: 35 Syntax: "string" "string" ...</param>
-    /// <param name="StartTime">The start of the time range to retrieve traces. The range is inclu- sive, so the specified start time is included in the query. Speci- fied as epoch time, the number of seconds since January 1, 1970, 00:00:00 UTC.</param>
-    /// <param name="EndTime">The end of the time range to retrieve traces. The range is inclu- sive, so the specified end time is included in the query. Specified as epoch time, the number of seconds since January 1, 1970, 00:00:00 UTC.</param>
+    /// <param name="TraceIds">Specify the trace IDs of the traces to be retrieved. Constraints: • min: 0 • max: 100 (string) Constraints: • min: 1 • max: 35 Syntax: "string" "string" ...</param>
+    /// <param name="StartTime">The start of the time range to retrieve traces. The range is inclusive, so the specified start time is included in the query. Specified as epoch time, the number of seconds since January 1, 1970, 00:00:00 UTC.</param>
+    /// <param name="EndTime">The end of the time range to retrieve traces. The range is inclusive, so the specified end time is included in the query. Specified as epoch time, the number of seconds since January 1, 1970, 00:00:00 UTC.</param>
     public AwsXrayStartTraceRetrievalOptions(
         IEnumerable<string> TraceIds,
         string StartTime,
@@ -75,19 +76,19 @@ public record AwsXrayStartTraceRetrievalOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Specify the trace IDs of the traces to be retrieved. Constraints: o min: 0 o max: 100 (string) Constraints: o min: 1 o max: 35 Syntax: "string" "string" ...
+    /// Specify the trace IDs of the traces to be retrieved. Constraints: • min: 0 • max: 100 (string) Constraints: • min: 1 • max: 35 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--trace-ids", GroupValues = true)]
     public IEnumerable<string>? TraceIds { get; private init; }
 
     /// <summary>
-    /// The start of the time range to retrieve traces. The range is inclu- sive, so the specified start time is included in the query. Speci- fied as epoch time, the number of seconds since January 1, 1970, 00:00:00 UTC.
+    /// The start of the time range to retrieve traces. The range is inclusive, so the specified start time is included in the query. Specified as epoch time, the number of seconds since January 1, 1970, 00:00:00 UTC.
     /// </summary>
     [CliOption("--start-time")]
     public string? StartTime { get; private init; }
 
     /// <summary>
-    /// The end of the time range to retrieve traces. The range is inclu- sive, so the specified end time is included in the query. Specified as epoch time, the number of seconds since January 1, 1970, 00:00:00 UTC.
+    /// The end of the time range to retrieve traces. The range is inclusive, so the specified end time is included in the query. Specified as epoch time, the number of seconds since January 1, 1970, 00:00:00 UTC.
     /// </summary>
     [CliOption("--end-time")]
     public string? EndTime { get; private init; }
@@ -113,6 +114,15 @@ public record AwsXrayStartTraceRetrievalOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

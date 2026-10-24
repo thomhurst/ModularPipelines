@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Registers the resource as managed by the Data Catalog. To add or update data, Lake Formation needs read/write access to the chosen data location. Choose a role that you know has permission to do this, or choose the AWSServiceRoleForLakeFormationDataAccess ser- vice-linked role. When you register the first Amazon S3 path, the ser- vice-linked role and a new inline policy are created on your behalf. Lake Formation adds the first path to the inline policy and attaches it to the service-linked role....
+/// Registers the resource as managed by the Data Catalog. To add or update data, Lake Formation needs read/write access to the chosen data location. Choose a role that you know has permission to do this, or choose the AWSServiceRoleForLakeFormationDataAccess service-linked role. When you register the first Amazon S3 path, the service-linked role and a new inline policy are created on your behalf. Lake Formation adds the first path to the inline policy and attaches it to the service-linked role. Whe...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsLakeformationRegisterResourceOptions : AwsOptions, IValidatable
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Registers the resource as managed by the Data Catalog. To add or update data, Lake Formation needs read/write access to the chosen data location. Choose a role that you know has permission to do this, or choose the AWSServiceRoleForLakeFormationDataAccess ser- vice-linked role. When you register the first Amazon S3 path, the ser- vice-linked role and a new inline policy are created on your behalf. Lake Formation adds the first path to the inline policy and attaches it to the service-linked role....
+    /// Registers the resource as managed by the Data Catalog. To add or update data, Lake Formation needs read/write access to the chosen data location. Choose a role that you know has permission to do this, or choose the AWSServiceRoleForLakeFormationDataAccess service-linked role. When you register the first Amazon S3 path, the service-linked role and a new inline policy are created on your behalf. Lake Formation adds the first path to the inline policy and attaches it to the service-linked role. Whe...
     /// </summary>
-    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the resource that you want to reg- ister.</param>
+    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the resource that you want to register.</param>
     public AwsLakeformationRegisterResourceOptions(
         string ResourceArn
     )
@@ -56,19 +57,19 @@ public record AwsLakeformationRegisterResourceOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the resource that you want to reg- ister.
+    /// The Amazon Resource Name (ARN) of the resource that you want to register.
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
 
     /// <summary>
-    /// Designates an Identity and Access Management (IAM) service-linked role by registering this role with the Data Catalog. A ser- vice-linked role is a unique type of IAM role that is linked di- rectly to Lake Formation. For more information, see Using Service-Linked Roles for Lake Forma- tion .
+    /// Designates an Identity and Access Management (IAM) service-linked role by registering this role with the Data Catalog. A service-linked role is a unique type of IAM role that is linked directly to Lake Formation. For more information, see Using Service-Linked Roles for Lake Formation .
     /// </summary>
     [CliFlag("--use-service-linked-role", NegatedName = "--no-use-service-linked-role")]
     public bool? UseServiceLinkedRole { get; set; }
 
     /// <summary>
-    /// The identifier for the role that registers the resource. Constraints: o pattern: arn:aws:iam::[0-9]*:role/.*
+    /// The identifier for the role that registers the resource. Constraints: • pattern: arn:aws:iam::[0-9]*:role/.*
     /// </summary>
     [CliOption("--role-arn")]
     public string? RoleArn { get; set; }
@@ -86,13 +87,13 @@ public record AwsLakeformationRegisterResourceOptions : AwsOptions, IValidatable
     public bool? HybridAccessEnabled { get; set; }
 
     /// <summary>
-    /// Grants the calling principal the permissions to perform all sup- ported Lake Formation operations on the registered data location.
+    /// Grants the calling principal the permissions to perform all supported Lake Formation operations on the registered data location.
     /// </summary>
     [CliFlag("--with-privileged-access", NegatedName = "--no-with-privileged-access")]
     public bool? WithPrivilegedAccess { get; set; }
 
     /// <summary>
-    /// The Amazon Web Services account that owns the Glue tables associated with specific Amazon S3 locations. Constraints: o pattern: ^\d{12}$
+    /// The Amazon Web Services account that owns the Glue tables associated with specific Amazon S3 locations. Constraints: • pattern: ^\d{12}$
     /// </summary>
     [CliOption("--expected-resource-owner-account")]
     public string? ExpectedResourceOwnerAccount { get; set; }
@@ -118,6 +119,15 @@ public record AwsLakeformationRegisterResourceOptions : AwsOptions, IValidatable
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

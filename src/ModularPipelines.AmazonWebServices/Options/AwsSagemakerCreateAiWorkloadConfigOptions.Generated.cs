@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsSagemakerCreateAiWorkloadConfigOptions : AwsOptions, IValidatab
     /// <summary>
     /// Creates a reusable AI workload configuration that defines datasets, data sources, and benchmark tool settings for consistent performance testing of generative AI inference deployments on Amazon SageMaker AI. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AiWorkloadConfigName">The name of the AI workload configuration. The name must be unique within your Amazon Web Services account in the current Amazon Web Services Region. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}</param>
+    /// <param name="AiWorkloadConfigName">The name of the AI workload configuration. The name must be unique within your Amazon Web Services account in the current Amazon Web Services Region. Constraints: • min: 1 • max: 63 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}</param>
     public AwsSagemakerCreateAiWorkloadConfigOptions(
         string AiWorkloadConfigName
     )
@@ -56,25 +57,25 @@ public record AwsSagemakerCreateAiWorkloadConfigOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the AI workload configuration. The name must be unique within your Amazon Web Services account in the current Amazon Web Services Region. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}
+    /// The name of the AI workload configuration. The name must be unique within your Amazon Web Services account in the current Amazon Web Services Region. Constraints: • min: 1 • max: 63 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}
     /// </summary>
     [CliOption("--ai-workload-config-name")]
     public string? AiWorkloadConfigName { get; private init; }
 
     /// <summary>
-    /// The dataset configuration for the workload. Specify input data chan- nels with their data sources for benchmark workloads. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: InputDataConfig. InputDataConfig -&gt; (list) An array of input data channel configurations for the workload. (structure) A channel of input data for an AI workload configuration. Each channel has a name and a data source. ChannelName -&gt; (string) [required] The logical name for the data channel. Constraints: o min: 1 o max: 64 o pattern: [A-Za-z0-9\.\-_]+ DataSource -&gt; (structure) [required] The data source for this channel. S3DataSource -&gt; (structure) The Amazon S3 data source configuration. S3Uri -&gt; (string) [required] The Amazon S3 URI of the data. Constraints: o min: 0 o max: 1024 o pattern: (https|s3)://([^/]+)/?(.*) JSON Syntax: { "InputDataConfig": [ { "ChannelName": "string", "DataSource": { "S3DataSource": { "S3Uri": "string" } } } ... ] }
+    /// The dataset configuration for the workload. Specify input data channels with their data sources for benchmark workloads. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: InputDataConfig. InputDataConfig -&gt; (list) An array of input data channel configurations for the workload. (structure) A channel of input data for an AI workload configuration. Each channel has a name and a data source. ChannelName -&gt; (string) [required] The logical name for the data channel. Constraints: • min: 1 • max: 64 • pattern: [A-Za-z0-9\.\-_]+ DataSource -&gt; (structure) [required] The data source for this channel. S3DataSource -&gt; (structure) The Amazon S3 data source configuration. S3Uri -&gt; (string) [required] The Amazon S3 URI of the data. Constraints: • min: 0 • max: 1024 • pattern: (https|s3)://([^/]+)/?(.*) JSON Syntax: { "InputDataConfig": [ { "ChannelName": "string", "DataSource": { "S3DataSource": { "S3Uri": "string" } } } ... ] }
     /// </summary>
     [CliOption("--dataset-config")]
     public string? DataSetConfig { get; set; }
 
     /// <summary>
-    /// The benchmark tool configuration and workload specification. Provide the specification as an inline YAML or JSON string. WorkloadSpec -&gt; (tagged union structure) [required] The workload specification that defines benchmark parameters. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: Inline. Inline -&gt; (string) An inline YAML or JSON string that defines benchmark parame- ters. Shorthand Syntax: WorkloadSpec={Inline=string} JSON Syntax: { "WorkloadSpec": { "Inline": "string" } }
+    /// The benchmark tool configuration and workload specification. Provide the specification as an inline YAML or JSON string. WorkloadSpec -&gt; (tagged union structure) [required] The workload specification that defines benchmark parameters. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: Inline. Inline -&gt; (string) An inline YAML or JSON string that defines benchmark parameters. Shorthand Syntax: WorkloadSpec={Inline=string} JSON Syntax: { "WorkloadSpec": { "Inline": "string" } }
     /// </summary>
     [CliOption("--ai-workload-configs")]
     public string? AiWorkloadConfigs { get; set; }
 
     /// <summary>
-    /// The metadata that you apply to Amazon Web Services resources to help you categorize and organize them. Each tag consists of a key and a value, both of which you define. For more information, see Tagging Amazon Web Services Resources in the Amazon Web Services General Reference. Constraints: o min: 0 o max: 50 (structure) A tag object that consists of a key and an optional value, used to manage metadata for SageMaker Amazon Web Services resources. You can add tags to notebook instances, training jobs, hyperpa- rameter tuning jobs, batch transform jobs, models, labeling jobs, work teams, endpoint configurations, and endpoints. For more information on adding tags to SageMaker resources, see AddTags . For more information on adding metadata to your Amazon Web Ser- vices resources with tagging, see Tagging Amazon Web Services resources . For advice on best practices for managing Amazon Web Services resources with tagging, see Tagging Best Practices: Im- plement an Effective Amazon Web Services Resource Tagging Strat- egy . Key -&gt; (string) [required] The tag key. Tag keys must be unique per resource. Constraints: o min: 1 o max: 128 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Value -&gt; (string) [required] The tag value. Constraints: o min: 0 o max: 256 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// The metadata that you apply to Amazon Web Services resources to help you categorize and organize them. Each tag consists of a key and a value, both of which you define. For more information, see Tagging Amazon Web Services Resources in the Amazon Web Services General Reference. Constraints: • min: 0 • max: 50 (structure) A tag object that consists of a key and an optional value, used to manage metadata for SageMaker Amazon Web Services resources. You can add tags to notebook instances, training jobs, hyperparameter tuning jobs, batch transform jobs, models, labeling jobs, work teams, endpoint configurations, and endpoints. For more information on adding tags to SageMaker resources, see AddTags . For more information on adding metadata to your Amazon Web Services resources with tagging, see Tagging Amazon Web Services resources . For advice on best practices for managing Amazon Web Services resources with tagging, see Tagging Best Practices: Implement an Effective Amazon Web Services Resource Tagging Strategy . Key -&gt; (string) [required] The tag key. Tag keys must be unique per resource. Constraints: • min: 1 • max: 128 • pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Value -&gt; (string) [required] The tag value. Constraints: • min: 0 • max: 256 • pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
@@ -100,6 +101,15 @@ public record AwsSagemakerCreateAiWorkloadConfigOptions : AwsOptions, IValidatab
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

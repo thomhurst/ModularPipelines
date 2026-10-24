@@ -15,7 +15,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves detailed information about the health of instances in your Elastic Beanstalk environments. This operation requires enhanced health reporting . This action only returns information about environments that the call- ing principle has IAM permissions to access. For example, consider a case where a user only has permission to access one of three environ- ments. When the user calls this action, the response will only include the one environment that the user has permission to access instead...
+/// Retrieves detailed information about the health of instances in your Elastic Beanstalk environments. This operation requires enhanced health reporting . This action only returns information about environments that the calling principle has IAM permissions to access. For example, consider a case where a user only has permission to access one of three environments. When the user calls this action, the response will only include the one environment that the user has permission to access instead of ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -23,7 +23,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsElasticbeanstalkDescribeInstancesHealthOptions : AwsOptions
 {
     /// <summary>
-    /// Specify the Elastic Beanstalk environment by name. Constraints: o min: 4 o max: 40
+    /// Specify the Elastic Beanstalk environment by name. Constraints: • min: 4 • max: 40
     /// </summary>
     [CliOption("--environment-name")]
     public string? EnvironmentName { get; set; }
@@ -35,13 +35,13 @@ public record AwsElasticbeanstalkDescribeInstancesHealthOptions : AwsOptions
     public string? EnvironmentId { get; set; }
 
     /// <summary>
-    /// Specifies the response elements you wish to receive. To retrieve all attributes, set to All . If no attribute names are specified, re- turns a list of instances. (string) Possible values: o HealthStatus o Color o Causes o ApplicationMetrics o RefreshedAt o LaunchedAt o System o Deployment o AvailabilityZone o InstanceType o All Syntax: "string" "string" ...
+    /// Specifies the response elements you wish to receive. To retrieve all attributes, set to All . If no attribute names are specified, returns a list of instances. (string) Possible values: • HealthStatus • Color • Causes • ApplicationMetrics • RefreshedAt • LaunchedAt • System • Deployment • AvailabilityZone • InstanceType • All Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--attribute-names", GroupValues = true)]
     public IEnumerable<string>? AttributeNames { get; set; }
 
     /// <summary>
-    /// Specify the pagination token returned by a previous call. Constraints: o min: 1 o max: 100
+    /// Specify the pagination token returned by a previous call. Constraints: • min: 1 • max: 100
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
@@ -52,5 +52,14 @@ public record AwsElasticbeanstalkDescribeInstancesHealthOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

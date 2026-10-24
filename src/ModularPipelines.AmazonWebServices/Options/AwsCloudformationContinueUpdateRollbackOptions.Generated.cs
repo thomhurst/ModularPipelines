@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Continues rolling back a stack from UPDATE_ROLLBACK_FAILED to UP- DATE_ROLLBACK_COMPLETE state. Depending on the cause of the failure, you can manually fix the error and continue the rollback. By continuing the rollback, you can return your stack to a working state (the UP- DATE_ROLLBACK_COMPLETE state) and then try to update the stack again. A stack enters the UPDATE_ROLLBACK_FAILED state when CloudFormation can't roll back all changes after a failed stack update. For example, this might occur ...
+/// Continues rolling back a stack from UPDATE_ROLLBACK_FAILED to UPDATE_ROLLBACK_COMPLETE state. Depending on the cause of the failure, you can manually fix the error and continue the rollback. By continuing the rollback, you can return your stack to a working state (the UPDATE_ROLLBACK_COMPLETE state) and then try to update the stack again. A stack enters the UPDATE_ROLLBACK_FAILED state when CloudFormation can't roll back all changes after a failed stack update. For example, this might occur when...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +27,9 @@ public record AwsCloudformationContinueUpdateRollbackOptions : AwsOptions, IVali
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Continues rolling back a stack from UPDATE_ROLLBACK_FAILED to UP- DATE_ROLLBACK_COMPLETE state. Depending on the cause of the failure, you can manually fix the error and continue the rollback. By continuing the rollback, you can return your stack to a working state (the UP- DATE_ROLLBACK_COMPLETE state) and then try to update the stack again. A stack enters the UPDATE_ROLLBACK_FAILED state when CloudFormation can't roll back all changes after a failed stack update. For example, this might occur ...
+    /// Continues rolling back a stack from UPDATE_ROLLBACK_FAILED to UPDATE_ROLLBACK_COMPLETE state. Depending on the cause of the failure, you can manually fix the error and continue the rollback. By continuing the rollback, you can return your stack to a working state (the UPDATE_ROLLBACK_COMPLETE state) and then try to update the stack again. A stack enters the UPDATE_ROLLBACK_FAILED state when CloudFormation can't roll back all changes after a failed stack update. For example, this might occur when...
     /// </summary>
-    /// <param name="StackName">The name or the unique ID of the stack that you want to continue rolling back. NOTE: Don't specify the name of a nested stack (a stack that was cre- ated by using the AWS::CloudFormation::Stack resource). Instead, use this operation on the parent stack (the stack that contains the AWS::CloudFormation::Stack resource). Constraints: o min: 1 o pattern: ([a-zA-Z][-a-zA-Z0-9]*)|(arn:\b(aws|aws-us-gov|aws-cn)\b:[-a-zA-Z0-9:/._+]*)</param>
+    /// <param name="StackName">The name or the unique ID of the stack that you want to continue rolling back. NOTE: Don't specify the name of a nested stack (a stack that was created by using the AWS::CloudFormation::Stack resource). Instead, use this operation on the parent stack (the stack that contains the AWS::CloudFormation::Stack resource). Constraints: • min: 1 • pattern: ([a-zA-Z][-a-zA-Z0-9]*)|(arn:\b(aws|aws-us-gov|aws-cn)\b:[-a-zA-Z0-9:/._+]*)</param>
     public AwsCloudformationContinueUpdateRollbackOptions(
         string StackName
     )
@@ -57,29 +58,35 @@ public record AwsCloudformationContinueUpdateRollbackOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name or the unique ID of the stack that you want to continue rolling back. NOTE: Don't specify the name of a nested stack (a stack that was cre- ated by using the AWS::CloudFormation::Stack resource). Instead, use this operation on the parent stack (the stack that contains the AWS::CloudFormation::Stack resource). Constraints: o min: 1 o pattern: ([a-zA-Z][-a-zA-Z0-9]*)|(arn:\b(aws|aws-us-gov|aws-cn)\b:[-a-zA-Z0-9:/._+]*)
+    /// The name or the unique ID of the stack that you want to continue rolling back. NOTE: Don't specify the name of a nested stack (a stack that was created by using the AWS::CloudFormation::Stack resource). Instead, use this operation on the parent stack (the stack that contains the AWS::CloudFormation::Stack resource). Constraints: • min: 1 • pattern: ([a-zA-Z][-a-zA-Z0-9]*)|(arn:\b(aws|aws-us-gov|aws-cn)\b:[-a-zA-Z0-9:/._+]*)
     /// </summary>
     [CliOption("--stack-name")]
     public string? StackName { get; private init; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of an IAM role that CloudFormation assumes to roll back the stack. CloudFormation uses the role's cre- dentials to make calls on your behalf. CloudFormation always uses this role for all future operations on the stack. Provided that users have permission to operate on the stack, CloudFormation uses this role even if the users don't have permission to pass it. Ensure that the role grants least permission. If you don't specify a value, CloudFormation uses the role that was previously associated with the stack. If no role is available, CloudFormation uses a temporary session that's generated from your user credentials. Constraints: o min: 20 o max: 2048
+    /// The Amazon Resource Name (ARN) of an IAM role that CloudFormation assumes to roll back the stack. CloudFormation uses the role's credentials to make calls on your behalf. CloudFormation always uses this role for all future operations on the stack. Provided that users have permission to operate on the stack, CloudFormation uses this role even if the users don't have permission to pass it. Ensure that the role grants least permission. If you don't specify a value, CloudFormation uses the role that was previously associated with the stack. If no role is available, CloudFormation uses a temporary session that's generated from your user credentials. Constraints: • min: 20 • max: 2048
     /// </summary>
     [CliOption("--role-arn")]
     public string? RoleArn { get; set; }
 
     /// <summary>
-    /// A list of the logical IDs of the resources that CloudFormation skips during the continue update rollback operation. You can specify only resources that are in the UPDATE_FAILED state because a rollback failed. You can't specify resources that are in the UPDATE_FAILED state for other reasons, for example, because an update was can- celed. To check why a resource update failed, use the De- scribeStackResources action, and view the resource status reason. WARNING: Specify this property to skip rolling back resources that Cloud- Formation can't successfully roll back. We recommend that you troubleshoot resources before skipping them. CloudFormation sets the status of the specified resources to UPDATE_COMPLETE and continues to roll back the stack. After the rollback is com- plete, the state of the skipped resources will be inconsistent with the state of the resources in the stack template. Before performing another stack update, you must update the stack or resources to be consistent with each other. If you don't, subse- quent stack updates might fail, and the stack will become unre- coverable. Specify the minimum number of resources required to successfully roll back your stack. For example, a failed resource update might cause dependent resources to fail. In this case, it might not be necessary to skip the dependent resources. To skip resources that are part of nested stacks, use the following format: NestedStackName.ResourceLogicalID . If you want to specify the logical ID of a stack resource (Type: AWS::CloudFormation::Stack ) in the ResourcesToSkip list, then its corresponding embedded stack must be in one of the following states: DELETE_IN_PROGRESS , DELETE_COMPLETE , or DELETE_FAILED . NOTE: Don't confuse a child stack's name with its corresponding logi- cal ID defined in the parent stack. For an example of a continue update rollback operation with nested stacks, see Continue rolling back from failed nested stack updates . (string) Constraints: o pattern: [a-zA-Z0-9]+|[a-zA-Z][-a-zA-Z0-9]*\.[a-zA-Z0-9]+ Syntax: "string" "string" ...
+    /// A list of the logical IDs of the resources that CloudFormation skips during the continue update rollback operation. You can specify only resources that are in the UPDATE_FAILED state because a rollback failed. You can't specify resources that are in the UPDATE_FAILED state for other reasons, for example, because an update was canceled. To check why a resource update failed, use the DescribeStackResources action, and view the resource status reason. WARNING: Specify this property to skip rolling back resources that CloudFormation can't successfully roll back. We recommend that you troubleshoot resources before skipping them. CloudFormation sets the status of the specified resources to UPDATE_COMPLETE and continues to roll back the stack. After the rollback is complete, the state of the skipped resources will be inconsistent with the state of the resources in the stack template. Before performing another stack update, you must update the stack or resources to be consistent with each other. If you don't, subsequent stack updates might fail, and the stack will become unrecoverable. Specify the minimum number of resources required to successfully roll back your stack. For example, a failed resource update might cause dependent resources to fail. In this case, it might not be necessary to skip the dependent resources. To skip resources that are part of nested stacks, use the following format: NestedStackName.ResourceLogicalID . If you want to specify the logical ID of a stack resource (Type: AWS::CloudFormation::Stack ) in the ResourcesToSkip list, then its corresponding embedded stack must be in one of the following states: DELETE_IN_PROGRESS , DELETE_COMPLETE , or DELETE_FAILED . NOTE: Don't confuse a child stack's name with its corresponding logical ID defined in the parent stack. For an example of a continue update rollback operation with nested stacks, see Continue rolling back from failed nested stack updates . (string) Constraints: • pattern: [a-zA-Z0-9]+|[a-zA-Z][-a-zA-Z0-9]*\.[a-zA-Z0-9]+ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--resources-to-skip", GroupValues = true)]
     public IEnumerable<string>? ResourcesToSkip { get; set; }
 
     /// <summary>
-    /// A unique identifier for this ContinueUpdateRollback request. Specify this token if you plan to retry requests so that CloudFormation knows that you're not attempting to continue the rollback to a stack with the same name. You might retry ContinueUpdateRollback requests to ensure that CloudFormation successfully received them. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9][-a-zA-Z0-9]*
+    /// A unique identifier for this ContinueUpdateRollback request. Specify this token if you plan to retry requests so that CloudFormation knows that you're not attempting to continue the rollback to a stack with the same name. You might retry ContinueUpdateRollback requests to ensure that CloudFormation successfully received them. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9][-a-zA-Z0-9]*
     /// </summary>
     [SecretValue]
     [CliOption("--client-request-token")]
     public string? ClientRequestToken { get; set; }
+
+    /// <summary>
+    /// Specifies whether CloudFormation forces the rollback to continue by skipping resources currently in the UPDATE_FAILED state. Use this instead of listing each resource individually in ResourcesToSkip . Only resources that entered the UPDATE_FAILED state because a rollback failed are skipped. If you don't specify a value, the default is false and CloudFormation doesn't skip any resources. ForceRollback and ResourcesToSkip are mutually exclusive. Specifying both in the same request returns a validation error. WARNING: We recommend that you troubleshoot resources before skipping them. CloudFormation sets the status of the skipped resources to UPDATE_COMPLETE and continues to roll back the stack, including resources in nested stacks. After the rollback completes, the skipped resources no longer match the resources in the stack template. Before performing another stack update, you must update the stack or resources to be consistent with each other. If you don't, subsequent stack updates might fail, and the stack will become unrecoverable. Drift detection reports skipped resources as NOT_CHECKED . For guidance, see Continue rolling back an update in the CloudFormation User Guide .
+    /// </summary>
+    [CliFlag("--force-rollback", NegatedName = "--no-force-rollback")]
+    public bool? ForceRollback { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
@@ -102,6 +109,15 @@ public record AwsCloudformationContinueUpdateRollbackOptions : AwsOptions, IVali
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

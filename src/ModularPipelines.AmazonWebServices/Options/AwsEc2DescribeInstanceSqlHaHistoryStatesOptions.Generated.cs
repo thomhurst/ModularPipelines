@@ -29,13 +29,13 @@ public record AwsEc2DescribeInstanceSqlHaHistoryStatesOptions : AwsOptions
     public IEnumerable<string>? InstanceIds { get; set; }
 
     /// <summary>
-    /// The start data and time of the period for which to get the histori- cal SQL Server High Availability states. If omitted, the API returns all available historical states. Timezone: UTC Format: YYYY-MM-DDThh:mm:ss.sssZ
+    /// The start data and time of the period for which to get the historical SQL Server High Availability states. If omitted, the API returns all available historical states. Timezone: UTC Format: YYYY-MM-DDThh:mm:ss.sssZ
     /// </summary>
     [CliOption("--start-time")]
     public string? StartTime { get; set; }
 
     /// <summary>
-    /// The end data and time of the period for which to get historical SQL Server High Availability states. If omitted, the API returns histor- ical states up to the current date and time. Timezone: UTC Format: YYYY-MM-DDThh:mm:ss.sssZ
+    /// The end data and time of the period for which to get historical SQL Server High Availability states. If omitted, the API returns historical states up to the current date and time. Timezone: UTC Format: YYYY-MM-DDThh:mm:ss.sssZ
     /// </summary>
     [CliOption("--end-time")]
     public string? EndTime { get; set; }
@@ -48,19 +48,19 @@ public record AwsEc2DescribeInstanceSqlHaHistoryStatesOptions : AwsOptions
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// The maximum number of results to return for the request in a single page. The remaining results can be seen by sending another request with the returned nextToken value. Constraints: o min: 1 o max: 1000
+    /// The maximum number of results to return for the request in a single page. The remaining results can be seen by sending another request with the returned nextToken value. Constraints: • min: 1 • max: 1000
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
     /// <summary>
-    /// One or more filters to apply to the results. Supported filters in- clude: o tag:&lt;key&gt; - The tag key and value pair assigned to the instance. For example, to find all instances tagged with Owner:TeamA , spec- ify tag:Owner for the filter name and TeamA for the filter value. o tag-key - The tag key assigned to the instance. o haStatus - The SQL Server High Availability status of the SQL Server High Availability instance (processing | active | standby | invalid ). o sqlServerLicenseUsage - The license type for the SQL Server li- cense (full | waived ). (structure) A filter name and value pair that is used to return a more spe- cific list of results from a describe operation. Filters can be used to match a set of resources by specific criteria, such as tags, attributes, or IDs. If you specify multiple filters, the filters are joined with an AND , and the request returns only results that match all of the specified filters. For more information, see List and filter using the CLI and API in the Amazon EC2 User Guide . Name -&gt; (string) The name of the filter. Filter names are case-sensitive. Values -&gt; (list) The filter values. Filter values are case-sensitive. If you specify multiple values for a filter, the values are joined with an OR , and the request returns all results that match any of the specified values. (string) Shorthand Syntax: Name=string,Values=string,string ... JSON Syntax: [ { "Name": "string", "Values": ["string", ...] } ... ]
+    /// One or more filters to apply to the results. Supported filters include: • tag:&lt;key&gt; - The tag key and value pair assigned to the instance. For example, to find all instances tagged with Owner:TeamA , specify tag:Owner for the filter name and TeamA for the filter value. • tag-key - The tag key assigned to the instance. • haStatus - The SQL Server High Availability status of the SQL Server High Availability instance (processing | active | standby | invalid ). • sqlServerLicenseUsage - The license type for the SQL Server license (full | waived ). (structure) A filter name and value pair that is used to return a more specific list of results from a describe operation. Filters can be used to match a set of resources by specific criteria, such as tags, attributes, or IDs. If you specify multiple filters, the filters are joined with an AND , and the request returns only results that match all of the specified filters. For more information, see List and filter using the CLI and API in the Amazon EC2 User Guide . Name -&gt; (string) The name of the filter. Filter names are case-sensitive. Values -&gt; (list) The filter values. Filter values are case-sensitive. If you specify multiple values for a filter, the values are joined with an OR , and the request returns all results that match any of the specified values. (string) Shorthand Syntax: Name=string,Values=string,string ... JSON Syntax: [ { "Name": "string", "Values": ["string", ...] } ... ]
     /// </summary>
     [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     /// <summary>
-    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation . Otherwise, it is UnauthorizedOperation .
     /// </summary>
     [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
@@ -70,5 +70,14 @@ public record AwsEc2DescribeInstanceSqlHaHistoryStatesOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

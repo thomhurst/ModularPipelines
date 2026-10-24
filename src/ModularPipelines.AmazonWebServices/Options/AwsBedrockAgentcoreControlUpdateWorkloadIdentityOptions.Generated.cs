@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsBedrockAgentcoreControlUpdateWorkloadIdentityOptions : AwsOptio
     /// <summary>
     /// Updates an existing workload identity. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">The name of the workload identity to update. Constraints: o min: 3 o max: 255 o pattern: [A-Za-z0-9_.-]+</param>
+    /// <param name="Name">The name of the workload identity to update. Constraints: • min: 3 • max: 255 • pattern: [A-Za-z0-9_.-]+</param>
     public AwsBedrockAgentcoreControlUpdateWorkloadIdentityOptions(
         string Name
     )
@@ -56,13 +57,13 @@ public record AwsBedrockAgentcoreControlUpdateWorkloadIdentityOptions : AwsOptio
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the workload identity to update. Constraints: o min: 3 o max: 255 o pattern: [A-Za-z0-9_.-]+
+    /// The name of the workload identity to update. Constraints: • min: 3 • max: 255 • pattern: [A-Za-z0-9_.-]+
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The new list of allowed OAuth2 return URLs for resources associated with this workload identity. This list replaces the existing list. (string) Constraints: o min: 1 o max: 2048 o pattern: \w+:(\/?\/?)[^\s]+ Syntax: "string" "string" ...
+    /// The new list of allowed OAuth2 return URLs for resources associated with this workload identity. This list replaces the existing list. (string) Constraints: • min: 1 • max: 2048 • pattern: \w+:(\/?\/?)[^\s]+ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--allowed-resource-oauth2-return-urls", GroupValues = true)]
     public IEnumerable<string>? AllowedResourceOauth2ReturnUrls { get; set; }
@@ -88,6 +89,15 @@ public record AwsBedrockAgentcoreControlUpdateWorkloadIdentityOptions : AwsOptio
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

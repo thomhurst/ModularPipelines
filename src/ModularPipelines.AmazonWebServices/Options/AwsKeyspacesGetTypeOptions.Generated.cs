@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// The GetType operation returns information about the type, for example the field definitions, the timestamp when the type was last modified, the level of nesting, the status, and details about if the type is used in other types and tables. To read keyspace metadata using GetType , the IAM principal needs Se- lect action permissions for the system keyspace. To configure the re- quired permissions, see Permissions to view a UDT in the Amazon Key- spaces Developer Guide . See also: AWS API Documenta...
+/// The GetType operation returns information about the type, for example the field definitions, the timestamp when the type was last modified, the level of nesting, the status, and details about if the type is used in other types and tables. To read keyspace metadata using GetType , the IAM principal needs Select action permissions for the system keyspace. To configure the required permissions, see Permissions to view a UDT in the Amazon Keyspaces Developer Guide . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsKeyspacesGetTypeOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// The GetType operation returns information about the type, for example the field definitions, the timestamp when the type was last modified, the level of nesting, the status, and details about if the type is used in other types and tables. To read keyspace metadata using GetType , the IAM principal needs Se- lect action permissions for the system keyspace. To configure the re- quired permissions, see Permissions to view a UDT in the Amazon Key- spaces Developer Guide . See also: AWS API Documenta...
+    /// The GetType operation returns information about the type, for example the field definitions, the timestamp when the type was last modified, the level of nesting, the status, and details about if the type is used in other types and tables. To read keyspace metadata using GetType , the IAM principal needs Select action permissions for the system keyspace. To configure the required permissions, see Permissions to view a UDT in the Amazon Keyspaces Developer Guide . See also: AWS API Documentation
     /// </summary>
-    /// <param name="KeyspaceName">The name of the keyspace that contains this type. Constraints: o min: 1 o max: 48 o pattern: [a-zA-Z0-9][a-zA-Z0-9_]{0,47}</param>
-    /// <param name="TypeName">The formatted name of the type. For example, if the name of the type was created without double quotes, Amazon Keyspaces saved the name in lower-case characters. If the name was created in double quotes, you must use double quotes to specify the type name. Constraints: o min: 1 o max: 48</param>
+    /// <param name="KeyspaceName">The name of the keyspace that contains this type. Constraints: • min: 1 • max: 48 • pattern: [a-zA-Z0-9][a-zA-Z0-9_]{0,47}</param>
+    /// <param name="TypeName">The formatted name of the type. For example, if the name of the type was created without double quotes, Amazon Keyspaces saved the name in lower-case characters. If the name was created in double quotes, you must use double quotes to specify the type name. Constraints: • min: 1 • max: 48</param>
     public AwsKeyspacesGetTypeOptions(
         string KeyspaceName,
         string TypeName
@@ -60,13 +61,13 @@ public record AwsKeyspacesGetTypeOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the keyspace that contains this type. Constraints: o min: 1 o max: 48 o pattern: [a-zA-Z0-9][a-zA-Z0-9_]{0,47}
+    /// The name of the keyspace that contains this type. Constraints: • min: 1 • max: 48 • pattern: [a-zA-Z0-9][a-zA-Z0-9_]{0,47}
     /// </summary>
     [CliOption("--keyspace-name")]
     public string? KeyspaceName { get; private init; }
 
     /// <summary>
-    /// The formatted name of the type. For example, if the name of the type was created without double quotes, Amazon Keyspaces saved the name in lower-case characters. If the name was created in double quotes, you must use double quotes to specify the type name. Constraints: o min: 1 o max: 48
+    /// The formatted name of the type. For example, if the name of the type was created without double quotes, Amazon Keyspaces saved the name in lower-case characters. If the name was created in double quotes, you must use double quotes to specify the type name. Constraints: • min: 1 • max: 48
     /// </summary>
     [CliOption("--type-name")]
     public string? TypeName { get; private init; }
@@ -92,6 +93,15 @@ public record AwsKeyspacesGetTypeOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

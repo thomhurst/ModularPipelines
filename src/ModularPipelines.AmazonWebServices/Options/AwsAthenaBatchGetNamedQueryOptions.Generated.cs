@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns the details of a single named query or a list of up to 50 queries, which you provide as an array of query ID strings. Requires you to have access to the workgroup in which the queries were saved. Use ListNamedQueriesInput to get the list of named query IDs in the specified workgroup. If information could not be retrieved for a sub- mitted query ID, information about the query ID submitted is listed un- der UnprocessedNamedQueryId . Named queries differ from executed queries. Use BatchGet...
+/// Returns the details of a single named query or a list of up to 50 queries, which you provide as an array of query ID strings. Requires you to have access to the workgroup in which the queries were saved. Use ListNamedQueriesInput to get the list of named query IDs in the specified workgroup. If information could not be retrieved for a submitted query ID, information about the query ID submitted is listed under UnprocessedNamedQueryId . Named queries differ from executed queries. Use BatchGetQuer...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsAthenaBatchGetNamedQueryOptions : AwsOptions, IValidatableObjec
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns the details of a single named query or a list of up to 50 queries, which you provide as an array of query ID strings. Requires you to have access to the workgroup in which the queries were saved. Use ListNamedQueriesInput to get the list of named query IDs in the specified workgroup. If information could not be retrieved for a sub- mitted query ID, information about the query ID submitted is listed un- der UnprocessedNamedQueryId . Named queries differ from executed queries. Use BatchGet...
+    /// Returns the details of a single named query or a list of up to 50 queries, which you provide as an array of query ID strings. Requires you to have access to the workgroup in which the queries were saved. Use ListNamedQueriesInput to get the list of named query IDs in the specified workgroup. If information could not be retrieved for a submitted query ID, information about the query ID submitted is listed under UnprocessedNamedQueryId . Named queries differ from executed queries. Use BatchGetQuer...
     /// </summary>
-    /// <param name="NamedQueryIds">An array of query IDs. Constraints: o min: 1 o max: 50 (string) Constraints: o min: 1 o max: 128 o pattern: \S+ Syntax: "string" "string" ...</param>
+    /// <param name="NamedQueryIds">An array of query IDs. Constraints: • min: 1 • max: 50 (string) Constraints: • min: 1 • max: 128 • pattern: \S+ Syntax: "string" "string" ...</param>
     public AwsAthenaBatchGetNamedQueryOptions(
         IEnumerable<string> NamedQueryIds
     )
@@ -67,7 +68,7 @@ public record AwsAthenaBatchGetNamedQueryOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// An array of query IDs. Constraints: o min: 1 o max: 50 (string) Constraints: o min: 1 o max: 128 o pattern: \S+ Syntax: "string" "string" ...
+    /// An array of query IDs. Constraints: • min: 1 • max: 50 (string) Constraints: • min: 1 • max: 128 • pattern: \S+ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--named-query-ids", GroupValues = true)]
     public IEnumerable<string>? NamedQueryIds { get; private init; }
@@ -93,6 +94,15 @@ public record AwsAthenaBatchGetNamedQueryOptions : AwsOptions, IValidatableObjec
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

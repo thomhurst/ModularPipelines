@@ -15,7 +15,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Lists completed exports within the past 90 days, in reverse alphanu- meric order of ExportArn . See also: AWS API Documentation
+/// Lists completed exports within the past 90 days, in reverse alphanumeric order of ExportArn . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -23,13 +23,13 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsDynamodbListExportsOptions : AwsOptions
 {
     /// <summary>
-    /// The Amazon Resource Name (ARN) associated with the exported table. Constraints: o min: 1 o max: 1024
+    /// The Amazon Resource Name (ARN) associated with the exported table. Constraints: • min: 1 • max: 1024
     /// </summary>
     [CliOption("--table-arn")]
     public string? TableArn { get; set; }
 
     /// <summary>
-    /// Maximum number of results to return per page. Constraints: o min: 1 o max: 25
+    /// Maximum number of results to return per page. Constraints: • min: 1 • max: 25
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
@@ -46,5 +46,14 @@ public record AwsDynamodbListExportsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

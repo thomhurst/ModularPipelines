@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsXrayGetInsightOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Retrieves the summary information of an insight. This includes impact to clients and root cause services, the top anomalous services, the category, the state of the insight, and the start and end time of the insight. See also: AWS API Documentation
     /// </summary>
-    /// <param name="InsightId">The insight's unique identifier. Use the GetInsightSummaries action to retrieve an InsightId. Constraints: o pattern: [0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-5][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}</param>
+    /// <param name="InsightId">The insight's unique identifier. Use the GetInsightSummaries action to retrieve an InsightId. Constraints: • pattern: [0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-5][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}</param>
     public AwsXrayGetInsightOptions(
         string InsightId
     )
@@ -56,7 +57,7 @@ public record AwsXrayGetInsightOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The insight's unique identifier. Use the GetInsightSummaries action to retrieve an InsightId. Constraints: o pattern: [0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-5][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}
+    /// The insight's unique identifier. Use the GetInsightSummaries action to retrieve an InsightId. Constraints: • pattern: [0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-5][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}
     /// </summary>
     [CliOption("--insight-id")]
     public string? InsightId { get; private init; }
@@ -82,6 +83,15 @@ public record AwsXrayGetInsightOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates an SSL/TLS certificate for an Amazon Lightsail content delivery network (CDN) distribution and a container service. After the certificate is valid, use the AttachCertificateToDistribution action to use the certificate and its domains with your distribution. Or use the UpdateContainerService action to use the certificate and its domains with your container service. WARNING: Only certificates created in the us-east-1 Amazon Web Services Re- gion can be attached to Lightsail distributions. ...
+/// Creates an SSL/TLS certificate for an Amazon Lightsail content delivery network (CDN) distribution and a container service. After the certificate is valid, use the AttachCertificateToDistribution action to use the certificate and its domains with your distribution. Or use the UpdateContainerService action to use the certificate and its domains with your container service. WARNING: Only certificates created in the us-east-1 Amazon Web Services Region can be attached to Lightsail distributions. Li...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +26,7 @@ public record AwsLightsailCreateCertificateOptions : AwsOptions, IValidatableObj
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates an SSL/TLS certificate for an Amazon Lightsail content delivery network (CDN) distribution and a container service. After the certificate is valid, use the AttachCertificateToDistribution action to use the certificate and its domains with your distribution. Or use the UpdateContainerService action to use the certificate and its domains with your container service. WARNING: Only certificates created in the us-east-1 Amazon Web Services Re- gion can be attached to Lightsail distributions. ...
+    /// Creates an SSL/TLS certificate for an Amazon Lightsail content delivery network (CDN) distribution and a container service. After the certificate is valid, use the AttachCertificateToDistribution action to use the certificate and its domains with your distribution. Or use the UpdateContainerService action to use the certificate and its domains with your container service. WARNING: Only certificates created in the us-east-1 Amazon Web Services Region can be attached to Lightsail distributions. Li...
     /// </summary>
     /// <param name="CertificateName">The name for the certificate.</param>
     /// <param name="DomainName">The domain name (example.com ) for the certificate.</param>
@@ -78,7 +79,7 @@ public record AwsLightsailCreateCertificateOptions : AwsOptions, IValidatableObj
     public IEnumerable<string>? SubjectAlternativeNames { get; set; }
 
     /// <summary>
-    /// The tag keys and optional values to add to the certificate during create. Use the TagResource action to tag a resource after it's created. (structure) Describes a tag key and optional value assigned to an Amazon Lightsail resource. For more information about tags in Lightsail, see the Amazon Lightsail Developer Guide . key -&gt; (string) The key of the tag. Constraints: Tag keys accept a maximum of 128 letters, num- bers, spaces in UTF-8, or the following characters: + - = . _ : / @ value -&gt; (string) The value of the tag. Constraints: Tag values accept a maximum of 256 letters, num- bers, spaces in UTF-8, or the following characters: + - = . _ : / @ Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
+    /// The tag keys and optional values to add to the certificate during create. Use the TagResource action to tag a resource after it's created. (structure) Describes a tag key and optional value assigned to an Amazon Lightsail resource. For more information about tags in Lightsail, see the Amazon Lightsail Developer Guide . key -&gt; (string) The key of the tag. Constraints: Tag keys accept a maximum of 128 letters, numbers, spaces in UTF-8, or the following characters: + - = . _ : / @ value -&gt; (string) The value of the tag. Constraints: Tag values accept a maximum of 256 letters, numbers, spaces in UTF-8, or the following characters: + - = . _ : / @ Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
@@ -104,6 +105,15 @@ public record AwsLightsailCreateCertificateOptions : AwsOptions, IValidatableObj
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

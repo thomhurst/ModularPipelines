@@ -6,8 +6,8 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
+using ModularPipelines;
 using ModularPipelines.Context;
-using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
@@ -33,7 +33,7 @@ public class AwsMediapackagev2 : IAwsMediapackagev2
     #region Sub-command Groups
 
     /// <summary>
-    /// aws wait sub-commands.
+    /// aws mediapackagev2 wait sub-commands.
     /// </summary>
     public AwsMediapackagev2Wait Wait => _wait ??= new AwsMediapackagev2Wait(_command);
 
@@ -57,7 +57,7 @@ public class AwsMediapackagev2 : IAwsMediapackagev2
     }
 
     /// <summary>
-    /// Create a channel group to group your channels and origin endpoints. A channel group is the top-level resource that consists of channels and origin endpoints that are associated with it and that provides pre- dictable URLs for stream delivery. All channels and origin endpoints within the channel group are guaranteed to share the DNS. You can cre- ate only one channel group with each request. See also: AWS API Documentation
+    /// Create a channel group to group your channels and origin endpoints. A channel group is the top-level resource that consists of channels and origin endpoints that are associated with it and that provides predictable URLs for stream delivery. All channels and origin endpoints within the channel group are guaranteed to share the DNS. You can create only one channel group with each request. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -72,7 +72,7 @@ public class AwsMediapackagev2 : IAwsMediapackagev2
     }
 
     /// <summary>
-    /// Create a channel to start receiving content streams. The channel repre- sents the input to MediaPackage for incoming live content from an en- coder such as AWS Elemental MediaLive. The channel receives content, and after packaging it, outputs it through an origin endpoint to down- stream devices (such as video players or CDNs) that request the con- tent. You can create only one channel with each request. We recommend that you spread out channels between channel groups, such as putting redundant ...
+    /// Create a channel to start receiving content streams. The channel represents the input to MediaPackage for incoming live content from an encoder such as AWS Elemental MediaLive. The channel receives content, and after packaging it, outputs it through an origin endpoint to downstream devices (such as video players or CDNs) that request the content. You can create only one channel with each request. We recommend that you spread out channels between channel groups, such as putting redundant channels...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -102,7 +102,7 @@ public class AwsMediapackagev2 : IAwsMediapackagev2
     }
 
     /// <summary>
-    /// The endpoint is attached to a channel, and represents the output of the live content. You can associate multiple endpoints to a single channel. Each endpoint gives players and downstream CDNs (such as Amazon Cloud- Front) access to the content for playback. Content can't be served from a channel until it has an endpoint. You can create only one endpoint with each request. See also: AWS API Documentation
+    /// The endpoint is attached to a channel, and represents the output of the live content. You can associate multiple endpoints to a single channel. Each endpoint gives players and downstream CDNs (such as Amazon CloudFront) access to the content for playback. Content can't be served from a channel until it has an endpoint. You can create only one endpoint with each request. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -132,7 +132,7 @@ public class AwsMediapackagev2 : IAwsMediapackagev2
     }
 
     /// <summary>
-    /// Delete a channel to stop AWS Elemental MediaPackage from receiving fur- ther content. You must delete the channel's origin endpoints before you can delete the channel. See also: AWS API Documentation
+    /// Delete a channel to stop AWS Elemental MediaPackage from receiving further content. You must delete the channel's origin endpoints before you can delete the channel. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -192,7 +192,7 @@ public class AwsMediapackagev2 : IAwsMediapackagev2
     }
 
     /// <summary>
-    /// Retrieves the specified channel group that's configured in AWS Elemen- tal MediaPackage. See also: AWS API Documentation
+    /// Retrieves the specified channel group that's configured in AWS Elemental MediaPackage. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -207,7 +207,7 @@ public class AwsMediapackagev2 : IAwsMediapackagev2
     }
 
     /// <summary>
-    /// Retrieves the specified channel that's configured in AWS Elemental Me- diaPackage. See also: AWS API Documentation
+    /// Retrieves the specified channel that's configured in AWS Elemental MediaPackage. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -222,7 +222,7 @@ public class AwsMediapackagev2 : IAwsMediapackagev2
     }
 
     /// <summary>
-    /// Retrieves the specified channel policy that's configured in AWS Elemen- tal MediaPackage. With policies, you can specify who has access to AWS resources and what actions they can perform on those resources. See also: AWS API Documentation
+    /// Retrieves the specified channel policy that's configured in AWS Elemental MediaPackage. With policies, you can specify who has access to AWS resources and what actions they can perform on those resources. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -252,7 +252,7 @@ public class AwsMediapackagev2 : IAwsMediapackagev2
     }
 
     /// <summary>
-    /// Retrieves the specified origin endpoint that's configured in AWS Ele- mental MediaPackage to obtain its playback URL and to view the packag- ing settings that it's currently using. See also: AWS API Documentation
+    /// Retrieves the specified origin endpoint that's configured in AWS Elemental MediaPackage to obtain its playback URL and to view the packaging settings that it's currently using. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -282,7 +282,7 @@ public class AwsMediapackagev2 : IAwsMediapackagev2
     }
 
     /// <summary>
-    /// Retrieves all channel groups that are configured in Elemental Media- Package. See also: AWS API Documentation list-channel-groups is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Items
+    /// Retrieves all channel groups that are configured in Elemental MediaPackage. See also: AWS API Documentation list-channel-groups is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Items
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -297,7 +297,7 @@ public class AwsMediapackagev2 : IAwsMediapackagev2
     }
 
     /// <summary>
-    /// Retrieves all channels in a specific channel group that are configured in AWS Elemental MediaPackage. See also: AWS API Documentation list-channels is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: I...
+    /// Retrieves all channels in a specific channel group that are configured in AWS Elemental MediaPackage. See also: AWS API Documentation list-channels is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Items
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -327,7 +327,7 @@ public class AwsMediapackagev2 : IAwsMediapackagev2
     }
 
     /// <summary>
-    /// Retrieves all origin endpoints in a specific channel that are config- ured in AWS Elemental MediaPackage. See also: AWS API Documentation list-origin-endpoints is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expres...
+    /// Retrieves all origin endpoints in a specific channel that are configured in AWS Elemental MediaPackage. See also: AWS API Documentation list-origin-endpoints is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressi...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -357,7 +357,7 @@ public class AwsMediapackagev2 : IAwsMediapackagev2
     }
 
     /// <summary>
-    /// Attaches an IAM policy to the specified channel. With policies, you can specify who has access to AWS resources and what actions they can per- form on those resources. You can attach only one policy with each re- quest. See also: AWS API Documentation
+    /// Attaches an IAM policy to the specified channel. With policies, you can specify who has access to AWS resources and what actions they can perform on those resources. You can attach only one policy with each request. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -387,7 +387,7 @@ public class AwsMediapackagev2 : IAwsMediapackagev2
     }
 
     /// <summary>
-    /// Resetting the channel can help to clear errors from misconfigurations in the encoder. A reset refreshes the ingest stream and removes previ- ous content. Be sure to stop the encoder before you reset the channel, and wait at least 30 seconds before you restart the encoder. See also: AWS API Documentation
+    /// Resetting the channel can help to clear errors from misconfigurations in the encoder. A reset refreshes the ingest stream and removes previous content. Be sure to stop the encoder before you reset the channel, and wait at least 30 seconds before you restart the encoder. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -402,7 +402,7 @@ public class AwsMediapackagev2 : IAwsMediapackagev2
     }
 
     /// <summary>
-    /// Resetting the origin endpoint can help to resolve unexpected behavior and other content packaging issues. It also helps to preserve special events when you don't want the previous content to be available for viewing. A reset clears out all previous content from the origin end- point. MediaPackage might return old content from this endpoint in the first 30 seconds after the endpoint reset. For best results, when possible, wait 30 seconds from endpoint reset to send playback requests to this endpo...
+    /// Resetting the origin endpoint can help to resolve unexpected behavior and other content packaging issues. It also helps to preserve special events when you don't want the previous content to be available for viewing. A reset clears out all previous content from the origin endpoint. MediaPackage might return old content from this endpoint in the first 30 seconds after the endpoint reset. For best results, when possible, wait 30 seconds from endpoint reset to send playback requests to this endpoin...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -417,7 +417,7 @@ public class AwsMediapackagev2 : IAwsMediapackagev2
     }
 
     /// <summary>
-    /// Assigns one of more tags (key-value pairs) to the specified MediaPack- age resource. Tags can help you organize and categorize your resources. You can also use them to scope user permissions, by granting a user permission to access or change only resources with certain tag values. You can use the TagResource operation with a resource that already has tags. If you specify a new tag key for the resource, this tag is appended to the list of tags associated with the resource. If you specify a tag ke...
+    /// Assigns one of more tags (key-value pairs) to the specified MediaPackage resource. Tags can help you organize and categorize your resources. You can also use them to scope user permissions, by granting a user permission to access or change only resources with certain tag values. You can use the TagResource operation with a resource that already has tags. If you specify a new tag key for the resource, this tag is appended to the list of tags associated with the resource. If you specify a tag key ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -462,7 +462,7 @@ public class AwsMediapackagev2 : IAwsMediapackagev2
     }
 
     /// <summary>
-    /// Update the specified channel. You can edit if MediaPackage sends ingest or egress access logs to the CloudWatch log group, if content will be encrypted, the description on a channel, and your channel's policy set- tings. You can't edit the name of the channel or CloudFront distribu- tion details. Any edits you make that impact the video output may not be reflected for a few minutes. See also: AWS API Documentation
+    /// Update the specified channel. You can edit if MediaPackage sends ingest or egress access logs to the CloudWatch log group, if content will be encrypted, the description on a channel, and your channel's policy settings. You can't edit the name of the channel or CloudFront distribution details. Any edits you make that impact the video output may not be reflected for a few minutes. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

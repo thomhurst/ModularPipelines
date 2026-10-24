@@ -10,7 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,10 +28,10 @@ public record AwsDatabrewCreateProjectOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Creates a new DataBrew project. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DataSetName">The name of an existing dataset to associate this project with. Constraints: o min: 1 o max: 255</param>
-    /// <param name="Name">A unique name for the new project. Valid characters are alphanumeric (A-Z, a-z, 0-9), hyphen (-), period (.), and space. Constraints: o min: 1 o max: 255</param>
-    /// <param name="RecipeName">The name of an existing recipe to associate with the project. Constraints: o min: 1 o max: 255</param>
-    /// <param name="RoleArn">The Amazon Resource Name (ARN) of the Identity and Access Management (IAM) role to be assumed for this request. Constraints: o min: 20 o max: 2048</param>
+    /// <param name="DataSetName">The name of an existing dataset to associate this project with. Constraints: • min: 1 • max: 255</param>
+    /// <param name="Name">A unique name for the new project. Valid characters are alphanumeric (A-Z, a-z, 0-9), hyphen (-), period (.), and space. Constraints: • min: 1 • max: 255</param>
+    /// <param name="RecipeName">The name of an existing recipe to associate with the project. Constraints: • min: 1 • max: 255</param>
+    /// <param name="RoleArn">The Amazon Resource Name (ARN) of the Identity and Access Management (IAM) role to be assumed for this request. Constraints: • min: 20 • max: 2048</param>
     public AwsDatabrewCreateProjectOptions(
         string DataSetName,
         string Name,
@@ -69,37 +69,37 @@ public record AwsDatabrewCreateProjectOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of an existing dataset to associate this project with. Constraints: o min: 1 o max: 255
+    /// The name of an existing dataset to associate this project with. Constraints: • min: 1 • max: 255
     /// </summary>
     [CliOption("--dataset-name")]
     public string? DataSetName { get; private init; }
 
     /// <summary>
-    /// A unique name for the new project. Valid characters are alphanumeric (A-Z, a-z, 0-9), hyphen (-), period (.), and space. Constraints: o min: 1 o max: 255
+    /// A unique name for the new project. Valid characters are alphanumeric (A-Z, a-z, 0-9), hyphen (-), period (.), and space. Constraints: • min: 1 • max: 255
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The name of an existing recipe to associate with the project. Constraints: o min: 1 o max: 255
+    /// The name of an existing recipe to associate with the project. Constraints: • min: 1 • max: 255
     /// </summary>
     [CliOption("--recipe-name")]
     public string? RecipeName { get; private init; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the Identity and Access Management (IAM) role to be assumed for this request. Constraints: o min: 20 o max: 2048
+    /// The Amazon Resource Name (ARN) of the Identity and Access Management (IAM) role to be assumed for this request. Constraints: • min: 20 • max: 2048
     /// </summary>
     [CliOption("--role-arn")]
     public string? RoleArn { get; private init; }
 
     /// <summary>
-    /// Represents the sample size and sampling type for DataBrew to use for interactive data analysis. Size -&gt; (integer) The number of rows in the sample. Constraints: o min: 1 o max: 5000 Type -&gt; (string) [required] The way in which DataBrew obtains rows from a dataset. Possible values: o FIRST_N o LAST_N o RANDOM Shorthand Syntax: Size=integer,Type=string JSON Syntax: { "Size": integer, "Type": "FIRST_N"|"LAST_N"|"RANDOM" }
+    /// Represents the sample size and sampling type for DataBrew to use for interactive data analysis. Size -&gt; (integer) The number of rows in the sample. Constraints: • min: 1 • max: 5000 Type -&gt; (string) [required] The way in which DataBrew obtains rows from a dataset. Possible values: • FIRST_N • LAST_N • RANDOM Shorthand Syntax: Size=integer,Type=string JSON Syntax: { "Size": integer, "Type": "FIRST_N"|"LAST_N"|"RANDOM" }
     /// </summary>
     [CliOption("--sample")]
     public string? Sample { get; set; }
 
     /// <summary>
-    /// Metadata tags to apply to this project. Constraints: o min: 1 o max: 200 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// Metadata tags to apply to this project. Constraints: • min: 1 • max: 200 key -&gt; (string) Constraints: • min: 1 • max: 128 value -&gt; (string) Constraints: • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
@@ -125,6 +125,15 @@ public record AwsDatabrewCreateProjectOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

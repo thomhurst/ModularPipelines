@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Describes a user import job. For more information about user CSV im- port, see Importing users from a CSV file . See also: AWS API Documentation
+/// Describes a user import job. For more information about user CSV import, see Importing users from a CSV file . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsCognitoIdpDescribeUserImportJobOptions : AwsOptions, IValidatab
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Describes a user import job. For more information about user CSV im- port, see Importing users from a CSV file . See also: AWS API Documentation
+    /// Describes a user import job. For more information about user CSV import, see Importing users from a CSV file . See also: AWS API Documentation
     /// </summary>
-    /// <param name="UserPoolId">The ID of the user pool that's associated with the import job. Constraints: o min: 1 o max: 55 o pattern: [\w-]+_[0-9a-zA-Z]+</param>
-    /// <param name="JobId">The Id of the user import job that you want to describe. Constraints: o min: 1 o max: 55 o pattern: import-[0-9a-zA-Z-]+</param>
+    /// <param name="UserPoolId">The ID of the user pool that's associated with the import job. Constraints: • min: 1 • max: 55 • pattern: [\w-]+_[0-9a-zA-Z]+</param>
+    /// <param name="JobId">The Id of the user import job that you want to describe. Constraints: • min: 1 • max: 55 • pattern: import-[0-9a-zA-Z-]+</param>
     public AwsCognitoIdpDescribeUserImportJobOptions(
         string UserPoolId,
         string JobId
@@ -60,13 +61,13 @@ public record AwsCognitoIdpDescribeUserImportJobOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the user pool that's associated with the import job. Constraints: o min: 1 o max: 55 o pattern: [\w-]+_[0-9a-zA-Z]+
+    /// The ID of the user pool that's associated with the import job. Constraints: • min: 1 • max: 55 • pattern: [\w-]+_[0-9a-zA-Z]+
     /// </summary>
     [CliOption("--user-pool-id")]
     public string? UserPoolId { get; private init; }
 
     /// <summary>
-    /// The Id of the user import job that you want to describe. Constraints: o min: 1 o max: 55 o pattern: import-[0-9a-zA-Z-]+
+    /// The Id of the user import job that you want to describe. Constraints: • min: 1 • max: 55 • pattern: import-[0-9a-zA-Z-]+
     /// </summary>
     [CliOption("--job-id")]
     public string? JobId { get; private init; }
@@ -92,6 +93,15 @@ public record AwsCognitoIdpDescribeUserImportJobOptions : AwsOptions, IValidatab
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

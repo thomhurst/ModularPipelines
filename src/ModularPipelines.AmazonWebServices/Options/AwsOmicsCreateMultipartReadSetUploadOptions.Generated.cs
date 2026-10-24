@@ -11,14 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Initiates a multipart read set upload for uploading partitioned source files into a sequence store. You can directly import source files from an EC2 instance and other local compute, or from an S3 bucket. To sepa- rate these source files into parts, use the split operation. Each part cannot be larger than 100 MB. If the operation is successful, it pro- vides an uploadId which is required by the UploadReadSetPart API opera- tion to upload parts into a sequence store. To continue uploading a multi...
+/// Initiates a multipart read set upload for uploading partitioned source files into a sequence store. You can directly import source files from an EC2 instance and other local compute, or from an S3 bucket. To separate these source files into parts, use the split operation. Each part cannot be larger than 100 MB. If the operation is successful, it provides an uploadId which is required by the UploadReadSetPart API operation to upload parts into a sequence store. To continue uploading a multipart r...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -28,13 +28,13 @@ public record AwsOmicsCreateMultipartReadSetUploadOptions : AwsOptions, IValidat
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Initiates a multipart read set upload for uploading partitioned source files into a sequence store. You can directly import source files from an EC2 instance and other local compute, or from an S3 bucket. To sepa- rate these source files into parts, use the split operation. Each part cannot be larger than 100 MB. If the operation is successful, it pro- vides an uploadId which is required by the UploadReadSetPart API opera- tion to upload parts into a sequence store. To continue uploading a multi...
+    /// Initiates a multipart read set upload for uploading partitioned source files into a sequence store. You can directly import source files from an EC2 instance and other local compute, or from an S3 bucket. To separate these source files into parts, use the split operation. Each part cannot be larger than 100 MB. If the operation is successful, it provides an uploadId which is required by the UploadReadSetPart API operation to upload parts into a sequence store. To continue uploading a multipart r...
     /// </summary>
-    /// <param name="SequenceStoreId">The sequence store ID for the store that is the destination of the multipart uploads. Constraints: o min: 10 o max: 36 o pattern: [0-9]+</param>
-    /// <param name="SourceFileType">The type of file being uploaded. Possible values: o FASTQ o BAM o CRAM o UBAM</param>
-    /// <param name="SubjectId">The source's subject ID. Constraints: o min: 1 o max: 127 o pattern: [\p{L}||\p{M}||\p{Z}||\p{S}||\p{N}||\p{P}]+</param>
-    /// <param name="SampleId">The source's sample ID. Constraints: o min: 1 o max: 127 o pattern: [\p{L}||\p{M}||\p{Z}||\p{S}||\p{N}||\p{P}]+</param>
-    /// <param name="Name">The name of the read set. Constraints: o min: 1 o max: 127 o pattern: [\p{L}||\p{M}||\p{Z}||\p{S}||\p{N}||\p{P}]+</param>
+    /// <param name="SequenceStoreId">The sequence store ID for the store that is the destination of the multipart uploads. Constraints: • min: 10 • max: 36 • pattern: [0-9]+</param>
+    /// <param name="SourceFileType">The type of file being uploaded. Possible values: • FASTQ • BAM • CRAM • UBAM</param>
+    /// <param name="SubjectId">The source's subject ID. Constraints: • min: 1 • max: 127 • pattern: [\p{L}||\p{M}||\p{Z}||\p{S}||\p{N}||\p{P}]+</param>
+    /// <param name="SampleId">The source's sample ID. Constraints: • min: 1 • max: 127 • pattern: [\p{L}||\p{M}||\p{Z}||\p{S}||\p{N}||\p{P}]+</param>
+    /// <param name="Name">The name of the read set. Constraints: • min: 1 • max: 127 • pattern: [\p{L}||\p{M}||\p{Z}||\p{S}||\p{N}||\p{P}]+</param>
     public AwsOmicsCreateMultipartReadSetUploadOptions(
         string SequenceStoreId,
         AwsOmicsCreateMultipartReadSetUploadSourceFileType SourceFileType,
@@ -74,62 +74,62 @@ public record AwsOmicsCreateMultipartReadSetUploadOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The sequence store ID for the store that is the destination of the multipart uploads. Constraints: o min: 10 o max: 36 o pattern: [0-9]+
+    /// The sequence store ID for the store that is the destination of the multipart uploads. Constraints: • min: 10 • max: 36 • pattern: [0-9]+
     /// </summary>
     [CliOption("--sequence-store-id")]
     public string? SequenceStoreId { get; private init; }
 
     /// <summary>
-    /// The type of file being uploaded. Possible values: o FASTQ o BAM o CRAM o UBAM
+    /// The type of file being uploaded. Possible values: • FASTQ • BAM • CRAM • UBAM
     /// </summary>
     [CliOption("--source-file-type")]
     public AwsOmicsCreateMultipartReadSetUploadSourceFileType? SourceFileType { get; private init; }
 
     /// <summary>
-    /// The source's subject ID. Constraints: o min: 1 o max: 127 o pattern: [\p{L}||\p{M}||\p{Z}||\p{S}||\p{N}||\p{P}]+
+    /// The source's subject ID. Constraints: • min: 1 • max: 127 • pattern: [\p{L}||\p{M}||\p{Z}||\p{S}||\p{N}||\p{P}]+
     /// </summary>
     [CliOption("--subject-id")]
     public string? SubjectId { get; private init; }
 
     /// <summary>
-    /// The source's sample ID. Constraints: o min: 1 o max: 127 o pattern: [\p{L}||\p{M}||\p{Z}||\p{S}||\p{N}||\p{P}]+
+    /// The source's sample ID. Constraints: • min: 1 • max: 127 • pattern: [\p{L}||\p{M}||\p{Z}||\p{S}||\p{N}||\p{P}]+
     /// </summary>
     [CliOption("--sample-id")]
     public string? SampleId { get; private init; }
 
     /// <summary>
-    /// The name of the read set. Constraints: o min: 1 o max: 127 o pattern: [\p{L}||\p{M}||\p{Z}||\p{S}||\p{N}||\p{P}]+
+    /// The name of the read set. Constraints: • min: 1 • max: 127 • pattern: [\p{L}||\p{M}||\p{Z}||\p{S}||\p{N}||\p{P}]+
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// An idempotency token that can be used to avoid triggering multiple multipart uploads. Constraints: o min: 1 o max: 127 o pattern: [\p{L}||\p{M}||\p{Z}||\p{S}||\p{N}||\p{P}]+
+    /// An idempotency token that can be used to avoid triggering multiple multipart uploads. Constraints: • min: 1 • max: 127 • pattern: [\p{L}||\p{M}||\p{Z}||\p{S}||\p{N}||\p{P}]+
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// Where the source originated. Constraints: o min: 1 o max: 127 o pattern: [\p{L}||\p{M}||\p{Z}||\p{S}||\p{N}||\p{P}]+
+    /// Where the source originated. Constraints: • min: 1 • max: 127 • pattern: [\p{L}||\p{M}||\p{Z}||\p{S}||\p{N}||\p{P}]+
     /// </summary>
     [CliOption("--generated-from")]
     public string? GeneratedFrom { get; set; }
 
     /// <summary>
-    /// The ARN of the reference. Constraints: o min: 1 o max: 127 o pattern: arn:.+
+    /// The ARN of the reference. Constraints: • min: 1 • max: 127 • pattern: arn:.+
     /// </summary>
     [CliOption("--reference-arn")]
     public string? ReferenceArn { get; set; }
 
     /// <summary>
-    /// The description of the read set. Constraints: o min: 1 o max: 255 o pattern: [\p{L}||\p{M}||\p{Z}||\p{S}||\p{N}||\p{P}]+
+    /// The description of the read set. Constraints: • min: 1 • max: 255 • pattern: [\p{L}||\p{M}||\p{Z}||\p{S}||\p{N}||\p{P}]+
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// Any tags to add to the read set. key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// Any tags to add to the read set. key -&gt; (string) Constraints: • min: 1 • max: 128 value -&gt; (string) Constraints: • min: 0 • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
@@ -155,6 +155,15 @@ public record AwsOmicsCreateMultipartReadSetUploadOptions : AwsOptions, IValidat
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

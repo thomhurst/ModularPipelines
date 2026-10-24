@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Provides information about the phone numbers for the specified Connect Customer instance. For more information about phone numbers, see Set Up Phone Numbers for Your Contact Center in the Connect Customer Administrator Guide . WARNING: o We recommend using ListPhoneNumbersV2 to return phone number types. ListPhoneNumbers doesn't support number types UIFN , SHARED , THIRD_PARTY_TF , and THIRD_PARTY_DID . While it returns numbers of those types, it incorrectly lists them as TOLL_FREE or DID . o Th...
+/// Provides information about the phone numbers for the specified Connect Customer instance. For more information about phone numbers, see Set Up Phone Numbers for Your Contact Center in the Connect Customer Administrator Guide . WARNING: • We recommend using ListPhoneNumbersV2 to return phone number types. ListPhoneNumbers doesn't support number types UIFN , SHARED , THIRD_PARTY_TF , and THIRD_PARTY_DID . While it returns numbers of those types, it incorrectly lists them as TOLL_FREE or DID . • Th...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +27,9 @@ public record AwsConnectListPhoneNumbersOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Provides information about the phone numbers for the specified Connect Customer instance. For more information about phone numbers, see Set Up Phone Numbers for Your Contact Center in the Connect Customer Administrator Guide . WARNING: o We recommend using ListPhoneNumbersV2 to return phone number types. ListPhoneNumbers doesn't support number types UIFN , SHARED , THIRD_PARTY_TF , and THIRD_PARTY_DID . While it returns numbers of those types, it incorrectly lists them as TOLL_FREE or DID . o Th...
+    /// Provides information about the phone numbers for the specified Connect Customer instance. For more information about phone numbers, see Set Up Phone Numbers for Your Contact Center in the Connect Customer Administrator Guide . WARNING: • We recommend using ListPhoneNumbersV2 to return phone number types. ListPhoneNumbers doesn't support number types UIFN , SHARED , THIRD_PARTY_TF , and THIRD_PARTY_DID . While it returns numbers of those types, it incorrectly lists them as TOLL_FREE or DID . • Th...
     /// </summary>
-    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100</param>
+    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: • min: 1 • max: 100</param>
     public AwsConnectListPhoneNumbersOptions(
         string InstanceId
     )
@@ -57,28 +58,25 @@ public record AwsConnectListPhoneNumbersOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100
+    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--instance-id")]
     public string? InstanceId { get; private init; }
 
     /// <summary>
-    /// The type of phone number. NOTE: We recommend using ListPhoneNumbersV2 to return phone number types. While ListPhoneNumbers returns number types UIFN , SHARED , THIRD_PARTY_TF , and THIRD_PARTY_DID , it incorrectly lists them as TOLL_FREE or DID . Constraints: o max: 6 (string) Possible values: o TOLL_FREE o DID o UIFN o SHARED o THIRD_PARTY_TF o THIRD_PARTY_DID o SHORT_CODE Syntax: "string" "string" ...
+    /// The type of phone number. NOTE: We recommend using ListPhoneNumbersV2 to return phone number types. While ListPhoneNumbers returns number types UIFN , SHARED , THIRD_PARTY_TF , and THIRD_PARTY_DID , it incorrectly lists them as TOLL_FREE or DID . Constraints: • max: 6 (string) Possible values: • TOLL_FREE • DID • UIFN • SHARED • THIRD_PARTY_TF • THIRD_PARTY_DID • SHORT_CODE Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--phone-number-types", GroupValues = true)]
     public IEnumerable<string>? PhoneNumberTypes { get; set; }
 
     /// <summary>
-    /// The ISO country code. Constraints: o max: 10 (string) Possible values: o AF o AL o DZ o AS o AD o AO o AI o AQ o AG o AR o AM o AW o AU o AT o AZ o BS o BH o BD o BB o BY o BE o BZ o BJ o BM o BT o BO o BA o BW o BR o IO o VG o BN o BG o BF o BI o KH o CM o CA o CV o KY o CF o TD o CL o CN o CX o CC o CO o KM o CK o CR o HR o CU o CW o CY o CZ o CD o DK o DJ o DM o DO o TL o EC o EG o SV o GQ o ER o EE o ET o FK o FO o FJ o FI o FR o PF o GA o GM o GE o DE o GH o GI o GR o GL o GD o GU o GT o GG o GN o GW o GY o HT o HN o HK o HU o IS o IN o ID o IR o IQ o IE o IM o IL o IT o CI o JM o JP o JE o JO o KZ o KE o KI o KW o KG o LA o LV o LB o LS o LR o LY o LI o LT o LU o MO o MK o MG o MW o MY o MV o ML o MT o MH o MR o MU o YT o MX o FM o MD o MC o MN o ME o MS o MA o MZ o MM o NA o NR o NP o NL o AN o NC o NZ o NI o NE o NG o NU o KP o MP o NO o OM o PK o PW o PA o PG o PY o PE o PH o PN o PL o PT o PR o QA o CG o RE o RO o RU o RW o BL o SH o KN o LC o MF o PM o VC o WS o SM o ST o SA o SN o RS o SC o SL o SG o SX o SK o SI o SB o SO o ZA o KR o ES o LK o SD o SR o SJ o SZ o SE o CH o SY o TW o TJ o TZ o TH o TG o TK o TO o TT o TN o TR o TM o TC o TV o VI o UG o UA o AE o GB o US o UY o UZ o VU o VA o VE o VN o WF o EH o YE o ZM o ZW Syntax: "string" "string" ...
+    /// The ISO country code. Constraints: • max: 10 (string) Possible values: • AF • AL • DZ • AS • AD • AO • AI • AQ • AG • AR • AM • AW • AU • AT • AZ • BS • BH • BD • BB • BY • BE • BZ • BJ • BM • BT • BO • BA • BW • BR • IO • VG • BN • BG • BF • BI • KH • CM • CA • CV • KY • CF • TD • CL • CN • CX • CC • CO • KM • CK • CR • HR • CU • CW • CY • CZ • CD • DK • DJ • DM • DO • TL • EC • EG • SV • GQ • ER • EE • ET • FK • FO • FJ • FI • FR • PF • GA • GM • GE • DE • GH • GI • GR • GL • GD • GU • GT • GG • GN • GW • GY • HT • HN • HK • HU • IS • IN • ID • IR • IQ • IE • IM • IL • IT • CI • JM • JP • JE • JO • KZ • KE • KI • KW • KG • LA • LV • LB • LS • LR • LY • LI • LT • LU • MO • MK • MG • MW • MY • MV • ML • MT • MH • MR • MU • YT • MX • FM • MD • MC • MN • ME • MS • MA • MZ • MM • NA • NR • NP • NL • AN • NC • NZ • NI • NE • NG • NU • KP • MP • NO • OM • PK • PW • PA • PG • PY • PE • PH • PN • PL • PT • PR • QA • CG • RE • RO • RU • RW • BL • SH • KN • LC • MF • PM • VC • WS • SM • ST • SA • SN • RS • SC • SL • SG • SX • SK • SI • SB • SO • ZA • KR • ES • LK • SD • SR • SJ • SZ • SE • CH • SY • TW • TJ • TZ • TH • TG • TK • TO • TT • TN • TR • TM • TC • TV • VI • UG • UA • AE • GB • US • UY • UZ • VU • VA • VE • VN • WF • EH • YE • ZM • ZW Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--phone-number-country-codes", GroupValues = true)]
     public IEnumerable<string>? PhoneNumberCountryCodes { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -88,16 +86,19 @@ public record AwsConnectListPhoneNumbersOptions : AwsOptions, IValidatableObject
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 1000
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 1000
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
@@ -114,6 +115,15 @@ public record AwsConnectListPhoneNumbersOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

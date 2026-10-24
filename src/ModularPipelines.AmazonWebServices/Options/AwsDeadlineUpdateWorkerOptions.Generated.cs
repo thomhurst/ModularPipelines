@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,9 +29,9 @@ public record AwsDeadlineUpdateWorkerOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Updates a worker. See also: AWS API Documentation
     /// </summary>
-    /// <param name="FarmId">The farm ID to update. Constraints: o pattern: farm-[0-9a-f]{32}</param>
-    /// <param name="FleetId">The fleet ID to update. Constraints: o pattern: fleet-[0-9a-f]{32}</param>
-    /// <param name="WorkerId">The worker ID to update. Constraints: o pattern: worker-[0-9a-f]{32}</param>
+    /// <param name="FarmId">The farm ID to update. Constraints: • pattern: farm-[0-9a-f]{32}</param>
+    /// <param name="FleetId">The fleet ID to update. Constraints: • pattern: fleet-[0-9a-f]{32}</param>
+    /// <param name="WorkerId">The worker ID to update. Constraints: • pattern: worker-[0-9a-f]{32}</param>
     public AwsDeadlineUpdateWorkerOptions(
         string FarmId,
         string FleetId,
@@ -65,37 +66,37 @@ public record AwsDeadlineUpdateWorkerOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The farm ID to update. Constraints: o pattern: farm-[0-9a-f]{32}
+    /// The farm ID to update. Constraints: • pattern: farm-[0-9a-f]{32}
     /// </summary>
     [CliOption("--farm-id")]
     public string? FarmId { get; private init; }
 
     /// <summary>
-    /// The fleet ID to update. Constraints: o pattern: fleet-[0-9a-f]{32}
+    /// The fleet ID to update. Constraints: • pattern: fleet-[0-9a-f]{32}
     /// </summary>
     [CliOption("--fleet-id")]
     public string? FleetId { get; private init; }
 
     /// <summary>
-    /// The worker ID to update. Constraints: o pattern: worker-[0-9a-f]{32}
+    /// The worker ID to update. Constraints: • pattern: worker-[0-9a-f]{32}
     /// </summary>
     [CliOption("--worker-id")]
     public string? WorkerId { get; private init; }
 
     /// <summary>
-    /// The worker status to update. Possible values: o STARTED o STOPPING o STOPPED
+    /// The worker status to update. Possible values: • STARTED • STOPPING • STOPPED
     /// </summary>
     [CliOption("--status")]
     public AwsDeadlineUpdateWorkerStatus? Status { get; set; }
 
     /// <summary>
-    /// The worker capabilities to update. amounts -&gt; (list) [required] The worker capabilities amounts on a list of worker capabili- ties. Constraints: o min: 2 o max: 17 (structure) The details of the worker amount capability. name -&gt; (string) [required] The name of the worker amount capability. Constraints: o min: 1 o max: 100 o pattern: ([a-zA-Z][a-zA-Z0-9]{0,63}:)?amount(\.[a-zA-Z][a-zA-Z0-9]{0,63})+ value -&gt; (float) [required] The value of the worker amount capability. attributes -&gt; (list) [required] The worker attribute capabilities in the list of attribute capa- bilities. Constraints: o min: 2 o max: 17 (structure) The details of the worker attribute capability. name -&gt; (string) [required] The name of the worker attribute capability. Constraints: o min: 1 o max: 100 o pattern: ([a-zA-Z][a-zA-Z0-9]{0,63}:)?attr(\.[a-zA-Z][a-zA-Z0-9]{0,63})+ values -&gt; (list) [required] The values of the worker amount capability. Constraints: o min: 1 o max: 10 (string) Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z_]([a-zA-Z0-9_\-]{0,99}) JSON Syntax: { "amounts": [ { "name": "string", "value": float } ... ], "attributes": [ { "name": "string", "values": ["string", ...] } ... ] }
+    /// The worker capabilities to update. amounts -&gt; (list) [required] The worker capabilities amounts on a list of worker capabilities. Constraints: • min: 2 • max: 17 (structure) The details of the worker amount capability. name -&gt; (string) [required] The name of the worker amount capability. Constraints: • min: 1 • max: 100 • pattern: ([a-zA-Z][a-zA-Z0-9]{0,63}:)?amount(\.[a-zA-Z][a-zA-Z0-9]{0,63})+ value -&gt; (float) [required] The value of the worker amount capability. attributes -&gt; (list) [required] The worker attribute capabilities in the list of attribute capabilities. Constraints: • min: 2 • max: 17 (structure) The details of the worker attribute capability. name -&gt; (string) [required] The name of the worker attribute capability. Constraints: • min: 1 • max: 100 • pattern: ([a-zA-Z][a-zA-Z0-9]{0,63}:)?attr(\.[a-zA-Z][a-zA-Z0-9]{0,63})+ values -&gt; (list) [required] The values of the worker amount capability. Constraints: • min: 1 • max: 10 (string) Constraints: • min: 1 • max: 100 • pattern: [a-zA-Z_]([a-zA-Z0-9_\-]{0,99}) JSON Syntax: { "amounts": [ { "name": "string", "value": float } ... ], "attributes": [ { "name": "string", "values": ["string", ...] } ... ] }
     /// </summary>
     [CliOption("--capabilities")]
     public string? Capabilities { get; set; }
 
     /// <summary>
-    /// The host properties to update. ipAddresses -&gt; (structure) The IP address of the host. ipV4Addresses -&gt; (list) The IpV4 address of the network. (string) Constraints: o pattern: (?:[0-9]{1,3}\.){3}[0-9]{1,3} ipV6Addresses -&gt; (list) The IpV6 address for the network and node component. (string) Constraints: o pattern: (?:[A-F0-9]{1,4}:){7}[A-F0-9]{1,4} hostName -&gt; (string) The host name. Constraints: o pattern: [a-zA-Z0-9_\.\-]{0,255} Shorthand Syntax: ipAddresses={ipV4Addresses=[string,string],ipV6Addresses=[string,string]},hostName=string JSON Syntax: { "ipAddresses": { "ipV4Addresses": ["string", ...], "ipV6Addresses": ["string", ...] }, "hostName": "string" }
+    /// The host properties to update. ipAddresses -&gt; (structure) The IP address of the host. ipV4Addresses -&gt; (list) The IpV4 address of the network. (string) Constraints: • pattern: (?:[0-9]{1,3}\.){3}[0-9]{1,3} ipV6Addresses -&gt; (list) The IpV6 address for the network and node component. (string) Constraints: • pattern: (?:[A-F0-9]{1,4}:){7}[A-F0-9]{1,4} hostName -&gt; (string) The host name. Constraints: • pattern: [a-zA-Z0-9_\.\-]{0,255} Shorthand Syntax: ipAddresses={ipV4Addresses=[string,string],ipV6Addresses=[string,string]},hostName=string JSON Syntax: { "ipAddresses": { "ipV4Addresses": ["string", ...], "ipV6Addresses": ["string", ...] }, "hostName": "string" }
     /// </summary>
     [CliOption("--host-properties")]
     public string? HostProperties { get; set; }
@@ -121,6 +122,15 @@ public record AwsDeadlineUpdateWorkerOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

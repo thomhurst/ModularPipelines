@@ -22,25 +22,25 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsRdsDescribeDbShardGroupsOptions : AwsOptions
 {
     /// <summary>
-    /// The user-supplied DB shard group identifier. If this parameter is specified, information for only the specific DB shard group is re- turned. This parameter isn't case-sensitive. Constraints: o If supplied, must match an existing DB shard group identifier. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z](?:-?[a-zA-Z0-9]+)*
+    /// The user-supplied DB shard group identifier. If this parameter is specified, information for only the specific DB shard group is returned. This parameter isn't case-sensitive. Constraints: • If supplied, must match an existing DB shard group identifier. Constraints: • min: 1 • max: 63 • pattern: [a-zA-Z](?:-?[a-zA-Z0-9]+)*
     /// </summary>
     [CliOption("--db-shard-group-identifier")]
     public string? DbShardGroupIdentifier { get; set; }
 
     /// <summary>
-    /// A filter that specifies one or more DB shard groups to describe. (structure) A filter name and value pair that is used to return a more spe- cific list of results from a describe operation. Filters can be used to match a set of resources by specific criteria, such as IDs. The filters supported by a describe operation are docu- mented with the describe operation. NOTE: Currently, wildcards are not supported in filters. The following actions can be filtered: o DescribeDBClusterBacktracks o DescribeDBClusterEndpoints o DescribeDBClusters o DescribeDBInstances o DescribeDBRecommendations o DescribeDBShardGroups o DescribePendingMaintenanceActions Name -&gt; (string) [required] The name of the filter. Filter names are case-sensitive. Values -&gt; (list) [required] One or more filter values. Filter values are case-sensitive. (string) Shorthand Syntax: Name=string,Values=string,string ... JSON Syntax: [ { "Name": "string", "Values": ["string", ...] } ... ]
+    /// A filter that specifies one or more DB shard groups to describe. (structure) A filter name and value pair that is used to return a more specific list of results from a describe operation. Filters can be used to match a set of resources by specific criteria, such as IDs. The filters supported by a describe operation are documented with the describe operation. NOTE: Currently, wildcards are not supported in filters. The following actions can be filtered: • DescribeDBClusterBacktracks • DescribeDBClusterEndpoints • DescribeDBClusters • DescribeDBInstances • DescribeDBRecommendations • DescribeDBShardGroups • DescribePendingMaintenanceActions Name -&gt; (string) [required] The name of the filter. Filter names are case-sensitive. Values -&gt; (list) [required] One or more filter values. Filter values are case-sensitive. (string) Shorthand Syntax: Name=string,Values=string,string ... JSON Syntax: [ { "Name": "string", "Values": ["string", ...] } ... ]
     /// </summary>
     [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     /// <summary>
-    /// An optional pagination token provided by a previous DescribeDBShard- Groups request. If this parameter is specified, the response in- cludes only records beyond the marker, up to the value specified by MaxRecords .
+    /// An optional pagination token provided by a previous DescribeDBShardGroups request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords .
     /// </summary>
     [CliOption("--marker")]
     public string? Marker { get; set; }
 
     /// <summary>
-    /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination to- ken called a marker is included in the response so you can retrieve the remaining results. Default: 100 Constraints: Minimum 20, maximum 100 Constraints: o min: 20 o max: 100
+    /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so you can retrieve the remaining results. Default: 100 Constraints: Minimum 20, maximum 100 Constraints: • min: 20 • max: 100
     /// </summary>
     [CliOption("--max-records")]
     public int? MaxRecords { get; set; }
@@ -50,5 +50,14 @@ public record AwsRdsDescribeDbShardGroupsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

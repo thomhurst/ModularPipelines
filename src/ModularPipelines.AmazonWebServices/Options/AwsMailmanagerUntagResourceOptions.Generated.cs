@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsMailmanagerUntagResourceOptions : AwsOptions, IValidatableObjec
     /// <summary>
     /// Remove one or more tags (keys and values) from a specified resource. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the resource that you want to un- tag. Constraints: o min: 20 o max: 1011 o pattern: arn:aws(|-cn|-us-gov|-eusc):ses:[a-z0-9-]{1,20}:[0-9]{12}:(mail- manager-|addon-).+</param>
-    /// <param name="TagKeys">The keys of the key-value pairs for the tag or tags you want to re- move from the specified resource. Constraints: o min: 0 o max: 200 (string) Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9/_\+=\.:@\-]+ Syntax: "string" "string" ...</param>
+    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the resource that you want to untag. Constraints: • min: 20 • max: 1011 • pattern: arn:aws(|-cn|-us-gov|-eusc):ses:[a-z0-9-]{1,20}:[0-9]{12}:(mailmanager-|addon-).+</param>
+    /// <param name="TagKeys">The keys of the key-value pairs for the tag or tags you want to remove from the specified resource. Constraints: • min: 0 • max: 200 (string) Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9/_\+=\.:@\-]+ Syntax: "string" "string" ...</param>
     public AwsMailmanagerUntagResourceOptions(
         string ResourceArn,
         IEnumerable<string> TagKeys
@@ -71,13 +72,13 @@ public record AwsMailmanagerUntagResourceOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the resource that you want to un- tag. Constraints: o min: 20 o max: 1011 o pattern: arn:aws(|-cn|-us-gov|-eusc):ses:[a-z0-9-]{1,20}:[0-9]{12}:(mail- manager-|addon-).+
+    /// The Amazon Resource Name (ARN) of the resource that you want to untag. Constraints: • min: 20 • max: 1011 • pattern: arn:aws(|-cn|-us-gov|-eusc):ses:[a-z0-9-]{1,20}:[0-9]{12}:(mailmanager-|addon-).+
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
 
     /// <summary>
-    /// The keys of the key-value pairs for the tag or tags you want to re- move from the specified resource. Constraints: o min: 0 o max: 200 (string) Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9/_\+=\.:@\-]+ Syntax: "string" "string" ...
+    /// The keys of the key-value pairs for the tag or tags you want to remove from the specified resource. Constraints: • min: 0 • max: 200 (string) Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9/_\+=\.:@\-]+ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--tag-keys", GroupValues = true)]
     public IEnumerable<string>? TagKeys { get; private init; }
@@ -103,6 +104,15 @@ public record AwsMailmanagerUntagResourceOptions : AwsOptions, IValidatableObjec
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsBillingconductorUpdateCustomLineItemOptions : AwsOptions, IVali
     /// <summary>
     /// Update an existing custom line item in the current or previous billing period. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Arn">The ARN of the custom line item to be updated. Constraints: o pattern: (arn:aws(-cn)?:billingconductor::[0-9]{12}:custom- lineitem/)?[a-zA-Z0-9]{10}</param>
+    /// <param name="Arn">The ARN of the custom line item to be updated. Constraints: • pattern: (arn:aws(-cn)?:billingconductor::[0-9]{12}:customlineitem/)?[a-zA-Z0-9]{10}</param>
     public AwsBillingconductorUpdateCustomLineItemOptions(
         string Arn
     )
@@ -56,31 +57,31 @@ public record AwsBillingconductorUpdateCustomLineItemOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the custom line item to be updated. Constraints: o pattern: (arn:aws(-cn)?:billingconductor::[0-9]{12}:custom- lineitem/)?[a-zA-Z0-9]{10}
+    /// The ARN of the custom line item to be updated. Constraints: • pattern: (arn:aws(-cn)?:billingconductor::[0-9]{12}:customlineitem/)?[a-zA-Z0-9]{10}
     /// </summary>
     [CliOption("--arn")]
     public string? Arn { get; private init; }
 
     /// <summary>
-    /// The new name for the custom line item. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_\+=\.\-@]+
+    /// The new name for the custom line item. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9_\+=\.\-@]+
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
 
     /// <summary>
-    /// The new line item description of the custom line item. Constraints: o min: 1 o max: 255
+    /// The new line item description of the custom line item. Constraints: • min: 1 • max: 255
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// A ListCustomLineItemChargeDetails containing the new charge details for the custom line item. Flat -&gt; (structure) An UpdateCustomLineItemFlatChargeDetails that describes the new charge details of a flat custom line item. ChargeValue -&gt; (double) [required] The custom line item's new fixed charge value in USD. Constraints: o min: 0 o max: 1000000 Percentage -&gt; (structure) An UpdateCustomLineItemPercentageChargeDetails that describes the new charge details of a percentage custom line item. PercentageValue -&gt; (double) [required] The custom line item's new percentage value. This will be multiplied against the combined value of its associated re- sources to determine its charge value. Constraints: o min: 0 o max: 10000 LineItemFilters -&gt; (list) A representation of the line item filter. Constraints: o min: 0 o max: 1 (structure) A representation of the line item filter for your custom line item. You can use line item filters to include or exclude specific resource values from the billing group's total cost. For example, if you create a custom line item and you want to filter out a value, such as Savings Plans discounts, you can update LineItemFilter to exclude it. Attribute -&gt; (string) [required] The attribute of the line item filter. This specifies what attribute that you can filter on. Possible values: o LINE_ITEM_TYPE o SERVICE MatchOption -&gt; (string) [required] The match criteria of the line item filter. This parame- ter specifies whether not to include the resource value from the billing group total cost. Possible values: o NOT_EQUAL o EQUAL Values -&gt; (list) The values of the line item filter. This specifies the values to filter on. Currently, you can only exclude Sav- ings Plans discounts. Constraints: o min: 0 o max: 1 (string) Possible values: o SAVINGS_PLAN_NEGATION AttributeValues -&gt; (list) The values of the line item filter. This specifies the values to filter on. Constraints: o min: 0 o max: 1 (string) Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9]+ JSON Syntax: { "Flat": { "ChargeValue": double }, "Percentage": { "PercentageValue": double }, "LineItemFilters": [ { "Attribute": "LINE_ITEM_TYPE"|"SERVICE", "MatchOption": "NOT_EQUAL"|"EQUAL", "Values": ["SAVINGS_PLAN_NEGATION", ...], "AttributeValues": ["string", ...] } ... ] }
+    /// A ListCustomLineItemChargeDetails containing the new charge details for the custom line item. Flat -&gt; (structure) An UpdateCustomLineItemFlatChargeDetails that describes the new charge details of a flat custom line item. ChargeValue -&gt; (double) [required] The custom line item's new fixed charge value in USD. Constraints: • min: 0 • max: 1000000 Percentage -&gt; (structure) An UpdateCustomLineItemPercentageChargeDetails that describes the new charge details of a percentage custom line item. PercentageValue -&gt; (double) [required] The custom line item's new percentage value. This will be multiplied against the combined value of its associated resources to determine its charge value. Constraints: • min: 0 • max: 10000 LineItemFilters -&gt; (list) A representation of the line item filter. Constraints: • min: 0 • max: 1 (structure) A representation of the line item filter for your custom line item. You can use line item filters to include or exclude specific resource values from the billing group's total cost. For example, if you create a custom line item and you want to filter out a value, such as Savings Plans discounts, you can update LineItemFilter to exclude it. Attribute -&gt; (string) [required] The attribute of the line item filter. This specifies what attribute that you can filter on. Possible values: • LINE_ITEM_TYPE • SERVICE MatchOption -&gt; (string) [required] The match criteria of the line item filter. This parameter specifies whether not to include the resource value from the billing group total cost. Possible values: • NOT_EQUAL • EQUAL Values -&gt; (list) The values of the line item filter. This specifies the values to filter on. Currently, you can only exclude Savings Plans discounts. Constraints: • min: 0 • max: 1 (string) Possible values: • SAVINGS_PLAN_NEGATION AttributeValues -&gt; (list) The values of the line item filter. This specifies the values to filter on. Constraints: • min: 0 • max: 1 (string) Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9]+ JSON Syntax: { "Flat": { "ChargeValue": double }, "Percentage": { "PercentageValue": double }, "LineItemFilters": [ { "Attribute": "LINE_ITEM_TYPE"|"SERVICE", "MatchOption": "NOT_EQUAL"|"EQUAL", "Values": ["SAVINGS_PLAN_NEGATION", ...], "AttributeValues": ["string", ...] } ... ] }
     /// </summary>
     [CliOption("--charge-details")]
     public string? ChargeDetails { get; set; }
 
     /// <summary>
-    /// The billing period range in which the custom line item request will be applied. InclusiveStartBillingPeriod -&gt; (string) [required] The inclusive start billing period that defines a billing period range where a custom line is applied. Constraints: o pattern: \d{4}-(0?[1-9]|1[012]) ExclusiveEndBillingPeriod -&gt; (string) The inclusive end billing period that defines a billing period range where a custom line is applied. Constraints: o pattern: \d{4}-(0?[1-9]|1[012]) Shorthand Syntax: InclusiveStartBillingPeriod=string,ExclusiveEndBillingPeriod=string JSON Syntax: { "InclusiveStartBillingPeriod": "string", "ExclusiveEndBillingPeriod": "string" }
+    /// The billing period range in which the custom line item request will be applied. InclusiveStartBillingPeriod -&gt; (string) [required] The inclusive start billing period that defines a billing period range where a custom line is applied. Constraints: • pattern: \d{4}-(0?[1-9]|1[012]) ExclusiveEndBillingPeriod -&gt; (string) The inclusive end billing period that defines a billing period range where a custom line is applied. Constraints: • pattern: \d{4}-(0?[1-9]|1[012]) Shorthand Syntax: InclusiveStartBillingPeriod=string,ExclusiveEndBillingPeriod=string JSON Syntax: { "InclusiveStartBillingPeriod": "string", "ExclusiveEndBillingPeriod": "string" }
     /// </summary>
     [CliOption("--billing-period-range")]
     public string? BillingPeriodRange { get; set; }
@@ -106,6 +107,15 @@ public record AwsBillingconductorUpdateCustomLineItemOptions : AwsOptions, IVali
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

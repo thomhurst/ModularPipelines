@@ -6,15 +6,15 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
+using ModularPipelines;
 using ModularPipelines.Context;
-using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
 namespace ModularPipelines.AmazonWebServices.Services;
 
 /// <summary>
-/// aws wait commands.
+/// aws lambda wait commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AwsLambdaWait
@@ -32,7 +32,7 @@ public class AwsLambdaWait
     #region Commands
 
     /// <summary>
-    /// Waits for the function's State to be Active. This waiter uses GetFunc- tionConfiguration API. This should be used after new function creation. It will poll every 5 seconds until a successful state has been reached. This will exit with a return code of 255 after 60 failed checks. See also: AWS API Documentation
+    /// Waits for the function's State to be Active. This waiter uses GetFunctionConfiguration API. This should be used after new function creation. It will poll every 5 seconds until a successful state has been reached. This will exit with a return code of 255 after 60 failed checks. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -47,7 +47,7 @@ public class AwsLambdaWait
     }
 
     /// <summary>
-    /// Waits for the function's State to be Active. This waiter uses GetFunc- tion API. This should be used after new function creation. It will poll every 1 seconds until a successful state has been reached. This will exit with a return code of 255 after 300 failed checks. See also: AWS API Documentation
+    /// Waits for the function's State to be Active. This waiter uses GetFunction API. This should be used after new function creation. It will poll every 1 seconds until a successful state has been reached. This will exit with a return code of 255 after 300 failed checks. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

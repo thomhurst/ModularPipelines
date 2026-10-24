@@ -10,13 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a prompt. For more information about prompts, such as supported file types and maximum length, see Create prompts in the Connect Cus- tomer Administrator Guide . See also: AWS API Documentation
+/// Creates a prompt. For more information about prompts, such as supported file types and maximum length, see Create prompts in the Connect Customer Administrator Guide . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,11 +26,11 @@ public record AwsConnectCreatePromptOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a prompt. For more information about prompts, such as supported file types and maximum length, see Create prompts in the Connect Cus- tomer Administrator Guide . See also: AWS API Documentation
+    /// Creates a prompt. For more information about prompts, such as supported file types and maximum length, see Create prompts in the Connect Customer Administrator Guide . See also: AWS API Documentation
     /// </summary>
-    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100</param>
-    /// <param name="Name">The name of the prompt. Constraints: o min: 1 o max: 127</param>
-    /// <param name="S3Uri">The URI for the S3 bucket where the prompt is stored. You can pro- vide S3 pre-signed URLs returned by the GetPromptFile API instead of providing S3 URIs. Constraints: o min: 1 o max: 2000 o pattern: s3://\S+/.+|https://\\S+\\.s3\\.\\S+\\.amazon- aws\\.com/\\S+</param>
+    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: • min: 1 • max: 100</param>
+    /// <param name="Name">The name of the prompt. Constraints: • min: 1 • max: 127</param>
+    /// <param name="S3Uri">The URI for the S3 bucket where the prompt is stored. You can provide S3 pre-signed URLs returned by the GetPromptFile API instead of providing S3 URIs. Constraints: • min: 1 • max: 2000 • pattern: s3://\S+/.+|https://\\S+\\.s3\\.\\S+\\.amazonaws\\.com/\\S+</param>
     public AwsConnectCreatePromptOptions(
         string InstanceId,
         string Name,
@@ -65,31 +65,31 @@ public record AwsConnectCreatePromptOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100
+    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--instance-id")]
     public string? InstanceId { get; private init; }
 
     /// <summary>
-    /// The name of the prompt. Constraints: o min: 1 o max: 127
+    /// The name of the prompt. Constraints: • min: 1 • max: 127
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The URI for the S3 bucket where the prompt is stored. You can pro- vide S3 pre-signed URLs returned by the GetPromptFile API instead of providing S3 URIs. Constraints: o min: 1 o max: 2000 o pattern: s3://\S+/.+|https://\\S+\\.s3\\.\\S+\\.amazon- aws\\.com/\\S+
+    /// The URI for the S3 bucket where the prompt is stored. You can provide S3 pre-signed URLs returned by the GetPromptFile API instead of providing S3 URIs. Constraints: • min: 1 • max: 2000 • pattern: s3://\S+/.+|https://\\S+\\.s3\\.\\S+\\.amazonaws\\.com/\\S+
     /// </summary>
     [CliOption("--s3-uri")]
     public string? S3Uri { get; private init; }
 
     /// <summary>
-    /// The description of the prompt. Constraints: o min: 1 o max: 250
+    /// The description of the prompt. Constraints: • min: 1 • max: 250
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The tags used to organize, track, or control access for this re- source. For example, { "Tags": {"key1":"value1", "key2":"value2"} }. Constraints: o min: 1 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^(?!aws:)[\p{L}\p{Z}\p{N}_.:/=+\-@]*$ value -&gt; (string) Constraints: o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The tags used to organize, track, or control access for this resource. For example, { "Tags": {"key1":"value1", "key2":"value2"} }. Constraints: • min: 1 • max: 50 key -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: ^(?!aws:)[\p{L}\p{Z}\p{N}_.:/=+\-@]*$ value -&gt; (string) Constraints: • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
@@ -115,6 +115,15 @@ public record AwsConnectCreatePromptOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

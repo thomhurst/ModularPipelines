@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsAuditManagerRegisterOrganizationAdminAccountOptions : AwsOption
     /// <summary>
     /// Enables an Amazon Web Services account within the organization as the delegated administrator for Audit Manager. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AdminAccountId">The identifier for the delegated administrator account. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$</param>
+    /// <param name="AdminAccountId">The identifier for the delegated administrator account. Constraints: • min: 12 • max: 12 • pattern: ^[0-9]{12}$</param>
     public AwsAuditManagerRegisterOrganizationAdminAccountOptions(
         string AdminAccountId
     )
@@ -56,7 +57,7 @@ public record AwsAuditManagerRegisterOrganizationAdminAccountOptions : AwsOption
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier for the delegated administrator account. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$
+    /// The identifier for the delegated administrator account. Constraints: • min: 12 • max: 12 • pattern: ^[0-9]{12}$
     /// </summary>
     [CliOption("--admin-account-id")]
     public string? AdminAccountId { get; private init; }
@@ -82,6 +83,15 @@ public record AwsAuditManagerRegisterOrganizationAdminAccountOptions : AwsOption
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

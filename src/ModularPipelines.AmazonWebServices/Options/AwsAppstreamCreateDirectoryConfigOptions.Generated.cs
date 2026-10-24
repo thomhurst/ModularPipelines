@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a Directory Config object in WorkSpaces Applications. This ob- ject includes the configuration information required to join fleets and image builders to Microsoft Active Directory domains. See also: AWS API Documentation
+/// Creates a Directory Config object in WorkSpaces Applications. This object includes the configuration information required to join fleets and image builders to Microsoft Active Directory domains. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +27,10 @@ public record AwsAppstreamCreateDirectoryConfigOptions : AwsOptions, IValidatabl
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a Directory Config object in WorkSpaces Applications. This ob- ject includes the configuration information required to join fleets and image builders to Microsoft Active Directory domains. See also: AWS API Documentation
+    /// Creates a Directory Config object in WorkSpaces Applications. This object includes the configuration information required to join fleets and image builders to Microsoft Active Directory domains. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DirectoryName">The fully qualified name of the directory (for example, corp.exam- ple.com).</param>
-    /// <param name="OrganizationalUnitDistinguishedNames">The distinguished names of the organizational units for computer ac- counts. (string) Constraints: o max: 2000 Syntax: "string" "string" ...</param>
+    /// <param name="DirectoryName">The fully qualified name of the directory (for example, corp.example.com).</param>
+    /// <param name="OrganizationalUnitDistinguishedNames">The distinguished names of the organizational units for computer accounts. (string) Constraints: • max: 2000 Syntax: "string" "string" ...</param>
     public AwsAppstreamCreateDirectoryConfigOptions(
         string DirectoryName,
         IEnumerable<string> OrganizationalUnitDistinguishedNames
@@ -72,26 +73,26 @@ public record AwsAppstreamCreateDirectoryConfigOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The fully qualified name of the directory (for example, corp.exam- ple.com).
+    /// The fully qualified name of the directory (for example, corp.example.com).
     /// </summary>
     [CliOption("--directory-name")]
     public string? DirectoryName { get; private init; }
 
     /// <summary>
-    /// The distinguished names of the organizational units for computer ac- counts. (string) Constraints: o max: 2000 Syntax: "string" "string" ...
+    /// The distinguished names of the organizational units for computer accounts. (string) Constraints: • max: 2000 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--organizational-unit-distinguished-names", GroupValues = true)]
     public IEnumerable<string>? OrganizationalUnitDistinguishedNames { get; private init; }
 
     /// <summary>
-    /// The credentials for the service account used by the fleet or image builder to connect to the directory. AccountName -&gt; (string) [required] The user name of the account. This account must have the follow- ing privileges: create computer objects, join computers to the domain, and change/reset the password on descendant computer ob- jects for the organizational units specified. Constraints: o min: 1 AccountPassword -&gt; (string) [required] The password for the account. Constraints: o min: 1 o max: 127 Shorthand Syntax: AccountName=string,AccountPassword=string JSON Syntax: { "AccountName": "string", "AccountPassword": "string" }
+    /// The credentials for the service account used by the fleet or image builder to connect to the directory. AccountName -&gt; (string) [required] The user name of the account. This account must have the following privileges: create computer objects, join computers to the domain, and change/reset the password on descendant computer objects for the organizational units specified. Constraints: • min: 1 AccountPassword -&gt; (string) [required] The password for the account. Constraints: • min: 1 • max: 127 Shorthand Syntax: AccountName=string,AccountPassword=string JSON Syntax: { "AccountName": "string", "AccountPassword": "string" }
     /// </summary>
     [SecretValue]
     [CliOption("--service-account-credentials")]
     public string? ServiceAccountCredentials { get; set; }
 
     /// <summary>
-    /// The certificate-based authentication properties used to authenticate SAML 2.0 Identity Provider (IdP) user identities to Active Directory domain-joined streaming instances. Fallback is turned on by default when certificate-based authentication is Enabled . Fallback allows users to log in using their AD domain password if certificate-based authentication is unsuccessful, or to unlock a desktop lock screen. Enabled_no_directory_login_fallback enables certificate-based au- thentication, but does not allow users to log in using their AD do- main password. Users will be disconnected to re-authenticate using certificates. Status -&gt; (string) The status of the certificate-based authentication properties. Possible values: o DISABLED o ENABLED o ENABLED_NO_DIRECTORY_LOGIN_FALLBACK CertificateAuthorityArn -&gt; (string) The ARN of the AWS Certificate Manager Private CA resource. Constraints: o pattern: ^arn:aws(?:\-cn|\-iso\-b|\-iso|\-us\-gov)?:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.\\-]{0,1023}$ Shorthand Syntax: Status=string,CertificateAuthorityArn=string JSON Syntax: { "Status": "DISABLED"|"ENABLED"|"ENABLED_NO_DIRECTORY_LOGIN_FALLBACK", "CertificateAuthorityArn": "string" }
+    /// The certificate-based authentication properties used to authenticate SAML 2.0 Identity Provider (IdP) user identities to Active Directory domain-joined streaming instances. Fallback is turned on by default when certificate-based authentication is Enabled . Fallback allows users to log in using their AD domain password if certificate-based authentication is unsuccessful, or to unlock a desktop lock screen. Enabled_no_directory_login_fallback enables certificate-based authentication, but does not allow users to log in using their AD domain password. Users will be disconnected to re-authenticate using certificates. Status -&gt; (string) The status of the certificate-based authentication properties. Possible values: • DISABLED • ENABLED • ENABLED_NO_DIRECTORY_LOGIN_FALLBACK CertificateAuthorityArn -&gt; (string) The ARN of the AWS Certificate Manager Private CA resource. Constraints: • pattern: ^arn:aws(?:\-cn|\-iso\-b|\-iso|\-us\-gov)?:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.\\-]{0,1023}$ Shorthand Syntax: Status=string,CertificateAuthorityArn=string JSON Syntax: { "Status": "DISABLED"|"ENABLED"|"ENABLED_NO_DIRECTORY_LOGIN_FALLBACK", "CertificateAuthorityArn": "string" }
     /// </summary>
     [CliOption("--certificate-based-auth-properties")]
     public string? CertificateBasedAuthProperties { get; set; }
@@ -117,6 +118,15 @@ public record AwsAppstreamCreateDirectoryConfigOptions : AwsOptions, IValidatabl
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

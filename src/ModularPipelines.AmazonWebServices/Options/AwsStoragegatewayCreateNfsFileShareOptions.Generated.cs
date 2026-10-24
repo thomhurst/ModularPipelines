@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -29,10 +30,10 @@ public record AwsStoragegatewayCreateNfsFileShareOptions : AwsOptions, IValidata
     /// <summary>
     /// Creates a Network File System (NFS) file share on an existing S3 File Gateway. In Storage Gateway, a file share is a file system mount point backed by Amazon S3 cloud storage. Storage Gateway exposes file shares using an NFS interface. This operation is only supported for S3 File Gateways. WARNING: S3 File gateway requires Security Token Service (Amazon Web Services STS) to be activated to enable you to create a file share. Make sure Amazon Web Services STS is activated in the Amazon Web Service...
     /// </summary>
-    /// <param name="ClientToken">A unique string value that you supply that is used by S3 File Gate- way to ensure idempotent file share creation. Constraints: o min: 5 o max: 100</param>
-    /// <param name="GatewayArn">The Amazon Resource Name (ARN) of the S3 File Gateway on which you want to create a file share. Constraints: o min: 50 o max: 500</param>
-    /// <param name="Role">The ARN of the Identity and Access Management (IAM) role that an S3 File Gateway assumes when it accesses the underlying storage. Constraints: o min: 20 o max: 2048 o pattern: ^arn:(aws(|-cn|-us-gov|-iso[A-Za-z0-9_-]*|-eusc)):iam::([0-9]+):role/(\S+)$</param>
-    /// <param name="LocationArn">A custom ARN for the backend storage used for storing data for file shares. It includes a resource ARN with an optional prefix concate- nation. The prefix must end with a forward slash (/). NOTE: You can specify LocationARN as a bucket ARN, access point ARN or access point alias, as shown in the following examples. Bucket ARN: arn:aws:s3:::amzn-s3-demo-bucket/prefix/ Access point ARN: arn:aws:s3:region:account-id:accesspoint/ac- cess-point-name/prefix/ If you specify an access point, the bucket policy must be con- figured to delegate access control to the access point. For in- formation, see Delegating access control to access points in the Amazon S3 User Guide . Access point alias: test-ap-ab123cdef4gehijklmn5opqrstuvuse1a-s3alias Constraints: o min: 16 o max: 1400</param>
+    /// <param name="ClientToken">A unique string value that you supply that is used by S3 File Gateway to ensure idempotent file share creation. Constraints: • min: 5 • max: 100</param>
+    /// <param name="GatewayArn">The Amazon Resource Name (ARN) of the S3 File Gateway on which you want to create a file share. Constraints: • min: 50 • max: 500</param>
+    /// <param name="Role">The ARN of the Identity and Access Management (IAM) role that an S3 File Gateway assumes when it accesses the underlying storage. Constraints: • min: 20 • max: 2048 • pattern: ^arn:(aws(|-cn|-us-gov|-iso[A-Za-z0-9_-]*|-eusc)):iam::([0-9]+):role/(\S+)$</param>
+    /// <param name="LocationArn">A custom ARN for the backend storage used for storing data for file shares. It includes a resource ARN with an optional prefix concatenation. The prefix must end with a forward slash (/). NOTE: You can specify LocationARN as a bucket ARN, access point ARN or access point alias, as shown in the following examples. Bucket ARN: arn:aws:s3:::amzn-s3-demo-bucket/prefix/ Access point ARN: arn:aws:s3:region:account-id:accesspoint/access-point-name/prefix/ If you specify an access point, the bucket policy must be configured to delegate access control to the access point. For information, see Delegating access control to access points in the Amazon S3 User Guide . Access point alias: test-ap-ab123cdef4gehijklmn5opqrstuvuse1a-s3alias Constraints: • min: 16 • max: 1400</param>
     public AwsStoragegatewayCreateNfsFileShareOptions(
         string ClientToken,
         string GatewayArn,
@@ -70,74 +71,74 @@ public record AwsStoragegatewayCreateNfsFileShareOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A unique string value that you supply that is used by S3 File Gate- way to ensure idempotent file share creation. Constraints: o min: 5 o max: 100
+    /// A unique string value that you supply that is used by S3 File Gateway to ensure idempotent file share creation. Constraints: • min: 5 • max: 100
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; private init; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the S3 File Gateway on which you want to create a file share. Constraints: o min: 50 o max: 500
+    /// The Amazon Resource Name (ARN) of the S3 File Gateway on which you want to create a file share. Constraints: • min: 50 • max: 500
     /// </summary>
     [CliOption("--gateway-arn")]
     public string? GatewayArn { get; private init; }
 
     /// <summary>
-    /// The ARN of the Identity and Access Management (IAM) role that an S3 File Gateway assumes when it accesses the underlying storage. Constraints: o min: 20 o max: 2048 o pattern: ^arn:(aws(|-cn|-us-gov|-iso[A-Za-z0-9_-]*|-eusc)):iam::([0-9]+):role/(\S+)$
+    /// The ARN of the Identity and Access Management (IAM) role that an S3 File Gateway assumes when it accesses the underlying storage. Constraints: • min: 20 • max: 2048 • pattern: ^arn:(aws(|-cn|-us-gov|-iso[A-Za-z0-9_-]*|-eusc)):iam::([0-9]+):role/(\S+)$
     /// </summary>
     [CliOption("--role")]
     public string? Role { get; private init; }
 
     /// <summary>
-    /// A custom ARN for the backend storage used for storing data for file shares. It includes a resource ARN with an optional prefix concate- nation. The prefix must end with a forward slash (/). NOTE: You can specify LocationARN as a bucket ARN, access point ARN or access point alias, as shown in the following examples. Bucket ARN: arn:aws:s3:::amzn-s3-demo-bucket/prefix/ Access point ARN: arn:aws:s3:region:account-id:accesspoint/ac- cess-point-name/prefix/ If you specify an access point, the bucket policy must be con- figured to delegate access control to the access point. For in- formation, see Delegating access control to access points in the Amazon S3 User Guide . Access point alias: test-ap-ab123cdef4gehijklmn5opqrstuvuse1a-s3alias Constraints: o min: 16 o max: 1400
+    /// A custom ARN for the backend storage used for storing data for file shares. It includes a resource ARN with an optional prefix concatenation. The prefix must end with a forward slash (/). NOTE: You can specify LocationARN as a bucket ARN, access point ARN or access point alias, as shown in the following examples. Bucket ARN: arn:aws:s3:::amzn-s3-demo-bucket/prefix/ Access point ARN: arn:aws:s3:region:account-id:accesspoint/access-point-name/prefix/ If you specify an access point, the bucket policy must be configured to delegate access control to the access point. For information, see Delegating access control to access points in the Amazon S3 User Guide . Access point alias: test-ap-ab123cdef4gehijklmn5opqrstuvuse1a-s3alias Constraints: • min: 16 • max: 1400
     /// </summary>
     [CliOption("--location-arn")]
     public string? LocationArn { get; private init; }
 
     /// <summary>
-    /// File share default values. Optional. FileMode -&gt; (string) The Unix file mode in the form "nnnn". For example, 0666 repre- sents the default file mode inside the file share. The default value is 0666 . Constraints: o min: 1 o max: 4 o pattern: ^[0-7]{4}$ DirectoryMode -&gt; (string) The Unix directory mode in the form "nnnn". For example, 0666 represents the default access mode for all directories inside the file share. The default value is 0777 . Constraints: o min: 1 o max: 4 o pattern: ^[0-7]{4}$ GroupId -&gt; (long) The default group ID for the file share (unless the files have another group ID specified). The default value is nfsnobody . Constraints: o min: 0 o max: 4294967294 OwnerId -&gt; (long) The default owner ID for files in the file share (unless the files have another owner ID specified). The default value is nf- snobody . Constraints: o min: 0 o max: 4294967294 Shorthand Syntax: FileMode=string,DirectoryMode=string,GroupId=long,OwnerId=long JSON Syntax: { "FileMode": "string", "DirectoryMode": "string", "GroupId": long, "OwnerId": long }
+    /// File share default values. Optional. FileMode -&gt; (string) The Unix file mode in the form "nnnn". For example, 0666 represents the default file mode inside the file share. The default value is 0666 . Constraints: • min: 1 • max: 4 • pattern: ^[0-7]{4}$ DirectoryMode -&gt; (string) The Unix directory mode in the form "nnnn". For example, 0666 represents the default access mode for all directories inside the file share. The default value is 0777 . Constraints: • min: 1 • max: 4 • pattern: ^[0-7]{4}$ GroupId -&gt; (long) The default group ID for the file share (unless the files have another group ID specified). The default value is nfsnobody . Constraints: • min: 0 • max: 4294967294 OwnerId -&gt; (long) The default owner ID for files in the file share (unless the files have another owner ID specified). The default value is nfsnobody . Constraints: • min: 0 • max: 4294967294 Shorthand Syntax: FileMode=string,DirectoryMode=string,GroupId=long,OwnerId=long JSON Syntax: { "FileMode": "string", "DirectoryMode": "string", "GroupId": long, "OwnerId": long }
     /// </summary>
     [CliOption("--nfs-file-share-defaults")]
     public string? NfsFileShareDefaults { get; set; }
 
     /// <summary>
-    /// A value that specifies the type of server-side encryption that the file share will use for the data that it stores in Amazon S3. NOTE: We recommend using EncryptionType instead of KMSEncrypted to set the file share encryption method. You do not need to provide values for both parameters. If values for both parameters exist in the same request, then the specified encryption methods must not conflict. For example, if EncryptionType is SseS3 , then KMSEncrypted must be false . If EncryptionType is SseKms or DsseKms , then KMSEncrypted must be true . Possible values: o SseS3 o SseKms o DsseKms
+    /// A value that specifies the type of server-side encryption that the file share will use for the data that it stores in Amazon S3. NOTE: We recommend using EncryptionType instead of KMSEncrypted to set the file share encryption method. You do not need to provide values for both parameters. If values for both parameters exist in the same request, then the specified encryption methods must not conflict. For example, if EncryptionType is SseS3 , then KMSEncrypted must be false . If EncryptionType is SseKms or DsseKms , then KMSEncrypted must be true . Possible values: • SseS3 • SseKms • DsseKms
     /// </summary>
     [CliOption("--encryption-type")]
     public AwsStoragegatewayCreateNfsFileShareEncryptionType? EncryptionType { get; set; }
 
     /// <summary>
-    /// Optional. Set to true to use Amazon S3 server-side encryption with your own KMS key (SSE-KMS), or false to use a key managed by Amazon S3 (SSE-S3). To use dual-layer encryption (DSSE-KMS), set the En- cryptionType parameter instead. NOTE: We recommend using EncryptionType instead of KMSEncrypted to set the file share encryption method. You do not need to provide values for both parameters. If values for both parameters exist in the same request, then the specified encryption methods must not conflict. For example, if EncryptionType is SseS3 , then KMSEncrypted must be false . If EncryptionType is SseKms or DsseKms , then KMSEncrypted must be true . Valid Values: true | false
+    /// Optional. Set to true to use Amazon S3 server-side encryption with your own KMS key (SSE-KMS), or false to use a key managed by Amazon S3 (SSE-S3). To use dual-layer encryption (DSSE-KMS), set the EncryptionType parameter instead. NOTE: We recommend using EncryptionType instead of KMSEncrypted to set the file share encryption method. You do not need to provide values for both parameters. If values for both parameters exist in the same request, then the specified encryption methods must not conflict. For example, if EncryptionType is SseS3 , then KMSEncrypted must be false . If EncryptionType is SseKms or DsseKms , then KMSEncrypted must be true . Valid Values: true | false
     /// </summary>
     [CliFlag("--kms-encrypted", NegatedName = "--no-kms-encrypted")]
     public bool? KmsEncrypted { get; set; }
 
     /// <summary>
-    /// Optional. The Amazon Resource Name (ARN) of a symmetric customer master key (CMK) used for Amazon S3 server-side encryption. Storage Gateway does not support asymmetric CMKs. This value must be set if KMSEncrypted is true , or if EncryptionType is SseKms or DsseKms . Constraints: o min: 7 o max: 2048 o pattern: (^arn:(aws(|-cn|-us-gov|-iso[A-Za-z0-9_-]*|-eusc)):kms:([a-zA-Z0-9-]+):([0-9]+):(key|alias)/(\S+)$)|(^alias/(\S+)$)
+    /// Optional. The Amazon Resource Name (ARN) of a symmetric customer master key (CMK) used for Amazon S3 server-side encryption. Storage Gateway does not support asymmetric CMKs. This value must be set if KMSEncrypted is true , or if EncryptionType is SseKms or DsseKms . Constraints: • min: 7 • max: 2048 • pattern: (^arn:(aws(|-cn|-us-gov|-iso[A-Za-z0-9_-]*|-eusc)):kms:([a-zA-Z0-9-]+):([0-9]+):(key|alias)/(\S+)$)|(^alias/(\S+)$)
     /// </summary>
     [CliOption("--kms-key")]
     public string? KmsKey { get; set; }
 
     /// <summary>
-    /// The default storage class for objects put into an Amazon S3 bucket by the S3 File Gateway. The default value is S3_STANDARD . Optional. Valid Values: S3_STANDARD | S3_INTELLIGENT_TIERING | S3_STANDARD_IA | S3_ONEZONE_IA Constraints: o min: 5 o max: 50
+    /// The default storage class for objects put into an Amazon S3 bucket by the S3 File Gateway. The default value is S3_STANDARD . Optional. Valid Values: S3_STANDARD | S3_INTELLIGENT_TIERING | S3_STANDARD_IA | S3_ONEZONE_IA Constraints: • min: 5 • max: 50
     /// </summary>
     [CliOption("--default-storage-class")]
     public string? DefaultStorageClass { get; set; }
 
     /// <summary>
-    /// A value that sets the access control list (ACL) permission for ob- jects in the S3 bucket that a S3 File Gateway puts objects into. The default value is private . Possible values: o private o public-read o public-read-write o authenticated-read o bucket-owner-read o bucket-owner-full-control o aws-exec-read
+    /// A value that sets the access control list (ACL) permission for objects in the S3 bucket that a S3 File Gateway puts objects into. The default value is private . Possible values: • private • public-read • public-read-write • authenticated-read • bucket-owner-read • bucket-owner-full-control • aws-exec-read
     /// </summary>
     [CliOption("--object-acl")]
     public AwsStoragegatewayCreateNfsFileShareObjectAcl? ObjectAcl { get; set; }
 
     /// <summary>
-    /// The list of clients that are allowed to access the S3 File Gateway. The list must contain either valid IPv4/IPv6 addresses or valid CIDR blocks. Constraints: o min: 1 o max: 100 (string) Constraints: o pattern: ^(?:(?:[0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}(?:[0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(?:\/(?:[0-9]|[1-2][0-9]|3[0-2]))?$|^(?:(?:(?:[A-Fa-f0-9]{1,4}:){6}|(?=(?:[A-Fa-f0-9]{0,4}:){0,6}(?:[0-9]{1,3}\.){3}[0-9]{1,3}(?![:.\w]))(?:(?:[0-9A-Fa-f]{1,4}:){0,5}|:)(?:(?::[0-9A-Fa-f]{1,4}){1,5}:|:)|::(?:[A-Fa-f0-9]{1,4}:){5})(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)|(?:[A-Fa-f0-9]{1,4}:){7}[A-Fa-f0-9]{1,4}|(?=(?:[A-Fa-f0-9]{0,4}:){0,7}[A-Fa-f0-9]{0,4}(?![:.\w]))(?:(?:[0-9A-Fa-f]{1,4}:){1,7}|:)(?:(:[0-9A-Fa-f]{1,4}){1,7}|:)|(?:[A-Fa-f0-9]{1,4}:){7}:|:(:[A-Fa-f0-9]{1,4}){7})(?:\/(?:12[0-8]|1[01][0-9]|[1-9]?[0-9]))?$ Syntax: "string" "string" ...
+    /// The list of clients that are allowed to access the S3 File Gateway. The list must contain either valid IPv4/IPv6 addresses or valid CIDR blocks. Constraints: • min: 1 • max: 100 (string) Constraints: • pattern: ^(?:(?:[0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}(?:[0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(?:\/(?:[0-9]|[1-2][0-9]|3[0-2]))?$|^(?:(?:(?:[A-Fa-f0-9]{1,4}:){6}|(?=(?:[A-Fa-f0-9]{0,4}:){0,6}(?:[0-9]{1,3}\.){3}[0-9]{1,3}(?![:.\w]))(?:(?:[0-9A-Fa-f]{1,4}:){0,5}|:)(?:(?::[0-9A-Fa-f]{1,4}){1,5}:|:)|::(?:[A-Fa-f0-9]{1,4}:){5})(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)|(?:[A-Fa-f0-9]{1,4}:){7}[A-Fa-f0-9]{1,4}|(?=(?:[A-Fa-f0-9]{0,4}:){0,7}[A-Fa-f0-9]{0,4}(?![:.\w]))(?:(?:[0-9A-Fa-f]{1,4}:){1,7}|:)(?:(:[0-9A-Fa-f]{1,4}){1,7}|:)|(?:[A-Fa-f0-9]{1,4}:){7}:|:(:[A-Fa-f0-9]{1,4}){7})(?:\/(?:12[0-8]|1[01][0-9]|[1-9]?[0-9]))?$ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--client-list", GroupValues = true)]
     public IEnumerable<string>? ClientList { get; set; }
 
     /// <summary>
-    /// A value that maps a user to anonymous user. Valid values are the following: o RootSquash : Only root is mapped to anonymous user. o NoSquash : No one is mapped to anonymous user. o AllSquash : Everyone is mapped to anonymous user. Constraints: o min: 5 o max: 15
+    /// A value that maps a user to anonymous user. Valid values are the following: • RootSquash : Only root is mapped to anonymous user. • NoSquash : No one is mapped to anonymous user. • AllSquash : Everyone is mapped to anonymous user. Constraints: • min: 5 • max: 15
     /// </summary>
     [CliOption("--squash")]
     public string? Squash { get; set; }
@@ -155,19 +156,19 @@ public record AwsStoragegatewayCreateNfsFileShareOptions : AwsOptions, IValidata
     public bool? GuessMimeTypeEnabled { get; set; }
 
     /// <summary>
-    /// A value that sets who pays the cost of the request and the cost as- sociated with data download from the S3 bucket. If this value is set to true , the requester pays the costs; otherwise, the S3 bucket owner pays. However, the S3 bucket owner always pays the cost of storing data. NOTE: RequesterPays is a configuration for the S3 bucket that backs the file share, so make sure that the configuration on the file share is the same as the S3 bucket configuration. Valid Values: true | false
+    /// A value that sets who pays the cost of the request and the cost associated with data download from the S3 bucket. If this value is set to true , the requester pays the costs; otherwise, the S3 bucket owner pays. However, the S3 bucket owner always pays the cost of storing data. NOTE: RequesterPays is a configuration for the S3 bucket that backs the file share, so make sure that the configuration on the file share is the same as the S3 bucket configuration. Valid Values: true | false
     /// </summary>
     [CliFlag("--requester-pays", NegatedName = "--no-requester-pays")]
     public bool? RequesterPays { get; set; }
 
     /// <summary>
-    /// A list of up to 50 tags that can be assigned to the NFS file share. Each tag is a key-value pair. NOTE: Valid characters for key and value are letters, spaces, and num- bers representable in UTF-8 format, and the following special characters: + - = . _ : / @. The maximum length of a tag's key is 128 characters, and the maximum length for a tag's value is 256. (structure) A key-value pair that helps you manage, filter, and search for your resource. Allowed characters: letters, white space, and numbers, representable in UTF-8, and the following characters: + - = . _ : /. Key -&gt; (string) [required] Tag key. The key can't start with aws:. Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Value -&gt; (string) [required] Value of the tag key. Constraints: o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// A list of up to 50 tags that can be assigned to the NFS file share. Each tag is a key-value pair. NOTE: Valid characters for key and value are letters, spaces, and numbers representable in UTF-8 format, and the following special characters: + - = . _ : / @. The maximum length of a tag's key is 128 characters, and the maximum length for a tag's value is 256. (structure) A key-value pair that helps you manage, filter, and search for your resource. Allowed characters: letters, white space, and numbers, representable in UTF-8, and the following characters: + - = . _ : /. Key -&gt; (string) [required] Tag key. The key can't start with aws:. Constraints: • min: 1 • max: 128 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Value -&gt; (string) [required] Value of the tag key. Constraints: • max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
-    /// The name of the file share. Optional. NOTE: FileShareName must be set if an S3 prefix name is set in Lo- cationARN , or if an access point or access point alias is used. A valid NFS file share name can only contain the following char- acters: a -z , A -Z , 0 -9 , - , . , and _ . Constraints: o min: 1 o max: 255
+    /// The name of the file share. Optional. NOTE: FileShareName must be set if an S3 prefix name is set in LocationARN , or if an access point or access point alias is used. A valid NFS file share name can only contain the following characters: a -z , A -Z , 0 -9 , - , . , and _ . Constraints: • min: 1 • max: 255
     /// </summary>
     [CliOption("--file-share-name")]
     public string? FileShareName { get; set; }
@@ -179,25 +180,25 @@ public record AwsStoragegatewayCreateNfsFileShareOptions : AwsOptions, IValidata
     public string? CacheAttributes { get; set; }
 
     /// <summary>
-    /// The notification policy of the file share. SettlingTimeInSeconds controls the number of seconds to wait after the last point in time a client wrote to a file before generating an ObjectUploaded notifi- cation. Because clients can make many small writes to files, it's best to set this parameter for as long as possible to avoid generat- ing multiple notifications for the same file in a small time period. NOTE: SettlingTimeInSeconds has no effect on the timing of the ob- ject uploading to Amazon S3, only the timing of the notifica- tion. This setting is not meant to specify an exact time at which the notification will be sent. In some cases, the gateway might re- quire more than the specified delay time to generate and send notifications. The following example sets NotificationPolicy on with Settling- TimeInSeconds set to 60. {\"Upload\": {\"SettlingTimeInSeconds\": 60}} The following example sets NotificationPolicy off. {} Constraints: o min: 2 o max: 100 o pattern: ^\{[\w\s:\{\}\[\]"]*}$
+    /// The notification policy of the file share. SettlingTimeInSeconds controls the number of seconds to wait after the last point in time a client wrote to a file before generating an ObjectUploaded notification. Because clients can make many small writes to files, it's best to set this parameter for as long as possible to avoid generating multiple notifications for the same file in a small time period. NOTE: SettlingTimeInSeconds has no effect on the timing of the object uploading to Amazon S3, only the timing of the notification. This setting is not meant to specify an exact time at which the notification will be sent. In some cases, the gateway might require more than the specified delay time to generate and send notifications. The following example sets NotificationPolicy on with SettlingTimeInSeconds set to 60. {\"Upload\": {\"SettlingTimeInSeconds\": 60}} The following example sets NotificationPolicy off. {} Constraints: • min: 2 • max: 100 • pattern: ^\{[\w\s:\{\}\[\]"]*}$
     /// </summary>
     [CliOption("--notification-policy")]
     public string? NotificationPolicy { get; set; }
 
     /// <summary>
-    /// Specifies the DNS name for the VPC endpoint that the NFS file share uses to connect to Amazon S3. NOTE: This parameter is required for NFS file shares that connect to Amazon S3 through a VPC endpoint, a VPC access point, or an ac- cess point alias that points to a VPC access point. Constraints: o min: 1 o max: 255 o pattern: ^(([a-zA-Z0-9\-]*[a-zA-Z0-9])\.)*([A-Za-z0-9\-]*[A-Za-z0-9])$
+    /// Specifies the DNS name for the VPC endpoint that the NFS file share uses to connect to Amazon S3. NOTE: This parameter is required for NFS file shares that connect to Amazon S3 through a VPC endpoint, a VPC access point, or an access point alias that points to a VPC access point. Constraints: • min: 1 • max: 255 • pattern: ^(([a-zA-Z0-9\-]*[a-zA-Z0-9])\.)*([A-Za-z0-9\-]*[A-Za-z0-9])$
     /// </summary>
     [CliOption("--vpc-endpoint-dns-name")]
     public string? VpcEndpointDnsName { get; set; }
 
     /// <summary>
-    /// Specifies the Region of the S3 bucket where the NFS file share stores files. NOTE: This parameter is required for NFS file shares that connect to Amazon S3 through a VPC endpoint, a VPC access point, or an ac- cess point alias that points to a VPC access point. Constraints: o min: 1 o max: 25
+    /// Specifies the Region of the S3 bucket where the NFS file share stores files. NOTE: This parameter is required for NFS file shares that connect to Amazon S3 through a VPC endpoint, a VPC access point, or an access point alias that points to a VPC access point. Constraints: • min: 1 • max: 25
     /// </summary>
     [CliOption("--bucket-region")]
     public string? BucketRegion { get; set; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the storage used for audit logs. Constraints: o max: 1024
+    /// The Amazon Resource Name (ARN) of the storage used for audit logs. Constraints: • max: 1024
     /// </summary>
     [CliOption("--audit-destination-arn")]
     public string? AuditDestinationArn { get; set; }
@@ -223,6 +224,15 @@ public record AwsStoragegatewayCreateNfsFileShareOptions : AwsOptions, IValidata
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

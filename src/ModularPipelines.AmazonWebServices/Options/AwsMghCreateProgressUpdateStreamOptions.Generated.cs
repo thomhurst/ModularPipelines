@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a progress update stream which is an AWS resource used for ac- cess control as well as a namespace for migration task names that is implicitly linked to your AWS account. It must uniquely identify the migration tool as it is used for all updates made by the tool; however, it does not need to be unique for each AWS account because it is scoped to the AWS account. See also: AWS API Documentation
+/// Creates a progress update stream which is an AWS resource used for access control as well as a namespace for migration task names that is implicitly linked to your AWS account. It must uniquely identify the migration tool as it is used for all updates made by the tool; however, it does not need to be unique for each AWS account because it is scoped to the AWS account. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsMghCreateProgressUpdateStreamOptions : AwsOptions, IValidatable
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a progress update stream which is an AWS resource used for ac- cess control as well as a namespace for migration task names that is implicitly linked to your AWS account. It must uniquely identify the migration tool as it is used for all updates made by the tool; however, it does not need to be unique for each AWS account because it is scoped to the AWS account. See also: AWS API Documentation
+    /// Creates a progress update stream which is an AWS resource used for access control as well as a namespace for migration task names that is implicitly linked to your AWS account. It must uniquely identify the migration tool as it is used for all updates made by the tool; however, it does not need to be unique for each AWS account because it is scoped to the AWS account. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ProgressUpdateStreamName">The name of the ProgressUpdateStream. Do not store personal data in this field. Constraints: o min: 1 o max: 50 o pattern: [^/:|\000-\037]+</param>
+    /// <param name="ProgressUpdateStreamName">The name of the ProgressUpdateStream. Do not store personal data in this field. Constraints: • min: 1 • max: 50 • pattern: [^/:|\000-\037]+</param>
     public AwsMghCreateProgressUpdateStreamOptions(
         string ProgressUpdateStreamName
     )
@@ -56,7 +57,7 @@ public record AwsMghCreateProgressUpdateStreamOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the ProgressUpdateStream. Do not store personal data in this field. Constraints: o min: 1 o max: 50 o pattern: [^/:|\000-\037]+
+    /// The name of the ProgressUpdateStream. Do not store personal data in this field. Constraints: • min: 1 • max: 50 • pattern: [^/:|\000-\037]+
     /// </summary>
     [CliOption("--progress-update-stream-name")]
     public string? ProgressUpdateStreamName { get; private init; }
@@ -88,6 +89,15 @@ public record AwsMghCreateProgressUpdateStreamOptions : AwsOptions, IValidatable
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

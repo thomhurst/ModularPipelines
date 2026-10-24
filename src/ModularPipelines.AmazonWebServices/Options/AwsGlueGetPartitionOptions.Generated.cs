@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,9 +28,9 @@ public record AwsGlueGetPartitionOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Retrieves information about a specified partition. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DatabaseName">The name of the catalog database where the partition resides. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*</param>
-    /// <param name="TableName">The name of the partition's table. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*</param>
-    /// <param name="PartitionValues">The values that define the partition. (string) Constraints: o min: 1 o max: 1024 Syntax: "string" "string" ...</param>
+    /// <param name="DatabaseName">The name of the catalog database where the partition resides. Constraints: • min: 1 • max: 255 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*</param>
+    /// <param name="TableName">The name of the partition's table. Constraints: • min: 1 • max: 255 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*</param>
+    /// <param name="PartitionValues">The values that define the partition. (string) Constraints: • min: 1 • max: 1024 Syntax: "string" "string" ...</param>
     public AwsGlueGetPartitionOptions(
         string DatabaseName,
         string TableName,
@@ -75,31 +76,31 @@ public record AwsGlueGetPartitionOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the catalog database where the partition resides. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
+    /// The name of the catalog database where the partition resides. Constraints: • min: 1 • max: 255 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
     /// </summary>
     [CliOption("--database-name")]
     public string? DatabaseName { get; private init; }
 
     /// <summary>
-    /// The name of the partition's table. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
+    /// The name of the partition's table. Constraints: • min: 1 • max: 255 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
     /// </summary>
     [CliOption("--table-name")]
     public string? TableName { get; private init; }
 
     /// <summary>
-    /// The values that define the partition. (string) Constraints: o min: 1 o max: 1024 Syntax: "string" "string" ...
+    /// The values that define the partition. (string) Constraints: • min: 1 • max: 1024 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--partition-values", GroupValues = true)]
     public IEnumerable<string>? PartitionValues { get; private init; }
 
     /// <summary>
-    /// The ID of the Data Catalog where the partition in question resides. If none is provided, the Amazon Web Services account ID is used by default. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
+    /// The ID of the Data Catalog where the partition in question resides. If none is provided, the Amazon Web Services account ID is used by default. Constraints: • min: 1 • max: 255 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
     /// </summary>
     [CliOption("--catalog-id")]
     public string? CatalogId { get; set; }
 
     /// <summary>
-    /// A structure containing the Lake Formation audit context. AdditionalAuditContext -&gt; (string) A string containing the additional audit context information. Constraints: o min: 0 o max: 2048 RequestedColumns -&gt; (list) The requested columns for audit. (string) Constraints: o min: 1 o max: 1024 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* AllColumnsRequested -&gt; (boolean) All columns request for audit. Shorthand Syntax: AdditionalAuditContext=string,RequestedColumns=string,string,AllColumnsRequested=boolean JSON Syntax: { "AdditionalAuditContext": "string", "RequestedColumns": ["string", ...], "AllColumnsRequested": true|false }
+    /// A structure containing the Lake Formation audit context. AdditionalAuditContext -&gt; (string) A string containing the additional audit context information. Constraints: • min: 0 • max: 2048 RequestedColumns -&gt; (list) The requested columns for audit. (string) Constraints: • min: 1 • max: 1024 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* AllColumnsRequested -&gt; (boolean) All columns request for audit. Shorthand Syntax: AdditionalAuditContext=string,RequestedColumns=string,string,AllColumnsRequested=boolean JSON Syntax: { "AdditionalAuditContext": "string", "RequestedColumns": ["string", ...], "AllColumnsRequested": true|false }
     /// </summary>
     [CliOption("--audit-context")]
     public string? AuditContext { get; set; }
@@ -125,6 +126,15 @@ public record AwsGlueGetPartitionOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

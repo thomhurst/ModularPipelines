@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates an Network Firewall Proxy Attaches a Proxy configuration to a NAT Gateway. To manage a proxy's tags, use the standard Amazon Web Services resource tagging operations, ListTagsForResource , TagResource , and UntagRe- source . To retrieve information about proxies, use ListProxies and De- scribeProxy . See also: AWS API Documentation
+/// Creates an Network Firewall Proxy Attaches a Proxy configuration to a NAT Gateway. To manage a proxy's tags, use the standard Amazon Web Services resource tagging operations, ListTagsForResource , TagResource , and UntagResource . To retrieve information about proxies, use ListProxies and DescribeProxy . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,11 +26,11 @@ public record AwsNetworkFirewallCreateProxyOptions : AwsOptions, IValidatableObj
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates an Network Firewall Proxy Attaches a Proxy configuration to a NAT Gateway. To manage a proxy's tags, use the standard Amazon Web Services resource tagging operations, ListTagsForResource , TagResource , and UntagRe- source . To retrieve information about proxies, use ListProxies and De- scribeProxy . See also: AWS API Documentation
+    /// Creates an Network Firewall Proxy Attaches a Proxy configuration to a NAT Gateway. To manage a proxy's tags, use the standard Amazon Web Services resource tagging operations, ListTagsForResource , TagResource , and UntagResource . To retrieve information about proxies, use ListProxies and DescribeProxy . See also: AWS API Documentation
     /// </summary>
-    /// <param name="ProxyName">The descriptive name of the proxy. You can't change the name of a proxy after you create it. Constraints: o min: 1 o max: 128 o pattern: ^[a-zA-Z0-9-]+$</param>
-    /// <param name="NatGatewayId">A unique identifier for the NAT gateway to use with proxy resources. Constraints: o min: 1</param>
-    /// <param name="TlsInterceptProperties">TLS decryption on traffic to filter on attributes in the HTTP header. PcaArn -&gt; (string) Private Certificate Authority (PCA) used to issue private TLS certificates so that the proxy can present PCA-signed certifi- cates which applications trust through the same root, establish- ing a secure and consistent trust model for encrypted communica- tion. Constraints: o min: 1 o max: 256 o pattern: ^arn:aws.* TlsInterceptMode -&gt; (string) Specifies whether to enable or disable TLS Intercept Mode. Possible values: o ENABLED o DISABLED Shorthand Syntax: PcaArn=string,TlsInterceptMode=string JSON Syntax: { "PcaArn": "string", "TlsInterceptMode": "ENABLED"|"DISABLED" }</param>
+    /// <param name="ProxyName">The descriptive name of the proxy. You can't change the name of a proxy after you create it. Constraints: • min: 1 • max: 128 • pattern: ^[a-zA-Z0-9-]+$</param>
+    /// <param name="NatGatewayId">A unique identifier for the NAT gateway to use with proxy resources. Constraints: • min: 1</param>
+    /// <param name="TlsInterceptProperties">TLS decryption on traffic to filter on attributes in the HTTP header. PcaArn -&gt; (string) Private Certificate Authority (PCA) used to issue private TLS certificates so that the proxy can present PCA-signed certificates which applications trust through the same root, establishing a secure and consistent trust model for encrypted communication. Constraints: • min: 1 • max: 256 • pattern: ^arn:aws.* TlsInterceptMode -&gt; (string) Specifies whether to enable or disable TLS Intercept Mode. Possible values: • ENABLED • DISABLED Shorthand Syntax: PcaArn=string,TlsInterceptMode=string JSON Syntax: { "PcaArn": "string", "TlsInterceptMode": "ENABLED"|"DISABLED" }</param>
     public AwsNetworkFirewallCreateProxyOptions(
         string ProxyName,
         string NatGatewayId,
@@ -64,43 +65,43 @@ public record AwsNetworkFirewallCreateProxyOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The descriptive name of the proxy. You can't change the name of a proxy after you create it. Constraints: o min: 1 o max: 128 o pattern: ^[a-zA-Z0-9-]+$
+    /// The descriptive name of the proxy. You can't change the name of a proxy after you create it. Constraints: • min: 1 • max: 128 • pattern: ^[a-zA-Z0-9-]+$
     /// </summary>
     [CliOption("--proxy-name")]
     public string? ProxyName { get; private init; }
 
     /// <summary>
-    /// A unique identifier for the NAT gateway to use with proxy resources. Constraints: o min: 1
+    /// A unique identifier for the NAT gateway to use with proxy resources. Constraints: • min: 1
     /// </summary>
     [CliOption("--nat-gateway-id")]
     public string? NatGatewayId { get; private init; }
 
     /// <summary>
-    /// TLS decryption on traffic to filter on attributes in the HTTP header. PcaArn -&gt; (string) Private Certificate Authority (PCA) used to issue private TLS certificates so that the proxy can present PCA-signed certifi- cates which applications trust through the same root, establish- ing a secure and consistent trust model for encrypted communica- tion. Constraints: o min: 1 o max: 256 o pattern: ^arn:aws.* TlsInterceptMode -&gt; (string) Specifies whether to enable or disable TLS Intercept Mode. Possible values: o ENABLED o DISABLED Shorthand Syntax: PcaArn=string,TlsInterceptMode=string JSON Syntax: { "PcaArn": "string", "TlsInterceptMode": "ENABLED"|"DISABLED" }
+    /// TLS decryption on traffic to filter on attributes in the HTTP header. PcaArn -&gt; (string) Private Certificate Authority (PCA) used to issue private TLS certificates so that the proxy can present PCA-signed certificates which applications trust through the same root, establishing a secure and consistent trust model for encrypted communication. Constraints: • min: 1 • max: 256 • pattern: ^arn:aws.* TlsInterceptMode -&gt; (string) Specifies whether to enable or disable TLS Intercept Mode. Possible values: • ENABLED • DISABLED Shorthand Syntax: PcaArn=string,TlsInterceptMode=string JSON Syntax: { "PcaArn": "string", "TlsInterceptMode": "ENABLED"|"DISABLED" }
     /// </summary>
     [CliOption("--tls-intercept-properties")]
     public string? TlsInterceptProperties { get; private init; }
 
     /// <summary>
-    /// The descriptive name of the proxy configuration. You can't change the name of a proxy configuration after you create it. You must specify the ARN or the name, and you can specify both. Constraints: o min: 1 o max: 128 o pattern: ^[a-zA-Z0-9-]+$
+    /// The descriptive name of the proxy configuration. You can't change the name of a proxy configuration after you create it. You must specify the ARN or the name, and you can specify both. Constraints: • min: 1 • max: 128 • pattern: ^[a-zA-Z0-9-]+$
     /// </summary>
     [CliOption("--proxy-configuration-name")]
     public string? ProxyConfigurationName { get; set; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of a proxy configuration. You must specify the ARN or the name, and you can specify both. Constraints: o min: 1 o max: 256 o pattern: ^arn:aws.*
+    /// The Amazon Resource Name (ARN) of a proxy configuration. You must specify the ARN or the name, and you can specify both. Constraints: • min: 1 • max: 256 • pattern: ^arn:aws.*
     /// </summary>
     [CliOption("--proxy-configuration-arn")]
     public string? ProxyConfigurationArn { get; set; }
 
     /// <summary>
-    /// Listener properties for HTTP and HTTPS traffic. Constraints: o min: 0 o max: 2 (structure) This data type is used specifically for the CreateProxy and UpdateProxy APIs. Open port for taking HTTP or HTTPS traffic. Port -&gt; (integer) [required] Port for processing traffic. Type -&gt; (string) [required] Selection of HTTP or HTTPS traffic. Possible values: o HTTP o HTTPS Shorthand Syntax: Port=integer,Type=string ... JSON Syntax: [ { "Port": integer, "Type": "HTTP"|"HTTPS" } ... ]
+    /// Listener properties for HTTP and HTTPS traffic. Constraints: • min: 0 • max: 2 (structure) This data type is used specifically for the CreateProxy and UpdateProxy APIs. Open port for taking HTTP or HTTPS traffic. Port -&gt; (integer) [required] Port for processing traffic. Type -&gt; (string) [required] Selection of HTTP or HTTPS traffic. Possible values: • HTTP • HTTPS Shorthand Syntax: Port=integer,Type=string ... JSON Syntax: [ { "Port": integer, "Type": "HTTP"|"HTTPS" } ... ]
     /// </summary>
     [CliOption("--listener-properties", GroupValues = true)]
     public IEnumerable<string>? ListenerProperties { get; set; }
 
     /// <summary>
-    /// The key:value pairs to associate with the resource. Constraints: o min: 1 o max: 200 (structure) A key:value pair associated with an Amazon Web Services re- source. The key:value pair can be anything you define. Typi- cally, the tag key represents a category (such as "environment") and the tag value represents a specific value within that cate- gory (such as "test," "development," or "production"). You can add up to 50 tags to each Amazon Web Services resource. Key -&gt; (string) [required] The part of the key:value pair that defines a tag. You can use a tag key to describe a category of information, such as "customer." Tag keys are case-sensitive. Constraints: o min: 1 o max: 128 o pattern: ^.*$ Value -&gt; (string) [required] The part of the key:value pair that defines a tag. You can use a tag value to describe a specific value within a cate- gory, such as "companyA" or "companyB." Tag values are case-sensitive. Constraints: o min: 0 o max: 256 o pattern: ^.*$ Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// The key:value pairs to associate with the resource. Constraints: • min: 1 • max: 200 (structure) A key:value pair associated with an Amazon Web Services resource. The key:value pair can be anything you define. Typically, the tag key represents a category (such as "environment") and the tag value represents a specific value within that category (such as "test," "development," or "production"). You can add up to 50 tags to each Amazon Web Services resource. Key -&gt; (string) [required] The part of the key:value pair that defines a tag. You can use a tag key to describe a category of information, such as "customer." Tag keys are case-sensitive. Constraints: • min: 1 • max: 128 • pattern: ^.*$ Value -&gt; (string) [required] The part of the key:value pair that defines a tag. You can use a tag value to describe a specific value within a category, such as "companyA" or "companyB." Tag values are case-sensitive. Constraints: • min: 0 • max: 256 • pattern: ^.*$ Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
@@ -126,6 +127,15 @@ public record AwsNetworkFirewallCreateProxyOptions : AwsOptions, IValidatableObj
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns complete information about one rule groups namespace. To re- trieve a list of rule groups namespaces, use ListRuleGroupsNamespaces . See also: AWS API Documentation
+/// Returns complete information about one rule groups namespace. To retrieve a list of rule groups namespaces, use ListRuleGroupsNamespaces . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsAmpDescribeRuleGroupsNamespaceOptions : AwsOptions, IValidatabl
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns complete information about one rule groups namespace. To re- trieve a list of rule groups namespaces, use ListRuleGroupsNamespaces . See also: AWS API Documentation
+    /// Returns complete information about one rule groups namespace. To retrieve a list of rule groups namespaces, use ListRuleGroupsNamespaces . See also: AWS API Documentation
     /// </summary>
-    /// <param name="WorkspaceId">The ID of the workspace containing the rule groups namespace. Constraints: o min: 1 o max: 64 o pattern: .*[0-9A-Za-z][-.0-9A-Z_a-z]*.*</param>
-    /// <param name="Name">The name of the rule groups namespace that you want information for. Constraints: o min: 1 o max: 128 o pattern: .*[0-9A-Za-z][-.0-9A-Z_a-z]*.*</param>
+    /// <param name="WorkspaceId">The ID of the workspace containing the rule groups namespace. Constraints: • min: 1 • max: 64 • pattern: .*[0-9A-Za-z][-.0-9A-Z_a-z]*.*</param>
+    /// <param name="Name">The name of the rule groups namespace that you want information for. Constraints: • min: 1 • max: 128 • pattern: .*[0-9A-Za-z][-.0-9A-Z_a-z]*.*</param>
     public AwsAmpDescribeRuleGroupsNamespaceOptions(
         string WorkspaceId,
         string Name
@@ -60,13 +61,13 @@ public record AwsAmpDescribeRuleGroupsNamespaceOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the workspace containing the rule groups namespace. Constraints: o min: 1 o max: 64 o pattern: .*[0-9A-Za-z][-.0-9A-Z_a-z]*.*
+    /// The ID of the workspace containing the rule groups namespace. Constraints: • min: 1 • max: 64 • pattern: .*[0-9A-Za-z][-.0-9A-Z_a-z]*.*
     /// </summary>
     [CliOption("--workspace-id")]
     public string? WorkspaceId { get; private init; }
 
     /// <summary>
-    /// The name of the rule groups namespace that you want information for. Constraints: o min: 1 o max: 128 o pattern: .*[0-9A-Za-z][-.0-9A-Z_a-z]*.*
+    /// The name of the rule groups namespace that you want information for. Constraints: • min: 1 • max: 128 • pattern: .*[0-9A-Za-z][-.0-9A-Z_a-z]*.*
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
@@ -92,6 +93,15 @@ public record AwsAmpDescribeRuleGroupsNamespaceOptions : AwsOptions, IValidatabl
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

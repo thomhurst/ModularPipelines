@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsPcsRegisterComputeNodeGroupInstanceOptions : AwsOptions, IValid
     /// <summary>
     /// WARNING: This API action isn't intended for you to use. PCS uses this API action to register the compute nodes it launches in your account. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ClusterIdentifier">The name or ID of the cluster to register the compute node group in- stance in. Constraints: o pattern: (pcs_[a-zA-Z0-9]+|[A-Za-z][A-Za-z0-9-]{2,40})</param>
-    /// <param name="BootstrapId">The client-generated token to allow for retries. Constraints: o min: 1 o max: 1000 o pattern: [\S]+</param>
+    /// <param name="ClusterIdentifier">The name or ID of the cluster to register the compute node group instance in. Constraints: • pattern: (pcs_[a-zA-Z0-9]+|[A-Za-z][A-Za-z0-9-]{2,40})</param>
+    /// <param name="BootstrapId">The client-generated token to allow for retries. Constraints: • min: 1 • max: 1000 • pattern: [\S]+</param>
     public AwsPcsRegisterComputeNodeGroupInstanceOptions(
         string ClusterIdentifier,
         string BootstrapId
@@ -60,13 +61,13 @@ public record AwsPcsRegisterComputeNodeGroupInstanceOptions : AwsOptions, IValid
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name or ID of the cluster to register the compute node group in- stance in. Constraints: o pattern: (pcs_[a-zA-Z0-9]+|[A-Za-z][A-Za-z0-9-]{2,40})
+    /// The name or ID of the cluster to register the compute node group instance in. Constraints: • pattern: (pcs_[a-zA-Z0-9]+|[A-Za-z][A-Za-z0-9-]{2,40})
     /// </summary>
     [CliOption("--cluster-identifier")]
     public string? ClusterIdentifier { get; private init; }
 
     /// <summary>
-    /// The client-generated token to allow for retries. Constraints: o min: 1 o max: 1000 o pattern: [\S]+
+    /// The client-generated token to allow for retries. Constraints: • min: 1 • max: 1000 • pattern: [\S]+
     /// </summary>
     [CliOption("--bootstrap-id")]
     public string? BootstrapId { get; private init; }
@@ -92,6 +93,15 @@ public record AwsPcsRegisterComputeNodeGroupInstanceOptions : AwsOptions, IValid
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

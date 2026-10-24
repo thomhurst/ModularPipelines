@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Adds an ingress authorization rule to a Client VPN endpoint. Ingress authorization rules act as firewall rules that grant access to net- works. You must configure ingress authorization rules to enable clients to access resources in Amazon Web Services or on-premises networks. See also: AWS API Documentation
+/// Adds an ingress authorization rule to a Client VPN endpoint. Ingress authorization rules act as firewall rules that grant access to networks. You must configure ingress authorization rules to enable clients to access resources in Amazon Web Services or on-premises networks. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,7 +27,7 @@ public record AwsEc2AuthorizeClientVpnIngressOptions : AwsOptions, IValidatableO
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Adds an ingress authorization rule to a Client VPN endpoint. Ingress authorization rules act as firewall rules that grant access to net- works. You must configure ingress authorization rules to enable clients to access resources in Amazon Web Services or on-premises networks. See also: AWS API Documentation
+    /// Adds an ingress authorization rule to a Client VPN endpoint. Ingress authorization rules act as firewall rules that grant access to networks. You must configure ingress authorization rules to enable clients to access resources in Amazon Web Services or on-premises networks. See also: AWS API Documentation
     /// </summary>
     /// <param name="ClientVpnEndpointId">The ID of the Client VPN endpoint.</param>
     /// <param name="TargetNetworkCidr">The IPv4 address range, in CIDR notation, of the network for which access is being authorized.</param>
@@ -73,13 +74,13 @@ public record AwsEc2AuthorizeClientVpnIngressOptions : AwsOptions, IValidatableO
     public string? TargetNetworkCidr { get; private init; }
 
     /// <summary>
-    /// The ID of the group to grant access to, for example, the Active Di- rectory group or identity provider (IdP) group. Required if Autho- rizeAllGroups is false or not specified.
+    /// The ID of the group to grant access to, for example, the Active Directory group or identity provider (IdP) group. Required if AuthorizeAllGroups is false or not specified.
     /// </summary>
     [CliOption("--access-group-id")]
     public string? AccessGroupId { get; set; }
 
     /// <summary>
-    /// Indicates whether to grant access to all clients. Specify true to grant all clients who successfully establish a VPN connection access to the network. Must be set to true if AccessGroupId is not speci- fied.
+    /// Indicates whether to grant access to all clients. Specify true to grant all clients who successfully establish a VPN connection access to the network. Must be set to true if AccessGroupId is not specified.
     /// </summary>
     [CliFlag("--authorize-all-groups", NegatedName = "--no-authorize-all-groups")]
     public bool? AuthorizeAllGroups { get; set; }
@@ -91,14 +92,14 @@ public record AwsEc2AuthorizeClientVpnIngressOptions : AwsOptions, IValidatableO
     public string? Description { get; set; }
 
     /// <summary>
-    /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. For more information, see Ensuring idem- potency .
+    /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. For more information, see Ensuring idempotency .
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation . Otherwise, it is UnauthorizedOperation .
     /// </summary>
     [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
@@ -124,6 +125,15 @@ public record AwsEc2AuthorizeClientVpnIngressOptions : AwsOptions, IValidatableO
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

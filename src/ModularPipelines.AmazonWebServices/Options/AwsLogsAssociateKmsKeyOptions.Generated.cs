@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Associates the specified KMS key with either one log group in the ac- count, or with all stored CloudWatch Logs query insights results in the account. When you use AssociateKmsKey , you specify either the logGroupName pa- rameter or the resourceIdentifier parameter. You can't specify both of those parameters in the same operation. o Specify the logGroupName parameter to cause log events ingested into that log group to be encrypted with that key. Only the log events in- gested after the key is as...
+/// Associates the specified KMS key with either one log group in the account, or with all stored CloudWatch Logs query insights results in the account. When you use AssociateKmsKey , you specify either the logGroupName parameter or the resourceIdentifier parameter. You can't specify both of those parameters in the same operation. • Specify the logGroupName parameter to cause log events ingested into that log group to be encrypted with that key. Only the log events ingested after the key is associat...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsLogsAssociateKmsKeyOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Associates the specified KMS key with either one log group in the ac- count, or with all stored CloudWatch Logs query insights results in the account. When you use AssociateKmsKey , you specify either the logGroupName pa- rameter or the resourceIdentifier parameter. You can't specify both of those parameters in the same operation. o Specify the logGroupName parameter to cause log events ingested into that log group to be encrypted with that key. Only the log events in- gested after the key is as...
+    /// Associates the specified KMS key with either one log group in the account, or with all stored CloudWatch Logs query insights results in the account. When you use AssociateKmsKey , you specify either the logGroupName parameter or the resourceIdentifier parameter. You can't specify both of those parameters in the same operation. • Specify the logGroupName parameter to cause log events ingested into that log group to be encrypted with that key. Only the log events ingested after the key is associat...
     /// </summary>
-    /// <param name="KmsKeyId">The Amazon Resource Name (ARN) of the KMS key to use when encrypting log data. This must be a symmetric KMS key. For more information, see Amazon Resource Names and Using Symmetric and Asymmetric Keys . Constraints: o max: 256</param>
+    /// <param name="KmsKeyId">The Amazon Resource Name (ARN) of the KMS key to use when encrypting log data. This must be a symmetric KMS key. For more information, see Amazon Resource Names and Using Symmetric and Asymmetric Keys . Constraints: • max: 256</param>
     public AwsLogsAssociateKmsKeyOptions(
         string KmsKeyId
     )
@@ -56,19 +57,19 @@ public record AwsLogsAssociateKmsKeyOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the KMS key to use when encrypting log data. This must be a symmetric KMS key. For more information, see Amazon Resource Names and Using Symmetric and Asymmetric Keys . Constraints: o max: 256
+    /// The Amazon Resource Name (ARN) of the KMS key to use when encrypting log data. This must be a symmetric KMS key. For more information, see Amazon Resource Names and Using Symmetric and Asymmetric Keys . Constraints: • max: 256
     /// </summary>
     [CliOption("--kms-key-id")]
     public string? KmsKeyId { get; private init; }
 
     /// <summary>
-    /// The name of the log group. In your AssociateKmsKey operation, you must specify either the re- sourceIdentifier parameter or the logGroup parameter, but you can't specify both. Constraints: o min: 1 o max: 512 o pattern: [\.\-_/#A-Za-z0-9]+
+    /// The name of the log group. In your AssociateKmsKey operation, you must specify either the resourceIdentifier parameter or the logGroup parameter, but you can't specify both. Constraints: • min: 1 • max: 512 • pattern: [\.\-_/#A-Za-z0-9]+
     /// </summary>
     [CliOption("--log-group-name")]
     public string? LogGroupName { get; set; }
 
     /// <summary>
-    /// Specifies the target for this operation. You must specify one of the following: o Specify the following ARN to have future GetQueryResults opera- tions in this account encrypt the results with the specified KMS key. Replace REGION and ACCOUNT_ID with your Region and account ID. arn:aws:logs:*REGION* :*ACCOUNT_ID* :query-result:* o Specify the ARN of a log group to have CloudWatch Logs use the KMS key to encrypt log events that are ingested and stored by that log group. The log group ARN must be in the following format. Replace REGION and ACCOUNT_ID with your Region and account ID. `` arn:aws:logs:REGION :ACCOUNT_ID :log-group:LOG_GROUP_NAME `` System Message: WARNING/2 (&lt;string&gt;:, line 159) Inline literal start-string without end-string. In your AssociateKmsKey operation, you must specify either the re- sourceIdentifier parameter or the logGroup parameter, but you can't specify both. Constraints: o min: 1 o max: 2048 o pattern: [\w+=/:,.@\-\*]*
+    /// Specifies the target for this operation. You must specify one of the following: • Specify the following ARN to have future GetQueryResults operations in this account encrypt the results with the specified KMS key. Replace REGION and ACCOUNT_ID with your Region and account ID. arn:aws:logs:*REGION* :*ACCOUNT_ID* :query-result:* • Specify the ARN of a log group to have CloudWatch Logs use the KMS key to encrypt log events that are ingested and stored by that log group. The log group ARN must be in the following format. Replace REGION and ACCOUNT_ID with your Region and account ID. `` arn:aws:logs:REGION :ACCOUNT_ID :log-group:LOG_GROUP_NAME `` System Message: WARNING/2 (&lt;string&gt;:, line 159) Inline literal start-string without end-string. In your AssociateKmsKey operation, you must specify either the resourceIdentifier parameter or the logGroup parameter, but you can't specify both. Constraints: • min: 1 • max: 2048 • pattern: [\w+=/:,.@\-\*]*
     /// </summary>
     [CliOption("--resource-identifier")]
     public string? ResourceIdentifier { get; set; }
@@ -94,6 +95,15 @@ public record AwsLogsAssociateKmsKeyOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

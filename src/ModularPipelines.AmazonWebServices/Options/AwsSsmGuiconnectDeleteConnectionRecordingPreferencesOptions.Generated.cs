@@ -23,7 +23,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsSsmGuiconnectDeleteConnectionRecordingPreferencesOptions : AwsOptions
 {
     /// <summary>
-    /// User-provided idempotency token. Constraints: o min: 1 o max: 64
+    /// User-provided idempotency token. Constraints: • min: 1 • max: 64
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
@@ -34,5 +34,14 @@ public record AwsSsmGuiconnectDeleteConnectionRecordingPreferencesOptions : AwsO
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

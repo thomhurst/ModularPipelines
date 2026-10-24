@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsRedshiftServerlessDeleteWorkgroupOptions : AwsOptions, IValidat
     /// <summary>
     /// Deletes a workgroup. See also: AWS API Documentation
     /// </summary>
-    /// <param name="WorkgroupName">The name of the workgroup to be deleted. Constraints: o min: 3 o max: 64 o pattern: ^[a-z0-9-]+$</param>
+    /// <param name="WorkgroupName">The name of the workgroup to be deleted. Constraints: • min: 3 • max: 64 • pattern: ^[a-z0-9-]+$</param>
     public AwsRedshiftServerlessDeleteWorkgroupOptions(
         string WorkgroupName
     )
@@ -56,7 +57,7 @@ public record AwsRedshiftServerlessDeleteWorkgroupOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the workgroup to be deleted. Constraints: o min: 3 o max: 64 o pattern: ^[a-z0-9-]+$
+    /// The name of the workgroup to be deleted. Constraints: • min: 3 • max: 64 • pattern: ^[a-z0-9-]+$
     /// </summary>
     [CliOption("--workgroup-name")]
     public string? WorkgroupName { get; private init; }
@@ -82,6 +83,15 @@ public record AwsRedshiftServerlessDeleteWorkgroupOptions : AwsOptions, IValidat
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

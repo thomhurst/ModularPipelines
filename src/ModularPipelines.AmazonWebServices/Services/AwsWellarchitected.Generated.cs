@@ -6,8 +6,8 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
+using ModularPipelines;
 using ModularPipelines.Context;
-using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
@@ -32,7 +32,7 @@ public class AwsWellarchitected : IAwsWellarchitected
     #region Commands
 
     /// <summary>
-    /// Associate a lens to a workload. Up to 10 lenses can be associated with a workload in a single API oper- ation. A maximum of 20 lenses can be associated with a workload. NOTE: Disclaimer By accessing and/or applying custom lenses created by another Amazon Web Services user or account, you acknowledge that custom lenses created by other users and shared with you are Third Party Content as defined in the Amazon Web Services Customer Agreement. See also: AWS API Documentation
+    /// Associate a lens to a workload. Up to 10 lenses can be associated with a workload in a single API operation. A maximum of 20 lenses can be associated with a workload. NOTE: Disclaimer By accessing and/or applying custom lenses created by another Amazon Web Services user or account, you acknowledge that custom lenses created by other users and shared with you are Third Party Content as defined in the Amazon Web Services Customer Agreement. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -62,7 +62,7 @@ public class AwsWellarchitected : IAwsWellarchitected
     }
 
     /// <summary>
-    /// Creates a context associated with an optimization profile. Contexts provide application and environment information used during recommenda- tion generation. See also: AWS API Documentation
+    /// Creates a context associated with an optimization profile. Contexts provide application and environment information used during recommendation generation. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -92,7 +92,7 @@ public class AwsWellarchitected : IAwsWellarchitected
     }
 
     /// <summary>
-    /// Creates an optimization profile that defines the scope and configura- tion for generating recommendations. A profile specifies the execution role, target pillars, and aggregation settings for analyzing your Ama- zon Web Services resources. See also: AWS API Documentation
+    /// Creates an optimization profile that defines the scope and configuration for generating recommendations. A profile specifies the execution role, target pillars, and aggregation settings for analyzing your Amazon Web Services resources. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -107,7 +107,7 @@ public class AwsWellarchitected : IAwsWellarchitected
     }
 
     /// <summary>
-    /// Create a lens share. The owner of a lens can share it with other Amazon Web Services ac- counts, users, an organization, and organizational units (OUs) in the same Amazon Web Services Region. Lenses provided by Amazon Web Services (Amazon Web Services Official Content) cannot be shared. Shared access to a lens is not removed until the lens invitation is deleted. If you share a lens with an organization or OU, all accounts in the or- ganization or OU are granted access to the lens. For more infor...
+    /// Create a lens share. The owner of a lens can share it with other Amazon Web Services accounts, users, an organization, and organizational units (OUs) in the same Amazon Web Services Region. Lenses provided by Amazon Web Services (Amazon Web Services Official Content) cannot be shared. Shared access to a lens is not removed until the lens invitation is deleted. If you share a lens with an organization or OU, all accounts in the organization or OU are granted access to the lens. For more informati...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -122,7 +122,7 @@ public class AwsWellarchitected : IAwsWellarchitected
     }
 
     /// <summary>
-    /// Create a new lens version. A lens can have up to 100 versions. Use this operation to publish a new lens version after you have im- ported a lens. The LensAlias is used to identify the lens to be pub- lished. The owner of a lens can share the lens with other Amazon Web Services accounts and users in the same Amazon Web Services Region. Only the owner of a lens can delete it. See also: AWS API Documentation
+    /// Create a new lens version. A lens can have up to 100 versions. Use this operation to publish a new lens version after you have imported a lens. The LensAlias is used to identify the lens to be published. The owner of a lens can share the lens with other Amazon Web Services accounts and users in the same Amazon Web Services Region. Only the owner of a lens can delete it. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -182,7 +182,7 @@ public class AwsWellarchitected : IAwsWellarchitected
     }
 
     /// <summary>
-    /// Create a review template. NOTE: Disclaimer Do not include or gather personal identifiable information (PII) of end users or other identifiable individuals in or via your review templates. If your review template or those shared with you and used in your account do include or collect PII you are responsible for: ensuring that the included PII is processed in accordance with ap- plicable law, providing adequate privacy notices, and obtaining nec- essary consents for processing such data. See also:...
+    /// Create a review template. NOTE: Disclaimer Do not include or gather personal identifiable information (PII) of end users or other identifiable individuals in or via your review templates. If your review template or those shared with you and used in your account do include or collect PII you are responsible for: ensuring that the included PII is processed in accordance with applicable law, providing adequate privacy notices, and obtaining necessary consents for processing such data. See also: AWS...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -197,7 +197,7 @@ public class AwsWellarchitected : IAwsWellarchitected
     }
 
     /// <summary>
-    /// Create a review template share. The owner of a review template can share it with other Amazon Web Ser- vices accounts, users, an organization, and organizational units (OUs) in the same Amazon Web Services Region. Shared access to a review template is not removed until the review tem- plate share invitation is deleted. If you share a review template with an organization or OU, all accounts in the organization or OU are granted access to the review template. NOTE: Disclaimer By sharing your revie...
+    /// Create a review template share. The owner of a review template can share it with other Amazon Web Services accounts, users, an organization, and organizational units (OUs) in the same Amazon Web Services Region. Shared access to a review template is not removed until the review template share invitation is deleted. If you share a review template with an organization or OU, all accounts in the organization or OU are granted access to the review template. NOTE: Disclaimer By sharing your review te...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -212,7 +212,7 @@ public class AwsWellarchitected : IAwsWellarchitected
     }
 
     /// <summary>
-    /// Create a new workload. The owner of a workload can share the workload with other Amazon Web Services accounts, users, an organization, and organizational units (OUs) in the same Amazon Web Services Region. Only the owner of a work- load can delete it. For more information, see Defining a Workload in the Well-Architected Tool User Guide . WARNING: Either AwsRegions , NonAwsRegions , or both must be specified when creating a workload. You also must specify ReviewOwner , even though the parameter i...
+    /// Create a new workload. The owner of a workload can share the workload with other Amazon Web Services accounts, users, an organization, and organizational units (OUs) in the same Amazon Web Services Region. Only the owner of a workload can delete it. For more information, see Defining a Workload in the Well-Architected Tool User Guide . WARNING: Either AwsRegions , NonAwsRegions , or both must be specified when creating a workload. You also must specify ReviewOwner , even though the parameter is ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -227,7 +227,7 @@ public class AwsWellarchitected : IAwsWellarchitected
     }
 
     /// <summary>
-    /// Create a workload share. The owner of a workload can share it with other Amazon Web Services ac- counts and users in the same Amazon Web Services Region. Shared access to a workload is not removed until the workload invitation is deleted. If you share a workload with an organization or OU, all accounts in the organization or OU are granted access to the workload. For more information, see Sharing a workload in the Well-Architected Tool User Guide . See also: AWS API Documentation
+    /// Create a workload share. The owner of a workload can share it with other Amazon Web Services accounts and users in the same Amazon Web Services Region. Shared access to a workload is not removed until the workload invitation is deleted. If you share a workload with an organization or OU, all accounts in the organization or OU are granted access to the workload. For more information, see Sharing a workload in the Well-Architected Tool User Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -287,7 +287,7 @@ public class AwsWellarchitected : IAwsWellarchitected
     }
 
     /// <summary>
-    /// Delete an existing lens. Only the owner of a lens can delete it. After the lens is deleted, Ama- zon Web Services accounts and users that you shared the lens with can continue to use it, but they will no longer be able to apply it to new workloads. NOTE: Disclaimer By sharing your custom lenses with other Amazon Web Services ac- counts, you acknowledge that Amazon Web Services will make your cus- tom lenses available to those other accounts. Those other accounts may continue to access and use yo...
+    /// Delete an existing lens. Only the owner of a lens can delete it. After the lens is deleted, Amazon Web Services accounts and users that you shared the lens with can continue to use it, but they will no longer be able to apply it to new workloads. NOTE: Disclaimer By sharing your custom lenses with other Amazon Web Services accounts, you acknowledge that Amazon Web Services will make your custom lenses available to those other accounts. Those other accounts may continue to access and use your sha...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -302,7 +302,7 @@ public class AwsWellarchitected : IAwsWellarchitected
     }
 
     /// <summary>
-    /// Delete a lens share. After the lens share is deleted, Amazon Web Services accounts, users, organizations, and organizational units (OUs) that you shared the lens with can continue to use it, but they will no longer be able to apply it to new workloads. NOTE: Disclaimer By sharing your custom lenses with other Amazon Web Services ac- counts, you acknowledge that Amazon Web Services will make your cus- tom lenses available to those other accounts. Those other accounts may continue to access and us...
+    /// Delete a lens share. After the lens share is deleted, Amazon Web Services accounts, users, organizations, and organizational units (OUs) that you shared the lens with can continue to use it, but they will no longer be able to apply it to new workloads. NOTE: Disclaimer By sharing your custom lenses with other Amazon Web Services accounts, you acknowledge that Amazon Web Services will make your custom lenses available to those other accounts. Those other accounts may continue to access and use yo...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -317,7 +317,7 @@ public class AwsWellarchitected : IAwsWellarchitected
     }
 
     /// <summary>
-    /// Delete a profile. NOTE: Disclaimer By sharing your profile with other Amazon Web Services accounts, you acknowledge that Amazon Web Services will make your profile avail- able to those other accounts. Those other accounts may continue to access and use your shared profile even if you delete the profile from your own Amazon Web Services account or terminate your Amazon Web Services account. See also: AWS API Documentation
+    /// Delete a profile. NOTE: Disclaimer By sharing your profile with other Amazon Web Services accounts, you acknowledge that Amazon Web Services will make your profile available to those other accounts. Those other accounts may continue to access and use your shared profile even if you delete the profile from your own Amazon Web Services account or terminate your Amazon Web Services account. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -362,7 +362,7 @@ public class AwsWellarchitected : IAwsWellarchitected
     }
 
     /// <summary>
-    /// Delete a review template share. After the review template share is deleted, Amazon Web Services ac- counts, users, organizations, and organizational units (OUs) that you shared the review template with will no longer be able to apply it to new workloads. See also: AWS API Documentation
+    /// Delete a review template share. After the review template share is deleted, Amazon Web Services accounts, users, organizations, and organizational units (OUs) that you shared the review template with will no longer be able to apply it to new workloads. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -407,7 +407,7 @@ public class AwsWellarchitected : IAwsWellarchitected
     }
 
     /// <summary>
-    /// Disassociate a lens from a workload. Up to 10 lenses can be disassociated from a workload in a single API operation. NOTE: The Amazon Web Services Well-Architected Framework lens (wellarchi- tected ) cannot be removed from a workload. See also: AWS API Documentation
+    /// Disassociate a lens from a workload. Up to 10 lenses can be disassociated from a workload in a single API operation. NOTE: The Amazon Web Services Well-Architected Framework lens (wellarchitected ) cannot be removed from a workload. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -437,7 +437,7 @@ public class AwsWellarchitected : IAwsWellarchitected
     }
 
     /// <summary>
-    /// Export an existing lens. Only the owner of a lens can export it. Lenses provided by Amazon Web Services (Amazon Web Services Official Content) cannot be exported. Lenses are defined in JSON. For more information, see JSON format spec- ification in the Well-Architected Tool User Guide . NOTE: Disclaimer Do not include or gather personal identifiable information (PII) of end users or other identifiable individuals in or via your custom lenses. If your custom lens or those shared with you and used ...
+    /// Export an existing lens. Only the owner of a lens can export it. Lenses provided by Amazon Web Services (Amazon Web Services Official Content) cannot be exported. Lenses are defined in JSON. For more information, see JSON format specification in the Well-Architected Tool User Guide . NOTE: Disclaimer Do not include or gather personal identifiable information (PII) of end users or other identifiable individuals in or via your custom lenses. If your custom lens or those shared with you and used in...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -497,7 +497,7 @@ public class AwsWellarchitected : IAwsWellarchitected
     }
 
     /// <summary>
-    /// Retrieves information about a recommendation generation process, in- cluding its status, progress, and results. Recommendation generation is asynchronous: poll this operation until status reaches a terminal value of COMPLETED (results are ready) or ERROR (see errorDetails). Interme- diate values are QUEUED and IN_PROGRESS. See also: AWS API Documentation get-agent-recommendation-generation uses document type values. Document types follow the JSON data model where valid values are: strings, num- ...
+    /// Retrieves information about a recommendation generation process, including its status, progress, and results. Recommendation generation is asynchronous: poll this operation until status reaches a terminal value of COMPLETED (results are ready) or ERROR (see errorDetails). Intermediate values are QUEUED and IN_PROGRESS. See also: AWS API Documentation get-agent-recommendation-generation uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -512,7 +512,7 @@ public class AwsWellarchitected : IAwsWellarchitected
     }
 
     /// <summary>
-    /// Retrieves detailed information about a specific optimization recommen- dation, including its impact analysis, content, and implementation guidance. See also: AWS API Documentation
+    /// Retrieves detailed information about a specific optimization recommendation, including its impact analysis, content, and implementation guidance. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -737,7 +737,7 @@ public class AwsWellarchitected : IAwsWellarchitected
     }
 
     /// <summary>
-    /// Import a new custom lens or update an existing custom lens. To update an existing custom lens, specify its ARN as the LensAlias . If no ARN is specified, a new custom lens is created. The new or updated lens will have a status of DRAFT . The lens cannot be applied to workloads or shared with other Amazon Web Services ac- counts until it's published with CreateLensVersion . Lenses are defined in JSON. For more information, see JSON format spec- ification in the Well-Architected Tool User Guide . ...
+    /// Import a new custom lens or update an existing custom lens. To update an existing custom lens, specify its ARN as the LensAlias . If no ARN is specified, a new custom lens is created. The new or updated lens will have a status of DRAFT . The lens cannot be applied to workloads or shared with other Amazon Web Services accounts until it's published with CreateLensVersion . Lenses are defined in JSON. For more information, see JSON format specification in the Well-Architected Tool User Guide . A cu...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -767,7 +767,7 @@ public class AwsWellarchitected : IAwsWellarchitected
     }
 
     /// <summary>
-    /// Lists optimization goals associated with a specified profile. Goals de- fine specific targets and objectives for the optimization process. See also: AWS API Documentation list-agent-goals is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results o...
+    /// Lists optimization goals associated with a specified profile. Goals define specific targets and objectives for the optimization process. See also: AWS API Documentation list-agent-goals is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -797,7 +797,7 @@ public class AwsWellarchitected : IAwsWellarchitected
     }
 
     /// <summary>
-    /// Lists recommendation generation processes for a specified profile. See also: AWS API Documentation list-agent-recommendation-generations is a paginated operation. Multi- ple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate ar- gument. When using --output text and the --query argument on a pagi- nated response, the --query argument must extract data from the results of the following query expressions: items
+    /// Lists recommendation generation processes for a specified profile. See also: AWS API Documentation list-agent-recommendation-generations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: items
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -812,7 +812,7 @@ public class AwsWellarchitected : IAwsWellarchitected
     }
 
     /// <summary>
-    /// Lists recommendation items for a specific recommendation. Recommenda- tion items provide detailed information about individual optimization opportunities. See also: AWS API Documentation list-agent-recommendation-items uses document type values. Document types follow the JSON data model where valid values are: strings, num- bers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax...
+    /// Lists recommendation items for a specific recommendation. Recommendation items provide detailed information about individual optimization opportunities. See also: AWS API Documentation list-agent-recommendation-items uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax doe...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -827,7 +827,7 @@ public class AwsWellarchitected : IAwsWellarchitected
     }
 
     /// <summary>
-    /// Lists active optimization recommendations for a specified profile with optional filtering by state. See also: AWS API Documentation list-agent-recommendations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expre...
+    /// Lists active optimization recommendations for a specified profile with optional filtering by state. See also: AWS API Documentation list-agent-recommendations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query express...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -857,7 +857,7 @@ public class AwsWellarchitected : IAwsWellarchitected
     }
 
     /// <summary>
-    /// List of Trusted Advisor check details by account related to the work- load. See also: AWS API Documentation
+    /// List of Trusted Advisor check details by account related to the workload. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -884,21 +884,6 @@ public class AwsWellarchitected : IAwsWellarchitected
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
-    /// List the available lenses. See also: AWS API Documentation
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListLensesAsync(
-        AwsWellarchitectedListLensesOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsWellarchitectedListLensesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -944,6 +929,21 @@ public class AwsWellarchitected : IAwsWellarchitected
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// List the available lenses. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListLensesAsync(
+        AwsWellarchitectedListLensesOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsWellarchitectedListLensesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1052,7 +1052,7 @@ public class AwsWellarchitected : IAwsWellarchitected
     }
 
     /// <summary>
-    /// List the share invitations. WorkloadNamePrefix , LensNamePrefix , ProfileNamePrefix , and Tem- plateNamePrefix are mutually exclusive. Use the parameter that matches your ShareResourceType . See also: AWS API Documentation
+    /// List the share invitations. WorkloadNamePrefix , LensNamePrefix , ProfileNamePrefix , and TemplateNamePrefix are mutually exclusive. Use the parameter that matches your ShareResourceType . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1127,7 +1127,7 @@ public class AwsWellarchitected : IAwsWellarchitected
     }
 
     /// <summary>
-    /// Submits user feedback on a recommendation to help improve future opti- mization suggestions and track implementation outcomes. See also: AWS API Documentation
+    /// Submits user feedback on a recommendation to help improve future optimization suggestions and track implementation outcomes. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1142,7 +1142,7 @@ public class AwsWellarchitected : IAwsWellarchitected
     }
 
     /// <summary>
-    /// Initiates a new recommendation generation process for the specified op- timization profile. This asynchronous operation analyzes your Amazon Web Services resources and generates optimization recommendations based on the configured pillars and scope. Use GetAgentRecommendationGenera- tion to check status. See also: AWS API Documentation start-agent-recommendation-generation uses document type values. Docu- ment types follow the JSON data model where valid values are: strings, numbers, booleans, n...
+    /// Initiates a new recommendation generation process for the specified optimization profile. This asynchronous operation analyzes your Amazon Web Services resources and generates optimization recommendations based on the configured pillars and scope. Use GetAgentRecommendationGeneration to check status. See also: AWS API Documentation start-agent-recommendation-generation uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, a...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1262,7 +1262,7 @@ public class AwsWellarchitected : IAwsWellarchitected
     }
 
     /// <summary>
-    /// Update whether the Amazon Web Services account is opted into organiza- tion sharing and discovery integration features. See also: AWS API Documentation
+    /// Update whether the Amazon Web Services account is opted into organization sharing and discovery integration features. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1367,7 +1367,7 @@ public class AwsWellarchitected : IAwsWellarchitected
     }
 
     /// <summary>
-    /// Update a workload or custom lens share invitation. NOTE: This API operation can be called independently of any resource. Pre- vious documentation implied that a workload ARN must be specified. See also: AWS API Documentation
+    /// Update a workload or custom lens share invitation. NOTE: This API operation can be called independently of any resource. Previous documentation implied that a workload ARN must be specified. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

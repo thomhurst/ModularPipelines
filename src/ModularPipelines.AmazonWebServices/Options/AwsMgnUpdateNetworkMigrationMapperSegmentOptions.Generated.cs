@@ -10,7 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,9 +28,9 @@ public record AwsMgnUpdateNetworkMigrationMapperSegmentOptions : AwsOptions, IVa
     /// <summary>
     /// Updates a mapper segment's configuration, such as changing its scope tags. See also: AWS API Documentation
     /// </summary>
-    /// <param name="NetworkMigrationDefinitionId">The unique identifier of the network migration definition. Constraints: o min: 21 o max: 21 o pattern: nmd-[0-9a-zA-Z]{17}</param>
-    /// <param name="NetworkMigrationExecutionId">The unique identifier of the network migration execution. Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
-    /// <param name="SegmentId">The unique identifier of the segment to update. Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
+    /// <param name="NetworkMigrationDefinitionId">The unique identifier of the network migration definition. Constraints: • min: 21 • max: 21 • pattern: nmd-[0-9a-zA-Z]{17}</param>
+    /// <param name="NetworkMigrationExecutionId">The unique identifier of the network migration execution. Constraints: • min: 36 • max: 36 • pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
+    /// <param name="SegmentId">The unique identifier of the segment to update. Constraints: • min: 36 • max: 36 • pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
     public AwsMgnUpdateNetworkMigrationMapperSegmentOptions(
         string NetworkMigrationDefinitionId,
         string NetworkMigrationExecutionId,
@@ -65,25 +65,25 @@ public record AwsMgnUpdateNetworkMigrationMapperSegmentOptions : AwsOptions, IVa
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the network migration definition. Constraints: o min: 21 o max: 21 o pattern: nmd-[0-9a-zA-Z]{17}
+    /// The unique identifier of the network migration definition. Constraints: • min: 21 • max: 21 • pattern: nmd-[0-9a-zA-Z]{17}
     /// </summary>
     [CliOption("--network-migration-definition-id")]
     public string? NetworkMigrationDefinitionId { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the network migration execution. Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
+    /// The unique identifier of the network migration execution. Constraints: • min: 36 • max: 36 • pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
     /// </summary>
     [CliOption("--network-migration-execution-id")]
     public string? NetworkMigrationExecutionId { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the segment to update. Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
+    /// The unique identifier of the segment to update. Constraints: • min: 36 • max: 36 • pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
     /// </summary>
     [CliOption("--segment-id")]
     public string? SegmentId { get; private init; }
 
     /// <summary>
-    /// The updated scope tags for the segment. Constraints: o min: 0 o max: 40 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: (?!aws:)[a-zA-Z0-9\s+\-=._:/@]* value -&gt; (string) Constraints: o min: 0 o max: 256 o pattern: [a-zA-Z0-9\s+\-=._:/@]* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The updated scope tags for the segment. Constraints: • min: 0 • max: 40 key -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: (?!aws:)[a-zA-Z0-9\s+\-=._:/@]* value -&gt; (string) Constraints: • min: 0 • max: 256 • pattern: [a-zA-Z0-9\s+\-=._:/@]* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--scope-tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? ScopeTags { get; set; }
@@ -109,6 +109,15 @@ public record AwsMgnUpdateNetworkMigrationMapperSegmentOptions : AwsOptions, IVa
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

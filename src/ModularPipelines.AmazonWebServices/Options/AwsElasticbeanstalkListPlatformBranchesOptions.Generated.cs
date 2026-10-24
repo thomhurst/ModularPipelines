@@ -23,13 +23,13 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsElasticbeanstalkListPlatformBranchesOptions : AwsOptions
 {
     /// <summary>
-    /// Criteria for restricting the resulting list of platform branches. The filter is evaluated as a logical conjunction (AND) of the sepa- rate SearchFilter terms. The following list shows valid attribute values for each of the SearchFilter terms. Most operators take a single value. The in and not_in operators can take multiple values. o Attribute = BranchName : o Operator : = | != | begins_with | ends_with | contains | in | not_in o Attribute = LifecycleState : o Operator : = | != | in | not_in o Values : beta | supported | deprecated | retired o Attribute = PlatformName : o Operator : = | != | begins_with | ends_with | contains | in | not_in o Attribute = TierType : o Operator : = | != o Values : WebServer/Standard | Worker/SQS/HTTP Array size: limited to 10 SearchFilter objects. Within each SearchFilter item, the Values array is limited to 10 items. (structure) Describes criteria to restrict a list of results. For operators that apply a single value to the attribute, the filter is evaluated as follows: Attribute Operator Values[1] Some operators, e.g. in , can apply multiple values. In this case, the filter is evaluated as a logical union (OR) of appli- cations of the operator to the attribute with each one of the values: (Attribute Operator Values[1]) OR (Attribute Operator Values[2]) OR ... The valid values for attributes of SearchFilter depend on the API action. For valid values, see the reference page for the API action you're calling that takes a SearchFilter parameter. Attribute -&gt; (string) The result attribute to which the filter values are applied. Valid values vary by API action. Operator -&gt; (string) The operator to apply to the Attribute with each of the Val- ues . Valid values vary by Attribute . Values -&gt; (list) The list of values applied to the Attribute and Operator at- tributes. Number of values and valid values vary by Attribute . (string) Shorthand Syntax: Attribute=string,Operator=string,Values=string,string ... JSON Syntax: [ { "Attribute": "string", "Operator": "string", "Values": ["string", ...] } ... ]
+    /// Criteria for restricting the resulting list of platform branches. The filter is evaluated as a logical conjunction (AND) of the separate SearchFilter terms. The following list shows valid attribute values for each of the SearchFilter terms. Most operators take a single value. The in and not_in operators can take multiple values. • Attribute = BranchName : • Operator : = | != | begins_with | ends_with | contains | in | not_in • Attribute = LifecycleState : • Operator : = | != | in | not_in • Values : beta | supported | deprecated | retired • Attribute = PlatformName : • Operator : = | != | begins_with | ends_with | contains | in | not_in • Attribute = TierType : • Operator : = | != • Values : WebServer/Standard | Worker/SQS/HTTP Array size: limited to 10 SearchFilter objects. Within each SearchFilter item, the Values array is limited to 10 items. (structure) Describes criteria to restrict a list of results. For operators that apply a single value to the attribute, the filter is evaluated as follows: Attribute Operator Values[1] Some operators, e.g. in , can apply multiple values. In this case, the filter is evaluated as a logical union (OR) of applications of the operator to the attribute with each one of the values: (Attribute Operator Values[1]) OR (Attribute Operator Values[2]) OR ... The valid values for attributes of SearchFilter depend on the API action. For valid values, see the reference page for the API action you're calling that takes a SearchFilter parameter. Attribute -&gt; (string) The result attribute to which the filter values are applied. Valid values vary by API action. Operator -&gt; (string) The operator to apply to the Attribute with each of the Values . Valid values vary by Attribute . Values -&gt; (list) The list of values applied to the Attribute and Operator attributes. Number of values and valid values vary by Attribute . (string) Shorthand Syntax: Attribute=string,Operator=string,Values=string,string ... JSON Syntax: [ { "Attribute": "string", "Operator": "string", "Values": ["string", ...] } ... ]
     /// </summary>
     [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     /// <summary>
-    /// The maximum number of platform branch values returned in one call. Constraints: o min: 1
+    /// The maximum number of platform branch values returned in one call. Constraints: • min: 1
     /// </summary>
     [CliOption("--max-records")]
     public int? MaxRecords { get; set; }
@@ -46,5 +46,14 @@ public record AwsElasticbeanstalkListPlatformBranchesOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

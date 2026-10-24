@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsOamUpdateLinkOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Use this operation to change what types of data are shared from a source account to its linked monitoring account sink. You can't change the sink or change the monitoring account with this operation. When you update a link, you can optionally specify filters that specify which metric namespaces and which log groups are shared from the source account to the monitoring account. To update the list of tags associated with the sink, use TagResource . See also: AWS API Documentation
     /// </summary>
-    /// <param name="Identifier">The ARN of the link that you want to update. Constraints: o pattern: ^[a-zA-Z0-9][a-zA-Z0-9_:\.\-\/]{0,2047}$</param>
-    /// <param name="ResourceTypes">An array of strings that define which types of data that the source account will send to the monitoring account. Your input here replaces the current set of data types that are shared. Constraints: o min: 1 o max: 50 (string) Possible values: o AWS::CloudWatch::Metric o AWS::Logs::LogGroup o AWS::XRay::Trace o AWS::ApplicationInsights::Application o AWS::InternetMonitor::Monitor o AWS::ApplicationSignals::Service o AWS::ApplicationSignals::ServiceLevelObjective Syntax: "string" "string" ...</param>
+    /// <param name="Identifier">The ARN of the link that you want to update. Constraints: • pattern: ^[a-zA-Z0-9][a-zA-Z0-9_:\.\-\/]{0,2047}$</param>
+    /// <param name="ResourceTypes">An array of strings that define which types of data that the source account will send to the monitoring account. Your input here replaces the current set of data types that are shared. Constraints: • min: 1 • max: 50 (string) Possible values: • AWS::CloudWatch::Metric • AWS::Logs::LogGroup • AWS::XRay::Trace • AWS::ApplicationInsights::Application • AWS::InternetMonitor::Monitor • AWS::ApplicationSignals::Service • AWS::ApplicationSignals::ServiceLevelObjective Syntax: "string" "string" ...</param>
     public AwsOamUpdateLinkOptions(
         string Identifier,
         IEnumerable<string> ResourceTypes
@@ -71,25 +72,25 @@ public record AwsOamUpdateLinkOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the link that you want to update. Constraints: o pattern: ^[a-zA-Z0-9][a-zA-Z0-9_:\.\-\/]{0,2047}$
+    /// The ARN of the link that you want to update. Constraints: • pattern: ^[a-zA-Z0-9][a-zA-Z0-9_:\.\-\/]{0,2047}$
     /// </summary>
     [CliOption("--identifier")]
     public string? Identifier { get; private init; }
 
     /// <summary>
-    /// An array of strings that define which types of data that the source account will send to the monitoring account. Your input here replaces the current set of data types that are shared. Constraints: o min: 1 o max: 50 (string) Possible values: o AWS::CloudWatch::Metric o AWS::Logs::LogGroup o AWS::XRay::Trace o AWS::ApplicationInsights::Application o AWS::InternetMonitor::Monitor o AWS::ApplicationSignals::Service o AWS::ApplicationSignals::ServiceLevelObjective Syntax: "string" "string" ...
+    /// An array of strings that define which types of data that the source account will send to the monitoring account. Your input here replaces the current set of data types that are shared. Constraints: • min: 1 • max: 50 (string) Possible values: • AWS::CloudWatch::Metric • AWS::Logs::LogGroup • AWS::XRay::Trace • AWS::ApplicationInsights::Application • AWS::InternetMonitor::Monitor • AWS::ApplicationSignals::Service • AWS::ApplicationSignals::ServiceLevelObjective Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--resource-types", GroupValues = true)]
     public IEnumerable<string>? ResourceTypes { get; private init; }
 
     /// <summary>
-    /// Specifies whether to include the tags associated with the link in the response after the update operation. When IncludeTags is set to true and the caller has the required permission, oam:ListTagsForRe- source , the API will return the tags for the specified resource. If the caller doesn't have the required permission, oam:ListTagsForRe- source , the API will raise an exception. The default value is false .
+    /// Specifies whether to include the tags associated with the link in the response after the update operation. When IncludeTags is set to true and the caller has the required permission, oam:ListTagsForResource , the API will return the tags for the specified resource. If the caller doesn't have the required permission, oam:ListTagsForResource , the API will raise an exception. The default value is false .
     /// </summary>
     [CliFlag("--include-tags", NegatedName = "--no-include-tags")]
     public bool? IncludeTags { get; set; }
 
     /// <summary>
-    /// Use this structure to filter which metric namespaces and which log groups are to be shared from the source account to the monitoring account. LogGroupConfiguration -&gt; (structure) Use this structure to filter which log groups are to send log events from the source account to the monitoring account. Filter -&gt; (string) [required] Use this field to specify which log groups are to share their log events with the monitoring account. Use the term Log- GroupName and one or more of the following operands. Use sin- gle quotation marks (') around log group names. The matching of log group names is case sensitive. Each filter has a limit of five conditional operands. Conditional operands are AND and OR . o = and != o AND o OR o LIKE and NOT LIKE . These can be used only as prefix searches. Include a % at the end of the string that you want to search for and include. o IN and NOT IN , using parentheses ( ) Examples: o LogGroupName IN ('This-Log-Group', 'Other-Log-Group') in- cludes only the log groups with names This-Log-Group and Other-Log-Group . o LogGroupName NOT IN ('Private-Log-Group', 'Pri- vate-Log-Group-2') includes all log groups except the log groups with names Private-Log-Group and Private-Log-Group-2 . o LogGroupName LIKE 'aws/lambda/%' OR LogGroupName LIKE 'AWSLogs%' includes all log groups that have names that start with aws/lambda/ or AWSLogs . NOTE: If you are updating a link that uses filters, you can specify * as the only value for the filter parameter to delete the filter and share all log groups with the moni- toring account. Constraints: o min: 1 o max: 2000 MetricConfiguration -&gt; (structure) Use this structure to filter which metric namespaces are to be shared from the source account to the monitoring account. Filter -&gt; (string) [required] Use this field to specify which metrics are to be shared with the monitoring account. Use the term Namespace and one or more of the following operands. Use single quotation marks (') around namespace names. The matching of namespace names is case sensitive. Each filter has a limit of five condi- tional operands. Conditional operands are AND and OR . o = and != o AND o OR o LIKE and NOT LIKE . These can be used only as prefix searches. Include a % at the end of the string that you want to search for and include. o IN and NOT IN , using parentheses ( ) Examples: o Namespace NOT LIKE 'AWS/%' includes only namespaces that don't start with AWS/ , such as custom namespaces. o Namespace IN ('AWS/EC2', 'AWS/ELB', 'AWS/S3') includes only the metrics in the EC2, Elastic Load Balancing, and Amazon S3 namespaces. o Namespace = 'AWS/EC2' OR Namespace NOT LIKE 'AWS/%' in- cludes only the EC2 namespace and your custom namespaces. NOTE: If you are updating a link that uses filters, you can specify * as the only value for the filter parameter to delete the filter and share all metric namespaces with the monitoring account. Constraints: o min: 1 o max: 2000 Shorthand Syntax: LogGroupConfiguration={Filter=string},MetricConfiguration={Filter=string} JSON Syntax: { "LogGroupConfiguration": { "Filter": "string" }, "MetricConfiguration": { "Filter": "string" } }
+    /// Use this structure to filter which metric namespaces and which log groups are to be shared from the source account to the monitoring account. LogGroupConfiguration -&gt; (structure) Use this structure to filter which log groups are to send log events from the source account to the monitoring account. Filter -&gt; (string) [required] Use this field to specify which log groups are to share their log events with the monitoring account. Use the term LogGroupName and one or more of the following operands. Use single quotation marks (') around log group names. The matching of log group names is case sensitive. Each filter has a limit of five conditional operands. Conditional operands are AND and OR . • = and != • AND • OR • LIKE and NOT LIKE . These can be used only as prefix searches. Include a % at the end of the string that you want to search for and include. • IN and NOT IN , using parentheses ( ) Examples: • LogGroupName IN ('This-Log-Group', 'Other-Log-Group') includes only the log groups with names This-Log-Group and Other-Log-Group . • LogGroupName NOT IN ('Private-Log-Group', 'Private-Log-Group-2') includes all log groups except the log groups with names Private-Log-Group and Private-Log-Group-2 . • LogGroupName LIKE 'aws/lambda/%' OR LogGroupName LIKE 'AWSLogs%' includes all log groups that have names that start with aws/lambda/ or AWSLogs . NOTE: If you are updating a link that uses filters, you can specify * as the only value for the filter parameter to delete the filter and share all log groups with the monitoring account. Constraints: • min: 1 • max: 2000 MetricConfiguration -&gt; (structure) Use this structure to filter which metric namespaces are to be shared from the source account to the monitoring account. Filter -&gt; (string) [required] Use this field to specify which metrics are to be shared with the monitoring account. Use the term Namespace and one or more of the following operands. Use single quotation marks (') around namespace names. The matching of namespace names is case sensitive. Each filter has a limit of five conditional operands. Conditional operands are AND and OR . • = and != • AND • OR • LIKE and NOT LIKE . These can be used only as prefix searches. Include a % at the end of the string that you want to search for and include. • IN and NOT IN , using parentheses ( ) Examples: • Namespace NOT LIKE 'AWS/%' includes only namespaces that don't start with AWS/ , such as custom namespaces. • Namespace IN ('AWS/EC2', 'AWS/ELB', 'AWS/S3') includes only the metrics in the EC2, Elastic Load Balancing, and Amazon S3 namespaces. • Namespace = 'AWS/EC2' OR Namespace NOT LIKE 'AWS/%' includes only the EC2 namespace and your custom namespaces. NOTE: If you are updating a link that uses filters, you can specify * as the only value for the filter parameter to delete the filter and share all metric namespaces with the monitoring account. Constraints: • min: 1 • max: 2000 Shorthand Syntax: LogGroupConfiguration={Filter=string},MetricConfiguration={Filter=string} JSON Syntax: { "LogGroupConfiguration": { "Filter": "string" }, "MetricConfiguration": { "Filter": "string" } }
     /// </summary>
     [CliOption("--link-configuration")]
     public string? LinkConfiguration { get; set; }
@@ -115,6 +116,15 @@ public record AwsOamUpdateLinkOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

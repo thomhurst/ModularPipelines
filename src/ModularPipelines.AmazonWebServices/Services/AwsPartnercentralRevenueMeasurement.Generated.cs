@@ -6,15 +6,15 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
+using ModularPipelines;
 using ModularPipelines.Context;
-using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
 namespace ModularPipelines.AmazonWebServices.Services;
 
 /// <summary>
-/// aws partnercentralrevenuemeasurement commands.
+/// aws partnercentral-revenue-measurement commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AwsPartnercentralRevenueMeasurement : IAwsPartnercentralRevenueMeasurement
@@ -47,7 +47,7 @@ public class AwsPartnercentralRevenueMeasurement : IAwsPartnercentralRevenueMeas
     }
 
     /// <summary>
-    /// Creates a new marketplace revenue share resource in the specified cata- log. See also: AWS API Documentation
+    /// Creates a new marketplace revenue share resource in the specified catalog. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -77,7 +77,7 @@ public class AwsPartnercentralRevenueMeasurement : IAwsPartnercentralRevenueMeas
     }
 
     /// <summary>
-    /// Retrieves the details of a specific marketplace revenue share alloca- tion. See also: AWS API Documentation
+    /// Retrieves the details of a specific marketplace revenue share allocation. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -122,7 +122,7 @@ public class AwsPartnercentralRevenueMeasurement : IAwsPartnercentralRevenueMeas
     }
 
     /// <summary>
-    /// Retrieves the current status of a previously submitted allocations task. When COMPLETE, includes the latest revision. When FAILED, in- cludes error details. See also: AWS API Documentation
+    /// Retrieves the current status of a previously submitted allocations task. When COMPLETE, includes the latest revision. When FAILED, includes error details. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -152,7 +152,7 @@ public class AwsPartnercentralRevenueMeasurement : IAwsPartnercentralRevenueMeas
     }
 
     /// <summary>
-    /// Returns a paginated list of allocations under a marketplace revenue share, with optional filtering by status and effective date range. Sup- ports historical reads at a specific share revision. See also: AWS API Documentation list-marketplace-revenue-share-allocations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-pagi- nate argument. When using --output text and the --query argument ...
+    /// Returns a paginated list of allocations under a marketplace revenue share, with optional filtering by status and effective date range. Supports historical reads at a specific share revision. See also: AWS API Documentation list-marketplace-revenue-share-allocations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -167,7 +167,7 @@ public class AwsPartnercentralRevenueMeasurement : IAwsPartnercentralRevenueMeas
     }
 
     /// <summary>
-    /// Returns a paginated list of marketplace revenue shares with optional filters. See also: AWS API Documentation list-marketplace-revenue-shares is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Marketp...
+    /// Returns a paginated list of marketplace revenue shares with optional filters. See also: AWS API Documentation list-marketplace-revenue-shares is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Marketplace...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -182,7 +182,7 @@ public class AwsPartnercentralRevenueMeasurement : IAwsPartnercentralRevenueMeas
     }
 
     /// <summary>
-    /// Returns a paginated list of committed allocations with support for fil- tering by entity, customer, status, or date range. See also: AWS API Documentation list-revenue-attribution-allocations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the r...
+    /// Returns a paginated list of committed allocations with support for filtering by entity, customer, status, or date range. See also: AWS API Documentation list-revenue-attribution-allocations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -197,7 +197,7 @@ public class AwsPartnercentralRevenueMeasurement : IAwsPartnercentralRevenueMeas
     }
 
     /// <summary>
-    /// Returns a paginated list of revenue attributions with optional filters. See also: AWS API Documentation list-revenue-attributions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: RevenueAttributionSum...
+    /// Returns a paginated list of revenue attributions with optional filters. See also: AWS API Documentation list-revenue-attributions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: RevenueAttributionSumma...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -272,7 +272,7 @@ public class AwsPartnercentralRevenueMeasurement : IAwsPartnercentralRevenueMeas
     }
 
     /// <summary>
-    /// Updates an existing marketplace revenue share allocation. Supports mod- ifying effective dates, revenue share percentage, and status with time-based mutability rules. See also: AWS API Documentation
+    /// Updates an existing marketplace revenue share allocation. Supports modifying effective dates, revenue share percentage, and status with time-based mutability rules. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

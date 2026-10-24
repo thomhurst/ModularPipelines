@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,9 +29,9 @@ public record AwsRolesanywherePutAttributeMappingOptions : AwsOptions, IValidata
     /// <summary>
     /// Put an entry in the attribute mapping rules that will be enforced by a given profile. A mapping specifies a certificate field and one or more specifiers that have contextual meanings. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ProfileId">The unique identifier of the profile. Constraints: o min: 36 o max: 36 o pattern: .*[a-f0-9]{8}-([a-z0-9]{4}-){3}[a-z0-9]{12}.*</param>
-    /// <param name="CertificateField">Fields (x509Subject, x509Issuer and x509SAN) within X.509 certifi- cates. Possible values: o x509Subject o x509Issuer o x509SAN</param>
-    /// <param name="MappingRules">A list of mapping entries for every supported specifier or sub-field. (structure) A single mapping entry for each supported specifier or sub-field. specifier -&gt; (string) [required] Specifier within a certificate field, such as CN, OU, or UID from the Subject field. Constraints: o min: 0 o max: 60 Shorthand Syntax: specifier=string ... JSON Syntax: [ { "specifier": "string" } ... ]</param>
+    /// <param name="ProfileId">The unique identifier of the profile. Constraints: • min: 36 • max: 36 • pattern: .*[a-f0-9]{8}-([a-z0-9]{4}-){3}[a-z0-9]{12}.*</param>
+    /// <param name="CertificateField">Fields (x509Subject, x509Issuer and x509SAN) within X.509 certificates. Possible values: • x509Subject • x509Issuer • x509SAN</param>
+    /// <param name="MappingRules">A list of mapping entries for every supported specifier or sub-field. (structure) A single mapping entry for each supported specifier or sub-field. specifier -&gt; (string) [required] Specifier within a certificate field, such as CN, OU, or UID from the Subject field. Constraints: • min: 0 • max: 60 Shorthand Syntax: specifier=string ... JSON Syntax: [ { "specifier": "string" } ... ]</param>
     public AwsRolesanywherePutAttributeMappingOptions(
         string ProfileId,
         AwsRolesanywherePutAttributeMappingCertificateField CertificateField,
@@ -75,19 +76,19 @@ public record AwsRolesanywherePutAttributeMappingOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the profile. Constraints: o min: 36 o max: 36 o pattern: .*[a-f0-9]{8}-([a-z0-9]{4}-){3}[a-z0-9]{12}.*
+    /// The unique identifier of the profile. Constraints: • min: 36 • max: 36 • pattern: .*[a-f0-9]{8}-([a-z0-9]{4}-){3}[a-z0-9]{12}.*
     /// </summary>
     [CliOption("--profile-id")]
     public string? ProfileId { get; private init; }
 
     /// <summary>
-    /// Fields (x509Subject, x509Issuer and x509SAN) within X.509 certifi- cates. Possible values: o x509Subject o x509Issuer o x509SAN
+    /// Fields (x509Subject, x509Issuer and x509SAN) within X.509 certificates. Possible values: • x509Subject • x509Issuer • x509SAN
     /// </summary>
     [CliOption("--certificate-field")]
     public AwsRolesanywherePutAttributeMappingCertificateField? CertificateField { get; private init; }
 
     /// <summary>
-    /// A list of mapping entries for every supported specifier or sub-field. (structure) A single mapping entry for each supported specifier or sub-field. specifier -&gt; (string) [required] Specifier within a certificate field, such as CN, OU, or UID from the Subject field. Constraints: o min: 0 o max: 60 Shorthand Syntax: specifier=string ... JSON Syntax: [ { "specifier": "string" } ... ]
+    /// A list of mapping entries for every supported specifier or sub-field. (structure) A single mapping entry for each supported specifier or sub-field. specifier -&gt; (string) [required] Specifier within a certificate field, such as CN, OU, or UID from the Subject field. Constraints: • min: 0 • max: 60 Shorthand Syntax: specifier=string ... JSON Syntax: [ { "specifier": "string" } ... ]
     /// </summary>
     [CliOption("--mapping-rules", GroupValues = true)]
     public IEnumerable<string>? MappingRules { get; private init; }
@@ -113,6 +114,15 @@ public record AwsRolesanywherePutAttributeMappingOptions : AwsOptions, IValidata
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

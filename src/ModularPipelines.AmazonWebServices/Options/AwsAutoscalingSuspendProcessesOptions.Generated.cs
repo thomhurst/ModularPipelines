@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Suspends the specified auto scaling processes, or all processes, for the specified Auto Scaling group. If you suspend either the Launch or Terminate process types, it can prevent other process types from functioning properly. For more infor- mation, see Suspend and resume Amazon EC2 Auto Scaling processes in the Amazon EC2 Auto Scaling User Guide . To resume processes that have been suspended, call the ResumeProcesses API. See also: AWS API Documentation
+/// Suspends the specified auto scaling processes, or all processes, for the specified Auto Scaling group. If you suspend either the Launch or Terminate process types, it can prevent other process types from functioning properly. For more information, see Suspend and resume Amazon EC2 Auto Scaling processes in the Amazon EC2 Auto Scaling User Guide . To resume processes that have been suspended, call the ResumeProcesses API. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsAutoscalingSuspendProcessesOptions : AwsOptions, IValidatableOb
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Suspends the specified auto scaling processes, or all processes, for the specified Auto Scaling group. If you suspend either the Launch or Terminate process types, it can prevent other process types from functioning properly. For more infor- mation, see Suspend and resume Amazon EC2 Auto Scaling processes in the Amazon EC2 Auto Scaling User Guide . To resume processes that have been suspended, call the ResumeProcesses API. See also: AWS API Documentation
+    /// Suspends the specified auto scaling processes, or all processes, for the specified Auto Scaling group. If you suspend either the Launch or Terminate process types, it can prevent other process types from functioning properly. For more information, see Suspend and resume Amazon EC2 Auto Scaling processes in the Amazon EC2 Auto Scaling User Guide . To resume processes that have been suspended, call the ResumeProcesses API. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AutoScalingGroupName">The name of the Auto Scaling group. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*</param>
+    /// <param name="AutoScalingGroupName">The name of the Auto Scaling group. Constraints: • min: 1 • max: 255 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*</param>
     public AwsAutoscalingSuspendProcessesOptions(
         string AutoScalingGroupName
     )
@@ -56,13 +57,13 @@ public record AwsAutoscalingSuspendProcessesOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the Auto Scaling group. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*
+    /// The name of the Auto Scaling group. Constraints: • min: 1 • max: 255 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*
     /// </summary>
     [CliOption("--auto-scaling-group-name")]
     public string? AutoScalingGroupName { get; private init; }
 
     /// <summary>
-    /// One or more of the following processes: o Launch o Terminate o AddToLoadBalancer o AlarmNotification o AZRebalance o HealthCheck o InstanceRefresh o ReplaceUnhealthy o ScheduledActions If you omit this property, all processes are specified. (string) Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* Syntax: "string" "string" ...
+    /// One or more of the following processes: • Launch • Terminate • AddToLoadBalancer • AlarmNotification • AZRebalance • HealthCheck • InstanceRefresh • ReplaceUnhealthy • ScheduledActions If you omit this property, all processes are specified. (string) Constraints: • min: 1 • max: 255 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--scaling-processes", GroupValues = true)]
     public IEnumerable<string>? ScalingProcesses { get; set; }
@@ -88,6 +89,15 @@ public record AwsAutoscalingSuspendProcessesOptions : AwsOptions, IValidatableOb
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

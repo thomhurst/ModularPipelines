@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsNeptuneCreateDbClusterSnapshotOptions : AwsOptions, IValidatabl
     /// <summary>
     /// Creates a snapshot of a DB cluster. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DbClusterSnapshotIdentifier">The identifier of the DB cluster snapshot. This parameter is stored as a lowercase string. Constraints: o Must contain from 1 to 63 letters, numbers, or hyphens. o First character must be a letter. o Cannot end with a hyphen or contain two consecutive hyphens. Example: my-cluster1-snapshot1</param>
-    /// <param name="DbClusterIdentifier">The identifier of the DB cluster to create a snapshot for. This pa- rameter is not case-sensitive. Constraints: o Must match the identifier of an existing DBCluster. Example: my-cluster1</param>
+    /// <param name="DbClusterSnapshotIdentifier">The identifier of the DB cluster snapshot. This parameter is stored as a lowercase string. Constraints: • Must contain from 1 to 63 letters, numbers, or hyphens. • First character must be a letter. • Cannot end with a hyphen or contain two consecutive hyphens. Example: my-cluster1-snapshot1</param>
+    /// <param name="DbClusterIdentifier">The identifier of the DB cluster to create a snapshot for. This parameter is not case-sensitive. Constraints: • Must match the identifier of an existing DBCluster. Example: my-cluster1</param>
     public AwsNeptuneCreateDbClusterSnapshotOptions(
         string DbClusterSnapshotIdentifier,
         string DbClusterIdentifier
@@ -60,13 +61,13 @@ public record AwsNeptuneCreateDbClusterSnapshotOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the DB cluster snapshot. This parameter is stored as a lowercase string. Constraints: o Must contain from 1 to 63 letters, numbers, or hyphens. o First character must be a letter. o Cannot end with a hyphen or contain two consecutive hyphens. Example: my-cluster1-snapshot1
+    /// The identifier of the DB cluster snapshot. This parameter is stored as a lowercase string. Constraints: • Must contain from 1 to 63 letters, numbers, or hyphens. • First character must be a letter. • Cannot end with a hyphen or contain two consecutive hyphens. Example: my-cluster1-snapshot1
     /// </summary>
     [CliOption("--db-cluster-snapshot-identifier")]
     public string? DbClusterSnapshotIdentifier { get; private init; }
 
     /// <summary>
-    /// The identifier of the DB cluster to create a snapshot for. This pa- rameter is not case-sensitive. Constraints: o Must match the identifier of an existing DBCluster. Example: my-cluster1
+    /// The identifier of the DB cluster to create a snapshot for. This parameter is not case-sensitive. Constraints: • Must match the identifier of an existing DBCluster. Example: my-cluster1
     /// </summary>
     [CliOption("--db-cluster-identifier")]
     public string? DbClusterIdentifier { get; private init; }
@@ -98,6 +99,15 @@ public record AwsNeptuneCreateDbClusterSnapshotOptions : AwsOptions, IValidatabl
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes the specified version from the specified managed policy. You cannot delete the default version from a policy using this opera- tion. To delete the default version from a policy, use DeletePolicy . To find out which version of a policy is marked as the default version, use ListPolicyVersions . For information about versions for managed policies, see Versioning for managed policies in the IAM User Guide . See also: AWS API Documentation
+/// Deletes the specified version from the specified managed policy. You cannot delete the default version from a policy using this operation. To delete the default version from a policy, use DeletePolicy . To find out which version of a policy is marked as the default version, use ListPolicyVersions . For information about versions for managed policies, see Versioning for managed policies in the IAM User Guide . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsIamDeletePolicyVersionOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes the specified version from the specified managed policy. You cannot delete the default version from a policy using this opera- tion. To delete the default version from a policy, use DeletePolicy . To find out which version of a policy is marked as the default version, use ListPolicyVersions . For information about versions for managed policies, see Versioning for managed policies in the IAM User Guide . See also: AWS API Documentation
+    /// Deletes the specified version from the specified managed policy. You cannot delete the default version from a policy using this operation. To delete the default version from a policy, use DeletePolicy . To find out which version of a policy is marked as the default version, use ListPolicyVersions . For information about versions for managed policies, see Versioning for managed policies in the IAM User Guide . See also: AWS API Documentation
     /// </summary>
-    /// <param name="PolicyArn">The Amazon Resource Name (ARN) of the IAM policy from which you want to delete a version. For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference . Constraints: o min: 20 o max: 2048</param>
-    /// <param name="VersionId">The policy version to delete. This parameter allows (through its regex pattern ) a string of char- acters that consists of the lowercase letter 'v' followed by one or two digits, and optionally followed by a period '.' and a string of letters and digits. For more information about managed policy versions, see Versioning for managed policies in the IAM User Guide . Constraints: o pattern: v[1-9][0-9]*(\.[A-Za-z0-9-]*)?</param>
+    /// <param name="PolicyArn">The Amazon Resource Name (ARN) of the IAM policy from which you want to delete a version. For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference . Constraints: • min: 20 • max: 2048</param>
+    /// <param name="VersionId">The policy version to delete. This parameter allows (through its regex pattern ) a string of characters that consists of the lowercase letter 'v' followed by one or two digits, and optionally followed by a period '.' and a string of letters and digits. For more information about managed policy versions, see Versioning for managed policies in the IAM User Guide . Constraints: • pattern: v[1-9][0-9]*(\.[A-Za-z0-9-]*)?</param>
     public AwsIamDeletePolicyVersionOptions(
         string PolicyArn,
         string VersionId
@@ -60,13 +61,13 @@ public record AwsIamDeletePolicyVersionOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the IAM policy from which you want to delete a version. For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference . Constraints: o min: 20 o max: 2048
+    /// The Amazon Resource Name (ARN) of the IAM policy from which you want to delete a version. For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference . Constraints: • min: 20 • max: 2048
     /// </summary>
     [CliOption("--policy-arn")]
     public string? PolicyArn { get; private init; }
 
     /// <summary>
-    /// The policy version to delete. This parameter allows (through its regex pattern ) a string of char- acters that consists of the lowercase letter 'v' followed by one or two digits, and optionally followed by a period '.' and a string of letters and digits. For more information about managed policy versions, see Versioning for managed policies in the IAM User Guide . Constraints: o pattern: v[1-9][0-9]*(\.[A-Za-z0-9-]*)?
+    /// The policy version to delete. This parameter allows (through its regex pattern ) a string of characters that consists of the lowercase letter 'v' followed by one or two digits, and optionally followed by a period '.' and a string of letters and digits. For more information about managed policy versions, see Versioning for managed policies in the IAM User Guide . Constraints: • pattern: v[1-9][0-9]*(\.[A-Za-z0-9-]*)?
     /// </summary>
     [CliOption("--version-id")]
     public string? VersionId { get; private init; }
@@ -92,6 +93,15 @@ public record AwsIamDeletePolicyVersionOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

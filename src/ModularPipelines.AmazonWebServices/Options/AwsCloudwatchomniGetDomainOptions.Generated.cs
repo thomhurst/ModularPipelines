@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsCloudwatchomniGetDomainOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Retrieves the details of a domain by ID. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DomainId">The unique ID of the domain. Constraints: o pattern: d-[0-9a-z]{1,25}</param>
+    /// <param name="DomainId">The unique ID of the domain. Constraints: • pattern: d-[0-9a-z]{1,25}</param>
     public AwsCloudwatchomniGetDomainOptions(
         string DomainId
     )
@@ -56,7 +57,7 @@ public record AwsCloudwatchomniGetDomainOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique ID of the domain. Constraints: o pattern: d-[0-9a-z]{1,25}
+    /// The unique ID of the domain. Constraints: • pattern: d-[0-9a-z]{1,25}
     /// </summary>
     [CliOption("--domain-id")]
     public string? DomainId { get; private init; }
@@ -82,6 +83,15 @@ public record AwsCloudwatchomniGetDomainOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

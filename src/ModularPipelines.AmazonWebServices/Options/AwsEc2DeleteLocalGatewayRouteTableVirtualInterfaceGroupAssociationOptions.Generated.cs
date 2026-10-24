@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes a local gateway route table virtual interface group associa- tion. See also: AWS API Documentation
+/// Deletes a local gateway route table virtual interface group association. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsEc2DeleteLocalGatewayRouteTableVirtualInterfaceGroupAssociation
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes a local gateway route table virtual interface group associa- tion. See also: AWS API Documentation
+    /// Deletes a local gateway route table virtual interface group association. See also: AWS API Documentation
     /// </summary>
-    /// <param name="LocalGatewayRouteTableVirtualInterfaceGroupAssociationId">The ID of the local gateway route table virtual interface group as- sociation.</param>
+    /// <param name="LocalGatewayRouteTableVirtualInterfaceGroupAssociationId">The ID of the local gateway route table virtual interface group association.</param>
     public AwsEc2DeleteLocalGatewayRouteTableVirtualInterfaceGroupAssociationOptions(
         string LocalGatewayRouteTableVirtualInterfaceGroupAssociationId
     )
@@ -56,13 +57,13 @@ public record AwsEc2DeleteLocalGatewayRouteTableVirtualInterfaceGroupAssociation
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the local gateway route table virtual interface group as- sociation.
+    /// The ID of the local gateway route table virtual interface group association.
     /// </summary>
     [CliOption("--local-gateway-route-table-virtual-interface-group-association-id")]
     public string? LocalGatewayRouteTableVirtualInterfaceGroupAssociationId { get; private init; }
 
     /// <summary>
-    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation . Otherwise, it is UnauthorizedOperation .
     /// </summary>
     [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
@@ -88,6 +89,15 @@ public record AwsEc2DeleteLocalGatewayRouteTableVirtualInterfaceGroupAssociation
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

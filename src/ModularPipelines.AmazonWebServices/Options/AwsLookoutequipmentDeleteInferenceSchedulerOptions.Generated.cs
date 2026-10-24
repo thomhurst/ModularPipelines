@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsLookoutequipmentDeleteInferenceSchedulerOptions : AwsOptions, I
     /// <summary>
     /// Deletes an inference scheduler that has been set up. Prior inference results will not be deleted. See also: AWS API Documentation
     /// </summary>
-    /// <param name="InferenceSchedulerName">The name of the inference scheduler to be deleted. Constraints: o min: 1 o max: 200 o pattern: ^[0-9a-zA-Z_-]{1,200}$</param>
+    /// <param name="InferenceSchedulerName">The name of the inference scheduler to be deleted. Constraints: • min: 1 • max: 200 • pattern: ^[0-9a-zA-Z_-]{1,200}$</param>
     public AwsLookoutequipmentDeleteInferenceSchedulerOptions(
         string InferenceSchedulerName
     )
@@ -56,7 +57,7 @@ public record AwsLookoutequipmentDeleteInferenceSchedulerOptions : AwsOptions, I
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the inference scheduler to be deleted. Constraints: o min: 1 o max: 200 o pattern: ^[0-9a-zA-Z_-]{1,200}$
+    /// The name of the inference scheduler to be deleted. Constraints: • min: 1 • max: 200 • pattern: ^[0-9a-zA-Z_-]{1,200}$
     /// </summary>
     [CliOption("--inference-scheduler-name")]
     public string? InferenceSchedulerName { get; private init; }
@@ -82,6 +83,15 @@ public record AwsLookoutequipmentDeleteInferenceSchedulerOptions : AwsOptions, I
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

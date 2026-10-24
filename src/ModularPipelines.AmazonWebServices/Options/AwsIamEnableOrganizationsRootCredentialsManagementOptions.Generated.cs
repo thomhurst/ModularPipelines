@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Enables the management of privileged root user credentials across mem- ber accounts in your organization. When you enable root credentials management for centralized root access , the management account and the delegated administrator for IAM can manage root user credentials for member accounts in your organization. Before you enable centralized root access, you must have an account configured with the following settings: o You must manage your Amazon Web Services accounts in Organizations . o E...
+/// Enables the management of privileged root user credentials across member accounts in your organization. When you enable root credentials management for centralized root access , the management account and the delegated administrator for IAM can manage root user credentials for member accounts in your organization. Before you enable centralized root access, you must have an account configured with the following settings: • You must manage your Amazon Web Services accounts in Organizations . • Ena...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,5 +26,14 @@ public record AwsIamEnableOrganizationsRootCredentialsManagementOptions : AwsOpt
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

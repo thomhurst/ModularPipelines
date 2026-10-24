@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsMturkRejectQualificationRequestOptions : AwsOptions, IValidatab
     /// <summary>
     /// The RejectQualificationRequest operation rejects a user's request for a Qualification. You can provide a text message explaining why the request was rejected. The Worker who made the request can see this message. See also: AWS API Documentation
     /// </summary>
-    /// <param name="QualificationRequestId">The ID of the Qualification request, as returned by the ListQualifi- cationRequests operation.</param>
+    /// <param name="QualificationRequestId">The ID of the Qualification request, as returned by the ListQualificationRequests operation.</param>
     public AwsMturkRejectQualificationRequestOptions(
         string QualificationRequestId
     )
@@ -56,7 +57,7 @@ public record AwsMturkRejectQualificationRequestOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the Qualification request, as returned by the ListQualifi- cationRequests operation.
+    /// The ID of the Qualification request, as returned by the ListQualificationRequests operation.
     /// </summary>
     [CliOption("--qualification-request-id")]
     public string? QualificationRequestId { get; private init; }
@@ -88,6 +89,15 @@ public record AwsMturkRejectQualificationRequestOptions : AwsOptions, IValidatab
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

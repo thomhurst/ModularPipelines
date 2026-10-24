@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Removes the association between an AWS resource and a benefit applica- tion. See also: AWS API Documentation
+/// Removes the association between an AWS resource and a benefit application. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,11 +26,11 @@ public record AwsPartnercentralBenefitsDisassociateBenefitApplicationResourceOpt
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Removes the association between an AWS resource and a benefit applica- tion. See also: AWS API Documentation
+    /// Removes the association between an AWS resource and a benefit application. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Catalog">The catalog identifier that specifies which benefit catalog the ap- plication belongs to. Constraints: o pattern: [A-Za-z0-9_-]+</param>
-    /// <param name="BenefitApplicationIdentifier">The unique identifier of the benefit application to disassociate the resource from. Constraints: o pattern: (arn:.+|benappl-[0-9a-z]{14})</param>
-    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the AWS resource to disassociate from the benefit application. Constraints: o min: 0 o max: 1600 o pattern: arn:aws:([a-zA-Z0-9\-])+:([a-z]{2}(-gov)?-[a-z]+-\d{1})?:(\d{12})?:(.+)</param>
+    /// <param name="Catalog">The catalog identifier that specifies which benefit catalog the application belongs to. Constraints: • pattern: [A-Za-z0-9_-]+</param>
+    /// <param name="BenefitApplicationIdentifier">The unique identifier of the benefit application to disassociate the resource from. Constraints: • pattern: (arn:.+|benappl-[0-9a-z]{14})</param>
+    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the AWS resource to disassociate from the benefit application. Constraints: • min: 0 • max: 1600 • pattern: arn:aws:([a-zA-Z0-9\-])+:([a-z]{2}(-gov)?-[a-z]+-\d{1})?:(\d{12})?:(.+)</param>
     public AwsPartnercentralBenefitsDisassociateBenefitApplicationResourceOptions(
         string Catalog,
         string BenefitApplicationIdentifier,
@@ -64,19 +65,19 @@ public record AwsPartnercentralBenefitsDisassociateBenefitApplicationResourceOpt
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The catalog identifier that specifies which benefit catalog the ap- plication belongs to. Constraints: o pattern: [A-Za-z0-9_-]+
+    /// The catalog identifier that specifies which benefit catalog the application belongs to. Constraints: • pattern: [A-Za-z0-9_-]+
     /// </summary>
     [CliOption("--catalog")]
     public string? Catalog { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the benefit application to disassociate the resource from. Constraints: o pattern: (arn:.+|benappl-[0-9a-z]{14})
+    /// The unique identifier of the benefit application to disassociate the resource from. Constraints: • pattern: (arn:.+|benappl-[0-9a-z]{14})
     /// </summary>
     [CliOption("--benefit-application-identifier")]
     public string? BenefitApplicationIdentifier { get; private init; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the AWS resource to disassociate from the benefit application. Constraints: o min: 0 o max: 1600 o pattern: arn:aws:([a-zA-Z0-9\-])+:([a-z]{2}(-gov)?-[a-z]+-\d{1})?:(\d{12})?:(.+)
+    /// The Amazon Resource Name (ARN) of the AWS resource to disassociate from the benefit application. Constraints: • min: 0 • max: 1600 • pattern: arn:aws:([a-zA-Z0-9\-])+:([a-z]{2}(-gov)?-[a-z]+-\d{1})?:(\d{12})?:(.+)
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
@@ -102,6 +103,15 @@ public record AwsPartnercentralBenefitsDisassociateBenefitApplicationResourceOpt
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

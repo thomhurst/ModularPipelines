@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +29,7 @@ public record AwsNeptuneAddRoleToDbClusterOptions : AwsOptions, IValidatableObje
     /// Associates an Identity and Access Management (IAM) role with an Neptune DB cluster. See also: AWS API Documentation
     /// </summary>
     /// <param name="DbClusterIdentifier">The name of the DB cluster to associate the IAM role with.</param>
-    /// <param name="RoleArn">The Amazon Resource Name (ARN) of the IAM role to associate with the Neptune DB cluster, for example arn:aws:iam::123456789012:role/Nep- tuneAccessRole .</param>
+    /// <param name="RoleArn">The Amazon Resource Name (ARN) of the IAM role to associate with the Neptune DB cluster, for example arn:aws:iam::123456789012:role/NeptuneAccessRole .</param>
     public AwsNeptuneAddRoleToDbClusterOptions(
         string DbClusterIdentifier,
         string RoleArn
@@ -66,7 +67,7 @@ public record AwsNeptuneAddRoleToDbClusterOptions : AwsOptions, IValidatableObje
     public string? DbClusterIdentifier { get; private init; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the IAM role to associate with the Neptune DB cluster, for example arn:aws:iam::123456789012:role/Nep- tuneAccessRole .
+    /// The Amazon Resource Name (ARN) of the IAM role to associate with the Neptune DB cluster, for example arn:aws:iam::123456789012:role/NeptuneAccessRole .
     /// </summary>
     [CliOption("--role-arn")]
     public string? RoleArn { get; private init; }
@@ -98,6 +99,15 @@ public record AwsNeptuneAddRoleToDbClusterOptions : AwsOptions, IValidatableObje
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

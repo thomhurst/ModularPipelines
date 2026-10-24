@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Opts out a speaker from Voice ID. A speaker can be opted out regardless of whether or not they already exist in Voice ID. If they don't yet ex- ist, a new speaker is created in an opted out state. If they already exist, their existing status is overridden and they are opted out. En- rollment and evaluation authentication requests are rejected for opted out speakers, and opted out speakers have no voice embeddings stored in Voice ID. See also: AWS API Documentation
+/// Opts out a speaker from Voice ID. A speaker can be opted out regardless of whether or not they already exist in Voice ID. If they don't yet exist, a new speaker is created in an opted out state. If they already exist, their existing status is overridden and they are opted out. Enrollment and evaluation authentication requests are rejected for opted out speakers, and opted out speakers have no voice embeddings stored in Voice ID. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsVoiceIdOptOutSpeakerOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Opts out a speaker from Voice ID. A speaker can be opted out regardless of whether or not they already exist in Voice ID. If they don't yet ex- ist, a new speaker is created in an opted out state. If they already exist, their existing status is overridden and they are opted out. En- rollment and evaluation authentication requests are rejected for opted out speakers, and opted out speakers have no voice embeddings stored in Voice ID. See also: AWS API Documentation
+    /// Opts out a speaker from Voice ID. A speaker can be opted out regardless of whether or not they already exist in Voice ID. If they don't yet exist, a new speaker is created in an opted out state. If they already exist, their existing status is overridden and they are opted out. Enrollment and evaluation authentication requests are rejected for opted out speakers, and opted out speakers have no voice embeddings stored in Voice ID. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DomainId">The identifier of the domain that contains the speaker. Constraints: o min: 22 o max: 22 o pattern: ^[a-zA-Z0-9]{22}$</param>
-    /// <param name="SpeakerId">The identifier of the speaker you want opted-out. Constraints: o min: 1 o max: 256 o pattern: ^(id#[a-zA-Z0-9]{22}|[a-zA-Z0-9][a-zA-Z0-9_-]*)$</param>
+    /// <param name="DomainId">The identifier of the domain that contains the speaker. Constraints: • min: 22 • max: 22 • pattern: ^[a-zA-Z0-9]{22}$</param>
+    /// <param name="SpeakerId">The identifier of the speaker you want opted-out. Constraints: • min: 1 • max: 256 • pattern: ^(id#[a-zA-Z0-9]{22}|[a-zA-Z0-9][a-zA-Z0-9_-]*)$</param>
     public AwsVoiceIdOptOutSpeakerOptions(
         string DomainId,
         string SpeakerId
@@ -60,13 +61,13 @@ public record AwsVoiceIdOptOutSpeakerOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the domain that contains the speaker. Constraints: o min: 22 o max: 22 o pattern: ^[a-zA-Z0-9]{22}$
+    /// The identifier of the domain that contains the speaker. Constraints: • min: 22 • max: 22 • pattern: ^[a-zA-Z0-9]{22}$
     /// </summary>
     [CliOption("--domain-id")]
     public string? DomainId { get; private init; }
 
     /// <summary>
-    /// The identifier of the speaker you want opted-out. Constraints: o min: 1 o max: 256 o pattern: ^(id#[a-zA-Z0-9]{22}|[a-zA-Z0-9][a-zA-Z0-9_-]*)$
+    /// The identifier of the speaker you want opted-out. Constraints: • min: 1 • max: 256 • pattern: ^(id#[a-zA-Z0-9]{22}|[a-zA-Z0-9][a-zA-Z0-9_-]*)$
     /// </summary>
     [CliOption("--speaker-id")]
     public string? SpeakerId { get; private init; }
@@ -92,6 +93,15 @@ public record AwsVoiceIdOptOutSpeakerOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

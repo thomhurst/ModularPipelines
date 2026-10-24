@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes a previously provisioned cluster. When you delete a cluster, all automated backups for that cluster are deleted and can't be recov- ered. Manual DB cluster snapshots of the specified cluster are not deleted. See also: AWS API Documentation
+/// Deletes a previously provisioned cluster. When you delete a cluster, all automated backups for that cluster are deleted and can't be recovered. Manual DB cluster snapshots of the specified cluster are not deleted. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsDocdbDeleteDbClusterOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes a previously provisioned cluster. When you delete a cluster, all automated backups for that cluster are deleted and can't be recov- ered. Manual DB cluster snapshots of the specified cluster are not deleted. See also: AWS API Documentation
+    /// Deletes a previously provisioned cluster. When you delete a cluster, all automated backups for that cluster are deleted and can't be recovered. Manual DB cluster snapshots of the specified cluster are not deleted. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DbClusterIdentifier">The cluster identifier for the cluster to be deleted. This parameter isn't case sensitive. Constraints: o Must match an existing DBClusterIdentifier .</param>
+    /// <param name="DbClusterIdentifier">The cluster identifier for the cluster to be deleted. This parameter isn't case sensitive. Constraints: • Must match an existing DBClusterIdentifier .</param>
     public AwsDocdbDeleteDbClusterOptions(
         string DbClusterIdentifier
     )
@@ -56,19 +57,19 @@ public record AwsDocdbDeleteDbClusterOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The cluster identifier for the cluster to be deleted. This parameter isn't case sensitive. Constraints: o Must match an existing DBClusterIdentifier .
+    /// The cluster identifier for the cluster to be deleted. This parameter isn't case sensitive. Constraints: • Must match an existing DBClusterIdentifier .
     /// </summary>
     [CliOption("--db-cluster-identifier")]
     public string? DbClusterIdentifier { get; private init; }
 
     /// <summary>
-    /// Determines whether a final cluster snapshot is created before the cluster is deleted. If true is specified, no cluster snapshot is created. If false is specified, a cluster snapshot is created before the DB cluster is deleted. NOTE: If SkipFinalSnapshot is false , you must specify a FinalDBSnap- shotIdentifier parameter. Default: false
+    /// Determines whether a final cluster snapshot is created before the cluster is deleted. If true is specified, no cluster snapshot is created. If false is specified, a cluster snapshot is created before the DB cluster is deleted. NOTE: If SkipFinalSnapshot is false , you must specify a FinalDBSnapshotIdentifier parameter. Default: false
     /// </summary>
     [CliFlag("--skip-final-snapshot", NegatedName = "--no-skip-final-snapshot")]
     public bool? SkipFinalSnapshot { get; set; }
 
     /// <summary>
-    /// The cluster snapshot identifier of the new cluster snapshot created when SkipFinalSnapshot is set to false . NOTE: Specifying this parameter and also setting the SkipFinalShapshot parameter to true results in an error. Constraints: o Must be from 1 to 255 letters, numbers, or hyphens. o The first character must be a letter. o Cannot end with a hyphen or contain two consecutive hyphens.
+    /// The cluster snapshot identifier of the new cluster snapshot created when SkipFinalSnapshot is set to false . NOTE: Specifying this parameter and also setting the SkipFinalShapshot parameter to true results in an error. Constraints: • Must be from 1 to 255 letters, numbers, or hyphens. • The first character must be a letter. • Cannot end with a hyphen or contain two consecutive hyphens.
     /// </summary>
     [CliOption("--final-db-snapshot-identifier")]
     public string? FinalDbSnapshotIdentifier { get; set; }
@@ -94,6 +95,15 @@ public record AwsDocdbDeleteDbClusterOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

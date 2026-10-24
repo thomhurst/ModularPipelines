@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Export optimization recommendations for your licenses. Recommendations are exported in a comma-separated values (CSV) file, and its metadata in a JavaScript Object Notation (JSON) file, to an ex- isting Amazon Simple Storage Service (Amazon S3) bucket that you spec- ify. For more information, see Exporting Recommendations in the Compute Optimizer User Guide . You can have only one license export job in progress per Amazon Web Services Region. See also: AWS API Documentation
+/// Export optimization recommendations for your licenses. Recommendations are exported in a comma-separated values (CSV) file, and its metadata in a JavaScript Object Notation (JSON) file, to an existing Amazon Simple Storage Service (Amazon S3) bucket that you specify. For more information, see Exporting Recommendations in the Compute Optimizer User Guide . You can have only one license export job in progress per Amazon Web Services Region. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsComputeOptimizerExportLicenseRecommendationsOptions : AwsOption
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Export optimization recommendations for your licenses. Recommendations are exported in a comma-separated values (CSV) file, and its metadata in a JavaScript Object Notation (JSON) file, to an ex- isting Amazon Simple Storage Service (Amazon S3) bucket that you spec- ify. For more information, see Exporting Recommendations in the Compute Optimizer User Guide . You can have only one license export job in progress per Amazon Web Services Region. See also: AWS API Documentation
+    /// Export optimization recommendations for your licenses. Recommendations are exported in a comma-separated values (CSV) file, and its metadata in a JavaScript Object Notation (JSON) file, to an existing Amazon Simple Storage Service (Amazon S3) bucket that you specify. For more information, see Exporting Recommendations in the Compute Optimizer User Guide . You can have only one license export job in progress per Amazon Web Services Region. See also: AWS API Documentation
     /// </summary>
-    /// <param name="S3DestinationConfig">Describes the destination Amazon Simple Storage Service (Amazon S3) bucket name and key prefix for a recommendations export job. You must create the destination Amazon S3 bucket for your recommen- dations export before you create the export job. Compute Optimizer does not create the S3 bucket for you. After you create the S3 bucket, ensure that it has the required permission policy to allow Compute Optimizer to write the export file to it. If you plan to specify an object prefix when you create the export job, you must include the object prefix in the policy that you add to the S3 bucket. For more information, see Amazon S3 Bucket Policy for Com- pute Optimizer in the Compute Optimizer User Guide . bucket -&gt; (string) The name of the Amazon S3 bucket to use as the destination for an export job. keyPrefix -&gt; (string) The Amazon S3 bucket prefix for an export job. Shorthand Syntax: bucket=string,keyPrefix=string JSON Syntax: { "bucket": "string", "keyPrefix": "string" }</param>
+    /// <param name="S3DestinationConfig">Describes the destination Amazon Simple Storage Service (Amazon S3) bucket name and key prefix for a recommendations export job. You must create the destination Amazon S3 bucket for your recommendations export before you create the export job. Compute Optimizer does not create the S3 bucket for you. After you create the S3 bucket, ensure that it has the required permission policy to allow Compute Optimizer to write the export file to it. If you plan to specify an object prefix when you create the export job, you must include the object prefix in the policy that you add to the S3 bucket. For more information, see Amazon S3 Bucket Policy for Compute Optimizer in the Compute Optimizer User Guide . bucket -&gt; (string) The name of the Amazon S3 bucket to use as the destination for an export job. keyPrefix -&gt; (string) The Amazon S3 bucket prefix for an export job. Shorthand Syntax: bucket=string,keyPrefix=string JSON Syntax: { "bucket": "string", "keyPrefix": "string" }</param>
     public AwsComputeOptimizerExportLicenseRecommendationsOptions(
         string S3DestinationConfig
     )
@@ -56,37 +57,37 @@ public record AwsComputeOptimizerExportLicenseRecommendationsOptions : AwsOption
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Describes the destination Amazon Simple Storage Service (Amazon S3) bucket name and key prefix for a recommendations export job. You must create the destination Amazon S3 bucket for your recommen- dations export before you create the export job. Compute Optimizer does not create the S3 bucket for you. After you create the S3 bucket, ensure that it has the required permission policy to allow Compute Optimizer to write the export file to it. If you plan to specify an object prefix when you create the export job, you must include the object prefix in the policy that you add to the S3 bucket. For more information, see Amazon S3 Bucket Policy for Com- pute Optimizer in the Compute Optimizer User Guide . bucket -&gt; (string) The name of the Amazon S3 bucket to use as the destination for an export job. keyPrefix -&gt; (string) The Amazon S3 bucket prefix for an export job. Shorthand Syntax: bucket=string,keyPrefix=string JSON Syntax: { "bucket": "string", "keyPrefix": "string" }
+    /// Describes the destination Amazon Simple Storage Service (Amazon S3) bucket name and key prefix for a recommendations export job. You must create the destination Amazon S3 bucket for your recommendations export before you create the export job. Compute Optimizer does not create the S3 bucket for you. After you create the S3 bucket, ensure that it has the required permission policy to allow Compute Optimizer to write the export file to it. If you plan to specify an object prefix when you create the export job, you must include the object prefix in the policy that you add to the S3 bucket. For more information, see Amazon S3 Bucket Policy for Compute Optimizer in the Compute Optimizer User Guide . bucket -&gt; (string) The name of the Amazon S3 bucket to use as the destination for an export job. keyPrefix -&gt; (string) The Amazon S3 bucket prefix for an export job. Shorthand Syntax: bucket=string,keyPrefix=string JSON Syntax: { "bucket": "string", "keyPrefix": "string" }
     /// </summary>
     [CliOption("--s3-destination-config")]
     public string? S3DestinationConfig { get; private init; }
 
     /// <summary>
-    /// The IDs of the Amazon Web Services accounts for which to export li- cense recommendations. If your account is the management account of an organization, use this parameter to specify the member account for which you want to export recommendations. This parameter can't be specified together with the include member accounts parameter. The parameters are mutually exclusive. If this parameter is omitted, recommendations for member accounts aren't included in the export. You can specify multiple account IDs per request. (string) Syntax: "string" "string" ...
+    /// The IDs of the Amazon Web Services accounts for which to export license recommendations. If your account is the management account of an organization, use this parameter to specify the member account for which you want to export recommendations. This parameter can't be specified together with the include member accounts parameter. The parameters are mutually exclusive. If this parameter is omitted, recommendations for member accounts aren't included in the export. You can specify multiple account IDs per request. (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--account-ids", GroupValues = true)]
     public IEnumerable<string>? AccountIds { get; set; }
 
     /// <summary>
-    /// An array of objects to specify a filter that exports a more specific set of license recommendations. (structure) Describes a filter that returns a more specific list of license recommendations. Use this filter with the GetLicenseRecommenda- tion action. name -&gt; (string) The name of the filter. Specify Finding to return recommendations with a specific finding classification. Specify FindingReasonCode to return recommendations with a specific finding reason code. You can filter your license recommendations by tag:key and tag-key tags. A tag:key is a key and value combination of a tag assigned to your license recommendations. Use the tag key in the filter name and the tag value as the filter value. For example, to find all license recommendations that have a tag with the key of Owner and the value of TeamA , specify tag:Owner for the filter name and TeamA for the filter value. A tag-key is the key of a tag assigned to your license recom- mendations. Use this filter to find all of your license rec- ommendations that have a tag with a specific key. This doesnt consider the tag value. For example, you can find your li- cense recommendations with a tag key value of Owner or with- out any tag keys assigned. Possible values: o Finding o FindingReasonCode o LicenseName values -&gt; (list) The value of the filter. The valid values for this parameter are as follows, depending on what you specify for the name parameter: o If you specify the name parameter as Finding , then specify Optimized , NotOptimized , or InsufficentMetrics . o If you specify the name parameter as FindingReasonCode , then specify Optimized , LicenseOverprovisioned , Invalid- CloudwatchApplicationInsights , or CloudwatchApplicationIn- sightsError . (string) Shorthand Syntax: name=string,values=string,string ... JSON Syntax: [ { "name": "Finding"|"FindingReasonCode"|"LicenseName", "values": ["string", ...] } ... ]
+    /// An array of objects to specify a filter that exports a more specific set of license recommendations. (structure) Describes a filter that returns a more specific list of license recommendations. Use this filter with the GetLicenseRecommendation action. name -&gt; (string) The name of the filter. Specify Finding to return recommendations with a specific finding classification. Specify FindingReasonCode to return recommendations with a specific finding reason code. You can filter your license recommendations by tag:key and tag-key tags. A tag:key is a key and value combination of a tag assigned to your license recommendations. Use the tag key in the filter name and the tag value as the filter value. For example, to find all license recommendations that have a tag with the key of Owner and the value of TeamA , specify tag:Owner for the filter name and TeamA for the filter value. A tag-key is the key of a tag assigned to your license recommendations. Use this filter to find all of your license recommendations that have a tag with a specific key. This doesnt consider the tag value. For example, you can find your license recommendations with a tag key value of Owner or without any tag keys assigned. Possible values: • Finding • FindingReasonCode • LicenseName values -&gt; (list) The value of the filter. The valid values for this parameter are as follows, depending on what you specify for the name parameter: • If you specify the name parameter as Finding , then specify Optimized , NotOptimized , or InsufficentMetrics . • If you specify the name parameter as FindingReasonCode , then specify Optimized , LicenseOverprovisioned , InvalidCloudwatchApplicationInsights , or CloudwatchApplicationInsightsError . (string) Shorthand Syntax: name=string,values=string,string ... JSON Syntax: [ { "name": "Finding"|"FindingReasonCode"|"LicenseName", "values": ["string", ...] } ... ]
     /// </summary>
     [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     /// <summary>
-    /// The recommendations data to include in the export file. For more in- formation about the fields that can be exported, see Exported files in the Compute Optimizer User Guide . (string) Possible values: o AccountId o ResourceArn o LookbackPeriodInDays o LastRefreshTimestamp o Finding o FindingReasonCodes o CurrentLicenseConfigurationNumberOfCores o CurrentLicenseConfigurationInstanceType o CurrentLicenseConfigurationOperatingSystem o CurrentLicenseConfigurationLicenseName o CurrentLicenseConfigurationLicenseEdition o CurrentLicenseConfigurationLicenseModel o CurrentLicenseConfigurationLicenseVersion o CurrentLicenseConfigurationMetricsSource o RecommendationOptionsOperatingSystem o RecommendationOptionsLicenseEdition o RecommendationOptionsLicenseModel o RecommendationOptionsSavingsOpportunityPercentage o RecommendationOptionsEstimatedMonthlySavingsCurrency o RecommendationOptionsEstimatedMonthlySavingsValue o Tags Syntax: "string" "string" ...
+    /// The recommendations data to include in the export file. For more information about the fields that can be exported, see Exported files in the Compute Optimizer User Guide . (string) Possible values: • AccountId • ResourceArn • LookbackPeriodInDays • LastRefreshTimestamp • Finding • FindingReasonCodes • CurrentLicenseConfigurationNumberOfCores • CurrentLicenseConfigurationInstanceType • CurrentLicenseConfigurationOperatingSystem • CurrentLicenseConfigurationLicenseName • CurrentLicenseConfigurationLicenseEdition • CurrentLicenseConfigurationLicenseModel • CurrentLicenseConfigurationLicenseVersion • CurrentLicenseConfigurationMetricsSource • RecommendationOptionsOperatingSystem • RecommendationOptionsLicenseEdition • RecommendationOptionsLicenseModel • RecommendationOptionsSavingsOpportunityPercentage • RecommendationOptionsEstimatedMonthlySavingsCurrency • RecommendationOptionsEstimatedMonthlySavingsValue • Tags Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--fields-to-export", GroupValues = true)]
     public IEnumerable<string>? FieldsToExport { get; set; }
 
     /// <summary>
-    /// The format of the export file. A CSV file is the only export format currently supported. Possible values: o Csv
+    /// The format of the export file. A CSV file is the only export format currently supported. Possible values: • Csv
     /// </summary>
     [CliOption("--file-format")]
     public string? FileFormat { get; set; }
 
     /// <summary>
-    /// Indicates whether to include recommendations for resources in all member accounts of the organization if your account is the manage- ment account of an organization. The member accounts must also be opted in to Compute Optimizer, and trusted access for Compute Optimizer must be enabled in the organi- zation account. For more information, see Compute Optimizer and Ama- zon Web Services Organizations trusted access in the Compute Opti- mizer User Guide . If this parameter is omitted, recommendations for member accounts of the organization aren't included in the export file . This parameter cannot be specified together with the account IDs pa- rameter. The parameters are mutually exclusive.
+    /// Indicates whether to include recommendations for resources in all member accounts of the organization if your account is the management account of an organization. The member accounts must also be opted in to Compute Optimizer, and trusted access for Compute Optimizer must be enabled in the organization account. For more information, see Compute Optimizer and Amazon Web Services Organizations trusted access in the Compute Optimizer User Guide . If this parameter is omitted, recommendations for member accounts of the organization aren't included in the export file . This parameter cannot be specified together with the account IDs parameter. The parameters are mutually exclusive.
     /// </summary>
     [CliFlag("--include-member-accounts", NegatedName = "--no-include-member-accounts")]
     public bool? IncludeMemberAccounts { get; set; }
@@ -112,6 +113,15 @@ public record AwsComputeOptimizerExportLicenseRecommendationsOptions : AwsOption
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

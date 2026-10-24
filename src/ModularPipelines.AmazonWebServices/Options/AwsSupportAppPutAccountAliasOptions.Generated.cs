@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates or updates an individual alias for each Amazon Web Services ac- count ID. The alias appears in the Amazon Web Services Support App page of the Amazon Web Services Support Center. The alias also appears in Slack messages from the Amazon Web Services Support App. See also: AWS API Documentation
+/// Creates or updates an individual alias for each Amazon Web Services account ID. The alias appears in the Amazon Web Services Support App page of the Amazon Web Services Support Center. The alias also appears in Slack messages from the Amazon Web Services Support App. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsSupportAppPutAccountAliasOptions : AwsOptions, IValidatableObje
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates or updates an individual alias for each Amazon Web Services ac- count ID. The alias appears in the Amazon Web Services Support App page of the Amazon Web Services Support Center. The alias also appears in Slack messages from the Amazon Web Services Support App. See also: AWS API Documentation
+    /// Creates or updates an individual alias for each Amazon Web Services account ID. The alias appears in the Amazon Web Services Support App page of the Amazon Web Services Support Center. The alias also appears in Slack messages from the Amazon Web Services Support App. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AccountAlias">An alias or short name for an Amazon Web Services account. Constraints: o min: 1 o max: 30 o pattern: ^[\w\- ]+$</param>
+    /// <param name="AccountAlias">An alias or short name for an Amazon Web Services account. Constraints: • min: 1 • max: 30 • pattern: ^[\w\- ]+$</param>
     public AwsSupportAppPutAccountAliasOptions(
         string AccountAlias
     )
@@ -56,7 +57,7 @@ public record AwsSupportAppPutAccountAliasOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// An alias or short name for an Amazon Web Services account. Constraints: o min: 1 o max: 30 o pattern: ^[\w\- ]+$
+    /// An alias or short name for an Amazon Web Services account. Constraints: • min: 1 • max: 30 • pattern: ^[\w\- ]+$
     /// </summary>
     [CliOption("--account-alias")]
     public string? AccountAlias { get; private init; }
@@ -82,6 +83,15 @@ public record AwsSupportAppPutAccountAliasOptions : AwsOptions, IValidatableObje
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

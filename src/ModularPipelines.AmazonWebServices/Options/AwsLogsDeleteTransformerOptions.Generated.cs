@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes the log transformer for the specified log group. As soon as you do this, the transformation of incoming log events according to that transformer stops. If this account has an account-level transformer that applies to this log group, the log group begins using that ac- count-level transformer when this log-group level transformer is deleted. After you delete a transformer, be sure to edit any metric filters or subscription filters that relied on the transformed versions of the log events....
+/// Deletes the log transformer for the specified log group. As soon as you do this, the transformation of incoming log events according to that transformer stops. If this account has an account-level transformer that applies to this log group, the log group begins using that account-level transformer when this log-group level transformer is deleted. After you delete a transformer, be sure to edit any metric filters or subscription filters that relied on the transformed versions of the log events. S...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsLogsDeleteTransformerOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes the log transformer for the specified log group. As soon as you do this, the transformation of incoming log events according to that transformer stops. If this account has an account-level transformer that applies to this log group, the log group begins using that ac- count-level transformer when this log-group level transformer is deleted. After you delete a transformer, be sure to edit any metric filters or subscription filters that relied on the transformed versions of the log events....
+    /// Deletes the log transformer for the specified log group. As soon as you do this, the transformation of incoming log events according to that transformer stops. If this account has an account-level transformer that applies to this log group, the log group begins using that account-level transformer when this log-group level transformer is deleted. After you delete a transformer, be sure to edit any metric filters or subscription filters that relied on the transformed versions of the log events. S...
     /// </summary>
-    /// <param name="LogGroupIdentifier">Specify either the name or ARN of the log group to delete the trans- former for. If the log group is in a source account and you are us- ing a monitoring account, you must use the log group ARN. Constraints: o min: 1 o max: 2048 o pattern: [\w#+=/:,.@-]*</param>
+    /// <param name="LogGroupIdentifier">Specify either the name or ARN of the log group to delete the transformer for. If the log group is in a source account and you are using a monitoring account, you must use the log group ARN. Constraints: • min: 1 • max: 2048 • pattern: [\w#+=/:,.@-]*</param>
     public AwsLogsDeleteTransformerOptions(
         string LogGroupIdentifier
     )
@@ -56,7 +57,7 @@ public record AwsLogsDeleteTransformerOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Specify either the name or ARN of the log group to delete the trans- former for. If the log group is in a source account and you are us- ing a monitoring account, you must use the log group ARN. Constraints: o min: 1 o max: 2048 o pattern: [\w#+=/:,.@-]*
+    /// Specify either the name or ARN of the log group to delete the transformer for. If the log group is in a source account and you are using a monitoring account, you must use the log group ARN. Constraints: • min: 1 • max: 2048 • pattern: [\w#+=/:,.@-]*
     /// </summary>
     [CliOption("--log-group-identifier")]
     public string? LogGroupIdentifier { get; private init; }
@@ -82,6 +83,15 @@ public record AwsLogsDeleteTransformerOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

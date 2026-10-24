@@ -11,13 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a farm to allow space for queues and fleets. Farms are the space where the components of your renders gather and are pieced to- gether in the cloud. Farms contain budgets and allow you to enforce permissions. Deadline Cloud farms are a useful container for large projects. See also: AWS API Documentation
+/// Creates a farm to allow space for queues and fleets. Farms are the space where the components of your renders gather and are pieced together in the cloud. Farms contain budgets and allow you to enforce permissions. Deadline Cloud farms are a useful container for large projects. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,9 +27,9 @@ public record AwsDeadlineCreateFarmOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a farm to allow space for queues and fleets. Farms are the space where the components of your renders gather and are pieced to- gether in the cloud. Farms contain budgets and allow you to enforce permissions. Deadline Cloud farms are a useful container for large projects. See also: AWS API Documentation
+    /// Creates a farm to allow space for queues and fleets. Farms are the space where the components of your renders gather and are pieced together in the cloud. Farms contain budgets and allow you to enforce permissions. Deadline Cloud farms are a useful container for large projects. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DisplayName">The display name of the farm. WARNING: This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field. Constraints: o min: 1 o max: 100</param>
+    /// <param name="DisplayName">The display name of the farm. WARNING: This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field. Constraints: • min: 1 • max: 100</param>
     public AwsDeadlineCreateFarmOptions(
         string DisplayName
     )
@@ -58,35 +58,35 @@ public record AwsDeadlineCreateFarmOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The display name of the farm. WARNING: This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field. Constraints: o min: 1 o max: 100
+    /// The display name of the farm. WARNING: This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--display-name")]
     public string? DisplayName { get; private init; }
 
     /// <summary>
-    /// The unique token which the server uses to recognize retries of the same request. Constraints: o min: 1 o max: 64
+    /// The unique token which the server uses to recognize retries of the same request. Constraints: • min: 1 • max: 64
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// The description of the farm. WARNING: This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field. Constraints: o min: 0 o max: 100
+    /// The description of the farm. WARNING: This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field. Constraints: • min: 0 • max: 100
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The ARN of the KMS key to use on the farm. Constraints: o pattern: arn:(aws[a-zA-Z-]*):kms:[a-z]{2}((-gov)|(-iso(b?)))?-[a-z]+-\d{1}:\d{12}:key/[\w-]{1,120}
+    /// The ARN of the KMS key to use on the farm. Constraints: • pattern: arn:(aws[a-zA-Z-]*):kms:[a-z]{2}((-gov)|(-iso(b?)))?-[a-z]+-\d{1}:\d{12}:key/[\w-]{1,120}
     /// </summary>
     [CliOption("--kms-key-arn")]
     public string? KmsKeyArn { get; set; }
 
     /// <summary>
-    /// A multiplier applied to the farm's calculated costs for usage data and budget tracking. A value less than 1 represents a discount, a value greater than 1 represents a premium, and a value of 1 repre- sents no adjustment. The default value is 1. Constraints: o min: 0 o max: 100
+    /// A multiplier applied to the farm's calculated costs for usage data and budget tracking. A value less than 1 represents a discount, a value greater than 1 represents a premium, and a value of 1 represents no adjustment. The default value is 1. Constraints: • min: 0 • max: 100
     /// </summary>
     [CliOption("--cost-scale-factor")]
-    public int? CostScaleFactor { get; set; }
+    public double? CostScaleFactor { get; set; }
 
     /// <summary>
     /// The tags to add to your farm. Each tag consists of a tag key and a tag value. Tag keys and values are both required, but tag values can be empty strings. key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
@@ -115,6 +115,15 @@ public record AwsDeadlineCreateFarmOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +29,7 @@ public record AwsSagemakerSendPipelineExecutionStepSuccessOptions : AwsOptions, 
     /// <summary>
     /// Notifies the pipeline that the execution of a callback step succeeded and provides a list of the step's output parameters. When a callback step is run, the pipeline generates a callback token and includes the token in a message sent to Amazon Simple Queue Service (Amazon SQS). See also: AWS API Documentation
     /// </summary>
-    /// <param name="CallbackToken">The pipeline generated token from the Amazon SQS queue. Constraints: o min: 10 o max: 10 o pattern: [a-zA-Z0-9]+</param>
+    /// <param name="CallbackToken">The pipeline generated token from the Amazon SQS queue. Constraints: • min: 10 • max: 10 • pattern: [a-zA-Z0-9]+</param>
     public AwsSagemakerSendPipelineExecutionStepSuccessOptions(
         string CallbackToken
     )
@@ -57,20 +58,20 @@ public record AwsSagemakerSendPipelineExecutionStepSuccessOptions : AwsOptions, 
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The pipeline generated token from the Amazon SQS queue. Constraints: o min: 10 o max: 10 o pattern: [a-zA-Z0-9]+
+    /// The pipeline generated token from the Amazon SQS queue. Constraints: • min: 10 • max: 10 • pattern: [a-zA-Z0-9]+
     /// </summary>
     [SecretValue]
     [CliOption("--callback-token")]
     public string? CallbackToken { get; private init; }
 
     /// <summary>
-    /// A list of the output parameters of the callback step. Constraints: o min: 0 o max: 50 (structure) An output parameter of a pipeline step. Name -&gt; (string) [required] The name of the output parameter. Constraints: o min: 0 o max: 256 Value -&gt; (string) [required] The value of the output parameter. Constraints: o min: 0 o max: 1024 Shorthand Syntax: Name=string,Value=string ... JSON Syntax: [ { "Name": "string", "Value": "string" } ... ]
+    /// A list of the output parameters of the callback step. Constraints: • min: 0 • max: 50 (structure) An output parameter of a pipeline step. Name -&gt; (string) [required] The name of the output parameter. Constraints: • min: 0 • max: 256 Value -&gt; (string) [required] The value of the output parameter. Constraints: • min: 0 • max: 1024 Shorthand Syntax: Name=string,Value=string ... JSON Syntax: [ { "Name": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--output-parameters", GroupValues = true)]
     public IEnumerable<string>? OutputParameters { get; set; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the operation. An idempotent operation completes no more than one time. Constraints: o min: 32 o max: 128
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the operation. An idempotent operation completes no more than one time. Constraints: • min: 32 • max: 128
     /// </summary>
     [SecretValue]
     [CliOption("--client-request-token")]
@@ -97,6 +98,15 @@ public record AwsSagemakerSendPipelineExecutionStepSuccessOptions : AwsOptions, 
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

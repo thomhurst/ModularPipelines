@@ -10,12 +10,12 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns a list of recommended items. For campaigns, the campaign's Ama- zon Resource Name (ARN) is required and the required user and item in- put depends on the recipe type used to create the solution backing the campaign as follows: o USER_PERSONALIZATION - userId required, itemId not used o RELATED_ITEMS - itemId required, userId not used NOTE: Campaigns that are backed by a solution created using a recipe of type PERSONALIZED_RANKING use the API. For recommenders, the recommender's ARN is re...
+/// Returns a list of recommended items. For campaigns, the campaign's Amazon Resource Name (ARN) is required and the required user and item input depends on the recipe type used to create the solution backing the campaign as follows: • USER_PERSONALIZATION - userId required, itemId not used • RELATED_ITEMS - itemId required, userId not used NOTE: Campaigns that are backed by a solution created using a recipe of type PERSONALIZED_RANKING use the API. For recommenders, the recommender's ARN is requir...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -23,61 +23,61 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsPersonalizeRuntimeGetRecommendationsOptions : AwsOptions
 {
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the campaign to use for getting recommendations. Constraints: o max: 256 o pattern: arn:([a-z\d-]+):personalize:.*:.*:.+
+    /// The Amazon Resource Name (ARN) of the campaign to use for getting recommendations. Constraints: • max: 256 • pattern: arn:([a-z\d-]+):personalize:.*:.*:.+
     /// </summary>
     [CliOption("--campaign-arn")]
     public string? CampaignArn { get; set; }
 
     /// <summary>
-    /// The item ID to provide recommendations for. Required for RELATED_ITEMS recipe type. Constraints: o max: 256
+    /// The item ID to provide recommendations for. Required for RELATED_ITEMS recipe type. Constraints: • max: 256
     /// </summary>
     [CliOption("--item-id")]
     public string? ItemId { get; set; }
 
     /// <summary>
-    /// The user ID to provide recommendations for. Required for USER_PERSONALIZATION recipe type. Constraints: o max: 256
+    /// The user ID to provide recommendations for. Required for USER_PERSONALIZATION recipe type. Constraints: • max: 256
     /// </summary>
     [CliOption("--user-id")]
     public string? UserId { get; set; }
 
     /// <summary>
-    /// The number of results to return. The default is 25. If you are in- cluding metadata in recommendations, the maximum is 50. Otherwise, the maximum is 500. Constraints: o min: 0
+    /// The number of results to return. The default is 25. If you are including metadata in recommendations, the maximum is 50. Otherwise, the maximum is 500. Constraints: • min: 0
     /// </summary>
     [CliOption("--num-results")]
     public int? NumResults { get; set; }
 
     /// <summary>
-    /// The contextual metadata to use when getting recommendations. Contex- tual metadata includes any interaction information that might be relevant when getting a user's recommendations, such as the user's current location or device type. Constraints: o max: 150 key -&gt; (string) Constraints: o max: 150 o pattern: [A-Za-z\d_]+ value -&gt; (string) Constraints: o max: 1000 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The contextual metadata to use when getting recommendations. Contextual metadata includes any interaction information that might be relevant when getting a user's recommendations, such as the user's current location or device type. Constraints: • max: 150 key -&gt; (string) Constraints: • max: 150 • pattern: [A-Za-z\d_]+ value -&gt; (string) Constraints: • max: 1000 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--context", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Context { get; set; }
 
     /// <summary>
-    /// The ARN of the filter to apply to the returned recommendations. For more information, see Filtering Recommendations . When using this parameter, be sure the filter resource is ACTIVE . Constraints: o max: 256 o pattern: arn:([a-z\d-]+):personalize:.*:.*:.+
+    /// The ARN of the filter to apply to the returned recommendations. For more information, see Filtering Recommendations . When using this parameter, be sure the filter resource is ACTIVE . Constraints: • max: 256 • pattern: arn:([a-z\d-]+):personalize:.*:.*:.+
     /// </summary>
     [CliOption("--filter-arn")]
     public string? FilterArn { get; set; }
 
     /// <summary>
-    /// The values to use when filtering recommendations. For each place- holder parameter in your filter expression, provide the parameter name (in matching case) as a key and the filter value(s) as the cor- responding value. Separate multiple values for one parameter with a comma. For filter expressions that use an INCLUDE element to include items, you must provide values for all parameters that are defined in the expression. For filters with expressions that use an EXCLUDE element to exclude items, you can omit the filter-values .In this case, Ama- zon Personalize doesn't use that portion of the expression to filter recommendations. For more information, see Filtering recommendations and user seg- ments . Constraints: o max: 25 key -&gt; (string) Constraints: o max: 50 o pattern: [A-Za-z0-9_]+ value -&gt; (string) Constraints: o max: 1000 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The values to use when filtering recommendations. For each placeholder parameter in your filter expression, provide the parameter name (in matching case) as a key and the filter value(s) as the corresponding value. Separate multiple values for one parameter with a comma. For filter expressions that use an INCLUDE element to include items, you must provide values for all parameters that are defined in the expression. For filters with expressions that use an EXCLUDE element to exclude items, you can omit the filter-values .In this case, Amazon Personalize doesn't use that portion of the expression to filter recommendations. For more information, see Filtering recommendations and user segments . Constraints: • max: 25 key -&gt; (string) Constraints: • max: 50 • pattern: [A-Za-z0-9_]+ value -&gt; (string) Constraints: • max: 1000 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--filter-values", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? FilterValues { get; set; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the recommender to use to get rec- ommendations. Provide a recommender ARN if you created a Domain dataset group with a recommender for a domain use case. Constraints: o max: 256 o pattern: arn:([a-z\d-]+):personalize:.*:.*:.+
+    /// The Amazon Resource Name (ARN) of the recommender to use to get recommendations. Provide a recommender ARN if you created a Domain dataset group with a recommender for a domain use case. Constraints: • max: 256 • pattern: arn:([a-z\d-]+):personalize:.*:.*:.+
     /// </summary>
     [CliOption("--recommender-arn")]
     public string? RecommenderArn { get; set; }
 
     /// <summary>
-    /// The promotions to apply to the recommendation request. A promotion defines additional business rules that apply to a configurable sub- set of recommended items. Constraints: o max: 1 (structure) Contains information on a promotion. A promotion defines addi- tional business rules that apply to a configurable subset of recommended items. name -&gt; (string) The name of the promotion. Constraints: o min: 1 o max: 63 o pattern: ^[a-zA-Z0-9][a-zA-Z0-9\-_]* percentPromotedItems -&gt; (integer) The percentage of recommended items to apply the promotion to. Constraints: o min: 1 o max: 100 filterArn -&gt; (string) The Amazon Resource Name (ARN) of the filter used by the pro- motion. This filter defines the criteria for promoted items. For more information, see Promotion filters . Constraints: o max: 256 o pattern: arn:([a-z\d-]+):personalize:.*:.*:.+ filterValues -&gt; (map) The values to use when promoting items. For each placeholder parameter in your promotion's filter expression, provide the parameter name (in matching case) as a key and the filter value(s) as the corresponding value. Separate multiple values for one parameter with a comma. For filter expressions that use an INCLUDE element to include items, you must provide values for all parameters that are defined in the expression. For filters with expressions that use an EXCLUDE element to exclude items, you can omit the filter-values . In this case, Amazon Personalize doesn't use that portion of the expression to filter recommendations. For more information on creating filters, see Filtering rec- ommendations and user segments . Constraints: o max: 25 key -&gt; (string) Constraints: o max: 50 o pattern: [A-Za-z0-9_]+ value -&gt; (string) Constraints: o max: 1000 Shorthand Syntax: name=string,percentPromotedItems=integer,filterArn=string,filterValues={KeyName1=string,KeyName2=string} ... JSON Syntax: [ { "name": "string", "percentPromotedItems": integer, "filterArn": "string", "filterValues": {"string": "string" ...} } ... ]
+    /// The promotions to apply to the recommendation request. A promotion defines additional business rules that apply to a configurable subset of recommended items. Constraints: • max: 1 (structure) Contains information on a promotion. A promotion defines additional business rules that apply to a configurable subset of recommended items. name -&gt; (string) The name of the promotion. Constraints: • min: 1 • max: 63 • pattern: ^[a-zA-Z0-9][a-zA-Z0-9\-_]* percentPromotedItems -&gt; (integer) The percentage of recommended items to apply the promotion to. Constraints: • min: 1 • max: 100 filterArn -&gt; (string) The Amazon Resource Name (ARN) of the filter used by the promotion. This filter defines the criteria for promoted items. For more information, see Promotion filters . Constraints: • max: 256 • pattern: arn:([a-z\d-]+):personalize:.*:.*:.+ filterValues -&gt; (map) The values to use when promoting items. For each placeholder parameter in your promotion's filter expression, provide the parameter name (in matching case) as a key and the filter value(s) as the corresponding value. Separate multiple values for one parameter with a comma. For filter expressions that use an INCLUDE element to include items, you must provide values for all parameters that are defined in the expression. For filters with expressions that use an EXCLUDE element to exclude items, you can omit the filter-values . In this case, Amazon Personalize doesn't use that portion of the expression to filter recommendations. For more information on creating filters, see Filtering recommendations and user segments . Constraints: • max: 25 key -&gt; (string) Constraints: • max: 50 • pattern: [A-Za-z0-9_]+ value -&gt; (string) Constraints: • max: 1000 Shorthand Syntax: name=string,percentPromotedItems=integer,filterArn=string,filterValues={KeyName1=string,KeyName2=string} ... JSON Syntax: [ { "name": "string", "percentPromotedItems": integer, "filterArn": "string", "filterValues": {"string": "string" ...} } ... ]
     /// </summary>
     [CliOption("--promotions", GroupValues = true)]
     public IEnumerable<string>? Promotions { get; set; }
 
     /// <summary>
-    /// If you enabled metadata in recommendations when you created or up- dated the campaign or recommender, specify the metadata columns from your Items dataset to include in item recommendations. The map key is ITEMS and the value is a list of column names from your Items dataset. The maximum number of columns you can provide is 10. For information about enabling metadata for a campaign, see Enabling metadata in recommendations for a campaign . For information about enabling metadata for a recommender, see Enabling metadata in recom- mendations for a recommender . Constraints: o max: 1 key -&gt; (string) Constraints: o max: 256 value -&gt; (list) Constraints: o max: 99 (string) Constraints: o max: 150 Shorthand Syntax: KeyName1=string,string,KeyName2=string,string JSON Syntax: {"string": ["string", ...] ...}
+    /// If you enabled metadata in recommendations when you created or updated the campaign or recommender, specify the metadata columns from your Items dataset to include in item recommendations. The map key is ITEMS and the value is a list of column names from your Items dataset. The maximum number of columns you can provide is 10. For information about enabling metadata for a campaign, see Enabling metadata in recommendations for a campaign . For information about enabling metadata for a recommender, see Enabling metadata in recommendations for a recommender . Constraints: • max: 1 key -&gt; (string) Constraints: • max: 256 value -&gt; (list) Constraints: • max: 99 (string) Constraints: • max: 150 Shorthand Syntax: KeyName1=string,string,KeyName2=string,string JSON Syntax: {"string": ["string", ...] ...}
     /// </summary>
     [CliOption("--metadata-columns", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? MetadataColumns { get; set; }
@@ -87,5 +87,14 @@ public record AwsPersonalizeRuntimeGetRecommendationsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// This API works with the following fleet types: EC2 Updates permissions that allow inbound traffic to connect to game ses- sions in the fleet. To update settings, specify the fleet ID to be updated and specify the changes to be made. List the permissions you want to add in InboundPer- missionAuthorizations , and permissions you want to remove in Inbound- PermissionRevocations . Permissions to be removed must match existing fleet permissions. If successful, the fleet identifiers for the updated fl...
+/// This API works with the following fleet types: EC2 Updates permissions that allow inbound traffic to connect to game sessions in the fleet. To update settings, specify the fleet ID to be updated and specify the changes to be made. List the permissions you want to add in InboundPermissionAuthorizations , and permissions you want to remove in InboundPermissionRevocations . Permissions to be removed must match existing fleet permissions. If successful, the fleet identifiers for the updated fleet ar...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsGameliftUpdateFleetPortSettingsOptions : AwsOptions, IValidatab
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// This API works with the following fleet types: EC2 Updates permissions that allow inbound traffic to connect to game ses- sions in the fleet. To update settings, specify the fleet ID to be updated and specify the changes to be made. List the permissions you want to add in InboundPer- missionAuthorizations , and permissions you want to remove in Inbound- PermissionRevocations . Permissions to be removed must match existing fleet permissions. If successful, the fleet identifiers for the updated fl...
+    /// This API works with the following fleet types: EC2 Updates permissions that allow inbound traffic to connect to game sessions in the fleet. To update settings, specify the fleet ID to be updated and specify the changes to be made. List the permissions you want to add in InboundPermissionAuthorizations , and permissions you want to remove in InboundPermissionRevocations . Permissions to be removed must match existing fleet permissions. If successful, the fleet identifiers for the updated fleet ar...
     /// </summary>
-    /// <param name="FleetId">A unique identifier for the fleet to update port settings for. You can use either the fleet ID or ARN value. Constraints: o min: 1 o max: 512 o pattern: ^[a-z]*fleet-[a-zA-Z0-9\-]+$|^arn:.*:[a-z]*fleet\/[a-z]*fleet-[a-zA-Z0-9\-]+$</param>
+    /// <param name="FleetId">A unique identifier for the fleet to update port settings for. You can use either the fleet ID or ARN value. Constraints: • min: 1 • max: 512 • pattern: ^[a-z]*fleet-[a-zA-Z0-9\-]+$|^arn:.*:[a-z]*fleet\/[a-z]*fleet-[a-zA-Z0-9\-]+$</param>
     public AwsGameliftUpdateFleetPortSettingsOptions(
         string FleetId
     )
@@ -56,19 +57,19 @@ public record AwsGameliftUpdateFleetPortSettingsOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A unique identifier for the fleet to update port settings for. You can use either the fleet ID or ARN value. Constraints: o min: 1 o max: 512 o pattern: ^[a-z]*fleet-[a-zA-Z0-9\-]+$|^arn:.*:[a-z]*fleet\/[a-z]*fleet-[a-zA-Z0-9\-]+$
+    /// A unique identifier for the fleet to update port settings for. You can use either the fleet ID or ARN value. Constraints: • min: 1 • max: 512 • pattern: ^[a-z]*fleet-[a-zA-Z0-9\-]+$|^arn:.*:[a-z]*fleet\/[a-z]*fleet-[a-zA-Z0-9\-]+$
     /// </summary>
     [CliOption("--fleet-id")]
     public string? FleetId { get; private init; }
 
     /// <summary>
-    /// A collection of port settings to be added to the fleet resource. Constraints: o max: 50 (structure) A range of IP addresses and port settings that allow inbound traffic to connect to processes on an instance in a fleet. Processes are assigned an IP address/port number combination, which must fall into the fleet's allowed ranges. For Amazon GameLift Servers Realtime fleets, Amazon GameLift Servers automatically opens two port ranges, one for TCP messag- ing and one for UDP. FromPort -&gt; (integer) [required] A starting value for a range of allowed port numbers. For fleets using Linux builds, only ports 22 and 1026-60000 are valid. For fleets using Windows builds, only ports 1026-60000 are valid. Constraints: o min: 1 o max: 60000 ToPort -&gt; (integer) [required] An ending value for a range of allowed port numbers. Port numbers are end-inclusive. This value must be equal to or greater than FromPort . For fleets using Linux builds, only ports 22 and 1026-60000 are valid. For fleets using Windows builds, only ports 1026-60000 are valid. Constraints: o min: 1 o max: 60000 IpRange -&gt; (string) [required] A range of allowed IP addresses. This value must be expressed in CIDR notation. Example: "000.000.000.000/[subnet mask] " or optionally the shortened version "0.0.0.0/[subnet mask] ". Constraints: o pattern: ^[^\s]+$ Protocol -&gt; (string) [required] The network communication protocol used by the fleet. Possible values: o TCP o UDP Shorthand Syntax: FromPort=integer,ToPort=integer,IpRange=string,Protocol=string ... JSON Syntax: [ { "FromPort": integer, "ToPort": integer, "IpRange": "string", "Protocol": "TCP"|"UDP" } ... ]
+    /// A collection of port settings to be added to the fleet resource. Constraints: • max: 50 (structure) A range of IP addresses and port settings that allow inbound traffic to connect to processes on an instance in a fleet. Processes are assigned an IP address/port number combination, which must fall into the fleet's allowed ranges. For Amazon GameLift Servers Realtime fleets, Amazon GameLift Servers automatically opens two port ranges, one for TCP messaging and one for UDP. FromPort -&gt; (integer) [required] A starting value for a range of allowed port numbers. For fleets using Linux builds, only ports 22 and 1026-60000 are valid. For fleets using Windows builds, only ports 1026-60000 are valid. Constraints: • min: 1 • max: 60000 ToPort -&gt; (integer) [required] An ending value for a range of allowed port numbers. Port numbers are end-inclusive. This value must be equal to or greater than FromPort . For fleets using Linux builds, only ports 22 and 1026-60000 are valid. For fleets using Windows builds, only ports 1026-60000 are valid. Constraints: • min: 1 • max: 60000 IpRange -&gt; (string) [required] A range of allowed IP addresses. This value must be expressed in CIDR notation. Example: "000.000.000.000/[subnet mask] " or optionally the shortened version "0.0.0.0/[subnet mask] ". Constraints: • pattern: ^[^\s]+$ Protocol -&gt; (string) [required] The network communication protocol used by the fleet. Possible values: • TCP • UDP Shorthand Syntax: FromPort=integer,ToPort=integer,IpRange=string,Protocol=string ... JSON Syntax: [ { "FromPort": integer, "ToPort": integer, "IpRange": "string", "Protocol": "TCP"|"UDP" } ... ]
     /// </summary>
     [CliOption("--inbound-permission-authorizations", GroupValues = true)]
     public IEnumerable<string>? InboundPermissionAuthorizations { get; set; }
 
     /// <summary>
-    /// A collection of port settings to be removed from the fleet resource. Constraints: o max: 50 (structure) A range of IP addresses and port settings that allow inbound traffic to connect to processes on an instance in a fleet. Processes are assigned an IP address/port number combination, which must fall into the fleet's allowed ranges. For Amazon GameLift Servers Realtime fleets, Amazon GameLift Servers automatically opens two port ranges, one for TCP messag- ing and one for UDP. FromPort -&gt; (integer) [required] A starting value for a range of allowed port numbers. For fleets using Linux builds, only ports 22 and 1026-60000 are valid. For fleets using Windows builds, only ports 1026-60000 are valid. Constraints: o min: 1 o max: 60000 ToPort -&gt; (integer) [required] An ending value for a range of allowed port numbers. Port numbers are end-inclusive. This value must be equal to or greater than FromPort . For fleets using Linux builds, only ports 22 and 1026-60000 are valid. For fleets using Windows builds, only ports 1026-60000 are valid. Constraints: o min: 1 o max: 60000 IpRange -&gt; (string) [required] A range of allowed IP addresses. This value must be expressed in CIDR notation. Example: "000.000.000.000/[subnet mask] " or optionally the shortened version "0.0.0.0/[subnet mask] ". Constraints: o pattern: ^[^\s]+$ Protocol -&gt; (string) [required] The network communication protocol used by the fleet. Possible values: o TCP o UDP Shorthand Syntax: FromPort=integer,ToPort=integer,IpRange=string,Protocol=string ... JSON Syntax: [ { "FromPort": integer, "ToPort": integer, "IpRange": "string", "Protocol": "TCP"|"UDP" } ... ]
+    /// A collection of port settings to be removed from the fleet resource. Constraints: • max: 50 (structure) A range of IP addresses and port settings that allow inbound traffic to connect to processes on an instance in a fleet. Processes are assigned an IP address/port number combination, which must fall into the fleet's allowed ranges. For Amazon GameLift Servers Realtime fleets, Amazon GameLift Servers automatically opens two port ranges, one for TCP messaging and one for UDP. FromPort -&gt; (integer) [required] A starting value for a range of allowed port numbers. For fleets using Linux builds, only ports 22 and 1026-60000 are valid. For fleets using Windows builds, only ports 1026-60000 are valid. Constraints: • min: 1 • max: 60000 ToPort -&gt; (integer) [required] An ending value for a range of allowed port numbers. Port numbers are end-inclusive. This value must be equal to or greater than FromPort . For fleets using Linux builds, only ports 22 and 1026-60000 are valid. For fleets using Windows builds, only ports 1026-60000 are valid. Constraints: • min: 1 • max: 60000 IpRange -&gt; (string) [required] A range of allowed IP addresses. This value must be expressed in CIDR notation. Example: "000.000.000.000/[subnet mask] " or optionally the shortened version "0.0.0.0/[subnet mask] ". Constraints: • pattern: ^[^\s]+$ Protocol -&gt; (string) [required] The network communication protocol used by the fleet. Possible values: • TCP • UDP Shorthand Syntax: FromPort=integer,ToPort=integer,IpRange=string,Protocol=string ... JSON Syntax: [ { "FromPort": integer, "ToPort": integer, "IpRange": "string", "Protocol": "TCP"|"UDP" } ... ]
     /// </summary>
     [CliOption("--inbound-permission-revocations", GroupValues = true)]
     public IEnumerable<string>? InboundPermissionRevocations { get; set; }
@@ -94,6 +95,15 @@ public record AwsGameliftUpdateFleetPortSettingsOptions : AwsOptions, IValidatab
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

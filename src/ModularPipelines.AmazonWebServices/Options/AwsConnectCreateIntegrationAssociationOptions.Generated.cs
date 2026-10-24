@@ -10,7 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -29,8 +29,8 @@ public record AwsConnectCreateIntegrationAssociationOptions : AwsOptions, IValid
     /// <summary>
     /// Creates an Amazon Web Services resource association with an Connect Customer instance. See also: AWS API Documentation
     /// </summary>
-    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100</param>
-    /// <param name="IntegrationType">The type of information to be ingested. Possible values: o EVENT o VOICE_ID o PINPOINT_APP o WISDOM_ASSISTANT o WISDOM_KNOWLEDGE_BASE o WISDOM_QUICK_RESPONSES o Q_MESSAGE_TEMPLATES o CASES_DOMAIN o APPLICATION o FILE_SCANNER o SES_IDENTITY o ANALYTICS_CONNECTOR o CALL_TRANSFER_CONNECTOR o COGNITO_USER_POOL o MESSAGE_PROCESSOR</param>
+    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: • min: 1 • max: 100</param>
+    /// <param name="IntegrationType">The type of information to be ingested. Possible values: • EVENT • VOICE_ID • PINPOINT_APP • WISDOM_ASSISTANT • WISDOM_KNOWLEDGE_BASE • WISDOM_QUICK_RESPONSES • Q_MESSAGE_TEMPLATES • CASES_DOMAIN • APPLICATION • FILE_SCANNER • SES_IDENTITY • ANALYTICS_CONNECTOR • CALL_TRANSFER_CONNECTOR • COGNITO_USER_POOL • MESSAGE_PROCESSOR</param>
     /// <param name="IntegrationArn">The Amazon Resource Name (ARN) of the integration. NOTE: When integrating with Amazon Web Services End User Messaging, the Connect Customer and Amazon Web Services End User Messaging instances must be in the same account.</param>
     public AwsConnectCreateIntegrationAssociationOptions(
         string InstanceId,
@@ -65,13 +65,13 @@ public record AwsConnectCreateIntegrationAssociationOptions : AwsOptions, IValid
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100
+    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--instance-id")]
     public string? InstanceId { get; private init; }
 
     /// <summary>
-    /// The type of information to be ingested. Possible values: o EVENT o VOICE_ID o PINPOINT_APP o WISDOM_ASSISTANT o WISDOM_KNOWLEDGE_BASE o WISDOM_QUICK_RESPONSES o Q_MESSAGE_TEMPLATES o CASES_DOMAIN o APPLICATION o FILE_SCANNER o SES_IDENTITY o ANALYTICS_CONNECTOR o CALL_TRANSFER_CONNECTOR o COGNITO_USER_POOL o MESSAGE_PROCESSOR
+    /// The type of information to be ingested. Possible values: • EVENT • VOICE_ID • PINPOINT_APP • WISDOM_ASSISTANT • WISDOM_KNOWLEDGE_BASE • WISDOM_QUICK_RESPONSES • Q_MESSAGE_TEMPLATES • CASES_DOMAIN • APPLICATION • FILE_SCANNER • SES_IDENTITY • ANALYTICS_CONNECTOR • CALL_TRANSFER_CONNECTOR • COGNITO_USER_POOL • MESSAGE_PROCESSOR
     /// </summary>
     [CliOption("--integration-type")]
     public AwsConnectCreateIntegrationAssociationIntegrationType? IntegrationType { get; private init; }
@@ -83,25 +83,25 @@ public record AwsConnectCreateIntegrationAssociationOptions : AwsOptions, IValid
     public string? IntegrationArn { get; private init; }
 
     /// <summary>
-    /// The URL for the external application. This field is only required for the EVENT integration type. Constraints: o min: 1 o max: 2000
+    /// The URL for the external application. This field is only required for the EVENT integration type. Constraints: • min: 1 • max: 2000
     /// </summary>
     [CliOption("--source-application-url")]
     public string? SourceApplicationUrl { get; set; }
 
     /// <summary>
-    /// The name of the external application. This field is only required for the EVENT integration type. Constraints: o min: 1 o max: 100 o pattern: ^[a-zA-Z0-9_ -]+$
+    /// The name of the external application. This field is only required for the EVENT integration type. Constraints: • min: 1 • max: 100 • pattern: ^[a-zA-Z0-9_ -]+$
     /// </summary>
     [CliOption("--source-application-name")]
     public string? SourceApplicationName { get; set; }
 
     /// <summary>
-    /// The type of the data source. This field is only required for the EVENT integration type. Possible values: o SALESFORCE o ZENDESK o CASES
+    /// The type of the data source. This field is only required for the EVENT integration type. Possible values: • SALESFORCE • ZENDESK • CASES
     /// </summary>
     [CliOption("--source-type")]
     public AwsConnectCreateIntegrationAssociationSourceType? SourceType { get; set; }
 
     /// <summary>
-    /// The tags used to organize, track, or control access for this re- source. For example, { "Tags": {"key1":"value1", "key2":"value2"} }. Constraints: o min: 1 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^(?!aws:)[\p{L}\p{Z}\p{N}_.:/=+\-@]*$ value -&gt; (string) Constraints: o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The tags used to organize, track, or control access for this resource. For example, { "Tags": {"key1":"value1", "key2":"value2"} }. Constraints: • min: 1 • max: 50 key -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: ^(?!aws:)[\p{L}\p{Z}\p{N}_.:/=+\-@]*$ value -&gt; (string) Constraints: • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
@@ -127,6 +127,15 @@ public record AwsConnectCreateIntegrationAssociationOptions : AwsOptions, IValid
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

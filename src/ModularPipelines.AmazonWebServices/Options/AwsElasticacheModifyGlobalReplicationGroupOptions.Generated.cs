@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +29,7 @@ public record AwsElasticacheModifyGlobalReplicationGroupOptions : AwsOptions, IV
     /// Modifies the settings for a Global datastore. See also: AWS API Documentation
     /// </summary>
     /// <param name="GlobalReplicationGroupId">The name of the Global datastore</param>
-    /// <param name="ApplyImmediately">This parameter causes the modifications in this request and any pending modifications to be applied, asynchronously and as soon as possible. Modifications to Global Replication Groups cannot be re- quested to be applied in PreferredMaintenceWindow.</param>
+    /// <param name="ApplyImmediately">This parameter causes the modifications in this request and any pending modifications to be applied, asynchronously and as soon as possible. Modifications to Global Replication Groups cannot be requested to be applied in PreferredMaintenceWindow.</param>
     public AwsElasticacheModifyGlobalReplicationGroupOptions(
         string GlobalReplicationGroupId,
         bool ApplyImmediately
@@ -65,7 +66,7 @@ public record AwsElasticacheModifyGlobalReplicationGroupOptions : AwsOptions, IV
     public string? GlobalReplicationGroupId { get; private init; }
 
     /// <summary>
-    /// This parameter causes the modifications in this request and any pending modifications to be applied, asynchronously and as soon as possible. Modifications to Global Replication Groups cannot be re- quested to be applied in PreferredMaintenceWindow.
+    /// This parameter causes the modifications in this request and any pending modifications to be applied, asynchronously and as soon as possible. Modifications to Global Replication Groups cannot be requested to be applied in PreferredMaintenceWindow.
     /// </summary>
     [CliFlag("--apply-immediately", NegatedName = "--no-apply-immediately")]
     public bool? ApplyImmediately { get; private init; }
@@ -89,7 +90,7 @@ public record AwsElasticacheModifyGlobalReplicationGroupOptions : AwsOptions, IV
     public string? EngineVersion { get; set; }
 
     /// <summary>
-    /// The name of the cache parameter group to use with the Global datas- tore. It must be compatible with the major engine version used by the Global datastore.
+    /// The name of the cache parameter group to use with the Global datastore. It must be compatible with the major engine version used by the Global datastore.
     /// </summary>
     [CliOption("--cache-parameter-group-name")]
     public string? CacheParameterGroupName { get; set; }
@@ -127,6 +128,15 @@ public record AwsElasticacheModifyGlobalReplicationGroupOptions : AwsOptions, IV
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

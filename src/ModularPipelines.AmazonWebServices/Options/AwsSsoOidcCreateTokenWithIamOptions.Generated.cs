@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates and returns access and refresh tokens for authorized client ap- plications that are authenticated using any IAM entity, such as a ser- vice role or user. These tokens might contain defined scopes that spec- ify permissions such as read:profile or write:data . Through downscop- ing, you can use the scopes parameter to request tokens with reduced permissions compared to the original client application's permissions or, if applicable, the refresh token's scopes. The access token can be used...
+/// Creates and returns access and refresh tokens for authorized client applications that are authenticated using any IAM entity, such as a service role or user. These tokens might contain defined scopes that specify permissions such as read:profile or write:data . Through downscoping, you can use the scopes parameter to request tokens with reduced permissions compared to the original client application's permissions or, if applicable, the refresh token's scopes. The access token can be used to fetc...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +27,10 @@ public record AwsSsoOidcCreateTokenWithIamOptions : AwsOptions, IValidatableObje
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates and returns access and refresh tokens for authorized client ap- plications that are authenticated using any IAM entity, such as a ser- vice role or user. These tokens might contain defined scopes that spec- ify permissions such as read:profile or write:data . Through downscop- ing, you can use the scopes parameter to request tokens with reduced permissions compared to the original client application's permissions or, if applicable, the refresh token's scopes. The access token can be used...
+    /// Creates and returns access and refresh tokens for authorized client applications that are authenticated using any IAM entity, such as a service role or user. These tokens might contain defined scopes that specify permissions such as read:profile or write:data . Through downscoping, you can use the scopes parameter to request tokens with reduced permissions compared to the original client application's permissions or, if applicable, the refresh token's scopes. The access token can be used to fetc...
     /// </summary>
     /// <param name="ClientId">The unique identifier string for the client or application. This value is an application ARN that has OAuth grants configured.</param>
-    /// <param name="GrantType">Supports the following OAuth grant types: Authorization Code, Re- fresh Token, JWT Bearer, and Token Exchange. Specify one of the fol- lowing values, depending on the grant type that you want: o Authorization Code - authorization_code o Refresh Token - refresh_token o JWT Bearer - urn:ietf:params:oauth:grant-type:jwt-bearer o Token Exchange - urn:ietf:params:oauth:grant-type:token-exchange</param>
+    /// <param name="GrantType">Supports the following OAuth grant types: Authorization Code, Refresh Token, JWT Bearer, and Token Exchange. Specify one of the following values, depending on the grant type that you want: • Authorization Code - authorization_code • Refresh Token - refresh_token • JWT Bearer - urn:ietf:params:oauth:grant-type:jwt-bearer • Token Exchange - urn:ietf:params:oauth:grant-type:token-exchange</param>
     public AwsSsoOidcCreateTokenWithIamOptions(
         string ClientId,
         string GrantType
@@ -67,7 +68,7 @@ public record AwsSsoOidcCreateTokenWithIamOptions : AwsOptions, IValidatableObje
     public string? ClientId { get; private init; }
 
     /// <summary>
-    /// Supports the following OAuth grant types: Authorization Code, Re- fresh Token, JWT Bearer, and Token Exchange. Specify one of the fol- lowing values, depending on the grant type that you want: o Authorization Code - authorization_code o Refresh Token - refresh_token o JWT Bearer - urn:ietf:params:oauth:grant-type:jwt-bearer o Token Exchange - urn:ietf:params:oauth:grant-type:token-exchange
+    /// Supports the following OAuth grant types: Authorization Code, Refresh Token, JWT Bearer, and Token Exchange. Specify one of the following values, depending on the grant type that you want: • Authorization Code - authorization_code • Refresh Token - refresh_token • JWT Bearer - urn:ietf:params:oauth:grant-type:jwt-bearer • Token Exchange - urn:ietf:params:oauth:grant-type:token-exchange
     /// </summary>
     [CliOption("--grant-type")]
     public string? GrantType { get; private init; }
@@ -75,11 +76,12 @@ public record AwsSsoOidcCreateTokenWithIamOptions : AwsOptions, IValidatableObje
     /// <summary>
     /// Used only when calling this API for the Authorization Code grant type. This short-lived code is used to identify this authorization request. The code is obtained through a redirect from IAM Identity Center to a redirect URI persisted in the Authorization Code GrantOptions for the application.
     /// </summary>
+    [SecretValue]
     [CliOption("--code")]
     public string? Code { get; set; }
 
     /// <summary>
-    /// Used only when calling this API for the Refresh Token grant type. This token is used to refresh short-lived tokens, such as the access token, that might expire. For more information about the features and limitations of the cur- rent IAM Identity Center OIDC implementation, see Considerations for Using this Guide in the IAM Identity Center OIDC API Reference .
+    /// Used only when calling this API for the Refresh Token grant type. This token is used to refresh short-lived tokens, such as the access token, that might expire. For more information about the features and limitations of the current IAM Identity Center OIDC implementation, see Considerations for Using this Guide in the IAM Identity Center OIDC API Reference .
     /// </summary>
     [SecretValue]
     [CliOption("--refresh-token")]
@@ -88,11 +90,12 @@ public record AwsSsoOidcCreateTokenWithIamOptions : AwsOptions, IValidatableObje
     /// <summary>
     /// Used only when calling this API for the JWT Bearer grant type. This value specifies the JSON Web Token (JWT) issued by a trusted token issuer. To authorize a trusted token issuer, configure the JWT Bearer GrantOptions for the application.
     /// </summary>
+    [SecretValue]
     [CliOption("--assertion")]
     public string? Assertion { get; set; }
 
     /// <summary>
-    /// The list of scopes for which authorization is requested. The access token that is issued is limited to the scopes that are granted. If the value is not specified, IAM Identity Center authorizes all scopes configured for the application, including the following de- fault scopes: openid , aws , sts:identity_context . (string) Syntax: "string" "string" ...
+    /// The list of scopes for which authorization is requested. The access token that is issued is limited to the scopes that are granted. If the value is not specified, IAM Identity Center authorizes all scopes configured for the application, including the following default scopes: openid , aws , sts:identity_context . (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--scope", GroupValues = true)]
     public IEnumerable<string>? Scope { get; set; }
@@ -104,27 +107,28 @@ public record AwsSsoOidcCreateTokenWithIamOptions : AwsOptions, IValidatableObje
     public string? RedirectUri { get; set; }
 
     /// <summary>
-    /// Used only when calling this API for the Token Exchange grant type. This value specifies the subject of the exchange. The value of the subject token must be an access token issued by IAM Identity Center to a different client or application. The access token must have au- thorized scopes that indicate the requested application as a target audience.
+    /// Used only when calling this API for the Token Exchange grant type. This value specifies the subject of the exchange. The value of the subject token must be an access token issued by IAM Identity Center to a different client or application. The access token must have authorized scopes that indicate the requested application as a target audience.
     /// </summary>
     [SecretValue]
     [CliOption("--subject-token")]
     public string? SubjectToken { get; set; }
 
     /// <summary>
-    /// Used only when calling this API for the Token Exchange grant type. This value specifies the type of token that is passed as the subject of the exchange. The following value is supported: o Access Token - urn:ietf:params:oauth:token-type:access_token
+    /// Used only when calling this API for the Token Exchange grant type. This value specifies the type of token that is passed as the subject of the exchange. The following value is supported: • Access Token - urn:ietf:params:oauth:token-type:access_token
     /// </summary>
     [CliOption("--subject-token-type")]
     public string? SubjectTokenType { get; set; }
 
     /// <summary>
-    /// Used only when calling this API for the Token Exchange grant type. This value specifies the type of token that the requester can re- ceive. The following values are supported: o Access Token - urn:ietf:params:oauth:token-type:access_token o Refresh Token - urn:ietf:params:oauth:token-type:refresh_token
+    /// Used only when calling this API for the Token Exchange grant type. This value specifies the type of token that the requester can receive. The following values are supported: • Access Token - urn:ietf:params:oauth:token-type:access_token • Refresh Token - urn:ietf:params:oauth:token-type:refresh_token
     /// </summary>
     [CliOption("--requested-token-type")]
     public string? RequestedTokenType { get; set; }
 
     /// <summary>
-    /// Used only when calling this API for the Authorization Code grant type. This value is generated by the client and presented to vali- date the original code challenge value the client passed at autho- rization time.
+    /// Used only when calling this API for the Authorization Code grant type. This value is generated by the client and presented to validate the original code challenge value the client passed at authorization time.
     /// </summary>
+    [SecretValue]
     [CliOption("--code-verifier")]
     public string? CodeVerifier { get; set; }
 
@@ -149,6 +153,15 @@ public record AwsSsoOidcCreateTokenWithIamOptions : AwsOptions, IValidatableObje
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

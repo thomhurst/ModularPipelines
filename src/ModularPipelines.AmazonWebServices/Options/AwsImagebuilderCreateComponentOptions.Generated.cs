@@ -11,14 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a new component that can be used to build, validate, test, and assess your image. The component is based on a YAML document that you specify using exactly one of the following methods: o Inline, using the data property in the request body. o A URL that points to a YAML document file stored in Amazon S3, using the uri property in the request body. Image Builder determines the component type from the document. If the document contains a single phase named test , the component type is TEST ...
+/// Creates a new component that can be used to build, validate, test, and assess your image. The component is based on a YAML document that you specify using exactly one of the following methods: • Inline, using the data property in the request body. • A URL that points to a YAML document file stored in Amazon S3, using the uri property in the request body. Image Builder determines the component type from the document. If the document contains a single phase named test , the component type is TEST ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -28,11 +28,11 @@ public record AwsImagebuilderCreateComponentOptions : AwsOptions, IValidatableOb
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a new component that can be used to build, validate, test, and assess your image. The component is based on a YAML document that you specify using exactly one of the following methods: o Inline, using the data property in the request body. o A URL that points to a YAML document file stored in Amazon S3, using the uri property in the request body. Image Builder determines the component type from the document. If the document contains a single phase named test , the component type is TEST ...
+    /// Creates a new component that can be used to build, validate, test, and assess your image. The component is based on a YAML document that you specify using exactly one of the following methods: • Inline, using the data property in the request body. • A URL that points to a YAML document file stored in Amazon S3, using the uri property in the request body. Image Builder determines the component type from the document. If the document contains a single phase named test , the component type is TEST ...
     /// </summary>
-    /// <param name="Name">The name of the component. Image Builder generates the component ARN from a normalized form of the name, so names that differ only in case, spaces, or underscores count as the same name. If a component with the same name and semantic version already exists in your ac- count in the same Amazon Web Services Region, the request creates a new build version for it. If the content is also identical to the latest build version, the request fails because the component al- ready exists. Constraints: o pattern: ^[-_A-Za-z-0-9][-_A-Za-z0-9 ]{1,126}[-_A-Za-z-0-9]$</param>
-    /// <param name="SemanticVersion">The semantic version of the component. This version follows the se- mantic version syntax. NOTE: The semantic version has four nodes: &lt;major&gt;.&lt;mi- nor&gt;.&lt;patch&gt;/&lt;build&gt;. You can assign values for the first three, and can filter on all of them. Assignment: For the first three nodes, you can assign any positive integer value, including zero. The upper limit is 2^30-1, or 1073741823, for each node. Image Builder automati- cally assigns the build number to the fourth node. Patterns: You can use any numeric pattern that adheres to the assignment requirements for the nodes that you can assign. For example, you might choose a software version pattern, such as 1.0.0, or a date, such as 2021.01.01. Constraints: o pattern: ^[0-9]+\.[0-9]+\.[0-9]+$</param>
-    /// <param name="Platform">The operating system platform of the component. Possible values: o Windows o Linux o macOS</param>
+    /// <param name="Name">The name of the component. Image Builder generates the component ARN from a normalized form of the name, so names that differ only in case, spaces, or underscores count as the same name. If a component with the same name and semantic version already exists in your account in the same Amazon Web Services Region, the request creates a new build version for it. If the content is also identical to the latest build version, the request fails because the component already exists. Constraints: • pattern: ^[-_A-Za-z-0-9][-_A-Za-z0-9 ]{1,126}[-_A-Za-z-0-9]$</param>
+    /// <param name="SemanticVersion">The semantic version of the component. This version follows the semantic version syntax. NOTE: The semantic version has four nodes: &lt;major&gt;.&lt;minor&gt;.&lt;patch&gt;/&lt;build&gt;. You can assign values for the first three, and can filter on all of them. Assignment: For the first three nodes, you can assign any positive integer value, including zero. The upper limit is 2^30-1, or 1073741823, for each node. Image Builder automatically assigns the build number to the fourth node. Patterns: You can use any numeric pattern that adheres to the assignment requirements for the nodes that you can assign. For example, you might choose a software version pattern, such as 1.0.0, or a date, such as 2021.01.01. Constraints: • pattern: ^[0-9]+\.[0-9]+\.[0-9]+$</param>
+    /// <param name="Platform">The operating system platform of the component. Possible values: • Windows • Linux • macOS</param>
     public AwsImagebuilderCreateComponentOptions(
         string Name,
         string SemanticVersion,
@@ -66,43 +66,43 @@ public record AwsImagebuilderCreateComponentOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the component. Image Builder generates the component ARN from a normalized form of the name, so names that differ only in case, spaces, or underscores count as the same name. If a component with the same name and semantic version already exists in your ac- count in the same Amazon Web Services Region, the request creates a new build version for it. If the content is also identical to the latest build version, the request fails because the component al- ready exists. Constraints: o pattern: ^[-_A-Za-z-0-9][-_A-Za-z0-9 ]{1,126}[-_A-Za-z-0-9]$
+    /// The name of the component. Image Builder generates the component ARN from a normalized form of the name, so names that differ only in case, spaces, or underscores count as the same name. If a component with the same name and semantic version already exists in your account in the same Amazon Web Services Region, the request creates a new build version for it. If the content is also identical to the latest build version, the request fails because the component already exists. Constraints: • pattern: ^[-_A-Za-z-0-9][-_A-Za-z0-9 ]{1,126}[-_A-Za-z-0-9]$
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The semantic version of the component. This version follows the se- mantic version syntax. NOTE: The semantic version has four nodes: &lt;major&gt;.&lt;mi- nor&gt;.&lt;patch&gt;/&lt;build&gt;. You can assign values for the first three, and can filter on all of them. Assignment: For the first three nodes, you can assign any positive integer value, including zero. The upper limit is 2^30-1, or 1073741823, for each node. Image Builder automati- cally assigns the build number to the fourth node. Patterns: You can use any numeric pattern that adheres to the assignment requirements for the nodes that you can assign. For example, you might choose a software version pattern, such as 1.0.0, or a date, such as 2021.01.01. Constraints: o pattern: ^[0-9]+\.[0-9]+\.[0-9]+$
+    /// The semantic version of the component. This version follows the semantic version syntax. NOTE: The semantic version has four nodes: &lt;major&gt;.&lt;minor&gt;.&lt;patch&gt;/&lt;build&gt;. You can assign values for the first three, and can filter on all of them. Assignment: For the first three nodes, you can assign any positive integer value, including zero. The upper limit is 2^30-1, or 1073741823, for each node. Image Builder automatically assigns the build number to the fourth node. Patterns: You can use any numeric pattern that adheres to the assignment requirements for the nodes that you can assign. For example, you might choose a software version pattern, such as 1.0.0, or a date, such as 2021.01.01. Constraints: • pattern: ^[0-9]+\.[0-9]+\.[0-9]+$
     /// </summary>
     [CliOption("--semantic-version")]
     public string? SemanticVersion { get; private init; }
 
     /// <summary>
-    /// The operating system platform of the component. Possible values: o Windows o Linux o macOS
+    /// The operating system platform of the component. Possible values: • Windows • Linux • macOS
     /// </summary>
     [CliOption("--platform")]
     public AwsImagebuilderCreateComponentPlatform? Platform { get; private init; }
 
     /// <summary>
-    /// Describes the contents of the component. Constraints: o min: 1 o max: 1024
+    /// Describes the contents of the component. Constraints: • min: 1 • max: 1024
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The change description of the component. Describes what change has been made in this version, or what makes this version different from other versions of the component. Constraints: o min: 1 o max: 1024
+    /// The change description of the component. Describes what change has been made in this version, or what makes this version different from other versions of the component. Constraints: • min: 1 • max: 1024
     /// </summary>
     [CliOption("--change-description")]
     public string? ChangeDescription { get; set; }
 
     /// <summary>
-    /// The operating system (OS) version supported by the component. If the OS information is available, a prefix match is performed against the base image OS version during image recipe creation. Constraints: o min: 1 o max: 25 (string) Constraints: o min: 1 Syntax: "string" "string" ...
+    /// The operating system (OS) version supported by the component. If the OS information is available, a prefix match is performed against the base image OS version during image recipe creation. Constraints: • min: 1 • max: 25 (string) Constraints: • min: 1 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--supported-os-versions", GroupValues = true)]
     public IEnumerable<string>? SupportedOsVersions { get; set; }
 
     /// <summary>
-    /// Component data contains inline YAML document content for the compo- nent. Alternatively, you can specify the uri of a YAML document file stored in Amazon S3. However, you cannot specify both properties. Constraints: o min: 1 o max: 16000 o pattern: [^\x00]+
+    /// Component data contains inline YAML document content for the component. Alternatively, you can specify the uri of a YAML document file stored in Amazon S3. However, you cannot specify both properties. Constraints: • min: 1 • max: 16000 • pattern: [^\x00]+
     /// </summary>
     [CliOption("--data")]
     public string? Data { get; set; }
@@ -114,26 +114,26 @@ public record AwsImagebuilderCreateComponentOptions : AwsOptions, IValidatableOb
     public string? Uri { get; set; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) that uniquely identifies the KMS key used to encrypt this component. This can be either the Key ARN or the Alias ARN. For more information, see Key identifiers (KeyId) in the Key Management Service Developer Guide . If you don't specify a key, Image Builder encrypts the component data with a KMS key that Image Builder owns. Constraints: o min: 1 o max: 1024
+    /// The Amazon Resource Name (ARN) that uniquely identifies the KMS key used to encrypt this component. This can be either the Key ARN or the Alias ARN. For more information, see Key identifiers (KeyId) in the Key Management Service Developer Guide . If you don't specify a key, Image Builder encrypts the component data with a KMS key that Image Builder owns. Constraints: • min: 1 • max: 1024
     /// </summary>
     [CliOption("--kms-key-id")]
     public string? KmsKeyId { get; set; }
 
     /// <summary>
-    /// The tags that apply to the component. Constraints: o min: 1 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^(?!aws:)[a-zA-Z0-9\s_.:/=+\-@]*$ value -&gt; (string) Constraints: o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The tags that apply to the component. Constraints: • min: 1 • max: 50 key -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: ^(?!aws:)[a-zA-Z0-9\s_.:/=+\-@]*$ value -&gt; (string) Constraints: • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier you provide to ensure that the operation runs no more than one time. If you retry a request with the same client token, Image Builder returns the original response without running the operation again. For more information, see Ensuring idempotency in the Amazon EC2 API Reference . Constraints: o min: 1 o max: 64
+    /// A unique, case-sensitive identifier you provide to ensure that the operation runs no more than one time. If you retry a request with the same client token, Image Builder returns the original response without running the operation again. For more information, see Ensuring idempotency in the Amazon EC2 API Reference . Constraints: • min: 1 • max: 64
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// Validates the required permissions and request parameters without performing the operation. If validation succeeds, the operation re- turns a DryRunOperationException error response.
+    /// Validates the required permissions and request parameters without performing the operation. If validation succeeds, the operation returns a DryRunOperationException error response.
     /// </summary>
     [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
@@ -159,6 +159,15 @@ public record AwsImagebuilderCreateComponentOptions : AwsOptions, IValidatableOb
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsQuicksightDescribeAccountSubscriptionOptions : AwsOptions, IVal
     /// <summary>
     /// Use the DescribeAccountSubscription operation to receive a description of an Quick Sight account's subscription. A successful API call returns an AccountInfo object that includes an account's name, subscription status, authentication type, edition, and notification email address. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AwsAccountId">The Amazon Web Services account ID associated with your Quick Sight account. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$</param>
+    /// <param name="AwsAccountId">The Amazon Web Services account ID associated with your Quick Sight account. Constraints: • min: 12 • max: 12 • pattern: ^[0-9]{12}$</param>
     public AwsQuicksightDescribeAccountSubscriptionOptions(
         string AwsAccountId
     )
@@ -56,7 +57,7 @@ public record AwsQuicksightDescribeAccountSubscriptionOptions : AwsOptions, IVal
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Web Services account ID associated with your Quick Sight account. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$
+    /// The Amazon Web Services account ID associated with your Quick Sight account. Constraints: • min: 12 • max: 12 • pattern: ^[0-9]{12}$
     /// </summary>
     [CliOption("--aws-account-id")]
     public string? AwsAccountId { get; private init; }
@@ -82,6 +83,15 @@ public record AwsQuicksightDescribeAccountSubscriptionOptions : AwsOptions, IVal
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

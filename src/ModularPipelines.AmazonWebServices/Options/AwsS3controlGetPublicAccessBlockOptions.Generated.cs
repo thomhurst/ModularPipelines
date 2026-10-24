@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// NOTE: This operation is not supported by directory buckets. Retrieves the PublicAccessBlock configuration for an Amazon Web Ser- vices account. This operation returns the effective account-level con- figuration, which may inherit from organization-level policies. For more information, see Using Amazon S3 block public access . Related actions include: o DeletePublicAccessBlock o PutPublicAccessBlock See also: AWS API Documentation
+/// NOTE: This operation is not supported by directory buckets. Retrieves the PublicAccessBlock configuration for an Amazon Web Services account. This operation returns the effective account-level configuration, which may inherit from organization-level policies. For more information, see Using Amazon S3 block public access . Related actions include: • DeletePublicAccessBlock • PutPublicAccessBlock See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsS3controlGetPublicAccessBlockOptions : AwsOptions, IValidatable
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// NOTE: This operation is not supported by directory buckets. Retrieves the PublicAccessBlock configuration for an Amazon Web Ser- vices account. This operation returns the effective account-level con- figuration, which may inherit from organization-level policies. For more information, see Using Amazon S3 block public access . Related actions include: o DeletePublicAccessBlock o PutPublicAccessBlock See also: AWS API Documentation
+    /// NOTE: This operation is not supported by directory buckets. Retrieves the PublicAccessBlock configuration for an Amazon Web Services account. This operation returns the effective account-level configuration, which may inherit from organization-level policies. For more information, see Using Amazon S3 block public access . Related actions include: • DeletePublicAccessBlock • PutPublicAccessBlock See also: AWS API Documentation
     /// </summary>
-    /// <param name="AccountId">The account ID for the Amazon Web Services account whose PublicAc- cessBlock configuration you want to retrieve. Constraints: o max: 64 o pattern: ^\d{12}$</param>
+    /// <param name="AccountId">The account ID for the Amazon Web Services account whose PublicAccessBlock configuration you want to retrieve. Constraints: • max: 64 • pattern: ^\d{12}$</param>
     public AwsS3controlGetPublicAccessBlockOptions(
         string AccountId
     )
@@ -56,7 +57,7 @@ public record AwsS3controlGetPublicAccessBlockOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The account ID for the Amazon Web Services account whose PublicAc- cessBlock configuration you want to retrieve. Constraints: o max: 64 o pattern: ^\d{12}$
+    /// The account ID for the Amazon Web Services account whose PublicAccessBlock configuration you want to retrieve. Constraints: • max: 64 • pattern: ^\d{12}$
     /// </summary>
     [CliOption("--account-id")]
     public string? AccountId { get; private init; }
@@ -82,6 +83,15 @@ public record AwsS3controlGetPublicAccessBlockOptions : AwsOptions, IValidatable
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Designates the IAM role and Amazon Simple Notification Service (SNS) topic that Firewall Manager uses to record SNS logs. To perform this action outside of the console, you must first configure the SNS topic's access policy to allow the SnsRoleName to publish SNS logs. If the SnsRoleName provided is a role other than the AWSSer- viceRoleForFMS service-linked role, this role must have a trust rela- tionship configured to allow the Firewall Manager service principal fms.amazonaws.com to assume thi...
+/// Designates the IAM role and Amazon Simple Notification Service (SNS) topic that Firewall Manager uses to record SNS logs. To perform this action outside of the console, you must first configure the SNS topic's access policy to allow the SnsRoleName to publish SNS logs. If the SnsRoleName provided is a role other than the AWSServiceRoleForFMS service-linked role, this role must have a trust relationship configured to allow the Firewall Manager service principal fms.amazonaws.com to assume this ro...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsFmsPutNotificationChannelOptions : AwsOptions, IValidatableObje
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Designates the IAM role and Amazon Simple Notification Service (SNS) topic that Firewall Manager uses to record SNS logs. To perform this action outside of the console, you must first configure the SNS topic's access policy to allow the SnsRoleName to publish SNS logs. If the SnsRoleName provided is a role other than the AWSSer- viceRoleForFMS service-linked role, this role must have a trust rela- tionship configured to allow the Firewall Manager service principal fms.amazonaws.com to assume thi...
+    /// Designates the IAM role and Amazon Simple Notification Service (SNS) topic that Firewall Manager uses to record SNS logs. To perform this action outside of the console, you must first configure the SNS topic's access policy to allow the SnsRoleName to publish SNS logs. If the SnsRoleName provided is a role other than the AWSServiceRoleForFMS service-linked role, this role must have a trust relationship configured to allow the Firewall Manager service principal fms.amazonaws.com to assume this ro...
     /// </summary>
-    /// <param name="SnsTopicArn">The Amazon Resource Name (ARN) of the SNS topic that collects noti- fications from Firewall Manager. Constraints: o min: 1 o max: 1024 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$</param>
-    /// <param name="SnsRoleName">The Amazon Resource Name (ARN) of the IAM role that allows Amazon SNS to record Firewall Manager activity. Constraints: o min: 1 o max: 1024 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$</param>
+    /// <param name="SnsTopicArn">The Amazon Resource Name (ARN) of the SNS topic that collects notifications from Firewall Manager. Constraints: • min: 1 • max: 1024 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$</param>
+    /// <param name="SnsRoleName">The Amazon Resource Name (ARN) of the IAM role that allows Amazon SNS to record Firewall Manager activity. Constraints: • min: 1 • max: 1024 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$</param>
     public AwsFmsPutNotificationChannelOptions(
         string SnsTopicArn,
         string SnsRoleName
@@ -60,13 +61,13 @@ public record AwsFmsPutNotificationChannelOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the SNS topic that collects noti- fications from Firewall Manager. Constraints: o min: 1 o max: 1024 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$
+    /// The Amazon Resource Name (ARN) of the SNS topic that collects notifications from Firewall Manager. Constraints: • min: 1 • max: 1024 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$
     /// </summary>
     [CliOption("--sns-topic-arn")]
     public string? SnsTopicArn { get; private init; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the IAM role that allows Amazon SNS to record Firewall Manager activity. Constraints: o min: 1 o max: 1024 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$
+    /// The Amazon Resource Name (ARN) of the IAM role that allows Amazon SNS to record Firewall Manager activity. Constraints: • min: 1 • max: 1024 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$
     /// </summary>
     [CliOption("--sns-role-name")]
     public string? SnsRoleName { get; private init; }
@@ -92,6 +93,15 @@ public record AwsFmsPutNotificationChannelOptions : AwsOptions, IValidatableObje
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

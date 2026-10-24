@@ -23,31 +23,31 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsEc2DescribeReservedInstancesOptions : AwsOptions
 {
     /// <summary>
-    /// Describes whether the Reserved Instance is Standard or Convertible. Possible values: o standard o convertible
+    /// Describes whether the Reserved Instance is Standard or Convertible. Possible values: • standard • convertible
     /// </summary>
     [CliOption("--offering-class")]
     public AwsEc2DescribeReservedInstancesOfferingClass? OfferingClass { get; set; }
 
     /// <summary>
-    /// One or more Reserved Instance IDs. Default: Describes all your Reserved Instances, or only those other- wise specified. (string) Syntax: "string" "string" ...
+    /// One or more Reserved Instance IDs. Default: Describes all your Reserved Instances, or only those otherwise specified. (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--reserved-instances-ids", GroupValues = true)]
     public IEnumerable<string>? ReservedInstancesIds { get; set; }
 
     /// <summary>
-    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation . Otherwise, it is UnauthorizedOperation .
     /// </summary>
     [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     /// <summary>
-    /// One or more filters. o availability-zone - The Availability Zone where the Reserved In- stance can be used. o availability-zone-id - The ID of the Availability Zone where the Reserved Instance can be used. o duration - The duration of the Reserved Instance (one year or three years), in seconds (31536000 | 94608000 ). o end - The time when the Reserved Instance expires (for example, 2015-08-07T11:54:42.000Z). o fixed-price - The purchase price of the Reserved Instance (for ex- ample, 9800.0). o instance-type - The instance type that is covered by the reserva- tion. o scope - The scope of the Reserved Instance (Region or Availability Zone ). o product-description - The Reserved Instance product platform de- scription (Linux/UNIX | Linux with SQL Server Standard | Linux with SQL Server Web | Linux with SQL Server Enterprise | SUSE Linux | Red Hat Enterprise Linux | Red Hat Enterprise Linux with HA | Windows | Windows with SQL Server Standard | Windows with SQL Server Web | Windows with SQL Server Enterprise ). o reserved-instances-id - The ID of the Reserved Instance. o start - The time at which the Reserved Instance purchase request was placed (for example, 2014-08-07T11:54:42.000Z). o state - The state of the Reserved Instance (payment-pending | ac- tive | payment-failed | retired ). o tag:&lt;key&gt; - The key/value combination of a tag assigned to the re- source. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA , specify tag:Owner for the filter name and TeamA for the filter value. o tag-key - The key of a tag assigned to the resource. Use this fil- ter to find all resources assigned a tag with a specific key, re- gardless of the tag value. o usage-price - The usage price of the Reserved Instance, per hour (for example, 0.84). (structure) A filter name and value pair that is used to return a more spe- cific list of results from a describe operation. Filters can be used to match a set of resources by specific criteria, such as tags, attributes, or IDs. If you specify multiple filters, the filters are joined with an AND , and the request returns only results that match all of the specified filters. For more information, see List and filter using the CLI and API in the Amazon EC2 User Guide . Name -&gt; (string) The name of the filter. Filter names are case-sensitive. Values -&gt; (list) The filter values. Filter values are case-sensitive. If you specify multiple values for a filter, the values are joined with an OR , and the request returns all results that match any of the specified values. (string) Shorthand Syntax: Name=string,Values=string,string ... JSON Syntax: [ { "Name": "string", "Values": ["string", ...] } ... ]
+    /// One or more filters. • availability-zone - The Availability Zone where the Reserved Instance can be used. • availability-zone-id - The ID of the Availability Zone where the Reserved Instance can be used. • duration - The duration of the Reserved Instance (one year or three years), in seconds (31536000 | 94608000 ). • end - The time when the Reserved Instance expires (for example, 2015-08-07T11:54:42.000Z). • fixed-price - The purchase price of the Reserved Instance (for example, 9800.0). • instance-type - The instance type that is covered by the reservation. • scope - The scope of the Reserved Instance (Region or Availability Zone ). • product-description - The Reserved Instance product platform description (Linux/UNIX | Linux with SQL Server Standard | Linux with SQL Server Web | Linux with SQL Server Enterprise | SUSE Linux | Red Hat Enterprise Linux | Red Hat Enterprise Linux with HA | Windows | Windows with SQL Server Standard | Windows with SQL Server Web | Windows with SQL Server Enterprise ). • reserved-instances-id - The ID of the Reserved Instance. • start - The time at which the Reserved Instance purchase request was placed (for example, 2014-08-07T11:54:42.000Z). • state - The state of the Reserved Instance (payment-pending | active | payment-failed | retired ). • tag:&lt;key&gt; - The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA , specify tag:Owner for the filter name and TeamA for the filter value. • tag-key - The key of a tag assigned to the resource. Use this filter to find all resources assigned a tag with a specific key, regardless of the tag value. • usage-price - The usage price of the Reserved Instance, per hour (for example, 0.84). (structure) A filter name and value pair that is used to return a more specific list of results from a describe operation. Filters can be used to match a set of resources by specific criteria, such as tags, attributes, or IDs. If you specify multiple filters, the filters are joined with an AND , and the request returns only results that match all of the specified filters. For more information, see List and filter using the CLI and API in the Amazon EC2 User Guide . Name -&gt; (string) The name of the filter. Filter names are case-sensitive. Values -&gt; (list) The filter values. Filter values are case-sensitive. If you specify multiple values for a filter, the values are joined with an OR , and the request returns all results that match any of the specified values. (string) Shorthand Syntax: Name=string,Values=string,string ... JSON Syntax: [ { "Name": "string", "Values": ["string", ...] } ... ]
     /// </summary>
     [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     /// <summary>
-    /// The Reserved Instance offering type. If you are using tools that predate the 2011-11-01 API version, you only have access to the Medium Utilization Reserved Instance offering type. Possible values: o Heavy Utilization o Medium Utilization o Light Utilization o No Upfront o Partial Upfront o All Upfront
+    /// The Reserved Instance offering type. If you are using tools that predate the 2011-11-01 API version, you only have access to the Medium Utilization Reserved Instance offering type. Possible values: • Heavy Utilization • Medium Utilization • Light Utilization • No Upfront • Partial Upfront • All Upfront
     /// </summary>
     [CliOption("--offering-type")]
     public string? OfferingType { get; set; }
@@ -57,5 +57,14 @@ public record AwsEc2DescribeReservedInstancesOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

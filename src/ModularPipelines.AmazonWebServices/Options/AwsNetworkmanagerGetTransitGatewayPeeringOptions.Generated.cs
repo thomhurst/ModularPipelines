@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsNetworkmanagerGetTransitGatewayPeeringOptions : AwsOptions, IVa
     /// <summary>
     /// Returns information about a transit gateway peer. See also: AWS API Documentation
     /// </summary>
-    /// <param name="PeeringId">The ID of the peering request. Constraints: o min: 0 o max: 50 o pattern: ^peering-([0-9a-f]{8,17})$</param>
+    /// <param name="PeeringId">The ID of the peering request. Constraints: • min: 0 • max: 50 • pattern: ^peering-([0-9a-f]{8,17})$</param>
     public AwsNetworkmanagerGetTransitGatewayPeeringOptions(
         string PeeringId
     )
@@ -56,7 +57,7 @@ public record AwsNetworkmanagerGetTransitGatewayPeeringOptions : AwsOptions, IVa
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the peering request. Constraints: o min: 0 o max: 50 o pattern: ^peering-([0-9a-f]{8,17})$
+    /// The ID of the peering request. Constraints: • min: 0 • max: 50 • pattern: ^peering-([0-9a-f]{8,17})$
     /// </summary>
     [CliOption("--peering-id")]
     public string? PeeringId { get; private init; }
@@ -82,6 +83,15 @@ public record AwsNetworkmanagerGetTransitGatewayPeeringOptions : AwsOptions, IVa
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

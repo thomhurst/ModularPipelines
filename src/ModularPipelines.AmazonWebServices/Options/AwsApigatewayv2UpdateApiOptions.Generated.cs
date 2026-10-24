@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -71,13 +72,13 @@ public record AwsApigatewayv2UpdateApiOptions : AwsOptions, IValidatableObject
     public string? ApiKeySelectionExpression { get; set; }
 
     /// <summary>
-    /// A CORS configuration. Supported only for HTTP APIs. AllowCredentials -&gt; (boolean) Specifies whether credentials are included in the CORS request. Supported only for HTTP APIs. AllowHeaders -&gt; (list) Represents a collection of allowed headers. Supported only for HTTP APIs. (string) AllowMethods -&gt; (list) Represents a collection of allowed HTTP methods. Supported only for HTTP APIs. (string) A string with a length between [1-64]. AllowOrigins -&gt; (list) Represents a collection of allowed origins. Supported only for HTTP APIs. (string) ExposeHeaders -&gt; (list) Represents a collection of exposed headers. Supported only for HTTP APIs. (string) MaxAge -&gt; (integer) The number of seconds that the browser should cache preflight request results. Supported only for HTTP APIs. Constraints: o min: -1 o max: 86400 Shorthand Syntax: AllowCredentials=boolean,AllowHeaders=string,string,AllowMethods=string,string,AllowOrigins=string,string,ExposeHeaders=string,string,MaxAge=integer JSON Syntax: { "AllowCredentials": true|false, "AllowHeaders": ["string", ...], "AllowMethods": ["string", ...], "AllowOrigins": ["string", ...], "ExposeHeaders": ["string", ...], "MaxAge": integer }
+    /// A CORS configuration. Supported only for HTTP APIs. AllowCredentials -&gt; (boolean) Specifies whether credentials are included in the CORS request. Supported only for HTTP APIs. AllowHeaders -&gt; (list) Represents a collection of allowed headers. Supported only for HTTP APIs. (string) AllowMethods -&gt; (list) Represents a collection of allowed HTTP methods. Supported only for HTTP APIs. (string) A string with a length between [1-64]. AllowOrigins -&gt; (list) Represents a collection of allowed origins. Supported only for HTTP APIs. (string) ExposeHeaders -&gt; (list) Represents a collection of exposed headers. Supported only for HTTP APIs. (string) MaxAge -&gt; (integer) The number of seconds that the browser should cache preflight request results. Supported only for HTTP APIs. Constraints: • min: -1 • max: 86400 Shorthand Syntax: AllowCredentials=boolean,AllowHeaders=string,string,AllowMethods=string,string,AllowOrigins=string,string,ExposeHeaders=string,string,MaxAge=integer JSON Syntax: { "AllowCredentials": true|false, "AllowHeaders": ["string", ...], "AllowMethods": ["string", ...], "AllowOrigins": ["string", ...], "ExposeHeaders": ["string", ...], "MaxAge": integer }
     /// </summary>
     [CliOption("--cors-configuration")]
     public string? CorsConfiguration { get; set; }
 
     /// <summary>
-    /// This property is part of quick create. It specifies the credentials required for the integration, if any. For a Lambda integration, three options are available. To specify an IAM Role for API Gateway to assume, use the role's Amazon Resource Name (ARN). To require that the caller's identity be passed through from the request, spec- ify arn:aws:iam:::user/. To use resource-based permissions on sup- ported AWS services, don't specify this parameter. Currently, this property is not used for HTTP integrations. If provided, this value replaces the credentials associated with the quick create integra- tion. Supported only for HTTP APIs.
+    /// This property is part of quick create. It specifies the credentials required for the integration, if any. For a Lambda integration, three options are available. To specify an IAM Role for API Gateway to assume, use the role's Amazon Resource Name (ARN). To require that the caller's identity be passed through from the request, specify arn:aws:iam:::user/. To use resource-based permissions on supported AWS services, don't specify this parameter. Currently, this property is not used for HTTP integrations. If provided, this value replaces the credentials associated with the quick create integration. Supported only for HTTP APIs.
     /// </summary>
     [CliOption("--credentials-arn")]
     public string? CredentialsArn { get; set; }
@@ -95,13 +96,13 @@ public record AwsApigatewayv2UpdateApiOptions : AwsOptions, IValidatableObject
     public bool? DisableSchemaValidation { get; set; }
 
     /// <summary>
-    /// Specifies whether clients can invoke your API by using the default execute-api endpoint. By default, clients can invoke your API with the default https://{api_id}.execute-api.{region}.amazonaws.com end- point. To require that clients use a custom domain name to invoke your API, disable the default endpoint.
+    /// Specifies whether clients can invoke your API by using the default execute-api endpoint. By default, clients can invoke your API with the default https://{api_id}.execute-api.{region}.amazonaws.com endpoint. To require that clients use a custom domain name to invoke your API, disable the default endpoint.
     /// </summary>
     [CliFlag("--disable-execute-api-endpoint", NegatedName = "--no-disable-execute-api-endpoint")]
     public bool? DisableExecuteApiEndpoint { get; set; }
 
     /// <summary>
-    /// The IP address types that can invoke your API or domain name. Possible values: o ipv4 o dualstack
+    /// The IP address types that can invoke your API or domain name. Possible values: • ipv4 • dualstack
     /// </summary>
     [CliOption("--ip-address-type")]
     public AwsApigatewayv2UpdateApiIpAddressType? IpAddressType { get; set; }
@@ -119,13 +120,13 @@ public record AwsApigatewayv2UpdateApiOptions : AwsOptions, IValidatableObject
     public string? RouteKey { get; set; }
 
     /// <summary>
-    /// The route selection expression for the API. For HTTP APIs, the routeSelectionExpression must be ${request.method} ${request.path}. If not provided, this will be the default for HTTP APIs. This prop- erty is required for WebSocket APIs.
+    /// The route selection expression for the API. For HTTP APIs, the routeSelectionExpression must be ${request.method} ${request.path}. If not provided, this will be the default for HTTP APIs. This property is required for WebSocket APIs.
     /// </summary>
     [CliOption("--route-selection-expression")]
     public string? RouteSelectionExpression { get; set; }
 
     /// <summary>
-    /// This property is part of quick create. For HTTP integrations, spec- ify a fully qualified URL. For Lambda integrations, specify a func- tion ARN. The type of the integration will be HTTP_PROXY or AWS_PROXY, respectively. The value provided updates the integration URI and integration type. You can update a quick-created target, but you can't remove it from an API. Supported only for HTTP APIs.
+    /// This property is part of quick create. For HTTP integrations, specify a fully qualified URL. For Lambda integrations, specify a function ARN. The type of the integration will be HTTP_PROXY or AWS_PROXY, respectively. The value provided updates the integration URI and integration type. You can update a quick-created target, but you can't remove it from an API. Supported only for HTTP APIs.
     /// </summary>
     [CliOption("--target")]
     public string? Target { get; set; }
@@ -157,6 +158,15 @@ public record AwsApigatewayv2UpdateApiOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsRoute53globalresolverUpdateFirewallDomainsOptions : AwsOptions,
     /// <summary>
     /// Updates a DNS Firewall domain list from an array of specified domains. WARNING: Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify --region us-east-2 on Amazon Web Services CLI commands. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Domains">A list of the domains. You can add up to 1000 domains per request. (string) Constraints: o min: 1 o max: 256 o pattern: \*?[a-zA-Z0-9!"#$%&amp;'()*+,./:;&lt;=&gt;?@\[\\\]^_`{|}~-]+ Syntax: "string" "string" ...</param>
-    /// <param name="FirewallDomainListId">The ID of the DNS Firewall domain list to which you want to add the domains. Constraints: o min: 1 o max: 64 o pattern: [-.a-zA-Z0-9]+</param>
+    /// <param name="Domains">A list of the domains. You can add up to 1000 domains per request. (string) Constraints: • min: 1 • max: 256 • pattern: \*?[a-zA-Z0-9!"#$%&amp;'()*+,./:;&lt;=&gt;?@\[\\\]^_`{|}~-]+ Syntax: "string" "string" ...</param>
+    /// <param name="FirewallDomainListId">The ID of the DNS Firewall domain list to which you want to add the domains. Constraints: • min: 1 • max: 64 • pattern: [-.a-zA-Z0-9]+</param>
     /// <param name="Operation">The operation for updating the domain list. The allowed values are ADD, REMOVE, and REPLACE.</param>
     public AwsRoute53globalresolverUpdateFirewallDomainsOptions(
         IEnumerable<string> Domains,
@@ -75,13 +76,13 @@ public record AwsRoute53globalresolverUpdateFirewallDomainsOptions : AwsOptions,
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A list of the domains. You can add up to 1000 domains per request. (string) Constraints: o min: 1 o max: 256 o pattern: \*?[a-zA-Z0-9!"#$%&amp;'()*+,./:;&lt;=&gt;?@\[\\\]^_`{|}~-]+ Syntax: "string" "string" ...
+    /// A list of the domains. You can add up to 1000 domains per request. (string) Constraints: • min: 1 • max: 256 • pattern: \*?[a-zA-Z0-9!"#$%&amp;'()*+,./:;&lt;=&gt;?@\[\\\]^_`{|}~-]+ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--domains", GroupValues = true)]
     public IEnumerable<string>? Domains { get; private init; }
 
     /// <summary>
-    /// The ID of the DNS Firewall domain list to which you want to add the domains. Constraints: o min: 1 o max: 64 o pattern: [-.a-zA-Z0-9]+
+    /// The ID of the DNS Firewall domain list to which you want to add the domains. Constraints: • min: 1 • max: 64 • pattern: [-.a-zA-Z0-9]+
     /// </summary>
     [CliOption("--firewall-domain-list-id")]
     public string? FirewallDomainListId { get; private init; }
@@ -113,6 +114,15 @@ public record AwsRoute53globalresolverUpdateFirewallDomainsOptions : AwsOptions,
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

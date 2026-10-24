@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns details about a state machine alias . Related operations: o CreateStateMachineAlias o ListStateMachineAliases o UpdateStateMachineAlias o DeleteStateMachineAlias See also: AWS API Documentation
+/// Returns details about a state machine alias . Related operations: • CreateStateMachineAlias • ListStateMachineAliases • UpdateStateMachineAlias • DeleteStateMachineAlias See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsStepfunctionsDescribeStateMachineAliasOptions : AwsOptions, IVa
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns details about a state machine alias . Related operations: o CreateStateMachineAlias o ListStateMachineAliases o UpdateStateMachineAlias o DeleteStateMachineAlias See also: AWS API Documentation
+    /// Returns details about a state machine alias . Related operations: • CreateStateMachineAlias • ListStateMachineAliases • UpdateStateMachineAlias • DeleteStateMachineAlias See also: AWS API Documentation
     /// </summary>
-    /// <param name="StateMachineAliasArn">The Amazon Resource Name (ARN) of the state machine alias. Constraints: o min: 1 o max: 256</param>
+    /// <param name="StateMachineAliasArn">The Amazon Resource Name (ARN) of the state machine alias. Constraints: • min: 1 • max: 256</param>
     public AwsStepfunctionsDescribeStateMachineAliasOptions(
         string StateMachineAliasArn
     )
@@ -56,7 +57,7 @@ public record AwsStepfunctionsDescribeStateMachineAliasOptions : AwsOptions, IVa
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the state machine alias. Constraints: o min: 1 o max: 256
+    /// The Amazon Resource Name (ARN) of the state machine alias. Constraints: • min: 1 • max: 256
     /// </summary>
     [CliOption("--state-machine-alias-arn")]
     public string? StateMachineAliasArn { get; private init; }
@@ -82,6 +83,15 @@ public record AwsStepfunctionsDescribeStateMachineAliasOptions : AwsOptions, IVa
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

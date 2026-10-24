@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,9 +28,9 @@ public record AwsQuicksightCreateNamespaceOptions : AwsOptions, IValidatableObje
     /// <summary>
     /// (Enterprise edition only) Creates a new namespace for you to use with Amazon Quick Sight. A namespace allows you to isolate the Quick Sight users and groups that are registered for that namespace. Users that access the namespace can share assets only with other users or groups in the same namespace. They can't see users and groups in other namespaces. You can create a namespace after your Amazon Web Services account is subscribed to Quick Sight. The namespace must be unique within the Amazon Web...
     /// </summary>
-    /// <param name="AwsAccountId">The ID for the Amazon Web Services account that you want to create the Quick Sight namespace in. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$</param>
-    /// <param name="Namespace">The name that you want to use to describe the new namespace. Constraints: o max: 64 o pattern: ^[a-zA-Z0-9._-]*$</param>
-    /// <param name="IdentityStore">Specifies the type of your user identity directory. Currently, this supports users with an identity type of QUICKSIGHT . Possible values: o QUICKSIGHT</param>
+    /// <param name="AwsAccountId">The ID for the Amazon Web Services account that you want to create the Quick Sight namespace in. Constraints: • min: 12 • max: 12 • pattern: ^[0-9]{12}$</param>
+    /// <param name="Namespace">The name that you want to use to describe the new namespace. Constraints: • max: 64 • pattern: ^[a-zA-Z0-9._-]*$</param>
+    /// <param name="IdentityStore">Specifies the type of your user identity directory. Currently, this supports users with an identity type of QUICKSIGHT . Possible values: • QUICKSIGHT</param>
     public AwsQuicksightCreateNamespaceOptions(
         string AwsAccountId,
         string Namespace,
@@ -64,25 +65,25 @@ public record AwsQuicksightCreateNamespaceOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID for the Amazon Web Services account that you want to create the Quick Sight namespace in. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$
+    /// The ID for the Amazon Web Services account that you want to create the Quick Sight namespace in. Constraints: • min: 12 • max: 12 • pattern: ^[0-9]{12}$
     /// </summary>
     [CliOption("--aws-account-id")]
     public string? AwsAccountId { get; private init; }
 
     /// <summary>
-    /// The name that you want to use to describe the new namespace. Constraints: o max: 64 o pattern: ^[a-zA-Z0-9._-]*$
+    /// The name that you want to use to describe the new namespace. Constraints: • max: 64 • pattern: ^[a-zA-Z0-9._-]*$
     /// </summary>
     [CliOption("--namespace")]
     public string? Namespace { get; private init; }
 
     /// <summary>
-    /// Specifies the type of your user identity directory. Currently, this supports users with an identity type of QUICKSIGHT . Possible values: o QUICKSIGHT
+    /// Specifies the type of your user identity directory. Currently, this supports users with an identity type of QUICKSIGHT . Possible values: • QUICKSIGHT
     /// </summary>
     [CliOption("--identity-store")]
     public string? IdentityStore { get; private init; }
 
     /// <summary>
-    /// The tags that you want to associate with the namespace that you're creating. Constraints: o min: 1 o max: 200 (structure) The key or keys of the key-value pairs for the resource tag or tags assigned to the resource. Key -&gt; (string) [required] Tag key. Constraints: o min: 1 o max: 128 Value -&gt; (string) [required] Tag value. Constraints: o min: 1 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// The tags that you want to associate with the namespace that you're creating. Constraints: • min: 1 • max: 200 (structure) The key or keys of the key-value pairs for the resource tag or tags assigned to the resource. Key -&gt; (string) [required] Tag key. Constraints: • min: 1 • max: 128 Value -&gt; (string) [required] Tag value. Constraints: • min: 1 • max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
@@ -108,6 +109,15 @@ public record AwsQuicksightCreateNamespaceOptions : AwsOptions, IValidatableObje
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

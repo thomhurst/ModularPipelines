@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Resetting the channel can help to clear errors from misconfigurations in the encoder. A reset refreshes the ingest stream and removes previ- ous content. Be sure to stop the encoder before you reset the channel, and wait at least 30 seconds before you restart the encoder. See also: AWS API Documentation
+/// Resetting the channel can help to clear errors from misconfigurations in the encoder. A reset refreshes the ingest stream and removes previous content. Be sure to stop the encoder before you reset the channel, and wait at least 30 seconds before you restart the encoder. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsMediapackagev2ResetChannelStateOptions : AwsOptions, IValidatab
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Resetting the channel can help to clear errors from misconfigurations in the encoder. A reset refreshes the ingest stream and removes previ- ous content. Be sure to stop the encoder before you reset the channel, and wait at least 30 seconds before you restart the encoder. See also: AWS API Documentation
+    /// Resetting the channel can help to clear errors from misconfigurations in the encoder. A reset refreshes the ingest stream and removes previous content. Be sure to stop the encoder before you reset the channel, and wait at least 30 seconds before you restart the encoder. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ChannelGroupName">The name of the channel group that contains the channel that you are resetting. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9_-]+</param>
-    /// <param name="ChannelName">The name of the channel that you are resetting. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9_-]+</param>
+    /// <param name="ChannelGroupName">The name of the channel group that contains the channel that you are resetting. Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9_-]+</param>
+    /// <param name="ChannelName">The name of the channel that you are resetting. Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9_-]+</param>
     public AwsMediapackagev2ResetChannelStateOptions(
         string ChannelGroupName,
         string ChannelName
@@ -60,13 +61,13 @@ public record AwsMediapackagev2ResetChannelStateOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the channel group that contains the channel that you are resetting. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9_-]+
+    /// The name of the channel group that contains the channel that you are resetting. Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9_-]+
     /// </summary>
     [CliOption("--channel-group-name")]
     public string? ChannelGroupName { get; private init; }
 
     /// <summary>
-    /// The name of the channel that you are resetting. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9_-]+
+    /// The name of the channel that you are resetting. Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9_-]+
     /// </summary>
     [CliOption("--channel-name")]
     public string? ChannelName { get; private init; }
@@ -92,6 +93,15 @@ public record AwsMediapackagev2ResetChannelStateOptions : AwsOptions, IValidatab
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes a cases template. You can delete up to 100 templates per do- main. After a cases template is deleted: o You can still retrieve the template by calling GetTemplate . o You cannot update the template. o You cannot create a case by using the deleted template. o Deleted templates are not included in the ListTemplates response. See also: AWS API Documentation
+/// Deletes a cases template. You can delete up to 100 templates per domain. After a cases template is deleted: • You can still retrieve the template by calling GetTemplate . • You cannot update the template. • You cannot create a case by using the deleted template. • Deleted templates are not included in the ListTemplates response. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsConnectcasesDeleteTemplateOptions : AwsOptions, IValidatableObj
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes a cases template. You can delete up to 100 templates per do- main. After a cases template is deleted: o You can still retrieve the template by calling GetTemplate . o You cannot update the template. o You cannot create a case by using the deleted template. o Deleted templates are not included in the ListTemplates response. See also: AWS API Documentation
+    /// Deletes a cases template. You can delete up to 100 templates per domain. After a cases template is deleted: • You can still retrieve the template by calling GetTemplate . • You cannot update the template. • You cannot create a case by using the deleted template. • Deleted templates are not included in the ListTemplates response. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DomainId">The unique identifier of the Cases domain. Constraints: o min: 1 o max: 500</param>
-    /// <param name="TemplateId">A unique identifier of a template. Constraints: o min: 1 o max: 500</param>
+    /// <param name="DomainId">The unique identifier of the Cases domain. Constraints: • min: 1 • max: 500</param>
+    /// <param name="TemplateId">A unique identifier of a template. Constraints: • min: 1 • max: 500</param>
     public AwsConnectcasesDeleteTemplateOptions(
         string DomainId,
         string TemplateId
@@ -60,13 +61,13 @@ public record AwsConnectcasesDeleteTemplateOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the Cases domain. Constraints: o min: 1 o max: 500
+    /// The unique identifier of the Cases domain. Constraints: • min: 1 • max: 500
     /// </summary>
     [CliOption("--domain-id")]
     public string? DomainId { get; private init; }
 
     /// <summary>
-    /// A unique identifier of a template. Constraints: o min: 1 o max: 500
+    /// A unique identifier of a template. Constraints: • min: 1 • max: 500
     /// </summary>
     [CliOption("--template-id")]
     public string? TemplateId { get; private init; }
@@ -92,6 +93,15 @@ public record AwsConnectcasesDeleteTemplateOptions : AwsOptions, IValidatableObj
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

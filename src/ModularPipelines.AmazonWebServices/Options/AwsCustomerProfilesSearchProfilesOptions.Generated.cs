@@ -11,13 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Searches for profiles within a specific domain using one or more prede- fined search keys (e.g., _fullName, _phone, _email, _account, etc.) and/or custom-defined search keys. A search key is a data type pair that consists of a KeyName and Values list. This operation supports searching for profiles with a minimum of 1 key-value(s) pair and up to 5 key-value(s) pairs using either AND or OR logic. See also: AWS API Documentation
+/// Searches for profiles within a specific domain using one or more predefined search keys (e.g., _fullName, _phone, _email, _account, etc.) and/or custom-defined search keys. A search key is a data type pair that consists of a KeyName and Values list. This operation supports searching for profiles with a minimum of 1 key-value(s) pair and up to 5 key-value(s) pairs using either AND or OR logic. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,11 +28,11 @@ public record AwsCustomerProfilesSearchProfilesOptions : AwsOptions, IValidatabl
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Searches for profiles within a specific domain using one or more prede- fined search keys (e.g., _fullName, _phone, _email, _account, etc.) and/or custom-defined search keys. A search key is a data type pair that consists of a KeyName and Values list. This operation supports searching for profiles with a minimum of 1 key-value(s) pair and up to 5 key-value(s) pairs using either AND or OR logic. See also: AWS API Documentation
+    /// Searches for profiles within a specific domain using one or more predefined search keys (e.g., _fullName, _phone, _email, _account, etc.) and/or custom-defined search keys. A search key is a data type pair that consists of a KeyName and Values list. This operation supports searching for profiles with a minimum of 1 key-value(s) pair and up to 5 key-value(s) pairs using either AND or OR logic. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DomainName">The unique name of the domain. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$</param>
-    /// <param name="KeyName">A searchable identifier of a customer profile. The predefined keys you can use to search include: _account, _profileId, _assetId, _ca- seId, _orderId, _fullName, _phone, _email, _ctrContactId, _marke- toLeadId, _salesforceAccountId, _salesforceContactId, _salesforceAs- setId, _zendeskUserId, _zendeskExternalId, _zendeskTicketId, _servi- ceNowSystemId, _serviceNowIncidentId, _segmentUserId, _shopifyCus- tomerId, _shopifyOrderId. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$</param>
-    /// <param name="Values">A list of key values. (string) Constraints: o min: 1 o max: 255 Syntax: "string" "string" ...</param>
+    /// <param name="DomainName">The unique name of the domain. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9_-]+$</param>
+    /// <param name="KeyName">A searchable identifier of a customer profile. The predefined keys you can use to search include: _account, _profileId, _assetId, _caseId, _orderId, _fullName, _phone, _email, _ctrContactId, _marketoLeadId, _salesforceAccountId, _salesforceContactId, _salesforceAssetId, _zendeskUserId, _zendeskExternalId, _zendeskTicketId, _serviceNowSystemId, _serviceNowIncidentId, _segmentUserId, _shopifyCustomerId, _shopifyOrderId. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9_-]+$</param>
+    /// <param name="Values">A list of key values. (string) Constraints: • min: 1 • max: 255 Syntax: "string" "string" ...</param>
     public AwsCustomerProfilesSearchProfilesOptions(
         string DomainName,
         string KeyName,
@@ -77,44 +78,44 @@ public record AwsCustomerProfilesSearchProfilesOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique name of the domain. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$
+    /// The unique name of the domain. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9_-]+$
     /// </summary>
     [CliOption("--domain-name")]
     public string? DomainName { get; private init; }
 
     /// <summary>
-    /// A searchable identifier of a customer profile. The predefined keys you can use to search include: _account, _profileId, _assetId, _ca- seId, _orderId, _fullName, _phone, _email, _ctrContactId, _marke- toLeadId, _salesforceAccountId, _salesforceContactId, _salesforceAs- setId, _zendeskUserId, _zendeskExternalId, _zendeskTicketId, _servi- ceNowSystemId, _serviceNowIncidentId, _segmentUserId, _shopifyCus- tomerId, _shopifyOrderId. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$
+    /// A searchable identifier of a customer profile. The predefined keys you can use to search include: _account, _profileId, _assetId, _caseId, _orderId, _fullName, _phone, _email, _ctrContactId, _marketoLeadId, _salesforceAccountId, _salesforceContactId, _salesforceAssetId, _zendeskUserId, _zendeskExternalId, _zendeskTicketId, _serviceNowSystemId, _serviceNowIncidentId, _segmentUserId, _shopifyCustomerId, _shopifyOrderId. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9_-]+$
     /// </summary>
     [CliOption("--key-name")]
     public string? KeyName { get; private init; }
 
     /// <summary>
-    /// A list of key values. (string) Constraints: o min: 1 o max: 255 Syntax: "string" "string" ...
+    /// A list of key values. (string) Constraints: • min: 1 • max: 255 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--values", GroupValues = true)]
     public IEnumerable<string>? Values { get; private init; }
 
     /// <summary>
-    /// The pagination token from the previous SearchProfiles API call. Constraints: o min: 1 o max: 1024
+    /// The pagination token from the previous SearchProfiles API call. Constraints: • min: 1 • max: 1024
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// The maximum number of objects returned per page. The default is 20 if this parameter is not included in the request. Constraints: o min: 1 o max: 100
+    /// The maximum number of objects returned per page. The default is 20 if this parameter is not included in the request. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
     /// <summary>
-    /// A list of AdditionalSearchKey objects that are each searchable iden- tifiers of a profile. Each AdditionalSearchKey object contains a KeyName and a list of Values associated with that specific key (i.e., a key-value(s) pair). These additional search keys will be used in conjunction with the LogicalOperator and the required Key- Name and Values parameters to search for profiles that satisfy the search criteria. Constraints: o min: 1 o max: 4 (structure) A data type pair that consists of a KeyName and Values list that is used in conjunction with the KeyName and Values parameters to search for profiles using the SearchProfiles API. KeyName -&gt; (string) [required] A searchable identifier of a customer profile. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$ Values -&gt; (list) [required] A list of key values. (string) Constraints: o min: 1 o max: 255 Shorthand Syntax: KeyName=string,Values=string,string ... JSON Syntax: [ { "KeyName": "string", "Values": ["string", ...] } ... ]
+    /// A list of AdditionalSearchKey objects that are each searchable identifiers of a profile. Each AdditionalSearchKey object contains a KeyName and a list of Values associated with that specific key (i.e., a key-value(s) pair). These additional search keys will be used in conjunction with the LogicalOperator and the required KeyName and Values parameters to search for profiles that satisfy the search criteria. Constraints: • min: 1 • max: 4 (structure) A data type pair that consists of a KeyName and Values list that is used in conjunction with the KeyName and Values parameters to search for profiles using the SearchProfiles API. KeyName -&gt; (string) [required] A searchable identifier of a customer profile. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9_-]+$ Values -&gt; (list) [required] A list of key values. (string) Constraints: • min: 1 • max: 255 Shorthand Syntax: KeyName=string,Values=string,string ... JSON Syntax: [ { "KeyName": "string", "Values": ["string", ...] } ... ]
     /// </summary>
     [CliOption("--additional-search-keys", GroupValues = true)]
     public IEnumerable<string>? AdditionalSearchKeys { get; set; }
 
     /// <summary>
-    /// Relationship between all specified search keys that will be used to search for profiles. This includes the required KeyName and Values parameters as well as any key-value(s) pairs specified in the Addi- tionalSearchKeys list. This parameter influences which profiles will be returned in the re- sponse in the following manner: o AND - The response only includes profiles that match all of the search keys. o OR - The response includes profiles that match at least one of the search keys. The OR relationship is the default behavior if this parameter is not included in the request. Possible values: o AND o OR
+    /// Relationship between all specified search keys that will be used to search for profiles. This includes the required KeyName and Values parameters as well as any key-value(s) pairs specified in the AdditionalSearchKeys list. This parameter influences which profiles will be returned in the response in the following manner: • AND - The response only includes profiles that match all of the search keys. • OR - The response includes profiles that match at least one of the search keys. The OR relationship is the default behavior if this parameter is not included in the request. Possible values: • AND • OR
     /// </summary>
     [CliOption("--logical-operator")]
     public AwsCustomerProfilesSearchProfilesLogicalOperator? LogicalOperator { get; set; }
@@ -140,6 +141,15 @@ public record AwsCustomerProfilesSearchProfilesOptions : AwsOptions, IValidatabl
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

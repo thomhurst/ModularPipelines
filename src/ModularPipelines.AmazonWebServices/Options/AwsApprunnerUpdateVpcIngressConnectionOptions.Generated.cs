@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Update an existing App Runner VPC Ingress Connection resource. The VPC Ingress Connection must be in one of the following states to be up- dated: o AVAILABLE o FAILED_CREATION o FAILED_UPDATE See also: AWS API Documentation
+/// Update an existing App Runner VPC Ingress Connection resource. The VPC Ingress Connection must be in one of the following states to be updated: • AVAILABLE • FAILED_CREATION • FAILED_UPDATE See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsApprunnerUpdateVpcIngressConnectionOptions : AwsOptions, IValid
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Update an existing App Runner VPC Ingress Connection resource. The VPC Ingress Connection must be in one of the following states to be up- dated: o AVAILABLE o FAILED_CREATION o FAILED_UPDATE See also: AWS API Documentation
+    /// Update an existing App Runner VPC Ingress Connection resource. The VPC Ingress Connection must be in one of the following states to be updated: • AVAILABLE • FAILED_CREATION • FAILED_UPDATE See also: AWS API Documentation
     /// </summary>
-    /// <param name="VpcIngressConnectionArn">The Amazon Resource Name (Arn) for the App Runner VPC Ingress Con- nection resource that you want to update. Constraints: o min: 1 o max: 1011 o pattern: arn:aws(-[\w]+)*:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[0-9]{12}:(\w|\/|-){1,1011}</param>
-    /// <param name="IngressVpcConfiguration">Specifications for the customers Amazon VPC and the related Amazon Web Services PrivateLink VPC endpoint that are used to update the VPC Ingress Connection resource. VpcId -&gt; (string) The ID of the VPC that is used for the VPC endpoint. Constraints: o min: 0 o max: 51200 o pattern: .* VpcEndpointId -&gt; (string) The ID of the VPC endpoint that your App Runner service connects to. Constraints: o min: 0 o max: 51200 o pattern: .* Shorthand Syntax: VpcId=string,VpcEndpointId=string JSON Syntax: { "VpcId": "string", "VpcEndpointId": "string" }</param>
+    /// <param name="VpcIngressConnectionArn">The Amazon Resource Name (Arn) for the App Runner VPC Ingress Connection resource that you want to update. Constraints: • min: 1 • max: 1011 • pattern: arn:aws(-[\w]+)*:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[0-9]{12}:(\w|\/|-){1,1011}</param>
+    /// <param name="IngressVpcConfiguration">Specifications for the customers Amazon VPC and the related Amazon Web Services PrivateLink VPC endpoint that are used to update the VPC Ingress Connection resource. VpcId -&gt; (string) The ID of the VPC that is used for the VPC endpoint. Constraints: • min: 0 • max: 51200 • pattern: .* VpcEndpointId -&gt; (string) The ID of the VPC endpoint that your App Runner service connects to. Constraints: • min: 0 • max: 51200 • pattern: .* Shorthand Syntax: VpcId=string,VpcEndpointId=string JSON Syntax: { "VpcId": "string", "VpcEndpointId": "string" }</param>
     public AwsApprunnerUpdateVpcIngressConnectionOptions(
         string VpcIngressConnectionArn,
         string IngressVpcConfiguration
@@ -60,13 +61,13 @@ public record AwsApprunnerUpdateVpcIngressConnectionOptions : AwsOptions, IValid
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (Arn) for the App Runner VPC Ingress Con- nection resource that you want to update. Constraints: o min: 1 o max: 1011 o pattern: arn:aws(-[\w]+)*:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[0-9]{12}:(\w|\/|-){1,1011}
+    /// The Amazon Resource Name (Arn) for the App Runner VPC Ingress Connection resource that you want to update. Constraints: • min: 1 • max: 1011 • pattern: arn:aws(-[\w]+)*:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[0-9]{12}:(\w|\/|-){1,1011}
     /// </summary>
     [CliOption("--vpc-ingress-connection-arn")]
     public string? VpcIngressConnectionArn { get; private init; }
 
     /// <summary>
-    /// Specifications for the customers Amazon VPC and the related Amazon Web Services PrivateLink VPC endpoint that are used to update the VPC Ingress Connection resource. VpcId -&gt; (string) The ID of the VPC that is used for the VPC endpoint. Constraints: o min: 0 o max: 51200 o pattern: .* VpcEndpointId -&gt; (string) The ID of the VPC endpoint that your App Runner service connects to. Constraints: o min: 0 o max: 51200 o pattern: .* Shorthand Syntax: VpcId=string,VpcEndpointId=string JSON Syntax: { "VpcId": "string", "VpcEndpointId": "string" }
+    /// Specifications for the customers Amazon VPC and the related Amazon Web Services PrivateLink VPC endpoint that are used to update the VPC Ingress Connection resource. VpcId -&gt; (string) The ID of the VPC that is used for the VPC endpoint. Constraints: • min: 0 • max: 51200 • pattern: .* VpcEndpointId -&gt; (string) The ID of the VPC endpoint that your App Runner service connects to. Constraints: • min: 0 • max: 51200 • pattern: .* Shorthand Syntax: VpcId=string,VpcEndpointId=string JSON Syntax: { "VpcId": "string", "VpcEndpointId": "string" }
     /// </summary>
     [CliOption("--ingress-vpc-configuration")]
     public string? IngressVpcConfiguration { get; private init; }
@@ -92,6 +93,15 @@ public record AwsApprunnerUpdateVpcIngressConnectionOptions : AwsOptions, IValid
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

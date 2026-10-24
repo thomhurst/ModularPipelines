@@ -10,7 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -31,7 +31,7 @@ public record AwsApigatewayPutMethodResponseOptions : AwsOptions, IValidatableOb
     /// <param name="RestApiId">The string identifier of the associated RestApi.</param>
     /// <param name="ResourceId">The Resource identifier for the Method resource.</param>
     /// <param name="HttpMethod">The HTTP verb of the Method resource.</param>
-    /// <param name="StatusCode">The method response's status code. Constraints: o pattern: [1-5]\d\d</param>
+    /// <param name="StatusCode">The method response's status code. Constraints: • pattern: [1-5]\d\d</param>
     public AwsApigatewayPutMethodResponseOptions(
         string RestApiId,
         string ResourceId,
@@ -87,13 +87,13 @@ public record AwsApigatewayPutMethodResponseOptions : AwsOptions, IValidatableOb
     public string? HttpMethod { get; private init; }
 
     /// <summary>
-    /// The method response's status code. Constraints: o pattern: [1-5]\d\d
+    /// The method response's status code. Constraints: • pattern: [1-5]\d\d
     /// </summary>
     [CliOption("--status-code")]
     public string? StatusCode { get; private init; }
 
     /// <summary>
-    /// A key-value map specifying required or optional response parameters that API Gateway can send back to the caller. A key defines a method response header name and the associated value is a Boolean flag in- dicating whether the method response parameter is required or not. The method response header names must match the pattern of method.response.header.{name} , where name is a valid and unique header name. The response parameter names defined here are available in the integration response to be mapped from an integration re- sponse header expressed in integration.response.header.{name} , a static value enclosed within a pair of single quotes (e.g., 'appli- cation/json' ), or a JSON expression from the back-end response pay- load in the form of integration.response.body.{JSON-expression} , where JSON-expression is a valid JSON expression without the $ pre- fix.) key -&gt; (string) value -&gt; (boolean) Shorthand Syntax: KeyName1=boolean,KeyName2=boolean JSON Syntax: {"string": true|false ...}
+    /// A key-value map specifying required or optional response parameters that API Gateway can send back to the caller. A key defines a method response header name and the associated value is a Boolean flag indicating whether the method response parameter is required or not. The method response header names must match the pattern of method.response.header.{name} , where name is a valid and unique header name. The response parameter names defined here are available in the integration response to be mapped from an integration response header expressed in integration.response.header.{name} , a static value enclosed within a pair of single quotes (e.g., 'application/json' ), or a JSON expression from the back-end response payload in the form of integration.response.body.{JSON-expression} , where JSON-expression is a valid JSON expression without the $ prefix.) key -&gt; (string) value -&gt; (boolean) Shorthand Syntax: KeyName1=boolean,KeyName2=boolean JSON Syntax: {"string": true|false ...}
     /// </summary>
     [CliOption("--response-parameters", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? ResponseParameters { get; set; }
@@ -125,6 +125,15 @@ public record AwsApigatewayPutMethodResponseOptions : AwsOptions, IValidatableOb
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

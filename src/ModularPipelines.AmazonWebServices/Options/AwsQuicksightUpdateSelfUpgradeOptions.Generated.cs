@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,10 +29,10 @@ public record AwsQuicksightUpdateSelfUpgradeOptions : AwsOptions, IValidatableOb
     /// <summary>
     /// Updates a self-upgrade request for a Quick user by approving, denying, or verifying the request. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AwsAccountId">The ID of the Amazon Web Services account that contains the self-up- grade request. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$</param>
-    /// <param name="Namespace">The Quick namespace for the self-upgrade request. Constraints: o max: 64 o pattern: ^[a-zA-Z0-9._-]*$</param>
+    /// <param name="AwsAccountId">The ID of the Amazon Web Services account that contains the self-upgrade request. Constraints: • min: 12 • max: 12 • pattern: ^[0-9]{12}$</param>
+    /// <param name="Namespace">The Quick namespace for the self-upgrade request. Constraints: • max: 64 • pattern: ^[a-zA-Z0-9._-]*$</param>
     /// <param name="UpgradeRequestId">The ID of the self-upgrade request to update.</param>
-    /// <param name="Action">The action to perform on the self-upgrade request. Valid values are APPROVE , DENY , or VERIFY . Possible values: o APPROVE o DENY o VERIFY</param>
+    /// <param name="Action">The action to perform on the self-upgrade request. Valid values are APPROVE , DENY , or VERIFY . Possible values: • APPROVE • DENY • VERIFY</param>
     public AwsQuicksightUpdateSelfUpgradeOptions(
         string AwsAccountId,
         string Namespace,
@@ -68,13 +69,13 @@ public record AwsQuicksightUpdateSelfUpgradeOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the Amazon Web Services account that contains the self-up- grade request. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$
+    /// The ID of the Amazon Web Services account that contains the self-upgrade request. Constraints: • min: 12 • max: 12 • pattern: ^[0-9]{12}$
     /// </summary>
     [CliOption("--aws-account-id")]
     public string? AwsAccountId { get; private init; }
 
     /// <summary>
-    /// The Quick namespace for the self-upgrade request. Constraints: o max: 64 o pattern: ^[a-zA-Z0-9._-]*$
+    /// The Quick namespace for the self-upgrade request. Constraints: • max: 64 • pattern: ^[a-zA-Z0-9._-]*$
     /// </summary>
     [CliOption("--namespace")]
     public string? Namespace { get; private init; }
@@ -86,7 +87,7 @@ public record AwsQuicksightUpdateSelfUpgradeOptions : AwsOptions, IValidatableOb
     public string? UpgradeRequestId { get; private init; }
 
     /// <summary>
-    /// The action to perform on the self-upgrade request. Valid values are APPROVE , DENY , or VERIFY . Possible values: o APPROVE o DENY o VERIFY
+    /// The action to perform on the self-upgrade request. Valid values are APPROVE , DENY , or VERIFY . Possible values: • APPROVE • DENY • VERIFY
     /// </summary>
     [CliOption("--action")]
     public AwsQuicksightUpdateSelfUpgradeAction? Action { get; private init; }
@@ -112,6 +113,15 @@ public record AwsQuicksightUpdateSelfUpgradeOptions : AwsOptions, IValidatableOb
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

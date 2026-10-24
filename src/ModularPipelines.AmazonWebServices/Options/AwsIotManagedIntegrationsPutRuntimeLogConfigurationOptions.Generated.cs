@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsIotManagedIntegrationsPutRuntimeLogConfigurationOptions : AwsOp
     /// <summary>
     /// Set the runtime log configuration for a specific managed thing. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ManagedThingId">The id for a managed thing. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9:_-]*</param>
-    /// <param name="RuntimeLogConfigurations">The runtime log configuration for a managed thing. LogLevel -&gt; (string) The different log levels available for configuration. Possible values: o DEBUG o ERROR o INFO o WARN LogFlushLevel -&gt; (string) The different log levels available for configuration. Possible values: o DEBUG o ERROR o INFO o WARN LocalStoreLocation -&gt; (string) Configuration of where to store runtime logs in the device. LocalStoreFileRotationMaxFiles -&gt; (integer) Configuration to set the maximum number of runtime log files that can be stored on the device before the oldest files are deleted or overwritten. LocalStoreFileRotationMaxBytes -&gt; (integer) Configuration to set the maximum bytes of runtime logs that can be stored on the device before the oldest logs are deleted or overwritten. UploadLog -&gt; (boolean) Configuration to enable or disable uploading of runtime logs to the cloud. UploadPeriodMinutes -&gt; (integer) Configuration to set the time interval in minutes between each batch of runtime logs that the device uploads to the cloud. DeleteLocalStoreAfterUpload -&gt; (boolean) Configuration to enable or disable deleting of runtime logs in the device once uploaded to the cloud. Shorthand Syntax: LogLevel=string,LogFlushLevel=string,LocalStoreLocation=string,LocalStoreFileRotationMaxFiles=integer,LocalStoreFileRotationMaxBytes=integer,UploadLog=boolean,UploadPeriodMinutes=integer,DeleteLocalStoreAfterUpload=boolean JSON Syntax: { "LogLevel": "DEBUG"|"ERROR"|"INFO"|"WARN", "LogFlushLevel": "DEBUG"|"ERROR"|"INFO"|"WARN", "LocalStoreLocation": "string", "LocalStoreFileRotationMaxFiles": integer, "LocalStoreFileRotationMaxBytes": integer, "UploadLog": true|false, "UploadPeriodMinutes": integer, "DeleteLocalStoreAfterUpload": true|false }</param>
+    /// <param name="ManagedThingId">The id for a managed thing. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9:_-]*</param>
+    /// <param name="RuntimeLogConfigurations">The runtime log configuration for a managed thing. LogLevel -&gt; (string) The different log levels available for configuration. Possible values: • DEBUG • ERROR • INFO • WARN LogFlushLevel -&gt; (string) The different log levels available for configuration. Possible values: • DEBUG • ERROR • INFO • WARN LocalStoreLocation -&gt; (string) Configuration of where to store runtime logs in the device. LocalStoreFileRotationMaxFiles -&gt; (integer) Configuration to set the maximum number of runtime log files that can be stored on the device before the oldest files are deleted or overwritten. LocalStoreFileRotationMaxBytes -&gt; (integer) Configuration to set the maximum bytes of runtime logs that can be stored on the device before the oldest logs are deleted or overwritten. UploadLog -&gt; (boolean) Configuration to enable or disable uploading of runtime logs to the cloud. UploadPeriodMinutes -&gt; (integer) Configuration to set the time interval in minutes between each batch of runtime logs that the device uploads to the cloud. DeleteLocalStoreAfterUpload -&gt; (boolean) Configuration to enable or disable deleting of runtime logs in the device once uploaded to the cloud. Shorthand Syntax: LogLevel=string,LogFlushLevel=string,LocalStoreLocation=string,LocalStoreFileRotationMaxFiles=integer,LocalStoreFileRotationMaxBytes=integer,UploadLog=boolean,UploadPeriodMinutes=integer,DeleteLocalStoreAfterUpload=boolean JSON Syntax: { "LogLevel": "DEBUG"|"ERROR"|"INFO"|"WARN", "LogFlushLevel": "DEBUG"|"ERROR"|"INFO"|"WARN", "LocalStoreLocation": "string", "LocalStoreFileRotationMaxFiles": integer, "LocalStoreFileRotationMaxBytes": integer, "UploadLog": true|false, "UploadPeriodMinutes": integer, "DeleteLocalStoreAfterUpload": true|false }</param>
     public AwsIotManagedIntegrationsPutRuntimeLogConfigurationOptions(
         string ManagedThingId,
         string RuntimeLogConfigurations
@@ -60,13 +61,13 @@ public record AwsIotManagedIntegrationsPutRuntimeLogConfigurationOptions : AwsOp
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The id for a managed thing. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9:_-]*
+    /// The id for a managed thing. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9:_-]*
     /// </summary>
     [CliOption("--managed-thing-id")]
     public string? ManagedThingId { get; private init; }
 
     /// <summary>
-    /// The runtime log configuration for a managed thing. LogLevel -&gt; (string) The different log levels available for configuration. Possible values: o DEBUG o ERROR o INFO o WARN LogFlushLevel -&gt; (string) The different log levels available for configuration. Possible values: o DEBUG o ERROR o INFO o WARN LocalStoreLocation -&gt; (string) Configuration of where to store runtime logs in the device. LocalStoreFileRotationMaxFiles -&gt; (integer) Configuration to set the maximum number of runtime log files that can be stored on the device before the oldest files are deleted or overwritten. LocalStoreFileRotationMaxBytes -&gt; (integer) Configuration to set the maximum bytes of runtime logs that can be stored on the device before the oldest logs are deleted or overwritten. UploadLog -&gt; (boolean) Configuration to enable or disable uploading of runtime logs to the cloud. UploadPeriodMinutes -&gt; (integer) Configuration to set the time interval in minutes between each batch of runtime logs that the device uploads to the cloud. DeleteLocalStoreAfterUpload -&gt; (boolean) Configuration to enable or disable deleting of runtime logs in the device once uploaded to the cloud. Shorthand Syntax: LogLevel=string,LogFlushLevel=string,LocalStoreLocation=string,LocalStoreFileRotationMaxFiles=integer,LocalStoreFileRotationMaxBytes=integer,UploadLog=boolean,UploadPeriodMinutes=integer,DeleteLocalStoreAfterUpload=boolean JSON Syntax: { "LogLevel": "DEBUG"|"ERROR"|"INFO"|"WARN", "LogFlushLevel": "DEBUG"|"ERROR"|"INFO"|"WARN", "LocalStoreLocation": "string", "LocalStoreFileRotationMaxFiles": integer, "LocalStoreFileRotationMaxBytes": integer, "UploadLog": true|false, "UploadPeriodMinutes": integer, "DeleteLocalStoreAfterUpload": true|false }
+    /// The runtime log configuration for a managed thing. LogLevel -&gt; (string) The different log levels available for configuration. Possible values: • DEBUG • ERROR • INFO • WARN LogFlushLevel -&gt; (string) The different log levels available for configuration. Possible values: • DEBUG • ERROR • INFO • WARN LocalStoreLocation -&gt; (string) Configuration of where to store runtime logs in the device. LocalStoreFileRotationMaxFiles -&gt; (integer) Configuration to set the maximum number of runtime log files that can be stored on the device before the oldest files are deleted or overwritten. LocalStoreFileRotationMaxBytes -&gt; (integer) Configuration to set the maximum bytes of runtime logs that can be stored on the device before the oldest logs are deleted or overwritten. UploadLog -&gt; (boolean) Configuration to enable or disable uploading of runtime logs to the cloud. UploadPeriodMinutes -&gt; (integer) Configuration to set the time interval in minutes between each batch of runtime logs that the device uploads to the cloud. DeleteLocalStoreAfterUpload -&gt; (boolean) Configuration to enable or disable deleting of runtime logs in the device once uploaded to the cloud. Shorthand Syntax: LogLevel=string,LogFlushLevel=string,LocalStoreLocation=string,LocalStoreFileRotationMaxFiles=integer,LocalStoreFileRotationMaxBytes=integer,UploadLog=boolean,UploadPeriodMinutes=integer,DeleteLocalStoreAfterUpload=boolean JSON Syntax: { "LogLevel": "DEBUG"|"ERROR"|"INFO"|"WARN", "LogFlushLevel": "DEBUG"|"ERROR"|"INFO"|"WARN", "LocalStoreLocation": "string", "LocalStoreFileRotationMaxFiles": integer, "LocalStoreFileRotationMaxBytes": integer, "UploadLog": true|false, "UploadPeriodMinutes": integer, "DeleteLocalStoreAfterUpload": true|false }
     /// </summary>
     [CliOption("--runtime-log-configurations")]
     public string? RuntimeLogConfigurations { get; private init; }
@@ -92,6 +93,15 @@ public record AwsIotManagedIntegrationsPutRuntimeLogConfigurationOptions : AwsOp
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

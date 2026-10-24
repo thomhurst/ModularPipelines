@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates an existing scheduled report's properties, including its name, description, schedule configuration, and widget settings. Only the pa- rameters included in the request are updated; all other properties re- main unchanged. See also: AWS API Documentation
+/// Updates an existing scheduled report's properties, including its name, description, schedule configuration, and widget settings. Only the parameters included in the request are updated; all other properties remain unchanged. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsBcmDashboardsUpdateScheduledReportOptions : AwsOptions, IValida
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates an existing scheduled report's properties, including its name, description, schedule configuration, and widget settings. Only the pa- rameters included in the request are updated; all other properties re- main unchanged. See also: AWS API Documentation
+    /// Updates an existing scheduled report's properties, including its name, description, schedule configuration, and widget settings. Only the parameters included in the request are updated; all other properties remain unchanged. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Arn">The ARN of the scheduled report to update. Constraints: o min: 20 o max: 2048 o pattern: arn:aws[-a-z0-9]*:bcm-dashboards::[0-9]{12}:scheduled-re- port/(\*|[-a-z0-9]+)</param>
+    /// <param name="Arn">The ARN of the scheduled report to update. Constraints: • min: 20 • max: 2048 • pattern: arn:aws[-a-z0-9]*:bcm-dashboards::[0-9]{12}:scheduled-report/(\*|[-a-z0-9]+)</param>
     public AwsBcmDashboardsUpdateScheduledReportOptions(
         string Arn
     )
@@ -56,49 +57,49 @@ public record AwsBcmDashboardsUpdateScheduledReportOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the scheduled report to update. Constraints: o min: 20 o max: 2048 o pattern: arn:aws[-a-z0-9]*:bcm-dashboards::[0-9]{12}:scheduled-re- port/(\*|[-a-z0-9]+)
+    /// The ARN of the scheduled report to update. Constraints: • min: 20 • max: 2048 • pattern: arn:aws[-a-z0-9]*:bcm-dashboards::[0-9]{12}:scheduled-report/(\*|[-a-z0-9]+)
     /// </summary>
     [CliOption("--arn")]
     public string? Arn { get; private init; }
 
     /// <summary>
-    /// The new name for the scheduled report. Constraints: o min: 2 o max: 50 o pattern: (?!.* {2})[a-zA-Z][a-zA-Z0-9 _-]{0,48}[a-zA-Z0-9_-]
+    /// The new name for the scheduled report. Constraints: • min: 2 • max: 50 • pattern: (?!.* {2})[a-zA-Z][a-zA-Z0-9 _-]{0,48}[a-zA-Z0-9_-]
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
 
     /// <summary>
-    /// The new description for the scheduled report. Constraints: o min: 1 o max: 200 o pattern: (?!.* {2})[ a-zA-Z0-9.,!?;:@#$%&amp;\-_/\\]*
+    /// The new description for the scheduled report. Constraints: • min: 1 • max: 200 • pattern: (?!.* {2})[ a-zA-Z0-9.,!?;:@#$%&amp;\-_/\\]*
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The ARN of the dashboard to associate with the scheduled report. Constraints: o min: 20 o max: 2048 o pattern: arn:aws[-a-z0-9]*:bcm-dashboards::[0-9]{12}:dash- board/(\*|[-a-z0-9]+)
+    /// The ARN of the dashboard to associate with the scheduled report. Constraints: • min: 20 • max: 2048 • pattern: arn:aws[-a-z0-9]*:bcm-dashboards::[0-9]{12}:dashboard/(\*|[-a-z0-9]+)
     /// </summary>
     [CliOption("--dashboard-arn")]
     public string? DashboardArn { get; set; }
 
     /// <summary>
-    /// The ARN of the IAM role that the scheduled report uses to execute. Amazon Web Services Billing and Cost Management Dashboards will as- sume this IAM role while executing the scheduled report. Constraints: o min: 20 o max: 2048 o pattern: arn:aws[-a-z0-9]*:iam::[0-9]{12}:role/[a-zA-Z0-9+=,.@_/-]+
+    /// The ARN of the IAM role that the scheduled report uses to execute. Amazon Web Services Billing and Cost Management Dashboards will assume this IAM role while executing the scheduled report. Constraints: • min: 20 • max: 2048 • pattern: arn:aws[-a-z0-9]*:iam::[0-9]{12}:role/[a-zA-Z0-9+=,.@_/-]+
     /// </summary>
     [CliOption("--scheduled-report-execution-role-arn")]
     public string? ScheduledReportExecutionRoleArn { get; set; }
 
     /// <summary>
-    /// The updated schedule configuration for the report. scheduleExpression -&gt; (string) The schedule expression that specifies when to trigger the scheduled report run. This value must be a cron expression con- sisting of six fields separated by white spaces: cron(minutes hours day_of_month month day_of_week year) . Constraints: o min: 0 o max: 1024 o pattern: [\S\s]* scheduleExpressionTimeZone -&gt; (string) The time zone for the schedule expression, for example, UTC . Constraints: o min: 0 o max: 1024 o pattern: [\S\s]* schedulePeriod -&gt; (structure) The time period during which the schedule is active. startTime -&gt; (timestamp) The start time of the schedule period. If not specified, de- faults to the time of the create or update request. The start time cannot be more than 5 minutes before the time of the re- quest. endTime -&gt; (timestamp) The end time of the schedule period. If not specified, de- faults to 3 years from the time of the create or update re- quest. The maximum allowed value is 3 years from the current time. Setting an end time beyond this limit returns a Valida- tionException . state -&gt; (string) The state of the schedule. ENABLED means the scheduled report runs according to its schedule expression. DISABLED means the scheduled report is paused and will not run until re-enabled. Possible values: o ENABLED o DISABLED Shorthand Syntax: scheduleExpression=string,scheduleExpressionTimeZone=string,schedulePeriod={startTime=timestamp,endTime=timestamp},state=string JSON Syntax: { "scheduleExpression": "string", "scheduleExpressionTimeZone": "string", "schedulePeriod": { "startTime": timestamp, "endTime": timestamp }, "state": "ENABLED"|"DISABLED" }
+    /// The updated schedule configuration for the report. scheduleExpression -&gt; (string) The schedule expression that specifies when to trigger the scheduled report run. This value must be a cron expression consisting of six fields separated by white spaces: cron(minutes hours day_of_month month day_of_week year) . Constraints: • min: 0 • max: 1024 • pattern: [\S\s]* scheduleExpressionTimeZone -&gt; (string) The time zone for the schedule expression, for example, UTC . Constraints: • min: 0 • max: 1024 • pattern: [\S\s]* schedulePeriod -&gt; (structure) The time period during which the schedule is active. startTime -&gt; (timestamp) The start time of the schedule period. If not specified, defaults to the time of the create or update request. The start time cannot be more than 5 minutes before the time of the request. endTime -&gt; (timestamp) The end time of the schedule period. If not specified, defaults to 3 years from the time of the create or update request. The maximum allowed value is 3 years from the current time. Setting an end time beyond this limit returns a ValidationException . state -&gt; (string) The state of the schedule. ENABLED means the scheduled report runs according to its schedule expression. DISABLED means the scheduled report is paused and will not run until re-enabled. Possible values: • ENABLED • DISABLED Shorthand Syntax: scheduleExpression=string,scheduleExpressionTimeZone=string,schedulePeriod={startTime=timestamp,endTime=timestamp},state=string JSON Syntax: { "scheduleExpression": "string", "scheduleExpressionTimeZone": "string", "schedulePeriod": { "startTime": timestamp, "endTime": timestamp }, "state": "ENABLED"|"DISABLED" }
     /// </summary>
     [CliOption("--schedule-config")]
     public string? ScheduleConfig { get; set; }
 
     /// <summary>
-    /// The list of widget identifiers to include in the scheduled report. If not specified, all widgets in the dashboard are included. Constraints: o min: 0 o max: 1 (string) Syntax: "string" "string" ...
+    /// The list of widget identifiers to include in the scheduled report. If not specified, all widgets in the dashboard are included. Constraints: • min: 0 • max: 1 (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--widget-ids", GroupValues = true)]
     public IEnumerable<string>? WidgetIds { get; set; }
 
     /// <summary>
-    /// The date range override to apply to widgets in the scheduled report. startTime -&gt; (structure) [required] The start time of the date range for querying data. type -&gt; (string) [required] The type of date/time value: ABSOLUTE for specific dates or RELATIVE for dynamic time periods. Possible values: o ABSOLUTE o RELATIVE value -&gt; (string) [required] The actual date/time value. Constraints: o min: 0 o max: 1024 o pattern: [\S\s]* endTime -&gt; (structure) [required] The end time of the date range for querying data. type -&gt; (string) [required] The type of date/time value: ABSOLUTE for specific dates or RELATIVE for dynamic time periods. Possible values: o ABSOLUTE o RELATIVE value -&gt; (string) [required] The actual date/time value. Constraints: o min: 0 o max: 1024 o pattern: [\S\s]* Shorthand Syntax: startTime={type=string,value=string},endTime={type=string,value=string} JSON Syntax: { "startTime": { "type": "ABSOLUTE"|"RELATIVE", "value": "string" }, "endTime": { "type": "ABSOLUTE"|"RELATIVE", "value": "string" } }
+    /// The date range override to apply to widgets in the scheduled report. startTime -&gt; (structure) [required] The start time of the date range for querying data. type -&gt; (string) [required] The type of date/time value: ABSOLUTE for specific dates or RELATIVE for dynamic time periods. Possible values: • ABSOLUTE • RELATIVE value -&gt; (string) [required] The actual date/time value. Constraints: • min: 0 • max: 1024 • pattern: [\S\s]* endTime -&gt; (structure) [required] The end time of the date range for querying data. type -&gt; (string) [required] The type of date/time value: ABSOLUTE for specific dates or RELATIVE for dynamic time periods. Possible values: • ABSOLUTE • RELATIVE value -&gt; (string) [required] The actual date/time value. Constraints: • min: 0 • max: 1024 • pattern: [\S\s]* Shorthand Syntax: startTime={type=string,value=string},endTime={type=string,value=string} JSON Syntax: { "startTime": { "type": "ABSOLUTE"|"RELATIVE", "value": "string" }, "endTime": { "type": "ABSOLUTE"|"RELATIVE", "value": "string" } }
     /// </summary>
     [CliOption("--widget-date-range-override")]
     public string? WidgetDateRangeOverride { get; set; }
@@ -110,7 +111,7 @@ public record AwsBcmDashboardsUpdateScheduledReportOptions : AwsOptions, IValida
     public bool? ClearWidgetIds { get; set; }
 
     /// <summary>
-    /// ride (boolean) Set to true to clear existing widgetDateRangeOverride.
+    /// Set to true to clear existing widgetDateRangeOverride.
     /// </summary>
     [CliFlag("--clear-widget-date-range-override", NegatedName = "--no-clear-widget-date-range-override")]
     public bool? ClearWidgetDateRangeOverride { get; set; }
@@ -136,6 +137,15 @@ public record AwsBcmDashboardsUpdateScheduledReportOptions : AwsOptions, IValida
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

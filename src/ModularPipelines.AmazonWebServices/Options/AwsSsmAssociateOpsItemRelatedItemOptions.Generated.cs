@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,9 +28,9 @@ public record AwsSsmAssociateOpsItemRelatedItemOptions : AwsOptions, IValidatabl
     /// <summary>
     /// Associates a related item to a Systems Manager OpsCenter OpsItem. For example, you can associate an Incident Manager incident or analysis with an OpsItem. Incident Manager and OpsCenter are tools in Amazon Web Services Systems Manager. See also: AWS API Documentation
     /// </summary>
-    /// <param name="OpsItemId">The ID of the OpsItem to which you want to associate a resource as a related item. Constraints: o pattern: ^(oi)-[0-9a-f]{12}$</param>
-    /// <param name="AssociationType">The type of association that you want to create between an OpsItem and a resource. OpsCenter supports IsParentOf and RelatesTo associa- tion types.</param>
-    /// <param name="ResourceType">The type of resource that you want to associate with an OpsItem. Op- sCenter supports the following types: AWS::SSMIncidents::IncidentRecord : an Incident Manager inci- dent. AWS::SSM::Document : a Systems Manager (SSM) document.</param>
+    /// <param name="OpsItemId">The ID of the OpsItem to which you want to associate a resource as a related item. Constraints: • pattern: ^(oi)-[0-9a-f]{12}$</param>
+    /// <param name="AssociationType">The type of association that you want to create between an OpsItem and a resource. OpsCenter supports IsParentOf and RelatesTo association types.</param>
+    /// <param name="ResourceType">The type of resource that you want to associate with an OpsItem. OpsCenter supports the following types: AWS::SSMIncidents::IncidentRecord : an Incident Manager incident. AWS::SSM::Document : a Systems Manager (SSM) document.</param>
     /// <param name="ResourceUri">The Amazon Resource Name (ARN) of the Amazon Web Services resource that you want to associate with the OpsItem.</param>
     public AwsSsmAssociateOpsItemRelatedItemOptions(
         string OpsItemId,
@@ -68,19 +69,19 @@ public record AwsSsmAssociateOpsItemRelatedItemOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the OpsItem to which you want to associate a resource as a related item. Constraints: o pattern: ^(oi)-[0-9a-f]{12}$
+    /// The ID of the OpsItem to which you want to associate a resource as a related item. Constraints: • pattern: ^(oi)-[0-9a-f]{12}$
     /// </summary>
     [CliOption("--ops-item-id")]
     public string? OpsItemId { get; private init; }
 
     /// <summary>
-    /// The type of association that you want to create between an OpsItem and a resource. OpsCenter supports IsParentOf and RelatesTo associa- tion types.
+    /// The type of association that you want to create between an OpsItem and a resource. OpsCenter supports IsParentOf and RelatesTo association types.
     /// </summary>
     [CliOption("--association-type")]
     public string? AssociationType { get; private init; }
 
     /// <summary>
-    /// The type of resource that you want to associate with an OpsItem. Op- sCenter supports the following types: AWS::SSMIncidents::IncidentRecord : an Incident Manager inci- dent. AWS::SSM::Document : a Systems Manager (SSM) document.
+    /// The type of resource that you want to associate with an OpsItem. OpsCenter supports the following types: AWS::SSMIncidents::IncidentRecord : an Incident Manager incident. AWS::SSM::Document : a Systems Manager (SSM) document.
     /// </summary>
     [CliOption("--resource-type")]
     public string? ResourceType { get; private init; }
@@ -112,6 +113,15 @@ public record AwsSsmAssociateOpsItemRelatedItemOptions : AwsOptions, IValidatabl
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

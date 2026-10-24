@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,8 +29,8 @@ public record AwsComprehendDetectKeyPhrasesOptions : AwsOptions, IValidatableObj
     /// <summary>
     /// Detects the key noun phrases found in the text. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Text">A UTF-8 text string. The string must contain less than 100 KB of UTF-8 encoded characters. Constraints: o min: 1</param>
-    /// <param name="LanguageCode">The language of the input documents. You can specify any of the pri- mary languages supported by Amazon Comprehend. All documents must be in the same language. Possible values: o en o es o fr o de o it o pt o ar o hi o ja o ko o zh o zh-TW</param>
+    /// <param name="Text">A UTF-8 text string. The string must contain less than 100 KB of UTF-8 encoded characters. Constraints: • min: 1</param>
+    /// <param name="LanguageCode">The language of the input documents. You can specify any of the primary languages supported by Amazon Comprehend. All documents must be in the same language. Possible values: • en • es • fr • de • it • pt • ar • hi • ja • ko • zh • zh-TW</param>
     public AwsComprehendDetectKeyPhrasesOptions(
         string Text,
         AwsComprehendDetectKeyPhrasesLanguageCode LanguageCode
@@ -60,13 +61,13 @@ public record AwsComprehendDetectKeyPhrasesOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A UTF-8 text string. The string must contain less than 100 KB of UTF-8 encoded characters. Constraints: o min: 1
+    /// A UTF-8 text string. The string must contain less than 100 KB of UTF-8 encoded characters. Constraints: • min: 1
     /// </summary>
     [CliOption("--text")]
     public string? Text { get; private init; }
 
     /// <summary>
-    /// The language of the input documents. You can specify any of the pri- mary languages supported by Amazon Comprehend. All documents must be in the same language. Possible values: o en o es o fr o de o it o pt o ar o hi o ja o ko o zh o zh-TW
+    /// The language of the input documents. You can specify any of the primary languages supported by Amazon Comprehend. All documents must be in the same language. Possible values: • en • es • fr • de • it • pt • ar • hi • ja • ko • zh • zh-TW
     /// </summary>
     [CliOption("--language-code")]
     public AwsComprehendDetectKeyPhrasesLanguageCode? LanguageCode { get; private init; }
@@ -92,6 +93,15 @@ public record AwsComprehendDetectKeyPhrasesOptions : AwsOptions, IValidatableObj
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

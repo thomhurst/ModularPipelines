@@ -10,13 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Subscribes an endpoint to an Amazon SNS topic. If the endpoint type is HTTP/S or email, or if the endpoint and the topic are not in the same Amazon Web Services account, the endpoint owner must run the Confirm- Subscription action to confirm the subscription. You call the ConfirmSubscription action with the token from the sub- scription response. Confirmation tokens are valid for two days. This action is throttled at 100 transactions per second (TPS). See also: AWS API Documentation
+/// Subscribes an endpoint to an Amazon SNS topic. If the endpoint type is HTTP/S or email, or if the endpoint and the topic are not in the same Amazon Web Services account, the endpoint owner must run the ConfirmSubscription action to confirm the subscription. You call the ConfirmSubscription action with the token from the subscription response. Confirmation tokens are valid for two days. This action is throttled at 100 transactions per second (TPS). See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +26,10 @@ public record AwsSnsSubscribeOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Subscribes an endpoint to an Amazon SNS topic. If the endpoint type is HTTP/S or email, or if the endpoint and the topic are not in the same Amazon Web Services account, the endpoint owner must run the Confirm- Subscription action to confirm the subscription. You call the ConfirmSubscription action with the token from the sub- scription response. Confirmation tokens are valid for two days. This action is throttled at 100 transactions per second (TPS). See also: AWS API Documentation
+    /// Subscribes an endpoint to an Amazon SNS topic. If the endpoint type is HTTP/S or email, or if the endpoint and the topic are not in the same Amazon Web Services account, the endpoint owner must run the ConfirmSubscription action to confirm the subscription. You call the ConfirmSubscription action with the token from the subscription response. Confirmation tokens are valid for two days. This action is throttled at 100 transactions per second (TPS). See also: AWS API Documentation
     /// </summary>
     /// <param name="TopicArn">The ARN of the topic you want to subscribe to.</param>
-    /// <param name="Protocol">The protocol that you want to use. Supported protocols include: o http delivery of JSON-encoded message via HTTP POST o https delivery of JSON-encoded message via HTTPS POST o email delivery of message via SMTP o email-json delivery of JSON-encoded message via SMTP o sms delivery of message via SMS o sqs delivery of JSON-encoded message to an Amazon SQS queue o application delivery of JSON-encoded message to an EndpointArn for a mobile app and device o lambda delivery of JSON-encoded message to an Lambda function o firehose delivery of JSON-encoded message to an Amazon Data Fire- hose delivery stream.</param>
+    /// <param name="Protocol">The protocol that you want to use. Supported protocols include: • http delivery of JSON-encoded message via HTTP POST • https delivery of JSON-encoded message via HTTPS POST • email delivery of message via SMTP • email-json delivery of JSON-encoded message via SMTP • sms delivery of message via SMS • sqs delivery of JSON-encoded message to an Amazon SQS queue • application delivery of JSON-encoded message to an EndpointArn for a mobile app and device • lambda delivery of JSON-encoded message to an Lambda function • firehose delivery of JSON-encoded message to an Amazon Data Firehose delivery stream.</param>
     public AwsSnsSubscribeOptions(
         string TopicArn,
         string Protocol
@@ -67,25 +67,25 @@ public record AwsSnsSubscribeOptions : AwsOptions, IValidatableObject
     public string? TopicArn { get; private init; }
 
     /// <summary>
-    /// The protocol that you want to use. Supported protocols include: o http delivery of JSON-encoded message via HTTP POST o https delivery of JSON-encoded message via HTTPS POST o email delivery of message via SMTP o email-json delivery of JSON-encoded message via SMTP o sms delivery of message via SMS o sqs delivery of JSON-encoded message to an Amazon SQS queue o application delivery of JSON-encoded message to an EndpointArn for a mobile app and device o lambda delivery of JSON-encoded message to an Lambda function o firehose delivery of JSON-encoded message to an Amazon Data Fire- hose delivery stream.
+    /// The protocol that you want to use. Supported protocols include: • http delivery of JSON-encoded message via HTTP POST • https delivery of JSON-encoded message via HTTPS POST • email delivery of message via SMTP • email-json delivery of JSON-encoded message via SMTP • sms delivery of message via SMS • sqs delivery of JSON-encoded message to an Amazon SQS queue • application delivery of JSON-encoded message to an EndpointArn for a mobile app and device • lambda delivery of JSON-encoded message to an Lambda function • firehose delivery of JSON-encoded message to an Amazon Data Firehose delivery stream.
     /// </summary>
     [CliOption("--protocol")]
     public string? Protocol { get; private init; }
 
     /// <summary>
-    /// A map of attributes with their corresponding values. The following lists the names, descriptions, and values of the spe- cial request parameters that the Subscribe action uses: o DeliveryPolicy The policy that defines how Amazon SNS retries failed deliveries to HTTP/S endpoints. o FilterPolicy The simple JSON object that lets your subscriber re- ceive only a subset of messages, rather than receiving every mes- sage published to the topic. o FilterPolicyScope This attribute lets you choose the filtering scope by using one of the following string value types: o MessageAttributes (default) The filter is applied on the mes- sage attributes. o MessageBody The filter is applied on the message body. o RawMessageDelivery When set to true , enables raw message deliv- ery to Amazon SQS or HTTP/S endpoints. This eliminates the need for the endpoints to process JSON formatting, which is otherwise created for Amazon SNS metadata. o RedrivePolicy When specified, sends undeliverable messages to the specified Amazon SQS dead-letter queue. Messages that can't be de- livered due to client errors (for example, when the subscribed endpoint is unreachable) or server errors (for example, when the service that powers the subscribed endpoint becomes unavailable) are held in the dead-letter queue for further analysis or repro- cessing. The following attribute applies only to Amazon Data Firehose deliv- ery stream subscriptions: o SubscriptionRoleArn The ARN of the IAM role that has the follow- ing: o Permission to write to the Firehose delivery stream o Amazon SNS listed as a trusted entity Specifying a valid ARN for this attribute is required for Firehose delivery stream subscriptions. For more information, see Fanout to Firehose delivery streams in the Amazon SNS Developer Guide . The following attributes apply only to FIFO topics : o ReplayPolicy Adds or updates an inline policy document for a sub- scription to replay messages stored in the specified Amazon SNS topic. o ReplayStatus Retrieves the status of the subscription message re- play, which can be one of the following: o Completed The replay has successfully redelivered all messages, and is now delivering newly published messages. If an ending point was specified in the ReplayPolicy then the subscription will no longer receive newly published messages. o In progress The replay is currently replaying the selected mes- sages. o Failed The replay was unable to complete. o Pending The default state while the replay initiates. key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// A map of attributes with their corresponding values. The following lists the names, descriptions, and values of the special request parameters that the Subscribe action uses: • DeliveryPolicy The policy that defines how Amazon SNS retries failed deliveries to HTTP/S endpoints. • FilterPolicy The simple JSON object that lets your subscriber receive only a subset of messages, rather than receiving every message published to the topic. • FilterPolicyScope This attribute lets you choose the filtering scope by using one of the following string value types: • MessageAttributes (default) The filter is applied on the message attributes. • MessageBody The filter is applied on the message body. • RawMessageDelivery When set to true , enables raw message delivery to Amazon SQS or HTTP/S endpoints. This eliminates the need for the endpoints to process JSON formatting, which is otherwise created for Amazon SNS metadata. • RedrivePolicy When specified, sends undeliverable messages to the specified Amazon SQS dead-letter queue. Messages that can't be delivered due to client errors (for example, when the subscribed endpoint is unreachable) or server errors (for example, when the service that powers the subscribed endpoint becomes unavailable) are held in the dead-letter queue for further analysis or reprocessing. The following attribute applies only to Amazon Data Firehose delivery stream subscriptions: • SubscriptionRoleArn The ARN of the IAM role that has the following: • Permission to write to the Firehose delivery stream • Amazon SNS listed as a trusted entity Specifying a valid ARN for this attribute is required for Firehose delivery stream subscriptions. For more information, see Fanout to Firehose delivery streams in the Amazon SNS Developer Guide . The following attributes apply only to FIFO topics : • ReplayPolicy Adds or updates an inline policy document for a subscription to replay messages stored in the specified Amazon SNS topic. • ReplayStatus Retrieves the status of the subscription message replay, which can be one of the following: • Completed The replay has successfully redelivered all messages, and is now delivering newly published messages. If an ending point was specified in the ReplayPolicy then the subscription will no longer receive newly published messages. • In progress The replay is currently replaying the selected messages. • Failed The replay was unable to complete. • Pending The default state while the replay initiates. key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--attributes", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Attributes { get; set; }
 
     /// <summary>
-    /// Sets whether the response from the Subscribe request includes the subscription ARN, even if the subscription is not yet confirmed. If you set this parameter to true , the response includes the ARN in all cases, even if the subscription is not yet confirmed. In addi- tion to the ARN for confirmed subscriptions, the response also in- cludes the pending subscription ARN value for subscriptions that aren't yet confirmed. A subscription becomes confirmed when the sub- scriber calls the ConfirmSubscription action with a confirmation to- ken. The default value is false .
+    /// Sets whether the response from the Subscribe request includes the subscription ARN, even if the subscription is not yet confirmed. If you set this parameter to true , the response includes the ARN in all cases, even if the subscription is not yet confirmed. In addition to the ARN for confirmed subscriptions, the response also includes the pending subscription ARN value for subscriptions that aren't yet confirmed. A subscription becomes confirmed when the subscriber calls the ConfirmSubscription action with a confirmation token. The default value is false .
     /// </summary>
     [CliFlag("--return-subscription-arn", NegatedName = "--no-return-subscription-arn")]
     public bool? ReturnSubscriptionArn { get; set; }
 
     /// <summary>
-    /// The endpoint that you want to receive notifications. Endpoints vary by protocol: o For the http protocol, the (public) endpoint is a URL beginning with http:// . o For the https protocol, the (public) endpoint is a URL beginning with https:// . o For the email protocol, the endpoint is an email address. o For the email-json protocol, the endpoint is an email address. o For the sms protocol, the endpoint is a phone number of an SMS-en- abled device. o For the sqs protocol, the endpoint is the ARN of an Amazon SQS queue. o For the application protocol, the endpoint is the EndpointArn of a mobile app and device. o For the lambda protocol, the endpoint is the ARN of an Lambda function. o For the firehose protocol, the endpoint is the ARN of an Amazon Data Firehose delivery stream.
+    /// The endpoint that you want to receive notifications. Endpoints vary by protocol: • For the http protocol, the (public) endpoint is a URL beginning with http:// . • For the https protocol, the (public) endpoint is a URL beginning with https:// . • For the email protocol, the endpoint is an email address. • For the email-json protocol, the endpoint is an email address. • For the sms protocol, the endpoint is a phone number of an SMS-enabled device. • For the sqs protocol, the endpoint is the ARN of an Amazon SQS queue. • For the application protocol, the endpoint is the EndpointArn of a mobile app and device. • For the lambda protocol, the endpoint is the ARN of an Lambda function. • For the firehose protocol, the endpoint is the ARN of an Amazon Data Firehose delivery stream.
     /// </summary>
     [CliOption("--notification-endpoint")]
     public string? NotificationEndpoint { get; set; }
@@ -111,6 +111,15 @@ public record AwsSnsSubscribeOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

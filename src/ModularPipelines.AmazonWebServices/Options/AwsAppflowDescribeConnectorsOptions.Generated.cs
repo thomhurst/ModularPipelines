@@ -15,7 +15,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Describes the connectors vended by Amazon AppFlow for specified connec- tor types. If you don't specify a connector type, this operation de- scribes all connectors vended by Amazon AppFlow. If there are more con- nectors than can be returned in one page, the response contains a next- Token object, which can be be passed in to the next call to the De- scribeConnectors API operation to retrieve the next page. See also: AWS API Documentation
+/// Describes the connectors vended by Amazon AppFlow for specified connector types. If you don't specify a connector type, this operation describes all connectors vended by Amazon AppFlow. If there are more connectors than can be returned in one page, the response contains a nextToken object, which can be be passed in to the next call to the DescribeConnectors API operation to retrieve the next page. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -23,19 +23,19 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsAppflowDescribeConnectorsOptions : AwsOptions
 {
     /// <summary>
-    /// The type of connector, such as Salesforce, Amplitude, and so on. Constraints: o min: 0 o max: 100 (string) Possible values: o Salesforce o Singular o Slack o Redshift o S3 o Marketo o Googleanalytics o Zendesk o Servicenow o Datadog o Trendmicro o Snowflake o Dynatrace o Infornexus o Amplitude o Veeva o EventBridge o LookoutMetrics o Upsolver o Honeycode o CustomerProfiles o SAPOData o CustomConnector o Pardot Syntax: "string" "string" ...
+    /// The type of connector, such as Salesforce, Amplitude, and so on. Constraints: • min: 0 • max: 100 (string) Possible values: • Salesforce • Singular • Slack • Redshift • S3 • Marketo • Googleanalytics • Zendesk • Servicenow • Datadog • Trendmicro • Snowflake • Dynatrace • Infornexus • Amplitude • Veeva • EventBridge • LookoutMetrics • Upsolver • Honeycode • CustomerProfiles • SAPOData • CustomConnector • Pardot Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--connector-types", GroupValues = true)]
     public IEnumerable<string>? ConnectorTypes { get; set; }
 
     /// <summary>
-    /// The maximum number of items that should be returned in the result set. The default is 20. Constraints: o min: 1 o max: 100
+    /// The maximum number of items that should be returned in the result set. The default is 20. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
     /// <summary>
-    /// The pagination token for the next page of data. Constraints: o max: 2048 o pattern: \S+
+    /// The pagination token for the next page of data. Constraints: • max: 2048 • pattern: \S+
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
@@ -46,5 +46,14 @@ public record AwsAppflowDescribeConnectorsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

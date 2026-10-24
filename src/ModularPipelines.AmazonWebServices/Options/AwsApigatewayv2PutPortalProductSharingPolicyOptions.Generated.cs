@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsApigatewayv2PutPortalProductSharingPolicyOptions : AwsOptions, 
     /// <summary>
     /// Updates the sharing policy for a portal product. See also: AWS API Documentation
     /// </summary>
-    /// <param name="PolicyDocument">The product sharing policy. Constraints: o min: 1 o max: 307200</param>
+    /// <param name="PolicyDocument">The product sharing policy. Constraints: • min: 1 • max: 307200</param>
     /// <param name="PortalProductId">The portal product identifier.</param>
     public AwsApigatewayv2PutPortalProductSharingPolicyOptions(
         string PolicyDocument,
@@ -60,7 +61,7 @@ public record AwsApigatewayv2PutPortalProductSharingPolicyOptions : AwsOptions, 
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The product sharing policy. Constraints: o min: 1 o max: 307200
+    /// The product sharing policy. Constraints: • min: 1 • max: 307200
     /// </summary>
     [CliOption("--policy-document")]
     public string? PolicyDocument { get; private init; }
@@ -92,6 +93,15 @@ public record AwsApigatewayv2PutPortalProductSharingPolicyOptions : AwsOptions, 
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

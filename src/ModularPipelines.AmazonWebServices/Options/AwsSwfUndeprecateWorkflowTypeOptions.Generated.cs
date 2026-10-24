@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Undeprecates a previously deprecated workflow type . After a workflow type has been undeprecated, you can create new executions of that type. NOTE: This operation is eventually consistent. The results are best effort and may not exactly reflect recent updates and changes. Access Control You can use IAM policies to control this action's access to Amazon SWF resources as follows: o Use a Resource element with the domain name to limit the action to only specified domains. o Use an Action element to...
+/// Undeprecates a previously deprecated workflow type . After a workflow type has been undeprecated, you can create new executions of that type. NOTE: This operation is eventually consistent. The results are best effort and may not exactly reflect recent updates and changes. Access Control You can use IAM policies to control this action's access to Amazon SWF resources as follows: • Use a Resource element with the domain name to limit the action to only specified domains. • Use an Action element to...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsSwfUndeprecateWorkflowTypeOptions : AwsOptions, IValidatableObj
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Undeprecates a previously deprecated workflow type . After a workflow type has been undeprecated, you can create new executions of that type. NOTE: This operation is eventually consistent. The results are best effort and may not exactly reflect recent updates and changes. Access Control You can use IAM policies to control this action's access to Amazon SWF resources as follows: o Use a Resource element with the domain name to limit the action to only specified domains. o Use an Action element to...
+    /// Undeprecates a previously deprecated workflow type . After a workflow type has been undeprecated, you can create new executions of that type. NOTE: This operation is eventually consistent. The results are best effort and may not exactly reflect recent updates and changes. Access Control You can use IAM policies to control this action's access to Amazon SWF resources as follows: • Use a Resource element with the domain name to limit the action to only specified domains. • Use an Action element to...
     /// </summary>
-    /// <param name="Domain">The name of the domain of the deprecated workflow type. Constraints: o min: 1 o max: 256</param>
-    /// <param name="WorkflowType">The name of the domain of the deprecated workflow type. name -&gt; (string) [required] The name of the workflow type. NOTE: The combination of workflow type name and version must be unique with in a domain. Constraints: o min: 1 o max: 256 version -&gt; (string) [required] The version of the workflow type. NOTE: The combination of workflow type name and version must be unique with in a domain. Constraints: o min: 1 o max: 64 Shorthand Syntax: name=string,version=string JSON Syntax: { "name": "string", "version": "string" }</param>
+    /// <param name="Domain">The name of the domain of the deprecated workflow type. Constraints: • min: 1 • max: 256</param>
+    /// <param name="WorkflowType">The name of the domain of the deprecated workflow type. name -&gt; (string) [required] The name of the workflow type. NOTE: The combination of workflow type name and version must be unique with in a domain. Constraints: • min: 1 • max: 256 version -&gt; (string) [required] The version of the workflow type. NOTE: The combination of workflow type name and version must be unique with in a domain. Constraints: • min: 1 • max: 64 Shorthand Syntax: name=string,version=string JSON Syntax: { "name": "string", "version": "string" }</param>
     public AwsSwfUndeprecateWorkflowTypeOptions(
         string Domain,
         string WorkflowType
@@ -60,13 +61,13 @@ public record AwsSwfUndeprecateWorkflowTypeOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the domain of the deprecated workflow type. Constraints: o min: 1 o max: 256
+    /// The name of the domain of the deprecated workflow type. Constraints: • min: 1 • max: 256
     /// </summary>
     [CliOption("--domain")]
     public string? Domain { get; private init; }
 
     /// <summary>
-    /// The name of the domain of the deprecated workflow type. name -&gt; (string) [required] The name of the workflow type. NOTE: The combination of workflow type name and version must be unique with in a domain. Constraints: o min: 1 o max: 256 version -&gt; (string) [required] The version of the workflow type. NOTE: The combination of workflow type name and version must be unique with in a domain. Constraints: o min: 1 o max: 64 Shorthand Syntax: name=string,version=string JSON Syntax: { "name": "string", "version": "string" }
+    /// The name of the domain of the deprecated workflow type. name -&gt; (string) [required] The name of the workflow type. NOTE: The combination of workflow type name and version must be unique with in a domain. Constraints: • min: 1 • max: 256 version -&gt; (string) [required] The version of the workflow type. NOTE: The combination of workflow type name and version must be unique with in a domain. Constraints: • min: 1 • max: 64 Shorthand Syntax: name=string,version=string JSON Syntax: { "name": "string", "version": "string" }
     /// </summary>
     [CliOption("--workflow-type")]
     public string? WorkflowType { get; private init; }
@@ -92,6 +93,15 @@ public record AwsSwfUndeprecateWorkflowTypeOptions : AwsOptions, IValidatableObj
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

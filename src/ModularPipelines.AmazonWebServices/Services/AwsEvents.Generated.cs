@@ -6,8 +6,8 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
+using ModularPipelines;
 using ModularPipelines.Context;
-using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
@@ -33,7 +33,7 @@ public class AwsEvents : IAwsEvents
     #region Sub-command Groups
 
     /// <summary>
-    /// aws wizard sub-commands.
+    /// aws events wizard sub-commands.
     /// </summary>
     public AwsEventsWizard Wizard => _wizard ??= new AwsEventsWizard(_command);
 
@@ -42,7 +42,7 @@ public class AwsEvents : IAwsEvents
     #region Commands
 
     /// <summary>
-    /// Activates a partner event source that has been deactivated. Once acti- vated, your matching event bus will start receiving events from the event source. See also: AWS API Documentation
+    /// Activates a partner event source that has been deactivated. Once activated, your matching event bus will start receiving events from the event source. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -72,7 +72,7 @@ public class AwsEvents : IAwsEvents
     }
 
     /// <summary>
-    /// Creates an API destination, which is an HTTP invocation endpoint con- figured as a target for events. API destinations do not support private destinations, such as interface VPC endpoints. For more information, see API destinations in the EventBridge User Guide . See also: AWS API Documentation
+    /// Creates an API destination, which is an HTTP invocation endpoint configured as a target for events. API destinations do not support private destinations, such as interface VPC endpoints. For more information, see API destinations in the EventBridge User Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -87,7 +87,7 @@ public class AwsEvents : IAwsEvents
     }
 
     /// <summary>
-    /// Creates an archive of events with the specified settings. When you cre- ate an archive, incoming events might not immediately start being sent to the archive. Allow a short period of time for changes to take ef- fect. If you do not specify a pattern to filter events sent to the archive, all events are sent to the archive except replayed events. Re- played events are not sent to an archive. WARNING: If you have specified that EventBridge use a customer managed key for encrypting the source event ...
+    /// Creates an archive of events with the specified settings. When you create an archive, incoming events might not immediately start being sent to the archive. Allow a short period of time for changes to take effect. If you do not specify a pattern to filter events sent to the archive, all events are sent to the archive except replayed events. Replayed events are not sent to an archive. WARNING: If you have specified that EventBridge use a customer managed key for encrypting the source event bus, w...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -102,7 +102,7 @@ public class AwsEvents : IAwsEvents
     }
 
     /// <summary>
-    /// Creates a connection. A connection defines the authorization type and credentials to use for authorization with an API destination HTTP end- point. For more information, see Connections for endpoint targets in the Ama- zon EventBridge User Guide . See also: AWS API Documentation
+    /// Creates a connection. A connection defines the authorization type and credentials to use for authorization with an API destination HTTP endpoint. For more information, see Connections for endpoint targets in the Amazon EventBridge User Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -117,7 +117,7 @@ public class AwsEvents : IAwsEvents
     }
 
     /// <summary>
-    /// Creates a global endpoint. Global endpoints improve your application's availability by making it regional-fault tolerant. To do this, you de- fine a primary and secondary Region with event buses in each Region. You also create a Amazon Route 53 health check that will tell Event- Bridge to route events to the secondary Region when an "unhealthy" state is encountered and events will be routed back to the primary Re- gion when the health check reports a "healthy" state. See also: AWS API Documentat...
+    /// Creates a global endpoint. Global endpoints improve your application's availability by making it regional-fault tolerant. To do this, you define a primary and secondary Region with event buses in each Region. You also create a Amazon Route 53 health check that will tell EventBridge to route events to the secondary Region when an "unhealthy" state is encountered and events will be routed back to the primary Region when the health check reports a "healthy" state. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -147,7 +147,7 @@ public class AwsEvents : IAwsEvents
     }
 
     /// <summary>
-    /// Called by an SaaS partner to create a partner event source. This opera- tion is not used by Amazon Web Services customers. Each partner event source can be used by one Amazon Web Services ac- count to create a matching partner event bus in that Amazon Web Ser- vices account. A SaaS partner must create one partner event source for each Amazon Web Services account that wants to receive those event types. A partner event source creates events based on resources within the SaaS partner's service or ...
+    /// Called by an SaaS partner to create a partner event source. This operation is not used by Amazon Web Services customers. Each partner event source can be used by one Amazon Web Services account to create a matching partner event bus in that Amazon Web Services account. A SaaS partner must create one partner event source for each Amazon Web Services account that wants to receive those event types. A partner event source creates events based on resources within the SaaS partner's service or applic...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -162,7 +162,7 @@ public class AwsEvents : IAwsEvents
     }
 
     /// <summary>
-    /// You can use this operation to temporarily stop receiving events from the specified partner event source. The matching event bus is not deleted. When you deactivate a partner event source, the source goes into PEND- ING state. If it remains in PENDING state for more than two weeks, it is deleted. To activate a deactivated partner event source, use ActivateEventSource . See also: AWS API Documentation
+    /// You can use this operation to temporarily stop receiving events from the specified partner event source. The matching event bus is not deleted. When you deactivate a partner event source, the source goes into PENDING state. If it remains in PENDING state for more than two weeks, it is deleted. To activate a deactivated partner event source, use ActivateEventSource . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -177,7 +177,7 @@ public class AwsEvents : IAwsEvents
     }
 
     /// <summary>
-    /// Removes all authorization parameters from the connection. This lets you remove the secret from the connection so you can reuse it without hav- ing to create a new connection. See also: AWS API Documentation
+    /// Removes all authorization parameters from the connection. This lets you remove the secret from the connection so you can reuse it without having to create a new connection. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -267,7 +267,7 @@ public class AwsEvents : IAwsEvents
     }
 
     /// <summary>
-    /// This operation is used by SaaS partners to delete a partner event source. This operation is not used by Amazon Web Services customers. When you delete an event source, the status of the corresponding part- ner event bus in the Amazon Web Services customer account becomes DELETED. See also: AWS API Documentation
+    /// This operation is used by SaaS partners to delete a partner event source. This operation is not used by Amazon Web Services customers. When you delete an event source, the status of the corresponding partner event bus in the Amazon Web Services customer account becomes DELETED. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -342,7 +342,7 @@ public class AwsEvents : IAwsEvents
     }
 
     /// <summary>
-    /// Get the information about an existing global endpoint. For more infor- mation about global endpoints, see Making applications Regional-fault tolerant with global endpoints and event replication in the * Amazon EventBridge User Guide * . See also: AWS API Documentation
+    /// Get the information about an existing global endpoint. For more information about global endpoints, see Making applications Regional-fault tolerant with global endpoints and event replication in the * Amazon EventBridge User Guide * . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -357,7 +357,7 @@ public class AwsEvents : IAwsEvents
     }
 
     /// <summary>
-    /// Displays details about an event bus in your account. This can include the external Amazon Web Services accounts that are permitted to write events to your default event bus, and the associated policy. For custom event buses and partner event buses, it displays the name, ARN, policy, state, and creation time. To enable your account to receive events from other accounts on its de- fault event bus, use PutPermission . For more information about partner event buses, see CreateEventBus . See also: AW...
+    /// Displays details about an event bus in your account. This can include the external Amazon Web Services accounts that are permitted to write events to your default event bus, and the associated policy. For custom event buses and partner event buses, it displays the name, ARN, policy, state, and creation time. To enable your account to receive events from other accounts on its default event bus, use PutPermission . For more information about partner event buses, see CreateEventBus . See also: AWS ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -462,7 +462,7 @@ public class AwsEvents : IAwsEvents
     }
 
     /// <summary>
-    /// Retrieves a list of API destination in the account in the current Re- gion. See also: AWS API Documentation
+    /// Retrieves a list of API destination in the account in the current Region. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -507,7 +507,7 @@ public class AwsEvents : IAwsEvents
     }
 
     /// <summary>
-    /// List the global endpoints associated with this account. For more infor- mation about global endpoints, see Making applications Regional-fault tolerant with global endpoints and event replication in the * Amazon EventBridge User Guide * . See also: AWS API Documentation
+    /// List the global endpoints associated with this account. For more information about global endpoints, see Making applications Regional-fault tolerant with global endpoints and event replication in the * Amazon EventBridge User Guide * . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -552,7 +552,7 @@ public class AwsEvents : IAwsEvents
     }
 
     /// <summary>
-    /// An SaaS partner can use this operation to display the Amazon Web Ser- vices account ID that a particular partner event source name is associ- ated with. This operation is not used by Amazon Web Services customers. See also: AWS API Documentation
+    /// An SaaS partner can use this operation to display the Amazon Web Services account ID that a particular partner event source name is associated with. This operation is not used by Amazon Web Services customers. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -567,7 +567,7 @@ public class AwsEvents : IAwsEvents
     }
 
     /// <summary>
-    /// An SaaS partner can use this operation to list all the partner event source names that they have created. This operation is not used by Ama- zon Web Services customers. See also: AWS API Documentation
+    /// An SaaS partner can use this operation to list all the partner event source names that they have created. This operation is not used by Amazon Web Services customers. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -582,7 +582,7 @@ public class AwsEvents : IAwsEvents
     }
 
     /// <summary>
-    /// Lists your replays. You can either list all the replays or you can pro- vide a prefix to match to the replay names. Filter parameters are ex- clusive. See also: AWS API Documentation
+    /// Lists your replays. You can either list all the replays or you can provide a prefix to match to the replay names. Filter parameters are exclusive. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -597,7 +597,7 @@ public class AwsEvents : IAwsEvents
     }
 
     /// <summary>
-    /// Lists the rules for the specified target. You can see which of the rules in Amazon EventBridge can invoke a specific target in your ac- count. The maximum number of results per page for requests is 100. See also: AWS API Documentation list-rule-names-by-target is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a pagi...
+    /// Lists the rules for the specified target. You can see which of the rules in Amazon EventBridge can invoke a specific target in your account. The maximum number of results per page for requests is 100. See also: AWS API Documentation list-rule-names-by-target is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a pagina...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -612,7 +612,7 @@ public class AwsEvents : IAwsEvents
     }
 
     /// <summary>
-    /// Lists your Amazon EventBridge rules. You can either list all the rules or you can provide a prefix to match to the rule names. The maximum number of results per page for requests is 100. ListRules does not list the targets of a rule. To see the targets asso- ciated with a rule, use ListTargetsByRule . See also: AWS API Documentation list-rules is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing th...
+    /// Lists your Amazon EventBridge rules. You can either list all the rules or you can provide a prefix to match to the rule names. The maximum number of results per page for requests is 100. ListRules does not list the targets of a rule. To see the targets associated with a rule, use ListTargetsByRule . See also: AWS API Documentation list-rules is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -627,7 +627,7 @@ public class AwsEvents : IAwsEvents
     }
 
     /// <summary>
-    /// Displays the tags associated with an EventBridge resource. In Event- Bridge, rules and event buses can be tagged. See also: AWS API Documentation
+    /// Displays the tags associated with an EventBridge resource. In EventBridge, rules and event buses can be tagged. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -657,7 +657,7 @@ public class AwsEvents : IAwsEvents
     }
 
     /// <summary>
-    /// Sends custom events to Amazon EventBridge so that they can be matched to rules. You can batch multiple event entries into one request for efficiency. However, the total entry size must be less than 1MB. You can calculate the entry size before you send the events. For more information, see Calculating PutEvents event entry size in the * Amazon EventBridge User Guide * . PutEvents accepts the data in JSON format. For the JSON number (inte- ger) data type, the constraints are: a minimum value of -9...
+    /// Sends custom events to Amazon EventBridge so that they can be matched to rules. You can batch multiple event entries into one request for efficiency. However, the total entry size must be less than 1MB. You can calculate the entry size before you send the events. For more information, see Calculating PutEvents event entry size in the * Amazon EventBridge User Guide * . PutEvents accepts the data in JSON format. For the JSON number (integer) data type, the constraints are: a minimum value of -9,2...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -672,7 +672,7 @@ public class AwsEvents : IAwsEvents
     }
 
     /// <summary>
-    /// This is used by SaaS partners to write events to a customer's partner event bus. Amazon Web Services customers do not use this operation. For information on calculating event batch size, see Calculating Event- Bridge PutEvents event entry size in the EventBridge User Guide . See also: AWS API Documentation
+    /// This is used by SaaS partners to write events to a customer's partner event bus. Amazon Web Services customers do not use this operation. For information on calculating event batch size, see Calculating EventBridge PutEvents event entry size in the EventBridge User Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -687,7 +687,7 @@ public class AwsEvents : IAwsEvents
     }
 
     /// <summary>
-    /// Running PutPermission permits the specified Amazon Web Services account or Amazon Web Services organization to put events to the specified event bus . Amazon EventBridge rules in your account are triggered by these events arriving to an event bus in your account. For another account to send events to your account, that external ac- count must have an EventBridge rule with your account's event bus as a target. To enable multiple Amazon Web Services accounts to put events to your event bus, run Pu...
+    /// Running PutPermission permits the specified Amazon Web Services account or Amazon Web Services organization to put events to the specified event bus . Amazon EventBridge rules in your account are triggered by these events arriving to an event bus in your account. For another account to send events to your account, that external account must have an EventBridge rule with your account's event bus as a target. To enable multiple Amazon Web Services accounts to put events to your event bus, run PutP...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -702,7 +702,7 @@ public class AwsEvents : IAwsEvents
     }
 
     /// <summary>
-    /// Creates or updates the specified rule. Rules are enabled by default, or based on value of the state. You can disable a rule using DisableRule . A single rule watches for events from a single event bus. Events gener- ated by Amazon Web Services services go to your account's default event bus. Events generated by SaaS partner services or applications go to the matching partner event bus. If you have custom applications or ser- vices, you can specify whether their events go to your default event bu...
+    /// Creates or updates the specified rule. Rules are enabled by default, or based on value of the state. You can disable a rule using DisableRule . A single rule watches for events from a single event bus. Events generated by Amazon Web Services services go to your account's default event bus. Events generated by SaaS partner services or applications go to the matching partner event bus. If you have custom applications or services, you can specify whether their events go to your default event bus or...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -717,7 +717,7 @@ public class AwsEvents : IAwsEvents
     }
 
     /// <summary>
-    /// Adds the specified targets to the specified rule, or updates the tar- gets if they are already associated with the rule. Targets are the resources that are invoked when a rule is triggered. The maximum number of entries per request is 10. NOTE: Each rule can have up to five (5) targets associated with it at one time. For a list of services you can configure as targets for events, see EventBridge targets in the * Amazon EventBridge User Guide * . Creating rules with built-in targets is supported ...
+    /// Adds the specified targets to the specified rule, or updates the targets if they are already associated with the rule. Targets are the resources that are invoked when a rule is triggered. The maximum number of entries per request is 10. NOTE: Each rule can have up to five (5) targets associated with it at one time. For a list of services you can configure as targets for events, see EventBridge targets in the * Amazon EventBridge User Guide * . Creating rules with built-in targets is supported on...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -747,7 +747,7 @@ public class AwsEvents : IAwsEvents
     }
 
     /// <summary>
-    /// Removes the specified targets from the specified rule. When the rule is triggered, those targets are no longer be invoked. NOTE: A successful execution of RemoveTargets doesn't guarantee all tar- gets are removed from the rule, it means that the target(s) listed in the request are removed. When you remove a target, when the associated rule triggers, removed targets might continue to be invoked. Allow a short period of time for changes to take effect. This action can partially fail if too many re...
+    /// Removes the specified targets from the specified rule. When the rule is triggered, those targets are no longer be invoked. NOTE: A successful execution of RemoveTargets doesn't guarantee all targets are removed from the rule, it means that the target(s) listed in the request are removed. When you remove a target, when the associated rule triggers, removed targets might continue to be invoked. Allow a short period of time for changes to take effect. This action can partially fail if too many requ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -762,7 +762,7 @@ public class AwsEvents : IAwsEvents
     }
 
     /// <summary>
-    /// Starts the specified replay. Events are not necessarily replayed in the exact same order that they were added to the archive. A replay processes events to replay based on the time in the event, and replays them using 1 minute intervals. If you specify an EventStartTime and an EventEndTime that covers a 20 minute time range, the events are re- played from the first minute of that 20 minute range first. Then the events from the second minute are replayed. You can use DescribeReplay to determine th...
+    /// Starts the specified replay. Events are not necessarily replayed in the exact same order that they were added to the archive. A replay processes events to replay based on the time in the event, and replays them using 1 minute intervals. If you specify an EventStartTime and an EventEndTime that covers a 20 minute time range, the events are replayed from the first minute of that 20 minute range first. Then the events from the second minute are replayed. You can use DescribeReplay to determine the ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -777,7 +777,7 @@ public class AwsEvents : IAwsEvents
     }
 
     /// <summary>
-    /// Assigns one or more tags (key-value pairs) to the specified EventBridge resource. Tags can help you organize and categorize your resources. You can also use them to scope user permissions by granting a user permis- sion to access or change only resources with certain tag values. In EventBridge, rules and event buses can be tagged. Tags don't have any semantic meaning to Amazon Web Services and are in- terpreted strictly as strings of characters. You can use the TagResource action with a resource...
+    /// Assigns one or more tags (key-value pairs) to the specified EventBridge resource. Tags can help you organize and categorize your resources. You can also use them to scope user permissions by granting a user permission to access or change only resources with certain tag values. In EventBridge, rules and event buses can be tagged. Tags don't have any semantic meaning to Amazon Web Services and are interpreted strictly as strings of characters. You can use the TagResource action with a resource tha...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -792,7 +792,7 @@ public class AwsEvents : IAwsEvents
     }
 
     /// <summary>
-    /// Tests whether the specified event pattern matches the provided event. Most services in Amazon Web Services treat : or / as the same character in Amazon Resource Names (ARNs). However, EventBridge uses an exact match in event patterns and rules. Be sure to use the correct ARN char- acters when creating event patterns so that they match the ARN syntax in the event you want to match. See also: AWS API Documentation
+    /// Tests whether the specified event pattern matches the provided event. Most services in Amazon Web Services treat : or / as the same character in Amazon Resource Names (ARNs). However, EventBridge uses an exact match in event patterns and rules. Be sure to use the correct ARN characters when creating event patterns so that they match the ARN syntax in the event you want to match. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -867,7 +867,7 @@ public class AwsEvents : IAwsEvents
     }
 
     /// <summary>
-    /// Update an existing endpoint. For more information about global end- points, see Making applications Regional-fault tolerant with global endpoints and event replication in the * Amazon EventBridge User Guide * . See also: AWS API Documentation
+    /// Update an existing endpoint. For more information about global endpoints, see Making applications Regional-fault tolerant with global endpoints and event replication in the * Amazon EventBridge User Guide * . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

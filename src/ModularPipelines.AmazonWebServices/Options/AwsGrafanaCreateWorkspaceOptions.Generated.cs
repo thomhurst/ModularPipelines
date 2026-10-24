@@ -11,7 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -30,9 +30,9 @@ public record AwsGrafanaCreateWorkspaceOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Creates a workspace . In a workspace, you can create Grafana dashboards and visualizations to analyze your metrics, logs, and traces. You don't have to build, package, or deploy any hardware to run the Grafana server. Don't use CreateWorkspace to modify an existing workspace. Instead, use UpdateWorkspace . See also: AWS API Documentation
     /// </summary>
-    /// <param name="AccountAccessType">Specifies whether the workspace can access Amazon Web Services re- sources in this Amazon Web Services account only, or whether it can also access Amazon Web Services resources in other accounts in the same organization. If you specify ORGANIZATION , you must specify which organizational units the workspace can access in the work- spaceOrganizationalUnits parameter. Possible values: o CURRENT_ACCOUNT o ORGANIZATION</param>
-    /// <param name="PermissionType">When creating a workspace through the Amazon Web Services API, CLI or Amazon Web Services CloudFormation, you must manage IAM roles and provision the permissions that the workspace needs to use Amazon Web Services data sources and notification channels. You must also specify a workspaceRoleArn for a role that you will manage for the workspace to use when accessing those datasources and notification channels. The ability for Amazon Managed Grafana to create and update IAM roles on behalf of the user is supported only in the Amazon Managed Grafana console, where this value may be set to SERVICE_MANAGED . NOTE: Use only the CUSTOMER_MANAGED permission type when creating a workspace with the API, CLI or Amazon Web Services CloudForma- tion. For more information, see Amazon Managed Grafana permissions and policies for Amazon Web Services data sources and notification chan- nels . Possible values: o CUSTOMER_MANAGED o SERVICE_MANAGED</param>
-    /// <param name="AuthenticationProviders">Specifies whether this workspace uses SAML 2.0, IAM Identity Center, or both to authenticate users for using the Grafana console within a workspace. For more information, see User authentication in Amazon Managed Grafana . (string) Possible values: o AWS_SSO o SAML Syntax: "string" "string" ...</param>
+    /// <param name="AccountAccessType">Specifies whether the workspace can access Amazon Web Services resources in this Amazon Web Services account only, or whether it can also access Amazon Web Services resources in other accounts in the same organization. If you specify ORGANIZATION , you must specify which organizational units the workspace can access in the workspaceOrganizationalUnits parameter. Possible values: • CURRENT_ACCOUNT • ORGANIZATION</param>
+    /// <param name="PermissionType">When creating a workspace through the Amazon Web Services API, CLI or Amazon Web Services CloudFormation, you must manage IAM roles and provision the permissions that the workspace needs to use Amazon Web Services data sources and notification channels. You must also specify a workspaceRoleArn for a role that you will manage for the workspace to use when accessing those datasources and notification channels. The ability for Amazon Managed Grafana to create and update IAM roles on behalf of the user is supported only in the Amazon Managed Grafana console, where this value may be set to SERVICE_MANAGED . NOTE: Use only the CUSTOMER_MANAGED permission type when creating a workspace with the API, CLI or Amazon Web Services CloudFormation. For more information, see Amazon Managed Grafana permissions and policies for Amazon Web Services data sources and notification channels . Possible values: • CUSTOMER_MANAGED • SERVICE_MANAGED</param>
+    /// <param name="AuthenticationProviders">Specifies whether this workspace uses SAML 2.0, IAM Identity Center, or both to authenticate users for using the Grafana console within a workspace. For more information, see User authentication in Amazon Managed Grafana . (string) Possible values: • AWS_SSO • SAML Syntax: "string" "string" ...</param>
     public AwsGrafanaCreateWorkspaceOptions(
         AwsGrafanaCreateWorkspaceAccountAccessType AccountAccessType,
         AwsGrafanaCreateWorkspacePermissionType PermissionType,
@@ -76,32 +76,32 @@ public record AwsGrafanaCreateWorkspaceOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Specifies whether the workspace can access Amazon Web Services re- sources in this Amazon Web Services account only, or whether it can also access Amazon Web Services resources in other accounts in the same organization. If you specify ORGANIZATION , you must specify which organizational units the workspace can access in the work- spaceOrganizationalUnits parameter. Possible values: o CURRENT_ACCOUNT o ORGANIZATION
+    /// Specifies whether the workspace can access Amazon Web Services resources in this Amazon Web Services account only, or whether it can also access Amazon Web Services resources in other accounts in the same organization. If you specify ORGANIZATION , you must specify which organizational units the workspace can access in the workspaceOrganizationalUnits parameter. Possible values: • CURRENT_ACCOUNT • ORGANIZATION
     /// </summary>
     [CliOption("--account-access-type")]
     public AwsGrafanaCreateWorkspaceAccountAccessType? AccountAccessType { get; private init; }
 
     /// <summary>
-    /// When creating a workspace through the Amazon Web Services API, CLI or Amazon Web Services CloudFormation, you must manage IAM roles and provision the permissions that the workspace needs to use Amazon Web Services data sources and notification channels. You must also specify a workspaceRoleArn for a role that you will manage for the workspace to use when accessing those datasources and notification channels. The ability for Amazon Managed Grafana to create and update IAM roles on behalf of the user is supported only in the Amazon Managed Grafana console, where this value may be set to SERVICE_MANAGED . NOTE: Use only the CUSTOMER_MANAGED permission type when creating a workspace with the API, CLI or Amazon Web Services CloudForma- tion. For more information, see Amazon Managed Grafana permissions and policies for Amazon Web Services data sources and notification chan- nels . Possible values: o CUSTOMER_MANAGED o SERVICE_MANAGED
+    /// When creating a workspace through the Amazon Web Services API, CLI or Amazon Web Services CloudFormation, you must manage IAM roles and provision the permissions that the workspace needs to use Amazon Web Services data sources and notification channels. You must also specify a workspaceRoleArn for a role that you will manage for the workspace to use when accessing those datasources and notification channels. The ability for Amazon Managed Grafana to create and update IAM roles on behalf of the user is supported only in the Amazon Managed Grafana console, where this value may be set to SERVICE_MANAGED . NOTE: Use only the CUSTOMER_MANAGED permission type when creating a workspace with the API, CLI or Amazon Web Services CloudFormation. For more information, see Amazon Managed Grafana permissions and policies for Amazon Web Services data sources and notification channels . Possible values: • CUSTOMER_MANAGED • SERVICE_MANAGED
     /// </summary>
     [CliOption("--permission-type")]
     public AwsGrafanaCreateWorkspacePermissionType? PermissionType { get; private init; }
 
     /// <summary>
-    /// Specifies whether this workspace uses SAML 2.0, IAM Identity Center, or both to authenticate users for using the Grafana console within a workspace. For more information, see User authentication in Amazon Managed Grafana . (string) Possible values: o AWS_SSO o SAML Syntax: "string" "string" ...
+    /// Specifies whether this workspace uses SAML 2.0, IAM Identity Center, or both to authenticate users for using the Grafana console within a workspace. For more information, see User authentication in Amazon Managed Grafana . (string) Possible values: • AWS_SSO • SAML Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--authentication-providers", GroupValues = true)]
     public IEnumerable<string>? AuthenticationProviders { get; private init; }
 
     /// <summary>
-    /// A unique, case-sensitive, user-provided identifier to ensure the idempotency of the request. Constraints: o pattern: [!-~]{1,64}
+    /// A unique, case-sensitive, user-provided identifier to ensure the idempotency of the request. Constraints: • pattern: [!-~]{1,64}
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// The name of an IAM role that already exists to use with Organiza- tions to access Amazon Web Services data sources and notification channels in other accounts in an organization. Constraints: o min: 1 o max: 2048
+    /// The name of an IAM role that already exists to use with Organizations to access Amazon Web Services data sources and notification channels in other accounts in an organization. Constraints: • min: 1 • max: 2048
     /// </summary>
     [CliOption("--organization-role-name")]
     public string? OrganizationRoleName { get; set; }
@@ -113,25 +113,25 @@ public record AwsGrafanaCreateWorkspaceOptions : AwsOptions, IValidatableObject
     public string? StackSetName { get; set; }
 
     /// <summary>
-    /// This parameter is for internal use only, and should not be used. (string) Possible values: o AMAZON_OPENSEARCH_SERVICE o CLOUDWATCH o PROMETHEUS o XRAY o TIMESTREAM o SITEWISE o ATHENA o REDSHIFT o TWINMAKER Syntax: "string" "string" ...
+    /// This parameter is for internal use only, and should not be used. (string) Possible values: • AMAZON_OPENSEARCH_SERVICE • CLOUDWATCH • PROMETHEUS • XRAY • TIMESTREAM • SITEWISE • ATHENA • REDSHIFT • TWINMAKER Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--workspace-data-sources", GroupValues = true)]
     public IEnumerable<string>? WorkspaceDataSources { get; set; }
 
     /// <summary>
-    /// A description for the workspace. This is used only to help you iden- tify this workspace. Pattern: ^[\\p{L}\\p{Z}\\p{N}\\p{P}]{0,2048}$ Constraints: o min: 0 o max: 2048
+    /// A description for the workspace. This is used only to help you identify this workspace. Pattern: ^[\\p{L}\\p{Z}\\p{N}\\p{P}]{0,2048}$ Constraints: • min: 0 • max: 2048
     /// </summary>
     [CliOption("--workspace-description")]
     public string? WorkspaceDescription { get; set; }
 
     /// <summary>
-    /// The name for the workspace. It does not have to be unique. Constraints: o pattern: [a-zA-Z0-9-._~]{1,255}
+    /// The name for the workspace. It does not have to be unique. Constraints: • pattern: [a-zA-Z0-9-._~]{1,255}
     /// </summary>
     [CliOption("--workspace-name")]
     public string? WorkspaceName { get; set; }
 
     /// <summary>
-    /// Specify the Amazon Web Services notification channels that you plan to use in this workspace. Specifying these data sources here enables Amazon Managed Grafana to create IAM roles and permissions that al- low Amazon Managed Grafana to use these channels. (string) Possible values: o SNS Syntax: "string" "string" ...
+    /// Specify the Amazon Web Services notification channels that you plan to use in this workspace. Specifying these data sources here enables Amazon Managed Grafana to create IAM roles and permissions that allow Amazon Managed Grafana to use these channels. (string) Possible values: • SNS Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--workspace-notification-destinations", GroupValues = true)]
     public IEnumerable<string>? WorkspaceNotificationDestinations { get; set; }
@@ -143,49 +143,49 @@ public record AwsGrafanaCreateWorkspaceOptions : AwsOptions, IValidatableObject
     public IEnumerable<string>? WorkspaceOrganizationalUnits { get; set; }
 
     /// <summary>
-    /// Specified the IAM role that grants permissions to the Amazon Web Services resources that the workspace will view data from, including both data sources and notification channels. You are responsible for managing the permissions for this role as new data sources or noti- fication channels are added. Constraints: o min: 1 o max: 2048
+    /// Specified the IAM role that grants permissions to the Amazon Web Services resources that the workspace will view data from, including both data sources and notification channels. You are responsible for managing the permissions for this role as new data sources or notification channels are added. Constraints: • min: 1 • max: 2048
     /// </summary>
     [CliOption("--workspace-role-arn")]
     public string? WorkspaceRoleArn { get; set; }
 
     /// <summary>
-    /// The list of tags associated with the workspace. Constraints: o min: 0 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The list of tags associated with the workspace. Constraints: • min: 0 • max: 50 key -&gt; (string) Constraints: • min: 1 • max: 128 value -&gt; (string) Constraints: • min: 0 • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>
-    /// The configuration settings for an Amazon VPC that contains data sources for your Grafana workspace to connect to. NOTE: Connecting to a private VPC is not yet available in the Asia Pa- cific (Seoul) Region (ap-northeast-2). securityGroupIds -&gt; (list) [required] The list of Amazon EC2 security group IDs attached to the Amazon VPC for your Grafana workspace to connect. Duplicates not al- lowed. Constraints: o min: 1 o max: 5 (string) Constraints: o min: 0 o max: 255 subnetIds -&gt; (list) [required] The list of Amazon EC2 subnet IDs created in the Amazon VPC for your Grafana workspace to connect. Duplicates not allowed. Constraints: o min: 2 o max: 6 (string) Constraints: o min: 0 o max: 255 Shorthand Syntax: securityGroupIds=string,string,subnetIds=string,string JSON Syntax: { "securityGroupIds": ["string", ...], "subnetIds": ["string", ...] }
+    /// The configuration settings for an Amazon VPC that contains data sources for your Grafana workspace to connect to. NOTE: Connecting to a private VPC is not yet available in the Asia Pacific (Seoul) Region (ap-northeast-2). securityGroupIds -&gt; (list) [required] The list of Amazon EC2 security group IDs attached to the Amazon VPC for your Grafana workspace to connect. Duplicates not allowed. Constraints: • min: 1 • max: 5 (string) Constraints: • min: 0 • max: 255 subnetIds -&gt; (list) [required] The list of Amazon EC2 subnet IDs created in the Amazon VPC for your Grafana workspace to connect. Duplicates not allowed. Constraints: • min: 2 • max: 6 (string) Constraints: • min: 0 • max: 255 Shorthand Syntax: securityGroupIds=string,string,subnetIds=string,string JSON Syntax: { "securityGroupIds": ["string", ...], "subnetIds": ["string", ...] }
     /// </summary>
     [CliOption("--vpc-configuration")]
     public string? VpcConfiguration { get; set; }
 
     /// <summary>
-    /// The configuration string for the workspace that you create. For more information about the format and configuration options available, see Working in your Grafana workspace . Constraints: o min: 2 o max: 65536
+    /// The configuration string for the workspace that you create. For more information about the format and configuration options available, see Working in your Grafana workspace . Constraints: • min: 2 • max: 65536
     /// </summary>
     [CliOption("--configuration")]
     public string? Configuration { get; set; }
 
     /// <summary>
-    /// Configuration for network access to your workspace. When this is configured, only listed IP addresses and VPC endpoints will be able to access your workspace. Standard Grafana authentica- tion and authorization will still be required. If this is not configured, or is removed, then all IP addresses and VPC endpoints will be allowed. Standard Grafana authentication and authorization will still be required. prefixListIds -&gt; (list) [required] An array of prefix list IDs. A prefix list is a list of CIDR ranges of IP addresses. The IP addresses specified are allowed to access your workspace. If the list is not included in the configuration (passed an empty array) then no IP addresses are allowed to access the workspace. You create a prefix list using the Amazon VPC console. Prefix list IDs have the format `` pl-1a2b3c4d `` . System Message: WARNING/2 (&lt;string&gt;:, line 611) Inline literal start-string without end-string. For more information about prefix lists, see Group CIDR blocks using managed prefix lists in the Amazon Virtual Private Cloud User Guide . (string) Constraints: o min: 1 o max: 100 vpceIds -&gt; (list) [required] An array of Amazon VPC endpoint IDs for the workspace. You can create VPC endpoints to your Amazon Managed Grafana workspace for access from within a VPC. If a NetworkAccessConfiguration is specified then only VPC endpoints specified here are allowed to access the workspace. If you pass in an empty array of strings, then no VPCs are allowed to access the workspace. VPC endpoint IDs have the format `` vpce-1a2b3c4d `` . System Message: WARNING/2 (&lt;string&gt;:, line 647) Inline literal start-string without end-string. For more information about creating an interface VPC end- point, see Interface VPC endpoints in the Amazon Managed Grafana User Guide . NOTE: The only VPC endpoints that can be specified here are inter- face VPC endpoints for Grafana workspaces (using the com.ama- zonaws.[region].grafana-workspace service endpoint). Other VPC endpoints are ignored. (string) Constraints: o min: 1 o max: 100 Shorthand Syntax: prefixListIds=string,string,vpceIds=string,string JSON Syntax: { "prefixListIds": ["string", ...], "vpceIds": ["string", ...] }
+    /// Configuration for network access to your workspace. When this is configured, only listed IP addresses and VPC endpoints will be able to access your workspace. Standard Grafana authentication and authorization will still be required. If this is not configured, or is removed, then all IP addresses and VPC endpoints will be allowed. Standard Grafana authentication and authorization will still be required. prefixListIds -&gt; (list) [required] An array of prefix list IDs. A prefix list is a list of CIDR ranges of IP addresses. The IP addresses specified are allowed to access your workspace. If the list is not included in the configuration (passed an empty array) then no IP addresses are allowed to access the workspace. You create a prefix list using the Amazon VPC console. Prefix list IDs have the format `` pl-1a2b3c4d `` . System Message: WARNING/2 (&lt;string&gt;:, line 611) Inline literal start-string without end-string. For more information about prefix lists, see Group CIDR blocks using managed prefix lists in the Amazon Virtual Private Cloud User Guide . (string) Constraints: • min: 1 • max: 100 vpceIds -&gt; (list) [required] An array of Amazon VPC endpoint IDs for the workspace. You can create VPC endpoints to your Amazon Managed Grafana workspace for access from within a VPC. If a NetworkAccessConfiguration is specified then only VPC endpoints specified here are allowed to access the workspace. If you pass in an empty array of strings, then no VPCs are allowed to access the workspace. VPC endpoint IDs have the format `` vpce-1a2b3c4d `` . System Message: WARNING/2 (&lt;string&gt;:, line 647) Inline literal start-string without end-string. For more information about creating an interface VPC endpoint, see Interface VPC endpoints in the Amazon Managed Grafana User Guide . NOTE: The only VPC endpoints that can be specified here are interface VPC endpoints for Grafana workspaces (using the com.amazonaws.[region].grafana-workspace service endpoint). Other VPC endpoints are ignored. (string) Constraints: • min: 1 • max: 100 Shorthand Syntax: prefixListIds=string,string,vpceIds=string,string JSON Syntax: { "prefixListIds": ["string", ...], "vpceIds": ["string", ...] }
     /// </summary>
     [CliOption("--network-access-control")]
     public string? NetworkAccessControl { get; set; }
 
     /// <summary>
-    /// Specifies the version of Grafana to support in the new workspace. If not specified, defaults to the latest version (for example, 10.4). To get a list of supported versions, use the ListVersions operation. Constraints: o min: 1 o max: 255
+    /// Specifies the version of Grafana to support in the new workspace. If not specified, defaults to the latest version (for example, 10.4). To get a list of supported versions, use the ListVersions operation. Constraints: • min: 1 • max: 255
     /// </summary>
     [CliOption("--grafana-version")]
     public string? GrafanaVersion { get; set; }
 
     /// <summary>
-    /// Specifies whether the workspace supports IPv4 only, or IPv4 and IPv6. Valid values are IPv4 and DualStack . For more information about IP address types, see Network access control . Possible values: o IPv4 o DualStack
+    /// Specifies whether the workspace supports IPv4 only, or IPv4 and IPv6. Valid values are IPv4 and DualStack . For more information about IP address types, see Network access control . Possible values: • IPv4 • DualStack
     /// </summary>
     [CliOption("--ip-address-type")]
     public AwsGrafanaCreateWorkspaceIpAddressType? IpAddressType { get; set; }
 
     /// <summary>
-    /// The ID or ARN of the Key Management Service key to use for encrypt- ing workspace data. Constraints: o min: 1 o max: 2048 o pattern: [a-zA-Z0-9:/_-]+
+    /// The ID or ARN of the Key Management Service key to use for encrypting workspace data. Constraints: • min: 1 • max: 2048 • pattern: [a-zA-Z0-9:/_-]+
     /// </summary>
     [CliOption("--kms-key-id")]
     public string? KmsKeyId { get; set; }
@@ -211,6 +211,15 @@ public record AwsGrafanaCreateWorkspaceOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

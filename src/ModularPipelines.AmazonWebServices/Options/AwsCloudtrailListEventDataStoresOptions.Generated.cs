@@ -23,14 +23,14 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsCloudtrailListEventDataStoresOptions : AwsOptions
 {
     /// <summary>
-    /// A token you can use to get the next page of event data store re- sults. Constraints: o min: 4 o max: 1000 o pattern: .*
+    /// A token you can use to get the next page of event data store results. Constraints: • min: 4 • max: 1000 • pattern: .*
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// The maximum number of event data stores to display on a single page. Constraints: o min: 1 o max: 1000
+    /// The maximum number of event data stores to display on a single page. Constraints: • min: 1 • max: 1000
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
@@ -40,5 +40,14 @@ public record AwsCloudtrailListEventDataStoresOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

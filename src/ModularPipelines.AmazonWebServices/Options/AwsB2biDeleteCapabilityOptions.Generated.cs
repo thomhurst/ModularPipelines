@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes the specified capability. A trading capability contains the in- formation required to transform incoming EDI documents into JSON or XML outputs. See also: AWS API Documentation
+/// Deletes the specified capability. A trading capability contains the information required to transform incoming EDI documents into JSON or XML outputs. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsB2biDeleteCapabilityOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes the specified capability. A trading capability contains the in- formation required to transform incoming EDI documents into JSON or XML outputs. See also: AWS API Documentation
+    /// Deletes the specified capability. A trading capability contains the information required to transform incoming EDI documents into JSON or XML outputs. See also: AWS API Documentation
     /// </summary>
-    /// <param name="CapabilityId">Specifies a system-assigned unique identifier for the capability. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_-]+</param>
+    /// <param name="CapabilityId">Specifies a system-assigned unique identifier for the capability. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9_-]+</param>
     public AwsB2biDeleteCapabilityOptions(
         string CapabilityId
     )
@@ -56,7 +57,7 @@ public record AwsB2biDeleteCapabilityOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Specifies a system-assigned unique identifier for the capability. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_-]+
+    /// Specifies a system-assigned unique identifier for the capability. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9_-]+
     /// </summary>
     [CliOption("--capability-id")]
     public string? CapabilityId { get; private init; }
@@ -82,6 +83,15 @@ public record AwsB2biDeleteCapabilityOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

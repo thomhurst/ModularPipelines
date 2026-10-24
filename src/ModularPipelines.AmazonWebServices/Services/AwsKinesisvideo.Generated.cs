@@ -6,8 +6,8 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
+using ModularPipelines;
 using ModularPipelines.Context;
-using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
@@ -47,7 +47,7 @@ public class AwsKinesisvideo : IAwsKinesisvideo
     }
 
     /// <summary>
-    /// Creates a new Kinesis video stream. When you create a new stream, Kinesis Video Streams assigns it a ver- sion number. When you change the stream's metadata, Kinesis Video Streams updates the version. CreateStream is an asynchronous operation. For information about how the service works, see How it Works . You must have permissions for the KinesisVideo:CreateStream action. See also: AWS API Documentation
+    /// Creates a new Kinesis video stream. When you create a new stream, Kinesis Video Streams assigns it a version number. When you change the stream's metadata, Kinesis Video Streams updates the version. CreateStream is an asynchronous operation. For information about how the service works, see How it Works . You must have permissions for the KinesisVideo:CreateStream action. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -62,7 +62,7 @@ public class AwsKinesisvideo : IAwsKinesisvideo
     }
 
     /// <summary>
-    /// An asynchronous API that deletes a streams existing edge configuration, as well as the corresponding media from the Edge Agent. When you invoke this API, the sync status is set to DELETING . A dele- tion process starts, in which active edge jobs are stopped and all me- dia is deleted from the edge device. The time to delete varies, depend- ing on the total amount of stored media. If the deletion process fails, the sync status changes to DELETE_FAILED . You will need to re-try the deletion. When ...
+    /// An asynchronous API that deletes a streams existing edge configuration, as well as the corresponding media from the Edge Agent. When you invoke this API, the sync status is set to DELETING . A deletion process starts, in which active edge jobs are stopped and all media is deleted from the edge device. The time to delete varies, depending on the total amount of stored media. If the deletion process fails, the sync status changes to DELETE_FAILED . You will need to re-try the deletion. When the de...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -77,7 +77,7 @@ public class AwsKinesisvideo : IAwsKinesisvideo
     }
 
     /// <summary>
-    /// Deletes a specified signaling channel. DeleteSignalingChannel is an asynchronous operation. If you don't specify the channel's current ver- sion, the most recent version is deleted. See also: AWS API Documentation
+    /// Deletes a specified signaling channel. DeleteSignalingChannel is an asynchronous operation. If you don't specify the channel's current version, the most recent version is deleted. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -92,7 +92,7 @@ public class AwsKinesisvideo : IAwsKinesisvideo
     }
 
     /// <summary>
-    /// Deletes a Kinesis video stream and the data contained in the stream. This method marks the stream for deletion, and makes the data in the stream inaccessible immediately. To ensure that you have the latest version of the stream before delet- ing it, you can specify the stream version. Kinesis Video Streams as- signs a version to each stream. When you update a stream, Kinesis Video Streams assigns a new version number. To get the latest stream version, use the DescribeStream API. This operation r...
+    /// Deletes a Kinesis video stream and the data contained in the stream. This method marks the stream for deletion, and makes the data in the stream inaccessible immediately. To ensure that you have the latest version of the stream before deleting it, you can specify the stream version. Kinesis Video Streams assigns a version to each stream. When you update a stream, Kinesis Video Streams assigns a new version number. To get the latest stream version, use the DescribeStream API. This operation requi...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -107,7 +107,7 @@ public class AwsKinesisvideo : IAwsKinesisvideo
     }
 
     /// <summary>
-    /// Describes a streams edge configuration that was set using the Start- EdgeConfigurationUpdate API and the latest status of the edge agent's recorder and uploader jobs. Use this API to get the status of the con- figuration to determine if the configuration is in sync with the Edge Agent. Use this API to evaluate the health of the Edge Agent. See also: AWS API Documentation
+    /// Describes a streams edge configuration that was set using the StartEdgeConfigurationUpdate API and the latest status of the edge agent's recorder and uploader jobs. Use this API to get the status of the configuration to determine if the configuration is in sync with the Edge Agent. Use this API to evaluate the health of the Edge Agent. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -137,7 +137,7 @@ public class AwsKinesisvideo : IAwsKinesisvideo
     }
 
     /// <summary>
-    /// Returns the most current information about the stream. The streamName or streamARN should be provided in the input. See also: AWS API Documentation describe-mapped-resource-configuration is a paginated operation. Multi- ple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate ar- gument. When using --output text and the --query argument on a pagi- nated response, the --query argument must extract data from the resu...
+    /// Returns the most current information about the stream. The streamName or streamARN should be provided in the input. See also: AWS API Documentation describe-mapped-resource-configuration is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -212,7 +212,7 @@ public class AwsKinesisvideo : IAwsKinesisvideo
     }
 
     /// <summary>
-    /// Retrieves the current storage configuration for the specified Kinesis video stream. In the request, you must specify either the StreamName or the StreamARN . You must have permissions for the KinesisVideo:DescribeStreamStorage- Configuration action. See also: AWS API Documentation
+    /// Retrieves the current storage configuration for the specified Kinesis video stream. In the request, you must specify either the StreamName or the StreamARN . You must have permissions for the KinesisVideo:DescribeStreamStorageConfiguration action. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -242,7 +242,7 @@ public class AwsKinesisvideo : IAwsKinesisvideo
     }
 
     /// <summary>
-    /// Provides an endpoint for the specified signaling channel to send and receive messages. This API uses the SingleMasterChannelEndpointConfigu- ration input parameter, which consists of the Protocols and Role prop- erties. Protocols is used to determine the communication mechanism. For ex- ample, if you specify WSS as the protocol, this API produces a se- cure websocket endpoint. If you specify HTTPS as the protocol, this API generates an HTTPS endpoint. If you specify WEBRTC as the proto- col, but...
+    /// Provides an endpoint for the specified signaling channel to send and receive messages. This API uses the SingleMasterChannelEndpointConfiguration input parameter, which consists of the Protocols and Role properties. Protocols is used to determine the communication mechanism. For example, if you specify WSS as the protocol, this API produces a secure websocket endpoint. If you specify HTTPS as the protocol, this API generates an HTTPS endpoint. If you specify WEBRTC as the protocol, but the signa...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -257,7 +257,7 @@ public class AwsKinesisvideo : IAwsKinesisvideo
     }
 
     /// <summary>
-    /// Returns an array of edge configurations associated with the specified Edge Agent. In the request, you must specify the Edge Agent HubDeviceArn . See also: AWS API Documentation list-edge-agent-configurations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract...
+    /// Returns an array of edge configurations associated with the specified Edge Agent. In the request, you must specify the Edge Agent HubDeviceArn . See also: AWS API Documentation list-edge-agent-configurations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract dat...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -272,7 +272,7 @@ public class AwsKinesisvideo : IAwsKinesisvideo
     }
 
     /// <summary>
-    /// Returns an array of ChannelInfo objects. Each object describes a sig- naling channel. To retrieve only those channels that satisfy a specific condition, you can specify a ChannelNameCondition . See also: AWS API Documentation list-signaling-channels is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated respo...
+    /// Returns an array of ChannelInfo objects. Each object describes a signaling channel. To retrieve only those channels that satisfy a specific condition, you can specify a ChannelNameCondition . See also: AWS API Documentation list-signaling-channels is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated respons...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -287,7 +287,7 @@ public class AwsKinesisvideo : IAwsKinesisvideo
     }
 
     /// <summary>
-    /// Returns an array of StreamInfo objects. Each object describes a stream. To retrieve only streams that satisfy a specific condition, you can specify a StreamNameCondition . See also: AWS API Documentation list-streams is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must ...
+    /// Returns an array of StreamInfo objects. Each object describes a stream. To retrieve only streams that satisfy a specific condition, you can specify a StreamNameCondition . See also: AWS API Documentation list-streams is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must ex...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -362,7 +362,7 @@ public class AwsKinesisvideo : IAwsKinesisvideo
     }
 
     /// <summary>
-    /// Adds one or more tags to a stream. A tag is a key-value pair (the value is optional) that you can define and assign to Amazon Web Services re- sources. If you specify a tag that already exists, the tag value is re- placed with the value that you specify in the request. For more infor- mation, see Using Cost Allocation Tags in the Billing and Cost Manage- ment and Cost Management User Guide . You must provide either the StreamName or the StreamARN . This operation requires permission for the Kine...
+    /// Adds one or more tags to a stream. A tag is a key-value pair (the value is optional) that you can define and assign to Amazon Web Services resources. If you specify a tag that already exists, the tag value is replaced with the value that you specify in the request. For more information, see Using Cost Allocation Tags in the Billing and Cost Management and Cost Management User Guide . You must provide either the StreamName or the StreamARN . This operation requires permission for the KinesisVideo...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -407,7 +407,7 @@ public class AwsKinesisvideo : IAwsKinesisvideo
     }
 
     /// <summary>
-    /// Increases or decreases the stream's data retention period by the value that you specify. To indicate whether you want to increase or decrease the data retention period, specify the Operation parameter in the re- quest body. In the request, you must specify either the StreamName or the StreamARN . This operation requires permission for the KinesisVideo:UpdateDataRe- tention action. Changing the data retention period affects the data in the stream as follows: o If the data retention period is incr...
+    /// Increases or decreases the stream's data retention period by the value that you specify. To indicate whether you want to increase or decrease the data retention period, specify the Operation parameter in the request body. In the request, you must specify either the StreamName or the StreamARN . This operation requires permission for the KinesisVideo:UpdateDataRetention action. Changing the data retention period affects the data in the stream as follows: • If the data retention period is increase...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -437,7 +437,7 @@ public class AwsKinesisvideo : IAwsKinesisvideo
     }
 
     /// <summary>
-    /// Associates a SignalingChannel to a stream to store the media. There are two signaling modes that you can specify : o If StorageStatus is enabled, the data will be stored in the StreamARN provided. In order for WebRTC Ingestion to work, the stream must have data retention enabled. o If StorageStatus is disabled, no data will be stored, and the Strea- mARN parameter will not be needed. WARNING: If StorageStatus is enabled, direct peer-to-peer (master-viewer) connections no longer occur. Peers conn...
+    /// Associates a SignalingChannel to a stream to store the media. There are two signaling modes that you can specify : • If StorageStatus is enabled, the data will be stored in the StreamARN provided. In order for WebRTC Ingestion to work, the stream must have data retention enabled. • If StorageStatus is disabled, no data will be stored, and the StreamARN parameter will not be needed. WARNING: If StorageStatus is enabled, direct peer-to-peer (master-viewer) connections no longer occur. Peers connec...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -467,7 +467,7 @@ public class AwsKinesisvideo : IAwsKinesisvideo
     }
 
     /// <summary>
-    /// Updates the existing signaling channel. This is an asynchronous opera- tion and takes time to complete. If the MessageTtlSeconds value is updated (either increased or re- duced), it only applies to new messages sent via this channel after it's been updated. Existing messages are still expired as per the pre- vious MessageTtlSeconds value. See also: AWS API Documentation
+    /// Updates the existing signaling channel. This is an asynchronous operation and takes time to complete. If the MessageTtlSeconds value is updated (either increased or reduced), it only applies to new messages sent via this channel after it's been updated. Existing messages are still expired as per the previous MessageTtlSeconds value. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -482,7 +482,7 @@ public class AwsKinesisvideo : IAwsKinesisvideo
     }
 
     /// <summary>
-    /// Updates stream metadata, such as the device name and media type. You must provide the stream name or the Amazon Resource Name (ARN) of the stream. To make sure that you have the latest version of the stream before up- dating it, you can specify the stream version. Kinesis Video Streams assigns a version to each stream. When you update a stream, Kinesis Video Streams assigns a new version number. To get the latest stream version, use the DescribeStream API. UpdateStream is an asynchronous operati...
+    /// Updates stream metadata, such as the device name and media type. You must provide the stream name or the Amazon Resource Name (ARN) of the stream. To make sure that you have the latest version of the stream before updating it, you can specify the stream version. Kinesis Video Streams assigns a version to each stream. When you update a stream, Kinesis Video Streams assigns a new version number. To get the latest stream version, use the DescribeStream API. UpdateStream is an asynchronous operation...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -497,7 +497,7 @@ public class AwsKinesisvideo : IAwsKinesisvideo
     }
 
     /// <summary>
-    /// Updates the storage configuration for an existing Kinesis video stream. This operation allows you to modify the storage tier settings for a stream, enabling you to optimize storage costs and performance based on your access patterns. UpdateStreamStorageConfiguration is an asynchronous operation. You must have permissions for the KinesisVideo:UpdateStreamStorageCon- figuration action. See also: AWS API Documentation
+    /// Updates the storage configuration for an existing Kinesis video stream. This operation allows you to modify the storage tier settings for a stream, enabling you to optimize storage costs and performance based on your access patterns. UpdateStreamStorageConfiguration is an asynchronous operation. You must have permissions for the KinesisVideo:UpdateStreamStorageConfiguration action. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

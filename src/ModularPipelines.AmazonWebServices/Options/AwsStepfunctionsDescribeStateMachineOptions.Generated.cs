@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Provides information about a state machine's definition, its IAM role Amazon Resource Name (ARN), and configuration. A qualified state machine ARN can either refer to a Distributed Map state defined within a state machine, a version ARN, or an alias ARN. The following are some examples of qualified and unqualified state ma- chine ARNs: o The following qualified state machine ARN refers to a Distributed Map state with a label mapStateLabel in a state machine named myStateMa- chine . arn:partition...
+/// Provides information about a state machine's definition, its IAM role Amazon Resource Name (ARN), and configuration. A qualified state machine ARN can either refer to a Distributed Map state defined within a state machine, a version ARN, or an alias ARN. The following are some examples of qualified and unqualified state machine ARNs: • The following qualified state machine ARN refers to a Distributed Map state with a label mapStateLabel in a state machine named myStateMachine . arn:partition:sta...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +27,9 @@ public record AwsStepfunctionsDescribeStateMachineOptions : AwsOptions, IValidat
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Provides information about a state machine's definition, its IAM role Amazon Resource Name (ARN), and configuration. A qualified state machine ARN can either refer to a Distributed Map state defined within a state machine, a version ARN, or an alias ARN. The following are some examples of qualified and unqualified state ma- chine ARNs: o The following qualified state machine ARN refers to a Distributed Map state with a label mapStateLabel in a state machine named myStateMa- chine . arn:partition...
+    /// Provides information about a state machine's definition, its IAM role Amazon Resource Name (ARN), and configuration. A qualified state machine ARN can either refer to a Distributed Map state defined within a state machine, a version ARN, or an alias ARN. The following are some examples of qualified and unqualified state machine ARNs: • The following qualified state machine ARN refers to a Distributed Map state with a label mapStateLabel in a state machine named myStateMachine . arn:partition:sta...
     /// </summary>
-    /// <param name="StateMachineArn">The Amazon Resource Name (ARN) of the state machine for which you want the information. If you specify a state machine version ARN, this API returns details about that version. The version ARN is a combination of state ma- chine ARN and the version number separated by a colon (:). For exam- ple, stateMachineARN:1 . Constraints: o min: 1 o max: 256</param>
+    /// <param name="StateMachineArn">The Amazon Resource Name (ARN) of the state machine for which you want the information. If you specify a state machine version ARN, this API returns details about that version. The version ARN is a combination of state machine ARN and the version number separated by a colon (:). For example, stateMachineARN:1 . Constraints: • min: 1 • max: 256</param>
     public AwsStepfunctionsDescribeStateMachineOptions(
         string StateMachineArn
     )
@@ -57,13 +58,13 @@ public record AwsStepfunctionsDescribeStateMachineOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the state machine for which you want the information. If you specify a state machine version ARN, this API returns details about that version. The version ARN is a combination of state ma- chine ARN and the version number separated by a colon (:). For exam- ple, stateMachineARN:1 . Constraints: o min: 1 o max: 256
+    /// The Amazon Resource Name (ARN) of the state machine for which you want the information. If you specify a state machine version ARN, this API returns details about that version. The version ARN is a combination of state machine ARN and the version number separated by a colon (:). For example, stateMachineARN:1 . Constraints: • min: 1 • max: 256
     /// </summary>
     [CliOption("--state-machine-arn")]
     public string? StateMachineArn { get; private init; }
 
     /// <summary>
-    /// If your state machine definition is encrypted with a KMS key, callers must have kms:Decrypt permission to decrypt the definition. Alternatively, you can call the API with includedData = META- DATA_ONLY to get a successful response without the encrypted defini- tion. NOTE: When calling a labelled ARN for an encrypted state machine, the includedData = METADATA_ONLY parameter will not apply because Step Functions needs to decrypt the entire state machine defini- tion to get the Distributed Map states definition. In this case, the API caller needs to have kms:Decrypt permission. Possible values: o ALL_DATA o METADATA_ONLY
+    /// If your state machine definition is encrypted with a KMS key, callers must have kms:Decrypt permission to decrypt the definition. Alternatively, you can call the API with includedData = METADATA_ONLY to get a successful response without the encrypted definition. NOTE: When calling a labelled ARN for an encrypted state machine, the includedData = METADATA_ONLY parameter will not apply because Step Functions needs to decrypt the entire state machine definition to get the Distributed Map states definition. In this case, the API caller needs to have kms:Decrypt permission. Possible values: • ALL_DATA • METADATA_ONLY
     /// </summary>
     [CliOption("--included-data")]
     public AwsStepfunctionsDescribeStateMachineIncludedData? IncludedData { get; set; }
@@ -89,6 +90,15 @@ public record AwsStepfunctionsDescribeStateMachineOptions : AwsOptions, IValidat
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

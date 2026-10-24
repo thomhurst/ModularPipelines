@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsConnectCompleteAttachedFileUploadOptions : AwsOptions, IValidat
     /// <summary>
     /// Allows you to confirm that the attached file has been uploaded using the pre-signed URL provided in the StartAttachedFileUpload API. See also: AWS API Documentation
     /// </summary>
-    /// <param name="InstanceId">The unique identifier of the Connect Customer instance. Constraints: o min: 1 o max: 100</param>
-    /// <param name="FileId">The unique identifier of the attached file resource. Constraints: o min: 1 o max: 256</param>
+    /// <param name="InstanceId">The unique identifier of the Connect Customer instance. Constraints: • min: 1 • max: 100</param>
+    /// <param name="FileId">The unique identifier of the attached file resource. Constraints: • min: 1 • max: 256</param>
     /// <param name="AssociatedResourceArn">The resource to which the attached file is (being) uploaded to. The supported resources are Cases , Email , and Task . NOTE: This value must be a valid ARN.</param>
     public AwsConnectCompleteAttachedFileUploadOptions(
         string InstanceId,
@@ -64,13 +65,13 @@ public record AwsConnectCompleteAttachedFileUploadOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the Connect Customer instance. Constraints: o min: 1 o max: 100
+    /// The unique identifier of the Connect Customer instance. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--instance-id")]
     public string? InstanceId { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the attached file resource. Constraints: o min: 1 o max: 256
+    /// The unique identifier of the attached file resource. Constraints: • min: 1 • max: 256
     /// </summary>
     [CliOption("--file-id")]
     public string? FileId { get; private init; }
@@ -102,6 +103,15 @@ public record AwsConnectCompleteAttachedFileUploadOptions : AwsOptions, IValidat
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

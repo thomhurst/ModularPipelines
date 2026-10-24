@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +29,7 @@ public record AwsIvsListStreamSessionsOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Gets a summary of current and previous streams for a specified channel in your account, in the AWS region where the API request is processed. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ChannelArn">Channel ARN used to filter the list. Constraints: o min: 1 o max: 128 o pattern: arn:aws:ivs:[a-z0-9-]+:[0-9]+:channel/[a-zA-Z0-9-]+</param>
+    /// <param name="ChannelArn">Channel ARN used to filter the list. Constraints: • min: 1 • max: 128 • pattern: arn:aws:ivs:[a-z0-9-]+:[0-9]+:channel/[a-zA-Z0-9-]+</param>
     public AwsIvsListStreamSessionsOptions(
         string ChannelArn
     )
@@ -57,20 +58,20 @@ public record AwsIvsListStreamSessionsOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Channel ARN used to filter the list. Constraints: o min: 1 o max: 128 o pattern: arn:aws:ivs:[a-z0-9-]+:[0-9]+:channel/[a-zA-Z0-9-]+
+    /// Channel ARN used to filter the list. Constraints: • min: 1 • max: 128 • pattern: arn:aws:ivs:[a-z0-9-]+:[0-9]+:channel/[a-zA-Z0-9-]+
     /// </summary>
     [CliOption("--channel-arn")]
     public string? ChannelArn { get; private init; }
 
     /// <summary>
-    /// The first stream to retrieve. This is used for pagination; see the nextToken response field. Constraints: o min: 0 o max: 1024 o pattern: [a-zA-Z0-9+/=_-]*
+    /// The first stream to retrieve. This is used for pagination; see the nextToken response field. Constraints: • min: 0 • max: 1024 • pattern: [a-zA-Z0-9+/=_-]*
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// Maximum number of streams to return. Default: 100. Constraints: o min: 1 o max: 100
+    /// Maximum number of streams to return. Default: 100. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
@@ -96,6 +97,15 @@ public record AwsIvsListStreamSessionsOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

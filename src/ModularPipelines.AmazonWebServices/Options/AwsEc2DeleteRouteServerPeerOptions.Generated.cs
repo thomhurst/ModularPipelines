@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes the specified BGP peer from a route server. A route server peer is a session between a route server endpoint and the device deployed in Amazon Web Services (such as a firewall appli- ance or other network security function running on an EC2 instance). The device must meet these requirements: o Have an elastic network interface in the VPC o Support BGP (Border Gateway Protocol) o Can initiate BGP sessions See also: AWS API Documentation
+/// Deletes the specified BGP peer from a route server. A route server peer is a session between a route server endpoint and the device deployed in Amazon Web Services (such as a firewall appliance or other network security function running on an EC2 instance). The device must meet these requirements: • Have an elastic network interface in the VPC • Support BGP (Border Gateway Protocol) • Can initiate BGP sessions See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +26,7 @@ public record AwsEc2DeleteRouteServerPeerOptions : AwsOptions, IValidatableObjec
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes the specified BGP peer from a route server. A route server peer is a session between a route server endpoint and the device deployed in Amazon Web Services (such as a firewall appli- ance or other network security function running on an EC2 instance). The device must meet these requirements: o Have an elastic network interface in the VPC o Support BGP (Border Gateway Protocol) o Can initiate BGP sessions See also: AWS API Documentation
+    /// Deletes the specified BGP peer from a route server. A route server peer is a session between a route server endpoint and the device deployed in Amazon Web Services (such as a firewall appliance or other network security function running on an EC2 instance). The device must meet these requirements: • Have an elastic network interface in the VPC • Support BGP (Border Gateway Protocol) • Can initiate BGP sessions See also: AWS API Documentation
     /// </summary>
     /// <param name="RouteServerPeerId">The ID of the route server peer to delete.</param>
     public AwsEc2DeleteRouteServerPeerOptions(
@@ -62,7 +63,7 @@ public record AwsEc2DeleteRouteServerPeerOptions : AwsOptions, IValidatableObjec
     public string? RouteServerPeerId { get; private init; }
 
     /// <summary>
-    /// A check for whether you have the required permissions for the action without actually making the request and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// A check for whether you have the required permissions for the action without actually making the request and provides an error response. If you have the required permissions, the error response is DryRunOperation . Otherwise, it is UnauthorizedOperation .
     /// </summary>
     [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
@@ -88,6 +89,15 @@ public record AwsEc2DeleteRouteServerPeerOptions : AwsOptions, IValidatableObjec
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,8 +29,8 @@ public record AwsBedrockCreateAutomatedReasoningPolicyVersionOptions : AwsOption
     /// <summary>
     /// Creates a new version of an existing Automated Reasoning policy. This allows you to iterate on your policy rules while maintaining previous versions for rollback or comparison purposes. See also: AWS API Documentation
     /// </summary>
-    /// <param name="PolicyArn">The Amazon Resource Name (ARN) of the Automated Reasoning policy for which to create a version. Constraints: o min: 1 o max: 2048 o pattern: arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:auto- mated-reasoning-policy/[a-z0-9]{12}(:([1-9][0-9]{0,11}))?</param>
-    /// <param name="LastUpdatedDefinitionHash">The hash of the current policy definition used as a concurrency to- ken to ensure the policy hasn't been modified since you last re- trieved it. Constraints: o min: 128 o max: 128 o pattern: [0-9a-z]{128}</param>
+    /// <param name="PolicyArn">The Amazon Resource Name (ARN) of the Automated Reasoning policy for which to create a version. Constraints: • min: 1 • max: 2048 • pattern: arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:automated-reasoning-policy/[a-z0-9]{12}(:([1-9][0-9]{0,11}))?</param>
+    /// <param name="LastUpdatedDefinitionHash">The hash of the current policy definition used as a concurrency token to ensure the policy hasn't been modified since you last retrieved it. Constraints: • min: 128 • max: 128 • pattern: [0-9a-z]{128}</param>
     public AwsBedrockCreateAutomatedReasoningPolicyVersionOptions(
         string PolicyArn,
         string LastUpdatedDefinitionHash
@@ -61,26 +62,26 @@ public record AwsBedrockCreateAutomatedReasoningPolicyVersionOptions : AwsOption
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the Automated Reasoning policy for which to create a version. Constraints: o min: 1 o max: 2048 o pattern: arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:auto- mated-reasoning-policy/[a-z0-9]{12}(:([1-9][0-9]{0,11}))?
+    /// The Amazon Resource Name (ARN) of the Automated Reasoning policy for which to create a version. Constraints: • min: 1 • max: 2048 • pattern: arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:automated-reasoning-policy/[a-z0-9]{12}(:([1-9][0-9]{0,11}))?
     /// </summary>
     [CliOption("--policy-arn")]
     public string? PolicyArn { get; private init; }
 
     /// <summary>
-    /// The hash of the current policy definition used as a concurrency to- ken to ensure the policy hasn't been modified since you last re- trieved it. Constraints: o min: 128 o max: 128 o pattern: [0-9a-z]{128}
+    /// The hash of the current policy definition used as a concurrency token to ensure the policy hasn't been modified since you last retrieved it. Constraints: • min: 128 • max: 128 • pattern: [0-9a-z]{128}
     /// </summary>
     [CliOption("--last-updated-definition-hash")]
     public string? LastUpdatedDefinitionHash { get; private init; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier to ensure that the operation completes no more than one time. If this token matches a previous request, Amazon Bedrock ignores the request, but does not return an error. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9]([-a-zA-Z0-9]{0,254}[a-zA-Z0-9])?
+    /// A unique, case-sensitive identifier to ensure that the operation completes no more than one time. If this token matches a previous request, Amazon Bedrock ignores the request, but does not return an error. Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9]([-a-zA-Z0-9]{0,254}[a-zA-Z0-9])?
     /// </summary>
     [SecretValue]
     [CliOption("--client-request-token")]
     public string? ClientRequestToken { get; set; }
 
     /// <summary>
-    /// A list of tags to associate with the policy version. Constraints: o min: 0 o max: 200 (structure) Definition of the key/value pair for a tag. key -&gt; (string) [required] Key for the tag. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9\s._:/=+@-]* value -&gt; (string) [required] Value for the tag. Constraints: o min: 0 o max: 256 o pattern: [a-zA-Z0-9\s._:/=+@-]* Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
+    /// A list of tags to associate with the policy version. Constraints: • min: 0 • max: 200 (structure) Definition of the key/value pair for a tag. key -&gt; (string) [required] Key for the tag. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9\s._:/=+@-]* value -&gt; (string) [required] Value for the tag. Constraints: • min: 0 • max: 256 • pattern: [a-zA-Z0-9\s._:/=+@-]* Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
@@ -106,6 +107,15 @@ public record AwsBedrockCreateAutomatedReasoningPolicyVersionOptions : AwsOption
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

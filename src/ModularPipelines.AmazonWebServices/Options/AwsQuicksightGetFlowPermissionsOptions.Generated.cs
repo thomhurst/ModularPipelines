@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsQuicksightGetFlowPermissionsOptions : AwsOptions, IValidatableO
     /// <summary>
     /// Get permissions for a flow. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AwsAccountId">The ID of the Amazon Web Services account that contains the flow that you are getting permissions for. Constraints: o min: 12 o max: 12 o pattern: [0-9]{12}</param>
-    /// <param name="FlowId">The unique identifier of the flow to get permissions from. Constraints: o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}</param>
+    /// <param name="AwsAccountId">The ID of the Amazon Web Services account that contains the flow that you are getting permissions for. Constraints: • min: 12 • max: 12 • pattern: [0-9]{12}</param>
+    /// <param name="FlowId">The unique identifier of the flow to get permissions from. Constraints: • pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}</param>
     public AwsQuicksightGetFlowPermissionsOptions(
         string AwsAccountId,
         string FlowId
@@ -60,13 +61,13 @@ public record AwsQuicksightGetFlowPermissionsOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the Amazon Web Services account that contains the flow that you are getting permissions for. Constraints: o min: 12 o max: 12 o pattern: [0-9]{12}
+    /// The ID of the Amazon Web Services account that contains the flow that you are getting permissions for. Constraints: • min: 12 • max: 12 • pattern: [0-9]{12}
     /// </summary>
     [CliOption("--aws-account-id")]
     public string? AwsAccountId { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the flow to get permissions from. Constraints: o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}
+    /// The unique identifier of the flow to get permissions from. Constraints: • pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}
     /// </summary>
     [CliOption("--flow-id")]
     public string? FlowId { get; private init; }
@@ -92,6 +93,15 @@ public record AwsQuicksightGetFlowPermissionsOptions : AwsOptions, IValidatableO
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

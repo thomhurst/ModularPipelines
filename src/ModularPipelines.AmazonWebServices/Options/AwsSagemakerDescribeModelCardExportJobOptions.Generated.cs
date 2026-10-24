@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsSagemakerDescribeModelCardExportJobOptions : AwsOptions, IValid
     /// <summary>
     /// Describes an Amazon SageMaker Model Card export job. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ModelCardExportJobArn">The Amazon Resource Name (ARN) of the model card export job to de- scribe. Constraints: o min: 0 o max: 256 o pattern: arn:aws[a-z\-]*:sage- maker:[a-z0-9\-]{9,16}:[0-9]{12}:model-card/[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}/ex- port-job/[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}</param>
+    /// <param name="ModelCardExportJobArn">The Amazon Resource Name (ARN) of the model card export job to describe. Constraints: • min: 0 • max: 256 • pattern: arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]{9,16}:[0-9]{12}:model-card/[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}/export-job/[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}</param>
     public AwsSagemakerDescribeModelCardExportJobOptions(
         string ModelCardExportJobArn
     )
@@ -56,7 +57,7 @@ public record AwsSagemakerDescribeModelCardExportJobOptions : AwsOptions, IValid
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the model card export job to de- scribe. Constraints: o min: 0 o max: 256 o pattern: arn:aws[a-z\-]*:sage- maker:[a-z0-9\-]{9,16}:[0-9]{12}:model-card/[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}/ex- port-job/[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}
+    /// The Amazon Resource Name (ARN) of the model card export job to describe. Constraints: • min: 0 • max: 256 • pattern: arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]{9,16}:[0-9]{12}:model-card/[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}/export-job/[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}
     /// </summary>
     [CliOption("--model-card-export-job-arn")]
     public string? ModelCardExportJobArn { get; private init; }
@@ -82,6 +83,15 @@ public record AwsSagemakerDescribeModelCardExportJobOptions : AwsOptions, IValid
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

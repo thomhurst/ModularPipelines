@@ -16,7 +16,7 @@ using ModularPipelines.AmazonWebServices.Enums;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Describes the specified applications by filtering based on their com- pute types, license availability, operating systems, and owners. See also: AWS API Documentation
+/// Describes the specified applications by filtering based on their compute types, license availability, operating systems, and owners. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -24,43 +24,43 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsWorkspacesDescribeApplicationsOptions : AwsOptions
 {
     /// <summary>
-    /// The identifiers of one or more applications. Constraints: o min: 1 o max: 25 (string) Constraints: o pattern: ^wsa-[0-9a-z]{8,63}$ Syntax: "string" "string" ...
+    /// The identifiers of one or more applications. Constraints: • min: 1 • max: 25 (string) Constraints: • pattern: ^wsa-[0-9a-z]{8,63}$ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--application-ids", GroupValues = true)]
     public IEnumerable<string>? ApplicationIds { get; set; }
 
     /// <summary>
-    /// The compute types supported by the applications. (string) Possible values: o VALUE o STANDARD o PERFORMANCE o POWER o GRAPHICS o POWERPRO o GENERALPURPOSE_4XLARGE o GENERALPURPOSE_8XLARGE o GRAPHICSPRO o GRAPHICS_G4DN o GRAPHICSPRO_G4DN o GRAPHICS_G6_XLARGE o GRAPHICS_G6_2XLARGE o GRAPHICS_G6_4XLARGE o GRAPHICS_G6_8XLARGE o GRAPHICS_G6_16XLARGE o GRAPHICS_GR6_4XLARGE o GRAPHICS_GR6_8XLARGE o GRAPHICS_G6F_LARGE o GRAPHICS_G6F_XLARGE o GRAPHICS_G6F_2XLARGE o GRAPHICS_G6F_4XLARGE o GRAPHICS_GR6F_4XLARGE o GRAPHICS_G7_2XLARGE o GRAPHICS_G7_4XLARGE o GRAPHICS_G7_8XLARGE o GRAPHICS_G7_12XLARGE Syntax: "string" "string" ...
+    /// The compute types supported by the applications. (string) Possible values: • VALUE • STANDARD • PERFORMANCE • POWER • GRAPHICS • POWERPRO • GENERALPURPOSE_4XLARGE • GENERALPURPOSE_8XLARGE • GRAPHICSPRO • GRAPHICS_G4DN • GRAPHICSPRO_G4DN • GRAPHICS_G6_XLARGE • GRAPHICS_G6_2XLARGE • GRAPHICS_G6_4XLARGE • GRAPHICS_G6_8XLARGE • GRAPHICS_G6_16XLARGE • GRAPHICS_GR6_4XLARGE • GRAPHICS_GR6_8XLARGE • GRAPHICS_G6F_LARGE • GRAPHICS_G6F_XLARGE • GRAPHICS_G6F_2XLARGE • GRAPHICS_G6F_4XLARGE • GRAPHICS_GR6F_4XLARGE • GRAPHICS_G7_2XLARGE • GRAPHICS_G7_4XLARGE • GRAPHICS_G7_8XLARGE • GRAPHICS_G7_12XLARGE Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--compute-type-names", GroupValues = true)]
     public IEnumerable<string>? ComputeTypeNames { get; set; }
 
     /// <summary>
-    /// The license availability for the applications. Possible values: o LICENSED o UNLICENSED
+    /// The license availability for the applications. Possible values: • LICENSED • UNLICENSED
     /// </summary>
     [CliOption("--license-type")]
     public AwsWorkspacesDescribeApplicationsLicenseType? LicenseType { get; set; }
 
     /// <summary>
-    /// The operating systems supported by the applications. (string) Possible values: o AMAZON_LINUX_2 o UBUNTU_18_04 o UBUNTU_20_04 o UBUNTU_22_04 o UNKNOWN o WINDOWS_10 o WINDOWS_11 o WINDOWS_7 o WINDOWS_SERVER_2016 o WINDOWS_SERVER_2019 o WINDOWS_SERVER_2022 o WINDOWS_SERVER_2025 o RHEL_8 o ROCKY_8 Syntax: "string" "string" ...
+    /// The operating systems supported by the applications. (string) Possible values: • AMAZON_LINUX_2 • UBUNTU_18_04 • UBUNTU_20_04 • UBUNTU_22_04 • UNKNOWN • WINDOWS_10 • WINDOWS_11 • WINDOWS_7 • WINDOWS_SERVER_2016 • WINDOWS_SERVER_2019 • WINDOWS_SERVER_2022 • WINDOWS_SERVER_2025 • RHEL_8 • ROCKY_8 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--operating-system-names", GroupValues = true)]
     public IEnumerable<string>? OperatingSystemNames { get; set; }
 
     /// <summary>
-    /// The owner of the applications. Constraints: o pattern: ^\d{12}|AMAZON$
+    /// The owner of the applications. Constraints: • pattern: ^\d{12}|AMAZON$
     /// </summary>
     [CliOption("--owner")]
     public string? Owner { get; set; }
 
     /// <summary>
-    /// The maximum number of applications to return. Constraints: o min: 1 o max: 25
+    /// The maximum number of applications to return. Constraints: • min: 1 • max: 25
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
     /// <summary>
-    /// If you received a NextToken from a previous call that was paginated, provide this token to receive the next set of results. Constraints: o min: 1 o max: 2048
+    /// If you received a NextToken from a previous call that was paginated, provide this token to receive the next set of results. Constraints: • min: 1 • max: 2048
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
@@ -71,5 +71,14 @@ public record AwsWorkspacesDescribeApplicationsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

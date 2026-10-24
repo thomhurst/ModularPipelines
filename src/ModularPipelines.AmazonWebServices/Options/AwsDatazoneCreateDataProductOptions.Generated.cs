@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,9 +29,9 @@ public record AwsDatazoneCreateDataProductOptions : AwsOptions, IValidatableObje
     /// <summary>
     /// Creates a data product. A data product is a comprehensive package that combines data assets with their associated metadata, documentation, and access controls. It's designed to serve specific business needs or use cases, making it easier for users to find and consume data appropriately. Data products include important information about data quality, freshness, and usage guidelines, effectively bridging the gap between data producers and consumers while ensuring proper governance. Prerequisites: ...
     /// </summary>
-    /// <param name="DomainIdentifier">The ID of the domain where the data product is created. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}</param>
-    /// <param name="Name">The name of the data product. Constraints: o min: 1 o max: 64</param>
-    /// <param name="OwningProjectIdentifier">The ID of the owning project of the data product. Constraints: o pattern: [a-zA-Z0-9_-]{1,36}</param>
+    /// <param name="DomainIdentifier">The ID of the domain where the data product is created. Constraints: • pattern: dzd[-_][a-zA-Z0-9_-]{1,36}</param>
+    /// <param name="Name">The name of the data product. Constraints: • min: 1 • max: 64</param>
+    /// <param name="OwningProjectIdentifier">The ID of the owning project of the data product. Constraints: • pattern: [a-zA-Z0-9_-]{1,36}</param>
     public AwsDatazoneCreateDataProductOptions(
         string DomainIdentifier,
         string Name,
@@ -65,49 +66,49 @@ public record AwsDatazoneCreateDataProductOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the domain where the data product is created. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}
+    /// The ID of the domain where the data product is created. Constraints: • pattern: dzd[-_][a-zA-Z0-9_-]{1,36}
     /// </summary>
     [CliOption("--domain-identifier")]
     public string? DomainIdentifier { get; private init; }
 
     /// <summary>
-    /// The name of the data product. Constraints: o min: 1 o max: 64
+    /// The name of the data product. Constraints: • min: 1 • max: 64
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The ID of the owning project of the data product. Constraints: o pattern: [a-zA-Z0-9_-]{1,36}
+    /// The ID of the owning project of the data product. Constraints: • pattern: [a-zA-Z0-9_-]{1,36}
     /// </summary>
     [CliOption("--owning-project-identifier")]
     public string? OwningProjectIdentifier { get; private init; }
 
     /// <summary>
-    /// The description of the data product. Constraints: o min: 1 o max: 4096
+    /// The description of the data product. Constraints: • min: 1 • max: 4096
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The glossary terms of the data product. Constraints: o min: 1 o max: 20 (string) Constraints: o pattern: [a-zA-Z0-9_-]{1,36} Syntax: "string" "string" ...
+    /// The glossary terms of the data product. Constraints: • min: 1 • max: 20 (string) Constraints: • pattern: [a-zA-Z0-9_-]{1,36} Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--glossary-terms", GroupValues = true)]
     public IEnumerable<string>? GlossaryTerms { get; set; }
 
     /// <summary>
-    /// The metadata forms of the data product. Constraints: o min: 0 o max: 10 (structure) The details of a metadata form. formName -&gt; (string) [required] The name of the metadata form. Constraints: o min: 1 o max: 128 o pattern: (?![0-9_])\w+$|^_\w*[a-zA-Z0-9]\w* typeIdentifier -&gt; (string) The ID of the metadata form type. Constraints: o min: 1 o max: 385 o pattern: (?!\.)[\w\.]*\w typeRevision -&gt; (string) The revision of the metadata form type. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_-]+ content -&gt; (string) The content of the metadata form. Constraints: o min: 0 o max: 300000 Shorthand Syntax: formName=string,typeIdentifier=string,typeRevision=string,content=string ... JSON Syntax: [ { "formName": "string", "typeIdentifier": "string", "typeRevision": "string", "content": "string" } ... ]
+    /// The metadata forms of the data product. Constraints: • min: 0 • max: 10 (structure) The details of a metadata form. formName -&gt; (string) [required] The name of the metadata form. Constraints: • min: 1 • max: 128 • pattern: (?![0-9_])\w+$|^_\w*[a-zA-Z0-9]\w* typeIdentifier -&gt; (string) The ID of the metadata form type. Constraints: • min: 1 • max: 385 • pattern: (?!\.)[\w\.]*\w typeRevision -&gt; (string) The revision of the metadata form type. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9_-]+ content -&gt; (string) The content of the metadata form. Constraints: • min: 0 • max: 300000 Shorthand Syntax: formName=string,typeIdentifier=string,typeRevision=string,content=string ... JSON Syntax: [ { "formName": "string", "typeIdentifier": "string", "typeRevision": "string", "content": "string" } ... ]
     /// </summary>
     [CliOption("--forms-input", GroupValues = true)]
     public IEnumerable<string>? FormsInput { get; set; }
 
     /// <summary>
-    /// The data assets of the data product. Constraints: o min: 1 (structure) The data product. itemType -&gt; (string) [required] The type of the data product. Possible values: o ASSET identifier -&gt; (string) [required] The ID of the data product. Constraints: o pattern: [a-zA-Z0-9_-]{1,36} revision -&gt; (string) The revision of the data product. Constraints: o min: 1 o max: 64 glossaryTerms -&gt; (list) The glossary terms of the data product. Constraints: o min: 1 o max: 2 (string) Constraints: o pattern: [a-zA-Z0-9_-]{1,36} Shorthand Syntax: itemType=string,identifier=string,revision=string,glossaryTerms=string,string ... JSON Syntax: [ { "itemType": "ASSET", "identifier": "string", "revision": "string", "glossaryTerms": ["string", ...] } ... ]
+    /// The data assets of the data product. Constraints: • min: 1 (structure) The data product. itemType -&gt; (string) [required] The type of the data product. Possible values: • ASSET identifier -&gt; (string) [required] The ID of the data product. Constraints: • pattern: [a-zA-Z0-9_-]{1,36} revision -&gt; (string) The revision of the data product. Constraints: • min: 1 • max: 64 glossaryTerms -&gt; (list) The glossary terms of the data product. Constraints: • min: 1 • max: 2 (string) Constraints: • pattern: [a-zA-Z0-9_-]{1,36} Shorthand Syntax: itemType=string,identifier=string,revision=string,glossaryTerms=string,string ... JSON Syntax: [ { "itemType": "ASSET", "identifier": "string", "revision": "string", "glossaryTerms": ["string", ...] } ... ]
     /// </summary>
     [CliOption("--items", GroupValues = true)]
     public IEnumerable<string>? Items { get; set; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier that is provided to ensure the idempotency of the request. Constraints: o min: 1 o max: 128 o pattern: [\x21-\x7E]+
+    /// A unique, case-sensitive identifier that is provided to ensure the idempotency of the request. Constraints: • min: 1 • max: 128 • pattern: [\x21-\x7E]+
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
@@ -134,6 +135,15 @@ public record AwsDatazoneCreateDataProductOptions : AwsOptions, IValidatableObje
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

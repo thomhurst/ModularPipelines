@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Given the ID of a user pool app client, returns detailed information about the style assigned to the app client. See also: AWS API Documentation describe-managed-login-branding-by-client uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command in- put, options and nested parameters that are labeled with the type docu- ment must be provided as JSON. Shorthand syntax does not support docu- ment t...
+/// Given the ID of a user pool app client, returns detailed information about the style assigned to the app client. See also: AWS API Documentation describe-managed-login-branding-by-client uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsCognitoIdpDescribeManagedLoginBrandingByClientOptions : AwsOpti
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Given the ID of a user pool app client, returns detailed information about the style assigned to the app client. See also: AWS API Documentation describe-managed-login-branding-by-client uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command in- put, options and nested parameters that are labeled with the type docu- ment must be provided as JSON. Shorthand syntax does not support docu- ment t...
+    /// Given the ID of a user pool app client, returns detailed information about the style assigned to the app client. See also: AWS API Documentation describe-managed-login-branding-by-client uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
     /// </summary>
-    /// <param name="UserPoolId">The ID of the user pool that contains the app client where you want more information about the managed login branding style. Constraints: o min: 1 o max: 55 o pattern: [\w-]+_[0-9a-zA-Z]+</param>
-    /// <param name="ClientId">The app client that's assigned to the branding style that you want more information about. Constraints: o min: 1 o max: 128 o pattern: [\w+]+</param>
+    /// <param name="UserPoolId">The ID of the user pool that contains the app client where you want more information about the managed login branding style. Constraints: • min: 1 • max: 55 • pattern: [\w-]+_[0-9a-zA-Z]+</param>
+    /// <param name="ClientId">The app client that's assigned to the branding style that you want more information about. Constraints: • min: 1 • max: 128 • pattern: [\w+]+</param>
     public AwsCognitoIdpDescribeManagedLoginBrandingByClientOptions(
         string UserPoolId,
         string ClientId
@@ -60,19 +61,19 @@ public record AwsCognitoIdpDescribeManagedLoginBrandingByClientOptions : AwsOpti
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the user pool that contains the app client where you want more information about the managed login branding style. Constraints: o min: 1 o max: 55 o pattern: [\w-]+_[0-9a-zA-Z]+
+    /// The ID of the user pool that contains the app client where you want more information about the managed login branding style. Constraints: • min: 1 • max: 55 • pattern: [\w-]+_[0-9a-zA-Z]+
     /// </summary>
     [CliOption("--user-pool-id")]
     public string? UserPoolId { get; private init; }
 
     /// <summary>
-    /// The app client that's assigned to the branding style that you want more information about. Constraints: o min: 1 o max: 128 o pattern: [\w+]+
+    /// The app client that's assigned to the branding style that you want more information about. Constraints: • min: 1 • max: 128 • pattern: [\w+]+
     /// </summary>
     [CliOption("--client-id")]
     public string? ClientId { get; private init; }
 
     /// <summary>
-    /// When true , returns values for branding options that are unchanged from Amazon Cognito defaults. When false or when you omit this para- meter, returns only values that you customized in your branding style.
+    /// When true , returns values for branding options that are unchanged from Amazon Cognito defaults. When false or when you omit this parameter, returns only values that you customized in your branding style.
     /// </summary>
     [CliFlag("--return-merged-resources", NegatedName = "--no-return-merged-resources")]
     public bool? ReturnMergedResources { get; set; }
@@ -98,6 +99,15 @@ public record AwsCognitoIdpDescribeManagedLoginBrandingByClientOptions : AwsOpti
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

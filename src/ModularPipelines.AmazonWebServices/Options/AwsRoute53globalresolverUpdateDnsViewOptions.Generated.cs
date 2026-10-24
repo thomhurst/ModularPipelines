@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,7 +29,7 @@ public record AwsRoute53globalresolverUpdateDnsViewOptions : AwsOptions, IValida
     /// <summary>
     /// Updates the configuration of a DNS view. WARNING: Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify --region us-east-2 on Amazon Web Services CLI commands. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DnsViewId">The unique identifier of the DNS view to update. Constraints: o min: 1 o max: 64 o pattern: [-.a-zA-Z0-9]+</param>
+    /// <param name="DnsViewId">The unique identifier of the DNS view to update. Constraints: • min: 1 • max: 64 • pattern: [-.a-zA-Z0-9]+</param>
     public AwsRoute53globalresolverUpdateDnsViewOptions(
         string DnsViewId
     )
@@ -57,37 +58,37 @@ public record AwsRoute53globalresolverUpdateDnsViewOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the DNS view to update. Constraints: o min: 1 o max: 64 o pattern: [-.a-zA-Z0-9]+
+    /// The unique identifier of the DNS view to update. Constraints: • min: 1 • max: 64 • pattern: [-.a-zA-Z0-9]+
     /// </summary>
     [CliOption("--dns-view-id")]
     public string? DnsViewId { get; private init; }
 
     /// <summary>
-    /// The name of the DNS view. Constraints: o min: 1 o max: 64 o pattern: (?!^[0-9]+$)([a-zA-Z0-9-_/' ']+)
+    /// The name of the DNS view. Constraints: • min: 1 • max: 64 • pattern: (?!^[0-9]+$)([a-zA-Z0-9-_/' ']+)
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
 
     /// <summary>
-    /// A description of the DNS view. Constraints: o min: 1 o max: 256
+    /// A description of the DNS view. Constraints: • min: 1 • max: 256
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// Whether to enable DNSSEC validation for the DNS view. Possible values: o ENABLED o DISABLED
+    /// Whether to enable DNSSEC validation for the DNS view. Possible values: • ENABLED • DISABLED
     /// </summary>
     [CliOption("--dnssec-validation")]
     public AwsRoute53globalresolverUpdateDnsViewDnssecValidation? DnssecValidation { get; set; }
 
     /// <summary>
-    /// Whether to enable EDNS Client Subnet injection for the DNS view. Possible values: o ENABLED o DISABLED
+    /// Whether to enable EDNS Client Subnet injection for the DNS view. Possible values: • ENABLED • DISABLED
     /// </summary>
     [CliOption("--edns-client-subnet")]
     public AwsRoute53globalresolverUpdateDnsViewEdnsClientSubnet? EdnsClientSubnet { get; set; }
 
     /// <summary>
-    /// Whether firewall rules should fail open when they cannot be evalu- ated. Possible values: o ENABLED o DISABLED
+    /// Whether firewall rules should fail open when they cannot be evaluated. Possible values: • ENABLED • DISABLED
     /// </summary>
     [CliOption("--firewall-rules-fail-open")]
     public AwsRoute53globalresolverUpdateDnsViewFirewallRulesFailOpen? FirewallRulesFailOpen { get; set; }
@@ -113,6 +114,15 @@ public record AwsRoute53globalresolverUpdateDnsViewOptions : AwsOptions, IValida
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

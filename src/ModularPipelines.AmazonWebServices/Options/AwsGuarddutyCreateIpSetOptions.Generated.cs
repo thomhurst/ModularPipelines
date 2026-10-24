@@ -11,14 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a new IPSet, which is called a trusted IP list in the console user interface. An IPSet is a list of IP addresses that are trusted for secure communication with Amazon Web Services infrastructure and appli- cations. GuardDuty doesn't generate findings for IP addresses that are included in IPSets. Only users from the administrator account can use this operation. See also: AWS API Documentation
+/// Creates a new IPSet, which is called a trusted IP list in the console user interface. An IPSet is a list of IP addresses that are trusted for secure communication with Amazon Web Services infrastructure and applications. GuardDuty doesn't generate findings for IP addresses that are included in IPSets. Only users from the administrator account can use this operation. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -28,12 +28,12 @@ public record AwsGuarddutyCreateIpSetOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a new IPSet, which is called a trusted IP list in the console user interface. An IPSet is a list of IP addresses that are trusted for secure communication with Amazon Web Services infrastructure and appli- cations. GuardDuty doesn't generate findings for IP addresses that are included in IPSets. Only users from the administrator account can use this operation. See also: AWS API Documentation
+    /// Creates a new IPSet, which is called a trusted IP list in the console user interface. An IPSet is a list of IP addresses that are trusted for secure communication with Amazon Web Services infrastructure and applications. GuardDuty doesn't generate findings for IP addresses that are included in IPSets. Only users from the administrator account can use this operation. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DetectorId">The unique ID of the detector of the GuardDuty account for which you want to create an IPSet. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the ListDetectors API. Constraints: o min: 1 o max: 300</param>
-    /// <param name="Name">The user-friendly name to identify the IPSet. Allowed characters are alphanumeric, whitespace, dash (-), and un- derscores (_). Constraints: o min: 1 o max: 300</param>
-    /// <param name="Format">The format of the file that contains the IPSet. Possible values: o TXT o STIX o OTX_CSV o ALIEN_VAULT o PROOF_POINT o FIRE_EYE Constraints: o min: 1 o max: 300</param>
-    /// <param name="Location">The URI of the file that contains the IPSet. Constraints: o min: 1 o max: 300</param>
+    /// <param name="DetectorId">The unique ID of the detector of the GuardDuty account for which you want to create an IPSet. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the ListDetectors API. Constraints: • min: 1 • max: 300</param>
+    /// <param name="Name">The user-friendly name to identify the IPSet. Allowed characters are alphanumeric, whitespace, dash (-), and underscores (_). Constraints: • min: 1 • max: 300</param>
+    /// <param name="Format">The format of the file that contains the IPSet. Possible values: • TXT • STIX • OTX_CSV • ALIEN_VAULT • PROOF_POINT • FIRE_EYE Constraints: • min: 1 • max: 300</param>
+    /// <param name="Location">The URI of the file that contains the IPSet. Constraints: • min: 1 • max: 300</param>
     /// <param name="Activate">A Boolean value that indicates whether GuardDuty is to start using the uploaded IPSet.</param>
     public AwsGuarddutyCreateIpSetOptions(
         string DetectorId,
@@ -73,25 +73,25 @@ public record AwsGuarddutyCreateIpSetOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique ID of the detector of the GuardDuty account for which you want to create an IPSet. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the ListDetectors API. Constraints: o min: 1 o max: 300
+    /// The unique ID of the detector of the GuardDuty account for which you want to create an IPSet. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the ListDetectors API. Constraints: • min: 1 • max: 300
     /// </summary>
     [CliOption("--detector-id")]
     public string? DetectorId { get; private init; }
 
     /// <summary>
-    /// The user-friendly name to identify the IPSet. Allowed characters are alphanumeric, whitespace, dash (-), and un- derscores (_). Constraints: o min: 1 o max: 300
+    /// The user-friendly name to identify the IPSet. Allowed characters are alphanumeric, whitespace, dash (-), and underscores (_). Constraints: • min: 1 • max: 300
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The format of the file that contains the IPSet. Possible values: o TXT o STIX o OTX_CSV o ALIEN_VAULT o PROOF_POINT o FIRE_EYE Constraints: o min: 1 o max: 300
+    /// The format of the file that contains the IPSet. Possible values: • TXT • STIX • OTX_CSV • ALIEN_VAULT • PROOF_POINT • FIRE_EYE Constraints: • min: 1 • max: 300
     /// </summary>
     [CliOption("--format")]
     public AwsGuarddutyCreateIpSetFormat? Format { get; private init; }
 
     /// <summary>
-    /// The URI of the file that contains the IPSet. Constraints: o min: 1 o max: 300
+    /// The URI of the file that contains the IPSet. Constraints: • min: 1 • max: 300
     /// </summary>
     [CliOption("--location")]
     public string? Location { get; private init; }
@@ -103,20 +103,20 @@ public record AwsGuarddutyCreateIpSetOptions : AwsOptions, IValidatableObject
     public bool? Activate { get; private init; }
 
     /// <summary>
-    /// The idempotency token for the create request. Constraints: o min: 0 o max: 64
+    /// The idempotency token for the create request. Constraints: • min: 0 • max: 64
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// The tags to be added to a new IP set resource. Constraints: o min: 1 o max: 200 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: (?!aws:)[a-zA-Z+-=._:/]+ value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The tags to be added to a new IP set resource. Constraints: • min: 1 • max: 200 key -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: (?!aws:)[a-zA-Z+-=._:/]+ value -&gt; (string) Constraints: • min: 0 • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>
-    /// The Amazon Web Services account ID that owns the Amazon S3 bucket specified in the location parameter. Constraints: o min: 12 o max: 12
+    /// The Amazon Web Services account ID that owns the Amazon S3 bucket specified in the location parameter. Constraints: • min: 12 • max: 12
     /// </summary>
     [CliOption("--expected-bucket-owner")]
     public string? ExpectedBucketOwner { get; set; }
@@ -142,6 +142,15 @@ public record AwsGuarddutyCreateIpSetOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

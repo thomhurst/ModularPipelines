@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsLookoutequipmentUpdateLabelGroupOptions : AwsOptions, IValidata
     /// <summary>
     /// Updates the label group. See also: AWS API Documentation
     /// </summary>
-    /// <param name="LabelGroupName">The name of the label group to be updated. Constraints: o min: 1 o max: 200 o pattern: ^[0-9a-zA-Z_-]{1,200}$</param>
+    /// <param name="LabelGroupName">The name of the label group to be updated. Constraints: • min: 1 • max: 200 • pattern: ^[0-9a-zA-Z_-]{1,200}$</param>
     public AwsLookoutequipmentUpdateLabelGroupOptions(
         string LabelGroupName
     )
@@ -56,13 +57,13 @@ public record AwsLookoutequipmentUpdateLabelGroupOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the label group to be updated. Constraints: o min: 1 o max: 200 o pattern: ^[0-9a-zA-Z_-]{1,200}$
+    /// The name of the label group to be updated. Constraints: • min: 1 • max: 200 • pattern: ^[0-9a-zA-Z_-]{1,200}$
     /// </summary>
     [CliOption("--label-group-name")]
     public string? LabelGroupName { get; private init; }
 
     /// <summary>
-    /// Updates the code indicating the type of anomaly associated with the label. Data in this field will be retained for service usage. Follow best practices for the security of your data. Constraints: o min: 0 o max: 50 (string) Constraints: o min: 1 o max: 100 o pattern: [\P{M}\p{M}]{1,100} Syntax: "string" "string" ...
+    /// Updates the code indicating the type of anomaly associated with the label. Data in this field will be retained for service usage. Follow best practices for the security of your data. Constraints: • min: 0 • max: 50 (string) Constraints: • min: 1 • max: 100 • pattern: [\P{M}\p{M}]{1,100} Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--fault-codes", GroupValues = true)]
     public IEnumerable<string>? FaultCodes { get; set; }
@@ -88,6 +89,15 @@ public record AwsLookoutequipmentUpdateLabelGroupOptions : AwsOptions, IValidata
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

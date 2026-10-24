@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Sets the data streaming configuration for an AppInstance . For more in- formation, see Streaming messaging data in the Amazon Chime SDK Devel- oper Guide . See also: AWS API Documentation
+/// Sets the data streaming configuration for an AppInstance . For more information, see Streaming messaging data in the Amazon Chime SDK Developer Guide . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsChimeSdkMessagingPutMessagingStreamingConfigurationsOptions : A
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Sets the data streaming configuration for an AppInstance . For more in- formation, see Streaming messaging data in the Amazon Chime SDK Devel- oper Guide . See also: AWS API Documentation
+    /// Sets the data streaming configuration for an AppInstance . For more information, see Streaming messaging data in the Amazon Chime SDK Developer Guide . See also: AWS API Documentation
     /// </summary>
-    /// <param name="AppInstanceArn">The ARN of the streaming configuration. Constraints: o min: 5 o max: 1600 o pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}</param>
-    /// <param name="StreamingConfigurations">The streaming configurations. Constraints: o min: 1 o max: 2 (structure) The configuration for connecting a messaging stream to Amazon Kinesis. DataType -&gt; (string) [required] The data type of the configuration. Possible values: o Channel o ChannelMessage ResourceArn -&gt; (string) [required] The ARN of the resource in the configuration. Constraints: o min: 5 o max: 1600 o pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023} Shorthand Syntax: DataType=string,ResourceArn=string ... JSON Syntax: [ { "DataType": "Channel"|"ChannelMessage", "ResourceArn": "string" } ... ]</param>
+    /// <param name="AppInstanceArn">The ARN of the streaming configuration. Constraints: • min: 5 • max: 1600 • pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}</param>
+    /// <param name="StreamingConfigurations">The streaming configurations. Constraints: • min: 1 • max: 2 (structure) The configuration for connecting a messaging stream to Amazon Kinesis. DataType -&gt; (string) [required] The data type of the configuration. Possible values: • Channel • ChannelMessage ResourceArn -&gt; (string) [required] The ARN of the resource in the configuration. Constraints: • min: 5 • max: 1600 • pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023} Shorthand Syntax: DataType=string,ResourceArn=string ... JSON Syntax: [ { "DataType": "Channel"|"ChannelMessage", "ResourceArn": "string" } ... ]</param>
     public AwsChimeSdkMessagingPutMessagingStreamingConfigurationsOptions(
         string AppInstanceArn,
         IEnumerable<string> StreamingConfigurations
@@ -71,13 +72,13 @@ public record AwsChimeSdkMessagingPutMessagingStreamingConfigurationsOptions : A
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the streaming configuration. Constraints: o min: 5 o max: 1600 o pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}
+    /// The ARN of the streaming configuration. Constraints: • min: 5 • max: 1600 • pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}
     /// </summary>
     [CliOption("--app-instance-arn")]
     public string? AppInstanceArn { get; private init; }
 
     /// <summary>
-    /// The streaming configurations. Constraints: o min: 1 o max: 2 (structure) The configuration for connecting a messaging stream to Amazon Kinesis. DataType -&gt; (string) [required] The data type of the configuration. Possible values: o Channel o ChannelMessage ResourceArn -&gt; (string) [required] The ARN of the resource in the configuration. Constraints: o min: 5 o max: 1600 o pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023} Shorthand Syntax: DataType=string,ResourceArn=string ... JSON Syntax: [ { "DataType": "Channel"|"ChannelMessage", "ResourceArn": "string" } ... ]
+    /// The streaming configurations. Constraints: • min: 1 • max: 2 (structure) The configuration for connecting a messaging stream to Amazon Kinesis. DataType -&gt; (string) [required] The data type of the configuration. Possible values: • Channel • ChannelMessage ResourceArn -&gt; (string) [required] The ARN of the resource in the configuration. Constraints: • min: 5 • max: 1600 • pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023} Shorthand Syntax: DataType=string,ResourceArn=string ... JSON Syntax: [ { "DataType": "Channel"|"ChannelMessage", "ResourceArn": "string" } ... ]
     /// </summary>
     [CliOption("--streaming-configurations", GroupValues = true)]
     public IEnumerable<string>? StreamingConfigurations { get; private init; }
@@ -103,6 +104,15 @@ public record AwsChimeSdkMessagingPutMessagingStreamingConfigurationsOptions : A
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

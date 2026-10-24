@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -29,9 +30,9 @@ public record AwsArcRegionSwitchStartPlanExecutionOptions : AwsOptions, IValidat
     /// <summary>
     /// Starts the execution of a Region switch plan. You can execute a plan in either graceful or ungraceful mode. Specifing ungraceful mode either changes the behavior of the execution blocks in a workflow or skips specific execution blocks. See also: AWS API Documentation
     /// </summary>
-    /// <param name="PlanArn">The Amazon Resource Name (ARN) of the plan to execute. Constraints: o pattern: arn:aws[a-zA-Z-]*:arc-re- gion-switch::[0-9]{12}:plan/([a-zA-Z0-9](?:[a-zA-Z0-9-]{0,30}[a-zA-Z0-9])?):([a-z0-9]{6})</param>
+    /// <param name="PlanArn">The Amazon Resource Name (ARN) of the plan to execute. Constraints: • pattern: arn:aws[a-zA-Z-]*:arc-region-switch::[0-9]{12}:plan/([a-zA-Z0-9](?:[a-zA-Z0-9-]{0,30}[a-zA-Z0-9])?):([a-z0-9]{6})</param>
     /// <param name="TargetRegion">The Amazon Web Services Region to target with this execution. This is the Region that traffic will be shifted to or from, depending on the action.</param>
-    /// <param name="Action">The action to perform. Valid values are activate (to shift traffic to the target Region) or deactivate (to shift traffic away from the target Region). Possible values: o activate o deactivate o postRecovery</param>
+    /// <param name="Action">The action to perform. Valid values are activate (to shift traffic to the target Region) or deactivate (to shift traffic away from the target Region). Possible values: • activate • deactivate • postRecovery</param>
     public AwsArcRegionSwitchStartPlanExecutionOptions(
         string PlanArn,
         string TargetRegion,
@@ -65,7 +66,7 @@ public record AwsArcRegionSwitchStartPlanExecutionOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the plan to execute. Constraints: o pattern: arn:aws[a-zA-Z-]*:arc-re- gion-switch::[0-9]{12}:plan/([a-zA-Z0-9](?:[a-zA-Z0-9-]{0,30}[a-zA-Z0-9])?):([a-z0-9]{6})
+    /// The Amazon Resource Name (ARN) of the plan to execute. Constraints: • pattern: arn:aws[a-zA-Z-]*:arc-region-switch::[0-9]{12}:plan/([a-zA-Z0-9](?:[a-zA-Z0-9-]{0,30}[a-zA-Z0-9])?):([a-z0-9]{6})
     /// </summary>
     [CliOption("--plan-arn")]
     public string? PlanArn { get; private init; }
@@ -77,19 +78,19 @@ public record AwsArcRegionSwitchStartPlanExecutionOptions : AwsOptions, IValidat
     public string? TargetRegion { get; private init; }
 
     /// <summary>
-    /// The action to perform. Valid values are activate (to shift traffic to the target Region) or deactivate (to shift traffic away from the target Region). Possible values: o activate o deactivate o postRecovery
+    /// The action to perform. Valid values are activate (to shift traffic to the target Region) or deactivate (to shift traffic away from the target Region). Possible values: • activate • deactivate • postRecovery
     /// </summary>
     [CliOption("--action")]
     public AwsArcRegionSwitchStartPlanExecutionAction? Action { get; private init; }
 
     /// <summary>
-    /// The plan execution mode. Valid values are graceful , for starting the execution in graceful mode, or ungraceful , for starting the ex- ecution in ungraceful mode. Possible values: o graceful o ungraceful
+    /// The plan execution mode. Valid values are graceful , for starting the execution in graceful mode, or ungraceful , for starting the execution in ungraceful mode. Possible values: • graceful • ungraceful
     /// </summary>
     [CliOption("--mode")]
     public AwsArcRegionSwitchStartPlanExecutionMode? Mode { get; set; }
 
     /// <summary>
-    /// An optional comment explaining why the plan execution is being started. Constraints: o min: 0 o max: 1024
+    /// An optional comment explaining why the plan execution is being started. Constraints: • min: 0 • max: 1024
     /// </summary>
     [CliOption("--comment")]
     public string? Comment { get; set; }
@@ -101,13 +102,13 @@ public record AwsArcRegionSwitchStartPlanExecutionOptions : AwsOptions, IValidat
     public string? LatestVersion { get; set; }
 
     /// <summary>
-    /// The execution identifier of the recovery execution that ran in the opposite region post-recovery is ran in. Required when starting a post-recovery execution. Constraints: o pattern: [a-z]{2}(-[a-z]+)+-[0-9]+/[0-9a-fA-F]{16}
+    /// The execution identifier of the recovery execution that ran in the opposite region post-recovery is ran in. Required when starting a post-recovery execution. Constraints: • pattern: [a-z]{2}(-[a-z]+)+-[0-9]+/[0-9a-fA-F]{16}
     /// </summary>
     [CliOption("--recovery-execution-id")]
     public string? RecoveryExecutionId { get; set; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier to ensure that the operation completes no more than one time. If this token matches a previous request, the service ignores the request and returns the result of the original successful request. If you don't provide a client to- ken, the service automatically generates one. For more information about idempotency, see Making retries safe with idempotent APIs . Constraints: o min: 1 o max: 128 o pattern: [\x21-\x7E]+
+    /// A unique, case-sensitive identifier to ensure that the operation completes no more than one time. If this token matches a previous request, the service ignores the request and returns the result of the original successful request. If you don't provide a client token, the service automatically generates one. For more information about idempotency, see Making retries safe with idempotent APIs . Constraints: • min: 1 • max: 128 • pattern: [\x21-\x7E]+
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
@@ -134,6 +135,15 @@ public record AwsArcRegionSwitchStartPlanExecutionOptions : AwsOptions, IValidat
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

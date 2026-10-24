@@ -6,7 +6,7 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using ModularPipelines.Models;
+using ModularPipelines;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
@@ -22,43 +22,39 @@ namespace ModularPipelines.AmazonWebServices.Services;
 public interface IAwsSagemakerjobruntime
 {
     /// <summary>
-    /// Marks a rollout as complete, indicating that no further turns will be appended to the trajectory. After calling this operation, the trajec- tory is sealed and eligible for reward submission via the UpdateReward operation. See also: AWS API Documentation
+    /// Marks a rollout as complete, indicating that no further turns will be appended to the trajectory. After calling this operation, the trajectory is sealed and eligible for reward submission via the UpdateReward operation. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CompleteRolloutAsync(AwsSagemakerjobruntimeCompleteRolloutOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CompleteRolloutAsync(AwsSagemakerjobruntimeCompleteRolloutOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Sends an inference request to the model during a job execution. The re- quest and response bodies are forwarded to and from the model without modification. Each turn (prompt and response) is captured for later use. See also: AWS API Documentation
+    /// Sends an inference request to the model during a job execution. The request and response bodies are forwarded to and from the model without modification. Each turn (prompt and response) is captured for later use. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> SampleAsync(AwsSagemakerjobruntimeSampleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> SampleAsync(AwsSagemakerjobruntimeSampleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Sends a streaming inference request to the model during a job execu- tion. Returns the response as a stream of payload chunks. Each turn is captured for later use. See also: AWS API Documentation
+    /// Sends a streaming inference request to the model during a job execution. Returns the response as a stream of payload chunks. Each turn is captured for later use. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> SampleWithResponseStreamAsync(AwsSagemakerjobruntimeSampleWithResponseStreamOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> SampleWithResponseStreamAsync(AwsSagemakerjobruntimeSampleWithResponseStreamOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Updates the reward values for a trajectory and transitions it to re- ward-received status, signaling that it is eligible for processing. Call this operation after CompleteRollout to provide the computed re- ward scores. See also: AWS API Documentation
+    /// Updates the reward values for a trajectory and transitions it to reward-received status, signaling that it is eligible for processing. Call this operation after CompleteRollout to provide the computed reward scores. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateRewardAsync(AwsSagemakerjobruntimeUpdateRewardOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateRewardAsync(AwsSagemakerjobruntimeUpdateRewardOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

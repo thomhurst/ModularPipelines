@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes Backup Vault Lock from a backup vault specified by a backup vault name. If the Vault Lock configuration is immutable, then you cannot delete Vault Lock using API operations, and you will receive an InvalidReques- tException if you attempt to do so. For more information, see Vault Lock in the Backup Developer Guide . See also: AWS API Documentation
+/// Deletes Backup Vault Lock from a backup vault specified by a backup vault name. If the Vault Lock configuration is immutable, then you cannot delete Vault Lock using API operations, and you will receive an InvalidRequestException if you attempt to do so. For more information, see Vault Lock in the Backup Developer Guide . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsBackupDeleteBackupVaultLockConfigurationOptions : AwsOptions, I
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes Backup Vault Lock from a backup vault specified by a backup vault name. If the Vault Lock configuration is immutable, then you cannot delete Vault Lock using API operations, and you will receive an InvalidReques- tException if you attempt to do so. For more information, see Vault Lock in the Backup Developer Guide . See also: AWS API Documentation
+    /// Deletes Backup Vault Lock from a backup vault specified by a backup vault name. If the Vault Lock configuration is immutable, then you cannot delete Vault Lock using API operations, and you will receive an InvalidRequestException if you attempt to do so. For more information, see Vault Lock in the Backup Developer Guide . See also: AWS API Documentation
     /// </summary>
-    /// <param name="BackupVaultName">The name of the backup vault from which to delete Backup Vault Lock. Constraints: o pattern: ^[a-zA-Z0-9\-\_]{2,50}$</param>
+    /// <param name="BackupVaultName">The name of the backup vault from which to delete Backup Vault Lock. Constraints: • pattern: ^[a-zA-Z0-9\-\_]{2,50}$</param>
     public AwsBackupDeleteBackupVaultLockConfigurationOptions(
         string BackupVaultName
     )
@@ -56,7 +57,7 @@ public record AwsBackupDeleteBackupVaultLockConfigurationOptions : AwsOptions, I
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the backup vault from which to delete Backup Vault Lock. Constraints: o pattern: ^[a-zA-Z0-9\-\_]{2,50}$
+    /// The name of the backup vault from which to delete Backup Vault Lock. Constraints: • pattern: ^[a-zA-Z0-9\-\_]{2,50}$
     /// </summary>
     [CliOption("--backup-vault-name")]
     public string? BackupVaultName { get; private init; }
@@ -82,6 +83,15 @@ public record AwsBackupDeleteBackupVaultLockConfigurationOptions : AwsOptions, I
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsDataexchangeListTagsForResourceOptions : AwsOptions, IValidatab
     /// <summary>
     /// This operation lists the tags on the resource. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">An Amazon Resource Name (ARN) that uniquely identifies an AWS re- source.</param>
+    /// <param name="ResourceArn">An Amazon Resource Name (ARN) that uniquely identifies an AWS resource.</param>
     public AwsDataexchangeListTagsForResourceOptions(
         string ResourceArn
     )
@@ -56,7 +57,7 @@ public record AwsDataexchangeListTagsForResourceOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// An Amazon Resource Name (ARN) that uniquely identifies an AWS re- source.
+    /// An Amazon Resource Name (ARN) that uniquely identifies an AWS resource.
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
@@ -82,6 +83,15 @@ public record AwsDataexchangeListTagsForResourceOptions : AwsOptions, IValidatab
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

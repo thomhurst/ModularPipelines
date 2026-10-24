@@ -11,13 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates the specified RegexPatternSet . NOTE: This operation completely replaces the mutable specifications that you already have for the regex pattern set with the ones that you provide to this call. To modify a regex pattern set, do the following: o Retrieve it by calling GetRegexPatternSet o Update its settings as needed o Provide the complete regex pattern set specification to this call Temporary inconsistencies during updates When you create or change a web ACL or other WAF resources, the c...
+/// Updates the specified RegexPatternSet . NOTE: This operation completely replaces the mutable specifications that you already have for the regex pattern set with the ones that you provide to this call. To modify a regex pattern set, do the following: • Retrieve it by calling GetRegexPatternSet • Update its settings as needed • Provide the complete regex pattern set specification to this call Temporary inconsistencies during updates When you create or change a web ACL or other WAF resources, the c...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,13 +28,13 @@ public record AwsWafv2UpdateRegexPatternSetOptions : AwsOptions, IValidatableObj
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates the specified RegexPatternSet . NOTE: This operation completely replaces the mutable specifications that you already have for the regex pattern set with the ones that you provide to this call. To modify a regex pattern set, do the following: o Retrieve it by calling GetRegexPatternSet o Update its settings as needed o Provide the complete regex pattern set specification to this call Temporary inconsistencies during updates When you create or change a web ACL or other WAF resources, the c...
+    /// Updates the specified RegexPatternSet . NOTE: This operation completely replaces the mutable specifications that you already have for the regex pattern set with the ones that you provide to this call. To modify a regex pattern set, do the following: • Retrieve it by calling GetRegexPatternSet • Update its settings as needed • Provide the complete regex pattern set specification to this call Temporary inconsistencies during updates When you create or change a web ACL or other WAF resources, the c...
     /// </summary>
-    /// <param name="Name">The name of the set. You cannot change the name after you create the set. Constraints: o min: 1 o max: 128 o pattern: ^[\w\-]+$</param>
-    /// <param name="Scope">Specifies whether this is for a global resource type, such as a Ama- zon CloudFront distribution. For an Amplify application, use CLOUD- FRONT . To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows: o CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1 . o API and SDKs - For all calls, use the Region endpoint us-east-1. Possible values: o CLOUDFRONT o REGIONAL</param>
-    /// <param name="Id">A unique identifier for the set. This ID is returned in the re- sponses to create and list commands. You provide it to operations like update and delete. Constraints: o min: 1 o max: 36 o pattern: ^[0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12}$</param>
-    /// <param name="RegularExpressionList">(structure) A single regular expression. This is used in a RegexPatternSet and also in the configuration for the Amazon Web Services Man- aged Rules rule group AWSManagedRulesAntiDDoSRuleSet . RegexString -&gt; (string) The string representing the regular expression. WAF enforces a quota on the maximum number of characters in a regex pat- tern. For the current limit, see WAF quotas in the WAF Devel- oper Guide . Constraints: o min: 1 o max: 512 o pattern: .* Shorthand Syntax: RegexString=string ... JSON Syntax: [ { "RegexString": "string" } ... ]</param>
-    /// <param name="LockToken">A token used for optimistic locking. WAF returns a token to your get and list requests, to mark the state of the entity at the time of the request. To make changes to the entity associated with the to- ken, you provide the token to operations like update and delete . WAF uses the token to ensure that no changes have been made to the entity since you last retrieved it. If a change has been made, the update fails with a WAFOptimisticLockException . If this happens, perform another get , and use the new token returned by that opera- tion. Constraints: o min: 1 o max: 36 o pattern: ^[0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12}$</param>
+    /// <param name="Name">The name of the set. You cannot change the name after you create the set. Constraints: • min: 1 • max: 128 • pattern: ^[\w\-]+$</param>
+    /// <param name="Scope">Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. For an Amplify application, use CLOUDFRONT . To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows: • CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1 . • API and SDKs - For all calls, use the Region endpoint us-east-1. Possible values: • CLOUDFRONT • REGIONAL</param>
+    /// <param name="Id">A unique identifier for the set. This ID is returned in the responses to create and list commands. You provide it to operations like update and delete. Constraints: • min: 1 • max: 36 • pattern: ^[0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12}$</param>
+    /// <param name="RegularExpressionList">(structure) A single regular expression. This is used in a RegexPatternSet and also in the configuration for the Amazon Web Services Managed Rules rule group AWSManagedRulesAntiDDoSRuleSet . RegexString -&gt; (string) The string representing the regular expression. WAF enforces a quota on the maximum number of characters in a regex pattern. For the current limit, see WAF quotas in the WAF Developer Guide . Constraints: • min: 1 • max: 512 • pattern: .* Shorthand Syntax: RegexString=string ... JSON Syntax: [ { "RegexString": "string" } ... ]</param>
+    /// <param name="LockToken">A token used for optimistic locking. WAF returns a token to your get and list requests, to mark the state of the entity at the time of the request. To make changes to the entity associated with the token, you provide the token to operations like update and delete . WAF uses the token to ensure that no changes have been made to the entity since you last retrieved it. If a change has been made, the update fails with a WAFOptimisticLockException . If this happens, perform another get , and use the new token returned by that operation. Constraints: • min: 1 • max: 36 • pattern: ^[0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12}$</param>
     public AwsWafv2UpdateRegexPatternSetOptions(
         string Name,
         AwsWafv2UpdateRegexPatternSetScope Scope,
@@ -84,38 +85,38 @@ public record AwsWafv2UpdateRegexPatternSetOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the set. You cannot change the name after you create the set. Constraints: o min: 1 o max: 128 o pattern: ^[\w\-]+$
+    /// The name of the set. You cannot change the name after you create the set. Constraints: • min: 1 • max: 128 • pattern: ^[\w\-]+$
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// Specifies whether this is for a global resource type, such as a Ama- zon CloudFront distribution. For an Amplify application, use CLOUD- FRONT . To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows: o CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1 . o API and SDKs - For all calls, use the Region endpoint us-east-1. Possible values: o CLOUDFRONT o REGIONAL
+    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. For an Amplify application, use CLOUDFRONT . To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows: • CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1 . • API and SDKs - For all calls, use the Region endpoint us-east-1. Possible values: • CLOUDFRONT • REGIONAL
     /// </summary>
     [CliOption("--scope")]
     public AwsWafv2UpdateRegexPatternSetScope? Scope { get; private init; }
 
     /// <summary>
-    /// A unique identifier for the set. This ID is returned in the re- sponses to create and list commands. You provide it to operations like update and delete. Constraints: o min: 1 o max: 36 o pattern: ^[0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12}$
+    /// A unique identifier for the set. This ID is returned in the responses to create and list commands. You provide it to operations like update and delete. Constraints: • min: 1 • max: 36 • pattern: ^[0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12}$
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; private init; }
 
     /// <summary>
-    /// (structure) A single regular expression. This is used in a RegexPatternSet and also in the configuration for the Amazon Web Services Man- aged Rules rule group AWSManagedRulesAntiDDoSRuleSet . RegexString -&gt; (string) The string representing the regular expression. WAF enforces a quota on the maximum number of characters in a regex pat- tern. For the current limit, see WAF quotas in the WAF Devel- oper Guide . Constraints: o min: 1 o max: 512 o pattern: .* Shorthand Syntax: RegexString=string ... JSON Syntax: [ { "RegexString": "string" } ... ]
+    /// (structure) A single regular expression. This is used in a RegexPatternSet and also in the configuration for the Amazon Web Services Managed Rules rule group AWSManagedRulesAntiDDoSRuleSet . RegexString -&gt; (string) The string representing the regular expression. WAF enforces a quota on the maximum number of characters in a regex pattern. For the current limit, see WAF quotas in the WAF Developer Guide . Constraints: • min: 1 • max: 512 • pattern: .* Shorthand Syntax: RegexString=string ... JSON Syntax: [ { "RegexString": "string" } ... ]
     /// </summary>
     [CliOption("--regular-expression-list", GroupValues = true)]
     public IEnumerable<string>? RegularExpressionList { get; private init; }
 
     /// <summary>
-    /// A token used for optimistic locking. WAF returns a token to your get and list requests, to mark the state of the entity at the time of the request. To make changes to the entity associated with the to- ken, you provide the token to operations like update and delete . WAF uses the token to ensure that no changes have been made to the entity since you last retrieved it. If a change has been made, the update fails with a WAFOptimisticLockException . If this happens, perform another get , and use the new token returned by that opera- tion. Constraints: o min: 1 o max: 36 o pattern: ^[0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12}$
+    /// A token used for optimistic locking. WAF returns a token to your get and list requests, to mark the state of the entity at the time of the request. To make changes to the entity associated with the token, you provide the token to operations like update and delete . WAF uses the token to ensure that no changes have been made to the entity since you last retrieved it. If a change has been made, the update fails with a WAFOptimisticLockException . If this happens, perform another get , and use the new token returned by that operation. Constraints: • min: 1 • max: 36 • pattern: ^[0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12}$
     /// </summary>
     [SecretValue]
     [CliOption("--lock-token")]
     public string? LockToken { get; private init; }
 
     /// <summary>
-    /// A description of the set that helps with identification. Constraints: o min: 1 o max: 256 o pattern: ^[\w+=:#@/\-,\.][\w+=:#@/\-,\.\s]+[\w+=:#@/\-,\.]$
+    /// A description of the set that helps with identification. Constraints: • min: 1 • max: 256 • pattern: ^[\w+=:#@/\-,\.][\w+=:#@/\-,\.\s]+[\w+=:#@/\-,\.]$
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
@@ -141,6 +142,15 @@ public record AwsWafv2UpdateRegexPatternSetOptions : AwsOptions, IValidatableObj
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

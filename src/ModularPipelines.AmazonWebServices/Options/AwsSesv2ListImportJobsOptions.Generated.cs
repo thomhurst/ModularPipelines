@@ -24,7 +24,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsSesv2ListImportJobsOptions : AwsOptions
 {
     /// <summary>
-    /// The destination of the import job, which can be used to list import jobs that have a certain ImportDestinationType . Possible values: o SUPPRESSION_LIST o CONTACT_LIST
+    /// The destination of the import job, which can be used to list import jobs that have a certain ImportDestinationType . Possible values: • SUPPRESSION_LIST • CONTACT_LIST
     /// </summary>
     [CliOption("--import-destination-type")]
     public AwsSesv2ListImportJobsImportDestinationType? ImportDestinationType { get; set; }
@@ -47,5 +47,14 @@ public record AwsSesv2ListImportJobsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

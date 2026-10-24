@@ -31,25 +31,25 @@ public record AwsSecurityhubListConnectorsOptions : AwsOptions
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// The maximum number of results to return. Constraints: o min: 1 o max: 100
+    /// The maximum number of results to return. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
     /// <summary>
-    /// The name of the cloud provider to filter connectors by. Possible values: o AZURE
+    /// The name of the cloud provider to filter connectors by. Possible values: • AZURE
     /// </summary>
     [CliOption("--provider-name")]
     public string? ProviderName { get; set; }
 
     /// <summary>
-    /// The connectivity status to filter connectors by. Possible values: o CONNECTED o DEGRADED o FAILED_TO_CONNECT o UNKNOWN
+    /// The connectivity status to filter connectors by. Possible values: • CONNECTED • DEGRADED • FAILED_TO_CONNECT • UNKNOWN
     /// </summary>
     [CliOption("--connector-status")]
     public AwsSecurityhubListConnectorsConnectorStatus? ConnectorStatus { get; set; }
 
     /// <summary>
-    /// The enablement status to filter connectors by. Possible values: o ENABLED o PENDING_ENABLEMENT o PENDING_UPDATE o PENDING_DELETION
+    /// The enablement status to filter connectors by. Possible values: • ENABLED • PENDING_ENABLEMENT • PENDING_UPDATE • PENDING_DELETION
     /// </summary>
     [CliOption("--enablement-status")]
     public AwsSecurityhubListConnectorsEnablementStatus? EnablementStatus { get; set; }
@@ -59,5 +59,14 @@ public record AwsSecurityhubListConnectorsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

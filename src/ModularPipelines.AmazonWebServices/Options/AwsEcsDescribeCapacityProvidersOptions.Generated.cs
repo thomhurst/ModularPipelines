@@ -23,7 +23,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsEcsDescribeCapacityProvidersOptions : AwsOptions
 {
     /// <summary>
-    /// The short name or full Amazon Resource Name (ARN) of one or more ca- pacity providers. Up to 100 capacity providers can be described in an action. (string) Syntax: "string" "string" ...
+    /// The short name or full Amazon Resource Name (ARN) of one or more capacity providers. Up to 100 capacity providers can be described in an action. (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--capacity-providers", GroupValues = true)]
     public IEnumerable<string>? CapacityProviders { get; set; }
@@ -35,19 +35,19 @@ public record AwsEcsDescribeCapacityProvidersOptions : AwsOptions
     public string? Cluster { get; set; }
 
     /// <summary>
-    /// Specifies whether or not you want to see the resource tags for the capacity provider. If TAGS is specified, the tags are included in the response. If this field is omitted, tags aren't included in the response. (string) Possible values: o TAGS Syntax: "string" "string" ...
+    /// Specifies whether or not you want to see the resource tags for the capacity provider. If TAGS is specified, the tags are included in the response. If this field is omitted, tags aren't included in the response. (string) Possible values: • TAGS Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--include", GroupValues = true)]
     public IEnumerable<string>? Include { get; set; }
 
     /// <summary>
-    /// The maximum number of account setting results returned by De- scribeCapacityProviders in paginated output. When this parameter is used, DescribeCapacityProviders only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another De- scribeCapacityProviders request with the returned nextToken value. This value can be between 1 and 10. If this parameter is not used, then DescribeCapacityProviders returns up to 10 results and a next- Token value if applicable.
+    /// The maximum number of account setting results returned by DescribeCapacityProviders in paginated output. When this parameter is used, DescribeCapacityProviders only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another DescribeCapacityProviders request with the returned nextToken value. This value can be between 1 and 10. If this parameter is not used, then DescribeCapacityProviders returns up to 10 results and a nextToken value if applicable.
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
     /// <summary>
-    /// The nextToken value returned from a previous paginated DescribeCa- pacityProviders request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. NOTE: This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes.
+    /// The nextToken value returned from a previous paginated DescribeCapacityProviders request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. NOTE: This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes.
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
@@ -58,5 +58,14 @@ public record AwsEcsDescribeCapacityProvidersOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

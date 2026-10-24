@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsDatazoneDeleteDomainUnitOptions : AwsOptions, IValidatableObjec
     /// <summary>
     /// Deletes a domain unit. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DomainIdentifier">The ID of the domain where you want to delete a domain unit. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}</param>
-    /// <param name="Identifier">The ID of the domain unit that you want to delete. Constraints: o min: 1 o max: 256 o pattern: [a-z0-9_\-]+</param>
+    /// <param name="DomainIdentifier">The ID of the domain where you want to delete a domain unit. Constraints: • pattern: dzd[-_][a-zA-Z0-9_-]{1,36}</param>
+    /// <param name="Identifier">The ID of the domain unit that you want to delete. Constraints: • min: 1 • max: 256 • pattern: [a-z0-9_\-]+</param>
     public AwsDatazoneDeleteDomainUnitOptions(
         string DomainIdentifier,
         string Identifier
@@ -60,13 +61,13 @@ public record AwsDatazoneDeleteDomainUnitOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the domain where you want to delete a domain unit. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}
+    /// The ID of the domain where you want to delete a domain unit. Constraints: • pattern: dzd[-_][a-zA-Z0-9_-]{1,36}
     /// </summary>
     [CliOption("--domain-identifier")]
     public string? DomainIdentifier { get; private init; }
 
     /// <summary>
-    /// The ID of the domain unit that you want to delete. Constraints: o min: 1 o max: 256 o pattern: [a-z0-9_\-]+
+    /// The ID of the domain unit that you want to delete. Constraints: • min: 1 • max: 256 • pattern: [a-z0-9_\-]+
     /// </summary>
     [CliOption("--identifier")]
     public string? Identifier { get; private init; }
@@ -92,6 +93,15 @@ public record AwsDatazoneDeleteDomainUnitOptions : AwsOptions, IValidatableObjec
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

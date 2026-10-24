@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsPinpointSmsVoiceV2DeleteRcsAgentOptions : AwsOptions, IValidata
     /// <summary>
     /// Deletes an existing RCS agent. If deletion protection is enabled, an error is returned. See also: AWS API Documentation
     /// </summary>
-    /// <param name="RcsAgentId">The unique identifier of the RCS agent to delete. You can use either the RcsAgentId or RcsAgentArn. Constraints: o min: 1 o max: 256 o pattern: [A-Za-z0-9_:/-]+</param>
+    /// <param name="RcsAgentId">The unique identifier of the RCS agent to delete. You can use either the RcsAgentId or RcsAgentArn. Constraints: • min: 1 • max: 256 • pattern: [A-Za-z0-9_:/-]+</param>
     public AwsPinpointSmsVoiceV2DeleteRcsAgentOptions(
         string RcsAgentId
     )
@@ -56,7 +57,7 @@ public record AwsPinpointSmsVoiceV2DeleteRcsAgentOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the RCS agent to delete. You can use either the RcsAgentId or RcsAgentArn. Constraints: o min: 1 o max: 256 o pattern: [A-Za-z0-9_:/-]+
+    /// The unique identifier of the RCS agent to delete. You can use either the RcsAgentId or RcsAgentArn. Constraints: • min: 1 • max: 256 • pattern: [A-Za-z0-9_:/-]+
     /// </summary>
     [CliOption("--rcs-agent-id")]
     public string? RcsAgentId { get; private init; }
@@ -82,6 +83,15 @@ public record AwsPinpointSmsVoiceV2DeleteRcsAgentOptions : AwsOptions, IValidata
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

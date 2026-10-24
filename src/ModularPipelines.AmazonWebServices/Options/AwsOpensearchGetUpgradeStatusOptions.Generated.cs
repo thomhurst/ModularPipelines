@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns the most recent status of the last upgrade or upgrade eligibil- ity check performed on an Amazon OpenSearch Service domain. See also: AWS API Documentation
+/// Returns the most recent status of the last upgrade or upgrade eligibility check performed on an Amazon OpenSearch Service domain. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsOpensearchGetUpgradeStatusOptions : AwsOptions, IValidatableObj
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns the most recent status of the last upgrade or upgrade eligibil- ity check performed on an Amazon OpenSearch Service domain. See also: AWS API Documentation
+    /// Returns the most recent status of the last upgrade or upgrade eligibility check performed on an Amazon OpenSearch Service domain. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DomainName">The domain of the domain to get upgrade status information for. Constraints: o min: 3 o max: 28 o pattern: [a-z][a-z0-9\-]+</param>
+    /// <param name="DomainName">The domain of the domain to get upgrade status information for. Constraints: • min: 3 • max: 28 • pattern: [a-z][a-z0-9\-]+</param>
     public AwsOpensearchGetUpgradeStatusOptions(
         string DomainName
     )
@@ -56,7 +57,7 @@ public record AwsOpensearchGetUpgradeStatusOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The domain of the domain to get upgrade status information for. Constraints: o min: 3 o max: 28 o pattern: [a-z][a-z0-9\-]+
+    /// The domain of the domain to get upgrade status information for. Constraints: • min: 3 • max: 28 • pattern: [a-z][a-z0-9\-]+
     /// </summary>
     [CliOption("--domain-name")]
     public string? DomainName { get; private init; }
@@ -82,6 +83,15 @@ public record AwsOpensearchGetUpgradeStatusOptions : AwsOptions, IValidatableObj
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

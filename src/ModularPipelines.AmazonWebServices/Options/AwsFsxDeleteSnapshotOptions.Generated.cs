@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes an Amazon FSx for OpenZFS snapshot. After deletion, the snap- shot no longer exists, and its data is gone. Deleting a snapshot doesn't affect snapshots stored in a file system backup. The DeleteSnapshot operation returns instantly. The snapshot appears with the lifecycle status of DELETING until the deletion is complete. See also: AWS API Documentation
+/// Deletes an Amazon FSx for OpenZFS snapshot. After deletion, the snapshot no longer exists, and its data is gone. Deleting a snapshot doesn't affect snapshots stored in a file system backup. The DeleteSnapshot operation returns instantly. The snapshot appears with the lifecycle status of DELETING until the deletion is complete. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +27,9 @@ public record AwsFsxDeleteSnapshotOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes an Amazon FSx for OpenZFS snapshot. After deletion, the snap- shot no longer exists, and its data is gone. Deleting a snapshot doesn't affect snapshots stored in a file system backup. The DeleteSnapshot operation returns instantly. The snapshot appears with the lifecycle status of DELETING until the deletion is complete. See also: AWS API Documentation
+    /// Deletes an Amazon FSx for OpenZFS snapshot. After deletion, the snapshot no longer exists, and its data is gone. Deleting a snapshot doesn't affect snapshots stored in a file system backup. The DeleteSnapshot operation returns instantly. The snapshot appears with the lifecycle status of DELETING until the deletion is complete. See also: AWS API Documentation
     /// </summary>
-    /// <param name="SnapshotId">The ID of the snapshot that you want to delete. Constraints: o min: 11 o max: 28 o pattern: ^((fs)?volsnap-[0-9a-f]{8,})$</param>
+    /// <param name="SnapshotId">The ID of the snapshot that you want to delete. Constraints: • min: 11 • max: 28 • pattern: ^((fs)?volsnap-[0-9a-f]{8,})$</param>
     public AwsFsxDeleteSnapshotOptions(
         string SnapshotId
     )
@@ -57,13 +58,13 @@ public record AwsFsxDeleteSnapshotOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the snapshot that you want to delete. Constraints: o min: 11 o max: 28 o pattern: ^((fs)?volsnap-[0-9a-f]{8,})$
+    /// The ID of the snapshot that you want to delete. Constraints: • min: 11 • max: 28 • pattern: ^((fs)?volsnap-[0-9a-f]{8,})$
     /// </summary>
     [CliOption("--snapshot-id")]
     public string? SnapshotId { get; private init; }
 
     /// <summary>
-    /// (Optional) An idempotency token for resource creation, in a string of up to 63 ASCII characters. This token is automatically filled on your behalf when you use the Command Line Interface (CLI) or an Ama- zon Web Services SDK. Constraints: o min: 1 o max: 63 o pattern: [A-za-z0-9_.-]{0,63}$
+    /// (Optional) An idempotency token for resource creation, in a string of up to 63 ASCII characters. This token is automatically filled on your behalf when you use the Command Line Interface (CLI) or an Amazon Web Services SDK. Constraints: • min: 1 • max: 63 • pattern: [A-za-z0-9_.-]{0,63}$
     /// </summary>
     [SecretValue]
     [CliOption("--client-request-token")]
@@ -90,6 +91,15 @@ public record AwsFsxDeleteSnapshotOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a new benefit application for a partner to request access to AWS benefits and programs. See also: AWS API Documentation create-benefit-application uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be pro- vided as JSON. Shorthand syntax does not support document types.
+/// Creates a new benefit application for a partner to request access to AWS benefits and programs. See also: AWS API Documentation create-benefit-application uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,11 +27,11 @@ public record AwsPartnercentralBenefitsCreateBenefitApplicationOptions : AwsOpti
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a new benefit application for a partner to request access to AWS benefits and programs. See also: AWS API Documentation create-benefit-application uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be pro- vided as JSON. Shorthand syntax does not support document types.
+    /// Creates a new benefit application for a partner to request access to AWS benefits and programs. See also: AWS API Documentation create-benefit-application uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
     /// </summary>
-    /// <param name="Catalog">The catalog identifier that specifies which benefit catalog to cre- ate the application in. Constraints: o pattern: [A-Za-z0-9_-]+</param>
-    /// <param name="ClientToken">A unique, case-sensitive identifier to ensure idempotent processing of the creation request. Constraints: o min: 1 o max: 64 o pattern: [!-~]{1,64}</param>
-    /// <param name="BenefitIdentifier">The unique identifier of the benefit being requested in this appli- cation. Constraints: o pattern: (arn:.+|ben-[0-9a-z]{14})</param>
+    /// <param name="Catalog">The catalog identifier that specifies which benefit catalog to create the application in. Constraints: • pattern: [A-Za-z0-9_-]+</param>
+    /// <param name="ClientToken">A unique, case-sensitive identifier to ensure idempotent processing of the creation request. Constraints: • min: 1 • max: 64 • pattern: [!-~]{1,64}</param>
+    /// <param name="BenefitIdentifier">The unique identifier of the benefit being requested in this application. Constraints: • pattern: (arn:.+|ben-[0-9a-z]{14})</param>
     public AwsPartnercentralBenefitsCreateBenefitApplicationOptions(
         string Catalog,
         string ClientToken,
@@ -65,38 +66,38 @@ public record AwsPartnercentralBenefitsCreateBenefitApplicationOptions : AwsOpti
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The catalog identifier that specifies which benefit catalog to cre- ate the application in. Constraints: o pattern: [A-Za-z0-9_-]+
+    /// The catalog identifier that specifies which benefit catalog to create the application in. Constraints: • pattern: [A-Za-z0-9_-]+
     /// </summary>
     [CliOption("--catalog")]
     public string? Catalog { get; private init; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier to ensure idempotent processing of the creation request. Constraints: o min: 1 o max: 64 o pattern: [!-~]{1,64}
+    /// A unique, case-sensitive identifier to ensure idempotent processing of the creation request. Constraints: • min: 1 • max: 64 • pattern: [!-~]{1,64}
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the benefit being requested in this appli- cation. Constraints: o pattern: (arn:.+|ben-[0-9a-z]{14})
+    /// The unique identifier of the benefit being requested in this application. Constraints: • pattern: (arn:.+|ben-[0-9a-z]{14})
     /// </summary>
     [CliOption("--benefit-identifier")]
     public string? BenefitIdentifier { get; private init; }
 
     /// <summary>
-    /// A human-readable name for the benefit application. Constraints: o min: 1 o max: 255
+    /// A human-readable name for the benefit application. Constraints: • min: 1 • max: 255
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
 
     /// <summary>
-    /// A detailed description of the benefit application and its intended use. Constraints: o min: 1 o max: 1000
+    /// A detailed description of the benefit application and its intended use. Constraints: • min: 1 • max: 1000
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The types of fulfillment requested for this benefit application (e.g., credits, access, disbursement). (string) Possible values: o CREDITS o CASH o ACCESS Syntax: "string" "string" ...
+    /// The types of fulfillment requested for this benefit application (e.g., credits, access, disbursement). (string) Possible values: • CREDITS • CASH • ACCESS Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--fulfillment-types", GroupValues = true)]
     public IEnumerable<string>? FulfillmentTypes { get; set; }
@@ -108,25 +109,25 @@ public record AwsPartnercentralBenefitsCreateBenefitApplicationOptions : AwsOpti
     public string? BenefitApplicationDetails { get; set; }
 
     /// <summary>
-    /// Key-value pairs to categorize and organize the benefit application. Constraints: o min: 0 o max: 200 (structure) Represents a key-value pair used for categorizing and organizing AWS resources. Key -&gt; (string) [required] The tag key, which acts as a category or label for the tag. Constraints: o min: 1 o max: 128 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Value -&gt; (string) [required] The tag value, which provides additional information or con- text for the tag key. Constraints: o min: 0 o max: 256 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// Key-value pairs to categorize and organize the benefit application. Constraints: • min: 0 • max: 200 (structure) Represents a key-value pair used for categorizing and organizing AWS resources. Key -&gt; (string) [required] The tag key, which acts as a category or label for the tag. Constraints: • min: 1 • max: 128 • pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Value -&gt; (string) [required] The tag value, which provides additional information or context for the tag key. Constraints: • min: 0 • max: 256 • pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
-    /// AWS resources that are associated with this benefit application. Constraints: o min: 0 o max: 10 (string) Constraints: o pattern: arn:aws:([a-zA-Z0-9\-])+:([a-z]{2}(-gov)?-[a-z]+-\d{1})?:(\d{12})?:(.+) Syntax: "string" "string" ...
+    /// AWS resources that are associated with this benefit application. Constraints: • min: 0 • max: 10 (string) Constraints: • pattern: arn:aws:([a-zA-Z0-9\-])+:([a-z]{2}(-gov)?-[a-z]+-\d{1})?:(\d{12})?:(.+) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--associated-resources", GroupValues = true)]
     public IEnumerable<string>? AssociatedResources { get; set; }
 
     /// <summary>
-    /// Contact information for partner representatives responsible for this benefit application. Constraints: o min: 0 o max: 1 (structure) Represents contact information for a partner representative. Email -&gt; (string) The email address of the contact person. Constraints: o min: 0 o max: 80 o pattern: [a-z0-9!#$%&amp;'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&amp;'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])? FirstName -&gt; (string) The first name of the contact person. Constraints: o min: 0 o max: 80 LastName -&gt; (string) The last name of the contact person. Constraints: o min: 0 o max: 80 BusinessTitle -&gt; (string) The business title or role of the contact person within the organization. Constraints: o min: 0 o max: 80 Phone -&gt; (string) The phone number of the contact person. Shorthand Syntax: Email=string,FirstName=string,LastName=string,BusinessTitle=string,Phone=string ... JSON Syntax: [ { "Email": "string", "FirstName": "string", "LastName": "string", "BusinessTitle": "string", "Phone": "string" } ... ]
+    /// Contact information for partner representatives responsible for this benefit application. Constraints: • min: 0 • max: 1 (structure) Represents contact information for a partner representative. Email -&gt; (string) The email address of the contact person. Constraints: • min: 0 • max: 80 • pattern: [a-z0-9!#$%&amp;'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&amp;'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])? FirstName -&gt; (string) The first name of the contact person. Constraints: • min: 0 • max: 80 LastName -&gt; (string) The last name of the contact person. Constraints: • min: 0 • max: 80 BusinessTitle -&gt; (string) The business title or role of the contact person within the organization. Constraints: • min: 0 • max: 80 Phone -&gt; (string) The phone number of the contact person. Shorthand Syntax: Email=string,FirstName=string,LastName=string,BusinessTitle=string,Phone=string ... JSON Syntax: [ { "Email": "string", "FirstName": "string", "LastName": "string", "BusinessTitle": "string", "Phone": "string" } ... ]
     /// </summary>
     [CliOption("--partner-contacts", GroupValues = true)]
     public IEnumerable<string>? PartnerContacts { get; set; }
 
     /// <summary>
-    /// Supporting documents and files attached to the benefit application. Constraints: o min: 0 o max: 30 (structure) Represents input information for uploading a file to a benefit application. FileURI -&gt; (string) [required] The URI or location where the file should be stored or has been uploaded. Constraints: o min: 1 o max: 2000 o pattern: (s3://|https://).* BusinessUseCase -&gt; (string) The business purpose or use case that this file supports in the benefit application. Shorthand Syntax: FileURI=string,BusinessUseCase=string ... JSON Syntax: [ { "FileURI": "string", "BusinessUseCase": "string" } ... ]
+    /// Supporting documents and files attached to the benefit application. Constraints: • min: 0 • max: 30 (structure) Represents input information for uploading a file to a benefit application. FileURI -&gt; (string) [required] The URI or location where the file should be stored or has been uploaded. Constraints: • min: 1 • max: 2000 • pattern: (s3://|https://).* BusinessUseCase -&gt; (string) The business purpose or use case that this file supports in the benefit application. Shorthand Syntax: FileURI=string,BusinessUseCase=string ... JSON Syntax: [ { "FileURI": "string", "BusinessUseCase": "string" } ... ]
     /// </summary>
     [CliOption("--file-details", GroupValues = true)]
     public IEnumerable<string>? FileDetails { get; set; }
@@ -152,6 +153,15 @@ public record AwsPartnercentralBenefitsCreateBenefitApplicationOptions : AwsOpti
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

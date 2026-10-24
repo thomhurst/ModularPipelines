@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsEventsDeleteEventBusOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Deletes the specified custom event bus or partner event bus. All rules associated with this event bus need to be deleted. You can't delete your account's default event bus. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">The name of the event bus to delete. Constraints: o min: 1 o max: 256 o pattern: [/\.\-_A-Za-z0-9]+</param>
+    /// <param name="Name">The name of the event bus to delete. Constraints: • min: 1 • max: 256 • pattern: [/\.\-_A-Za-z0-9]+</param>
     public AwsEventsDeleteEventBusOptions(
         string Name
     )
@@ -56,7 +57,7 @@ public record AwsEventsDeleteEventBusOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the event bus to delete. Constraints: o min: 1 o max: 256 o pattern: [/\.\-_A-Za-z0-9]+
+    /// The name of the event bus to delete. Constraints: • min: 1 • max: 256 • pattern: [/\.\-_A-Za-z0-9]+
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
@@ -82,6 +83,15 @@ public record AwsEventsDeleteEventBusOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

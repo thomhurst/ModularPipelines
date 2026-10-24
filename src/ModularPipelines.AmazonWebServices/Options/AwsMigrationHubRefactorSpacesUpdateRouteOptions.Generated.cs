@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,10 +29,10 @@ public record AwsMigrationHubRefactorSpacesUpdateRouteOptions : AwsOptions, IVal
     /// <summary>
     /// Updates an Amazon Web Services Migration Hub Refactor Spaces route. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ActivationState">If set to ACTIVE , traffic is forwarded to this routes service after the route is updated. Possible values: o ACTIVE o INACTIVE</param>
-    /// <param name="ApplicationIdentifier">The ID of the application within which the route is being updated. Constraints: o min: 14 o max: 14 o pattern: ^app-[0-9A-Za-z]{10}$</param>
-    /// <param name="EnvironmentIdentifier">The ID of the environment in which the route is being updated. Constraints: o min: 14 o max: 14 o pattern: ^env-[0-9A-Za-z]{10}$</param>
-    /// <param name="RouteIdentifier">The unique identifier of the route to update. Constraints: o min: 14 o max: 14 o pattern: ^rte-[0-9A-Za-z]{10}$</param>
+    /// <param name="ActivationState">If set to ACTIVE , traffic is forwarded to this routes service after the route is updated. Possible values: • ACTIVE • INACTIVE</param>
+    /// <param name="ApplicationIdentifier">The ID of the application within which the route is being updated. Constraints: • min: 14 • max: 14 • pattern: ^app-[0-9A-Za-z]{10}$</param>
+    /// <param name="EnvironmentIdentifier">The ID of the environment in which the route is being updated. Constraints: • min: 14 • max: 14 • pattern: ^env-[0-9A-Za-z]{10}$</param>
+    /// <param name="RouteIdentifier">The unique identifier of the route to update. Constraints: • min: 14 • max: 14 • pattern: ^rte-[0-9A-Za-z]{10}$</param>
     public AwsMigrationHubRefactorSpacesUpdateRouteOptions(
         AwsMigrationHubRefactorSpacesUpdateRouteActivationState ActivationState,
         string ApplicationIdentifier,
@@ -68,25 +69,25 @@ public record AwsMigrationHubRefactorSpacesUpdateRouteOptions : AwsOptions, IVal
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// If set to ACTIVE , traffic is forwarded to this routes service after the route is updated. Possible values: o ACTIVE o INACTIVE
+    /// If set to ACTIVE , traffic is forwarded to this routes service after the route is updated. Possible values: • ACTIVE • INACTIVE
     /// </summary>
     [CliOption("--activation-state")]
     public AwsMigrationHubRefactorSpacesUpdateRouteActivationState? ActivationState { get; private init; }
 
     /// <summary>
-    /// The ID of the application within which the route is being updated. Constraints: o min: 14 o max: 14 o pattern: ^app-[0-9A-Za-z]{10}$
+    /// The ID of the application within which the route is being updated. Constraints: • min: 14 • max: 14 • pattern: ^app-[0-9A-Za-z]{10}$
     /// </summary>
     [CliOption("--application-identifier")]
     public string? ApplicationIdentifier { get; private init; }
 
     /// <summary>
-    /// The ID of the environment in which the route is being updated. Constraints: o min: 14 o max: 14 o pattern: ^env-[0-9A-Za-z]{10}$
+    /// The ID of the environment in which the route is being updated. Constraints: • min: 14 • max: 14 • pattern: ^env-[0-9A-Za-z]{10}$
     /// </summary>
     [CliOption("--environment-identifier")]
     public string? EnvironmentIdentifier { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the route to update. Constraints: o min: 14 o max: 14 o pattern: ^rte-[0-9A-Za-z]{10}$
+    /// The unique identifier of the route to update. Constraints: • min: 14 • max: 14 • pattern: ^rte-[0-9A-Za-z]{10}$
     /// </summary>
     [CliOption("--route-identifier")]
     public string? RouteIdentifier { get; private init; }
@@ -112,6 +113,15 @@ public record AwsMigrationHubRefactorSpacesUpdateRouteOptions : AwsOptions, IVal
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

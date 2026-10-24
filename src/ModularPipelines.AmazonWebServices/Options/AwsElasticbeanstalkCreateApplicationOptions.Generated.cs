@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates an application that has one configuration template named de- fault and no application versions. See also: AWS API Documentation
+/// Creates an application that has one configuration template named default and no application versions. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsElasticbeanstalkCreateApplicationOptions : AwsOptions, IValidat
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates an application that has one configuration template named de- fault and no application versions. See also: AWS API Documentation
+    /// Creates an application that has one configuration template named default and no application versions. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ApplicationName">The name of the application. Must be unique within your account. Constraints: o min: 1 o max: 100</param>
+    /// <param name="ApplicationName">The name of the application. Must be unique within your account. Constraints: • min: 1 • max: 100</param>
     public AwsElasticbeanstalkCreateApplicationOptions(
         string ApplicationName
     )
@@ -56,25 +57,25 @@ public record AwsElasticbeanstalkCreateApplicationOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the application. Must be unique within your account. Constraints: o min: 1 o max: 100
+    /// The name of the application. Must be unique within your account. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--application-name")]
     public string? ApplicationName { get; private init; }
 
     /// <summary>
-    /// Your description of the application. Constraints: o max: 200
+    /// Your description of the application. Constraints: • max: 200
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// Specifies an application resource lifecycle configuration to prevent your application from accumulating too many versions. ServiceRole -&gt; (string) The ARN of an IAM service role that Elastic Beanstalk has per- mission to assume. The ServiceRole property is required the first time that you provide a VersionLifecycleConfig for the application in one of the supporting calls (CreateApplication or UpdateApplicationRe- sourceLifecycle ). After you provide it once, in either one of the calls, Elastic Beanstalk persists the Service Role with the application, and you don't need to specify it again in subse- quent UpdateApplicationResourceLifecycle calls. You can, how- ever, specify it in subsequent calls to change the Service Role to another value. VersionLifecycleConfig -&gt; (structure) Defines lifecycle settings for application versions. MaxCountRule -&gt; (structure) Specify a max count rule to restrict the number of applica- tion versions that are retained for an application. Enabled -&gt; (boolean) [required] Specify true to apply the rule, or false to disable it. MaxCount -&gt; (integer) Specify the maximum number of application versions to re- tain. DeleteSourceFromS3 -&gt; (boolean) Set to true to delete a version's source bundle from Ama- zon S3 when Elastic Beanstalk deletes the application version. MaxAgeRule -&gt; (structure) Specify a max age rule to restrict the length of time that application versions are retained for an application. Enabled -&gt; (boolean) [required] Specify true to apply the rule, or false to disable it. MaxAgeInDays -&gt; (integer) Specify the number of days to retain an application ver- sions. DeleteSourceFromS3 -&gt; (boolean) Set to true to delete a version's source bundle from Ama- zon S3 when Elastic Beanstalk deletes the application version. Shorthand Syntax: ServiceRole=string,VersionLifecycleConfig={MaxCountRule={Enabled=boolean,MaxCount=integer,DeleteSourceFromS3=boolean},MaxAgeRule={Enabled=boolean,MaxAgeInDays=integer,DeleteSourceFromS3=boolean}} JSON Syntax: { "ServiceRole": "string", "VersionLifecycleConfig": { "MaxCountRule": { "Enabled": true|false, "MaxCount": integer, "DeleteSourceFromS3": true|false }, "MaxAgeRule": { "Enabled": true|false, "MaxAgeInDays": integer, "DeleteSourceFromS3": true|false } } }
+    /// Specifies an application resource lifecycle configuration to prevent your application from accumulating too many versions. ServiceRole -&gt; (string) The ARN of an IAM service role that Elastic Beanstalk has permission to assume. The ServiceRole property is required the first time that you provide a VersionLifecycleConfig for the application in one of the supporting calls (CreateApplication or UpdateApplicationResourceLifecycle ). After you provide it once, in either one of the calls, Elastic Beanstalk persists the Service Role with the application, and you don't need to specify it again in subsequent UpdateApplicationResourceLifecycle calls. You can, however, specify it in subsequent calls to change the Service Role to another value. VersionLifecycleConfig -&gt; (structure) Defines lifecycle settings for application versions. MaxCountRule -&gt; (structure) Specify a max count rule to restrict the number of application versions that are retained for an application. Enabled -&gt; (boolean) [required] Specify true to apply the rule, or false to disable it. MaxCount -&gt; (integer) Specify the maximum number of application versions to retain. DeleteSourceFromS3 -&gt; (boolean) Set to true to delete a version's source bundle from Amazon S3 when Elastic Beanstalk deletes the application version. MaxAgeRule -&gt; (structure) Specify a max age rule to restrict the length of time that application versions are retained for an application. Enabled -&gt; (boolean) [required] Specify true to apply the rule, or false to disable it. MaxAgeInDays -&gt; (integer) Specify the number of days to retain an application versions. DeleteSourceFromS3 -&gt; (boolean) Set to true to delete a version's source bundle from Amazon S3 when Elastic Beanstalk deletes the application version. Shorthand Syntax: ServiceRole=string,VersionLifecycleConfig={MaxCountRule={Enabled=boolean,MaxCount=integer,DeleteSourceFromS3=boolean},MaxAgeRule={Enabled=boolean,MaxAgeInDays=integer,DeleteSourceFromS3=boolean}} JSON Syntax: { "ServiceRole": "string", "VersionLifecycleConfig": { "MaxCountRule": { "Enabled": true|false, "MaxCount": integer, "DeleteSourceFromS3": true|false }, "MaxAgeRule": { "Enabled": true|false, "MaxAgeInDays": integer, "DeleteSourceFromS3": true|false } } }
     /// </summary>
     [CliOption("--resource-lifecycle-config")]
     public string? ResourceLifecycleConfig { get; set; }
 
     /// <summary>
-    /// Specifies the tags applied to the application. Elastic Beanstalk applies these tags only to the application. Envi- ronments that you create in the application don't inherit the tags. (structure) Describes a tag applied to a resource in an environment. Key -&gt; (string) The key of the tag. Constraints: o min: 1 o max: 128 Value -&gt; (string) The value of the tag. Constraints: o min: 1 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// Specifies the tags applied to the application. Elastic Beanstalk applies these tags only to the application. Environments that you create in the application don't inherit the tags. (structure) Describes a tag applied to a resource in an environment. Key -&gt; (string) The key of the tag. Constraints: • min: 1 • max: 128 Value -&gt; (string) The value of the tag. Constraints: • min: 1 • max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
@@ -100,6 +101,15 @@ public record AwsElasticbeanstalkCreateApplicationOptions : AwsOptions, IValidat
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -11,13 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates an asset property's alias and notification state. WARNING: This operation overwrites the property's existing alias and notifi- cation state. To keep your existing property's alias or notification state, you must include the existing values in the UpdateAssetProp- erty request. For more information, see DescribeAssetProperty . See also: AWS API Documentation
+/// Updates an asset property's alias and notification state. WARNING: This operation overwrites the property's existing alias and notification state. To keep your existing property's alias or notification state, you must include the existing values in the UpdateAssetProperty request. For more information, see DescribeAssetProperty . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,10 +28,10 @@ public record AwsIotsitewiseUpdateAssetPropertyOptions : AwsOptions, IValidatabl
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates an asset property's alias and notification state. WARNING: This operation overwrites the property's existing alias and notifi- cation state. To keep your existing property's alias or notification state, you must include the existing values in the UpdateAssetProp- erty request. For more information, see DescribeAssetProperty . See also: AWS API Documentation
+    /// Updates an asset property's alias and notification state. WARNING: This operation overwrites the property's existing alias and notification state. To keep your existing property's alias or notification state, you must include the existing values in the UpdateAssetProperty request. For more information, see DescribeAssetProperty . See also: AWS API Documentation
     /// </summary>
-    /// <param name="AssetId">The ID of the asset to be updated. This can be either the actual ID in UUID format, or else externalId: followed by the external ID, if it has one. For more information, see Referencing objects with ex- ternal IDs in the IoT SiteWise User Guide . Constraints: o min: 13 o max: 139 o pattern: ^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$|^ex- ternalId:[a-zA-Z0-9_][a-zA-Z_\-0-9.:]*[a-zA-Z0-9_]+</param>
-    /// <param name="PropertyId">The ID of the asset property to be updated. This can be either the actual ID in UUID format, or else externalId: followed by the exter- nal ID, if it has one. For more information, see Referencing objects with external IDs in the IoT SiteWise User Guide . Constraints: o min: 13 o max: 139 o pattern: ^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$|^ex- ternalId:[a-zA-Z0-9_][a-zA-Z_\-0-9.:]*[a-zA-Z0-9_]+</param>
+    /// <param name="AssetId">The ID of the asset to be updated. This can be either the actual ID in UUID format, or else externalId: followed by the external ID, if it has one. For more information, see Referencing objects with external IDs in the IoT SiteWise User Guide . Constraints: • min: 13 • max: 139 • pattern: ^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$|^externalId:[a-zA-Z0-9_][a-zA-Z_\-0-9.:]*[a-zA-Z0-9_]+</param>
+    /// <param name="PropertyId">The ID of the asset property to be updated. This can be either the actual ID in UUID format, or else externalId: followed by the external ID, if it has one. For more information, see Referencing objects with external IDs in the IoT SiteWise User Guide . Constraints: • min: 13 • max: 139 • pattern: ^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$|^externalId:[a-zA-Z0-9_][a-zA-Z_\-0-9.:]*[a-zA-Z0-9_]+</param>
     public AwsIotsitewiseUpdateAssetPropertyOptions(
         string AssetId,
         string PropertyId
@@ -62,38 +63,38 @@ public record AwsIotsitewiseUpdateAssetPropertyOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the asset to be updated. This can be either the actual ID in UUID format, or else externalId: followed by the external ID, if it has one. For more information, see Referencing objects with ex- ternal IDs in the IoT SiteWise User Guide . Constraints: o min: 13 o max: 139 o pattern: ^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$|^ex- ternalId:[a-zA-Z0-9_][a-zA-Z_\-0-9.:]*[a-zA-Z0-9_]+
+    /// The ID of the asset to be updated. This can be either the actual ID in UUID format, or else externalId: followed by the external ID, if it has one. For more information, see Referencing objects with external IDs in the IoT SiteWise User Guide . Constraints: • min: 13 • max: 139 • pattern: ^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$|^externalId:[a-zA-Z0-9_][a-zA-Z_\-0-9.:]*[a-zA-Z0-9_]+
     /// </summary>
     [CliOption("--asset-id")]
     public string? AssetId { get; private init; }
 
     /// <summary>
-    /// The ID of the asset property to be updated. This can be either the actual ID in UUID format, or else externalId: followed by the exter- nal ID, if it has one. For more information, see Referencing objects with external IDs in the IoT SiteWise User Guide . Constraints: o min: 13 o max: 139 o pattern: ^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$|^ex- ternalId:[a-zA-Z0-9_][a-zA-Z_\-0-9.:]*[a-zA-Z0-9_]+
+    /// The ID of the asset property to be updated. This can be either the actual ID in UUID format, or else externalId: followed by the external ID, if it has one. For more information, see Referencing objects with external IDs in the IoT SiteWise User Guide . Constraints: • min: 13 • max: 139 • pattern: ^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$|^externalId:[a-zA-Z0-9_][a-zA-Z_\-0-9.:]*[a-zA-Z0-9_]+
     /// </summary>
     [CliOption("--property-id")]
     public string? PropertyId { get; private init; }
 
     /// <summary>
-    /// The alias that identifies the property, such as an OPC-UA server data stream path (for example, /company/windfarm/3/turbine/7/temper- ature ). For more information, see Mapping industrial data streams to asset properties in the IoT SiteWise User Guide . If you omit this parameter, the alias is removed from the property. Constraints: o min: 1 o pattern: [^\u0000-\u001F\u007F]+
+    /// The alias that identifies the property, such as an OPC-UA server data stream path (for example, /company/windfarm/3/turbine/7/temperature ). For more information, see Mapping industrial data streams to asset properties in the IoT SiteWise User Guide . If you omit this parameter, the alias is removed from the property. Constraints: • min: 1 • pattern: [^\u0000-\u001F\u007F]+
     /// </summary>
     [CliOption("--property-alias")]
     public string? PropertyAlias { get; set; }
 
     /// <summary>
-    /// The MQTT notification state (enabled or disabled) for this asset property. When the notification state is enabled, IoT SiteWise pub- lishes property value updates to a unique MQTT topic. For more in- formation, see Interacting with other services in the IoT SiteWise User Guide . If you omit this parameter, the notification state is set to DIS- ABLED . Possible values: o ENABLED o DISABLED
+    /// The MQTT notification state (enabled or disabled) for this asset property. When the notification state is enabled, IoT SiteWise publishes property value updates to a unique MQTT topic. For more information, see Interacting with other services in the IoT SiteWise User Guide . If you omit this parameter, the notification state is set to DISABLED . Possible values: • ENABLED • DISABLED
     /// </summary>
     [CliOption("--property-notification-state")]
     public AwsIotsitewiseUpdateAssetPropertyPropertyNotificationState? PropertyNotificationState { get; set; }
 
     /// <summary>
-    /// A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required. Constraints: o min: 36 o max: 64 o pattern: \S{36,64}
+    /// A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required. Constraints: • min: 36 • max: 64 • pattern: \S{36,64}
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// The unit of measure (such as Newtons or RPM) of the asset property. If you don't specify a value for this parameter, the service uses the value of the assetModelProperty in the asset model. Constraints: o min: 1 o max: 256 o pattern: [^\u0000-\u001F\u007F]+
+    /// The unit of measure (such as Newtons or RPM) of the asset property. If you don't specify a value for this parameter, the service uses the value of the assetModelProperty in the asset model. Constraints: • min: 1 • max: 256 • pattern: [^\u0000-\u001F\u007F]+
     /// </summary>
     [CliOption("--property-unit")]
     public string? PropertyUnit { get; set; }
@@ -119,6 +120,15 @@ public record AwsIotsitewiseUpdateAssetPropertyOptions : AwsOptions, IValidatabl
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

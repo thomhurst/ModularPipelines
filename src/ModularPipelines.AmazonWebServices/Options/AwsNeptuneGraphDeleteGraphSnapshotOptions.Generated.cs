@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsNeptuneGraphDeleteGraphSnapshotOptions : AwsOptions, IValidatab
     /// <summary>
     /// Deletes the specified graph snapshot. See also: AWS API Documentation
     /// </summary>
-    /// <param name="SnapshotIdentifier">ID of the graph snapshot to be deleted. Constraints: o pattern: gs-[a-z0-9]{10}</param>
+    /// <param name="SnapshotIdentifier">ID of the graph snapshot to be deleted. Constraints: • pattern: gs-[a-z0-9]{10}</param>
     public AwsNeptuneGraphDeleteGraphSnapshotOptions(
         string SnapshotIdentifier
     )
@@ -56,7 +57,7 @@ public record AwsNeptuneGraphDeleteGraphSnapshotOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// ID of the graph snapshot to be deleted. Constraints: o pattern: gs-[a-z0-9]{10}
+    /// ID of the graph snapshot to be deleted. Constraints: • pattern: gs-[a-z0-9]{10}
     /// </summary>
     [CliOption("--snapshot-identifier")]
     public string? SnapshotIdentifier { get; private init; }
@@ -82,6 +83,15 @@ public record AwsNeptuneGraphDeleteGraphSnapshotOptions : AwsOptions, IValidatab
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

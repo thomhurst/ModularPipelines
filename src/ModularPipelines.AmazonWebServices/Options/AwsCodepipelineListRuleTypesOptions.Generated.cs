@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Lists the rules for the condition. For more information about condi- tions, see Stage conditions and How do stage conditions work? .For more information about rules, see the CodePipeline rule reference . See also: AWS API Documentation
+/// Lists the rules for the condition. For more information about conditions, see Stage conditions and How do stage conditions work? .For more information about rules, see the CodePipeline rule reference . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -22,13 +22,13 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsCodepipelineListRuleTypesOptions : AwsOptions
 {
     /// <summary>
-    /// The rule owner to filter on. Possible values: o AWS
+    /// The rule owner to filter on. Possible values: • AWS
     /// </summary>
     [CliOption("--rule-owner-filter")]
     public string? RuleOwnerFilter { get; set; }
 
     /// <summary>
-    /// The rule Region to filter on. Constraints: o min: 4 o max: 30
+    /// The rule Region to filter on. Constraints: • min: 4 • max: 30
     /// </summary>
     [CliOption("--region-filter")]
     public string? RegionFilter { get; set; }
@@ -38,5 +38,14 @@ public record AwsCodepipelineListRuleTypesOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

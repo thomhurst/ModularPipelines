@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,8 +29,8 @@ public record AwsHealthlakePublishDataTransformationProfileOptions : AwsOptions,
     /// <summary>
     /// Promotes the current DRAFT version of a data transformation profile to a new immutable published version. Also supports rollback by publishing from a previously published version. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ProfileId">The unique identifier of the profile to publish. Constraints: o min: 32 o max: 32 o pattern: [a-f0-9]{32}</param>
-    /// <param name="SourceFormat">The source data format of the profile. Possible values: o CCDA o CSV</param>
+    /// <param name="ProfileId">The unique identifier of the profile to publish. Constraints: • min: 32 • max: 32 • pattern: [a-f0-9]{32}</param>
+    /// <param name="SourceFormat">The source data format of the profile. Possible values: • CCDA • CSV</param>
     public AwsHealthlakePublishDataTransformationProfileOptions(
         string ProfileId,
         AwsHealthlakePublishDataTransformationProfileSourceFormat SourceFormat
@@ -60,25 +61,25 @@ public record AwsHealthlakePublishDataTransformationProfileOptions : AwsOptions,
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the profile to publish. Constraints: o min: 32 o max: 32 o pattern: [a-f0-9]{32}
+    /// The unique identifier of the profile to publish. Constraints: • min: 32 • max: 32 • pattern: [a-f0-9]{32}
     /// </summary>
     [CliOption("--profile-id")]
     public string? ProfileId { get; private init; }
 
     /// <summary>
-    /// The source data format of the profile. Possible values: o CCDA o CSV
+    /// The source data format of the profile. Possible values: • CCDA • CSV
     /// </summary>
     [CliOption("--source-format")]
     public AwsHealthlakePublishDataTransformationProfileSourceFormat? SourceFormat { get; private init; }
 
     /// <summary>
-    /// The version number of a previously published version to republish as the new latest version. Use this parameter for rollback scenarios. If you omit this parameter, the service publishes the current DRAFT version. Constraints: o min: 0 o max: 99
+    /// The version number of a previously published version to republish as the new latest version. Use this parameter for rollback scenarios. If you omit this parameter, the service publishes the current DRAFT version. Constraints: • min: 0 • max: 99
     /// </summary>
     [CliOption("--from-existing-version")]
     public int? FromExistingVersion { get; set; }
 
     /// <summary>
-    /// A description of what changed or why this version is being pub- lished. Constraints: o min: 0 o max: 1000
+    /// A description of what changed or why this version is being published. Constraints: • min: 0 • max: 1000
     /// </summary>
     [CliOption("--change-description")]
     public string? ChangeDescription { get; set; }
@@ -104,6 +105,15 @@ public record AwsHealthlakePublishDataTransformationProfileOptions : AwsOptions,
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

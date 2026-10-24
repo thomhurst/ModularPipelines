@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// For a specific governed table, provides a list of Amazon S3 objects that will be written during the current transaction and that can be au- tomatically deleted if the transaction is canceled. Without this call, no Amazon S3 objects are automatically deleted when a transaction can- cels. The Glue ETL library function write_dynamic_frame.from_catalog() in- cludes an option to automatically call DeleteObjectsOnCancel before writes. For more information, see Rolling Back Amazon S3 Writes . See also:...
+/// For a specific governed table, provides a list of Amazon S3 objects that will be written during the current transaction and that can be automatically deleted if the transaction is canceled. Without this call, no Amazon S3 objects are automatically deleted when a transaction cancels. The Glue ETL library function write_dynamic_frame.from_catalog() includes an option to automatically call DeleteObjectsOnCancel before writes. For more information, see Rolling Back Amazon S3 Writes . See also: AWS A...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,12 +26,12 @@ public record AwsLakeformationDeleteObjectsOnCancelOptions : AwsOptions, IValida
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// For a specific governed table, provides a list of Amazon S3 objects that will be written during the current transaction and that can be au- tomatically deleted if the transaction is canceled. Without this call, no Amazon S3 objects are automatically deleted when a transaction can- cels. The Glue ETL library function write_dynamic_frame.from_catalog() in- cludes an option to automatically call DeleteObjectsOnCancel before writes. For more information, see Rolling Back Amazon S3 Writes . See also:...
+    /// For a specific governed table, provides a list of Amazon S3 objects that will be written during the current transaction and that can be automatically deleted if the transaction is canceled. Without this call, no Amazon S3 objects are automatically deleted when a transaction cancels. The Glue ETL library function write_dynamic_frame.from_catalog() includes an option to automatically call DeleteObjectsOnCancel before writes. For more information, see Rolling Back Amazon S3 Writes . See also: AWS A...
     /// </summary>
-    /// <param name="DatabaseName">The database that contains the governed table. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*</param>
-    /// <param name="TableName">The name of the governed table. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*</param>
-    /// <param name="TransactionId">ID of the transaction that the writes occur in. Constraints: o min: 1 o max: 255 o pattern: [\p{L}\p{N}\p{P}]*</param>
-    /// <param name="Objects">A list of VirtualObject structures, which indicates the Amazon S3 objects to be deleted if the transaction cancels. Constraints: o min: 1 o max: 100 (structure) An object that defines an Amazon S3 object to be deleted if a transaction cancels, provided that VirtualPut was called before writing the object. Uri -&gt; (string) [required] The path to the Amazon S3 object. Must start with s3:// Constraints: o min: 1 o max: 1024 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* ETag -&gt; (string) The ETag of the Amazon S3 object. Constraints: o min: 1 o max: 255 o pattern: [\p{L}\p{N}\p{P}]* Shorthand Syntax: Uri=string,ETag=string ... JSON Syntax: [ { "Uri": "string", "ETag": "string" } ... ]</param>
+    /// <param name="DatabaseName">The database that contains the governed table. Constraints: • min: 1 • max: 255 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*</param>
+    /// <param name="TableName">The name of the governed table. Constraints: • min: 1 • max: 255 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*</param>
+    /// <param name="TransactionId">ID of the transaction that the writes occur in. Constraints: • min: 1 • max: 255 • pattern: [\p{L}\p{N}\p{P}]*</param>
+    /// <param name="Objects">A list of VirtualObject structures, which indicates the Amazon S3 objects to be deleted if the transaction cancels. Constraints: • min: 1 • max: 100 (structure) An object that defines an Amazon S3 object to be deleted if a transaction cancels, provided that VirtualPut was called before writing the object. Uri -&gt; (string) [required] The path to the Amazon S3 object. Must start with s3:// Constraints: • min: 1 • max: 1024 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* ETag -&gt; (string) The ETag of the Amazon S3 object. Constraints: • min: 1 • max: 255 • pattern: [\p{L}\p{N}\p{P}]* Shorthand Syntax: Uri=string,ETag=string ... JSON Syntax: [ { "Uri": "string", "ETag": "string" } ... ]</param>
     public AwsLakeformationDeleteObjectsOnCancelOptions(
         string DatabaseName,
         string TableName,
@@ -79,31 +80,31 @@ public record AwsLakeformationDeleteObjectsOnCancelOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The database that contains the governed table. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
+    /// The database that contains the governed table. Constraints: • min: 1 • max: 255 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
     /// </summary>
     [CliOption("--database-name")]
     public string? DatabaseName { get; private init; }
 
     /// <summary>
-    /// The name of the governed table. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
+    /// The name of the governed table. Constraints: • min: 1 • max: 255 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
     /// </summary>
     [CliOption("--table-name")]
     public string? TableName { get; private init; }
 
     /// <summary>
-    /// ID of the transaction that the writes occur in. Constraints: o min: 1 o max: 255 o pattern: [\p{L}\p{N}\p{P}]*
+    /// ID of the transaction that the writes occur in. Constraints: • min: 1 • max: 255 • pattern: [\p{L}\p{N}\p{P}]*
     /// </summary>
     [CliOption("--transaction-id")]
     public string? TransactionId { get; private init; }
 
     /// <summary>
-    /// A list of VirtualObject structures, which indicates the Amazon S3 objects to be deleted if the transaction cancels. Constraints: o min: 1 o max: 100 (structure) An object that defines an Amazon S3 object to be deleted if a transaction cancels, provided that VirtualPut was called before writing the object. Uri -&gt; (string) [required] The path to the Amazon S3 object. Must start with s3:// Constraints: o min: 1 o max: 1024 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* ETag -&gt; (string) The ETag of the Amazon S3 object. Constraints: o min: 1 o max: 255 o pattern: [\p{L}\p{N}\p{P}]* Shorthand Syntax: Uri=string,ETag=string ... JSON Syntax: [ { "Uri": "string", "ETag": "string" } ... ]
+    /// A list of VirtualObject structures, which indicates the Amazon S3 objects to be deleted if the transaction cancels. Constraints: • min: 1 • max: 100 (structure) An object that defines an Amazon S3 object to be deleted if a transaction cancels, provided that VirtualPut was called before writing the object. Uri -&gt; (string) [required] The path to the Amazon S3 object. Must start with s3:// Constraints: • min: 1 • max: 1024 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* ETag -&gt; (string) The ETag of the Amazon S3 object. Constraints: • min: 1 • max: 255 • pattern: [\p{L}\p{N}\p{P}]* Shorthand Syntax: Uri=string,ETag=string ... JSON Syntax: [ { "Uri": "string", "ETag": "string" } ... ]
     /// </summary>
     [CliOption("--objects", GroupValues = true)]
     public IEnumerable<string>? Objects { get; private init; }
 
     /// <summary>
-    /// The Glue data catalog that contains the governed table. Defaults to the current account ID. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
+    /// The Glue data catalog that contains the governed table. Defaults to the current account ID. Constraints: • min: 1 • max: 255 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
     /// </summary>
     [CliOption("--catalog-id")]
     public string? CatalogId { get; set; }
@@ -129,6 +130,15 @@ public record AwsLakeformationDeleteObjectsOnCancelOptions : AwsOptions, IValida
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

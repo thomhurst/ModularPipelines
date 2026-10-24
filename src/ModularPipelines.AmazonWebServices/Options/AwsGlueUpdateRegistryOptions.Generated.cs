@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates an existing registry which is used to hold a collection of schemas. The updated properties relate to the registry, and do not mod- ify any of the schemas within the registry. See also: AWS API Documentation
+/// Updates an existing registry which is used to hold a collection of schemas. The updated properties relate to the registry, and do not modify any of the schemas within the registry. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsGlueUpdateRegistryOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates an existing registry which is used to hold a collection of schemas. The updated properties relate to the registry, and do not mod- ify any of the schemas within the registry. See also: AWS API Documentation
+    /// Updates an existing registry which is used to hold a collection of schemas. The updated properties relate to the registry, and do not modify any of the schemas within the registry. See also: AWS API Documentation
     /// </summary>
-    /// <param name="RegistryId">This is a wrapper structure that may contain the registry name and Amazon Resource Name (ARN). RegistryName -&gt; (string) Name of the registry. Used only for lookup. One of RegistryArn or RegistryName has to be provided. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9-_$#.]+ RegistryArn -&gt; (string) Arn of the registry to be updated. One of RegistryArn or Reg- istryName has to be provided. Constraints: o min: 1 o max: 10240 o pattern: arn:aws(-(cn|us-gov|iso(-[bef])?))?:glue:.* Shorthand Syntax: RegistryName=string,RegistryArn=string JSON Syntax: { "RegistryName": "string", "RegistryArn": "string" }</param>
-    /// <param name="Description">A description of the registry. If description is not provided, this field will not be updated. Constraints: o min: 0 o max: 2048 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*</param>
+    /// <param name="RegistryId">This is a wrapper structure that may contain the registry name and Amazon Resource Name (ARN). RegistryName -&gt; (string) Name of the registry. Used only for lookup. One of RegistryArn or RegistryName has to be provided. Constraints: • min: 1 • max: 255 • pattern: [a-zA-Z0-9-_$#.]+ RegistryArn -&gt; (string) Arn of the registry to be updated. One of RegistryArn or RegistryName has to be provided. Constraints: • min: 1 • max: 10240 • pattern: arn:aws(-(cn|us-gov|iso(-[bef])?))?:glue:.* Shorthand Syntax: RegistryName=string,RegistryArn=string JSON Syntax: { "RegistryName": "string", "RegistryArn": "string" }</param>
+    /// <param name="Description">A description of the registry. If description is not provided, this field will not be updated. Constraints: • min: 0 • max: 2048 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*</param>
     public AwsGlueUpdateRegistryOptions(
         string RegistryId,
         string Description
@@ -60,13 +61,13 @@ public record AwsGlueUpdateRegistryOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// This is a wrapper structure that may contain the registry name and Amazon Resource Name (ARN). RegistryName -&gt; (string) Name of the registry. Used only for lookup. One of RegistryArn or RegistryName has to be provided. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9-_$#.]+ RegistryArn -&gt; (string) Arn of the registry to be updated. One of RegistryArn or Reg- istryName has to be provided. Constraints: o min: 1 o max: 10240 o pattern: arn:aws(-(cn|us-gov|iso(-[bef])?))?:glue:.* Shorthand Syntax: RegistryName=string,RegistryArn=string JSON Syntax: { "RegistryName": "string", "RegistryArn": "string" }
+    /// This is a wrapper structure that may contain the registry name and Amazon Resource Name (ARN). RegistryName -&gt; (string) Name of the registry. Used only for lookup. One of RegistryArn or RegistryName has to be provided. Constraints: • min: 1 • max: 255 • pattern: [a-zA-Z0-9-_$#.]+ RegistryArn -&gt; (string) Arn of the registry to be updated. One of RegistryArn or RegistryName has to be provided. Constraints: • min: 1 • max: 10240 • pattern: arn:aws(-(cn|us-gov|iso(-[bef])?))?:glue:.* Shorthand Syntax: RegistryName=string,RegistryArn=string JSON Syntax: { "RegistryName": "string", "RegistryArn": "string" }
     /// </summary>
     [CliOption("--registry-id")]
     public string? RegistryId { get; private init; }
 
     /// <summary>
-    /// A description of the registry. If description is not provided, this field will not be updated. Constraints: o min: 0 o max: 2048 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*
+    /// A description of the registry. If description is not provided, this field will not be updated. Constraints: • min: 0 • max: 2048 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; private init; }
@@ -92,6 +93,15 @@ public record AwsGlueUpdateRegistryOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

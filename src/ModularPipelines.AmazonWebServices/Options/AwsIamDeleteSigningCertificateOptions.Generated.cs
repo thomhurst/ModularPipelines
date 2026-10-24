@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes a signing certificate associated with the specified IAM user. If you do not specify a user name, IAM determines the user name implic- itly based on the Amazon Web Services access key ID signing the re- quest. This operation works for access keys under the Amazon Web Ser- vices account. Consequently, you can use this operation to manage Ama- zon Web Services account root user credentials even if the Amazon Web Services account has no associated IAM users. See also: AWS API Documentation
+/// Deletes a signing certificate associated with the specified IAM user. If you do not specify a user name, IAM determines the user name implicitly based on the Amazon Web Services access key ID signing the request. This operation works for access keys under the Amazon Web Services account. Consequently, you can use this operation to manage Amazon Web Services account root user credentials even if the Amazon Web Services account has no associated IAM users. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsIamDeleteSigningCertificateOptions : AwsOptions, IValidatableOb
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes a signing certificate associated with the specified IAM user. If you do not specify a user name, IAM determines the user name implic- itly based on the Amazon Web Services access key ID signing the re- quest. This operation works for access keys under the Amazon Web Ser- vices account. Consequently, you can use this operation to manage Ama- zon Web Services account root user credentials even if the Amazon Web Services account has no associated IAM users. See also: AWS API Documentation
+    /// Deletes a signing certificate associated with the specified IAM user. If you do not specify a user name, IAM determines the user name implicitly based on the Amazon Web Services access key ID signing the request. This operation works for access keys under the Amazon Web Services account. Consequently, you can use this operation to manage Amazon Web Services account root user credentials even if the Amazon Web Services account has no associated IAM users. See also: AWS API Documentation
     /// </summary>
-    /// <param name="CertificateId">The ID of the signing certificate to delete. The format of this parameter, as described by its regex pattern, is a string of characters that can be upper- or lower-cased letters or digits. Constraints: o min: 24 o max: 128 o pattern: [\w]+</param>
+    /// <param name="CertificateId">The ID of the signing certificate to delete. The format of this parameter, as described by its regex pattern, is a string of characters that can be upper- or lower-cased letters or digits. Constraints: • min: 24 • max: 128 • pattern: [\w]+</param>
     public AwsIamDeleteSigningCertificateOptions(
         string CertificateId
     )
@@ -56,13 +57,13 @@ public record AwsIamDeleteSigningCertificateOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the signing certificate to delete. The format of this parameter, as described by its regex pattern, is a string of characters that can be upper- or lower-cased letters or digits. Constraints: o min: 24 o max: 128 o pattern: [\w]+
+    /// The ID of the signing certificate to delete. The format of this parameter, as described by its regex pattern, is a string of characters that can be upper- or lower-cased letters or digits. Constraints: • min: 24 • max: 128 • pattern: [\w]+
     /// </summary>
     [CliOption("--certificate-id")]
     public string? CertificateId { get; private init; }
 
     /// <summary>
-    /// The name of the user the signing certificate belongs to. This parameter allows (through its regex pattern ) a string of char- acters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following charac- ters: _+=,.@- Constraints: o min: 1 o max: 128 o pattern: [\w+=,.@-]+
+    /// The name of the user the signing certificate belongs to. This parameter allows (through its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@- Constraints: • min: 1 • max: 128 • pattern: [\w+=,.@-]+
     /// </summary>
     [CliOption("--user-name")]
     public string? UserName { get; set; }
@@ -88,6 +89,15 @@ public record AwsIamDeleteSigningCertificateOptions : AwsOptions, IValidatableOb
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

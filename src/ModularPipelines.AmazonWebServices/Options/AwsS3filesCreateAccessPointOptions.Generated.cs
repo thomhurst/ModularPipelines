@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates an S3 File System Access Point for application-specific access with POSIX user identity and root directory enforcement. Access points provide a way to manage access to shared datasets in multi-tenant sce- narios. See also: AWS API Documentation
+/// Creates an S3 File System Access Point for application-specific access with POSIX user identity and root directory enforcement. Access points provide a way to manage access to shared datasets in multi-tenant scenarios. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +27,9 @@ public record AwsS3filesCreateAccessPointOptions : AwsOptions, IValidatableObjec
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates an S3 File System Access Point for application-specific access with POSIX user identity and root directory enforcement. Access points provide a way to manage access to shared datasets in multi-tenant sce- narios. See also: AWS API Documentation
+    /// Creates an S3 File System Access Point for application-specific access with POSIX user identity and root directory enforcement. Access points provide a way to manage access to shared datasets in multi-tenant scenarios. See also: AWS API Documentation
     /// </summary>
-    /// <param name="FileSystemId">The ID or Amazon Resource Name (ARN) of the S3 File System. Constraints: o min: 0 o max: 128 o pattern: (arn:aws[-a-z]*:s3files:[0-9a-z-:]+:file-sys- tem/fs-[0-9a-f]{17,40}|fs-[0-9a-f]{17,40})</param>
+    /// <param name="FileSystemId">The ID or Amazon Resource Name (ARN) of the S3 File System. Constraints: • min: 0 • max: 128 • pattern: (arn:aws[-a-z]*:s3files:[0-9a-z-:]+:file-system/fs-[0-9a-f]{17,40}|fs-[0-9a-f]{17,40})</param>
     public AwsS3filesCreateAccessPointOptions(
         string FileSystemId
     )
@@ -57,32 +58,32 @@ public record AwsS3filesCreateAccessPointOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID or Amazon Resource Name (ARN) of the S3 File System. Constraints: o min: 0 o max: 128 o pattern: (arn:aws[-a-z]*:s3files:[0-9a-z-:]+:file-sys- tem/fs-[0-9a-f]{17,40}|fs-[0-9a-f]{17,40})
+    /// The ID or Amazon Resource Name (ARN) of the S3 File System. Constraints: • min: 0 • max: 128 • pattern: (arn:aws[-a-z]*:s3files:[0-9a-z-:]+:file-system/fs-[0-9a-f]{17,40}|fs-[0-9a-f]{17,40})
     /// </summary>
     [CliOption("--file-system-id")]
     public string? FileSystemId { get; private init; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier to ensure that the operation completes no more than one time. If this token matches a previous request, Amazon Web Services ignores the request, but does not re- turn an error. Constraints: o min: 1 o max: 64 o pattern: (.+)
+    /// A unique, case-sensitive identifier to ensure that the operation completes no more than one time. If this token matches a previous request, Amazon Web Services ignores the request, but does not return an error. Constraints: • min: 1 • max: 64 • pattern: (.+)
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// An array of key-value pairs to apply to the access point for re- source tagging. Constraints: o min: 1 o max: 50 (structure) A key-value pair for resource tagging. key -&gt; (string) [required] The tag key. The key can't start with aws: . Constraints: o min: 1 o max: 128 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]+) value -&gt; (string) [required] The tag value. Constraints: o min: 0 o max: 256 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
+    /// An array of key-value pairs to apply to the access point for resource tagging. Constraints: • min: 1 • max: 50 (structure) A key-value pair for resource tagging. key -&gt; (string) [required] The tag key. The key can't start with aws: . Constraints: • min: 1 • max: 128 • pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]+) value -&gt; (string) [required] The tag value. Constraints: • min: 0 • max: 256 • pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
-    /// The POSIX identity with uid, gid, and secondary group IDs for user enforcement when accessing the file system through this access point. uid -&gt; (long) [required] The POSIX user ID. Constraints: o min: 0 o max: 4294967295 gid -&gt; (long) [required] The POSIX group ID. Constraints: o min: 0 o max: 4294967295 secondaryGids -&gt; (list) An array of secondary POSIX group IDs. (long) Constraints: o min: 0 o max: 4294967295 Shorthand Syntax: uid=long,gid=long,secondaryGids=long,long JSON Syntax: { "uid": long, "gid": long, "secondaryGids": [long, ...] }
+    /// The POSIX identity with uid, gid, and secondary group IDs for user enforcement when accessing the file system through this access point. uid -&gt; (long) [required] The POSIX user ID. Constraints: • min: 0 • max: 4294967295 gid -&gt; (long) [required] The POSIX group ID. Constraints: • min: 0 • max: 4294967295 secondaryGids -&gt; (list) An array of secondary POSIX group IDs. (long) Constraints: • min: 0 • max: 4294967295 Shorthand Syntax: uid=long,gid=long,secondaryGids=long,long JSON Syntax: { "uid": long, "gid": long, "secondaryGids": [long, ...] }
     /// </summary>
     [CliOption("--posix-user")]
     public string? PosixUser { get; set; }
 
     /// <summary>
-    /// The root directory path for the access point, with optional creation permissions for newly created directories. path -&gt; (string) The path to use as the root directory for the access point. Constraints: o min: 1 o max: 100 o pattern: (\/|(\/(?!\.)+[^$#&lt;&gt;;;`|&amp;?{}^*/\n]+){1,4}) creationPermissions -&gt; (structure) The permissions to set on newly created directories. ownerUid -&gt; (long) [required] The POSIX user ID to assign to newly created directories. Constraints: o min: 0 o max: 4294967295 ownerGid -&gt; (long) [required] The POSIX group ID to assign to newly created directories. Constraints: o min: 0 o max: 4294967295 permissions -&gt; (string) [required] The octal permissions to assign to newly created directories. Constraints: o min: 3 o max: 4 o pattern: [0-7]{3,4} Shorthand Syntax: path=string,creationPermissions={ownerUid=long,ownerGid=long,permissions=string} JSON Syntax: { "path": "string", "creationPermissions": { "ownerUid": long, "ownerGid": long, "permissions": "string" } }
+    /// The root directory path for the access point, with optional creation permissions for newly created directories. path -&gt; (string) The path to use as the root directory for the access point. Constraints: • min: 1 • max: 100 • pattern: (\/|(\/(?!\.)+[^$#&lt;&gt;;;`|&amp;?{}^*/\n]+){1,4}) creationPermissions -&gt; (structure) The permissions to set on newly created directories. ownerUid -&gt; (long) [required] The POSIX user ID to assign to newly created directories. Constraints: • min: 0 • max: 4294967295 ownerGid -&gt; (long) [required] The POSIX group ID to assign to newly created directories. Constraints: • min: 0 • max: 4294967295 permissions -&gt; (string) [required] The octal permissions to assign to newly created directories. Constraints: • min: 3 • max: 4 • pattern: [0-7]{3,4} Shorthand Syntax: path=string,creationPermissions={ownerUid=long,ownerGid=long,permissions=string} JSON Syntax: { "path": "string", "creationPermissions": { "ownerUid": long, "ownerGid": long, "permissions": "string" } }
     /// </summary>
     [CliOption("--root-directory")]
     public string? RootDirectory { get; set; }
@@ -108,6 +109,15 @@ public record AwsS3filesCreateAccessPointOptions : AwsOptions, IValidatableObjec
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

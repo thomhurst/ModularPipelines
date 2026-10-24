@@ -11,14 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a managed thing. A managed thing contains the device identi- fier, protocol supported, and capabilities of the device in a data model format defined by Managed integrations. See also: AWS API Documentation create-managed-thing uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested para- meters that are labeled with the type document must be provided as JSON. ...
+/// Creates a managed thing. A managed thing contains the device identifier, protocol supported, and capabilities of the device in a data model format defined by Managed integrations. See also: AWS API Documentation create-managed-thing uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shor...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -28,11 +28,11 @@ public record AwsIotManagedIntegrationsCreateManagedThingOptions : AwsOptions, I
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a managed thing. A managed thing contains the device identi- fier, protocol supported, and capabilities of the device in a data model format defined by Managed integrations. See also: AWS API Documentation create-managed-thing uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested para- meters that are labeled with the type document must be provided as JSON. ...
+    /// Creates a managed thing. A managed thing contains the device identifier, protocol supported, and capabilities of the device in a data model format defined by Managed integrations. See also: AWS API Documentation create-managed-thing uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shor...
     /// </summary>
-    /// <param name="Role">The type of device used. This will be the hub controller, cloud de- vice, or AWS IoT device. Possible values: o CONTROLLER o DEVICE</param>
-    /// <param name="AuthenticationMaterial">The authentication material defining the device connectivity setup requests. The authorization materials used are the device bar code. Constraints: o min: 1 o max: 512 o pattern: [0-9A-Za-z!#$%&amp;()*\+\-;&lt;=&gt;?@^_`{|}~\/: {},\\"]+</param>
-    /// <param name="AuthenticationMaterialType">The type of authentication material used for device connectivity setup requests. Possible values: o CUSTOM_PROTOCOL_QR_BAR_CODE o WIFI_SETUP_QR_BAR_CODE o ZWAVE_QR_BAR_CODE o ZIGBEE_QR_BAR_CODE o DISCOVERED_DEVICE o PRE_ONBOARDED_CLOUD</param>
+    /// <param name="Role">The type of device used. This will be the hub controller, cloud device, or AWS IoT device. Possible values: • CONTROLLER • DEVICE</param>
+    /// <param name="AuthenticationMaterial">The authentication material defining the device connectivity setup requests. The authorization materials used are the device bar code. Constraints: • min: 1 • max: 512 • pattern: [0-9A-Za-z!#$%&amp;()*\+\-;&lt;=&gt;?@^_`{|}~//: {},\\"]+</param>
+    /// <param name="AuthenticationMaterialType">The type of authentication material used for device connectivity setup requests. Possible values: • CUSTOM_PROTOCOL_QR_BAR_CODE • WIFI_SETUP_QR_BAR_CODE • ZWAVE_QR_BAR_CODE • ZIGBEE_QR_BAR_CODE • DISCOVERED_DEVICE • PRE_ONBOARDED_CLOUD</param>
     public AwsIotManagedIntegrationsCreateManagedThingOptions(
         AwsIotManagedIntegrationsCreateManagedThingRole Role,
         string AuthenticationMaterial,
@@ -65,104 +65,104 @@ public record AwsIotManagedIntegrationsCreateManagedThingOptions : AwsOptions, I
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The type of device used. This will be the hub controller, cloud de- vice, or AWS IoT device. Possible values: o CONTROLLER o DEVICE
+    /// The type of device used. This will be the hub controller, cloud device, or AWS IoT device. Possible values: • CONTROLLER • DEVICE
     /// </summary>
     [CliOption("--role")]
     public AwsIotManagedIntegrationsCreateManagedThingRole? Role { get; private init; }
 
     /// <summary>
-    /// The authentication material defining the device connectivity setup requests. The authorization materials used are the device bar code. Constraints: o min: 1 o max: 512 o pattern: [0-9A-Za-z!#$%&amp;()*\+\-;&lt;=&gt;?@^_`{|}~\/: {},\\"]+
+    /// The authentication material defining the device connectivity setup requests. The authorization materials used are the device bar code. Constraints: • min: 1 • max: 512 • pattern: [0-9A-Za-z!#$%&amp;()*\+\-;&lt;=&gt;?@^_`{|}~//: {},\\"]+
     /// </summary>
     [CliOption("--authentication-material")]
     public string? AuthenticationMaterial { get; private init; }
 
     /// <summary>
-    /// The type of authentication material used for device connectivity setup requests. Possible values: o CUSTOM_PROTOCOL_QR_BAR_CODE o WIFI_SETUP_QR_BAR_CODE o ZWAVE_QR_BAR_CODE o ZIGBEE_QR_BAR_CODE o DISCOVERED_DEVICE o PRE_ONBOARDED_CLOUD
+    /// The type of authentication material used for device connectivity setup requests. Possible values: • CUSTOM_PROTOCOL_QR_BAR_CODE • WIFI_SETUP_QR_BAR_CODE • ZWAVE_QR_BAR_CODE • ZIGBEE_QR_BAR_CODE • DISCOVERED_DEVICE • PRE_ONBOARDED_CLOUD
     /// </summary>
     [CliOption("--authentication-material-type")]
     public AwsIotManagedIntegrationsCreateManagedThingAuthenticationMaterialType? AuthenticationMaterialType { get; private init; }
 
     /// <summary>
-    /// Owner of the device, usually an indication of whom the device be- longs to. This value should not contain personal identifiable infor- mation. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_.,@-]+
+    /// Owner of the device, usually an indication of whom the device belongs to. This value should not contain personal identifiable information. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9_.,@-]+
     /// </summary>
     [CliOption("--owner")]
     public string? Owner { get; set; }
 
     /// <summary>
-    /// The identifier of the credential for the managed thing. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9]*
+    /// The identifier of the credential for the managed thing. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9]*
     /// </summary>
     [CliOption("--credential-locker-id")]
     public string? CredentialLockerId { get; set; }
 
     /// <summary>
-    /// The Wi-Fi Simple Setup configuration for the managed thing, which defines provisioning capabilities and timeout settings. EnableAsProvisioner -&gt; (boolean) Indicates whether the device can act as a provisioner in Wi-Fi Simple Setup, allowing it to configure other devices. EnableAsProvisionee -&gt; (boolean) Indicates whether the device can act as a provisionee in Wi-Fi Simple Setup, allowing it to be configured by other devices. TimeoutInMinutes -&gt; (integer) The timeout duration in minutes for Wi-Fi Simple Setup. Valid range is 5 to 15 minutes. Constraints: o min: 5 o max: 15 Shorthand Syntax: EnableAsProvisioner=boolean,EnableAsProvisionee=boolean,TimeoutInMinutes=integer JSON Syntax: { "EnableAsProvisioner": true|false, "EnableAsProvisionee": true|false, "TimeoutInMinutes": integer }
+    /// The Wi-Fi Simple Setup configuration for the managed thing, which defines provisioning capabilities and timeout settings. EnableAsProvisioner -&gt; (boolean) Indicates whether the device can act as a provisioner in Wi-Fi Simple Setup, allowing it to configure other devices. EnableAsProvisionee -&gt; (boolean) Indicates whether the device can act as a provisionee in Wi-Fi Simple Setup, allowing it to be configured by other devices. TimeoutInMinutes -&gt; (integer) The timeout duration in minutes for Wi-Fi Simple Setup. Valid range is 5 to 15 minutes. Constraints: • min: 5 • max: 15 Shorthand Syntax: EnableAsProvisioner=boolean,EnableAsProvisionee=boolean,TimeoutInMinutes=integer JSON Syntax: { "EnableAsProvisioner": true|false, "EnableAsProvisionee": true|false, "TimeoutInMinutes": integer }
     /// </summary>
     [CliOption("--wi-fi-simple-setup-configuration")]
     public string? WiFiSimpleSetupConfiguration { get; set; }
 
     /// <summary>
-    /// The serial number of the device. Constraints: o min: 1 o max: 128 o pattern: [A-Za-z0-9-_ ]+
+    /// The serial number of the device. Constraints: • min: 1 • max: 128 • pattern: [A-Za-z0-9-_ ]+
     /// </summary>
     [CliOption("--serial-number")]
     public string? SerialNumber { get; set; }
 
     /// <summary>
-    /// The brand of the device. Constraints: o min: 1 o max: 128 o pattern: [A-Za-z0-9-_ ]+
+    /// The brand of the device. Constraints: • min: 1 • max: 128 • pattern: [A-Za-z0-9-_ ]+
     /// </summary>
     [CliOption("--brand")]
     public string? Brand { get; set; }
 
     /// <summary>
-    /// The model of the device. Constraints: o min: 1 o max: 128 o pattern: [A-Za-z0-9-_ ]+
+    /// The model of the device. Constraints: • min: 1 • max: 128 • pattern: [A-Za-z0-9-_ ]+
     /// </summary>
     [CliOption("--model")]
     public string? Model { get; set; }
 
     /// <summary>
-    /// The name of the managed thing representing the physical device. Constraints: o min: 1 o max: 128 o pattern: [\p{L}\p{N} ._-]+
+    /// The name of the managed thing representing the physical device. Constraints: • min: 1 • max: 128 • pattern: [\p{L}\p{N} ._-]+
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
 
     /// <summary>
-    /// A report of the capabilities for the managed thing. version -&gt; (string) [required] The version of the capability report. Constraints: o min: 1 o max: 10 o pattern: 1\.0\.0 nodeId -&gt; (string) The numeric identifier of the node. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9=_.,@\+\-/]+ endpoints -&gt; (list) [required] The endpoints used in the capability report. Constraints: o min: 0 o max: 40 (structure) The endpoint used in the capability report. id -&gt; (string) [required] The id of the endpoint used in the capability report. Constraints: o min: 1 o max: 64 o pattern: [0-9a-zA-Z]+ deviceTypes -&gt; (list) [required] The type of device. Constraints: o min: 0 o max: 50 (string) Constraints: o min: 0 o max: 256 o pattern: [a-zA-Z0-9=_. ,@\+\-/]+ capabilities -&gt; (list) [required] The capabilities used in the capability report. Constraints: o min: 0 o max: 40 (structure) The capability used in capability report. id -&gt; (string) [required] The id of the schema version. Constraints: o min: 7 o max: 128 o pattern: [a-zA-Z0-9.]+@(\d+\.\d+(\.\d+)?|\$lat- est) name -&gt; (string) [required] The name of the capability. Constraints: o min: 1 o max: 128 o pattern: [/a-zA-Z0-9\._ -]+ version -&gt; (string) [required] The version of the capability. Constraints: o min: 1 o max: 64 o pattern: (0|[1-9][0-9]*) properties -&gt; (list) [required] The capability properties used in the capability report. Constraints: o min: 0 o max: 100 (string) Constraints: o min: 1 o max: 128 o pattern: [/a-zA-Z0-9\._ -]+ actions -&gt; (list) [required] The capability actions used in the capability re- port. Constraints: o min: 0 o max: 100 (string) Constraints: o min: 1 o max: 128 o pattern: [/a-zA-Z0-9\._ -]+ events -&gt; (list) [required] The capability events used in the capability re- port. Constraints: o min: 0 o max: 100 (string) Constraints: o min: 1 o max: 128 o pattern: [/a-zA-Z0-9\._ -]+ JSON Syntax: { "version": "string", "nodeId": "string", "endpoints": [ { "id": "string", "deviceTypes": ["string", ...], "capabilities": [ { "id": "string", "name": "string", "version": "string", "properties": ["string", ...], "actions": ["string", ...], "events": ["string", ...] } ... ] } ... ] }
+    /// A report of the capabilities for the managed thing. version -&gt; (string) [required] The version of the capability report. Constraints: • min: 1 • max: 10 • pattern: 1\.0\.0 nodeId -&gt; (string) The numeric identifier of the node. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9=_.,@\+\-/]+ endpoints -&gt; (list) [required] The endpoints used in the capability report. Constraints: • min: 0 • max: 40 (structure) The endpoint used in the capability report. id -&gt; (string) [required] The id of the endpoint used in the capability report. Constraints: • min: 1 • max: 64 • pattern: [0-9a-zA-Z]+ deviceTypes -&gt; (list) [required] The type of device. Constraints: • min: 0 • max: 50 (string) Constraints: • min: 0 • max: 256 • pattern: [a-zA-Z0-9=_. ,@\+\-/]+ capabilities -&gt; (list) [required] The capabilities used in the capability report. Constraints: • min: 0 • max: 40 (structure) The capability used in capability report. id -&gt; (string) [required] The id of the schema version. Constraints: • min: 7 • max: 128 • pattern: [a-zA-Z0-9.]+@(\d+\.\d+(\.\d+)?|\$latest) name -&gt; (string) [required] The name of the capability. Constraints: • min: 1 • max: 128 • pattern: [/a-zA-Z0-9\._ -]+ version -&gt; (string) [required] The version of the capability. Constraints: • min: 1 • max: 64 • pattern: (0|[1-9][0-9]*) properties -&gt; (list) [required] The capability properties used in the capability report. Constraints: • min: 0 • max: 100 (string) Constraints: • min: 1 • max: 128 • pattern: [/a-zA-Z0-9\._ -]+ actions -&gt; (list) [required] The capability actions used in the capability report. Constraints: • min: 0 • max: 100 (string) Constraints: • min: 1 • max: 128 • pattern: [/a-zA-Z0-9\._ -]+ events -&gt; (list) [required] The capability events used in the capability report. Constraints: • min: 0 • max: 100 (string) Constraints: • min: 1 • max: 128 • pattern: [/a-zA-Z0-9\._ -]+ JSON Syntax: { "version": "string", "nodeId": "string", "endpoints": [ { "id": "string", "deviceTypes": ["string", ...], "capabilities": [ { "id": "string", "name": "string", "version": "string", "properties": ["string", ...], "actions": ["string", ...], "events": ["string", ...] } ... ] } ... ] }
     /// </summary>
     [CliOption("--capability-report")]
     public string? CapabilityReport { get; set; }
 
     /// <summary>
-    /// The capability schemas that define the functionality and features supported by the managed thing, including device capabilities and their associated properties. Constraints: o min: 0 o max: 40 (structure) Structure representing a capability schema item that defines the functionality and features supported by a managed thing. Format -&gt; (string) [required] The format of the capability schema, which defines how the schema is structured and interpreted. Possible values: o AWS o ZCL o CONNECTOR CapabilityId -&gt; (string) [required] The unique identifier of the capability defined in the schema. Constraints: o min: 7 o max: 128 o pattern: [a-zA-Z0-9.]+@(\d+\.\d+(\.\d+)?|\$latest) ExtrinsicId -&gt; (string) [required] The external identifier for the capability, used when refer- encing the capability outside of the AWS ecosystem. Constraints: o min: 1 o max: 10 o pattern: 0[xX][0-9a-fA-F]+$|^[0-9]+ ExtrinsicVersion -&gt; (integer) [required] The version of the external capability definition, used to track compatibility with external systems. Constraints: o min: 1 o max: 10 Schema -&gt; (document) [required] The actual schema definition that describes the capability's properties, actions, and events. Shorthand Syntax: Format=string,CapabilityId=string,ExtrinsicId=string,ExtrinsicVersion=integer ... JSON Syntax: [ { "Format": "AWS"|"ZCL"|"CONNECTOR", "CapabilityId": "string", "ExtrinsicId": "string", "ExtrinsicVersion": integer, "Schema": {...} } ... ]
+    /// The capability schemas that define the functionality and features supported by the managed thing, including device capabilities and their associated properties. Constraints: • min: 0 • max: 40 (structure) Structure representing a capability schema item that defines the functionality and features supported by a managed thing. Format -&gt; (string) [required] The format of the capability schema, which defines how the schema is structured and interpreted. Possible values: • AWS • ZCL • CONNECTOR CapabilityId -&gt; (string) [required] The unique identifier of the capability defined in the schema. Constraints: • min: 7 • max: 128 • pattern: [a-zA-Z0-9.]+@(\d+\.\d+(\.\d+)?|\$latest) ExtrinsicId -&gt; (string) [required] The external identifier for the capability, used when referencing the capability outside of the AWS ecosystem. Constraints: • min: 1 • max: 10 • pattern: 0[xX][0-9a-fA-F]+$|^[0-9]+ ExtrinsicVersion -&gt; (integer) [required] The version of the external capability definition, used to track compatibility with external systems. Constraints: • min: 1 • max: 10 Schema -&gt; (document) [required] The actual schema definition that describes the capability's properties, actions, and events. Shorthand Syntax: Format=string,CapabilityId=string,ExtrinsicId=string,ExtrinsicVersion=integer ... JSON Syntax: [ { "Format": "AWS"|"ZCL"|"CONNECTOR", "CapabilityId": "string", "ExtrinsicId": "string", "ExtrinsicVersion": integer, "Schema": {...} } ... ]
     /// </summary>
     [CliOption("--capability-schemas", GroupValues = true)]
     public IEnumerable<string>? CapabilitySchemas { get; set; }
 
     /// <summary>
-    /// The capabilities of the device such as light bulb. Constraints: o min: 1 o max: 65535 o pattern: [a-zA-Z0-9\s'\x{0022},.:\\\/{$}\[\]=_\-\+]+
+    /// The capabilities of the device such as light bulb. Constraints: • min: 1 • max: 65535 • pattern: [a-zA-Z0-9\s'\x{0022},.:\\\/{$}\[\]=_\-\+]+
     /// </summary>
     [CliOption("--capabilities")]
     public string? Capabilities { get; set; }
 
     /// <summary>
-    /// An idempotency token. If you retry a request that completed success- fully initially using the same client token and parameters, then the retry attempt will succeed without performing any further actions. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9=_-]+
+    /// An idempotency token. If you retry a request that completed successfully initially using the same client token and parameters, then the retry attempt will succeed without performing any further actions. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9=_-]+
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// The classification of the managed thing such as light bulb or ther- mostat. Constraints: o min: 1 o max: 64
+    /// The classification of the managed thing such as light bulb or thermostat. Constraints: • min: 1 • max: 64
     /// </summary>
     [CliOption("--classification")]
     public string? Classification { get; set; }
 
     /// <summary>
-    /// A set of key/value pairs that are used to manage the managed thing. Constraints: o min: 1 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// A set of key/value pairs that are used to manage the managed thing. Constraints: • min: 1 • max: 50 key -&gt; (string) Constraints: • min: 1 • max: 128 value -&gt; (string) Constraints: • min: 0 • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>
-    /// The metadata for the managed thing. NOTE: The managedThing metadata parameter is used for associating at- tributes with a managedThing that can be used for grouping over-the-air (OTA) tasks. Name value pairs in metadata can be used in the OtaTargetQueryString parameter for the CreateOtaTask API operation. Constraints: o min: 1 o max: 50 key -&gt; (string) Constraints: o min: 0 o max: 128 o pattern: .*[a-zA-Z0-9_.,@/:#-]+.* value -&gt; (string) Constraints: o min: 0 o max: 800 o pattern: .*[a-zA-Z0-9_.,@/:#-]*.* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The metadata for the managed thing. NOTE: The managedThing metadata parameter is used for associating attributes with a managedThing that can be used for grouping over-the-air (OTA) tasks. Name value pairs in metadata can be used in the OtaTargetQueryString parameter for the CreateOtaTask API operation. Constraints: • min: 1 • max: 50 key -&gt; (string) Constraints: • min: 0 • max: 128 • pattern: .*[a-zA-Z0-9_.,@/:#-]+.* value -&gt; (string) Constraints: • min: 0 • max: 800 • pattern: .*[a-zA-Z0-9_.,@/:#-]*.* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--meta-data", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? MetaData { get; set; }
@@ -188,6 +188,15 @@ public record AwsIotManagedIntegrationsCreateManagedThingOptions : AwsOptions, I
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

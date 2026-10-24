@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Requests the details of a job for a third party action. Used for part- ner actions only. WARNING: When this API is called, CodePipeline returns temporary credentials for the S3 bucket used to store artifacts for the pipeline, if the action requires access to that S3 bucket for input or output arti- facts. This API also returns any secret values defined for the ac- tion. See also: AWS API Documentation
+/// Requests the details of a job for a third party action. Used for partner actions only. WARNING: When this API is called, CodePipeline returns temporary credentials for the S3 bucket used to store artifacts for the pipeline, if the action requires access to that S3 bucket for input or output artifacts. This API also returns any secret values defined for the action. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +27,10 @@ public record AwsCodepipelineGetThirdPartyJobDetailsOptions : AwsOptions, IValid
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Requests the details of a job for a third party action. Used for part- ner actions only. WARNING: When this API is called, CodePipeline returns temporary credentials for the S3 bucket used to store artifacts for the pipeline, if the action requires access to that S3 bucket for input or output arti- facts. This API also returns any secret values defined for the ac- tion. See also: AWS API Documentation
+    /// Requests the details of a job for a third party action. Used for partner actions only. WARNING: When this API is called, CodePipeline returns temporary credentials for the S3 bucket used to store artifacts for the pipeline, if the action requires access to that S3 bucket for input or output artifacts. This API also returns any secret values defined for the action. See also: AWS API Documentation
     /// </summary>
-    /// <param name="JobId">The unique system-generated ID used for identifying the job. Constraints: o min: 1 o max: 512</param>
-    /// <param name="ClientToken">The clientToken portion of the clientId and clientToken pair used to verify that the calling entity is allowed access to the job and its details. Constraints: o min: 1 o max: 256</param>
+    /// <param name="JobId">The unique system-generated ID used for identifying the job. Constraints: • min: 1 • max: 512</param>
+    /// <param name="ClientToken">The clientToken portion of the clientId and clientToken pair used to verify that the calling entity is allowed access to the job and its details. Constraints: • min: 1 • max: 256</param>
     public AwsCodepipelineGetThirdPartyJobDetailsOptions(
         string JobId,
         string ClientToken
@@ -61,13 +62,13 @@ public record AwsCodepipelineGetThirdPartyJobDetailsOptions : AwsOptions, IValid
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique system-generated ID used for identifying the job. Constraints: o min: 1 o max: 512
+    /// The unique system-generated ID used for identifying the job. Constraints: • min: 1 • max: 512
     /// </summary>
     [CliOption("--job-id")]
     public string? JobId { get; private init; }
 
     /// <summary>
-    /// The clientToken portion of the clientId and clientToken pair used to verify that the calling entity is allowed access to the job and its details. Constraints: o min: 1 o max: 256
+    /// The clientToken portion of the clientId and clientToken pair used to verify that the calling entity is allowed access to the job and its details. Constraints: • min: 1 • max: 256
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
@@ -94,6 +95,15 @@ public record AwsCodepipelineGetThirdPartyJobDetailsOptions : AwsOptions, IValid
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

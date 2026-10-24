@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -30,7 +31,7 @@ public record AwsCodecommitUpdatePullRequestApprovalStateOptions : AwsOptions, I
     /// </summary>
     /// <param name="PullRequestId">The system-generated ID of the pull request.</param>
     /// <param name="RevisionId">The system-generated ID of the revision.</param>
-    /// <param name="ApprovalState">The approval state to associate with the user on the pull request. Possible values: o APPROVE o REVOKE</param>
+    /// <param name="ApprovalState">The approval state to associate with the user on the pull request. Possible values: • APPROVE • REVOKE</param>
     public AwsCodecommitUpdatePullRequestApprovalStateOptions(
         string PullRequestId,
         string RevisionId,
@@ -76,7 +77,7 @@ public record AwsCodecommitUpdatePullRequestApprovalStateOptions : AwsOptions, I
     public string? RevisionId { get; private init; }
 
     /// <summary>
-    /// The approval state to associate with the user on the pull request. Possible values: o APPROVE o REVOKE
+    /// The approval state to associate with the user on the pull request. Possible values: • APPROVE • REVOKE
     /// </summary>
     [CliOption("--approval-state")]
     public AwsCodecommitUpdatePullRequestApprovalStateApprovalState? ApprovalState { get; private init; }
@@ -102,6 +103,15 @@ public record AwsCodecommitUpdatePullRequestApprovalStateOptions : AwsOptions, I
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

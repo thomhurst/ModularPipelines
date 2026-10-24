@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// This API works with the following fleet types: EC2, Anywhere, Con- tainer Creates a new rule set for FlexMatch matchmaking. A rule set describes the type of match to create, such as the number and size of teams. It also sets the parameters for acceptable player matches, such as minimum skill level or character type. To create a matchmaking rule set, provide unique rule set name and the rule set body in JSON format. Rule sets must be defined in the same Re- gion as the matchmaking configuration t...
+/// This API works with the following fleet types: EC2, Anywhere, Container Creates a new rule set for FlexMatch matchmaking. A rule set describes the type of match to create, such as the number and size of teams. It also sets the parameters for acceptable player matches, such as minimum skill level or character type. To create a matchmaking rule set, provide unique rule set name and the rule set body in JSON format. Rule sets must be defined in the same Region as the matchmaking configuration they ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsGameliftCreateMatchmakingRuleSetOptions : AwsOptions, IValidata
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// This API works with the following fleet types: EC2, Anywhere, Con- tainer Creates a new rule set for FlexMatch matchmaking. A rule set describes the type of match to create, such as the number and size of teams. It also sets the parameters for acceptable player matches, such as minimum skill level or character type. To create a matchmaking rule set, provide unique rule set name and the rule set body in JSON format. Rule sets must be defined in the same Re- gion as the matchmaking configuration t...
+    /// This API works with the following fleet types: EC2, Anywhere, Container Creates a new rule set for FlexMatch matchmaking. A rule set describes the type of match to create, such as the number and size of teams. It also sets the parameters for acceptable player matches, such as minimum skill level or character type. To create a matchmaking rule set, provide unique rule set name and the rule set body in JSON format. Rule sets must be defined in the same Region as the matchmaking configuration they ...
     /// </summary>
-    /// <param name="Name">A unique identifier for the matchmaking rule set. A matchmaking con- figuration identifies the rule set it uses by this name value. Note that the rule set name is different from the optional name field in the rule set body. Constraints: o max: 128 o pattern: ^[a-zA-Z0-9-\.]*$</param>
-    /// <param name="RuleSetBody">A collection of matchmaking rules, formatted as a JSON string. Com- ments are not allowed in JSON, but most elements support a descrip- tion field. Constraints: o min: 1 o max: 65535</param>
+    /// <param name="Name">A unique identifier for the matchmaking rule set. A matchmaking configuration identifies the rule set it uses by this name value. Note that the rule set name is different from the optional name field in the rule set body. Constraints: • max: 128 • pattern: ^[a-zA-Z0-9-\.]*$</param>
+    /// <param name="RuleSetBody">A collection of matchmaking rules, formatted as a JSON string. Comments are not allowed in JSON, but most elements support a description field. Constraints: • min: 1 • max: 65535</param>
     public AwsGameliftCreateMatchmakingRuleSetOptions(
         string Name,
         string RuleSetBody
@@ -60,19 +61,19 @@ public record AwsGameliftCreateMatchmakingRuleSetOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A unique identifier for the matchmaking rule set. A matchmaking con- figuration identifies the rule set it uses by this name value. Note that the rule set name is different from the optional name field in the rule set body. Constraints: o max: 128 o pattern: ^[a-zA-Z0-9-\.]*$
+    /// A unique identifier for the matchmaking rule set. A matchmaking configuration identifies the rule set it uses by this name value. Note that the rule set name is different from the optional name field in the rule set body. Constraints: • max: 128 • pattern: ^[a-zA-Z0-9-\.]*$
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// A collection of matchmaking rules, formatted as a JSON string. Com- ments are not allowed in JSON, but most elements support a descrip- tion field. Constraints: o min: 1 o max: 65535
+    /// A collection of matchmaking rules, formatted as a JSON string. Comments are not allowed in JSON, but most elements support a description field. Constraints: • min: 1 • max: 65535
     /// </summary>
     [CliOption("--rule-set-body")]
     public string? RuleSetBody { get; private init; }
 
     /// <summary>
-    /// A list of labels to assign to the new matchmaking rule set resource. Tags are developer-defined key-value pairs. Tagging Amazon Web Ser- vices resources are useful for resource management, access manage- ment and cost allocation. For more information, see Tagging Amazon Web Services Resources in the Amazon Web Services General Reference . Constraints: o min: 0 o max: 200 (structure) A label that you can assign to a Amazon GameLift Servers re- source. Learn more Tagging Amazon Web Services Resources in the Amazon Web Ser- vices General Reference Amazon Web Services Tagging Strategies Related actions All APIs by task Key -&gt; (string) [required] The key for a developer-defined key value pair for tagging an Amazon Web Services resource. Constraints: o min: 1 o max: 128 Value -&gt; (string) [required] The value for a developer-defined key value pair for tagging an Amazon Web Services resource. Constraints: o min: 0 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// A list of labels to assign to the new matchmaking rule set resource. Tags are developer-defined key-value pairs. Tagging Amazon Web Services resources is useful for resource management, access management and cost allocation. For more information, see Tagging Amazon Web Services Resources in the Amazon Web Services General Reference . Constraints: • min: 0 • max: 200 (structure) A label that you can assign to a Amazon GameLift Servers resource. Learn more Tagging Amazon Web Services Resources in the Amazon Web Services General Reference Amazon Web Services Tagging Strategies Related actions All APIs by task Key -&gt; (string) [required] The key for a developer-defined key value pair for tagging an Amazon Web Services resource. Constraints: • min: 1 • max: 128 Value -&gt; (string) [required] The value for a developer-defined key value pair for tagging an Amazon Web Services resource. Constraints: • min: 0 • max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
@@ -98,6 +99,15 @@ public record AwsGameliftCreateMatchmakingRuleSetOptions : AwsOptions, IValidata
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Changes the status of the specified access key from Active to Inactive, or vice versa. This operation can be used to disable a user's key as part of a key rotation workflow. If the UserName is not specified, the user name is determined implic- itly based on the Amazon Web Services access key ID used to sign the request. If a temporary access key is used, then UserName is required. If a long-term key is assigned to the user, then UserName is not re- quired. This operation works for access keys un...
+/// Changes the status of the specified access key from Active to Inactive, or vice versa. This operation can be used to disable a user's key as part of a key rotation workflow. If the UserName is not specified, the user name is determined implicitly based on the Amazon Web Services access key ID used to sign the request. If a temporary access key is used, then UserName is required. If a long-term key is assigned to the user, then UserName is not required. This operation works for access keys under ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +27,10 @@ public record AwsIamUpdateAccessKeyOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Changes the status of the specified access key from Active to Inactive, or vice versa. This operation can be used to disable a user's key as part of a key rotation workflow. If the UserName is not specified, the user name is determined implic- itly based on the Amazon Web Services access key ID used to sign the request. If a temporary access key is used, then UserName is required. If a long-term key is assigned to the user, then UserName is not re- quired. This operation works for access keys un...
+    /// Changes the status of the specified access key from Active to Inactive, or vice versa. This operation can be used to disable a user's key as part of a key rotation workflow. If the UserName is not specified, the user name is determined implicitly based on the Amazon Web Services access key ID used to sign the request. If a temporary access key is used, then UserName is required. If a long-term key is assigned to the user, then UserName is not required. This operation works for access keys under ...
     /// </summary>
-    /// <param name="AccessKeyId">The access key ID of the secret access key you want to update. This parameter allows (through its regex pattern ) a string of char- acters that can consist of any upper or lowercased letter or digit. Constraints: o min: 16 o max: 128 o pattern: [\w]+</param>
-    /// <param name="Status">The status you want to assign to the secret access key. Active means that the key can be used for programmatic calls to Amazon Web Ser- vices, while Inactive means that the key cannot be used. Possible values: o Active o Inactive o Expired</param>
+    /// <param name="AccessKeyId">The access key ID of the secret access key you want to update. This parameter allows (through its regex pattern ) a string of characters that can consist of any upper or lowercased letter or digit. Constraints: • min: 16 • max: 128 • pattern: [\w]+</param>
+    /// <param name="Status">The status you want to assign to the secret access key. Active means that the key can be used for programmatic calls to Amazon Web Services, while Inactive means that the key cannot be used. Possible values: • Active • Inactive • Expired</param>
     public AwsIamUpdateAccessKeyOptions(
         string AccessKeyId,
         AwsIamUpdateAccessKeyStatus Status
@@ -60,19 +61,19 @@ public record AwsIamUpdateAccessKeyOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The access key ID of the secret access key you want to update. This parameter allows (through its regex pattern ) a string of char- acters that can consist of any upper or lowercased letter or digit. Constraints: o min: 16 o max: 128 o pattern: [\w]+
+    /// The access key ID of the secret access key you want to update. This parameter allows (through its regex pattern ) a string of characters that can consist of any upper or lowercased letter or digit. Constraints: • min: 16 • max: 128 • pattern: [\w]+
     /// </summary>
     [CliOption("--access-key-id")]
     public string? AccessKeyId { get; private init; }
 
     /// <summary>
-    /// The status you want to assign to the secret access key. Active means that the key can be used for programmatic calls to Amazon Web Ser- vices, while Inactive means that the key cannot be used. Possible values: o Active o Inactive o Expired
+    /// The status you want to assign to the secret access key. Active means that the key can be used for programmatic calls to Amazon Web Services, while Inactive means that the key cannot be used. Possible values: • Active • Inactive • Expired
     /// </summary>
     [CliOption("--status")]
     public AwsIamUpdateAccessKeyStatus? Status { get; private init; }
 
     /// <summary>
-    /// The name of the user whose key you want to update. This parameter allows (through its regex pattern ) a string of char- acters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following charac- ters: _+=,.@- Constraints: o min: 1 o max: 128 o pattern: [\w+=,.@-]+
+    /// The name of the user whose key you want to update. This parameter allows (through its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@- Constraints: • min: 1 • max: 128 • pattern: [\w+=,.@-]+
     /// </summary>
     [CliOption("--user-name")]
     public string? UserName { get; set; }
@@ -98,6 +99,15 @@ public record AwsIamUpdateAccessKeyOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

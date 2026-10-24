@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes an Amazon FSx backup. After deletion, the backup no longer ex- ists, and its data is gone. The DeleteBackup call returns instantly. The backup won't show up in later DescribeBackups calls. WARNING: The data in a deleted backup is also deleted and can't be recovered by any means. See also: AWS API Documentation
+/// Deletes an Amazon FSx backup. After deletion, the backup no longer exists, and its data is gone. The DeleteBackup call returns instantly. The backup won't show up in later DescribeBackups calls. WARNING: The data in a deleted backup is also deleted and can't be recovered by any means. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +27,9 @@ public record AwsFsxDeleteBackupOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes an Amazon FSx backup. After deletion, the backup no longer ex- ists, and its data is gone. The DeleteBackup call returns instantly. The backup won't show up in later DescribeBackups calls. WARNING: The data in a deleted backup is also deleted and can't be recovered by any means. See also: AWS API Documentation
+    /// Deletes an Amazon FSx backup. After deletion, the backup no longer exists, and its data is gone. The DeleteBackup call returns instantly. The backup won't show up in later DescribeBackups calls. WARNING: The data in a deleted backup is also deleted and can't be recovered by any means. See also: AWS API Documentation
     /// </summary>
-    /// <param name="BackupId">The ID of the backup that you want to delete. Constraints: o min: 12 o max: 128 o pattern: ^(backup-[0-9a-f]{8,})$</param>
+    /// <param name="BackupId">The ID of the backup that you want to delete. Constraints: • min: 12 • max: 128 • pattern: ^(backup-[0-9a-f]{8,})$</param>
     public AwsFsxDeleteBackupOptions(
         string BackupId
     )
@@ -57,13 +58,13 @@ public record AwsFsxDeleteBackupOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the backup that you want to delete. Constraints: o min: 12 o max: 128 o pattern: ^(backup-[0-9a-f]{8,})$
+    /// The ID of the backup that you want to delete. Constraints: • min: 12 • max: 128 • pattern: ^(backup-[0-9a-f]{8,})$
     /// </summary>
     [CliOption("--backup-id")]
     public string? BackupId { get; private init; }
 
     /// <summary>
-    /// A string of up to 63 ASCII characters that Amazon FSx uses to ensure idempotent deletion. This parameter is automatically filled on your behalf when using the CLI or SDK. Constraints: o min: 1 o max: 63 o pattern: [A-za-z0-9_.-]{0,63}$
+    /// A string of up to 63 ASCII characters that Amazon FSx uses to ensure idempotent deletion. This parameter is automatically filled on your behalf when using the CLI or SDK. Constraints: • min: 1 • max: 63 • pattern: [A-za-z0-9_.-]{0,63}$
     /// </summary>
     [SecretValue]
     [CliOption("--client-request-token")]
@@ -90,6 +91,15 @@ public record AwsFsxDeleteBackupOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Gets information about all of the versions of a bot. The ListBotVersions operation returns a summary of each version of a bot. For example, if a bot has three numbered versions, the ListBotVer- sions operation returns for summaries, one for each numbered version and one for the DRAFT version. The ListBotVersions operation always returns at least one version, the DRAFT version. See also: AWS API Documentation
+/// Gets information about all of the versions of a bot. The ListBotVersions operation returns a summary of each version of a bot. For example, if a bot has three numbered versions, the ListBotVersions operation returns for summaries, one for each numbered version and one for the DRAFT version. The ListBotVersions operation always returns at least one version, the DRAFT version. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +27,9 @@ public record AwsLexv2ModelsListBotVersionsOptions : AwsOptions, IValidatableObj
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Gets information about all of the versions of a bot. The ListBotVersions operation returns a summary of each version of a bot. For example, if a bot has three numbered versions, the ListBotVer- sions operation returns for summaries, one for each numbered version and one for the DRAFT version. The ListBotVersions operation always returns at least one version, the DRAFT version. See also: AWS API Documentation
+    /// Gets information about all of the versions of a bot. The ListBotVersions operation returns a summary of each version of a bot. For example, if a bot has three numbered versions, the ListBotVersions operation returns for summaries, one for each numbered version and one for the DRAFT version. The ListBotVersions operation always returns at least one version, the DRAFT version. See also: AWS API Documentation
     /// </summary>
-    /// <param name="BotId">The identifier of the bot to list versions for. Constraints: o min: 10 o max: 10 o pattern: ^[0-9a-zA-Z]+$</param>
+    /// <param name="BotId">The identifier of the bot to list versions for. Constraints: • min: 10 • max: 10 • pattern: ^[0-9a-zA-Z]+$</param>
     public AwsLexv2ModelsListBotVersionsOptions(
         string BotId
     )
@@ -57,25 +58,25 @@ public record AwsLexv2ModelsListBotVersionsOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the bot to list versions for. Constraints: o min: 10 o max: 10 o pattern: ^[0-9a-zA-Z]+$
+    /// The identifier of the bot to list versions for. Constraints: • min: 10 • max: 10 • pattern: ^[0-9a-zA-Z]+$
     /// </summary>
     [CliOption("--bot-id")]
     public string? BotId { get; private init; }
 
     /// <summary>
-    /// Specifies sorting parameters for the list of versions. You can spec- ify that the list be sorted by version name in either ascending or descending order. attribute -&gt; (string) [required] The attribute to use to sort the list of versions. Possible values: o BotVersion order -&gt; (string) [required] The order to sort the list. You can specify ascending or de- scending order. Possible values: o Ascending o Descending Shorthand Syntax: attribute=string,order=string JSON Syntax: { "attribute": "BotVersion", "order": "Ascending"|"Descending" }
+    /// Specifies sorting parameters for the list of versions. You can specify that the list be sorted by version name in either ascending or descending order. attribute -&gt; (string) [required] The attribute to use to sort the list of versions. Possible values: • BotVersion order -&gt; (string) [required] The order to sort the list. You can specify ascending or descending order. Possible values: • Ascending • Descending Shorthand Syntax: attribute=string,order=string JSON Syntax: { "attribute": "BotVersion", "order": "Ascending"|"Descending" }
     /// </summary>
     [CliOption("--sort-by")]
     public string? SortBy { get; set; }
 
     /// <summary>
-    /// The maximum number of versions to return in each page of results. If there are fewer results than the max page size, only the actual num- ber of results are returned. Constraints: o min: 1 o max: 1000
+    /// The maximum number of versions to return in each page of results. If there are fewer results than the max page size, only the actual number of results are returned. Constraints: • min: 1 • max: 1000
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
     /// <summary>
-    /// If the response to the ListBotVersion operation contains more re- sults than specified in the maxResults parameter, a token is re- turned in the response. Use that token in the nextToken parameter to return the next page of results.
+    /// If the response to the ListBotVersion operation contains more results than specified in the maxResults parameter, a token is returned in the response. Use that token in the nextToken parameter to return the next page of results.
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
@@ -102,6 +103,15 @@ public record AwsLexv2ModelsListBotVersionsOptions : AwsOptions, IValidatableObj
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

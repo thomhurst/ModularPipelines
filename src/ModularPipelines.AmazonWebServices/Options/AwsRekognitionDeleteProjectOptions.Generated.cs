@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsRekognitionDeleteProjectOptions : AwsOptions, IValidatableObjec
     /// <summary>
     /// Deletes a Amazon Rekognition project. To delete a project you must first delete all models or adapters associated with the project. To delete a model or adapter, see DeleteProjectVersion . DeleteProject is an asynchronous operation. To check if the project is deleted, call DescribeProjects . The project is deleted when the project no longer appears in the response. Be aware that deleting a given project will also delete any ProjectPolicies associated with that project. This operation requires pe...
     /// </summary>
-    /// <param name="ProjectArn">The Amazon Resource Name (ARN) of the project that you want to delete. Constraints: o min: 20 o max: 2048 o pattern: (^arn:[a-z\d-]+:rekogni- tion:[a-z\d-]+:\d{12}:project\/[a-zA-Z0-9_.\-]{1,255}\/[0-9]+$)</param>
+    /// <param name="ProjectArn">The Amazon Resource Name (ARN) of the project that you want to delete. Constraints: • min: 20 • max: 2048 • pattern: (^arn:[a-z\d-]+:rekognition:[a-z\d-]+:\d{12}:project\/[a-zA-Z0-9_.\-]{1,255}\/[0-9]+$)</param>
     public AwsRekognitionDeleteProjectOptions(
         string ProjectArn
     )
@@ -56,7 +57,7 @@ public record AwsRekognitionDeleteProjectOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the project that you want to delete. Constraints: o min: 20 o max: 2048 o pattern: (^arn:[a-z\d-]+:rekogni- tion:[a-z\d-]+:\d{12}:project\/[a-zA-Z0-9_.\-]{1,255}\/[0-9]+$)
+    /// The Amazon Resource Name (ARN) of the project that you want to delete. Constraints: • min: 20 • max: 2048 • pattern: (^arn:[a-z\d-]+:rekognition:[a-z\d-]+:\d{12}:project\/[a-zA-Z0-9_.\-]{1,255}\/[0-9]+$)
     /// </summary>
     [CliOption("--project-arn")]
     public string? ProjectArn { get; private init; }
@@ -82,6 +83,15 @@ public record AwsRekognitionDeleteProjectOptions : AwsOptions, IValidatableObjec
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

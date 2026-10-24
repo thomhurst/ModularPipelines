@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Lists log events from the specified log stream. You can list all of the log events or filter using a time range. GetLogEvents is a paginated operation. Each page returned can con- tain up to 1 MB of log events or up to 10,000 log events. A returned page might only be partially full, or even empty. For example, if the result of a query would return 15,000 log events, the first page isn't guaranteed to have 10,000 log events even if they all fit into 1 MB. Partially full or empty pages don't neces...
+/// Lists log events from the specified log stream. You can list all of the log events or filter using a time range. GetLogEvents is a paginated operation. Each page returned can contain up to 1 MB of log events or up to 10,000 log events. A returned page might only be partially full, or even empty. For example, if the result of a query would return 15,000 log events, the first page isn't guaranteed to have 10,000 log events even if they all fit into 1 MB. Partially full or empty pages don't necessa...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +27,9 @@ public record AwsLogsGetLogEventsOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Lists log events from the specified log stream. You can list all of the log events or filter using a time range. GetLogEvents is a paginated operation. Each page returned can con- tain up to 1 MB of log events or up to 10,000 log events. A returned page might only be partially full, or even empty. For example, if the result of a query would return 15,000 log events, the first page isn't guaranteed to have 10,000 log events even if they all fit into 1 MB. Partially full or empty pages don't neces...
+    /// Lists log events from the specified log stream. You can list all of the log events or filter using a time range. GetLogEvents is a paginated operation. Each page returned can contain up to 1 MB of log events or up to 10,000 log events. A returned page might only be partially full, or even empty. For example, if the result of a query would return 15,000 log events, the first page isn't guaranteed to have 10,000 log events even if they all fit into 1 MB. Partially full or empty pages don't necessa...
     /// </summary>
-    /// <param name="LogStreamName">The name of the log stream. Constraints: o min: 1 o max: 512 o pattern: [^:*]*</param>
+    /// <param name="LogStreamName">The name of the log stream. Constraints: • min: 1 • max: 512 • pattern: [^:*]*</param>
     public AwsLogsGetLogEventsOptions(
         string LogStreamName
     )
@@ -57,44 +58,44 @@ public record AwsLogsGetLogEventsOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the log stream. Constraints: o min: 1 o max: 512 o pattern: [^:*]*
+    /// The name of the log stream. Constraints: • min: 1 • max: 512 • pattern: [^:*]*
     /// </summary>
     [CliOption("--log-stream-name")]
     public string? LogStreamName { get; private init; }
 
     /// <summary>
-    /// The name of the log group. NOTE: You must include either logGroupIdentifier or logGroupName , but not both. Constraints: o min: 1 o max: 512 o pattern: [\.\-_/#A-Za-z0-9]+
+    /// The name of the log group. NOTE: You must include either logGroupIdentifier or logGroupName , but not both. Constraints: • min: 1 • max: 512 • pattern: [\.\-_/#A-Za-z0-9]+
     /// </summary>
     [CliOption("--log-group-name")]
     public string? LogGroupName { get; set; }
 
     /// <summary>
-    /// Specify either the name or ARN of the log group to view events from. If the log group is in a source account and you are using a monitor- ing account, you must use the log group ARN. NOTE: You must include either logGroupIdentifier or logGroupName , but not both. Constraints: o min: 1 o max: 2048 o pattern: [\w#+=/:,.@-]*
+    /// Specify either the name or ARN of the log group to view events from. If the log group is in a source account and you are using a monitoring account, you must use the log group ARN. NOTE: You must include either logGroupIdentifier or logGroupName , but not both. Constraints: • min: 1 • max: 2048 • pattern: [\w#+=/:,.@-]*
     /// </summary>
     [CliOption("--log-group-identifier")]
     public string? LogGroupIdentifier { get; set; }
 
     /// <summary>
-    /// The start of the time range, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC . Events with a timestamp equal to this time or later than this time are included. Events with a time- stamp earlier than this time are not included. NOTE: Set startTime explicitly to reduce the chances of empty pages in the response. Constraints: o min: 0
+    /// The start of the time range, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC . Events with a timestamp equal to this time or later than this time are included. Events with a timestamp earlier than this time are not included. NOTE: Set startTime explicitly to reduce the chances of empty pages in the response. Constraints: • min: 0
     /// </summary>
     [CliOption("--start-time")]
-    public int? StartTime { get; set; }
+    public long? StartTime { get; set; }
 
     /// <summary>
-    /// The end of the time range, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC . Events with a timestamp equal to or later than this time are not included. Constraints: o min: 0
+    /// The end of the time range, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC . Events with a timestamp equal to or later than this time are not included. Constraints: • min: 0
     /// </summary>
     [CliOption("--end-time")]
-    public int? EndTime { get; set; }
+    public long? EndTime { get; set; }
 
     /// <summary>
-    /// The token for the next set of items to return. (You received this token from a previous call.) Constraints: o min: 1
+    /// The token for the next set of items to return. (You received this token from a previous call.) Constraints: • min: 1
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// The maximum number of log events returned. If you don't specify a limit, the default is as many log events as can fit in a response size of 1 MB (up to 10,000 log events). Constraints: o min: 1 o max: 10000
+    /// The maximum number of log events returned. If you don't specify a limit, the default is as many log events as can fit in a response size of 1 MB (up to 10,000 log events). Constraints: • min: 1 • max: 10000
     /// </summary>
     [CliOption("--limit")]
     public int? Limit { get; set; }
@@ -132,6 +133,15 @@ public record AwsLogsGetLogEventsOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsOmicsGetRunCacheOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Retrieves detailed information about the specified run cache using its ID. For more information, see Call caching for Amazon Web Services HealthOmics runs in the Amazon Web Services HealthOmics User Guide . See also: AWS API Documentation
     /// </summary>
-    /// <param name="Id">The identifier of the run cache to retrieve. Constraints: o min: 1 o max: 18 o pattern: [0-9]+</param>
+    /// <param name="Id">The identifier of the run cache to retrieve. Constraints: • min: 1 • max: 18 • pattern: [0-9]+</param>
     public AwsOmicsGetRunCacheOptions(
         string Id
     )
@@ -56,7 +57,7 @@ public record AwsOmicsGetRunCacheOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the run cache to retrieve. Constraints: o min: 1 o max: 18 o pattern: [0-9]+
+    /// The identifier of the run cache to retrieve. Constraints: • min: 1 • max: 18 • pattern: [0-9]+
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; private init; }
@@ -82,6 +83,15 @@ public record AwsOmicsGetRunCacheOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,11 +28,11 @@ public record AwsAutoscalingPlansDeleteScalingPlanOptions : AwsOptions, IValidat
     /// <summary>
     /// Deletes the specified scaling plan. Deleting a scaling plan deletes the underlying ScalingInstruction for all of the scalable resources that are covered by the plan. If the plan has launched resources or has scaling activities in progress, you must delete those resources separately. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ScalingPlanName">The name of the scaling plan. Constraints: o min: 1 o max: 128 o pattern: [\p{Print}&amp;&amp;[^|:/]]+</param>
+    /// <param name="ScalingPlanName">The name of the scaling plan. Constraints: • min: 1 • max: 128 • pattern: [\p{Print}&amp;&amp;[^|:/]]+</param>
     /// <param name="ScalingPlanVersion">The version number of the scaling plan. Currently, the only valid value is 1 .</param>
     public AwsAutoscalingPlansDeleteScalingPlanOptions(
         string ScalingPlanName,
-        int ScalingPlanVersion
+        long ScalingPlanVersion
     )
     {
         global::System.ArgumentNullException.ThrowIfNull(ScalingPlanName);
@@ -59,7 +60,7 @@ public record AwsAutoscalingPlansDeleteScalingPlanOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the scaling plan. Constraints: o min: 1 o max: 128 o pattern: [\p{Print}&amp;&amp;[^|:/]]+
+    /// The name of the scaling plan. Constraints: • min: 1 • max: 128 • pattern: [\p{Print}&amp;&amp;[^|:/]]+
     /// </summary>
     [CliOption("--scaling-plan-name")]
     public string? ScalingPlanName { get; private init; }
@@ -68,7 +69,7 @@ public record AwsAutoscalingPlansDeleteScalingPlanOptions : AwsOptions, IValidat
     /// The version number of the scaling plan. Currently, the only valid value is 1 .
     /// </summary>
     [CliOption("--scaling-plan-version")]
-    public int? ScalingPlanVersion { get; private init; }
+    public long? ScalingPlanVersion { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
@@ -91,6 +92,15 @@ public record AwsAutoscalingPlansDeleteScalingPlanOptions : AwsOptions, IValidat
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

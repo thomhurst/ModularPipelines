@@ -23,31 +23,31 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsAppflowRegisterConnectorOptions : AwsOptions
 {
     /// <summary>
-    /// The name of the connector. The name is unique for each ConnectorReg- istration in your Amazon Web Services account. Constraints: o max: 256 o pattern: [a-zA-Z0-9][\w!@#.-]+
+    /// The name of the connector. The name is unique for each ConnectorRegistration in your Amazon Web Services account. Constraints: • max: 256 • pattern: [a-zA-Z0-9][\w!@#.-]+
     /// </summary>
     [CliOption("--connector-label")]
     public string? ConnectorLabel { get; set; }
 
     /// <summary>
-    /// A description about the connector that's being registered. Constraints: o max: 1024 o pattern: [\s\w/!@#+=.-]*
+    /// A description about the connector that's being registered. Constraints: • max: 1024 • pattern: [\s\w/!@#+=.-]*
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The provisioning type of the connector. Currently the only supported value is LAMBDA. Possible values: o LAMBDA
+    /// The provisioning type of the connector. Currently the only supported value is LAMBDA. Possible values: • LAMBDA
     /// </summary>
     [CliOption("--connector-provisioning-type")]
     public string? ConnectorProvisioningType { get; set; }
 
     /// <summary>
-    /// The provisioning type of the connector. Currently the only supported value is LAMBDA. lambda -&gt; (structure) Contains information about the configuration of the lambda which is being registered as the connector. lambdaArn -&gt; (string) [required] Lambda ARN of the connector being registered. Constraints: o max: 512 o pattern: arn:aws:.*:.*:[0-9]+:.* Shorthand Syntax: lambda={lambdaArn=string} JSON Syntax: { "lambda": { "lambdaArn": "string" } }
+    /// The provisioning type of the connector. Currently the only supported value is LAMBDA. lambda -&gt; (structure) Contains information about the configuration of the lambda which is being registered as the connector. lambdaArn -&gt; (string) [required] Lambda ARN of the connector being registered. Constraints: • max: 512 • pattern: arn:aws:.*:.*:[0-9]+:.* Shorthand Syntax: lambda={lambdaArn=string} JSON Syntax: { "lambda": { "lambdaArn": "string" } }
     /// </summary>
     [CliOption("--connector-provisioning-config")]
     public string? ConnectorProvisioningConfig { get; set; }
 
     /// <summary>
-    /// The clientToken parameter is an idempotency token. It ensures that your RegisterConnector request completes only once. You choose the value to pass. For example, if you don't receive a response from your request, you can safely retry the request with the same client- Token parameter value. If you omit a clientToken value, the Amazon Web Services SDK that you are using inserts a value for you. This way, the SDK can safely retry requests multiple times after a network error. You must pro- vide your own value for other use cases. If you specify input parameters that differ from your first request, an error occurs. If you use a different value for clientToken , Ama- zon AppFlow considers it a new call to RegisterConnector . The token is active for 8 hours. Constraints: o min: 1 o max: 256 o pattern: [ -~]+
+    /// The clientToken parameter is an idempotency token. It ensures that your RegisterConnector request completes only once. You choose the value to pass. For example, if you don't receive a response from your request, you can safely retry the request with the same clientToken parameter value. If you omit a clientToken value, the Amazon Web Services SDK that you are using inserts a value for you. This way, the SDK can safely retry requests multiple times after a network error. You must provide your own value for other use cases. If you specify input parameters that differ from your first request, an error occurs. If you use a different value for clientToken , Amazon AppFlow considers it a new call to RegisterConnector . The token is active for 8 hours. Constraints: • min: 1 • max: 256 • pattern: [ -~]+
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
@@ -58,5 +58,14 @@ public record AwsAppflowRegisterConnectorOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

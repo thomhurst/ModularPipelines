@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsGlobalacceleratorDescribeAcceleratorOptions : AwsOptions, IVali
     /// <summary>
     /// Describe an accelerator. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AcceleratorArn">The Amazon Resource Name (ARN) of the accelerator to describe. Constraints: o max: 255</param>
+    /// <param name="AcceleratorArn">The Amazon Resource Name (ARN) of the accelerator to describe. Constraints: • max: 255</param>
     public AwsGlobalacceleratorDescribeAcceleratorOptions(
         string AcceleratorArn
     )
@@ -56,7 +57,7 @@ public record AwsGlobalacceleratorDescribeAcceleratorOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the accelerator to describe. Constraints: o max: 255
+    /// The Amazon Resource Name (ARN) of the accelerator to describe. Constraints: • max: 255
     /// </summary>
     [CliOption("--accelerator-arn")]
     public string? AcceleratorArn { get; private init; }
@@ -82,6 +83,15 @@ public record AwsGlobalacceleratorDescribeAcceleratorOptions : AwsOptions, IVali
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

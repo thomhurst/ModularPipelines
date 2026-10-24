@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -62,7 +63,7 @@ public record AwsEc2ModifyManagedPrefixListOptions : AwsOptions, IValidatableObj
     public string? PrefixListId { get; private init; }
 
     /// <summary>
-    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation . Otherwise, it is UnauthorizedOperation .
     /// </summary>
     [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
@@ -71,7 +72,7 @@ public record AwsEc2ModifyManagedPrefixListOptions : AwsOptions, IValidatableObj
     /// The current version of the prefix list.
     /// </summary>
     [CliOption("--current-version")]
-    public int? CurrentVersion { get; set; }
+    public long? CurrentVersion { get; set; }
 
     /// <summary>
     /// A name for the prefix list.
@@ -80,25 +81,25 @@ public record AwsEc2ModifyManagedPrefixListOptions : AwsOptions, IValidatableObj
     public string? PrefixListName { get; set; }
 
     /// <summary>
-    /// One or more entries to add to the prefix list. Constraints: o min: 0 o max: 100 (structure) An entry for a prefix list. Cidr -&gt; (string) [required] The CIDR block. Description -&gt; (string) A description for the entry. Constraints: Up to 255 characters in length. Shorthand Syntax: Cidr=string,Description=string ... JSON Syntax: [ { "Cidr": "string", "Description": "string" } ... ]
+    /// One or more entries to add to the prefix list. Constraints: • min: 0 • max: 100 (structure) An entry for a prefix list. Cidr -&gt; (string) [required] The CIDR block. Description -&gt; (string) A description for the entry. Constraints: Up to 255 characters in length. Shorthand Syntax: Cidr=string,Description=string ... JSON Syntax: [ { "Cidr": "string", "Description": "string" } ... ]
     /// </summary>
     [CliOption("--add-entries", GroupValues = true)]
     public IEnumerable<string>? AddEntries { get; set; }
 
     /// <summary>
-    /// One or more entries to remove from the prefix list. Constraints: o min: 0 o max: 100 (structure) An entry for a prefix list. Cidr -&gt; (string) [required] The CIDR block. Shorthand Syntax: Cidr=string ... JSON Syntax: [ { "Cidr": "string" } ... ]
+    /// One or more entries to remove from the prefix list. Constraints: • min: 0 • max: 100 (structure) An entry for a prefix list. Cidr -&gt; (string) [required] The CIDR block. Shorthand Syntax: Cidr=string ... JSON Syntax: [ { "Cidr": "string" } ... ]
     /// </summary>
     [CliOption("--remove-entries", GroupValues = true)]
     public IEnumerable<string>? RemoveEntries { get; set; }
 
     /// <summary>
-    /// The maximum number of entries for the prefix list. You cannot modify the entries of a prefix list and modify the size of a prefix list at the same time. If any of the resources that reference the prefix list cannot sup- port the new maximum size, the modify operation fails. Check the state message for the IDs of the first ten resources that do not support the new maximum size.
+    /// The maximum number of entries for the prefix list. You cannot modify the entries of a prefix list and modify the size of a prefix list at the same time. If any of the resources that reference the prefix list cannot support the new maximum size, the modify operation fails. Check the state message for the IDs of the first ten resources that do not support the new maximum size.
     /// </summary>
     [CliOption("--max-entries")]
     public int? MaxEntries { get; set; }
 
     /// <summary>
-    /// solver-sync-enabled (boolean) Indicates whether synchronization with an IPAM prefix list resolver should be enabled for this managed prefix list. When enabled, the prefix list CIDRs are automatically updated based on the associated resolver's CIDR selection rules.
+    /// Indicates whether synchronization with an IPAM prefix list resolver should be enabled for this managed prefix list. When enabled, the prefix list CIDRs are automatically updated based on the associated resolver's CIDR selection rules.
     /// </summary>
     [CliFlag("--ipam-prefix-list-resolver-sync-enabled", NegatedName = "--no-ipam-prefix-list-resolver-sync-enabled")]
     public bool? IpamPrefixListResolverSyncEnabled { get; set; }
@@ -124,6 +125,15 @@ public record AwsEc2ModifyManagedPrefixListOptions : AwsOptions, IValidatableObj
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsDiscoveryCreateApplicationOptions : AwsOptions, IValidatableObj
     /// <summary>
     /// Creates an application with the given name and description. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">The name of the application to be created. Constraints: o max: 127 o pattern: [\s\S]*\S[\s\S]*</param>
+    /// <param name="Name">The name of the application to be created. Constraints: • max: 127 • pattern: [\s\S]*\S[\s\S]*</param>
     public AwsDiscoveryCreateApplicationOptions(
         string Name
     )
@@ -56,19 +57,19 @@ public record AwsDiscoveryCreateApplicationOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the application to be created. Constraints: o max: 127 o pattern: [\s\S]*\S[\s\S]*
+    /// The name of the application to be created. Constraints: • max: 127 • pattern: [\s\S]*\S[\s\S]*
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The description of the application to be created. Constraints: o max: 1000 o pattern: (^$|[\s\S]*\S[\s\S]*)
+    /// The description of the application to be created. Constraints: • max: 1000 • pattern: (^$|[\s\S]*\S[\s\S]*)
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The name of the migration wave of the application to be created. Constraints: o min: 0 o max: 256 o pattern: ^($|[^\s\x00]( *[^\s\x00])*$)
+    /// The name of the migration wave of the application to be created. Constraints: • min: 0 • max: 256 • pattern: ^($|[^\s\x00]( *[^\s\x00])*$)
     /// </summary>
     [CliOption("--wave")]
     public string? Wave { get; set; }
@@ -94,6 +95,15 @@ public record AwsDiscoveryCreateApplicationOptions : AwsOptions, IValidatableObj
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

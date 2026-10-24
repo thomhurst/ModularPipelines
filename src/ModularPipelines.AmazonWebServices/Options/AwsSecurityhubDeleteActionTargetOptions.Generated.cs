@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes a custom action target from Security Hub CSPM. Deleting a custom action target does not affect any findings or in- sights that were already sent to Amazon CloudWatch Events using the custom action. See also: AWS API Documentation
+/// Deletes a custom action target from Security Hub CSPM. Deleting a custom action target does not affect any findings or insights that were already sent to Amazon CloudWatch Events using the custom action. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsSecurityhubDeleteActionTargetOptions : AwsOptions, IValidatable
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes a custom action target from Security Hub CSPM. Deleting a custom action target does not affect any findings or in- sights that were already sent to Amazon CloudWatch Events using the custom action. See also: AWS API Documentation
+    /// Deletes a custom action target from Security Hub CSPM. Deleting a custom action target does not affect any findings or insights that were already sent to Amazon CloudWatch Events using the custom action. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ActionTargetArn">The Amazon Resource Name (ARN) of the custom action target to delete. Constraints: o pattern: .*\S.*</param>
+    /// <param name="ActionTargetArn">The Amazon Resource Name (ARN) of the custom action target to delete. Constraints: • pattern: .*\S.*</param>
     public AwsSecurityhubDeleteActionTargetOptions(
         string ActionTargetArn
     )
@@ -56,7 +57,7 @@ public record AwsSecurityhubDeleteActionTargetOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the custom action target to delete. Constraints: o pattern: .*\S.*
+    /// The Amazon Resource Name (ARN) of the custom action target to delete. Constraints: • pattern: .*\S.*
     /// </summary>
     [CliOption("--action-target-arn")]
     public string? ActionTargetArn { get; private init; }
@@ -82,6 +83,15 @@ public record AwsSecurityhubDeleteActionTargetOptions : AwsOptions, IValidatable
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

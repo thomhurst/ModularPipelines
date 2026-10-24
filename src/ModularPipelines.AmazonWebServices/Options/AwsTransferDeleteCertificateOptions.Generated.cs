@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes the certificate that's specified in the CertificateId parame- ter. See also: AWS API Documentation
+/// Deletes the certificate that's specified in the CertificateId parameter. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsTransferDeleteCertificateOptions : AwsOptions, IValidatableObje
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes the certificate that's specified in the CertificateId parame- ter. See also: AWS API Documentation
+    /// Deletes the certificate that's specified in the CertificateId parameter. See also: AWS API Documentation
     /// </summary>
-    /// <param name="CertificateId">The identifier of the certificate object that you are deleting. Constraints: o min: 22 o max: 22 o pattern: cert-([0-9a-f]{17})</param>
+    /// <param name="CertificateId">The identifier of the certificate object that you are deleting. Constraints: • min: 22 • max: 22 • pattern: cert-([0-9a-f]{17})</param>
     public AwsTransferDeleteCertificateOptions(
         string CertificateId
     )
@@ -56,7 +57,7 @@ public record AwsTransferDeleteCertificateOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the certificate object that you are deleting. Constraints: o min: 22 o max: 22 o pattern: cert-([0-9a-f]{17})
+    /// The identifier of the certificate object that you are deleting. Constraints: • min: 22 • max: 22 • pattern: cert-([0-9a-f]{17})
     /// </summary>
     [CliOption("--certificate-id")]
     public string? CertificateId { get; private init; }
@@ -82,6 +83,15 @@ public record AwsTransferDeleteCertificateOptions : AwsOptions, IValidatableObje
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

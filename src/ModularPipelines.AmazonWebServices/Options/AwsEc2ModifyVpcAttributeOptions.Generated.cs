@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -62,7 +63,7 @@ public record AwsEc2ModifyVpcAttributeOptions : AwsOptions, IValidatableObject
     public string? VpcId { get; private init; }
 
     /// <summary>
-    /// Indicates whether the instances launched in the VPC get DNS host- names. If enabled, instances in the VPC get DNS hostnames; other- wise, they do not. You cannot modify the DNS resolution and DNS hostnames attributes in the same request. Use separate requests for each attribute. You can only enable DNS hostnames if you've enabled DNS support. Value -&gt; (boolean) The attribute value. The valid values are true or false .
+    /// Indicates whether the instances launched in the VPC get DNS hostnames. If enabled, instances in the VPC get DNS hostnames; otherwise, they do not. You cannot modify the DNS resolution and DNS hostnames attributes in the same request. Use separate requests for each attribute. You can only enable DNS hostnames if you've enabled DNS support. Value -&gt; (boolean) The attribute value. The valid values are true or false .
     /// </summary>
     [CliFlag("--enable-dns-hostnames", NegatedName = "--no-enable-dns-hostnames")]
     public bool? EnableDnsHostnames { get; set; }
@@ -74,7 +75,7 @@ public record AwsEc2ModifyVpcAttributeOptions : AwsOptions, IValidatableObject
     public bool? EnableDnsSupport { get; set; }
 
     /// <summary>
-    /// dress-usage-metrics (structure) Indicates whether Network Address Usage metrics are enabled for your VPC. Value -&gt; (boolean) The attribute value. The valid values are true or false .
+    /// Indicates whether Network Address Usage metrics are enabled for your VPC. Value -&gt; (boolean) The attribute value. The valid values are true or false .
     /// </summary>
     [CliFlag("--enable-network-address-usage-metrics", NegatedName = "--no-enable-network-address-usage-metrics")]
     public bool? EnableNetworkAddressUsageMetrics { get; set; }
@@ -100,6 +101,15 @@ public record AwsEc2ModifyVpcAttributeOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

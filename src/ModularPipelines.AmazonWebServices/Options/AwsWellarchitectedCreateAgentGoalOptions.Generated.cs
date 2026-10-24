@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,9 +29,9 @@ public record AwsWellarchitectedCreateAgentGoalOptions : AwsOptions, IValidatabl
     /// <summary>
     /// Creates an optimization goal associated with a profile. Goals define specific targets and objectives for the optimization process. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ProfileArn">The Amazon Resource Name (ARN) of the profile to associate the goal with. Constraints: o min: 0 o max: 2048 o pattern: arn:aws([a-z0-9-]+)?:wellarchi- tected:[a-z0-9-]{6,64}:\d{12}:agent-profile/([a-zA-Z0-9_-]+)</param>
-    /// <param name="Pillars">The Well-Architected Tool Framework pillars to associate with this goal. Constraints: o min: 1 o max: 5 (string) Possible values: o COST_OPTIMIZATION o SECURITY o RESILIENCE o PERFORMANCE o OPERATIONAL_EXCELLENCE Syntax: "string" "string" ...</param>
-    /// <param name="Title">The title of the goal. Constraints: o min: 1 o max: 1000 o pattern: (?:(?!\$\{[a-zA-Z]+:)[\P{C}])+</param>
+    /// <param name="ProfileArn">The Amazon Resource Name (ARN) of the profile to associate the goal with. Constraints: • min: 0 • max: 2048 • pattern: arn:aws([a-z0-9-]+)?:wellarchitected:[a-z0-9-]{6,64}:\d{12}:agent-profile/([a-zA-Z0-9_-]+)</param>
+    /// <param name="Pillars">The Well-Architected Tool Framework pillars to associate with this goal. Constraints: • min: 1 • max: 5 (string) Possible values: • COST_OPTIMIZATION • SECURITY • RESILIENCE • PERFORMANCE • OPERATIONAL_EXCELLENCE Syntax: "string" "string" ...</param>
+    /// <param name="Title">The title of the goal. Constraints: • min: 1 • max: 1000 • pattern: (?:(?!\$\{[a-zA-Z]+:)[\P{C}])+</param>
     public AwsWellarchitectedCreateAgentGoalOptions(
         string ProfileArn,
         IEnumerable<string> Pillars,
@@ -76,32 +77,32 @@ public record AwsWellarchitectedCreateAgentGoalOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the profile to associate the goal with. Constraints: o min: 0 o max: 2048 o pattern: arn:aws([a-z0-9-]+)?:wellarchi- tected:[a-z0-9-]{6,64}:\d{12}:agent-profile/([a-zA-Z0-9_-]+)
+    /// The Amazon Resource Name (ARN) of the profile to associate the goal with. Constraints: • min: 0 • max: 2048 • pattern: arn:aws([a-z0-9-]+)?:wellarchitected:[a-z0-9-]{6,64}:\d{12}:agent-profile/([a-zA-Z0-9_-]+)
     /// </summary>
     [CliOption("--profile-arn")]
     public string? ProfileArn { get; private init; }
 
     /// <summary>
-    /// The Well-Architected Tool Framework pillars to associate with this goal. Constraints: o min: 1 o max: 5 (string) Possible values: o COST_OPTIMIZATION o SECURITY o RESILIENCE o PERFORMANCE o OPERATIONAL_EXCELLENCE Syntax: "string" "string" ...
+    /// The Well-Architected Tool Framework pillars to associate with this goal. Constraints: • min: 1 • max: 5 (string) Possible values: • COST_OPTIMIZATION • SECURITY • RESILIENCE • PERFORMANCE • OPERATIONAL_EXCELLENCE Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--pillars", GroupValues = true)]
     public IEnumerable<string>? Pillars { get; private init; }
 
     /// <summary>
-    /// The title of the goal. Constraints: o min: 1 o max: 1000 o pattern: (?:(?!\$\{[a-zA-Z]+:)[\P{C}])+
+    /// The title of the goal. Constraints: • min: 1 • max: 1000 • pattern: (?:(?!\$\{[a-zA-Z]+:)[\P{C}])+
     /// </summary>
     [CliOption("--title")]
     public string? Title { get; private init; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Constraints: o min: 1 o max: 128 o pattern: [\x21-\x7E]+
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Constraints: • min: 1 • max: 128 • pattern: [\x21-\x7E]+
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// A description of the goal. Constraints: o min: 1 o max: 4000 o pattern: (?:(?!\$\{[a-zA-Z]+:)[\P{C}])+
+    /// A description of the goal. Constraints: • min: 1 • max: 4000 • pattern: (?:(?!\$\{[a-zA-Z]+:)[\P{C}])+
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
@@ -127,6 +128,15 @@ public record AwsWellarchitectedCreateAgentGoalOptions : AwsOptions, IValidatabl
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

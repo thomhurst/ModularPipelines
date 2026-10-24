@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Initiates a request to compile the specified type of information of the deployed environment. Setting the InfoType to tail compiles the last lines from the applica- tion server log files of every Amazon EC2 instance in your environment. Setting the InfoType to bundle compresses the application server log files for every Amazon EC2 instance into a .zip file. Legacy and .NET containers do not support bundle logs. Setting the InfoType to analyze collects recent events, instance health, and logs fro...
+/// Initiates a request to compile the specified type of information of the deployed environment. Setting the InfoType to tail compiles the last lines from the application server log files of every Amazon EC2 instance in your environment. Setting the InfoType to bundle compresses the application server log files for every Amazon EC2 instance into a .zip file. Legacy and .NET containers do not support bundle logs. Setting the InfoType to analyze collects recent events, instance health, and logs from ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +27,9 @@ public record AwsElasticbeanstalkRequestEnvironmentInfoOptions : AwsOptions, IVa
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Initiates a request to compile the specified type of information of the deployed environment. Setting the InfoType to tail compiles the last lines from the applica- tion server log files of every Amazon EC2 instance in your environment. Setting the InfoType to bundle compresses the application server log files for every Amazon EC2 instance into a .zip file. Legacy and .NET containers do not support bundle logs. Setting the InfoType to analyze collects recent events, instance health, and logs fro...
+    /// Initiates a request to compile the specified type of information of the deployed environment. Setting the InfoType to tail compiles the last lines from the application server log files of every Amazon EC2 instance in your environment. Setting the InfoType to bundle compresses the application server log files for every Amazon EC2 instance into a .zip file. Legacy and .NET containers do not support bundle logs. Setting the InfoType to analyze collects recent events, instance health, and logs from ...
     /// </summary>
-    /// <param name="InfoType">The type of information to request. Possible values: o tail o bundle o analyze</param>
+    /// <param name="InfoType">The type of information to request. Possible values: • tail • bundle • analyze</param>
     public AwsElasticbeanstalkRequestEnvironmentInfoOptions(
         AwsElasticbeanstalkRequestEnvironmentInfoInfoType InfoType
     )
@@ -56,19 +57,19 @@ public record AwsElasticbeanstalkRequestEnvironmentInfoOptions : AwsOptions, IVa
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The type of information to request. Possible values: o tail o bundle o analyze
+    /// The type of information to request. Possible values: • tail • bundle • analyze
     /// </summary>
     [CliOption("--info-type")]
     public AwsElasticbeanstalkRequestEnvironmentInfoInfoType? InfoType { get; private init; }
 
     /// <summary>
-    /// The ID of the environment of the requested data. If no such environment is found, RequestEnvironmentInfo returns an InvalidParameterValue error. Condition: You must specify either this or an EnvironmentName, or both. If you do not specify either, Elastic Beanstalk returns Miss- ingRequiredParameter error.
+    /// The ID of the environment of the requested data. If no such environment is found, RequestEnvironmentInfo returns an InvalidParameterValue error. Condition: You must specify either this or an EnvironmentName, or both. If you do not specify either, Elastic Beanstalk returns MissingRequiredParameter error.
     /// </summary>
     [CliOption("--environment-id")]
     public string? EnvironmentId { get; set; }
 
     /// <summary>
-    /// The name of the environment of the requested data. If no such environment is found, RequestEnvironmentInfo returns an InvalidParameterValue error. Condition: You must specify either this or an EnvironmentId, or both. If you do not specify either, Elastic Beanstalk returns Miss- ingRequiredParameter error. Constraints: o min: 4 o max: 40
+    /// The name of the environment of the requested data. If no such environment is found, RequestEnvironmentInfo returns an InvalidParameterValue error. Condition: You must specify either this or an EnvironmentId, or both. If you do not specify either, Elastic Beanstalk returns MissingRequiredParameter error. Constraints: • min: 4 • max: 40
     /// </summary>
     [CliOption("--environment-name")]
     public string? EnvironmentName { get; set; }
@@ -94,6 +95,15 @@ public record AwsElasticbeanstalkRequestEnvironmentInfoOptions : AwsOptions, IVa
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

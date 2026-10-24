@@ -6,15 +6,15 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
+using ModularPipelines;
 using ModularPipelines.Context;
-using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
 namespace ModularPipelines.AmazonWebServices.Services;
 
 /// <summary>
-/// aws resourcegroups commands.
+/// aws resource-groups commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AwsResourceGroups : IAwsResourceGroups
@@ -32,7 +32,7 @@ public class AwsResourceGroups : IAwsResourceGroups
     #region Commands
 
     /// <summary>
-    /// Cancels the specified tag-sync task. Minimum permissions To run this command, you must have the following permissions: o resource-groups:CancelTagSyncTask on the application group o resource-groups:DeleteGroup See also: AWS API Documentation
+    /// Cancels the specified tag-sync task. Minimum permissions To run this command, you must have the following permissions: • resource-groups:CancelTagSyncTask on the application group • resource-groups:DeleteGroup See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -47,7 +47,7 @@ public class AwsResourceGroups : IAwsResourceGroups
     }
 
     /// <summary>
-    /// Creates a resource group with the specified name and description. You can optionally include either a resource query or a service configura- tion. For more information about constructing a resource query, see Build queries and groups in Resource Groups in the Resource Groups User Guide . For more information about service-linked groups and service configurations, see Service configurations for Resource Groups . Minimum permissions To run this command, you must have the following permissions: o r...
+    /// Creates a resource group with the specified name and description. You can optionally include either a resource query or a service configuration. For more information about constructing a resource query, see Build queries and groups in Resource Groups in the Resource Groups User Guide . For more information about service-linked groups and service configurations, see Service configurations for Resource Groups . Minimum permissions To run this command, you must have the following permissions: • res...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -62,7 +62,7 @@ public class AwsResourceGroups : IAwsResourceGroups
     }
 
     /// <summary>
-    /// Deletes the specified resource group. Deleting a resource group does not delete any resources that are members of the group; it only deletes the group structure. Minimum permissions To run this command, you must have the following permissions: o resource-groups:DeleteGroup See also: AWS API Documentation
+    /// Deletes the specified resource group. Deleting a resource group does not delete any resources that are members of the group; it only deletes the group structure. Minimum permissions To run this command, you must have the following permissions: • resource-groups:DeleteGroup See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -92,7 +92,7 @@ public class AwsResourceGroups : IAwsResourceGroups
     }
 
     /// <summary>
-    /// Retrieves the service configuration associated with the specified re- source group. For details about the service configuration syntax, see Service configurations for Resource Groups . Minimum permissions To run this command, you must have the following permissions: o resource-groups:GetGroupConfiguration See also: AWS API Documentation
+    /// Retrieves the service configuration associated with the specified resource group. For details about the service configuration syntax, see Service configurations for Resource Groups . Minimum permissions To run this command, you must have the following permissions: • resource-groups:GetGroupConfiguration See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -107,7 +107,7 @@ public class AwsResourceGroups : IAwsResourceGroups
     }
 
     /// <summary>
-    /// Returns information about a specified resource group. Minimum permissions To run this command, you must have the following permissions: o resource-groups:GetGroup See also: AWS API Documentation
+    /// Returns information about a specified resource group. Minimum permissions To run this command, you must have the following permissions: • resource-groups:GetGroup See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -122,7 +122,7 @@ public class AwsResourceGroups : IAwsResourceGroups
     }
 
     /// <summary>
-    /// Retrieves the resource query associated with the specified resource group. For more information about resource queries, see Create a tag-based group in Resource Groups . Minimum permissions To run this command, you must have the following permissions: o resource-groups:GetGroupQuery See also: AWS API Documentation
+    /// Retrieves the resource query associated with the specified resource group. For more information about resource queries, see Create a tag-based group in Resource Groups . Minimum permissions To run this command, you must have the following permissions: • resource-groups:GetGroupQuery See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -137,22 +137,7 @@ public class AwsResourceGroups : IAwsResourceGroups
     }
 
     /// <summary>
-    /// Returns a list of tags that are associated with a resource group, spec- ified by an Amazon resource name (ARN). Minimum permissions To run this command, you must have the following permissions: o resource-groups:GetTags See also: AWS API Documentation
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> GetTagsAsync(
-        AwsResourceGroupsGetTagsOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
-    /// Returns information about a specified tag-sync task. Minimum permissions To run this command, you must have the following permissions: o resource-groups:GetTagSyncTask on the application group See also: AWS API Documentation
+    /// Returns information about a specified tag-sync task. Minimum permissions To run this command, you must have the following permissions: • resource-groups:GetTagSyncTask on the application group See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -167,7 +152,22 @@ public class AwsResourceGroups : IAwsResourceGroups
     }
 
     /// <summary>
-    /// Adds the specified resources to the specified group. WARNING: You can only use this operation with the following groups: o AWS::EC2::HostManagement o AWS::EC2::CapacityReservationPool o AWS::ResourceGroups::ApplicationGroup Other resource group types and resource types are not currently supported by this operation. Minimum permissions To run this command, you must have the following permissions: o resource-groups:GroupResources See also: AWS API Documentation
+    /// Returns a list of tags that are associated with a resource group, specified by an Amazon resource name (ARN). Minimum permissions To run this command, you must have the following permissions: • resource-groups:GetTags See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> GetTagsAsync(
+        AwsResourceGroupsGetTagsOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Adds the specified resources to the specified group. WARNING: You can only use this operation with the following groups: • AWS::EC2::HostManagement • AWS::EC2::CapacityReservationPool • AWS::ResourceGroups::ApplicationGroup Other resource group types and resource types are not currently supported by this operation. Minimum permissions To run this command, you must have the following permissions: • resource-groups:GroupResources See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -179,6 +179,21 @@ public class AwsResourceGroups : IAwsResourceGroups
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Returns a list of Amazon resource names (ARNs) of the resources that are members of a specified resource group. Minimum permissions To run this command, you must have the following permissions: • resource-groups:ListGroupResources • cloudformation:DescribeStacks • cloudformation:ListStackResources • tag:GetResources See also: AWS API Documentation list-group-resources is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable p...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListGroupResourcesAsync(
+        AwsResourceGroupsListGroupResourcesOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsResourceGroupsListGroupResourcesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -197,22 +212,7 @@ public class AwsResourceGroups : IAwsResourceGroups
     }
 
     /// <summary>
-    /// Returns a list of Amazon resource names (ARNs) of the resources that are members of a specified resource group. Minimum permissions To run this command, you must have the following permissions: o resource-groups:ListGroupResources o cloudformation:DescribeStacks o cloudformation:ListStackResources o tag:GetResources See also: AWS API Documentation list-group-resources is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable p...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListGroupResourcesAsync(
-        AwsResourceGroupsListGroupResourcesOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsResourceGroupsListGroupResourcesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
-    /// Returns a list of existing Resource Groups in your account. Minimum permissions To run this command, you must have the following permissions: o resource-groups:ListGroups See also: AWS API Documentation list-groups is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must ex...
+    /// Returns a list of existing Resource Groups in your account. Minimum permissions To run this command, you must have the following permissions: • resource-groups:ListGroups See also: AWS API Documentation list-groups is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extr...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -227,7 +227,7 @@ public class AwsResourceGroups : IAwsResourceGroups
     }
 
     /// <summary>
-    /// Returns a list of tag-sync tasks. Minimum permissions To run this command, you must have the following permissions: o resource-groups:ListTagSyncTasks with the group passed in the filters as the resource or * if using no filters See also: AWS API Documentation list-tag-sync-tasks is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --quer...
+    /// Returns a list of tag-sync tasks. Minimum permissions To run this command, you must have the following permissions: • resource-groups:ListTagSyncTasks with the group passed in the filters as the resource or * if using no filters See also: AWS API Documentation list-tag-sync-tasks is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --quer...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -242,7 +242,7 @@ public class AwsResourceGroups : IAwsResourceGroups
     }
 
     /// <summary>
-    /// Attaches a service configuration to the specified group. This occurs asynchronously, and can take time to complete. You can use GetGroup- Configuration to check the status of the update. Minimum permissions To run this command, you must have the following permissions: o resource-groups:PutGroupConfiguration See also: AWS API Documentation
+    /// Attaches a service configuration to the specified group. This occurs asynchronously, and can take time to complete. You can use GetGroupConfiguration to check the status of the update. Minimum permissions To run this command, you must have the following permissions: • resource-groups:PutGroupConfiguration See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -257,7 +257,7 @@ public class AwsResourceGroups : IAwsResourceGroups
     }
 
     /// <summary>
-    /// Returns a list of Amazon Web Services resource identifiers that matches the specified query. The query uses the same format as a resource query in a CreateGroup or UpdateGroupQuery operation. Minimum permissions To run this command, you must have the following permissions: o resource-groups:SearchResources o cloudformation:DescribeStacks o cloudformation:ListStackResources o tag:GetResources See also: AWS API Documentation search-resources is a paginated operation. Multiple API calls may be issu...
+    /// Returns a list of Amazon Web Services resource identifiers that matches the specified query. The query uses the same format as a resource query in a CreateGroup or UpdateGroupQuery operation. Minimum permissions To run this command, you must have the following permissions: • resource-groups:SearchResources • cloudformation:DescribeStacks • cloudformation:ListStackResources • tag:GetResources See also: AWS API Documentation search-resources is a paginated operation. Multiple API calls may be issu...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -272,7 +272,7 @@ public class AwsResourceGroups : IAwsResourceGroups
     }
 
     /// <summary>
-    /// Creates a new tag-sync task to onboard and sync resources tagged with a specific tag key-value pair to an application. To start a tag-sync task, you need a resource tagging role . The resource tagging role grants permissions to tag and untag applications resources and must in- clude a trust policy that allows Resource Groups to assume the role and perform resource tagging tasks on your behalf. For instructions on creating a tag-sync task, see Create a tag-sync us- ing the Resource Groups API in ...
+    /// Creates a new tag-sync task to onboard and sync resources tagged with a specific tag key-value pair to an application. To start a tag-sync task, you need a resource tagging role . The resource tagging role grants permissions to tag and untag applications resources and must include a trust policy that allows Resource Groups to assume the role and perform resource tagging tasks on your behalf. For instructions on creating a tag-sync task, see Create a tag-sync using the Resource Groups API in the ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -302,7 +302,7 @@ public class AwsResourceGroups : IAwsResourceGroups
     }
 
     /// <summary>
-    /// Removes the specified resources from the specified group. This opera- tion works only with static groups that you populated using the GroupResources operation. It doesn't work with any resource groups that are automatically populated by tag-based or CloudFormation stack-based queries. Minimum permissions To run this command, you must have the following permissions: o resource-groups:UngroupResources See also: AWS API Documentation
+    /// Removes the specified resources from the specified group. This operation works only with static groups that you populated using the GroupResources operation. It doesn't work with any resource groups that are automatically populated by tag-based or CloudFormation stack-based queries. Minimum permissions To run this command, you must have the following permissions: • resource-groups:UngroupResources See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -317,7 +317,7 @@ public class AwsResourceGroups : IAwsResourceGroups
     }
 
     /// <summary>
-    /// Deletes tags from a specified resource group. Minimum permissions To run this command, you must have the following permissions: o resource-groups:Untag See also: AWS API Documentation
+    /// Deletes tags from a specified resource group. Minimum permissions To run this command, you must have the following permissions: • resource-groups:Untag See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -347,7 +347,7 @@ public class AwsResourceGroups : IAwsResourceGroups
     }
 
     /// <summary>
-    /// Updates the description for an existing group. You cannot update the name of a resource group. Minimum permissions To run this command, you must have the following permissions: o resource-groups:UpdateGroup See also: AWS API Documentation
+    /// Updates the description for an existing group. You cannot update the name of a resource group. Minimum permissions To run this command, you must have the following permissions: • resource-groups:UpdateGroup See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -362,7 +362,7 @@ public class AwsResourceGroups : IAwsResourceGroups
     }
 
     /// <summary>
-    /// Updates the resource query of a group. For more information about re- source queries, see Create a tag-based group in Resource Groups . Minimum permissions To run this command, you must have the following permissions: o resource-groups:UpdateGroupQuery See also: AWS API Documentation
+    /// Updates the resource query of a group. For more information about resource queries, see Create a tag-based group in Resource Groups . Minimum permissions To run this command, you must have the following permissions: • resource-groups:UpdateGroupQuery See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsFsxUntagResourceOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// This action removes a tag from an Amazon FSx resource. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The ARN of the Amazon FSx resource to untag. Constraints: o min: 8 o max: 512 o pattern: ^arn:(?=[^:]+:fsx:[^:]+:\d{12}:)((|(?=[a-z0-9-.]{1,63})(?!\d{1,3}(\.\d{1,3}){3})(?![^:]*-{2})(?![^:]*-\.)(?![^:]*\.-)[a-z0-9].*(?&lt;!-)):){4}(?!/).{0,1024}$</param>
-    /// <param name="TagKeys">A list of keys of tags on the resource to untag. In case the tag key doesn't exist, the call will still succeed to be idempotent. Constraints: o min: 1 o max: 50 (string) A string of 1 to 128 characters that specifies the key for a tag. Tag keys must be unique for the resource to which they are attached. Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Syntax: "string" "string" ...</param>
+    /// <param name="ResourceArn">The ARN of the Amazon FSx resource to untag. Constraints: • min: 8 • max: 512 • pattern: ^arn:(?=[^:]+:fsx:[^:]+:\d{12}:)((|(?=[a-z0-9-.]{1,63})(?!\d{1,3}(\.\d{1,3}){3})(?![^:]*-{2})(?![^:]*-\.)(?![^:]*\.-)[a-z0-9].*(?&lt;!-)):){4}(?!/).{0,1024}$</param>
+    /// <param name="TagKeys">A list of keys of tags on the resource to untag. In case the tag key doesn't exist, the call will still succeed to be idempotent. Constraints: • min: 1 • max: 50 (string) A string of 1 to 128 characters that specifies the key for a tag. Tag keys must be unique for the resource to which they are attached. Constraints: • min: 1 • max: 128 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Syntax: "string" "string" ...</param>
     public AwsFsxUntagResourceOptions(
         string ResourceArn,
         IEnumerable<string> TagKeys
@@ -71,13 +72,13 @@ public record AwsFsxUntagResourceOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the Amazon FSx resource to untag. Constraints: o min: 8 o max: 512 o pattern: ^arn:(?=[^:]+:fsx:[^:]+:\d{12}:)((|(?=[a-z0-9-.]{1,63})(?!\d{1,3}(\.\d{1,3}){3})(?![^:]*-{2})(?![^:]*-\.)(?![^:]*\.-)[a-z0-9].*(?&lt;!-)):){4}(?!/).{0,1024}$
+    /// The ARN of the Amazon FSx resource to untag. Constraints: • min: 8 • max: 512 • pattern: ^arn:(?=[^:]+:fsx:[^:]+:\d{12}:)((|(?=[a-z0-9-.]{1,63})(?!\d{1,3}(\.\d{1,3}){3})(?![^:]*-{2})(?![^:]*-\.)(?![^:]*\.-)[a-z0-9].*(?&lt;!-)):){4}(?!/).{0,1024}$
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
 
     /// <summary>
-    /// A list of keys of tags on the resource to untag. In case the tag key doesn't exist, the call will still succeed to be idempotent. Constraints: o min: 1 o max: 50 (string) A string of 1 to 128 characters that specifies the key for a tag. Tag keys must be unique for the resource to which they are attached. Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Syntax: "string" "string" ...
+    /// A list of keys of tags on the resource to untag. In case the tag key doesn't exist, the call will still succeed to be idempotent. Constraints: • min: 1 • max: 50 (string) A string of 1 to 128 characters that specifies the key for a tag. Tag keys must be unique for the resource to which they are attached. Constraints: • min: 1 • max: 128 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--tag-keys", GroupValues = true)]
     public IEnumerable<string>? TagKeys { get; private init; }
@@ -103,6 +104,15 @@ public record AwsFsxUntagResourceOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

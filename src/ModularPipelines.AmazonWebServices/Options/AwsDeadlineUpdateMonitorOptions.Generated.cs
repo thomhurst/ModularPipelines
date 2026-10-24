@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsDeadlineUpdateMonitorOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Modifies the settings for a Deadline Cloud monitor. You can modify one or all of the settings when you call UpdateMonitor . See also: AWS API Documentation
     /// </summary>
-    /// <param name="MonitorId">The unique identifier of the monitor to update. Constraints: o pattern: monitor-[0-9a-f]{32}</param>
+    /// <param name="MonitorId">The unique identifier of the monitor to update. Constraints: • pattern: monitor-[0-9a-f]{32}</param>
     public AwsDeadlineUpdateMonitorOptions(
         string MonitorId
     )
@@ -56,25 +57,25 @@ public record AwsDeadlineUpdateMonitorOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the monitor to update. Constraints: o pattern: monitor-[0-9a-f]{32}
+    /// The unique identifier of the monitor to update. Constraints: • pattern: monitor-[0-9a-f]{32}
     /// </summary>
     [CliOption("--monitor-id")]
     public string? MonitorId { get; private init; }
 
     /// <summary>
-    /// The new value of the subdomain to use when forming the monitor URL. Constraints: o pattern: [a-z0-9-]{1,100}
+    /// The new value of the subdomain to use when forming the monitor URL. Constraints: • pattern: [a-z0-9-]{1,100}
     /// </summary>
     [CliOption("--subdomain")]
     public string? Subdomain { get; set; }
 
     /// <summary>
-    /// The new value to use for the monitor's display name. WARNING: This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field. Constraints: o min: 1 o max: 100
+    /// The new value to use for the monitor's display name. WARNING: This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--display-name")]
     public string? DisplayName { get; set; }
 
     /// <summary>
-    /// The Amazon Resource Name of the new IAM role to use with the moni- tor. Constraints: o pattern: arn:(aws[a-zA-Z-]*):iam::\d{12}:role(/[!-.0-~]+)*/[\w+=,.@-]+
+    /// The Amazon Resource Name of the new IAM role to use with the monitor. Constraints: • pattern: arn:(aws[a-zA-Z-]*):iam::\d{12}:role(/[!-.0-~]+)*/[\w+=,.@-]+
     /// </summary>
     [CliOption("--role-arn")]
     public string? RoleArn { get; set; }
@@ -100,6 +101,15 @@ public record AwsDeadlineUpdateMonitorOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

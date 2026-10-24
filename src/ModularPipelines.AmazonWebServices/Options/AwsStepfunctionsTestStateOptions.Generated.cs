@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Accepts the definition of a single state and executes it. You can test a state without creating a state machine or updating an existing state machine. Using this API, you can test the following: o A state's input and output processing data flow o An Amazon Web Services service integration request and response o An HTTP Task request and response You can call this API on only one state at a time. The states that you can test include the following: o All Task types except Activity o Pass o Wait o C...
+/// Accepts the definition of a single state and executes it. You can test a state without creating a state machine or updating an existing state machine. Using this API, you can test the following: • A state's input and output processing data flow • An Amazon Web Services service integration request and response • An HTTP Task request and response You can call this API on only one state at a time. The states that you can test include the following: • All Task types except Activity • Pass • Wait • C...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +27,9 @@ public record AwsStepfunctionsTestStateOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Accepts the definition of a single state and executes it. You can test a state without creating a state machine or updating an existing state machine. Using this API, you can test the following: o A state's input and output processing data flow o An Amazon Web Services service integration request and response o An HTTP Task request and response You can call this API on only one state at a time. The states that you can test include the following: o All Task types except Activity o Pass o Wait o C...
+    /// Accepts the definition of a single state and executes it. You can test a state without creating a state machine or updating an existing state machine. Using this API, you can test the following: • A state's input and output processing data flow • An Amazon Web Services service integration request and response • An HTTP Task request and response You can call this API on only one state at a time. The states that you can test include the following: • All Task types except Activity • Pass • Wait • C...
     /// </summary>
-    /// <param name="Definition">The Amazon States Language (ASL) definition of the state or state machine. Constraints: o min: 1 o max: 1048576</param>
+    /// <param name="Definition">The Amazon States Language (ASL) definition of the state or state machine. Constraints: • min: 1 • max: 1048576</param>
     public AwsStepfunctionsTestStateOptions(
         string Definition
     )
@@ -57,61 +58,61 @@ public record AwsStepfunctionsTestStateOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon States Language (ASL) definition of the state or state machine. Constraints: o min: 1 o max: 1048576
+    /// The Amazon States Language (ASL) definition of the state or state machine. Constraints: • min: 1 • max: 1048576
     /// </summary>
     [CliOption("--definition")]
     public string? Definition { get; private init; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the execution role with the re- quired IAM permissions for the state. Constraints: o min: 1 o max: 256
+    /// The Amazon Resource Name (ARN) of the execution role with the required IAM permissions for the state. Constraints: • min: 1 • max: 256
     /// </summary>
     [CliOption("--role-arn")]
     public string? RoleArn { get; set; }
 
     /// <summary>
-    /// A string that contains the JSON input data for the state. Constraints: o max: 262144
+    /// A string that contains the JSON input data for the state. Constraints: • max: 262144
     /// </summary>
     [CliOption("--input")]
     public string? Input { get; set; }
 
     /// <summary>
-    /// Determines the values to return when a state is tested. You can specify one of the following types: o INFO : Shows the final state output. By default, Step Functions sets inspectionLevel to INFO if you don't specify a level. o DEBUG : Shows the final state output along with the input and out- put data processing result. o TRACE : Shows the HTTP request and response for an HTTP Task. This level also shows the final state output along with the input and output data processing result. Each of these levels also provide information about the status of the state execution and the next state to transition to. Possible values: o INFO o DEBUG o TRACE
+    /// Determines the values to return when a state is tested. You can specify one of the following types: • INFO : Shows the final state output. By default, Step Functions sets inspectionLevel to INFO if you don't specify a level. • DEBUG : Shows the final state output along with the input and output data processing result. • TRACE : Shows the HTTP request and response for an HTTP Task. This level also shows the final state output along with the input and output data processing result. Each of these levels also provide information about the status of the state execution and the next state to transition to. Possible values: • INFO • DEBUG • TRACE
     /// </summary>
     [CliOption("--inspection-level")]
     public AwsStepfunctionsTestStateInspectionLevel? InspectionLevel { get; set; }
 
     /// <summary>
-    /// Specifies whether or not to include secret information in the test result. For HTTP Tasks, a secret includes the data that an Event- Bridge connection adds to modify the HTTP request headers, query pa- rameters, and body. Step Functions doesn't omit any information in- cluded in the state definition or the HTTP response. If you set revealSecrets to true , you must make sure that the IAM user that calls the TestState API has permission for the states:Re- vealSecrets action. For an example of IAM policy that sets the states:RevealSecrets permission, see IAM permissions to test a state . Without this permission, Step Functions throws an access denied error. By default, revealSecrets is set to false .
+    /// Specifies whether or not to include secret information in the test result. For HTTP Tasks, a secret includes the data that an EventBridge connection adds to modify the HTTP request headers, query parameters, and body. Step Functions doesn't omit any information included in the state definition or the HTTP response. If you set revealSecrets to true , you must make sure that the IAM user that calls the TestState API has permission for the states:RevealSecrets action. For an example of IAM policy that sets the states:RevealSecrets permission, see IAM permissions to test a state . Without this permission, Step Functions throws an access denied error. By default, revealSecrets is set to false .
     /// </summary>
     [CliFlag("--reveal-secrets", NegatedName = "--no-reveal-secrets")]
     public bool? RevealSecrets { get; set; }
 
     /// <summary>
-    /// JSON object literal that sets variables used in the state under test. Object keys are the variable names and values are the variable values. Constraints: o max: 262144
+    /// JSON object literal that sets variables used in the state under test. Object keys are the variable names and values are the variable values. Constraints: • max: 262144
     /// </summary>
     [CliOption("--variables")]
     public string? Variables { get; set; }
 
     /// <summary>
-    /// Denotes the particular state within a state machine definition to be tested. If this field is specified, the definition must contain a fully-formed state machine definition. Constraints: o min: 1 o max: 80
+    /// Denotes the particular state within a state machine definition to be tested. If this field is specified, the definition must contain a fully-formed state machine definition. Constraints: • min: 1 • max: 80
     /// </summary>
     [CliOption("--state-name")]
     public string? StateName { get; set; }
 
     /// <summary>
-    /// Defines a mocked result or error for the state under test. A mock can only be specified for Task, Map, or Parallel states. If it is specified for another state type, an exception will be thrown. result -&gt; (string) A JSON string containing the mocked result of the state invoca- tion. Constraints: o max: 262144 errorOutput -&gt; (structure) The mocked error output when calling TestState. When specified, the mocked response is returned as a JSON object that contains an error and cause field. error -&gt; (string) A string denoting the error code of the exception thrown when invoking the tested state. This field is required if mock.er- rorOutput is specified. Constraints: o min: 0 o max: 256 cause -&gt; (string) A string containing the cause of the exception thrown when executing the state's logic. Constraints: o min: 0 o max: 32768 fieldValidationMode -&gt; (string) Determines the level of strictness when validating mocked re- sults against their respective API models. Values include: o STRICT : All required fields must be present, and all present fields must conform to the API's schema. o PRESENT : All present fields must conform to the API's schema. o NONE : No validation is performed. If no value is specified, the default value is STRICT . Possible values: o STRICT o PRESENT o NONE Shorthand Syntax: result=string,errorOutput={error=string,cause=string},fieldValidationMode=string JSON Syntax: { "result": "string", "errorOutput": { "error": "string", "cause": "string" }, "fieldValidationMode": "STRICT"|"PRESENT"|"NONE" }
+    /// Defines a mocked result or error for the state under test. A mock can only be specified for Task, Map, or Parallel states. If it is specified for another state type, an exception will be thrown. result -&gt; (string) A JSON string containing the mocked result of the state invocation. Constraints: • max: 262144 errorOutput -&gt; (structure) The mocked error output when calling TestState. When specified, the mocked response is returned as a JSON object that contains an error and cause field. error -&gt; (string) A string denoting the error code of the exception thrown when invoking the tested state. This field is required if mock.errorOutput is specified. Constraints: • min: 0 • max: 256 cause -&gt; (string) A string containing the cause of the exception thrown when executing the state's logic. Constraints: • min: 0 • max: 32768 fieldValidationMode -&gt; (string) Determines the level of strictness when validating mocked results against their respective API models. Values include: • STRICT : All required fields must be present, and all present fields must conform to the API's schema. • PRESENT : All present fields must conform to the API's schema. • NONE : No validation is performed. If no value is specified, the default value is STRICT . Possible values: • STRICT • PRESENT • NONE Shorthand Syntax: result=string,errorOutput={error=string,cause=string},fieldValidationMode=string JSON Syntax: { "result": "string", "errorOutput": { "error": "string", "cause": "string" }, "fieldValidationMode": "STRICT"|"PRESENT"|"NONE" }
     /// </summary>
     [CliOption("--mock")]
     public string? Mock { get; set; }
 
     /// <summary>
-    /// A JSON string representing a valid Context object for the state un- der test. This field may only be specified if a mock is specified in the same request. Constraints: o max: 262144
+    /// A JSON string representing a valid Context object for the state under test. This field may only be specified if a mock is specified in the same request. Constraints: • max: 262144
     /// </summary>
     [CliOption("--context")]
     public string? Context { get; set; }
 
     /// <summary>
-    /// Contains configurations for the state under test. retrierRetryCount -&gt; (integer) The number of retry attempts that have occurred for the state's Retry that applies to the mocked error. Constraints: o min: 0 errorCausedByState -&gt; (string) The name of the state from which an error originates when an er- ror is mocked for a Map or Parallel state. Constraints: o min: 1 o max: 80 mapIterationFailureCount -&gt; (integer) The number of Map state iterations that failed during the Map state invocation. Constraints: o min: 0 mapItemReaderData -&gt; (string) The data read by ItemReader in Distributed Map states as found in its original source. Constraints: o max: 262144 Shorthand Syntax: retrierRetryCount=integer,errorCausedByState=string,mapIterationFailureCount=integer,mapItemReaderData=string JSON Syntax: { "retrierRetryCount": integer, "errorCausedByState": "string", "mapIterationFailureCount": integer, "mapItemReaderData": "string" }
+    /// Contains configurations for the state under test. retrierRetryCount -&gt; (integer) The number of retry attempts that have occurred for the state's Retry that applies to the mocked error. Constraints: • min: 0 errorCausedByState -&gt; (string) The name of the state from which an error originates when an error is mocked for a Map or Parallel state. Constraints: • min: 1 • max: 80 mapIterationFailureCount -&gt; (integer) The number of Map state iterations that failed during the Map state invocation. Constraints: • min: 0 mapItemReaderData -&gt; (string) The data read by ItemReader in Distributed Map states as found in its original source. Constraints: • max: 262144 Shorthand Syntax: retrierRetryCount=integer,errorCausedByState=string,mapIterationFailureCount=integer,mapItemReaderData=string JSON Syntax: { "retrierRetryCount": integer, "errorCausedByState": "string", "mapIterationFailureCount": integer, "mapItemReaderData": "string" }
     /// </summary>
     [CliOption("--state-configuration")]
     public string? StateConfiguration { get; set; }
@@ -137,6 +138,15 @@ public record AwsStepfunctionsTestStateOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

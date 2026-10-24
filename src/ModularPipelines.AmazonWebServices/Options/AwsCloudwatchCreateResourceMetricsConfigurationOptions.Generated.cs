@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a resource metrics configuration for an Amazon Web Services re- source. After you create a configuration, Amazon CloudWatch collects detailed metrics for that resource. Each Amazon Web Services resource can have only one resource metrics configuration. If a configuration already exists for the specified re- source ARN, this operation returns a ConflictException . To modify an existing configuration, use UpdateResourceMetricsConfiguration . If the Amazon Web Services resource that you spe...
+/// Creates a resource metrics configuration for an Amazon Web Services resource. After you create a configuration, Amazon CloudWatch collects detailed metrics for that resource. Each Amazon Web Services resource can have only one resource metrics configuration. If a configuration already exists for the specified resource ARN, this operation returns a ConflictException . To modify an existing configuration, use UpdateResourceMetricsConfiguration . If the Amazon Web Services resource that you specify...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsCloudwatchCreateResourceMetricsConfigurationOptions : AwsOption
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a resource metrics configuration for an Amazon Web Services re- source. After you create a configuration, Amazon CloudWatch collects detailed metrics for that resource. Each Amazon Web Services resource can have only one resource metrics configuration. If a configuration already exists for the specified re- source ARN, this operation returns a ConflictException . To modify an existing configuration, use UpdateResourceMetricsConfiguration . If the Amazon Web Services resource that you spe...
+    /// Creates a resource metrics configuration for an Amazon Web Services resource. After you create a configuration, Amazon CloudWatch collects detailed metrics for that resource. Each Amazon Web Services resource can have only one resource metrics configuration. If a configuration already exists for the specified resource ARN, this operation returns a ConflictException . To modify an existing configuration, use UpdateResourceMetricsConfiguration . If the Amazon Web Services resource that you specify...
     /// </summary>
-    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the Amazon Web Services resource to enable detailed monitoring for. Constraints: o min: 20 o max: 2048 o pattern: arn:[a-zA-Z0-9-]+:[a-zA-Z0-9-]+:[a-zA-Z0-9-]*:\d{12}:.+</param>
+    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the Amazon Web Services resource to enable detailed monitoring for. Constraints: • min: 20 • max: 2048 • pattern: arn:[a-zA-Z0-9-]+:[a-zA-Z0-9-]+:[a-zA-Z0-9-]*:\d{12}:.+</param>
     public AwsCloudwatchCreateResourceMetricsConfigurationOptions(
         string ResourceArn
     )
@@ -56,13 +57,13 @@ public record AwsCloudwatchCreateResourceMetricsConfigurationOptions : AwsOption
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the Amazon Web Services resource to enable detailed monitoring for. Constraints: o min: 20 o max: 2048 o pattern: arn:[a-zA-Z0-9-]+:[a-zA-Z0-9-]+:[a-zA-Z0-9-]*:\d{12}:.+
+    /// The Amazon Resource Name (ARN) of the Amazon Web Services resource to enable detailed monitoring for. Constraints: • min: 20 • max: 2048 • pattern: arn:[a-zA-Z0-9-]+:[a-zA-Z0-9-]+:[a-zA-Z0-9-]*:\d{12}:.+
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
 
     /// <summary>
-    /// Specifies which metrics Amazon CloudWatch collects for the resource. If you omit this parameter, Amazon CloudWatch collects all available detailed metrics for the resource. Constraints: o min: 1 o max: 1 (structure) Specifies which metrics Amazon CloudWatch collects for a re- source metrics configuration. Include this in a CreateResourceMetricsConfiguration or UpdateResourceMetricsConfiguration request to limit collection to a specific set of metrics. If you omit metric selections, Amazon CloudWatch collects all available detailed metrics for the resource. IncludeMetrics -&gt; (list) [required] The names of the metrics to collect for the resource. Amazon CloudWatch collects only the metrics that you list here. Constraints: o min: 1 o max: 500 (string) Constraints: o min: 1 o max: 255 Shorthand Syntax: IncludeMetrics=string,string ... JSON Syntax: [ { "IncludeMetrics": ["string", ...] } ... ]
+    /// Specifies which metrics Amazon CloudWatch collects for the resource. If you omit this parameter, Amazon CloudWatch collects all available detailed metrics for the resource. Constraints: • min: 1 • max: 1 (structure) Specifies which metrics Amazon CloudWatch collects for a resource metrics configuration. Include this in a CreateResourceMetricsConfiguration or UpdateResourceMetricsConfiguration request to limit collection to a specific set of metrics. If you omit metric selections, Amazon CloudWatch collects all available detailed metrics for the resource. IncludeMetrics -&gt; (list) [required] The names of the metrics to collect for the resource. Amazon CloudWatch collects only the metrics that you list here. Constraints: • min: 1 • max: 500 (string) Constraints: • min: 1 • max: 255 Shorthand Syntax: IncludeMetrics=string,string ... JSON Syntax: [ { "IncludeMetrics": ["string", ...] } ... ]
     /// </summary>
     [CliOption("--metric-selections", GroupValues = true)]
     public IEnumerable<string>? MetricSelections { get; set; }
@@ -88,6 +89,15 @@ public record AwsCloudwatchCreateResourceMetricsConfigurationOptions : AwsOption
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns the data points of a specific metric for an Amazon Lightsail bucket. Metrics report the utilization of a bucket. View and collect metric data regularly to monitor the number of objects stored in a bucket (in- cluding object versions) and the storage space used by those objects. See also: AWS API Documentation
+/// Returns the data points of a specific metric for an Amazon Lightsail bucket. Metrics report the utilization of a bucket. View and collect metric data regularly to monitor the number of objects stored in a bucket (including object versions) and the storage space used by those objects. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,15 +27,15 @@ public record AwsLightsailGetBucketMetricDataOptions : AwsOptions, IValidatableO
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns the data points of a specific metric for an Amazon Lightsail bucket. Metrics report the utilization of a bucket. View and collect metric data regularly to monitor the number of objects stored in a bucket (in- cluding object versions) and the storage space used by those objects. See also: AWS API Documentation
+    /// Returns the data points of a specific metric for an Amazon Lightsail bucket. Metrics report the utilization of a bucket. View and collect metric data regularly to monitor the number of objects stored in a bucket (including object versions) and the storage space used by those objects. See also: AWS API Documentation
     /// </summary>
-    /// <param name="BucketName">The name of the bucket for which to get metric data. Constraints: o min: 3 o max: 54 o pattern: ^[a-z0-9][a-z0-9-]{1,52}[a-z0-9]$</param>
-    /// <param name="MetricName">The metric for which you want to return information. Valid bucket metric names are listed below, along with the most use- ful statistics to include in your request, and the published unit value. NOTE: These bucket metrics are reported once per day. o ** BucketSizeBytes ** - The amount of data in bytes stored in a bucket. This value is calculated by summing the size of all ob- jects in the bucket (including object versions), including the size of all parts for all incomplete multipart uploads to the bucket. Statistics: The most useful statistic is Maximum . Unit: The published unit is Bytes . System Message: WARNING/2 (&lt;string&gt;:, line 119) Inline strong start-string without end-string. o ** NumberOfObjects ** - The total number of objects stored in a bucket. This value is calculated by counting all objects in the bucket (including object versions) and the total number of parts for all incomplete multipart uploads to the bucket. Statistics: The most useful statistic is Average . Unit: The published unit is Count . System Message: WARNING/2 (&lt;string&gt;:, line 121) Inline strong start-string without end-string. Possible values: o BucketSizeBytes o NumberOfObjects</param>
+    /// <param name="BucketName">The name of the bucket for which to get metric data. Constraints: • min: 3 • max: 54 • pattern: ^[a-z0-9][a-z0-9-]{1,52}[a-z0-9]$</param>
+    /// <param name="MetricName">The metric for which you want to return information. Valid bucket metric names are listed below, along with the most useful statistics to include in your request, and the published unit value. NOTE: These bucket metrics are reported once per day. o ** BucketSizeBytes ** - The amount of data in bytes stored in a bucket. This value is calculated by summing the size of all objects in the bucket (including object versions), including the size of all parts for all incomplete multipart uploads to the bucket. Statistics: The most useful statistic is Maximum . Unit: The published unit is Bytes . System Message: WARNING/2 (&lt;string&gt;:, line 119) Inline strong start-string without end-string. o ** NumberOfObjects ** - The total number of objects stored in a bucket. This value is calculated by counting all objects in the bucket (including object versions) and the total number of parts for all incomplete multipart uploads to the bucket. Statistics: The most useful statistic is Average . Unit: The published unit is Count . System Message: WARNING/2 (&lt;string&gt;:, line 121) Inline strong start-string without end-string. Possible values: • BucketSizeBytes • NumberOfObjects</param>
     /// <param name="StartTime">The timestamp indicating the earliest data to be returned.</param>
     /// <param name="EndTime">The timestamp indicating the latest data to be returned.</param>
-    /// <param name="Period">The granularity, in seconds, of the returned data points. NOTE: Bucket storage metrics are reported once per day. Therefore, you should specify a period of 86400 seconds, which is the number of seconds in a day. Constraints: o min: 60 o max: 86400</param>
-    /// <param name="Statistics">The statistic for the metric. The following statistics are available: o Minimum - The lowest value observed during the specified period. Use this value to determine low volumes of activity for your ap- plication. o Maximum - The highest value observed during the specified period. Use this value to determine high volumes of activity for your ap- plication. o Sum - The sum of all values submitted for the matching metric. You can use this statistic to determine the total volume of a metric. o Average - The value of Sum / SampleCount during the specified pe- riod. By comparing this statistic with the Minimum and Maximum values, you can determine the full scope of a metric and how close the average use is to the Minimum and Maximum values. This compar- ison helps you to know when to increase or decrease your re- sources. o SampleCount - The count, or number, of data points used for the statistical calculation. (string) Possible values: o Minimum o Maximum o Sum o Average o SampleCount Syntax: "string" "string" ...</param>
-    /// <param name="Unit">The unit for the metric data request. Valid units depend on the metric data being requested. For the valid units with each available metric, see the metricName parameter. Possible values: o Seconds o Microseconds o Milliseconds o Bytes o Kilobytes o Megabytes o Gigabytes o Terabytes o Bits o Kilobits o Megabits o Gigabits o Terabits o Percent o Count o Bytes/Second o Kilobytes/Second o Megabytes/Second o Gigabytes/Second o Terabytes/Second o Bits/Second o Kilobits/Second o Megabits/Second o Gigabits/Second o Terabits/Second o Count/Second o None</param>
+    /// <param name="Period">The granularity, in seconds, of the returned data points. NOTE: Bucket storage metrics are reported once per day. Therefore, you should specify a period of 86400 seconds, which is the number of seconds in a day. Constraints: • min: 60 • max: 86400</param>
+    /// <param name="Statistics">The statistic for the metric. The following statistics are available: • Minimum - The lowest value observed during the specified period. Use this value to determine low volumes of activity for your application. • Maximum - The highest value observed during the specified period. Use this value to determine high volumes of activity for your application. • Sum - The sum of all values submitted for the matching metric. You can use this statistic to determine the total volume of a metric. • Average - The value of Sum / SampleCount during the specified period. By comparing this statistic with the Minimum and Maximum values, you can determine the full scope of a metric and how close the average use is to the Minimum and Maximum values. This comparison helps you to know when to increase or decrease your resources. • SampleCount - The count, or number, of data points used for the statistical calculation. (string) Possible values: • Minimum • Maximum • Sum • Average • SampleCount Syntax: "string" "string" ...</param>
+    /// <param name="Unit">The unit for the metric data request. Valid units depend on the metric data being requested. For the valid units with each available metric, see the metricName parameter. Possible values: • Seconds • Microseconds • Milliseconds • Bytes • Kilobytes • Megabytes • Gigabytes • Terabytes • Bits • Kilobits • Megabits • Gigabits • Terabits • Percent • Count • Bytes/Second • Kilobytes/Second • Megabytes/Second • Gigabytes/Second • Terabytes/Second • Bits/Second • Kilobits/Second • Megabits/Second • Gigabits/Second • Terabits/Second • Count/Second • None</param>
     public AwsLightsailGetBucketMetricDataOptions(
         string BucketName,
         AwsLightsailGetBucketMetricDataMetricName MetricName,
@@ -90,13 +91,13 @@ public record AwsLightsailGetBucketMetricDataOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the bucket for which to get metric data. Constraints: o min: 3 o max: 54 o pattern: ^[a-z0-9][a-z0-9-]{1,52}[a-z0-9]$
+    /// The name of the bucket for which to get metric data. Constraints: • min: 3 • max: 54 • pattern: ^[a-z0-9][a-z0-9-]{1,52}[a-z0-9]$
     /// </summary>
     [CliOption("--bucket-name")]
     public string? BucketName { get; private init; }
 
     /// <summary>
-    /// The metric for which you want to return information. Valid bucket metric names are listed below, along with the most use- ful statistics to include in your request, and the published unit value. NOTE: These bucket metrics are reported once per day. o ** BucketSizeBytes ** - The amount of data in bytes stored in a bucket. This value is calculated by summing the size of all ob- jects in the bucket (including object versions), including the size of all parts for all incomplete multipart uploads to the bucket. Statistics: The most useful statistic is Maximum . Unit: The published unit is Bytes . System Message: WARNING/2 (&lt;string&gt;:, line 119) Inline strong start-string without end-string. o ** NumberOfObjects ** - The total number of objects stored in a bucket. This value is calculated by counting all objects in the bucket (including object versions) and the total number of parts for all incomplete multipart uploads to the bucket. Statistics: The most useful statistic is Average . Unit: The published unit is Count . System Message: WARNING/2 (&lt;string&gt;:, line 121) Inline strong start-string without end-string. Possible values: o BucketSizeBytes o NumberOfObjects
+    /// The metric for which you want to return information. Valid bucket metric names are listed below, along with the most useful statistics to include in your request, and the published unit value. NOTE: These bucket metrics are reported once per day. o ** BucketSizeBytes ** - The amount of data in bytes stored in a bucket. This value is calculated by summing the size of all objects in the bucket (including object versions), including the size of all parts for all incomplete multipart uploads to the bucket. Statistics: The most useful statistic is Maximum . Unit: The published unit is Bytes . System Message: WARNING/2 (&lt;string&gt;:, line 119) Inline strong start-string without end-string. o ** NumberOfObjects ** - The total number of objects stored in a bucket. This value is calculated by counting all objects in the bucket (including object versions) and the total number of parts for all incomplete multipart uploads to the bucket. Statistics: The most useful statistic is Average . Unit: The published unit is Count . System Message: WARNING/2 (&lt;string&gt;:, line 121) Inline strong start-string without end-string. Possible values: • BucketSizeBytes • NumberOfObjects
     /// </summary>
     [CliOption("--metric-name")]
     public AwsLightsailGetBucketMetricDataMetricName? MetricName { get; private init; }
@@ -114,19 +115,19 @@ public record AwsLightsailGetBucketMetricDataOptions : AwsOptions, IValidatableO
     public string? EndTime { get; private init; }
 
     /// <summary>
-    /// The granularity, in seconds, of the returned data points. NOTE: Bucket storage metrics are reported once per day. Therefore, you should specify a period of 86400 seconds, which is the number of seconds in a day. Constraints: o min: 60 o max: 86400
+    /// The granularity, in seconds, of the returned data points. NOTE: Bucket storage metrics are reported once per day. Therefore, you should specify a period of 86400 seconds, which is the number of seconds in a day. Constraints: • min: 60 • max: 86400
     /// </summary>
     [CliOption("--period")]
     public int? Period { get; private init; }
 
     /// <summary>
-    /// The statistic for the metric. The following statistics are available: o Minimum - The lowest value observed during the specified period. Use this value to determine low volumes of activity for your ap- plication. o Maximum - The highest value observed during the specified period. Use this value to determine high volumes of activity for your ap- plication. o Sum - The sum of all values submitted for the matching metric. You can use this statistic to determine the total volume of a metric. o Average - The value of Sum / SampleCount during the specified pe- riod. By comparing this statistic with the Minimum and Maximum values, you can determine the full scope of a metric and how close the average use is to the Minimum and Maximum values. This compar- ison helps you to know when to increase or decrease your re- sources. o SampleCount - The count, or number, of data points used for the statistical calculation. (string) Possible values: o Minimum o Maximum o Sum o Average o SampleCount Syntax: "string" "string" ...
+    /// The statistic for the metric. The following statistics are available: • Minimum - The lowest value observed during the specified period. Use this value to determine low volumes of activity for your application. • Maximum - The highest value observed during the specified period. Use this value to determine high volumes of activity for your application. • Sum - The sum of all values submitted for the matching metric. You can use this statistic to determine the total volume of a metric. • Average - The value of Sum / SampleCount during the specified period. By comparing this statistic with the Minimum and Maximum values, you can determine the full scope of a metric and how close the average use is to the Minimum and Maximum values. This comparison helps you to know when to increase or decrease your resources. • SampleCount - The count, or number, of data points used for the statistical calculation. (string) Possible values: • Minimum • Maximum • Sum • Average • SampleCount Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--statistics", GroupValues = true)]
     public IEnumerable<string>? Statistics { get; private init; }
 
     /// <summary>
-    /// The unit for the metric data request. Valid units depend on the metric data being requested. For the valid units with each available metric, see the metricName parameter. Possible values: o Seconds o Microseconds o Milliseconds o Bytes o Kilobytes o Megabytes o Gigabytes o Terabytes o Bits o Kilobits o Megabits o Gigabits o Terabits o Percent o Count o Bytes/Second o Kilobytes/Second o Megabytes/Second o Gigabytes/Second o Terabytes/Second o Bits/Second o Kilobits/Second o Megabits/Second o Gigabits/Second o Terabits/Second o Count/Second o None
+    /// The unit for the metric data request. Valid units depend on the metric data being requested. For the valid units with each available metric, see the metricName parameter. Possible values: • Seconds • Microseconds • Milliseconds • Bytes • Kilobytes • Megabytes • Gigabytes • Terabytes • Bits • Kilobits • Megabits • Gigabits • Terabits • Percent • Count • Bytes/Second • Kilobytes/Second • Megabytes/Second • Gigabytes/Second • Terabytes/Second • Bits/Second • Kilobits/Second • Megabits/Second • Gigabits/Second • Terabits/Second • Count/Second • None
     /// </summary>
     [CliOption("--unit")]
     public string? Unit { get; private init; }
@@ -152,6 +153,15 @@ public record AwsLightsailGetBucketMetricDataOptions : AwsOptions, IValidatableO
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }
